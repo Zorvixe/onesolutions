@@ -1,0 +1,95 @@
+.profile-update-container {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border: 1px solid #ddd;
+}
+
+.profile-update-title {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.profile-update-message {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.profile-update-message.success {
+  color: green;
+}
+
+.profile-update-message.error {
+  color: red;
+}
+
+.profile-update-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-update-image-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-update-image {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+.profile-update-file {
+  font-size: 14px;
+  color: #555;
+}
+
+.profile-update-inputs {
+  display: flex;
+  gap: 10px;
+}
+
+.profile-update-input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.profile-update-button {
+  background-color: #2563eb;
+  color: #fff;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-update-button:hover {
+  background-color: #1e40af;
+}
+
+.profile-update-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.profile-loading {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 18px;
+}

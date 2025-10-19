@@ -1,0 +1,242 @@
+.mcq-container.full-width {
+  width: 100%;
+  padding: 20px;
+}
+
+.mcq-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.mcq-question-block {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mcq-question {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.mcq-options {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.mcq-option {
+  margin-bottom: 10px;
+}
+
+.mcq-option label {
+  display: flex;         
+  align-items: center;     
+  gap: 10px;               
+  width: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.mcq-option input[type="radio"] {
+  width: 15px;             
+  height: 15px;            
+  accent-color: #2196f3;   
+  flex-shrink: 0;         
+}
+
+.mcq-option input[type="radio"]:checked + label {
+  background-color: #e3f2fd; 
+}
+
+/* Hover effect */
+/* .mcq-option label:hover {
+  background-color: #bbdefb; 
+} */
+
+.mcq-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mcq-next, .mcq-skip {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  width: 120px;
+  height: 40px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.mcq-next {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+
+.mcq-skip {
+  background-color: #b0bec5;
+  color: #000;
+}
+
+.mcq-skip:hover {
+  background-color: #90a4ae;
+}
+
+.mcq-timer {
+  font-weight: bold;
+  margin-top: 15px;
+  color: green;
+  text-align: right;
+}
+
+.mcq-timer.time-over {
+  color: red;
+}
+
+/* .mcq-completed {
+  background: #d4edda;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+} */
+ .mcq-completed {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.mcq-option.correct {
+  background-color: #d4edda;
+  border: 1px solid #28a745;
+}
+
+.mcq-option.wrong {
+  background-color: #f8d7da;
+  border: 1px solid #dc3545;
+}
+
+.mcq-option.correct label,
+.mcq-option.wrong label {
+  font-weight: bold;
+}
+
+.score {
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+
+
+.mcq-timer {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.time-over {
+  color: red;
+}
+/* .mcq-feedback {
+  margin: 15px auto;          
+  text-align: center;         
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 40px;
+  border-radius: 8px;
+  display: flex;             
+  justify-content: center;    
+  align-items: center;       
+  width: fit-content;         
+} */
+
+.mcq-feedback {
+  margin: 15px auto;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 40px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mcq-feedback i {
+  margin-right: 8px;
+  font-size: 20px; 
+    gap: 30px;
+}
+/* 
+.mcq-feedback.correct {
+  color: green;
+  border: 2px solid green;
+  background-color: #e6ffe6;
+}
+
+.mcq-feedback.wrong {
+  color: red;
+  border: 2px solid red;
+  background-color: #ffe6e6;
+} */
+
+
+.mcq-feedback.correct {
+  color: green;
+  border: 2px solid green;
+  background-color: #e6ffe6;
+}
+
+.mcq-feedback.wrong {
+  color: red;
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.score-feedback {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+  text-align: center;
+}
+.intro-container table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.intro-container th,
+.intro-container td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.intro-container th {
+  background-color: #87cefa;
+  font-weight: bold;
+}
+
+.intro-container code {
+  background: #f0f0f0;
+  padding: 2px 5px;
+  border-radius: 4px;
+}

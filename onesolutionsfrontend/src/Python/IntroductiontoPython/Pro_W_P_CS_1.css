@@ -1,0 +1,130 @@
+
+
+.intro-container {
+  width: 80%;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  line-height: 1.8;
+}
+
+/* Headings spacing */
+h1 {
+  text-align: center;
+  margin-bottom: 30px; /* gap after h1 */
+  color: #333;
+}
+
+h2 {
+  color: #007acc;
+  margin-top: 30px;
+  margin-bottom: 15px; /* gap after h2 */
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 12px; /* gap after h3 */
+  color: #444;
+}
+
+/* Paragraph spacing */
+p {
+  margin-bottom: 15px;
+  margin-top: 10px; /* gap after paragraph */
+}
+
+
+ul {
+  margin-bottom: 15px; /* gap after list */
+  padding-left: 25px; /* optional indent */
+}
+
+li {
+  margin-bottom: 8px;
+  margin-top: 8px; /* gap between list items */
+}
+
+/* Output Block */
+.output-block {
+  background-color: #d0e8ff6a;
+  color: black;
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px; /* gap after output */
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+/* .button{
+  background-color: #d0e8ff6a;
+  height: auto;
+  width: auto;
+} */
+ 
+.code-container {
+  margin-bottom: 20px; /* gap after each code block */
+}
+/* Existing styles for subtopic items (unchanged) */
+.subtopic-item {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.subtopic-item.active {
+  background-color: #3498db; /* Blue background for active */
+  font-weight: bold;
+}
+
+.subtopic-item.completed {
+  background-color: #2ecc71; /* Green background for completed subtopic item */
+  color: #ffffff;
+}
+
+.subtopic-item.completed .completion-tick {
+  color: #ffffff;
+}
+
+.subtopic-item.completed::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Styles for the Continue button */
+.view-continue {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+  margin-right: 40px;
+}
+
+.btn-continue {
+  background-color: #3498db; /* Blue background by default */
+  color: blackl;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+ 
+}
+
+.btn-continue.completed {
+  background-color: #2ecc71; /* Green background when completed */
+}
+
+.btn-continue:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+

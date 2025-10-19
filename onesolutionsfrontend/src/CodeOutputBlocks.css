@@ -1,0 +1,27 @@
+/* Ace Editor Custom Styles */
+.code_terminal_full_stack .ace_editor {
+  border-radius: 0 0 12px 12px;
+  background: #1a1a1a !important;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px; /* gap after code */
+}
+
+.code_terminal_full_stack .ace_gutter {
+  background: #2d2d2d !important;
+  border-right: 1px solid #404040 !important;
+}
+
+.terminal_header_full_stack {
+  background: #2d2d2d;
+  padding: 6px 20px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #404040;
+  font-family: 'Courier New', monospace;
+  color: #ffffff;
+  
+}

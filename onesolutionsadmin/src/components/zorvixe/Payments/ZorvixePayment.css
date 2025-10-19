@@ -1,0 +1,907 @@
+.payments-admin-container-zpay {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #f8fafc;
+  min-height: 100vh;
+    margin-top: 65px;
+
+
+}
+
+/* Header Section */
+.admin-header-zpay {
+  background: linear-gradient(135deg, #1e40af 0%, #3730a3 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+  color: white;
+  box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+}
+
+.header-content-zpay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.header-text-zpay h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-text-zpay p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.toggle-view-btn-zpay {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.toggle-view-btn-zpay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Controls Section */
+.controls-section-zpay {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.filters-container-zpay {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-group-zpay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+}
+
+.filter-group-zpay:hover {
+  border-color: #1e40af;
+  background: #f0f9ff;
+}
+
+.filter-select-zpay {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+}
+
+.search-container-zpay {
+  flex: 1;
+  min-width: 300px;
+}
+
+.search-input-group-zpay {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-input-group-zpay:focus-within {
+  border-color: #1e40af;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+}
+
+.search-input-group-zpay svg {
+  margin-left: 16px;
+  color: #6b7280;
+}
+
+.search-input-zpay {
+  flex: 1;
+  border: none;
+  padding: 12px 16px;
+  outline: none;
+  font-size: 0.875rem;
+}
+
+.search-btn-zpay {
+  background: #1e40af;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.search-btn-zpay:hover {
+  background: #1d4ed8;
+}
+
+.refresh-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.refresh-btn-zpay:hover {
+  background: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+/* Stats Dashboard */
+.stats-dashboard-zpay {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card-zpay {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.stat-card-zpay:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card-zpay.total-zpay {
+  border-left-color: #1e40af;
+}
+
+.stat-card-zpay.pending-zpay {
+  border-left-color: #f59e0b;
+}
+
+.stat-card-zpay.verified-zpay {
+  border-left-color: #10b981;
+}
+
+.stat-card-zpay.rejected-zpay {
+  border-left-color: #ef4444;
+}
+
+.stat-icon-zpay {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.stat-card-zpay.total-zpay .stat-icon-zpay {
+  background: linear-gradient(135deg, #1e40af, #3730a3);
+}
+
+.stat-card-zpay.pending-zpay .stat-icon-zpay {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.stat-card-zpay.verified-zpay .stat-icon-zpay {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.stat-card-zpay.rejected-zpay .stat-icon-zpay {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+.stat-number-zpay {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.stat-label-zpay {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Payments Section */
+.payments-section-zpay {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Loading and Empty States */
+.loading-state-zpay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 32px;
+  color: #6b7280;
+}
+
+.loading-spinner-zpay {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid #1e40af;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.empty-state-zpay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 32px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.empty-state-zpay h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 16px 0 8px 0;
+}
+
+/* Table Styles */
+.table-container-zpay {
+  overflow-x: auto;
+}
+
+.payments-table-zpay {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payments-table-zpay th {
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #374151;
+  border-bottom: 2px solid #e5e7eb;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.payments-table-zpay td {
+  padding: 20px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: top;
+}
+
+.payments-table-zpay tr:hover {
+  background: #f8fafc;
+}
+
+.reference-id-zpay {
+  font-family: "Monaco", "Menlo", monospace;
+  font-size: 0.875rem;
+  color: #1e40af;
+  font-weight: 600;
+  background: #f0f9ff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.client-details-zpay {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.client-name-zpay {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.875rem;
+}
+
+.client-contact-zpay {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.project-details-zpay {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-name-zpay {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.875rem;
+}
+
+.project-ids-zpay {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.project-id-zpay,
+.zorvixe-id-zpay {
+  font-family: "Monaco", "Menlo", monospace;
+  font-size: 0.75rem;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+
+.amount-zpay {
+  font-weight: 700;
+  color: #10b981;
+  font-size: 1rem;
+}
+
+.date-info-zpay {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Status Badges */
+.status-badge-zpay {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-verified-zpay {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+
+.status-rejected-zpay {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.status-pending-zpay {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+.status-default-zpay {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+/* Action Buttons */
+.actions-column-zpay {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.view-details-btn-zpay {
+  background: #1e40af;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.view-details-btn-zpay:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.action-buttons-zpay {
+  display: flex;
+  gap: 6px;
+}
+
+.verify-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.verify-btn-zpay:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.reject-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reject-btn-zpay:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+/* Pagination */
+.pagination-section-zpay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-top: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+
+.pagination-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.pagination-btn-zpay:hover:not(:disabled) {
+  background: #f3f4f6;
+  border-color: #1e40af;
+  color: #1e40af;
+}
+
+.pagination-btn-zpay:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-info-zpay {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Modal Styles */
+.modal-overlay-zpay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.payment-modal-zpay {
+  background: white;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-header-zpay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid #e5e7eb;
+  background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.modal-header-zpay h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+}
+
+.close-modal-btn-zpay {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.close-modal-btn-zpay:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.modal-body-zpay {
+  padding: 32px;
+}
+
+.payment-info-grid-zpay {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.info-item-zpay {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-item-zpay.full-width-zpay {
+  grid-column: 1 / -1;
+}
+
+.info-item-zpay label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value-zpay {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.info-value-zpay.reference-zpay {
+  font-family: "Monaco", "Menlo", monospace;
+  background: #f0f9ff;
+  color: #1e40af;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.info-value-zpay.project-id-zpay,
+.info-value-zpay.zorvixe-id-zpay {
+  font-family: "Monaco", "Menlo", monospace;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  display: inline-block;
+}
+
+.info-value-zpay.amount-zpay {
+  color: #10b981;
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.info-value-zpay.description-zpay {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  border-left: 4px solid #1e40af;
+  line-height: 1.6;
+}
+
+/* Receipt Section */
+.receipt-section-zpay {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 32px;
+}
+
+.receipt-section-zpay h4 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.receipt-container-zpay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.receipt-image-zpay {
+  max-width: 100%;
+  max-height: 400px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-preview-zpay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background: #f8fafc;
+  border: 2px dashed #d1d5db;
+  border-radius: 12px;
+  color: #6b7280;
+}
+
+.view-pdf-btn-zpay {
+  color: #1e40af;
+  text-decoration: underline;
+  font-weight: 500;
+  margin-top: 8px;
+}
+
+.download-receipt-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e40af;
+  color: white;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.download-receipt-btn-zpay:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* Modal Footer */
+.modal-footer-zpay {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-top: 1px solid #e5e7eb;
+  background: #f8fafc;
+}
+
+.status-actions-zpay {
+  display: flex;
+  gap: 12px;
+}
+
+.verify-payment-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.verify-payment-btn-zpay:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.reject-payment-btn-zpay {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reject-payment-btn-zpay:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}
+
+.close-modal-btn-footer-zpay {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  color: #374151;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-modal-btn-footer-zpay:hover {
+  background: #e5e7eb;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .payments-admin-container-zpay {
+    padding: 16px;
+  }
+
+  .header-content-zpay {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .header-text-zpay h1 {
+    font-size: 2rem;
+  }
+
+  .filters-container-zpay {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-container-zpay {
+    min-width: auto;
+  }
+
+  .stats-dashboard-zpay {
+    grid-template-columns: 1fr;
+  }
+
+  .payments-table-zpay {
+    font-size: 0.875rem;
+  }
+
+  .payments-table-zpay th,
+  .payments-table-zpay td {
+    padding: 12px 8px;
+  }
+
+  .payment-modal-zpay {
+    width: 95%;
+    margin: 16px;
+  }
+
+  .modal-body-zpay {
+    padding: 24px;
+  }
+
+  .payment-info-grid-zpay {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-footer-zpay {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .status-actions-zpay {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-text-zpay h1 {
+    font-size: 1.75rem;
+  }
+
+  .stat-card-zpay {
+    padding: 16px;
+  }
+
+  .stat-icon-zpay {
+    width: 50px;
+    height: 50px;
+  }
+
+  .stat-number-zpay {
+    font-size: 1.5rem;
+  }
+
+  .actions-column-zpay {
+    min-width: 100px;
+  }
+
+  .action-buttons-zpay {
+    flex-direction: column;
+  }
+}

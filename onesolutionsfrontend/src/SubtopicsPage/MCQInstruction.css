@@ -1,0 +1,75 @@
+.practice-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fafafa;
+  font-family: Arial, sans-serif;
+}
+
+.practice-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.practice-container ol {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.practice-container li {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.points-li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #e5e5fcde; 
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 5px 0;
+}
+
+.points-li span {
+  font-size: 13px;
+  color: black;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.points-li strong {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.practice-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.feedback-button,
+.start-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feedback-button {
+  background-color: transparent;
+  color: #3e3ecbde;
+  
+}
+
+.start-button {
+  background-color: #3cb371;
+  color: #fff;
+}
