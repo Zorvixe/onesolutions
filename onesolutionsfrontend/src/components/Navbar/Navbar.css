@@ -292,15 +292,14 @@ body {
 }
 
 .profile_name {
-  height: 28px;
-  width: 28px;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: #e2e8f0;
-  color: #0f172a;
+  padding: 5px;
+  border-radius: 12px;
+  text-align: center;
+  background: #2563eb1a;
+  color: #2563eb;
   font-weight: 700;
   font-size: 0.85rem;
+  outline: 2px solid #dbeafe;
 }
 
 .profile-header {
