@@ -1,48 +1,15 @@
 import React, { useState } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { CodeBlock } from "../../CodeOutputBlocks";
 
-const Primitive_Types_Conditionals_CS = ({ onSubtopicComplete }) => {
+const PrimitiveTypes_Conditionals_CS = ({ onSubtopicComplete }) => {
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
-
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
 
   const handleContinue = () => {
     setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+    if (onSubtopicComplete) {
+      onSubtopicComplete();
+    }
   };
-
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} className="mcq-question">
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          className={`mcq-feedback ${
-            mcqAnswers[q.question] === q.answer ? "correct" : "wrong"
-          }`}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
 
   return (
     <div className="intro-container">
@@ -51,7 +18,7 @@ const Primitive_Types_Conditionals_CS = ({ onSubtopicComplete }) => {
       {/* 1. JavaScript Values */}
       <section>
         <h2>1. JavaScript Values</h2>
-        <p>Values in JavaScript are of two categories:</p>
+        <p>Basically, in JavaScript, values are of two categories:</p>
         <ul>
           <li>Primitive Types</li>
           <li>Reference Types</li>
@@ -59,28 +26,62 @@ const Primitive_Types_Conditionals_CS = ({ onSubtopicComplete }) => {
 
         <h3>1.1 Primitive Types</h3>
         <ul>
-          <li>
-            <strong>Number:</strong> All numbers are of Number type.
-          </li>
-          <li>
-            <strong>Boolean:</strong> Boolean values are either true or false.
-          </li>
-          <li>
-            <strong>String:</strong> Stream of characters enclosed in '', "", or ``.
-          </li>
-          <li>
-            <strong>Undefined:</strong> Value not assigned to a variable. JS uses
-            <code>undefined</code>.
-          </li>
+          <li>Number</li>
+          <li>Boolean</li>
+          <li>String</li>
+          <li>Undefined, etc.</li>
         </ul>
 
+        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th>Primitive Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Number</td>
+              <td>All the numbers are of Number type.</td>
+            </tr>
+            <tr>
+              <td>Boolean</td>
+              <td>Boolean values are either true or false.</td>
+            </tr>
+            <tr>
+              <td>String</td>
+              <td>
+                String is a stream of characters. It should be enclosed with
+                Single quotes, Double quotes, or Backticks.
+              </td>
+            </tr>
+            <tr>
+              <td>Undefined</td>
+              <td>
+                If a value is not assigned to the variable, it takes{" "}
+                <code>undefined</code> as its value.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* 1.2 Operators */}
+      <section>
         <h3>1.2 Operators</h3>
         <h4>1.2.1 typeof()</h4>
-        <p>Used to find the type of a value:</p>
-        <CodeBlock language="javascript" code={`let name = "Alice";\nconsole.log(typeof name); // "string"`} />
+        <p>
+          The <code>typeof()</code> operator is used to find the type of value.
+        </p>
 
-        <p className="note">
-          Try changing the values in the code playground and check output in the console.
+        <CodeBlock
+          language="javascript"
+          code={`let a = 900;\nlet b = 9.2;\nconsole.log(typeof(a));  // number\nconsole.log(typeof(b));  // number`}
+        />
+
+        <p>
+          Try out changing different values in the below Code Playground and
+          check the output in the console.
         </p>
       </section>
 
@@ -88,46 +89,40 @@ const Primitive_Types_Conditionals_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>2. Converting String to a Number</h2>
         <p>
-          Combining a number and string results in a string. Use <code>parseInt()</code> to convert string to integer.
+          In JavaScript, when we combine a number and a string, it results in a
+          string.
         </p>
-        <CodeBlock language="javascript" code={`let str = "123";\nlet num = parseInt(str);\nconsole.log(num); // 123`} />
+        <p>
+          The <code>parseInt()</code> function accepts a string and converts it
+          into an integer.
+        </p>
+
+        <CodeBlock
+          language="javascript"
+          code={`let a = '20';\nconsole.log(typeof(a));  // string\n\nlet b = parseInt(a);\nconsole.log(typeof(b));  // number`}
+        />
       </section>
 
       {/* 3. Conditional Statements */}
       <section>
         <h2>3. Conditional Statements</h2>
         <p>
-          Execute a block of code only when a specific condition is true.
+          Conditional Statements allow you to execute a block of code only when
+          a specific condition is true.
         </p>
 
-        <h3>If...Else Statement</h3>
-        <CodeBlock language="javascript" code={`let age = 18;\nif(age >= 18) {\n  console.log("Adult");\n} else {\n  console.log("Minor");\n}`} />
+        <h3>If...Else Statement:</h3>
+        <p>Syntax:</p>
 
-        <p className="note">
-          Try changing the values in the playground to see different outputs.
+        <CodeBlock
+          language="javascript"
+          code={`if (conditionA) {\n  Block1;\n} else if (conditionB) {\n  Block2;\n} else {\n  Block3;\n}`}
+        />
+
+        <p>
+          Try out changing the conditions or values in the below Code Playground
+          and check the output.
         </p>
-      </section>
-
-      {/* MCQs */}
-      <section>
-        <h3>MCQs</h3>
-        {[
-          {
-            question: "Which of the following is a primitive type in JavaScript?",
-            options: ["Array", "Object", "Number", "Function"],
-            answer: "Number",
-          },
-          {
-            question: "What does typeof(true) return?",
-            options: ["boolean", "string", "number", "undefined"],
-            answer: "boolean",
-          },
-          {
-            question: "Which statement executes a block only if condition is false?",
-            options: ["if", "else", "switch", "for"],
-            answer: "else",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "primitive_conditionals"))}
       </section>
 
       {/* Continue Button */}
@@ -144,4 +139,4 @@ const Primitive_Types_Conditionals_CS = ({ onSubtopicComplete }) => {
   );
 };
 
-export default Primitive_Types_Conditionals_CS;
+export default PrimitiveTypes_Conditionals_CS;

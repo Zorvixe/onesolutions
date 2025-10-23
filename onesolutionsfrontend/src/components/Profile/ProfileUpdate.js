@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import "./ProfileUpdate.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
 
 const ProfileUpdate = () => {
   const [student, setStudent] = useState(null);
@@ -17,6 +18,7 @@ const ProfileUpdate = () => {
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const fileInputRef = useRef(null);
 
   // Fetch current profile
   useEffect(() => {
@@ -61,6 +63,11 @@ const ProfileUpdate = () => {
     }
   };
 
+  // Trigger file input
+  const handleImageClick = () => {
+    fileInputRef.current.click();
+  };
+
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +83,7 @@ const ProfileUpdate = () => {
     if (profileImage) data.append("profileImage", profileImage);
 
     try {
-      const res = await axios.put(`${API_BASE_URL}/api/auth/profile/update`, data, {
+      const res = await axios.put(`${API_BASE_URL}/api/auth/profile`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -100,30 +107,45 @@ const ProfileUpdate = () => {
     }
   };
 
-  if (!student) return <div className="profile-loading">Loading profile...</div>;
+  if (!student)
+    return <div className="profile-loading">Loading profile...</div>;
 
   return (
     <div className="profile-update-container">
       <h2 className="profile-update-title">Update Profile</h2>
 
       {message && (
-        <p className={`profile-update-message ${message.includes("✅") ? "success" : "error"}`}>
+        <p
+          className={`profile-update-message ${
+            message.includes("✅") ? "success" : "error"
+          }`}
+        >
           {message}
         </p>
       )}
 
       <form onSubmit={handleSubmit} className="profile-update-form">
         <div className="profile-update-image-section">
-          <img
-            src={preview || "/default-profile.png"}
-            alt="Profile"
-            className="profile-update-image"
-          />
+          {preview ? (
+            <img
+              src={preview}
+              alt="Profile"
+              className="profile-update-image"
+              onClick={handleImageClick}
+            />
+          ) : (
+            <span onClick={handleImageClick} className="profile_name">
+              {formData.firstName?.charAt(0)}
+              {formData.lastName?.charAt(0)}
+            </span>
+          )}
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
             className="profile-update-file"
+            ref={fileInputRef}
+            style={{ display: "none" }}
           />
         </div>
 

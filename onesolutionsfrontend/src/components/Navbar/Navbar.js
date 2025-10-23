@@ -206,10 +206,12 @@ const Navbar = () => {
               ref={profileRef}
             />
           ) : (
-            <span onClick={toggleProfile}>
-              {user.firstName?.charAt(0)}
-              {user.lastName?.charAt(0)}
-            </span>
+            <div className="profile-anchor">
+              <span onClick={toggleProfile} className="profile_name">
+                {user.firstName?.charAt(0)}
+                {user.lastName?.charAt(0)}
+              </span>
+            </div>
           )}
 
           <div className="footer-menu">
@@ -238,13 +240,21 @@ const Navbar = () => {
               <span>Help & Earn</span>
             </button>
           </div>
+
           {showProfile && (
             <div className="profile-dropdown" ref={profileRef}>
               <div className="profile-header">
-                <img
-                  src={user.profileImage}
-                  alt={`${user.firstName} ${user.lastName}`}
-                />
+                {user.profileImage ? (
+                  <img
+                    src={user.profileImage}
+                    alt={`${user.firstName} ${user.lastName}`}
+                  />
+                ) : (
+                  <span className="profile_name">
+                    {user.firstName?.charAt(0)}
+                    {user.lastName?.charAt(0)}
+                  </span>
+                )}
                 <div>
                   <h4>
                     {user.firstName} {user.lastName}

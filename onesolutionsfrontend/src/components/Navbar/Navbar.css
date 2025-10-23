@@ -291,6 +291,18 @@ body {
   }
 }
 
+.profile_name {
+  height: 28px;
+  width: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #e2e8f0;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
 .profile-header {
   display: flex;
   align-items: center;

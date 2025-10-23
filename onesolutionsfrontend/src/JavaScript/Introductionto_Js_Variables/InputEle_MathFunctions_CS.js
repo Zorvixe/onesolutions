@@ -115,7 +115,7 @@ const InputEle_MathFunctions_CS = ({ onSubtopicComplete }) => {
       </section>
 
       {/* MCQs */}
-      <section>
+      {/* <section>
         <h3>MCQs</h3>
         {[
           {
@@ -134,7 +134,7 @@ const InputEle_MathFunctions_CS = ({ onSubtopicComplete }) => {
             answer: "false",
           },
         ].map((q, idx) => renderMCQ(q, idx, "input_math"))}
-      </section>
+      </section> */}
 
       {/* Continue Button */}
       <div className="view-continue">

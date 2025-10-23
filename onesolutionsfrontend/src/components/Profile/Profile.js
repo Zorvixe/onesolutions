@@ -3,17 +3,15 @@ import { useAuth } from "../../context/AuthContext";
 import "./Profile.css";
 
 const Profile = () => {
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-  };
+  const { user } = useAuth();
 
   // Get base URL for images
   const getImageUrl = (imagePath) => {
     if (!imagePath) return null;
-    if (imagePath.startsWith('http')) return imagePath;
-    return `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5002'}${imagePath}`;
+    if (imagePath.startsWith("http")) return imagePath;
+    return `${
+      process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
+    }${imagePath}`;
   };
 
   return (
@@ -30,17 +28,26 @@ const Profile = () => {
                 alt={`${user.firstName} ${user.lastName}`}
                 className="profile-image"
                 onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
+                  e.target.style.display = "none";
+                  e.target.nextSibling.style.display = "flex";
                 }}
               />
-              <div className="profile-image-placeholder" style={{display: 'none'}}>
-                <span>{user.firstName?.charAt(0)}{user.lastName?.charAt(0)}</span>
+              <div
+                className="profile-image-placeholder"
+                style={{ display: "none" }}
+              >
+                <span>
+                  {user.firstName?.charAt(0)}
+                  {user.lastName?.charAt(0)}
+                </span>
               </div>
             </div>
           ) : (
             <div className="profile-image-placeholder">
-              <span>{user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}</span>
+              <span>
+                {user?.firstName?.charAt(0)}
+                {user?.lastName?.charAt(0)}
+              </span>
             </div>
           )}
         </div>
@@ -54,7 +61,9 @@ const Profile = () => {
 
           <div className="info-item">
             <label>Full Name:</label>
-            <span>{user?.firstName} {user?.lastName}</span>
+            <span>
+              {user?.firstName} {user?.lastName}
+            </span>
           </div>
 
           <div className="info-item">
@@ -72,7 +81,9 @@ const Profile = () => {
           {user?.batchMonth && (
             <div className="info-item">
               <label>Batch:</label>
-              <span>{user.batchMonth} {user.batchYear}</span>
+              <span>
+                {user.batchMonth} {user.batchYear}
+              </span>
             </div>
           )}
 
@@ -85,14 +96,12 @@ const Profile = () => {
 
           <div className="info-item">
             <label>Member Since:</label>
-            <span>{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'N/A'}</span>
+            <span>
+              {user?.createdAt
+                ? new Date(user.createdAt).toLocaleDateString()
+                : "N/A"}
+            </span>
           </div>
-        </div>
-
-        <div className="profile-actions">
-          <button onClick={handleLogout} className="btn btn-logout">
-            Logout
-          </button>
         </div>
       </div>
     </div>

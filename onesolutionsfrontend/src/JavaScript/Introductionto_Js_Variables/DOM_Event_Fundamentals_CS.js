@@ -1,145 +1,182 @@
 import React, { useState } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { CodeBlock } from "../../CodeOutputBlocks"; // adjust the path if needed
 
-const DOM_Event_Fundamentals_CS = ({ onSubtopicComplete }) => {
+const Arrays_Dom_Manipulations_CS = ({ onSubtopicComplete }) => {
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
-
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
 
   const handleContinue = () => {
     setIsSubtopicCompleted(true);
     if (onSubtopicComplete) onSubtopicComplete();
   };
 
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} className="mcq-question">
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          className={`mcq-feedback ${
-            mcqAnswers[q.question] === q.answer ? "correct" : "wrong"
-          }`}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
-
   return (
     <div className="intro-container">
-      <h1>DOM and Event Fundamentals | Cheat Sheet</h1>
+      <h1>Arrays & More DOM Manipulations</h1>
 
-      {/* 1. JavaScript Variables */}
+      {/* 1. Data Structures */}
       <section>
-        <h2>1. JavaScript Variables</h2>
-        <h3>1.1 Variable Declaration</h3>
+        <h2>1. Data Structures</h2>
         <p>
-          Variables are like containers for storing values. We can create a
-          variable using the <code>let</code> keyword.
+          Data Structures allow us to store and organize data efficiently. This
+          makes it easier to access and perform operations on the data.
         </p>
-        <CodeBlock language="javascript" code={`let name;\nlet age = 25;`} />
-
-        <h3>1.2 Assigning a Value to a Variable</h3>
-        <p>
-          We can put data into a variable using an assignment operator
-          <code>=</code>.
-        </p>
-        <CodeBlock language="javascript" code={`let message = "Hello World";`} />
-
-        <p className="note">
-          Note: Printing a variable without assigning a value will output{" "}
-          <code>undefined</code>.
-        </p>
+        <p>Built-in JavaScript Data Structures:</p>
+        <ul>
+          <li>Arrays</li>
+          <li>Objects</li>
+          <li>Maps</li>
+          <li>Sets</li>
+        </ul>
       </section>
 
-      {/* 2. Document Object Model */}
+      {/* 2. Arrays */}
       <section>
-        <h2>2. Document Object Model (DOM)</h2>
-        <p>
-          The DOM is the structured representation of the HTML document
-          created by the browser. It allows JavaScript to manipulate, structure,
-          and style your website.
-        </p>
+        <h2>2. Array</h2>
+        <p>An Array holds an ordered sequence of items.</p>
 
-        <h3>2.1 Document Object</h3>
-        <p>
-          It is the entry point of the DOM. To access any HTML element, always
-          start with the <code>document</code> object.
-        </p>
-
-        <h3>2.2 HTML DOM Tree</h3>
-        <p>The DOM tree represents an HTML document as nodes (Objects).</p>
-
-        <h3>2.3 Methods</h3>
-        <h4>2.3.1 getElementById</h4>
-        <p>
-          The <code>getElementById()</code> method selects an HTML element with
-          a specific ID.
-        </p>
-        <CodeBlock language="javascript" code={`const el = document.getElementById('myId');`} />
-
-        <h3>2.4 Properties</h3>
-        <h4>2.4.1 textContent</h4>
-        <p>Used to get or set the text inside an HTML element.</p>
-
-        <h4>2.4.2 style</h4>
-        <p>
-          Used to set or get CSS properties. Use camelCase naming for properties
-          (e.g., <code>backgroundColor</code>, <code>fontFamily</code>).
-        </p>
-
-        <h3>2.5 Events</h3>
-        <h4>2.5.1 onclick Event</h4>
-        <p>
-          The <code>onclick</code> event occurs when a user clicks on an HTML
-          element.
-        </p>
-        <CodeBlock
-          language="html"
-          code={`<button onclick="sayHello()">Click Me</button>`}
-        />
+        <h3>2.1 Creating an Array</h3>
         <CodeBlock
           language="javascript"
-          code={`function sayHello() {
-  alert("Hello!");
+          code={`let myArray = [5, "six", 2, 8.2];
+console.log(myArray); // [5, "six", 2, 8.2]`}
+        />
+
+        <h3>2.2 Accessing an Array Item</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = [5, "six", 2, 8.2];
+console.log(myArray[0]); // 5
+console.log(myArray[1]); // six`}
+        />
+
+        <h3>2.3 Modifying an Array Item</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = [5, "six", 2, 8.2];
+myArray[1] = 6;
+console.log(myArray); // [5, 6, 2, 8.2]`}
+        />
+
+        <h3>2.4 Finding Array Length</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = [5, "six", 2, 8.2];
+let lengthOfArray = myArray.length;
+console.log(lengthOfArray); // 4`}
+        />
+
+        <h3>2.5 Array Methods</h3>
+
+        <h4>2.5.1 push()</h4>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = [5, "six", 2, 8.2];
+myArray.push(true);
+console.log(myArray); // [5, "six", 2, 8.2, true]`}
+        />
+
+        <h4>2.5.2 pop()</h4>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = [5, "six", 2, 8.2];
+let lastItem = myArray.pop();
+console.log(myArray); // [5, "six", 2]
+console.log(lastItem); // 8.2`}
+        />
+      </section>
+
+      {/* 3. Functions */}
+      <section>
+        <h2>3. Functions</h2>
+
+        <h3>3.1 Function Declaration</h3>
+        <CodeBlock
+          language="javascript"
+          code={`function showMessage() {
+  console.log("Hello");
+}
+showMessage();`}
+        />
+
+        <h3>3.2 Function Expression</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let showMessage = function() {
+  console.log("Hello");
+};
+showMessage();`}
+        />
+      </section>
+
+      {/* 4. More DOM Manipulations */}
+      <section>
+        <h2>4. More DOM Manipulations</h2>
+
+        <h3>4.1 Creating an HTML Element - createElement()</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let h1Element = document.createElement("h1");
+h1Element.textContent = "Web Technologies";
+console.log(h1Element); // <h1>Web Technologies</h1>`}
+        />
+
+        <h3>4.2 Appending to an HTML Element - appendChild()</h3>
+        <CodeBlock
+          language="javascript"
+          code={`// Appending to document body
+document.body.appendChild(h1Element);
+
+// Appending to existing container
+let containerElement = document.getElementById("myContainer");
+containerElement.appendChild(h1Element);`}
+        />
+
+        <h3>4.3 Adding Event Listeners Dynamically</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let btnElement = document.createElement("button");
+btnElement.textContent = "Change Heading";
+document.getElementById("myContainer").appendChild(btnElement);
+
+btnElement.onclick = function() {
+  console.log("click event triggered");
+};`}
+        />
+
+        <h3>4.4 Providing Class Names Dynamically - classList.add()</h3>
+        <CodeBlock
+          language="javascript"
+          code={`btnElement.onclick = function() {
+  h1Element.textContent = "4.0 Technologies";
+  h1Element.classList.add("heading");
+  console.log(h1Element);
+};`}
+        />
+        <CodeBlock
+          language="css"
+          code={`.heading {
+  color: blue;
+  font-family: "Caveat";
+  font-size: 40px;
+  text-decoration: underline;
 }`}
         />
 
-        <h3>MCQs</h3>
-        {[
-          {
-            question: "Which object is the entry point to the DOM?",
-            options: ["window", "document", "element", "node"],
-            answer: "document",
-          },
-          {
-            question: "Which event occurs when the user clicks an element?",
-            options: ["onmouseover", "onclick", "onchange", "onsubmit"],
-            answer: "onclick",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "dom_events"))}
+        <h3>4.5 Removing Class Names Dynamically - classList.remove()</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let removeStylesBtnElement = document.createElement("button");
+removeStylesBtnElement.textContent = "Remove Styles";
+document.getElementById("myContainer").appendChild(removeStylesBtnElement);
+
+removeStylesBtnElement.onclick = function() {
+  h1Element.classList.remove("heading");
+};`}
+        />
       </section>
 
-      <div className="view-continue">
+      {/* Continue Button */}
+      <div className="view-continue" style={{ marginTop: "20px" }}>
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
           onClick={handleContinue}
@@ -152,4 +189,4 @@ const DOM_Event_Fundamentals_CS = ({ onSubtopicComplete }) => {
   );
 };
 
-export default DOM_Event_Fundamentals_CS;
+export default Arrays_Dom_Manipulations_CS;
