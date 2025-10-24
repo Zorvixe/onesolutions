@@ -119,7 +119,8 @@ import Forms_CS_2 from "../JavaScript/Forms/Forms_CS_2.js";
 import More_Modern_JS_Concepts_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS.js";
 import More_Modern_JS_Concepts_CS_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_2.js";
 import Factory_Constructor_Function_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/Factory_Constructor_Function_CS.js";
-
+import More_Modern_JS_Concepts_CS_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_3.js";
+import Prototypal_Inheritance_CS from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance_CS.js";
 // If your file is in src/components or src/ somewhere
 // import DOM_Event_Fundamentals_CS from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_CS";
 
@@ -1111,6 +1112,11 @@ const subtopicComponents = {
   "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
   "More Modern JS Concepts | Part 2 | Cheat Sheet":
     More_Modern_JS_Concepts_CS_2,
+  "Factory and Constructor Function | Cheat Sheet":
+    Factory_Constructor_Function_CS,
+  "More Modern JS Concepts | Part 3 | Cheat Sheet":
+    More_Modern_JS_Concepts_CS_3,
+  "Prototypal Inheritance | Cheat Sheet": Prototypal_Inheritance_CS,
   // "Factory and Constructor Function | Cheat Sheet": Factory_Constructor_Function_CS,
 
   "Problem Solving - Part 6 | Cheat Sheet": Problem_sol_6_CS,

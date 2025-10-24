@@ -25,15 +25,21 @@ const More_Modern_JS_Concepts_CS_2 = ({ onSubtopicComplete }) => {
           A Ternary Operator can be used to replace <code>if...else</code>{" "}
           statements in some situations.
         </p>
+
         <p>
-          <b>Syntax:</b>{" "}
-          <code>condition ? expressionIfTrue : expressionIfFalse</code>
+          <b>Syntax:</b>
         </p>
+        <CodeBlock
+          language="javascript"
+          code={`condition ? expressionIfTrue : expressionIfFalse`}
+        />
 
         <h3>Code</h3>
         <CodeBlock
           language="javascript"
-          code={`let speed = 70;\nlet message = speed >= 100 ? "Too Fast" : "OK";\nconsole.log(message);  // OK`}
+          code={`let speed = 70;
+let message = speed >= 100 ? "Too Fast" : "OK";
+console.log(message);  // OK`}
         />
         <h3>Output</h3>
         <OutputBlock output={"OK"} />
@@ -130,8 +136,9 @@ switch (day) {
         <h3>3.1 Arrow Functions</h3>
         <p>
           An Arrow function is a simple and concise syntax for defining
-          functions. It is an alternative to a function expression.
+          functions.
         </p>
+        <p> It is an alternative to a function expression.</p>
 
         <p>
           <b>Syntax:</b>

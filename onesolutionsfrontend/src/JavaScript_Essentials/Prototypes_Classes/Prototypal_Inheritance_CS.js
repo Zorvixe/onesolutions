@@ -1,0 +1,202 @@
+import React, { useState } from "react";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
+
+const Prototypal_Inheritance_CS = ({ onSubtopicComplete }) => {
+  const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+
+  const handleContinue = () => {
+    setIsSubtopicCompleted(true);
+    if (onSubtopicComplete) onSubtopicComplete();
+  };
+
+  return (
+    <div className="intro-container">
+      <h1>Prototypal Inheritance | Cheat Sheet</h1>
+
+      {/* 1. Built-in Constructor Functions */}
+      <section>
+        <h2>1. Built-in Constructor Functions</h2>
+        <p>
+          These are the built-in constructor functions provided by JavaScript.
+        </p>
+        <ul>
+          <li>
+            <b>function Array()</b>
+          </li>
+          <li>
+            <b>function Function()</b>
+          </li>
+          <li>function Promise()</li>
+          <li>function Object()</li>
+          <li>function String()</li>
+          <li>function Number(), etc.</li>
+        </ul>
+      </section>
+
+      {/* 2. Built-in Array Constructor Function */}
+      <section>
+        <h2>2. Built-in Array Constructor Function</h2>
+
+        <h3>2.1 Default Properties and Methods</h3>
+        <b>Properties:</b>
+        <ul>
+          <li>constructor</li>
+          <li>length</li>
+          <li>prototype, etc.</li>
+        </ul>
+        <b>Methods:</b>
+        <ul>
+          <li>push()</li>
+          <li>pop()</li>
+          <li>splice()</li>
+          <li>shift(), etc.</li>
+        </ul>
+
+        <h3>
+          2.2 Creating an Array with the new Operator (Older way of writing)
+        </h3>
+        <p>
+          <b>Syntax:</b>{" "}
+          <code>let myArray = new Array(item1, item2, ...);</code>
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = new Array("a", 2, true);
+myArray.push("pen");
+console.log(myArray);  // Array (4)["a", 2, true, "pen"]
+console.log(myArray.length);  // 4`}
+        />
+      </section>
+
+      {/* 3. Prototype Property */}
+      <section>
+        <h2>3. Prototype Property</h2>
+        <p>
+          The Prototype property will be shared across all the instances of
+          their constructor function.
+        </p>
+
+        <h3>3.1 Accessing the Prototype of a Constructor Function</h3>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(Array.prototype);`}
+        />
+
+        <h3>3.2 Accessing the shared Prototype of an Instance</h3>
+        <CodeBlock
+          language="javascript"
+          code={`let myArray = new Array("a", 2, true);
+console.log(Object.getPrototypeOf(myArray));`}
+        />
+
+        <h3>3.3 Prototypal Inheritance</h3>
+        <p>
+          On calling the <code>new()</code> operator, all the properties and
+          methods defined on the prototype will become accessible to the
+          instance objects. This process is called <b>Prototypal Inheritance</b>
+          .
+        </p>
+      </section>
+
+      {/* 4. Built-in Function Constructor Function */}
+      <section>
+        <h2>4. Built-in Function Constructor Function</h2>
+
+        <h3>4.1 Default Properties and Methods</h3>
+        <b>Properties:</b>
+        <ul>
+          <li>name</li>
+          <li>length</li>
+          <li>constructor</li>
+          <li>prototype, etc.</li>
+        </ul>
+        <b>Methods:</b>
+        <ul>
+          <li>apply()</li>
+          <li>bind()</li>
+          <li>call()</li>
+          <li>toString(), etc.</li>
+        </ul>
+
+        <h3>
+          4.2 Creating a Function with the new Operator (Older way of writing)
+        </h3>
+        <p>
+          Syntax:{" "}
+          <code>
+            let myFunction = new Function("param1, param2, ...", function body);
+          </code>
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`let Car = new Function("color, brand", 
+  \`this.color = color;   
+    this.brand = brand;   
+    this.start = function() {     
+      console.log("started");  
+    };\`
+);
+console.log(Function.prototype);`}
+        />
+      </section>
+
+      {/* 5. Instance Specific and Prototype Properties */}
+      <section>
+        <h2>5. Instance Specific and Prototype Properties</h2>
+
+        <h3>5.1 Prototype Properties/ Methods</h3>
+        <p>
+          The Prototype Properties/ Methods are the properties or methods common
+          across the instance objects.
+        </p>
+        <b>Examples:</b>
+        <ul>
+          <li>calculateAge</li>
+          <li>displayGreetings</li>
+          <li>displayProfileDetails</li>
+          <li>calculateIncome</li>
+        </ul>
+
+        <h4>5.1.1 Adding a Method to the prototype</h4>
+        <CodeBlock
+          language="javascript"
+          code={`function Person(firstName, lastName) {
+  this.firstName = firstName;
+  this.lastName = lastName;
+}
+Person.prototype.displayFullName = function() {
+  return this.firstName + " " + this.lastName;
+};
+let person1 = new Person("Virat", "Kohli");
+let person2 = new Person("Sachin", "Tendulkar");`}
+        />
+
+        <h3>5.2 Instance Specific Properties/ Methods</h3>
+        <p>
+          The Instance Specific Properties/ Methods are the properties or
+          methods specific to the instance object.
+        </p>
+        <b>Examples:</b>
+        <ul>
+          <li>gender</li>
+          <li>yearOfBirth</li>
+          <li>friendsList</li>
+          <li>name</li>
+        </ul>
+      </section>
+
+      {/* Continue Button */}
+      <div className="view-continue">
+        <button
+          className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
+          onClick={handleContinue}
+          disabled={isSubtopicCompleted}
+        >
+          {isSubtopicCompleted ? "Completed" : "Continue"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Prototypal_Inheritance_CS;
