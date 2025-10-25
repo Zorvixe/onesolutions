@@ -15,9 +15,7 @@ const More_Modern_JS_Concepts_CS_3 = ({ onSubtopicComplete }) => {
 
       {/* 1. this */}
       <section>
-        <h2>
-          1. <code>this</code>
-        </h2>
+        <h2>1. this</h2>
         <p>
           The <code>this</code> is determined in three ways.
         </p>

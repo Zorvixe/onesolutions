@@ -12,7 +12,6 @@ html,
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
 }
 
 /* ---------- Navbar ---------- */
@@ -63,10 +62,6 @@ html,
 }
 
 /* ---------- Main Content ---------- */
-.main-content {
-  flex: 1;
-  padding: 2rem 0;
-}
 
 /* ---------- Auth Pages (Login/Register) ---------- */
 .auth-wrapper {

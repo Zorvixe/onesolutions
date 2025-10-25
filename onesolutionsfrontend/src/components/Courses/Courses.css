@@ -1,6 +1,7 @@
 .courses-container {
   margin-left: 50px;
   padding: 60px;
+  padding-top: 100px;
 }
 
 /* Goals */
@@ -24,7 +25,7 @@
   top: 0;
   bottom: 0;
   width: 6px; /* vertical colored line */
- border-radius: 5px;
+  border-radius: 5px;
 }
 
 .goal-header {
@@ -186,14 +187,14 @@
 }
 
 /* Module controls */
-.active-module {
+.active-module_course {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
 }
 
-.active-module button {
+.active-module_course button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -206,7 +207,7 @@
   width: 30px;
 }
 
-.active-module p {
+.active-module_course p {
   margin: 0;
   font-size: 16px;
   font-weight: 500;

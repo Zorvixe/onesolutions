@@ -79,17 +79,32 @@ console.log(message);  // OK`}
         <CodeBlock
           language="javascript"
           code={`let day = 1;
-switch (day) {
-  case 0:
-    console.log("Sunday");
-    break;
-  case 1:
-    console.log("Monday");  // Monday
-    break;
-  case 2:
-    console.log("Tuesday");
-    break;
-}`}
+          switch (day) {
+            case 0:
+              console.log("Sunday");
+              break;
+            case 1:
+              console.log("Monday");  // Monday
+              break;
+            case 2:
+              console.log("Tuesday");
+              break;
+            case 3:
+              console.log("Wednesday");
+              break;
+            case 4:
+              console.log("Thursday");
+              break;
+            case 5:
+              console.log("Friday");
+              break;
+            case 6:
+              console.log("Saturday");
+              break;
+            default:
+              console.log("Invalid");
+              break;
+          }`}
         />
         <h3>Output</h3>
         <OutputBlock output={"Monday"} />
@@ -105,17 +120,28 @@ switch (day) {
         <CodeBlock
           language="javascript"
           code={`let day = 4;
-switch (day) {
-  case 0:
-    console.log("Sunday");
-    break;
-  case 1:
-    console.log("Monday");
-    break;
-  case 2:
-    console.log("Tuesday");
-    break;
-}`}
+          switch (day) {
+            case 0:
+              console.log("Sunday");
+              break;
+            case 1:
+              console.log("Monday");
+              break;
+            case 2:
+              console.log("Tuesday");
+              break;
+            case 3:
+              console.log("Wednesday");
+              break;
+            case 4:
+              console.log("Thursday");*
+            case 5:
+              console.log("Friday");
+            case 6:
+              console.log("Saturday");*
+            default:
+              console.log("Invalid");*
+          }`}
         />
       </section>
 

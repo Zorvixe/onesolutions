@@ -53,7 +53,8 @@ const Prototypal_Inheritance_CS = ({ onSubtopicComplete }) => {
         </ul>
 
         <h3>
-          2.2 Creating an Array with the new Operator (Older way of writing)
+          2.2 Creating an Array with the <code>new</code> Operator (Older way of
+          writing)
         </h3>
         <p>
           <b>Syntax:</b>{" "}
@@ -72,8 +73,8 @@ console.log(myArray.length);  // 4`}
       <section>
         <h2>3. Prototype Property</h2>
         <p>
-          The Prototype property will be shared across all the instances of
-          their constructor function.
+          The Prototype property will be <b>shared</b> across all the{" "}
+          <b>instances</b> of their constructor function.
         </p>
 
         <h3>3.1 Accessing the Prototype of a Constructor Function</h3>
@@ -92,9 +93,9 @@ console.log(Object.getPrototypeOf(myArray));`}
         <h3>3.3 Prototypal Inheritance</h3>
         <p>
           On calling the <code>new()</code> operator, all the properties and
-          methods defined on the prototype will become accessible to the
-          instance objects. This process is called <b>Prototypal Inheritance</b>
-          .
+          methods defined on the <code>prototype</code> will become accessible
+          to the instance objects. This process is called{" "}
+          <b>Prototypal Inheritance</b>.
         </p>
       </section>
 
@@ -119,7 +120,8 @@ console.log(Object.getPrototypeOf(myArray));`}
         </ul>
 
         <h3>
-          4.2 Creating a Function with the new Operator (Older way of writing)
+          4.2 Creating a Function with the <code>new</code> Operator (Older way
+          of writing)
         </h3>
         <p>
           Syntax:{" "}
@@ -168,7 +170,8 @@ Person.prototype.displayFullName = function() {
   return this.firstName + " " + this.lastName;
 };
 let person1 = new Person("Virat", "Kohli");
-let person2 = new Person("Sachin", "Tendulkar");`}
+let person2 = new Person("Sachin", "Tendulkar");
+console.log(Object.getPrototypeOf(person1) === Object.getPrototypeOf(person2));`}
         />
 
         <h3>5.2 Instance Specific Properties/ Methods</h3>
@@ -183,6 +186,17 @@ let person2 = new Person("Sachin", "Tendulkar");`}
           <li>friendsList</li>
           <li>name</li>
         </ul>
+        <CodeBlock
+          language="javascript"
+          code={`function Person(firstName, lastName) {
+this.firstName = firstName;
+this.lastName = lastName;
+}
+Person.prototype.displayFullName = function() {
+return this.firstName + " " + this.lastName;
+};
+let person1 = new Person("Virat", "Kohli");`}
+        />
       </section>
 
       {/* Continue Button */}

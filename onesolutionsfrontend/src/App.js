@@ -18,20 +18,12 @@ import Community from "./components/Community/Community";
 import Placements from "./components/Placements/Placements";
 import SubtopicPage from "./SubtopicsPage/SubtopicPage";
 import Codeplayground from "./CodePlayground";
-import ForgotPassword from "./components/ForgotPassword/ForgotPassword"
+import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 
 import "./App.css"; // ✅ Keep your CSS here
 
 function App() {
-  const { isAuthenticated, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="loading-container">
-        <span className="loader"></span>
-      </div>
-    );
-  }
+  const { isAuthenticated } = useAuth();
 
   return (
     <Router>
@@ -49,7 +41,7 @@ function App() {
               <Route path="/community" element={<Community />} />
               <Route path="/placements" element={<Placements />} />
               <Route
-                path="/subtopics/:subtopicName"
+                path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
               <Route path="/code_playground" element={<Codeplayground />} />

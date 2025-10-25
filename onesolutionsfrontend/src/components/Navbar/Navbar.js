@@ -61,7 +61,7 @@ const Navbar = () => {
   return (
     <div className="container nav-con">
       <Link to="/" className="logo">
-        <img src="/assets/logo.png" alt="logo" />
+        <img src="/assets/onesolutions.png" alt="logo" />
       </Link>
       <ul className="nav-links">
         <li>
