@@ -87,8 +87,23 @@ import MCQ_Assignments_2 from "../ResponsiveWebsite/Assignments/MCQ_Assignments_
 import MCQ_Assignments_3 from "../ResponsiveWebsite/Assignments/MCQ_Assignments_3.js";
 import MCQ_Assignments_4 from "../ResponsiveWebsite/Assignments/MCQ_Assignments_4.js";
 
+//JavaScript MCQ
+import Objects_MCQ from "../JavaScript/Arrays_Objects/Objects_MCQ.js";
+import Arrays_Dom_Manipulations_MCQ from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_MCQ.js";
+import PrimitiveTypes_Conditionals_MCQ from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_MCQ.js";
+import Dom_Event_Fundamentals_MCQ from "../JavaScript/Introductionto_Js_Variables/Dom_Event_Fundamentals_MCQ.js";
+import InputEle_MathFunctions_MCQ from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_MCQ.js";
+import Introductionto_Dynamic_Application_MCQ from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_MCQ.js";
 // ---------- MCQ Map ----------
 const mcqMap = {
+  //JavaScript MCQs
+  "Introduction to Dynamic Web Applications":
+    Introductionto_Dynamic_Application_MCQ,
+  "Input Element and Math Functions": InputEle_MathFunctions_MCQ,
+  "DOM and Event Fundamentals": Dom_Event_Fundamentals_MCQ,
+  "Primitive Types & Conditionals": PrimitiveTypes_Conditionals_MCQ,
+  Objects: Objects_MCQ,
+  "Arrays & More DOM Manipulations": Arrays_Dom_Manipulations_MCQ,
   "Programming with Python": Pro_W_P_MCQ,
   "Variables and Data Types": Variables_DT_MCQ,
   "Sequence of Instructions": Seq_OF_Instruction_MCQ,
@@ -99,28 +114,28 @@ const mcqMap = {
   "Relational Operators": RelationOperator_MCQ,
   "Problem Solving and Debugging": ProblemSol_Debugging_MCQ,
   "Nested Conditions": Nested_con_MCQ,
-  "Loops": Loops_MCQ,
+  Loops: Loops_MCQ,
   "For Loop": ForLoop_MCQ,
   "String Methods": String_Methods_MCQ,
   "Nested Loops": NestedLoops_MCQ,
 
-"Problem Solving - Part 6": Problem_sol_6_MCQ,
+  "Problem Solving - Part 6": Problem_sol_6_MCQ,
 
   "Loop Control Stmts": LoopControlStmts_MCQ,
   "Comparing Strings & Naming Variables": ComparingStrAndNamingVar_MCQ,
-  "Functions": Functions_CS_MCQ,
-  "Lists": List_MCQ,
-  "Working with Lists":Workingwith_Lists_MCQ,
+  Functions: Functions_CS_MCQ,
+  Lists: List_MCQ,
+  "Working with Lists": Workingwith_Lists_MCQ,
   "Function Arguments": Functions_Argu_MCQ,
   "List & Strings": Lists_String_MCQ,
   "Built-in Functions": Built_in_Fun_MCQ,
   "Function Call Stack & Recursion": FunCallStack_Recursion_MCQ,
   "List Methods": ListMethods_MCQ,
   "Tuples & Sequences": Tuples_Sequences_MCQ,
-  "Sets": Sets_MCQ,
+  Sets: Sets_MCQ,
   "Set Operations": SetOperations_MCQ,
   "Nested Lists & String Formatting": NestedList_StringFormatting_MCQ,
-  "Dictionaries": Dictionaries_MCQ,
+  Dictionaries: Dictionaries_MCQ,
   "Working with Dictionaries": Working_With_Dictionaries_MCQ,
   "Introduction to OOP Part 1": Introductionto_OOP1_MCQ,
   "Introduction to OOP Part 2": Introduction_Opp_MCQ2,
@@ -132,9 +147,7 @@ const mcqMap = {
   "Scope & Namespaces": Scope_Namespaces_MCQ,
   "Errors & Exceptions": Errors_Exceptions_MCQ,
   "Dates & Time": Dates_Time_MCQ,
-  "Working with Dates & Times":Workingwith_Data_Time_MCQ,
- 
-  
+  "Working with Dates & Times": Workingwith_Data_Time_MCQ,
 
   "Introduction to HTML": Introductionto_HTML_CS_MCQ,
   "Introduction to CSS Part 1": Introductionto_Css_MCQ_1,

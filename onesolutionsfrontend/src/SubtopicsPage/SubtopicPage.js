@@ -132,9 +132,6 @@ import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Method
 // SQL DataBase
 import Create_Table_CS from "../SQL_Database/Introdutionto_SQL/Create_Table_CS.js";
 
-// If your file is in src/components or src/ somewhere
-// import DOM_Event_Fundamentals_CS from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_CS";
-
 // MCQ Wrapper
 
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -310,6 +307,13 @@ const subtopicComponents = {
 
 // Explicit MCQ Mapping (no change)
 const mcqMapping = {
+  //JavaScript MCQs
+  "MCQ Practice - Intro_Dynamic Web App":"Introduction to Dynamic Web Applications",
+  "MCQ Practice - Input Elements": "Input Element and Math Functions",
+  "MCQ Practice - DOM Event Fund": "DOM and Event Fundamentals",
+  "MCQ Practice - Primitive Types": "Primitive Types & Conditionals",
+  "MCQ Practice - Objects": "Objects",
+  "MCQ Practice - Array & DOM": "Arrays & More DOM Manipulations",
   "MCQ Practice": "Programming with Python",
   "MCQ Practice - 1": "Variables and Data Types",
   "MCQ Practice - 2": "Sequence of Instructions",

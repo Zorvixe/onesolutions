@@ -54,24 +54,34 @@ const InputEle_MathFunctions_CS = ({ onSubtopicComplete }) => {
 
         <h3>1.1 Math.random()</h3>
         <p>
-          Returns a random float number between 0 (inclusive) and 1 (exclusive).
+          The <code>Math.random()</code> function returns a random number (float
+          value) in range 0 to less than 1 .
         </p>
-        <CodeBlock language="javascript" code={`console.log(Math.random()); // e.g., 0.123456`} />
+        <CodeBlock
+          language="javascript"
+          code={`console.log(Math.random()); // e.g., 0.123456`}
+        />
 
         <h3>1.2 Math.ceil()</h3>
-        <p>Rounds a number up to the next largest integer.</p>
-        <CodeBlock language="javascript" code={`console.log(Math.ceil(4.3)); // 5`} />
-
-        <p className="note">
-          Try running the code multiple times and observe different outputs.
+        <p>
+          The <code>Math.ceil()</code> function always rounds a number up to the
+          next largest integer.
         </p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(Math.ceil(4.3)); // 5`}
+        />
       </section>
 
       {/* 2. HTML Elements */}
       <section>
         <h2>2. HTML Elements</h2>
         <h3>2.1 HTML Input Element</h3>
-        <p>Used to accept data from the user. Different types include:</p>
+        <p>
+          The HTML <code>input</code> element creates interactive controls to{" "}
+          <b>accept</b> the data from the user.
+        </p>
+        <p>There are different types of inputs.</p>
         <ul>
           <li>Text</li>
           <li>Password</li>
@@ -81,11 +91,17 @@ const InputEle_MathFunctions_CS = ({ onSubtopicComplete }) => {
         </ul>
 
         <h4>2.1.1 Text Input</h4>
-        <CodeBlock language="html" code={`<input type="text" placeholder="Enter text"/>`} />
+        <CodeBlock
+          language="html"
+          code={`<input type="text" placeholder="Enter text"/>`}
+        />
         <p className="note">Default type for the input element is text.</p>
 
         <h4>2.1.2 Password Input</h4>
-        <CodeBlock language="html" code={`<input type="password" placeholder="Enter password"/>`} />
+        <CodeBlock
+          language="html"
+          code={`<input type="password" placeholder="Enter password"/>`}
+        />
         <p>Provides secure entry for passwords.</p>
       </section>
 
@@ -93,11 +109,14 @@ const InputEle_MathFunctions_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>3. DOM Properties</h2>
         <h3>3.1 value</h3>
-        <p>Used to get or set the value of an input element:</p>
-        <CodeBlock language="javascript" code={`const inputValue = document.getElementById('myInput').value;`} />
-        <p className="note">
-          Try different input values and check the output in the console.
+        <p>
+          We can use the <code>value</code> property to get the value of the
+          HTML <b>input</b> Element.
         </p>
+        <CodeBlock
+          language="javascript"
+          code={`const inputValue = document.getElementById('myInput').value;`}
+        />
       </section>
 
       {/* 4. Comparison Operators */}
@@ -105,36 +124,17 @@ const InputEle_MathFunctions_CS = ({ onSubtopicComplete }) => {
         <h2>4. Comparison Operator</h2>
         <h3>4.1 Loose equal vs Strict equal (== vs ===)</h3>
         <p>
-          <strong>Loose equal (==)</strong>: Compares values only, ignores types.<br />
-          <strong>Strict equal (===)</strong>: Compares values and types.
+          <strong>Loose equal (==)</strong>: Loose equality compares two values
+          for equality but doesn’t compare types of values.
+          <br />
+          <strong>Strict equal (===)</strong>: Strict equality compares two
+          values for equality including types of values.
         </p>
-        <CodeBlock language="javascript" code={`console.log(5 == "5"); // true\nconsole.log(5 === "5"); // false`} />
-        <p className="note">
-          Try different inputs to see the difference between == and ===.
-        </p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(5 == "5"); // true\nconsole.log(5 === "5"); // false`}
+        />
       </section>
-
-      {/* MCQs */}
-      {/* <section>
-        <h3>MCQs</h3>
-        {[
-          {
-            question: "Which function returns a random number between 0 and 1?",
-            options: ["Math.ceil()", "Math.random()", "Math.floor()", "Math.round()"],
-            answer: "Math.random()",
-          },
-          {
-            question: "Which input type is used for password entry?",
-            options: ["text", "password", "checkbox", "radio"],
-            answer: "password",
-          },
-          {
-            question: "What is the result of 5 === '5'?",
-            options: ["true", "false", "undefined", "NaN"],
-            answer: "false",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "input_math"))}
-      </section> */}
 
       {/* Continue Button */}
       <div className="view-continue">

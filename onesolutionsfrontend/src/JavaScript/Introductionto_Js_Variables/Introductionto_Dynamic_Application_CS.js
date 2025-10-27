@@ -24,7 +24,10 @@ const Introductionto_Dynamic_Application = ({ onSubtopicComplete }) => {
           This is achieved using <strong>JavaScript</strong>.
         </p>
         <p className="note">
-          Note: JavaScript makes your static pages interactive and dynamic.
+          <b>Note:</b>{" "}
+          <code>
+            JavaScript makes your static pages interactive and dynamic.
+          </code>
         </p>
       </section>
 

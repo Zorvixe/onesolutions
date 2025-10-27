@@ -99,7 +99,6 @@ const Navbar = () => {
 
       <div className="nav_right">
         <button className="nav_c_btn">
-          {" "}
           <a href="/code_playground"> Code Playground</a>
         </button>
         <div className="help-earn">

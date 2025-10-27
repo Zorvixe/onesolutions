@@ -22,7 +22,9 @@ const Objects_CS = ({ onSubtopicComplete }) => {
           An <strong>Object</strong> is a collection of properties.{" "}
         </p>
         <p>A property is an association between a name (or key) and a value.</p>
-        <p>Example: A person has name, age, city, etc.</p>
+        <p>
+          <b>Example: </b> A person has name, age, city, etc.
+        </p>
         <table className="cheat-table">
           <thead>
             <tr>
@@ -55,13 +57,19 @@ const Objects_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>1. Creating an Object</h2>
         <p>
-          Properties can be added inside <code>{`{}`}</code> as key: value
-          pairs.
+          We can add properties into <code>{`{}`}</code> as{" "}
+          <code>key: value</code> pairs.
         </p>
         <h3>Code</h3>
         <CodeBlock
           language="javascript"
-          code={`const person = {\n  firstName: "Rahul",\n  lastName: "Attuluri",\n  age: 28,\n  city: "Delhi"\n};`}
+          code={`let person = {
+firstName: "Rahul",
+lastName: "Attuluri",
+age: 28,
+};
+
+console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 28}`}
         />
       </section>
 
@@ -81,6 +89,7 @@ const Objects_CS = ({ onSubtopicComplete }) => {
           language="javascript"
           code={`const name = "John";\nconst $price = 100;\nconst _id = 1;`}
         />
+
         <h3>Invalid Identifiers</h3>
         <CodeBlock
           language="javascript"
@@ -103,11 +112,34 @@ const Objects_CS = ({ onSubtopicComplete }) => {
           language="javascript"
           code={`console.log(person.firstName);  // Rahul`}
         />
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  "1": "value1",
+  "my choice": "value2",
+  };
 
+console.log(person.firstName);  // Rahul`}
+        />
         <h3>2.2 Bracket Notation</h3>
         <CodeBlock
           language="javascript"
           code={`console.log(person["lastName"]);  // Attuluri`}
+        />
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  "1": "value1",
+  "my choice": "value2",
+  };
+
+console.log(person["firstName"]);  // Rahul`}
         />
 
         <h3>2.3 Accessing Non-existent Properties</h3>
@@ -115,17 +147,53 @@ const Objects_CS = ({ onSubtopicComplete }) => {
           language="javascript"
           code={`console.log(person.gender);  // undefined`}
         />
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  "1": "value1",
+  "my choice": "value2",
+  };
+
+console.log(person.gender);  // undefined`}
+        />
 
         <h3>2.4 Variable as a Key</h3>
         <CodeBlock
           language="javascript"
-          code={`const key = "city";\nconsole.log(person[key]);  // Delhi`}
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  };
+
+let a = "firstName";
+
+console.log(person[a]);  // Rahul
+
+console.log(person.a);  // undefined`}
         />
 
         <h3>2.5 Object Destructuring</h3>
+        <p>
+          To unpack properties from Objects, we use Object Destructuring. The
+          variable name should match with the key of an object.
+        </p>
         <CodeBlock
           language="javascript"
-          code={`const { firstName, age } = person;\nconsole.log(firstName); // Rahul\nconsole.log(age);       // 28`}
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  };
+
+let { gender, age } = person;
+
+console.log(gender);  // undefined
+
+console.log(age);  // 28`}
         />
       </section>
 
@@ -136,16 +204,63 @@ const Objects_CS = ({ onSubtopicComplete }) => {
         <h3>3.1 Modifying Object Property</h3>
         <p>Dot Notation:</p>
         <CodeBlock language="javascript" code={`person.age = 30;`} />
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  };
+
+person.firstName = "Abhi";
+
+console.log(person.firstName);  // Abhi`}
+        />
         <p>Bracket Notation:</p>
         <CodeBlock language="javascript" code={`person["city"] = "Mumbai";`} />
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  };
 
+person["firstName"] = "Abhi";
+
+console.log(person["firstName"]);  // Abhi`}
+        />
         <h3>3.2 Adding Object Property</h3>
         <p>Dot Notation:</p>
         <CodeBlock language="javascript" code={`person.country = "India";`} />
+        <CodeBlock
+          language="javascript"
+          code={`et person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  };
+
+person.gender = "Male";
+
+console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 28, gender: "Male"}`}
+        />
         <p>Bracket Notation:</p>
         <CodeBlock
           language="javascript"
           code={`person["profession"] = "Engineer";`}
+        />
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  };
+
+person["gender"] = "Male";
+
+console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 28, gender: "Male"}`}
         />
       </section>
 
@@ -162,19 +277,61 @@ const Objects_CS = ({ onSubtopicComplete }) => {
         <h3>4.1 Function as a Value (Method)</h3>
         <CodeBlock
           language="javascript"
-          code={`const person = {\n  firstName: "Rahul",\n  greet: function() {\n    console.log("Hello " + this.firstName);\n  }\n};\nperson.greet();  // Hello Rahul`}
-        />
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  run: function () {
+  console.log("Start Running.");
+  },
+};
 
+person.run();  // Start Running.`}
+        />
+        <h4>Methods:</h4>
+        <p>
+          A JavaScript method is a property containing a function definition.
+        </p>
+        <p>
+          For example, in <code>document.createElement();</code>, the document
+          is an Object, <b>createElement</b> is a key and{" "}
+          <code>createElement()</code> is a Method.
+        </p>
         <h3>4.2 Array as a Value</h3>
         <CodeBlock
           language="javascript"
-          code={`const person = {\n  firstName: "Rahul",\n  hobbies: ["Reading", "Coding"]\n};\nconsole.log(person.hobbies[0]); // Reading`}
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  habits: ["Playing Chess", "Singing"],
+  };
+
+console.log(person.habits);  // ["Playing Chess", "Singing"]
+
+console.log(person.habits[0]);  // Playing Chess
+
+console.log(person["habits"][1]);`}
         />
 
         <h3>4.3 Object as a Value</h3>
         <CodeBlock
           language="javascript"
-          code={`const person = {\n  firstName: "Rahul",\n  address: {\n    city: "Delhi",\n    pin: 110001\n  }\n};\nconsole.log(person.address.city); // Delhi`}
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  habits: ["Playing Chess", "Singing", "Dancing"],
+    car: {
+      name: "Audi",
+      model: "A6",
+      color: "White",
+      },
+   };
+
+console.log(person.car.name);  // Audi
+
+console.log(person.car["model"]);  // A6`}
         />
       </section>
 
