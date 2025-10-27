@@ -44,7 +44,6 @@ function App() {
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
-              <Route path="/code_playground" element={<CodePlayground />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>

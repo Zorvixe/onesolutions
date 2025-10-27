@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
+import "./Footer.css"; // create this CSS file
 
 const Footer = () => {
   return (
-    <div>
-      <h1 style={{fontSize: 70, margin: 80}}>#OneSolutions</h1>
-      
-    </div>
-  )
-}
+    <footer className="footer">
+      <h1 className="footer-title">#OneSolutions</h1>
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;
