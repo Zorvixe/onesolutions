@@ -2,8 +2,6 @@ import React from "react";
 import "./Home.css";
 import Footer from "../Footer/Footer";
 
-import CodePlayground from "../../CodePlayground";
-
 import "bootstrap-icons/font/bootstrap-icons.css";
 const Home = () => {
   const homeData = {
@@ -579,8 +577,6 @@ const Home = () => {
           </div>
         ))}
       </div>
-
-      <CodePlayground />
 
       <Footer />
     </div>

@@ -19,9 +19,9 @@ const Todos_Applications_CS_2 = ({ onSubtopicComplete }) => {
 
         <h3>1.1 Placeholder</h3>
         <p>
-          Placeholder is the text that appears in the HTML input element when no
-          value is set. We can specify it using the HTML attribute{" "}
-          <b>placeholder</b>.
+          Placeholder is the text that appears in the HTML{" "}
+          <code>input element</code> when no value is set. We can specify it
+          using the HTML attribute <b>placeholder</b>.
         </p>
 
         <h4>Example:</h4>
@@ -51,7 +51,7 @@ const Todos_Applications_CS_2 = ({ onSubtopicComplete }) => {
         <h3>3.1 Checked</h3>
         <p>
           The <code>checked</code> property sets or returns the checked status
-          of an HTML checkbox input element as a boolean value.
+          of an HTML checkbox <code>input</code> element as a boolean value.
         </p>
 
         <CodeBlock

@@ -19,9 +19,10 @@ const Todos_Applications_CS = ({ onSubtopicComplete }) => {
 
         <h3>1.1 Checkbox</h3>
         <p>
-          The HTML input element can be used to create a Checkbox. To define a
-          Checkbox, specify the <b>type</b> attribute as <code>checkbox</code>{" "}
-          for an input element.
+          The HTML <code>input</code> element can be used to create a Checkbox.
+          To define a Checkbox, you need to specify the HTML <b>type</b>{" "}
+          attribute with the value <code>checkbox</code> for an HTML{" "}
+          <code>input</code> element.
         </p>
         <CodeBlock language="html" code={`<input type="checkbox" />`} />
 
@@ -34,10 +35,12 @@ const Todos_Applications_CS = ({ onSubtopicComplete }) => {
           code={`<label for="myCheckbox">Graduated</label>`}
         />
 
-        <h4>1.2.1 The HTML for Attribute</h4>
+        <h4>
+          1.2.1 The HTML <code>for</code> Attribute
+        </h4>
         <p>
-          The <b>for</b> attribute associates the HTML label element with an
-          input element.
+          The HTML <code>for</code> attribute associates the HTML label element
+          with an HTML <b> input </b> element.
         </p>
         <CodeBlock
           language="html"
@@ -53,7 +56,7 @@ const Todos_Applications_CS = ({ onSubtopicComplete }) => {
         <h3>2.1 The htmlFor Property</h3>
         <p>
           We can use <code>htmlFor</code> property to add the HTML{" "}
-          <code>for</code> attribute to a label element.
+          <code>for</code> attribute to a HTML label element.
         </p>
         <CodeBlock
           language="javascript"
@@ -76,20 +79,6 @@ labelElement.htmlFor = "myCheckbox";`}
           language="javascript"
           code={`let labelElement = document.createElement("label");
 labelElement.setAttribute("for", "myCheckbox");`}
-        />
-
-        <p>
-          Try out creating the HTML label element dynamically in the below Code
-          Playground.
-        </p>
-
-        <CodeBlock
-          language="html"
-          code={`<!DOCTYPE html>
-<html>
-  <head></head>
-  <body> </body>
-</html>`}
         />
       </section>
 

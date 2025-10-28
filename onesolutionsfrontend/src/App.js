@@ -17,7 +17,7 @@ import Practice from "./components/Practice/Practice";
 import Community from "./components/Community/Community";
 import Placements from "./components/Placements/Placements";
 import SubtopicPage from "./SubtopicsPage/SubtopicPage";
-import CodePlayground from "./CodePlayground";
+import CodeGround from "./CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 
 import "./App.css"; // ✅ Keep your CSS here
@@ -44,6 +44,7 @@ function App() {
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
+              <Route path="codeGround" element={<CodeGround />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>

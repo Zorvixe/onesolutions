@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const InputEle_MathFunctions_MCQ = () => {
+const Introductionto_Dynamic_Application_MCQ = () => {
   const originalQuestions = [
     {
       question: "What is the main purpose of a dynamic web page?",
@@ -117,7 +117,7 @@ const InputEle_MathFunctions_MCQ = () => {
           <CodeBlock
             language="javascript"
             code={`const heading = document.querySelector("h1");
-  heading.style.color = "blue";`}
+heading.style.color = "blue";`}
           />
         </div>
       ),
@@ -131,7 +131,7 @@ const InputEle_MathFunctions_MCQ = () => {
     },
   ];
 
-  // ====== Existing MCQ Logic ======
+  // ====== State Variables ======
   const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
   const [questions] = useState(shuffleArray([...originalQuestions]));
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -142,16 +142,21 @@ const InputEle_MathFunctions_MCQ = () => {
   const [showingSkipped, setShowingSkipped] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [timeLeft, setTimeLeft] = useState(10);
+  const [skipEnabled, setSkipEnabled] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const timerRef = useRef(null);
 
+  // ====== Timer Logic ======
   useEffect(() => {
     if (completed) return;
     setTimeLeft(10);
+    setSkipEnabled(false);
 
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
+          setSkipEnabled(true);
           return 0;
         }
         return prev - 1;
@@ -161,14 +166,15 @@ const InputEle_MathFunctions_MCQ = () => {
     return () => clearInterval(timerRef.current);
   }, [currentIndex, completed]);
 
+  // ====== Navigation ======
   const nextQuestion = () => {
     clearInterval(timerRef.current);
     setSelectedAnswer(null);
     setFeedback(null);
+    setIsSubmitted(false);
 
     if (!showingSkipped) {
-      if (currentIndex + 1 < questions.length)
-        setCurrentIndex((prev) => prev + 1);
+      if (currentIndex + 1 < questions.length) setCurrentIndex((prev) => prev + 1);
       else if (skippedQuestions.length > 0) {
         setShowingSkipped(true);
         setCurrentIndex(0);
@@ -180,27 +186,43 @@ const InputEle_MathFunctions_MCQ = () => {
     }
   };
 
-  const handleNext = () => {
-    if (!selectedAnswer) return;
+  const prevQuestion = () => {
+    if (currentIndex > 0) {
+      clearInterval(timerRef.current);
+      setSelectedAnswer(null);
+      setFeedback(null);
+      setIsSubmitted(false);
+      setCurrentIndex((prev) => prev - 1);
+    }
+  };
 
-    const currentQuestion = showingSkipped
-      ? questions[skippedQuestions[currentIndex]]
-      : questions[currentIndex];
+  // ====== Logic ======
+  const handleSubmitOrNext = () => {
+    if (!isSubmitted) {
+      if (!selectedAnswer) return;
 
-    const isCorrect = selectedAnswer === currentQuestion.answer;
-    let points = 0;
-    if (isCorrect) points = timeLeft > 0 ? 10 : 7;
-    else points = -5;
+      const currentQuestion = showingSkipped
+        ? questions[skippedQuestions[currentIndex]]
+        : questions[currentIndex];
 
-    setScore((prev) => prev + points);
-    setFeedback({ correct: isCorrect, points });
+      const isCorrect = selectedAnswer === currentQuestion.answer;
+      let points = isCorrect ? (timeLeft > 0 ? 10 : 7) : -5;
+
+      setScore((prev) => prev + points);
+      setFeedback({ correct: isCorrect, points });
+      setIsSubmitted(true);
+    } else {
+      nextQuestion();
+    }
   };
 
   const handleSkip = () => {
+    if (!skipEnabled) return;
     if (!showingSkipped) setSkippedQuestions((prev) => [...prev, currentIndex]);
     nextQuestion();
   };
 
+  // ====== Current Question ======
   if (questions.length === 0) return <p>Loading questions...</p>;
 
   const currentQuestion = showingSkipped
@@ -214,7 +236,11 @@ const InputEle_MathFunctions_MCQ = () => {
   const percentage = (score / (questions.length * 10)) * 100;
 
   const getNextButtonLabel = () => {
-    if (showingSkipped && currentIndex + 1 === skippedQuestions.length)
+    if (!isSubmitted) return "Submit";
+    if (
+      showingSkipped &&
+      currentIndex + 1 === skippedQuestions.length
+    )
       return "Finish";
     if (
       !showingSkipped &&
@@ -225,6 +251,7 @@ const InputEle_MathFunctions_MCQ = () => {
     return "Next";
   };
 
+  // ====== JSX ======
   return (
     <div className="mcq-container full-width">
       <h3 className="mcq-title">Introduction to Dynamic Application - MCQs</h3>
@@ -267,19 +294,28 @@ const InputEle_MathFunctions_MCQ = () => {
 
           <div className="mcq-buttons">
             <button
+              className="mcq-prev"
+              onClick={prevQuestion}
+              disabled={currentIndex === 0}
+            >
+              Previous
+            </button>
+
+            <button
               className="mcq-next"
-              disabled={!selectedAnswer}
-              onClick={feedback ? nextQuestion : handleNext}
+              onClick={handleSubmitOrNext}
+              disabled={!selectedAnswer && !isSubmitted}
             >
               {getNextButtonLabel()}
             </button>
+
             {!showingSkipped && (
               <button
                 className="mcq-skip"
                 onClick={handleSkip}
-                disabled={feedback !== null}
+                disabled={!skipEnabled}
               >
-                Skip
+                {skipEnabled ? "Skip" : `Skip (${timeLeft}s)`}
               </button>
             )}
           </div>
@@ -306,4 +342,5 @@ const InputEle_MathFunctions_MCQ = () => {
     </div>
   );
 };
-export default InputEle_MathFunctions_MCQ;
+
+export default Introductionto_Dynamic_Application_MCQ;

@@ -6,6 +6,7 @@ import "./Courses.css";
 
 import { goalsData } from "../../data/goalsData";
 
+
 export default function Courses() {
   const [expandedGoal, setExpandedGoal] = useState(goalsData[0]?.id || null);
   const [expandedCourse, setExpandedCourse] = useState(null);

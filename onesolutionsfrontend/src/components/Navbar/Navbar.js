@@ -98,9 +98,9 @@ const Navbar = () => {
       </ul>
 
       <div className="nav_right">
-        <button className="nav_c_btn">
-          <a href="/code_playground"> Code Playground</a>
-        </button>
+        <li className="nav_c_btn">
+          <Link to="/codeGround">Code Playground</Link>
+        </li>
         <div className="help-earn">
           <div className="help-earn-wrapper">
             <button

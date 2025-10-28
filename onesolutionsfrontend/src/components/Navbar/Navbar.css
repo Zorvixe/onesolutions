@@ -41,6 +41,7 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  list-style-type: none;
 }
 
 .code_bg {

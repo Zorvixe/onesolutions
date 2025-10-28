@@ -243,7 +243,7 @@ const subtopicComponents = {
   "Favourite Place Detailed View Section | Cheat Sheet":
     FavouritePlaces_DetailView_CS,
   "Favourite Places Section | Cheat Sheet": FavouritePlaces_Section_CS_1,
-  "On Demand Session | Cheat Sheet": OnDemand_Session_CS,
+  "On Demand Session | Cheat Sheet": On_Demand_Session_CS,
   "Hypertext Transfer Protocol (HTTP) | Cheat Sheet":
     Hypertext_Transfer_Protocal_CS,
   "Forms | Part 2 | Cheat sheet": Forms_CS_2,
@@ -308,7 +308,8 @@ const subtopicComponents = {
 // Explicit MCQ Mapping (no change)
 const mcqMapping = {
   //JavaScript MCQs
-  "MCQ Practice - Intro_Dynamic Web App":"Introduction to Dynamic Web Applications",
+  "MCQ Practice - Intro_Dynamic Web App":
+    "Introduction to Dynamic Web Applications",
   "MCQ Practice - Input Elements": "Input Element and Math Functions",
   "MCQ Practice - DOM Event Fund": "DOM and Event Fundamentals",
   "MCQ Practice - Primitive Types": "Primitive Types & Conditionals",
