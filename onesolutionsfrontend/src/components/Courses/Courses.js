@@ -59,7 +59,7 @@ export default function Courses() {
   };
 
   return (
-    <div className="courses-container">
+    <div className="courses-container" style={{ marginTop: "50px" }}>
       {/* Goals List */}
       <div className="goals-wrapper">
         {goalsData.map((goal) => {

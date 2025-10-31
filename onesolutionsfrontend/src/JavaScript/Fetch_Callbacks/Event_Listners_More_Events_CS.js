@@ -189,7 +189,9 @@ greetBtn.addEventListener("click", function() {
         </p>
         <p>There are different types of events.</p>
         <ul>
-          <li>Keyboard Events</li>
+          <li>
+            <b>Keyboard Events</b>
+          </li>
           <li>Mouse Events</li>
           <li>Touch Events, and many more.</li>
         </ul>
@@ -198,16 +200,15 @@ greetBtn.addEventListener("click", function() {
         <p>Keyboard Event is the user interaction with the keyboard.</p>
         <p>The keyboard events are</p>
         <ul>
-          <li>
-            <code>keydown</code>
-          </li>
-          <li>
-            <code>keyup</code>
-          </li>
+          <li>keydown</li>
+          <li>keyup</li>
         </ul>
 
         <h4>3.1.1 Keydown event</h4>
-        <p>The keydown event occurs when a key on the keyboard is pressed.</p>
+        <p>
+          The <code>keydown event</code> occurs when a key on the keyboard is
+          pressed.
+        </p>
         <p>
           <b>Syntax:</b>{" "}
           <code>element.addEventListener("keydown", function);</code>
@@ -241,21 +242,11 @@ document.body.appendChild(inputEl);`}
         <p>It consists of information about the event that has happened.</p>
         <p>It consists of many properties and methods.</p>
         <ul>
-          <li>
-            <code>type</code>
-          </li>
-          <li>
-            <code>target</code>
-          </li>
-          <li>
-            <code>key</code>
-          </li>
-          <li>
-            <code>timeStamp</code>
-          </li>
-          <li>
-            <code>stopPropagation</code>, and many more.
-          </li>
+          <li>type</li>
+          <li>target</li>
+          <li>key</li>
+          <li>timeStamp</li>
+          <li>stopPropagation, and many more.</li>
         </ul>
 
         <h4>3.2.1 Properties & Methods</h4>

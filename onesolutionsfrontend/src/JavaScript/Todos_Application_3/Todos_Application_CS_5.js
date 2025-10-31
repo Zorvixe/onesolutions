@@ -25,27 +25,27 @@ const Todos_Application_CS_5 = ({ onSubtopicComplete }) => {
           </thead>
           <tbody>
             <tr>
-              <td><code>includes, indexOf, lastIndexOf, find, findIndex()</code></td>
+              <td>includes, indexOf, lastIndexOf, find, findIndex()</td>
               <td>Finding Elements</td>
             </tr>
             <tr>
-              <td><code>push, unshift, splice</code></td>
+              <td>push, unshift, splice</td>
               <td>Adding Elements</td>
             </tr>
             <tr>
-              <td><code>pop, shift, splice</code></td>
+              <td>pop, shift, splice</td>
               <td>Removing Elements</td>
             </tr>
             <tr>
-              <td><code>concat, slice</code></td>
+              <td>concat, slice</td>
               <td>Combining & Slicing Arrays</td>
             </tr>
             <tr>
-              <td><code>join</code></td>
+              <td>join</td>
               <td>Joining Array Elements</td>
             </tr>
             <tr>
-              <td><code>sort</code></td>
+              <td>sort</td>
               <td>Sorting Array Elements</td>
             </tr>
           </tbody>
@@ -55,7 +55,12 @@ const Todos_Application_CS_5 = ({ onSubtopicComplete }) => {
       {/* 1.1 splice() */}
       <section>
         <h3>1.1 splice()</h3>
-        <p>The splice() method changes the contents of an array. Using splice() we can:</p>
+        <p>
+          The <code>splice()</code> method changes the contents of an array.
+        </p>
+        <p>
+          Using <b>splice()</b> method, we can:
+        </p>
         <ul>
           <li>Remove existing items</li>
           <li>Replace existing items</li>
@@ -63,7 +68,16 @@ const Todos_Application_CS_5 = ({ onSubtopicComplete }) => {
         </ul>
 
         <h4>1.1.1 Removing existing items</h4>
-        <p>Syntax: <code>arr.splice(Start, Delete Count)</code></p>
+        <p>
+          <b>Syntax:</b> <code>arr.splice(Start, Delete Count)</code>
+        </p>
+        <ul>
+          <li>Start: Starting Index</li>
+          <li>
+            Delete Count: Number of items to be removed, starting from the given
+            index
+          </li>
+        </ul>
         <CodeBlock
           language="javascript"
           code={`let myArray = [5, "six", 2, 8.2];
@@ -73,9 +87,20 @@ console.log(myArray);  // [5, "six"]
 let deletedItems = myArray.splice(2, 2);
 console.log(deletedItems);  // [2, 8.2]`}
         />
+        <p>
+          The <code>splice()</code> method returns an array containing the
+          deleted items.
+        </p>
 
         <h4>1.1.2 Adding new items</h4>
-        <p>Syntax: <code>arr.splice(Start, Delete Count, Item1, Item2 ...)</code></p>
+        <p>
+          <b>Syntax:</b>{" "}
+          <code>arr.splice(Start, Delete Count, Item1, Item2 ...)</code>
+        </p>
+        <p>
+          Here the <code>Item1, Item2 ... </code>are the items to be added,
+          starting from the given index.
+        </p>
         <CodeBlock
           language="javascript"
           code={`let myArray = [5, "six", 2, 8.2];
@@ -84,7 +109,10 @@ console.log(myArray);  // [5, "six", "one", false, 2, 8.2]`}
         />
 
         <h4>1.1.3 Replacing existing items</h4>
-        <p>Syntax: <code>arr.splice(Start, Delete Count, Item1, Item2 ...)</code></p>
+        <p>
+          <b>Syntax:</b>{" "}
+          <code>arr.splice(Start, Delete Count, Item1, Item2 ...)</code>
+        </p>
         <CodeBlock
           language="javascript"
           code={`let myArray = [5, "six", 2, 8.2];
@@ -96,8 +124,18 @@ console.log(myArray);  // [5, "six", true, 8.2]`}
       {/* 1.2 findIndex() */}
       <section>
         <h3>1.2 findIndex()</h3>
-        <p>The <code>findIndex()</code> method returns the first item's index that satisfies the provided testing function. Returns -1 if not found.</p>
-        <p>Syntax: <code>arr.findIndex(Testing Function)</code></p>
+        <p>
+          The <code>findIndex()</code> method returns the first item's index
+          that satisfies the provided testing function. <b>returns -1</b> if not
+          found.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.findIndex(Testing Function)</code>
+        </p>
+        <p>
+          Here Testing Function is a function to execute on each value in the
+          array.
+        </p>
         <CodeBlock
           language="javascript"
           code={`let myArray = [5, 12, 8, 130, 44];
@@ -110,71 +148,135 @@ let itemIndex = myArray.findIndex(function(eachItem) {
       {/* 1.3 includes() */}
       <section>
         <h3>1.3 includes()</h3>
-        <p>The <code>includes()</code> method returns true if the provided item exists in the array. Otherwise, false.</p>
-        <p>Syntax: <code>arr.includes(item)</code></p>
+        <p>
+          The <code>includes()</code> method returns <b>true</b> if the provided
+          item exists in the array. If no item is found, it returns <b>false</b>
+          .
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.includes(item)</code>
+        </p>
       </section>
 
       {/* 1.4 indexOf() */}
       <section>
         <h3>1.4 indexOf()</h3>
-        <p>Returns the first index of an item, or -1 if not found.</p>
-        <p>Syntax: <code>arr.indexOf(item)</code></p>
+        <p>
+          The <code>indexOf()</code> method returns the first index at which a
+          given item can be found in the array. If no item is found, it returns{" "}
+          <b>-1</b>.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.indexOf(item)</code>
+        </p>
       </section>
 
       {/* 1.5 lastIndexOf() */}
       <section>
         <h3>1.5 lastIndexOf()</h3>
-        <p>Returns the last index of an item, or -1 if not found.</p>
-        <p>Syntax: <code>arr.lastIndexOf(item)</code></p>
+        <p>
+          The<code>lastIndexOf()</code> method returns the last index at which a
+          given item can be found in the array. If no item is found, it returns
+          <b>-1</b>
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.lastIndexOf(item)</code>
+        </p>
       </section>
 
       {/* 1.6 find() */}
       <section>
         <h3>1.6 find()</h3>
-        <p>Returns the first item's value that satisfies the testing function. Returns undefined if not found.</p>
-        <p>Syntax: <code>arr.find(Testing Function)</code></p>
+        <p>
+          The <code>find()</code> method returns the first item's value that
+          satisfies the provided testing function. If no item is found, it
+          returns <b>undefined</b>.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.find(Testing Function)</code>
+        </p>
       </section>
 
       {/* 1.7 unshift() */}
       <section>
         <h3>1.7 unshift()</h3>
-        <p>Adds one or more items to the beginning of an array. Returns new array length.</p>
-        <p>Syntax: <code>arr.unshift(item1, item2, ...)</code></p>
+        <p>
+          The <code>unshift()</code> method adds one or more items to the
+          beginning of an array and returns the new array length.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.unshift(item1, item2, ...)</code>
+        </p>
       </section>
 
       {/* 1.8 shift() */}
       <section>
         <h3>1.8 shift()</h3>
-        <p>Removes the first item from an array and returns it.</p>
-        <p>Syntax: <code>arr.shift()</code></p>
+        <p>
+          The <code>shift()</code> method removes the first item from an array
+          and returns that removed item.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.shift()</code>
+        </p>
       </section>
 
       {/* 1.9 concat() */}
       <section>
         <h3>1.9 concat()</h3>
-        <p>Merges two or more arrays and returns a new array.</p>
-        <p>Syntax: <code>let newArray = arr1.concat(arr2)</code></p>
+        <p>
+          The <code>concat()</code> method can be used to merge two or more
+          arrays.
+        </p>
+        <p>
+          This method does not change the existing arrays but instead returns a
+          new array.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>let newArray = arr1.concat(arr2)</code>
+        </p>
       </section>
 
       {/* 1.10 slice() */}
       <section>
         <h3>1.10 slice()</h3>
-        <p>Returns a portion between start and end index (end not included) as a new array.</p>
-        <p>Syntax: <code>arr.slice(startIndex, endIndex)</code></p>
+        <p>
+          The <code>slice()</code> method returns a portion between the
+          specified start index and end index(end index not included) of an
+          array into a new array.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.slice(startIndex, endIndex)</code>
+        </p>
       </section>
 
       {/* 1.11 join() */}
       <section>
         <h3>1.11 join()</h3>
-        <p>Creates a new string by concatenating all items separated by commas or a given separator.</p>
-        <p>Syntax: <code>arr.join(separator)</code></p>
+        <p>
+          The <code>join()</code> method creates and returns a new string by
+          concatenating all of the items in an array, separated by commas or a
+          specified separator string.
+        </p>
+        <p>
+          If the array has only one item, then it will be returned without using
+          the specified separator.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.join(separator)</code>
+        </p>
       </section>
 
       {/* 1.12 sort() */}
       <section>
         <h3>1.12 sort()</h3>
-        <p>Sorts array items in ascending order by default.</p>
-        <p>Syntax: <code>arr.sort()</code></p>
+        <p>
+          The <code>sort()</code> method sorts the items of an array and returns
+          the sorted array. The default sort order is ascending.
+        </p>
+        <p>
+          <b>Syntax:</b> <code>arr.sort()</code>
+        </p>
       </section>
 
       {/* Continue Button */}

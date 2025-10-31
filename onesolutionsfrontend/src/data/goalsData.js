@@ -707,7 +707,7 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m1 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   1",
+                name: "Coding Practice - 1",
               },
               {
                 id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m1 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
@@ -723,7 +723,7 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m1 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   2",
+                name: "Coding Practice - 2",
               },
               {
                 id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m1 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
@@ -739,7 +739,7 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s13 5U4I3O2P1A0 m1 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   3",
+                name: "Coding Practice - 3",
               },
             ],
           },
@@ -2243,7 +2243,7 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m9 S9D8F7G6H g2 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
-                name: "MCQ Practice   Forms | Part   2",
+                name: "MCQ Practice - Forms Part 2",
               },
               {
                 id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m9 S9D8F7G6H g2 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
@@ -3048,7 +3048,35 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Flexbox",
+                name: "Sizing Elements and Handling Overflow",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Sizing Elements and Handling Overflow | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Sizing Elements and Handling Overflow",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice - 1 - Sizing Elements and Handling Overflow",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Box Sizing",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Box Sizing | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Box Sizing",
+              },
+              {
+                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to CSS Flexbox",
               },
             ],
           },

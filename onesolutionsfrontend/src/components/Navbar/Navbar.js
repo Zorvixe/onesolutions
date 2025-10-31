@@ -77,24 +77,7 @@ const Navbar = () => {
             Practice
           </Link>
         </li>
-        <li>
-          <Link
-            to="/placements"
-            style={{
-              background:
-                "linear-gradient(to right, #800080, #000080, #483d8b)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontWeight: "500",
-              textDecoration: "none",
-            }}
-          >
-            Placements
-          </Link>
-        </li>
-        <li>
-          <Link to="/community">Community</Link>
-        </li>
+       
       </ul>
 
       <div className="nav_right">

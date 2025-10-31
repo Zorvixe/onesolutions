@@ -12,6 +12,31 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
   return (
     <div className="intro-container">
       <h1>Introduction to SQL | Create Table | Cheat Sheet</h1>
+      <section>
+        <h2>Introduction</h2>
+        <p>
+          We have already learnt that databases and DBMS are key to organising
+          and analysing data for business uses.
+        </p>
+        <p>
+          From here on, let's get busy working around with databases using SQL!{" "}
+        </p>
+        <ul>
+          <li>
+            SQL stands for <b>Structured Query Language</b>
+          </li>
+          <li>SQL is used to perform operations on Relational DBMS.</li>
+          <li>SQL is declarative. Hence, easy to learn.</li>
+        </ul>
+        <p>
+          SQL provides multiple clauses (commands) to perform various operations
+          like create, retrieve, update and delete the data.
+        </p>
+        <p>
+          The first step towards working with the database would be creating a
+          table.
+        </p>
+      </section>
 
       {/* Introduction */}
       <section>
@@ -74,10 +99,10 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
           </tbody>
         </table>
         <p>
-          <b>Note:</b> Boolean values are stored as <code>0</code> (FALSE) and{" "}
-          <code>1</code> (TRUE). <br />
-          Date format: <code>'YYYY-MM-DD'</code> <br />
-          Datetime format: <code>'YYYY-MM-DD HH:MM:SS'</code>
+          <b>Note:</b> Boolean values are stored as <b>0</b> (FALSE) and{" "}
+          <b>1</b> (TRUE). <br />
+          <b>Date format:</b> 'YYYY-MM-DD' <br />
+          <b>Datetime format:</b> 'YYYY-MM-DD HH:MM:SS'
         </p>
       </section>
 
@@ -102,9 +127,7 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
         </p>
 
         <h3>Example: Player Table</h3>
-        <p>
-          Create a <code>player</code> table to store player details:
-        </p>
+        <p>Create a player table to store player details:</p>
         <table>
           <thead>
             <tr>
@@ -203,7 +226,8 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>PRAGMA</h2>
         <p>
-          <code>PRAGMA TABLE_INFO</code> returns information about a table.
+          <code>PRAGMA TABLE_INFO</code> command returns the information about a
+          specific table in a database.
         </p>
         <p>
           <b>Syntax:</b>

@@ -14,13 +14,12 @@ import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Courses from "./components/Courses/Courses";
 import Practice from "./components/Practice/Practice";
-import Community from "./components/Community/Community";
 import Placements from "./components/Placements/Placements";
 import SubtopicPage from "./SubtopicsPage/SubtopicPage";
 import CodeGround from "./CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 
-import "./App.css"; // ✅ Keep your CSS here
+import "./App.css";
 
 function App() {
   const { isAuthenticated } = useAuth();
@@ -28,7 +27,6 @@ function App() {
   return (
     <Router>
       {isAuthenticated ? (
-        /* ---------- Authenticated Layout ---------- */
         <div className="app-container">
           <Navbar />
           <main className="main-content">
@@ -38,19 +36,19 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/practice" element={<Practice />} />
-              <Route path="/community" element={<Community />} />
+              <Route path="/practice/:practiceId" element={<Practice />} />
+              <Route path="/practice/:practiceId/:questionId" element={<Practice />} />
               <Route path="/placements" element={<Placements />} />
               <Route
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
-              <Route path="codeGround" element={<CodeGround />} />
+              <Route path="/codeGround" element={<CodeGround />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>
         </div>
       ) : (
-        /* ---------- Public (Unauthenticated) Layout ---------- */
         <div className="auth-wrapper">
           <Routes>
             <Route path="/login" element={<Login />} />

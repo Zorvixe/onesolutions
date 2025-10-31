@@ -1,318 +1,161 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
+const questionsData = [
+  {
+    question: (
+      <div>
+        <p>Which HTML input element uses a placeholder to guide users?</p>
+        <CodeBlock
+          language="html"
+          code={`<input type="email" placeholder="Enter your email address" />`}
+        />
+      </div>
+    ),
+    options: [
+      "Displays hint text when input is empty",
+      "Sets default text permanently",
+      "Changes text color inside the input",
+      "Hides input text",
+    ],
+    answer: "Displays hint text when input is empty",
+  },
+  {
+    question: (
+      <div>
+        <p>What will the following JavaScript code do when executed?</p>
+        <CodeBlock
+          language="javascript"
+          code={`alert("New task has been added successfully!");`}
+        />
+      </div>
+    ),
+    options: [
+      "Displays a popup alert message",
+      "Logs the message to console",
+      "Sends a notification to the server",
+      "Shows a confirmation dialog with Yes/No",
+    ],
+    answer: "Displays a popup alert message",
+  },
+  {
+    question: (
+      <div>
+        <p>What is logged to the console when the checkbox is checked?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let completed = document.getElementById("doneCheck").checked;\nconsole.log(completed);`}
+        />
+      </div>
+    ),
+    options: ["true", "false", "'checked'", "'true'"],
+    answer: "true",
+  },
+  {
+    question: (
+      <div>
+        <p>Which method removes a child node from the DOM?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const ul = document.getElementById("taskList");\nconst li = document.getElementById("task1");\nul.removeChild(li);`}
+        />
+      </div>
+    ),
+    options: [
+      "removeNode()",
+      "deleteChild()",
+      "removeChild()",
+      "clearElement()",
+    ],
+    answer: "removeChild()",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          What is the effect of using <code>classList.toggle()</code> on an
+          element?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`document.getElementById("taskText").classList.toggle("highlighted");`}
+        />
+      </div>
+    ),
+    options: [
+      "Adds a class and never removes it",
+      "Toggles between adding and removing the class",
+      "Removes all classes from element",
+      "Creates a new CSS class",
+    ],
+    answer: "Toggles between adding and removing the class",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          Which of the following statements correctly replaces{" "}
+          <code>classList.add()</code> and <code>classList.remove()</code>?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`// Instead of\nbox.classList.add("visible");\nbox.classList.remove("visible");\n\n// Use\nbox.classList.toggle("visible");`}
+        />
+      </div>
+    ),
+    options: [
+      "classList.alternate()",
+      "classList.toggle()",
+      "classList.replace()",
+      "classList.change()",
+    ],
+    answer: "classList.toggle()",
+  },
+  {
+    question: (
+      <div>
+        <p>Which HTML code shows a popup when clicked?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="alert('Task completed!')">Complete Task</button>`}
+        />
+      </div>
+    ),
+    options: [
+      "<button alert()>Complete Task</button>",
+      "<button onclick='alert(`Task completed!`)' >Complete Task</button>",
+      "<button message='Task completed!'></button>",
+      "<button onalert='Task completed!'>Complete</button>",
+    ],
+    answer:
+      "<button onclick='alert(`Task completed!`)' >Complete Task</button>",
+  },
+  {
+    question: "What does the alert() function return after the user clicks OK?",
+    options: ["true", "undefined", "null", "The message string itself"],
+    answer: "undefined",
+  },
+  {
+    question: "Which property checks if a checkbox input is selected?",
+    options: ["checked", "value", "selected", "status"],
+    answer: "checked",
+  },
+  {
+    question: "Which DOM method removes a child element from its parent?",
+    options: [
+      "removeChild()",
+      "deleteElement()",
+      "removeNode()",
+      "clearNode()",
+    ],
+    answer: "removeChild()",
+  },
+];
+
 const Todos_Application_MCQ_2 = () => {
-    const todosPart2Questions = [
-        {
-          question: (
-            <div>
-              <p>What does the <code>placeholder</code> attribute do in an HTML input element?</p>
-              <CodeBlock
-                language="html"
-                code={`<input type="text" placeholder="Enter your task" />`}
-              />
-            </div>
-          ),
-          options: [
-            "Displays hint text when the input is empty",
-            "Adds a tooltip on hover",
-            "Sets a default value for the input",
-            "Makes the input field read-only",
-          ],
-          answer: "Displays hint text when the input is empty",
-        },
-        {
-          question: (
-            <div>
-              <p>What does the <code>alert()</code> function do in JavaScript?</p>
-              <CodeBlock
-                language="javascript"
-                code={`alert("Todo added successfully!");`}
-              />
-            </div>
-          ),
-          options: [
-            "Shows a popup message with an OK button",
-            "Logs a message in the console",
-            "Sends a message to the server",
-            "Displays text inside an input element",
-          ],
-          answer: "Shows a popup message with an OK button",
-        },
-        {
-          question: (
-            <div>
-              <p>What value does the <code>checked</code> property return when a checkbox is selected?</p>
-              <CodeBlock
-                language="javascript"
-                code={`let isChecked = document.getElementById("taskCheck").checked;\nconsole.log(isChecked);`}
-              />
-            </div>
-          ),
-          options: ["'checked'", "true", "'true'", "1"],
-          answer: "true",
-        },
-        {
-          question: (
-            <div>
-              <p>Which method is used to remove a child element from the DOM?</p>
-              <CodeBlock
-                language="javascript"
-                code={`let list = document.getElementById("todoList");\nlet item = document.getElementById("todoItem");\nlist.removeChild(item);`}
-              />
-            </div>
-          ),
-          options: ["removeElement()", "deleteNode()", "removeChild()", "deleteChild()"],
-          answer: "removeChild()",
-        },
-        {
-          question: (
-            <div>
-              <p>What does the <code>classList.toggle()</code> method do?</p>
-              <CodeBlock
-                language="javascript"
-                code={`document.getElementById("taskText").classList.toggle("completed");`}
-              />
-            </div>
-          ),
-          options: [
-            "Adds a class permanently",
-            "Removes all classes from the element",
-            "Toggles between adding and removing a class",
-            "Creates a new class in CSS",
-          ],
-          answer: "Toggles between adding and removing a class",
-        },
-        {
-          question: (
-            <div>
-              <p>Which of the following replaces both <code>classList.add()</code> and <code>classList.remove()</code>?</p>
-              <CodeBlock
-                language="javascript"
-                code={`// Instead of\nel.classList.add("done");\nel.classList.remove("done");\n\n// Use\nel.classList.toggle("done");`}
-              />
-            </div>
-          ),
-          options: ["classList.switch()", "classList.toggle()", "classList.change()", "classList.replace()"],
-          answer: "classList.toggle()",
-        },
-        {
-          question: (
-            <div>
-              <p>Write the HTML code that shows an alert message when the button is clicked.</p>
-              <CodeBlock
-                language="html"
-                code={`<button onclick="alert('Task deleted!')">Delete Task</button>`}
-              />
-            </div>
-          ),
-          options: [
-            "<button alert()>Delete Task</button>",
-            "<button onclick='alert(`Task deleted!`)' >Delete Task</button>",
-            "<button onalert='Task deleted!'>Delete</button>",
-            "<button message='Task deleted!'></button>",
-          ],
-          answer: "<button onclick='alert(`Task deleted!`)' >Delete Task</button>",
-        },
-        {
-          question:
-            "What does the alert() function return after the user clicks OK?",
-          options: [
-            "true",
-            "false",
-            "undefined",
-            "The message string itself",
-          ],
-          answer: "undefined",
-        },
-        {
-          question:
-            "Which property would you use to check if a checkbox is ticked or not?",
-          options: ["checked", "selected", "value", "status"],
-          answer: "checked",
-        },
-        {
-          question:
-            "Which DOM method removes an element from its parent node?",
-          options: ["removeChild()", "deleteElement()", "clearNode()", "removeElement()"],
-          answer: "removeChild()",
-        },
-      ];
-      
-
-  // Shuffle and state logic
-  const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
-  const [questions] = useState(shuffleArray([...originalQuestions]));
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
-  const [completed, setCompleted] = useState(false);
-  const [skippedQuestions, setSkippedQuestions] = useState([]);
-  const [showingSkipped, setShowingSkipped] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(10);
-  const timerRef = useRef(null);
-
-  useEffect(() => {
-    if (completed) return;
-    setTimeLeft(10);
-
-    timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timerRef.current);
-  }, [currentIndex, completed]);
-
-  const nextQuestion = () => {
-    clearInterval(timerRef.current);
-    setSelectedAnswer(null);
-    setFeedback(null);
-
-    if (!showingSkipped) {
-      if (currentIndex + 1 < questions.length)
-        setCurrentIndex((prev) => prev + 1);
-      else if (skippedQuestions.length > 0) {
-        setShowingSkipped(true);
-        setCurrentIndex(0);
-      } else setCompleted(true);
-    } else {
-      if (currentIndex + 1 < skippedQuestions.length)
-        setCurrentIndex((prev) => prev + 1);
-      else setCompleted(true);
-    }
-  };
-
-  const handleNext = () => {
-    if (!selectedAnswer) return;
-
-    const currentQuestion = showingSkipped
-      ? questions[skippedQuestions[currentIndex]]
-      : questions[currentIndex];
-
-    const isCorrect = selectedAnswer === currentQuestion.answer;
-    let points = 0;
-    if (isCorrect) points = timeLeft > 0 ? 10 : 7;
-    else points = -5;
-
-    setScore((prev) => prev + points);
-    setFeedback({ correct: isCorrect, points });
-  };
-
-  const handleSkip = () => {
-    if (!showingSkipped) setSkippedQuestions((prev) => [...prev, currentIndex]);
-    nextQuestion();
-  };
-
-  if (questions.length === 0) return <p>Loading questions...</p>;
-
-  const currentQuestion = showingSkipped
-    ? questions[skippedQuestions[currentIndex]]
-    : questions[currentIndex];
-
-  const questionNumber = showingSkipped
-    ? questions.length - skippedQuestions.length + currentIndex + 1
-    : currentIndex + 1;
-
-  const percentage = (score / (questions.length * 10)) * 100;
-
-  const getNextButtonLabel = () => {
-    if (showingSkipped && currentIndex + 1 === skippedQuestions.length)
-      return "Finish";
-    if (
-      !showingSkipped &&
-      currentIndex + 1 === questions.length &&
-      skippedQuestions.length === 0
-    )
-      return "Finish";
-    return "Next";
-  };
-
   return (
-    <div className="mcq-container full-width">
-      <h3 className="mcq-title">DOM and Event Fundamentals - MCQs</h3>
-
-      {!completed ? (
-        <div className="mcq-question-block">
-          <p className="mcq-question">
-            Q{questionNumber}. {currentQuestion.question}
-          </p>
-
-          <ul className="mcq-options">
-            {currentQuestion.options.map((option) => (
-              <li key={option} className="mcq-option">
-                <label>
-                  <input
-                    type="radio"
-                    name={`q${currentIndex}`}
-                    value={option}
-                    checked={selectedAnswer === option}
-                    onChange={(e) => setSelectedAnswer(e.target.value)}
-                    disabled={feedback !== null}
-                  />
-                  {option}
-                </label>
-              </li>
-            ))}
-          </ul>
-
-          {feedback && (
-            <div
-              className={`mcq-feedback ${
-                feedback.correct ? "correct" : "wrong"
-              }`}
-            >
-              {feedback.correct
-                ? `✅ Correct! +${feedback.points}`
-                : `❌ Wrong! -${Math.abs(feedback.points)}`}
-            </div>
-          )}
-
-          <div className="mcq-buttons">
-            <button
-              className="mcq-next"
-              disabled={!selectedAnswer}
-              onClick={feedback ? nextQuestion : handleNext}
-            >
-              {getNextButtonLabel()}
-            </button>
-            {!showingSkipped && (
-              <button
-                className="mcq-skip"
-                onClick={handleSkip}
-                disabled={feedback !== null}
-              >
-                Skip
-              </button>
-            )}
-          </div>
-
-          <div className={`mcq-timer ${timeLeft === 0 ? "time-over" : ""}`}>
-            Time Left: {timeLeft} sec
-          </div>
-        </div>
-      ) : (
-        <div className="mcq-completed">
-          <h4>✅ Quiz Completed!</h4>
-          <p>
-            Your Score: {score} / {questions.length * 10}
-          </p>
-          <p className="score-feedback">
-            {percentage < 50
-              ? "Poor performance. You need to improve!"
-              : percentage <= 80
-              ? "Good performance. Keep practicing!"
-              : "Excellent performance. Well done!"}
-          </p>
-        </div>
-      )}
-    </div>
+    <MCQLogic title="Todos Application 2 - MCQs" questions={questionsData} />
   );
 };
 

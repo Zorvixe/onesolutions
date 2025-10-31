@@ -60,6 +60,12 @@ import Python_Summary_CS_2 from "../Python/Revision/Python_Summary_CS_2";
 import Python_Summary_CS_3 from "../Python/Revision/Python_Summary_CS_3";
 import Python_Summary_CS_4 from "../Python/Revision/Python_Summary_CS_4";
 
+//Python Coding Practices
+
+import Coding_Practice_1 from "../Python/IntroductiontoPython/coding_Practice_1.js";
+import Coding_Practice_2 from "../Python/IntroductiontoPython/coding_Practice_2.js";
+import Coding_Practice_3 from "../Python/IntroductiontoPython/coding_Practice_3.js";
+
 //Static Website Cheat Sheets
 
 import Introductionto_HTML_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_CS_1";
@@ -130,17 +136,40 @@ import JS_Promises_CS_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS
 import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Conceptes_CS.js";
 
 // SQL DataBase
+import Introduction_to_Databases_CS from "../SQL_Database/Introduction/Introduction_to_Databases_CS.js";
 import Create_Table_CS from "../SQL_Database/Introdutionto_SQL/Create_Table_CS.js";
-
+import Inserting_Row_CS from "../SQL_Database/Introdutionto_SQL/Inserting_Row_CS.js";
+import Retrieving_Data_CS from "../SQL_Database/Introdutionto_SQL/Retrieving_Data_CS.js";
+import Update_Rows_CS from "../SQL_Database/Introdutionto_SQL/Update_Rows_CS.js";
+import Delete_Rows_CS from "../SQL_Database/Introdutionto_SQL/Delete_Rows_CS.js";
+import Alter_Table_CS from "../SQL_Database/Introdutionto_SQL/Alert_Table_CS.js";
+import Comparison_Operators_CS from "../SQL_Database/Quering_SQL/Comparision_Opeartors_CS.js";
+import String_Operators_CS from "../SQL_Database/Quering_SQL/String_Operators_CS.js";
+import Logical_Operators_CS from "../SQL_Database/Quering_SQL/Logical_Operators_CS.js";
 // MCQ Wrapper
 
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
 // Map subtopics to their components
 const subtopicComponents = {
+  //SQL Database
+  "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
   "Create Table Cheat Sheet": Create_Table_CS,
+  "Inserting Rows Cheat Sheet": Inserting_Row_CS,
+  "Retrieving Data Cheat Sheet": Retrieving_Data_CS,
+  "Update Rows Cheat Sheet": Update_Rows_CS,
+  "Delete Rows Cheat Sheet": Delete_Rows_CS,
+  "Alter Table Cheat Sheet": Alter_Table_CS,
+  "Comparison Operators Cheat Sheet": Comparison_Operators_CS,
+  "String Operations Cheat Sheet": String_Operators_CS,
+  "Logical Operators Cheat sheet": Logical_Operators_CS,
 
-  //Python Start
+  //Python Coding Practices
+  "Coding Practice - 1": Coding_Practice_1,
+  "Coding Practice - 2": Coding_Practice_2,
+  "Coding Practice - 3": Coding_Practice_3,
+
+  //Python coding practices end
 
   "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
   "More Modern JS Concepts | Part 2 | Cheat Sheet":
@@ -153,11 +182,9 @@ const subtopicComponents = {
   "JS Classes | Cheat Sheet": JS_Classes_CS,
   "JS Promises | Cheat Sheet": JS_Promises_CS,
   "JS Promises | Part 2 | Cheat Sheet": JS_Promises_CS_2,
-
   "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
 
-  // "Factory and Constructor Function | Cheat Sheet": Factory_Constructor_Function_CS,
-
+  // Python Cheat Sheet Start
   "Problem Solving - Part 6 | Cheat Sheet": Problem_sol_6_CS,
   "Problem Solving - Part 7 | Cheat Sheet": Problem_sol_7_CS,
 
@@ -315,6 +342,27 @@ const mcqMapping = {
   "MCQ Practice - Primitive Types": "Primitive Types & Conditionals",
   "MCQ Practice - Objects": "Objects",
   "MCQ Practice - Array & DOM": "Arrays & More DOM Manipulations",
+  "MCQ Practice - Todos App": "Todos Application Introduction",
+  "MCQ Practice - On Demand Session": "On Demand Session",
+  "MCQ Practice - Todos App 2": "Todos Application | Part 2",
+  "MCQ Practice - Todos App 3": "Todos Application | Part 3",
+  "MCQ Practice - Todos App 4": "Todos Application | Part 4",
+  "MCQ Practice - Todos App 5": "Todos Application | Part 5",
+  "MCQ Practice - Todos App 6": "Todos Application | Part 6",
+  "MCQ Practice - Callbacks & Schedulers": "Callbacks & Schedulers",
+  "MCQ Practice - Event Listeners": "Event Listeners & More Events",
+  "MCQ Practice - HTTP": "Hypertext Transfer Protocol (HTTP)",
+  "MCQ Practice - HTTP Requests using JS": "HTTP Requests using JS",
+  "MCQ Practice - Wikipedia Application": "Wikipedia Search Application",
+  "MCQ Practice - Forms": "Forms",
+  "MCQ Practice - Forms Part 2": "Forms | Part 2",
+  "MCQ Assignment 1": "MCQ Assignment 1",
+  "MCQ Assignment 2": "MCQ Assignment 2",
+  "MCQ Assignment 3": "MCQ Assignment 3",
+  "MCQ Assignment 4": "MCQ Assignment 4",
+
+  //Python MCQs Start
+
   "MCQ Practice": "Programming with Python",
   "MCQ Practice - 1": "Variables and Data Types",
   "MCQ Practice - 2": "Sequence of Instructions",

@@ -87,7 +87,7 @@ displayGreeting(displayRam);`}
           the specified interval of time repeatedly.
         </p>
         <p>
-          <b>Syntax:</b> setInterval(function, delay);
+          <b>Syntax:</b> <code>setInterval(function, delay)</code>;
         </p>
         <p>
           <b>function</b> - a callback function that is called repeatedly at the
@@ -107,25 +107,26 @@ setInterval(function() {
         />
 
         <p>
-          In the setInterval() method, the callback function repeatedly executes
-          until the browser tab is closed or the scheduler is cancelled.
+          In the <b>setInterval()</b> method, the callback function repeatedly
+          executes until the browser tab is closed or the scheduler is
+          cancelled.
         </p>
         <p>
-          When we call the setInterval() method, it returns a unique id. This
-          unique id is used to cancel the callback function execution.
+          When we call the <b>setInterval()</b> method, it returns a unique id.
+          This unique id is used to cancel the callback function execution.
         </p>
 
         <h3>2.2 clearInterval()</h3>
         <p>
           The <code>clearInterval()</code> method cancels a schedule previously
-          set up by calling <code>setInterval()</code>.
+          set up by calling <b>setInterval()</b>.
         </p>
         <p>
           To execute <code>clearInterval()</code>, we need to pass the uniqueId
-          returned by <code>setInterval()</code> as an argument.
+          returned by <b>setInterval()</b> as an argument.
         </p>
         <p>
-          <b>Syntax:</b> clearInterval(uniqueId);
+          <b>Syntax:</b> <code>clearInterval(uniqueId)</code>;
         </p>
 
         <CodeBlock

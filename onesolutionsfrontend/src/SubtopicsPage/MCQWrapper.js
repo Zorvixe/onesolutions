@@ -88,12 +88,30 @@ import MCQ_Assignments_3 from "../ResponsiveWebsite/Assignments/MCQ_Assignments_
 import MCQ_Assignments_4 from "../ResponsiveWebsite/Assignments/MCQ_Assignments_4.js";
 
 //JavaScript MCQ
-import Objects_MCQ from "../JavaScript/Arrays_Objects/Objects_MCQ.js";
-import Arrays_Dom_Manipulations_MCQ from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_MCQ.js";
-import PrimitiveTypes_Conditionals_MCQ from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_MCQ.js";
-import Dom_Event_Fundamentals_MCQ from "../JavaScript/Introductionto_Js_Variables/Dom_Event_Fundamentals_MCQ.js";
-import InputEle_MathFunctions_MCQ from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_MCQ.js";
 import Introductionto_Dynamic_Application_MCQ from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_MCQ.js";
+import Dom_Event_Fundamentals_MCQ from "../JavaScript/Introductionto_Js_Variables/Dom_Event_Fundamentals_MCQ.js";
+import PrimitiveTypes_Conditionals_MCQ from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_MCQ.js";
+import InputEle_MathFunctions_MCQ from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_MCQ.js";
+import Arrays_Dom_Manipulations_MCQ from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_MCQ.js";
+import Objects_MCQ from "../JavaScript/Arrays_Objects/Objects_MCQ.js";
+import Todos_Applications_MCQ from "../JavaScript/Todos_Application/Todos_Applications_MCQ.js";
+import On_Demand_Session_MCQ from "../JavaScript/Todos_Application/On_Demand_Session_MCQ.js";
+import Todos_Application_MCQ_2 from "../JavaScript/Todos_Application/Todos_Application_MCQ_2.js";
+import Todos_Application_MCQ_4 from "../JavaScript/Todos_Application_2/Todos_Application_MCQ_4.js";
+import Todos_Application_MCQ_3 from "../JavaScript/Todos_Application_2/Todos_Application_MCQ_3.js";
+import Todos_Application_MCQ_5 from "../JavaScript/Todos_Application_3/Todos_Application_MCQ_5.js";
+import Todos_Application_MCQ_6 from "../JavaScript/Todos_Application_4/Todos_Application_MCQ_6.js";
+import Callbacks_Schedulers_MCQ from "../JavaScript/Fetch_Callbacks/Callbacks_Schedulers_MCQ.js";
+import Event_Listners_More_Events_MCQ from "../JavaScript/Fetch_Callbacks/Event_Listners_More_Events_MCQ.js";
+import Hypertext_Transer_Protocal_MCQ from "../JavaScript/Fetch_Callbacks/Hypertext_Transer_Protocal_MCQ.js";
+import HTTP_Request_Using_JS_MCQ from "../JavaScript/Fetch_Callbacks_2/HTTP_Request_Using_JS_MCQ.js";
+import Wikipedia_Search_MCQ from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_MCQ.js";
+import Forms_MCQ_1 from "../JavaScript/Forms/Forms_MCQ_1.js";
+import Forms_MCQ_2 from "../JavaScript/Forms/Forms_MCQ_2.js";
+import JS_MCQ_Assignment_1 from "../JavaScript/Assignment/JS_MCQ_Assignment_1.js";
+import JS_MCQ_Assignment_2 from "../JavaScript/Assignment/JS_MCQ_Assignment_2.js";
+import JS_MCQ_Assignment_3 from "../JavaScript/Assignment/JS_MCQ_Assignment_3.js";
+import JS_MCQ_Assignment_4 from "../JavaScript/Assignment/JS_MCQ_Assignment_4.js";
 // ---------- MCQ Map ----------
 const mcqMap = {
   //JavaScript MCQs
@@ -104,6 +122,26 @@ const mcqMap = {
   "Primitive Types & Conditionals": PrimitiveTypes_Conditionals_MCQ,
   Objects: Objects_MCQ,
   "Arrays & More DOM Manipulations": Arrays_Dom_Manipulations_MCQ,
+  "Todos Application Introduction": Todos_Applications_MCQ,
+  "On Demand Session": On_Demand_Session_MCQ,
+  "Todos Application | Part 2": Todos_Application_MCQ_2,
+  "Todos Application | Part 3": Todos_Application_MCQ_3,
+  "Todos Application | Part 4": Todos_Application_MCQ_4,
+  "Todos Application | Part 5": Todos_Application_MCQ_5,
+  "Todos Application | Part 6": Todos_Application_MCQ_6,
+  "Callbacks & Schedulers": Callbacks_Schedulers_MCQ,
+  "Event Listeners & More Events": Event_Listners_More_Events_MCQ,
+  "Hypertext Transfer Protocol (HTTP)": Hypertext_Transer_Protocal_MCQ,
+  "HTTP Requests using JS": HTTP_Request_Using_JS_MCQ,
+  "Wikipedia Search Application": Wikipedia_Search_MCQ,
+  Forms: Forms_MCQ_1,
+  "Forms | Part 2": Forms_MCQ_2,
+  "MCQ Assignment 1": JS_MCQ_Assignment_1,
+  "MCQ Assignment 2": JS_MCQ_Assignment_2,
+  "MCQ Assignment 3": JS_MCQ_Assignment_3,
+  "MCQ Assignment 4": JS_MCQ_Assignment_4,
+
+  //Python MCQs Start
   "Programming with Python": Pro_W_P_MCQ,
   "Variables and Data Types": Variables_DT_MCQ,
   "Sequence of Instructions": Seq_OF_Instruction_MCQ,

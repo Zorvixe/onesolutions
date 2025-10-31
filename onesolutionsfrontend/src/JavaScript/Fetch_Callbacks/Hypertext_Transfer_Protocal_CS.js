@@ -32,17 +32,26 @@ const Hypertext_Transfer_Protocal_CS = ({ onSubtopicComplete }) => {
           the internet.
         </p>
         <p>
-          Syntax: <code>protocol://domainName/path?query-parameters</code>
+          <b>Syntax:</b>{" "}
+          <code>protocol://domainName/path?query-parameters</code>
         </p>
         <p>
           Example:{" "}
           <code>http://www.flipkart.com/watches?type=digital&rating=4</code>
         </p>
         <ul>
-          <li>http is a Protocol</li>
-          <li>www.flipkart.com is a Domain Name</li>
-          <li>/watches is a Path</li>
-          <li>type=digital&amp;rating=4 is the Query Parameters</li>
+          <li>
+            <code>http</code> is a Protocol
+          </li>
+          <li>
+            <code>www.flipkart.com</code> is a Domain Name
+          </li>
+          <li>
+            <code>/watches</code> is a Path
+          </li>
+          <li>
+            <code>type=digital&amp;rating=4</code> is the Query Parameters
+          </li>
         </ul>
       </section>
 
@@ -65,8 +74,12 @@ const Hypertext_Transfer_Protocal_CS = ({ onSubtopicComplete }) => {
         </p>
         <p>Examples: Internet forums, Educational sites, etc.</p>
         <ul>
-          <li>HTTP Request: Message sent by the client</li>
-          <li>HTTP Response: Message sent by the server</li>
+          <li>
+            <b>HTTP Request:</b> Message sent by the client
+          </li>
+          <li>
+            <b>HTTP Response:</b> Message sent by the server
+          </li>
         </ul>
 
         <h4>2.1.2 HTTPS</h4>
@@ -85,12 +98,15 @@ const Hypertext_Transfer_Protocal_CS = ({ onSubtopicComplete }) => {
         <p>It indicates which Web server is being requested.</p>
 
         <h3>2.3 Path</h3>
-        <p>The path is to identify the resources on the server. Examples:</p>
+        <p>The path is to identify the resources on the server.</p>
+        <p> Examples:</p>
         <ul>
-          <li>/watches in http://www.flipkart.com/watches</li>
           <li>
-            /electronics/laptops/gaming in
-            http://www.flipkart.com/electronics/laptops/gaming
+            <b>/watches in</b> <code>http://www.flipkart.com/watches</code>
+          </li>
+          <li>
+            <b>/electronics/laptops/gaming</b> in
+            <code> http://www.flipkart.com/electronics/laptops/gaming</code>
           </li>
         </ul>
 
