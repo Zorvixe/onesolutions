@@ -112,8 +112,22 @@ import JS_MCQ_Assignment_1 from "../JavaScript/Assignment/JS_MCQ_Assignment_1.js
 import JS_MCQ_Assignment_2 from "../JavaScript/Assignment/JS_MCQ_Assignment_2.js";
 import JS_MCQ_Assignment_3 from "../JavaScript/Assignment/JS_MCQ_Assignment_3.js";
 import JS_MCQ_Assignment_4 from "../JavaScript/Assignment/JS_MCQ_Assignment_4.js";
+
+//Flexbox
+import Box_Sizing_MCQ from "../FlexBox/CSS_Flexbox/Box_Sizing_MCQ.js";
+import Sizing_Ele_Handling_Overflow_MCQ from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_MCQ.js";
+import Introductionto_CSS_Flexbox_MCQ from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ.js";
+import Introductionto_CSS_Flexbox_MCQ_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_2.js";
+import Introductionto_CSS_Flexbox_MCQ_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_3.js";
+
 // ---------- MCQ Map ----------
 const mcqMap = {
+  //Flexbox
+  "Sizing Elements and Handling Overflow": Sizing_Ele_Handling_Overflow_MCQ,
+  "Box Sizing": Box_Sizing_MCQ,
+  "Introduction to CSS Flexbox": Introductionto_CSS_Flexbox_MCQ,
+  "Introduction to CSS Flexbox | Part 2": Introductionto_CSS_Flexbox_MCQ_2,
+  "Introduction to CSS Flexbox 3": Introductionto_CSS_Flexbox_MCQ_3,
   //JavaScript MCQs
   "Introduction to Dynamic Web Applications":
     Introductionto_Dynamic_Application_MCQ,

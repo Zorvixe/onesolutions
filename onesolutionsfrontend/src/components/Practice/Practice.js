@@ -42,8 +42,6 @@ const Practice = () => {
   const pyodideRef = useRef(null);
   const [sqlJs, setSqlJs] = useState(null);
   const [db, setDb] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-  const inputIndexRef = useRef(0);
 
   // Load user progress from localStorage on component mount
   useEffect(() => {
@@ -225,74 +223,89 @@ const Practice = () => {
   };
 
   // Enhanced execution functions from CodePlayground - FIXED OUTPUT CAPTURE
-  const runJavaScriptStandalone = useCallback(async (userCode) => {
-    setIsRunning(true);
-    let result = "";
-    try {
-      // Capture console.log output
-      const logs = [];
-      const originalLog = console.log;
-      console.log = (...args) => {
-        const message = args
-          .map((arg) =>
-            typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
-          )
-          .join(" ");
-        logs.push(message);
-        originalLog.apply(console, args);
-      };
-
-      try {
-        // Use Function constructor to execute the code
-        const func = new Function(userCode);
-        func();
-      } catch (err) {
-        logs.push(`Error: ${err.message}`);
-      } finally {
-        console.log = originalLog;
-      }
-
-      result =
-        logs.join("\n") || "Code executed successfully (no console output)";
-      return result;
-    } catch (err) {
-      result = `Error: ${err.message}`;
-      return result;
-    } finally {
-      setIsRunning(false);
-    }
-  }, []);
-
-  // FIXED Python execution with proper output capture
-  const runPython = useCallback(
-    async (userCode) => {
+  const runJavaScriptStandalone = useCallback(
+    async (userCode, inputLines = []) => {
       setIsRunning(true);
       let result = "";
-
       try {
-        if (!pyodideRef.current) {
-          result = "Python environment is still loading. Please wait...";
-          return result;
-        }
+        // Capture console.log output
+        const logs = [];
+        const originalLog = console.log;
+        console.log = (...args) => {
+          const message = args
+            .map((arg) =>
+              typeof arg === "object"
+                ? JSON.stringify(arg, null, 2)
+                : String(arg)
+            )
+            .join(" ");
+          logs.push(message);
+          originalLog.apply(console, args);
+        };
 
-        const pyodide = pyodideRef.current;
-
-        // Set up input handling
-        const inputLines = inputValue
-          .split("\n")
-          .filter((line) => line.trim() !== "");
+        // Mock input function
         let inputIndex = 0;
-
-        // Set up custom input function
-        pyodide.globals.set("__python_input__", () => {
+        const mockInput = (prompt = "") => {
           if (inputIndex < inputLines.length) {
             return inputLines[inputIndex++];
           }
           return "";
-        });
+        };
 
-        // Inject input function replacement and output capture
-        await pyodide.runPythonAsync(`
+        // Inject mock input function
+        window.prompt = mockInput;
+
+        try {
+          // Use Function constructor to execute the code
+          const func = new Function(userCode);
+          func();
+        } catch (err) {
+          logs.push(`Error: ${err.message}`);
+        } finally {
+          console.log = originalLog;
+          delete window.prompt;
+        }
+
+        result =
+          logs.join("\n") || "Code executed successfully (no console output)";
+        return result;
+      } catch (err) {
+        result = `Error: ${err.message}`;
+        return result;
+      } finally {
+        setIsRunning(false);
+      }
+    },
+    []
+  );
+
+  // FIXED Python execution with proper output capture - NO INPUT ECHO
+  const runPython = useCallback(async (userCode, inputLines = []) => {
+    setIsRunning(true);
+    let result = "";
+
+    try {
+      if (!pyodideRef.current) {
+        result = "Python environment is still loading. Please wait...";
+        return result;
+      }
+
+      const pyodide = pyodideRef.current;
+
+      // Set up input handling
+      let inputIndex = 0;
+
+      // Set up custom input function
+      pyodide.globals.set("__python_input__", () => {
+        if (inputIndex < inputLines.length) {
+          return inputLines[inputIndex++];
+        }
+        return "";
+      });
+
+      // Inject input function replacement and output capture
+      // IMPORTANT: Don't capture input prompts or input values in output
+      await pyodide.runPythonAsync(`
 import sys
 import io
 import builtins
@@ -314,189 +327,178 @@ output_capture = OutputCapture()
 sys.stdout = output_capture
 sys.stderr = output_capture
 
-# Override input function
+# Override input function - DO NOT CAPTURE INPUT PROMPTS OR VALUES
 _original_input = builtins.input
 
 def custom_input(prompt=""):
-    if prompt:
-        output_capture.write(prompt)
+    # Don't write prompt or input value to output capture
     result = __python_input__()
-    if result:
-        output_capture.write(result + "\\n")
     return result
 
 builtins.input = custom_input
 `);
 
-        // Execute the Python code
-        await pyodide.runPythonAsync(userCode);
+      // Execute the Python code
+      await pyodide.runPythonAsync(userCode);
 
-        // Get the captured output
-        const output = await pyodide.runPythonAsync(
-          "output_capture.get_value()"
-        );
-        result = output || "Python code executed successfully (no output)";
-      } catch (err) {
-        result = `Error: ${err.message}\n`;
-      } finally {
-        setIsRunning(false);
-        return result;
-      }
-    },
-    [inputValue]
-  );
+      // Get the captured output
+      const output = await pyodide.runPythonAsync("output_capture.get_value()");
+      
+      // Clean the output - remove any trailing whitespace and ensure it's just the final output
+      result = output.trim() || "Python code executed successfully (no output)";
+    } catch (err) {
+      result = `Error: ${err.message}\n`;
+    } finally {
+      setIsRunning(false);
+      return result;
+    }
+  }, []);
 
   // Enhanced Java execution with proper simulation from CodePlayground
-  const runJava = useCallback(
-    async (userCode) => {
-      setIsRunning(true);
-      let result = "";
+  const runJava = useCallback(async (userCode, inputLines = []) => {
+    setIsRunning(true);
+    let result = "";
 
-      try {
-        // Enhanced Java code analysis and execution simulation
-        const javaCode = userCode;
-        const outputLines = [];
+    try {
+      // Enhanced Java code analysis and execution simulation
+      const javaCode = userCode;
+      const outputLines = [];
 
-        // Input simulation
-        const inputLines = inputValue
-          .split("\n")
-          .filter((line) => line.trim() !== "");
-        let inputIndex = 0;
+      // Input simulation
+      let inputIndex = 0;
 
-        // Simple Java code interpreter for common patterns
-        const interpretJavaCode = (code) => {
-          const lines = code.split("\n");
+      // Simple Java code interpreter for common patterns
+      const interpretJavaCode = (code) => {
+        const lines = code.split("\n");
 
-          // Look for main method
-          const mainMethodIndex = lines.findIndex((line) =>
-            line.includes("public static void main")
-          );
-          if (mainMethodIndex === -1) {
-            return ["Error: No main method found"];
-          }
+        // Look for main method
+        const mainMethodIndex = lines.findIndex((line) =>
+          line.includes("public static void main")
+        );
+        if (mainMethodIndex === -1) {
+          return ["Error: No main method found"];
+        }
 
-          // Process each line in main method scope
-          for (let i = mainMethodIndex; i < lines.length; i++) {
-            const line = lines[i].trim();
+        // Process each line in main method scope
+        for (let i = mainMethodIndex; i < lines.length; i++) {
+          const line = lines[i].trim();
 
-            // Handle System.out.println
-            if (line.includes("System.out.println")) {
-              const match = line.match(/System\.out\.println\((.*)\);/);
-              if (match) {
-                let content = match[1];
+          // Handle System.out.println
+          if (line.includes("System.out.println")) {
+            const match = line.match(/System\.out\.println\((.*)\);/);
+            if (match) {
+              let content = match[1];
 
-                // Handle string concatenation
-                if (content.includes("+")) {
-                  content = content
-                    .split("+")
-                    .map((part) => {
-                      part = part.trim().replace(/["']/g, "");
-                      // Handle variable substitution for common patterns
-                      if (part === "i") return "${i}";
-                      if (part === "num") return "${num}";
-                      return part;
-                    })
-                    .join(" ");
+              // Handle string concatenation
+              if (content.includes("+")) {
+                content = content
+                  .split("+")
+                  .map((part) => {
+                    part = part.trim().replace(/["']/g, "");
+                    // Handle variable substitution for common patterns
+                    if (part === "i") return "${i}";
+                    if (part === "num") return "${num}";
+                    return part;
+                  })
+                  .join(" ");
 
-                  // Simple variable evaluation for common cases
-                  if (content.includes("${i}")) {
-                    // This is likely inside a loop - simulate loop output
-                    for (let i = 1; i <= 5; i++) {
-                      outputLines.push(content.replace("${i}", i));
-                    }
-                  } else {
-                    outputLines.push(content);
+                // Simple variable evaluation for common cases
+                if (content.includes("${i}")) {
+                  // This is likely inside a loop - simulate loop output
+                  for (let i = 1; i <= 5; i++) {
+                    outputLines.push(content.replace("${i}", i));
                   }
                 } else {
-                  // Remove quotes and add to output
-                  content = content.replace(/["']/g, "");
-                  if (content && content !== '""') {
-                    outputLines.push(content);
-                  }
+                  outputLines.push(content);
+                }
+              } else {
+                // Remove quotes and add to output
+                content = content.replace(/["']/g, "");
+                if (content && content !== '""') {
+                  outputLines.push(content);
                 }
               }
-            }
-
-            // Handle for loops with variable i
-            if (
-              line.includes("for (int i =") &&
-              line.includes("i <") &&
-              line.includes("i++")
-            ) {
-              const match = line.match(
-                /for\s*\(\s*int\s+i\s*=\s*(\d+)\s*;\s*i\s*<\s*(\d+)\s*;\s*i\+\+\s*\)/
-              );
-              if (match) {
-                const start = parseInt(match[1]);
-                const end = parseInt(match[2]);
-                for (let i = start; i < end; i++) {
-                  outputLines.push(i.toString());
-                }
-              }
-            }
-
-            // Handle Scanner input patterns
-            if (line.includes("nextInt()") && inputIndex < inputLines.length) {
-              inputIndex++; // Consume input
             }
           }
-        };
 
-        interpretJavaCode(javaCode);
+          // Handle for loops with variable i
+          if (
+            line.includes("for (int i =") &&
+            line.includes("i <") &&
+            line.includes("i++")
+          ) {
+            const match = line.match(
+              /for\s*\(\s*int\s+i\s*=\s*(\d+)\s*;\s*i\s*<\s*(\d+)\s*;\s*i\+\+\s*\)/
+            );
+            if (match) {
+              const start = parseInt(match[1]);
+              const end = parseInt(match[2]);
+              for (let i = start; i < end; i++) {
+                outputLines.push(i.toString());
+              }
+            }
+          }
 
-        if (outputLines.length > 0) {
-          result = outputLines.join("\n");
-        } else {
-          result = `Java Code Analysis:
+          // Handle Scanner input patterns
+          if (line.includes("nextInt()") && inputIndex < inputLines.length) {
+            inputIndex++; // Consume input
+          }
+        }
+      };
+
+      interpretJavaCode(javaCode);
+
+      if (outputLines.length > 0) {
+        result = outputLines.join("\n");
+      } else {
+        result = `Java Code Analysis:
 
 Your Java code has been processed in simulation mode.
 
 Code Structure:
 - ${
-            javaCode.includes("public class")
-              ? "✓ Class definition found"
-              : "✗ No class definition"
-          }
+          javaCode.includes("public class")
+            ? "✓ Class definition found"
+            : "✗ No class definition"
+        }
 - ${
-            javaCode.includes("main(String[] args)")
-              ? "✓ Main method found"
-              : "✗ No main method"
-          }
+          javaCode.includes("main(String[] args)")
+            ? "✓ Main method found"
+            : "✗ No main method"
+        }
 - ${
-            javaCode.includes("System.out.println")
-              ? `✓ ${
-                  (javaCode.match(/System\.out\.println/g) || []).length
-                } print statements`
-              : "✗ No output statements"
-          }
+          javaCode.includes("System.out.println")
+            ? `✓ ${
+                (javaCode.match(/System\.out\.println/g) || []).length
+              } print statements`
+            : "✗ No output statements"
+        }
 - ${
-            javaCode.includes("Scanner")
-              ? "✓ Scanner input detected"
-              : "✗ No Scanner input"
-          }
+          javaCode.includes("Scanner")
+            ? "✓ Scanner input detected"
+            : "✗ No Scanner input"
+        }
 - ${
-            javaCode.includes("for (") || javaCode.includes("while (")
-              ? "✓ Loop structures detected"
-              : "✗ No loops detected"
-          }
+          javaCode.includes("for (") || javaCode.includes("while (")
+            ? "✓ Loop structures detected"
+            : "✗ No loops detected"
+        }
 
-Input Provided: ${inputValue || "None"}
+Input Provided: ${inputLines.join(", ") || "None"}
 
 For full Java execution, set up a remote runner.`;
-        }
-        return result;
-      } catch (err) {
-        result = `Error: ${err.message}`;
-        return result;
-      } finally {
-        setIsRunning(false);
       }
-    },
-    [inputValue]
-  );
+      return result;
+    } catch (err) {
+      result = `Error: ${err.message}`;
+      return result;
+    } finally {
+      setIsRunning(false);
+    }
+  }, []);
 
   const runSQL = useCallback(
-    async (userCode) => {
+    async (userCode, inputLines = []) => {
       setIsRunning(true);
       let result = "";
 
@@ -600,20 +602,21 @@ For full Java execution, set up a remote runner.`;
   );
 
   const executeCode = async (userCode, testCaseInput) => {
-    // Set input value for this specific test case
-    const originalInputValue = inputValue;
-    setInputValue(testCaseInput || "");
+    // Parse input lines from test case
+    const inputLines = testCaseInput
+      ? testCaseInput.split("\n").filter((line) => line.trim() !== "")
+      : [];
 
     let result = "";
     try {
       if (selectedLanguage === "python") {
-        result = await runPython(userCode);
+        result = await runPython(userCode, inputLines);
       } else if (selectedLanguage === "javascript") {
-        result = await runJavaScriptStandalone(userCode);
+        result = await runJavaScriptStandalone(userCode, inputLines);
       } else if (selectedLanguage === "java") {
-        result = await runJava(userCode);
+        result = await runJava(userCode, inputLines);
       } else if (selectedLanguage === "sql") {
-        result = await runSQL(userCode);
+        result = await runSQL(userCode, inputLines);
       } else {
         result = "Unsupported language";
       }
@@ -621,8 +624,6 @@ For full Java execution, set up a remote runner.`;
       result = `Execution error: ${error.message}`;
     }
 
-    // Restore original input value
-    setInputValue(originalInputValue);
     return result;
   };
 
@@ -646,15 +647,20 @@ For full Java execution, set up a remote runner.`;
       for (let i = 0; i < selectedQuestion.testCases.length; i++) {
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeCode(code, testCase.input);
-        const passed = actualOutput.trim() === testCase.output.trim();
+        
+        // Clean the output before comparison - remove any extra whitespace
+        const cleanActualOutput = actualOutput.trim();
+        const cleanExpectedOutput = testCase.output.trim();
+        
+        const passed = cleanActualOutput === cleanExpectedOutput;
 
         if (passed) passedCount++;
 
         results.push({
           ...testCase,
           passed,
-          actualOutput,
-          expectedOutput: testCase.output,
+          actualOutput: cleanActualOutput,
+          expectedOutput: cleanExpectedOutput,
           id: i,
         });
       }
@@ -695,15 +701,20 @@ For full Java execution, set up a remote runner.`;
       for (let i = 0; i < selectedQuestion.testCases.length; i++) {
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeCode(code, testCase.input);
-        const passed = actualOutput.trim() === testCase.output.trim();
+        
+        // Clean the output before comparison
+        const cleanActualOutput = actualOutput.trim();
+        const cleanExpectedOutput = testCase.output.trim();
+        
+        const passed = cleanActualOutput === cleanExpectedOutput;
 
         if (passed) passedCount++;
 
         results.push({
           ...testCase,
           passed,
-          actualOutput,
-          expectedOutput: testCase.output,
+          actualOutput: cleanActualOutput,
+          expectedOutput: cleanExpectedOutput,
           id: i,
         });
       }
@@ -941,7 +952,7 @@ For full Java execution, set up a remote runner.`;
                     ? "JavaScript"
                     : selectedLanguage === "java"
                     ? "Java"
-                    : "SQL"}{" "}
+                    : "SQL"}{ " "}
                   | Lines: {code.split("\n").length} | Length: {code.length}
                   {isEmptyCode(code) && (
                     <span className="empty-warning-prac"> • Empty code!</span>

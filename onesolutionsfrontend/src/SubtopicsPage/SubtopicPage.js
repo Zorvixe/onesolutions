@@ -146,12 +146,27 @@ import Alter_Table_CS from "../SQL_Database/Introdutionto_SQL/Alert_Table_CS.js"
 import Comparison_Operators_CS from "../SQL_Database/Quering_SQL/Comparision_Opeartors_CS.js";
 import String_Operators_CS from "../SQL_Database/Quering_SQL/String_Operators_CS.js";
 import Logical_Operators_CS from "../SQL_Database/Quering_SQL/Logical_Operators_CS.js";
-// MCQ Wrapper
 
+//Flexbox
+import Sizing_Ele_Handling_Overflow_CS from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_CS.js";
+import Box_Sizing_CS from "../FlexBox/CSS_Flexbox/Box_Sizing_CS.js";
+import Introductionto_CSS_Flexbox_CS from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_CS.js";
+import Introductionto_CSS_Flexbox_CS_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_CS_2.js";
+import Introductionto_CSS_Flexbox_CS_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_CS_3.js";
+// MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
 // Map subtopics to their components
 const subtopicComponents = {
+  //Flexbox Cheat Sheet
+  "Sizing Elements and Handling Overflow | Cheat Sheet":
+    Sizing_Ele_Handling_Overflow_CS,
+  "Box Sizing | Cheat Sheet": Box_Sizing_CS,
+  "Introduction to CSS Flexbox | Cheat Sheet": Introductionto_CSS_Flexbox_CS,
+  "Introduction to CSS Flexbox | Part 2| Cheat Sheet":
+    Introductionto_CSS_Flexbox_CS_2,
+  "Introduction to CSS Flexbox | Part 3| Cheat Sheet":
+    Introductionto_CSS_Flexbox_CS_3,
   //SQL Database
   "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
   "Create Table Cheat Sheet": Create_Table_CS,
@@ -334,6 +349,14 @@ const subtopicComponents = {
 
 // Explicit MCQ Mapping (no change)
 const mcqMapping = {
+  "MCQ Pratice - Sizing Elements and Handling Overflow":
+    "Sizing Elements and Handling Overflow",
+  "MCQ Pratice - Box Sizing": "Box Sizing",
+  "MCQ Pratice - CSS Flexbox 1": "Introduction to CSS Flexbox",
+  "MCQ Pratice - CSS Flexbox 2": "Introduction to CSS Flexbox | Part 2",
+
+  "MCQ Pratice - CSS Flexbox 3": "Introduction to CSS Flexbox 3",
+
   //JavaScript MCQs
   "MCQ Practice - Intro_Dynamic Web App":
     "Introduction to Dynamic Web Applications",

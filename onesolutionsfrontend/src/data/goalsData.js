@@ -3076,7 +3076,191 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice - 2 - Box Sizing",
+              },
+              {
+                id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to CSS Flexbox",
+              },
+              {
+                id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to CSS Flexbox | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s11 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - CSS Flexbox 1",
+              },
+              {
+                id: "QW9E8R7T6Y s12 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 3 - CSS Flexbox",
+              },
+              {
+                id: "QW9E8R7T6Y s13 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to CSS Flexbox | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s14 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to CSS Flexbox | Part 2| Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s15 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - CSS Flexbox 2",
+              },
+              {
+                id: "QW9E8R7T6Y s16 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 4 - CSS Flexbox",
+              },
+              {
+                id: "QW9E8R7T6Y s17 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to CSS Flexbox | Part 3",
+              },
+              {
+                id: "QW9E8R7T6Y s18 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to CSS Flexbox | Part 3| Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s19 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - CSS Flexbox 3",
+              },
+              {
+                id: "QW9E8R7T6Y s20 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 5 - CSS Flexbox",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m2 5U4I3O2P1A0 g2 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "CSS Media Queries",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "CSS Media Queries",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "CSS Media Queries | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - CSS Media Queries",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 6 - CSS Media Queries",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 2 - CSS Media Queries",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Flexbox Sizing",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Flexbox Sizing | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Flexbox Sizing",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 7 - Flexbox Sizing",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "On Demand Session | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 8 - On Demand Session",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m3 5U4I3O2P1A0 g2 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Assignments",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Assignment 1",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Assignment 2",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Assignment 3",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Assignment 4",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Assignment 1",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Assignment 2",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Assignment 3",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Assignment 4",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m4 5U4I3O2P1A0 g2 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Mock Tests",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Test 1",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Test 1",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Test 1",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Test 2",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Test 3",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m5 5U4I3O2P1A0 g2 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Responsive Web Design Using Flexbox Course Exam",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Responsive Web Design Using Flexbox Course Exam | Instruction",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g2 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Responsive Web Design Using Flexbox Course Exam",
               },
             ],
           },
@@ -3139,16 +3323,234 @@ export const goalsData = [
       },
       {
         id: "g3 c4",
-        title: "React JS   Getting started",
+        title: "React JS Getting started",
         progress: 0,
         modules: [
           {
             id: "QW9E8R7T6Y m1 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
-            name: "React JS",
+            name: "Introduction to React JS",
             topic: [
               {
                 id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "React JS",
+                name: "Introduction to React JS",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Introduction to React JS",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 1 - Introduction to React JS",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Components & Pros",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Components & Pros | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Components & Pros",
+              },
+              {
+                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 2 - Components & Pros",
+              },
+              {
+                id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Lists & Keys",
+              },
+              {
+                id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Lists & Keys | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Lists & Keys",
+              },
+              {
+                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 3 - Lists & Keys",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m2 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Class Component and State",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m3 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Class Component and State 2",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m4 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Common Mistakes",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m5 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Debugging",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m6 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Working With Lists",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m7 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Component Life Cycle",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m8 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "React Router",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m9 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Authentication & Authorization",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m10 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Authentication & Authorization 2",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m11 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "More React Concepts",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m12 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Third Party Packages",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m13 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Jobby App",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m14 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "React Context",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m15 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Styled Components",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m16 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Assignments",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m17 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "Mock Tests",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Introduction to React JS",
+              },
+            ],
+          },
+          {
+            id: "QW9E8R7T6Y m18 5U4I3O2P1A0 g3 S9D8F7G6H c4 R8T2J4P9C7B",
+            name: "React Js Course Exam",
+            topic: [
+              {
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "React Js Course Exam | Instructions",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "React Js Course Exam",
               },
             ],
           },
