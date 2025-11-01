@@ -626,7 +626,7 @@
 .ace_editor {
   font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
   line-height: 2 !important;
-  background: #1b1c2c !important;
+  background: #0f172a !important;
 }
 
 .ace-twilight {
@@ -635,7 +635,7 @@
 }
 
 .ace_gutter {
-  background: #1b1c2c !important;
+  background: #0f172a !important;
   color: #6b7280 !important;
 }
 

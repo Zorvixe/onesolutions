@@ -1,27 +1,160 @@
-/* Ace Editor Custom Styles */
-.code_terminal_full_stack .ace_editor {
-  border-radius: 0 0 12px 12px;
-  background: #1a1a1a !important;
-  font-family: "Fira Code", monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 15px; /* gap after code */
-}
-
-.code_terminal_full_stack .ace_gutter {
-  background: #2d2d2d !important;
-  border-right: 1px solid #404040 !important;
+/* CodeOutputBlocks.css */
+.code_terminal_full_stack {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 16px 0;
+  background: #272822;
 }
 
 .terminal_header_full_stack {
-  background: #2d2d2d;
-  padding: 6px 20px;
-  border-radius: 12px 12px 0 0;
+  background: #0f172a;
+  padding: 8px 12px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #404040;
-  font-family: 'Courier New', monospace;
-  color: #ffffff;
-  
+  justify-content: space-between;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.terminal_controls_full_stack {
+  display: flex;
+  gap: 6px;
+}
+
+.control_dot_full_stack {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.red_full_stack {
+  background: #ff5f56;
+}
+
+.yellow_full_stack {
+  background: #ffbd2e;
+}
+
+.green_full_stack {
+  background: #27ca3f;
+}
+
+.terminal_title_full_stack {
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+}
+
+/* Ace Editor Customization */
+.ace-monokai {
+  background-color: #0f172a !important;
+  padding-right: 15px !important;
+}
+
+.ace_gutter {
+  background: #0f172a !important;
+  color: #8f9086 !important;
+  padding-right: 15px !important;
+}
+
+.ace_gutter-active-line {
+  background: #0f172a !important;
+}
+
+/* Output Block Styling */
+.output-block {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.output-container-codep {
+  background: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-output-codep {
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 16px;
+  margin: 0;
+  font-family: "Fira Code", "Cascadia Code", "Monaco", "Consolas", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: none;
+  min-height: 60px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Combined Code Output Block */
+.code-output-combined {
+  margin: 20px 0;
+}
+
+.output-section {
+  margin-top: 16px;
+}
+
+.section-header {
+  background: #2d2d2d;
+  padding: 8px 16px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.section-header h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .code_terminal_full_stack {
+    border-radius: 6px;
+    margin: 12px 0;
+  }
+
+  .terminal_header_full_stack {
+    padding: 6px 10px;
+  }
+
+  .terminal_title_full_stack {
+    font-size: 13px;
+  }
+
+  .code-output-codep {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+/* Scrollbar Styling */
+.code-output-codep::-webkit-scrollbar {
+  width: 8px;
+}
+
+.code-output-codep::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+.code-output-codep::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.code-output-codep::-webkit-scrollbar-thumb:hover {
+  background: #777;
 }

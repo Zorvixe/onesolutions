@@ -33,7 +33,7 @@ const Practice = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [testResults, setTestResults] = useState([]);
   const [theme] = useState("monokai");
-  const [fontSize] = useState(14);
+  const [fontSize] = useState(16);
   const [executionResult, setExecutionResult] = useState(null);
   const [userProgress, setUserProgress] = useState({});
 
@@ -343,7 +343,7 @@ builtins.input = custom_input
 
       // Get the captured output
       const output = await pyodide.runPythonAsync("output_capture.get_value()");
-      
+
       // Clean the output - remove any trailing whitespace and ensure it's just the final output
       result = output.trim() || "Python code executed successfully (no output)";
     } catch (err) {
@@ -647,11 +647,11 @@ For full Java execution, set up a remote runner.`;
       for (let i = 0; i < selectedQuestion.testCases.length; i++) {
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeCode(code, testCase.input);
-        
+
         // Clean the output before comparison - remove any extra whitespace
         const cleanActualOutput = actualOutput.trim();
         const cleanExpectedOutput = testCase.output.trim();
-        
+
         const passed = cleanActualOutput === cleanExpectedOutput;
 
         if (passed) passedCount++;
@@ -701,11 +701,11 @@ For full Java execution, set up a remote runner.`;
       for (let i = 0; i < selectedQuestion.testCases.length; i++) {
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeCode(code, testCase.input);
-        
+
         // Clean the output before comparison
         const cleanActualOutput = actualOutput.trim();
         const cleanExpectedOutput = testCase.output.trim();
-        
+
         const passed = cleanActualOutput === cleanExpectedOutput;
 
         if (passed) passedCount++;
@@ -952,7 +952,7 @@ For full Java execution, set up a remote runner.`;
                     ? "JavaScript"
                     : selectedLanguage === "java"
                     ? "Java"
-                    : "SQL"}{ " "}
+                    : "SQL"}{" "}
                   | Lines: {code.split("\n").length} | Length: {code.length}
                   {isEmptyCode(code) && (
                     <span className="empty-warning-prac"> • Empty code!</span>
@@ -1015,7 +1015,7 @@ For full Java execution, set up a remote runner.`;
                 height="100%"
                 showPrintMargin={false}
                 showGutter={true}
-                highlightActiveLine={true}
+                highlightActiveLine={false}
                 setOptions={{
                   enableBasicAutocompletion: true,
                   enableLiveAutocompletion: true,
