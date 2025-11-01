@@ -388,7 +388,7 @@ sys.stderr = OutputCapture()
     }
   }, [code.javascript_standalone]);
 
-  // FIXED Python execution
+  // FIXED Python execution - NO INPUT ECHO
   const runPython = useCallback(async () => {
     setIsRunning(true);
     setOutput("");
@@ -411,25 +411,42 @@ sys.stderr = OutputCapture()
       // Clear previous output
       setOutput("");
 
-      // Set up custom input function
+      // Set up custom input function - DO NOT CAPTURE INPUT VALUES
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
-          const line = inputLines[inputIndex++];
-          setOutput(prev => prev + line + "\n");
-          return line;
+          return inputLines[inputIndex++];
         }
         return "";
       });
 
-      // Inject input function replacement
+      // Inject input function replacement - DON'T WRITE INPUT VALUES TO OUTPUT
       await pyodide.runPythonAsync(`
+import sys
+import io
 import builtins
+
+class OutputCapture(io.StringIO):
+    def __init__(self):
+        super().__init__()
+        self.contents = ""
+    
+    def write(self, text):
+        self.contents += text
+        return len(text)
+    
+    def get_value(self):
+        return self.contents
+
+# Capture both stdout and stderr
+output_capture = OutputCapture()
+sys.stdout = output_capture
+sys.stderr = output_capture
+
+# Override input function - DO NOT CAPTURE INPUT VALUES
 _original_input = builtins.input
 
 def custom_input(prompt=""):
-    if prompt:
-        from js import captureOutput
-        captureOutput(prompt)
+    # Don't write prompt or input value to output capture
     result = __python_input__()
     return result
 
@@ -438,9 +455,16 @@ builtins.input = custom_input
 
       // Execute the Python code
       await pyodide.runPythonAsync(code.python);
+
+      // Get the captured output (only print statements, no input values)
+      const output = await pyodide.runPythonAsync("output_capture.get_value()");
+      
+      // Clean the output - remove any trailing whitespace
+      const cleanOutput = output.trim() || "Python code executed successfully (no output)";
+      setOutput(cleanOutput);
       
     } catch (err) {
-      setOutput(prev => prev + `\nError: ${err.message}\n`);
+      setOutput(`Error: ${err.message}\n`);
     } finally {
       setIsRunning(false);
     }
