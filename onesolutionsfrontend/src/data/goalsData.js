@@ -1,7 +1,7 @@
 export const goalsData = [
   {
     id: "goal 1",
-    title: "Goal   1",
+    title: "Goal 1",
     color: "#1e90ff", // blue
     dateRange: "July 1, 2024   Sept 30, 2024",
     progress: 30,
@@ -1811,7 +1811,7 @@ export const goalsData = [
   },
   {
     id: "goal 2",
-    title: "Goal   2",
+    title: "Goal 2",
     color: "#ff8c00",
     dateRange: "July 1, 2024   Sept 30, 2024",
     progress: 0,
@@ -3270,7 +3270,7 @@ export const goalsData = [
   },
   {
     id: "goal 3",
-    title: "Goal   3",
+    title: "Goal 3",
     color: "#28a745",
     dateRange: "July 1, 2024   Sept 30, 2024",
     progress: 0,
@@ -3371,11 +3371,11 @@ export const goalsData = [
                 name: "Lists & Keys | Cheat Sheet",
               },
               {
-                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s11 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "MCQ Pratice - Lists & Keys",
               },
               {
-                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s12 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Coding Pratice 3 - Lists & Keys",
               },
             ],
@@ -3385,8 +3385,36 @@ export const goalsData = [
             name: "Class Component and State",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Class Component and State",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Class Component and State | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Class Component and State",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 4- Class Component and State",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Conditional Rendering",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Conditional Rendering | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Conditional Rendering",
+              },
+              {
+                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m2 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 5 - Conditional Rendering",
               },
             ],
           },
@@ -3395,8 +3423,32 @@ export const goalsData = [
             name: "Class Component and State 2",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Class Component and State | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Class Component and State | Cheat Sheet | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Class Component and State | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 6- Class Component and State | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 7- Class Component and State | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 8- Class Component and State | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m3 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Assignment 1",
               },
             ],
           },
@@ -3405,8 +3457,24 @@ export const goalsData = [
             name: "Common Mistakes",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m4 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Common Mistakes",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m4 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Common Mistakes | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m4 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Common Mistakes",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m4 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 9 - Common Mistakes",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m4 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 10 - Common Mistakes",
               },
             ],
           },
@@ -3415,8 +3483,20 @@ export const goalsData = [
             name: "Debugging",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m5 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Debugging using Developer Tools",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m5 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Debugging using Developer Tools | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m5 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Debugging using Developer Tools",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m5 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 11 - Debugging using Developer Tools",
               },
             ],
           },
@@ -3425,8 +3505,60 @@ export const goalsData = [
             name: "Working With Lists",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "On Demand Session | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 12 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 13 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 14 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 15 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "On Demand Session | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "On Demand Session | Cheat Sheet | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - On Demand Session | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s11 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 16 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s12 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 17 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s13 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 18 - On Demand Session",
+              },
+              {
+                id: "QW9E8R7T6Y s14 5U4I3O2P1A0 m6 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 15 - On Demand Session",
               },
             ],
           },
@@ -3435,8 +3567,28 @@ export const goalsData = [
             name: "Component Life Cycle",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m7 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Component Life Cycle",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m7 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Component Life Cycle",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m7 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Component Life Cycle",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m7 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 19 - Component Life Cycle",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m7 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 20 - Component Life Cycle",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m7 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 21 - Component Life Cycle",
               },
             ],
           },
@@ -3445,8 +3597,64 @@ export const goalsData = [
             name: "React Router",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
-                name: "Introduction to React JS",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Routing using React Router",
+              },
+              {
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Routing using React Router | Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Routing using React Router",
+              },
+              {
+                id: "QW9E8R7T6Y s4 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 22 - Component Life Cycle",
+              },
+              {
+                id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Routing using React Router | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Routing using React Router | Part 3",
+              },
+              {
+                id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Routing using React Router | Part 2 & 3| Cheat Sheet",
+              },
+              {
+                id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Routing using React Router | Part 2 & 3",
+              },
+              {
+                id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 23 - Component Life Cycle | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 24 - Component Life Cycle | Part 3",
+              },
+              {
+                id: "QW9E8R7T6Y s11 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Common Mistakes | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s12 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Common Mistakes | Cheat Sheet | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s13 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "MCQ Pratice - Common Mistakes | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s14 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 25 - Common Mistakes | Part 2",
+              },
+              {
+                id: "QW9E8R7T6Y s14 5U4I3O2P1A0 m8 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                name: "Coding Pratice 26 - Common Mistakes | Part 2",
               },
             ],
           },
@@ -3455,7 +3663,7 @@ export const goalsData = [
             name: "Authentication & Authorization",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m9 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3465,7 +3673,7 @@ export const goalsData = [
             name: "Authentication & Authorization 2",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m10 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3475,7 +3683,7 @@ export const goalsData = [
             name: "More React Concepts",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m11 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3485,7 +3693,7 @@ export const goalsData = [
             name: "Third Party Packages",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m12 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3495,7 +3703,7 @@ export const goalsData = [
             name: "Jobby App",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m13 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3505,7 +3713,7 @@ export const goalsData = [
             name: "React Context",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m14 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3515,7 +3723,7 @@ export const goalsData = [
             name: "Styled Components",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m15 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3525,7 +3733,7 @@ export const goalsData = [
             name: "Assignments",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m16 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3535,7 +3743,7 @@ export const goalsData = [
             name: "Mock Tests",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m17 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "Introduction to React JS",
               },
             ],
@@ -3545,11 +3753,11 @@ export const goalsData = [
             name: "React Js Course Exam",
             topic: [
               {
-                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m18 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "React Js Course Exam | Instructions",
               },
               {
-                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m1 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
+                id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m18 S9D8F7G6H g3 R8T2J4P9C7B c4 Y5Z8A9B6C4D2E",
                 name: "React Js Course Exam",
               },
             ],

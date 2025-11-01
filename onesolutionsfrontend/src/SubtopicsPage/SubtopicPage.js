@@ -153,11 +153,20 @@ import Box_Sizing_CS from "../FlexBox/CSS_Flexbox/Box_Sizing_CS.js";
 import Introductionto_CSS_Flexbox_CS from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_CS.js";
 import Introductionto_CSS_Flexbox_CS_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_CS_2.js";
 import Introductionto_CSS_Flexbox_CS_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_CS_3.js";
+
+//Reactjs
+import Introductionto_Reactjs_CS from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_CS.js";
+import Components_Props_CS from "../Reactjs/Introductionto_Reactjs/Components_Props.CS.js";
+import Lists_Keys_CS from "../Reactjs/Introductionto_Reactjs/Lists_Keys_CS.js";
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
 // Map subtopics to their components
 const subtopicComponents = {
+  //Reactjs Cheat Sheet
+  "Introduction to React JS | Cheat Sheet": Introductionto_Reactjs_CS,
+  "Components & Pros | Cheat Sheet": Components_Props_CS,
+  "Lists & Keys | Cheat Sheet": Lists_Keys_CS,
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
     Sizing_Ele_Handling_Overflow_CS,
@@ -349,12 +358,15 @@ const subtopicComponents = {
 
 // Explicit MCQ Mapping (no change)
 const mcqMapping = {
+  //Reactjs MCQs
+  "MCQ Pratice - Introduction to React JS": "Introduction to React JS",
+  "MCQ Pratice - Components & Pros": "Components & Pros",
+  // "MCQ Pratice - Lists & Keys": "Lists & Keys",
   "MCQ Pratice - Sizing Elements and Handling Overflow":
     "Sizing Elements and Handling Overflow",
   "MCQ Pratice - Box Sizing": "Box Sizing",
   "MCQ Pratice - CSS Flexbox 1": "Introduction to CSS Flexbox",
   "MCQ Pratice - CSS Flexbox 2": "Introduction to CSS Flexbox | Part 2",
-
   "MCQ Pratice - CSS Flexbox 3": "Introduction to CSS Flexbox 3",
 
   //JavaScript MCQs

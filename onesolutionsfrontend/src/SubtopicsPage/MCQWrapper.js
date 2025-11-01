@@ -120,8 +120,16 @@ import Introductionto_CSS_Flexbox_MCQ from "../FlexBox/CSS_Flexbox/Introductiont
 import Introductionto_CSS_Flexbox_MCQ_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_2.js";
 import Introductionto_CSS_Flexbox_MCQ_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_3.js";
 
+//Reactjs MCQ
+import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
+import Components_Props_MCQ from "../Reactjs/Introductionto_Reactjs/Components_Props_MCQ.js";
+// import Lists_Keys_MCQ from "../Reactjs/Introductionto_Reactjs/Lists_Keys_MCQ.js";
 // ---------- MCQ Map ----------
 const mcqMap = {
+  //Reactjs
+  "Introduction to React JS": Introductionto_Reactjs_MCQ,
+  "Components & Pros": Components_Props_MCQ,
+  // "Lists & Keys": Lists_Keys_MCQ,
   //Flexbox
   "Sizing Elements and Handling Overflow": Sizing_Ele_Handling_Overflow_MCQ,
   "Box Sizing": Box_Sizing_MCQ,
