@@ -25,7 +25,7 @@ const Chatted = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${api_url}/api/admin/me`,
+          `${api_url}api/admin/me`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUserPhone(response.data.phone);

@@ -21,7 +21,7 @@ const AdminDetails = () => {
       }
 
       try {
-        const response = await fetch(`${api_url}/api/admin/me`, {
+        const response = await fetch(`${api_url}api/admin/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

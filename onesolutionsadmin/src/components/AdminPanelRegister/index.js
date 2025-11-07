@@ -125,7 +125,7 @@ const AdminRegister = () => {
         imageUrl = await uploadImageToCloudinary(imageFile)
       }
 
-      const response = await axios.post(`${api_url}/api/admin/register`, {
+      const response = await axios.post(`${api_url}api/admin/register`, {
         ...formData,
         admin_image_link: imageUrl,
       })
@@ -154,20 +154,20 @@ const AdminRegister = () => {
 
   return (
     <div className="register-container-reg">
-     <ToastContainer
-  position="top-right"
-  autoClose={3000}
-  hideProgressBar={false}
-  newestOnTop={false}
-  closeOnClick
-  rtl={false}
-  pauseOnFocusLoss
-  draggable
-  pauseOnHover
-  theme="dark"
-  toastClassName="anp-toast"
-  bodyClassName="anp-toast-body"
-/>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        toastClassName="anp-toast"
+        bodyClassName="anp-toast-body"
+      />
 
       {/* Animated Background */}
       <div className="background-elements-reg">

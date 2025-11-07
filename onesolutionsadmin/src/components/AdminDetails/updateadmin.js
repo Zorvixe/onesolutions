@@ -22,7 +22,7 @@ const UpdateAdmin = () => {
   const fetchAdminDetails = async () => {
     try {
       const token = localStorage.getItem("token"); // Assuming JWT token is stored in localStorage
-      const response = await fetch(`${api_url}/api/admin/me`, {
+      const response = await fetch(`${api_url}api/admin/me`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +56,7 @@ const UpdateAdmin = () => {
 
     try {
       const token = localStorage.getItem("token"); // Replace with your authentication method
-      const response = await fetch(`${api_url}/api/admin/update`, {
+      const response = await fetch(`${api_url}api/admin/update`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

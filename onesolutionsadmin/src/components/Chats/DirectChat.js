@@ -41,7 +41,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
           return;
         }
         const response = await axios.get(
-          `${api_url}/api/chat/direct-messages/${user.phone}/${recipient.phone}`,
+          `${api_url}api/chat/direct-messages/${user.phone}/${recipient.phone}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessages(response.data);
@@ -85,7 +85,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${api_url}/api/chat/direct-messages`,
+        `${api_url}api/chat/direct-messages`,
         messagePayload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -162,7 +162,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `${api_url}/api/chat/direct-messages/${messageId}`,
+        `${api_url}api/chat/direct-messages/${messageId}`,
         { message: newText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -183,7 +183,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${api_url}/api/chat/direct-messages/${messageId}`,
+        `${api_url}api/chat/direct-messages/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

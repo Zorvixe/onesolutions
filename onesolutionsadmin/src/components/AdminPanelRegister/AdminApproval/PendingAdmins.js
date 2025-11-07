@@ -22,7 +22,7 @@ const PendingAdmins = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${api_url}/api/admin/pending`,
+        `${api_url}api/admin/pending`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ const PendingAdmins = () => {
   const approveAdmin = async (id) => {
     try {
       const response = await axios.put(
-        `${api_url}/api/admin/approve/${id}`,
+        `${api_url}api/admin/approve/${id}`,
         {},
         {
           headers: {
@@ -64,7 +64,7 @@ const PendingAdmins = () => {
   const rejectAdmin = async (id) => {
     try {
       const response = await axios.put(
-        `${api_url}/api/admin/reject/${id}`,
+        `${api_url}api/admin/reject/${id}`,
         {},
         {
           headers: {

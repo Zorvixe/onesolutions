@@ -30,7 +30,7 @@ const LiveClasses = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await fetch(`${api_url}/api/admin/live-classes`, {
+      const response = await fetch(`${api_url}api/admin/live-classes`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -51,8 +51,8 @@ const LiveClasses = () => {
     e.preventDefault();
     try {
       const url = editingClass
-        ? `${api_url}/api/live-classes/${editingClass.id}`
-        : `${api_url}/api/live-classes`;
+        ? `${api_url}api/live-classes/${editingClass.id}`
+        : `${api_url}api/live-classes`;
 
       const method = editingClass ? "PUT" : "POST";
 
@@ -170,7 +170,7 @@ const LiveClasses = () => {
     if (!window.confirm("Are you sure you want to delete this class?")) return;
 
     try {
-      const response = await fetch(`${api_url}/api/live-classes/${classId}`, {
+      const response = await fetch(`${api_url}api/live-classes/${classId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -229,7 +229,7 @@ const LiveClasses = () => {
 
   const handleStatusChange = async (classId, newStatus) => {
     try {
-      const response = await fetch(`${api_url}/api/live-classes/${classId}`, {
+      const response = await fetch(`${api_url}api/live-classes/${classId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -251,7 +251,7 @@ const LiveClasses = () => {
 
   const handleProgressChange = async (classId, newProgress) => {
     try {
-      const response = await fetch(`${api_url}/api/live-classes/${classId}`, {
+      const response = await fetch(`${api_url}api/live-classes/${classId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

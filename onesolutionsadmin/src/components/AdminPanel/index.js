@@ -71,7 +71,7 @@ const AdminPanel = () => {
     async (token) => {
       setLoading(true)
       try {
-        const url = `${api_url}/api/jobs/adminpanel${viewAllJobs ? "?view=all" : ""}`
+        const url = `${api_url}api/jobs/adminpanel${viewAllJobs ? "?view=all" : ""}`
         const response = await fetch(url, {
           headers: { Authorization: `Bearer ${token}` },
         })
@@ -108,7 +108,7 @@ const AdminPanel = () => {
   const performDelete = async () => {
     const token = localStorage.getItem("token")
     try {
-      const response = await fetch(`${api_url}/api/jobs/${jobToDelete}`, {
+      const response = await fetch(`${api_url}api/jobs/${jobToDelete}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -150,8 +150,8 @@ const AdminPanel = () => {
     setIsSubmitting(true)
     const token = localStorage.getItem("token")
     const url = editJobId
-      ? `${api_url}/api/jobs/${editJobId}`
-      : `${api_url}/api/jobs`
+      ? `${api_url}api/jobs/${editJobId}`
+      : `${api_url}api/jobs`
 
     try {
       const response = await fetch(url, {
