@@ -1,0 +1,111 @@
+    
+  .admin-item {
+    display: flex;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 2px;
+  }
+  
+  .admin-details {
+    display: flex;
+  }
+  
+  .admin-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+
+  .admin-approval-data{
+    font-size: 12px;
+    margin-bottom: 0px;
+  }
+  .action-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 5px;
+  }
+  .approval-buttons{
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .approval-buttons:hover{
+    color: #fff;
+  }
+  .approve-button {
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #4caf50;
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .approve-button:hover {
+    background-color: #45a049;
+    color: #fff;
+  }
+
+  .reject-button{
+    background-color: transparent;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .reject-button:hover {
+    background-color: red;
+  }
+  
+  .cancel-icon {
+    color: red;
+    transition: all 0.3s ease;
+  }
+  .tick-icon {
+    color: #4caf50;
+    transition: all 0.3s ease;
+  }
+
+  .approve-button:hover .tick-icon{
+    color: white;
+    background-color: #45a049;
+  }
+
+  .reject-button:hover .cancel-icon{
+    color: white;
+    background-color: red;
+  }
+
+  /* HTML: <div class="loader"></div> */
+.loader-approval {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+    20%{background-position:0%   0%, 50%  50%,100%  50%}
+    40%{background-position:0% 100%, 50%   0%,100%  50%}
+    60%{background-position:0%  50%, 50% 100%,100%   0%}
+    80%{background-position:0%  50%, 50%  50%,100% 100%}
+}

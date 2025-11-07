@@ -1,0 +1,309 @@
+
+.register-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  background-color: #f9fafb;
+  overflow: hidden;
+}
+.register-page {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+  overflow: hidden;
+}
+
+/* ---------- Left Image Section ---------- */
+.image-section-register {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6;
+  padding: 1rem;
+}
+
+.image-section-register img {
+  width: 85%;
+  height: auto;
+  max-height: 90%;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+/* ---------- Right Form Section ---------- */
+.form-section-register {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 0;
+  overflow: hidden;
+}
+
+.card-register {
+  width: 75%;
+  padding: 2.5rem;
+  max-height: 90vh;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow-y: auto;
+}
+
+.card-register h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0361bfd6;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: transparent;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-group input.error,
+.form-group select.error {
+  border-color: #e63946 !important;
+}
+
+.error-text {
+  color: #e63946;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.checkbox-group {
+  margin-top: 0.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f46e5;
+}
+
+.btn.btn-primary {
+  width: 100%;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.btn-primary:hover {
+  background: #3730a3;
+}
+
+.btn.btn-primary:disabled {
+  background: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.auth-link a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+.image-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Hide the actual file input */
+.file-input {
+  display: none;
+}
+
+/* Circle label that acts as clickable upload area */
+.file-input-label {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background-color: #f9fafb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+  /* border: 2px dashed #cbd5e1; */
+}
+/* 
+.file-input-label:hover {
+  border-color: #4f46e5;
+  background-color: #edf2ff;
+} */
+
+/* Placeholder when no image is selected */
+.upload-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #e5e7eb;
+  transition: background-color 0.3s;
+}
+
+.profile-icon {
+  font-size: 3rem;
+  color: #6b7280;
+}
+
+.upload-placeholder span {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+}
+
+/* Preview image */
+.preview-with-remove img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: rgba(230, 57, 70, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.remove-image-btn:hover {
+  background-color: rgba(230, 57, 70, 1);
+}
+
+/* Error text */
+.error-text {
+  color: #e63946;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  text-align: center;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.9rem;
+  color: #374151;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #4f46e5;
+}
+.checkmark {
+  padding-right: 10px;
+}
+
+.checkbox-label span {
+  display: inline-block;
+}
+
+@media (max-width: 900px) {
+  .register-page {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .image-section-register {
+    height: 35vh;
+  }
+
+  .form-section-register {
+    height: auto;
+    padding: 1rem;
+    overflow-y: visible;
+  }
+
+  .card-register {
+    width: 90%;
+    padding: 2rem;
+  }
+}

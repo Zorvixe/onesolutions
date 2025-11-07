@@ -1,0 +1,156 @@
+.intro-container {
+  width: 80%;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  line-height: 1.8;
+  word-spacing: 1px;
+  font-size: 18px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+h2 {
+  color: #007acc;
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 12px;
+  color: #444;
+}
+
+/* Paragraph spacing */
+p {
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+ul {
+  margin-bottom: 15px;
+  padding-left: 25px;
+}
+
+li {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+/* Output Block */
+.output-block {
+  background-color: #d0e8ff6a;
+  color: black;
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+/* .button{
+  background-color: #d0e8ff6a;
+  height: auto;
+  width: auto;
+} */
+
+.code-container {
+  margin-bottom: 25px; /* gap after each code block */
+}
+/* Existing styles for subtopic items (unchanged) */
+.subtopic-item {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.subtopic-item.active {
+  background-color: #3498db; /* Blue background for active */
+  font-weight: bold;
+}
+
+.subtopic-item.completed {
+  background-color: #2ecc71; /* Green background for completed subtopic item */
+  color: #ffffff;
+}
+
+.subtopic-item.completed .completion-tick {
+  color: #ffffff;
+}
+
+.subtopic-item.completed::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Styles for the Continue button */
+.view-continue {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+  margin-right: 40px;
+}
+
+.btn-continue {
+  background-color: #3498db; /* Blue background by default */
+  color: blackl;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-continue.completed {
+  background-color: #2ecc71; /* Green background when completed */
+}
+
+.btn-continue:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.cheat-table th {
+  white-space: nowrap; /* Prevents text from wrapping */
+  text-align: left; /* Optional: aligns text to the left */
+  padding: 8px; /* Optional: spacing */
+}
+
+.cheat-table td {
+  padding: 8px; /* Optional: spacing for table cells */
+}
+code {
+  background-color: #d0e8ff8d !important; /* light grey background */
+  color: black; /* orange text color */
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  /* font-family: "Roboto"; */
+  font-size: 0.95rem;
+  font-weight: 300;
+}
+.img-text {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

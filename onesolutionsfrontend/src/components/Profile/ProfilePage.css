@@ -1,0 +1,17 @@
+/* ProfilePage.css */
+.profile-page-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap; /* responsive for smaller screens */
+}
+
+.profile-left {
+  flex: 1; /* left side takes half */
+  min-width: 300px;
+}
+
+.profile-right {
+  flex: 2; /* right side wider */
+  min-width: 300px;
+}

@@ -1,0 +1,265 @@
+/* Subtopic Page Layout */
+.subtopic-page {
+  display: flex;
+  height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  flex-direction: row;
+}
+
+/* Left Panel */
+.left-panel {
+  width: 350px;
+  min-width: 300px;
+  border-right: 1px solid #444;
+  background-color: #1a1a1a;
+  color: #f0f0f0c9;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  scroll-behavior: smooth; /* Add smooth scrolling */
+}
+
+.module-section h4 {
+  cursor: pointer;
+  padding: 12px 15px;
+  margin: 0;
+  background-color: #222;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+
+.module-section h4:hover {
+  background-color: #333;
+}
+
+/* Subtopics */
+.subtopics {
+  margin-top: 10px;
+  margin-left: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subtopic-item {
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* .subtopic-item:hover {
+  background-color: #333;
+  color: #fff;
+} */
+
+.subtopic-item.active {
+  background-color: #00bcd4;
+  color: #ffffffc4;
+  font-weight: bold;
+}
+
+.subtopic-item.completed {
+  color: #4caf50;
+}
+
+.subtopic-item.completed .completion-tick {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.subtopic-item.completed::before {
+  content: "✔";
+  margin-right: 8px;
+  color: #4caf50;
+  font-size: 13px;
+}
+
+/* Scrollbar Styling */
+.left-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+.left-panel::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 4px;
+}
+
+.left-panel::-webkit-scrollbar-track {
+  background-color: #1a1a1a;
+}
+
+/* Right Panel */
+.right-panel {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+  margin-top: 40px;
+}
+.module-section h4 {
+  display: flex;
+  justify-content: space-between; /* name on left, icon on right */
+  align-items: center;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.chevron-icon {
+  font-size: 1.2rem;
+}
+.select-course {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+}
+.course-selector label {
+  display: block;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #fff;
+}
+.left-panel {
+  padding: 20px 15px;
+}
+
+@media (max-width: 992px) {
+  .subtopic-page {
+    flex-direction: column;
+  }
+  .left-panel {
+    width: 100%;
+    min-width: unset;
+    border-right: none;
+    border-bottom: 1px solid #444;
+    padding: 15px;
+  }
+  .right-panel {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .module-section h4 {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+  .subtopic-item {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .left-panel {
+    padding: 10px;
+  }
+  .course-selector label,
+  .course-selector select {
+    font-size: 12px;
+  }
+  .module-section h4 {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  .subtopic-item {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Active module styling */
+.active-module {
+  border-left: 4px solid #2196f3;
+  font-weight: bold;
+}
+
+.active-module h4 {
+  color: #2196f3;
+  font-weight: bold;
+}
+
+/* Active subtopic styling */
+.subtopic-item.active {
+  background-color: #2196f3;
+  color: white;
+  font-weight: bold;
+}
+
+.subtopic-item.active .completion-tick {
+  color: white;
+}
+
+/* Subtopic item hover effects */
+.subtopic-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 2px 0;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subtopic-item:hover {
+  background-color: #cccccc3f;
+}
+
+.subtopic-item.active:hover {
+  background-color: #1976d2;
+}
+
+/* Chevron icon for expanded state */
+.chevron-icon {
+  margin-left: auto;
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+/* Course navigation styling */
+
+.course-navigation h3 {
+  margin-bottom: 20px;
+  color: #00e1ffce;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.module-section {
+  margin-bottom: 10px;
+}
+
+.module-section h4 {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.module-section h4:hover {
+  background-color: #cccccc3f;
+}
+
+.subtopics {
+  margin-left: 10px;
+  border-left: 2px solid #e0e0e0;
+  padding-left: 8px;
+}
+
+/* Completion tick */
+.completion-tick {
+  color: #4caf50;
+  font-weight: bold;
+}
