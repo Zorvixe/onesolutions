@@ -7,7 +7,7 @@ import { FaFile, FaLandmark, FaShieldAlt, FaUser } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { OnlineStatusContext } from "../Context/OnlineStatusContext";
-import "./sidebar.css";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();
