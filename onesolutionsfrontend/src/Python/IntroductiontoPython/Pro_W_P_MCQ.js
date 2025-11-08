@@ -1,7 +1,6 @@
 import React from "react";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
-// import "./Pro_W_P_MCQ.css";
 
 const questionsData = [
   {
@@ -85,13 +84,15 @@ const questionsData = [
 ];
 
 const Pro_W_P_MCQ = () => {
-  const questionsData = [...questionsData].sort(() => Math.random() - 0.5);
+  // Fixed: renamed the shuffled array so it doesn't shadow the outer constant
+  const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   return (
     <MCQLogic
       title="Programming with Python - MCQs"
-      questions={questionsData}
+      questions={shuffledQuestions}
     />
   );
 };
+
 export default Pro_W_P_MCQ;

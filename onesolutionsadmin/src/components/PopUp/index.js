@@ -75,7 +75,7 @@ const PopUp = () => {
   const fetchPopups = async (token) => {
     setLoading(true);
     try {
-      const response = await fetch(api_url, {
+      const response = await fetch(API_BASE_URL, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -170,7 +170,7 @@ const PopUp = () => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const method = popup.id ? "PUT" : "POST";
-    const url = popup.id ? `${API_BASE_URL}${popup.id}` : api_url;
+    const url = popup.id ? `${API_BASE_URL}${popup.id}` : API_BASE_URL;
 
     if (
       !popup.popup_heading ||

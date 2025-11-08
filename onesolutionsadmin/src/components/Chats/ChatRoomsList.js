@@ -24,7 +24,6 @@ import "./ChatMain.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-
 const ChatRoomsList = ({ user, onSelectChat }) => {
   const [rooms, setRooms] = useState([]);
   const [adminList, setAdminList] = useState([]);
@@ -38,9 +37,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const location = useLocation();
 
-
   const navigate = useNavigate();
-
 
   useEffect(() => {
     fetchRooms();
@@ -54,7 +51,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       navigate("/chatts");
     }
   };
-  
+
   useEffect(() => {
     const fetchAdminDetails = async () => {
       const token = localStorage.getItem("token");
@@ -64,14 +61,11 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         return;
       }
       try {
-        const response = await fetch(
-          `${API_BASE_URL}api/admin/me`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           const errorData = await response.json();
           setError(errorData.error || "Failed to fetch admin details");
@@ -94,10 +88,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get(
-        `${API_BASE_URL}api/chat/rooms`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const response = await axios.get(`${API_BASE_URL}api/chat/rooms`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setRooms(response.data);
 
       setLoading(false);
@@ -191,10 +184,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       try {
         setLoading(true);
         const token = localStorage.getItem("token");
-        await axios.delete(
-          `${API_BASE_URL}api/chat/rooms/${roomId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        await axios.delete(`${API_BASE_URL}api/chat/rooms/${roomId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         toast.success("Group deleted successfully");
         fetchRooms();
         setLoading(false);
@@ -206,22 +198,22 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
     }
   };
 
-  const socket = io(`${api_url}`); // Replace with your server URL
+  const socket = io(`${API_BASE_URL}`); // Replace with your server URL
   // In ChatRoomsList component
   useEffect(() => {
     if (socket) {
       // Listen for admin online/offline events
       socket.on("admin_online", (adminId) => {
-        setAdminList(prev =>
-          prev.map(admin =>
+        setAdminList((prev) =>
+          prev.map((admin) =>
             admin.id === adminId ? { ...admin, is_online: true } : admin
           )
         );
       });
 
       socket.on("admin_offline", (adminId) => {
-        setAdminList(prev =>
-          prev.map(admin =>
+        setAdminList((prev) =>
+          prev.map((admin) =>
             admin.id === adminId ? { ...admin, is_online: false } : admin
           )
         );
@@ -263,17 +255,18 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
   const getAvatarColor = (newRoomName) => {
     // Array of allowed colors (excluding white and pink variants)
     const colors = [
-      '#FFB74D', // orange
-      '#4DB6AC', // teal
-      '#7986CB', // indigo
-      '#81C784', // green
-      '#64B5F6', // blue
-      '#BA68C8'  // purple
+      "#FFB74D", // orange
+      "#4DB6AC", // teal
+      "#7986CB", // indigo
+      "#81C784", // green
+      "#64B5F6", // blue
+      "#BA68C8", // purple
     ];
 
     // Create simple hash from username
-    const hash = newRoomName.split('').reduce((acc, char) =>
-      char.charCodeAt(0) + (acc << 5) - acc, 0);
+    const hash = newRoomName
+      .split("")
+      .reduce((acc, char) => char.charCodeAt(0) + (acc << 5) - acc, 0);
 
     return colors[Math.abs(hash) % colors.length];
   };
@@ -290,8 +283,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
             </div>
             <div className="select-icons-column">
               <div
-                className={`chats-icon-container ${activeTab === "chats" ? "active" : ""
-                  }`}
+                className={`chats-icon-container ${
+                  activeTab === "chats" ? "active" : ""
+                }`}
                 data-tooltip="Chats"
                 onClick={() => setActiveTab("chats")}
               >
@@ -301,8 +295,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
                 />
               </div>
               <div
-                className={`chats-icon-container ${activeTab === "groups" ? "active" : ""
-                  }`}
+                className={`chats-icon-container ${
+                  activeTab === "groups" ? "active" : ""
+                }`}
                 data-tooltip="Groups"
                 onClick={() => setActiveTab("groups")}
               >
@@ -312,8 +307,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
                 />
               </div>
               <div
-                className={`chats-icon-container ${activeTab === "approval" ? "active" : ""
-                  }`}
+                className={`chats-icon-container ${
+                  activeTab === "approval" ? "active" : ""
+                }`}
                 data-tooltip="Approval"
                 onClick={() => setActiveTab("approval")}
               >
@@ -325,8 +321,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
               {/* Settings icon for small devices */}
               <div className="settings-icon-wrapper" id="small-device-settings">
                 <div
-                  className={`chats-icon-container ${activeTab === "settings" ? "active" : ""
-                    }`}
+                  className={`chats-icon-container ${
+                    activeTab === "settings" ? "active" : ""
+                  }`}
                   data-tooltip="Settings"
                   onClick={() => setActiveTab("settings")}
                 >
@@ -342,8 +339,9 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         {/* Separate Settings icon for larger devices */}
         <div className="settings-icon-wrapper" id="large-device-settings">
           <div
-            className={`chats-icon-container ${activeTab === "settings" ? "active" : ""
-              }`}
+            className={`chats-icon-container ${
+              activeTab === "settings" ? "active" : ""
+            }`}
             data-tooltip="Settings"
             onClick={() => setActiveTab("settings")}
           >
@@ -454,10 +452,10 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
           <div className="chats-list-containers">
             <div className="name-max-min-screen-con">
               <h4 className="admin-group-headings">Admins</h4>
-            <div onClick={toggleScreen} className="min-max-button">
-        {isFullScreen ? <MdFullscreenExit /> : <MdFullscreen />}
-      </div>
-      </div>
+              <div onClick={toggleScreen} className="min-max-button">
+                {isFullScreen ? <MdFullscreenExit /> : <MdFullscreen />}
+              </div>
+            </div>
             <div className="scroll-container">
               {loading ? (
                 <div className="empty-message-or-empty-loader">
@@ -506,12 +504,14 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
                         <div className="status-container">
                           <div className="status-indicator">
                             <div
-                              className={`status-dot ${admin.is_online ? "online" : "offline"
-                                }`}
+                              className={`status-dot ${
+                                admin.is_online ? "online" : "offline"
+                              }`}
                             ></div>
                             <span
-                              className={`status-text ${admin.is_online ? "Online" : "Offline"
-                                }`}
+                              className={`status-text ${
+                                admin.is_online ? "Online" : "Offline"
+                              }`}
                             >
                               {admin.is_online ? "Online" : "Offline"}
                             </span>
@@ -533,8 +533,6 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
             </div>
           </div>
         )}
-       
-      
 
         {activeTab === "settings" && (
           <div className="chats-list-containers">

@@ -5,12 +5,10 @@ import { io } from "socket.io-client";
 import ChatRoomsList from "./ChatRoomsList";
 import ChatRoom from "./ChatRoom";
 import DirectChat from "./DirectChat";
-import { assests } from "../../assests/assests"
+import { assests } from "../../assests/assests";
 import "./ChatMain.css";
 
-
 const API_BASE_URL = process.env.REACT_APP_API_URL;
-
 
 const Chatted = () => {
   const [selectedChat, setSelectedChat] = useState(null);
@@ -18,16 +16,14 @@ const Chatted = () => {
   const [userPhone, setUserPhone] = useState(null);
   const socketRef = useRef(null);
 
-
   // Fetch current admin data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `${API_BASE_URL}api/admin/me`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await axios.get(`${API_BASE_URL}api/admin/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setUserPhone(response.data.phone);
         setAdminUser(response.data);
       } catch (error) {
@@ -40,7 +36,7 @@ const Chatted = () => {
   // Connect socket after userPhone is available
   useEffect(() => {
     if (userPhone) {
-      const newSocket = io(`${api_url}`, {
+      const newSocket = io(`${API_BASE_URL}`, {
         query: { phone: userPhone },
         reconnection: true,
         transports: ["websocket"],
@@ -64,13 +60,16 @@ const Chatted = () => {
   if (!adminUser) {
     return (
       <div className="chats-loading-container">
-          <img src={assests.one_solutions} className="one-solutions-image-chats" />
-          <div className="loader-chats"></div>
+        <img
+          src={assests.one_solutions}
+          className="one-solutions-image-chats"
+        />
+        <div className="loader-chats"></div>
       </div>
     );
   }
 
-   // Build a user object from adminUser data
+  // Build a user object from adminUser data
   const currentUser = {
     id: adminUser.id,
     phone: adminUser.phone,

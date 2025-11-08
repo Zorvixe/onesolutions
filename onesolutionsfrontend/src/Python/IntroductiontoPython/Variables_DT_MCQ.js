@@ -130,12 +130,13 @@ const questionsData = [
 ];
 
 const Variables_DT_MCQ = () => {
-  const questionsData = [...questionsData].sort(() => Math.random() - 0.5);
+  // Fixed: Use a different variable name to avoid ReferenceError
+  const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   return (
     <MCQLogic
       title="Variables and Data Types - MCQs"
-      questions={questionsData}
+      questions={shuffledQuestions}
     />
   );
 };
