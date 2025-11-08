@@ -12,17 +12,22 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import SimpleDialogDemo from "../Profile";
 import { useNavigate } from "react-router-dom";
-import CloseIcon from '@mui/icons-material/Close';
-import { IoHomeSharp } from 'react-icons/io5';
-import { FaUser } from 'react-icons/fa';
-import { NavHashLink as NavLink } from 'react-router-hash-link';
-import { MdWork } from 'react-icons/md';
-import { HiOutlineChatAlt2 } from 'react-icons/hi';
-import MdExitToApp from '@mui/icons-material/ExitToApp';
+import CloseIcon from "@mui/icons-material/Close";
+import { IoHomeSharp } from "react-icons/io5";
+import { FaUser } from "react-icons/fa";
+import { NavHashLink as NavLink } from "react-router-hash-link";
+import { MdWork } from "react-icons/md";
+import { HiOutlineChatAlt2 } from "react-icons/hi";
+import MdExitToApp from "@mui/icons-material/ExitToApp";
 import ChatMainDrawer from "../Chats/ChatDrawer/ChatMainDrawer";
 import { OnlineStatusContext } from "../Context/OnlineStatusContext";
-import { assests } from "../../assests/assests"
+import { assests } from "../../assests/assests";
 import "./navbar.css";
+
+const api_url =
+  process.env.REACT_APP_BACKEND_URL ||
+  process.env.REACT_APP_BACKEND_URL ||
+  "http://localhost:5003";
 
 // Styled components for search bar
 const Search = styled("div")(({ theme }) => ({
@@ -81,18 +86,24 @@ export default function SearchAppBar() {
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setDrawerOpen(open);
-  }
+  };
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
 
   const toggleRightDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
       return;
     }
     setRightDrawerOpen(open);
@@ -104,14 +115,14 @@ export default function SearchAppBar() {
       const token = localStorage.getItem("token");
       if (!token) {
         setError("No token found. Please log in.");
-        console.log({ error })
+        console.log({ error });
         return;
       }
 
       try {
-        const response = await fetch('https://backend-lt9m.onrender.com/api/admin/me', {
+        const response = await fetch(`${api_url}api/admin/me`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -123,7 +134,7 @@ export default function SearchAppBar() {
 
         const data = await response.json();
         setAdminDetails(data);
-        document.title = `ONE - ${data.adminname?.toUpperCase()}`
+        document.title = `ONE - ${data.adminname?.toUpperCase()}`;
       } catch (err) {
         setError("An error occurred while fetching admin details.");
       }
@@ -172,12 +183,13 @@ export default function SearchAppBar() {
               onClose={toggleDrawer(false)}
               PaperProps={{
                 sx: {
-                  width: '320px',
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  overflow: 'hidden',
-                  borderTopRightRadius: '0px',
-                  borderBottomRightRadius: '0px',
-                }
+                  width: "320px",
+                  background:
+                    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  overflow: "hidden",
+                  borderTopRightRadius: "0px",
+                  borderBottomRightRadius: "0px",
+                },
               }}
             >
               <div className="modern-drawer-nav">
@@ -187,16 +199,29 @@ export default function SearchAppBar() {
                     <div className="brand-info-nav">
                       <div className="brand-icon-nav">
                         <div className="icon-circle-nav">
-                          <span><img className="logo-image-drawer" src={assests.Logo} /></span>
+                          <span>
+                            <img
+                              className="logo-image-drawer"
+                              src={assests.Logo}
+                            />
+                          </span>
                         </div>
                       </div>
                       <div className="brand-text-nav">
                         <h3>One Solutions</h3>
-                        <p>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-
+                        <p>
+                          {new Date().toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </p>
                       </div>
                     </div>
-                    <button className="close-btn-nav" onClick={() => setDrawerOpen(false)}>
+                    <button
+                      className="close-btn-nav"
+                      onClick={() => setDrawerOpen(false)}
+                    >
                       <CloseIcon />
                     </button>
                   </div>
@@ -205,13 +230,26 @@ export default function SearchAppBar() {
                   {adminDetails && (
                     <div className="admin-profile-nav">
                       <div className="profile-avatar-nav">
-                        <img src={adminDetails.admin_image_link || "/placeholder.svg"} alt="Admin" />
-                        <div className={`status-dot-nav ${isOnline ? 'online' : 'offline'}`}></div>
+                        <img
+                          src={
+                            adminDetails.admin_image_link || "/placeholder.svg"
+                          }
+                          alt="Admin"
+                        />
+                        <div
+                          className={`status-dot-nav ${
+                            isOnline ? "online" : "offline"
+                          }`}
+                        ></div>
                       </div>
                       <div className="profile-details-nav">
                         <h4>{adminDetails.adminname}</h4>
-                        <span className={`status-text-nav ${isOnline ? 'online' : 'offline'}`}>
-                          {isOnline ? 'Online' : 'Offline'}
+                        <span
+                          className={`status-text-nav ${
+                            isOnline ? "online" : "offline"
+                          }`}
+                        >
+                          {isOnline ? "Online" : "Offline"}
                         </span>
                       </div>
                     </div>
@@ -223,7 +261,7 @@ export default function SearchAppBar() {
                   <div className="menu-section-nav">
                     <span className="section-title-nav">Navigation</span>
 
-                    <NavLink to='/home' onClick={handleDrawerClose}>
+                    <NavLink to="/home" onClick={handleDrawerClose}>
                       <div className="nav-item-nav">
                         <div className="nav-icon-nav">
                           <IoHomeSharp />
@@ -233,7 +271,7 @@ export default function SearchAppBar() {
                       </div>
                     </NavLink>
 
-                    <NavLink to='/admin' onClick={handleDrawerClose}>
+                    <NavLink to="/admin" onClick={handleDrawerClose}>
                       <div className="nav-item-nav">
                         <div className="nav-icon-nav">
                           <MdWork />
@@ -243,7 +281,7 @@ export default function SearchAppBar() {
                       </div>
                     </NavLink>
 
-                    <NavLink to='/popup' onClick={handleDrawerClose}>
+                    <NavLink to="/popup" onClick={handleDrawerClose}>
                       <div className="nav-item-nav">
                         <div className="nav-icon-nav">
                           <HiOutlineChatAlt2 />
@@ -253,7 +291,7 @@ export default function SearchAppBar() {
                       </div>
                     </NavLink>
 
-                    <NavLink to='/resumes' onClick={handleDrawerClose}>
+                    <NavLink to="/resumes" onClick={handleDrawerClose}>
                       <div className="nav-item-nav">
                         <div className="nav-icon-nav">
                           <HiOutlineChatAlt2 />
@@ -262,7 +300,10 @@ export default function SearchAppBar() {
                         <div className="nav-arrow-nav">→</div>
                       </div>
                     </NavLink>
-                    <NavLink to='/zorvixe/candidate/onboarding' onClick={handleDrawerClose}>
+                    <NavLink
+                      to="/zorvixe/candidate/onboarding"
+                      onClick={handleDrawerClose}
+                    >
                       <div className="nav-item-nav">
                         <div className="nav-icon-nav">
                           <HiOutlineChatAlt2 />
@@ -276,7 +317,10 @@ export default function SearchAppBar() {
                   <div className="menu-section-nav">
                     <span className="section-title-nav">Account</span>
 
-                    <button className="nav-item-nav" onClick={handleProfileOpen}>
+                    <button
+                      className="nav-item-nav"
+                      onClick={handleProfileOpen}
+                    >
                       <div className="nav-icon-nav">
                         <FaUser />
                       </div>
@@ -305,7 +349,9 @@ export default function SearchAppBar() {
                   <div className="footer-stats-nav">
                     <div className="stat-item-nav">
                       <span className="stat-label-nav">Session Time</span>
-                      <span className="stat-value-nav">{formatTime(todayTime)}</span>
+                      <span className="stat-value-nav">
+                        {formatTime(todayTime)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -326,8 +372,12 @@ export default function SearchAppBar() {
             {/* Online status display */}
             <div className="status-container">
               <div className="status-indicator">
-                <div className={`status-dot ${isOnline ? "online" : "offline"}`}></div>
-                <span className={`status-text ${isOnline ? "Online" : "Offline"}`}>
+                <div
+                  className={`status-dot ${isOnline ? "online" : "offline"}`}
+                ></div>
+                <span
+                  className={`status-text ${isOnline ? "Online" : "Offline"}`}
+                >
                   {isOnline ? "Online" : "Offline"}
                 </span>
                 <div className="status-timer">{formatTime(todayTime)}</div>
@@ -357,7 +407,10 @@ export default function SearchAppBar() {
               />
             )}
 
-            <div className="chat-icon-container" onClick={toggleRightDrawer(true)}>
+            <div
+              className="chat-icon-container"
+              onClick={toggleRightDrawer(true)}
+            >
               <NavLink>
                 <div>
                   <HiOutlineChatAlt2 className="chat-icon-navbar" />
@@ -374,13 +427,13 @@ export default function SearchAppBar() {
           onClose={toggleRightDrawer(false)}
           PaperProps={{
             sx: {
-              maxWidth: '30em',
-              fontFamily: ' var(--primaryFont)',
-              fontStyle: ' normal',
-              fontWeight: ' normal',
-              backgroundColor: '#1976d2',
-              overflow: 'hidden',
-            }
+              maxWidth: "30em",
+              fontFamily: " var(--primaryFont)",
+              fontStyle: " normal",
+              fontWeight: " normal",
+              backgroundColor: "#1976d2",
+              overflow: "hidden",
+            },
           }}
         >
           <div className="right-drawer-content">
@@ -395,7 +448,9 @@ export default function SearchAppBar() {
           </div>
         </Drawer>
 
-        {profileOpen && <SimpleDialogDemo open={profileOpen} onClose={handleProfileClose} />}
+        {profileOpen && (
+          <SimpleDialogDemo open={profileOpen} onClose={handleProfileClose} />
+        )}
       </Box>
     </div>
   );
