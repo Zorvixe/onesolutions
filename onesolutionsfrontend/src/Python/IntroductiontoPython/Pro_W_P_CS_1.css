@@ -44,7 +44,7 @@ li {
 
 /* Output Block */
 .output-block {
-  background-color: #d0e8ff6a;
+  background-color: #d0e8ff6a !important;
   color: black;
   padding: 15px 20px;
   border-radius: 6px;

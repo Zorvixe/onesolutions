@@ -61,7 +61,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         return;
       }
       try {
-        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
+        const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -88,7 +88,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const response = await axios.get(`${API_BASE_URL}api/chat/rooms`, {
+      const response = await axios.get(`https://ose.onesolutionsekam.in/api/chat/rooms`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setRooms(response.data);
@@ -106,10 +106,10 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const [adminsResponse, statusResponse] = await Promise.all([
-        axios.get(`${API_BASE_URL}api/admins/approved`, {
+        axios.get(`https://ose.onesolutionsekam.in/api/admins/approved`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get(`${API_BASE_URL}api/admins/status/individual`, {
+        axios.get(`https://ose.onesolutionsekam.in/api/admins/status/individual`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -137,7 +137,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         setLoading(true);
         const token = localStorage.getItem("token");
         await axios.post(
-          `${API_BASE_URL}api/chat/rooms`,
+          `https://ose.onesolutionsekam.in/api/chat/rooms`,
           { room_name: newRoomName },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -165,7 +165,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       await axios.put(
-        `${API_BASE_URL}api/chat/rooms/${roomId}`,
+        `https://ose.onesolutionsekam.in/api/chat/rooms/${roomId}`,
         { room_name: newName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -184,7 +184,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       try {
         setLoading(true);
         const token = localStorage.getItem("token");
-        await axios.delete(`${API_BASE_URL}api/chat/rooms/${roomId}`, {
+        await axios.delete(`https://ose.onesolutionsekam.in/api/chat/rooms/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         toast.success("Group deleted successfully");
@@ -198,7 +198,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
     }
   };
 
-  const socket = io(`${API_BASE_URL}`); // Replace with your server URL
+  const socket = io(`https://ose.onesolutionsekam.in/`); // Replace with your server URL
   // In ChatRoomsList component
   useEffect(() => {
     if (socket) {

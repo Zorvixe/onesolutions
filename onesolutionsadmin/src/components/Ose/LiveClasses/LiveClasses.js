@@ -27,7 +27,7 @@ const LiveClasses = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}api/admin/live-classes`, {
+      const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/live-classes`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,8 +48,8 @@ const LiveClasses = () => {
     e.preventDefault();
     try {
       const url = editingClass
-        ? `${API_BASE_URL}api/live-classes/${editingClass.id}`
-        : `${API_BASE_URL}api/live-classes`;
+        ? `https://ose.onesolutionsekam.in/api/live-classes/${editingClass.id}`
+        : `https://ose.onesolutionsekam.in/api/live-classes`;
 
       const method = editingClass ? "PUT" : "POST";
 
@@ -168,7 +168,7 @@ const LiveClasses = () => {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}api/live-classes/${classId}`,
+        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
         {
           method: "DELETE",
           headers: {
@@ -230,7 +230,7 @@ const LiveClasses = () => {
   const handleStatusChange = async (classId, newStatus) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}api/live-classes/${classId}`,
+        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
         {
           method: "PUT",
           headers: {
@@ -255,7 +255,7 @@ const LiveClasses = () => {
   const handleProgressChange = async (classId, newProgress) => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}api/live-classes/${classId}`,
+        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
         {
           method: "PUT",
           headers: {

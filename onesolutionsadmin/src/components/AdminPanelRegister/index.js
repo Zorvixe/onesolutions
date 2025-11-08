@@ -141,7 +141,7 @@ const AdminRegister = () => {
         imageUrl = await uploadImageToCloudinary(imageFile);
       }
 
-      const response = await axios.post(`${API_BASE_URL}api/admin/register`, {
+      const response = await axios.post(`https://ose.onesolutionsekam.in/api/admin/register`, {
         ...formData,
         admin_image_link: imageUrl,
       });

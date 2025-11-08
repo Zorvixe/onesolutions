@@ -41,7 +41,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
           return;
         }
         const response = await axios.get(
-          `${API_BASE_URL}api/chat/direct-messages/${user.phone}/${recipient.phone}`,
+          `https://ose.onesolutionsekam.in/api/chat/direct-messages/${user.phone}/${recipient.phone}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessages(response.data);
@@ -85,7 +85,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${API_BASE_URL}api/chat/direct-messages`,
+        `https://ose.onesolutionsekam.in/api/chat/direct-messages`,
         messagePayload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -162,7 +162,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `${API_BASE_URL}api/chat/direct-messages/${messageId}`,
+        `https://ose.onesolutionsekam.in/api/chat/direct-messages/${messageId}`,
         { message: newText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -183,7 +183,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${API_BASE_URL}api/chat/direct-messages/${messageId}`,
+        `https://ose.onesolutionsekam.in/api/chat/direct-messages/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

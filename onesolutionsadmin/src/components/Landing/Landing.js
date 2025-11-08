@@ -44,7 +44,7 @@ function Landing() {
       }
 
       try {
-        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
+        const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -84,19 +84,19 @@ function Landing() {
           sessionResponse,
           adminStatusResponse,
         ] = await Promise.all([
-          fetch(`${API_BASE_URL}api/jobs/adminpanel`, {
+          fetch(`https://ose.onesolutionsekam.in/api/jobs/adminpanel`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${API_BASE_URL}api/admins/approved`, {
+          fetch(`https://ose.onesolutionsekam.in/api/admins/approved`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${API_BASE_URL}api/public/resumes`, {
+          fetch(`https://ose.onesolutionsekam.in/api/public/resumes`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${API_BASE_URL}api/session/status`, {
+          fetch(`https://ose.onesolutionsekam.in/api/session/status`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${API_BASE_URL}api/admins/status/individual`, {
+          fetch(`https://ose.onesolutionsekam.in/api/admins/status/individual`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

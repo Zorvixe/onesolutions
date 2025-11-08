@@ -22,7 +22,7 @@ const PendingAdmins = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${API_BASE_URL}api/admin/pending`,
+        `https://ose.onesolutionsekam.in/api/admin/pending`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ const PendingAdmins = () => {
   const approveAdmin = async (id) => {
     try {
       const response = await axios.put(
-        `${API_BASE_URL}api/admin/approve/${id}`,
+        `https://ose.onesolutionsekam.in/api/admin/approve/${id}`,
         {},
         {
           headers: {
@@ -64,7 +64,7 @@ const PendingAdmins = () => {
   const rejectAdmin = async (id) => {
     try {
       const response = await axios.put(
-        `${API_BASE_URL}api/admin/reject/${id}`,
+        `https://ose.onesolutionsekam.in/api/admin/reject/${id}`,
         {},
         {
           headers: {

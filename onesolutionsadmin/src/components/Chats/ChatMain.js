@@ -21,7 +21,7 @@ const Chatted = () => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`${API_BASE_URL}api/admin/me`, {
+        const response = await axios.get(`https://ose.onesolutionsekam.in/api/admin/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUserPhone(response.data.phone);
@@ -36,7 +36,7 @@ const Chatted = () => {
   // Connect socket after userPhone is available
   useEffect(() => {
     if (userPhone) {
-      const newSocket = io(`${API_BASE_URL}`, {
+      const newSocket = io(`https://ose.onesolutionsekam.in/`, {
         query: { phone: userPhone },
         reconnection: true,
         transports: ["websocket"],

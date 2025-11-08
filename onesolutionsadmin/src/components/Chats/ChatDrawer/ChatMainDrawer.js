@@ -43,7 +43,7 @@ const ChatMainDrawer = () => {
           return;
         }
 
-        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
+        const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/me`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
 
