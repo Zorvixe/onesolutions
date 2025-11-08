@@ -112,8 +112,6 @@ const ProfileUpdate = () => {
 
   return (
     <div className="profile-update-container">
-      <h2 className="profile-update-title">Update Profile</h2>
-
       {message && (
         <p
           className={`profile-update-message ${

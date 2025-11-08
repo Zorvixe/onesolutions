@@ -226,7 +226,7 @@ const MCQLogic = ({ title, questions, onComplete }) => {
       ) : (
         <div className="mcq-result-screen">
           <div className="result-header">
-            <h2>Congrats! You did well in the practice.</h2>
+            <h2>Attempt</h2>
             <p className="result-date">
               {new Date().toLocaleDateString("en-GB", {
                 day: "2-digit",
@@ -234,12 +234,10 @@ const MCQLogic = ({ title, questions, onComplete }) => {
                 year: "numeric",
               })}
             </p>
-            <p className="result-time">
-              {mins}MIN{secs}SECS
-            </p>
+            
           </div>
 
-          {/* <div className="result-gauge">
+           <div className="result-gauge">
             <div className="circular-progress">
               <div className="progress-value">{finalScore}/100</div>
               <svg>
@@ -253,9 +251,9 @@ const MCQLogic = ({ title, questions, onComplete }) => {
                 {isPassed ? "PASSED" : "FAILED"}
               </div>
             </div>
-          </div> */}
+          </div> 
 
-          {/* <div className="result-stats">
+           <div className="result-stats">
             <div className="stat correct">
               <span className="icon">✔</span>
               <span>{answeredStats.correct} Correct Answers</span>
@@ -268,13 +266,13 @@ const MCQLogic = ({ title, questions, onComplete }) => {
               <span className="icon">•</span>
               <span>{answeredStats.unanswered} Unanswered</span>
             </div>
-          </div> */}
+          </div> 
 
-          {/* <div className="result-actions">
+           <div className="result-actions">
             <button className="btn-secondary">PRACTICE AGAIN</button>
             <button className="btn-primary">PROCEED TO NEXT ➜</button>
             <button className="btn-skip">SKIP</button>
-          </div> */}
+          </div> 
         </div>
       )}
     </div>

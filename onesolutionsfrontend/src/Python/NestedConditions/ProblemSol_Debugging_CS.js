@@ -131,7 +131,7 @@ const ProblemSol_Debugging_CS = ({ onSubtopicComplete }) => {
       {/* Common Mistakes */}
       <section>
         <h2>Common Mistake Example</h2>
-        <p>❌ Using assignment operator instead of comparison operator in <code>if</code> condition.</p>
+        <p> Using assignment operator instead of comparison operator in <code>if</code> condition.</p>
         <h3>Wrong Code</h3>
         <CodeBlock
           language="python"
@@ -140,7 +140,7 @@ const ProblemSol_Debugging_CS = ({ onSubtopicComplete }) => {
         <h3>Output</h3>
         <OutputBlock output={"SyntaxError: invalid syntax"} />
 
-        <p>✅ Correct Code:</p>
+        <b>Correct Code: </b>
         <CodeBlock
           language="python"
           code={`num = 10\nif num == 10:\n    print("Number is 10")`}
@@ -152,10 +152,10 @@ const ProblemSol_Debugging_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Debugging Tip</h2>
         <ul>
-          <li>✅ Always check your colons (<code>:</code>) after <code>if</code>, <code>elif</code>, and <code>else</code>.</li>
-          <li>✅ Check indentation carefully. Python is indentation-sensitive.</li>
-          <li>✅ Use <code>==</code> for comparison, not <code>=</code>.</li>
-          <li>✅ Use print statements to check the flow of your code.</li>
+          <li>Always check your colons (<code>:</code>) after <code>if</code>, <code>elif</code>, and <code>else</code>.</li>
+          <li>Check indentation carefully. Python is indentation-sensitive.</li>
+          <li>Use <code>==</code> for comparison, not <code>=</code>.</li>
+          <li>Use print statements to check the flow of your code.</li>
         </ul>
       </section>
 

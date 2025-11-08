@@ -1,12 +1,10 @@
 .profile-update-container {
   max-width: 500px;
-  margin: 50px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border: 1px solid #ddd;
-  margin-top: 100px;
 }
 
 .profile-update-title {

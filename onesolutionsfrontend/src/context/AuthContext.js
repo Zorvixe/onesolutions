@@ -15,9 +15,10 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [completeProfile, setCompleteProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [otpSent, setOtpSent] = useState(false); // Track OTP sent status
+  const [otpSent, setOtpSent] = useState(false);
 
   useEffect(() => {
     checkAuthStatus();
@@ -33,9 +34,13 @@ export const AuthProvider = ({ children }) => {
         const response = await authAPI.getProfile();
         console.log("[AUTH] Profile response:", response.data);
         setUser(response.data.data.student);
+        
+        // Also load complete profile
+        await loadCompleteProfile();
       } else {
         console.log("[AUTH] No valid token found");
         setUser(null);
+        setCompleteProfile(null);
       }
     } catch (error) {
       console.error("[AUTH] Auth check failed:", error.message);
@@ -43,8 +48,20 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("token");
       }
       setUser(null);
+      setCompleteProfile(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadCompleteProfile = async () => {
+    try {
+      const response = await authAPI.getCompleteProfile();
+      if (response.data.success) {
+        setCompleteProfile(response.data.data.student);
+      }
+    } catch (error) {
+      console.error("[AUTH] Complete profile load failed:", error.message);
     }
   };
 
@@ -52,11 +69,86 @@ export const AuthProvider = ({ children }) => {
     console.log("[AUTH] Logging out...");
     localStorage.removeItem("token");
     setUser(null);
+    setCompleteProfile(null);
     setError("");
     setOtpSent(false);
   };
 
   const clearError = () => setError("");
+
+  // ✅ Enhanced update profile to handle complete profile
+  const updateCompleteProfile = async (formData) => {
+    try {
+      setError("");
+      console.log("[AUTH] Updating complete user profile");
+      const response = await authAPI.updateCompleteProfile(formData);
+
+      if (response.data.success) {
+        setUser(response.data.data.student);
+        await loadCompleteProfile(); // Reload complete profile
+        return { success: true, message: "Profile updated successfully" };
+      } else {
+        const errorMsg = response.data.message || "Profile update failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[AUTH] Complete profile update error:", error);
+
+      let errorMsg = "Profile update failed. Please try again.";
+
+      if (!error.response) {
+        errorMsg = "Network error. Please check your connection and try again.";
+      }
+
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  // ✅ Add project
+  const addProject = async (projectData) => {
+    try {
+      setError("");
+      const response = await authAPI.addProject(projectData);
+      
+      if (response.data.success) {
+        await loadCompleteProfile(); // Reload to get updated projects
+        return { success: true, message: "Project added successfully" };
+      } else {
+        const errorMsg = response.data.message || "Failed to add project";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[AUTH] Add project error:", error);
+      const errorMsg = error.response?.data?.message || "Failed to add project";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  // ✅ Add achievement
+  const addAchievement = async (achievementData) => {
+    try {
+      setError("");
+      const response = await authAPI.addAchievement(achievementData);
+      
+      if (response.data.success) {
+        await loadCompleteProfile(); // Reload to get updated achievements
+        return { success: true, message: "Achievement added successfully" };
+      } else {
+        const errorMsg = response.data.message || "Failed to add achievement";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[AUTH] Add achievement error:", error);
+      const errorMsg = error.response?.data?.message || "Failed to add achievement";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
 
   // ✅ PRODUCTION-READY: OTP Login Request
   const loginOtpRequest = async (email, password) => {
@@ -286,18 +378,24 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
+    completeProfile,
     loading,
     error,
-    otpSent, // Export OTP sent status
+    otpSent,
+    // OTP methods (same as before)
     loginOtpRequest,
     loginOtpVerify,
     forgotPasswordRequestOtp,
     forgotPasswordVerifyOtpReset,
     register,
     updateProfile,
+    updateCompleteProfile,
+    addProject,
+    addAchievement,
     logout,
     clearError,
     isAuthenticated: !!user,
+    refreshCompleteProfile: loadCompleteProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

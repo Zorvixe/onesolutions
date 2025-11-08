@@ -104,12 +104,26 @@ export const authAPI = {
       headers: { "Content-Type": "multipart/form-data" },
     })
   },
+
+
+ // ✅ NEW: Get complete student profile
+  getCompleteProfile: () => api.get("/api/student/complete-profile"),
+
+  // ✅ NEW: Update complete student profile
+  updateCompleteProfile: (profileData) => api.put("/api/student/complete-profile", profileData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  }),
+
+  // ✅ NEW: Projects management
+  getProjects: () => api.get("/api/student/projects"),
+  addProject: (projectData) => api.post("/api/student/projects", projectData),
+
+  // ✅ NEW: Achievements management
+  getAchievements: () => api.get("/api/student/achievements"),
+  addAchievement: (achievementData) => api.post("/api/student/achievements", achievementData),
 }
 
 // ✅ Health Check API
-export const healthCheck = () => {
-  console.log("[API] Performing health check")
-  return api.get("/api/health")
-}
+export const healthCheck = () => api.get("/api/health")
 
 export default api

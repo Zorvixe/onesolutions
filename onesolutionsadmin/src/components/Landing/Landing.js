@@ -434,31 +434,6 @@ function Landing() {
               ))}
             </div>
           </div>
-
-          {/* System Status */}
-          <div className="dashboard-card-land system-status-land">
-            <div className="card-header-land">
-              <h3>System Status</h3>
-            </div>
-            <div className="status-items-land">
-              <div className="status-item-land">
-                <span className="status-label-land">Database</span>
-                <span className="status-value-land online-land">Online</span>
-              </div>
-              <div className="status-item-land">
-                <span className="status-label-land">API Server</span>
-                <span className="status-value-land online-land">Healthy</span>
-              </div>
-              <div className="status-item-land">
-                <span className="status-label-land">File Storage</span>
-                <span className="status-value-land online-land">Active</span>
-              </div>
-              <div className="status-item-land">
-                <span className="status-label-land">WebSocket</span>
-                <span className="status-value-land online-land">Connected</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -3,6 +3,7 @@
   display: flex;
   gap: 2rem;
   padding: 2rem;
+  padding-top: 150px;
   flex-wrap: wrap; /* responsive for smaller screens */
 }
 

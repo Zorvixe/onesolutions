@@ -2,6 +2,7 @@
 import React from "react";
 import Profile from "./Profile";
 import ProfileUpdate from "./ProfileUpdate";
+import CompleteProfileUpdate from "./CompleteProfileUpdate";
 import "./ProfilePage.css"; // Optional for custom styling
 
 const ProfilePage = () => {
@@ -9,12 +10,12 @@ const ProfilePage = () => {
     <div className="profile-page-container">
       {/* Left: Profile Info */}
       <div className="profile-left">
-        <Profile />
+        <ProfileUpdate />
       </div>
 
       {/* Right: Update Form */}
       <div className="profile-right">
-        <ProfileUpdate />
+        <CompleteProfileUpdate />
       </div>
     </div>
   );

@@ -6,10 +6,10 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is the output of this code?</p>
+        <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`greeting = "Hello "\nname = "Alice"\nprint(greeting + name)`}
+          code={`print("Hello " + "Alice")`}
         />
       </div>
     ),
@@ -19,7 +19,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What error does this produce?</p>
+        <p>What error will this produce?</p>
         <CodeBlock
           language="python"
           code={`print("Age: " + 25)`}
@@ -28,8 +28,8 @@ const questionsData = [
     ),
     options: [
       "TypeError: can only concatenate str (not 'int') to str",
-      "ValueError",
       "NameError",
+      "SyntaxError",
       "No error",
     ],
     answer: "TypeError: can only concatenate str (not 'int') to str",
@@ -44,7 +44,7 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["Hi Hi Hi ", "HiHiHi", "3", "Error"],
+    options: ["Hi Hi Hi ", "HiHiHi", "Hi Hi Hi", "Error"],
     answer: "Hi Hi Hi ",
   },
   {
@@ -57,26 +57,26 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["PythonPython", "Python Python", "Python2", "Error"],
+    options: ["Python Python", "PythonPython", "Python2", "Error"],
     answer: "PythonPython",
   },
   {
     question: (
       <div>
-        <p>How many characters are in the string <code>"Hello"</code>?</p>
+        <p>How many characters are in "Hello"?</p>
         <CodeBlock
           language="python"
           code={`print(len("Hello"))`}
         />
       </div>
     ),
-    options: ["4", "5", "6", "Error"],
+    options: ["4", "5", "6", "7"],
     answer: "5",
   },
   {
     question: (
       <div>
-        <p>User enters: <code>Alice</code><br />What is printed?</p>
+        <p>User types: <code>Alice</code><br />What is printed?</p>
         <CodeBlock
           language="python"
           code={`name = input()\nprint("Hello " + name)`}
@@ -100,73 +100,19 @@ const questionsData = [
     answer: "You are 10",
   },
   {
-    question: (
-      <div>
-        <p>What character is printed?</p>
-        <CodeBlock
-          language="python"
-          code={`text = "Hello"\nprint(text[0])`}
-        />
-      </div>
-    ),
-    options: ["H", "e", "o", "l"],
-    answer: "H",
-  },
-  {
-    question: (
-      <div>
-        <p>What character is at index 4?</p>
-        <CodeBlock
-          language="python"
-          code={`word = "Python"\nprint(word[4])`}
-        />
-      </div>
-    ),
-    options: ["P", "o", "n", "h"],
-    answer: "o",
-  },
-  {
-    question: (
-      <div>
-        <p>What error occurs here?</p>
-        <CodeBlock
-          language="python"
-          code={`msg = "Hi"\nprint(msg[5])`}
-        />
-      </div>
-    ),
-    options: [
-      "IndexError: string index out of range",
-      "TypeError",
-      "NameError",
-      "No error",
-    ],
-    answer: "IndexError: string index out of range",
-  },
-  {
     question: "What is joining two strings called?",
-    options: ["String addition", "String concatenation", "String merging", "String linking"],
+    options: ["String addition", "String concatenation", "String merging", "String repeat"],
     answer: "String concatenation",
   },
   {
-    question: "Which operator is used to repeat a string?",
-    options: ["+", "*", "-", "/"],
-    answer: "*",
-  },
-  {
-    question: "What function is used to get input from the user?",
-    options: ["print()", "input()", "len()", "type()"],
+    question: "Which function is used to take input from the user?",
+    options: ["print()", "input()", "len()", "str()"],
     answer: "input()",
   },
   {
-    question: "What data type does input() always return?",
+    question: "What does input() always return?",
     options: ["Integer", "Float", "String", "Boolean"],
     answer: "String",
-  },
-  {
-    question: "What is the first index of any string in Python?",
-    options: ["1", "0", "-1", "None"],
-    answer: "0",
   },
 ];
 

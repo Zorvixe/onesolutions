@@ -39,6 +39,11 @@ const ConditionalStmts_CS_3 = ({ onSubtopicComplete }) => {
         <p>
           Conditional Statement allows you to execute a block of code only when a specific condition is <code>True</code>
         </p>
+        <img
+            src="/assets/img/conditional_statements.png"
+            alt="DOM Tree"
+            style={{ width: "50%", height: "300px" }}
+          />
       </section>
 
       {/* Conditional Block */}
@@ -47,6 +52,11 @@ const ConditionalStmts_CS_3 = ({ onSubtopicComplete }) => {
         <p>
           Block of code which executes only if a condition is <code>True</code> is called Conditional Block.
         </p>
+        <img
+            src="/assets/img/conditional_Block.png"
+            alt="DOM Tree"
+            style={{ width: "50%", height: "300px" }}
+          />
       </section>
 
       {/* Indentation */}
@@ -55,6 +65,11 @@ const ConditionalStmts_CS_3 = ({ onSubtopicComplete }) => {
         <p>
           Space(s) in front of the conditional block is called indentation. Indentation(spacing) is used to identify Conditional Block. Standard practice is to use four spaces for indentation.
         </p>
+        <img
+            src="/assets/img/Indentation_img.png"
+            alt="DOM Tree"
+            style={{ width: "80%", height: "300px" }}
+          />
       </section>
 
       {/* Possible Mistakes */}
@@ -75,6 +90,11 @@ const ConditionalStmts_CS_3 = ({ onSubtopicComplete }) => {
         <p>
           When If-Else conditional statement is used, Else block of code executes if the condition is <code>False</code>
         </p>
+        <img
+            src="/assets/img/If_Else.png"
+            alt="DOM Tree"
+            style={{ width: "80%", height: "300px" }}
+          />
       </section>
 
       {/* Using If-Else */}

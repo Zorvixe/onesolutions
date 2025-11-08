@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks"; 
+import { CodeBlock } from "../../CodeOutputBlocks";
 
-const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
-   const questionsData = [
+const ProblemSol_Debugging_MCQ = ({ onComplete }) => {
+  const questionsData = [
     {
-      question: "Which operator is used to find the remainder of a division in Python?",
+      question:
+        "Which operator is used to find the remainder of a division in Python?",
       options: ["//", "/", "%", "**"],
-      answer: "%"
+      answer: "%",
     },
     {
       question: (
@@ -16,12 +17,13 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
         </div>
       ),
       options: ["2", "1", "0", "7"],
-      answer: "1"
+      answer: "1",
     },
     {
-      question: "Which operator is used to calculate a to the power of b in Python?",
+      question:
+        "Which operator is used to calculate a to the power of b in Python?",
       options: ["^", "**", "pow", "%"],
-      answer: "**"
+      answer: "**",
     },
     {
       question: (
@@ -31,12 +33,13 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
         </div>
       ),
       options: ["5", "6", "8", "9"],
-      answer: "8"
+      answer: "8",
     },
     {
-      question: "How can you find the square of a number 'n' using the exponent operator?",
+      question:
+        "How can you find the square of a number 'n' using the exponent operator?",
       options: ["n % 2", "n ** 2", "n ** 0.5", "n // 2"],
-      answer: "n ** 2"
+      answer: "n ** 2",
     },
     {
       question: (
@@ -46,7 +49,7 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
         </div>
       ),
       options: ["2", "4", "8", "0.5"],
-      answer: "4"
+      answer: "4",
     },
     {
       question: "Which statement is correct about debugging in Python?",
@@ -54,9 +57,9 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
         "It means writing code faster",
         "It is used to find and fix errors in code",
         "It is used to print output",
-        "It is a type of loop"
+        "It is a type of loop",
       ],
-      answer: "It is used to find and fix errors in code"
+      answer: "It is used to find and fix errors in code",
     },
     {
       question: "What common mistake often causes errors in if statements?",
@@ -64,19 +67,20 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
         "Using == for assignment",
         "Forgetting to use colons (:) after if",
         "Using print statements",
-        "Using too many comments"
+        "Using too many comments",
       ],
-      answer: "Forgetting to use colons (:) after if"
+      answer: "Forgetting to use colons (:) after if",
     },
     {
-      question: "What will happen if we use '=' instead of '==' in an if condition?",
+      question:
+        "What will happen if we use '=' instead of '==' in an if condition?",
       options: [
         "It will compare values correctly",
         "It will throw a SyntaxError",
         "It will print True",
-        "It will run without error"
+        "It will run without error",
       ],
-      answer: "It will throw a SyntaxError"
+      answer: "It will throw a SyntaxError",
     },
     {
       question: "Which of the following is a good debugging practice?",
@@ -84,10 +88,10 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
         "Ignoring indentation",
         "Using print statements to check code flow",
         "Using '=' instead of '=='",
-        "Avoiding colons"
+        "Avoiding colons",
       ],
-      answer: "Using print statements to check code flow"
-    }
+      answer: "Using print statements to check code flow",
+    },
   ];
   // Shuffle questions
   const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
@@ -119,13 +123,15 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
     setFeedback(null);
 
     if (!showingSkipped) {
-      if (currentIndex + 1 < questions.length) setCurrentIndex((prev) => prev + 1);
+      if (currentIndex + 1 < questions.length)
+        setCurrentIndex((prev) => prev + 1);
       else if (skippedQuestions.length > 0) {
         setShowingSkipped(true);
         setCurrentIndex(0);
       } else setCompleted(true);
     } else {
-      if (currentIndex + 1 < skippedQuestions.length) setCurrentIndex((prev) => prev + 1);
+      if (currentIndex + 1 < skippedQuestions.length)
+        setCurrentIndex((prev) => prev + 1);
       else setCompleted(true);
     }
   };
@@ -194,10 +200,14 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
 
           {feedback && (
             <div
-              className={`mcq-feedback ${feedback.correct ? "correct" : "wrong"}`}
+              className={`mcq-feedback ${
+                feedback.correct ? "correct" : "wrong"
+              }`}
             >
               <i
-                className={`bi ${feedback.correct ? "bi-check-circle" : "bi-x-circle"}`}
+                className={`bi ${
+                  feedback.correct ? "bi-check-circle" : "bi-x-circle"
+                }`}
                 style={{ marginRight: "10px", fontSize: "20px" }}
               ></i>
               {feedback.correct
@@ -214,7 +224,9 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
             >
               {showingSkipped && currentIndex + 1 === skippedQuestions.length
                 ? "Finish"
-                : !showingSkipped && currentIndex + 1 === questions.length && skippedQuestions.length === 0
+                : !showingSkipped &&
+                  currentIndex + 1 === questions.length &&
+                  skippedQuestions.length === 0
                 ? "Finish"
                 : "Next"}
             </button>
@@ -252,4 +264,4 @@ const ProblemSol_Debugging_MCQ =  ({ onComplete }) => {
   );
 };
 
-export default ProblemSol_Debugging_MCQ
+export default ProblemSol_Debugging_MCQ;

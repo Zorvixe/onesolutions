@@ -13,7 +13,7 @@ const InputOutputBasics = ({ onSubtopicComplete }) => {
 
   return (
     <div className="intro-container">
-      <h1>Inputs and Outputs Basics</h1>
+      <h1>Inputs and Outputs Basics | Cheat Sheet</h1>
 
       {/* Working with Strings */}
       <section>

@@ -97,7 +97,7 @@ const upload = multer({
 // 🔹 Database Table Creation
 // -------------------------------------------
 const createTables = async () => {
-  // Students table
+  // Students table with new fields
   const studentsTableQuery = `
     CREATE TABLE IF NOT EXISTS students (
       id SERIAL PRIMARY KEY,
@@ -111,6 +111,67 @@ const createTables = async () => {
       batch_month VARCHAR(20),
       batch_year INTEGER,
       is_current_batch BOOLEAN DEFAULT false,
+      
+      -- New Personal Details Fields
+      name_on_certificate VARCHAR(255),
+      gender VARCHAR(20),
+      preferred_languages VARCHAR(255)[],
+      date_of_birth DATE,
+      code_playground_username VARCHAR(100),
+      linkedin_profile_url VARCHAR(500),
+      github_profile_url VARCHAR(500),
+      hackerrank_profile_url VARCHAR(500),
+      leetcode_profile_url VARCHAR(500),
+      resume_url VARCHAR(500),
+      
+      -- Parent/Guardian Details
+      parent_first_name VARCHAR(100),
+      parent_last_name VARCHAR(100),
+      parent_relation VARCHAR(50),
+      
+      -- Current Address
+      address_line_1 VARCHAR(500),
+      address_line_2 VARCHAR(500),
+      country VARCHAR(100),
+      state VARCHAR(100),
+      district VARCHAR(100),
+      city VARCHAR(100),
+      postal_code VARCHAR(20),
+      
+      -- Current Expertise
+      current_coding_level VARCHAR(100),
+      technical_skills TEXT[],
+      has_laptop BOOLEAN,
+      
+      -- Job Preferences
+      job_search_status VARCHAR(100),
+      preferred_job_locations VARCHAR(255)[],
+      expected_ctc_range VARCHAR(100),
+      preferred_teaching_language VARCHAR(100),
+      preferred_video_language VARCHAR(100),
+      
+      -- Education Details
+      tenth_marks_type VARCHAR(50),
+      tenth_marks VARCHAR(20),
+      twelfth_education_type VARCHAR(50),
+      twelfth_marks_type VARCHAR(50),
+      twelfth_marks VARCHAR(20),
+      bachelor_degree VARCHAR(200),
+      bachelor_branch VARCHAR(200),
+      bachelor_cgpa VARCHAR(10),
+      bachelor_start_year INTEGER,
+      bachelor_end_year INTEGER,
+      bachelor_status VARCHAR(100),
+      bachelor_institute VARCHAR(500),
+      bachelor_institute_state VARCHAR(100),
+      bachelor_institute_city VARCHAR(100),
+      bachelor_institute_pincode VARCHAR(20),
+      bachelor_institute_district VARCHAR(100),
+      
+      -- Work Experience
+      occupation_status VARCHAR(100),
+      has_work_experience BOOLEAN,
+      
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
@@ -133,6 +194,34 @@ const createTables = async () => {
     );
   `
 
+  // Projects table
+  const projectsTableQuery = `
+    CREATE TABLE IF NOT EXISTS student_projects (
+      id SERIAL PRIMARY KEY,
+      student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+      project_title VARCHAR(500) NOT NULL,
+      project_description TEXT,
+      project_link VARCHAR(500),
+      skills TEXT[],
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `
+
+  // Achievements table
+  const achievementsTableQuery = `
+    CREATE TABLE IF NOT EXISTS student_achievements (
+      id SERIAL PRIMARY KEY,
+      student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+      achievement_title VARCHAR(500) NOT NULL,
+      achievement_description TEXT,
+      achievement_link VARCHAR(500),
+      achievement_date DATE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `
+
   const subtopicSlugTableQuery = `
     CREATE TABLE IF NOT EXISTS subtopics_slug_map (
       id SERIAL PRIMARY KEY,
@@ -146,7 +235,6 @@ const createTables = async () => {
     );
   `
 
-  // OTP table for persistent storage (optional - for production)
   const otpTableQuery = `
     CREATE TABLE IF NOT EXISTS otp_store (
       id SERIAL PRIMARY KEY,
@@ -160,11 +248,83 @@ const createTables = async () => {
   `
 
   try {
+
+    await pool.query(`
+  ALTER TABLE students 
+
+  -- New Personal Details Fields
+  ADD COLUMN IF NOT EXISTS name_on_certificate VARCHAR(255),
+  ADD COLUMN IF NOT EXISTS gender VARCHAR(20),
+  ADD COLUMN IF NOT EXISTS preferred_languages VARCHAR(255)[],
+  ADD COLUMN IF NOT EXISTS date_of_birth DATE,
+  ADD COLUMN IF NOT EXISTS code_playground_username VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS linkedin_profile_url VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS github_profile_url VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS hackerrank_profile_url VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS leetcode_profile_url VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS resume_url VARCHAR(500),
+
+  -- Parent/Guardian Details
+  ADD COLUMN IF NOT EXISTS parent_first_name VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS parent_last_name VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS parent_relation VARCHAR(50),
+
+  -- Current Address
+  ADD COLUMN IF NOT EXISTS address_line_1 VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS address_line_2 VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS country VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS state VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS district VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS city VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS postal_code VARCHAR(20),
+
+  -- Current Expertise
+  ADD COLUMN IF NOT EXISTS current_coding_level VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS technical_skills TEXT[],
+  ADD COLUMN IF NOT EXISTS has_laptop BOOLEAN,
+
+  -- Job Preferences
+  ADD COLUMN IF NOT EXISTS job_search_status VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS preferred_job_locations VARCHAR(255)[],
+  ADD COLUMN IF NOT EXISTS expected_ctc_range VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS preferred_teaching_language VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS preferred_video_language VARCHAR(100),
+
+  -- Education Details
+  ADD COLUMN IF NOT EXISTS tenth_marks_type VARCHAR(50),
+  ADD COLUMN IF NOT EXISTS tenth_marks VARCHAR(20),
+  ADD COLUMN IF NOT EXISTS twelfth_education_type VARCHAR(50),
+  ADD COLUMN IF NOT EXISTS twelfth_marks_type VARCHAR(50),
+  ADD COLUMN IF NOT EXISTS twelfth_marks VARCHAR(20),
+  ADD COLUMN IF NOT EXISTS bachelor_degree VARCHAR(200),
+  ADD COLUMN IF NOT EXISTS bachelor_branch VARCHAR(200),
+  ADD COLUMN IF NOT EXISTS bachelor_cgpa VARCHAR(10),
+  ADD COLUMN IF NOT EXISTS bachelor_start_year INTEGER,
+  ADD COLUMN IF NOT EXISTS bachelor_end_year INTEGER,
+  ADD COLUMN IF NOT EXISTS bachelor_status VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS bachelor_institute VARCHAR(500),
+  ADD COLUMN IF NOT EXISTS bachelor_institute_state VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS bachelor_institute_city VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS bachelor_institute_pincode VARCHAR(20),
+  ADD COLUMN IF NOT EXISTS bachelor_institute_district VARCHAR(100),
+
+  -- Work Experience
+  ADD COLUMN IF NOT EXISTS occupation_status VARCHAR(100),
+  ADD COLUMN IF NOT EXISTS has_work_experience BOOLEAN;
+`);
+
+
     await pool.query(studentsTableQuery)
     console.log("✅ Students table ready")
 
     await pool.query(progressTableQuery)
     console.log("✅ Student progress table ready")
+
+    await pool.query(projectsTableQuery)
+    console.log("✅ Student projects table ready")
+
+    await pool.query(achievementsTableQuery)
+    console.log("✅ Student achievements table ready")
 
     await pool.query(subtopicSlugTableQuery)
     console.log("✅ Subtopic slug map table ready")
@@ -224,10 +384,26 @@ const auth = async (req, res, next) => {
 
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, phone, 
-              profile_image, batch_month, batch_year, is_current_batch, created_at 
+              profile_image, batch_month, batch_year, is_current_batch,
+              name_on_certificate, gender, preferred_languages, date_of_birth,
+              code_playground_username, linkedin_profile_url, github_profile_url,
+              hackerrank_profile_url, leetcode_profile_url, resume_url,
+              parent_first_name, parent_last_name, parent_relation,
+              address_line_1, address_line_2, country, state, district, city, postal_code,
+              current_coding_level, technical_skills, has_laptop,
+              job_search_status, preferred_job_locations, expected_ctc_range,
+              preferred_teaching_language, preferred_video_language,
+              tenth_marks_type, tenth_marks, twelfth_education_type, twelfth_marks_type,
+              twelfth_marks, bachelor_degree, bachelor_branch, bachelor_cgpa,
+              bachelor_start_year, bachelor_end_year, bachelor_status,
+              bachelor_institute, bachelor_institute_state, bachelor_institute_city,
+              bachelor_institute_pincode, bachelor_institute_district,
+              occupation_status, has_work_experience,
+              created_at 
        FROM students WHERE id = $1`,
       [decoded.id],
     )
+
 
     const student = result.rows[0]
     if (!student) {
@@ -1467,6 +1643,542 @@ app.use('*', (req, res) => {
     message: `Route ${req.originalUrl} not found`
   });
 });
+
+
+// 🔹 NEW: Get Student Complete Profile
+// -------------------------------------------
+app.get("/api/student/complete-profile", auth, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+
+    // Get student basic info
+    const studentResult = await pool.query(
+      `SELECT * FROM students WHERE id = $1`,
+      [studentId]
+    );
+
+    if (studentResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found"
+      });
+    }
+
+    const student = studentResult.rows[0];
+
+    // Get projects
+    const projectsResult = await pool.query(
+      `SELECT * FROM student_projects WHERE student_id = $1 ORDER BY created_at DESC`,
+      [studentId]
+    );
+
+    // Get achievements
+    const achievementsResult = await pool.query(
+      `SELECT * FROM student_achievements WHERE student_id = $1 ORDER BY created_at DESC`,
+      [studentId]
+    );
+
+    // Get progress
+    const progressResult = await pool.query(
+      `SELECT * FROM student_subtopic_progress WHERE student_id = $1`,
+      [studentId]
+    );
+
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    
+    // Format student response
+    const studentResponse = {
+      id: student.id,
+      studentId: student.student_id,
+      email: student.email,
+      firstName: student.first_name,
+      lastName: student.last_name,
+      phone: student.phone,
+      profileImage: student.profile_image ? `${baseUrl}${student.profile_image}` : null,
+      batchMonth: student.batch_month,
+      batchYear: student.batch_year,
+      isCurrentBatch: student.is_current_batch,
+
+      // Personal Details
+      nameOnCertificate: student.name_on_certificate,
+      gender: student.gender,
+      preferredLanguages: student.preferred_languages || [],
+      dateOfBirth: student.date_of_birth,
+      codePlaygroundUsername: student.code_playground_username,
+      linkedinProfileUrl: student.linkedin_profile_url,
+      githubProfileUrl: student.github_profile_url,
+      hackerrankProfileUrl: student.hackerrank_profile_url,
+      leetcodeProfileUrl: student.leetcode_profile_url,
+      resumeUrl: student.resume_url,
+
+      // Parent/Guardian Details
+      parentFirstName: student.parent_first_name,
+      parentLastName: student.parent_last_name,
+      parentRelation: student.parent_relation,
+
+      // Current Address
+      addressLine1: student.address_line_1,
+      addressLine2: student.address_line_2,
+      country: student.country,
+      state: student.state,
+      district: student.district,
+      city: student.city,
+      postalCode: student.postal_code,
+
+      // Current Expertise
+      currentCodingLevel: student.current_coding_level,
+      technicalSkills: student.technical_skills || [],
+      hasLaptop: student.has_laptop,
+
+      // Job Preferences
+      jobSearchStatus: student.job_search_status,
+      preferredJobLocations: student.preferred_job_locations || [],
+      expectedCtcRange: student.expected_ctc_range,
+      preferredTeachingLanguage: student.preferred_teaching_language,
+      preferredVideoLanguage: student.preferred_video_language,
+
+      // Education Details
+      tenthMarksType: student.tenth_marks_type,
+      tenthMarks: student.tenth_marks,
+      twelfthEducationType: student.twelfth_education_type,
+      twelfthMarksType: student.twelfth_marks_type,
+      twelfthMarks: student.twelfth_marks,
+      bachelorDegree: student.bachelor_degree,
+      bachelorBranch: student.bachelor_branch,
+      bachelorCgpa: student.bachelor_cgpa,
+      bachelorStartYear: student.bachelor_start_year,
+      bachelorEndYear: student.bachelor_end_year,
+      bachelorStatus: student.bachelor_status,
+      bachelorInstitute: student.bachelor_institute,
+      bachelorInstituteState: student.bachelor_institute_state,
+      bachelorInstituteCity: student.bachelor_institute_city,
+      bachelorInstitutePincode: student.bachelor_institute_pincode,
+      bachelorInstituteDistrict: student.bachelor_institute_district,
+
+      // Work Experience
+      occupationStatus: student.occupation_status,
+      hasWorkExperience: student.has_work_experience,
+
+      // Additional data
+      projects: projectsResult.rows,
+      achievements: achievementsResult.rows,
+      progress: progressResult.rows,
+
+      createdAt: student.created_at,
+    };
+
+    res.json({
+      success: true,
+      data: { student: studentResponse },
+    });
+  } catch (error) {
+    console.error("Complete profile fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching complete profile",
+    });
+  }
+});
+
+// -------------------------------------------
+// 🔹 NEW: Update Student Complete Profile
+// -------------------------------------------
+app.put("/api/student/complete-profile", auth, upload.fields([
+  { name: 'profileImage', maxCount: 1 },
+  { name: 'resume', maxCount: 1 }
+]), async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const {
+      // Basic Details
+      firstName,
+      lastName,
+      phone,
+      batchMonth,
+      batchYear,
+      isCurrentBatch,
+
+      // Personal Details
+      nameOnCertificate,
+      gender,
+      preferredLanguages,
+      dateOfBirth,
+      codePlaygroundUsername,
+      linkedinProfileUrl,
+      githubProfileUrl,
+      hackerrankProfileUrl,
+      leetcodeProfileUrl,
+
+      // Parent/Guardian Details
+      parentFirstName,
+      parentLastName,
+      parentRelation,
+
+      // Current Address
+      addressLine1,
+      addressLine2,
+      country,
+      state,
+      district,
+      city,
+      postalCode,
+
+      // Current Expertise
+      currentCodingLevel,
+      technicalSkills,
+      hasLaptop,
+
+      // Job Preferences
+      jobSearchStatus,
+      preferredJobLocations,
+      expectedCtcRange,
+      preferredTeachingLanguage,
+      preferredVideoLanguage,
+
+      // Education Details
+      tenthMarksType,
+      tenthMarks,
+      twelfthEducationType,
+      twelfthMarksType,
+      twelfthMarks,
+      bachelorDegree,
+      bachelorBranch,
+      bachelorCgpa,
+      bachelorStartYear,
+      bachelorEndYear,
+      bachelorStatus,
+      bachelorInstitute,
+      bachelorInstituteState,
+      bachelorInstituteCity,
+      bachelorInstitutePincode,
+      bachelorInstituteDistrict,
+
+      // Work Experience
+      occupationStatus,
+      hasWorkExperience,
+
+      // Projects & Achievements
+      projects,
+      achievements
+
+    } = req.body;
+
+    // Handle file uploads
+    let profileImagePath = req.student.profile_image;
+    let resumePath = req.student.resume_url;
+
+    if (req.files) {
+      if (req.files.profileImage) {
+        profileImagePath = `/uploads/${req.files.profileImage[0].filename}`;
+        // Delete old profile image if exists
+        if (req.student.profile_image && !req.student.profile_image.includes('default')) {
+          const oldImagePath = path.join(__dirname, req.student.profile_image);
+          if (fs.existsSync(oldImagePath)) {
+            fs.unlinkSync(oldImagePath);
+          }
+        }
+      }
+
+      if (req.files.resume) {
+        resumePath = `/uploads/${req.files.resume[0].filename}`;
+        // Delete old resume if exists
+        if (req.student.resume_url) {
+          const oldResumePath = path.join(__dirname, req.student.resume_url);
+          if (fs.existsSync(oldResumePath)) {
+            fs.unlinkSync(oldResumePath);
+          }
+        }
+      }
+    }
+
+    // Parse arrays and booleans
+    const preferredLangsArray = Array.isArray(preferredLanguages) 
+      ? preferredLanguages 
+      : (preferredLanguages ? [preferredLanguages] : []);
+    
+    const techSkillsArray = Array.isArray(technicalSkills) 
+      ? technicalSkills 
+      : (technicalSkills ? technicalSkills.split(',').map(skill => skill.trim()) : []);
+    
+    const jobLocationsArray = Array.isArray(preferredJobLocations) 
+      ? preferredJobLocations 
+      : (preferredJobLocations ? [preferredJobLocations] : []);
+
+    const hasLaptopBool = hasLaptop === 'true' || hasLaptop === true;
+    const hasWorkExpBool = hasWorkExperience === 'true' || hasWorkExperience === true;
+    const isCurrentBatchBool = isCurrentBatch === 'true' || isCurrentBatch === true;
+
+    // Update student record
+    const updateQuery = `
+      UPDATE students SET
+        first_name = $1, last_name = $2, phone = $3,
+        profile_image = $4, batch_month = $5, batch_year = $6, is_current_batch = $7,
+        name_on_certificate = $8, gender = $9, preferred_languages = $10, date_of_birth = $11,
+        code_playground_username = $12, linkedin_profile_url = $13, github_profile_url = $14,
+        hackerrank_profile_url = $15, leetcode_profile_url = $16, resume_url = $17,
+        parent_first_name = $18, parent_last_name = $19, parent_relation = $20,
+        address_line_1 = $21, address_line_2 = $22, country = $23, state = $24,
+        district = $25, city = $26, postal_code = $27,
+        current_coding_level = $28, technical_skills = $29, has_laptop = $30,
+        job_search_status = $31, preferred_job_locations = $32, expected_ctc_range = $33,
+        preferred_teaching_language = $34, preferred_video_language = $35,
+        tenth_marks_type = $36, tenth_marks = $37, twelfth_education_type = $38,
+        twelfth_marks_type = $39, twelfth_marks = $40, bachelor_degree = $41,
+        bachelor_branch = $42, bachelor_cgpa = $43, bachelor_start_year = $44,
+        bachelor_end_year = $45, bachelor_status = $46, bachelor_institute = $47,
+        bachelor_institute_state = $48, bachelor_institute_city = $49,
+        bachelor_institute_pincode = $50, bachelor_institute_district = $51,
+        occupation_status = $52, has_work_experience = $53,
+        updated_at = CURRENT_TIMESTAMP
+      WHERE id = $54
+      RETURNING *
+    `;
+
+    const result = await pool.query(updateQuery, [
+      firstName, lastName, phone, profileImagePath, batchMonth, batchYear, isCurrentBatchBool,
+      nameOnCertificate, gender, preferredLangsArray, dateOfBirth, codePlaygroundUsername,
+      linkedinProfileUrl, githubProfileUrl, hackerrankProfileUrl, leetcodeProfileUrl, resumePath,
+      parentFirstName, parentLastName, parentRelation, addressLine1, addressLine2, country, state,
+      district, city, postalCode, currentCodingLevel, techSkillsArray, hasLaptopBool,
+      jobSearchStatus, jobLocationsArray, expectedCtcRange, preferredTeachingLanguage,
+      preferredVideoLanguage, tenthMarksType, tenthMarks, twelfthEducationType, twelfthMarksType,
+      twelfthMarks, bachelorDegree, bachelorBranch, bachelorCgpa, bachelorStartYear,
+      bachelorEndYear, bachelorStatus, bachelorInstitute, bachelorInstituteState,
+      bachelorInstituteCity, bachelorInstitutePincode, bachelorInstituteDistrict,
+      occupationStatus, hasWorkExpBool, studentId
+    ]);
+
+    // Handle projects and achievements
+    if (projects) {
+      const projectsData = typeof projects === 'string' ? JSON.parse(projects) : projects;
+      
+      // Delete existing projects
+      await pool.query('DELETE FROM student_projects WHERE student_id = $1', [studentId]);
+      
+      // Insert new projects
+      for (const project of projectsData) {
+        if (project.projectTitle) {
+          await pool.query(
+            `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
+             VALUES ($1, $2, $3, $4, $5)`,
+            [studentId, project.projectTitle, project.projectDescription, project.projectLink, project.skills || []]
+          );
+        }
+      }
+    }
+
+    if (achievements) {
+      const achievementsData = typeof achievements === 'string' ? JSON.parse(achievements) : achievements;
+      
+      // Delete existing achievements
+      await pool.query('DELETE FROM student_achievements WHERE student_id = $1', [studentId]);
+      
+      // Insert new achievements
+      for (const achievement of achievementsData) {
+        if (achievement.achievementTitle) {
+          await pool.query(
+            `INSERT INTO student_achievements (student_id, achievement_title, achievement_description, achievement_link, achievement_date)
+             VALUES ($1, $2, $3, $4, $5)`,
+            [studentId, achievement.achievementTitle, achievement.achievementDescription, 
+             achievement.achievementLink, achievement.achievementDate]
+          );
+        }
+      }
+    }
+
+    const updatedStudent = result.rows[0];
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
+    // Format response
+    const studentResponse = {
+      id: student.id,
+      studentId: student.student_id,
+      email: student.email,
+      firstName: student.first_name,
+      lastName: student.last_name,
+      phone: student.phone,
+      profileImage: student.profile_image ? `${baseUrl}${student.profile_image}` : null,
+      batchMonth: student.batch_month,
+      batchYear: student.batch_year,
+      isCurrentBatch: student.is_current_batch,
+
+      // Personal Details
+      nameOnCertificate: student.name_on_certificate,
+      gender: student.gender,
+      preferredLanguages: student.preferred_languages || [],
+      dateOfBirth: student.date_of_birth,
+      codePlaygroundUsername: student.code_playground_username,
+      linkedinProfileUrl: student.linkedin_profile_url,
+      githubProfileUrl: student.github_profile_url,
+      hackerrankProfileUrl: student.hackerrank_profile_url,
+      leetcodeProfileUrl: student.leetcode_profile_url,
+      resumeUrl: student.resume_url,
+
+      // Parent/Guardian Details
+      parentFirstName: student.parent_first_name,
+      parentLastName: student.parent_last_name,
+      parentRelation: student.parent_relation,
+
+      // Current Address
+      addressLine1: student.address_line_1,
+      addressLine2: student.address_line_2,
+      country: student.country,
+      state: student.state,
+      district: student.district,
+      city: student.city,
+      postalCode: student.postal_code,
+
+      // Current Expertise
+      currentCodingLevel: student.current_coding_level,
+      technicalSkills: student.technical_skills || [],
+      hasLaptop: student.has_laptop,
+
+      // Job Preferences
+      jobSearchStatus: student.job_search_status,
+      preferredJobLocations: student.preferred_job_locations || [],
+      expectedCtcRange: student.expected_ctc_range,
+      preferredTeachingLanguage: student.preferred_teaching_language,
+      preferredVideoLanguage: student.preferred_video_language,
+
+      // Education Details
+      tenthMarksType: student.tenth_marks_type,
+      tenthMarks: student.tenth_marks,
+      twelfthEducationType: student.twelfth_education_type,
+      twelfthMarksType: student.twelfth_marks_type,
+      twelfthMarks: student.twelfth_marks,
+      bachelorDegree: student.bachelor_degree,
+      bachelorBranch: student.bachelor_branch,
+      bachelorCgpa: student.bachelor_cgpa,
+      bachelorStartYear: student.bachelor_start_year,
+      bachelorEndYear: student.bachelor_end_year,
+      bachelorStatus: student.bachelor_status,
+      bachelorInstitute: student.bachelor_institute,
+      bachelorInstituteState: student.bachelor_institute_state,
+      bachelorInstituteCity: student.bachelor_institute_city,
+      bachelorInstitutePincode: student.bachelor_institute_pincode,
+      bachelorInstituteDistrict: student.bachelor_institute_district,
+
+      // Work Experience
+      occupationStatus: student.occupation_status,
+      hasWorkExperience: student.has_work_experience,
+
+      // Additional data
+      projects: projectsResult.rows,
+      achievements: achievementsResult.rows,
+      progress: progressResult.rows,
+
+      createdAt: student.created_at,
+    };
+
+    res.json({
+      success: true,
+      message: "Profile updated successfully",
+      data: { student: studentResponse },
+    });
+
+  } catch (error) {
+    console.error("Complete profile update error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error updating profile",
+    });
+  }
+});
+
+// 🔹 NEW: Projects Management Routes
+// -------------------------------------------
+app.get("/api/student/projects", auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM student_projects WHERE student_id = $1 ORDER BY created_at DESC`,
+      [req.student.id]
+    );
+
+    res.json({
+      success: true,
+      data: { projects: result.rows },
+    });
+  } catch (error) {
+    console.error("Projects fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching projects",
+    });
+  }
+});
+
+app.post("/api/student/projects", auth, async (req, res) => {
+  try {
+    const { projectTitle, projectDescription, projectLink, skills } = req.body;
+
+    const result = await pool.query(
+      `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [req.student.id, projectTitle, projectDescription, projectLink, skills || []]
+    );
+
+    res.json({
+      success: true,
+      message: "Project added successfully",
+      data: { project: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Project creation error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error creating project",
+    });
+  }
+});
+
+// -------------------------------------------
+// 🔹 NEW: Achievements Management Routes
+// -------------------------------------------
+app.get("/api/student/achievements", auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM student_achievements WHERE student_id = $1 ORDER BY created_at DESC`,
+      [req.student.id]
+    );
+
+    res.json({
+      success: true,
+      data: { achievements: result.rows },
+    });
+  } catch (error) {
+    console.error("Achievements fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching achievements",
+    });
+  }
+});
+
+app.post("/api/student/achievements", auth, async (req, res) => {
+  try {
+    const { achievementTitle, achievementDescription, achievementLink, achievementDate } = req.body;
+
+    const result = await pool.query(
+      `INSERT INTO student_achievements (student_id, achievement_title, achievement_description, achievement_link, achievement_date)
+       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      [req.student.id, achievementTitle, achievementDescription, achievementLink, achievementDate]
+    );
+
+    res.json({
+      success: true,
+      message: "Achievement added successfully",
+      data: { achievement: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Achievement creation error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error creating achievement",
+    });
+  }
+});
+
+
 
 // -------------------------------------------
 // 🔹 Start Server
