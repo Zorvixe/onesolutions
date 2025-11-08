@@ -122,7 +122,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://backend-lt9m.onrender.com/api/auth/google/callback",
+      callbackURL: "https://ose.onesolutionsekam.in/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
