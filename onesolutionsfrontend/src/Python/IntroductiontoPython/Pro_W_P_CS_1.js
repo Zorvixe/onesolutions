@@ -14,7 +14,7 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
 
   return (
     <div className="intro-container">
-      <h1>Intro to Programming with Python</h1>
+      <h1>Introduction to Programming with Python | Cheat Sheet</h1>
 
       <section>
         <h2>Software</h2>
@@ -28,22 +28,31 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
 
       <section>
         <h2>Code</h2>
-        <p>The instructions that we write to create software is called <b>Code</b>.</p>
+        <p>
+          The instructions that we write to create software is called{" "}
+          <b>Code</b>.
+        </p>
       </section>
 
       <section>
         <h2>Syntax</h2>
         <p>
-          Similar to Grammar rules in English, Hindi, each programming language has a unique set of rules. These rules are called the <b>Syntax</b> of a Programming Language.
+          Similar to Grammar rules in English, Hindi, each programming language
+          has a unique set of rules. These rules are called the <b>Syntax</b> of
+          a Programming Language.
         </p>
       </section>
 
       <section>
         <h2>Why Python?</h2>
         <p>
-          Python is an easy to learn, powerful programming language. With Python, it is possible to create programs with minimal amount of code.
+          Python is an easy to learn, powerful programming language. With
+          Python, it is possible to create programs with minimal amount of code.
         </p>
-        <p>Look at the code in Java and Python used for printing the message "Hello World"</p>
+        <p>
+          Look at the code in Java and Python used for printing the message
+          "Hello World"
+        </p>
 
         <h3>Java</h3>
         <CodeBlock
@@ -56,15 +65,15 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
         />
 
         <h3>Python</h3>
-        <CodeBlock
-          language="python"
-          code={`print("Hello World")`}
-        />
+        <CodeBlock language="python" code={`print("Hello World")`} />
       </section>
 
       <section>
         <h2>Applications of Python</h2>
-        <p>Python is a versatile language which has applications in almost every field:</p>
+        <p>
+          Python is a versatile language which has applications in almost every
+          field:
+        </p>
         <ul>
           <li>Artificial intelligence (AI)</li>
           <li>Machine Learning (ML)</li>
@@ -99,7 +108,10 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
 
       <section>
         <h2>Possible Mistakes</h2>
-        <p>Possible mistakes you may make while writing Python code to display the message "Hello World":</p>
+        <p>
+          Possible mistakes you may make while writing Python code to display
+          the message "Hello World":
+        </p>
         <ul>
           <li>
             Spelling Mistake in <code>print</code>
@@ -122,14 +134,23 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
 
       <section>
         <h2>Printing Without Quotes</h2>
-        <p>If we want to print the numerical result of <b>2 + 5</b>, we do not add quotes.</p>
+        <p>
+          If we want to print the numerical result of <b>2 + 5</b>, we do not
+          add quotes.
+        </p>
         <CodeBlock language="python" code={`print(2+5)`} />
-        <p><b>Output:</b></p>
+        <p>
+          <b>Output:</b>
+        </p>
         <OutputBlock output={`7`} />
 
-        <p>If we want to print the exact message "2 + 5", then we add the quotes.</p>
+        <p>
+          If we want to print the exact message "2 + 5", then we add the quotes.
+        </p>
         <CodeBlock language="python" code={`print("2+5")`} />
-        <p><b>Output:</b></p>
+        <p>
+          <b>Output:</b>
+        </p>
         <OutputBlock output={`2 + 5`} />
       </section>
 
@@ -138,32 +159,48 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
 
         {/* Addition */}
         <h3>Addition</h3>
-        <p>Addition is denoted by <button>+</button> sign.</p>
+        <p>
+          Addition is denoted by <button>+</button> sign.
+        </p>
         <p>It gives the sum of two numbers.</p>
         <CodeBlock language="python" code={`print("2+5")\nprint(1 + 1.5)`} />
-        <p><b>Output:</b></p>
+        <p>
+          <b>Output:</b>
+        </p>
         <OutputBlock output={["7", "2.5"]} />
 
         {/* Subtraction */}
         <h3>Subtraction</h3>
-        <p>Subtraction is denoted by <button>-</button> sign.</p>
+        <p>
+          Subtraction is denoted by <button>-</button> sign.
+        </p>
         <p>It gives the difference between two numbers.</p>
         <CodeBlock language="python" code={`print(10 - 3)\nprint(5 - 2.5)`} />
-        <p><b>Output:</b></p>
+        <p>
+          <b>Output:</b>
+        </p>
         <OutputBlock output={["7", "2.5"]} />
 
         {/* Multiplication */}
         <h3>Multiplication</h3>
-        <p>Multiplication is denoted by <button>*</button> sign.</p>
+        <p>
+          Multiplication is denoted by <button>*</button> sign.
+        </p>
         <CodeBlock language="python" code={`print(2 * 3)\nprint(1.5 * 4)`} />
-        <p><b>Output:</b></p>
+        <p>
+          <b>Output:</b>
+        </p>
         <OutputBlock output={["6", "6.0"]} />
 
         {/* Division */}
         <h3>Division</h3>
-        <p>Division is denoted by <button>/</button> sign.</p>
+        <p>
+          Division is denoted by <button>/</button> sign.
+        </p>
         <CodeBlock language="python" code={`print(10 / 2)\nprint(5 / 2)`} />
-        <p><b>Output:</b></p>
+        <p>
+          <b>Output:</b>
+        </p>
         <OutputBlock output={["5.0", "2.5"]} />
       </section>
 

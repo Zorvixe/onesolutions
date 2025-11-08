@@ -23,37 +23,13 @@ const Python_Summary_CS_1 = ({ onSubtopicComplete }) => {
         style={{
           textAlign: "center",
           color: "#1a5276",
-          fontSize: "2.8rem",
+          fontSize: "30px",
           marginBottom: "0.5rem",
           fontWeight: "bold",
         }}
       >
         Python Summary Cheat Sheet - 1
       </h1>
-      <p
-        style={{
-          textAlign: "center",
-          fontSize: "1.4rem",
-          color: "#2980b9",
-          fontWeight: "bold",
-        }}
-      >
-        Data Types • Conditionals • Strings • Operators • Input/Output
-      </p>
-      <a
-        href="https://www.ccbp.in/"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          display: "block",
-          textAlign: "center",
-          color: "#e74c3c",
-          fontSize: "1.2rem",
-          marginBottom: "2rem",
-        }}
-      >
-        https://www.ccbp.in/
-      </a>
 
       {/* Data Types */}
       <section
