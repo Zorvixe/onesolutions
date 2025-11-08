@@ -58,17 +58,14 @@ const Login = () => {
     setSuccessMessage(null);
 
     try {
-      const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/admin/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}api/admin/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const responseData = await response.json();
 

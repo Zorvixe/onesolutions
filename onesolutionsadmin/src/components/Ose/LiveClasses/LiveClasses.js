@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./LiveClasses.css";
 import { assests } from "../../../assests/assests";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
-
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const LiveClasses = () => {
   const [classes, setClasses] = useState([]);
@@ -28,7 +27,7 @@ const LiveClasses = () => {
 
   const fetchClasses = async () => {
     try {
-      const response = await fetch(`${api_url}/api/admin/live-classes`, {
+      const response = await fetch(`${API_BASE_URL}api/admin/live-classes`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,8 +48,8 @@ const LiveClasses = () => {
     e.preventDefault();
     try {
       const url = editingClass
-        ? `${api_url}/api/live-classes/${editingClass.id}`
-        : `${api_url}/api/live-classes`;
+        ? `${API_BASE_URL}api/live-classes/${editingClass.id}`
+        : `${API_BASE_URL}api/live-classes`;
 
       const method = editingClass ? "PUT" : "POST";
 
@@ -168,12 +167,15 @@ const LiveClasses = () => {
     if (!window.confirm("Are you sure you want to delete this class?")) return;
 
     try {
-      const response = await fetch(`${api_url}/api/live-classes/${classId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${API_BASE_URL}api/live-classes/${classId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
         fetchClasses();
@@ -227,14 +229,17 @@ const LiveClasses = () => {
 
   const handleStatusChange = async (classId, newStatus) => {
     try {
-      const response = await fetch(`${api_url}/api/live-classes/${classId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}api/live-classes/${classId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      );
 
       if (response.ok) {
         fetchClasses();
@@ -249,14 +254,17 @@ const LiveClasses = () => {
 
   const handleProgressChange = async (classId, newProgress) => {
     try {
-      const response = await fetch(`${api_url}/api/live-classes/${classId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ progress: newProgress }),
-      });
+      const response = await fetch(
+        `${API_BASE_URL}api/live-classes/${classId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ progress: newProgress }),
+        }
+      );
 
       if (response.ok) {
         fetchClasses();

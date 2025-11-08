@@ -1,16 +1,25 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import axios from "axios"
-import { useNavigate } from "react-router-dom"
-import { ToastContainer, toast } from "react-toastify"
-import { FaUser, FaPhone, FaLock, FaEye, FaEyeSlash, FaUpload, FaCheck, FaTimes, FaStar } from "react-icons/fa"
-import { assests } from "../../assests/assests"
-import "react-toastify/dist/ReactToastify.css"
-import "./register.css"
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import {
+  FaUser,
+  FaPhone,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaUpload,
+  FaCheck,
+  FaTimes,
+  FaStar,
+} from "react-icons/fa";
+import { assests } from "../../assests/assests";
+import "react-toastify/dist/ReactToastify.css";
+import "./register.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003/"
-
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const AdminRegister = () => {
   const [formData, setFormData] = useState({
@@ -19,138 +28,147 @@ const AdminRegister = () => {
     password: "",
     phone: "",
     admin_image_link: "",
-  })
-  const [imageFile, setImageFile] = useState(null)
-  const [imageLoading, setImageLoading] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [showPopup, setShowPopup] = useState(false)
-  const [popupMessage, setPopupMessage] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [formStep, setFormStep] = useState(1)
-  const [validationErrors, setValidationErrors] = useState({})
+  });
+  const [imageFile, setImageFile] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [formStep, setFormStep] = useState(1);
+  const [validationErrors, setValidationErrors] = useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prevData) => ({ ...prevData, [name]: value }))
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
 
     if (validationErrors[name]) {
-      setValidationErrors((prev) => ({ ...prev, [name]: "" }))
+      setValidationErrors((prev) => ({ ...prev, [name]: "" }));
     }
-  }
-
+  };
 
   const validateField = (name, value) => {
     switch (name) {
       case "adminname":
-        return value.length < 2 ? "Name must be at least 2 characters" : ""
+        return value.length < 2 ? "Name must be at least 2 characters" : "";
       case "username":
-        return value.length < 3 ? "Username must be at least 3 characters" : ""
+        return value.length < 3 ? "Username must be at least 3 characters" : "";
       case "password":
-        return value.length < 6 ? "Password must be at least 6 characters" : ""
+        return value.length < 6 ? "Password must be at least 6 characters" : "";
       case "phone":
-        return !/^\d{10,}$/.test(value) ? "Phone must be at least 10 digits" : ""
+        return !/^\d{10,}$/.test(value)
+          ? "Phone must be at least 10 digits"
+          : "";
       default:
-        return ""
+        return "";
     }
-  }
+  };
 
   const handleImageChange = async (e) => {
-    const file = e.target.files[0]
-    setImageFile(file)
+    const file = e.target.files[0];
+    setImageFile(file);
 
     if (file) {
-      setImageLoading(true)
-      const imageUrl = await uploadImageToCloudinary(file)
+      setImageLoading(true);
+      const imageUrl = await uploadImageToCloudinary(file);
       if (imageUrl) {
-        setFormData((prevData) => ({ ...prevData, admin_image_link: imageUrl }))
+        setFormData((prevData) => ({
+          ...prevData,
+          admin_image_link: imageUrl,
+        }));
       }
-      setImageLoading(false)
+      setImageLoading(false);
     }
-  }
+  };
 
   const uploadImageToCloudinary = async (file) => {
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("upload_preset", "sfdqoeq5")
-    formData.append("cloud_name", "dsjcty43b")
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "sfdqoeq5");
+    formData.append("cloud_name", "dsjcty43b");
 
     try {
-      const response = await fetch("https://api.cloudinary.com/v1_1/dsjcty43b/image/upload", {
-        method: "POST",
-        body: formData,
-      })
-      const data = await response.json()
-      return data.secure_url
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dsjcty43b/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      return data.secure_url;
     } catch (error) {
-      console.error("Error uploading to Cloudinary:", error)
-      toast.error("Image upload failed. Please try again.")
-      return null
+      console.error("Error uploading to Cloudinary:", error);
+      toast.error("Image upload failed. Please try again.");
+      return null;
     }
-  }
+  };
 
   const handleNextStep = () => {
-    const errors = {}
+    const errors = {};
 
     if (formStep === 1) {
-      errors.adminname = validateField("adminname", formData.adminname)
-      errors.phone = validateField("phone", formData.phone)
+      errors.adminname = validateField("adminname", formData.adminname);
+      errors.phone = validateField("phone", formData.phone);
     } else if (formStep === 2) {
-      errors.username = validateField("username", formData.username)
-      errors.password = validateField("password", formData.password)
+      errors.username = validateField("username", formData.username);
+      errors.password = validateField("password", formData.password);
     }
 
-    const hasErrors = Object.values(errors).some((error) => error !== "")
+    const hasErrors = Object.values(errors).some((error) => error !== "");
 
     if (hasErrors) {
-      setValidationErrors(errors)
-      return
+      setValidationErrors(errors);
+      return;
     }
 
-    setFormStep(formStep + 1)
-  }
+    setFormStep(formStep + 1);
+  };
 
   const handlePrevStep = () => {
-    setFormStep(formStep - 1)
-  }
+    setFormStep(formStep - 1);
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     try {
-      let imageUrl = formData.admin_image_link
+      let imageUrl = formData.admin_image_link;
       if (imageFile && !imageUrl) {
-        imageUrl = await uploadImageToCloudinary(imageFile)
+        imageUrl = await uploadImageToCloudinary(imageFile);
       }
 
-      const response = await axios.post(`${api_url}/api/admin/register`, {
+      const response = await axios.post(`${API_BASE_URL}api/admin/register`, {
         ...formData,
         admin_image_link: imageUrl,
-      })
+      });
 
       if (response.data.status === "approved") {
-        setPopupMessage("Welcome! Registration approved successfully.")
+        setPopupMessage("Welcome! Registration approved successfully.");
       } else {
-        setPopupMessage("Registration submitted for approval. You'll be notified once approved.")
+        setPopupMessage(
+          "Registration submitted for approval. You'll be notified once approved."
+        );
       }
-      setShowPopup(true)
+      setShowPopup(true);
     } catch (error) {
-      toast.error(error.response?.data?.error || "Registration failed.")
+      toast.error(error.response?.data?.error || "Registration failed.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleClosePopup = () => {
-    setShowPopup(false)
-    navigate("/login")
-  }
+    setShowPopup(false);
+    navigate("/login");
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="register-container-reg">
@@ -232,17 +250,29 @@ const AdminRegister = () => {
           <div className="form-container-reg">
             {/* Progress Indicator */}
             <div className="progress-indicator-reg">
-              <div className={`progress-step-reg ${formStep >= 1 ? "active-reg" : ""}`}>
+              <div
+                className={`progress-step-reg ${
+                  formStep >= 1 ? "active-reg" : ""
+                }`}
+              >
                 <div className="step-number-reg">1</div>
                 <span>Personal</span>
               </div>
               <div className="progress-line-reg"></div>
-              <div className={`progress-step-reg ${formStep >= 2 ? "active-reg" : ""}`}>
+              <div
+                className={`progress-step-reg ${
+                  formStep >= 2 ? "active-reg" : ""
+                }`}
+              >
                 <div className="step-number-reg">2</div>
                 <span>Account</span>
               </div>
               <div className="progress-line-reg"></div>
-              <div className={`progress-step-reg ${formStep >= 3 ? "active-reg" : ""}`}>
+              <div
+                className={`progress-step-reg ${
+                  formStep >= 3 ? "active-reg" : ""
+                }`}
+              >
                 <div className="step-number-reg">3</div>
                 <span>Photo</span>
               </div>
@@ -269,12 +299,16 @@ const AdminRegister = () => {
                         placeholder="Enter your full name"
                         value={formData.adminname}
                         onChange={handleChange}
-                        className={`form-input-reg ${validationErrors.adminname ? "error-reg" : ""}`}
+                        className={`form-input-reg ${
+                          validationErrors.adminname ? "error-reg" : ""
+                        }`}
                         required
                       />
                     </div>
                     {validationErrors.adminname && (
-                      <span className="error-message-reg">{validationErrors.adminname}</span>
+                      <span className="error-message-reg">
+                        {validationErrors.adminname}
+                      </span>
                     )}
                   </div>
 
@@ -291,14 +325,24 @@ const AdminRegister = () => {
                         placeholder="Enter your phone number"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`form-input-reg ${validationErrors.phone ? "error-reg" : ""}`}
+                        className={`form-input-reg ${
+                          validationErrors.phone ? "error-reg" : ""
+                        }`}
                         required
                       />
                     </div>
-                    {validationErrors.phone && <span className="error-message-reg">{validationErrors.phone}</span>}
+                    {validationErrors.phone && (
+                      <span className="error-message-reg">
+                        {validationErrors.phone}
+                      </span>
+                    )}
                   </div>
 
-                  <button type="button" className="next-button-reg" onClick={handleNextStep}>
+                  <button
+                    type="button"
+                    className="next-button-reg"
+                    onClick={handleNextStep}
+                  >
                     <span>Next Step</span>
                     <div className="button-glow-reg"></div>
                   </button>
@@ -321,12 +365,16 @@ const AdminRegister = () => {
                         placeholder="Choose a username"
                         value={formData.username}
                         onChange={handleChange}
-                        className={`form-input-reg ${validationErrors.username ? "error-reg" : ""}`}
+                        className={`form-input-reg ${
+                          validationErrors.username ? "error-reg" : ""
+                        }`}
                         required
                       />
                     </div>
                     {validationErrors.username && (
-                      <span className="error-message-reg">{validationErrors.username}</span>
+                      <span className="error-message-reg">
+                        {validationErrors.username}
+                      </span>
                     )}
                   </div>
 
@@ -343,23 +391,39 @@ const AdminRegister = () => {
                         placeholder="Create a strong password"
                         value={formData.password}
                         onChange={handleChange}
-                        className={`form-input-reg ${validationErrors.password ? "error-reg" : ""}`}
+                        className={`form-input-reg ${
+                          validationErrors.password ? "error-reg" : ""
+                        }`}
                         required
                       />
-                      <button type="button" className="password-toggle-reg" onClick={togglePasswordVisibility}>
+                      <button
+                        type="button"
+                        className="password-toggle-reg"
+                        onClick={togglePasswordVisibility}
+                      >
                         {showPassword ? <FaEyeSlash /> : <FaEye />}
                       </button>
                     </div>
                     {validationErrors.password && (
-                      <span className="error-message-reg">{validationErrors.password}</span>
+                      <span className="error-message-reg">
+                        {validationErrors.password}
+                      </span>
                     )}
                   </div>
 
                   <div className="step-buttons-reg">
-                    <button type="button" className="prev-button-reg" onClick={handlePrevStep}>
+                    <button
+                      type="button"
+                      className="prev-button-reg"
+                      onClick={handlePrevStep}
+                    >
                       Previous
                     </button>
-                    <button type="button" className="next-button-reg" onClick={handleNextStep}>
+                    <button
+                      type="button"
+                      className="next-button-reg"
+                      onClick={handleNextStep}
+                    >
                       <span>Next Step</span>
                       <div className="button-glow-reg"></div>
                     </button>
@@ -372,7 +436,9 @@ const AdminRegister = () => {
                 <div className="form-step-reg step-3-reg">
                   <div className="photo-upload-section-reg">
                     <h3 className="upload-title-reg">Profile Photo</h3>
-                    <p className="upload-subtitle-reg">Upload your profile picture</p>
+                    <p className="upload-subtitle-reg">
+                      Upload your profile picture
+                    </p>
 
                     <div className="photo-upload-container-reg">
                       <input
@@ -384,7 +450,10 @@ const AdminRegister = () => {
                         hidden
                       />
 
-                      <label htmlFor="photo-upload" className="photo-upload-area-reg">
+                      <label
+                        htmlFor="photo-upload"
+                        className="photo-upload-area-reg"
+                      >
                         {imageLoading ? (
                           <div className="upload-loading-reg">
                             <div className="loading-spinner-reg"></div>
@@ -393,7 +462,9 @@ const AdminRegister = () => {
                         ) : formData.admin_image_link ? (
                           <div className="uploaded-photo-reg">
                             <img
-                              src={formData.admin_image_link || "/placeholder.svg"}
+                              src={
+                                formData.admin_image_link || "/placeholder.svg"
+                              }
                               alt="Profile"
                               className="profile-preview-reg"
                             />
@@ -405,8 +476,12 @@ const AdminRegister = () => {
                         ) : (
                           <div className="upload-placeholder-reg">
                             <FaUpload className="upload-icon-reg" />
-                            <span className="upload-text-reg">Click to upload photo</span>
-                            <span className="upload-hint-reg">PNG, JPG up to 10MB</span>
+                            <span className="upload-text-reg">
+                              Click to upload photo
+                            </span>
+                            <span className="upload-hint-reg">
+                              PNG, JPG up to 10MB
+                            </span>
                           </div>
                         )}
                       </label>
@@ -414,10 +489,18 @@ const AdminRegister = () => {
                   </div>
 
                   <div className="step-buttons-reg">
-                    <button type="button" className="prev-button-reg" onClick={handlePrevStep}>
+                    <button
+                      type="button"
+                      className="prev-button-reg"
+                      onClick={handlePrevStep}
+                    >
                       Previous
                     </button>
-                    <button type="submit" className="submit-button-reg" disabled={loading}>
+                    <button
+                      type="submit"
+                      className="submit-button-reg"
+                      disabled={loading}
+                    >
                       {loading ? (
                         <>
                           <div className="button-spinner-reg"></div>
@@ -438,7 +521,7 @@ const AdminRegister = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminRegister
+export default AdminRegister;

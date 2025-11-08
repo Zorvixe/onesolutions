@@ -6,8 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import { useAuth } from "../../context/AuthContext";
 
-const api_ose_url =
-  process.env.REACT_APP_API_OSE_URL || "http://localhost:5003/";
+const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
 
 const Home = () => {
   const [liveClasses, setLiveClasses] = useState([]);
@@ -27,7 +26,7 @@ const Home = () => {
       const batchMonth = user?.batchMonth;
       const batchYear = user?.batchYear;
 
-      let url = `${api_ose_url}api/live-classes`;
+      let url = `${API_OSE_URL}api/live-classes`;
 
       // If user has batch information, filter classes by batch
       if (batchMonth && batchYear) {
@@ -51,7 +50,7 @@ const Home = () => {
   // Fetch placement achievements from backend
   const fetchPlacementAchievements = async () => {
     try {
-      const response = await fetch(`${api_ose_url}api/placement-achievements`);
+      const response = await fetch(`${API_OSE_URL}api/placement-achievements`);
       if (response.ok) {
         const data = await response.json();
         setPlacementAchievements(data);

@@ -9,7 +9,7 @@ import { assests } from "../../assests/assests"
 import "./ChatMain.css";
 
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 
 const Chatted = () => {
@@ -25,7 +25,7 @@ const Chatted = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${api_url}/api/admin/me`,
+          `${API_BASE_URL}api/admin/me`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUserPhone(response.data.phone);

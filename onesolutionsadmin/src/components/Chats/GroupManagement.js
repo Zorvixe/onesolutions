@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, List, message } from 'antd';
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 
 const GroupManagement = () => {
@@ -18,7 +18,7 @@ const GroupManagement = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await fetch(`${api_url}/api/chat/rooms`);
+      const response = await fetch(`${API_BASE_URL}api/chat/rooms`);
       const data = await response.json();
       setGroups(data);
     } catch (error) {
@@ -34,7 +34,7 @@ const GroupManagement = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`${api_url}/api/chat/rooms/${editingGroup.id}`, {
+      const response = await fetch(`${API_BASE_URL}api/chat/rooms/${editingGroup.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const GroupManagement = () => {
 
   const handleDelete = async (groupId) => {
     try {
-      const response = await fetch(`${api_url}/api/chat/rooms/${groupId}`, {
+      const response = await fetch(`${API_BASE_URL}api/chat/rooms/${groupId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

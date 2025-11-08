@@ -4,7 +4,7 @@ import { assests } from "../../assests/assests";
 import { ojbassests } from "../OJB/ojbassests/ojbassests";
 import "./Landing.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 
 function Landing() {
@@ -44,7 +44,7 @@ function Landing() {
       }
 
       try {
-        const response = await fetch(`${api_url}/api/admin/me`, {
+        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -84,19 +84,19 @@ function Landing() {
           sessionResponse,
           adminStatusResponse,
         ] = await Promise.all([
-          fetch(`${api_url}/api/jobs/adminpanel`, {
+          fetch(`${API_BASE_URL}api/jobs/adminpanel`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}/api/admins/approved`, {
+          fetch(`${API_BASE_URL}api/admins/approved`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}/api/public/resumes`, {
+          fetch(`${API_BASE_URL}api/public/resumes`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}/api/session/status`, {
+          fetch(`${API_BASE_URL}api/session/status`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}/api/admins/status/individual`, {
+          fetch(`${API_BASE_URL}api/admins/status/individual`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

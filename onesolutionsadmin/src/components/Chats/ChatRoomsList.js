@@ -22,7 +22,7 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./ChatMain.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 
 const ChatRoomsList = ({ user, onSelectChat }) => {
@@ -65,7 +65,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       }
       try {
         const response = await fetch(
-          `${api_url}/api/admin/me`,
+          `${API_BASE_URL}api/admin/me`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -95,7 +95,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `${api_url}/api/chat/rooms`,
+        `${API_BASE_URL}api/chat/rooms`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setRooms(response.data);
@@ -113,10 +113,10 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const [adminsResponse, statusResponse] = await Promise.all([
-        axios.get(`${api_url}/api/admins/approved`, {
+        axios.get(`${API_BASE_URL}api/admins/approved`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        axios.get(`${api_url}/api/admins/status/individual`, {
+        axios.get(`${API_BASE_URL}api/admins/status/individual`, {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
@@ -144,7 +144,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         setLoading(true);
         const token = localStorage.getItem("token");
         await axios.post(
-          `${api_url}/api/chat/rooms`,
+          `${API_BASE_URL}api/chat/rooms`,
           { room_name: newRoomName },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -172,7 +172,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
       setLoading(true);
       const token = localStorage.getItem("token");
       await axios.put(
-        `${api_url}/api/chat/rooms/${roomId}`,
+        `${API_BASE_URL}api/chat/rooms/${roomId}`,
         { room_name: newName },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -192,7 +192,7 @@ const ChatRoomsList = ({ user, onSelectChat }) => {
         setLoading(true);
         const token = localStorage.getItem("token");
         await axios.delete(
-          `${api_url}/api/chat/rooms/${roomId}`,
+          `${API_BASE_URL}api/chat/rooms/${roomId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         toast.success("Group deleted successfully");

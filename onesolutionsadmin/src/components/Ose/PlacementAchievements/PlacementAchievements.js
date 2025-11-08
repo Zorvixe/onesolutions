@@ -5,7 +5,7 @@ import "./PlacementAchievements.css";
 
 import { assests } from "../../../assests/assests";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const PlacementAchievements = () => {
   const [achievements, setAchievements] = useState([]);
@@ -31,7 +31,7 @@ const PlacementAchievements = () => {
   const fetchAchievements = async () => {
     try {
       const response = await fetch(
-        `${api_url}/api/admin/placement-achievements`,
+        `${API_BASE_URL}api/admin/placement-achievements`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,8 +90,8 @@ const PlacementAchievements = () => {
     e.preventDefault();
     try {
       const url = editingAchievement
-        ? `${api_url}/api/placement-achievements/${editingAchievement.id}`
-        : `${api_url}/api/placement-achievements`;
+        ? `${API_BASE_URL}api/placement-achievements/${editingAchievement.id}`
+        : `${API_BASE_URL}api/placement-achievements`;
 
       const method = editingAchievement ? "PUT" : "POST";
 
@@ -229,7 +229,7 @@ const PlacementAchievements = () => {
     if (window.confirm("Are you sure you want to delete this achievement?")) {
       try {
         const response = await fetch(
-          `${api_url}/api/placement-achievements/${id}`,
+          `${API_BASE_URL}api/placement-achievements/${id}`,
           {
             method: "DELETE",
             headers: {

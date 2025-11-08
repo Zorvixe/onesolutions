@@ -6,7 +6,7 @@ import { MdCheckCircle, MdCancel } from 'react-icons/md';
 
 import "./PendingAdmins.css"
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const PendingAdmins = () => {
   const [pendingAdmins, setPendingAdmins] = useState([]);
@@ -22,7 +22,7 @@ const PendingAdmins = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${api_url}/api/admin/pending`,
+        `${API_BASE_URL}api/admin/pending`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ const PendingAdmins = () => {
   const approveAdmin = async (id) => {
     try {
       const response = await axios.put(
-        `${api_url}/api/admin/approve/${id}`,
+        `${API_BASE_URL}api/admin/approve/${id}`,
         {},
         {
           headers: {
@@ -64,7 +64,7 @@ const PendingAdmins = () => {
   const rejectAdmin = async (id) => {
     try {
       const response = await axios.put(
-        `${api_url}/api/admin/reject/${id}`,
+        `${API_BASE_URL}api/admin/reject/${id}`,
         {},
         {
           headers: {

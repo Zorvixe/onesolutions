@@ -6,7 +6,7 @@ import DirectChat from "../DirectChat";
 import { io } from "socket.io-client";
 import "./ChatMainDrawer.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 
 const ChatMainDrawer = () => {
@@ -43,7 +43,7 @@ const ChatMainDrawer = () => {
           return;
         }
 
-        const response = await fetch(`${api_url}/api/admin/me`, {
+        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
 

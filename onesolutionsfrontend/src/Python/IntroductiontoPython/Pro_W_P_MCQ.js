@@ -3,7 +3,6 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 // import "./Pro_W_P_MCQ.css";
 
-
 const questionsData = [
   {
     question: "Python is which type of language?",
@@ -86,6 +85,13 @@ const questionsData = [
 ];
 
 const Pro_W_P_MCQ = () => {
-  return <MCQLogic title = "Programming with Python - MCQs" questions = {questionsData} />;
+  const questionsData = [...questionsData].sort(() => Math.random() - 0.5);
+
+  return (
+    <MCQLogic
+      title="Programming with Python - MCQs"
+      questions={questionsData}
+    />
+  );
 };
 export default Pro_W_P_MCQ;

@@ -1,30 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { assests } from "../../assests/assests"
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { assests } from "../../assests/assests";
 
 import "./Resumes.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
-
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const Resumes = () => {
   const [publicResumes, setPublicResumes] = useState([]);
   const [atsResumes, setAtsResumes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
       try {
         const [pubResp, atsResp] = await Promise.all([
-          fetch(`${api_url}/api/public/resumes`),
-          fetch(`${api_url}/api/analyzed-resumes`)
+          fetch(`${API_BASE_URL}api/public/resumes`),
+          fetch(`${API_BASE_URL}api/analyzed-resumes`),
         ]);
-        if (!pubResp.ok) throw new Error('Failed to fetch uploaded resumes');
-        if (!atsResp.ok) throw new Error('Failed to fetch ATS resumes');
+        if (!pubResp.ok) throw new Error("Failed to fetch uploaded resumes");
+        if (!atsResp.ok) throw new Error("Failed to fetch ATS resumes");
 
-        const [pubData, atsData] = await Promise.all([pubResp.json(), atsResp.json()]);
+        const [pubData, atsData] = await Promise.all([
+          pubResp.json(),
+          atsResp.json(),
+        ]);
         setPublicResumes(pubData);
         setAtsResumes(atsData);
       } catch (err) {
@@ -37,16 +39,22 @@ const Resumes = () => {
     fetchAll();
   }, []);
 
-  if (loading) return <div className="chats-loading-container">
-    <img src={assests.one_solutions} className="one-solutions-image-chats" alt='one_solutions_logo'/>
-    <div className="loader-chats"></div>
-  </div>;
+  if (loading)
+    return (
+      <div className="chats-loading-container">
+        <img
+          src={assests.one_solutions}
+          className="one-solutions-image-chats"
+          alt="one_solutions_logo"
+        />
+        <div className="loader-chats"></div>
+      </div>
+    );
   if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <div className="resumes-container">
       <div className="resumes-admin">
-
         {/* Section: Uploaded Resumes */}
         <section className="resumes-section">
           <h5>Company Jobs Uploaded Resumes</h5>
@@ -65,26 +73,29 @@ const Resumes = () => {
                 </tr>
               </thead>
               <tbody>
-          {publicResumes.map((resume) => (
-            <tr key={resume.id}>
+                {publicResumes.map((resume) => (
+                  <tr key={resume.id}>
                     <td>{resume.name}</td>
                     <td>{resume.email}</td>
-                    <td>{resume.phone || 'N/A'}</td>
+                    <td>{resume.phone || "N/A"}</td>
                     <td>
-                      <Link to={`https://onesolutions.onrender.com/company/${encodeURIComponent(resume.job_companyname)}/${encodeURIComponent(resume.job_url)}`}
-                        target="_blank">
+                      <Link
+                        to={`https://onesolutions.onrender.com/company/${encodeURIComponent(
+                          resume.job_companyname
+                        )}/${encodeURIComponent(resume.job_url)}`}
+                        target="_blank"
+                      >
                         {resume.job_companyname}
-
                       </Link>
                     </td>
                     <td>{Math.round(resume.match_percentage)}%</td>
                     <td>
-                     <a
-                  href={`${api_url}/api/public/resumes/${resume.id}/download`}
-                  className="download-link"
-                >
-                  📄 Download
-                </a>
+                      <a
+                        href={`${API_BASE_URL}api/public/resumes/${resume.id}/download`}
+                        className="download-link"
+                      >
+                        📄 Download
+                      </a>
                     </td>
                   </tr>
                 ))}
@@ -110,22 +121,24 @@ const Resumes = () => {
                 </tr>
               </thead>
               <tbody>
-                {atsResumes.map(({ id, name, email, phone, match_percentage }) => (
-                  <tr key={id}>
-                    <td>{name}</td>
-                    <td>{email}</td>
-                    <td>{phone || 'N/A'}</td>
-                    <td>{Math.round(match_percentage)}%</td>
-                    <td>
-                      <a
-                        href={`${api_url}/api/analyzed-resumes/${id}/download`}
-                        className="download-link"
-                      >
-                        📄 Download
-                      </a>
-                    </td>
-                  </tr>
-                ))}
+                {atsResumes.map(
+                  ({ id, name, email, phone, match_percentage }) => (
+                    <tr key={id}>
+                      <td>{name}</td>
+                      <td>{email}</td>
+                      <td>{phone || "N/A"}</td>
+                      <td>{Math.round(match_percentage)}%</td>
+                      <td>
+                        <a
+                          href={`${API_BASE_URL}api/analyzed-resumes/${id}/download`}
+                          className="download-link"
+                        >
+                          📄 Download
+                        </a>
+                      </td>
+                    </tr>
+                  )
+                )}
               </tbody>
             </table>
           )}

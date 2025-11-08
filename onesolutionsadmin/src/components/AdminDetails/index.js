@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./admindetails.css"
+import "./admindetails.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
-
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const AdminDetails = () => {
   const [adminDetails, setAdminDetails] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchAdminDetails = async () => {
@@ -21,9 +19,9 @@ const AdminDetails = () => {
       }
 
       try {
-        const response = await fetch(`${api_url}/api/admin/me`, {
+        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -51,24 +49,33 @@ const AdminDetails = () => {
   const updateAdmin = () => {
     navigate(`/edit-profile`);
   };
-  
-  
 
   return (
-    <div className='admin-details-container'>
-      {!adminDetails ? <div></div> :
-        <div className='admin-details'>
+    <div className="admin-details-container">
+      {!adminDetails ? (
+        <div></div>
+      ) : (
+        <div className="admin-details">
           <div>
-            <img src={adminDetails.admin_image_link} alt="Admin" className='admin-image' />
+            <img
+              src={adminDetails.admin_image_link}
+              alt="Admin"
+              className="admin-image"
+            />
           </div>
-          <div className='admin-name-container'>
+          <div className="admin-name-container">
             <p>{adminDetails.adminname}</p>
             <p>+91 {adminDetails.phone}</p>
-            <button type="button" className="edit-button-admin-details" onClick={updateAdmin}>Edit Profile</button>
+            <button
+              type="button"
+              className="edit-button-admin-details"
+              onClick={updateAdmin}
+            >
+              Edit Profile
+            </button>
           </div>
         </div>
-      }
-      
+      )}
     </div>
   );
 };

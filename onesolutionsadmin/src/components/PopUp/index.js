@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { ToastContainer, toast } from "react-toastify"
-import DeleteIcon from "@mui/icons-material/Delete"
-import EditIcon from "@mui/icons-material/Edit"
-import AddIcon from "@mui/icons-material/Add"
-import CloseIcon from "@mui/icons-material/Close"
-import CloudUploadIcon from "@mui/icons-material/CloudUpload"
-import VisibilityIcon from "@mui/icons-material/Visibility"
-import TrendingUpIcon from "@mui/icons-material/TrendingUp"
-import "react-toastify/dist/ReactToastify.css"
-import "./popup.css"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import "react-toastify/dist/ReactToastify.css";
+import "./popup.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const PopUp = () => {
-  const [popups, setPopups] = useState([])
+  const [popups, setPopups] = useState([]);
   const [popup, setPopup] = useState({
     id: null,
     popup_heading: "",
@@ -24,150 +24,153 @@ const PopUp = () => {
     popup_link: "",
     popup_routing_link: "",
     popup_belowtext: "",
-  })
-  const [selectedPopup, setSelectedPopup] = useState(null)
-  const [file, setFile] = useState(null)
-  const [imageLoading, setImageLoading] = useState(false)
-  const [isFormVisible, setIsFormVisible] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
-  const [isBottomMenuVisible, setIsBottomMenuVisible] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [dragActive, setDragActive] = useState(false)
-  const [viewMode, setViewMode] = useState("grid")
-  const [filterStatus, setFilterStatus] = useState("all")
+  });
+  const [selectedPopup, setSelectedPopup] = useState(null);
+  const [file, setFile] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isBottomMenuVisible, setIsBottomMenuVisible] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [dragActive, setDragActive] = useState(false);
+  const [viewMode, setViewMode] = useState("grid");
+  const [filterStatus, setFilterStatus] = useState("all");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (selectedPopup && !isMobile) {
-        const desktopMenu = document.querySelector(".popup-desktop-menu-up")
+        const desktopMenu = document.querySelector(".popup-desktop-menu-up");
         if (desktopMenu && !desktopMenu.contains(e.target)) {
-          setSelectedPopup(null)
+          setSelectedPopup(null);
         }
       }
       if (isMobile && isBottomMenuVisible) {
-        const bottomMenu = document.querySelector(".popup-bottom-menu-up")
+        const bottomMenu = document.querySelector(".popup-bottom-menu-up");
         if (bottomMenu && !bottomMenu.contains(e.target)) {
-          setIsBottomMenuVisible(false)
+          setIsBottomMenuVisible(false);
         }
       }
-    }
-    document.addEventListener("click", handleClickOutside)
-    return () => document.removeEventListener("click", handleClickOutside)
-  }, [selectedPopup, isBottomMenuVisible, isMobile])
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [selectedPopup, isBottomMenuVisible, isMobile]);
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
-    if (token) fetchPopups(token)
-    else navigate("/login")
-  }, [navigate])
+    const token = localStorage.getItem("token");
+    if (token) fetchPopups(token);
+    else navigate("/login");
+  }, [navigate]);
 
   const fetchPopups = async (token) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await fetch(api_url, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      })
+      });
       if (!response.ok) {
-        toast.error("Your Session is Expired!")
+        toast.error("Your Session is Expired!");
       }
-      const data = await response.json()
-      setPopups(data)
+      const data = await response.json();
+      setPopups(data);
     } catch (error) {
-      toast.error(error.message)
-      console.error("Error fetching popups:", error.message)
+      toast.error(error.message);
+      console.error("Error fetching popups:", error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const uploadImageToCloudinary = async (file) => {
-    const formData = new FormData()
-    formData.append("file", file)
-    formData.append("upload_preset", "sfdqoeq5")
-    formData.append("cloud_name", "dsjcty43b")
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "sfdqoeq5");
+    formData.append("cloud_name", "dsjcty43b");
 
     try {
-      const response = await fetch("https://api.cloudinary.com/v1_1/dsjcty43b/image/upload", {
-        method: "POST",
-        body: formData,
-      })
-      const data = await response.json()
-      return data.secure_url
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/dsjcty43b/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const data = await response.json();
+      return data.secure_url;
     } catch (error) {
-      console.error("Error uploading to Cloudinary:", error)
-      toast.error("Image upload failed. Please try again.")
-      return null
+      console.error("Error uploading to Cloudinary:", error);
+      toast.error("Image upload failed. Please try again.");
+      return null;
     }
-  }
+  };
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setPopup((prevData) => ({ ...prevData, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setPopup((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   const handleDrag = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true)
+      setDragActive(true);
     } else if (e.type === "dragleave") {
-      setDragActive(false)
+      setDragActive(false);
     }
-  }
+  };
 
   const handleDrop = async (e) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0]
+      const droppedFile = e.dataTransfer.files[0];
       if (droppedFile.type.startsWith("image/")) {
-        setFile(droppedFile)
-        setImageLoading(true)
-        const imageUrl = await uploadImageToCloudinary(droppedFile)
+        setFile(droppedFile);
+        setImageLoading(true);
+        const imageUrl = await uploadImageToCloudinary(droppedFile);
         if (imageUrl) {
-          setPopup((prevData) => ({ ...prevData, popup_link: imageUrl }))
+          setPopup((prevData) => ({ ...prevData, popup_link: imageUrl }));
         }
-        setImageLoading(false)
+        setImageLoading(false);
       } else {
-        toast.error("Please upload an image file only.")
+        toast.error("Please upload an image file only.");
       }
     }
-  }
+  };
 
   const handleImageChange = async (e) => {
-    const selectedFile = e.target.files[0]
-    setFile(selectedFile)
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
     if (selectedFile) {
-      setImageLoading(true)
-      const imageUrl = await uploadImageToCloudinary(selectedFile)
+      setImageLoading(true);
+      const imageUrl = await uploadImageToCloudinary(selectedFile);
       if (imageUrl) {
-        setPopup((prevData) => ({ ...prevData, popup_link: imageUrl }))
+        setPopup((prevData) => ({ ...prevData, popup_link: imageUrl }));
       }
-      setImageLoading(false)
+      setImageLoading(false);
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const token = localStorage.getItem("token")
-    const method = popup.id ? "PUT" : "POST"
-    const url = popup.id ? `${api_url}/${popup.id}` : api_url
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    const method = popup.id ? "PUT" : "POST";
+    const url = popup.id ? `${API_BASE_URL}${popup.id}` : api_url;
 
     if (
       !popup.popup_heading ||
@@ -176,8 +179,8 @@ const PopUp = () => {
       !popup.popup_routing_link ||
       !popup.popup_belowtext
     ) {
-      toast.error("All fields are required!")
-      return
+      toast.error("All fields are required!");
+      return;
     }
 
     try {
@@ -188,46 +191,48 @@ const PopUp = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(popup),
-      })
-      if (!response.ok) throw new Error(await response.text())
-      toast.success(popup.id ? "Popup updated successfully!" : "Popup created successfully!")
-      fetchPopups(token)
-      resetForm()
-      setIsFormVisible(false)
+      });
+      if (!response.ok) throw new Error(await response.text());
+      toast.success(
+        popup.id ? "Popup updated successfully!" : "Popup created successfully!"
+      );
+      fetchPopups(token);
+      resetForm();
+      setIsFormVisible(false);
     } catch (error) {
-      toast.error(error.message)
-      console.error("Error saving popup:", error.message)
+      toast.error(error.message);
+      console.error("Error saving popup:", error.message);
     }
-  }
+  };
 
   const handleEdit = (popup) => {
-    setPopup(popup)
-    setFile(null)
-    setIsFormVisible(true)
-    setIsBottomMenuVisible(false)
-    setSelectedPopup(null)
-  }
+    setPopup(popup);
+    setFile(null);
+    setIsFormVisible(true);
+    setIsBottomMenuVisible(false);
+    setSelectedPopup(null);
+  };
 
   const handleDelete = async (id) => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`${api_url}/${id}`, {
+      const response = await fetch(`${API_BASE_URL}${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      })
-      if (!response.ok) throw new Error(await response.text())
-      toast.success("Popup deleted successfully!")
-      fetchPopups(token)
+      });
+      if (!response.ok) throw new Error(await response.text());
+      toast.success("Popup deleted successfully!");
+      fetchPopups(token);
     } catch (error) {
-      toast.error(error.message)
-      console.error("Error deleting popup:", error.message)
+      toast.error(error.message);
+      console.error("Error deleting popup:", error.message);
     }
-    setIsBottomMenuVisible(false)
-    setSelectedPopup(null)
-  }
+    setIsBottomMenuVisible(false);
+    setSelectedPopup(null);
+  };
 
   const resetForm = () => {
     setPopup({
@@ -237,23 +242,23 @@ const PopUp = () => {
       popup_link: "",
       popup_routing_link: "",
       popup_belowtext: "",
-    })
-    setFile(null)
-  }
+    });
+    setFile(null);
+  };
 
   const handleThreeDotsClick = (popup, e) => {
-    e.stopPropagation()
-    setSelectedPopup(popup)
+    e.stopPropagation();
+    setSelectedPopup(popup);
     if (isMobile) {
-      setIsBottomMenuVisible(true)
+      setIsBottomMenuVisible(true);
     }
-  }
+  };
 
   const filteredPopups = popups.filter(
     (popup) =>
       popup.popup_heading.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      popup.popup_text.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      popup.popup_text.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="popup-admin-container-up">
@@ -297,7 +302,9 @@ const PopUp = () => {
               <span className="title-gradient-up">Popup</span>
               <span className="title-highlight-up">Manager</span>
             </h1>
-            <p className="header-subtitle-up">Manage your popup campaigns efficiently</p>
+            <p className="header-subtitle-up">
+              Manage your popup campaigns efficiently
+            </p>
           </div>
           <div className="header-stats-up">
             <div className="mini-stat-up">
@@ -313,8 +320,8 @@ const PopUp = () => {
         <button
           className="compact-add-btn-up"
           onClick={() => {
-            resetForm()
-            setIsFormVisible(true)
+            resetForm();
+            setIsFormVisible(true);
           }}
         >
           <AddIcon />
@@ -336,19 +343,25 @@ const PopUp = () => {
           </div>
           <div className="compact-filters-up">
             <button
-              className={`filter-btn-up ${filterStatus === "all" ? "active-up" : ""}`}
+              className={`filter-btn-up ${
+                filterStatus === "all" ? "active-up" : ""
+              }`}
               onClick={() => setFilterStatus("all")}
             >
               All
             </button>
             <button
-              className={`filter-btn-up ${filterStatus === "active" ? "active-up" : ""}`}
+              className={`filter-btn-up ${
+                filterStatus === "active" ? "active-up" : ""
+              }`}
               onClick={() => setFilterStatus("active")}
             >
               Active
             </button>
             <button
-              className={`filter-btn-up ${filterStatus === "draft" ? "active-up" : ""}`}
+              className={`filter-btn-up ${
+                filterStatus === "draft" ? "active-up" : ""
+              }`}
               onClick={() => setFilterStatus("draft")}
             >
               Draft
@@ -363,7 +376,10 @@ const PopUp = () => {
           <div className="compact-modal-up">
             <div className="compact-modal-header-up">
               <h3>{popup.id ? "Edit Popup" : "Create Popup"}</h3>
-              <button className="compact-close-btn-up" onClick={() => setIsFormVisible(false)}>
+              <button
+                className="compact-close-btn-up"
+                onClick={() => setIsFormVisible(false)}
+              >
                 <CloseIcon />
               </button>
             </div>
@@ -400,13 +416,21 @@ const PopUp = () => {
                   <div className="compact-input-group-up compact-image-group-up">
                     <label>Image</label>
                     <div
-                      className={`compact-image-upload-up ${dragActive ? "drag-active-up" : ""}`}
+                      className={`compact-image-upload-up ${
+                        dragActive ? "drag-active-up" : ""
+                      }`}
                       onDragEnter={handleDrag}
                       onDragLeave={handleDrag}
                       onDragOver={handleDrag}
                       onDrop={handleDrop}
                     >
-                      <input type="file" accept="image/*" onChange={handleImageChange} id="image" hidden />
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        id="image"
+                        hidden
+                      />
                       <label htmlFor="image" className="compact-upload-area-up">
                         {imageLoading ? (
                           <div className="compact-loading-up">
@@ -415,7 +439,10 @@ const PopUp = () => {
                           </div>
                         ) : popup.popup_link ? (
                           <div className="compact-image-preview-up">
-                            <img src={popup.popup_link || "/placeholder.svg"} alt="Preview" />
+                            <img
+                              src={popup.popup_link || "/placeholder.svg"}
+                              alt="Preview"
+                            />
                             <div className="compact-overlay-up">
                               <CloudUploadIcon />
                             </div>
@@ -458,7 +485,11 @@ const PopUp = () => {
                 </div>
 
                 <div className="compact-form-actions-up">
-                  <button type="button" className="compact-btn-cancel-up" onClick={() => setIsFormVisible(false)}>
+                  <button
+                    type="button"
+                    className="compact-btn-cancel-up"
+                    onClick={() => setIsFormVisible(false)}
+                  >
                     Cancel
                   </button>
                   <button type="submit" className="compact-btn-submit-up">
@@ -494,8 +525,8 @@ const PopUp = () => {
               <button
                 className="compact-empty-btn-up"
                 onClick={() => {
-                  resetForm()
-                  setIsFormVisible(true)
+                  resetForm();
+                  setIsFormVisible(true);
                 }}
               >
                 <AddIcon />
@@ -505,13 +536,28 @@ const PopUp = () => {
           ) : (
             <div className="compact-grid-up">
               {filteredPopups.map((popup, index) => (
-                <div key={popup.id} className="compact-card-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                <div
+                  key={popup.id}
+                  className="compact-card-up"
+                  style={{ animationDelay: `${index * 0.05}s` }}
+                >
                   <div className="compact-card-header-up">
                     <div className="compact-card-image-up">
-                      <img src={popup.popup_link || "/placeholder.svg"} alt={popup.popup_heading} />
+                      <img
+                        src={popup.popup_link || "/placeholder.svg"}
+                        alt={popup.popup_heading}
+                      />
                     </div>
-                    <button className="compact-menu-btn-up" onClick={(e) => handleThreeDotsClick(popup, e)}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <button
+                      className="compact-menu-btn-up"
+                      onClick={(e) => handleThreeDotsClick(popup, e)}
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
                         <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                       </svg>
                     </button>
@@ -519,7 +565,9 @@ const PopUp = () => {
                   </div>
 
                   <div className="compact-card-content-up">
-                    <h4 className="compact-card-title-up">{popup.popup_heading}</h4>
+                    <h4 className="compact-card-title-up">
+                      {popup.popup_heading}
+                    </h4>
                     <p className="compact-card-text-up">{popup.popup_text}</p>
 
                     <div className="compact-metrics-up">
@@ -539,18 +587,26 @@ const PopUp = () => {
                   </div>
 
                   {/* Desktop Menu */}
-                  {selectedPopup && selectedPopup.id === popup.id && !isMobile && (
-                    <div className="compact-floating-menu-up">
-                      <button className="compact-menu-item-up" onClick={() => handleEdit(popup)}>
-                        <EditIcon />
-                        Edit
-                      </button>
-                      <button className="compact-menu-item-up delete-up" onClick={() => handleDelete(popup.id)}>
-                        <DeleteIcon />
-                        Delete
-                      </button>
-                    </div>
-                  )}
+                  {selectedPopup &&
+                    selectedPopup.id === popup.id &&
+                    !isMobile && (
+                      <div className="compact-floating-menu-up">
+                        <button
+                          className="compact-menu-item-up"
+                          onClick={() => handleEdit(popup)}
+                        >
+                          <EditIcon />
+                          Edit
+                        </button>
+                        <button
+                          className="compact-menu-item-up delete-up"
+                          onClick={() => handleDelete(popup.id)}
+                        >
+                          <DeleteIcon />
+                          Delete
+                        </button>
+                      </div>
+                    )}
                 </div>
               ))}
             </div>
@@ -565,11 +621,17 @@ const PopUp = () => {
           <div className="compact-menu-panel-up">
             <div className="compact-menu-handle-up"></div>
             <div className="compact-menu-content-up">
-              <button className="compact-mobile-item-up" onClick={() => handleEdit(selectedPopup)}>
+              <button
+                className="compact-mobile-item-up"
+                onClick={() => handleEdit(selectedPopup)}
+              >
                 <EditIcon />
                 <span>Edit</span>
               </button>
-              <button className="compact-mobile-item-up delete-up" onClick={() => handleDelete(selectedPopup.id)}>
+              <button
+                className="compact-mobile-item-up delete-up"
+                onClick={() => handleDelete(selectedPopup.id)}
+              >
                 <DeleteIcon />
                 <span>Delete</span>
               </button>
@@ -578,7 +640,7 @@ const PopUp = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default PopUp
+export default PopUp;

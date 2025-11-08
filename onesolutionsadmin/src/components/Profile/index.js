@@ -4,11 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import Dialog from "@mui/material/Dialog";
 
-import "./profile.css"
+import "./profile.css";
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
-const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
-
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 function SimpleDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -24,14 +23,14 @@ function SimpleDialog(props) {
 
       if (!token) {
         setError("No token found. Please log in.");
-        console.log({error})
+        console.log({ error });
         return;
       }
 
       try {
-        const response = await fetch(`${api_url}/api/admin/me`, {
+        const response = await fetch(`${API_BASE_URL}api/admin/me`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -70,10 +69,15 @@ function SimpleDialog(props) {
         )}
         {adminDetails && (
           <h1 className="admin-name-nav">{adminDetails.adminname}</h1>
-        )}      {adminDetails && (
-          <p className="admin-name-nav phone-number">+91 {adminDetails.phone}</p>
+        )}{" "}
+        {adminDetails && (
+          <p className="admin-name-nav phone-number">
+            +91 {adminDetails.phone}
+          </p>
         )}
-          <button className="profile-button" type="button" onClick={updateAdmin}>Edit Profile</button>
+        <button className="profile-button" type="button" onClick={updateAdmin}>
+          Edit Profile
+        </button>
       </div>
     </Dialog>
   );
