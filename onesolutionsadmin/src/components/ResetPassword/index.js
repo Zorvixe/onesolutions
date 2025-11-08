@@ -6,7 +6,7 @@ import { assests } from "../../assests/assests"
 import { ToastContainer, toast } from "react-toastify"
 import "./resetpassword.css"
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 const ResetPassword = () => {
@@ -21,7 +21,7 @@ const ResetPassword = () => {
     setIsLoading(true)
 
     try {
-      const response = await fetch(`${api_url}api/admin/forgot-password`, {
+      const response = await fetch(`${api_url}/api/admin/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

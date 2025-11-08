@@ -9,7 +9,7 @@ import { assests } from "../../assests/assests"
 import "react-toastify/dist/ReactToastify.css"
 import "./register.css"
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003/"
 
 
 const AdminRegister = () => {
@@ -125,7 +125,7 @@ const AdminRegister = () => {
         imageUrl = await uploadImageToCloudinary(imageFile)
       }
 
-      const response = await axios.post(`https://ose.onesolutionsekam.in/api/admin/register`, {
+      const response = await axios.post(`${api_url}/api/admin/register`, {
         ...formData,
         admin_image_link: imageUrl,
       })

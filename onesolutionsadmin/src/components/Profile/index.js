@@ -7,7 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import "./profile.css"
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 function SimpleDialog(props) {
@@ -29,7 +29,7 @@ function SimpleDialog(props) {
       }
 
       try {
-        const response = await fetch(`${api_url}api/admin/me`, {
+        const response = await fetch(`${api_url}/api/admin/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

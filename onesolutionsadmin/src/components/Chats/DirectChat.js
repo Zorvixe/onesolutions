@@ -7,7 +7,7 @@ import "./ChatMain.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 const DirectChat = ({ recipient, user, socket, onBack }) => {
@@ -41,7 +41,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
           return;
         }
         const response = await axios.get(
-          `${api_url}api/chat/direct-messages/${user.phone}/${recipient.phone}`,
+          `${api_url}/api/chat/direct-messages/${user.phone}/${recipient.phone}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessages(response.data);
@@ -85,7 +85,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${api_url}api/chat/direct-messages`,
+        `${api_url}/api/chat/direct-messages`,
         messagePayload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -162,7 +162,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `${api_url}api/chat/direct-messages/${messageId}`,
+        `${api_url}/api/chat/direct-messages/${messageId}`,
         { message: newText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -183,7 +183,7 @@ const DirectChat = ({ recipient, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${api_url}api/chat/direct-messages/${messageId}`,
+        `${api_url}/api/chat/direct-messages/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

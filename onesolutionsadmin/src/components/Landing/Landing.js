@@ -4,6 +4,9 @@ import { assests } from "../../assests/assests";
 import { ojbassests } from "../OJB/ojbassests/ojbassests";
 import "./Landing.css";
 
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+
+
 function Landing() {
   // State for admin details and error
   const [adminDetails, setAdminDetails] = useState(null);
@@ -29,7 +32,6 @@ function Landing() {
     currentSessionStart: null,
   });
 
-  const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003";
 
   // Fetch admin details on component mount
   useEffect(() => {
@@ -42,7 +44,7 @@ function Landing() {
       }
 
       try {
-        const response = await fetch(`${api_url}api/admin/me`, {
+        const response = await fetch(`${api_url}/api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -82,19 +84,19 @@ function Landing() {
           sessionResponse,
           adminStatusResponse,
         ] = await Promise.all([
-          fetch(`${api_url}api/jobs/adminpanel`, {
+          fetch(`${api_url}/api/jobs/adminpanel`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}api/admins/approved`, {
+          fetch(`${api_url}/api/admins/approved`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}api/public/resumes`, {
+          fetch(`${api_url}/api/public/resumes`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}api/session/status`, {
+          fetch(`${api_url}/api/session/status`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`${api_url}api/admins/status/individual`, {
+          fetch(`${api_url}/api/admins/status/individual`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

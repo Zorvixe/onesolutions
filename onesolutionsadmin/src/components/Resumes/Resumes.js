@@ -4,7 +4,7 @@ import { assests } from "../../assests/assests"
 
 import "./Resumes.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 const Resumes = () => {
@@ -18,8 +18,8 @@ const Resumes = () => {
       setLoading(true);
       try {
         const [pubResp, atsResp] = await Promise.all([
-          fetch(`${api_url}api/public/resumes`),
-          fetch(`${api_url}api/analyzed-resumes`)
+          fetch(`${api_url}/api/public/resumes`),
+          fetch(`${api_url}/api/analyzed-resumes`)
         ]);
         if (!pubResp.ok) throw new Error('Failed to fetch uploaded resumes');
         if (!atsResp.ok) throw new Error('Failed to fetch ATS resumes');
@@ -80,7 +80,7 @@ const Resumes = () => {
                     <td>{Math.round(resume.match_percentage)}%</td>
                     <td>
                      <a
-                  href={`${api_url}api/public/resumes/${resume.id}/download`}
+                  href={`${api_url}/api/public/resumes/${resume.id}/download`}
                   className="download-link"
                 >
                   📄 Download
@@ -118,7 +118,7 @@ const Resumes = () => {
                     <td>{Math.round(match_percentage)}%</td>
                     <td>
                       <a
-                        href={`${api_url}api/analyzed-resumes/${id}/download`}
+                        href={`${api_url}/api/analyzed-resumes/${id}/download`}
                         className="download-link"
                       >
                         📄 Download

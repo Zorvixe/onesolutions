@@ -13,7 +13,7 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp"
 import "react-toastify/dist/ReactToastify.css"
 import "./popup.css"
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 const PopUp = () => {
   const [popups, setPopups] = useState([])
@@ -167,7 +167,7 @@ const PopUp = () => {
     e.preventDefault()
     const token = localStorage.getItem("token")
     const method = popup.id ? "PUT" : "POST"
-    const url = popup.id ? `${api_url}${popup.id}` : api_url
+    const url = popup.id ? `${api_url}/${popup.id}` : api_url
 
     if (
       !popup.popup_heading ||
@@ -211,7 +211,7 @@ const PopUp = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token")
     try {
-      const response = await fetch(`${api_url}${id}`, {
+      const response = await fetch(`${api_url}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

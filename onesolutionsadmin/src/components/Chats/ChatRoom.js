@@ -5,7 +5,7 @@ import MessageMenu from "./MessageMenu";
 import { MdSend } from "react-icons/md";
 import "./ChatMain.css";
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
@@ -48,7 +48,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `${api_url}api/chat/messages/${roomId}`,
+          `${api_url}/api/chat/messages/${roomId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessages(response.data);
@@ -83,7 +83,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `${api_url}api/chat/messages`,
+        `${api_url}/api/chat/messages`,
         message,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -117,7 +117,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `${api_url}api/chat/messages/${messageId}`,
+        `${api_url}/api/chat/messages/${messageId}`,
         { message: newText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -138,7 +138,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `${api_url}api/chat/messages/${messageId}`,
+        `${api_url}/api/chat/messages/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

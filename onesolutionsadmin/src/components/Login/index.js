@@ -6,7 +6,7 @@ import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa"
 import { assests } from "../../assests/assests"
 import "./login.css"
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 const Login = () => {
@@ -59,7 +59,7 @@ const Login = () => {
     setSuccessMessage(null)
 
     try {
-      const response = await fetch(`${api_url}api/admin/login`, {
+      const response = await fetch(`${api_url}/api/admin/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

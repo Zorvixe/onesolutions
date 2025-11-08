@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./admindetails.css"
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 
 const AdminDetails = () => {
@@ -21,7 +21,7 @@ const AdminDetails = () => {
       }
 
       try {
-        const response = await fetch(`${api_url}api/admin/me`, {
+        const response = await fetch(`${api_url}/api/admin/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

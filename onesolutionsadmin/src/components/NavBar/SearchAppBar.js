@@ -24,10 +24,8 @@ import { OnlineStatusContext } from "../Context/OnlineStatusContext";
 import { assests } from "../../assests/assests";
 import "./navbar.css";
 
-const api_url =
-  process.env.REACT_APP_BACKEND_URL ||
-  process.env.REACT_APP_BACKEND_URL ||
-  "http://localhost:5003";
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+
 
 // Styled components for search bar
 const Search = styled("div")(({ theme }) => ({
@@ -120,7 +118,7 @@ export default function SearchAppBar() {
       }
 
       try {
-        const response = await fetch(`${api_url}api/admin/me`, {
+        const response = await fetch(`${api_url}/api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

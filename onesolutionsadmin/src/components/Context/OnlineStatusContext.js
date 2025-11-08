@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 export const OnlineStatusContext = createContext();
 
-const api_url = process.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
+const api_url = process.env.REACT_APP_BACKEND_URL || "http://localhost:5003"
 
 export const OnlineStatusProvider = ({ children }) => {
   const [isOnline, setIsOnline] = useState(false);
@@ -15,7 +15,7 @@ export const OnlineStatusProvider = ({ children }) => {
     
     const fetchInitialStatus = async () => {
       try {
-        const response = await fetch(`${api_url}api/session/status`, {
+        const response = await fetch(`${api_url}/api/session/status`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await response.json();
@@ -60,7 +60,7 @@ export const OnlineStatusProvider = ({ children }) => {
   
   const persistTimeToBackend = async (time) => {
     try {
-      await fetch(`${api_url}api/session/update`, {
+      await fetch(`${api_url}/api/session/update`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -77,7 +77,7 @@ export const OnlineStatusProvider = ({ children }) => {
   const handleOnline = async () => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`${api_url}api/session/start`, {
+      await fetch(`${api_url}/api/session/start`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -93,7 +93,7 @@ export const OnlineStatusProvider = ({ children }) => {
   const handleOffline = async () => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`${api_url}api/session/end`, {
+      await fetch(`${api_url}/api/session/end`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       });
