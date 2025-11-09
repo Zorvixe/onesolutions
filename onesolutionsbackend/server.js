@@ -1705,6 +1705,7 @@ app.post("/api/test-email", async (req, res) => {
 });
 
 
+// -------------------------------------------
 // 🔹 NEW: Get Student Complete Profile
 // -------------------------------------------
 app.get("/api/student/complete-profile", auth, async (req, res) => {
@@ -1846,6 +1847,7 @@ app.get("/api/student/complete-profile", auth, async (req, res) => {
 // -------------------------------------------
 // 🔹 NEW: Update Student Complete Profile
 // -------------------------------------------
+
 app.put(
   "/api/student/complete-profile",
   auth,
@@ -1967,19 +1969,19 @@ app.put(
       const preferredLangsArray = Array.isArray(preferredLanguages)
         ? preferredLanguages
         : preferredLanguages
-        ? [preferredLanguages]
+        ? JSON.parse(preferredLanguages)
         : [];
 
       const techSkillsArray = Array.isArray(technicalSkills)
         ? technicalSkills
         : technicalSkills
-        ? technicalSkills.split(",").map((skill) => skill.trim())
+        ? JSON.parse(technicalSkills)
         : [];
 
       const jobLocationsArray = Array.isArray(preferredJobLocations)
         ? preferredJobLocations
         : preferredJobLocations
-        ? [preferredJobLocations]
+        ? JSON.parse(preferredJobLocations)
         : [];
 
       const hasLaptopBool = hasLaptop === "true" || hasLaptop === true;
@@ -2015,66 +2017,65 @@ app.put(
     `;
 
       const result = await pool.query(updateQuery, [
-        firstName,
-        lastName,
-        phone,
+        firstName || req.student.first_name,
+        lastName || req.student.last_name,
+        phone || req.student.phone,
         profileImagePath,
-        batchMonth,
-        batchYear,
+        batchMonth || req.student.batch_month,
+        batchYear || req.student.batch_year,
         isCurrentBatchBool,
-        nameOnCertificate,
-        gender,
+        nameOnCertificate || req.student.name_on_certificate,
+        gender || req.student.gender,
         preferredLangsArray,
-        dateOfBirth,
-        codePlaygroundUsername,
-        linkedinProfileUrl,
-        githubProfileUrl,
-        hackerrankProfileUrl,
-        leetcodeProfileUrl,
+        dateOfBirth || req.student.date_of_birth,
+        codePlaygroundUsername || req.student.code_playground_username,
+        linkedinProfileUrl || req.student.linkedin_profile_url,
+        githubProfileUrl || req.student.github_profile_url,
+        hackerrankProfileUrl || req.student.hackerrank_profile_url,
+        leetcodeProfileUrl || req.student.leetcode_profile_url,
         resumePath,
-        parentFirstName,
-        parentLastName,
-        parentRelation,
-        addressLine1,
-        addressLine2,
-        country,
-        state,
-        district,
-        city,
-        postalCode,
-        currentCodingLevel,
+        parentFirstName || req.student.parent_first_name,
+        parentLastName || req.student.parent_last_name,
+        parentRelation || req.student.parent_relation,
+        addressLine1 || req.student.address_line_1,
+        addressLine2 || req.student.address_line_2,
+        country || req.student.country,
+        state || req.student.state,
+        district || req.student.district,
+        city || req.student.city,
+        postalCode || req.student.postal_code,
+        currentCodingLevel || req.student.current_coding_level,
         techSkillsArray,
         hasLaptopBool,
-        jobSearchStatus,
+        jobSearchStatus || req.student.job_search_status,
         jobLocationsArray,
-        expectedCtcRange,
-        preferredTeachingLanguage,
-        preferredVideoLanguage,
-        tenthMarksType,
-        tenthMarks,
-        twelfthEducationType,
-        twelfthMarksType,
-        twelfthMarks,
-        bachelorDegree,
-        bachelorBranch,
-        bachelorCgpa,
-        bachelorStartYear,
-        bachelorEndYear,
-        bachelorStatus,
-        bachelorInstitute,
-        bachelorInstituteState,
-        bachelorInstituteCity,
-        bachelorInstitutePincode,
-        bachelorInstituteDistrict,
-        occupationStatus,
+        expectedCtcRange || req.student.expected_ctc_range,
+        preferredTeachingLanguage || req.student.preferred_teaching_language,
+        preferredVideoLanguage || req.student.preferred_video_language,
+        tenthMarksType || req.student.tenth_marks_type,
+        tenthMarks || req.student.tenth_marks,
+        twelfthEducationType || req.student.twelfth_education_type,
+        twelfthMarksType || req.student.twelfth_marks_type,
+        twelfthMarks || req.student.twelfth_marks,
+        bachelorDegree || req.student.bachelor_degree,
+        bachelorBranch || req.student.bachelor_branch,
+        bachelorCgpa || req.student.bachelor_cgpa,
+        bachelorStartYear || req.student.bachelor_start_year,
+        bachelorEndYear || req.student.bachelor_end_year,
+        bachelorStatus || req.student.bachelor_status,
+        bachelorInstitute || req.student.bachelor_institute,
+        bachelorInstituteState || req.student.bachelor_institute_state,
+        bachelorInstituteCity || req.student.bachelor_institute_city,
+        bachelorInstitutePincode || req.student.bachelor_institute_pincode,
+        bachelorInstituteDistrict || req.student.bachelor_institute_district,
+        occupationStatus || req.student.occupation_status,
         hasWorkExpBool,
         studentId,
       ]);
 
       // Handle projects and achievements
       if (projects) {
-        const projectsData =
-          typeof projects === "string" ? JSON.parse(projects) : projects;
+        const projectsData = JSON.parse(projects);
 
         // Delete existing projects
         await pool.query("DELETE FROM student_projects WHERE student_id = $1", [
@@ -2100,10 +2101,7 @@ app.put(
       }
 
       if (achievements) {
-        const achievementsData =
-          typeof achievements === "string"
-            ? JSON.parse(achievements)
-            : achievements;
+        const achievementsData = JSON.parse(achievements);
 
         // Delete existing achievements
         await pool.query(
@@ -2130,91 +2128,101 @@ app.put(
       }
 
       const updatedStudent = result.rows[0];
+
+      // Get updated projects and achievements
+      const updatedProjects = await pool.query(
+        `SELECT * FROM student_projects WHERE student_id = $1 ORDER BY created_at DESC`,
+        [studentId]
+      );
+
+      const updatedAchievements = await pool.query(
+        `SELECT * FROM student_achievements WHERE student_id = $1 ORDER BY created_at DESC`,
+        [studentId]
+      );
+
       const baseUrl =
-        process.env.BACKEND_URL ||
-        `http://localhost:${process.env.PORT || 5002}`;
+        process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
       // Format response
       const studentResponse = {
-        id: student.id,
-        studentId: student.student_id,
-        email: student.email,
-        firstName: student.first_name,
-        lastName: student.last_name,
-        phone: student.phone,
-        profileImage: student.profile_image
-          ? `${baseUrl}${student.profile_image}`
+        id: updatedStudent.id,
+        studentId: updatedStudent.student_id,
+        email: updatedStudent.email,
+        firstName: updatedStudent.first_name,
+        lastName: updatedStudent.last_name,
+        phone: updatedStudent.phone,
+        profileImage: updatedStudent.profile_image
+          ? `${baseUrl}${updatedStudent.profile_image}`
           : null,
-        batchMonth: student.batch_month,
-        batchYear: student.batch_year,
-        isCurrentBatch: student.is_current_batch,
+        batchMonth: updatedStudent.batch_month,
+        batchYear: updatedStudent.batch_year,
+        isCurrentBatch: updatedStudent.is_current_batch,
 
         // Personal Details
-        nameOnCertificate: student.name_on_certificate,
-        gender: student.gender,
-        preferredLanguages: student.preferred_languages || [],
-        dateOfBirth: student.date_of_birth,
-        codePlaygroundUsername: student.code_playground_username,
-        linkedinProfileUrl: student.linkedin_profile_url,
-        githubProfileUrl: student.github_profile_url,
-        hackerrankProfileUrl: student.hackerrank_profile_url,
-        leetcodeProfileUrl: student.leetcode_profile_url,
-        resumeUrl: student.resume_url,
+        nameOnCertificate: updatedStudent.name_on_certificate,
+        gender: updatedStudent.gender,
+        preferredLanguages: updatedStudent.preferred_languages || [],
+        dateOfBirth: updatedStudent.date_of_birth,
+        codePlaygroundUsername: updatedStudent.code_playground_username,
+        linkedinProfileUrl: updatedStudent.linkedin_profile_url,
+        githubProfileUrl: updatedStudent.github_profile_url,
+        hackerrankProfileUrl: updatedStudent.hackerrank_profile_url,
+        leetcodeProfileUrl: updatedStudent.leetcode_profile_url,
+        resumeUrl: updatedStudent.resume_url,
 
         // Parent/Guardian Details
-        parentFirstName: student.parent_first_name,
-        parentLastName: student.parent_last_name,
-        parentRelation: student.parent_relation,
+        parentFirstName: updatedStudent.parent_first_name,
+        parentLastName: updatedStudent.parent_last_name,
+        parentRelation: updatedStudent.parent_relation,
 
         // Current Address
-        addressLine1: student.address_line_1,
-        addressLine2: student.address_line_2,
-        country: student.country,
-        state: student.state,
-        district: student.district,
-        city: student.city,
-        postalCode: student.postal_code,
+        addressLine1: updatedStudent.address_line_1,
+        addressLine2: updatedStudent.address_line_2,
+        country: updatedStudent.country,
+        state: updatedStudent.state,
+        district: updatedStudent.district,
+        city: updatedStudent.city,
+        postalCode: updatedStudent.postal_code,
 
         // Current Expertise
-        currentCodingLevel: student.current_coding_level,
-        technicalSkills: student.technical_skills || [],
-        hasLaptop: student.has_laptop,
+        currentCodingLevel: updatedStudent.current_coding_level,
+        technicalSkills: updatedStudent.technical_skills || [],
+        hasLaptop: updatedStudent.has_laptop,
 
         // Job Preferences
-        jobSearchStatus: student.job_search_status,
-        preferredJobLocations: student.preferred_job_locations || [],
-        expectedCtcRange: student.expected_ctc_range,
-        preferredTeachingLanguage: student.preferred_teaching_language,
-        preferredVideoLanguage: student.preferred_video_language,
+        jobSearchStatus: updatedStudent.job_search_status,
+        preferredJobLocations: updatedStudent.preferred_job_locations || [],
+        expectedCtcRange: updatedStudent.expected_ctc_range,
+        preferredTeachingLanguage: updatedStudent.preferred_teaching_language,
+        preferredVideoLanguage: updatedStudent.preferred_video_language,
 
         // Education Details
-        tenthMarksType: student.tenth_marks_type,
-        tenthMarks: student.tenth_marks,
-        twelfthEducationType: student.twelfth_education_type,
-        twelfthMarksType: student.twelfth_marks_type,
-        twelfthMarks: student.twelfth_marks,
-        bachelorDegree: student.bachelor_degree,
-        bachelorBranch: student.bachelor_branch,
-        bachelorCgpa: student.bachelor_cgpa,
-        bachelorStartYear: student.bachelor_start_year,
-        bachelorEndYear: student.bachelor_end_year,
-        bachelorStatus: student.bachelor_status,
-        bachelorInstitute: student.bachelor_institute,
-        bachelorInstituteState: student.bachelor_institute_state,
-        bachelorInstituteCity: student.bachelor_institute_city,
-        bachelorInstitutePincode: student.bachelor_institute_pincode,
-        bachelorInstituteDistrict: student.bachelor_institute_district,
+        tenthMarksType: updatedStudent.tenth_marks_type,
+        tenthMarks: updatedStudent.tenth_marks,
+        twelfthEducationType: updatedStudent.twelfth_education_type,
+        twelfthMarksType: updatedStudent.twelfth_marks_type,
+        twelfthMarks: updatedStudent.twelfth_marks,
+        bachelorDegree: updatedStudent.bachelor_degree,
+        bachelorBranch: updatedStudent.bachelor_branch,
+        bachelorCgpa: updatedStudent.bachelor_cgpa,
+        bachelorStartYear: updatedStudent.bachelor_start_year,
+        bachelorEndYear: updatedStudent.bachelor_end_year,
+        bachelorStatus: updatedStudent.bachelor_status,
+        bachelorInstitute: updatedStudent.bachelor_institute,
+        bachelorInstituteState: updatedStudent.bachelor_institute_state,
+        bachelorInstituteCity: updatedStudent.bachelor_institute_city,
+        bachelorInstitutePincode: updatedStudent.bachelor_institute_pincode,
+        bachelorInstituteDistrict: updatedStudent.bachelor_institute_district,
 
         // Work Experience
-        occupationStatus: student.occupation_status,
-        hasWorkExperience: student.has_work_experience,
+        occupationStatus: updatedStudent.occupation_status,
+        hasWorkExperience: updatedStudent.has_work_experience,
 
         // Additional data
-        projects: projectsResult.rows,
-        achievements: achievementsResult.rows,
-        progress: progressResult.rows,
+        projects: updatedProjects.rows,
+        achievements: updatedAchievements.rows,
 
-        createdAt: student.created_at,
+        createdAt: updatedStudent.created_at,
       };
 
       res.json({
@@ -2232,6 +2240,7 @@ app.put(
   }
 );
 
+// -------------------------------------------
 // 🔹 NEW: Projects Management Routes
 // -------------------------------------------
 app.get("/api/student/projects", auth, async (req, res) => {
@@ -2341,7 +2350,6 @@ app.post("/api/student/achievements", auth, async (req, res) => {
     });
   }
 });
-
 
 // Handle 404 routes
 app.use("*", (req, res) => {
