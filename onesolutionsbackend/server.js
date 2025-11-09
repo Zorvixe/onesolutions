@@ -1704,36 +1704,6 @@ app.post("/api/test-email", async (req, res) => {
   }
 });
 
-// -------------------------------------------
-// 🔹 Error handling middleware for Multer
-// -------------------------------------------
-app.use((error, req, res, next) => {
-  if (error instanceof multer.MulterError) {
-    if (error.code === "LIMIT_FILE_SIZE") {
-      return res.status(400).json({
-        success: false,
-        message: "File too large. Maximum size is 5MB.",
-      });
-    }
-  }
-
-  console.error("Unhandled error:", error);
-  res.status(500).json({
-    success: false,
-    message:
-      process.env.NODE_ENV === "production"
-        ? "Internal server error"
-        : error.message,
-  });
-});
-
-// Handle 404 routes
-app.use("*", (req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`,
-  });
-});
 
 // 🔹 NEW: Get Student Complete Profile
 // -------------------------------------------
@@ -2371,6 +2341,40 @@ app.post("/api/student/achievements", auth, async (req, res) => {
     });
   }
 });
+
+
+// Handle 404 routes
+app.use("*", (req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`,
+  });
+});
+
+// -------------------------------------------
+// 🔹 Error handling middleware for Multer
+// -------------------------------------------
+app.use((error, req, res, next) => {
+  if (error instanceof multer.MulterError) {
+    if (error.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({
+        success: false,
+        message: "File too large. Maximum size is 5MB.",
+      });
+    }
+  }
+
+  console.error("Unhandled error:", error);
+  res.status(500).json({
+    success: false,
+    message:
+      process.env.NODE_ENV === "production"
+        ? "Internal server error"
+        : error.message,
+  });
+});
+
+
 
 // -------------------------------------------
 // 🔹 Start Server
