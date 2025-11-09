@@ -30,15 +30,10 @@ export const AuthProvider = ({ children }) => {
       console.log("[AUTH] Checking auth status, token exists:", !!token);
 
       if (token && token !== "null" && token !== "undefined") {
-        console.log("[AUTH] Token found, verifying with server...");
         const response = await authAPI.getProfile();
-        console.log("[AUTH] Profile response:", response.data);
         setUser(response.data.data.student);
-        
-        // Also load complete profile
         await loadCompleteProfile();
       } else {
-        console.log("[AUTH] No valid token found");
         setUser(null);
         setCompleteProfile(null);
       }
@@ -85,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.data.student);
-        await loadCompleteProfile(); // Reload complete profile
+        setCompleteProfile(response.data.data.student);
         return { success: true, message: "Profile updated successfully" };
       } else {
         const errorMsg = response.data.message || "Profile update failed";
@@ -97,7 +92,9 @@ export const AuthProvider = ({ children }) => {
 
       let errorMsg = "Profile update failed. Please try again.";
 
-      if (!error.response) {
+      if (error.response?.data?.message) {
+        errorMsg = error.response.data.message;
+      } else if (!error.response) {
         errorMsg = "Network error. Please check your connection and try again.";
       }
 
@@ -113,7 +110,7 @@ export const AuthProvider = ({ children }) => {
       const response = await authAPI.addProject(projectData);
       
       if (response.data.success) {
-        await loadCompleteProfile(); // Reload to get updated projects
+        await loadCompleteProfile();
         return { success: true, message: "Project added successfully" };
       } else {
         const errorMsg = response.data.message || "Failed to add project";
@@ -135,7 +132,7 @@ export const AuthProvider = ({ children }) => {
       const response = await authAPI.addAchievement(achievementData);
       
       if (response.data.success) {
-        await loadCompleteProfile(); // Reload to get updated achievements
+        await loadCompleteProfile();
         return { success: true, message: "Achievement added successfully" };
       } else {
         const errorMsg = response.data.message || "Failed to add achievement";
@@ -150,22 +147,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ✅ PRODUCTION-READY: OTP Login Request
+  // ✅ OTP Login Request
   const loginOtpRequest = async (email, password) => {
     try {
       setError("");
       setOtpSent(false);
-      console.log("[AUTH] Requesting OTP for:", email);
 
       const response = await authAPI.loginOtpRequest({
         email: email.trim(),
         password,
       });
 
-      console.log("[AUTH] OTP request response:", response.data);
-
       if (response.data.success) {
-        setOtpSent(true); // Mark OTP as sent
+        setOtpSent(true);
         return { success: true, message: "OTP sent to your email" };
       } else {
         const errorMsg = response.data.message || "OTP request failed";
@@ -192,18 +186,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ✅ PRODUCTION-READY: OTP Verification
+  // ✅ OTP Verification
   const loginOtpVerify = async (email, otp) => {
     try {
       setError("");
-      console.log("[AUTH] Verifying OTP for:", email);
 
       const response = await authAPI.loginOtpVerify({
         email: email.trim(),
         otp: otp.trim(),
       });
-
-      console.log("[AUTH] OTP verify response:", response.data);
 
       if (response.data.success) {
         const { student, token } = response.data.data;
@@ -236,159 +227,54 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ✅ PRODUCTION-READY: Forgot Password OTP Request
-  const forgotPasswordRequestOtp = async (email) => {
-    try {
-      setError("");
-      console.log("[AUTH] Requesting password reset OTP for:", email);
-
-      const response = await authAPI.forgotPasswordRequestOtp(email.trim());
-
-      console.log("[AUTH] Forgot password OTP response:", response.data);
-
-      if (response.data.success) {
-        setOtpSent(true);
-        return { success: true, message: "OTP sent to your email" };
-      } else {
-        const errorMsg = response.data.message || "OTP request failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    } catch (error) {
-      console.error("[AUTH] Forgot password OTP error:", error);
-
-      let errorMsg = "Failed to send OTP. Please try again.";
-
-      if (error.response?.status === 404) {
-        errorMsg = "Email not found in our system";
-      } else if (error.response?.status === 429) {
-        errorMsg = "Too many attempts. Please try again later.";
-      } else if (!error.response) {
-        errorMsg = "Network error. Please check your connection and try again.";
-      }
-
-      setError(errorMsg);
-      return { success: false, message: errorMsg };
-    }
-  };
-
-  // ✅ PRODUCTION-READY: Forgot Password OTP Verification & Reset
-  const forgotPasswordVerifyOtpReset = async (email, otp, newPassword) => {
-    try {
-      setError("");
-      console.log("[AUTH] Resetting password for:", email);
-
-      const response = await authAPI.forgotPasswordVerifyOtpReset({
-        email: email.trim(),
-        otp: otp.trim(),
-        newPassword,
-      });
-
-      console.log("[AUTH] Password reset response:", response.data);
-
-      if (response.data.success) {
-        setOtpSent(false);
-        return { success: true, message: "Password reset successful" };
-      } else {
-        const errorMsg = response.data.message || "Password reset failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    } catch (error) {
-      console.error("[AUTH] Password reset error:", error);
-
-      let errorMsg = "Password reset failed. Please try again.";
-
-      if (error.response?.status === 400) {
-        errorMsg = error.response.data?.message || "Invalid OTP or password";
-      } else if (error.response?.status === 401) {
-        errorMsg = "OTP expired. Please request a new one.";
-      } else if (!error.response) {
-        errorMsg = "Network error. Please check your connection and try again.";
-      }
-
-      setError(errorMsg);
-      return { success: false, message: errorMsg };
-    }
-  };
-
-  // ✅ PRODUCTION-READY: Register
-  const register = async (formData) => {
-    try {
-      setError("");
-      console.log("[AUTH] Registering new user");
-      const response = await authAPI.register(formData);
-
-      if (response.data.success) {
-        const { student, token } = response.data.data;
-        localStorage.setItem("token", token);
-        setUser(student);
-        return { success: true, message: "Registration successful" };
-      } else {
-        const errorMsg = response.data.message || "Registration failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    } catch (error) {
-      console.error("[AUTH] Registration error:", error);
-
-      let errorMsg = "Registration failed. Please try again.";
-
-      if (error.response?.status === 400) {
-        errorMsg = error.response.data?.message || "Invalid registration data";
-      } else if (error.response?.status === 409) {
-        errorMsg = "Email already registered";
-      } else if (!error.response) {
-        errorMsg = "Network error. Please check your connection and try again.";
-      }
-
-      setError(errorMsg);
-      return { success: false, message: errorMsg };
-    }
-  };
-
-  // ✅ PRODUCTION-READY: Update Profile
-  const updateProfile = async (formData) => {
-    try {
-      setError("");
-      console.log("[AUTH] Updating user profile");
-      const response = await authAPI.updateProfile(formData);
-
-      if (response.data.success) {
-        setUser(response.data.data.student);
-        return { success: true, message: "Profile updated successfully" };
-      } else {
-        const errorMsg = response.data.message || "Profile update failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    } catch (error) {
-      console.error("[AUTH] Profile update error:", error);
-
-      let errorMsg = "Profile update failed. Please try again.";
-
-      if (!error.response) {
-        errorMsg = "Network error. Please check your connection and try again.";
-      }
-
-      setError(errorMsg);
-      return { success: false, message: errorMsg };
-    }
-  };
-
   const value = {
     user,
     completeProfile,
     loading,
     error,
     otpSent,
-    // OTP methods (same as before)
     loginOtpRequest,
     loginOtpVerify,
-    forgotPasswordRequestOtp,
-    forgotPasswordVerifyOtpReset,
-    register,
-    updateProfile,
+    register: async (formData) => {
+      try {
+        setError("");
+        const response = await authAPI.register(formData);
+        if (response.data.success) {
+          const { student, token } = response.data.data;
+          localStorage.setItem("token", token);
+          setUser(student);
+          return { success: true, message: "Registration successful" };
+        } else {
+          const errorMsg = response.data.message || "Registration failed";
+          setError(errorMsg);
+          return { success: false, message: errorMsg };
+        }
+      } catch (error) {
+        console.error("[AUTH] Registration error:", error);
+        const errorMsg = error.response?.data?.message || "Registration failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    },
+    updateProfile: async (formData) => {
+      try {
+        setError("");
+        const response = await authAPI.updateProfile(formData);
+        if (response.data.success) {
+          setUser(response.data.data.student);
+          return { success: true, message: "Profile updated successfully" };
+        } else {
+          const errorMsg = response.data.message || "Profile update failed";
+          setError(errorMsg);
+          return { success: false, message: errorMsg };
+        }
+      } catch (error) {
+        console.error("[AUTH] Profile update error:", error);
+        const errorMsg = error.response?.data?.message || "Profile update failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    },
     updateCompleteProfile,
     addProject,
     addAchievement,

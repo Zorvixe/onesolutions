@@ -1704,7 +1704,6 @@ app.post("/api/test-email", async (req, res) => {
   }
 });
 
-
 // -------------------------------------------
 // 🔹 NEW: Get Student Complete Profile
 // -------------------------------------------
@@ -1845,9 +1844,8 @@ app.get("/api/student/complete-profile", auth, async (req, res) => {
 });
 
 // -------------------------------------------
-// 🔹 NEW: Update Student Complete Profile
+// 🔹 NEW: Update Student Complete Profile (FIXED)
 // -------------------------------------------
-
 app.put(
   "/api/student/complete-profile",
   auth,
@@ -1858,6 +1856,12 @@ app.put(
   async (req, res) => {
     try {
       const studentId = req.student.id;
+      
+      console.log("📝 Complete profile update request received for student:", studentId);
+      console.log("📦 Request body keys:", Object.keys(req.body));
+      console.log("📁 Uploaded files:", req.files);
+
+      // Extract all fields from request body
       const {
         // Basic Details
         firstName,
@@ -1936,24 +1940,21 @@ app.put(
       let resumePath = req.student.resume_url;
 
       if (req.files) {
-        if (req.files.profileImage) {
+        if (req.files.profileImage && req.files.profileImage[0]) {
           profileImagePath = `/uploads/${req.files.profileImage[0].filename}`;
-          // Delete old profile image if exists
+          // Delete old profile image if exists and is not default
           if (
             req.student.profile_image &&
             !req.student.profile_image.includes("default")
           ) {
-            const oldImagePath = path.join(
-              __dirname,
-              req.student.profile_image
-            );
+            const oldImagePath = path.join(__dirname, req.student.profile_image);
             if (fs.existsSync(oldImagePath)) {
               fs.unlinkSync(oldImagePath);
             }
           }
         }
 
-        if (req.files.resume) {
+        if (req.files.resume && req.files.resume[0]) {
           resumePath = `/uploads/${req.files.resume[0].filename}`;
           // Delete old resume if exists
           if (req.student.resume_url) {
@@ -1965,165 +1966,226 @@ app.put(
         }
       }
 
-      // Parse arrays and booleans
-      const preferredLangsArray = Array.isArray(preferredLanguages)
-        ? preferredLanguages
-        : preferredLanguages
-        ? JSON.parse(preferredLanguages)
-        : [];
+      // Parse arrays and booleans with proper error handling
+      let preferredLangsArray = [];
+      let techSkillsArray = [];
+      let jobLocationsArray = [];
 
-      const techSkillsArray = Array.isArray(technicalSkills)
-        ? technicalSkills
-        : technicalSkills
-        ? JSON.parse(technicalSkills)
-        : [];
+      try {
+        preferredLangsArray = Array.isArray(preferredLanguages)
+          ? preferredLanguages
+          : preferredLanguages
+          ? JSON.parse(preferredLanguages)
+          : [];
+      } catch (e) {
+        console.warn("Failed to parse preferredLanguages:", e.message);
+      }
 
-      const jobLocationsArray = Array.isArray(preferredJobLocations)
-        ? preferredJobLocations
-        : preferredJobLocations
-        ? JSON.parse(preferredJobLocations)
-        : [];
+      try {
+        techSkillsArray = Array.isArray(technicalSkills)
+          ? technicalSkills
+          : technicalSkills
+          ? JSON.parse(technicalSkills)
+          : [];
+      } catch (e) {
+        console.warn("Failed to parse technicalSkills:", e.message);
+      }
+
+      try {
+        jobLocationsArray = Array.isArray(preferredJobLocations)
+          ? preferredJobLocations
+          : preferredJobLocations
+          ? JSON.parse(preferredJobLocations)
+          : [];
+      } catch (e) {
+        console.warn("Failed to parse preferredJobLocations:", e.message);
+      }
 
       const hasLaptopBool = hasLaptop === "true" || hasLaptop === true;
-      const hasWorkExpBool =
-        hasWorkExperience === "true" || hasWorkExperience === true;
-      const isCurrentBatchBool =
-        isCurrentBatch === "true" || isCurrentBatch === true;
+      const hasWorkExpBool = hasWorkExperience === "true" || hasWorkExperience === true;
+      const isCurrentBatchBool = isCurrentBatch === "true" || isCurrentBatch === true;
 
-      // Update student record
+      console.log("🔄 Updating student record in database...");
+
+      // Update student record with proper error handling
       const updateQuery = `
-      UPDATE students SET
-        first_name = $1, last_name = $2, phone = $3,
-        profile_image = $4, batch_month = $5, batch_year = $6, is_current_batch = $7,
-        name_on_certificate = $8, gender = $9, preferred_languages = $10, date_of_birth = $11,
-        code_playground_username = $12, linkedin_profile_url = $13, github_profile_url = $14,
-        hackerrank_profile_url = $15, leetcode_profile_url = $16, resume_url = $17,
-        parent_first_name = $18, parent_last_name = $19, parent_relation = $20,
-        address_line_1 = $21, address_line_2 = $22, country = $23, state = $24,
-        district = $25, city = $26, postal_code = $27,
-        current_coding_level = $28, technical_skills = $29, has_laptop = $30,
-        job_search_status = $31, preferred_job_locations = $32, expected_ctc_range = $33,
-        preferred_teaching_language = $34, preferred_video_language = $35,
-        tenth_marks_type = $36, tenth_marks = $37, twelfth_education_type = $38,
-        twelfth_marks_type = $39, twelfth_marks = $40, bachelor_degree = $41,
-        bachelor_branch = $42, bachelor_cgpa = $43, bachelor_start_year = $44,
-        bachelor_end_year = $45, bachelor_status = $46, bachelor_institute = $47,
-        bachelor_institute_state = $48, bachelor_institute_city = $49,
-        bachelor_institute_pincode = $50, bachelor_institute_district = $51,
-        occupation_status = $52, has_work_experience = $53,
-        updated_at = CURRENT_TIMESTAMP
-      WHERE id = $54
-      RETURNING *
-    `;
+        UPDATE students SET
+          first_name = COALESCE($1, first_name),
+          last_name = COALESCE($2, last_name),
+          phone = COALESCE($3, phone),
+          profile_image = COALESCE($4, profile_image),
+          batch_month = COALESCE($5, batch_month),
+          batch_year = COALESCE($6, batch_year),
+          is_current_batch = COALESCE($7, is_current_batch),
+          name_on_certificate = COALESCE($8, name_on_certificate),
+          gender = COALESCE($9, gender),
+          preferred_languages = COALESCE($10, preferred_languages),
+          date_of_birth = COALESCE($11, date_of_birth),
+          code_playground_username = COALESCE($12, code_playground_username),
+          linkedin_profile_url = COALESCE($13, linkedin_profile_url),
+          github_profile_url = COALESCE($14, github_profile_url),
+          hackerrank_profile_url = COALESCE($15, hackerrank_profile_url),
+          leetcode_profile_url = COALESCE($16, leetcode_profile_url),
+          resume_url = COALESCE($17, resume_url),
+          parent_first_name = COALESCE($18, parent_first_name),
+          parent_last_name = COALESCE($19, parent_last_name),
+          parent_relation = COALESCE($20, parent_relation),
+          address_line_1 = COALESCE($21, address_line_1),
+          address_line_2 = COALESCE($22, address_line_2),
+          country = COALESCE($23, country),
+          state = COALESCE($24, state),
+          district = COALESCE($25, district),
+          city = COALESCE($26, city),
+          postal_code = COALESCE($27, postal_code),
+          current_coding_level = COALESCE($28, current_coding_level),
+          technical_skills = COALESCE($29, technical_skills),
+          has_laptop = COALESCE($30, has_laptop),
+          job_search_status = COALESCE($31, job_search_status),
+          preferred_job_locations = COALESCE($32, preferred_job_locations),
+          expected_ctc_range = COALESCE($33, expected_ctc_range),
+          preferred_teaching_language = COALESCE($34, preferred_teaching_language),
+          preferred_video_language = COALESCE($35, preferred_video_language),
+          tenth_marks_type = COALESCE($36, tenth_marks_type),
+          tenth_marks = COALESCE($37, tenth_marks),
+          twelfth_education_type = COALESCE($38, twelfth_education_type),
+          twelfth_marks_type = COALESCE($39, twelfth_marks_type),
+          twelfth_marks = COALESCE($40, twelfth_marks),
+          bachelor_degree = COALESCE($41, bachelor_degree),
+          bachelor_branch = COALESCE($42, bachelor_branch),
+          bachelor_cgpa = COALESCE($43, bachelor_cgpa),
+          bachelor_start_year = COALESCE($44, bachelor_start_year),
+          bachelor_end_year = COALESCE($45, bachelor_end_year),
+          bachelor_status = COALESCE($46, bachelor_status),
+          bachelor_institute = COALESCE($47, bachelor_institute),
+          bachelor_institute_state = COALESCE($48, bachelor_institute_state),
+          bachelor_institute_city = COALESCE($49, bachelor_institute_city),
+          bachelor_institute_pincode = COALESCE($50, bachelor_institute_pincode),
+          bachelor_institute_district = COALESCE($51, bachelor_institute_district),
+          occupation_status = COALESCE($52, occupation_status),
+          has_work_experience = COALESCE($53, has_work_experience),
+          updated_at = CURRENT_TIMESTAMP
+        WHERE id = $54
+        RETURNING *
+      `;
 
       const result = await pool.query(updateQuery, [
-        firstName || req.student.first_name,
-        lastName || req.student.last_name,
-        phone || req.student.phone,
+        firstName,
+        lastName,
+        phone,
         profileImagePath,
-        batchMonth || req.student.batch_month,
-        batchYear || req.student.batch_year,
+        batchMonth,
+        batchYear,
         isCurrentBatchBool,
-        nameOnCertificate || req.student.name_on_certificate,
-        gender || req.student.gender,
+        nameOnCertificate,
+        gender,
         preferredLangsArray,
-        dateOfBirth || req.student.date_of_birth,
-        codePlaygroundUsername || req.student.code_playground_username,
-        linkedinProfileUrl || req.student.linkedin_profile_url,
-        githubProfileUrl || req.student.github_profile_url,
-        hackerrankProfileUrl || req.student.hackerrank_profile_url,
-        leetcodeProfileUrl || req.student.leetcode_profile_url,
+        dateOfBirth,
+        codePlaygroundUsername,
+        linkedinProfileUrl,
+        githubProfileUrl,
+        hackerrankProfileUrl,
+        leetcodeProfileUrl,
         resumePath,
-        parentFirstName || req.student.parent_first_name,
-        parentLastName || req.student.parent_last_name,
-        parentRelation || req.student.parent_relation,
-        addressLine1 || req.student.address_line_1,
-        addressLine2 || req.student.address_line_2,
-        country || req.student.country,
-        state || req.student.state,
-        district || req.student.district,
-        city || req.student.city,
-        postalCode || req.student.postal_code,
-        currentCodingLevel || req.student.current_coding_level,
+        parentFirstName,
+        parentLastName,
+        parentRelation,
+        addressLine1,
+        addressLine2,
+        country,
+        state,
+        district,
+        city,
+        postalCode,
+        currentCodingLevel,
         techSkillsArray,
         hasLaptopBool,
-        jobSearchStatus || req.student.job_search_status,
+        jobSearchStatus,
         jobLocationsArray,
-        expectedCtcRange || req.student.expected_ctc_range,
-        preferredTeachingLanguage || req.student.preferred_teaching_language,
-        preferredVideoLanguage || req.student.preferred_video_language,
-        tenthMarksType || req.student.tenth_marks_type,
-        tenthMarks || req.student.tenth_marks,
-        twelfthEducationType || req.student.twelfth_education_type,
-        twelfthMarksType || req.student.twelfth_marks_type,
-        twelfthMarks || req.student.twelfth_marks,
-        bachelorDegree || req.student.bachelor_degree,
-        bachelorBranch || req.student.bachelor_branch,
-        bachelorCgpa || req.student.bachelor_cgpa,
-        bachelorStartYear || req.student.bachelor_start_year,
-        bachelorEndYear || req.student.bachelor_end_year,
-        bachelorStatus || req.student.bachelor_status,
-        bachelorInstitute || req.student.bachelor_institute,
-        bachelorInstituteState || req.student.bachelor_institute_state,
-        bachelorInstituteCity || req.student.bachelor_institute_city,
-        bachelorInstitutePincode || req.student.bachelor_institute_pincode,
-        bachelorInstituteDistrict || req.student.bachelor_institute_district,
-        occupationStatus || req.student.occupation_status,
+        expectedCtcRange,
+        preferredTeachingLanguage,
+        preferredVideoLanguage,
+        tenthMarksType,
+        tenthMarks,
+        twelfthEducationType,
+        twelfthMarksType,
+        twelfthMarks,
+        bachelorDegree,
+        bachelorBranch,
+        bachelorCgpa,
+        bachelorStartYear,
+        bachelorEndYear,
+        bachelorStatus,
+        bachelorInstitute,
+        bachelorInstituteState,
+        bachelorInstituteCity,
+        bachelorInstitutePincode,
+        bachelorInstituteDistrict,
+        occupationStatus,
         hasWorkExpBool,
         studentId,
       ]);
 
-      // Handle projects and achievements
+      console.log("✅ Student record updated successfully");
+
+      // Handle projects if provided
       if (projects) {
-        const projectsData = JSON.parse(projects);
+        try {
+          const projectsData = JSON.parse(projects);
+          console.log(`🔄 Processing ${projectsData.length} projects...`);
 
-        // Delete existing projects
-        await pool.query("DELETE FROM student_projects WHERE student_id = $1", [
-          studentId,
-        ]);
+          // Delete existing projects
+          await pool.query("DELETE FROM student_projects WHERE student_id = $1", [studentId]);
 
-        // Insert new projects
-        for (const project of projectsData) {
-          if (project.projectTitle) {
-            await pool.query(
-              `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
-             VALUES ($1, $2, $3, $4, $5)`,
-              [
-                studentId,
-                project.projectTitle,
-                project.projectDescription,
-                project.projectLink,
-                project.skills || [],
-              ]
-            );
+          // Insert new projects
+          for (const project of projectsData) {
+            if (project.projectTitle && project.projectTitle.trim()) {
+              await pool.query(
+                `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
+                 VALUES ($1, $2, $3, $4, $5)`,
+                [
+                  studentId,
+                  project.projectTitle.trim(),
+                  project.projectDescription || '',
+                  project.projectLink || '',
+                  project.skills || [],
+                ]
+              );
+            }
           }
+          console.log("✅ Projects updated successfully");
+        } catch (parseError) {
+          console.error("❌ Error parsing projects:", parseError.message);
         }
       }
 
+      // Handle achievements if provided
       if (achievements) {
-        const achievementsData = JSON.parse(achievements);
+        try {
+          const achievementsData = JSON.parse(achievements);
+          console.log(`🔄 Processing ${achievementsData.length} achievements...`);
 
-        // Delete existing achievements
-        await pool.query(
-          "DELETE FROM student_achievements WHERE student_id = $1",
-          [studentId]
-        );
+          // Delete existing achievements
+          await pool.query("DELETE FROM student_achievements WHERE student_id = $1", [studentId]);
 
-        // Insert new achievements
-        for (const achievement of achievementsData) {
-          if (achievement.achievementTitle) {
-            await pool.query(
-              `INSERT INTO student_achievements (student_id, achievement_title, achievement_description, achievement_link, achievement_date)
-             VALUES ($1, $2, $3, $4, $5)`,
-              [
-                studentId,
-                achievement.achievementTitle,
-                achievement.achievementDescription,
-                achievement.achievementLink,
-                achievement.achievementDate,
-              ]
-            );
+          // Insert new achievements
+          for (const achievement of achievementsData) {
+            if (achievement.achievementTitle && achievement.achievementTitle.trim()) {
+              await pool.query(
+                `INSERT INTO student_achievements (student_id, achievement_title, achievement_description, achievement_link, achievement_date)
+                 VALUES ($1, $2, $3, $4, $5)`,
+                [
+                  studentId,
+                  achievement.achievementTitle.trim(),
+                  achievement.achievementDescription || '',
+                  achievement.achievementLink || '',
+                  achievement.achievementDate || null,
+                ]
+              );
+            }
           }
+          console.log("✅ Achievements updated successfully");
+        } catch (parseError) {
+          console.error("❌ Error parsing achievements:", parseError.message);
         }
       }
 
@@ -2140,8 +2202,7 @@ app.put(
         [studentId]
       );
 
-      const baseUrl =
-        process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+      const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
       // Format response
       const studentResponse = {
@@ -2225,16 +2286,19 @@ app.put(
         createdAt: updatedStudent.created_at,
       };
 
+      console.log("✅ Complete profile update successful");
+
       res.json({
         success: true,
         message: "Profile updated successfully",
         data: { student: studentResponse },
       });
     } catch (error) {
-      console.error("Complete profile update error:", error.message);
+      console.error("❌ Complete profile update error:", error.message);
+      console.error("Error stack:", error.stack);
       res.status(500).json({
         success: false,
-        message: "Error updating profile",
+        message: "Error updating profile: " + error.message,
       });
     }
   }
@@ -2381,8 +2445,6 @@ app.use((error, req, res, next) => {
         : error.message,
   });
 });
-
-
 
 // -------------------------------------------
 // 🔹 Start Server
