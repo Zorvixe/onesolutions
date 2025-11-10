@@ -12,13 +12,13 @@
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #e1e5e9;
+  border-bottom: 1px solid #1f82e4;
 }
 
 .admin-header h2 {
   color: #2c3e50;
   margin: 0;
-  font-size: 1rem !important;
+  font-size: 1.3rem !important;
   font-weight: 600;
 }
 
@@ -36,13 +36,13 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #667eead2 0%, #9833e6 100%);
   color: white;
   box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
 }
 
 .btn-primary:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
 }
 

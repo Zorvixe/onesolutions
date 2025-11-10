@@ -27,7 +27,7 @@ const Nested_con_CS_1 = ({ onSubtopicComplete }) => {
           <b>Condition B</b> is called a nested conditional statement.
         </p>
         <img
-          src="/assets/img/If_Else.png"
+          src="/assets/img/Nested_Conditional_Block.png"
           alt="Nested Condition Diagram"
           style={{ width: "80%", height: "300px" }}
         />
@@ -52,9 +52,9 @@ const Nested_con_CS_1 = ({ onSubtopicComplete }) => {
         <p>We can also write nested conditions in the Else statement.</p>
         <p>In the below example, Block 2 is a nested conditional block.</p>
         <img
-          src="/assets/img/If_Else.png"
+          src="/assets/img/Nested_Condition_else_Block.png"
           alt="Nested Else Diagram"
-          style={{ width: "80%", height: "300px" }}
+          style={{ width: "50%", height: "300px" }}
         />
         <h3>Code</h3>
         <CodeBlock
