@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { useAuth } from "../../context/AuthContext";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // adjust path if needed
 
-const Css_Specificity_Cascade_CS = ({ onSubtopicComplete }) => {
+const Css_Specificity_Cascade_CS = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
@@ -9,9 +16,14 @@ const Css_Specificity_Cascade_CS = ({ onSubtopicComplete }) => {
     setMcqAnswers((prev) => ({ ...prev, [question]: option }));
   };
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
   };
 
   const renderMCQ = (q, idx, namePrefix) => (

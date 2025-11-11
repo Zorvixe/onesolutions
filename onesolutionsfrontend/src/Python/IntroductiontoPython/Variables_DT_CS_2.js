@@ -1,19 +1,24 @@
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
 
-const Variables_DT_CS_2 = ({ onSubtopicComplete }) => {
+const Variables_DT_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) {
-      onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
     }
   };
 
   return (
     <div className="intro-container">
-      <h1>Variables and Data Types </h1>
+      <h1>Variables and Data Types</h1>
 
       {/* Variables */}
       <section>
@@ -128,6 +133,7 @@ const Variables_DT_CS_2 = ({ onSubtopicComplete }) => {
           variables.
         </p>
       </section>
+
       {/* Continue Button */}
       <div className="view-continue">
         <button

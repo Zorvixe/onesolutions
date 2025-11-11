@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./MCQLogic.css";
 
-const MCQLogic = ({ title, questions, onComplete }) => {
+const MCQLogic = ({ title, questions, onComplete, isCompleted = false }) => {
   const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
   const [quiz] = useState(shuffleArray([...questions]));
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,6 +21,10 @@ const MCQLogic = ({ title, questions, onComplete }) => {
     unanswered: 0,
   });
 
+  const [savingCompletion, setSavingCompletion] = useState(false);
+  const [markedComplete, setMarkedComplete] = useState(isCompleted);
+
+  // Timer setup
   useEffect(() => {
     if (completed) return;
     setTimeLeft(20);
@@ -59,8 +63,6 @@ const MCQLogic = ({ title, questions, onComplete }) => {
     const totalAnswered = answeredStats.correct + answeredStats.wrong;
     const unanswered = quiz.length - totalAnswered;
     setAnsweredStats((prev) => ({ ...prev, unanswered }));
-    if (onComplete)
-      onComplete({ score, answeredStats: { ...answeredStats, unanswered } });
   };
 
   const handleNext = () => {
@@ -71,7 +73,8 @@ const MCQLogic = ({ title, questions, onComplete }) => {
       : quiz[currentIndex];
 
     const correctAnswer = currentQuestion.answer;
-    const isCorrect = JSON.stringify(selectedAnswer) === JSON.stringify(correctAnswer);
+    const isCorrect =
+      JSON.stringify(selectedAnswer) === JSON.stringify(correctAnswer);
 
     let points = 0;
     if (isCorrect) {
@@ -91,6 +94,21 @@ const MCQLogic = ({ title, questions, onComplete }) => {
       setSkippedQuestions((prev) => [...prev, currentIndex]);
     }
     nextQuestion();
+  };
+
+  const handleProceed = async () => {
+    if (savingCompletion || markedComplete) return;
+    try {
+      setSavingCompletion(true);
+      if (onComplete) {
+        await onComplete();
+      }
+      setMarkedComplete(true);
+    } catch (err) {
+      console.error("❌ Error marking completion:", err);
+    } finally {
+      setSavingCompletion(false);
+    }
   };
 
   if (quiz.length === 0) return <p>Loading questions...</p>;
@@ -176,9 +194,7 @@ const MCQLogic = ({ title, questions, onComplete }) => {
                       onChange={() => setSelectedAnswer(option)}
                       disabled={feedback !== null}
                     />
-                    <span className="mcq-option-text">
-                      {option}
-                    </span>
+                    <span className="mcq-option-text">{option}</span>
                   </label>
                 </li>
               );
@@ -186,15 +202,29 @@ const MCQLogic = ({ title, questions, onComplete }) => {
           </ul>
 
           {feedback && (
-            <div className={`mcq-feedback ${feedback.correct ? "correct" : "wrong"}`}>
-              <i className={`bi ${feedback.correct ? "bi-check-circle" : "bi-x-circle"}`}></i>
+            <div
+              className={`mcq-feedback ${
+                feedback.correct ? "correct" : "wrong"
+              }`}
+            >
+              <i
+                className={`bi ${
+                  feedback.correct ? "bi-check-circle" : "bi-x-circle"
+                }`}
+              ></i>
               {feedback.correct ? `+${feedback.points}` : `-1`}
             </div>
           )}
 
           <div className="mcq-buttons">
             {currentIndex > 0 && (
-              <button className="mcq-prev" onClick={() => { setCurrentIndex(prev => prev - 1); setFeedback(null); }}>
+              <button
+                className="mcq-prev"
+                onClick={() => {
+                  setCurrentIndex((prev) => prev - 1);
+                  setFeedback(null);
+                }}
+              >
                 Previous
               </button>
             )}
@@ -209,7 +239,11 @@ const MCQLogic = ({ title, questions, onComplete }) => {
 
           <div className={`mcq-timer ${timeLeft === 0 ? "time-over" : ""}`}>
             {!showingSkipped && (
-              <button className="mcq-skip" onClick={handleSkip} disabled={timeLeft > 0 || feedback !== null}>
+              <button
+                className="mcq-skip"
+                onClick={handleSkip}
+                disabled={timeLeft > 0 || feedback !== null}
+              >
                 {timeLeft > 0 ? `Skip (${timeLeft}s)` : "Skip"}
               </button>
             )}
@@ -225,7 +259,11 @@ const MCQLogic = ({ title, questions, onComplete }) => {
           <div className="result-header">
             <h2>Attempt</h2>
             <p className="result-date">
-              {new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
+              {new Date().toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+              })}
             </p>
           </div>
 
@@ -234,7 +272,12 @@ const MCQLogic = ({ title, questions, onComplete }) => {
               <div className="progress-value">{finalScore}/100</div>
               <svg>
                 <circle className="bg"></circle>
-                <circle className="fg" style={{ strokeDashoffset: 283 - (283 * finalScore) / 100 }}></circle>
+                <circle
+                  className="fg"
+                  style={{
+                    strokeDashoffset: 283 - (283 * finalScore) / 100,
+                  }}
+                ></circle>
               </svg>
               <div className={`pass-badge ${isPassed ? "passed" : "failed"}`}>
                 {isPassed ? "PASSED" : "FAILED"}
@@ -243,15 +286,40 @@ const MCQLogic = ({ title, questions, onComplete }) => {
           </div>
 
           <div className="result-stats">
-            <div className="stat correct">Correct Answers: {answeredStats.correct}</div>
-            <div className="stat wrong">Wrong Answers: {answeredStats.wrong}</div>
-            <div className="stat unanswered">Unanswered: {answeredStats.unanswered}</div>
+            <div className="stat correct">
+              Correct Answers: {answeredStats.correct}
+            </div>
+            <div className="stat wrong">
+              Wrong Answers: {answeredStats.wrong}
+            </div>
+            <div className="stat unanswered">
+              Unanswered: {answeredStats.unanswered}
+            </div>
           </div>
 
           <div className="result-actions">
-            <button className="btn-secondary">PRACTICE AGAIN</button>
-            <button className="btn-primary">PROCEED TO NEXT</button>
-            <button className="btn-skip">SKIP</button>
+            <button
+              className="btn-secondary"
+              onClick={() => window.location.reload()}
+            >
+              PRACTICE AGAIN
+            </button>
+
+            <button
+              className="btn-primary"
+              onClick={handleProceed}
+              disabled={savingCompletion || markedComplete}
+            >
+              {markedComplete
+                ? "✅ COMPLETED"
+                : savingCompletion
+                ? "Saving..."
+                : "PROCEED TO NEXT"}
+            </button>
+
+            <button className="btn-skip" onClick={() => alert("Skipping...")}>
+              SKIP
+            </button>
           </div>
         </div>
       )}

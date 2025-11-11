@@ -1,14 +1,26 @@
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const Static_Summary_CS = ({ onSubtopicComplete }) => {
-  const [completed, setCompleted] = useState(false);
+const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+  const [mcqAnswers, setMcqAnswers] = useState({});
 
-  const handleContinue = () => {
-    setCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  const handleAnswer = (question, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
   };
 
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
+  };
   return (
     <div
       className="intro-container"
@@ -604,20 +616,20 @@ const Static_Summary_CS = ({ onSubtopicComplete }) => {
       <div style={{ textAlign: "center", marginTop: "4rem" }}>
         <button
           onClick={handleContinue}
-          disabled={completed}
+          disabled={isSubtopicCompleted}
           style={{
             padding: "1.2rem 3.5rem",
             fontSize: "1.4rem",
-            backgroundColor: completed ? "#7f8c8d" : "#27ae60",
+            backgroundColor: isSubtopicCompleted ? "#7f8c8d" : "#27ae60",
             color: "white",
             border: "none",
             borderRadius: "50px",
-            cursor: completed ? "not-allowed" : "pointer",
+            cursor: isSubtopicCompleted ? "not-allowed" : "pointer",
             boxShadow: "0 8px 25px rgba(0,0,0,0.3)",
             transition: "all 0.4s",
           }}
         >
-          {completed ? "Completed" : "Mark as Complete & Continue"}
+          {isSubtopicCompleted ? "Completed" : "Mark as Complete & Continue"}
         </button>
       </div>
     </div>

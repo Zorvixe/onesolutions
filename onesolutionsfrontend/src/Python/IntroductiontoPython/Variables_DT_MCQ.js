@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -129,7 +130,19 @@ const questionsData = [
   },
 ];
 
-const Variables_DT_MCQ = () => {
+const Variables_DT_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   // Fixed: Use a different variable name to avoid ReferenceError
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
@@ -137,6 +150,8 @@ const Variables_DT_MCQ = () => {
     <MCQLogic
       title="Variables and Data Types - MCQs"
       questions={shuffledQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

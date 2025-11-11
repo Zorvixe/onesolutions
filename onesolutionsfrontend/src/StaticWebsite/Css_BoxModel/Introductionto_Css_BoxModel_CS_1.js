@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
 
-const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
+const Introductionto_Css_BoxModel_CS_1 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
@@ -9,9 +17,14 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
     setMcqAnswers((prev) => ({ ...prev, [question]: option }));
   };
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
   };
 
   return (
@@ -22,7 +35,8 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>1. Height</h2>
         <p>
-          The CSS <code>height</code> property specifies the height of an HTML element.
+          The CSS <code>height</code> property specifies the height of an HTML
+          element.
         </p>
 
         <CodeBlock
@@ -34,14 +48,17 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
         />
 
         <h3>MCQ</h3>
-        {[{
-          question: "Which CSS Property specifies the height of an HTML element?",
-          options: ["height", "width", "color", "background-color"],
-          answer: "height",
-        }].map((q, idx) => (
+        {[
+          {
+            question:
+              "Which CSS Property specifies the height of an HTML element?",
+            options: ["height", "width", "color", "background-color"],
+            answer: "height",
+          },
+        ].map((q, idx) => (
           <div key={idx} style={{ marginBottom: "10px" }}>
             <p>{q.question}</p>
-            {q.options.map(option => (
+            {q.options.map((option) => (
               <div key={option}>
                 <label>
                   <input
@@ -55,8 +72,15 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
               </div>
             ))}
             {mcqAnswers[q.question] && (
-              <p style={{ fontWeight: "bold", color: mcqAnswers[q.question] === q.answer ? "green" : "red" }}>
-                {mcqAnswers[q.question] === q.answer ? "✅ Correct" : `❌ Wrong. Correct answer: ${q.answer}`}
+              <p
+                style={{
+                  fontWeight: "bold",
+                  color: mcqAnswers[q.question] === q.answer ? "green" : "red",
+                }}
+              >
+                {mcqAnswers[q.question] === q.answer
+                  ? "✅ Correct"
+                  : `❌ Wrong. Correct answer: ${q.answer}`}
               </p>
             )}
           </div>
@@ -67,7 +91,8 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>2. Width</h2>
         <p>
-          The CSS <code>width</code> property specifies the width of an HTML element.
+          The CSS <code>width</code> property specifies the width of an HTML
+          element.
         </p>
 
         <CodeBlock
@@ -79,14 +104,17 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
         />
 
         <h3>MCQ</h3>
-        {[{
-          question: "Which CSS Property specifies the width of an HTML element?",
-          options: ["width", "height", "margin", "padding"],
-          answer: "width",
-        }].map((q, idx) => (
+        {[
+          {
+            question:
+              "Which CSS Property specifies the width of an HTML element?",
+            options: ["width", "height", "margin", "padding"],
+            answer: "width",
+          },
+        ].map((q, idx) => (
           <div key={idx} style={{ marginBottom: "10px" }}>
             <p>{q.question}</p>
-            {q.options.map(option => (
+            {q.options.map((option) => (
               <div key={option}>
                 <label>
                   <input
@@ -100,8 +128,15 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
               </div>
             ))}
             {mcqAnswers[q.question] && (
-              <p style={{ fontWeight: "bold", color: mcqAnswers[q.question] === q.answer ? "green" : "red" }}>
-                {mcqAnswers[q.question] === q.answer ? "✅ Correct" : `❌ Wrong. Correct answer: ${q.answer}`}
+              <p
+                style={{
+                  fontWeight: "bold",
+                  color: mcqAnswers[q.question] === q.answer ? "green" : "red",
+                }}
+              >
+                {mcqAnswers[q.question] === q.answer
+                  ? "✅ Correct"
+                  : `❌ Wrong. Correct answer: ${q.answer}`}
               </p>
             )}
           </div>
@@ -112,10 +147,14 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>3. Background Image</h2>
         <p>
-          The CSS <code>background-image</code> property sets the background image of an HTML element.
+          The CSS <code>background-image</code> property sets the background
+          image of an HTML element.
         </p>
         <ul>
-          <li>The background image takes the height of the content if no height is set.</li>
+          <li>
+            The background image takes the height of the content if no height is
+            set.
+          </li>
           <li>The URL must be valid to display the image.</li>
         </ul>
 
@@ -129,14 +168,17 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
         />
 
         <h3>MCQ</h3>
-        {[{
-          question: "Which CSS Property specifies the background image of an HTML element?",
-          options: ["background", "bg-image", "color", "background-image"],
-          answer: "background-image",
-        }].map((q, idx) => (
+        {[
+          {
+            question:
+              "Which CSS Property specifies the background image of an HTML element?",
+            options: ["background", "bg-image", "color", "background-image"],
+            answer: "background-image",
+          },
+        ].map((q, idx) => (
           <div key={idx} style={{ marginBottom: "10px" }}>
             <p>{q.question}</p>
-            {q.options.map(option => (
+            {q.options.map((option) => (
               <div key={option}>
                 <label>
                   <input
@@ -150,8 +192,15 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
               </div>
             ))}
             {mcqAnswers[q.question] && (
-              <p style={{ fontWeight: "bold", color: mcqAnswers[q.question] === q.answer ? "green" : "red" }}>
-                {mcqAnswers[q.question] === q.answer ? "✅ Correct" : `❌ Wrong. Correct answer: ${q.answer}`}
+              <p
+                style={{
+                  fontWeight: "bold",
+                  color: mcqAnswers[q.question] === q.answer ? "green" : "red",
+                }}
+              >
+                {mcqAnswers[q.question] === q.answer
+                  ? "✅ Correct"
+                  : `❌ Wrong. Correct answer: ${q.answer}`}
               </p>
             )}
           </div>
@@ -162,11 +211,16 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>4. Viewport Units</h2>
         <p>
-          The browser's viewport is the area of the window where the web content is visible.
+          The browser's viewport is the area of the window where the web content
+          is visible.
         </p>
         <ul>
-          <li><code>1vh</code> = 1% of viewport height</li>
-          <li><code>1vw</code> = 1% of viewport width</li>
+          <li>
+            <code>1vh</code> = 1% of viewport height
+          </li>
+          <li>
+            <code>1vw</code> = 1% of viewport width
+          </li>
         </ul>
 
         <CodeBlock
@@ -179,14 +233,16 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
         />
 
         <h3>MCQ</h3>
-        {[{
-          question: "Which CSS unit equals 1% of the height of the viewport?",
-          options: ["px", "vh", "vw", "h"],
-          answer: "vh",
-        }].map((q, idx) => (
+        {[
+          {
+            question: "Which CSS unit equals 1% of the height of the viewport?",
+            options: ["px", "vh", "vw", "h"],
+            answer: "vh",
+          },
+        ].map((q, idx) => (
           <div key={idx} style={{ marginBottom: "10px" }}>
             <p>{q.question}</p>
-            {q.options.map(option => (
+            {q.options.map((option) => (
               <div key={option}>
                 <label>
                   <input
@@ -200,8 +256,15 @@ const Introductionto_Css_BoxModel_CS_1 = ({ onSubtopicComplete }) => {
               </div>
             ))}
             {mcqAnswers[q.question] && (
-              <p style={{ fontWeight: "bold", color: mcqAnswers[q.question] === q.answer ? "green" : "red" }}>
-                {mcqAnswers[q.question] === q.answer ? "✅ Correct" : `❌ Wrong. Correct answer: ${q.answer}`}
+              <p
+                style={{
+                  fontWeight: "bold",
+                  color: mcqAnswers[q.question] === q.answer ? "green" : "red",
+                }}
+              >
+                {mcqAnswers[q.question] === q.answer
+                  ? "✅ Correct"
+                  : `❌ Wrong. Correct answer: ${q.answer}`}
               </p>
             )}
           </div>

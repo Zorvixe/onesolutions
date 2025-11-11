@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-
   {
     question: (
       <div>
@@ -23,7 +23,12 @@ const questionsData = [
         <CodeBlock language="html" code={`<div class="card">Card</div>`} />
       </div>
     ),
-    options: ["Sharp corners", "Rounded corners", "Only top rounded", "Only one corner rounded"],
+    options: [
+      "Sharp corners",
+      "Rounded corners",
+      "Only top rounded",
+      "Only one corner rounded",
+    ],
     answer: "Rounded corners",
   },
   {
@@ -42,7 +47,10 @@ const questionsData = [
       <div>
         <p>What style will the border have?</p>
         <CodeBlock language="css" code={`.line { border-style: solid; }`} />
-        <CodeBlock language="html" code={`<div class="line">Solid Border</div>`} />
+        <CodeBlock
+          language="html"
+          code={`<div class="line">Solid Border</div>`}
+        />
       </div>
     ),
     options: ["No border", "Dotted", "Dashed", "Solid"],
@@ -53,7 +61,10 @@ const questionsData = [
       <div>
         <p>How much space will be inside the box?</p>
         <CodeBlock language="css" code={`.content { padding: 20px; }`} />
-        <CodeBlock language="html" code={`<div class="content">Text inside</div>`} />
+        <CodeBlock
+          language="html"
+          code={`<div class="content">Text inside</div>`}
+        />
       </div>
     ),
     options: [
@@ -68,14 +79,20 @@ const questionsData = [
     question: (
       <div>
         <p>What will this button look like?</p>
-        <CodeBlock language="css" code={`.btn {
+        <CodeBlock
+          language="css"
+          code={`.btn {
   border-width: 3px;
   border-style: solid;
   border-color: #008000;
   border-radius: 10px;
   padding: 10px;
-}`} />
-        <CodeBlock language="html" code={`<button class="btn">Click</button>`} />
+}`}
+        />
+        <CodeBlock
+          language="html"
+          code={`<button class="btn">Click</button>`}
+        />
       </div>
     ),
     options: [
@@ -91,7 +108,10 @@ const questionsData = [
       <div>
         <p>Which color is represented by this hex code?</p>
         <CodeBlock language="css" code={`.orange { border-color: #ffa500; }`} />
-        <CodeBlock language="html" code={`<div class="orange">Border Test</div>`} />
+        <CodeBlock
+          language="html"
+          code={`<div class="orange">Border Test</div>`}
+        />
       </div>
     ),
     options: ["Red", "Blue", "Orange", "Green"],
@@ -99,12 +119,14 @@ const questionsData = [
   },
 
   {
-    question: "Which CSS Property can be used to set the border thickness of an HTML element?",
+    question:
+      "Which CSS Property can be used to set the border thickness of an HTML element?",
     options: ["height", "border-width", "width", "border"],
     answer: "border-width",
   },
   {
-    question: "Which CSS Property is used to round the bottom left corner of an HTML element?",
+    question:
+      "Which CSS Property is used to round the bottom left corner of an HTML element?",
     options: [
       "left-bottom-border-radius",
       "border-bottom-left-radius",
@@ -114,7 +136,8 @@ const questionsData = [
     answer: "border-bottom-left-radius",
   },
   {
-    question: "Which of the following statements is true regarding the CSS Box Model?",
+    question:
+      "Which of the following statements is true regarding the CSS Box Model?",
     options: [
       "Padding is the border surrounding the content of an HTML element.",
       "Padding is the background surrounding the content of an HTML element.",
@@ -125,13 +148,30 @@ const questionsData = [
   },
 ];
 
-const Introductionto_Css_BoxModel_MCQ_2 = () => {
+const Introductionto_Css_BoxModel_MCQ_2 = ({
+  subtopicId,
+  goalName,
+  courseName,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   return (
     <MCQLogic
       title="Introduction to CSS BoxModel Part 2 - MCQs"
       questions={randomQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

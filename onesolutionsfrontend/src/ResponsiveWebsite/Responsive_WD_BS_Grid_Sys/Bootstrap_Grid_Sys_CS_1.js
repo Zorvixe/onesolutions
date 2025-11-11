@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { useAuth } from "../../context/AuthContext";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // adjust path if needed
 
-const Bootstrap_Grid_Sys_CS_1 = ({ onSubtopicComplete }) => {
+const Bootstrap_Grid_Sys_CS_1 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
@@ -9,11 +16,15 @@ const Bootstrap_Grid_Sys_CS_1 = ({ onSubtopicComplete }) => {
     setMcqAnswers((prev) => ({ ...prev, [question]: option }));
   };
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
   };
-
   const renderMCQ = (q, idx, namePrefix) => (
     <div key={idx} style={{ marginBottom: "10px" }}>
       <p>{q.question}</p>

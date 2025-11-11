@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  
   {
     question: (
       <div>
@@ -111,7 +111,6 @@ const questionsData = [
     answer: "Font: Georgia, Size: 16px",
   },
 
-  
   {
     question:
       "Which of the following is a valid value of the CSS property font-family?",
@@ -132,13 +131,26 @@ const questionsData = [
   },
 ];
 
-const Introductionto_Css_MCQ_3 = () => {
+const Introductionto_Css_MCQ_3 = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   return (
     <MCQLogic
       title="CIntroduction to CSS Part 3 - MCQs"
       questions={randomQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

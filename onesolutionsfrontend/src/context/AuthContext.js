@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useState, useContext, useEffect } from "react";
-import { authAPI } from "../services/api";
+import { authAPI, progressAPI } from "../services/api";
 
 const AuthContext = createContext();
 
@@ -20,6 +20,11 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState("");
   const [otpSent, setOtpSent] = useState(false);
 
+  // ✅ Progress states
+  const [completedContent, setCompletedContent] = useState([]);
+  const [goalProgress, setGoalProgress] = useState({});
+  const [courseProgress, setCourseProgress] = useState({});
+
   useEffect(() => {
     checkAuthStatus();
   }, []);
@@ -27,12 +32,12 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log("[AUTH] Checking auth status, token exists:", !!token);
-
       if (token && token !== "null" && token !== "undefined") {
         const response = await authAPI.getProfile();
         setUser(response.data.data.student);
         await loadCompleteProfile();
+        await loadUserProgress();
+        await loadProgressSummary();
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -61,15 +66,83 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    console.log("[AUTH] Logging out...");
     localStorage.removeItem("token");
     setUser(null);
     setCompleteProfile(null);
     setError("");
     setOtpSent(false);
+    setCompletedContent([]);
+    setGoalProgress({});
+    setCourseProgress({});
   };
 
   const clearError = () => setError("");
+
+  // ✅ ---------- Progress Functions ----------
+
+  const loadUserProgress = async () => {
+    try {
+      const res = await progressAPI.getCompletedContent();
+      if (res.data.success) {
+        const completed = res.data.data.completedContent || [];
+        setCompletedContent(completed.map((item) => item.content_id));
+      }
+    } catch (err) {
+      console.error("[PROGRESS] Load progress failed:", err);
+    }
+  };
+
+  const loadProgressSummary = async () => {
+    try {
+      const res = await progressAPI.getProgressSummary();
+      if (res.data.success) {
+        const goalData = {};
+        const courseData = {};
+
+        res.data.data.goalProgress.forEach((g) => {
+          goalData[g.goal_name] = g.percentage;
+        });
+
+        res.data.data.courseProgress.forEach((c) => {
+          courseData[c.course_name] = c.percentage;
+        });
+
+        setGoalProgress(goalData);
+        setCourseProgress(courseData);
+      }
+    } catch (err) {
+      console.error("[PROGRESS] Summary load failed:", err);
+    }
+  };
+
+  const markSubtopicComplete = async (contentId, goalName, courseName) => {
+    try {
+      const res = await progressAPI.markContentComplete(
+        contentId,
+        goalName,
+        courseName
+      );
+      if (res.data.success) {
+        setCompletedContent((prev) => [...new Set([...prev, contentId])]);
+        await loadProgressSummary();
+      }
+    } catch (err) {
+      console.error("[PROGRESS] Mark complete failed:", err);
+    }
+  };
+
+  const markSubtopicIncomplete = async (contentId) => {
+    try {
+      const res = await progressAPI.markContentIncomplete(contentId);
+      if (res.data.success) {
+        setCompletedContent((prev) => prev.filter((id) => id !== contentId));
+        await loadProgressSummary();
+      }
+    } catch (err) {
+      console.error("[PROGRESS] Mark incomplete failed:", err);
+    }
+  };
+
 
   // ✅ Enhanced update profile to handle complete profile
   const updateCompleteProfile = async (formData) => {
@@ -275,6 +348,13 @@ export const AuthProvider = ({ children }) => {
         return { success: false, message: errorMsg };
       }
     },
+    completedContent,
+    goalProgress,
+    courseProgress,
+    markSubtopicComplete,
+    markSubtopicIncomplete,
+    loadUserProgress,
+    loadProgressSummary,
     updateCompleteProfile,
     addProject,
     addAchievement,

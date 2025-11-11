@@ -1,13 +1,27 @@
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
 
-const Banner_Section_CS = ({ onSubtopicComplete }) => {
+const Banner_Section_CS = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
   };
+
 
   return (
     <div className="intro-container">

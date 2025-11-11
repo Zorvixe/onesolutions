@@ -1,19 +1,29 @@
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
 
-const Introductionto_HTML_CS_1 = ({ onSubtopicComplete }) => {
+const Introductionto_HTML_CS_1 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
-
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
-  };
-
-  // State for all MCQs
   const [mcqAnswers, setMcqAnswers] = useState({});
 
   const handleAnswer = (question, option) => {
     setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  };
+
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
   };
 
   return (

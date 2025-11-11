@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { useAuth } from "../context/AuthContext.js";
 import "./SubtopicPage.css";
-
 import { goalsData } from "../data/goalsData";
 
 // Python Cheat Sheets & Subtopics
@@ -484,10 +483,11 @@ const mcqMapping = {
 
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
+  const { completedContent } = useAuth();
   const [selectedSubtopic, setSelectedSubtopic] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [completedSubtopics, setCompletedSubtopics] = useState({});
+  const [selectedGoal, setSelectedGoal] = useState(null);
   const [expandedModule, setExpandedModule] = useState(null);
 
   const navigate = useNavigate();
@@ -497,6 +497,7 @@ const SubtopicPage = () => {
       let foundSubtopic = null;
       let foundModule = null;
       let foundCourse = null;
+      let foundGoal = null;
 
       // Search through goalsData to find the matching subtopic
       goalsData.forEach((goal) => {
@@ -508,6 +509,7 @@ const SubtopicPage = () => {
                   foundSubtopic = subtopic;
                   foundModule = module;
                   foundCourse = course;
+                  foundGoal = goal;
                 }
               });
             }
@@ -518,31 +520,27 @@ const SubtopicPage = () => {
       setSelectedSubtopic(foundSubtopic);
       setSelectedModule(foundModule);
       setSelectedCourse(foundCourse);
+      setSelectedGoal(foundGoal);
 
       // AUTO-EXPAND THE ACTIVE MODULE
       setExpandedModule(topicId);
+
+      // ✅ REMOVED: Auto-mark as complete when subtopic is opened
+      // Now it will only be marked when user clicks "Continue" button
     }
-  }, [topicId, subtopicId]);
+  }, [topicId, subtopicId]); // Remove markSubtopicComplete from dependencies
 
   // NEW: Auto-scroll to active element
   useEffect(() => {
     if (expandedModule && selectedSubtopic) {
-      // Use setTimeout to ensure DOM is updated after state changes
       const timer = setTimeout(() => {
-        // Try to find the active subtopic element
         const activeSubtopicElement = document.querySelector(
           ".subtopic-item.active"
         );
 
         if (activeSubtopicElement) {
-          // Scroll the left panel to the active subtopic
           const leftPanel = document.querySelector(".left-panel");
           if (leftPanel) {
-            // Calculate position to scroll to (subtopic position - some offset)
-            const subtopicRect = activeSubtopicElement.getBoundingClientRect();
-            const panelRect = leftPanel.getBoundingClientRect();
-
-            // Scroll to make the active subtopic visible in the middle of the panel
             const scrollPosition =
               activeSubtopicElement.offsetTop - leftPanel.clientHeight / 3;
 
@@ -552,18 +550,19 @@ const SubtopicPage = () => {
             });
           }
         }
-      }, 100); // Small delay to ensure DOM is updated
+      }, 100);
 
       return () => clearTimeout(timer);
     }
   }, [expandedModule, selectedSubtopic]);
 
-  const handleSubtopicComplete = (subtopicId) => {
-    setCompletedSubtopics((prev) => ({ ...prev, [subtopicId]: true }));
-  };
-
   const handleModuleClick = (moduleId) => {
     setExpandedModule((prev) => (prev === moduleId ? null : moduleId));
+  };
+
+  // Handle subtopic click - only navigate
+  const handleSubtopicClick = (subtopic) => {
+    navigate(`/topic/${selectedModule.id}/subtopic/${subtopic.id}`);
   };
 
   // Universal MCQ check
@@ -592,18 +591,18 @@ const SubtopicPage = () => {
       const actualSubtopic = mcqMapping[selectedSubtopic.name];
       if (!actualSubtopic) return <p>No MCQ found for this section</p>;
       return (
-        <MCQWrapper
-          subtopic={actualSubtopic}
-          onSubtopicComplete={() => handleSubtopicComplete(selectedSubtopic.id)}
-        />
+        <MCQWrapper subtopic={actualSubtopic} onSubtopicComplete={() => {}} />
       );
     }
 
     const Component = subtopicComponents[selectedSubtopic.name];
     return Component ? (
       <Component
+        subtopicId={selectedSubtopic.id}
+        goalName={selectedGoal?.title}
+        courseName={selectedCourse?.title}
         subtopic={selectedSubtopic.name}
-        onSubtopicComplete={() => handleSubtopicComplete(selectedSubtopic.id)}
+        onSubtopicComplete={() => {}}
       />
     ) : (
       <p>Content not found for "{selectedSubtopic.name}"</p>
@@ -617,7 +616,12 @@ const SubtopicPage = () => {
     if (subtopic.name.toLowerCase().includes("cheat sheet")) {
       const Component = subtopicComponents[subtopic.name];
       return Component ? (
-        <Component subtopic={subtopic.name} />
+        <Component
+          subtopicId={subtopic.id}
+          goalName={selectedGoal?.title}
+          courseName={selectedCourse?.title}
+          subtopic={subtopic.name}
+        />
       ) : (
         <p>Cheat sheet content not available for "{subtopic.name}"</p>
       );
@@ -631,7 +635,12 @@ const SubtopicPage = () => {
     } else {
       const Component = subtopicComponents[subtopic.name];
       return Component ? (
-        <Component subtopic={subtopic.name} />
+        <Component
+          subtopicId={subtopic.id}
+          goalName={selectedGoal?.title}
+          courseName={selectedCourse?.title}
+          subtopic={subtopic.name}
+        />
       ) : (
         <div>
           <h3>{subtopic.name}</h3>
@@ -662,11 +671,11 @@ const SubtopicPage = () => {
                           width="16"
                           height="16"
                           fill="currentColor"
-                          class="bi bi-chevron-down"
+                          className="bi bi-chevron-down"
                           viewBox="0 0 16 16"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
                           />
                         </svg>
@@ -678,11 +687,11 @@ const SubtopicPage = () => {
                           width="16"
                           height="16"
                           fill="currentColor"
-                          class="bi bi-chevron-right"
+                          className="bi bi-chevron-right"
                           viewBox="0 0 16 16"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
                           />
                         </svg>
@@ -699,16 +708,14 @@ const SubtopicPage = () => {
                         className={`subtopic-item ${
                           subtopic.id === subtopicId ? "active" : ""
                         } ${
-                          completedSubtopics[subtopic.id] ? "completed" : ""
+                          completedContent.includes(subtopic.id)
+                            ? "completed"
+                            : ""
                         }`}
-                        onClick={() => {
-                          navigate(
-                            `/topic/${module.id}/subtopic/${subtopic.id}`
-                          );
-                        }}
+                        onClick={() => handleSubtopicClick(subtopic)}
                       >
                         {subtopic.name}
-                        {completedSubtopics[subtopic.id] && (
+                        {completedContent.includes(subtopic.id) && (
                           <span className="completion-tick">✓</span>
                         )}
                       </div>

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -83,7 +84,19 @@ const questionsData = [
   },
 ];
 
-const Pro_W_P_MCQ = () => {
+const Pro_W_P_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   // Fixed: renamed the shuffled array so it doesn't shadow the outer constant
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
@@ -91,6 +104,8 @@ const Pro_W_P_MCQ = () => {
     <MCQLogic
       title="Programming with Python - MCQs"
       questions={shuffledQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

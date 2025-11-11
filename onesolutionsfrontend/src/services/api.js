@@ -107,31 +107,16 @@ export const authAPI = {
 };
 
 export const progressAPI = {
-  // Mark content as complete by unique ID
   markContentComplete: (contentId, goalName, courseName) =>
-    api.post("/api/progress/content/complete", {
-      contentId,
-      goalName,
-      courseName,
-    }),
-
-  // Mark content as incomplete
+    api.post("/api/progress/content/complete", { contentId, goalName, courseName }),
   markContentIncomplete: (contentId) =>
     api.post("/api/progress/content/incomplete", { contentId }),
-
-  // Get all completed content
   getCompletedContent: () => api.get("/api/progress/completed"),
-
-  // Get progress summary with percentages
   getProgressSummary: () => api.get("/api/progress/summary"),
-
-  // Get course progress
-  getCourseProgress: (courseName) =>
-    api.get(`/api/progress/course/${courseName}`),
-
-  // Get goal progress
+  getCourseProgress: (courseName) => api.get(`/api/progress/course/${courseName}`),
   getGoalProgress: (goalName) => api.get(`/api/progress/goal/${goalName}`),
 };
+
 
 // ✅ Health Check API
 export const healthCheck = () => api.get("/api/health");

@@ -1,7 +1,15 @@
 import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 import { CodeBlock } from "../../CodeOutputBlocks"; // adjust the path if needed
 
-const FavouritePlaces_DetailView_CS = ({ onSubtopicComplete }) => {
+const FavouritePlaces_DetailView_CS = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
@@ -9,9 +17,14 @@ const FavouritePlaces_DetailView_CS = ({ onSubtopicComplete }) => {
     setMcqAnswers((prev) => ({ ...prev, [question]: option }));
   };
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
+    }
   };
 
   const renderMCQ = (q, idx, namePrefix) => (
