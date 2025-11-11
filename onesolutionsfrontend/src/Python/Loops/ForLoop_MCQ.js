@@ -1,279 +1,153 @@
-import React, { useState, useEffect, useRef } from "react";
+// src/Python/Loops/ForLoop_MCQ.js
+import React from "react";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const ForLoop_MCQ = ({ onComplete }) => {
-  const originalQuestions = [
-    {
-      question: "What does a for loop do in Python?",
-      options: [
-        "Executes a block of code once",
-        "Executes a block of code multiple times iterating over a sequence",
-        "Defines a function",
-        "Stops code execution"
-      ],
-      answer: "Executes a block of code multiple times iterating over a sequence"
-    },
-    {
-      question: "Which of the following is a sequence that a for loop can iterate over?",
-      options: ["String", "List", "Range", "All of the above"],
-      answer: "All of the above"
-    },
-    {
-      question: (
-        <div>
-          <p>What is the output of the following code?</p>
-          <CodeBlock
-            language="python"
-            code={`for item in 'hi':\n    print(item)`}
-          />
-        </div>
-      ),
-      options: ["'hi'", "h i", "h\ni", "hi"],
-      answer: "h\ni"
-    },
-    {
-      question: (
-        <div>
-          <p>What is the output of the following code?</p>
-          <CodeBlock
-            language="python"
-            code={`for i in range(4):\n    print(i)`}
-          />
-        </div>
-      ),
-      options: ["0 1 2 3", "1 2 3 4", "0 1 2 3 4", "Error"],
-      answer: "0 1 2 3"
-    },
-    {
-      question: (
-        <div>
-          <p>What does the following code generate?</p>
-          <CodeBlock
-            language="python"
-            code={`for i in range(2, 5):\n    print(i)`}
-          />
-        </div>
-      ),
-      options: ["2 3 4", "2 3 4 5", "0 1 2 3 4", "1 2 3"],
-      answer: "2 3 4"
-    },
-    {
-      question: "Does the end value in range(start, end) get included?",
-      options: ["Yes", "No"],
-      answer: "No"
-    },
-    {
-      question: (
-        <div>
-          <p>Which of the following is correct syntax for a for loop iterating over a string?</p>
-          <CodeBlock
-            language="python"
-            code={`for i in 'hello':\n    print(i)`}
-          />
-        </div>
-      ),
-      options: [
-        "for i in 'hello': print(i)",
-        "for i 'hello': print(i)",
-        "for i in 'hello' do print(i)",
-        "for i='hello': print(i)"
-      ],
-      answer: "for i in 'hello': print(i)"
-    },
-    {
-      question: "Can a for loop iterate over a list in Python?",
-      options: ["Yes", "No"],
-      answer: "Yes"
-    },
-    {
-      question: (
-        <div>
-          <p>What will happen if the sequence in a for loop is empty?</p>
-          <CodeBlock
-            language="python"
-            code={`for i in []:\n    print(i)`}
-          />
-        </div>
-      ),
-      options: [
-        "Loop runs once",
-        "Loop runs infinitely",
-        "Loop does not execute",
-        "SyntaxError"
-      ],
-      answer: "Loop does not execute"
-    },
-    {
-      question: "Which of the following statements is true about for loops?",
-      options: [
-        "They can iterate over strings, lists, and ranges",
-        "They can only iterate over numbers",
-        "They must have a counter variable",
-        "They cannot be nested"
-      ],
-      answer: "They can iterate over strings, lists, and ranges"
-    }
-  ];
+const questionsData = [
+  {
+    question: (
+      <div>
+        <p>Observe the code carefully and select the correct output:</p>
+        <CodeBlock language="python" code={`for i in range(3):\n    print(i)`} />
+      </div>
+    ),
+    options: [
+      "0 1 2 3", // Normal
+      "Nothing prints", // Normal
+      <span className="mcq-option-text">0{'\n'}1{'\n'}2</span>, // Line-by-line
+      <span className="mcq-option-text">1{'\n'}2{'\n'}3</span>, // Line-by-line
+    ],
+    answer: <span className="mcq-option-text">0{'\n'}1{'\n'}2</span>,
+  },
 
-  const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
-  const [questions] = useState(shuffleArray([...originalQuestions]));
+  {
+    question: (
+      <div>
+        <p>What will appear on the screen when this runs?</p>
+        <CodeBlock language="python" code={`for ch in "hi":\n    print(ch)`} />
+      </div>
+    ),
+    options: [
+      "hi", // Normal
+      "Error", // Normal
+      <span className="mcq-option-text">h{'\n'}i</span>,
+      <span className="mcq-option-text">h i</span>,
+    ],
+    answer: <span className="mcq-option-text">h{'\n'}i</span>,
+  },
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
-  const [completed, setCompleted] = useState(false);
-  const [skippedQuestions, setSkippedQuestions] = useState([]);
-  const [showingSkipped, setShowingSkipped] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(10);
-  const timerRef = useRef(null);
+  {
+    question: (
+      <div>
+        <p>Predict the exact printed numbers:</p>
+        <CodeBlock language="python" code={`for i in range(1, 5):\n    print(i * 2)`} />
+      </div>
+    ),
+    options: [
+      "2 4 6 8", // Normal
+      <span className="mcq-option-text">2{'\n'}4{'\n'}6{'\n'}8</span>,
+      <span className="mcq-option-text">0{'\n'}2{'\n'}4{'\n'}6</span>,
+      "1 2 3 4",
+    ],
+    answer: <span className="mcq-option-text">2{'\n'}4{'\n'}6{'\n'}8</span>,
+  },
 
-  useEffect(() => {
-    if (completed) return;
-    setTimeLeft(10);
-    timerRef.current = setInterval(() => {
-      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timerRef.current);
-  }, [currentIndex, completed]);
+  {
+    question: (
+      <div>
+        <p>Analyze this reverse loop output:</p>
+        <CodeBlock language="python" code={`for i in range(5, 0, -1):\n    print(i)`} />
+      </div>
+    ),
+    options: [
+      "Loop doesn't run", // Normal
+      <span className="mcq-option-text">5{'\n'}4{'\n'}3{'\n'}2{'\n'}1</span>,
+      <span className="mcq-option-text">5{'\n'}4{'\n'}3{'\n'}2{'\n'}1{'\n'}0</span>,
+      <span className="mcq-option-text">1{'\n'}2{'\n'}3{'\n'}4{'\n'}5</span>,
+    ],
+    answer: <span className="mcq-option-text">5{'\n'}4{'\n'}3{'\n'}2{'\n'}1</span>,
+  },
 
-  const nextQuestion = () => {
-    clearInterval(timerRef.current);
-    setSelectedAnswer(null);
-    setFeedback(null);
+  {
+    question: (
+      <div>
+        <p>Check this step-down loop carefully:</p>
+        <CodeBlock language="python" code={`for x in range(10, 0, -2):\n    print(x)`} />
+      </div>
+    ),
+    options: [
+      "9 7 5 3 1", // Normal
+      <span className="mcq-option-text">10{'\n'}8{'\n'}6{'\n'}4{'\n'}2</span>,
+      <span className="mcq-option-text">10{'\n'}8{'\n'}6{'\n'}4{'\n'}2{'\n'}0</span>,
+      <span className="mcq-option-text">8{'\n'}6{'\n'}4{'\n'}2</span>,
+    ],
+    answer: <span className="mcq-option-text">10{'\n'}8{'\n'}6{'\n'}4{'\n'}2</span>,
+  },
 
-    if (!showingSkipped) {
-      if (currentIndex + 1 < questions.length) setCurrentIndex(prev => prev + 1);
-      else if (skippedQuestions.length > 0) {
-        setShowingSkipped(true);
-        setCurrentIndex(0);
-      } else {
-        setCompleted(true);
-        if (onComplete) onComplete();
-      }
-    } else {
-      if (currentIndex + 1 < skippedQuestions.length) setCurrentIndex(prev => prev + 1);
-      else {
-        setCompleted(true);
-        if (onComplete) onComplete();
-      }
-    }
-  };
+  {
+    question: (
+      <div>
+        <p>What characters will print one per line?</p>
+        <CodeBlock language="python" code={`word = "PYTHON"\nfor letter in word:\n    print(letter)`} />
+      </div>
+    ),
+    options: [
+      "PYTHON", // Normal
+      "python", // Normal
+      <span className="mcq-option-text">P{'\n'}Y{'\n'}T{'\n'}H{'\n'}O{'\n'}N</span>,
+      <span className="mcq-option-text">P Y T H O N</span>,
+    ],
+    answer: <span className="mcq-option-text">P{'\n'}Y{'\n'}T{'\n'}H{'\n'}O{'\n'}N</span>,
+  },
 
-  const handleNext = () => {
-    if (!selectedAnswer) return;
+  {
+    question: (
+      <div>
+        <p>How many times will "Hello" appear?</p>
+        <CodeBlock language="python" code={`for i in range(3):\n    print("Hello")`} />
+      </div>
+    ),
+    options: [
+      "Hello Hello Hello", // Normal
+      "3", // Normal
+      <span className="mcq-option-text">Hello{'\n'}Hello{'\n'}Hello</span>,
+      "Hello",
+    ],
+    answer: <span className="mcq-option-text">Hello{'\n'}Hello{'\n'}Hello</span>,
+  },
 
-    const currentQuestion = showingSkipped
-      ? questions[skippedQuestions[currentIndex]]
-      : questions[currentIndex];
+  {
+    question: "How many values are in range(10)?",
+    options: ["10", "11", "9", "Infinite"],
+    answer: "10",
+  },
 
-    const isCorrect = selectedAnswer === currentQuestion.answer;
+  {
+    question: "What is range(2, 8, 2) equivalent to?",
+    options: [
+      "[2, 4, 6, 8]",
+      "[2, 4, 6]",
+      "range(8, 2, -2)",
+      "range(4)",
+    ],
+    answer: "[2, 4, 6]",
+  },
 
-    let points = 0;
-    if (isCorrect) points = timeLeft > 0 ? 10 : 7;
-    else points = -5;
+  {
+    question: "Which loop will print numbers from 1 to 5?",
+    options: [
+      "range(5)",
+      "range(1, 6)",
+      "range(1, 5)",
+      "range(6)",
+    ],
+    answer: "range(1, 6)",
+  },
+];
 
-    setScore(prev => prev + points);
-    setFeedback({ correct: isCorrect, points });
-  };
-
-  const handleSkip = () => {
-    if (!showingSkipped) setSkippedQuestions(prev => [...prev, currentIndex]);
-    nextQuestion();
-  };
-
-  if (questions.length === 0) return <p>Loading questions...</p>;
-
-  const currentQuestion = showingSkipped
-    ? questions[skippedQuestions[currentIndex]]
-    : questions[currentIndex];
-
-  const questionNumber = showingSkipped
-    ? questions.length - skippedQuestions.length + currentIndex + 1
-    : currentIndex + 1;
-
-  const percentage = (score / (questions.length * 10)) * 100;
-
-  return (
-    <div className="mcq-container full-width">
-      <h3 className="mcq-title">For Loop - MCQs</h3>
-
-      {!completed ? (
-        <div className="mcq-question-block">
-          <p className="mcq-question">
-            Q{questionNumber}. {currentQuestion.question}
-          </p>
-
-          <ul className="mcq-options">
-            {currentQuestion.options.map(option => (
-              <li key={option} className="mcq-option">
-                <label>
-                  <input
-                    type="radio"
-                    name={`q${currentIndex}`}
-                    value={option}
-                    checked={selectedAnswer === option}
-                    onChange={e => setSelectedAnswer(e.target.value)}
-                    disabled={feedback !== null}
-                  />
-                  {option}
-                </label>
-              </li>
-            ))}
-          </ul>
-
-          {feedback && (
-            <div className={`mcq-feedback ${feedback.correct ? "correct" : "wrong"}`}>
-              <i
-                className={`bi ${feedback.correct ? "bi-check-circle" : "bi-x-circle"}`}
-                style={{ marginRight: "10px", fontSize: "20px" }}
-              ></i>
-              {feedback.correct ? `+${feedback.points}` : `-${Math.abs(feedback.points)}`}
-            </div>
-          )}
-
-          <div className="mcq-buttons">
-            <button
-              className="mcq-next"
-              disabled={!selectedAnswer}
-              onClick={feedback ? nextQuestion : handleNext}
-            >
-              {showingSkipped && currentIndex + 1 === skippedQuestions.length
-                ? "Finish"
-                : !showingSkipped && currentIndex + 1 === questions.length && skippedQuestions.length === 0
-                ? "Finish"
-                : "Next"}
-            </button>
-            {!showingSkipped && (
-              <button
-                className="mcq-skip"
-                onClick={handleSkip}
-                disabled={feedback !== null}
-              >
-                Skip
-              </button>
-            )}
-          </div>
-
-          <div className={`mcq-timer ${timeLeft === 0 ? "time-over" : ""}`}>
-            Time Left: {timeLeft} sec
-          </div>
-        </div>
-      ) : (
-        <div className="mcq-completed">
-          <h4>✅ Quiz Completed!</h4>
-          <p>Your Score: {score} / {questions.length * 10}</p>
-          <p className="score-feedback">
-            {percentage < 50
-              ? "Poor performance. You need to improve!"
-              : percentage <= 80
-              ? "Good performance. Keep practicing!"
-              : "Excellent performance. Well done!"}
-          </p>
-        </div>
-      )}
-    </div>
-  );
+const ForLoop_MCQ = () => {
+  const shuffled = [...questionsData].sort(() => Math.random() - 0.5);
+  return <MCQLogic title="For Loop - Master MCQs" questions={shuffled} />;
 };
 
 export default ForLoop_MCQ;

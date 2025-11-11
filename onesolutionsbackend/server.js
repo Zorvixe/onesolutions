@@ -1859,9 +1859,45 @@ app.put(
       
       console.log("📝 Complete profile update request received for student:", studentId);
       console.log("📦 Request body keys:", Object.keys(req.body));
-      console.log("📁 Uploaded files:", req.files);
 
-      // Extract all fields from request body
+      // Helper function to safely parse values
+      const parseValue = (value, type = 'string') => {
+        if (value === '' || value === null || value === undefined) {
+          return null;
+        }
+        
+        switch (type) {
+          case 'int':
+            const intVal = parseInt(value);
+            return isNaN(intVal) ? null : intVal;
+          case 'float':
+            const floatVal = parseFloat(value);
+            return isNaN(floatVal) ? null : floatVal;
+          case 'boolean':
+            if (typeof value === 'boolean') return value;
+            return value === 'true' || value === true || value === '1';
+          case 'date':
+            if (!value) return null;
+            // Validate date format
+            const date = new Date(value);
+            return isNaN(date.getTime()) ? null : value;
+          case 'array':
+            if (Array.isArray(value)) return value;
+            if (typeof value === 'string') {
+              try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) ? parsed : [];
+              } catch (e) {
+                return value.split(',').map(item => item.trim()).filter(item => item);
+              }
+            }
+            return [];
+          default:
+            return value;
+        }
+      };
+
+      // Extract all fields from request body with proper parsing
       const {
         // Basic Details
         firstName,
@@ -1966,48 +2002,79 @@ app.put(
         }
       }
 
-      // Parse arrays and booleans with proper error handling
-      let preferredLangsArray = [];
-      let techSkillsArray = [];
-      let jobLocationsArray = [];
+      // Parse all values with proper type handling
+      const parsedData = {
+        // Basic Details
+        firstName: parseValue(firstName),
+        lastName: parseValue(lastName),
+        phone: parseValue(phone),
+        batchMonth: parseValue(batchMonth),
+        batchYear: parseValue(batchYear, 'int'),
+        isCurrentBatch: parseValue(isCurrentBatch, 'boolean'),
 
-      try {
-        preferredLangsArray = Array.isArray(preferredLanguages)
-          ? preferredLanguages
-          : preferredLanguages
-          ? JSON.parse(preferredLanguages)
-          : [];
-      } catch (e) {
-        console.warn("Failed to parse preferredLanguages:", e.message);
-      }
+        // Personal Details
+        nameOnCertificate: parseValue(nameOnCertificate),
+        gender: parseValue(gender),
+        preferredLanguages: parseValue(preferredLanguages, 'array'),
+        dateOfBirth: parseValue(dateOfBirth, 'date'),
+        codePlaygroundUsername: parseValue(codePlaygroundUsername),
+        linkedinProfileUrl: parseValue(linkedinProfileUrl),
+        githubProfileUrl: parseValue(githubProfileUrl),
+        hackerrankProfileUrl: parseValue(hackerrankProfileUrl),
+        leetcodeProfileUrl: parseValue(leetcodeProfileUrl),
 
-      try {
-        techSkillsArray = Array.isArray(technicalSkills)
-          ? technicalSkills
-          : technicalSkills
-          ? JSON.parse(technicalSkills)
-          : [];
-      } catch (e) {
-        console.warn("Failed to parse technicalSkills:", e.message);
-      }
+        // Parent/Guardian Details
+        parentFirstName: parseValue(parentFirstName),
+        parentLastName: parseValue(parentLastName),
+        parentRelation: parseValue(parentRelation),
 
-      try {
-        jobLocationsArray = Array.isArray(preferredJobLocations)
-          ? preferredJobLocations
-          : preferredJobLocations
-          ? JSON.parse(preferredJobLocations)
-          : [];
-      } catch (e) {
-        console.warn("Failed to parse preferredJobLocations:", e.message);
-      }
+        // Current Address
+        addressLine1: parseValue(addressLine1),
+        addressLine2: parseValue(addressLine2),
+        country: parseValue(country),
+        state: parseValue(state),
+        district: parseValue(district),
+        city: parseValue(city),
+        postalCode: parseValue(postalCode),
 
-      const hasLaptopBool = hasLaptop === "true" || hasLaptop === true;
-      const hasWorkExpBool = hasWorkExperience === "true" || hasWorkExperience === true;
-      const isCurrentBatchBool = isCurrentBatch === "true" || isCurrentBatch === true;
+        // Current Expertise
+        currentCodingLevel: parseValue(currentCodingLevel),
+        technicalSkills: parseValue(technicalSkills, 'array'),
+        hasLaptop: parseValue(hasLaptop, 'boolean'),
+
+        // Job Preferences
+        jobSearchStatus: parseValue(jobSearchStatus),
+        preferredJobLocations: parseValue(preferredJobLocations, 'array'),
+        expectedCtcRange: parseValue(expectedCtcRange),
+        preferredTeachingLanguage: parseValue(preferredTeachingLanguage),
+        preferredVideoLanguage: parseValue(preferredVideoLanguage),
+
+        // Education Details
+        tenthMarksType: parseValue(tenthMarksType),
+        tenthMarks: parseValue(tenthMarks), // Keep as string since it can be CGPA or percentage
+        twelfthEducationType: parseValue(twelfthEducationType),
+        twelfthMarksType: parseValue(twelfthMarksType),
+        twelfthMarks: parseValue(twelfthMarks), // Keep as string
+        bachelorDegree: parseValue(bachelorDegree),
+        bachelorBranch: parseValue(bachelorBranch),
+        bachelorCgpa: parseValue(bachelorCgpa), // Keep as string
+        bachelorStartYear: parseValue(bachelorStartYear, 'int'),
+        bachelorEndYear: parseValue(bachelorEndYear, 'int'),
+        bachelorStatus: parseValue(bachelorStatus),
+        bachelorInstitute: parseValue(bachelorInstitute),
+        bachelorInstituteState: parseValue(bachelorInstituteState),
+        bachelorInstituteCity: parseValue(bachelorInstituteCity),
+        bachelorInstitutePincode: parseValue(bachelorInstitutePincode),
+        bachelorInstituteDistrict: parseValue(bachelorInstituteDistrict),
+
+        // Work Experience
+        occupationStatus: parseValue(occupationStatus),
+        hasWorkExperience: parseValue(hasWorkExperience, 'boolean'),
+      };
 
       console.log("🔄 Updating student record in database...");
 
-      // Update student record with proper error handling
+      // Update student record with proper null handling
       const updateQuery = `
         UPDATE students SET
           first_name = COALESCE($1, first_name),
@@ -2069,59 +2136,59 @@ app.put(
       `;
 
       const result = await pool.query(updateQuery, [
-        firstName,
-        lastName,
-        phone,
+        parsedData.firstName,
+        parsedData.lastName,
+        parsedData.phone,
         profileImagePath,
-        batchMonth,
-        batchYear,
-        isCurrentBatchBool,
-        nameOnCertificate,
-        gender,
-        preferredLangsArray,
-        dateOfBirth,
-        codePlaygroundUsername,
-        linkedinProfileUrl,
-        githubProfileUrl,
-        hackerrankProfileUrl,
-        leetcodeProfileUrl,
+        parsedData.batchMonth,
+        parsedData.batchYear,
+        parsedData.isCurrentBatch,
+        parsedData.nameOnCertificate,
+        parsedData.gender,
+        parsedData.preferredLanguages,
+        parsedData.dateOfBirth,
+        parsedData.codePlaygroundUsername,
+        parsedData.linkedinProfileUrl,
+        parsedData.githubProfileUrl,
+        parsedData.hackerrankProfileUrl,
+        parsedData.leetcodeProfileUrl,
         resumePath,
-        parentFirstName,
-        parentLastName,
-        parentRelation,
-        addressLine1,
-        addressLine2,
-        country,
-        state,
-        district,
-        city,
-        postalCode,
-        currentCodingLevel,
-        techSkillsArray,
-        hasLaptopBool,
-        jobSearchStatus,
-        jobLocationsArray,
-        expectedCtcRange,
-        preferredTeachingLanguage,
-        preferredVideoLanguage,
-        tenthMarksType,
-        tenthMarks,
-        twelfthEducationType,
-        twelfthMarksType,
-        twelfthMarks,
-        bachelorDegree,
-        bachelorBranch,
-        bachelorCgpa,
-        bachelorStartYear,
-        bachelorEndYear,
-        bachelorStatus,
-        bachelorInstitute,
-        bachelorInstituteState,
-        bachelorInstituteCity,
-        bachelorInstitutePincode,
-        bachelorInstituteDistrict,
-        occupationStatus,
-        hasWorkExpBool,
+        parsedData.parentFirstName,
+        parsedData.parentLastName,
+        parsedData.parentRelation,
+        parsedData.addressLine1,
+        parsedData.addressLine2,
+        parsedData.country,
+        parsedData.state,
+        parsedData.district,
+        parsedData.city,
+        parsedData.postalCode,
+        parsedData.currentCodingLevel,
+        parsedData.technicalSkills,
+        parsedData.hasLaptop,
+        parsedData.jobSearchStatus,
+        parsedData.preferredJobLocations,
+        parsedData.expectedCtcRange,
+        parsedData.preferredTeachingLanguage,
+        parsedData.preferredVideoLanguage,
+        parsedData.tenthMarksType,
+        parsedData.tenthMarks,
+        parsedData.twelfthEducationType,
+        parsedData.twelfthMarksType,
+        parsedData.twelfthMarks,
+        parsedData.bachelorDegree,
+        parsedData.bachelorBranch,
+        parsedData.bachelorCgpa,
+        parsedData.bachelorStartYear,
+        parsedData.bachelorEndYear,
+        parsedData.bachelorStatus,
+        parsedData.bachelorInstitute,
+        parsedData.bachelorInstituteState,
+        parsedData.bachelorInstituteCity,
+        parsedData.bachelorInstitutePincode,
+        parsedData.bachelorInstituteDistrict,
+        parsedData.occupationStatus,
+        parsedData.hasWorkExperience,
         studentId,
       ]);
 
@@ -2130,7 +2197,7 @@ app.put(
       // Handle projects if provided
       if (projects) {
         try {
-          const projectsData = JSON.parse(projects);
+          const projectsData = typeof projects === 'string' ? JSON.parse(projects) : projects;
           console.log(`🔄 Processing ${projectsData.length} projects...`);
 
           // Delete existing projects
@@ -2139,6 +2206,9 @@ app.put(
           // Insert new projects
           for (const project of projectsData) {
             if (project.projectTitle && project.projectTitle.trim()) {
+              const skillsArray = Array.isArray(project.skills) ? project.skills : 
+                                (project.skills ? [project.skills] : []);
+              
               await pool.query(
                 `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
                  VALUES ($1, $2, $3, $4, $5)`,
@@ -2147,7 +2217,7 @@ app.put(
                   project.projectTitle.trim(),
                   project.projectDescription || '',
                   project.projectLink || '',
-                  project.skills || [],
+                  skillsArray,
                 ]
               );
             }
@@ -2161,7 +2231,7 @@ app.put(
       // Handle achievements if provided
       if (achievements) {
         try {
-          const achievementsData = JSON.parse(achievements);
+          const achievementsData = typeof achievements === 'string' ? JSON.parse(achievements) : achievements;
           console.log(`🔄 Processing ${achievementsData.length} achievements...`);
 
           // Delete existing achievements

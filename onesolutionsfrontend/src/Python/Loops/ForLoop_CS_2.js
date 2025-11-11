@@ -18,7 +18,14 @@ const ForLoop_CS_2 = ({ onSubtopicComplete }) => {
       {/* For Loop */}
       <section>
         <h2>For Loop</h2>
-        <p>The <code>for</code> statement iterates over each item of a sequence.</p>
+        <p>
+          The <code>for</code> statement iterates over each item of a sequence.
+        </p>
+        <img
+          src="/assets/img/For_Loop.png"
+          alt="Error Diagram"
+          style={{ width: "70%", height: "300px" }}
+        />
       </section>
 
       {/* Examples of Sequences */}
@@ -34,7 +41,10 @@ const ForLoop_CS_2 = ({ onSubtopicComplete }) => {
       <section>
         <h2>For Syntax</h2>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`for item in "hello":\n    print(item)`} />
+        <CodeBlock
+          language="python"
+          code={`for item in "hello":\n    print(item)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={["h", "e", "l", "l", "o"]} />
       </section>
@@ -42,9 +52,20 @@ const ForLoop_CS_2 = ({ onSubtopicComplete }) => {
       {/* Range */}
       <section>
         <h2>Range</h2>
-        <p>Generates a sequence of integers starting from 0. Syntax: <code>range(n)</code>. Stops before <code>n</code> (n is not included).</p>
+        <p>Generates a sequence of integers starting from 0.</p>
+        <p>
+          <b> Syntax: </b>
+          <code>range(n)</code>.
+        </p>
+        <p>
+          {" "}
+          Stops before <code>n</code> (n is not included).
+        </p>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`for i in range(4):\n    print(i)`} />
+        <CodeBlock
+          language="python"
+          code={`for i in range(4):\n    print(i)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={[0, 1, 2, 3]} />
       </section>
@@ -52,9 +73,16 @@ const ForLoop_CS_2 = ({ onSubtopicComplete }) => {
       {/* Range with Start and End */}
       <section>
         <h2>Range with Start and End</h2>
-        <p>Generates a sequence of numbers starting from <code>start</code>. Syntax: <code>range(start, end)</code>. Stops before <code>end</code> (end is not included).</p>
+        <p>
+          Generates a sequence of numbers starting from <code>start</code>.
+          Syntax: <code>range(start, end)</code>. Stops before <code>end</code>{" "}
+          (end is not included).
+        </p>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`for i in range(2, 5):\n    print(i)`} />
+        <CodeBlock
+          language="python"
+          code={`for i in range(2, 5):\n    print(i)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={[2, 3, 4]} />
       </section>

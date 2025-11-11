@@ -18,14 +18,29 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* Extended Slicing */}
       <section>
         <h2>Extended Slicing</h2>
+        <p>Extended slicing is an extension of basic slicing in Python.</p>{" "}
         <p>
-          Extended slicing is an extension of basic slicing in Python. Along with <code>start_index</code> and{" "}
-          <code>end_index</code>, we provide <code>step</code>, which determines the increment between each index
-          for slicing.
+          {" "}
+          Along with <code>start_index</code> and <code>end_index</code>, we
+          provide <code>step</code>, which determines the increment between each
+          index for slicing.
         </p>
-        <p><b>Syntax:</b> <code>variable[start_index:end_index:step]</code></p>
-
+        <p>
+          <b>Syntax:</b> <code>variable[start_index:end_index:step]</code>
+        </p>
         <h3>Code</h3>
+        <CodeBlock
+          language="python"
+          code={`secret_message = "-R-a-v-i-"
+print(secret_message[1:8:2])`}
+        />
+        <img
+          src="/assets/img/extended_slicing.png"
+          alt="Error Diagram"
+          style={{ width: "70%", height: "400px" }}
+        />
+        <h3>Output</h3>
+        <OutputBlock output={["Ravi"]} />
         <CodeBlock
           language="python"
           code={`text = "PythonProgramming"\nprint(text[0:6:2])\nprint(text[::-1])`}
@@ -38,23 +53,45 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>String Methods</h2>
         <p>
-          Python has a set of built-in string methods that simplify common text operations:
+          Python has a set of built-in string methods that simplify common text
+          operations:
         </p>
         <ul>
-          <li><code>isdigit()</code></li>
-          <li><code>strip()</code></li>
-          <li><code>lower()</code></li>
-          <li><code>upper()</code></li>
-          <li><code>startswith()</code></li>
-          <li><code>endswith()</code></li>
-          <li><code>replace()</code> and more...</li>
+          <li>
+            <code>isdigit()</code>
+          </li>
+          <li>
+            <code>strip()</code>
+          </li>
+          <li>
+            <code>lower()</code>
+          </li>
+          <li>
+            <code>upper()</code>
+          </li>
+          <li>
+            <code>startswith()</code>
+          </li>
+          <li>
+            <code>endswith()</code>
+          </li>
+          <li>
+            <code>replace()</code> and more...
+          </li>
         </ul>
       </section>
 
       {/* isdigit() */}
       <section>
         <h2>isdigit()</h2>
-        <p>Returns <code>True</code> if all characters in the string are digits, otherwise <code>False</code>.</p>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.isdigit()</code>
+        </p>
+        <p>
+          Returns <code>True</code> if all characters in the string are digits,
+          otherwise <code>False</code>.
+        </p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -67,6 +104,10 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* strip() */}
       <section>
         <h2>strip()</h2>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.strip()</code>
+        </p>
         <p>Removes all leading and trailing spaces from a string.</p>
         <h3>Code</h3>
         <CodeBlock
@@ -79,8 +120,12 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
 
       {/* strip(chars) */}
       <section>
-        <h2>strip(chars)</h2>
-        <p>You can also specify specific characters to remove.</p>
+        <h2>strip - Specific characters</h2>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.strip(chars)</code>
+        </p>
+        <p>We can also specify specific characters to remove.</p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -93,7 +138,11 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* strip multiple */}
       <section>
         <h2>strip() - Multiple Characters</h2>
-        <p>Removes spaces, commas, and full stops that lead or trail the string.</p>
+
+        <p>
+          Removes all spaces, commas, and full stops that lead or trail the
+          string.
+        </p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -107,7 +156,13 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>replace()</h2>
         <p>
-          Returns a new string after replacing all occurrences of <code>old</code> substring with <code>new</code>.
+          <b>Syntax: </b>
+          <code>str_var.replace(old,new)</code>
+        </p>
+        <p>
+          Gives a new string after replacing all the occurrences of the{" "}
+          <b>old </b>
+          substring with the <b>new</b> substring.
         </p>
         <h3>Code</h3>
         <CodeBlock
@@ -121,7 +176,14 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* startswith() */}
       <section>
         <h2>startswith()</h2>
-        <p>Returns <code>True</code> if the string starts with the specified value, otherwise <code>False</code>.</p>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.startswith(value)</code>
+        </p>
+        <p>
+          Returns <code>True</code> if the string starts with the specified
+          value, otherwise <code>False</code>.
+        </p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -134,7 +196,14 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* endswith() */}
       <section>
         <h2>endswith()</h2>
-        <p>Returns <code>True</code> if the string ends with the specified value, otherwise <code>False</code>.</p>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.endswith(value)</code>
+        </p>
+        <p>
+          Returns <code>True</code> if the string ends with the specified value,
+          otherwise <code>False</code>.
+        </p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -147,7 +216,14 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* upper() */}
       <section>
         <h2>upper()</h2>
-        <p>Converts each character in the string to uppercase.</p>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.upper()</code>
+        </p>
+        <p>
+          Gives a new string by converting each character of the given string to
+          uppercase.{" "}
+        </p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -160,7 +236,14 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       {/* lower() */}
       <section>
         <h2>lower()</h2>
-        <p>Converts each character in the string to lowercase.</p>
+        <p>
+          <b>Syntax: </b>
+          <code>str_var.lower()</code>
+        </p>
+        <p>
+          Gives a new string by converting each character of the given string to
+          lowercase.{" "}
+        </p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -174,8 +257,9 @@ const String_Methods_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Note</h2>
         <p>
-          The <code>upper()</code> and <code>lower()</code> methods affect only alphabetic characters.  
-          They have no effect on digits or special characters.
+          The <code>upper()</code> and <code>lower()</code> methods affect only
+          alphabetic characters. They have no effect on digits or special
+          characters.
         </p>
         <CodeBlock
           language="python"

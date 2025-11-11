@@ -244,6 +244,50 @@
 .score-item {
   color: #333;
 }
+/* MCQLogic.css - FULLY FIXED FOR MULTI-LINE OPTIONS */
+
+.mcq-option-item {
+  margin: 12px 0;
+}
+
+.mcq-option-label {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.mcq-option-label:hover {
+  background: #f0f8ff;
+}
+
+.mcq-option-label input[type="radio"] {
+  margin: 4px 0 0 0 !important;
+  flex-shrink: 0;
+}
+
+.mcq-option-text {
+  white-space: pre-line !important;
+  line-height: 1.7 !important;
+  display: block;
+  width: 100%;
+  user-select: none;
+}
+
+/* Make entire option clickable */
+.mcq-option-label {
+  width: 100%;
+}
+
+/* Fix for mobile */
+@media (max-width: 480px) {
+  .mcq-option-text {
+    font-size: 15px;
+  }
+}
 
 /* 
 .mcq-result-screen {

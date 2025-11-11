@@ -29,7 +29,7 @@ const Nested_con_CS_1 = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/Nested_Conditional_Block.png"
           alt="Nested Condition Diagram"
-          style={{ width: "80%", height: "300px" }}
+          style={{ width: "80%", height: "400px" }}
         />
         <h3>Code</h3>
         <CodeBlock
@@ -54,7 +54,7 @@ const Nested_con_CS_1 = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/Nested_Condition_else_Block.png"
           alt="Nested Else Diagram"
-          style={{ width: "50%", height: "300px" }}
+          style={{ width: "50%", height: "400px" }}
         />
         <h3>Code</h3>
         <CodeBlock
@@ -158,9 +158,9 @@ const Nested_con_CS_1 = ({ onSubtopicComplete }) => {
           <code>else</code> statement.
         </p>
         <img
-          src="/assets/img/If_Else.png"
+          src="/assets/img/Possible_Elif_mistakes.png"
           alt="Error Diagram"
-          style={{ width: "80%", height: "300px" }}
+          style={{ width: "50%", height: "400px" }}
         />
         <h3>Wrong Code</h3>
         <CodeBlock

@@ -28,17 +28,22 @@ const Loops_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>While Loop</h2>
         <p>
-          A <b>while loop</b> executes a block of code as long as the condition is{" "}
-          <code>True</code>.
+          A <b>while loop</b> executes a block of code as long as the condition
+          is <code>True</code>.
         </p>
+        <img
+          src="/assets/img/While_loop.png"
+          alt="Error Diagram"
+          style={{ width: "80%", height: "400px" }}
+        />
       </section>
 
       {/* While Loop Example */}
       <section>
         <h2>While Loop Example</h2>
         <p>
-          The following code snippet prints the next three consecutive numbers after a
-          given number.
+          The following code snippet prints the next three consecutive numbers
+          after a given number.
         </p>
         <h3>Code</h3>
         <CodeBlock

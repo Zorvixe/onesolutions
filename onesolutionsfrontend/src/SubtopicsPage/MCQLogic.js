@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./MCQLogic.css"; // Make sure to create this CSS file
+import "./MCQLogic.css";
 
 const MCQLogic = ({ title, questions, onComplete }) => {
   const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
@@ -70,9 +70,10 @@ const MCQLogic = ({ title, questions, onComplete }) => {
       ? quiz[skippedQuestions[currentIndex]]
       : quiz[currentIndex];
 
-    const isCorrect = selectedAnswer === currentQuestion.answer;
-    let points = 0;
+    const correctAnswer = currentQuestion.answer;
+    const isCorrect = JSON.stringify(selectedAnswer) === JSON.stringify(correctAnswer);
 
+    let points = 0;
     if (isCorrect) {
       points = timeLeft > 0 ? 10 : 7;
       setAnsweredStats((prev) => ({ ...prev, correct: prev.correct + 1 }));
@@ -124,6 +125,15 @@ const MCQLogic = ({ title, questions, onComplete }) => {
     questionText = currentQuestion.question;
   }
 
+  // KEY FIX: Convert JSX to string for comparison
+  const getOptionKey = (option) => {
+    if (typeof option === "string") return option;
+    if (React.isValidElement(option)) {
+      return JSON.stringify(React.Children.toArray(option.props.children));
+    }
+    return JSON.stringify(option);
+  };
+
   return (
     <div className="mcq-container full-width">
       <div className="mcq-scoreboard">
@@ -151,49 +161,40 @@ const MCQLogic = ({ title, questions, onComplete }) => {
           </div>
 
           <ul className="mcq-options">
-            {currentQuestion.options.map((option) => (
-              <li key={option} className="mcq-option">
-                <label>
-                  <input
-                    type="radio"
-                    name={`q${currentIndex}`}
-                    value={option}
-                    checked={selectedAnswer === option}
-                    onChange={(e) => setSelectedAnswer(e.target.value)}
-                    disabled={feedback !== null}
-                  />
-                  {option}
-                </label>
-              </li>
-            ))}
+            {currentQuestion.options.map((option, idx) => {
+              const optionKey = getOptionKey(option);
+              const correctKey = getOptionKey(currentQuestion.answer);
+              const isSelected = getOptionKey(selectedAnswer) === optionKey;
+
+              return (
+                <li key={idx} className="mcq-option-item">
+                  <label className="mcq-option-label">
+                    <input
+                      type="radio"
+                      name={`q${currentIndex}`}
+                      checked={isSelected}
+                      onChange={() => setSelectedAnswer(option)}
+                      disabled={feedback !== null}
+                    />
+                    <span className="mcq-option-text">
+                      {option}
+                    </span>
+                  </label>
+                </li>
+              );
+            })}
           </ul>
 
           {feedback && (
-            <div
-              className={`mcq-feedback ${
-                feedback.correct ? "correct" : "wrong"
-              }`}
-            >
-              <i
-                className={`bi ${
-                  feedback.correct ? "bi-check-circle" : "bi-x-circle"
-                }`}
-              ></i>
-              {feedback.correct
-                ? `+${feedback.points}`
-                : `-${Math.abs(feedback.points)}`}
+            <div className={`mcq-feedback ${feedback.correct ? "correct" : "wrong"}`}>
+              <i className={`bi ${feedback.correct ? "bi-check-circle" : "bi-x-circle"}`}></i>
+              {feedback.correct ? `+${feedback.points}` : `-1`}
             </div>
           )}
 
           <div className="mcq-buttons">
             {currentIndex > 0 && (
-              <button
-                className="mcq-prev"
-                onClick={() => {
-                  setCurrentIndex((prev) => prev - 1);
-                  setFeedback(null);
-                }}
-              >
+              <button className="mcq-prev" onClick={() => { setCurrentIndex(prev => prev - 1); setFeedback(null); }}>
                 Previous
               </button>
             )}
@@ -208,11 +209,7 @@ const MCQLogic = ({ title, questions, onComplete }) => {
 
           <div className={`mcq-timer ${timeLeft === 0 ? "time-over" : ""}`}>
             {!showingSkipped && (
-              <button
-                className="mcq-skip"
-                onClick={handleSkip}
-                disabled={timeLeft > 0 || feedback !== null}
-              >
+              <button className="mcq-skip" onClick={handleSkip} disabled={timeLeft > 0 || feedback !== null}>
                 {timeLeft > 0 ? `Skip (${timeLeft}s)` : "Skip"}
               </button>
             )}
@@ -228,51 +225,34 @@ const MCQLogic = ({ title, questions, onComplete }) => {
           <div className="result-header">
             <h2>Attempt</h2>
             <p className="result-date">
-              {new Date().toLocaleDateString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                year: "numeric",
-              })}
+              {new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}
             </p>
-            
           </div>
 
-           <div className="result-gauge">
+          <div className="result-gauge">
             <div className="circular-progress">
               <div className="progress-value">{finalScore}/100</div>
               <svg>
                 <circle className="bg"></circle>
-                <circle
-                  className="fg"
-                  style={{ strokeDashoffset: 283 - (283 * finalScore) / 100 }}
-                ></circle>
+                <circle className="fg" style={{ strokeDashoffset: 283 - (283 * finalScore) / 100 }}></circle>
               </svg>
               <div className={`pass-badge ${isPassed ? "passed" : "failed"}`}>
                 {isPassed ? "PASSED" : "FAILED"}
               </div>
             </div>
-          </div> 
+          </div>
 
-           <div className="result-stats">
-            <div className="stat correct">
-              <span className="icon">✔</span>
-              <span>{answeredStats.correct} Correct Answers</span>
-            </div>
-            <div className="stat wrong">
-              <span className="icon">✖</span>
-              <span>{answeredStats.wrong} Wrong Answers</span>
-            </div>
-            <div className="stat unanswered">
-              <span className="icon">•</span>
-              <span>{answeredStats.unanswered} Unanswered</span>
-            </div>
-          </div> 
+          <div className="result-stats">
+            <div className="stat correct">Correct Answers: {answeredStats.correct}</div>
+            <div className="stat wrong">Wrong Answers: {answeredStats.wrong}</div>
+            <div className="stat unanswered">Unanswered: {answeredStats.unanswered}</div>
+          </div>
 
-           <div className="result-actions">
+          <div className="result-actions">
             <button className="btn-secondary">PRACTICE AGAIN</button>
-            <button className="btn-primary">PROCEED TO NEXT ➜</button>
+            <button className="btn-primary">PROCEED TO NEXT</button>
             <button className="btn-skip">SKIP</button>
-          </div> 
+          </div>
         </div>
       )}
     </div>
