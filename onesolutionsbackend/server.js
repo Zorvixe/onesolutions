@@ -249,9 +249,6 @@ const createTables = async () => {
     await pool.query(achievementsTableQuery);
     console.log("✅ Student achievements table ready");
 
-    await pool.query(subtopicSlugTableQuery);
-    console.log("✅ Subtopic slug map table ready");
-
     await pool.query(otpTableQuery);
     console.log("✅ OTP store table ready");
   } catch (error) {
