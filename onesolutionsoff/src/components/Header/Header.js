@@ -27,8 +27,6 @@ const Header = () => {
     return () => document.removeEventListener("click", handleOutsideClick);
   }, [mobileNavOpen]);
 
-
-
   // Helper to check if link is active
   const isActive = (path) => location.pathname === path;
 
@@ -36,9 +34,13 @@ const Header = () => {
     <header id="header" className="header d-flex align-items-center sticky-top">
       <div className="container-fluid container-xl position-relative d-flex align-items-center">
         {/* Logo */}
-        <Link to="/" className="logo d-flex align-items-center me-auto" onClick={() => setMobileNavOpen(false)}>
+        <Link
+          to="/"
+          className="logo d-flex align-items-center me-auto"
+          onClick={() => setMobileNavOpen(false)}
+        >
           <img
-            src="/assets/img/ONE_SOLUTIONS_NEW_LOGO.png"
+            src="/assets/img/onesolutions.png"
             alt="logo"
             style={{ borderRadius: "6px", objectFit: "contain" }}
           />
@@ -102,7 +104,11 @@ const Header = () => {
               </Link>
             </li>
             {/* Enroll button */}
-            <Link className="btn-getstarted" to="/enroll" onClick={() => setMobileNavOpen(false)}>
+            <Link
+              className="btn-getstarted"
+              to="/enroll"
+              onClick={() => setMobileNavOpen(false)}
+            >
               Enroll Now
             </Link>
           </ul>
@@ -115,10 +121,7 @@ const Header = () => {
               setMobileNavOpen(!mobileNavOpen);
             }}
           ></i>
-
-
         </nav>
-
 
         {/* Enroll button */}
         {/* Vertical Line */}
@@ -147,7 +150,6 @@ const Header = () => {
           </svg>
           Student Login
         </a>
-
       </div>
     </header>
   );

@@ -19,20 +19,32 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>Nested Loops</h2>
         <p>
-          An inner loop within the repeating block of an outer loop is called a Nested Loop.
+          An inner loop within the repeating block of an outer loop is called a
+          Nested Loop.
         </p>
         <p>
-          The Inner Loop will be executed one time for each iteration of the Outer Loop.
+          The <b>Inner Loop</b> will be executed one time for each iteration of
+          the <b>Outer Loop</b>.
         </p>
+        <img
+          src="/assets/img/Nested_Loop.png"
+          alt="Error Diagram"
+          style={{ width: "100%", height: "500px" }}
+        />
       </section>
 
       {/* Nested Repeating Block */}
       <section>
         <h2>Nested Repeating Block</h2>
         <p>
-          The one highlighted in the blue dotted line is the repeating block of the inner
-          loop.
+          The one highlighted in the blue dotted line is the repeating block of
+          the inner loop.
         </p>
+        <img
+          src="/assets/img/Nested_Repeating.png"
+          alt="Error Diagram"
+          style={{ width: "100%", height: "500px" }}
+        />
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -50,18 +62,21 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
           ]}
         />
         <p>
-          In the above example, the below line is the repeating block of the nested loop:
+          In the above example, the below line is the repeating block of the
+          nested loop:
         </p>
-        <CodeBlock
-          language="python"
-          code={`        print(f"i={i}, j={j}")`}
-        />
+        <CodeBlock language="python" code={`        print(f"i={i}, j={j}")`} />
       </section>
 
       {/* Examples - Nested Loops */}
       <section>
         <h2>Examples - Nested Loops</h2>
         <h3>Example - 1: While loop inside a For loop</h3>
+        <img
+          src="/assets/img/Nested_Loop_Ex1.png"
+          alt="Error Diagram"
+          style={{ width: "70%", height: "500px" }}
+        />
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -78,6 +93,11 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
         />
 
         <h3>Example - 2: While loop inside a while loop</h3>
+        <img
+          src="/assets/img/Nested_Loop_Ex2.png"
+          alt="Error Diagram"
+          style={{ width: "70%", height: "500px" }}
+        />
         <h3>Code</h3>
         <CodeBlock
           language="python"

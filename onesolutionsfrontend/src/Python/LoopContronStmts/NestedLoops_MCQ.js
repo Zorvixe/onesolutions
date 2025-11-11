@@ -1,312 +1,244 @@
-import React, { useState, useEffect, useRef } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks"; 
+import React from "react";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { CodeBlock } from "../../CodeOutputBlocks";
 
-
-const NestedLoops_MCQ = ({ onComplete }) => {
-  const questionsData = [
+const questionsData = [
+  // ✅ NORMAL QUESTION 1
   {
     question: "What is a nested loop?",
     options: [
       "A loop that runs only once",
       "A loop inside another loop",
-      "A loop after a condition",
-      "A loop that never runs",
+      "A loop that never ends",
+      "A loop that has no condition",
     ],
     answer: "A loop inside another loop",
   },
+
+  // ✅ NORMAL QUESTION 2
   {
-    question: "How many times will the inner loop execute if the outer loop runs 3 times and the inner loop runs 2 times?",
-    options: ["2", "3", "5", "6"],
+    question: "Which loop runs more times in a nested loop?",
+    options: ["Outer loop", "Inner loop", "Both run equal", "None run"],
+    answer: "Inner loop",
+  },
+
+  // ✅ NORMAL QUESTION 3
+  {
+    question: "In a nested loop, inner loop executes ______",
+    options: [
+      "Once only",
+      "One time per outer loop iteration",
+      "Only when outer loop ends",
+      "Random times",
+    ],
+    answer: "One time per outer loop iteration",
+  },
+
+  // ✅ CODE QUESTION 1
+  {
+    question: (
+      <div>
+        <p>What is the output?</p>
+        <CodeBlock
+          language="python"
+          code={`
+for i in range(2):
+    for j in range(2):
+        print(i, j)
+          `}
+        />
+      </div>
+    ),
+    options: [
+      <span className="mcq-option-text">
+        0 0{"\n"}0 1{"\n"}1 0{"\n"}1 1
+      </span>,
+      "0 1 2",
+      "1 1 1 1",
+      "Error",
+    ],
+    answer: (
+      <span className="mcq-option-text">
+        0 0{"\n"}0 1{"\n"}1 0{"\n"}1 1
+      </span>
+    ),
+  },
+
+  // ✅ CODE QUESTION 2
+  {
+    question: (
+      <div>
+        <p>How many total print statements execute?</p>
+        <CodeBlock
+          language="python"
+          code={`
+for i in range(3):
+    for j in range(2):
+        print("hello")
+          `}
+        />
+      </div>
+    ),
+    options: ["2", "3", "6", "5"],
     answer: "6",
   },
+
+  // ✅ CODE QUESTION 3
   {
     question: (
       <div>
-        <p>What will be the output of the following code?</p>
+        <p>Which values of i and j will be printed last?</p>
         <CodeBlock
           language="python"
-          code={`for i in range(2):\n    for j in range(2):\n        print(i, j)`}
+          code={`
+for i in range(2):
+    for j in range(3):
+        print(i, j)
+          `}
+        />
+      </div>
+    ),
+    options: ["2 3", "1 2", "0 2", "1 1"],
+    answer: "1 2",
+  },
+
+  // ✅ CODE QUESTION 4
+  {
+    question: (
+      <div>
+        <p>What is the output?</p>
+        <CodeBlock
+          language="python"
+          code={`
+i = 0
+while i < 2:
+    j = 0
+    while j < 2:
+        print("i=", i, "j=", j)
+        j += 1
+    i += 1
+          `}
         />
       </div>
     ),
     options: [
-      "0 0\n0 1\n1 0\n1 1",
-      "0 0\n1 0\n0 1\n1 1",
-      "0 1\n1 0\n1 1",
-      "0 0\n1 1",
+      <span className="mcq-option-text">
+        i= 0 j= 0{"\n"}
+        i= 0 j= 1{"\n"}
+        i= 1 j= 0{"\n"}
+        i= 1 j= 1
+      </span>,
+      "Infinite loop",
+      "i=0 only",
+      "Error",
     ],
-    answer: "0 0\n0 1\n1 0\n1 1",
-  },
-  {
-    question: (
-      <div>
-        <p>Which loop executes first in a nested loop structure?</p>
-        <CodeBlock
-          language="python"
-          code={`for i in range(3):\n    for j in range(2):\n        print(i, j)`}
-        />
-      </div>
+    answer: (
+      <span className="mcq-option-text">
+        i= 0 j= 0{"\n"}
+        i= 0 j= 1{"\n"}
+        i= 1 j= 0{"\n"}
+        i= 1 j= 1
+      </span>
     ),
-    options: ["Inner loop", "Outer loop", "Both at the same time", "None"],
-    answer: "Outer loop",
   },
+
+  // ✅ CODE QUESTION 5
   {
     question: (
       <div>
-        <p>What is the value of <code>j</code> in the last iteration of this code?</p>
+        <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`for i in range(2):\n    for j in range(3):\n        print(i, j)`}
-        />
-      </div>
-    ),
-    options: ["0", "1", "2", "3"],
-    answer: "2",
-  },
-  {
-    question: (
-      <div>
-        <p>How many times will the print statement be executed?</p>
-        <CodeBlock
-          language="python"
-          code={`for i in range(2):\n    for j in range(3):\n        print("Hello")`}
-        />
-      </div>
-    ),
-    options: ["2", "3", "5", "6"],
-    answer: "6",
-  },
-  {
-    question: (
-      <div>
-        <p>What will be the output of the following code?</p>
-        <CodeBlock
-          language="python"
-          code={`outer = 0\nwhile outer < 2:\n    inner = 0\n    while inner < 2:\n        print(outer, inner)\n        inner += 1\n    outer += 1`}
+          code={`
+for i in range(3):
+    for j in range(i):
+        print(j)
+          `}
         />
       </div>
     ),
     options: [
-      "0 0\n0 1\n1 0\n1 1",
-      "0 0\n1 0\n0 1\n1 1",
-      "0 1\n1 0",
-      "0 0\n1 1",
+      <span className="mcq-option-text">
+        0{"\n"}0{"\n"}1
+      </span>,
+      <span className="mcq-option-text">
+        1{"\n"}2{"\n"}3
+      </span>,
+      "0 1 2 3",
+      "No output",
     ],
-    answer: "0 0\n0 1\n1 0\n1 1",
+    answer: (
+      <span className="mcq-option-text">
+        0{"\n"}0{"\n"}1
+      </span>
+    ),
   },
+
+  // ✅ CODE QUESTION 6
   {
     question: (
       <div>
-        <p>What is the repeating block in a nested loop?</p>
+        <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`for i in range(3):\n    for j in range(2):\n        print(i, j)`}
+          code={`
+for outer in range(2):
+    count = 0
+    while count < 2:
+        print("outer=", outer, "count=", count)
+        count += 1
+          `}
         />
       </div>
     ),
     options: [
-      "The outer loop header",
-      "The inner loop header",
-      "The body of the inner loop",
-      "The print statement",
+      <span className="mcq-option-text">
+        outer= 0 count= 0{"\n"}
+        outer= 0 count= 1{"\n"}
+        outer= 1 count= 0{"\n"}
+        outer= 1 count= 1
+      </span>,
+      "outer= 0 only",
+      "outer= 1 only",
+      "Infinite loop",
     ],
-    answer: "The body of the inner loop",
+    answer: (
+      <span className="mcq-option-text">
+        outer= 0 count= 0{"\n"}
+        outer= 0 count= 1{"\n"}
+        outer= 1 count= 0{"\n"}
+        outer= 1 count= 1
+      </span>
+    ),
   },
-  // ---------- New Question 1 ----------
+
+  // ✅ CODE QUESTION 7
   {
     question: (
       <div>
-        <p>What will be printed by the following nested loop?</p>
+        <p>How many times does this print?</p>
         <CodeBlock
           language="python"
-          code={`for i in range(2):\n    for j in range(3):\n        if j == 1:\n            break\n        print(i, j)`}
+          code={`
+i = 0
+while i < 3:
+    j = 0
+    while j < 3:
+        print("*")
+        j += 1
+    i += 1
+          `}
         />
       </div>
     ),
-    options: [
-      "0 0\n0 1\n1 0\n1 1",
-      "0 0\n1 0",
-      "0 0\n0 2\n1 0\n1 2",
-      "0 1\n1 1",
-    ],
-    answer: "0 0\n1 0",
+    options: ["3", "6", "9", "12"],
+    answer: "9",
   },
-  // ---------- New Question 2 ----------
-  {
-    question: (
-      <div>
-        <p>How many times will "Python" be printed?</p>
-        <CodeBlock
-          language="python"
-          code={`for i in range(3):\n    for j in range(2):\n        if j == 1:\n            continue\n        print("Python")`}
-        />
-      </div>
-    ),
-    options: ["2", "3", "4", "6"],
-    answer: "3",
-  }
 ];
 
- const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
-  const [questions] = useState(shuffleArray([...questionsData]));
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [score, setScore] = useState(0);
-  const [completed, setCompleted] = useState(false);
-  const [skippedQuestions, setSkippedQuestions] = useState([]);
-  const [showingSkipped, setShowingSkipped] = useState(false);
-  const [feedback, setFeedback] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(10);
-  const timerRef = useRef(null);
-
-  // Timer
-  useEffect(() => {
-    if (completed) return;
-    setTimeLeft(10);
-    timerRef.current = setInterval(() => {
-      setTimeLeft(prev => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timerRef.current);
-  }, [currentIndex, completed]);
-
-  const nextQuestion = () => {
-    clearInterval(timerRef.current);
-    setSelectedAnswer(null);
-    setFeedback(null);
-
-    if (!showingSkipped) {
-      if (currentIndex + 1 < questions.length) setCurrentIndex(prev => prev + 1);
-      else if (skippedQuestions.length > 0) {
-        setShowingSkipped(true);
-        setCurrentIndex(0);
-      } else {
-        setCompleted(true);
-        if (onComplete) onComplete();
-      }
-    } else {
-      if (currentIndex + 1 < skippedQuestions.length) setCurrentIndex(prev => prev + 1);
-      else {
-        setCompleted(true);
-        if (onComplete) onComplete();
-      }
-    }
-  };
-
-  const handleNext = () => {
-    if (!selectedAnswer) return;
-
-    const currentQuestion = showingSkipped
-      ? questions[skippedQuestions[currentIndex]]
-      : questions[currentIndex];
-
-    const isCorrect = selectedAnswer === currentQuestion.answer;
-
-    let points = 0;
-    if (isCorrect) points = timeLeft > 0 ? 10 : 7;
-    else points = -5;
-
-    setScore(prev => prev + points);
-    setFeedback({ correct: isCorrect, points });
-  };
-
-  const handleSkip = () => {
-    if (!showingSkipped) setSkippedQuestions(prev => [...prev, currentIndex]);
-    nextQuestion();
-  };
-
-  if (questions.length === 0) return <p>Loading questions...</p>;
-
-  const currentQuestion = showingSkipped
-    ? questions[skippedQuestions[currentIndex]]
-    : questions[currentIndex];
-
-  const questionNumber = showingSkipped
-    ? questions.length - skippedQuestions.length + currentIndex + 1
-    : currentIndex + 1;
-
-  const percentage = (score / (questions.length * 10)) * 100;
-
-  return (
-    <div className="mcq-container full-width">
-      <h3 className="mcq-title">Nested Loops - MCQs</h3>
-
-      {!completed ? (
-        <div className="mcq-question-block">
-          <p className="mcq-question">
-            Q{questionNumber}. {currentQuestion.question}
-          </p>
-
-          <ul className="mcq-options">
-            {currentQuestion.options.map(option => (
-              <li key={option} className="mcq-option">
-                <label>
-                  <input
-                    type="radio"
-                    name={`q${currentIndex}`}
-                    value={option}
-                    checked={selectedAnswer === option}
-                    onChange={e => setSelectedAnswer(e.target.value)}
-                    disabled={feedback !== null}
-                  />
-                  {option}
-                </label>
-              </li>
-            ))}
-          </ul>
-
-          {feedback && (
-            <div className={`mcq-feedback ${feedback.correct ? "correct" : "wrong"}`}>
-              <i
-                className={`bi ${feedback.correct ? "bi-check-circle" : "bi-x-circle"}`}
-                style={{ marginRight: "10px", fontSize: "20px" }}
-              ></i>
-              {feedback.correct ? `+${feedback.points}` : `-${Math.abs(feedback.points)}`}
-            </div>
-          )}
-
-          <div className="mcq-buttons">
-            <button
-              className="mcq-next"
-              disabled={!selectedAnswer}
-              onClick={feedback ? nextQuestion : handleNext}
-            >
-              {showingSkipped && currentIndex + 1 === skippedQuestions.length
-                ? "Finish"
-                : !showingSkipped && currentIndex + 1 === questions.length && skippedQuestions.length === 0
-                ? "Finish"
-                : "Next"}
-            </button>
-            {!showingSkipped && (
-              <button
-                className="mcq-skip"
-                onClick={handleSkip}
-                disabled={feedback !== null}
-              >
-                Skip
-              </button>
-            )}
-          </div>
-
-          <div className={`mcq-timer ${timeLeft === 0 ? "time-over" : ""}`}>
-            Time Left: {timeLeft} sec
-          </div>
-        </div>
-      ) : (
-        <div className="mcq-completed">
-          <h4>✅ Quiz Completed!</h4>
-          <p>Your Score: {score} / {questions.length * 10}</p>
-          <p className="score-feedback">
-            {percentage < 50
-              ? "Poor performance. You need to improve!"
-              : percentage <= 80
-              ? "Good performance. Keep practicing!"
-              : "Excellent performance. Well done!"}
-          </p>
-        </div>
-      )}
-    </div>
-  );
+const NestedLoops_MCQ = () => {
+  const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
+  return <MCQLogic title="Nested Loops - MCQs" questions={shuffledQuestions} />;
 };
 
 export default NestedLoops_MCQ;
