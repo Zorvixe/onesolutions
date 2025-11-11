@@ -182,18 +182,17 @@ const createTables = async () => {
 
   // Student progress table
   const progressTableQuery = `
-    CREATE TABLE IF NOT EXISTS student_subtopic_progress (
+    CREATE TABLE IF NOT EXISTS student_content_progress (
       id SERIAL PRIMARY KEY,
       student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
-      subtopic_name VARCHAR(500) NOT NULL,
-      module_name VARCHAR(500) NOT NULL,
-      course_name VARCHAR(500) NOT NULL,
-      goal_name VARCHAR(500) NOT NULL,
+      content_id VARCHAR(500) NOT NULL,
+      goal_name VARCHAR(500),
+      course_name VARCHAR(500),
       completed BOOLEAN DEFAULT false,
       completed_at TIMESTAMP,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE(student_id, subtopic_name, module_name, course_name, goal_name)
+      UNIQUE(student_id, content_id)
     );
   `;
 
@@ -222,19 +221,6 @@ const createTables = async () => {
       achievement_date DATE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `;
-
-  const subtopicSlugTableQuery = `
-    CREATE TABLE IF NOT EXISTS subtopics_slug_map (
-      id SERIAL PRIMARY KEY,
-      slug VARCHAR(64) UNIQUE NOT NULL,
-      subtopic_name VARCHAR(500) NOT NULL,
-      module_name VARCHAR(500) NOT NULL,
-      course_name VARCHAR(500) NOT NULL,
-      goal_name VARCHAR(500) NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE (subtopic_name, module_name, course_name, goal_name)
     );
   `;
 
@@ -372,58 +358,6 @@ const auth = async (req, res, next) => {
     });
   }
 };
-
-// -------------------------------------------
-// 🔹 Slug Utilities
-// -------------------------------------------
-const generateSlug = (len = 6) => crypto.randomBytes(len).toString("base64url");
-
-async function getOrCreateSubtopicSlug({
-  goalName,
-  courseName,
-  moduleName,
-  subtopicName,
-}) {
-  const params = [subtopicName, moduleName, courseName, goalName];
-
-  const existing = await pool.query(
-    `SELECT slug FROM subtopics_slug_map
-     WHERE subtopic_name = $1 AND module_name = $2 AND course_name = $3 AND goal_name = $4`,
-    params
-  );
-
-  if (existing.rows[0]?.slug) return existing.rows[0].slug;
-
-  let slug;
-  while (true) {
-    const candidate = generateSlug(6);
-    const dupe = await pool.query(
-      `SELECT 1 FROM subtopics_slug_map WHERE slug = $1`,
-      [candidate]
-    );
-    if (dupe.rowCount === 0) {
-      slug = candidate;
-      break;
-    }
-  }
-
-  await pool.query(
-    `INSERT INTO subtopics_slug_map (slug, subtopic_name, module_name, course_name, goal_name)
-     VALUES ($1, $2, $3, $4, $5)`,
-    [slug, ...params]
-  );
-
-  return slug;
-}
-
-async function resolveSlug(slug) {
-  const r = await pool.query(
-    `SELECT slug, subtopic_name, module_name, course_name, goal_name
-     FROM subtopics_slug_map WHERE slug = $1`,
-    [slug]
-  );
-  return r.rows[0] || null;
-}
 
 // -------------------------------------------
 // 🔹 Email Configuration with Better Error Handling
@@ -1001,77 +935,35 @@ app.post(
 );
 
 // -------------------------------------------
-// 🔹 Progress Tracking Routes
+// Progress Routes with ID-based tracking
 // -------------------------------------------
-
-app.get("/api/subtopics/slug", auth, async (req, res) => {
+app.post("/api/progress/content/complete", auth, async (req, res) => {
   try {
-    const { goalName, courseName, moduleName, subtopicName } = req.query;
-    if (!goalName || !courseName || !moduleName || !subtopicName) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing required query params" });
-    }
-    const slug = await getOrCreateSubtopicSlug({
-      goalName,
-      courseName,
-      moduleName,
-      subtopicName,
-    });
-    res.json({ success: true, data: { slug } });
-  } catch (err) {
-    console.error("Slug creation error:", err.message);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error creating slug" });
-  }
-});
+    const { contentId, goalName, courseName } = req.body;
 
-app.get("/api/subtopics/:slug", auth, async (req, res) => {
-  try {
-    const info = await resolveSlug(req.params.slug);
-    if (!info)
-      return res
-        .status(404)
-        .json({ success: false, message: "Slug not found" });
-    res.json({ success: true, data: info });
-  } catch (err) {
-    console.error("Slug resolve error:", err.message);
-    res
-      .status(500)
-      .json({ success: false, message: "Server error resolving slug" });
-  }
-});
-
-// Mark subtopic as completed (by names)
-app.post("/api/progress/subtopic", auth, async (req, res) => {
-  try {
-    const { subtopicName, moduleName, courseName, goalName } = req.body;
-
-    if (!subtopicName || !moduleName || !courseName || !goalName) {
+    if (!contentId) {
       return res.status(400).json({
         success: false,
-        message: "Missing required fields",
+        message: "Content ID is required",
       });
     }
 
-    // Upsert progress record
     const result = await pool.query(
-      `INSERT INTO student_subtopic_progress 
-       (student_id, subtopic_name, module_name, course_name, goal_name, completed, completed_at) 
-       VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)
-       ON CONFLICT (student_id, subtopic_name, module_name, course_name, goal_name) 
+      `INSERT INTO student_content_progress 
+       (student_id, content_id, goal_name, course_name, completed, completed_at) 
+       VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
+       ON CONFLICT (student_id, content_id) 
        DO UPDATE SET 
          completed = EXCLUDED.completed,
          completed_at = EXCLUDED.completed_at,
          updated_at = CURRENT_TIMESTAMP
        RETURNING *`,
-      [req.student.id, subtopicName, moduleName, courseName, goalName, true]
+      [req.student.id, contentId, goalName || null, courseName || null, true]
     );
 
     res.json({
       success: true,
-      message: "Subtopic marked as completed",
+      message: "Content marked as completed",
       data: result.rows[0],
     });
   } catch (error) {
@@ -1083,75 +975,26 @@ app.post("/api/progress/subtopic", auth, async (req, res) => {
   }
 });
 
-app.post("/api/progress/subtopic/by-slug", auth, async (req, res) => {
+app.post("/api/progress/content/incomplete", auth, async (req, res) => {
   try {
-    const { slug } = req.body;
-    if (!slug) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Slug is required" });
-    }
-    const info = await resolveSlug(slug);
-    if (!info)
-      return res
-        .status(404)
-        .json({ success: false, message: "Slug not found" });
+    const { contentId } = req.body;
 
-    const result = await pool.query(
-      `INSERT INTO student_subtopic_progress 
-       (student_id, subtopic_name, module_name, course_name, goal_name, completed, completed_at) 
-       VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)
-       ON CONFLICT (student_id, subtopic_name, module_name, course_name, goal_name) 
-       DO UPDATE SET 
-         completed = EXCLUDED.completed,
-         completed_at = EXCLUDED.completed_at,
-         updated_at = CURRENT_TIMESTAMP
-       RETURNING *`,
-      [
-        req.student.id,
-        info.subtopic_name,
-        info.module_name,
-        info.course_name,
-        info.goal_name,
-        true,
-      ]
-    );
-
-    res.json({
-      success: true,
-      message: "Subtopic marked as completed (slug)",
-      data: { ...result.rows[0], slug },
-    });
-  } catch (error) {
-    console.error("Progress update (slug) error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error while updating progress by slug",
-    });
-  }
-});
-
-// Mark subtopic as incomplete
-app.delete("/api/progress/subtopic", auth, async (req, res) => {
-  try {
-    const { subtopicName, moduleName, courseName, goalName } = req.body;
-
-    if (!subtopicName || !moduleName || !courseName || !goalName) {
+    if (!contentId) {
       return res.status(400).json({
         success: false,
-        message: "Subtopic/module/course/goal names are required",
+        message: "Content ID is required",
       });
     }
 
     await pool.query(
-      `DELETE FROM student_subtopic_progress 
-       WHERE student_id = $1 AND subtopic_name = $2 AND module_name = $3 AND course_name = $4 AND goal_name = $5`,
-      [req.student.id, subtopicName, moduleName, courseName, goalName]
+      `DELETE FROM student_content_progress 
+       WHERE student_id = $1 AND content_id = $2`,
+      [req.student.id, contentId]
     );
 
     res.json({
       success: true,
-      message: "Subtopic progress removed",
+      message: "Content marked as incomplete",
     });
   } catch (error) {
     console.error("Progress delete error:", error.message);
@@ -1162,66 +1005,20 @@ app.delete("/api/progress/subtopic", auth, async (req, res) => {
   }
 });
 
-app.delete("/api/progress/subtopic/by-slug", auth, async (req, res) => {
-  try {
-    const { slug } = req.body;
-    if (!slug) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Slug is required" });
-    }
-    const info = await resolveSlug(slug);
-    if (!info)
-      return res
-        .status(404)
-        .json({ success: false, message: "Slug not found" });
-
-    await pool.query(
-      `DELETE FROM student_subtopic_progress 
-       WHERE student_id = $1 AND subtopic_name = $2 AND module_name = $3 AND course_name = $4 AND goal_name = $5`,
-      [
-        req.student.id,
-        info.subtopic_name,
-        info.module_name,
-        info.course_name,
-        info.goal_name,
-      ]
-    );
-
-    res.json({
-      success: true,
-      message: "Subtopic progress removed (slug)",
-    });
-  } catch (error) {
-    console.error("Progress delete (slug) error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error while removing progress by slug",
-    });
-  }
-});
-
-// Get all completed subtopics for a student
 app.get("/api/progress/completed", auth, async (req, res) => {
   try {
     const result = await pool.query(
-      `SELECT 
-         p.subtopic_name, p.module_name, p.course_name, p.goal_name, p.completed_at,
-         m.slug
-       FROM student_subtopic_progress p
-       LEFT JOIN subtopics_slug_map m
-         ON m.subtopic_name = p.subtopic_name
-        AND m.module_name = p.module_name
-        AND m.course_name = p.course_name
-        AND m.goal_name = p.goal_name
-       WHERE p.student_id = $1 AND p.completed = true`,
+      `SELECT content_id, goal_name, course_name, completed_at
+       FROM student_content_progress 
+       WHERE student_id = $1 AND completed = true
+       ORDER BY completed_at DESC`,
       [req.student.id]
     );
 
     res.json({
       success: true,
       data: {
-        completedSubtopics: result.rows,
+        completedContent: result.rows,
       },
     });
   } catch (error) {
@@ -1233,26 +1030,40 @@ app.get("/api/progress/completed", auth, async (req, res) => {
   }
 });
 
-// Get progress summary
 app.get("/api/progress/summary", auth, async (req, res) => {
   try {
     const result = await pool.query(
       `SELECT 
          goal_name,
          course_name,
-         module_name,
-         COUNT(*) as total_subtopics,
-         SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_subtopics
-       FROM student_subtopic_progress 
-       WHERE student_id = $1
-       GROUP BY goal_name, course_name, module_name`,
+         COUNT(*) as total_content,
+         SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_content
+       FROM student_content_progress 
+       WHERE student_id = $1 AND (goal_name IS NOT NULL OR course_name IS NOT NULL)
+       GROUP BY goal_name, course_name`,
       [req.student.id]
     );
+
+    // Calculate progress percentages
+    const summary = result.rows.map((row) => ({
+      goalName: row.goal_name,
+      courseName: row.course_name,
+      totalContent: Number.parseInt(row.total_content),
+      completedContent: Number.parseInt(row.completed_content),
+      progressPercentage:
+        Number.parseInt(row.total_content) > 0
+          ? Math.round(
+              (Number.parseInt(row.completed_content) /
+                Number.parseInt(row.total_content)) *
+                100
+            )
+          : 0,
+    }));
 
     res.json({
       success: true,
       data: {
-        progressSummary: result.rows,
+        progressSummary: summary,
       },
     });
   } catch (error) {
@@ -1260,6 +1071,87 @@ app.get("/api/progress/summary", auth, async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Server error while fetching progress summary",
+    });
+  }
+});
+
+app.get("/api/progress/course/:courseName", auth, async (req, res) => {
+  try {
+    const { courseName } = req.params;
+
+    const result = await pool.query(
+      `SELECT 
+         content_id,
+         completed,
+         completed_at
+       FROM student_content_progress 
+       WHERE student_id = $1 AND course_name = $2`,
+      [req.student.id, courseName]
+    );
+
+    const totalContent = result.rows.length;
+    const completedContent = result.rows.filter((r) => r.completed).length;
+    const progressPercentage =
+      totalContent > 0
+        ? Math.round((completedContent / totalContent) * 100)
+        : 0;
+
+    res.json({
+      success: true,
+      data: {
+        courseName,
+        totalContent,
+        completedContent,
+        progressPercentage,
+        details: result.rows,
+      },
+    });
+  } catch (error) {
+    console.error("Course progress error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching course progress",
+    });
+  }
+});
+
+app.get("/api/progress/goal/:goalName", auth, async (req, res) => {
+  try {
+    const { goalName } = req.params;
+
+    const result = await pool.query(
+      `SELECT 
+         content_id,
+         completed,
+         completed_at,
+         course_name
+       FROM student_content_progress 
+       WHERE student_id = $1 AND goal_name = $2`,
+      [req.student.id, goalName]
+    );
+
+    const totalContent = result.rows.length;
+    const completedContent = result.rows.filter((r) => r.completed).length;
+    const progressPercentage =
+      totalContent > 0
+        ? Math.round((completedContent / totalContent) * 100)
+        : 0;
+
+    res.json({
+      success: true,
+      data: {
+        goalName,
+        totalContent,
+        completedContent,
+        progressPercentage,
+        details: result.rows,
+      },
+    });
+  } catch (error) {
+    console.error("Goal progress error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching goal progress",
     });
   }
 });
@@ -1856,39 +1748,45 @@ app.put(
   async (req, res) => {
     try {
       const studentId = req.student.id;
-      
-      console.log("📝 Complete profile update request received for student:", studentId);
+
+      console.log(
+        "📝 Complete profile update request received for student:",
+        studentId
+      );
       console.log("📦 Request body keys:", Object.keys(req.body));
 
       // Helper function to safely parse values
-      const parseValue = (value, type = 'string') => {
-        if (value === '' || value === null || value === undefined) {
+      const parseValue = (value, type = "string") => {
+        if (value === "" || value === null || value === undefined) {
           return null;
         }
-        
+
         switch (type) {
-          case 'int':
+          case "int":
             const intVal = parseInt(value);
             return isNaN(intVal) ? null : intVal;
-          case 'float':
+          case "float":
             const floatVal = parseFloat(value);
             return isNaN(floatVal) ? null : floatVal;
-          case 'boolean':
-            if (typeof value === 'boolean') return value;
-            return value === 'true' || value === true || value === '1';
-          case 'date':
+          case "boolean":
+            if (typeof value === "boolean") return value;
+            return value === "true" || value === true || value === "1";
+          case "date":
             if (!value) return null;
             // Validate date format
             const date = new Date(value);
             return isNaN(date.getTime()) ? null : value;
-          case 'array':
+          case "array":
             if (Array.isArray(value)) return value;
-            if (typeof value === 'string') {
+            if (typeof value === "string") {
               try {
                 const parsed = JSON.parse(value);
                 return Array.isArray(parsed) ? parsed : [];
               } catch (e) {
-                return value.split(',').map(item => item.trim()).filter(item => item);
+                return value
+                  .split(",")
+                  .map((item) => item.trim())
+                  .filter((item) => item);
               }
             }
             return [];
@@ -1983,7 +1881,10 @@ app.put(
             req.student.profile_image &&
             !req.student.profile_image.includes("default")
           ) {
-            const oldImagePath = path.join(__dirname, req.student.profile_image);
+            const oldImagePath = path.join(
+              __dirname,
+              req.student.profile_image
+            );
             if (fs.existsSync(oldImagePath)) {
               fs.unlinkSync(oldImagePath);
             }
@@ -2009,14 +1910,14 @@ app.put(
         lastName: parseValue(lastName),
         phone: parseValue(phone),
         batchMonth: parseValue(batchMonth),
-        batchYear: parseValue(batchYear, 'int'),
-        isCurrentBatch: parseValue(isCurrentBatch, 'boolean'),
+        batchYear: parseValue(batchYear, "int"),
+        isCurrentBatch: parseValue(isCurrentBatch, "boolean"),
 
         // Personal Details
         nameOnCertificate: parseValue(nameOnCertificate),
         gender: parseValue(gender),
-        preferredLanguages: parseValue(preferredLanguages, 'array'),
-        dateOfBirth: parseValue(dateOfBirth, 'date'),
+        preferredLanguages: parseValue(preferredLanguages, "array"),
+        dateOfBirth: parseValue(dateOfBirth, "date"),
         codePlaygroundUsername: parseValue(codePlaygroundUsername),
         linkedinProfileUrl: parseValue(linkedinProfileUrl),
         githubProfileUrl: parseValue(githubProfileUrl),
@@ -2039,12 +1940,12 @@ app.put(
 
         // Current Expertise
         currentCodingLevel: parseValue(currentCodingLevel),
-        technicalSkills: parseValue(technicalSkills, 'array'),
-        hasLaptop: parseValue(hasLaptop, 'boolean'),
+        technicalSkills: parseValue(technicalSkills, "array"),
+        hasLaptop: parseValue(hasLaptop, "boolean"),
 
         // Job Preferences
         jobSearchStatus: parseValue(jobSearchStatus),
-        preferredJobLocations: parseValue(preferredJobLocations, 'array'),
+        preferredJobLocations: parseValue(preferredJobLocations, "array"),
         expectedCtcRange: parseValue(expectedCtcRange),
         preferredTeachingLanguage: parseValue(preferredTeachingLanguage),
         preferredVideoLanguage: parseValue(preferredVideoLanguage),
@@ -2058,8 +1959,8 @@ app.put(
         bachelorDegree: parseValue(bachelorDegree),
         bachelorBranch: parseValue(bachelorBranch),
         bachelorCgpa: parseValue(bachelorCgpa), // Keep as string
-        bachelorStartYear: parseValue(bachelorStartYear, 'int'),
-        bachelorEndYear: parseValue(bachelorEndYear, 'int'),
+        bachelorStartYear: parseValue(bachelorStartYear, "int"),
+        bachelorEndYear: parseValue(bachelorEndYear, "int"),
         bachelorStatus: parseValue(bachelorStatus),
         bachelorInstitute: parseValue(bachelorInstitute),
         bachelorInstituteState: parseValue(bachelorInstituteState),
@@ -2069,7 +1970,7 @@ app.put(
 
         // Work Experience
         occupationStatus: parseValue(occupationStatus),
-        hasWorkExperience: parseValue(hasWorkExperience, 'boolean'),
+        hasWorkExperience: parseValue(hasWorkExperience, "boolean"),
       };
 
       console.log("🔄 Updating student record in database...");
@@ -2197,26 +2098,33 @@ app.put(
       // Handle projects if provided
       if (projects) {
         try {
-          const projectsData = typeof projects === 'string' ? JSON.parse(projects) : projects;
+          const projectsData =
+            typeof projects === "string" ? JSON.parse(projects) : projects;
           console.log(`🔄 Processing ${projectsData.length} projects...`);
 
           // Delete existing projects
-          await pool.query("DELETE FROM student_projects WHERE student_id = $1", [studentId]);
+          await pool.query(
+            "DELETE FROM student_projects WHERE student_id = $1",
+            [studentId]
+          );
 
           // Insert new projects
           for (const project of projectsData) {
             if (project.projectTitle && project.projectTitle.trim()) {
-              const skillsArray = Array.isArray(project.skills) ? project.skills : 
-                                (project.skills ? [project.skills] : []);
-              
+              const skillsArray = Array.isArray(project.skills)
+                ? project.skills
+                : project.skills
+                ? [project.skills]
+                : [];
+
               await pool.query(
                 `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
                  VALUES ($1, $2, $3, $4, $5)`,
                 [
                   studentId,
                   project.projectTitle.trim(),
-                  project.projectDescription || '',
-                  project.projectLink || '',
+                  project.projectDescription || "",
+                  project.projectLink || "",
                   skillsArray,
                 ]
               );
@@ -2231,23 +2139,34 @@ app.put(
       // Handle achievements if provided
       if (achievements) {
         try {
-          const achievementsData = typeof achievements === 'string' ? JSON.parse(achievements) : achievements;
-          console.log(`🔄 Processing ${achievementsData.length} achievements...`);
+          const achievementsData =
+            typeof achievements === "string"
+              ? JSON.parse(achievements)
+              : achievements;
+          console.log(
+            `🔄 Processing ${achievementsData.length} achievements...`
+          );
 
           // Delete existing achievements
-          await pool.query("DELETE FROM student_achievements WHERE student_id = $1", [studentId]);
+          await pool.query(
+            "DELETE FROM student_achievements WHERE student_id = $1",
+            [studentId]
+          );
 
           // Insert new achievements
           for (const achievement of achievementsData) {
-            if (achievement.achievementTitle && achievement.achievementTitle.trim()) {
+            if (
+              achievement.achievementTitle &&
+              achievement.achievementTitle.trim()
+            ) {
               await pool.query(
                 `INSERT INTO student_achievements (student_id, achievement_title, achievement_description, achievement_link, achievement_date)
                  VALUES ($1, $2, $3, $4, $5)`,
                 [
                   studentId,
                   achievement.achievementTitle.trim(),
-                  achievement.achievementDescription || '',
-                  achievement.achievementLink || '',
+                  achievement.achievementDescription || "",
+                  achievement.achievementLink || "",
                   achievement.achievementDate || null,
                 ]
               );
@@ -2272,7 +2191,9 @@ app.put(
         [studentId]
       );
 
-      const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+      const baseUrl =
+        process.env.BACKEND_URL ||
+        `http://localhost:${process.env.PORT || 5002}`;
 
       // Format response
       const studentResponse = {

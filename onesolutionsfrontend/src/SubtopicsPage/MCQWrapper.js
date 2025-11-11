@@ -47,6 +47,7 @@ import Workingwith_Data_Time_MCQ from "../Python/Miscellaneous/Workingwith_Date_
 import ProblemSol_Debugging_MCQ from "../Python/NestedConditions/ProblemSol_Debugging_MCQ";
 
 import Problem_sol_6_MCQ from "../Python/LoopContronStmts/Problem_sol_6_MCQ.js";
+import Problem_sol_7_MCQ from "../Python/LoopContronStmts/Problem_sol_7_MCQ.js";
 
 // ---------- Static Website MCQs ----------
 import Introductionto_HTML_CS_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_MCQ.js";
@@ -179,6 +180,7 @@ const mcqMap = {
   "Nested Loops": NestedLoops_MCQ,
 
   "Problem Solving - Part 6": Problem_sol_6_MCQ,
+  "Problem Solving Part 7": Problem_sol_7_MCQ,
 
   "Loop Control Stmts": LoopControlStmts_MCQ,
   "Comparing Strings & Naming Variables": ComparingStrAndNamingVar_MCQ,

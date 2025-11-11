@@ -9,6 +9,7 @@ import { goalsData } from "../data/goalsData";
 import ProblemSol_Debugging_CS from "../Python/NestedConditions/ProblemSol_Debugging_CS";
 import Problem_sol_Debugging_4_CS from "../Python/ComparingStr&NamingVar/Problem_sol_Debugging_4_CS";
 import Problem_sol_Debugging_5_CS from "../Python/ComparingStr&NamingVar/Problem_sol_Debugging_5_CS";
+
 import Problem_sol_6_CS from "../Python/LoopContronStmts/Problem_sol_6_CS";
 import Problem_sol_7_CS from "../Python/LoopContronStmts/Problem_sol_7_Cs";
 
@@ -209,13 +210,13 @@ const subtopicComponents = {
   "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
 
   // Python Cheat Sheet Start
-  "Problem Solving - Part 6 | Cheat Sheet": Problem_sol_6_CS,
-  "Problem Solving - Part 7 | Cheat Sheet": Problem_sol_7_CS,
+  "Problem Solving Part 6 | Cheat Sheet": Problem_sol_6_CS,
+  "Problem Solving Part 7 | Cheat Sheet": Problem_sol_7_CS,
 
   "Problem Solving and Debugging | Cheat Sheet": ProblemSol_Debugging_CS,
-  "Problem Solving and Debugging - Part 4 | Chaet Sheet":
+  "Problem Solving and Debugging Part 4 | Cheat Sheet":
     Problem_sol_Debugging_4_CS,
-  "Problem Solving and Debugging - Part 5 | Chaet Sheet":
+  "Problem Solving and Debugging Part 5 | Cheat Sheet":
     Problem_sol_Debugging_5_CS,
 
   "Variables and Data Types | Cheat Sheet": Variables_DT_CS_2,
@@ -409,6 +410,7 @@ const mcqMapping = {
   "MCQ Practice - Nested Con": "Nested Conditions",
   "MCQ Practice - Problem Solv Debug": "Problem Solving and Debugging",
   "MCQ Practice - Prob_Sol": "Problem Solving - Part 6",
+  "MCQ Practice - Prob_Sol7": "Problem Solving Part 7",
 
   "MCQ Practice - Loops": "Loops",
   "MCQ Practice - String Methods": "String Methods",

@@ -1146,15 +1146,15 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving   Part 5",
+                name: "Problem Solving Part 5",
               },
               {
                 id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving   Part 6",
+                name: "Problem Solving Part 6",
               },
               {
                 id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving   Part 6 | Cheat Sheet",
+                name: "Problem Solving Part 6 | Cheat Sheet",
               },
               {
                 id: "QW9E8R7T6Y s11 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
@@ -1162,11 +1162,11 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s12 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   13A",
+                name: "Coding Practice 13A",
               },
               {
                 id: "QW9E8R7T6Y s13 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   13B",
+                name: "Coding Practice 13B",
               },
               {
                 id: "QW9E8R7T6Y s14 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
@@ -1174,55 +1174,59 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s15 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving   Part 7",
+                name: "Problem Solving Part 7",
               },
               {
                 id: "QW9E8R7T6Y s16 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving   Part 7 | Cheat Sheet",
+                name: "Problem Solving Part 7 | Cheat Sheet",
               },
               {
                 id: "QW9E8R7T6Y s17 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   14A",
+                name: "MCQ Practice - Prob_Sol7",
               },
               {
                 id: "QW9E8R7T6Y s18 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   14B",
+                name: "Coding Practice 14A",
               },
               {
                 id: "QW9E8R7T6Y s19 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Assignment 14",
+                name: "Coding Practice 14B",
               },
               {
                 id: "QW9E8R7T6Y s20 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   15A",
+                name: "Assignment 14",
               },
               {
                 id: "QW9E8R7T6Y s21 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   15B",
+                name: "Coding Practice 15A",
               },
               {
                 id: "QW9E8R7T6Y s22 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Loop Control Statements",
+                name: "Coding Practice 15B",
               },
               {
                 id: "QW9E8R7T6Y s23 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Loop Control Statements | Cheat Sheet",
+                name: "Loop Control Statements",
               },
               {
                 id: "QW9E8R7T6Y s24 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "MCQ Practice - Loop Con Stmts",
+                name: "Loop Control Statements | Cheat Sheet",
               },
               {
                 id: "QW9E8R7T6Y s25 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   16",
+                name: "MCQ Practice - Loop Con Stmts",
               },
               {
                 id: "QW9E8R7T6Y s26 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Assignment 16",
+                name: "Coding Practice 16",
               },
               {
                 id: "QW9E8R7T6Y s27 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Grand Assignment   2",
+                name: "Assignment 16",
+              },
+              {
+                id: "QW9E8R7T6Y s28 5U4I3O2P1A0 m6 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
+                name: "Grand Assignment 2",
               },
             ],
           },
@@ -1256,15 +1260,15 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving and Debugging   Part 4",
+                name: "Problem Solving and Debugging Part 4",
               },
               {
                 id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving and Debugging   Part 4 | Cheat Sheet",
+                name: "Problem Solving and Debugging Part 4 | Cheat Sheet",
               },
               {
                 id: "QW9E8R7T6Y s9 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Coding Practice   18",
+                name: "Coding Practice 18",
               },
               {
                 id: "QW9E8R7T6Y s10 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
@@ -1272,11 +1276,11 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s11 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving and Debugging   Part 5",
+                name: "Problem Solving and Debugging Part 5",
               },
               {
                 id: "QW9E8R7T6Y s12 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",
-                name: "Problem Solving and Debugging   Part 5 | Cheat Sheet",
+                name: "Problem Solving and Debugging Part 5 | Cheat Sheet",
               },
               {
                 id: "QW9E8R7T6Y s13 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c3 Y5Z8A9B6C4D2E",

@@ -160,7 +160,7 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
         {/* Addition */}
         <h3>Addition</h3>
         <p>
-          Addition is denoted by <button>+</button> sign.
+          Addition is denoted by <code>+</code> sign.
         </p>
         <p>It gives the sum of two numbers.</p>
         <CodeBlock language="python" code={`print("2+5")\nprint(1 + 1.5)`} />
@@ -172,7 +172,7 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
         {/* Subtraction */}
         <h3>Subtraction</h3>
         <p>
-          Subtraction is denoted by <button>-</button> sign.
+          Subtraction is denoted by <code>-</code> sign.
         </p>
         <p>It gives the difference between two numbers.</p>
         <CodeBlock language="python" code={`print(10 - 3)\nprint(5 - 2.5)`} />
@@ -184,7 +184,7 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
         {/* Multiplication */}
         <h3>Multiplication</h3>
         <p>
-          Multiplication is denoted by <button>*</button> sign.
+          Multiplication is denoted by <code>*</code> sign.
         </p>
         <CodeBlock language="python" code={`print(2 * 3)\nprint(1.5 * 4)`} />
         <p>
@@ -195,7 +195,7 @@ const Pro_W_P_CS_1 = ({ onSubtopicComplete }) => {
         {/* Division */}
         <h3>Division</h3>
         <p>
-          Division is denoted by <button>/</button> sign.
+          Division is denoted by <code>/</code> sign.
         </p>
         <CodeBlock language="python" code={`print(10 / 2)\nprint(5 / 2)`} />
         <p>

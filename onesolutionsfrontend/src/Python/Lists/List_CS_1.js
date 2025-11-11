@@ -1,179 +1,258 @@
-import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; 
+import React from "react";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { CodeBlock } from "../../CodeOutputBlocks";
 
+const List_MCQ = ({ onComplete }) => {
+  const questions = [
+    // 1
+    {
+      question:
+        "Which of the following is NOT a built-in Python data structure?",
+      options: [
+        { id: 1, text: <span className="mcq-option-text">List</span> },
+        { id: 2, text: <span className="mcq-option-text">Tuple</span> },
+        { id: 3, text: <span className="mcq-option-text">Matrix</span> },
+        { id: 4, text: <span className="mcq-option-text">Set</span> },
+      ],
+      answer: 3,
+    },
 
-const List_CS_1 =({ onSubtopicComplete }) => {
-  const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+    // 2
+    {
+      question: "How do you create a list in Python?",
+      code: `a = [1, 2, 3, 4]
+print(a)`,
+      options: [
+        { id: 1, text: <span className="mcq-option-text">(1, 2, 3, 4)</span> },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">{`{1, 2, 3, 4}`}</span>,
+        },
+        { id: 3, text: <span className="mcq-option-text">[1, 2, 3, 4]</span> },
+        { id: 4, text: <span className="mcq-option-text">"1 2 3 4"</span> },
+      ],
+      answer: 3,
+    },
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) {
-      onSubtopicComplete();
-    }
-  };
+    // 3
+    {
+      question: "What is the output?",
+      code: `a = [[1, 2], [3, 4]]
+print(a)`,
+      options: [
+        {
+          id: 1,
+          text: <span className="mcq-option-text">[[1, 2], [3, 4]]</span>,
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">[1, 2, 3, 4]</span>,
+        },
+        {
+          id: 3,
+          text: <span className="mcq-option-text">[[1], [2], [3], [4]]</span>,
+        },
+        {
+          id: 4,
+          text: <span className="mcq-option-text">Error</span>,
+        },
+      ],
+      answer: 1,
+    },
+
+    // 4
+    {
+      question: "What will len([10, 20, 30, 40]) return?",
+      options: [
+        { id: 1, text: <span className="mcq-option-text">3</span> },
+        { id: 2, text: <span className="mcq-option-text">4</span> },
+        { id: 3, text: <span className="mcq-option-text">5</span> },
+        { id: 4, text: <span className="mcq-option-text">Error</span> },
+      ],
+      answer: 2,
+    },
+
+    // 5
+    {
+      question: "What is the output?",
+      code: `a = [10, 20, 30, 40]
+print(a[0])
+print(a[3])`,
+      options: [
+        {
+          id: 1,
+          text: <span className="mcq-option-text">10{`\n`}40</span>,
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">20{`\n`}30</span>,
+        },
+        {
+          id: 3,
+          text: <span className="mcq-option-text">IndexError</span>,
+        },
+        {
+          id: 4,
+          text: <span className="mcq-option-text">40{`\n`}10</span>,
+        },
+      ],
+      answer: 1,
+    },
+
+    // 6
+    {
+      question: "What will be the output of:",
+      code: `for i in [1, 2, 3]:
+    print(i)`,
+      options: [
+        {
+          id: 1,
+          text: (
+            <span className="mcq-option-text">
+              1{`\n`}2{`\n`}3
+            </span>
+          ),
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">[1,2,3]</span>,
+        },
+        {
+          id: 3,
+          text: <span className="mcq-option-text">1 2 3</span>,
+        },
+        {
+          id: 4,
+          text: <span className="mcq-option-text">Error</span>,
+        },
+      ],
+      answer: 1,
+    },
+
+    // 7
+    {
+      question: "What is list concatenation?",
+      options: [
+        {
+          id: 1,
+          text: (
+            <span className="mcq-option-text">Joining two lists using +</span>
+          ),
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">Multiplying lists</span>,
+        },
+        {
+          id: 3,
+          text: (
+            <span className="mcq-option-text">Adding numbers inside list</span>
+          ),
+        },
+        {
+          id: 4,
+          text: <span className="mcq-option-text">Sorting lists</span>,
+        },
+      ],
+      answer: 1,
+    },
+
+    // 8
+    {
+      question: "What is the output?",
+      code: `a = [1, 2]
+b = [3, 4]
+c = a + b
+print(c)`,
+      options: [
+        {
+          id: 1,
+          text: <span className="mcq-option-text">[1, 2, 3, 4]</span>,
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">[1, 2][3, 4]</span>,
+        },
+        {
+          id: 3,
+          text: <span className="mcq-option-text">[1, [3, 4]]</span>,
+        },
+        {
+          id: 4,
+          text: <span className="mcq-option-text">Error</span>,
+        },
+      ],
+      answer: 1,
+    },
+
+    // 9
+    {
+      question: "Which statement is TRUE?",
+      options: [
+        {
+          id: 1,
+          text: <span className="mcq-option-text">Lists are mutable</span>,
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">Strings are mutable</span>,
+        },
+        {
+          id: 3,
+          text: (
+            <span className="mcq-option-text">Lists cannot be changed</span>
+          ),
+        },
+        {
+          id: 4,
+          text: (
+            <span className="mcq-option-text">
+              Strings and lists are both immutable
+            </span>
+          ),
+        },
+      ],
+      answer: 1,
+    },
+
+    // 10
+    {
+      question: "What happens here?",
+      code: `s = "hello"
+s[0] = 'H'`,
+      options: [
+        {
+          id: 1,
+          text: (
+            <span className="mcq-option-text">
+              It changes the first character
+            </span>
+          ),
+        },
+        {
+          id: 2,
+          text: <span className="mcq-option-text">Returns 'Hello'</span>,
+        },
+        {
+          id: 3,
+          text: <span className="mcq-option-text">TypeError</span>,
+        },
+        {
+          id: 4,
+          text: <span className="mcq-option-text">No output</span>,
+        },
+      ],
+      answer: 3,
+    },
+  ];
 
   return (
-    <div className="intro-container">
-      <h1>Data Structures | List</h1>
-
-      {/* Introduction */}
-      <section>
-        <h2>Introduction</h2>
-        <p>
-          Data Structures allow us to store and organize data efficiently, so that we can easily access and perform operations on it.
-        </p>
-        <p>Python has four built-in data structures:</p>
-        <ul>
-          <li>List</li>
-          <li>Tuple</li>
-          <li>Set</li>
-          <li>Dictionary</li>
-        </ul>
-      </section>
-
-      {/* List */}
-      <section>
-        <h2>List</h2>
-        <p>List is the most versatile Python data structure. Holds an ordered sequence of items.</p>
-      </section>
-
-      {/* Creating a List */}
-      <section>
-        <h2>Creating a List</h2>
-        <p>Created by enclosing elements within square brackets []. Each item is separated by a comma.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2, 3, 4]\nprint(my_list)`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[1, 2, 3, 4]"} />
-      </section>
-
-      {/* Creating a List of Lists */}
-      <section>
-        <h2>Creating a List of Lists</h2>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`matrix = [[1, 2], [3, 4]]\nprint(matrix)`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[[1, 2], [3, 4]]"} />
-      </section>
-
-      {/* Length of a List */}
-      <section>
-        <h2>Length of a List</h2>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2, 3, 4]\nprint(len(my_list))`} />
-        <h3>Output</h3>
-        <OutputBlock output={4} />
-      </section>
-
-      {/* Accessing List Items */}
-      <section>
-        <h2>Accessing List Items</h2>
-        <p>To access elements of a list, we use indexing.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [10, 20, 30, 40]\nprint(my_list[0])  # First item\nprint(my_list[-1]) # Last item`} />
-        <h3>Output</h3>
-        <OutputBlock output={["10", "40"]} />
-      </section>
-
-      {/* Iterating Over a List */}
-      <section>
-        <h2>Iterating Over a List</h2>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2, 3]\nfor item in my_list:\n    print(item)`} />
-        <h3>Output</h3>
-        <OutputBlock output={["1", "2", "3"]} />
-      </section>
-
-      {/* List Concatenation */}
-      <section>
-        <h2>List Concatenation</h2>
-        <p>Similar to strings, the + operator concatenates lists.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`list1 = [1, 2]\nlist2 = [3, 4]\nprint(list1 + list2)`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[1, 2, 3, 4]"} />
-      </section>
-
-      {/* Adding Items to List */}
-      <section>
-        <h2>Adding Items to List</h2>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2, 3]\nmy_list.append(4)\nmy_list.insert(1, 10)\nprint(my_list)`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[1, 10, 2, 3, 4]"} />
-      </section>
-
-      {/* Repetition */}
-      <section>
-        <h2>Repetition</h2>
-        <p>* operator repeats lists.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2]\nprint(my_list * 2)`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[1, 2, 1, 2]"} />
-      </section>
-
-      {/* List Slicing */}
-      <section>
-        <h2>List Slicing</h2>
-        <p>Obtaining a part of a list is called list slicing.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [10, 20, 30, 40]\nprint(my_list[1:3])`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[20, 30]"} />
-      </section>
-
-      {/* Extended Slicing */}
-      <section>
-        <h2>Extended Slicing</h2>
-        <p>We can extract alternate items using a step.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2, 3, 4, 5]\nprint(my_list[::2])`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[1, 3, 5]"} />
-      </section>
-
-      {/* Converting to List */}
-      <section>
-        <h2>Converting to List</h2>
-        <p>list(sequence) takes a sequence and converts it into a list.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`text = "hello"\nprint(list(text))`} />
-        <h3>Output</h3>
-        <OutputBlock output={"['h', 'e', 'l', 'l', 'o']"} />
-      </section>
-
-      {/* Lists are Mutable */}
-      <section>
-        <h2>Lists are Mutable</h2>
-        <p>Lists can be modified. Items at any position can be updated.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`my_list = [1, 2, 3]\nmy_list[0] = 100\nprint(my_list)`} />
-        <h3>Output</h3>
-        <OutputBlock output={"[100, 2, 3]"} />
-      </section>
-
-      {/* Strings are Immutable */}
-      <section>
-        <h2>Strings are Immutable</h2>
-        <p>Strings cannot be modified once created.</p>
-        <h3>Code</h3>
-        <CodeBlock language="python" code={`s = "hello"\ns[0] = "H"`} />
-        <h3>Output</h3>
-        <OutputBlock output={"TypeError: 'str' object does not support item assignment"} />
-      </section>
-
-      {/* Continue Button */}
-      <div className="view-continue">
-        <button
-          className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
-          onClick={handleContinue}
-          disabled={isSubtopicCompleted}
-        >
-          {isSubtopicCompleted ? "Completed" : "Continue"}
-        </button>
-      </div>
-    </div>
+    <MCQLogic
+      title="List | MCQs"
+      questions={questions}
+      onComplete={onComplete}
+    />
   );
 };
-export default List_CS_1;
+
+export default List_MCQ;

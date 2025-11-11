@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; 
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
@@ -19,12 +19,14 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>End Keyword</h2>
         <p>
-          In Python, the <code>end</code> keyword is used in the <code>print()</code> statement to specify 
-          what should be printed at the end of the output.
+          In Python, the <code>end</code> keyword is used in the{" "}
+          <code>print()</code> statement to specify what should be printed at
+          the end of the output.
         </p>
         <p>
-          By default, <code>print()</code> moves the cursor to the next line after printing.
-          Using the <code>end</code> keyword, we can print the outputs on a single line.
+          By default, <code>print()</code> moves the cursor to the next line
+          after printing. Using the <code>end</code> keyword, we can print the
+          outputs on a single line.
         </p>
       </section>
 
@@ -35,10 +37,8 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
           By default, every <code>print()</code> statement ends with a new line.
         </p>
         <h3>Code</h3>
-        <CodeBlock
-          language="python"
-          code={`print("Hello")\nprint("World")`}
-        />
+
+        <CodeBlock language="python" code={`print("Hello")\nprint("World")`} />
         <h3>Output</h3>
         <OutputBlock output={["Hello", "World"]} />
       </section>
@@ -47,7 +47,8 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Using end keyword</h2>
         <p>
-          We can specify a character or string to be printed at the end of the output instead of the default newline.
+          We can specify a character or string to be printed at the end of the
+          output instead of the default newline.
         </p>
         <h3>Code</h3>
         <CodeBlock
@@ -62,7 +63,8 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Using end with a character</h2>
         <p>
-          Here, <code>*</code> is printed with <code>abc</code> at the end of each iteration, all on the same line.
+          Here, <code>*</code> is printed with <code>abc</code> at the end of
+          each iteration, all on the same line.
         </p>
         <h3>Code</h3>
         <CodeBlock
@@ -77,11 +79,13 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>print() Statement</h2>
         <p>
-          By default, each time you call <code>print()</code>, it takes the cursor to a new line. 
-          That means the next time you print something, it will start on a new line.
+          By default, each time you call <code>print()</code>, it takes the
+          cursor to a new line. That means the next time you print something, it
+          will start on a new line.
         </p>
         <p>
-          A <code>print()</code> statement without any value indicates that the next output should be printed in the next line.
+          A <code>print()</code> statement without any value indicates that the
+          next output should be printed in the next line.
         </p>
       </section>
 
@@ -89,12 +93,14 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Problem Solving Example</h2>
         <p>
-          In the below code, the outer loop iterates N times and the inner loop also iterates N times.
-          In the inner loop, we print a star <code>(*)</code> with a space as a separator between stars 
-          on the same line using <code>end=" "</code>.
+          In the below code, the outer loop iterates N times and the inner loop
+          also iterates N times. In the inner loop, we print a star{" "}
+          <code>(*)</code> with a space as a separator between stars on the same
+          line using <code>end=" "</code>.
         </p>
         <p>
-          After printing N stars in the inner loop, the inner loop terminates, and <code>print()</code> 
+          After printing N stars in the inner loop, the inner loop terminates,
+          and <code>print()</code>
           moves the cursor to the next line.
         </p>
         <h3>Code</h3>
@@ -127,4 +133,4 @@ const Problem_sol_6_CS = ({ onSubtopicComplete }) => {
     </div>
   );
 };
-export default Problem_sol_6_CS
+export default Problem_sol_6_CS;

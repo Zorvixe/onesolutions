@@ -19,25 +19,29 @@ const Problem_sol_7_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Compound Assignment Operators</h2>
         <p>
-          Compound assignment operators combine an operation with assignment. 
-          They simplify code by performing the operation and assignment in one step.
+          Compound assignment operators combine an operation with assignment.
+          They simplify code by performing the operation and assignment in one
+          step.
         </p>
         <p>
-          Common operators: <code>+=</code>, <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>
+          Common operators: <code>+=</code>, <code>-=</code>, <code>*=</code>,{" "}
+          <code>/=</code>, <code>%=</code>
         </p>
       </section>
 
       {/* Example: a += 1 */}
       <section>
         <h2>a += 1</h2>
+        <img
+          src="/assets/img/Component_Assignment.png"
+          alt="Error Diagram"
+          style={{ width: "50%", height: "300px" }}
+        />
         <p>
-          This is equivalent to <code>a = a + 1</code>.
+          <code>a += 1</code> This is equivalent to <code>a = a + 1</code>.
         </p>
         <h3>Code</h3>
-        <CodeBlock
-          language="python"
-          code={`a = 5\na += 1\nprint(a)`}
-        />
+        <CodeBlock language="python" code={`a = 5\na += 1\nprint(a)`} />
         <h3>Output</h3>
         <OutputBlock output={[6]} />
       </section>
@@ -61,7 +65,8 @@ const Problem_sol_7_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Compound assignment in pattern generation</h2>
         <p>
-          You can use <code>+=</code> to add complex patterns to strings in loops.
+          You can use <code>+=</code> to add complex patterns to strings in
+          loops.
         </p>
         <h3>Code</h3>
         <CodeBlock
@@ -79,10 +84,7 @@ const Problem_sol_7_CS = ({ onSubtopicComplete }) => {
           Incrementing numbers in loops can be done using <code>+=</code>.
         </p>
         <h3>Code</h3>
-        <CodeBlock
-          language="python"
-          code={`num = 1\nnum += 1\nprint(num)`}
-        />
+        <CodeBlock language="python" code={`num = 1\nnum += 1\nprint(num)`} />
         <h3>Output</h3>
         <OutputBlock output={[2]} />
       </section>
@@ -91,9 +93,17 @@ const Problem_sol_7_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Notes</h2>
         <ul>
-          <li><code>a += b</code> is equivalent to <code>a = a + b</code></li>
-          <li>Similarly: <code>a -= b</code>, <code>a *= b</code>, <code>a /= b</code>, <code>a %= b</code></li>
-          <li>Compound operators work with strings, numbers, and other iterable types.</li>
+          <li>
+            <code>a += b</code> is equivalent to <code>a = a + b</code>
+          </li>
+          <li>
+            Similarly: <code>a -= b</code>, <code>a *= b</code>,{" "}
+            <code>a /= b</code>, <code>a %= b</code>
+          </li>
+          <li>
+            Compound operators work with strings, numbers, and other iterable
+            types.
+          </li>
           <li>They help simplify code in loops and pattern generation.</li>
         </ul>
       </section>

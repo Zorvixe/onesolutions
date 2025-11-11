@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; 
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Problem_sol_Debugging_5_CS = ({ onSubtopicComplete }) => {
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
@@ -13,72 +13,120 @@ const Problem_sol_Debugging_5_CS = ({ onSubtopicComplete }) => {
 
   return (
     <div className="intro-container">
-      <h1>Floor Division, Compound Assignment & Escape Characters | Cheat Sheet</h1>
+      <h1>Problem Solving & Debugging | Part 5 | Cheat Sheet</h1>
 
-      {/* Floor Division */}
+      {/* Floor Division Operator */}
       <section>
         <h2>Floor Division Operator</h2>
         <p>
-          To find the integral part of a quotient, we use the Floor Division Operator <code>//</code>.
+          To find the <strong>integral part of a quotient</strong>, we use the
+          Floor Division Operator <code>//</code>.
         </p>
         <h3>Code</h3>
-        <CodeBlock
-          language="python"
-          code={`a = 7\nb = 3\nprint(a // b)`}
-        />
+        <CodeBlock language="python" code={`print(3 // 2)`} />
         <h3>Output</h3>
-        <OutputBlock output={[2]} />
+        <OutputBlock output={[1]} />
       </section>
 
       {/* Compound Assignment Operators */}
       <section>
         <h2>Compound Assignment Operators</h2>
-        <p>Different compound assignment operators include <code>+=, -=, *=, /=, %=</code>.</p>
         <p>
-          For example, <code>a += 1</code> is similar to <code>a = a + 1</code>.
+          Different compound assignment operators include: <code>+=</code>,{" "}
+          <code>-=</code>, <code>*=</code>, <code>/=</code>, <code>%=</code>.
         </p>
-        <h3>Code</h3>
-        <CodeBlock
-          language="python"
-          code={`a = 5\na += 1\nprint(a)`}
-        />
-        <h3>Output</h3>
-        <OutputBlock output={[6]} />
-      </section>
+        <p>
+          For example, <code>a += 1</code> is equivalent to{" "}
+          <code>a = a + 1</code>.
+        </p>
 
-      {/* Examples of Compound Assignment Operators */}
-      <section>
-        <h2>Examples of Compound Assignment Operators</h2>
         <h3>Code</h3>
-        <CodeBlock
-          language="python"
-          code={`x = 10\nx -= 3\nprint(x)\ny = 4\ny *= 2\nprint(y)`}
-        />
+        <CodeBlock language="python" code={`a = 10\na -= 2\nprint(a)`} />
         <h3>Output</h3>
-        <OutputBlock output={[7, 8]} />
+        <OutputBlock output={[8]} />
+
+        <h3>Code</h3>
+        <CodeBlock language="python" code={`a = 10\na /= 2\nprint(a)`} />
+        <h3>Output</h3>
+        <OutputBlock output={[5.0]} />
+
+        <h3>Code</h3>
+        <CodeBlock language="python" code={`a = 10\na %= 2\nprint(a)`} />
+        <h3>Output</h3>
+        <OutputBlock output={[0]} />
       </section>
 
       {/* Escape Characters */}
       <section>
         <h2>Escape Characters</h2>
         <p>
-          Escape characters are used to insert characters in a string that are otherwise illegal or difficult to type.
+          Escape characters are a sequence of characters in a string that are
+          interpreted differently by the computer.
         </p>
+        <p>
+          We use escape characters to insert characters that are{" "}
+          <strong>illegal in a string</strong>.
+        </p>
+
         <h3>Examples</h3>
         <ul>
-          <li><code>\n</code> → New Line</li>
-          <li><code>\t</code> → Tab Space</li>
-          <li><code>\\</code> → Backslash</li>
-          <li><code>\'</code> → Single Quote</li>
-          <li><code>\"</code> → Double Quote</li>
+          <li>
+            <code>\n</code> → New Line
+          </li>
+          <li>
+            <code>\t</code> → Tab Space
+          </li>
+          <li>
+            <code>\\</code> → Backslash
+          </li>
+          <li>
+            <code>\'</code> → Single Quote
+          </li>
+          <li>
+            <code>\"</code> → Double Quote
+          </li>
         </ul>
+
+        <h3>Code</h3>
+        <CodeBlock language="python" code={`print("Hello\\nWorld")`} />
+        <h3>Output</h3>
+        <OutputBlock output={["Hello", "World"]} />
+
+        <h3>Code</h3>
+        <CodeBlock language="python" code={`print('It\\'s Python')`} />
+        <h3>Output</h3>
+        <OutputBlock output={["It's Python"]} />
+
+        <h3>Code</h3>
+        <CodeBlock language="python" code={`print("It's Python")`} />
+        <h3>Output</h3>
+        <OutputBlock output={["It's Python"]} />
+      </section>
+
+      {/* Single & Double Quotes */}
+      <section>
+        <h2>Single and Double Quotes</h2>
+        <p>
+          A string is a sequence of characters enclosed within{" "}
+          <strong>single</strong> or <strong>double</strong> quotes.
+        </p>
+        <p>Both are valid and produce the same string.</p>
+
         <h3>Code</h3>
         <CodeBlock
           language="python"
-          code={`print("Hello\\nWorld")\nprint("Hello\\tWorld")\nprint("She said: \\"Hi\\"")`}
+          code={`sport = 'Cricket'\nprint(type(sport))\nsport = "Cricket"\nprint(type(sport))`}
         />
         <h3>Output</h3>
-        <OutputBlock output={["Hello", "World", "Hello\tWorld", 'She said: "Hi"']} />
+        <OutputBlock output={["<class 'str'>", "<class 'str'>"]} />
+
+        <h3>Code</h3>
+        <CodeBlock
+          language="python"
+          code={`is_same = ('Cricket' == "Cricket")\nprint(is_same)`}
+        />
+        <h3>Output</h3>
+        <OutputBlock output={["True"]} />
       </section>
 
       {/* Continue Button */}
@@ -95,4 +143,4 @@ const Problem_sol_Debugging_5_CS = ({ onSubtopicComplete }) => {
   );
 };
 
-export default Problem_sol_Debugging_5_CS
+export default Problem_sol_Debugging_5_CS;

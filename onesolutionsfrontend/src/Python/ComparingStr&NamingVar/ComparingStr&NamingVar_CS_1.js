@@ -18,25 +18,32 @@ const ComparingStrAndNamingVar_CS_1 = ({ onSubtopicComplete }) => {
       {/* Comparing Strings */}
       <section>
         <h2>Comparing Strings</h2>
+        <p>Computer internally stores characters as numbers.</p>
         <p>
-          Computer internally stores characters as numbers.
+          Every character has a unique <b>Unicode</b> value.
         </p>
-        <p>
-          Every character has a unique Unicode value.
-        </p>
+        <img
+          src="/assets/img/Comparing_Strings.png"
+          alt="Error Diagram"
+          style={{ width: "50%", height: "350px" }}
+        />
       </section>
 
       {/* Ord */}
       <section>
         <h2>Ord</h2>
         <p>
-          To find the Unicode value of a character, we use the <code>ord()</code>.
+          To find the Unicode value of a character, we use the{" "}
+          <code>ord()</code>.
         </p>
         <p>
           <code>ord(character)</code> gives unicode value of the character.
         </p>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`print(ord('A'))\nprint(ord('a'))`} />
+        <CodeBlock
+          language="python"
+          code={`print(ord('A'))\nprint(ord('a'))`}
+        />
         <h3>Output</h3>
         <OutputBlock output={[65, 97]} />
       </section>
@@ -45,7 +52,8 @@ const ComparingStrAndNamingVar_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>Chr</h2>
         <p>
-          To find the character with the given Unicode value, we use the <code>chr()</code>.
+          To find the character with the given Unicode value, we use the{" "}
+          <code>chr()</code>.
         </p>
         <p>
           <code>chr(unicode)</code> gives character with the unicode value.
@@ -70,24 +78,22 @@ const ComparingStrAndNamingVar_CS_1 = ({ onSubtopicComplete }) => {
       {/* Printing Characters */}
       <section>
         <h2>Printing Characters</h2>
-        <p>
-          The below code will print the characters from A to Z
-        </p>
+        <p>The below code will print the characters from A to Z</p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
           code={`for i in range(65, 91):\n    print(chr(i), end=' ')`}
         />
         <h3>Output</h3>
-        <OutputBlock output={"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"} />
+        <OutputBlock
+          output={"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"}
+        />
       </section>
 
       {/* Comparing Strings */}
       <section>
         <h2>Comparing Strings</h2>
-        <p>
-          In Python, strings are compared considering unicode.
-        </p>
+        <p>In Python, strings are compared considering unicode.</p>
         <h3>Code</h3>
         <CodeBlock language="python" code={`print('A' < 'B')`} />
         <h3>Output</h3>
@@ -101,9 +107,7 @@ const ComparingStrAndNamingVar_CS_1 = ({ onSubtopicComplete }) => {
       {/* Character by Character Comparison */}
       <section>
         <h2>Character by Character Comparison</h2>
-        <p>
-          In Python, String Comparison is done character by character.
-        </p>
+        <p>In Python, String Comparison is done character by character.</p>
         <h3>Code</h3>
         <CodeBlock language="python" code={`print("apple" < "banana")`} />
         <h3>Output</h3>
@@ -147,18 +151,22 @@ const ComparingStrAndNamingVar_CS_1 = ({ onSubtopicComplete }) => {
         <h3>Naming Variables Rule #4</h3>
         <p>Cannot use Keywords, which are reserved for special meaning</p>
         <ul>
-          <li><code>int</code></li>
-          <li><code>str</code></li>
-          <li><code>print</code> etc.,</li>
+          <li>
+            <code>int</code>
+          </li>
+          <li>
+            <code>str</code>
+          </li>
+          <li>
+            <code>print</code> etc.,
+          </li>
         </ul>
       </section>
 
       {/* Keywords */}
       <section>
         <h2>Keywords</h2>
-        <p>
-          Words which are reserved for special meaning
-        </p>
+        <p>Words which are reserved for special meaning</p>
         <h3>Code</h3>
         <CodeBlock
           language="python"
@@ -176,9 +184,15 @@ const ComparingStrAndNamingVar_CS_1 = ({ onSubtopicComplete }) => {
       <section>
         <h2>Case Styles</h2>
         <ul>
-          <li>Camel case: totalBill</li>
-          <li>Pascal case: TotalBill</li>
-          <li>Snake case: total_bill</li>
+          <li>
+            Camel case: <b>totalBill</b>
+          </li>
+          <li>
+            Pascal case: <b>TotalBill</b>
+          </li>
+          <li>
+            Snake case: <b>total_bill</b>
+          </li>
         </ul>
         <p>Snake case is preferred for naming the variables in Python.</p>
       </section>

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // ✅ PRODUCTION-READY API CONFIGURATION
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
 
 console.log("[API] Using API Base URL:", API_BASE_URL);
 
@@ -60,12 +61,15 @@ api.interceptors.response.use(
 // ✅ Auth API methods
 export const authAPI = {
   // OTP Login Flow
-  loginOtpRequest: (credentials) => api.post("/api/auth/login/request-otp", credentials),
+  loginOtpRequest: (credentials) =>
+    api.post("/api/auth/login/request-otp", credentials),
   loginOtpVerify: (data) => api.post("/api/auth/login/verify-otp", data),
 
   // Forgot Password Flow
-  forgotPasswordRequestOtp: (email) => api.post("/api/auth/forgot-password/request-otp", { email }),
-  forgotPasswordVerifyOtpReset: (data) => api.post("/api/auth/forgot-password/verify-otp-reset", data),
+  forgotPasswordRequestOtp: (email) =>
+    api.post("/api/auth/forgot-password/request-otp", { email }),
+  forgotPasswordVerifyOtpReset: (data) =>
+    api.post("/api/auth/forgot-password/verify-otp-reset", data),
 
   // Register new user
   register: (studentData) => api.post("/api/auth/register", studentData),
@@ -74,15 +78,19 @@ export const authAPI = {
   getProfile: () => api.get("/api/auth/profile"),
 
   // Update user profile (FormData)
-  updateProfile: (profileData) => api.put("/api/auth/profile", profileData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  }),
+  updateProfile: (profileData) =>
+    api.put("/api/auth/profile", profileData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    }),
 
   // ✅ Complete Profile Management
   getCompleteProfile: () => api.get("/api/student/complete-profile"),
-  
+
   updateCompleteProfile: (profileData) => {
-    console.log("[API] Updating complete profile with data:", Object.keys(profileData));
+    console.log(
+      "[API] Updating complete profile with data:",
+      Object.keys(profileData)
+    );
     return api.put("/api/student/complete-profile", profileData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
@@ -94,7 +102,35 @@ export const authAPI = {
 
   // ✅ Achievements management
   getAchievements: () => api.get("/api/student/achievements"),
-  addAchievement: (achievementData) => api.post("/api/student/achievements", achievementData),
+  addAchievement: (achievementData) =>
+    api.post("/api/student/achievements", achievementData),
+};
+
+export const progressAPI = {
+  // Mark content as complete by unique ID
+  markContentComplete: (contentId, goalName, courseName) =>
+    api.post("/api/progress/content/complete", {
+      contentId,
+      goalName,
+      courseName,
+    }),
+
+  // Mark content as incomplete
+  markContentIncomplete: (contentId) =>
+    api.post("/api/progress/content/incomplete", { contentId }),
+
+  // Get all completed content
+  getCompletedContent: () => api.get("/api/progress/completed"),
+
+  // Get progress summary with percentages
+  getProgressSummary: () => api.get("/api/progress/summary"),
+
+  // Get course progress
+  getCourseProgress: (courseName) =>
+    api.get(`/api/progress/course/${courseName}`),
+
+  // Get goal progress
+  getGoalProgress: (goalName) => api.get(`/api/progress/goal/${goalName}`),
 };
 
 // ✅ Health Check API

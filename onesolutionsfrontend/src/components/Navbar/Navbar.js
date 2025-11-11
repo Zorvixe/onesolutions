@@ -77,7 +77,6 @@ const Navbar = () => {
             Practice
           </Link>
         </li>
-       
       </ul>
 
       <div className="nav_right">
@@ -171,7 +170,7 @@ const Navbar = () => {
           <div className="mentor-connect">
             <i className="bi bi-question-circle"></i>
             <a
-              href="https://zoom.us/j/1234567890"
+              href="https://meet.google.com/vrn-qdyg-fey"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -255,7 +254,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="profile_list_li">
-                  <Link to="/compiler">
+                  <Link to="/codeGround">
                     <i className="bi bi-code-slash"></i>Compiler
                   </Link>
                 </li>

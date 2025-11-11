@@ -29,7 +29,7 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/Nested_Loop.png"
           alt="Error Diagram"
-          style={{ width: "100%", height: "500px" }}
+          style={{ width: "90%", height: "350px" }}
         />
       </section>
 
@@ -43,7 +43,7 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/Nested_Repeating.png"
           alt="Error Diagram"
-          style={{ width: "100%", height: "500px" }}
+          style={{ width: "90%", height: "350px" }}
         />
         <h3>Code</h3>
         <CodeBlock
@@ -75,7 +75,7 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/Nested_Loop_Ex1.png"
           alt="Error Diagram"
-          style={{ width: "70%", height: "500px" }}
+          style={{ width: "50%", height: "350px" }}
         />
         <h3>Code</h3>
         <CodeBlock
@@ -96,7 +96,7 @@ const NestedLoops_CS_1 = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/Nested_Loop_Ex2.png"
           alt="Error Diagram"
-          style={{ width: "70%", height: "500px" }}
+          style={{ width: "50%", height: "350px" }}
         />
         <h3>Code</h3>
         <CodeBlock
