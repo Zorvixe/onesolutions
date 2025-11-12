@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 import MCQLogic from "../../MCQLogic";
 
-const Problem_sol_Debugging_5_MCQ = ({ onComplete }) => {
+const Problem_sol_Debugging_5_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
+
   const questions = [
     // 1
     {

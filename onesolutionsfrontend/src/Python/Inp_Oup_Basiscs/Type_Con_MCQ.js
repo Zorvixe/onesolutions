@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -45,11 +46,10 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is the data type of <code>score</code>?</p>
-        <CodeBlock
-          language="python"
-          code={`score = 95\nprint(type(score))`}
-        />
+        <p>
+          What is the data type of <code>score</code>?
+        </p>
+        <CodeBlock language="python" code={`score = 95\nprint(type(score))`} />
       </div>
     ),
     options: ["String", "Integer", "Float", "Boolean"],
@@ -71,7 +71,11 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User enters: <code>12</code> and <code>8</code><br />What is output?</p>
+        <p>
+          User enters: <code>12</code> and <code>8</code>
+          <br />
+          What is output?
+        </p>
         <CodeBlock
           language="python"
           code={`x = int(input())\ny = int(input())\nprint("Total:", x + y)`}
@@ -106,18 +110,37 @@ const questionsData = [
   },
   {
     question: "Which of these is used to get a part of a string?",
-    options: ["String cutting", "String slicing", "String splitting", "String trimming"],
+    options: [
+      "String cutting",
+      "String slicing",
+      "String splitting",
+      "String trimming",
+    ],
     answer: "String slicing",
   },
 ];
 
-const Type_Con_MCQ = () => {
+const Type_Con_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   return (
     <MCQLogic
       title="Type Conversion & String Slicing - MCQs"
       questions={shuffledQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

@@ -1,7 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const ProblemSol_Debugging_MCQ = ({ onComplete }) => {
+const ProblemSol_Debugging_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
+
   const questionsData = [
     {
       question:

@@ -1,34 +1,49 @@
 import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; 
+import { useAuth } from "../../context/AuthContext";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const Approachto_HollowPattern_CS = ({ onSubtopicComplete }) => {
+const Approachto_HollowPattern_CS = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) {
-      onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
     }
   };
 
   return (
     <div className="intro-container">
-      <h1>Hollow Right-Angled Triangle Pattern | Cheat Sheet</h1>
+      <h1>Approach to Hello Pattern | Cheat Sheet</h1>
 
       {/* Pattern Overview */}
       <section>
         <h2>Pattern Overview</h2>
         <p>
-          We want to print a hollow right-angled triangle of size <strong>N = 7</strong>.
+          We want to print a hollow right-angled triangle of size{" "}
+          <strong>N = 7</strong>.
         </p>
         <ul>
-          <li>Use <code>* </code> (star followed by space) for stars</li>
-          <li>Use <code>  </code> (double space) for empty spaces</li>
-          <li>Pattern has 3 parts: First line, Middle lines (hollow), Last line</li>
+          <li>
+            Use <code>* </code> (star followed by space) for stars
+          </li>
+          <li>
+            Use <code> </code> (double space) for empty spaces
+          </li>
+          <li>
+            Pattern has 3 parts: First line, Middle lines (hollow), Last line
+          </li>
         </ul>
       </section>
-
-      
 
       {/* Part 1: First Line */}
       <section>
@@ -41,16 +56,24 @@ const Approachto_HollowPattern_CS = ({ onSubtopicComplete }) => {
       {/* Part 2: Middle Lines */}
       <section>
         <h2>Part 2: Middle Lines (Row 2 to 6)</h2>
-        <p>Each row has decreasing spaces, first star, hollow spaces, second star.</p>
-        <CodeBlock language="python" code={`for i in range(1, N-1):
-    print('  '*(N-i-1) + '* ' + '  '*(i-1) + '* ')`} />
-        <OutputBlock output={[
-          "     * *",
-          "    *   *",
-          "   *     *",
-          "  *       *",
-          " *         *"
-        ]} />
+        <p>
+          Each row has decreasing spaces, first star, hollow spaces, second
+          star.
+        </p>
+        <CodeBlock
+          language="python"
+          code={`for i in range(1, N-1):
+    print('  '*(N-i-1) + '* ' + '  '*(i-1) + '* ')`}
+        />
+        <OutputBlock
+          output={[
+            "     * *",
+            "    *   *",
+            "   *     *",
+            "  *       *",
+            " *         *",
+          ]}
+        />
       </section>
 
       {/* Part 3: Last Line */}
@@ -64,33 +87,42 @@ const Approachto_HollowPattern_CS = ({ onSubtopicComplete }) => {
       {/* Full Python Code */}
       <section>
         <h2>Full Python Code</h2>
-        <CodeBlock language="python" code={`N = 7
+        <CodeBlock
+          language="python"
+          code={`N = 7
 for i in range(N):
     if i == 0:
         print('  '*(N-1) + '* ')
     elif i == N-1:
         print('* ' * N)
     else:
-        print('  '*(N-i-1) + '* ' + '  '*(i-1) + '* ')`} />
-        <OutputBlock output={[
-          "      * ",
-          "     * *",
-          "    *   *",
-          "   *     *",
-          "  *       *",
-          " *         *",
-          "* * * * * * *"
-        ]} />
+        print('  '*(N-i-1) + '* ' + '  '*(i-1) + '* ')`}
+        />
+        <OutputBlock
+          output={[
+            "      * ",
+            "     * *",
+            "    *   *",
+            "   *     *",
+            "  *       *",
+            " *         *",
+            "* * * * * * *",
+          ]}
+        />
       </section>
 
       {/* Tips */}
       <section>
         <h2>Tips to Remember</h2>
         <ul>
-          <li>Use <code>* </code> for stars and <code>  </code> for spaces.</li>
+          <li>
+            Use <code>* </code> for stars and <code> </code> for spaces.
+          </li>
           <li>First and last lines are special cases.</li>
           <li>Hollow spaces increase by 1 each row.</li>
-          <li>Use <code>N-i-1</code> for leading spaces.</li>
+          <li>
+            Use <code>N-i-1</code> for leading spaces.
+          </li>
           <li>Check indentation carefully.</li>
         </ul>
       </section>

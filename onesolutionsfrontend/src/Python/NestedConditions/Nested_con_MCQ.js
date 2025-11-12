@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -199,13 +200,27 @@ else:
   },
 ];
 
-const Nested_con_MCQ = () => {
+const Nested_con_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
 
   return (
     <MCQLogic
       title="Nested Conditional Statements in Python - MCQs"
       questions={randomQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

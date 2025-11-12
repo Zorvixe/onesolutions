@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -236,9 +237,23 @@ while i < 3:
   },
 ];
 
-const NestedLoops_MCQ = () => {
+const NestedLoops_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
+
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
-  return <MCQLogic title="Nested Loops - MCQs" questions={shuffledQuestions} />;
+  return <MCQLogic title="Nested Loops - MCQs" questions={shuffledQuestions}isCompleted={isCompleted}
+  onComplete={handleCompletion} />;
 };
 
 export default NestedLoops_MCQ;

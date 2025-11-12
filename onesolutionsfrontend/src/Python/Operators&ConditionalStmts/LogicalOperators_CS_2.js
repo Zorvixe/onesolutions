@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
+import { useAuth } from "../../context/AuthContext";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const LogicalOperators_CS_2 = ({ onSubtopicComplete }) => {
+const LogicalOperators_CS_2 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted("True");
-    if (onSubtopicComplete) {
-      onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
     }
   };
 
@@ -18,7 +28,10 @@ const LogicalOperators_CS_2 = ({ onSubtopicComplete }) => {
       {/* Logical Operators */}
       <section>
         <h2>Logical Operators</h2>
-        <p>The logical operators are used to perform logical operations on Boolean values. Gives True or False as the result.</p>
+        <p>
+          The logical operators are used to perform logical operations on
+          Boolean values. Gives True or False as the result.
+        </p>
         <p>Following are the logical operators:</p>
         <ul>
           <li>and</li>
@@ -32,11 +45,17 @@ const LogicalOperators_CS_2 = ({ onSubtopicComplete }) => {
         <h2>Logical AND Operator</h2>
         <p>Gives True if both the booleans are True else, it gives False</p>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`print(True and True)\nprint(True and False)\nprint(False and True)\nprint(False and False)`} />
+        <CodeBlock
+          language="python"
+          code={`print(True and True)\nprint(True and False)\nprint(False and True)\nprint(False and False)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={["True, False, False, False"]} />
         <h3>Examples of Logical AND</h3>
-        <CodeBlock language="python" code={`a = 5 > 3\nb = 10 == 10\nprint(a and b)`} />
+        <CodeBlock
+          language="python"
+          code={`a = 5 > 3\nb = 10 == 10\nprint(a and b)`}
+        />
         <h3>Step by Step Explanation</h3>
         <p>{"5 > 3 is True, 10 == 10 is True, so True and True is True"}</p>
 
@@ -47,13 +66,21 @@ const LogicalOperators_CS_2 = ({ onSubtopicComplete }) => {
       {/* Logical OR Operator */}
       <section>
         <h2>Logical OR Operator</h2>
-        <p>Gives True if any one of the booleans is True else, it gives False</p>
+        <p>
+          Gives True if any one of the booleans is True else, it gives False
+        </p>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`print(True or True)\nprint(True or False)\nprint(False or True)\nprint(False or False)`} />
+        <CodeBlock
+          language="python"
+          code={`print(True or True)\nprint(True or False)\nprint(False or True)\nprint(False or False)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={["True, True, True, False"]} />
         <h3>Examples of Logical OR</h3>
-        <CodeBlock language="python" code={`a = 5 > 3\nb = 10 != 10\nprint(a or b)`} />
+        <CodeBlock
+          language="python"
+          code={`a = 5 > 3\nb = 10 != 10\nprint(a or b)`}
+        />
         <h3>Step by Step Explanation</h3>
         <p>{"5 > 3 is True, 10 != 10 is False, so True or False is True"}</p>
         <h3>Output</h3>
@@ -65,7 +92,10 @@ const LogicalOperators_CS_2 = ({ onSubtopicComplete }) => {
         <h2>Logical NOT Operator</h2>
         <p>Gives the opposite value of the given boolean.</p>
         <h3>Code</h3>
-        <CodeBlock language="python" code={`print(not True)\nprint(not False)`} />
+        <CodeBlock
+          language="python"
+          code={`print(not True)\nprint(not False)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={["False, True"]} />
         <h3>Examples of Logical NOT</h3>

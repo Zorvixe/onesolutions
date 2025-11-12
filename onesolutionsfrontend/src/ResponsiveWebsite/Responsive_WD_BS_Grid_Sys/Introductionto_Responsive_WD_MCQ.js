@@ -191,7 +191,7 @@ const Introductionto_Responsive_WD_MCQ = ({ subtopicId, goalName, courseName }) 
     } catch (error) {
       console.error("❌ Failed to mark subtopic complete:", error);
     }
-  };.sort(() => Math.random() - 0.5);
+  };
 
   return (
     <MCQLogic

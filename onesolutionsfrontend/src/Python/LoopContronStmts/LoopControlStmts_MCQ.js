@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -166,11 +167,26 @@ print("Done")
   },
 ];
 
-const LoopControlStmts_MCQ = () => {
+const LoopControlStmts_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   return (
     <MCQLogic
       title="Loop Control Statements | MCQs"
       questions={questionsData}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
+      
     />
   );
 };

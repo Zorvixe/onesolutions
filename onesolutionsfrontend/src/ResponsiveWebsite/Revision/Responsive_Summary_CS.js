@@ -665,20 +665,20 @@ bg-transparent`}
       <div style={{ textAlign: "center", marginTop: "4rem" }}>
         <button
           onClick={handleContinue}
-          disabled={completed}
+          disabled={isSubtopicCompleted}
           style={{
             padding: "1rem 3rem",
             fontSize: "1.3rem",
-            backgroundColor: completed ? "#95a5a6" : "#27ae60",
+            backgroundColor: isSubtopicCompleted ? "#95a5a6" : "#27ae60",
             color: "white",
             border: "none",
             borderRadius: "50px",
-            cursor: completed ? "not-allowed" : "pointer",
+            cursor: isSubtopicCompleted ? "not-allowed" : "pointer",
             boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
             transition: "all 0.3s",
           }}
         >
-          {completed ? "Completed" : "Mark as Complete & Continue"}
+          {isSubtopicCompleted ? "Completed" : "Mark as Complete & Continue"}
         </button>
       </div>
     </div>

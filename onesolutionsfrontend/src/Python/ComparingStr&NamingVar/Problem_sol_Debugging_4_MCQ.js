@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -148,10 +149,23 @@ print(x + y)
   },
 ];
 
-const Problem_sol_Debugging_4_MCQ = () => {
+const Problem_sol_Debugging_4_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
   return (
-    <MCQLogic title="Round & Debugging | MCQs" questions={shuffledQuestions} />
+    <MCQLogic title="Round & Debugging | MCQs" questions={shuffledQuestions} isCompleted={isCompleted}
+    onComplete={handleCompletion}/>
   );
 };
 

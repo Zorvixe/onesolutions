@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // Adjust path if needed
+import { useAuth } from "../../context/AuthContext";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const Nested_con_CS_1 = ({ onSubtopicComplete }) => {
+const Nested_con_CS_1 = ({ subtopicId, goalName, courseName, subtopic }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) {
-      onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
     }
   };
 

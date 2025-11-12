@@ -204,6 +204,7 @@ const Explore_Menu_Section_MCQ = ({ subtopicId, goalName, courseName }) => {
     } catch (error) {
       console.error("❌ Failed to mark subtopic complete:", error);
     }
+
   return (
     <MCQLogic
       title="Explore Menu Section - Bootstrap Icons MCQs"
@@ -213,5 +214,7 @@ const Explore_Menu_Section_MCQ = ({ subtopicId, goalName, courseName }) => {
     />
   );
 };
+
+}
 
 export default Explore_Menu_Section_MCQ;

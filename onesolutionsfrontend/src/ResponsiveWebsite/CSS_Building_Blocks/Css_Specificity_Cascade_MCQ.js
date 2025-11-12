@@ -209,5 +209,6 @@ const Css_Specificity_Cascade_MCQ = ({ subtopicId, goalName, courseName }) => {
     />
   );
 };
+}
 
 export default Css_Specificity_Cascade_MCQ;

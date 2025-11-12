@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -7,10 +8,7 @@ const questionsData = [
     question: (
       <div>
         <p>What is the output?</p>
-        <CodeBlock
-          language="python"
-          code={`print(25 > 20)`}
-        />
+        <CodeBlock language="python" code={`print(25 > 20)`} />
       </div>
     ),
     options: ["True", "False", "Error", "25"],
@@ -20,10 +18,7 @@ const questionsData = [
     question: (
       <div>
         <p>What will this print?</p>
-        <CodeBlock
-          language="python"
-          code={`print(15 < 10)`}
-        />
+        <CodeBlock language="python" code={`print(15 < 10)`} />
       </div>
     ),
     options: ["True", "False", "15", "Error"],
@@ -33,10 +28,7 @@ const questionsData = [
     question: (
       <div>
         <p>Is this comparison correct?</p>
-        <CodeBlock
-          language="python"
-          code={`print(8.5 >= 8.5)`}
-        />
+        <CodeBlock language="python" code={`print(8.5 >= 8.5)`} />
       </div>
     ),
     options: ["True", "False", "8.5", "Error"],
@@ -46,10 +38,7 @@ const questionsData = [
     question: (
       <div>
         <p>What is the result?</p>
-        <CodeBlock
-          language="python"
-          code={`print(100 != 99)`}
-        />
+        <CodeBlock language="python" code={`print(100 != 99)`} />
       </div>
     ),
     options: ["True", "False", "1", "Error"],
@@ -59,10 +48,7 @@ const questionsData = [
     question: (
       <div>
         <p>What does this code output?</p>
-        <CodeBlock
-          language="python"
-          code={`print("apple" == "Apple")`}
-        />
+        <CodeBlock language="python" code={`print("apple" == "Apple")`} />
       </div>
     ),
     options: ["True", "False", "apple", "Error"],
@@ -72,10 +58,7 @@ const questionsData = [
     question: (
       <div>
         <p>What error occurs here?</p>
-        <CodeBlock
-          language="python"
-          code={`print(10 = = 10)`}
-        />
+        <CodeBlock language="python" code={`print(10 = = 10)`} />
       </div>
     ),
     options: [
@@ -90,10 +73,7 @@ const questionsData = [
     question: (
       <div>
         <p>Compare integer and float — what is output?</p>
-        <CodeBlock
-          language="python"
-          code={`print(50 == 50.0)`}
-        />
+        <CodeBlock language="python" code={`print(50 == 50.0)`} />
       </div>
     ),
     options: ["True", "False", "50.0", "Error"],
@@ -121,13 +101,27 @@ const questionsData = [
   },
 ];
 
-const RelationOperator_MCQ = () => {
+const RelationOperator_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   return (
     <MCQLogic
       title="Relational Operators - MCQs"
       questions={shuffledQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

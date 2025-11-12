@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -6,7 +7,11 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User enters: <code>18</code><br />What is printed?</p>
+        <p>
+          User enters: <code>18</code>
+          <br />
+          What is printed?
+        </p>
         <CodeBlock
           language="python"
           code={`age = int(input())\nif age >= 18:\n    print("Welcome! You can vote.")\nelse:\n    print("Sorry, too young.")`}
@@ -24,19 +29,18 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User enters: <code>15</code><br />What is output?</p>
+        <p>
+          User enters: <code>15</code>
+          <br />
+          What is output?
+        </p>
         <CodeBlock
           language="python"
           code={`score = int(input())\nif score >= 60:\n    print("You passed!")\nelse:\n    print("Try again next time.")`}
         />
       </div>
     ),
-    options: [
-      "You passed!",
-      "Try again next time.",
-      "Error",
-      "60",
-    ],
+    options: ["You passed!", "Try again next time.", "Error", "60"],
     answer: "Try again next time.",
   },
   {
@@ -85,18 +89,17 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "It's a hot day!\nStay hydrated.",
-      "Nothing",
-      "Error",
-      "35",
-    ],
+    options: ["It's a hot day!\nStay hydrated.", "Nothing", "Error", "35"],
     answer: "It's a hot day!\nStay hydrated.",
   },
   {
     question: (
       <div>
-        <p>User enters: <code>25</code><br />What is output?</p>
+        <p>
+          User enters: <code>25</code>
+          <br />
+          What is output?
+        </p>
         <CodeBlock
           language="python"
           code={`num = int(input())\nif num % 2 == 0:\n    print("Even number")\nelse:\n    print("Odd number")`}
@@ -116,12 +119,7 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "Grade A\nExcellent!",
-      "Grade A",
-      "Excellent!",
-      "Nothing",
-    ],
+    options: ["Grade A\nExcellent!", "Grade A", "Excellent!", "Nothing"],
     answer: "Grade A\nExcellent!",
   },
   {
@@ -146,13 +144,28 @@ const questionsData = [
   },
 ];
 
-const ConditionalStmts_MCQ = () => {
+const ConditionalStmts_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
+
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   return (
     <MCQLogic
       title="Conditional Statements - MCQs"
       questions={shuffledQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };

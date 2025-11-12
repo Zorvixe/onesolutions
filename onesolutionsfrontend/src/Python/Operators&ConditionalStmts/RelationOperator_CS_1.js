@@ -1,13 +1,23 @@
 import React, { useState } from "react";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
+import { useAuth } from "../../context/AuthContext";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
+const RelationOperator_CS_1 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) {
-      onSubtopicComplete();
+  const handleContinue = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsSubtopicCompleted(true);
+    } catch (error) {
+      console.error("Failed to mark subtopic complete:", error);
     }
   };
 
@@ -18,7 +28,10 @@ const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
       {/* Relational Operators */}
       <section>
         <h2>Relational Operators</h2>
-        <p>Relational Operators are used to compare values. Gives <code>True</code> or <code>False</code> as the result of a comparison.</p>
+        <p>
+          Relational Operators are used to compare values. Gives{" "}
+          <code>True</code> or <code>False</code> as the result of a comparison.
+        </p>
         <table>
           <thead>
             <tr>
@@ -28,27 +41,39 @@ const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
           </thead>
           <tbody>
             <tr>
-              <td><code>&gt;</code></td>
+              <td>
+                <code>&gt;</code>
+              </td>
               <td>Is greater than</td>
             </tr>
             <tr>
-              <td><code>&lt;</code></td>
+              <td>
+                <code>&lt;</code>
+              </td>
               <td>Is less than</td>
             </tr>
             <tr>
-              <td><code>==</code></td>
+              <td>
+                <code>==</code>
+              </td>
               <td>Is equal to</td>
             </tr>
             <tr>
-              <td><code>&lt;=</code></td>
+              <td>
+                <code>&lt;=</code>
+              </td>
               <td>Is less than or equal to</td>
             </tr>
             <tr>
-              <td><code>&gt;=</code></td>
+              <td>
+                <code>&gt;=</code>
+              </td>
               <td>Is greater than or equal to</td>
             </tr>
             <tr>
-              <td><code>!=</code></td>
+              <td>
+                <code>!=</code>
+              </td>
               <td>Is not equal to</td>
             </tr>
           </tbody>
@@ -58,9 +83,14 @@ const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
       {/* Code Examples */}
       <section>
         <h2>Code</h2>
-        <CodeBlock language="python" code={`a = 5\nb = 3\nprint(a > b)\nprint(a < b)\nprint(a == b)\nprint(a <= b)\nprint(a >= b)\nprint(a != b)`} />
+        <CodeBlock
+          language="python"
+          code={`a = 5\nb = 3\nprint(a > b)\nprint(a < b)\nprint(a == b)\nprint(a <= b)\nprint(a >= b)\nprint(a != b)`}
+        />
         <h3>Output</h3>
-        <OutputBlock output={["True", "False","False", "False", "True", "True"]} />
+        <OutputBlock
+          output={["True", "False", "False", "False", "True", "True"]}
+        />
       </section>
 
       {/* Possible Mistakes */}
@@ -74,13 +104,19 @@ const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
         <CodeBlock language="python" code={`a = 5\nb = 3\nprint(a ==b)`} />
         <h3>Output</h3>
         <OutputBlock output={"SyntaxError: invalid syntax"} />
-        <p>Space between relational operators <code>==</code>, <code>&gt;=</code>, <code>&lt;=</code>, <code>!=</code> is not valid in Python.</p>
+        <p>
+          Space between relational operators <code>==</code>, <code>&gt;=</code>
+          , <code>&lt;=</code>, <code>!=</code> is not valid in Python.
+        </p>
       </section>
 
       {/* Comparing Numbers */}
       <section>
         <h2>Comparing Numbers</h2>
-        <CodeBlock language="python" code={`x = 10\ny = 7\nprint(x > y)\nprint(x < y)`} />
+        <CodeBlock
+          language="python"
+          code={`x = 10\ny = 7\nprint(x > y)\nprint(x < y)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={["True", "False"]} />
       </section>
@@ -88,7 +124,10 @@ const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
       {/* Comparing Integers and Floats */}
       <section>
         <h2>Comparing Integers and Floats</h2>
-        <CodeBlock language="python" code={`a = 5\nb = 5.0\nprint(a == b)\nprint(a != b)`} />
+        <CodeBlock
+          language="python"
+          code={`a = 5\nb = 5.0\nprint(a == b)\nprint(a != b)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={["True", "False"]} />
       </section>
@@ -96,24 +135,36 @@ const RelationOperator_CS_1 = ({ onSubtopicComplete }) => {
       {/* Comparing Strings */}
       <section>
         <h2>Comparing Strings</h2>
-        <CodeBlock language="python" code={`str1 = "apple"\nstr2 = "banana"\nprint(str1 < str2)\nprint(str1 > str2)`} />
+        <CodeBlock
+          language="python"
+          code={`str1 = "apple"\nstr2 = "banana"\nprint(str1 < str2)\nprint(str1 > str2)`}
+        />
         <h3>Output</h3>
-        <OutputBlock output={["True","False"]} />
+        <OutputBlock output={["True", "False"]} />
       </section>
 
       {/* Case Sensitive */}
       <section>
         <h2>Case Sensitive</h2>
-        <CodeBlock language="python" code={`X = "Apple"\nx = "apple"\nprint(X == x)`} />
+        <CodeBlock
+          language="python"
+          code={`X = "Apple"\nx = "apple"\nprint(X == x)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={"False"} />
-        <p>Python is case sensitive. It means <code>X</code> (Capital letter) and <code>x</code> (small letter) are not the same in Python.</p>
+        <p>
+          Python is case sensitive. It means <code>X</code> (Capital letter) and{" "}
+          <code>x</code> (small letter) are not the same in Python.
+        </p>
       </section>
 
       {/* Strings and Equality Operator */}
       <section>
         <h2>Strings and Equality Operator</h2>
-        <CodeBlock language="python" code={`str1 = "hello"\nstr2 = "hello"\nprint(str1 == str2)`} />
+        <CodeBlock
+          language="python"
+          code={`str1 = "hello"\nstr2 = "hello"\nprint(str1 == str2)`}
+        />
         <h3>Output</h3>
         <OutputBlock output={"True"} />
       </section>

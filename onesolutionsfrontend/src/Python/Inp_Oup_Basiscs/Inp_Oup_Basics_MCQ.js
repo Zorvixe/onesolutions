@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
@@ -7,10 +8,7 @@ const questionsData = [
     question: (
       <div>
         <p>What is the output?</p>
-        <CodeBlock
-          language="python"
-          code={`print("Hello " + "Alice")`}
-        />
+        <CodeBlock language="python" code={`print("Hello " + "Alice")`} />
       </div>
     ),
     options: ["Hello Alice", "Hello + Alice", "HelloAlice", "Error"],
@@ -20,10 +18,7 @@ const questionsData = [
     question: (
       <div>
         <p>What error will this produce?</p>
-        <CodeBlock
-          language="python"
-          code={`print("Age: " + 25)`}
-        />
+        <CodeBlock language="python" code={`print("Age: " + 25)`} />
       </div>
     ),
     options: [
@@ -38,10 +33,7 @@ const questionsData = [
     question: (
       <div>
         <p>What will be printed?</p>
-        <CodeBlock
-          language="python"
-          code={`print("Hi " * 3)`}
-        />
+        <CodeBlock language="python" code={`print("Hi " * 3)`} />
       </div>
     ),
     options: ["Hi Hi Hi ", "HiHiHi", "Hi Hi Hi", "Error"],
@@ -51,10 +43,7 @@ const questionsData = [
     question: (
       <div>
         <p>What is the output?</p>
-        <CodeBlock
-          language="python"
-          code={`print("Python" * 2)`}
-        />
+        <CodeBlock language="python" code={`print("Python" * 2)`} />
       </div>
     ),
     options: ["Python Python", "PythonPython", "Python2", "Error"],
@@ -64,10 +53,7 @@ const questionsData = [
     question: (
       <div>
         <p>How many characters are in "Hello"?</p>
-        <CodeBlock
-          language="python"
-          code={`print(len("Hello"))`}
-        />
+        <CodeBlock language="python" code={`print(len("Hello"))`} />
       </div>
     ),
     options: ["4", "5", "6", "7"],
@@ -76,7 +62,11 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User types: <code>Alice</code><br />What is printed?</p>
+        <p>
+          User types: <code>Alice</code>
+          <br />
+          What is printed?
+        </p>
         <CodeBlock
           language="python"
           code={`name = input()\nprint("Hello " + name)`}
@@ -89,7 +79,11 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User enters: <code>10</code><br />What is the output?</p>
+        <p>
+          User enters: <code>10</code>
+          <br />
+          What is the output?
+        </p>
         <CodeBlock
           language="python"
           code={`age = input()\nprint("You are " + age)`}
@@ -101,7 +95,12 @@ const questionsData = [
   },
   {
     question: "What is joining two strings called?",
-    options: ["String addition", "String concatenation", "String merging", "String repeat"],
+    options: [
+      "String addition",
+      "String concatenation",
+      "String merging",
+      "String repeat",
+    ],
     answer: "String concatenation",
   },
   {
@@ -116,13 +115,27 @@ const questionsData = [
   },
 ];
 
-const Inp_Oup_Basics_MCQ = () => {
+const Inp_Oup_Basics_MCQ = ({ subtopicId, goalName, courseName }) => {
+  const { markSubtopicComplete, loadProgressSummary } = useAuth();
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleCompletion = async () => {
+    try {
+      await markSubtopicComplete(subtopicId, goalName, courseName);
+      await loadProgressSummary();
+      setIsCompleted(true);
+    } catch (error) {
+      console.error("❌ Failed to mark subtopic complete:", error);
+    }
+  };
   const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   return (
     <MCQLogic
       title="Inputs and Outputs Basics - MCQs"
       questions={shuffledQuestions}
+      isCompleted={isCompleted}
+      onComplete={handleCompletion}
     />
   );
 };
