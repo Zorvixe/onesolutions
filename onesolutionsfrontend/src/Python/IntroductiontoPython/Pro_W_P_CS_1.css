@@ -1,0 +1,253 @@
+.intro-container {
+  width: 80%;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  line-height: 1.8;
+  word-spacing: 1px;
+  font-size: 17px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+h2 {
+  color: #007acc;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 12px;
+  color: #444;
+}
+h5 {
+  color: orange;
+  font-size: 20px;
+}
+.Note-container {
+  background-color: rgba(179, 182, 242, 0.442);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.Note {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.Note-container h6 {
+  color: #fff;
+  font-size: 17px;
+  border-radius: 18px;
+  text-align: center;
+  width: 80px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(9, 17, 162);
+  margin: 0;
+}
+
+.Note-container p {
+  margin: 0;
+  padding-left: 5px;
+}
+
+p {
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+ul {
+  margin-bottom: 15px;
+  padding-left: 25px;
+}
+
+li {
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+/* Output Block */
+.output-block {
+  background-color: #d0e8ff6a !important;
+  color: black;
+  padding: 15px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-family: "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+/* .button{
+  background-color: #d0e8ff6a;
+  height: auto;
+  width: auto;
+} */
+
+.code-container {
+  margin-bottom: 25px;
+}
+/* Existing styles for subtopic items (unchanged) */
+.subtopic-item {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.subtopic-item.active {
+  background-color: #3498db;
+  font-weight: bold;
+}
+
+.subtopic-item.completed {
+  background-color: #2ecc71;
+  color: #ffffff;
+}
+
+.subtopic-item.completed .completion-tick {
+  color: #ffffff;
+}
+
+.subtopic-item.completed::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* Styles for the Continue button */
+.view-continue {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 15px;
+  margin-right: 40px;
+}
+
+.btn-continue {
+  background-color: #3498db;
+  color: blackl;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-continue.completed {
+  background-color: #2ecc71;
+}
+
+.btn-continue:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.cheat-table th {
+  white-space: nowrap;
+  text-align: left;
+  padding: 8px;
+}
+
+.cheat-table td {
+  padding: 8px;
+}
+code {
+  background-color: #d0e8ff8d !important;
+  color: black;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  /* font-family: "Roboto"; */
+  font-size: 0.95rem;
+  font-weight: 300;
+}
+.img-text {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mcq-container {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+
+  border-radius: 8px;
+}
+
+.mcq-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.mcq-question {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.mcq-option {
+  display: block;
+  margin: 8px 0;
+  padding: 8px;
+  background-color: #fff;
+  /* border: 1px solid #ced4da; */
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.mcq-option.selected-correct {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.mcq-option.selected-wrong {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+}
+
+.mcq-result {
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.mcq-result.correct {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.mcq-result.wrong {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.mcq-explanation {
+  margin-top: 8px;
+  font-size: 0.9em;
+  font-weight: normal;
+}

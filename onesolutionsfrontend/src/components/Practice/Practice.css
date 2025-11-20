@@ -1,0 +1,1095 @@
+/* Practice component styles */
+.practice-container-prac {
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding-top: 70px;
+}
+
+.practice-content-prac {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  padding: 20px;
+}
+
+.practice-sidebar-prac {
+  width: 300px;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.practice-name-prac {
+  padding: 0.5rem 1rem;
+  background: #eff6ff;
+  color: #1e40af;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: 100%;
+}
+
+.practice-sidebar-prac h3 {
+  margin-top: 0;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.practice-list-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.practice-item-prac {
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  background-color: #f0f0f063;
+}
+
+.practice-item-prac:hover {
+  background-color: #f0f0f0;
+}
+
+.practice-item-prac.active-prac {
+  background-color: #e3f2fd;
+  border-color: #1976d2;
+}
+
+.practice-title-prac {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.practice-description-prac {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.practice-stats-prac {
+  font-size: 11px;
+  color: #999;
+}
+
+.main-content-coding-prac {
+  flex: 1;
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.questions-section-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.questions-header-prac {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.questions-header-prac h3 {
+  margin: 0;
+  color: #333;
+}
+
+.questions-stats-prac {
+  font-size: 14px;
+  color: #666;
+}
+
+.questions-table-prac {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.questions-table-prac table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.questions-table-prac thead {
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.questions-table-prac th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #666;
+  font-size: 13px;
+}
+
+.question-row-prac {
+  border-bottom: 1px solid #e0e0e0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.question-row-prac:hover {
+  background-color: #f9f9f9;
+}
+
+.question-row-prac.solved-prac {
+  opacity: 0.7;
+}
+
+.question-row-prac td {
+  padding: 12px;
+  font-size: 14px;
+}
+
+.status-cell-prac {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-indicator-prac {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-indicator-prac.unsolved {
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+.status-indicator-prac.solved {
+  background-color: #4caf50;
+  color: white;
+}
+
+.question-title-cell-prac {
+  flex: 1;
+}
+
+.difficulty-badge-prac {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.difficulty-badge-prac.easy {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.difficulty-badge-prac.medium {
+  background-color: #fff9c4;
+  color: #f57f17;
+}
+
+.difficulty-badge-prac.hard {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+.score-badge-prac {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: #bbdefb;
+  color: #1565c0;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.attempts-info-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.attempts-count-prac,
+.attempts-score-prac {
+  font-size: 12px;
+  color: #666;
+}
+
+.no-attempts-prac {
+  color: #999;
+  font-size: 12px;
+}
+
+/* Full Question View */
+.practice-full-question-prac {
+  background-color: #f5f5f5;
+  padding: 95px 10px 10px 10px;
+}
+
+.full-question-header-prac {
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-button-prac {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #1976d2;
+  padding: 10px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.back-button-prac:hover {
+  background: #eff6ff;
+}
+
+.full-question-meta-prac {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.full-question-content-prac {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.full-question-detail-prac {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+.question-description-section-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.question-description-section-prac h3 {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.description-content-prac p {
+  margin: 0;
+  color: #666;
+  line-height: 1.6;
+}
+
+.sample-io-section-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sample-input-prac,
+.sample-output-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sample-input-prac h3,
+.sample-output-prac h3 {
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.code-block-prac {
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  font-family: "Courier New", monospace;
+  font-size: 13px;
+  color: #333;
+  overflow-x: auto;
+}
+
+.code-block-prac.small-prac {
+  max-height: 150px;
+}
+
+.code-block-prac pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.test-cases-section-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.test-cases-header-prac {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.test-cases-header-prac h3 {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.execution-summary-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+}
+
+.summary-text-prac {
+  font-size: 12px;
+  color: #666;
+}
+
+.progress-bar-prac {
+  width: 200px;
+  height: 6px;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill-prac {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 0.3s ease;
+}
+
+.test-cases-grid-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.test-case-prac {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  background-color: #fafafa;
+}
+
+.test-case-prac.hidden-prac {
+  opacity: 0.7;
+}
+
+.test-case-header-prac {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.test-case-number-prac {
+  font-weight: 600;
+  color: #333;
+  font-size: 13px;
+}
+
+.test-case-visibility-prac {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background-color: #e0e0e0;
+  color: #666;
+}
+
+.test-case-visibility-prac.visible-prac {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.test-case-visibility-prac.hidden-prac {
+  background-color: #ffccbc;
+  color: #d84315;
+}
+
+.test-case-content-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.test-input-prac,
+.test-output-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.test-input-prac label,
+.test-output-prac label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.test-execution-result-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.test-result-prac {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.test-result-prac.passed-prac {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.test-result-prac.failed-prac {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+.output-comparison-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.output-row-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.output-label-prac {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+}
+
+.code-block-prac.error-prac {
+  background-color: #ffebee;
+  border-color: #ffcdd2;
+}
+
+.code-block-prac.success-prac {
+  background-color: #e8f5e9;
+  border-color: #c8e6c9;
+}
+
+/* Code Editor Section */
+.full-code-editor-section-prac {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+}
+
+.editor-header-prac {
+  padding: 15px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.editor-title-prac {
+  flex: 1;
+}
+
+.editor-info-prac {
+  font-size: 12px;
+  color: #666;
+}
+
+.empty-warning-prac {
+  color: #f57f17;
+  font-weight: 600;
+}
+
+.editor-controls-prac {
+  display: flex;
+  gap: 10px;
+}
+
+.editor-actions-prac {
+  display: flex;
+  gap: 8px;
+}
+
+.run-button-prac,
+.submit-button-prac {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.run-button-prac {
+  background-color: #2196f3;
+  color: white;
+}
+
+.run-button-prac:hover:not(:disabled) {
+  background-color: #1976d2;
+}
+
+.submit-button-prac {
+  background-color: #4caf50;
+  color: white;
+}
+
+.submit-button-prac:hover:not(:disabled) {
+  background-color: #388e3c;
+}
+
+.run-button-prac:disabled,
+.submit-button-prac:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.loader-prac {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.code-editor-container-prac {
+  flex: 1;
+  overflow: hidden;
+}
+
+.ace_editor {
+  font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  line-height: 2 !important;
+  background: #0f172a !important;
+}
+
+.ace-twilight {
+  background-color: #1b1c2c !important;
+  color: #f8f8f8 !important;
+}
+
+.ace_gutter {
+  background: #0f172a !important;
+  color: #6b7280 !important;
+}
+
+.output-section-prac {
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.output-header-prac {
+  padding: 10px 15px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.output-header-prac h4 {
+  margin: 0;
+  color: #333;
+  font-size: 13px;
+}
+
+.output-status-prac {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.output-status-prac.success-prac {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.output-status-prac.error-prac {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+.output-status-prac.info-prac {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.output-container-prac {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 15px;
+  background-color: #fafafa;
+}
+
+.output-content-prac {
+  margin: 0;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Loading State */
+.loading-state-prac {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.loading-state-prac h3 {
+  color: #666;
+  font-size: 18px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .full-question-content-prac {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-content-prac {
+    flex-direction: column;
+  }
+
+  .practice-sidebar-prac {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .practice-container-prac {
+    padding: 10px;
+  }
+
+  .practice-content-prac {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .questions-table-prac table {
+    font-size: 12px;
+  }
+
+  .questions-table-prac th,
+  .questions-table-prac td {
+    padding: 8px;
+  }
+
+  .full-question-content-prac {
+    grid-template-columns: 1fr;
+  }
+
+  .full-code-editor-section-prac {
+    height: auto;
+    min-height: 300px;
+  }
+}
+
+/* Add these new styles to your existing Practice.css */
+
+.language-selector-prac {
+  margin-bottom: 15px;
+}
+
+.language-selector-prac select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+}
+
+.status-indicator-prac {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  line-height: 20px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-indicator-prac.solved {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-indicator-prac.attempted {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-indicator-prac.unsolved {
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+.status-indicator-prac.large-prac {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.question-row-prac.attempted-prac {
+  background-color: #fff3e0;
+}
+
+.question-row-prac.solved-prac {
+  background-color: #e8f5e8;
+}
+
+.question-row-prac.attempted-prac:hover {
+  background-color: #ffe0b2;
+}
+
+.question-row-prac.solved-prac:hover {
+  background-color: #c8e6c9;
+}
+
+/* Enhanced editor styles */
+.code-editor-container-prac .ace_editor {
+  font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 14px;
+}
+
+/* Loading animation improvements */
+.loader-prac {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Better responsive design */
+@media (max-width: 768px) {
+  .full-question-content-prac {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .full-question-detail-prac,
+  .full-code-editor-section-prac {
+    min-height: 400px;
+  }
+
+  .editor-header-prac {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .editor-actions-prac {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .editor-actions-prac button {
+    flex: 1;
+    margin: 0 5px;
+  }
+}
+/* Add these styles to your existing Practice.css */
+
+.language-selector-prac {
+  margin-bottom: 15px;
+}
+
+.language-selector-prac select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+}
+
+.status-indicator-prac.solved {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-indicator-prac.attempted {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-indicator-prac.unsolved {
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+.status-indicator-prac.large-prac {
+  width: auto;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.question-row-prac.attempted-prac {
+  background-color: #fff3e0;
+}
+
+.question-row-prac.solved-prac {
+  background-color: #e8f5e8;
+}
+
+.question-row-prac.attempted-prac:hover {
+  background-color: #ffe0b2;
+}
+
+.question-row-prac.solved-prac:hover {
+  background-color: #c8e6c9;
+}
+
+/* Enhanced editor styles */
+.code-editor-container-prac .ace_editor {
+  font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace;
+  font-size: 14px;
+}
+
+/* Loading animation improvements */
+.loader-prac {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Better responsive design */
+@media (max-width: 768px) {
+  .full-question-content-prac {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .full-question-detail-prac,
+  .full-code-editor-section-prac {
+    min-height: 400px;
+  }
+
+  .editor-header-prac {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .editor-actions-prac {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .editor-actions-prac button {
+    flex: 1;
+    margin: 0 5px;
+  }
+}
+
+/* Add these new styles to your existing Practice.css */
+
+.practice-completed-badge {
+  background-color: #28a745;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-left: 8px;
+  font-weight: 500;
+}
+
+.practice-completed-header {
+  background-color: #28a745;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 12px;
+}
+
+.practice-completing-header {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 12px;
+}
+
+.questions-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.all-solved-indicator {
+  color: #28a745;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.completing-badge-prac {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.completing-warning-prac {
+  color: #ffc107;
+  font-weight: 500;
+}
+
+/* Enhanced status indicators */
+.status-indicator-prac.solved {
+  color: #28a745;
+  background-color: #d4edda;
+}
+
+.status-indicator-prac.attempted {
+  color: #ffc107;
+  background-color: #fff3cd;
+}
+
+.status-indicator-prac.unsolved {
+  color: #6c757d;
+  background-color: #f8f9fa;
+}
+
+/* Progress animations */
+@keyframes pulse-complete {
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+.practice-completed-header {
+  animation: pulse-complete 2s infinite;
+}
+
+/* Enhanced question row styling */
+.question-row-prac.solved-prac {
+  background-color: #f8fff9;
+  border-left: 4px solid #28a745;
+}
+
+.question-row-prac.attempted-prac {
+  background-color: #fffdf6;
+  border-left: 4px solid #ffc107;
+}
+
+.question-row-prac:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}

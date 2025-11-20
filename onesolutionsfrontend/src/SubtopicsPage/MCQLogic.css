@@ -1,0 +1,495 @@
+.mcq-container.full-width {
+  width: 100%;
+  padding: 20px;
+}
+
+.mcq-title {
+  font-size: 15px !important;
+  /* font-weight: bold;
+  margin-bottom: 15px; */
+}
+
+.mcq-question-block {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mcq-question {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.mcq-options {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.mcq-option {
+  margin-bottom: 10px;
+}
+
+.mcq-option label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.mcq-option input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  accent-color: #2196f3;
+  flex-shrink: 0;
+}
+
+.mcq-option input[type="radio"]:checked + label {
+  background-color: #e3f2fd;
+}
+
+.mcq-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mcq-next,
+.mcq-prev,
+.mcq-skip {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  width: 120px;
+  height: 40px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.question-content {
+  margin-left: 10px;
+  flex: 1;
+}
+.question-content pre,
+.question-content code,
+.question-content .code-block {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  white-space: pre;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 12px 0;
+  font-family: "Fira Code", Consolas, monospace;
+  font-size: 14px;
+}
+.mcq-next {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.mcq-skip,
+.mcq-prev {
+  background-color: transparent;
+  border: 2px solid #2196f3;
+  color: #1279cd;
+}
+.mcq-skip:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.mcq-timer {
+  font-weight: bold;
+  margin-top: 15px;
+  color: rgba(3, 79, 3, 0.681);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.mcq-timer.time-over {
+  color: rgba(246, 40, 40, 0.644);
+}
+
+.mcq-completed {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.mcq-option.correct {
+  background-color: #d4edda;
+  border: 1px solid #28a745;
+}
+
+.mcq-option.wrong {
+  background-color: #f8d7da;
+  border: 1px solid #dc3545;
+}
+
+.mcq-option.correct label,
+.mcq-option.wrong label {
+  font-weight: bold;
+}
+
+.score {
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.mcq-timer {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.time-over {
+  color: red;
+}
+
+.mcq-feedback {
+  margin: 15px auto;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 40px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mcq-feedback i {
+  margin-right: 8px;
+  font-size: 20px;
+  gap: 30px;
+}
+
+.mcq-feedback.correct {
+  color: green;
+  border: 2px solid green;
+  background-color: #e6ffe6;
+}
+
+.mcq-feedback.wrong {
+  color: red;
+  border: 2px solid red;
+  background-color: #ffe6e6;
+}
+
+.score-feedback {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #333;
+  text-align: center;
+}
+.intro-container table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.intro-container th,
+.intro-container td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.intro-container th {
+  background-color: #87cefa;
+  font-weight: bold;
+}
+
+.intro-container code {
+  background: #f0f0f0;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+.mcq-question {
+  margin-bottom: 24px;
+}
+
+.question-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.question-number {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.question-text {
+  font-size: 18px;
+  color: #111;
+}
+
+.question-code {
+  width: 100%;
+}
+
+.mcq-scoreboard {
+  display: flex;
+  justify-content: space-between;
+  background: #f0f4ff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.score-item {
+  color: #333;
+}
+/* MCQLogic.css - FULLY FIXED FOR MULTI-LINE OPTIONS */
+
+.mcq-option-item {
+  margin: 12px 0;
+}
+
+.mcq-option-label {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.mcq-option-label:hover {
+  background: #f0f8ff;
+}
+
+.mcq-option-label input[type="radio"] {
+  margin: 4px 0 0 0 !important;
+  flex-shrink: 0;
+}
+
+.mcq-option-text {
+  white-space: pre-line !important;
+  line-height: 1.7 !important;
+  display: block;
+  width: 100%;
+  user-select: none;
+}
+
+/* Make entire option clickable */
+.mcq-option-label {
+  width: 100%;
+}
+
+/* Fix for mobile */
+@media (max-width: 480px) {
+  .mcq-option-text {
+    font-size: 15px;
+  }
+}
+
+.mcq-result-screen {
+  text-align: center;
+  padding: 40px 20px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  max-width: 500px;
+  margin: 20px auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.result-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+.result-date {
+  margin: 0;
+  font-size: 15px;
+  color: #555;
+  font-weight: 500;
+}
+
+.result-time {
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 5px;
+}
+.Mcq-result-gauge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Mcq-circular-progress {
+  position: relative;
+  height: 180px;
+  width: 180px;
+  margin: 30px auto;
+}
+
+.Mcq-circular-progress svg {
+  width: 180px;
+  height: 180px;
+  transform: rotate(-90deg);
+}
+
+.Mcq-circular-progress circle {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.Mcq-circular-progress .bg {
+  stroke: #e0e0e0;
+}
+
+.Mcq-circular-progress .fg {
+  stroke: #007bff;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.progress-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+}
+
+.pass-badge {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #28a745;
+  color: white;
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.pass-badge.failed {
+  background: #dc3545;
+}
+
+.result-stats {
+  margin: 30px 0;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 12px 0;
+  font-size: 16px;
+}
+
+.stat.correct .icon {
+  color: #28a745;
+}
+.stat.wrong .icon {
+  color: #dc3545;
+}
+.stat.unanswered .icon {
+  color: #ffc107;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 30px 0;
+  justify-content: center;
+  width: 50%;
+}
+
+.btn-primary {
+  background: #ff6b00;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 50%;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  width: 50%;
+}
+
+.btn-skip {
+  background: transparent;
+  border: 1px solid #ccc;
+  color: #666;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.review-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.auto-skip-note {
+  margin: 20px 0;
+  color: #888;
+  font-size: 13px;
+}
+
+.next-big-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+  cursor: pointer;
+}

@@ -1,0 +1,76 @@
+/* General styles for the dialog image */
+.profile-image-dialog {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+/* Container for the dialog */
+.dialog-container {
+    height: auto;
+    /* Automatically adjusts height based on content */
+    width: 300px;
+    /* Use a percentage for width to make it flexible */
+    max-width: 400px;
+    /* Prevent it from growing too large on bigger screens */
+    max-height: 500px;
+    padding: 20px;
+    /* Add padding for spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    /* Include padding in dimensions */
+}
+
+/* Dialog title styling */
+.dialog-title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    /* Add spacing below the title */
+    font-size: 1.5rem;
+    /* Responsive font size */
+}
+
+.profile-button {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.phone-number{
+    color: #777676;
+    font-size: 15px;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-image-dialog {
+        width: 120px;
+        height: 120px;
+    }
+
+    .dialog-title {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-image-dialog {
+        width: 200px;
+        height: 200px;
+    }
+
+    .dialog-container {
+        width: 500;
+        /* Make it fit smaller screens */
+    }
+
+    .dialog-title {
+        font-size: 1.1rem;
+    }
+
+    .profile-button {
+        display: none;
+    }
+}

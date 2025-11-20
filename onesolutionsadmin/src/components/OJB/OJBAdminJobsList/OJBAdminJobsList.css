@@ -1,0 +1,449 @@
+
+.ojb-admin-jobs-list {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 5rem auto 3rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Header Section */
+.ojb-admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Title – constrained width so it stays “small” */
+.ojb-admin-header h5 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a237e;
+  letter-spacing: -0.5px;
+  max-width: 60%;        /* ← adjust this value as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Action Buttons */
+.ojb-admin-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ojb-admin-button {
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #3f51b5, #303f9f);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(63, 81, 181, 0.2);
+}
+.ojb-admin-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.3);
+  opacity: 0.95;
+}
+
+/* Search Input */
+.ojb-admin-search {
+  margin-bottom: 2rem;
+  position: relative;
+  animation: slideDown 0.3s ease-out;
+}
+.ojb-admin-search input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: #f8f9ff;
+  transition: all 0.3s ease;
+}
+.ojb-admin-search input:focus {
+  border-color: #3f51b5;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(63, 81, 181, 0.1);
+  outline: none;
+}
+
+/* Table Styling */
+.ojb-admin-jobs-table-container {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.ojb-admin-jobs-table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.ojb-admin-jobs-table th {
+  background: #f8f9ff;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a237e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e0e0e0;
+}
+.ojb-admin-jobs-table td {
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #424242;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ojb-admin-jobs-table tr:last-child td {
+  border-bottom: none;
+}
+.ojb-admin-jobs-table tr:hover td {
+  cursor: pointer;
+  background: #f8f9ff;
+}
+
+/* Action Buttons in Table */
+.ojb-action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  position: relative;
+}
+.ojb-edit-button,
+.ojb-delete-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.ojb-edit-button {
+  background: linear-gradient(135deg, #4caf50, #43a047);
+  color: #fff;
+}
+.ojb-delete-button {
+  background: linear-gradient(135deg, #ef5350, #e53935);
+  color: #fff;
+}
+.ojb-edit-button:hover,
+.ojb-delete-button:hover {
+  text-decoration: none;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Delete Confirmation Dialog */
+.ojb-delete-confirmation {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  width: 260px;
+  animation: popIn 0.25s ease-out;
+}
+.ojb-delete-confirmation p {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: #616161;
+}
+.ojb-confirm-button,
+.ojb-cancel-button {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ojb-confirm-button {
+  background: #d32f2f;
+  color: #fff;
+  margin-right: 0.5rem;
+}
+.ojb-cancel-button {
+  background: #757575;
+  color: #fff;
+}
+.ojb-confirm-button:hover {
+  background: #b71c1c;
+}
+.ojb-cancel-button:hover {
+  background: #616161;
+}
+
+/* Empty State & Error Messages */
+.ojb-no-jobs-message {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: #f8f9ff;
+  border-radius: 10px;
+  margin: 2rem 0;
+  color: #757575;
+  font-size: 1rem;
+}
+.ojb-admin-error {
+  padding: 1rem;
+  margin: 1.5rem 0;
+  background: #ffebee;
+  color: #c62828;
+  border-radius: 8px;
+  border: 1px solid #ffcdd2;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ojb-admin-jobs-list {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+  }
+  .ojb-admin-header h5 {
+    font-size: 1.25rem;
+    max-width: 100%;
+  }
+  .ojb-admin-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+  .ojb-admin-jobs-table th,
+  .ojb-admin-jobs-table td {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* OJBAdminJobsList.css */
+.ojb-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ojb-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ojb-modal h3 {
+  margin-top: 0;
+}
+
+.ojb-modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
+}
+.ojb-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ojb-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ojb-form-group {
+  margin-bottom: 1rem;
+}
+
+.ojb-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.ojb-form-group input,
+.ojb-form-group select,
+.ojb-form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.ojb-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+/* OJBAdminJobsList.css */
+.ojb-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ojb-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.ojb-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ojb-form-group {
+  margin-bottom: 1rem;
+}
+
+.ojb-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.ojb-form-group input,
+.ojb-form-group select,
+.ojb-form-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.ojb-form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+.ojb-modal-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
+}
+.ojb-cancel-button,
+  .ojb-save-button {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .ojb-cancel-button {
+    background: #e5e7eb;
+    color: #333;
+  }
+  .ojb-cancel-button:hover {
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .ojb-save-button {
+    background: #4f46e5;
+    color: #fff;
+  }
+  .ojb-save-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .ojb-save-button:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(79,70,229,0.3);
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0); }
+  }
+  @keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }

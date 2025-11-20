@@ -1,0 +1,35 @@
+/* For the editor in AdminPanel */
+.quill-editor {
+  min-height: 200px;
+  margin-bottom: 50px;
+}
+.ql-toolbar {
+  background: #f8f9fa;
+  border-radius: 4px 4px 0 0;
+}
+.ql-container {
+  border-radius: 0 0 4px 4px;
+}
+
+/* For displaying content in Company page */
+.descriptions-details-side {
+  line-height: 1.6;
+  font-size: 16px;
+}
+.descriptions-details-side h1,
+.descriptions-details-side h2 {
+  margin: 1em 0;
+}
+.descriptions-details-side ul {
+  padding-left: 2em;
+}
+.descriptions-details-side li {
+  margin-bottom: 0.5em;
+}
+.quill-editor .ql-editor {
+  min-height: 200px;
+  max-height: 800px;
+}
+.descriptions-details-side img {
+  max-width: 100%;
+}

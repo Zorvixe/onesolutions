@@ -1,0 +1,159 @@
+/* CodeOutputBlocks.css */
+.code_terminal_cheat {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 16px 0;
+  background: #272822;
+}
+
+.terminal_header_cheat {
+  background: #0f172a;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.terminal_controls_cheat {
+  display: flex;
+  gap: 6px;
+}
+
+.control_dot_cheat {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.red_cheat {
+  background: #ff5f56;
+}
+
+.yellow_cheat {
+  background: #ffbd2e;
+}
+
+.green_cheat {
+  background: #27ca3f;
+}
+
+.terminal_title_cheat {
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+}
+
+/* Ace Editor Customization */
+.ace-monokai {
+  background-color: #0f172a !important;
+  padding-right: 15px !important;
+}
+
+.ace_gutter {
+  background: #0f172a !important;
+  color: #8f9086 !important;
+  padding-right: 15px !important;
+}
+
+.ace_gutter-active-line {
+  background: #0f172a !important;
+}
+
+/* Output Block Styling */
+.output-block-cheat {
+  background: #d0e8ff8d !important;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 16px 0;
+}
+
+.output-container-cheat {
+  background: #1e1e1e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-output-cheat {
+  background: transparent;
+  color: #000000d7;
+  padding: 16px;
+  margin: 0;
+  font-family: "Fira Code", "Cascadia Code", "Monaco", "Consolas", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: none;
+  min-height: 10px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Combined Code Output Block */
+.code-output-combined-cheat {
+  margin: 20px 0;
+}
+
+.output-section-cheat {
+  margin-top: 16px;
+}
+
+.section-header-cheat {
+  background: #2d2d2d;
+  padding: 8px 16px;
+  border-radius: 8px 8px 0 0;
+  border-bottom: 1px solid #3d3d3d;
+}
+
+.section-header-cheat h3 {
+  color: #fff;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .code_terminal_cheat {
+    border-radius: 6px;
+    margin: 12px 0;
+  }
+
+  .terminal_header_cheat {
+    padding: 6px 10px;
+  }
+
+  .terminal_title_cheat {
+    font-size: 13px;
+  }
+
+  .code-output-cheat {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+/* Scrollbar Styling */
+.code-output-cheat::-webkit-scrollbar {
+  width: 8px;
+}
+
+.code-output-cheat::-webkit-scrollbar-track {
+  background: #2d2d2d;
+  border-radius: 4px;
+}
+
+.code-output-cheat::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+
+.code-output-cheat::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}

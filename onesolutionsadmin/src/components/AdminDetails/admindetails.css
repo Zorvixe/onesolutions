@@ -1,0 +1,42 @@
+@media (min-width: 480px) {
+
+    .admin-details-container {
+        display: flex;
+        color: aliceblue;
+        margin-bottom: 10px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .admin-details-container {
+        display: none;
+    }
+}
+
+.admin-details {
+    display: flex;
+    align-items: center;
+
+}
+
+.admin-image {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+.admin-name-container {
+    margin-left: 30px;
+}
+.admin-details-container {
+    color: aliceblue;
+    margin-bottom: 30px;
+    padding-top: 30px;
+}
+.edit-button-admin-details{
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: aliceblue;
+    padding: 5px 20px;
+    background: transparent;
+}

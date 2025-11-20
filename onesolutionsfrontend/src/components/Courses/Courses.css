@@ -1,0 +1,588 @@
+.courses-container {
+  margin-left: 50px;
+  padding: 60px;
+}
+
+/* Goals */
+.goals-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.goal-group {
+  position: relative;
+  background: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 18px 18px 6px 22px; /* leave room for rail */
+}
+
+.goal-rail {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px; /* vertical colored line */
+  border-radius: 5px;
+}
+
+.goal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  cursor: pointer;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f1f1f1;
+}
+
+.goal-title-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.goal-label {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  color: #2f2f2f;
+}
+
+.goal-title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 20px;
+  color: #333;
+}
+
+.goal-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.goal-dates {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Progress Section */
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* space between bar and percentage */
+  min-width: 160px; /* ensures it doesn't shrink too small */
+  justify-content: flex-end;
+}
+
+.progress {
+  width: 250px;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #28a745; /* green fill */
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+.progress-percent {
+  font-weight: 600;
+  color: #28a745;
+}
+
+.goal-toggle {
+  background: #ffcc00;
+  border: none;
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* Goal Body spacing */
+.goal-body {
+  padding: 16px 4px 8px 4px;
+}
+
+/* Course card */
+.courses {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  gap: 15px;
+}
+
+.courses:hover {
+  border-color: #1e90ff;
+  cursor: pointer;
+}
+
+.couses-and-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.couses-and-status h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+/* Circular Progress for course */
+.progress-section_module {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circular-progress {
+  --size: 40px; /* Diameter */
+  --stroke: 3px; /* Thickness */
+  --progress: 0; /* inline style sets this */
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: conic-gradient(#3cb371 calc(var(--progress) * 1%), #e0e0e0 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-weight: bold;
+  color: #333;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+}
+
+.circular-progress::before {
+  content: "";
+  position: absolute;
+  width: calc(var(--size) - var(--stroke) * 2);
+  height: calc(var(--size) - var(--stroke) * 2);
+  background: #fff;
+  border-radius: 50%;
+}
+
+.progress-value {
+  position: relative;
+  font-size: 10px !important;
+  color: #2d572c;
+}
+
+/* Module controls */
+.active-module_course {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.active-module_course button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 50%;
+  font-size: 25px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+
+.active-module_course p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Modules */
+.module-details {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 12px auto;
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.module-container {
+  width: 100%;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.module-container.expanded {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.module-single-div {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  min-height: 70px;
+  align-items: flex-start;
+  padding: 15px 20px;
+}
+
+/* Timeline */
+.timeline {
+  width: 60px;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 5px;
+}
+
+.circle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.module-circle-row {
+  height: 40px;
+  margin-bottom: 0;
+}
+
+.subtopic-circle-row {
+  height: 40px;
+  margin-bottom: 0;
+}
+
+.vertical-line {
+  position: absolute;
+  top: 45px;
+  left: 29px;
+  bottom: 10px;
+  width: 2px;
+  background: #e0e0e0;
+  z-index: 1;
+}
+
+/* Circles */
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+.module-circle {
+  width: 32px;
+  height: 32px;
+  border: 2px solid #e0e0e0;
+  background: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.module-circle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress);
+  background: linear-gradient(90deg, #4caf50 0%, #4caf50 100%);
+  z-index: 1;
+  transition: width 0.3s ease;
+}
+
+.module-circle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  background: white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.module-circle.completed {
+  border-color: #4caf50;
+  background: #4caf50;
+}
+
+.module-circle.completed::before {
+  width: 100%;
+}
+
+.module-circle.completed::after {
+  background: #4caf50;
+}
+
+.subtopic-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e0e0e0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  color: #4caf50;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.subtopic-circle.completed {
+  border-color: #4caf50;
+  background: #4caf50;
+  color: white;
+}
+
+.subtopic-circle:hover:not(.completed) {
+  border-color: #667eea;
+  transform: scale(1.1);
+}
+
+/* Content area */
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.module_topic_names {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.module-header-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  min-height: 40px;
+  margin-bottom: 0;
+}
+
+.active-module_subtopic {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.active-module_subtopic button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  font-size: 25px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+
+.topic-label h6 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #666;
+  margin: 0;
+  background: #f0f0f0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.module-title h5 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* Subtopics list */
+.subtopics-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.subtopic-content-row {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8f9fa;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.subtopic-content-row:hover {
+  background: #f8f9fa;
+}
+
+.subtopic-content-row:last-child {
+  border-bottom: none;
+}
+
+.subtopic-text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Lesson Content */
+.lesson-content {
+  margin-top: 20px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .courses-container {
+    margin: 0;
+    padding: 15px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .goal-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .progress {
+    width: 160px;
+  }
+
+  .courses {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .couses-and-status h4 {
+    font-size: 15px;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .module-single-div {
+    padding: 10px 15px;
+    flex-direction: column;
+  }
+
+  .timeline {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .circle-row {
+    width: auto;
+    margin-right: 15px;
+  }
+
+  .vertical-line {
+    display: none;
+  }
+
+  .content-area {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .module-header-row {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .courses-container {
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+
+  .courses {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .courses-container {
+    padding: 35px;
+  }
+}
+
+@media (max-width: 1440px) {
+  .courses-container {
+    padding: 40px;
+    max-width: 1380px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 1920px) {
+  .courses-container {
+    padding: 60px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
