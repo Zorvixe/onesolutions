@@ -70,11 +70,12 @@ const FavouritePlaces_DetailView_CS = ({
     {
       id: "carousel_auto",
       section: "Bootstrap Carousel",
-      question: "Which attribute makes the carousel start sliding automatically?",
+      question:
+        "Which attribute makes the carousel start sliding automatically?",
       options: ["data-ride", "data-bs-ride", "data-slide", "autoplay"],
       answer: "data-bs-ride",
       explanation:
-        "In Bootstrap 5, data-bs-ride=\"carousel\" makes the carousel start cycling automatically when the page loads.",
+        'In Bootstrap 5, data-bs-ride="carousel" makes the carousel start cycling automatically when the page loads.',
     },
     {
       id: "youtube_id",
@@ -94,7 +95,12 @@ const FavouritePlaces_DetailView_CS = ({
       id: "responsive_embed",
       section: "YouTube Responsive Embed",
       question: "Which Bootstrap class makes the iframe responsive?",
-      options: ["embed-responsive", "ratio ratio-16x9", "w-100", "iframe-fluid"],
+      options: [
+        "embed-responsive",
+        "ratio ratio-16x9",
+        "w-100",
+        "iframe-fluid",
+      ],
       answer: "ratio ratio-16x9",
       explanation:
         "Bootstrap 5 uses the .ratio and .ratio-16x9 classes to create responsive embeds that maintain aspect ratio on all devices.",
@@ -105,14 +111,18 @@ const FavouritePlaces_DetailView_CS = ({
     <div className="intro-container">
       <h1>Favourite Place Detailed View Page | Cheat Sheet</h1>
 
-      {/* ========================================= */}
       {/* 1. Bootstrap Carousel */}
-      {/* ========================================= */}
+
       <section>
         <h2>1. Bootstrap Carousel (Slideshow)</h2>
         <p>
-          The Carousel component creates an automated slideshow for images or custom content.
-          We use it in the detailed view page to showcase multiple photos of the favourite place.
+          The Carousel is a slideshow for cycling through images, text, etc.
+          Slides will change every few seconds.
+        </p>
+        <p>
+          The Carousel component creates an automated slideshow for images or
+          custom content. We use it in the detailed view page to showcase
+          multiple photos of the favourite place.
         </p>
 
         <CodeBlock
@@ -149,79 +159,177 @@ const FavouritePlaces_DetailView_CS = ({
         />
 
         <div className="Note-container">
-          <h6>Important Attributes:</h6>
-          <ul>
-            <li><code>data-bs-ride="carousel"</code> → auto-starts the slideshow</li>
-            <li><code>.carousel-indicators</code> → dots at bottom</li>
-            <li><code>.carousel-item active</code> → first slide must have "active"</li>
-            <li><code>d-block w-100</code> → makes image responsive</li>
-          </ul>
+          <h6>Note</h6>
+          <p>
+            <b>data-bs-ride="carousel"</b> → auto-starts the slideshow
+          </p>
+          <p>
+            <b>carousel-indicators</b> → dots at bottom
+          </p>
+          <p>
+            <b>carousel-item active</b> → first slide must have
+          </p>
+          <p>
+            <b>d-block w-100</b> → makes image responsive
+          </p>
         </div>
 
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
       {/* 2. Responsive YouTube Embed */}
-      {/* ========================================= */}
+
       <section>
-        <h2>2. Responsive YouTube Video Embed</h2>
+        <h2>2. Bootstrap Utilities</h2>
+        <h3>2.1 Embed</h3>
+
         <p>
-          To embed a YouTube video responsively (maintains aspect ratio on all devices),
-          wrap the <code>&lt;iframe&gt;</code> in Bootstrap's <code>.ratio</code> utility.
+          The code below is the YouTube embed code provided by Bootstrap. You
+          can add any YouTube video by changing the <b>Video ID</b> in the{" "}
+          <code>src</code> attribute.
+        </p>
+
+        <p>
+          The Video ID is the part that appears between
+          <code>https://www.youtube.com/embed/</code> and <code>?rel=0</code>.
         </p>
 
         <CodeBlock
           language="html"
-          code={`<div class="ratio ratio-16x9">
-  <iframe 
-    src="https://www.youtube.com/embed/VIDEO_ID_HERE?rel=0" 
-    title="YouTube video" 
-    allowfullscreen>
-  </iframe>
+          code={`<div class="embed-responsive embed-responsive-16by9">
+  <iframe
+    class="embed-responsive-item"
+    src="https://www.youtube.com/embed/49HTIoCccDY?rel=0"
+    allowfullscreen
+  ></iframe>
 </div>`}
         />
 
+        <h3>2.1.1 How to add a YouTube Video?</h3>
+
+        <p>
+          <b>Step 1:</b> Open YouTube
+        </p>
+        <p>
+          On desktop, open <b>youtube.com</b> in your browser. On mobile, open
+          the YouTube app.
+        </p>
+
+        <p>
+          <b>Step 2:</b> Search for the video
+        </p>
+        <p>Type the video name into the search bar and tap the Search icon.</p>
+
+        <p>
+          <b>Step 3:</b> Select the video
+        </p>
+        <p>Scroll through the results and click the video you want.</p>
+
+        <p>
+          <b>Step 4:</b> Copy the Video ID
+        </p>
+        <p>
+          On desktop, copy the value after <b>v=</b>. If there is an <b>&</b>,
+          copy only the part before it.
+        </p>
+
+        <p>
+          Example:
+          <br />
+          From the URL:
+          <br />
+          <code>
+            https://www.youtube.com/watch?v=49HTIoCccDY&feature=youtu.be
+          </code>
+          <br />
+          The Video ID is: <b>49HTIoCccDY</b>
+        </p>
+
+        <p>
+          On mobile, tap <b>Share → Messages</b>, then copy the ID that appears
+          after the last <b>/</b>.
+        </p>
+
+        <p>
+          <b>Step 5:</b> Paste the Video ID
+        </p>
+        <p>
+          Insert the Video ID between <b>embed/</b> and <b>?rel=0</b> in the
+          <code>src</code> attribute.
+        </p>
+
         <div className="Note-container">
-          <h6>How to get the Video ID:</h6>
-          <ol>
-            <li>Open the video on YouTube</li>
-            <li>Look at the URL: <code>https://www.youtube.com/watch?v=49HTIoCccDY</code></li>
-            <li>The part after <code>v=</code> is the Video ID → <code>49HTIoCccDY</code></li>
-            <li>Paste it after <code>/embed/</code></li>
-          </ol>
+          <h6>Note</h6>
+          <p>
+            Be careful while pasting the video ID. The video ID must be in
+            between the<b> https://www.youtube.com/embed/ </b>and <b>?rel=0</b>.
+            You won't get the video if any character is missed in the value of
+            the HTML src attribute.
+          </p>
         </div>
 
-        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
       {/* 3. Step by Step Implementation */}
-      {/* ========================================= */}
-      <section>
+
+      {/* <section>
         <h2>3. Implementation Steps (Favourite Place Detailed View)</h2>
         <ol>
           <li>Add background image and main heading</li>
           <li>Create the card container with proper padding/margin</li>
           <li>Paste the Bootstrap Carousel code</li>
-          <li>Replace IMAGE_URL_1, IMAGE_URL_2, etc. with actual image links</li>
+          <li>
+            Replace IMAGE_URL_1, IMAGE_URL_2, etc. with actual image links
+          </li>
           <li>Add text container (heading + description)</li>
           <li>Add YouTube embed section below carousel</li>
           <li>Replace VIDEO_ID_HERE with actual YouTube video ID</li>
           <li>Style with padding, margins, text colors for beautiful look</li>
         </ol>
+      </section> */}
+      <section>
+        <h2>
+          3. Step by Step Process to Develop a Favourite Place Detailed View
+          Section Page
+        </h2>
+
+        <ul>
+          <b>Step-1:</b>
+          <p>Add the Background Image and Heading.</p>
+        </ul>
+
+        <ul>
+          <b>Step-2:</b>
+          <p> Add a Detailed View Card.</p>
+          <li>Add a Detailed View Card Container.</li>
+          <li>Add the Bootstrap Carousel Code.</li>
+          <li>
+            Add the HTML <code>src</code> attributes for the{" "}
+            <code>&lt;img&gt;</code> elements in the Carousel.
+          </li>
+          <li>Add a Detailed View Card Text Container.</li>
+          <li>Add a Detailed View Card Heading.</li>
+          <li>Add a Detailed View Card Description.</li>
+          <li>Add padding to the Card Text Container.</li>
+          <li>Add margin to the Card Container.</li>
+        </ul>
+
+        <p>
+          Follow the same steps again and replace the Bootstrap Carousel Code
+          with the Bootstrap YouTube Embed Code to add a YouTube video to the
+          Favourite Place Detailed View Section Page.
+        </p>
       </section>
 
-     
       {/* Note */}
-     
+
       <div className="Note-container">
-        <h6>Pro Tip:</h6>
+        <h6>Pro Tip</h6>
         <p>
-          Always test the Video ID carefully. Even one wrong character will prevent the video from loading.
-          Recommended: <code>?rel=0</code> hides related videos from other channels at the end.
+          Always test the Video ID carefully. Even one wrong character will
+          prevent the video from loading. Recommended: <b>?rel=0</b> hides
+          related videos from other channels at the end.
         </p>
       </div>
 

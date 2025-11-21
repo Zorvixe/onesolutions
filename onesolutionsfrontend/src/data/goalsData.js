@@ -4,12 +4,12 @@ export const goalsData = [
     title: "Goal 1",
     color: "#1e90ff", // blue
     dateRange: "July 1, 2024   Sept 30, 2024",
-    progress: 30,
+    progress: 0,
     courses: [
       {
         id: "g1 c1",
         title: "Static Website: HTML CSS & Bootstrap",
-        progress: 30,
+        progress: 0,
         modules: [
           {
             id: "QW9E8R7T6Y m1 5U4I3O2P1A0 g1 S9D8F7G6H c1 R8T2J4P9C7B",
@@ -370,7 +370,7 @@ export const goalsData = [
       {
         id: "g1 c2",
         title: "Responsive Website: HTML CSS & Bootstrap",
-        progress: 30,
+        progress: 0,
         modules: [
           {
             id: "QW9E8R7T6Y m1 5U4I3O2P1A0 g1 S9D8F7G6H c2 R8T2J4P9C7B",
@@ -679,8 +679,8 @@ export const goalsData = [
       },
       {
         id: "g1 c3",
-        title: "Python",
-        progress: 99,
+        title: "Programming Foundations: Python",
+        progress: 0,
         modules: [
           {
             id: "QW9E8R7T6Y m1 5U4I3O2P1A0 g1 S9D8F7G6H c3 R8T2J4P9C7B",
@@ -1819,7 +1819,7 @@ export const goalsData = [
     courses: [
       {
         id: "g2 c1",
-        title: "Build Your Own Dynamic Web Application",
+        title: "Build Your Own Dynamic Web Application: HTML, CSS, JAVASCRIPT",
         progress: 0,
         modules: [
           {
@@ -2342,7 +2342,7 @@ export const goalsData = [
       },
       {
         id: "g2 c2",
-        title: "Introduction to Databases",
+        title: "Introduction to Databases: SQL",
         progress: 0,
         modules: [
           {
@@ -2785,7 +2785,7 @@ export const goalsData = [
 
       {
         id: "g2 c3",
-        title: "JavaScript Essentials",
+        title: "JavaScript Essentials: JAVASCRIPT",
         progress: 0,
         modules: [
           {
@@ -3040,7 +3040,7 @@ export const goalsData = [
       },
       {
         id: "g2 c4",
-        title: "Responsive Web Design using Flexbox",
+        title: "Responsive Web Design using Flexbox: FLEXBOX",
         progress: 0,
         modules: [
           {
@@ -3278,7 +3278,7 @@ export const goalsData = [
     courses: [
       {
         id: "g3 c1",
-        title: "Git Commandline",
+        title: " Developer Foundations: Git Commandline",
         progress: 0,
         modules: [
           {
@@ -3295,7 +3295,7 @@ export const goalsData = [
       },
       {
         id: "g3 c2",
-        title: "Node JS",
+        title: "Node JS: Node JS",
         progress: 0,
         modules: [
           {
@@ -3324,7 +3324,7 @@ export const goalsData = [
       },
       {
         id: "g3 c4",
-        title: "React JS Getting started",
+        title: "React JS Getting started: React JS",
         progress: 0,
         modules: [
           {

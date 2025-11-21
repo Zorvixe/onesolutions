@@ -33,7 +33,7 @@ export default function CodePlayground({
   const [isRunning, setIsRunning] = useState(false);
   const [autoRunEnabled, setAutoRunEnabled] = useState(Boolean(autoRun));
   const [theme, setTheme] = useState("monokai");
-  const [fontSize, setFontSize] = useState(15);
+  const [fontSize, setFontSize] = useState(14);
   const [pyodideReady, setPyodideReady] = useState(false);
   const pyodideRef = useRef(null);
   const [sqlJs, setSqlJs] = useState(null);
@@ -63,138 +63,6 @@ export default function CodePlayground({
   <div id="output"></div>
 </body>
 </html>`,
-      css: `body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-  margin: 40px;
-}
-h1 {
-  color: #2c3e50;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 10px;
-}`,
-      javascript: `// Welcome to JavaScript Playground
-document.addEventListener('DOMContentLoaded', function() {
-  const output = document.getElementById('output');
-  if (output) {
-    output.innerHTML = '<h3>JavaScript is working 🎉</h3>';
-    output.style.color = '#2c3e50';
-    output.style.padding = '20px';
-    output.style.backgroundColor = '#e8f4fd';
-    output.style.borderRadius = '8px';
-  }
-  console.log('JavaScript executed successfully!');
-});`,
-      javascript_standalone: `// Standalone JavaScript Execution
-console.log("Hello from standalone JavaScript!");
-
-// Example calculations
-const a = 10;
-const b = 20;
-console.log(\`\${a} + \${b} = \${a + b}\`);
-
-// Example array operations
-const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map(n => n * 2);
-console.log("Original:", numbers);
-console.log("Doubled:", doubled);
-
-// You can use any JavaScript features here
-function factorial(n) {
-  return n <= 1 ? 1 : n * factorial(n - 1);
-}
-console.log(\`Factorial of 5: \${factorial(5)}\`);`,
-      python: `# Welcome to Python Playground
-print("Hello from Python! 🐍")
-
-# Simple calculator example
-def calculate(a, b):
-    return a + b, a - b, a * b, a / b if b != 0 else "undefined"
-
-num1 = 15
-num2 = 3
-add, subtract, multiply, divide = calculate(num1, num2)
-
-print(f"{num1} + {num2} = {add}")
-print(f"{num1} - {num2} = {subtract}")
-print(f"{num1} * {num2} = {multiply}")
-print(f"{num1} / {num2} = {divide}")
-
-# List comprehension example
-squares = [x**2 for x in range(1, 6)]
-print(f"Squares of 1-5: {squares}")`,
-      java: `// Welcome to Java Playground
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello from Java! ☕");
-        
-        // Simple calculator example
-        int num1 = 15;
-        int num2 = 3;
-        
-        int sum = num1 + num2;
-        int difference = num1 - num2;
-        int product = num1 * num2;
-        double quotient = (double) num1 / num2;
-        
-        System.out.println(num1 + " + " + num2 + " = " + sum);
-        System.out.println(num1 + " - " + num2 + " = " + difference);
-        System.out.println(num1 + " * " + num2 + " = " + product);
-        System.out.println(num1 + " / " + num2 + " = " + quotient);
-        
-        // Array example
-        int[] numbers = {1, 2, 3, 4, 5};
-        System.out.print("Squares: ");
-        for (int num : numbers) {
-            System.out.print(num * num + " ");
-        }
-        System.out.println();
-    }
-}`,
-      sql: `-- Welcome to SQL Playground
--- Sample database schema for demonstration
-CREATE TABLE employees (
-  id INTEGER PRIMARY KEY,
-  name TEXT,
-  department TEXT,
-  salary REAL,
-  hire_date TEXT
-);
-
-CREATE TABLE departments (
-  id INTEGER PRIMARY KEY,
-  name TEXT,
-  manager TEXT
-);
-
--- Insert sample data
-INSERT INTO employees VALUES 
-(1, 'John Doe', 'Engineering', 75000, '2020-01-15'),
-(2, 'Jane Smith', 'Marketing', 65000, '2019-03-20'),
-(3, 'Mike Johnson', 'Engineering', 80000, '2018-06-10'),
-(4, 'Sarah Wilson', 'Sales', 60000, '2021-02-28'),
-(5, 'Tom Brown', 'Marketing', 70000, '2020-11-05');
-
-INSERT INTO departments VALUES
-(1, 'Engineering', 'Robert Chen'),
-(2, 'Marketing', 'Lisa Wang'),
-(3, 'Sales', 'David Kim');
-
--- Example queries
-SELECT * FROM employees;
-
-SELECT name, department, salary 
-FROM employees 
-WHERE salary > 70000;
-
-SELECT department, AVG(salary) as avg_salary
-FROM employees 
-GROUP BY department;
-
-SELECT e.name, e.department, d.manager
-FROM employees e
-JOIN departments d ON e.department = d.name;`,
     }),
     []
   );
@@ -268,7 +136,8 @@ JOIN departments d ON e.department = d.name;`,
         if (!window.loadPyodide) {
           await new Promise((resolve, reject) => {
             const script = document.createElement("script");
-            script.src = "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js";
+            script.src =
+              "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js";
             script.onload = resolve;
             script.onerror = reject;
             document.head.appendChild(script);
@@ -307,7 +176,9 @@ sys.stderr = OutputCapture()
       } catch (error) {
         console.error("Failed to load Pyodide:", error);
         if (mounted) {
-          setOutput("Failed to load Python environment. Please refresh the page.");
+          setOutput(
+            "Failed to load Python environment. Please refresh the page."
+          );
         }
       }
     };
@@ -458,11 +329,11 @@ builtins.input = custom_input
 
       // Get the captured output (only print statements, no input values)
       const output = await pyodide.runPythonAsync("output_capture.get_value()");
-      
+
       // Clean the output - remove any trailing whitespace
-      const cleanOutput = output.trim() || "Python code executed successfully (no output)";
+      const cleanOutput =
+        output.trim() || "Python code executed successfully (no output)";
       setOutput(cleanOutput);
-      
     } catch (err) {
       setOutput(`Error: ${err.message}\n`);
     } finally {
@@ -474,7 +345,7 @@ builtins.input = custom_input
   const runJava = useCallback(async () => {
     setIsRunning(true);
     setOutput("");
-    
+
     try {
       const javaRunner = remoteRunners?.java;
 
@@ -491,15 +362,19 @@ builtins.input = custom_input
         const outputLines = [];
 
         // Input simulation
-        const inputLines = inputValue.split('\n').filter(line => line.trim() !== '');
+        const inputLines = inputValue
+          .split("\n")
+          .filter((line) => line.trim() !== "");
         let inputIndex = 0;
 
         // Simple Java code interpreter for common patterns
         const interpretJavaCode = (code) => {
-          const lines = code.split('\n');
-          
+          const lines = code.split("\n");
+
           // Look for main method
-          const mainMethodIndex = lines.findIndex(line => line.includes('public static void main'));
+          const mainMethodIndex = lines.findIndex((line) =>
+            line.includes("public static void main")
+          );
           if (mainMethodIndex === -1) {
             return ["Error: No main method found"];
           }
@@ -507,53 +382,63 @@ builtins.input = custom_input
           // Process each line in main method scope
           for (let i = mainMethodIndex; i < lines.length; i++) {
             const line = lines[i].trim();
-            
+
             // Handle System.out.println
-            if (line.includes('System.out.println')) {
+            if (line.includes("System.out.println")) {
               const match = line.match(/System\.out\.println\((.*)\)/);
               if (match) {
                 let content = match[1];
-                
+
                 // Handle string concatenation
-                if (content.includes('+')) {
+                if (content.includes("+")) {
                   // Simple string concatenation
-                  content = content.split('+').map(part => {
-                    part = part.trim().replace(/["';]/g, '');
-                    // Handle variable substitution for common patterns
-                    if (part === 'i') return 'i';
-                    if (part === 'num') return 'num';
-                    return part;
-                  }).join(' ');
+                  content = content
+                    .split("+")
+                    .map((part) => {
+                      part = part.trim().replace(/["';]/g, "");
+                      // Handle variable substitution for common patterns
+                      if (part === "i") return "i";
+                      if (part === "num") return "num";
+                      return part;
+                    })
+                    .join(" ");
                 }
-                
+
                 // Handle loop simulations
-                if (content === 'i') {
+                if (content === "i") {
                   // This is likely inside a loop - simulate loop output
                   for (let i = 1; i < 10; i++) {
                     outputLines.push(i.toString());
                   }
                   break;
-                } else if (content.includes('discount')) {
+                } else if (content.includes("discount")) {
                   // Handle discount calculation
                   if (inputLines.length >= 2) {
                     const comparePrice = parseInt(inputLines[0]);
                     const price = parseInt(inputLines[1]);
-                    const discount = ((comparePrice - price) / comparePrice) * 100;
+                    const discount =
+                      ((comparePrice - price) / comparePrice) * 100;
                     outputLines.push(discount.toFixed(2));
                   }
                 } else {
                   // Remove quotes and add to output
-                  content = content.replace(/["';]/g, '');
+                  content = content.replace(/["';]/g, "");
                   if (content && content !== '""') {
                     outputLines.push(content);
                   }
                 }
               }
             }
-            
+
             // Handle for loops with variable i
-            if (line.includes('for (int i =') && line.includes('i <') && line.includes('i++')) {
-              const match = line.match(/for\s*\(\s*int\s+i\s*=\s*(\d+)\s*;\s*i\s*<\s*(\d+)\s*;\s*i\+\+\s*\)/);
+            if (
+              line.includes("for (int i =") &&
+              line.includes("i <") &&
+              line.includes("i++")
+            ) {
+              const match = line.match(
+                /for\s*\(\s*int\s+i\s*=\s*(\d+)\s*;\s*i\s*<\s*(\d+)\s*;\s*i\+\+\s*\)/
+              );
               if (match) {
                 const start = parseInt(match[1]);
                 const end = parseInt(match[2]);
@@ -562,9 +447,9 @@ builtins.input = custom_input
                 }
               }
             }
-            
+
             // Handle Scanner input patterns
-            if (line.includes('nextInt()') && inputIndex < inputLines.length) {
+            if (line.includes("nextInt()") && inputIndex < inputLines.length) {
               inputIndex++; // Consume input
             }
           }
@@ -573,20 +458,42 @@ builtins.input = custom_input
         interpretJavaCode(javaCode);
 
         if (outputLines.length > 0) {
-          setOutput(outputLines.join('\n'));
+          setOutput(outputLines.join("\n"));
         } else {
           setOutput(`Java Code Analysis:
 
 Your Java code has been processed in simulation mode.
 
 Code Structure:
-- ${javaCode.includes('public class') ? '✓ Class definition found' : '✗ No class definition'}
-- ${javaCode.includes('main(String[] args)') ? '✓ Main method found' : '✗ No main method'}
-- ${javaCode.includes('System.out.println') ? `✓ ${(javaCode.match(/System\.out\.println/g) || []).length} print statements` : '✗ No output statements'}
-- ${javaCode.includes('Scanner') ? '✓ Scanner input detected' : '✗ No Scanner input'}
-- ${(javaCode.includes('for (') || javaCode.includes('while (')) ? '✓ Loop structures detected' : '✗ No loops detected'}
+- ${
+            javaCode.includes("public class")
+              ? "✓ Class definition found"
+              : "✗ No class definition"
+          }
+- ${
+            javaCode.includes("main(String[] args)")
+              ? "✓ Main method found"
+              : "✗ No main method"
+          }
+- ${
+            javaCode.includes("System.out.println")
+              ? `✓ ${
+                  (javaCode.match(/System\.out\.println/g) || []).length
+                } print statements`
+              : "✗ No output statements"
+          }
+- ${
+            javaCode.includes("Scanner")
+              ? "✓ Scanner input detected"
+              : "✗ No Scanner input"
+          }
+- ${
+            javaCode.includes("for (") || javaCode.includes("while (")
+              ? "✓ Loop structures detected"
+              : "✗ No loops detected"
+          }
 
-Input Provided: ${inputValue || 'None'}
+Input Provided: ${inputValue || "None"}
 
 For full Java execution, set up a remote runner:
 remoteRunners={{
@@ -1059,9 +966,6 @@ remoteRunners={{
           )}
 
           <div className="output-section-codep">
-            <div className="section-header-codep">
-              <h3>OUTPUT</h3>
-            </div>
             <div className="output-container-codep">
               {language === "web" ? (
                 <iframe

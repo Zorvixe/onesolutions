@@ -134,7 +134,7 @@ export default function Courses() {
       });
     } else if (isCodingPractice(subtopicName)) {
       // For coding practices, navigate to the practice page
-      navigate(`/practice`, {
+      navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
         state: {
           subtopicId,
           goalName,
@@ -243,7 +243,21 @@ export default function Courses() {
                       <div className="courses" key={course.id}>
                         {/* Course Header */}
                         <div className="couses-and-status">
-                          <h4>{course.title}</h4>
+                          {(() => {
+                            const [before, after] = course.title.split(":");
+
+                            return (
+                              <h4>
+                                {before}
+                                {after && (
+                                  <span className="highlight-after">
+                                    {after}
+                                  </span>
+                                )}
+                              </h4>
+                            );
+                          })()}
+
                           <div className="progress-section_module">
                             <div
                               className="circular-progress"

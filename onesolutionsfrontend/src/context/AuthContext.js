@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useState, useContext, useEffect, useCallback } from "react";
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from "react";
 import { authAPI, progressAPI } from "../services/api";
 
 const AuthContext = createContext();
@@ -26,8 +32,8 @@ export const AuthProvider = ({ children }) => {
   const [courseProgress, setCourseProgress] = useState({});
   const [overallProgress, setOverallProgress] = useState(0);
   const [progressLoading, setProgressLoading] = useState(false);
-  const [codingPracticeProgress, setCodingPracticeProgress] = useState({})
-  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [codingPracticeProgress, setCodingPracticeProgress] = useState({});
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
     checkAuthStatus();
@@ -79,73 +85,92 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loadProgressSummary = useCallback(async () => {
-    if (!token) return
+    if (!token) return;
 
     try {
       const responses = await Promise.all([
-        fetch(`${process.env.REACT_APP_API_URL || "http://localhost:5002"}/api/progress/completed`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        fetch(`${process.env.REACT_APP_API_URL || "http://localhost:5002"}/api/progress/summary`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-        fetch(`${process.env.REACT_APP_API_URL || "http://localhost:5002"}/api/coding-practice/progress`, {
-          headers: { Authorization: `Bearer ${token}` },
-        }),
-      ])
+        fetch(
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          }/progress/completed`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        ),
+        fetch(
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          }/progress/summary`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        ),
+        fetch(
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          }/coding-practice/progress`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        ),
+      ]);
 
-      const [completedRes, summaryRes, practicRes] = responses
+      const [completedRes, summaryRes, practicRes] = responses;
 
       if (completedRes.ok) {
-        const completedData = await completedRes.json()
+        const completedData = await completedRes.json();
         if (completedData.success) {
-          setCompletedContent(completedData.data.completedContent.map((item) => item.content_id))
+          setCompletedContent(
+            completedData.data.completedContent.map((item) => item.content_id)
+          );
         }
       }
 
       if (summaryRes.ok) {
-        const summaryData = await summaryRes.json()
+        const summaryData = await summaryRes.json();
         if (summaryData.success) {
-          const goals = {}
-          const courses = {}
+          const goals = {};
+          const courses = {};
           summaryData.data.progressSummary.forEach((item) => {
             if (item.goalName) {
-              goals[item.goalName] = item.progressPercentage
+              goals[item.goalName] = item.progressPercentage;
             }
             if (item.courseName) {
-              courses[item.courseName] = item.progressPercentage
+              courses[item.courseName] = item.progressPercentage;
             }
-          })
-          setGoalProgress(goals)
-          setCourseProgress(courses)
+          });
+          setGoalProgress(goals);
+          setCourseProgress(courses);
         }
       }
 
       if (practicRes.ok) {
-        const practicData = await practicRes.json()
+        const practicData = await practicRes.json();
         if (practicData.success) {
-          const practiceMap = {}
+          const practiceMap = {};
           practicData.data.progress.forEach((prog) => {
             practiceMap[prog.question_id] = {
               status: prog.status,
               score: prog.score,
-            }
-          })
-          setCodingPracticeProgress(practiceMap)
+            };
+          });
+          setCodingPracticeProgress(practiceMap);
         }
       }
     } catch (error) {
-      console.error("Error loading progress summary:", error)
+      console.error("Error loading progress summary:", error);
     }
-  }, [token])
+  }, [token]);
 
   const markCodingPracticeComplete = useCallback(
     async (practiceId, goalName, courseName) => {
-      if (!token) return false
+      if (!token) return false;
 
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_API_URL || "http://localhost:5002"}/api/coding-practice/complete-practice`,
+          `${
+            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          }/api/coding-practice/complete-practice`,
           {
             method: "POST",
             headers: {
@@ -157,21 +182,21 @@ export const AuthProvider = ({ children }) => {
               goalName,
               courseName,
             }),
-          },
-        )
+          }
+        );
 
         if (response.ok) {
-          const data = await response.json()
-          return data.success
+          const data = await response.json();
+          return data.success;
         }
-        return false
+        return false;
       } catch (error) {
-        console.error("Error marking practice complete:", error)
-        return false
+        console.error("Error marking practice complete:", error);
+        return false;
       }
     },
-    [token],
-  )
+    [token]
+  );
 
   const markSubtopicComplete = async (contentId, goalName, courseName) => {
     try {
@@ -188,8 +213,8 @@ export const AuthProvider = ({ children }) => {
 
       const res = await progressAPI.markContentComplete(
         contentId,
-        goalName || "Goal 1",
-        courseName || "Static Website: HTML CSS & Bootstrap"
+        goalName,
+        courseName
       );
 
       if (res.data.success) {
@@ -479,9 +504,9 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     user,
-        setUser,
-        token,
-        setToken,
+    setUser,
+    token,
+    setToken,
     completeProfile,
     loading,
     error,

@@ -170,6 +170,27 @@ li {
 .cheat-table td {
   padding: 8px;
 }
+/* .cheat-table {
+  width: 80%;
+  border-collapse: collapse;
+}
+
+.cheat-table th {
+  white-space: nowrap;
+  text-align: left;
+  padding: 8px;
+}
+
+.cheat-table td {
+  padding: 8px;
+} */
+
+/* ONLY make RIGHT SIDE td smaller */
+/* .cheat-table td:nth-child(2) {
+  font-size: 14px;
+  font-weight: 500;
+} */
+
 code {
   background-color: #d0e8ff8d !important;
   color: black;

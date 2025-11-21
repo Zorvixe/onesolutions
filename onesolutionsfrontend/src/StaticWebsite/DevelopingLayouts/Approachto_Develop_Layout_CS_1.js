@@ -49,23 +49,17 @@ const Approachto_Develop_Layout_CS_1 = ({
     }
   };
 
-  /* ---------------------------------------------------
-      MCQ DATA
-  ----------------------------------------------------*/
+  /*   MCQ DATA */
   const mcqs = [
     {
       id: "img_vs_bg_when_img",
       section: "HTML Image vs CSS Background",
-      question: "When should you primarily use the <img> tag?",
-      options: [
-        "For decorative images or when overlaying text",
-        "When the image is part of the page content (e.g., product photo, logo, article illustration)",
-        "Only when the image needs to repeat",
-        "When you want to hide the image from screen readers",
-      ],
-      answer: "When the image is part of the page content (e.g., product photo, logo, article illustration)",
+      question:
+        "The HTML image element is used to add images that are part of the content.",
+      options: ["True", "False"],
+      answer: "True",
       explanation:
-        "<img> is semantic HTML, supports alt text for accessibility/SEO, and is the correct choice for meaningful content images.",
+        "The <img> tag is used for images that are meaningful to the content. It is semantic, supports alt text for accessibility, and is the correct choice when the image is part of the page content.",
     },
     {
       id: "img_vs_bg_when_bg",
@@ -76,14 +70,16 @@ const Approachto_Develop_Layout_CS_1 = ({
         "When you need alt text for accessibility",
         "For user-uploaded avatars",
       ],
-      answer: "When the image is purely decorative or you need to overlay text/HTML elements (e.g., hero banner)",
+      answer:
+        "When the image is purely decorative or you need to overlay text/HTML elements (e.g., hero banner)",
       explanation:
         "Background images are ideal for design elements, overlays, and when you don't need semantic meaning or alt text.",
     },
     {
       id: "padding_bg",
       section: "Margin vs Padding",
-      question: "Which property allows the element's background color to fill the space?",
+      question:
+        "Which property allows the element's background color to fill the space?",
       options: ["Margin", "Padding", "Both", "Neither"],
       answer: "Padding",
       explanation:
@@ -91,7 +87,8 @@ const Approachto_Develop_Layout_CS_1 = ({
     },
     {
       id: "margin_collapse",
-      question: "Vertical margins between sibling elements can collapse (only the larger one applies).",
+      question:
+        "Vertical margins between sibling elements can collapse (only the larger one applies).",
       options: ["True", "False"],
       answer: "True",
       explanation:
@@ -99,7 +96,8 @@ const Approachto_Develop_Layout_CS_1 = ({
     },
     {
       id: "bg_size_cover",
-      question: "Which background-size value is best for hero sections to avoid empty space?",
+      question:
+        "Which background-size value is best for hero sections to avoid empty space?",
       options: ["contain", "100% 100%", "cover", "auto"],
       answer: "cover",
       explanation:
@@ -111,65 +109,29 @@ const Approachto_Develop_Layout_CS_1 = ({
     <div className="intro-container">
       <h1>Approach to Develop Layout | Cheat Sheet</h1>
 
-      {/* ========================================= */}
       {/* 1. HTML <img> vs CSS Background Image */}
-      {/* ========================================= */}
+
       <section>
-        <h2>1. HTML &lt;img&gt; vs CSS Background Image</h2>
-        <p>There are two main ways to display images on a webpage:</p>
+        <h2>1. HTML Image vs CSS Background Image</h2>
 
-        <table style={{ width: "100%", borderCollapse: "collapse", margin: "20px 0" }}>
-          <thead>
-            <tr>
-              <th style={{ textAlign: "left" }}>Method</th>
-              <th style={{ textAlign: "left" }}>Use When...</th>
-              <th style={{ textAlign: "left" }}>Key Advantages</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>&lt;img&gt; tag</strong></td>
-              <td>
-                • Image is part of the content<br />
-                • Needs alt text (accessibility/SEO)<br />
-                • Product photos, logos, articles images, icons with meaning
-              </td>
-              <td>Semantic, accessible, SEO-friendly, supports alt/srcset</td>
-            </tr>
-            <tr>
-              <td><strong>background-image</strong></td>
-              <td>
-                • Purely decorative<br />
-                • Text/HTML overlay needed (hero sections)<br />
-                • Patterns, gradients, design elements
-              </td>
-              <td>Easy overlays, positioning control, multiple backgrounds possible</td>
-            </tr>
-          </tbody>
-        </table>
+        <p>Ways to add images in a website:</p>
+        <ul>
+          <li>HTML Image</li>
+          <li>CSS Background Image</li>
+        </ul>
+        <h3>When to use HTML Image:</h3>
+        <ul>
+          <li>When there are no content or HTML elements over the Image.</li>
+          <li>When Image is a part of the content on a page.</li>
+        </ul>
 
-        <div className="Note-container">
-          <h6>Best Practices:</h6>
-          <ul>
-            <li>Always add meaningful <code>alt</code> text to &lt;img&gt; (or alt="" for decorative).</li>
-            <li>Use background-image for hero banners with headings.</li>
-            <li>Avoid using &lt;img&gt; just for styling — it's not semantic.</li>
-          </ul>
-        </div>
-
-        <CodeBlock
-          language="html"
-          code={`<!-- HTML Image (Content) -->
-<img src="product.jpg" alt="Red sneakers on white background" />
-
-<!-- CSS Background (Decorative/Overlay) -->
-<div class="hero" style="background-image: url('hero.jpg')">
-  <h1>Welcome to Diwali Sale!</h1>
-</div>`}
-        />
+        <h3>When to use CSS Background Image:</h3>
+        <ul>
+          <li>When Image is not a part of the content on a page.</li>
+          <li>When there are content or HTML elements over the Image.</li>
+        </ul>
 
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* ========================================= */}
@@ -181,42 +143,37 @@ const Approachto_Develop_Layout_CS_1 = ({
         <img
           src="/assets/img/CSS_box_model.png"
           alt="CSS Box Model Diagram - Content → Padding → Border → Margin"
-          style={{ maxWidth: "400px", width: "100%", display: "block", margin: "20px auto", borderRadius: "8px" }}
+          style={{
+            maxWidth: "400px",
+            width: "100%",
+            display: "block",
+            margin: "20px auto",
+            borderRadius: "8px",
+          }}
         />
 
-        <p>Every HTML element is a box: <strong>Content → Padding → Border → Margin</strong></p>
+        <p>
+          Every HTML element is a box:{" "}
+          <strong>Content → Padding → Border → Margin</strong>
+        </p>
+        <h3>When to use CSS Padding:</h3>
+        <ul>
+          <li>
+            To specify the space around the four sides of the content of an HTML
+            element.
+          </li>
+          <li>
+            To add the space between the content and border of an HTML element.
+          </li>
+        </ul>
 
-        <table style={{ width: "100%", borderCollapse: "collapse", margin: "20px 0" }}>
-          <thead>
-            <tr>
-              <th></th>
-              <th>Padding</th>
-              <th>Margin</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Location</strong></td>
-              <td>Inside the border</td>
-              <td>Outside the border</td>
-            </tr>
-            <tr>
-              <td><strong>Background color fills</strong></td>
-              <td>Yes (content + padding)</td>
-              <td>No (transparent)</td>
-            </tr>
-            <tr>
-              <td><strong>Can collapse (vertical)</strong></td>
-              <td>No</td>
-              <td>Yes (larger margin wins)</td>
-            </tr>
-            <tr>
-              <td><strong>Use case</strong></td>
-              <td>Space inside element (e.g., button padding)</td>
-              <td>Space between elements</td>
-            </tr>
-          </tbody>
-        </table>
+        <h3>When to use CSS Margin:</h3>
+        <ul>
+          <li>
+            To specify the space around the four sides of an HTML element.
+          </li>
+          <li>To add the space between HTML elements.</li>
+        </ul>
 
         <CodeBlock
           language="css"
@@ -231,12 +188,10 @@ const Approachto_Develop_Layout_CS_1 = ({
         />
 
         <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
       {/* 3. Background Properties for Hero */}
-      {/* ========================================= */}
+
       <section>
         <h2>3. Background Properties (For Top Section / Hero)</h2>
 
@@ -259,60 +214,109 @@ const Approachto_Develop_Layout_CS_1 = ({
 
       {/* ========================================= */}
       {/* 4. Step by Step - Diwali Page Layout */}
-      {/* ========================================= */}
       <section>
-        <h2>4. Step-by-Step Process: Diwali Page Layout</h2>
+        <h2>4. Step by Step Process to develop a Diwali Page</h2>
 
-        <h3>Overall Strategy</h3>
-        <p>Divide page into logical sections:</p>
+        <p>Let's divide the Diwali Page into two Sections.</p>
+
         <ol>
-          <li><strong>Hero/Top Section</strong> → Background image + heading</li>
-          <li><strong>Products/Bottom Section</strong> → Cards with flexbox</li>
+          <li>Top Section</li>
+          <li>Bottom Section</li>
         </ol>
 
-        <h3>Top Section (Hero)</h3>
-        <ol>
-          <li>Add background-image via CSS</li>
-          <li>Set <code>background-size: cover</code></li>
-          <li>Set height (e.g., 80vh or 500px)</li>
-          <li>Add heading with white color, large font, padding for positioning</li>
-        </ol>
+        <p>
+          Go through the previous Cheat Sheets and use the suitable CSS Property
+          and Value pairs
+        </p>
 
-        <h3>Bottom Section (Cards)</h3>
-        <ol>
-          <li>Create container with background color & padding</li>
-          <li>Use Bootstrap cards or custom divs for items</li>
-          <li>Apply <code>d-flex flex-wrap justify-content-center</code> for alignment</li>
-          <li>Add margin/padding for spacing</li>
-          <li>Use Bootstrap button classes (btn btn-warning etc.)</li>
-        </ol>
-      </section>
+        <h3>4.1 Top Section</h3>
+        <p>Follow the steps to develop a top Section of the Diwali Page</p>
 
-      {/* ========================================= */}
-      {/* 5. Resources Used in Diwali Page */}
-      {/* ========================================= */}
-      <section>
-        <h2>5. Resources Used</h2>
-
-        <p><strong>Background Image (Hero):</strong></p>
-        <CodeBlock
-          language="text"
-          code="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/diwali-bg.png"
-        />
-
-        <p><strong>Card Images:</strong></p>
         <ul>
-          <li>Lamp: https://d2clawv67efefq.cloudfront.net/ccbp-static-website/lamp-img.png</li>
-          <li>Diya: https://d2clawv67efefq.cloudfront.net/ccbp-static-website/diya-img.png</li>
-          <li>Firework: https://d2clawv67efefq.cloudfront.net/ccbp-static-website/firework-img.png</li>
-          <li>Firecracker: https://d2clawv67efefq.cloudfront.net/ccbp-static-website/firecracker-img.png</li>
+          <b>Step-1: Adding a background image to the Top Section</b>
+
+          <ul>
+            <li>Add the background image</li>
+            <li>Specify the height of the background image</li>
+            <li>
+              Specify the background size to the image and whether to occupy up
+              to the specified width and height or not
+            </li>
+          </ul>
+
+          <b>Step-2: Adding a Top Section heading</b>
+          <ul>
+            <li>Add the Top Section heading</li>
+            <li>Specify the color of the text</li>
+            <li>Specify the font family of the text</li>
+            <li>Specify the size of the text</li>
+            <li>Specify the width of the text (heading box)</li>
+            <li>Specify the padding of the text (heading box)</li>
+          </ul>
         </ul>
+        <h3>4.2 Bottom Section</h3>
 
-        <p><strong>Colors Used:</strong></p>
+        <p>Follow the steps to develop a Bottom Section of the Diwali Page</p>
         <ul>
-          <li>Text: white, #616e7c, #323f4b</li>
-          <li>Background: #e6f6ff (card area)</li>
-          <li>Buttons: #fd7e14 or Bootstrap warning</li>
+          <b>Step-1: Adding a Bottom Section Container</b>
+
+          <ul>
+            <li>Add the background color</li>
+            <li>Specify the padding to the Bottom Section Container</li>
+          </ul>
+          <b>Step-2: Adding the card item</b>
+
+          <ul>
+            <li>Add the background color</li>
+
+            <li>
+              Add the image
+              <ul>
+                <li>Specify the width and height of the image</li>
+              </ul>
+            </li>
+
+            <li>
+              Add the name of the card item
+              <ul>
+                <li>Specify the color of the text</li>
+                <li>Specify the size of the text</li>
+              </ul>
+            </li>
+
+            <li>
+              Add the price of the card item
+              <ul>
+                <li>Specify the color of the text</li>
+                <li>Specify the size of the text</li>
+                <li>Specify the font weight of the text</li>
+              </ul>
+            </li>
+
+            <li>Specify padding to the card item</li>
+            <li>Specify the text alignment of the card item</li>
+          </ul>
+          <b>Step-3: Aligning the card items</b>
+          <ul>
+            <li>Specify margin to the card items</li>
+
+            <li>
+              Align the pair of two cards side by side using Flexbox properties
+              <ul>
+                <li>Wrap two cards with the HTML container element</li>
+                <li>Define it as a Flexbox Container</li>
+                <li>Specify the Flex Direction to it</li>
+                <li>Specify the Justify Content to it</li>
+              </ul>
+            </li>
+          </ul>
+          <b>Step-4: Adding the button</b>
+
+          <ul>
+            <li>Add the button</li>
+            <li>Add the button bootstrap class names to it</li>
+            <li>Specify the text alignment of the Bottom Section Container</li>
+          </ul>
         </ul>
       </section>
 

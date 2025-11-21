@@ -63,13 +63,19 @@ export const codingPracticesData = {
       questions: [
         {
           id: "q-python-2-001",
-          title: "Variable Assignment",
+          title: "Sum of 2495 and 789358",
           difficulty: "Easy",
           description:
-            "Create a variable named 'message' and assign the string 'Python is fun!' to it, then print it.",
+            "Write a program that prints two numbers, 2495 and 789358",
           sampleInput: "",
-          sampleOutput: "Python is fun!",
-          testCases: [{ input: "", output: "Python is fun!", visible: true }],
+          sampleOutput: "791853",
+          testCases: [
+            {
+              input: "",
+              output: "",
+              visible: true,
+            },
+          ],
           defaultCode: ``,
           score: 5,
           status: "unsolved",
@@ -78,20 +84,13 @@ export const codingPracticesData = {
         {
           id: "q-python-2-002",
           title: "Type Conversion",
-          difficulty: "Medium",
-          description:
-            "Take a string input of a number, convert it to integer, add 10, and print the result.",
-          sampleInput: "25",
-          sampleOutput: "35",
-          testCases: [
-            { input: "25", output: "35", visible: true },
-            { input: "100", output: "110", visible: true },
-            { input: "0", output: "10", visible: false },
-            { input: "-5", output: "5", visible: false },
-            { input: "7", output: "17", visible: false },
-          ],
+          difficulty: "Easy",
+          description: "Subtract 596 from 193856",
+          sampleInput: "",
+          sampleOutput: "193260",
+          testCases: [{ input: "", output: "", visible: true }],
           defaultCode: ``,
-          score: 10,
+          score: 5,
           status: "unsolved",
           attempts: [],
         },
@@ -104,18 +103,13 @@ export const codingPracticesData = {
       questions: [
         {
           id: "q-python-3-001",
-          title: "Simple Calculator",
+          title: "Product of 37, 61 and 391",
           difficulty: "Medium",
           description:
-            "Create a calculator that takes two numbers and an operator (+, -, *, /, %) and prints the result.",
-          sampleInput: "10\n5\n*",
-          sampleOutput: "50",
-          testCases: [
-            { input: "10\n5\n*", output: "50", visible: true },
-            { input: "50\n5\n*", output: "250", visible: true },
-            { input: "10\n6\n*", output: "60", visible: false },
-            { input: "20\n5\n*", output: "100", visible: false },
-          ],
+            "Write a program that prints the product of three numbers, 37, 61, and 391",
+          sampleInput: "",
+          sampleOutput: "882487",
+          testCases: [{ input: "", output: "882487", visible: true }],
           defaultCode: ``,
           score: 10,
           status: "unsolved",
@@ -124,6 +118,7 @@ export const codingPracticesData = {
       ],
     },
   ],
+
   javascript: [
     {
       id: "practice-js-1",

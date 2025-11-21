@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
-import { CodeBlock } from "../../CodeOutputBlocks"; 
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const WebSite_Integration_CS_1 = ({
   subtopicId,
@@ -16,15 +15,14 @@ const WebSite_Integration_CS_1 = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -41,225 +39,267 @@ const WebSite_Integration_CS_1 = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
-        alert("Failed to mark as complete. Please try again.");
+        alert("Failed to mark as complete.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+      alert("Error marking as complete.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} style={{ marginBottom: "10px" }}>
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          style={{
-            fontWeight: "bold",
-            color: mcqAnswers[q.question] === q.answer ? "green" : "red",
-          }}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
+  /* ---------------------------------------------------
+      UPDATED MCQs — HTML Attributes + Integration Only
+  ----------------------------------------------------*/
+  const mcqs = [
+    {
+      id: "html_id_attr",
+      section: "HTML Attributes",
+      question:
+        "Which HTML attribute is used to uniquely identify elements within an HTML document?",
+      options: ["id", "src", "class", "all of the above"],
+      answer: "id",
+      explanation:
+        "The id attribute is used to uniquely identify an HTML element. Each id must be unique on the page.",
+    },
+    {
+      id: "id_prefix",
+      section: "HTML id Attribute",
+      question:
+        "What prefix must the id of each container section have when using the CCBP UI Kit?",
+      options: ["page", "container", "section", "view"],
+      answer: "section",
+      explanation:
+        "The display() function works only when section IDs start with the prefix 'section'.",
+    },
+    {
+      id: "onclick_rule",
+      section: "HTML onclick Attribute",
+      question:
+        "Which of the following is the correct HTML onclick syntax when using display()?",
+      options: [
+        `onclick="display(section3)"`,
+        `onclick="display('section3')"`,
+        `onclick='display("section3")'`,
+        `onclick=display('section3')`,
+      ],
+      answer: `onclick="display('section3')"`,
+      explanation:
+        "onclick should be inside double quotes, and the argument inside display() should be in single quotes.",
+    },
+    {
+      id: "integration_step",
+      section: "Website Integration",
+      question:
+        "To display Favourite Places Section when we click a button in Home Section, which step must be done?",
+      options: [
+        "Add onclick to Home Section button",
+        "Remove all ids",
+        "Use <script> inside <head>",
+        "Rename all sections to random names",
+      ],
+      answer: "Add onclick to Home Section button",
+      explanation:
+        "To navigate between sections, you must use onclick with display('sectionName').",
+    },
+  ];
 
   return (
     <div className="intro-container">
-      <h1>WebSite Integration | Cheat Sheet</h1>
+      <h1>Website Integration | Cheat Sheet</h1>
 
-      {/* =========================== */}
-      {/* 1. CCBP UI Kit */}
-      {/* =========================== */}
+      {/* ========================================= */}
+      {/* 1. UI Kit Overview */}
+      {/* ========================================= */}
       <section>
         <h2>1. UI Kit</h2>
         <p>
-          UI Kit is a collection of reusable code snippets similar to Bootstrap,
-          specially designed for CCBP training.
+          CCBP UI Kit is a collection of reusable code snippets for CCBP
+          training.
         </p>
 
-        <h3>1.1 Adding UI Kit to the Web Page</h3>
-        <p>
-          The script code should be placed just before the closing{" "}
-          <code>&lt;/body&gt;</code> tag.
-        </p>
-
+        <h3>1.1 Adding CCBP UI Kit Script</h3>
         <CodeBlock
           language="html"
-          code={`<!-- CCBP UI Kit Script -->
-<script src="path/to/ccbp-ui-kit.js"></script>`}
-        />
-
-        <h3>1.2 Display Utility</h3>
-        <p>
-          Display Utility is a reusable snippet to show or hide section
-          containers based on user actions.
-        </p>
-
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "Where should the CCBP UI Kit Script Code be placed?",
-            options: [
-              "Inside the head tag",
-              "Before the closing body tag",
-              "At the top of HTML file",
-              "Inside a div element",
-            ],
-            answer: "Before the closing body tag",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "ccbpui"))}
-      </section>
-
-      {/* =========================== */}
-      {/* 2. Website Sections */}
-      {/* =========================== */}
-      <section>
-        <h2>2. Sections in Tourism Website</h2>
-
-        <h3>2.1 Home Section</h3>
-        <CodeBlock language="html" code={`<!-- Home Section HTML -->`} />
-        <CodeBlock language="css" code={`/* Home Section CSS */`} />
-        <CodeBlock language="javascript" code={`// JS for Home Section`} />
-
-        <h3>2.2 Favourite Places Section</h3>
-        <CodeBlock
-          language="html"
-          code={`<!-- Favourite Places Section HTML -->`}
-        />
-        <CodeBlock language="css" code={`/* Favourite Places Section CSS */`} />
-        <CodeBlock
-          language="javascript"
-          code={`// JS for Favourite Places Section`}
-        />
-
-        <p className="note">
-          📝 To occupy the entire content height, remove the fixed height of
-          <code>favourite-places-bg-container</code>. Background will take
-          content height.
-        </p>
-
-        <h3>2.3 Detailed View Section</h3>
-        <CodeBlock
-          language="html"
-          code={`<!-- Detailed View Section HTML -->`}
-        />
-        <CodeBlock language="css" code={`/* Detailed View Section CSS */`} />
-        <CodeBlock
-          language="javascript"
-          code={`// JS for Detailed View Section`}
+          code={`<!-- Add just before closing </body> -->
+<script src="https://cdn.ccbp.in/ui-kit/v1.0/ccbp-ui-kit.js"></script>`}
         />
       </section>
 
-      {/* =========================== */}
+      {/* ========================================= */}
       {/* 3. HTML Attributes */}
-      {/* =========================== */}
+      {/* ========================================= */}
       <section>
         <h2>3. HTML Attributes</h2>
 
-        <h3>3.1 id Attribute</h3>
+        <h3>3.1 The HTML id Attribute</h3>
         <p>
-          The <code>id</code> attribute specifies a unique id for an HTML
-          element. Value must be unique within the HTML document.
-        </p>
-        <p className="note">
-          📝 When using CCBP UI Kit, the id must start with prefix{" "}
-          <code>section</code>.
+          The HTML <code>id</code> attribute specifies a unique id for an HTML
+          element. The value of the <code>id</code> attribute must be unique
+          within the HTML document.
         </p>
 
-        <h3>3.2 onclick Attribute</h3>
+        <CodeBlock
+          language="html"
+          code={`<div id="section1">Section 1</div>`}
+        />
+
+        <h5>Warning</h5>
+        <p>
+          The CCBP UI kit works only if the value of the HTML id attribute of
+          the container <code>section</code> has the prefix as section.
+        </p>
+        <p>
+          So, the <code></code> which we specify for any <code>section</code>{" "}
+          should always contain its prefix as section if you are using CCBP UI
+          Kit.
+        </p>
+
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
+
+        <h3>3.2 The HTML onclick Attribute</h3>
         <p>
           The <code>onclick</code> event occurs when the user clicks an element.
-          Value should be in double quotes, and the <code>display()</code>{" "}
-          argument in single quotes.
         </p>
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question:
-              "Which HTML attribute is used to uniquely identify elements within an HTML document?",
-            options: ["id", "src", "class", "all of the above"],
-            answer: "id",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "htmlattr"))}
+        <CodeBlock
+          language="html"
+          code={`<button class="btn btn-primary" onclick="display('section3')">
+  Go to Section 3
+</button>`}
+        />
+
+        <div className="Note-container">
+          <p>
+            Use double quotes for <code>onclick</code> and single quotes inside{" "}
+            <code>display()</code>.
+          </p>
+        </div>
+
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* =========================== */}
+      {/* ========================================= */}
       {/* 4. Website Integration */}
-      {/* =========================== */}
+      {/* ========================================= */}
       <section>
         <h2>4. Website Integration</h2>
 
-        <h3>4.1 Integration of Home & Favourite Places Sections</h3>
+        <h3>4.1 Home ↔ Favourite Places Sections</h3>
+
         <ul>
           <li>
-            Step-1: Change section container ids (must start with{" "}
-            <code>section</code>).
+            Step-1: All section ids must start with <code>section</code>
           </li>
-          <li>Step-2: Add Home Section HTML & CSS to Display Utility.</li>
+          <li>Step-2: Add HTML of Home Section + CSS</li>
+          <li>Step-3: Add HTML of Favourite Places Section + CSS</li>
           <li>
-            Step-3: Add Favourite Places Section HTML & CSS to Display Utility.
-          </li>
-          <li>
-            Step-4: Add <code>onclick</code> to Home Section button.
-          </li>
-          <li>
-            Step-5: Add button in Favourite Places Section to go back to Home
-            Section.
+            Step-4: Add an <code>onclick</code> attribute to the Home button
           </li>
         </ul>
 
-        <h3>4.2 Integration of Favourite Places & Detailed View Sections</h3>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="display('sectionFavouritePlaces')">
+  Explore Places
+</button>`}
+        />
+
+        <h3>To go back to Home from Favourite Places:</h3>
         <ul>
-          <li>Step-1: Add Detailed View Section HTML to Display Utility.</li>
-          <li>Step-2: Add corresponding CSS styles.</li>
+          <li>Step-5: Add a button in Favourite Places Section</li>
+          <li>Step-6: Add onclick attribute to show Home Section</li>
+        </ul>
+
+        <CodeBlock
+          language="html"
+          code={`<button onclick="display('sectionHome')">
+  Back to Home
+</button>`}
+        />
+
+        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
+
+        <h3>4.2 Favourite Places ↔ Detailed View</h3>
+        <ul>
+          <li>Step-1: Add Detailed View HTML to Display Utility</li>
+          <li>Step-2: Add CSS styles</li>
           <li>
-            Step-3: Add <code>onclick</code> to Taj Mahal Card.
+            Step-3: Add <code>onclick</code> to Taj Mahal Card inside Favourite
+            Places
           </li>
+          <li>Step-4: Add Back button inside Detailed View</li>
           <li>
-            Step-4: Add button in Detailed View Section to go back to Favourite
-            Places Section.
+            Step-5: Add <code>onclick</code> to go to Favourite Places
           </li>
         </ul>
       </section>
 
-      {/* =========================== */}
       {/* Continue Button */}
-      {/* =========================== */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
           onClick={handleContinue}
-          disabled={isSubtopicCompleted}
+          disabled={isSubtopicCompleted || isLoading}
         >
-          {isSubtopicCompleted ? "Completed" : "Continue"}
+          {isLoading
+            ? "Marking..."
+            : isSubtopicCompleted
+            ? "Completed"
+            : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* ---------------------------------------------------
+      REUSABLE MCQ COMPONENT
+----------------------------------------------------*/
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

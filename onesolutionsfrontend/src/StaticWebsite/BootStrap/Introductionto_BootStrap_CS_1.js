@@ -49,14 +49,13 @@ const Introductionto_BootStrap_CS_1 = ({
     }
   };
 
-  /* ---------------------------------------------------
-      MCQ DATA
-  ----------------------------------------------------*/
+  /*MCQ DATA*/
   const mcqs = [
     {
       id: "reusability_css",
       section: "Reusability of CSS Rulesets",
-      question: "Can we write a CSS ruleset once and reuse it across multiple HTML elements?",
+      question:
+        "Can we write a CSS ruleset once and reuse it across multiple HTML elements?",
       options: ["Yes", "No"],
       answer: "Yes",
       explanation:
@@ -79,10 +78,12 @@ const Introductionto_BootStrap_CS_1 = ({
     {
       id: "bootstrap_definition",
       section: "Bootstrap Introduction",
-      question: "Bootstrap is a collection of reusable code snippets written in?",
+      question:
+        "Bootstrap is a collection of reusable code snippets written in?",
       options: ["HTML, CSS, JavaScript", "Only CSS", "Python"],
       answer: "HTML, CSS, JavaScript",
-      explanation: "Bootstrap contains ready-to-use components styled using HTML, CSS, and JS.",
+      explanation:
+        "Bootstrap contains ready-to-use components styled using HTML, CSS, and JS.",
     },
     {
       id: "bootstrap_btn_class",
@@ -97,24 +98,17 @@ const Introductionto_BootStrap_CS_1 = ({
 
   return (
     <div className="intro-container">
-      <h1>Introduction to Bootstrap - Cheat Sheet</h1>
+      <h1>Introduction to Bootstrap | Cheat Sheet</h1>
 
-      {/* -----------------------------------------
+      {/* 
              1. REUSABLE CSS RULESETS
-      ------------------------------------------*/}
+      */}
       <section>
         <h2>1. Reusability of CSS Rulesets</h2>
         <p>
-          If we want the same style for multiple HTML elements, we can write the CSS ruleset once
-          and reuse it using class names.
+          If we want the same style for multiple HTML elements, we can write the
+          CSS ruleset once and reuse it using class names.
         </p>
-
-        <CodeBlock
-          language="html"
-          code={`<button class="button">Get Started</button>
-<button class="button">Visit Now</button>`}
-        />
-
         <CodeBlock
           language="css"
           code={`.button {
@@ -125,21 +119,35 @@ const Introductionto_BootStrap_CS_1 = ({
 }`}
         />
 
+        <CodeBlock
+          language="html"
+          code={`<button class="button">Get Started</button>
+<button class="button">Visit Now</button>`}
+        />
+
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* -----------------------------------------
-             2. MULTIPLE CLASS NAMES
-      ------------------------------------------*/}
+      {/*   2. MULTIPLE CLASS NAMES */}
       <section>
         <h2>2. Multiple Class Names</h2>
 
-        <p>Multiple class names can be given by separating them using a space.</p>
-
+        <p>
+          We can provide multiple class names separated by space as a value to
+          the HTML class attribute.
+        </p>
+        <b>Syntax:</b>
         <CodeBlock
           language="html"
-          code={`<button class="button button-green">Get Started</button>`}
+          code={`<tag class = "name1 name2 name3 name4 ...">Content</tag>`}
         />
+        <p>
+          HTML attribute value: <code>name1 name2 name3</code>
+        </p>
+        <p>
+          class names: <code>name1</code>, <code>name2</code>,{" "}
+          <code>name3</code>, and <code>name4</code>
+        </p>
 
         <CodeBlock
           language="css"
@@ -154,27 +162,30 @@ const Introductionto_BootStrap_CS_1 = ({
 }`}
         />
 
-        <ul>
-          <li>HTML attribute value: name1 name2 name3</li>
-          <li>Class names: name1, name2, name3</li>
-        </ul>
+        <CodeBlock
+          language="html"
+          code={`<button class="button button-green">Get Started</button>`}
+        />
 
         <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* -----------------------------------------
-             3. BOOTSTRAP INTRO
-      ------------------------------------------*/}
+      {/*   3. BOOTSTRAP INTRO */}
       <section>
         <h2>3. Bootstrap</h2>
         <p>
-          Bootstrap is a large collection of predefined reusable code snippets like Buttons,
-          Cards, Carousels, etc., written using HTML, CSS, and JavaScript.
+          Bootstrap is a large collection of predefined reusable code snippets
+          like Buttons, Cards, Carousels, etc., written using HTML, CSS, and
+          JavaScript.
         </p>
 
         <h3>3.1 How to use Bootstrap?</h3>
 
-        <p>Add the BootstrapCDN links inside the &lt;head&gt; element.</p>
+        <p>
+          To use the Code Snippets provided by Bootstrap, we need to add the
+          below piece of code within the HTML <code>head</code> element. We call
+          it <b>BootstrapCDN</b>.
+        </p>
 
         <CodeBlock
           language="html"
@@ -187,55 +198,173 @@ const Introductionto_BootStrap_CS_1 = ({
         <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* -----------------------------------------
-             4. BOOTSTRAP BUTTONS
-      ------------------------------------------*/}
+      {/*  4. BOOTSTRAP BUTTONS */}
       <section>
         <h2>3.2 Predefined Styles in Bootstrap</h2>
 
+        {/* 3.2.1 Buttons */}
         <h3>3.2.1 Buttons</h3>
         <p>
-          The Bootstrap class <code>btn</code> is used to style button elements.
+          The Bootstrap class name <code>btn</code> is used to style the HTML{" "}
+          <code>button</code> element.
         </p>
 
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-primary">Primary Button</button>
-<button class="btn btn-success">Success Button</button>`}
+          code={`<button class="btn btn-primary">Get Started</button>
+<button class="btn btn-secondary">Get Started</button>
+<button class="btn btn-success">Get Started</button>
+<button class="btn btn-danger">Get Started</button>
+<button class="btn btn-warning">Get Started</button>
+<button class="btn btn-info">Get Started</button>`}
         />
 
         <p>
-          Bootstrap provides us with different types of buttons. One of them is outline buttons, which don't have a background color..
-          
+          Bootstrap provides us with different types of buttons. One of them is{" "}
+          <b>outline buttons</b>, which don't have a background color.
         </p>
-        <p>To add the outline buttons in our HTML document, just replace btn in the above class names with the btn-outline.</p>
+        <p>
+          To add outline buttons in our HTML document, replace <code>btn</code>{" "}
+          with <code>btn-outline</code>.
+        </p>
 
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-outline-primary">Outline Button</button>`}
+          code={`<button class="btn btn-outline-primary">Get Started</button>
+<button class="btn btn-outline-secondary">Get Started</button>
+<button class="btn btn-outline-success">Get Started</button>
+<button class="btn btn-outline-danger">Get Started</button>
+<button class="btn btn-outline-warning">Get Started</button>
+<button class="btn btn-outline-info">Get Started</button>
+<button class="btn btn-outline-light">Get Started</button>`}
         />
 
         <div className="Note-container">
           <h6>Note:</h6>
-          <p>By default, Bootstrap class name <b>btn</b> has no background color.</p>
+          <p>
+            By default, the Bootstrap class name <b>btn</b> has no background
+            color.
+          </p>
         </div>
 
+        {/* 3.2.2 Text Colors */}
+        <h3>3.2.2 Text Colors</h3>
+        <p>
+          To apply different colors to text, Bootstrap provides the following
+          class names:
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<p class="text-primary">Tourism</p>
+<p class="text-secondary">Tourism</p>
+<p class="text-success">Tourism</p>
+<p class="text-danger">Tourism</p>
+<p class="text-warning">Tourism</p>
+<p class="text-info">Tourism</p>
+<p class="text-light">Tourism</p>`}
+        />
+
+        {/* 3.2.3 Text Transform */}
+        <h3>3.2.3 Text Transform</h3>
+        <p>
+          To apply different cases like uppercase or lowercase to the text,
+          Bootstrap has the following class names:
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<p class="text-uppercase">Plan your TRIP.</p>
+<p class="text-capitalize">plan your trip.</p>
+<p class="text-lowercase">PLAN your TRIP.</p>`}
+        />
+
+        {/* 3.2.4 Background Colors */}
+        <h3>3.2.4 Background Colors</h3>
+        <p>
+          To apply different background colors to an HTML element, use these
+          class names:
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="bg-primary"><p>Tourism</p></div>
+<div class="bg-secondary"><p>Tourism</p></div>
+<div class="bg-success"><p>Tourism</p></div>
+<div class="bg-danger"><p>Tourism</p></div>
+<div class="bg-warning"><p>Tourism</p></div>
+<div class="bg-info"><p>Tourism</p></div>
+<div class="bg-light"><p>Tourism</p></div>`}
+        />
+
+        <h3>Using Predefined Bootstrap Classes</h3>
+        <p>Bootstrap provides many utilities such as:</p>
+        <ul>
+          <li>card</li>
+          <li>carousel</li>
+          <li>alert</li>
+          <li>alert-success</li>
+          <li>alert-link</li>
+          <li>bg-danger</li>
+          <li>card-body</li>
+          <li>and many more...</li>
+        </ul>
+
+        <p>
+          <h5>Warning</h5> Using predefined Bootstrap class names as selectors
+          in your own CSS may give unexpected results.
+        </p>
+
+        <h4>Do's</h4>
+
+        <CodeBlock
+          language="css"
+          code={`.button {
+  border-radius: 5px;
+  height: 50px;
+  width: 138px;
+  background-color: blue;
+  color: white;
+}`}
+        />
+
+        <CodeBlock
+          language="html"
+          code={`<button class="button">Get Started</button>`}
+        />
+
+        <h4>Don’ts</h4>
+
+        <CodeBlock
+          language="css"
+          code={`.btn {
+  border-radius: 5px;
+  height: 50px;
+  width: 138px;
+  background-color: blue;
+  color: white;
+}`}
+        />
+
+        <CodeBlock
+          language="html"
+          code={`<button class="btn">Get Started</button>`}
+        />
+
+        {/* MCQ */}
         <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* -----------------------------------------
-             WARNING
-      ------------------------------------------*/}
+      {/*  WARNING */}
       <section>
         <h5>Warning</h5>
         <p className="warning">
-          Using Bootstrap class names as selectors inside your CSS may cause unexpected conflicts.
+          Using Bootstrap class names as selectors inside your CSS may cause
+          unexpected conflicts.
         </p>
       </section>
 
-      {/* -----------------------------------------
-             CONTINUE BUTTON
-      ------------------------------------------*/}
+      {/*    CONTINUE BUTTON */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
@@ -253,9 +382,7 @@ const Introductionto_BootStrap_CS_1 = ({
   );
 };
 
-/* -----------------------------------------------
-      REUSABLE MCQ COMPONENT
-------------------------------------------------*/
+/*  REUSABLE MCQ COMPONENT */
 const MCQBlock = ({ mcq, answers, onAnswer }) => {
   const userAnswer = answers[mcq.id];
   const isCorrect = userAnswer === mcq.answer;

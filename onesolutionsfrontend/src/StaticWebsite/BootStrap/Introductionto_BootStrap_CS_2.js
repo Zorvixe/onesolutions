@@ -49,9 +49,7 @@ const Introductionto_BootStrap_CS_2 = ({
     }
   };
 
-  /* ---------------------------------------------------
-      MCQ DATA - Bootstrap Flexbox
-  ----------------------------------------------------*/
+  /* MCQ DATA - Bootstrap Flexbox */
   const mcqs = [
     {
       id: "flex_container",
@@ -65,7 +63,8 @@ const Introductionto_BootStrap_CS_2 = ({
     {
       id: "flex_direction_horizontal",
       section: "Flex Direction",
-      question: "Which Bootstrap class name will move the flex items horizontally?",
+      question:
+        "Which Bootstrap class name will move the flex items horizontally?",
       options: ["flex-vertical", "flex-horizontal", "flex-column", "flex-row"],
       answer: "flex-row",
       explanation:
@@ -92,14 +91,14 @@ const Introductionto_BootStrap_CS_2 = ({
     <div className="intro-container">
       <h1>Introduction to Bootstrap | Cheat Sheet | Part 2</h1>
 
-      {/* ========================================= */}
       {/* 1. Flexbox Container */}
-      {/* ========================================= */}
+
       <section>
         <h2>1. Flexbox Container</h2>
         <p>
           The Bootstrap class <code>d-flex</code> defines a Flexbox Container.
-          Direct children of this container become <strong>flex items</strong>.
+          The direct HTML elements in the Flexbox Container are called{" "}
+          <b> flex items</b>.
         </p>
 
         <CodeBlock
@@ -115,37 +114,40 @@ const Introductionto_BootStrap_CS_2 = ({
 
         <ul>
           <li>
-            The element with <code>class="d-flex"</code> is the Flexbox Container.
+            The HTML container element with the <code>class="d-flex"</code> is a
+            Flexbox Container.
           </li>
           <li>
-            Only direct children (like the inner <code>div</code>) are flex items.
+            The HTML container element div in Flexbox Container is a flex item.
+            Because it is directly inside the Flexbox Container.
           </li>
           <li>
-            Elements nested deeper (like <code>h1</code>, <code>p</code>,{" "}
-            <code>button</code>) are <strong>not</strong> flex items.
+            The HTML main heading, paragraph, and button elements are not flex
+            items. Because these elements are not directly inside the Flexbox
+            Container.
           </li>
         </ul>
 
         <div className="Note-container">
-          <h6>Note:</h6>
+          <h6>Note</h6>
           <p>
-            Wrapping elements in a <code>d-flex</code> container is required to
-            use any other Bootstrap flex utilities.
+            Wrapping HTML elements in the Flexbox Container is mandatory to
+            apply other flex properties.
           </p>
         </div>
 
-        <MCQBlock
-          mcq={mcqs[0]}
-          answers={mcqAnswers}
-          onAnswer={handleAnswer}
-        />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
       {/* 2. Flex Direction */}
-      {/* ========================================= */}
+
       <section>
         <h2>2. Flex Direction</h2>
+
+        <p>
+          The Flex Direction specifies the direction of the flex items in the
+          Flexbox Container.
+        </p>
         <p>
           Flex Direction controls the main axis along which flex items are
           placed in the container.
@@ -160,21 +162,21 @@ const Introductionto_BootStrap_CS_2 = ({
           </thead>
           <tbody>
             <tr>
-              <td>
-                <code>flex-row</code>
-              </td>
-              <td>Left → Right (default)</td>
+              <td>flex-row</td>
+              <td>Left → Right (Horizontal)</td>
             </tr>
             <tr>
-              <td>
-                <code>flex-column</code>
-              </td>
-              <td>Top → Bottom</td>
+              <td>flex-column</td>
+              <td>Top → Bottom (Vertical)</td>
             </tr>
           </tbody>
         </table>
 
         <h3>2.1 flex-row (Default)</h3>
+        <p>
+          The Bootstrap class name <code>flex-row</code> is used to move the
+          flex items <b>horizontally</b> in the Flexbox Container.
+        </p>
         <CodeBlock
           language="html"
           code={`<div class="d-flex flex-row">
@@ -184,6 +186,10 @@ const Introductionto_BootStrap_CS_2 = ({
         />
 
         <h3>2.2 flex-column</h3>
+        <p>
+          The Bootstrap class name <code>flex-column</code> is used to move the
+          flex items <b>vertically</b> in the Flexbox Container.
+        </p>
         <CodeBlock
           language="html"
           code={`<div class="d-flex flex-column">
@@ -193,84 +199,203 @@ const Introductionto_BootStrap_CS_2 = ({
         />
 
         <div className="Note-container">
-          <h6>Note:</h6>
+          <h6>Note</h6>
           <p>
-            <code>flex-row</code> is the default direction — you often only need{" "}
-            <code>d-flex</code> for horizontal layout.
+            The Bootstrap class name <b>flex-row</b> is the default Flex
+            Direction for the Flexbox Container. So, once <b>d-flex</b> is
+            specified, all the flex items in the Flexbox Container display
+            horizontally.
           </p>
         </div>
 
-        <MCQBlock
-          mcq={mcqs[1]}
-          answers={mcqAnswers}
-          onAnswer={handleAnswer}
-        />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
       {/* 3. Justify Content */}
-      {/* ========================================= */}
+
       <section>
         <h2>3. Justify Content</h2>
         <p>
-          <code>justify-content</code> classes distribute flex items along the{" "}
-          <strong>main axis</strong> (horizontal for row, vertical for column).
+          The justify-content property specifies the alignment of flex items
+          along the Flex Direction in a Flexbox Container.
+        </p>
+        <p>
+          <b>justify-content</b> classes distribute items along the{" "}
+          <strong>main axis</strong> (horizontal in row, vertical in column).
+        </p>
+
+        <h4>3.1 justify-content-start</h4>
+        <p>
+          The Bootstrap class name <code>justify-content-start</code> is used to
+          align the flex items at the start of the Flexbox Container either
+          horizontally or vertically based on the Flex Direction.
+        </p>
+        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th>Flex Direction</th>
+              <th>Alignment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Items align horizontally to the left</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Items align vertically to the top</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-start">
+  <div>
+    <h1>Tourism</h1>
+    <p>Plan your trip.</p>
+    <button>Get Started</button>
+  </div>
+</div>`}
+        />
+
+        <h4>3.2 justify-content-center</h4>
+        <p>
+          The Bootstrap class name <code>justify-content-center</code> is used
+          to align the flex items at the center of the Flexbox Container either
+          horizontally or vertically based on the Flex Direction.
         </p>
 
         <table style={{ width: "80%", borderCollapse: "collapse" }}>
           <thead>
             <tr>
-              <th>Class</th>
-              <th>Description</th>
+              <th>Flex Direction</th>
+              <th>Alignment</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
-                <code>justify-content-start</code>
-              </td>
-              <td>Items packed to the start (left/top)</td>
+              <td>flex-row</td>
+              <td>Items move horizontally to the center</td>
             </tr>
             <tr>
-              <td>
-                <code>justify-content-center</code>
-              </td>
-              <td>Items centered</td>
-            </tr>
-            <tr>
-              <td>
-                <code>justify-content-end</code>
-              </td>
-              <td>Items packed to the end (right/bottom)</td>
-            </tr>
-            <tr>
-              <td>
-                <code>justify-content-between</code>
-              </td>
-              <td>Equal space between items</td>
+              <td>flex-column</td>
+              <td>Items move vertically to the center</td>
             </tr>
           </tbody>
         </table>
 
-        <h3>Examples</h3>
         <CodeBlock
           language="html"
-          code={`<!-- Start --><div class="d-flex justify-content-start">...</div>
-<!-- Center --><div class="d-flex justify-content-center">...</div>
-<!-- End --><div class="d-flex justify-content-end">...</div>
-<!-- Space Between --><div class="d-flex justify-content-between">...</div>`}
+          code={`<div class="d-flex flex-column justify-content-center">
+  <div>
+    <h1>Tourism</h1>
+    <p>Plan your trip.</p>
+    <button>Get Started</button>
+  </div>
+</div>`}
         />
 
-        <MCQBlock
-          mcq={mcqs[2]}
-          answers={mcqAnswers}
-          onAnswer={handleAnswer}
+        <h4>3.3 justify-content-end</h4>
+        <p>
+          The Bootstrap class name <code>justify-content-end</code> is used to
+          align the flex items at the end of the Flexbox Container either
+          horizontally or vertically based on the Flex Direction.
+        </p>
+
+        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th>Flex Direction</th>
+              <th>Alignment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Items align horizontally to the right</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Items align vertically to the bottom</td>
+            </tr>
+          </tbody>
+        </table>
+        {/* <table className="cheat-table">
+  <thead>
+    <tr>
+      <th>Flex Direction</th>
+      <th>Alignment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>flex-row</td>
+      <td>Items align horizontally to the right</td>
+    </tr>
+    <tr>
+      <td>flex-column</td>
+      <td>Items align vertically to the bottom</td>
+    </tr>
+  </tbody>
+</table> */}
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-end">
+  <div>
+    <h1>Tourism</h1>
+    <p>Plan your trip.</p>
+    <button>Get Started</button>
+  </div>
+</div>`}
         />
+
+        <h4>3.4 justify-content-between</h4>
+        <p>
+          The Bootstrap class name <code>justify-content-between</code> is used
+          to provide equal space between the flex items within the Flexbox
+          Container, aligning them either horizontally or vertically based on
+          the Flex Direction.
+        </p>
+
+        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th>Flex Direction</th>
+              <th>Alignment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Equal space between items horizontally</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Equal space between items vertically</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-between">
+  <div>
+    <h1>Tourism</h1>
+    <p>Plan your trip.</p>
+    <button>Get Started</button>
+  </div>
+</div>`}
+        />
+
+        {/* MCQ */}
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
       {/* Continue Button */}
-      {/* ========================================= */}
+
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
@@ -288,9 +413,7 @@ const Introductionto_BootStrap_CS_2 = ({
   );
 };
 
-/* -----------------------------------------------
-      REUSABLE MCQ COMPONENT (Same as Part 1)
-------------------------------------------------*/
+/*    REUSABLE MCQ COMPONENT (Same as Part 1) */
 const MCQBlock = ({ mcq, answers, onAnswer }) => {
   const userAnswer = answers[mcq.id];
   const isCorrect = userAnswer === mcq.answer;
