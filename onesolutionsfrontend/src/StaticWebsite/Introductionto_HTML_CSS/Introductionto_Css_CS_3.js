@@ -129,8 +129,13 @@ p {
           alt="DOM Tree"
           style={{ width: "50%", height: "350px" }}
         />
+
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
               <li>
@@ -166,7 +171,11 @@ p {
 }`}
         />
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
               <li>
@@ -229,8 +238,13 @@ p {
   font-style: italic;
 }`}
         />
+
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
               <li>
@@ -333,8 +347,13 @@ p {
             </tr>
           </tbody>
         </table>
+
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
               <li>
@@ -409,7 +428,11 @@ p {
         </table>
 
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
               <li>

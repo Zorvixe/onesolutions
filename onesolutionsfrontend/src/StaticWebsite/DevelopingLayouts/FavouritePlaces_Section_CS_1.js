@@ -279,7 +279,11 @@ const FavouritePlaces_Section_CS_1 = ({
         />
 
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             Always write void elements with a trailing slash:{" "}
             <b>&lt;img /&gt;</b> — it's valid HTML5 and future-proof.

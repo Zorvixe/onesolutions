@@ -161,8 +161,32 @@ import Lists_Keys_CS from "../Reactjs/Introductionto_Reactjs/Lists_Keys_CS.js";
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
+//Static Website Classes
+import Introductionto_Html from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML.js";
+import Introductionto_Css_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_1.js";
+import Introductionto_Css_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_2.js";
+import Introductionto_Css_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_3.js";
+import Static_Mock_Test_1 from "../StaticWebsite/Mock_Tests/Static_Mock_Test_1.js";
+import Static_Mock_Test_2 from "../StaticWebsite/Mock_Tests/Static_Mock_Test_2.js";
+import Static_Website_Project from "../StaticWebsite/Mock_Tests/Static_Website_Project.js";
+import Static_Coding_Assignment_1 from "../StaticWebsite/Assignments/Static_Coding_Assignment_1.js";
+import Static_Coding_Assignment_2 from "../StaticWebsite/Assignments/Static_Coding_Assignment_2.js";
+import Static_Coding_Assignment_3 from "../StaticWebsite/Assignments/Static_Coding_Assignment_3.js";
+
 // Map subtopics to their components
 const subtopicComponents = {
+  //Static Website Class
+  "Introduction to HTML": Introductionto_Html,
+  "Introduction to CSS Part 1": Introductionto_Css_1,
+  "Introduction to CSS Part 2": Introductionto_Css_2,
+  "Introduction to CSS Part 3": Introductionto_Css_3,
+  "Static Coding Assignment 1": Static_Coding_Assignment_1,
+  "Static Coding Assignment 2": Static_Coding_Assignment_2,
+  "Static Coding Assignment 3": Static_Coding_Assignment_3,
+  "Static Coding Test 1": Static_Mock_Test_1,
+  "Static Coding Test 2": Static_Mock_Test_2,
+  "Static Website Project": Static_Website_Project,
+
   //Reactjs Cheat Sheet
   "Introduction to React JS | Cheat Sheet": Introductionto_Reactjs_CS,
   "Components & Pros | Cheat Sheet": Components_Props_CS,
@@ -209,6 +233,7 @@ const subtopicComponents = {
   "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
 
   // Python Cheat Sheet Start
+
   "Problem Solving Part 6 | Cheat Sheet": Problem_sol_6_CS,
   "Problem Solving Part 7 | Cheat Sheet": Problem_sol_7_CS,
 

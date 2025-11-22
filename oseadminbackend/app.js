@@ -3424,6 +3424,99 @@ app.delete("/api/placement-achievements/:id", authenticateToken, async (req, res
   }
 });
 
+const studentBackendService = require('./services/studentBackendService');
+
+// ==========================================
+// 🔹 ADMIN DISCUSSION ROUTES
+// ==========================================
+
+// Get all threads for admin panel
+app.get("/api/admin/discussions/threads", authenticateToken, async (req, res) => {
+  try {
+    const { status, page, limit, search } = req.query;
+    
+    const result = await studentBackendService.getThreads({
+      status,
+      page,
+      limit,
+      search
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Admin threads fetch error:", error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message 
+    });
+  }
+});
+
+// Get thread detail for admin
+app.get("/api/admin/discussions/threads/:threadId", authenticateToken, async (req, res) => {
+  try {
+    const { threadId } = req.params;
+    
+    const result = await studentBackendService.getThreadDetail(threadId);
+    res.json(result);
+  } catch (error) {
+    console.error("Admin thread detail error:", error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message 
+    });
+  }
+});
+
+// Admin posts a reply
+app.post("/api/admin/discussions/replies", authenticateToken, async (req, res) => {
+  try {
+    const { threadId, content } = req.body;
+    const adminData = {
+      id: req.user.id,
+      adminname: req.user.adminname,
+      admin_image_link: req.user.admin_image_link
+    };
+
+    if (!threadId || !content) {
+      return res.status(400).json({ 
+        success: false,
+        error: "Thread ID and content are required" 
+      });
+    }
+
+    const result = await studentBackendService.postAdminReply(threadId, content, adminData);
+    res.json(result);
+  } catch (error) {
+    console.error("Admin reply error:", error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message 
+    });
+  }
+});
+
+// Update thread status
+app.put("/api/admin/discussions/threads/:threadId/status", authenticateToken, async (req, res) => {
+  try {
+    const { threadId } = req.params;
+    const { status, is_important } = req.body;
+
+    const result = await studentBackendService.updateThreadStatus(threadId, {
+      status,
+      is_important
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Thread status update error:", error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message 
+    });
+  }
+});
+
 module.exports = app;
 
 initializeDbAndServer()

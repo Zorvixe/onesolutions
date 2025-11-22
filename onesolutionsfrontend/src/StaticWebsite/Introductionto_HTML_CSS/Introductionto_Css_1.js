@@ -1,0 +1,520 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useAuth } from "../../context/AuthContext";
+import "../../Class_CSS/Class_Css.css";
+
+const Introductionto_Css1 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+  moduleName = "Introduction to HTML & CSS",
+  topicName = "Introduction to CSS Part - 1",
+  videoUrl = "https://www.youtube.com/embed/N1cdFu7h7-M?si=yEfpuiN5V1Cyhu-J",
+  slidesUrl = "https://docs.google.com/presentation/d/1Bdc6tTnGMFl_4bAiVuRmYPUiLSujCVoSUYqFKgahP-s/embed",
+}) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
+    useAuth();
+
+  const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("discussions");
+  const [threads, setThreads] = useState([]);
+  const [showNewThread, setShowNewThread] = useState(false);
+  const [newThread, setNewThread] = useState({ title: "", content: "" });
+
+  const editorRef = useRef(null);
+
+  useEffect(() => {
+    if (completedContent.includes(subtopicId)) {
+      setIsSubtopicCompleted(true);
+    }
+    loadThreads();
+  }, [completedContent, subtopicId]);
+
+  const loadThreads = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `https://api.onesolutionsekam.in/api/discussions/threads/${subtopicId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setThreads(data.data.threads);
+        }
+      }
+    } catch (error) {
+      console.error("Error loading threads:", error);
+    }
+  };
+
+  const handleContinue = async () => {
+    if (isLoading || isSubtopicCompleted) return;
+
+    try {
+      setIsLoading(true);
+      const result = await markSubtopicComplete(
+        subtopicId,
+        goalName,
+        courseName
+      );
+
+      if (result.success) {
+        await loadProgressSummary();
+        setIsSubtopicCompleted(true);
+        console.log("✅ Content marked as completed");
+      } else {
+        console.error("❌ Failed to mark content complete:", result.message);
+        alert("Failed to mark as complete. Please try again.");
+      }
+    } catch (error) {
+      console.error("❌ Failed to mark content complete:", error);
+      alert("Failed to mark as complete. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Rich Text Editor Functions
+  const formatText = (command, value = null) => {
+    document.execCommand(command, false, value);
+    editorRef.current.focus();
+    updateContent();
+  };
+
+  const insertImage = (file) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = document.createElement("img");
+      img.src = e.target.result;
+      img.style.maxWidth = "100%";
+      img.style.height = "auto";
+      img.style.borderRadius = "4px";
+      img.style.margin = "10px 0";
+
+      document.execCommand("insertHTML", false, img.outerHTML);
+      updateContent();
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleImageUpload = (e) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      insertImage(files[0]);
+    }
+    // Reset the input
+    e.target.value = "";
+  };
+
+  const updateContent = () => {
+    if (editorRef.current) {
+      setNewThread((prev) => ({
+        ...prev,
+        content: editorRef.current.innerHTML,
+      }));
+    }
+  };
+
+  const handleEditorInput = () => {
+    updateContent();
+  };
+
+  const handleCreateThread = async () => {
+    if (!newThread.title.trim() || !newThread.content.trim()) {
+      alert("Please fill in both title and content");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const formData = {
+        title: newThread.title,
+        content: newThread.content,
+        subtopicId: subtopicId,
+        moduleName: moduleName,
+        topicName: topicName,
+      };
+
+      const response = await fetch(
+        "https://api.onesolutionsekam.in/api/discussions/threads",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setNewThread({ title: "", content: "" });
+          if (editorRef.current) {
+            editorRef.current.innerHTML = "";
+          }
+          setShowNewThread(false);
+          loadThreads();
+          alert("Thread created successfully!");
+        }
+      } else {
+        alert("Failed to create thread");
+      }
+    } catch (error) {
+      console.error("Error creating thread:", error);
+      alert("Error creating thread");
+    }
+  };
+
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
+  const openThreadDetail = (threadId) => {
+    window.open(`/thread/${threadId}`, "_blank");
+  };
+
+  return (
+    <div className="subtopic-container">
+      {/* Header Section */}
+      <div className="subtopic-header">
+        <div className="breadcrumb">
+          <span className="module-name">{moduleName}</span>
+          <span className="separator">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              className="bi bi-chevron-right right-icon"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+              />
+            </svg>
+          </span>
+          <span className="topic-name">{topicName}</span>
+        </div>
+      </div>
+
+      <div className="content-tab">
+        {/* Video Section */}
+        <div className="video-section">
+          <div className="video-container">
+            <iframe
+              width="100%"
+              height="400"
+              src={videoUrl}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+
+        {/* Completion Section */}
+        <div className="completion-section">
+          <button
+            className={`complete-button ${
+              isSubtopicCompleted ? "completed" : ""
+            }`}
+            onClick={handleContinue}
+            disabled={isLoading || isSubtopicCompleted}
+          >
+            {isLoading
+              ? "Marking..."
+              : isSubtopicCompleted
+              ? "✓ Completed"
+              : "Mark as Complete"}
+          </button>
+        </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="subtopic-tabs">
+        <button
+          className={`tab-button ${
+            activeTab === "discussions" ? "active" : ""
+          }`}
+          onClick={() => setActiveTab("discussions")}
+        >
+          Discussions
+        </button>
+        <button
+          className={`tab-button ${activeTab === "slides" ? "active" : ""}`}
+          onClick={() => setActiveTab("slides")}
+        >
+          Slides
+        </button>
+      </div>
+
+      {/* Discussions Tab */}
+      {activeTab === "discussions" && (
+        <div className="discussions-tab">
+          <div className="discussions-header">
+            <h2>Discussions</h2>
+            <button
+              className="new-thread-btn"
+              onClick={() => setShowNewThread(true)}
+            >
+              + New Thread
+            </button>
+          </div>
+
+          {/* New Thread Form */}
+          {showNewThread && (
+            <div className="new-thread-modal">
+              <div className="new-thread-form">
+                <h3>Create New Thread</h3>
+                <input
+                  type="text"
+                  placeholder="Thread Title"
+                  value={newThread.title}
+                  onChange={(e) =>
+                    setNewThread((prev) => ({ ...prev, title: e.target.value }))
+                  }
+                  className="thread-title-input"
+                />
+
+                {/* Rich Text Editor */}
+                <div className="rich-text-editor">
+                  <div className="editor-toolbar">
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("bold")}
+                      title="Bold"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-type-bold"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("italic")}
+                      title="Italic"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M10 4v3h2.21l-3.42 8H6v3h8v-3h-2.21l3.42-8H18V4h-8z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("underline")}
+                      title="Underline"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M12 17c3.31 0 6-2.69 6-6V3h-2.5v8c0 1.93-1.57 3.5-3.5 3.5S8.5 12.93 8.5 11V3H6v8c0 3.31 2.69 6 6 6zm-7 2v2h14v-2H5z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("insertUnorderedList")}
+                      title="Bullet List"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5S3.17 7.5 4 7.5 5.5 6.83 5.5 6 4.83 4.5 4 4.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("insertOrderedList")}
+                      title="Numbered List"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M2 17h2v.5H3v1h1v.5H2v1h3v-4H2v1zm1-9h1V4H2v1h1v3zm-1 3h1.8L2 13.1v.9h3v-1H3.2L5 10.9V10H2v1zm5-6v2h14V5H7zm0 14h14v-2H7v2zm0-6h14v-2H7v2z" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("formatBlock", "<blockquote>")}
+                      title="Quote"
+                    >
+                      "
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("formatBlock", "<h2>")}
+                      title="Heading"
+                    >
+                      H
+                    </button>
+                    <button
+                      type="button"
+                      className="toolbar-btn"
+                      onClick={() => formatText("formatBlock", "<pre>")}
+                      title="Code"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
+                      </svg>
+                    </button>
+                    <div className="toolbar-btn image-upload-btn">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-image"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z" />
+                      </svg>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                      />
+                    </div>
+                  </div>
+                  <div
+                    ref={editorRef}
+                    className="editor-content"
+                    contentEditable
+                    onInput={handleEditorInput}
+                    dangerouslySetInnerHTML={{ __html: newThread.content }}
+                  />
+                </div>
+
+                <div className="thread-actions">
+                  <button onClick={handleCreateThread} className="submit-btn">
+                    Create Thread
+                  </button>
+                  <button
+                    onClick={() => setShowNewThread(false)}
+                    className="cancel-btn"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Threads List */}
+          <div className="threads-list">
+            {threads.length === 0 ? (
+              <div className="no-threads">
+                <p>No discussions yet. Start the first thread!</p>
+              </div>
+            ) : (
+              threads.map((thread) => (
+                <div
+                  key={thread.id}
+                  className={`thread-item ${
+                    thread.is_important ? "important" : ""
+                  }`}
+                  onClick={() => openThreadDetail(thread.id)}
+                >
+                  <div className="thread-header">
+                    <h3 className="thread-title">{thread.title}</h3>
+                    <span className="reply-count">
+                      {thread.reply_count} replies
+                    </span>
+                    {thread.has_admin_reply && (
+                      <span className="admin-replied-badge">Admin Replied</span>
+                    )}
+                  </div>
+                  <div
+                    className="thread-content-preview"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        thread.content.length > 150
+                          ? stripHtml(thread.content).substring(0, 150) + "..."
+                          : stripHtml(thread.content),
+                    }}
+                  />
+                  <div className="thread-footer">
+                    <div className="thread-author">
+                      <img
+                        src={thread.profile_image || "/default-avatar.png"}
+                        alt="Author"
+                        className="author-avatar"
+                      />
+                      <span>
+                        {thread.first_name} {thread.last_name}
+                      </span>
+                    </div>
+                    <span className="thread-date">
+                      {new Date(thread.created_at).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Slides Tab */}
+      {activeTab === "slides" && (
+        <div className="slides-tab">
+          <h2>Presentation Slides</h2>
+          <div className="slides-container">
+            <iframe
+              src={slidesUrl}
+              width="100%"
+              height="500"
+              frameBorder="0"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Introductionto_Css1;

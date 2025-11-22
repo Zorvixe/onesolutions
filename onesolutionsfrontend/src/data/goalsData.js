@@ -321,15 +321,15 @@ export const goalsData = [
               },
               {
                 id: "QW9E8R7T6Y s5 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
-                name: "Coding Assignment 1",
+                name: "Static Coding Assignment 1",
               },
               {
                 id: "QW9E8R7T6Y s6 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
-                name: "Coding Assignment 2",
+                name: "Static Coding Assignment 2",
               },
               {
                 id: "QW9E8R7T6Y s7 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
-                name: "Coding Assignment 3",
+                name: "Static Coding Assignment 3",
               },
               {
                 id: "QW9E8R7T6Y s8 5U4I3O2P1A0 m7 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
@@ -343,11 +343,15 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9E8R7T6Y s1 5U4I3O2P1A0 m8 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
-                name: "Coding Test 1",
+                name: "Static Coding Test 1",
               },
               {
                 id: "QW9E8R7T6Y s2 5U4I3O2P1A0 m8 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
-                name: "Coding Test 2",
+                name: "Static Coding Test 2",
+              },
+              {
+                id: "QW9E8R7T6Y s3 5U4I3O2P1A0 m8 S9D8F7G6H g1 R8T2J4P9C7B c1 Y5Z8A9B6C4D2E",
+                name: "Static Website Project",
               },
             ],
           },

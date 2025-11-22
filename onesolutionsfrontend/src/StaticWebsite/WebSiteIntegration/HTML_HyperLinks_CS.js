@@ -54,7 +54,8 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       question: "What is the correct HTML element for creating a hyperlink?",
       options: ["<link>", "<a>", "<href>", "<nav>"],
       answer: "<a>",
-      explanation: "The <a> (anchor) tag defines a hyperlink. The 'href' is an attribute, not an element.",
+      explanation:
+        "The <a> (anchor) tag defines a hyperlink. The 'href' is an attribute, not an element.",
     },
     {
       id: "href_meaning",
@@ -67,7 +68,8 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         "Hyper Reference",
       ],
       answer: "Hypertext Reference",
-      explanation: "'href' means Hypertext REFerence — it specifies the destination URL.",
+      explanation:
+        "'href' means Hypertext REFerence — it specifies the destination URL.",
     },
     {
       id: "target_blank",
@@ -75,12 +77,14 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       question: "Which value of 'target' opens the link in a new browser tab?",
       options: ["_self", "_blank", "_parent", "_top"],
       answer: "_blank",
-      explanation: "target='_blank' opens the link in a new tab/window. Always pair it with rel='noopener' for security!",
+      explanation:
+        "target='_blank' opens the link in a new tab/window. Always pair it with rel='noopener' for security!",
     },
     {
       id: "internal_link",
       section: "Internal Navigation",
-      question: "How do you link to an element with id='contact' on the same page?",
+      question:
+        "How do you link to an element with id='contact' on the same page?",
       options: [
         "<a href='contact'>",
         "<a href='#contact'>",
@@ -88,7 +92,8 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         "<a href='contact.html'>",
       ],
       answer: "<a href='#contact'>",
-      explanation: "The # symbol tells the browser to scroll to an element with that id on the current page.",
+      explanation:
+        "The # symbol tells the browser to scroll to an element with that id on the current page.",
     },
     {
       id: "image_link",
@@ -101,7 +106,8 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         "<div onclick='...'><img></div>",
       ],
       answer: "<a><img src='...'></a>",
-      explanation: "Wrap the <img> tag inside an <a> tag to make the image a clickable link.",
+      explanation:
+        "Wrap the <img> tag inside an <a> tag to make the image a clickable link.",
     },
     {
       id: "void_br",
@@ -109,7 +115,8 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       question: "Which void element creates a line break?",
       options: ["<hr>", "<br>", "<break>", "<lb>"],
       answer: "<br>",
-      explanation: "<br> inserts a line break. It's a void element — no closing tag needed.",
+      explanation:
+        "<br> inserts a line break. It's a void element — no closing tag needed.",
     },
     {
       id: "void_hr",
@@ -117,7 +124,8 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       question: "Which void element draws a horizontal line?",
       options: ["<line>", "<divider>", "<hr>", "<separator>"],
       answer: "<hr>",
-      explanation: "<hr> creates a thematic break (horizontal rule) between sections.",
+      explanation:
+        "<hr> creates a thematic break (horizontal rule) between sections.",
     },
   ];
 
@@ -129,61 +137,67 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       {/* 1. HTML Anchor (<a>) Element */}
       {/* ========================================= */}
       <section>
-        <h2>1. HTML Anchor Element (&lt;a&gt;)</h2>
+        <h2>1. HTML Anchor Element</h2>
+
         <p>
-          The <code>&lt;a&gt;</code> tag creates a <strong>hyperlink</strong> to another webpage, file, or location.
+          The HTML <code>&lt;a&gt;</code> element defines a <b>Hyperlink</b>.
+        </p>
+        <p>
+          Hyperlinks are used to navigate to other web resources or a specific
+          part of the same HTML document. They are also called <b>links</b>.
         </p>
 
-        <h3>Basic Syntax</h3>
+        <b>Syntax:</b>
+
+        <CodeBlock language="html" code={`<a href="URL">Content</a>`} />
+
+        <h3>1.1 HTML href Attribute</h3>
+
+        <p>
+          The HTML <code>href</code> attribute specifies the <b>URL or path</b>{" "}
+          of the page where the link navigates to.
+        </p>
+
         <CodeBlock
           language="html"
-          code={`<a href="https://www.google.com">Visit Google</a>`}
+          code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
         />
 
-        <h3>Key Attributes</h3>
-        <table style={{ width: "100%", borderCollapse: "collapse", margin: "16px 0" }}>
-          <thead>
-            <tr>
-              <th>Attribute</th>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>href</code></td>
-              <td>URL</td>
-              <td>Destination link (required)</td>
-            </tr>
-            <tr>
-              <td><code>target</code></td>
-              <td><code>_blank</code>, <code>_self</code></td>
-              <td>Where to open the link</td>
-            </tr>
-            <tr>
-              <td><code>rel</code></td>
-              <td><code>noopener</code></td>
-              <td>Security when using <code>_blank</code></td>
-            </tr>
-          </tbody>
-        </table>
+        <h3>1.2 HTML target Attribute</h3>
 
-        <div className="Note-container">
-          <h6>Security Best Practice:</h6>
+        <p>
+          The HTML <code>target</code> attribute specifies <b>where</b> the
+          linked page should open.
+        </p>
+
+        <ul>
           <p>
-            Always add <code>rel="noopener"</code> when using <code>target="_blank"</code>:
+            <b>_self (default): </b>
+            Opens the link in the same tab.
           </p>
-          <CodeBlock
-            language="html"
-            code={`<a href="https://example.com" target="_blank" rel="noopener">
-  Open in new tab (secure)
-</a>`}
-          />
-        </div>
+        </ul>
 
+        <ul>
+          <p>
+            <b>_blank: </b>
+            Opens the link in a new tab.
+          </p>
+        </ul>
+
+        <ul>
+          <p>
+            <b>_parent: </b>
+            Opens the link in the parent frame.
+          </p>
+        </ul>
+
+        <ul>
+          <p>
+            <b>_top: </b>
+            Opens the link in the full body of the window.
+          </p>
+        </ul>
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* ========================================= */}
@@ -191,7 +205,16 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       {/* ========================================= */}
       <section>
         <h2>2. Navigate Within the Same Page</h2>
-        <p>Use the <code>#id</code> syntax to jump to a section on the current page.</p>
+        <p>
+          The HTML <code>a</code> element can also be used to navigate to
+          different sections within the same HTML document.
+        </p>
+        <p>
+          Add an HTML <code>id</code> attribute to the section that you want to
+          navigate to. Provide the hash symbol <code>#</code>, and the value of
+          the <code>id</code> attribute of that section as a value to the link's
+          HTML <code>href</code> attribute.
+        </p>
 
         <CodeBlock
           language="html"
@@ -204,6 +227,28 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   <p>This is the about section...</p>
 </section>`}
         />
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            While navigating to a particular section within the same HTML
+            document, the content of that section doesn't start from the
+            starting of a page when
+          </p>
+          <ul>
+            <li>
+              It has less content to fill the Viewport height and there are no
+              sections after it.
+            </li>
+            <li>
+              The content of that section and the content of the sections after
+              it has less content to fill the Viewport height.
+            </li>
+          </ul>
+        </div>
 
         <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
@@ -213,7 +258,10 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       {/* ========================================= */}
       <section>
         <h2>3. Make an Image Clickable</h2>
-        <p>Simply wrap the <code>&lt;img&gt;</code> inside an <code>&lt;a&gt;</code> tag.</p>
+        <p>
+          Simply wrap the <code>&lt;img&gt;</code> inside an{" "}
+          <code>&lt;a&gt;</code> tag.
+        </p>
 
         <CodeBlock
           language="html"
@@ -233,35 +281,44 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       {/* 4. Common Void Elements */}
       {/* ========================================= */}
       <section>
-        <h2>4. Important Void Elements</h2>
-        <p>Void elements have no content or closing tag — they are self-closing.</p>
+        <h2>4. Most Commonly Used HTML Void Elements</h2>
 
-        <h3>&lt;br&gt; — Line Break</h3>
-        <CodeBlock language="html" code={`First line<br>Second line`} />
+        <h3>4.1 HTML Line Break Element</h3>
+        <p>
+          The HTML <code>&lt;br /&gt;</code> element is used to break the text
+          and move the content to the next line.
+        </p>
 
-        <h3>&lt;hr&gt; — Horizontal Rule (Divider)</h3>
-        <CodeBlock language="html" code={`Section 1<hr>Section 2`} />
-
-        <table style={{ margin: "16px 0", width: "100%" }}>
-          <thead>
-            <tr>
-              <th>Element</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>&lt;br&gt;</code></td>
-              <td>Line break (new line)</td>
-            </tr>
-            <tr>
-              <td><code>&lt;hr&gt;</code></td>
-              <td>Thematic break (section divider)</td>
-            </tr>
-          </tbody>
-        </table>
-
+        <CodeBlock
+          language="html"
+          code={`<h1 class="heading">Twinkle Twinkle Little Star</h1>
+<p>
+  Twinkle, twinkle, little star, <br />
+  How I wonder what you are! <br />
+  Up above the world so high, <br />
+  Like a diamond in the sky.
+</p>`}
+        />
         <MCQBlock mcq={mcqs[5]} answers={mcqAnswers} onAnswer={handleAnswer} />
+
+        <h3>4.2 HTML Horizontal Rule Element</h3>
+        <p>
+          The HTML <code>&lt;hr /&gt;</code> element inserts a horizontal line
+          that helps to visually separate content.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<h1 class="heading">Twinkle Twinkle Little Star</h1>
+<hr />
+<p>
+  Twinkle, twinkle, little star, <br />
+  How I wonder what you are! <br />
+  Up above the world so high, <br />
+  Like a diamond in the sky.
+</p>
+<hr />`}
+        />
         <MCQBlock mcq={mcqs[6]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 

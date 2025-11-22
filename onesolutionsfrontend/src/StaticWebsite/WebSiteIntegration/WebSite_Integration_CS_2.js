@@ -40,7 +40,7 @@ const WebSite_Integration_CS_2 = ({
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
       } else {
-        alert("Failed to mark as complete. Please try again.");
+        alert("Failed to mark as complete.");
       }
     } catch (error) {
       alert("Error marking as complete.");
@@ -49,285 +49,324 @@ const WebSite_Integration_CS_2 = ({
     }
   };
 
-  /* 
-      MCQ DATA - Part 2: Detailed Views + HTML Lists
- */
+  /*  MCQs — STRICT TOPIC ONLY */
   const mcqs = [
     {
-      id: "detailed_view_id",
-      section: "Detailed View Sections",
+      id: "golden_step",
+      section: "Website Integration",
       question:
-        "What must the container ID of every Detailed View start with in CCBP UI Kit?",
-      options: ["detail", "view", "section", "page"],
-      answer: "section",
-      explanation:
-        "All sections (Home, Favourite Places, Golden Temple, etc.) must have IDs starting with 'section' → e.g., sectionGoldenTempleDetail",
-    },
-    {
-      id: "carousel_unique_id",
-      section: "Bootstrap Carousel",
-      question: "Why do carousel IDs need to be unique in Detailed Views?",
+        "Which step is required to display the Detailed View Section when clicking the Golden Temple Card?",
       options: [
-        "For better SEO",
-        "So that next/prev buttons work correctly",
-        "To make images load faster",
-        "It's just a style preference",
+        "Add onclick to the Golden Temple Card",
+        "Remove all ids",
+        "Delete Favourite Places Section",
+        "Add script inside head only",
       ],
-      answer: "So that next/prev buttons work correctly",
+      answer: "Add onclick to the Golden Temple Card",
       explanation:
-        "Bootstrap carousels use the carousel ID to link controls (buttons, indicators). Duplicate IDs break navigation!",
+        "To open a specific detailed view, you must add onclick with display('sectionName').",
     },
     {
-      id: "onclick_card",
-      section: "Card Click → Detailed View",
-      question:
-        "How do you make a Favourite Place card open its Detailed View?",
-      options: [
-        "Add href='#sectionGoldenTempleDetail'",
-        "Add onclick='display(\"sectionGoldenTempleDetail\")'",
-        "Use <a> tag around the card",
-        "Add data-target attribute",
-      ],
-      answer: "Add onclick='display(\"sectionGoldenTempleDetail\")'",
-      explanation:
-        "CCBP UI Kit uses the display('sectionId') function to switch views — same as navigation buttons.",
-    },
-    {
-      id: "back_button",
-      section: "Back Navigation",
-      question: "What should the 'Back' button in a Detailed View do?",
-      options: [
-        "Go to Home",
-        "Reload the page",
-        "Return to Favourite Places section",
-        "Close the browser",
-      ],
-      answer: "Return to Favourite Places section",
-      explanation:
-        "Best UX: clicking a card → detail, back button → return to list. Use onclick=\"display('sectionFavouritePlaces')\"",
-    },
-    {
-      id: "unordered_list",
-      section: "HTML Lists",
-      question: "Which tag creates a bullet-point (unordered) list?",
-      options: ["<ol>", "<ul>", "<li>", "<list>"],
+      id: "unordered_list_tag",
+      section: "Unordered List",
+      question: "Which HTML tag is used to create an Unordered List?",
+      options: ["<ul>", "<ol>", "<li>", "<u>"],
       answer: "<ul>",
       explanation:
-        "<ul> = Unordered List → shows bullets, discs, circles, or squares.",
+        "The <ul> tag is used to create an unordered list. It wraps multiple <li> items.",
     },
     {
-      id: "ordered_list",
-      section: "HTML Lists",
-      question: "Which tag creates a numbered (ordered) list?",
-      options: ["<ul>", "<ol>", "<num>", "<list>"],
+      id: "ordered_list_tag",
+      section: "Ordered List",
+      question: "Which HTML tag is used to create an Ordered List?",
+      options: ["<ul>", "<ol>", "<li>", "<order>"],
       answer: "<ol>",
       explanation:
-        "<ol> = Ordered List → shows numbers, letters, or roman numerals.",
-    },
-    {
-      id: "list_item",
-      section: "HTML Lists",
-      question: "Which tag defines each item inside <ul> or <ol>?",
-      options: ["<li>", "<item>", "<entry>", "<point>"],
-      answer: "<li>",
-      explanation: "<li> = List Item — used inside both <ul> and <ol>.",
+        "The <ol> tag defines an ordered list, which uses numbers by default.",
     },
   ];
 
   return (
     <div className="intro-container">
-      <h1>Website Integration | Cheat Sheet | Part 2</h1>
+      <h1>Website Integration | Favourite Places Detailed View</h1>
 
-      {/* 1. Detailed View Sections */}
-
+      {/* 2. Website Integration */}
       <section>
-        <h2>1. Adding Multiple Detailed View Sections</h2>
+        <h2>1. Website Integration</h2>
+
+        <h3>1.1 Integration of Favourite Places and Detailed View Sections</h3>
         <p>
-          Each place (Golden Temple, Mysore Palace, Varanasi) gets its own
-          detailed page — shown/hidden using CCBP UI Kit.
+          To display the Detailed View Section when we click on the Golden
+          Temple Card in the Favourite Places Section:
         </p>
+        <div className="steps">
+          <p>
+            <b>Step-1:</b> Add the Section Container with a unique id.
+          </p>
+          <p>
+            <b>Step-2:</b> Add the HTML code of the Golden Temple Detailed View
+            Section.
+          </p>
+          <p>
+            <b>Step-3:</b> Add an HTML <code>onclick</code> attribute to the
+            <b> Golden Temple Card</b> in the Favourite Places Section.
+          </p>
+        </div>
+        <p>
+          To display the Favourite Places Section when we are in the Detailed
+          View Section:
+        </p>
+        <div className="steps">
+          <p>
+            <b>Step-4:</b> Add an HTML <code>button</code> element in the
+            Detailed View Section.
+          </p>
+          <p>
+            <b>Step-5:</b> Add an HTML <code>onclick</code> attribute to the
+            HTML button element.
+          </p>
+        </div>
 
-        <h3>Rules for Detailed Views</h3>
-        <ul>
-          <li>
-            Container ID must start with <code>section</code>
-          </li>
-          <li>
-            Each carousel must have a <strong>unique</strong> ID
-          </li>
-          <li>
-            Use <code>onclick="display('sectionXYZ')"</code> to navigate
-          </li>
-        </ul>
-
-        <h3>Example IDs</h3>
         <CodeBlock
           language="html"
-          code={`<!-- Section Containers -->
-<div id="sectionGoldenTempleDetail">...</div>
-<div id="sectionMysorePalaceDetail">...</div>
-<div id="sectionVaranasiDetail">...</div>
-
-<!-- Carousel IDs (must be unique!) -->
-<div id="goldenTempleCarousel" class="carousel">
-<div id="mysorePalaceCarousel" class="carousel">
-<div id="varanasiCarousel" class="carousel">`}
+          code={`<div class="favourite-place-card-container d-flex flex-row"
+  onclick="display('sectionGoldenTempleDetailedView')">
+  <div>
+    <h1 class="favourite-place-card-heading">Golden Temple</h1>
+    <p class="favourite-place-card-description">
+      Amritsar is world-famous for the beautiful and highly revered Golden Temple
+    </p>
+  </div>
+  <img
+    src="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/golden-temple-img.png"
+    class="favourite-place-card-image"
+/>
+</div>`}
         />
-
         <div className="Note-container">
-          <h6>Critical Rule</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
-            Duplicate carousel IDs = broken next/prev buttons!
-            <br />
-            Always use unique IDs like: <code>goldenTempleCarousel</code>,{" "}
-            <code>mysoreCarousel</code>, etc.
+            To use multiple Carousels in the same HTML document, we have to
+            provide a unique id to each Carousel.
+          </p>
+          <p>
+            So while adding a new Carousel, you need to change the id of the
+            Carousel. Else, the Carousel controls don’t work.
           </p>
         </div>
 
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
-
-      {/* 2. Card → Detailed View Integration */}
-
       <section>
-        <h2>2. Make Cards Clickable → Open Detailed View</h2>
+        <h2>2. HTML Lists</h2>
 
-        <h3>Step-by-Step</h3>
-        <ol>
-          <li>
-            Create section: <code>id="sectionGoldenTempleDetail"</code>
-          </li>
-          <li>Add full HTML + CSS of Golden Temple page inside it</li>
-          <li>
-            Add <code>onclick</code> to the card in Favourite Places:
-          </li>
-        </ol>
+        <p>
+          The List is a way to group related pieces of information so that they
+          are easy to read and understand.
+        </p>
+
+        <p>For example, Shopping list, Todo list, etc.</p>
+
+        <p>There are mainly two types of Lists available in HTML.</p>
+
+        <ul>
+          <li>Unordered List</li>
+          <li>Ordered List</li>
+        </ul>
+
+        <h3>2.1 Unordered List</h3>
+
+        <p>
+          It is a collection of related items that have no special order or
+          sequence.
+        </p>
+
+        <p>For example, List of Hobbies</p>
+
+        <ul>
+          <li>Painting</li>
+          <li>Reading Books</li>
+          <li>Playing the Guitar</li>
+        </ul>
+
+        <p>
+          The Unordered List starts with the <code>&lt;ul&gt;</code> tag. It
+          wraps around all the list items and each list item starts with the{" "}
+          <code>&lt;li&gt;</code> tag.
+        </p>
 
         <CodeBlock
           language="html"
-          code={`<!-- In Favourite Places Section -->
-<div class="card" onclick="display('sectionGoldenTempleDetail')">
-  <img src="golden-temple.jpg" alt="Golden Temple" />
-  <h3>Golden Temple</h3>
-  <p>Amritsar, Punjab</p>
-</div>`}
+          code={`<ul>
+  <li>Painting</li>
+  <li>Reading Books</li>
+  <li>Playing the Guitar</li>
+</ul>`}
         />
 
-        <h3>Back Button in Detailed View</h3>
+        <p>
+          By default, list items in the Unordered List are marked with bullets.
+        </p>
+
+        <h3>2.1.1 Styling Unordered List</h3>
+
+        <p>
+          The CSS <code>list-style-type</code> property is used to style the
+          List.
+        </p>
+
         <CodeBlock
-          language="html"
-          code={`<button class="btn btn-secondary" onclick="display('sectionFavouritePlaces')">
-  ← Back to Places
-</button>`}
+          language="css"
+          code={`.unordered-square-list {
+  list-style-type: square;
+}`}
         />
 
-        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
-      </section>
+        <p>
+          You can use one of the below values of the CSS{" "}
+          <code>list-style-type</code> property to style the Unordered List.
+        </p>
 
-      {/* 3. HTML Lists - <ul>, <ol>, <li> */}
-
-      <section>
-        <h2>3. HTML Lists - The Right Way</h2>
-
-        <table
-          style={{
-            width: "100%",
-            margin: "20px 0",
-            borderCollapse: "collapse",
-          }}
-        >
+        <table border="1" style={{ borderCollapse: "collapse", width: "20%" }}>
           <thead>
             <tr>
-              <th>List Type</th>
-              <th>Tag</th>
-              <th>Default Marker</th>
-              <th>Use Case</th>
+              <th>Value</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Unordered</td>
-              <td>
-                <code>&lt;ul&gt;</code>
-              </td>
-              <td>Bullets (disc)</td>
-              <td>Navigation, features, hobbies</td>
+              <td>square</td>
             </tr>
             <tr>
-              <td>Ordered</td>
-              <td>
-                <code>&lt;ol&gt;</code>
-              </td>
-              <td>Numbers (1, 2, 3)</td>
-              <td>Steps, rankings, instructions</td>
+              <td>circle</td>
+            </tr>
+            <tr>
+              <td>disc</td>
+            </tr>
+            <tr>
+              <td>none</td>
             </tr>
           </tbody>
         </table>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Ensure there are no spelling mistakes in the value of the{" "}
+            <b>list-style-type</b> property. Incorrect values will disable the
+            required styling.
+          </p>
+        </div>
 
-        <h3>Unordered List Example</h3>
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
+      </section>
+      <section>
+        <h3>2.2 Ordered List</h3>
+
+        <p>
+          It is a collection of related items that follow some order or have a
+          sequence.
+        </p>
+
+        <p>For example, Web Technologies</p>
+
+        <ul>
+          <li>HTML</li>
+          <li>CSS</li>
+          <li>JavaScript</li>
+        </ul>
+
+        <p>
+          The Ordered List starts with the <code>&lt;ol&gt;</code> tag. It wraps
+          around all the list items and each list item starts with the{" "}
+          <code>&lt;li&gt;</code> tag.
+        </p>
+
         <CodeBlock
           language="html"
-          code={`<ul class="list-unstyled"> <!-- removes bullets -->
-  <li>Painting</li>
-  <li>Reading Books</li>
-  <li>Playing Guitar</li>
-</ul>`}
-        />
-
-        <h3>Ordered List Example</h3>
-        <CodeBlock
-          language="html"
-          code={`<ol type="I"> <!-- Roman numerals -->
-  <li>Requirement Gathering</li>
-  <li>Design</li>
-  <li>Development</li>
-  <li>Testing</li>
+          code={`<ol>
+  <li>Go through the HTML elements and CSS properties</li>
+  <li>Complete the Todolist Coding Practice</li>
+  <li>Go through the Bootstrap Concepts</li>
+  <li>Read the Bootstrap cheat sheet</li>
+  <li>Build a Tourism Website</li>
 </ol>`}
         />
 
-        <h3>Remove Bullets/Numbers</h3>
+        <p>
+          By default, list items in the Ordered List are marked with numbers.
+        </p>
+
+        <h3>3.2.1 Styling Ordered List</h3>
+
+        <p>
+          The CSS <code>list-style-type</code> property is used to style the
+          List.
+        </p>
+
         <CodeBlock
           language="css"
-          code={`ul, ol {
-  list-style-type: none;
-  padding-left: 0;
+          code={`.ordered-lower-roman-list {
+  list-style-type: lower-roman;
 }`}
         />
 
-        <MCQBlock mcq={mcqs[4]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[5]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[6]} answers={mcqAnswers} onAnswer={handleAnswer} />
+        <p>
+          You can use one of the below values of the CSS{" "}
+          <code>list-style-type</code> property to style the Ordered List.
+        </p>
+
+        <table border="1" style={{ borderCollapse: "collapse", width: "20%" }}>
+          <thead>
+            <tr>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>upper-alpha</td>
+            </tr>
+            <tr>
+              <td>lower-alpha</td>
+            </tr>
+            <tr>
+              <td>upper-roman</td>
+            </tr>
+            <tr>
+              <td>lower-roman</td>
+            </tr>
+            <tr>
+              <td>decimal</td>
+            </tr>
+            <tr>
+              <td>none</td>
+            </tr>
+          </tbody>
+        </table>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Make sure the values provided to the <b>list-style-type</b> property
+            are spelled correctly. Incorrect values will remove or alter the
+            numbering style.
+          </p>
+        </div>
+
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* Pro Tips Summary */}
-
-      <div className="Note-container">
-        <h6>Golden Rules for This Project</h6>
-        <ul>
-          <li>
-            All section IDs → <code>sectionSomething</code>
-          </li>
-          <li>All carousel IDs → unique (never repeat!)</li>
-          <li>
-            Card click → <code>onclick="display('sectionXYZ')"</code>
-          </li>
-          <li>
-            Back button →{" "}
-            <code>onclick="display('sectionFavouritePlaces')"</code>
-          </li>
-          <li>
-            Use <code>&lt;ul&gt;</code> for non-sequential items
-          </li>
-          <li>
-            Use <code>&lt;ol&gt;</code> for steps or ranked items
-          </li>
-        </ul>
-      </div>
-
       {/* Continue Button */}
-
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
@@ -345,9 +384,7 @@ const WebSite_Integration_CS_2 = ({
   );
 };
 
-/* 
-      REUSABLE MCQ COMPONENT (Same as all previous)
-*/
+/* REUSABLE MCQ BLOCK */
 const MCQBlock = ({ mcq, answers, onAnswer }) => {
   const userAnswer = answers[mcq.id];
   const isCorrect = userAnswer === mcq.answer;

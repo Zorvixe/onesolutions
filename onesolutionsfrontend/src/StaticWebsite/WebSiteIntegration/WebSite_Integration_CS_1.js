@@ -49,9 +49,9 @@ const WebSite_Integration_CS_1 = ({
     }
   };
 
-  /* ---------------------------------------------------
+  /* 
       UPDATED MCQs — HTML Attributes + Integration Only
-  ----------------------------------------------------*/
+ */
   const mcqs = [
     {
       id: "html_id_attr",
@@ -109,14 +109,12 @@ const WebSite_Integration_CS_1 = ({
     <div className="intro-container">
       <h1>Website Integration | Cheat Sheet</h1>
 
-      {/* ========================================= */}
       {/* 1. UI Kit Overview */}
-      {/* ========================================= */}
+
       <section>
         <h2>1. UI Kit</h2>
         <p>
-          CCBP UI Kit is a collection of reusable code snippets for CCBP
-          training.
+          UI Kit is a collection of reusable code snippets for CCBP training.
         </p>
 
         <h3>1.1 Adding CCBP UI Kit Script</h3>
@@ -127,13 +125,12 @@ const WebSite_Integration_CS_1 = ({
         />
       </section>
 
-      {/* ========================================= */}
-      {/* 3. HTML Attributes */}
-      {/* ========================================= */}
-      <section>
-        <h2>3. HTML Attributes</h2>
+      {/* 2. HTML Attributes */}
 
-        <h3>3.1 The HTML id Attribute</h3>
+      <section>
+        <h2>2. HTML Attributes</h2>
+
+        <h3>2.1 The HTML id Attribute</h3>
         <p>
           The HTML <code>id</code> attribute specifies a unique id for an HTML
           element. The value of the <code>id</code> attribute must be unique
@@ -144,22 +141,27 @@ const WebSite_Integration_CS_1 = ({
           language="html"
           code={`<div id="section1">Section 1</div>`}
         />
-
-        <h5>Warning</h5>
-        <p>
-          The CCBP UI kit works only if the value of the HTML id attribute of
-          the container <code>section</code> has the prefix as section.
-        </p>
-        <p>
-          So, the <code></code> which we specify for any <code>section</code>{" "}
-          should always contain its prefix as section if you are using CCBP UI
-          Kit.
-        </p>
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <ul>
+            <li>
+              The CCBP UI kit works only if the value of the HTML id attribute
+              of the container <b>section</b> has the prefix as section.
+            </li>
+            <li>
+              So, the <b>id</b> which we specify for any <b>section</b> should
+              always contain its prefix as section if you are using CCBP UI Kit.
+            </li>
+          </ul>
+        </div>
 
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
-        <h3>3.2 The HTML onclick Attribute</h3>
+        <h3>2.2 The HTML onclick Attribute</h3>
         <p>
           The <code>onclick</code> event occurs when the user clicks an element.
         </p>
@@ -170,35 +172,41 @@ const WebSite_Integration_CS_1 = ({
   Go to Section 3
 </button>`}
         />
-
-        <div className="Note-container">
-          <p>
-            Use double quotes for <code>onclick</code> and single quotes inside{" "}
-            <code>display()</code>.
-          </p>
-        </div>
+        <p>
+          The value of an HTML <code>onclick</code> attribute should be enclosed
+          in double-quotes and the value inside the brackets of{" "}
+          <code>display()</code> should be enclosed in single quotes.
+        </p>
 
         <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* ========================================= */}
-      {/* 4. Website Integration */}
-      {/* ========================================= */}
+      {/* 3. Website Integration */}
+
       <section>
-        <h2>4. Website Integration</h2>
+        <h2>3. Website Integration</h2>
 
-        <h3>4.1 Home ↔ Favourite Places Sections</h3>
+        <h3>3.1 Integration of Home and Favourite Places Sections</h3>
+        <p>
+          To display Favourite Places Section when we are in the Home Section:
+        </p>
 
-        <ul>
-          <li>
-            Step-1: All section ids must start with <code>section</code>
-          </li>
-          <li>Step-2: Add HTML of Home Section + CSS</li>
-          <li>Step-3: Add HTML of Favourite Places Section + CSS</li>
-          <li>
-            Step-4: Add an <code>onclick</code> attribute to the Home button
-          </li>
-        </ul>
+        <p>
+          <b>Step-1: </b>Change ids of Section Containers. All the ids must
+          start with <code>section</code>.
+        </p>
+        <p>
+          <b>Step-2: </b>Add HTML code of Home Section and corresponding CSS
+          styles to Display Utility.
+        </p>
+        <p>
+          <b>Step-3: </b>Add HTML code of Favourite Places Section and
+          corresponding CSS styles to Display Utility.
+        </p>
+        <p>
+          <b>Step-4: </b>Add an HTML <code>onclick</code> attribute to the HTML{" "}
+          <code>button</code> element in the Home Section.
+        </p>
 
         <CodeBlock
           language="html"
@@ -206,12 +214,19 @@ const WebSite_Integration_CS_1 = ({
   Explore Places
 </button>`}
         />
-
         <h3>To go back to Home from Favourite Places:</h3>
-        <ul>
-          <li>Step-5: Add a button in Favourite Places Section</li>
-          <li>Step-6: Add onclick attribute to show Home Section</li>
-        </ul>
+
+        <p>
+          To display the Home Section when we are in the Favourite Places
+          Section:
+        </p>
+        <p>
+          <b>Step-5: </b> Add an HTML <code>button</code> element in Favourite
+          places Section.
+        </p>
+        <p>
+          <b>step-6: </b>Add an HTML <code>onclick</code> attribute to it.
+        </p>
 
         <CodeBlock
           language="html"
@@ -222,19 +237,35 @@ const WebSite_Integration_CS_1 = ({
 
         <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
-        <h3>4.2 Favourite Places ↔ Detailed View</h3>
-        <ul>
-          <li>Step-1: Add Detailed View HTML to Display Utility</li>
-          <li>Step-2: Add CSS styles</li>
-          <li>
-            Step-3: Add <code>onclick</code> to Taj Mahal Card inside Favourite
-            Places
-          </li>
-          <li>Step-4: Add Back button inside Detailed View</li>
-          <li>
-            Step-5: Add <code>onclick</code> to go to Favourite Places
-          </li>
-        </ul>
+        <h3>3.2 Integration of Favourite Places and Detailed View Sections</h3>
+        <p>
+          To display the Detailed View Section when we click on{" "}
+          <b>Taj Mahal Card:</b>
+        </p>
+
+        <p>
+          <b>Step-1: </b>Add HTML code of Detailed View Section code to the
+          Display Utility.
+        </p>
+        <p>
+          <b>Step-2: </b>Add corresponding styles to the CSS file.
+        </p>
+        <p>
+          <b>Step-3: </b>Add an HTML <code>onclick</code> attribute to the{" "}
+          <b>Taj Mahal Card</b> in the Favourite Places Section.
+        </p>
+        <p>
+          To display the Favourite Places Section when we are in the Detailed
+          View Section:
+        </p>
+        <p>
+          <b>Step-4: </b>Add an HTML <code>button</code> element in the Detailed
+          View Section.
+        </p>
+        <p>
+          <b>Step-5: </b> Add an HTML <code>onclick</code> attribute to the HTML
+          <code>button</code> element.
+        </p>
       </section>
 
       {/* Continue Button */}
@@ -255,9 +286,7 @@ const WebSite_Integration_CS_1 = ({
   );
 };
 
-/* ---------------------------------------------------
-      REUSABLE MCQ COMPONENT
-----------------------------------------------------*/
+/*  REUSABLE MCQ COMPONENT */
 const MCQBlock = ({ mcq, answers, onAnswer }) => {
   const userAnswer = answers[mcq.id];
   const isCorrect = userAnswer === mcq.answer;

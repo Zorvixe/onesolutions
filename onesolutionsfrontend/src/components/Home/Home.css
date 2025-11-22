@@ -41,19 +41,19 @@
 }
 
 .BroOne-container-text button {
-  background-color: #87cefa;
-  color: black;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 10px 20px;
+  background: linear-gradient(90deg, #800080, #000080, #483d8b);
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
+  color: #fff;
+  padding: 10px 15px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
 }
 
 .BroOne-container-text button:hover {
-  color: black;
+  opacity: 0.85;
   /* background-color: rgb(65, 58, 165); */
 }
 
@@ -66,6 +66,8 @@ h1 {
   padding-left: 8%;
   font-size: 20px;
   padding-top: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .live {
@@ -129,6 +131,9 @@ h1 {
   gap: 16px;
   white-space: nowrap;
   padding: 0 20px;
+}
+.bi-question-circle {
+  font-size: 14px;
 }
 
 .letter-tag {

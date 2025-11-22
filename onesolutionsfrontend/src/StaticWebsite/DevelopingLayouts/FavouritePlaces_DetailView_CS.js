@@ -159,7 +159,11 @@ const FavouritePlaces_DetailView_CS = ({
         />
 
         <div className="Note-container">
-          <h6>Note</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             <b>data-bs-ride="carousel"</b> → auto-starts the slideshow
           </p>
@@ -259,7 +263,11 @@ const FavouritePlaces_DetailView_CS = ({
         </p>
 
         <div className="Note-container">
-          <h6>Note</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             Be careful while pasting the video ID. The video ID must be in
             between the<b> https://www.youtube.com/embed/ </b>and <b>?rel=0</b>.

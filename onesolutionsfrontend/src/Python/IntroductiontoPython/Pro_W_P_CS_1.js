@@ -3,12 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
 import "./Pro_W_P_CS_1.css";
 
-const Pro_W_P_CS_1 = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const Pro_W_P_CS_1 = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -57,11 +52,11 @@ const Pro_W_P_CS_1 = ({
     }
   };
 
-
-
   return (
     <div className="intro-container">
-      <h1>Introduction to Programming with Python | Cheat Sheet</h1>
+      <h1 className="pro-h1">
+        Introduction to Programming with Python | Cheat Sheet
+      </h1>
 
       <section>
         <h2>Software</h2>

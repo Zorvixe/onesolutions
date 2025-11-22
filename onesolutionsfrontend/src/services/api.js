@@ -129,6 +129,13 @@ export const progressAPI = {
   getGoalProgress: (goalName) => api.get(`/api/progress/goal/${goalName}`),
 };
 
+export const threadsAPI = {
+  createThread: (threadData) => api.post("/api/threads", threadData),
+  getThreads: (subtopicId) => api.get(`/api/threads/${subtopicId}`),
+  getThreadDetail: (threadId) => api.get(`/api/threads/detail/${threadId}`),
+  createReply: (replyData) => api.post("/api/threads/reply", replyData),
+};
+
 // ✅ Health Check API
 export const healthCheck = () => api.get("/api/health");
 

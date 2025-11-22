@@ -90,7 +90,7 @@ const Introductionto_Css_BoxModel_CS_1 = ({
 
   return (
     <div className="intro-container">
-      <h1>Introducion to CSS Box Model - MCQs</h1>
+      <h1>Introducion to CSS Box Model | Cheat Sheet</h1>
 
       {/* ----------- HEIGHT ----------- */}
       <section>
@@ -139,7 +139,7 @@ const Introductionto_Css_BoxModel_CS_1 = ({
           border="1"
           style={{
             borderCollapse: "collapse",
-            width: "100%",
+            width: "50%",
             margin: "1rem 0",
           }}
         >
@@ -157,17 +157,19 @@ const Introductionto_Css_BoxModel_CS_1 = ({
           </tbody>
         </table>
 
-        <div style={{ marginTop: "1rem" }}>
-          <p>
-            <h5>Warning: </h5>
-            <ul style={{ marginLeft: "1.5rem" }}>
-              <li>
-                If height is not specified, the background image takes the
-                height of the content.
-              </li>
-              <li>The URL must be valid for the image to display.</li>
-            </ul>
-          </p>
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <ul style={{ marginLeft: "1.5rem" }}>
+            <li>
+              If height is not specified, the background image takes the height
+              of the content.
+            </li>
+            <li>The URL must be valid for the image to display.</li>
+          </ul>
         </div>
 
         <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
@@ -185,7 +187,11 @@ const Introductionto_Css_BoxModel_CS_1 = ({
 
         <table
           border="1"
-          style={{ borderCollapse: "collapse", width: "100%", margin: "1rem 0" }}
+          style={{
+            borderCollapse: "collapse",
+            width: "100%",
+            margin: "1rem 0",
+          }}
         >
           <thead>
             <tr>
@@ -197,18 +203,23 @@ const Introductionto_Css_BoxModel_CS_1 = ({
             <tr>
               <td>cover</td>
               <td>
-                Scales the image to the smallest size while maintaining the same aspect ratio (width/height) and covers the entire width and height even if the image is cropped.
+                Scales the image to the smallest size while maintaining the same
+                aspect ratio (width/height) and covers the entire width and
+                height even if the image is cropped.
               </td>
             </tr>
           </tbody>
         </table>
         <div className="Note-container">
-          <h6>Note:</h6>
-          <p><strong>Aspect Ratio</strong> = width / height of an image.</p>
-
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            <strong>Aspect Ratio</strong> = width / height of an image.
+          </p>
         </div>
-
-        
       </section>
 
       {/* ----------- VIEWPORT UNITS ----------- */}
@@ -225,7 +236,11 @@ const Introductionto_Css_BoxModel_CS_1 = ({
         </p>
         <CodeBlock language="css" code={`.card {  height: 50vh; }`} />
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             The height <b>100vh</b> sets an HTML element to the entire height of
             the viewport (browser window size).
@@ -236,7 +251,11 @@ const Introductionto_Css_BoxModel_CS_1 = ({
         the Viewport (browser window size).
         <CodeBlock language="css" code={`.card {  width: 100vw; }`} />
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             The width <b>100vw</b> sets an HTML element to the entire width of
             the Viewport (browser window size).

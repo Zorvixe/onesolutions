@@ -240,7 +240,11 @@ const Introductionto_BootStrap_CS_1 = ({
         />
 
         <div className="Note-container">
-          <h6>Note:</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             By default, the Bootstrap class name <b>btn</b> has no background
             color.
@@ -310,10 +314,17 @@ const Introductionto_BootStrap_CS_1 = ({
           <li>and many more...</li>
         </ul>
 
-        <p>
-          <h5>Warning</h5> Using predefined Bootstrap class names as selectors
-          in your own CSS may give unexpected results.
-        </p>
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            Using predefined Bootstrap class names as selectors in your own CSS
+            may give unexpected results.
+          </p>
+        </div>
 
         <h4>Do's</h4>
 
@@ -357,11 +368,17 @@ const Introductionto_BootStrap_CS_1 = ({
 
       {/*  WARNING */}
       <section>
-        <h5>Warning</h5>
-        <p className="warning">
-          Using Bootstrap class names as selectors inside your CSS may cause
-          unexpected conflicts.
-        </p>
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            Using Bootstrap class names as selectors inside your CSS may cause
+            unexpected conflicts.
+          </p>
+        </div>
       </section>
 
       {/*    CONTINUE BUTTON */}

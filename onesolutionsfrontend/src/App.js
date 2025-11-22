@@ -18,6 +18,7 @@ import Placements from "./components/Placements/Placements";
 import SubtopicPage from "./SubtopicsPage/SubtopicPage";
 import CodeGround from "./CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
+import ThreadDetail from "./NewThreadModal/ThreadDetail";
 
 import "./App.css";
 
@@ -37,13 +38,18 @@ function App() {
               <Route path="/courses" element={<Courses />} />
               <Route path="/practice" element={<Practice />} />
               <Route path="/practice/:practiceId" element={<Practice />} />
-              <Route path="/practice/:practiceId/:questionId" element={<Practice />} />
+              <Route
+                path="/practice/:practiceId/:questionId"
+                element={<Practice />}
+              />
               <Route path="/placements" element={<Placements />} />
               <Route
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
               <Route path="/codeGround" element={<CodeGround />} />
+              <Route path="/thread/:threadId" element={<ThreadDetail />} />
+
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>

@@ -129,7 +129,11 @@ const Introductionto_BootStrap_CS_2 = ({
         </ul>
 
         <div className="Note-container">
-          <h6>Note</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             Wrapping HTML elements in the Flexbox Container is mandatory to
             apply other flex properties.
@@ -199,7 +203,11 @@ const Introductionto_BootStrap_CS_2 = ({
         />
 
         <div className="Note-container">
-          <h6>Note</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
             The Bootstrap class name <b>flex-row</b> is the default Flex
             Direction for the Flexbox Container. So, once <b>d-flex</b> is

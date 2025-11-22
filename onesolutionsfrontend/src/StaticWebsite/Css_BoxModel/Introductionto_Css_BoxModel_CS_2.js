@@ -118,7 +118,7 @@ const Introductionto_Css_BoxModel_CS_2 = ({
 
   return (
     <div className="intro-container">
-      <h1>Introducion to CSS Box Model | Part 2 - MCQs</h1>
+      <h1>Introducion to CSS Box Model | Part 2 | Cheat Sheet</h1>
 
       {/* ----------- BORDER WIDTH ----------- */}
       <section>
@@ -140,14 +140,21 @@ const Introductionto_Css_BoxModel_CS_2 = ({
           The CSS Property and value pair <code>border-width: 0px;</code>{" "}
           removes the border of an HTML element.
         </p>
-        <p>
-          <h5>Warning:</h5>
-          Specifying the CSS <b>border-style</b> property for an HTML element is
-          mandatory. Otherwise, the CSS properties like <b>border-color</b>,
-          <b>border-width</b> will not appear in the browser. The HTML{" "}
-          <code>button</code> element is an exception as it appears with a
-          border in the browser by default.
-        </p>
+
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            Specifying the CSS <b>border-style</b> property for an HTML element
+            is mandatory. Otherwise, the CSS properties like <b>border-color</b>
+            ,<b>border-width</b> will not appear in the browser. The HTML{" "}
+            <b>button</b> element is an exception as it appears with a border in
+            the browser by default.
+          </p>
+        </div>
 
         <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
@@ -232,12 +239,20 @@ const Introductionto_Css_BoxModel_CS_2 = ({
 }`}
         />
 
-        <p>
-          <h5>Warning: </h5>Specifying the CSS border-style property for an HTML
-          element is mandatory. Otherwise, the CSS properties like border-color,
-          border-width will not appear in the browser. The HTML button element
-          is an exception as it appears with a border in the browser by default.
-        </p>
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            Specifying the CSS border-style property for an HTML element is
+            mandatory. Otherwise, the CSS properties like border-color,
+            border-width will not appear in the browser. The HTML button element
+            is an exception as it appears with a border in the browser by
+            default.
+          </p>
+        </div>
 
         <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>

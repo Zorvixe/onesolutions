@@ -7,7 +7,7 @@
   font-size: 17px;
 }
 
-h1 {
+.pro-h1 {
   text-align: center;
   margin-bottom: 30px;
   color: #333;
@@ -37,36 +37,65 @@ h5 {
   flex-direction: column;
   gap: 10px;
 }
-.Note {
+/* .Note {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-}
+} */
 
 .Note-container h6 {
   color: #fff;
   font-size: 17px;
   border-radius: 18px;
   text-align: center;
-  width: 80px;
+  width: 90px;
   height: 35px;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgb(9, 17, 162);
   margin: 0;
+  gap: 6px;
 }
-
+.icon-note {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.Warning-container,
 .Note-container p {
   margin: 0;
   padding-left: 5px;
 }
-
-p {
+.Warning-container {
+  background-color: rgba(243, 223, 185, 0.771);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.Warning-container h5 {
+  color: #fff;
+  font-size: 17px;
+  border-radius: 18px;
+  text-align: center;
+  width: 13%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 155, 5);
+  margin: 0;
+  gap: 6px;
+}
+.Warning-container p {
   margin-bottom: 15px;
   margin-top: 10px;
 }
-
+.steps p {
+  line-height: 50px;
+}
 ul {
   margin-bottom: 15px;
   padding-left: 25px;

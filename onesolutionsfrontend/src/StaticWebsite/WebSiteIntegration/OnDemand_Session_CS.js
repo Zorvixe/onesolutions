@@ -137,45 +137,30 @@ const OnDemand_Session_CS = ({
       {/* 1. How to Get Image URLs (Cloudinary) */}
 
       <section>
-        <h2>1. Get Direct Image URLs Using Cloudinary</h2>
+        <h2>1. Getting URLs for Your Images</h2>
+
         <p>
-          In all CCBP projects (including NxtWatch, Tourism Website, etc.), you
-          must use real image URLs.
+          You can get URLs for your images using <b>Cloudinary</b>. Cloudinary
+          allows you to upload images easily and provides a direct image URL
+          that you can use in your HTML, CSS, or projects.
         </p>
 
-        <h3>Step-by-Step: Cloudinary</h3>
-        <ol>
-          <li>
-            Go to:{" "}
-            <a href="https://cloudinary.com/" target="_blank" rel="noopener">
-              https://cloudinary.com/
-            </a>
-          </li>
-          <li>Sign up (free)</li>
-          <li>Go to Media Library → Upload images</li>
-          <li>Click on uploaded image → Copy the URL</li>
-          <li>
-            Paste directly in <code>src="YOUR_URL_HERE"</code>
-          </li>
-        </ol>
-
-        <CodeBlock
-          language="html"
-          code={`<img 
-  src="https://res.cloudinary.com/djndywvjb/image/upload/v1234567890/my-image.jpg" 
-  alt="Beautiful sunset"
-/>`}
-        />
+        <p>
+          <b>Cloudinary Website URL:</b>
+          <code>https://cloudinary.com/</code>
+        </p>
 
         <div className="Note-container">
-          <h6>Pro Tip</h6>
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
           <p>
-            Cloudinary URLs work forever (unless deleted) — perfect for
-            portfolios and submissions!
+            To Sign Up, copy the Cloudinary Website URL and open it in a new
+            tab.
           </p>
         </div>
-
-        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
         <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
@@ -283,22 +268,15 @@ const OnDemand_Session_CS = ({
       {/* Final Tips */}
 
       <div className="Note-container">
-        <h6>Summary: Must-Do Setup</h6>
-        <ol>
-          <li>Download VS Code from official site</li>
-          <li>Upload all images to Cloudinary → get URLs</li>
-          <li>
-            Always link CSS using:{" "}
-            <code>&lt;link rel="stylesheet" href="styles.css"&gt;</code>
-          </li>
-          <li>
-            Place <code>&lt;link&gt;</code> inside <code>&lt;head&gt;</code>
-          </li>
-          <li>
-            Install Live Server extension → right-click HTML → "Open with Live
-            Server"
-          </li>
-        </ol>
+        <div className="icon-note">
+          <h6>
+            <i class="bi bi-journal-text"></i>Note
+          </h6>
+        </div>
+        <p>
+          You need to add the HTML <b>link</b> element in the HTML <b>head</b>{" "}
+          element.
+        </p>
       </div>
 
       {/* Continue Button */}
