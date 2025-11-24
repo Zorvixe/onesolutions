@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Call loadGoalProgress when user logs in
   useEffect(() => {
     checkAuthStatus();
   }, []);

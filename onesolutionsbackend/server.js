@@ -3684,7 +3684,7 @@ app.get("/api/goals/progress-with-dates", auth, async (req, res) => {
 // 🔹 GOAL PROGRESS & DATE MANAGEMENT ROUTES
 // ==========================================
 
-// Get student's goal dates and progress
+// Enhanced goal progress endpoint with proper date calculation
 app.get("/api/student/goal-progress", auth, async (req, res) => {
   try {
     const studentId = req.student.id;
@@ -3714,7 +3714,7 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     const formatDate = (date) => {
       return date.toLocaleDateString("en-US", {
         year: "numeric",
-        month: "long",
+        month: "short",
         day: "numeric",
       });
     };
@@ -3747,36 +3747,40 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     const isGoal2Unlocked = goal1Progress >= 100;
     const isGoal3Unlocked = goal2Progress >= 100;
 
+    const goalDates = {
+      goal1: {
+        start: formatDate(goal1Start),
+        end: formatDate(goal1End),
+        range: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
+      },
+      goal2: {
+        start: formatDate(goal2Start),
+        end: formatDate(goal2End),
+        range: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
+      },
+      goal3: {
+        start: formatDate(goal3Start),
+        end: formatDate(goal3End),
+        range: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
+      },
+    };
+
+    const unlockedGoals = {
+      goal1: isGoal1Unlocked,
+      goal2: isGoal2Unlocked,
+      goal3: isGoal3Unlocked,
+    };
+
     res.json({
       success: true,
       data: {
-        goalDates: {
-          goal1: {
-            start: formatDate(goal1Start),
-            end: formatDate(goal1End),
-            range: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
-          },
-          goal2: {
-            start: formatDate(goal2Start),
-            end: formatDate(goal2End),
-            range: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
-          },
-          goal3: {
-            start: formatDate(goal3Start),
-            end: formatDate(goal3End),
-            range: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
-          },
-        },
+        goalDates,
         goalProgress: {
           goal1: goal1Progress,
           goal2: goal2Progress,
           goal3: goal3Progress,
         },
-        unlockedGoals: {
-          goal1: isGoal1Unlocked,
-          goal2: isGoal2Unlocked,
-          goal3: isGoal3Unlocked,
-        },
+        unlockedGoals,
       },
     });
   } catch (error) {
@@ -3826,7 +3830,6 @@ app.get("/api/student/goal/:goalName/unlocked", auth, async (req, res) => {
     });
   }
 });
-
 // -------------------------------------------
 // 🔹 Start Server
 // -------------------------------------------

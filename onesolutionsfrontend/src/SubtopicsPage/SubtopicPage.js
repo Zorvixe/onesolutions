@@ -183,11 +183,37 @@ import Why_Chooseus_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Wh
 import CSS_Gradience_CS from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_CS";
 import Followus_More_Styles_CS from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_CS";
 import Responsive_Summary_CS from "../ResponsiveWebsite/Revision/Responsive_Summary_CS";
-//Responsive WebSite Classes
 
+//Responsive WebSite Classes
+import Introductionto_Responsive_WD_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_1.js";
+import Bootstrap_Grid_Sys_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_1.js";
+import Bootstrap_Grid_Sys_2 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_2.js";
+import Bootstrap_Navbar_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Navbar_1.js";
+import Css_Selector_Inheritance_1 from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Selector_Inheritance_1.js";
+import Css_Specificity_Cascade_1 from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Specificity_Cascade_1.js";
+import Banner_Section_1 from "../ResponsiveWebsite/Developing_Layouts1/Banner_Section_1.js";
+import Explore_Menu_Section_1 from "../ResponsiveWebsite/Developing_Layouts1/Explore_Menu_Section_1.js";
+import Why_Chooseus_Section_1 from "../ResponsiveWebsite/Developing_Layouts1/Why_Chooseus_Section_1.js";
+import Healthy_Delivary_Payments_1 from "../ResponsiveWebsite/Developing_Layouts1/Healthy_Delivary_Payments_1.js";
+import Followus_More_Styles_1 from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_1.js";
+import Css_Gradience_1 from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_1.js";
 // Map subtopics to their components
 const subtopicComponents = {
   //Responsive Website
+  "Introduction to Dynamic Web Applications": Introductionto_Responsive_WD_1,
+  "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
+  "BootStrap Grid System Part 2": Bootstrap_Grid_Sys_2,
+  "BootStrap Navbar": Bootstrap_Navbar_1,
+  "CSS Selectors & Inheritance": Css_Selector_Inheritance_1,
+  "CSS Specificity & Cascade": Css_Specificity_Cascade_1,
+  "Banner Section": Banner_Section_1,
+  "Why Choose Us? Section": Why_Chooseus_Section_1,
+  "Explore New Section": Explore_Menu_Section_1,
+  "Healthy Food, Delivery and Payment, Thanking Customers Section":
+    Healthy_Delivary_Payments_1,
+  "Follow Us Section & More Styling": Followus_More_Styles_1,
+  "CSS Gradients & More BootStrap Components": Css_Gradience_1,
+
   //Responsive Start
   "Introduction to Responsive Web Design | Cheat Sheet":
     Introductionto_Responsive_WD_CS,

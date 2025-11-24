@@ -190,13 +190,13 @@ export default function Courses() {
     );
   };
 
-  // ✅ Get date range for goal
+  // ✅ Get date range for goal - FIXED
   const getGoalDateRange = (goal) => {
     const goalKey = goal.id.toLowerCase().replace(" ", "");
     return goalDates[goalKey]?.range || "Loading dates...";
   };
 
-  // ✅ Check if goal is unlocked
+  // ✅ Check if goal is unlocked - FIXED
   const isGoalUnlocked = (goal) => {
     const goalKey = goal.id.toLowerCase().replace(" ", "");
     return unlockedGoals[goalKey] || false;
@@ -211,7 +211,6 @@ export default function Courses() {
 
     return (
       <div className="locked-goal-message">
-        <div className="locked-icon">🔒</div>
         <h3>{goal.title} is Locked</h3>
         <p>
           Complete {previousGoal} to unlock this goal. Current progress:{" "}
