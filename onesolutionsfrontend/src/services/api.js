@@ -130,7 +130,7 @@ export const progressAPI = {
 };
 
 export const studentAPI = {
-  // Get goal progress and dates
+  // FIXED: Remove trailing slash to prevent 404
   getGoalProgress: () => api.get("/api/student/goal-progress"),
 
   // Check if specific goal is unlocked

@@ -32,7 +32,7 @@ export default function Courses() {
   // ✅ Load goal progress on component mount
   useEffect(() => {
     loadGoalProgress();
-  }, []);
+  }, [loadGoalProgress]);
 
   // ✅ Calculate local progress whenever completedContent changes
   useEffect(() => {
@@ -193,7 +193,18 @@ export default function Courses() {
   // ✅ Get date range for goal - FIXED
   const getGoalDateRange = (goal) => {
     const goalKey = goal.id.toLowerCase().replace(" ", "");
-    return goalDates[goalKey]?.range || "Loading dates...";
+    const dateRange = goalDates[goalKey]?.range;
+    
+    if (!dateRange) {
+      return "Calculating dates...";
+    }
+    
+    // If it's the default message, return it as is
+    if (dateRange.includes("Calculating") || dateRange.includes("Complete") || dateRange.includes("unlock")) {
+      return dateRange;
+    }
+    
+    return dateRange;
   };
 
   // ✅ Check if goal is unlocked - FIXED

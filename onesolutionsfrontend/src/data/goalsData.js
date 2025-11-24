@@ -434,7 +434,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m1_H g1_7B c2_D2E",
-                name: "Coding Practice 2",
+                name: "Responsive Coding Practice 2",
               },
             ],
           },
@@ -468,11 +468,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m2_H g1_7B c2_D2E",
-                name: "Coding Practice 3",
+                name: "Responsive Coding Practice 3",
               },
               {
                 id: "QW9_s8_A0 m2_H g1_7B c2_D2E",
-                name: "Coding Practice 4",
+                name: "Responsive Coding Practice 4",
               },
             ],
           },
@@ -494,7 +494,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m3_H g1_7B c2_D2E",
-                name: "Coding Practice 5",
+                name: "Responsive Coding Practice 5",
               },
               {
                 id: "QW9_s5_A0 m3_H g1_7B c2_D2E",
@@ -534,19 +534,19 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m3_H g1_7B c2_D2E",
-                name: "Coding Practice 6",
+                name: "Responsive Coding Practice 6",
               },
               {
                 id: "QW9_s15_A0 m3_H g1_7B c2_D2E",
-                name: "Coding Practice 7",
+                name: "Responsive Coding Practice 7",
               },
               {
                 id: "QW9_s16_A0 m3_H g1_7B c2_D2E",
-                name: "Coding Practice 8",
+                name: "Responsive Coding Practice 8",
               },
               {
                 id: "QW9_s17_A0 m3_H g1_7B c2_D2E",
-                name: "Coding Practice 9",
+                name: "Responsive Coding Practice 9",
               },
             ],
           },
@@ -580,19 +580,19 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m4_H g1_7B c2_D2E",
-                name: "Coding Practice 10",
+                name: "Responsive Coding Practice 10",
               },
               {
                 id: "QW9_s8_A0 m4_H g1_7B c2_D2E",
-                name: "Coding Practice 11",
+                name: "Responsive Coding Practice 11",
               },
               {
                 id: "QW9_s9_A0 m4_H g1_7B c2_D2E",
-                name: "Coding Practice 12",
+                name: "Responsive Coding Practice 12",
               },
               {
                 id: "QW9_s10_A0 m4_H g1_7B c2_D2E",
-                name: "Coding Practice 13",
+                name: "Responsive Coding Practice 13",
               },
             ],
           },
@@ -602,15 +602,15 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m5_H g1_7B c2_D2E",
-                name: "Coding Practice 14",
+                name: "Responsive Coding Practice 14",
               },
               {
                 id: "QW9_s2_A0 m5_H g1_7B c2_D2E",
-                name: "Coding Practice 15",
+                name: "Responsive Coding Practice 15",
               },
               {
                 id: "QW9_s3_A0 m5_H g1_7B c2_D2E",
-                name: "Coding Practice 16",
+                name: "Responsive Coding Practice 16",
               },
             ],
           },

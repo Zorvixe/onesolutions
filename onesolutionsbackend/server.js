@@ -3680,49 +3680,119 @@ app.get("/api/goals/progress-with-dates", auth, async (req, res) => {
   }
 });
 
-// ==========================================
-// 🔹 GOAL PROGRESS & DATE MANAGEMENT ROUTES
-// ==========================================
-
-// Enhanced goal progress endpoint with proper date calculation
-// ==========================================
-// 🔹 GOAL PROGRESS & DATE MANAGEMENT ROUTES
-// ==========================================
-
 // Get student's goal dates and progress
+// ==========================================
+// 🔹 ENHANCED GOAL PROGRESS & DATE MANAGEMENT ROUTES
+// ==========================================
+
+// Get student's goal dates and progress with dynamic date calculation
+// Get student's goal dates and progress with dynamic date calculation
 app.get("/api/student/goal-progress", auth, async (req, res) => {
   try {
     const studentId = req.student.id;
     const studentCreatedAt = req.student.created_at;
 
+    console.log(`[GOAL PROGRESS] Calculating for student ${studentId}, created at: ${studentCreatedAt}`);
+
     // Calculate goal dates based on registration date
     const registrationDate = new Date(studentCreatedAt);
+    const currentDate = new Date();
 
-    // Goal 1: 75 days from registration
-    const goal1Start = new Date(registrationDate);
-    const goal1End = new Date(registrationDate);
-    goal1End.setDate(goal1End.getDate() + 75);
-
-    // Goal 2: 120 days after goal 1 completion
-    const goal2Start = new Date(goal1End);
-    goal2Start.setDate(goal2Start.getDate() + 1);
-    const goal2End = new Date(goal2Start);
-    goal2End.setDate(goal2End.getDate() + 120);
-
-    // Goal 3: 45 days after goal 2 completion
-    const goal3Start = new Date(goal2End);
-    goal3Start.setDate(goal3Start.getDate() + 1);
-    const goal3End = new Date(goal3Start);
-    goal3End.setDate(goal3End.getDate() + 45);
-
-    // Format dates for display
-    const formatDate = (date) => {
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-      });
+    // Goal durations in days
+    const GOAL_DURATIONS = {
+      goal1: 75,
+      goal2: 120, 
+      goal3: 45
     };
+
+    // Calculate dynamic dates based on actual progress
+    const calculateDynamicDates = async () => {
+      // Get actual completion dates from database
+      const completionResult = await pool.query(
+        `SELECT goal_name, MIN(completed_at) as first_completion, 
+                MAX(completed_at) as last_completion,
+                COUNT(*) as total_content,
+                SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_content
+         FROM student_content_progress 
+         WHERE student_id = $1 AND goal_name IS NOT NULL
+         GROUP BY goal_name`,
+        [studentId]
+      );
+
+      const goalCompletions = {};
+      completionResult.rows.forEach(row => {
+        goalCompletions[row.goal_name] = {
+          firstCompletion: row.first_completion,
+          lastCompletion: row.last_completion,
+          totalContent: parseInt(row.total_content),
+          completedContent: parseInt(row.completed_content)
+        };
+      });
+
+      // Calculate dates
+      let goal1Start = new Date(registrationDate);
+      let goal1End = new Date(goal1Start);
+      goal1End.setDate(goal1End.getDate() + GOAL_DURATIONS.goal1);
+
+      let goal2Start = new Date(goal1End);
+      goal2Start.setDate(goal2Start.getDate() + 1);
+      let goal2End = new Date(goal2Start);
+      goal2End.setDate(goal2End.getDate() + GOAL_DURATIONS.goal2);
+
+      let goal3Start = new Date(goal2End);
+      goal3Start.setDate(goal3Start.getDate() + 1);
+      let goal3End = new Date(goal3Start);
+      goal3End.setDate(goal3End.getDate() + GOAL_DURATIONS.goal3);
+
+      // Adjust dates based on actual progress
+      const goal1Completion = goalCompletions["Goal 1"];
+      if (goal1Completion && goal1Completion.lastCompletion) {
+        const actualCompletion = new Date(goal1Completion.lastCompletion);
+        if (actualCompletion > goal1End) {
+          // Student took longer than planned - adjust subsequent dates
+          const delay = Math.ceil((actualCompletion - goal1End) / (1000 * 60 * 60 * 24));
+          goal2Start.setDate(goal2Start.getDate() + delay);
+          goal2End.setDate(goal2End.getDate() + delay);
+          goal3Start.setDate(goal3Start.getDate() + delay);
+          goal3End.setDate(goal3End.getDate() + delay);
+        }
+      }
+
+      // Format dates for display
+      const formatDate = (date) => {
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      };
+
+      return {
+        goal1: {
+          start: formatDate(goal1Start),
+          end: formatDate(goal1End),
+          range: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
+          duration: GOAL_DURATIONS.goal1,
+          daysRemaining: Math.max(0, Math.ceil((goal1End - currentDate) / (1000 * 60 * 60 * 24)))
+        },
+        goal2: {
+          start: formatDate(goal2Start),
+          end: formatDate(goal2End),
+          range: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
+          duration: GOAL_DURATIONS.goal2,
+          daysRemaining: Math.max(0, Math.ceil((goal2End - currentDate) / (1000 * 60 * 60 * 24)))
+        },
+        goal3: {
+          start: formatDate(goal3Start),
+          end: formatDate(goal3End),
+          range: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
+          duration: GOAL_DURATIONS.goal3,
+          daysRemaining: Math.max(0, Math.ceil((goal3End - currentDate) / (1000 * 60 * 60 * 24)))
+        }
+      };
+    };
+
+    const goalDates = await calculateDynamicDates();
 
     // Get goal completion status
     const goalCompletion = await pool.query(
@@ -3738,7 +3808,7 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     goalCompletion.rows.forEach((row) => {
       const progress =
         row.total_content > 0
-          ? (row.completed_content / row.total_content) * 100
+          ? Math.round((row.completed_content / row.total_content) * 100)
           : 0;
       goalProgress[row.goal_name] = progress;
     });
@@ -3749,32 +3819,20 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
 
     // Determine which goals are unlocked
     const isGoal1Unlocked = true; // Always unlocked
-    const isGoal2Unlocked = goal1Progress >= 100;
-    const isGoal3Unlocked = goal2Progress >= 100;
-
-    const goalDates = {
-      goal1: {
-        start: formatDate(goal1Start),
-        end: formatDate(goal1End),
-        range: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
-      },
-      goal2: {
-        start: formatDate(goal2Start),
-        end: formatDate(goal2End),
-        range: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
-      },
-      goal3: {
-        start: formatDate(goal3Start),
-        end: formatDate(goal3End),
-        range: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
-      },
-    };
+    const isGoal2Unlocked = goal1Progress >= 80; // 80% of Goal 1 to unlock Goal 2
+    const isGoal3Unlocked = goal2Progress >= 80; // 80% of Goal 2 to unlock Goal 3
 
     const unlockedGoals = {
       goal1: isGoal1Unlocked,
       goal2: isGoal2Unlocked,
       goal3: isGoal3Unlocked,
     };
+
+    console.log(`[GOAL PROGRESS] Response for student ${studentId}:`, {
+      goalDates,
+      goalProgress: { goal1Progress, goal2Progress, goal3Progress },
+      unlockedGoals
+    });
 
     res.json({
       success: true,
@@ -3796,7 +3854,6 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     });
   }
 });
-
 // Check if specific goal is unlocked
 app.get("/api/student/goal/:goalName/unlocked", auth, async (req, res) => {
   try {

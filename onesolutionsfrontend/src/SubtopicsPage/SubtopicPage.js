@@ -198,6 +198,21 @@ import Healthy_Delivary_Payments_1 from "../ResponsiveWebsite/Developing_Layouts
 import Followus_More_Styles_1 from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_1.js";
 import Css_Gradience_1 from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_1.js";
 import Responsive_Coding_Pratice_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Responsive_Coding_Pratice_1.js";
+import Responsive_Coding_Pratice_2 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Responsive_Coding_Pratice_2.js";
+import Responsive_Coding_Pratice_3 from "../ResponsiveWebsite/CSS_Building_Blocks/Responsive_Coding_Pratice_3.js";
+import Responsive_Coding_Pratice_4 from "../ResponsiveWebsite/CSS_Building_Blocks/Responsive_Coding_Pratice_4.js";
+import Responsive_Coding_Pratice_5 from "../ResponsiveWebsite/Developing_Layouts1/Responsive_Coding_Pratice_5.js";
+import Responsive_Coding_Pratice_6 from "../ResponsiveWebsite/Developing_Layouts1/Responsive_Coding_Pratice_6.js";
+import Responsive_Coding_Pratice_7 from "../ResponsiveWebsite/Developing_Layouts1/Responsive_Coding_Pratice_7.js";
+import Responsive_Coding_Pratice_8 from "../ResponsiveWebsite/Developing_Layouts1/Responsive_Coding_Pratice_8.js";
+import Responsive_Coding_Pratice_9 from "../ResponsiveWebsite/Developing_Layouts1/Responsive_Coding_Pratice_9.js";
+import Responsive_Coding_Pratice_10 from "../ResponsiveWebsite/Developing_Layouts2/Responsive_Coding_Pratice_10.js";
+import Responsive_Coding_Pratice_11 from "../ResponsiveWebsite/Developing_Layouts2/Responsive_Coding_Pratice_11.js";
+import Responsive_Coding_Pratice_12 from "../ResponsiveWebsite/Developing_Layouts2/Responsive_Coding_Pratice_12.js";
+import Responsive_Coding_Pratice_13 from "../ResponsiveWebsite/Developing_Layouts2/Responsive_Coding_Pratice_13.js";
+import Responsive_Coding_Pratice_14 from "../ResponsiveWebsite/Developing_Layouts_Pratice/Responsive_Coding_Pratice_14.js";
+import Responsive_Coding_Pratice_15 from "../ResponsiveWebsite/Developing_Layouts_Pratice/Responsive_Coding_Pratice_15.js";
+import Responsive_Coding_Pratice_16 from "../ResponsiveWebsite/Developing_Layouts_Pratice/Responsive_Coding_Pratice_16.js";
 // Map subtopics to their components
 const subtopicComponents = {
   //Responsive Website
@@ -215,6 +230,21 @@ const subtopicComponents = {
   "Follow Us Section & More Styling": Followus_More_Styles_1,
   "CSS Gradients & More BootStrap Components": Css_Gradience_1,
   "Responsive Coding Practice 1": Responsive_Coding_Pratice_1,
+  "Responsive Coding Practice 2": Responsive_Coding_Pratice_2,
+  "Responsive Coding Practice 3": Responsive_Coding_Pratice_3,
+  "Responsive Coding Practice 4": Responsive_Coding_Pratice_4,
+  "Responsive Coding Practice 5": Responsive_Coding_Pratice_5,
+  "Responsive Coding Practice 6": Responsive_Coding_Pratice_6,
+  "Responsive Coding Practice 7": Responsive_Coding_Pratice_7,
+  "Responsive Coding Practice 8": Responsive_Coding_Pratice_8,
+  "Responsive Coding Practice 9": Responsive_Coding_Pratice_9,
+  "Responsive Coding Practice 10": Responsive_Coding_Pratice_10,
+  "Responsive Coding Practice 11": Responsive_Coding_Pratice_11,
+  "Responsive Coding Practice 12": Responsive_Coding_Pratice_12,
+  "Responsive Coding Practice 13": Responsive_Coding_Pratice_13,
+  "Responsive Coding Practice 14": Responsive_Coding_Pratice_14,
+  "Responsive Coding Practice 15": Responsive_Coding_Pratice_15,
+  "Responsive Coding Practice 16": Responsive_Coding_Pratice_16,
 
   //Responsive Start
   "Introduction to Responsive Web Design | Cheat Sheet":
