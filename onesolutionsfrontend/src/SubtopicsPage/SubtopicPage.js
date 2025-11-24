@@ -213,6 +213,12 @@ import Responsive_Coding_Pratice_13 from "../ResponsiveWebsite/Developing_Layout
 import Responsive_Coding_Pratice_14 from "../ResponsiveWebsite/Developing_Layouts_Pratice/Responsive_Coding_Pratice_14.js";
 import Responsive_Coding_Pratice_15 from "../ResponsiveWebsite/Developing_Layouts_Pratice/Responsive_Coding_Pratice_15.js";
 import Responsive_Coding_Pratice_16 from "../ResponsiveWebsite/Developing_Layouts_Pratice/Responsive_Coding_Pratice_16.js";
+import Responsive_Coding_Assignment_1 from "../ResponsiveWebsite/Assignments/Responsive_Coding_Assignment_1.js";
+import Responsive_Coding_Assignment_2 from "../ResponsiveWebsite/Assignments/Responsive_Coding_Assignment_2.js";
+import Responsive_Coding_Assignment_3 from "../ResponsiveWebsite/Assignments/Responsive_Coding_Assignment_3.js";
+import Responsive_Coding_Test_1 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_1.js";
+import Responsive_Coding_Test_2 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_2.js";
+import Responsive_Coding_Test_3 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_3.js";
 // Map subtopics to their components
 const subtopicComponents = {
   //Responsive Website
@@ -245,6 +251,12 @@ const subtopicComponents = {
   "Responsive Coding Practice 14": Responsive_Coding_Pratice_14,
   "Responsive Coding Practice 15": Responsive_Coding_Pratice_15,
   "Responsive Coding Practice 16": Responsive_Coding_Pratice_16,
+  "Responsive Coding Assignment 1": Responsive_Coding_Assignment_1,
+  "Responsive Coding Assignment 2": Responsive_Coding_Assignment_2,
+  "Responsive Coding Assignment 3": Responsive_Coding_Assignment_3,
+  "Reponsive Coding Test 1": Responsive_Coding_Test_1,
+  "Reponsive Coding Test 2": Responsive_Coding_Test_2,
+  "Reponsive Coding Test 3": Responsive_Coding_Test_3,
 
   //Responsive Start
   "Introduction to Responsive Web Design | Cheat Sheet":

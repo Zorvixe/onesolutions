@@ -43,70 +43,9 @@ export const AuthProvider = ({ children }) => {
   });
   const [goalsLoading, setGoalsLoading] = useState(false);
 
-  // ✅ FIXED: Enhanced loadGoalProgress function
-  const loadGoalProgress = async () => {
-    try {
-      setGoalsLoading(true);
-      console.log("[AUTH] Loading goal progress...");
-
-      const response = await studentAPI.getGoalProgress();
-      console.log("[AUTH] Goal progress response:", response);
-
-      if (response.data.success) {
-        const { goalDates, goalProgress, unlockedGoals } = response.data.data;
-        
-        // Update all states with the response data
-        setGoalDates(goalDates || {});
-        setGoalProgress(goalProgress || {});
-        setUnlockedGoals(unlockedGoals || {
-          goal1: true,
-          goal2: false,
-          goal3: false,
-        });
-        
-        console.log("[AUTH] Goal progress loaded successfully:", {
-          goalDates,
-          goalProgress,
-          unlockedGoals
-        });
-      } else {
-        console.error("[AUTH] Goal progress response not successful:", response.data);
-        // Set default values if API call fails
-        setDefaultGoalData();
-      }
-    } catch (error) {
-      console.error("[AUTH] Goal progress load failed:", error);
-      console.error("[AUTH] Error details:", error.response?.data);
-      // Set default values on error
-      setDefaultGoalData();
-    } finally {
-      setGoalsLoading(false);
-    }
-  };
-
-  // ✅ Helper function to set default goal data
-  const setDefaultGoalData = () => {
-    const defaultDates = {
-      goal1: { range: "Calculating dates..." },
-      goal2: { range: "Complete Goal 1 to unlock" },
-      goal3: { range: "Complete Goal 2 to unlock" }
-    };
-    
-    setGoalDates(defaultDates);
-    setGoalProgress({});
-    setUnlockedGoals({
-      goal1: true,
-      goal2: false,
-      goal3: false,
-    });
-  };
-
-  // Call loadGoalProgress when user logs in
   useEffect(() => {
-    if (user) {
-      loadGoalProgress();
-    }
-  }, [user]);
+    checkAuthStatus();
+  }, []);
 
   const checkAuthStatus = async () => {
     try {
@@ -117,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         await loadCompleteProfile();
         await loadUserProgress();
         await loadProgressSummary();
-        // Don't call loadGoalProgress here - it will be called by the useEffect above
+        await loadGoalProgress(); // Add this line
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -131,6 +70,24 @@ export const AuthProvider = ({ children }) => {
       setCompleteProfile(null);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Add this function to load goal progress
+  const loadGoalProgress = async () => {
+    try {
+      setGoalsLoading(true);
+      const response = await studentAPI.getGoalProgress();
+      if (response.data.success) {
+        const { goalProgress, goalDates, unlockedGoals } = response.data.data;
+        setGoalProgress(goalProgress);
+        setGoalDates(goalDates);
+        setUnlockedGoals(unlockedGoals);
+      }
+    } catch (error) {
+      console.error("[AUTH] Goal progress load failed:", error.message);
+    } finally {
+      setGoalsLoading(false);
     }
   };
 
@@ -411,12 +368,6 @@ export const AuthProvider = ({ children }) => {
     setGoalProgress({});
     setCourseProgress({});
     setOverallProgress(0);
-    setGoalDates({});
-    setUnlockedGoals({
-      goal1: true,
-      goal2: false,
-      goal3: false,
-    });
   };
 
   const clearError = () => setError("");
@@ -552,10 +503,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("token", token);
         setUser(student);
         setOtpSent(false);
-        
-        // Load goal progress after successful login
-        await loadGoalProgress();
-        
         return { success: true, message: "Login successful" };
       } else {
         const errorMsg = response.data.message || "OTP verification failed";
@@ -601,10 +548,6 @@ export const AuthProvider = ({ children }) => {
           const { student, token } = response.data.data;
           localStorage.setItem("token", token);
           setUser(student);
-          
-          // Load goal progress after successful registration
-          await loadGoalProgress();
-          
           return { success: true, message: "Registration successful" };
         } else {
           const errorMsg = response.data.message || "Registration failed";

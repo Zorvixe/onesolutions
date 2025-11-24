@@ -3692,7 +3692,9 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     const studentId = req.student.id;
     const studentCreatedAt = req.student.created_at;
 
-    console.log(`[GOAL PROGRESS] Calculating for student ${studentId}, created at: ${studentCreatedAt}`);
+    console.log(
+      `[GOAL PROGRESS] Calculating for student ${studentId}, created at: ${studentCreatedAt}`
+    );
 
     // Calculate goal dates based on registration date
     const registrationDate = new Date(studentCreatedAt);
@@ -3701,8 +3703,8 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     // Goal durations in days
     const GOAL_DURATIONS = {
       goal1: 75,
-      goal2: 120, 
-      goal3: 45
+      goal2: 120,
+      goal3: 45,
     };
 
     // Calculate dynamic dates based on actual progress
@@ -3720,12 +3722,12 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
       );
 
       const goalCompletions = {};
-      completionResult.rows.forEach(row => {
+      completionResult.rows.forEach((row) => {
         goalCompletions[row.goal_name] = {
           firstCompletion: row.first_completion,
           lastCompletion: row.last_completion,
           totalContent: parseInt(row.total_content),
-          completedContent: parseInt(row.completed_content)
+          completedContent: parseInt(row.completed_content),
         };
       });
 
@@ -3750,7 +3752,9 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
         const actualCompletion = new Date(goal1Completion.lastCompletion);
         if (actualCompletion > goal1End) {
           // Student took longer than planned - adjust subsequent dates
-          const delay = Math.ceil((actualCompletion - goal1End) / (1000 * 60 * 60 * 24));
+          const delay = Math.ceil(
+            (actualCompletion - goal1End) / (1000 * 60 * 60 * 24)
+          );
           goal2Start.setDate(goal2Start.getDate() + delay);
           goal2End.setDate(goal2End.getDate() + delay);
           goal3Start.setDate(goal3Start.getDate() + delay);
@@ -3773,22 +3777,31 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
           end: formatDate(goal1End),
           range: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
           duration: GOAL_DURATIONS.goal1,
-          daysRemaining: Math.max(0, Math.ceil((goal1End - currentDate) / (1000 * 60 * 60 * 24)))
+          daysRemaining: Math.max(
+            0,
+            Math.ceil((goal1End - currentDate) / (1000 * 60 * 60 * 24))
+          ),
         },
         goal2: {
           start: formatDate(goal2Start),
           end: formatDate(goal2End),
           range: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
           duration: GOAL_DURATIONS.goal2,
-          daysRemaining: Math.max(0, Math.ceil((goal2End - currentDate) / (1000 * 60 * 60 * 24)))
+          daysRemaining: Math.max(
+            0,
+            Math.ceil((goal2End - currentDate) / (1000 * 60 * 60 * 24))
+          ),
         },
         goal3: {
           start: formatDate(goal3Start),
           end: formatDate(goal3End),
           range: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
           duration: GOAL_DURATIONS.goal3,
-          daysRemaining: Math.max(0, Math.ceil((goal3End - currentDate) / (1000 * 60 * 60 * 24)))
-        }
+          daysRemaining: Math.max(
+            0,
+            Math.ceil((goal3End - currentDate) / (1000 * 60 * 60 * 24))
+          ),
+        },
       };
     };
 
@@ -3831,7 +3844,7 @@ app.get("/api/student/goal-progress", auth, async (req, res) => {
     console.log(`[GOAL PROGRESS] Response for student ${studentId}:`, {
       goalDates,
       goalProgress: { goal1Progress, goal2Progress, goal3Progress },
-      unlockedGoals
+      unlockedGoals,
     });
 
     res.json({

@@ -643,7 +643,15 @@ export const goalsData = [
 
               {
                 id: "QW9_s4_A0 m7_H g1_7B c2_D2E",
-                name: "Coding Assignment 1",
+                name: "Responsive Coding Assignment 1",
+              },
+              {
+                id: "QW9_s5_A0 m7_H g1_7B c2_D2E",
+                name: "Responsive Coding Assignment 2",
+              },
+              {
+                id: "QW9_s6_A0 m7_H g1_7B c2_D2E",
+                name: "Responsive Coding Assignment 3",
               },
             ],
           },
@@ -653,15 +661,19 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m8_H g1_7B c2_D2E",
-                name: "Coding Test 1",
+                name: "Reponsive Coding Test 1",
               },
               {
                 id: "QW9_s2_A0 m8_H g1_7B c2_D2E",
-                name: "Coding Test 2",
+                name: "Responsive Coding Test 2",
               },
               {
                 id: "QW9_s3_A0 m8_H g1_7B c2_D2E",
-                name: "Coding Test 3",
+                name: "Responsive Coding Test 3",
+              },
+              {
+                id: "QW9_s4_A0 m8_H g1_7B c2_D2E",
+                name: "Build Your Own Responsive Project",
               },
             ],
           },
