@@ -3,7 +3,13 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoHomeSharp } from "react-icons/io5";
-import { FaFile, FaLandmark, FaShieldAlt, FaUser } from "react-icons/fa";
+import {
+  FaFile,
+  FaLandmark,
+  FaShieldAlt,
+  FaUser,
+  FaUserPlus,
+} from "react-icons/fa";
 import { MdWork } from "react-icons/md";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { OnlineStatusContext } from "../Context/OnlineStatusContext";
@@ -59,7 +65,7 @@ const Sidebar = () => {
     },
     {
       id: "StudnetRegister",
-      icon: <FaShieldAlt />,
+      icon: <FaUserPlus />,
       path: "/studnet_register",
       label: "Studnet Register",
     },
