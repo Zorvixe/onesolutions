@@ -208,61 +208,81 @@ const CompleteProfileUpdate = () => {
 
   const cleanFormData = (data) => {
     const cleaned = { ...data };
-    
+
     // Define fields that should be integers
     const integerFields = [
       "batchYear",
-      "bachelorStartYear", 
+      "bachelorStartYear",
       "bachelorEndYear",
       "bachelorInstitutePincode",
-      "postalCode"
+      "postalCode",
     ];
-    
+
     // Define fields that should be floats (but keep as string for marks)
     const numericFields = ["tenthMarks", "twelfthMarks", "bachelorCgpa"];
-    
+
     // Define date fields
     const dateFields = ["dateOfBirth"];
-  
+
     // Handle integer fields
     integerFields.forEach((field) => {
-      if (cleaned[field] === "" || cleaned[field] === null || cleaned[field] === undefined) {
+      if (
+        cleaned[field] === "" ||
+        cleaned[field] === null ||
+        cleaned[field] === undefined
+      ) {
         cleaned[field] = null;
       } else if (typeof cleaned[field] === "string") {
         // Remove any non-digit characters except decimal point for numeric fields
-        const numericValue = cleaned[field].replace(/[^\d.]/g, '');
+        const numericValue = cleaned[field].replace(/[^\d.]/g, "");
         const intValue = parseInt(numericValue);
         cleaned[field] = isNaN(intValue) ? null : intValue;
       }
     });
-  
+
     // Handle numeric fields (keep as string since they can be percentages or CGPA)
     numericFields.forEach((field) => {
-      if (cleaned[field] === "" || cleaned[field] === null || cleaned[field] === undefined) {
+      if (
+        cleaned[field] === "" ||
+        cleaned[field] === null ||
+        cleaned[field] === undefined
+      ) {
         cleaned[field] = null;
       }
       // Keep as string, don't convert to number
     });
-  
+
     // Handle date fields
     dateFields.forEach((field) => {
-      if (cleaned[field] === "" || cleaned[field] === null || cleaned[field] === undefined) {
+      if (
+        cleaned[field] === "" ||
+        cleaned[field] === null ||
+        cleaned[field] === undefined
+      ) {
         cleaned[field] = null;
       }
     });
-  
+
     // Handle boolean fields
     const booleanFields = ["hasLaptop", "hasWorkExperience", "isCurrentBatch"];
     booleanFields.forEach((field) => {
-      if (cleaned[field] === "" || cleaned[field] === null || cleaned[field] === undefined) {
+      if (
+        cleaned[field] === "" ||
+        cleaned[field] === null ||
+        cleaned[field] === undefined
+      ) {
         cleaned[field] = false;
       } else if (typeof cleaned[field] === "string") {
         cleaned[field] = cleaned[field] === "true";
       }
     });
-  
+
     // Handle array fields - ensure they are proper arrays
-    const arrayFields = ["preferredLanguages", "technicalSkills", "preferredJobLocations"];
+    const arrayFields = [
+      "preferredLanguages",
+      "technicalSkills",
+      "preferredJobLocations",
+    ];
     arrayFields.forEach((field) => {
       if (!cleaned[field] || cleaned[field] === "") {
         cleaned[field] = [];
@@ -272,11 +292,14 @@ const CompleteProfileUpdate = () => {
           cleaned[field] = Array.isArray(parsed) ? parsed : [];
         } catch (e) {
           // If not valid JSON, treat as comma-separated string
-          cleaned[field] = cleaned[field].split(',').map(item => item.trim()).filter(item => item);
+          cleaned[field] = cleaned[field]
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item);
         }
       }
     });
-  
+
     return cleaned;
   };
 
@@ -399,6 +422,7 @@ const CompleteProfileUpdate = () => {
             value={formData.batchYear || ""}
             onChange={handleChange}
             placeholder="e.g., 2023"
+            disabled={true}
           />
         </div>
         <div className="form-group">
@@ -409,6 +433,7 @@ const CompleteProfileUpdate = () => {
             value={formData.batchMonth || ""}
             onChange={handleChange}
             placeholder="e.g., January"
+            disabled={true}
           />
         </div>
         <div className="form-group full-width">
@@ -1292,7 +1317,7 @@ const CompleteProfileUpdate = () => {
                     <span className="btn-spinner"></span> Updating...
                   </>
                 ) : (
-                  "💾 Update Profile"
+                  "Update Profile"
                 )}
               </button>
             </div>
