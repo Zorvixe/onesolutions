@@ -331,6 +331,84 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // ✅ Forgot Password Flow
+  const forgotPasswordRequestOtp = async (email) => {
+    try {
+      setError("");
+      const response = await authAPI.forgotPasswordRequestOtp(email.trim());
+
+      if (response.data.success) {
+        return {
+          success: true,
+          message: response.data.message || "OTP sent to your email",
+        };
+      } else {
+        const errorMsg = response.data.message || "Failed to send OTP";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[AUTH] Forgot password OTP request error:", error);
+
+      let errorMsg = "Failed to send OTP. Please try again.";
+
+      if (error.response?.status === 400) {
+        errorMsg = error.response.data?.message || "Email not found";
+      } else if (error.response?.status === 429) {
+        errorMsg = "Too many attempts. Please try again later.";
+      } else if (!error.response) {
+        errorMsg = "Network error. Please check your connection and try again.";
+      }
+
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  const forgotPasswordVerifyOtpReset = async (email, otp, newPassword) => {
+    try {
+      setError("");
+      const response = await authAPI.forgotPasswordVerifyOtpReset({
+        email: email.trim(),
+        otp: otp.trim(),
+        newPassword,
+      });
+
+      if (response.data.success) {
+        return {
+          success: true,
+          message: response.data.message || "Password reset successful",
+        };
+      } else {
+        const errorMsg = response.data.message || "Password reset failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error(
+        "[AUTH] Forgot password verify OTP and reset error:",
+        error
+      );
+
+      let errorMsg = "Password reset failed. Please try again.";
+
+      if (error.response?.status === 400) {
+        errorMsg =
+          error.response.data?.message ||
+          "Invalid OTP or password requirements not met";
+      } else if (error.response?.status === 401) {
+        errorMsg = "OTP expired. Please request a new one.";
+      } else if (error.response?.status === 429) {
+        errorMsg = "Too many attempts. Please try again later.";
+      } else if (!error.response) {
+        errorMsg = "Network error. Please check your connection and try again.";
+      }
+
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setUser(null);
@@ -513,6 +591,27 @@ export const AuthProvider = ({ children }) => {
     otpSent,
     loginOtpRequest,
     loginOtpVerify,
+    register: async (formData) => {
+      try {
+        setError("");
+        const response = await authAPI.register(formData);
+        if (response.data.success) {
+          const { student, token } = response.data.data;
+          localStorage.setItem("token", token);
+          setUser(student);
+          return { success: true, message: "Registration successful" };
+        } else {
+          const errorMsg = response.data.message || "Registration failed";
+          setError(errorMsg);
+          return { success: false, message: errorMsg };
+        }
+      } catch (error) {
+        console.error("[AUTH] Registration error:", error);
+        const errorMsg = error.response?.data?.message || "Registration failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    },
     updateProfile: async (formData) => {
       try {
         setError("");
@@ -553,6 +652,8 @@ export const AuthProvider = ({ children }) => {
     addAchievement,
     logout,
     clearError,
+    forgotPasswordRequestOtp,
+    forgotPasswordVerifyOtpReset,
     isAuthenticated: !!user,
     refreshCompleteProfile: loadCompleteProfile,
   };

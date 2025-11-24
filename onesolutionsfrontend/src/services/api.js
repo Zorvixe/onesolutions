@@ -71,6 +71,9 @@ export const authAPI = {
   forgotPasswordVerifyOtpReset: (data) =>
     api.post("/api/auth/forgot-password/verify-otp-reset", data),
 
+  // Register new user
+  register: (studentData) => api.post("/api/auth/register", studentData),
+
   // Get current user profile
   getProfile: () => api.get("/api/auth/profile"),
 
@@ -124,6 +127,13 @@ export const progressAPI = {
     api.get(`/api/progress/course/${courseName}`),
 
   getGoalProgress: (goalName) => api.get(`/api/progress/goal/${goalName}`),
+};
+
+export const threadsAPI = {
+  createThread: (threadData) => api.post("/api/threads", threadData),
+  getThreads: (subtopicId) => api.get(`/api/threads/${subtopicId}`),
+  getThreadDetail: (threadId) => api.get(`/api/threads/detail/${threadId}`),
+  createReply: (replyData) => api.post("/api/threads/reply", replyData),
 };
 
 // ✅ Health Check API
