@@ -113,6 +113,8 @@ const createTables = async () => {
       profile_image VARCHAR(500),
       batch_month VARCHAR(20),
       batch_year INTEGER,
+      join_date DATE DEFAULT CURRENT_DATE,
+      status VARCHAR(20) DEFAULT 'active',
       is_current_batch BOOLEAN DEFAULT false,
       
       -- New Personal Details Fields
@@ -179,11 +181,6 @@ const createTables = async () => {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `;
-
-  await pool.query(`
-  ALTER TABLE students 
-  ADD COLUMN join_date DATE DEFAULT CURRENT_DATE,
-  ADD COLUMN status VARCHAR(20) DEFAULT 'active';`);
 
   // Student progress table
   const progressTableQuery = `
