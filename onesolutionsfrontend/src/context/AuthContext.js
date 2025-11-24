@@ -513,27 +513,6 @@ export const AuthProvider = ({ children }) => {
     otpSent,
     loginOtpRequest,
     loginOtpVerify,
-    register: async (formData) => {
-      try {
-        setError("");
-        const response = await authAPI.register(formData);
-        if (response.data.success) {
-          const { student, token } = response.data.data;
-          localStorage.setItem("token", token);
-          setUser(student);
-          return { success: true, message: "Registration successful" };
-        } else {
-          const errorMsg = response.data.message || "Registration failed";
-          setError(errorMsg);
-          return { success: false, message: errorMsg };
-        }
-      } catch (error) {
-        console.error("[AUTH] Registration error:", error);
-        const errorMsg = error.response?.data?.message || "Registration failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    },
     updateProfile: async (formData) => {
       try {
         setError("");

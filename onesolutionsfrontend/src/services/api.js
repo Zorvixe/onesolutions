@@ -71,9 +71,6 @@ export const authAPI = {
   forgotPasswordVerifyOtpReset: (data) =>
     api.post("/api/auth/forgot-password/verify-otp-reset", data),
 
-  // Register new user
-  register: (studentData) => api.post("/api/auth/register", studentData),
-
   // Get current user profile
   getProfile: () => api.get("/api/auth/profile"),
 

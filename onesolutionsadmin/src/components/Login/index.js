@@ -58,14 +58,17 @@ const Login = () => {
     setSuccessMessage(null);
 
     try {
-      const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `https://ose.onesolutionsekam.in/api/admin/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const responseData = await response.json();
 
@@ -109,38 +112,38 @@ const Login = () => {
   };
 
   return (
-    <div className="admin-login-container">
-      <div className="login-background">
-        <div className="background-overlay"></div>
+    <div className="admin-login-container-adlog">
+      <div className="login-background-adlog">
+        <div className="background-overlay-adlog"></div>
         {assests.login_bg && (
           <img
             src={assests.login_bg || "/placeholder.svg"}
             alt=""
-            className="background-image"
+            className="background-image-adlog"
           />
         )}
       </div>
 
-      <div className="login-content">
-        <div className="login-main">
-          <div className="login-card">
-            <div className="card-header">
+      <div className="login-content-adlog">
+        <div className="login-main-adlog">
+          <div className="login-card-adlog">
+            <div className="card-header-adlog">
               {assests.one_solutions && (
                 <img
                   src={assests.one_solutions || "/placeholder.svg"}
                   alt="One Solutions"
-                  className="company-logo"
+                  className="company-logo-adlog"
                 />
               )}
             </div>
 
-            <form onSubmit={handleLogin} className="login-form">
-              <div className="form-group">
-                <label htmlFor="username" className="form-label">
+            <form onSubmit={handleLogin} className="login-form-adlog">
+              <div className="form-group-adlog">
+                <label htmlFor="username" className="form-label-adlog">
                   Username
                 </label>
-                <div className="input-container">
-                  <FaUser className="input-icon" />
+                <div className="input-container-adlog">
+                  <FaUser className="input-icon-adlog" />
                   <input
                     id="username"
                     type="text"
@@ -148,19 +151,19 @@ const Login = () => {
                     placeholder="Enter your username"
                     value={formData.username}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className="form-input-adlog"
                     autoComplete="username"
                     required
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="password" className="form-label">
+              <div className="form-group-adlog">
+                <label htmlFor="password" className="form-label-adlog">
                   Password
                 </label>
-                <div className="input-container">
-                  <FaLock className="input-icon" />
+                <div className="input-container-adlog">
+                  <FaLock className="input-icon-adlog" />
                   <input
                     id="password"
                     type={showPassword ? "text" : "password"}
@@ -168,14 +171,14 @@ const Login = () => {
                     placeholder="Enter your password"
                     value={formData.password}
                     onChange={handleInputChange}
-                    className="form-input"
+                    className="form-input-adlog"
                     autoComplete="current-password"
                     required
                   />
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="password-toggle"
+                    className="password-toggle-adlog"
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
                     }
@@ -185,16 +188,20 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="form-options">
-                <a href="/reset-password" className="forgot-password">
+              <div className="form-options-adlog">
+                <a href="/reset-password" className="forgot-password-adlog">
                   Forgot Password?
                 </a>
               </div>
 
-              <button type="submit" className="login-btn" disabled={loading}>
+              <button
+                type="submit"
+                className="login-btn-adlog"
+                disabled={loading}
+              >
                 {loading ? (
                   <>
-                    <div className="btn-loader"></div>
+                    <div className="btn-loader-adlog"></div>
                     Signing In...
                   </>
                 ) : (
@@ -202,15 +209,15 @@ const Login = () => {
                 )}
               </button>
 
-              <div className="message-area">
+              <div className="message-area-adlog">
                 {error && (
-                  <div className="alert alert-error">
-                    <span className="alert-text">{error}</span>
+                  <div className="alert-adlog alert-error-adlog">
+                    <span className="alert-text-adlog">{error}</span>
                   </div>
                 )}
                 {successMessage && (
-                  <div className="alert alert-success">
-                    <span className="alert-text">{successMessage}</span>
+                  <div className="alert-adlog alert-success-adlog">
+                    <span className="alert-text-adlog">{successMessage}</span>
                   </div>
                 )}
               </div>
@@ -218,11 +225,11 @@ const Login = () => {
           </div>
 
           {assests.login_image && (
-            <div className="login-illustration">
+            <div className="login-illustration-adlog">
               <img
                 src={assests.login_image || "/placeholder.svg"}
                 alt="Admin Dashboard"
-                className="illustration-image"
+                className="illustration-image-adlog"
               />
             </div>
           )}

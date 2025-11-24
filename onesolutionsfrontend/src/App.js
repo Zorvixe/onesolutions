@@ -8,7 +8,6 @@ import {
 import { useAuth } from "./context/AuthContext";
 
 import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
 import ProfilePage from "./components/Profile/ProfilePage";
 import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
@@ -58,7 +57,6 @@ function App() {
         <div className="auth-wrapper">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/forgotPassword" element={<ForgotPassword />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>

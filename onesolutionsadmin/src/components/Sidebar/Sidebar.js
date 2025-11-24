@@ -57,6 +57,12 @@ const Sidebar = () => {
       path: "/achievements",
       label: "Achievements",
     },
+    {
+      id: "StudnetRegister",
+      icon: <FaShieldAlt />,
+      path: "/studnet_register",
+      label: "Studnet Register",
+    },
   ];
 
   const handleNavigate = (item) => {

@@ -44,7 +44,8 @@ export default function Courses() {
 
     goalsData.forEach((goal) => {
       // Calculate goal progress
-      goalsProgress[goal.id] = calculateGoalProgress(goal);
+      const goalProg = calculateGoalProgress(goal);
+      goalsProgress[goal.id] = goalProg;
 
       goal.courses.forEach((course) => {
         // Calculate course progress
@@ -66,20 +67,61 @@ export default function Courses() {
     });
   };
 
-  const toggleGoal = (goalId) => {
+  // ✅ Enhanced goal locking - checks ALL previous goals
+  const isGoalLocked = (goalIndex) => {
+    if (goalIndex === 0) return false; // First goal is always open
+
+    // Check ALL previous goals (not just immediate previous)
+    for (let i = 0; i < goalIndex; i++) {
+      const previousGoal = goalsData[i];
+      const previousGoalProgress = getGoalProgress(previousGoal);
+
+      // If any previous goal is not 100% completed, this goal is locked
+      if (previousGoalProgress < 100) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  // ✅ Check if specific content is accessible (for courses/modules within locked goals)
+  const isContentAccessible = (goalIndex) => {
+    return !isGoalLocked(goalIndex);
+  };
+
+  const toggleGoal = (goalId, goalIndex) => {
+    // Don't allow expanding locked goals
+    if (isGoalLocked(goalIndex)) {
+      showLockedMessage();
+      return;
+    }
+
     setExpandedGoal(expandedGoal === goalId ? null : goalId);
     setExpandedCourse(null);
     setExpandedModule(null);
     setSelectedSubtopic(null);
   };
 
-  const toggleCourse = (courseId) => {
+  const toggleCourse = (courseId, goalIndex) => {
+    // Don't allow expanding courses in locked goals
+    if (isGoalLocked(goalIndex)) {
+      showLockedMessage();
+      return;
+    }
+
     setExpandedCourse(expandedCourse === courseId ? null : courseId);
     setExpandedModule(null);
     setSelectedSubtopic(null);
   };
 
-  const toggleModule = (moduleName) => {
+  const toggleModule = (moduleName, goalIndex) => {
+    // Don't allow expanding modules in locked goals
+    if (isGoalLocked(goalIndex)) {
+      showLockedMessage();
+      return;
+    }
+
     setExpandedModule(expandedModule === moduleName ? null : moduleName);
   };
 
@@ -101,14 +143,21 @@ export default function Courses() {
     return false;
   };
 
-  // ✅ Enhanced subtopic click handler
+  // ✅ Enhanced subtopic click handler with comprehensive lock check
   const handleSubtopicClick = (
     moduleId,
     subtopicId,
     subtopicName,
     goalName,
-    courseName
+    courseName,
+    goalIndex
   ) => {
+    // Don't allow clicking subtopics in locked goals
+    if (isGoalLocked(goalIndex)) {
+      showLockedMessage();
+      return;
+    }
+
     setSelectedSubtopic(subtopicName);
 
     // Navigate based on content type
@@ -133,7 +182,6 @@ export default function Courses() {
         },
       });
     } else if (isCodingPractice(subtopicName)) {
-      // For coding practices, navigate to the practice page
       navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
         state: {
           subtopicId,
@@ -158,52 +206,66 @@ export default function Courses() {
     return <p>Content for {subtopic}</p>;
   };
 
-  // ✅ Get progress percentage with fallbacks
+  // ✅ Get progress percentage with better fallbacks and debugging
   const getGoalProgress = (goal) => {
-    return (
+    const progress =
       localProgress.goals[goal.id] ||
       goalProgress[goal.title] ||
       goal.progress ||
-      0
-    );
+      0;
+
+    // Ensure progress is a number and capped at 100
+    return Math.min(100, Math.max(0, Number(progress) || 0));
   };
 
   const getCourseProgress = (course) => {
-    return (
+    const progress =
       localProgress.courses[course.id] ||
       courseProgress[course.title] ||
       course.progress ||
-      0
-    );
+      0;
+
+    return Math.min(100, Math.max(0, Number(progress) || 0));
   };
 
   const getModuleProgress = (module) => {
-    return (
-      localProgress.modules[module.id] || calculateModuleProgress(module) || 0
-    );
+    const progress =
+      localProgress.modules[module.id] || calculateModuleProgress(module) || 0;
+
+    return Math.min(100, Math.max(0, Number(progress) || 0));
+  };
+
+  // ✅ Enhanced locked message with more context
+  const showLockedMessage = () => {
+    alert("This content is locked.");
   };
 
   return (
     <div className="courses-container" style={{ marginTop: "50px" }}>
       {/* Goals List */}
       <div className="goals-wrapper">
-        {goalsData.map((goal) => {
+        {goalsData.map((goal, goalIndex) => {
           const goalPercent = getGoalProgress(goal);
+          const locked = isGoalLocked(goalIndex);
 
           return (
-            <section className="goal-group" key={goal.id}>
+            <section
+              className={`goal-group ${locked ? "goal-locked" : ""}`}
+              key={goal.id}
+            >
               <div
                 className="goal-rail"
                 style={{ backgroundColor: goal.color }}
                 aria-hidden="true"
               />
               <header
-                className="goal-header"
-                onClick={() => toggleGoal(goal.id)}
+                className={`goal-header ${locked ? "goal-header-locked" : ""}`}
+                onClick={() => toggleGoal(goal.id, goalIndex)}
               >
                 <div className="goal-title-wrap">
                   <h2 className="goal-title" style={{ color: goal.color }}>
                     {goal.title}
+                    {locked && <span className="locked-tag"> 🔒</span>}
                   </h2>
                   {goal.dateRange ? (
                     <span className="goal-dates">({goal.dateRange})</span>
@@ -230,7 +292,7 @@ export default function Courses() {
               </header>
 
               <div className="goal-body">
-                {goal.courses.length === 0 ? (
+                {!locked && goal.courses.length === 0 ? (
                   <div className="no-courses">
                     <h4>No courses found</h4>
                     <p>You don't have any courses in this goal.</p>
@@ -240,14 +302,14 @@ export default function Courses() {
                     const coursePercent = getCourseProgress(course);
 
                     return (
-                      <div className="courses" key={course.id}>
+                      <div className={`courses ${""}`} key={course.id}>
                         {/* Course Header */}
                         <div className="couses-and-status">
                           {(() => {
                             const [before, after] = course.title.split(":");
 
                             return (
-                              <h4>
+                              <h4 style={{ color: "inherit" }}>
                                 {before}
                                 {after && (
                                   <span className="highlight-after">
@@ -260,7 +322,7 @@ export default function Courses() {
 
                           <div className="progress-section_module">
                             <div
-                              className="circular-progress"
+                              className={`circular-progress ${""}`}
                               style={{ "--progress": coursePercent }}
                             >
                               <span className="progress-value">
@@ -272,7 +334,13 @@ export default function Courses() {
 
                         {/* Expand Modules Button */}
                         <div className="active-module_course">
-                          <button onClick={() => toggleCourse(course.id)}>
+                          <button
+                            onClick={() =>
+                              locked
+                                ? showLockedMessage()
+                                : toggleCourse(course.id, goalIndex)
+                            }
+                          >
                             {expandedCourse === course.id ? (
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -295,13 +363,23 @@ export default function Courses() {
                               </svg>
                             )}
                           </button>
-                          <p onClick={() => toggleCourse(course.id)}>
+                          <p
+                            onClick={() =>
+                              locked
+                                ? showLockedMessage()
+                                : toggleCourse(course.id, goalIndex)
+                            }
+                            style={{
+                              cursor: "pointer",
+                              color: "inherit",
+                            }}
+                          >
                             Active Modules
                           </p>
                         </div>
 
                         {/* Modules */}
-                        {expandedCourse === course.id && (
+                        {expandedCourse === course.id && !locked && (
                           <div className="module-details">
                             {(course.modules || []).map((module) => {
                               const subtopics = module.topic || [];
@@ -318,7 +396,9 @@ export default function Courses() {
                                 >
                                   <div
                                     className="module-single-div"
-                                    onClick={() => toggleModule(module.name)}
+                                    onClick={() =>
+                                      toggleModule(module.name, goalIndex)
+                                    }
                                   >
                                     {/* Timeline Column */}
                                     <div className="timeline">
@@ -360,7 +440,8 @@ export default function Courses() {
                                                       subtopic.id,
                                                       subtopic.name,
                                                       goal.title,
-                                                      course.title
+                                                      course.title,
+                                                      goalIndex
                                                     );
                                                   }}
                                                 >
@@ -393,7 +474,10 @@ export default function Courses() {
                                           <button
                                             onClick={(e) => {
                                               e.stopPropagation();
-                                              toggleModule(module.name);
+                                              toggleModule(
+                                                module.name,
+                                                goalIndex
+                                              );
                                             }}
                                             aria-label={
                                               isExpanded
@@ -446,7 +530,8 @@ export default function Courses() {
                                                     subtopic.id,
                                                     subtopic.name,
                                                     goal.title,
-                                                    course.title
+                                                    course.title,
+                                                    goalIndex
                                                   );
                                                 }}
                                               >
@@ -457,11 +542,6 @@ export default function Courses() {
                                                     ? "Coding Practice"
                                                     : subtopic.name}
                                                 </span>
-                                                {isCompleted && (
-                                                  <span className="completed-badge">
-                                                    ✓
-                                                  </span>
-                                                )}
                                               </div>
                                             );
                                           })}

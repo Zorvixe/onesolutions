@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import registerBanner from "../../assests/register_banner.png";
+
 import "./Register.css";
 
 const Register = () => {
@@ -19,8 +20,8 @@ const Register = () => {
   const [profileImagePreview, setProfileImagePreview] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [apiError, setApiError] = useState("");
 
-  const { register, error, clearError, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   // Batch month options
@@ -43,12 +44,6 @@ const Register = () => {
   const currentYear = new Date().getFullYear();
   const batchYears = Array.from({ length: 8 }, (_, i) => currentYear - 5 + i);
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/home");
-    }
-  }, [isAuthenticated, navigate]);
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -58,10 +53,6 @@ const Register = () => {
 
     if (validationErrors[name]) {
       setValidationErrors((prev) => ({ ...prev, [name]: "" }));
-    }
-
-    if (error) {
-      clearError();
     }
   };
 
@@ -129,19 +120,52 @@ const Register = () => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
+    setApiError("");
 
-    // Create FormData for file upload
-    const submitData = new FormData();
-    Object.keys(formData).forEach((key) => {
-      submitData.append(key, formData[key]);
-    });
+    try {
+      // Create FormData for file upload
+      const submitData = new FormData();
+      Object.keys(formData).forEach((key) => {
+        submitData.append(key, formData[key]);
+      });
 
-    if (profileImage) {
-      submitData.append("profileImage", profileImage);
+      if (profileImage) {
+        submitData.append("profileImage", profileImage);
+      }
+
+      // Direct API call to register endpoint
+      const response = await fetch(
+        "https://api.onesolutionsekam.in/api/auth/register",
+        {
+          method: "POST",
+          body: submitData,
+          // Note: Don't set Content-Type header for FormData, let browser set it with boundary
+        }
+      );
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error(responseData.message || "Registration failed");
+      }
+
+      if (responseData.success) {
+        const { student, token } = responseData.data;
+
+        // Store token in localStorage
+        localStorage.setItem("token", token);
+
+        // Redirect to home page
+        navigate("/home");
+      } else {
+        throw new Error(responseData.message || "Registration failed");
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+      setApiError(err.message || "Registration failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const result = await register(submitData);
-    setIsSubmitting(false);
   };
 
   const removeImage = () => {
@@ -152,15 +176,12 @@ const Register = () => {
   return (
     <div className="register-page">
       <div className="image-section-register">
-        <img src="/assets/Register_pageimg.png" alt="Register Banner" />
+        <img src={registerBanner} alt="Register Banner" />
       </div>
 
       <div className="form-section-register">
         <div className="card-register">
           <h2>Student Registration</h2>
-
-          {error && <div className="alert alert-error">{error}</div>}
-
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             {/* Profile Image Upload */}
             <div className="form-group">
@@ -187,8 +208,27 @@ const Register = () => {
                     </div>
                   ) : (
                     <div className="upload-placeholder">
-                      <i className="bi bi-person profile-icon"></i>
-                      {/* <span>No image selected</span> */}
+                      {/* Profile icon with small plus/upload badge */}
+                      <svg
+                        className="profile-icon with-badge"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="56"
+                        height="56"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="8" r="3.2" />
+                        <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" />
+                        <circle cx="19" cy="5" r="3" />
+                        <path
+                          d="M19 4v2M18 5h2"
+                          stroke="#fff"
+                          strokeWidth="0.9"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                   )}
                 </label>

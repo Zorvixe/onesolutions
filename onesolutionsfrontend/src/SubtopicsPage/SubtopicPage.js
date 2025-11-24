@@ -148,9 +148,11 @@ import Static_Website_Project from "../StaticWebsite/Mock_Tests/Static_Website_P
 import Static_Coding_Assignment_1 from "../StaticWebsite/Assignments/Static_Coding_Assignment_1.js";
 import Static_Coding_Assignment_2 from "../StaticWebsite/Assignments/Static_Coding_Assignment_2.js";
 import Static_Coding_Assignment_3 from "../StaticWebsite/Assignments/Static_Coding_Assignment_3.js";
+import Static_Course_Exam_Instruction from "../StaticWebsite/Static_Course_Exam/Static_Course_Exam_Instruction.js";
+import Static_Course_Exam from "../StaticWebsite/Static_Course_Exam/Static_Course_Exam.js";
 
 //Static Website Cheat Sheets
-
+import Introductionto_First_Project from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_First_Project.js";
 import Introductionto_HTML_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_CS_1";
 import Introductionto_Css_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_1";
 import Introductionto_Css_CS_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_2";
@@ -167,7 +169,19 @@ import HTML_HyperLinks_CS from "../StaticWebsite/WebSiteIntegration/HTML_HyperLi
 import Website_Integration_CS_1 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_CS_1";
 import Website_Integration_CS_2 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_CS_2";
 import StaticSummary_CS from "../StaticWebsite/Revision/Static_Summary_CS";
-
+import Static_Coding_Pratice_1 from "../StaticWebsite/Css_BoxModel/Static_Coding_Pratice_1.js";
+import Static_Coding_Pratice_2 from "../StaticWebsite/BootStrap/Static_Coding_Pratice_2.js";
+import Static_Coding_Pratice_3 from "../StaticWebsite/BootStrap/Static_Coding_Pratice_3.js";
+import Static_Coding_Pratice_4 from "../StaticWebsite/BootStrap/Static_Coding_Pratice_4.js";
+import Static_Coding_Pratice_5 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_5.js";
+import Static_Coding_Pratice_6 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_6.js";
+import Static_Coding_Pratice_7 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_7.js";
+import Static_Coding_Pratice_8 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_8.js";
+import Static_Coding_Pratice_9 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_9.js";
+import Static_Coding_Pratice_10 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_10.js";
+import Static_Coding_Pratice_11 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_11.js";
+import Static_Coding_Pratice_12 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_12.js";
+import Static_Coding_Pratice_13 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_13.js";
 //Responsive Website Cheat Sheets
 
 import Introductionto_Responsive_WD_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_CS";
@@ -220,6 +234,8 @@ import Responsive_Coding_Test_1 from "../ResponsiveWebsite/Mock_Tests/Responsive
 import Responsive_Coding_Test_2 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_2.js";
 import Responsive_Coding_Test_3 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_3.js";
 import Responsive_Project from "../ResponsiveWebsite/Mock_Tests/Responsive_Project.js";
+import Responsive_Course_Exam_Instructions from "../ResponsiveWebsite/Responsive_Course_Exam/Responsive_Course_Exam_Instructions.js";
+import Responsive_Course_Exam from "../ResponsiveWebsite/Responsive_Course_Exam/Responsive_Course_Exam.js";
 // Map subtopics to their components
 const subtopicComponents = {
   //Responsive Website
@@ -259,6 +275,9 @@ const subtopicComponents = {
   "Responsive Coding Test 2": Responsive_Coding_Test_2,
   "Responsive Coding Test 3": Responsive_Coding_Test_3,
   "Build Your Own Responsive Project": Responsive_Project,
+  "Build Your Own Responsive Website Course Exam | Instructions":
+    Responsive_Course_Exam_Instructions,
+  "Build Your Own Responsive Website Course Exam": Responsive_Course_Exam,
 
   //Responsive Start
   "Introduction to Responsive Web Design | Cheat Sheet":
@@ -280,6 +299,8 @@ const subtopicComponents = {
   //Responsive End
 
   //Static Website Class
+  "Introduction to Your First Project - Lets Build Together":
+    Introductionto_First_Project,
   "Introduction to HTML": Introductionto_Html,
   "Introduction to CSS Part 1": Introductionto_Css_1,
   "Introduction to CSS Part 2": Introductionto_Css_2,
@@ -298,9 +319,25 @@ const subtopicComponents = {
   "Static Coding Assignment 1": Static_Coding_Assignment_1,
   "Static Coding Assignment 2": Static_Coding_Assignment_2,
   "Static Coding Assignment 3": Static_Coding_Assignment_3,
+  "Static Coding Practice 1": Static_Coding_Pratice_1,
+  "Static Coding Practice 2": Static_Coding_Pratice_2,
+  "Static Coding Practice 3": Static_Coding_Pratice_3,
+  "Static Coding Practice 4": Static_Coding_Pratice_4,
+  "Static Coding Practice 5": Static_Coding_Pratice_5,
+  "Static Coding Practice 6": Static_Coding_Pratice_6,
+  "Static Coding Practice 7": Static_Coding_Pratice_7,
+  "Static Coding Practice 8": Static_Coding_Pratice_8,
+  "Static Coding Practice 9": Static_Coding_Pratice_9,
+  "Static Coding Practice 10": Static_Coding_Pratice_10,
+  "Static Coding Practice 11": Static_Coding_Pratice_11,
+  "Static Coding Practice 12": Static_Coding_Pratice_12,
+  "Static Coding Practice 13": Static_Coding_Pratice_13,
   "Static Coding Test 1": Static_Mock_Test_1,
   "Static Coding Test 2": Static_Mock_Test_2,
   "Build Your Own Static Website Project": Static_Website_Project,
+  "Build Your Own Static Website Course Exam | Instructions":
+    Static_Course_Exam_Instruction,
+  "Build Your Own Static Website Course Exam": Static_Course_Exam,
 
   //Static Website Cheat Sheet Start
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,

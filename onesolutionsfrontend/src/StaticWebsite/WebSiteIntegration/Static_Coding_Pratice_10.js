@@ -1,0 +1,9 @@
+const Static_Coding_Pratice_10 = () => {
+    return (
+      <div>
+        <h1>Static Coding Pratice 10</h1>
+      </div>
+    );
+  };
+  export default Static_Coding_Pratice_10;
+  

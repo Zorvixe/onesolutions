@@ -25,6 +25,8 @@ import OJBAdminDashboard from "./components/OJB/OJBAdminDashboard/OJBAdminDashbo
 import OJBAdminJobsList from "./components/OJB/OJBAdminJobsList/OJBAdminJobsList";
 import OJBAdminJobDetail from "./components/OJB/OJBAdminJobDetail/OJBAdminJobDetail";
 
+import StudentRegister from "./components/Student_Register/Register";
+
 import "./App.css";
 
 const ProtectedLayout = () => {
@@ -81,6 +83,8 @@ function App() {
                 element={<OJBAdminJobDetail />}
               />
             </Route>
+
+            <Route path="/studnet_register" element={<StudentRegister />} />
 
             {/* Default redirect */}
             <Route path="*" element={<Navigate to="/login" replace />} />
