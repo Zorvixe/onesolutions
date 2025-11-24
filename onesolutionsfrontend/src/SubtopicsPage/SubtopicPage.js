@@ -66,41 +66,6 @@ import Coding_Practice_1 from "../Python/IntroductiontoPython/coding_Practice_1.
 import Coding_Practice_2 from "../Python/IntroductiontoPython/coding_Practice_2.js";
 import Coding_Practice_3 from "../Python/IntroductiontoPython/coding_Practice_3.js";
 
-//Static Website Cheat Sheets
-
-import Introductionto_HTML_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_CS_1";
-import Introductionto_Css_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_1";
-import Introductionto_Css_CS_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_2";
-import Introductionto_Css_CS_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_3";
-import Introductionto_Css_BoxModel_CS_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_CS_1";
-import Introductionto_Css_BoxModel_CS_2 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_CS_2";
-import Introductionto_BootStrap_CS_1 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_CS_1";
-import Introductionto_BootStrap_CS_2 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_CS_2";
-import Approachto_Develop_Layout_CS_1 from "../StaticWebsite/DevelopingLayouts/Approachto_Develop_Layout_CS_1";
-import FavouritePlaces_DetailView_CS from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_DetailView_CS";
-import FavouritePlaces_Section_CS_1 from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_Section_CS_1";
-import OnDemand_Session_CS from "../StaticWebsite/WebSiteIntegration/OnDemand_Session_CS.js";
-import HTML_HyperLinks_CS from "../StaticWebsite/WebSiteIntegration/HTML_HyperLinks_CS";
-import Website_Integration_CS_1 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_CS_1";
-import Website_Integration_CS_2 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_CS_2";
-import StaticSummary_CS from "../StaticWebsite/Revision/Static_Summary_CS";
-
-//Responsive Website Cheat Sheets
-
-import Introductionto_Responsive_WD_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_CS";
-import Bootstrap_Grid_Sys_CS_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_CS_1";
-import Bootstrap_Grid_Sys_CS_2 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_CS_2";
-import Bootstrap_Navbar_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Navbar_CS";
-import Css_Selector_Inheritance_CS from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Selector_Inheritance_CS";
-import Css_Specificity_Cascade_CS from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Specificity_Cascade_CS";
-import Banner_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Banner_Section_CS";
-import Explore_Menu_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Explore_Menu_Section_CS";
-import Healthy_Delivary_Payments_CS from "../ResponsiveWebsite/Developing_Layouts1/Healthy_Delivary_Payments_CS";
-import Why_Chooseus_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Why_Chooseus_Section_CS";
-import CSS_Gradience_CS from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_CS";
-import Followus_More_Styles_CS from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_CS";
-import Responsive_Summary_CS from "../ResponsiveWebsite/Revision/Responsive_Summary_CS";
-
 //Dynamic Web Application
 import Introductionto_Dynamic_Application_CS from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_CS.js";
 import DOM_Event_Fundamentals_CS from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_CS.js";
@@ -166,6 +131,17 @@ import Introductionto_Html from "../StaticWebsite/Introductionto_HTML_CSS/Introd
 import Introductionto_Css_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_1.js";
 import Introductionto_Css_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_2.js";
 import Introductionto_Css_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_3.js";
+import Introductionto_Css_Boxmodel_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_1.js";
+import Introductionto_Css_Boxmodel_2 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_2.js";
+import Introductionto_Bootstrap_1 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_1.js";
+import Introductionto_Bootstrap_2 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_2.js";
+import FavouritePlaces_Section_1 from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_Section_1.js";
+import Approachto_Develop_Layout_1 from "../StaticWebsite/DevelopingLayouts/Approachto_Develop_Layout_1.js";
+import Favouriteplaces_Detailview_1 from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_DetailView_1.js";
+import WebSite_Integration_1 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_1.js";
+import WebSite_Integration_2 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_2.js";
+import Html_HyperLinks_1 from "../StaticWebsite/WebSiteIntegration/HTML_HyperLinks_1.js";
+import OnDemand_Session_1 from "../StaticWebsite/WebSiteIntegration/OnDemand_Session_1.js";
 import Static_Mock_Test_1 from "../StaticWebsite/Mock_Tests/Static_Mock_Test_1.js";
 import Static_Mock_Test_2 from "../StaticWebsite/Mock_Tests/Static_Mock_Test_2.js";
 import Static_Website_Project from "../StaticWebsite/Mock_Tests/Static_Website_Project.js";
@@ -173,19 +149,113 @@ import Static_Coding_Assignment_1 from "../StaticWebsite/Assignments/Static_Codi
 import Static_Coding_Assignment_2 from "../StaticWebsite/Assignments/Static_Coding_Assignment_2.js";
 import Static_Coding_Assignment_3 from "../StaticWebsite/Assignments/Static_Coding_Assignment_3.js";
 
+//Static Website Cheat Sheets
+
+import Introductionto_HTML_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_CS_1";
+import Introductionto_Css_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_1";
+import Introductionto_Css_CS_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_2";
+import Introductionto_Css_CS_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_3";
+import Introductionto_Css_BoxModel_CS_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_CS_1";
+import Introductionto_Css_BoxModel_CS_2 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_CS_2";
+import Introductionto_BootStrap_CS_1 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_CS_1";
+import Introductionto_BootStrap_CS_2 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_CS_2";
+import Approachto_Develop_Layout_CS_1 from "../StaticWebsite/DevelopingLayouts/Approachto_Develop_Layout_CS_1";
+import FavouritePlaces_DetailView_CS from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_DetailView_CS";
+import FavouritePlaces_Section_CS_1 from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_Section_CS_1";
+import OnDemand_Session_CS from "../StaticWebsite/WebSiteIntegration/OnDemand_Session_CS.js";
+import HTML_HyperLinks_CS from "../StaticWebsite/WebSiteIntegration/HTML_HyperLinks_CS";
+import Website_Integration_CS_1 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_CS_1";
+import Website_Integration_CS_2 from "../StaticWebsite/WebSiteIntegration/WebSite_Integration_CS_2";
+import StaticSummary_CS from "../StaticWebsite/Revision/Static_Summary_CS";
+
+//Responsive Website Cheat Sheets
+
+import Introductionto_Responsive_WD_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_CS";
+import Bootstrap_Grid_Sys_CS_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_CS_1";
+import Bootstrap_Grid_Sys_CS_2 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_CS_2";
+import Bootstrap_Navbar_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Navbar_CS";
+import Css_Selector_Inheritance_CS from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Selector_Inheritance_CS";
+import Css_Specificity_Cascade_CS from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Specificity_Cascade_CS";
+import Banner_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Banner_Section_CS";
+import Explore_Menu_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Explore_Menu_Section_CS";
+import Healthy_Delivary_Payments_CS from "../ResponsiveWebsite/Developing_Layouts1/Healthy_Delivary_Payments_CS";
+import Why_Chooseus_Section_CS from "../ResponsiveWebsite/Developing_Layouts1/Why_Chooseus_Section_CS";
+import CSS_Gradience_CS from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_CS";
+import Followus_More_Styles_CS from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_CS";
+import Responsive_Summary_CS from "../ResponsiveWebsite/Revision/Responsive_Summary_CS";
+//Responsive WebSite Classes
+
 // Map subtopics to their components
 const subtopicComponents = {
+  //Responsive Website
+  //Responsive Start
+  "Introduction to Responsive Web Design | Cheat Sheet":
+    Introductionto_Responsive_WD_CS,
+  "BootStrap Grid System Part 1 | Cheat Sheet": Bootstrap_Grid_Sys_CS_1,
+  "BootStrap Grid System Part 2 | Cheat Sheet": Bootstrap_Grid_Sys_CS_2,
+  "BootStrap Navbar | Cheat Sheet": Bootstrap_Navbar_CS,
+  "CSS Selectors & Inheritance | Cheat Sheet": Css_Selector_Inheritance_CS,
+  "CSS Specificity & Cascade | Cheat Sheet": Css_Specificity_Cascade_CS,
+  "Banner Section | Cheat Sheet": Banner_Section_CS,
+  "Explore New Section | Cheat Sheet": Explore_Menu_Section_CS,
+  "Healthy Food, Delivery and Payment, Thanking Customers Section | Cheat Sheet":
+    Healthy_Delivary_Payments_CS,
+  "Why Choose us? Section | Cheat Sheet": Why_Chooseus_Section_CS,
+  "CSS Gradients & More BootStrap Components | Cheat Sheet": CSS_Gradience_CS,
+  "Follow Us Section & More Styling | Cheat Sheet": Followus_More_Styles_CS,
+  "Responsive Summary CheatSheet": Responsive_Summary_CS,
+
+  //Responsive End
+
   //Static Website Class
   "Introduction to HTML": Introductionto_Html,
   "Introduction to CSS Part 1": Introductionto_Css_1,
   "Introduction to CSS Part 2": Introductionto_Css_2,
   "Introduction to CSS Part 3": Introductionto_Css_3,
+  "Introduction to CSS Box Model Part 1": Introductionto_Css_Boxmodel_1,
+  "Introduction to CSS Box Model Part 2": Introductionto_Css_Boxmodel_2,
+  "Introduction to Bootstrap Part 1": Introductionto_Bootstrap_1,
+  "Introduction to Bootstrap Part 2": Introductionto_Bootstrap_2,
+  "Favourite Places Section": FavouritePlaces_Section_1,
+  "Approach to Develop a Layout": Approachto_Develop_Layout_1,
+  "Favourite Place Detailed View Section": Favouriteplaces_Detailview_1,
+  "Website Integration Part 1": WebSite_Integration_1,
+  "Website Integration | Part 2": WebSite_Integration_2,
+  "HTML Hyperlinks": Html_HyperLinks_1,
+  "On Demand Session": OnDemand_Session_1,
   "Static Coding Assignment 1": Static_Coding_Assignment_1,
   "Static Coding Assignment 2": Static_Coding_Assignment_2,
   "Static Coding Assignment 3": Static_Coding_Assignment_3,
   "Static Coding Test 1": Static_Mock_Test_1,
   "Static Coding Test 2": Static_Mock_Test_2,
   "Static Website Project": Static_Website_Project,
+
+  //Static Website Cheat Sheet Start
+  "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
+  "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
+  "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
+  "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,
+  "Introduction to CSS Box Model Part 1 | Cheat Sheet":
+    Introductionto_Css_BoxModel_CS_1,
+  "Introduction to CSS Box Model Part 2 | Cheat Sheet":
+    Introductionto_Css_BoxModel_CS_2,
+  "Introduction to Bootstrap Part 1 | Cheat Sheet":
+    Introductionto_BootStrap_CS_1,
+  "Introduction to Bootstrap Part 2 | Cheat Sheet":
+    Introductionto_BootStrap_CS_2,
+  "Approach to Develop a Layout | Cheat Sheet": Approachto_Develop_Layout_CS_1,
+  "Favourite Place Detailed View Section | Cheat Sheet":
+    FavouritePlaces_DetailView_CS,
+  "Favourite Places Section | Cheat Sheet": FavouritePlaces_Section_CS_1,
+  "OnDemand Session | Cheat Sheet": OnDemand_Session_CS,
+  "Hypertext Transfer Protocol (HTTP) | Cheat Sheet":
+    Hypertext_Transfer_Protocal_CS,
+  "Forms | Part 2 | Cheat sheet": Forms_CS_2,
+  "HTML Hyperlinks | Cheat Sheets": HTML_HyperLinks_CS,
+  "Website Integration Part 1 | Cheat Sheet": Website_Integration_CS_1,
+  "Website Integration Part 2 | Cheat Sheet": Website_Integration_CS_2,
+  "Static Summary CheatSheet": StaticSummary_CS,
+  //Static End
 
   //Reactjs Cheat Sheet
   "Introduction to React JS | Cheat Sheet": Introductionto_Reactjs_CS,
@@ -300,55 +370,6 @@ const subtopicComponents = {
   "MCQ Practice - 2": MCQWrapper,
 
   //Python End
-
-  //Static Start
-
-  "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
-  "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
-  "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
-  "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,
-  "Introduction to CSS Box Model Part 1 | Cheat Sheet":
-    Introductionto_Css_BoxModel_CS_1,
-  "Introduction to CSS Box Model Part 2 | Cheat Sheet":
-    Introductionto_Css_BoxModel_CS_2,
-  "Introduction to Bootstrap Part 1 | Cheat Sheet":
-    Introductionto_BootStrap_CS_1,
-  "Introduction to Bootstrap Part 2 | Cheat Sheet":
-    Introductionto_BootStrap_CS_2,
-  "Approach to Develop a Layout | Cheat Sheet": Approachto_Develop_Layout_CS_1,
-  "Favourite Place Detailed View Section | Cheat Sheet":
-    FavouritePlaces_DetailView_CS,
-  "Favourite Places Section | Cheat Sheet": FavouritePlaces_Section_CS_1,
-  "OnDemand Session | Cheat Sheet": OnDemand_Session_CS,
-  "Hypertext Transfer Protocol (HTTP) | Cheat Sheet":
-    Hypertext_Transfer_Protocal_CS,
-  "Forms | Part 2 | Cheat sheet": Forms_CS_2,
-  "HTML Hyperlinks | Cheat Sheets": HTML_HyperLinks_CS,
-  "Website Integration Part 1 | Cheat Sheet": Website_Integration_CS_1,
-  "Website Integration Part 2 | Cheat Sheet": Website_Integration_CS_2,
-  "Static Summary CheatSheet": StaticSummary_CS,
-
-  //Static End
-
-  //Responsive Start
-
-  "Introduction to Responsive Web Design | Cheat Sheet":
-    Introductionto_Responsive_WD_CS,
-  "BootStrap Grid System Part 1 | Cheat Sheet": Bootstrap_Grid_Sys_CS_1,
-  "BootStrap Grid System Part 2 | Cheat Sheet": Bootstrap_Grid_Sys_CS_2,
-  "BootStrap Navbar | Cheat Sheet": Bootstrap_Navbar_CS,
-  "CSS Selectors & Inheritance | Cheat Sheet": Css_Selector_Inheritance_CS,
-  "CSS Specificity & Cascade | Cheat Sheet": Css_Specificity_Cascade_CS,
-  "Banner Section | Cheat Sheet": Banner_Section_CS,
-  "Explore New Section | Cheat Sheet": Explore_Menu_Section_CS,
-  "Healthy Food, Delivery and Payment, Thanking Customers Section | Cheat Sheet":
-    Healthy_Delivary_Payments_CS,
-  "Why Choose us? Section | Cheat Sheet": Why_Chooseus_Section_CS,
-  "CSS Gradients & More BootStrap Components | Cheat Sheet": CSS_Gradience_CS,
-  "Follow Us Section & More Styling | Cheat Sheet": Followus_More_Styles_CS,
-  "Responsive Summary CheatSheet": Responsive_Summary_CS,
-
-  //Responsive End
 
   //JavaScript Start
 

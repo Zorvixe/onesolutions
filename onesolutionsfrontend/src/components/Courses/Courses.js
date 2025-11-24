@@ -9,9 +9,11 @@ export default function Courses() {
   const navigate = useNavigate();
   const {
     completedContent,
-    goalProgress,
-    courseProgress,
-    loadProgressSummary,
+    goalProgress: contextGoalProgress,
+    goalDates,
+    unlockedGoals,
+    goalsLoading,
+    loadGoalProgress,
     calculateModuleProgress,
     calculateCourseProgress,
     calculateGoalProgress,
@@ -27,15 +29,15 @@ export default function Courses() {
     modules: {},
   });
 
-  // ✅ Load progress and calculate local progress
+  // ✅ Load goal progress on component mount
   useEffect(() => {
-    loadProgressSummary();
+    loadGoalProgress();
   }, []);
 
   // ✅ Calculate local progress whenever completedContent changes
   useEffect(() => {
     calculateLocalProgress();
-  }, [completedContent, goalsData]);
+  }, [completedContent, goalsData, unlockedGoals]);
 
   const calculateLocalProgress = () => {
     const goalsProgress = {};
@@ -43,20 +45,28 @@ export default function Courses() {
     const modulesProgress = {};
 
     goalsData.forEach((goal) => {
-      // Calculate goal progress
-      goalsProgress[goal.id] = calculateGoalProgress(goal);
+      // Only calculate progress for unlocked goals
+      const isGoalUnlocked =
+        unlockedGoals[goal.id.toLowerCase().replace(" ", "")];
 
-      goal.courses.forEach((course) => {
-        // Calculate course progress
-        const courseProg = calculateCourseProgress(course);
-        coursesProgress[course.id] = courseProg;
+      if (isGoalUnlocked) {
+        // Calculate goal progress
+        goalsProgress[goal.id] = calculateGoalProgress(goal);
 
-        course.modules.forEach((module) => {
-          // Calculate module progress
-          const moduleProg = calculateModuleProgress(module);
-          modulesProgress[module.id] = moduleProg;
+        goal.courses.forEach((course) => {
+          // Calculate course progress
+          const courseProg = calculateCourseProgress(course);
+          coursesProgress[course.id] = courseProg;
+
+          course.modules.forEach((module) => {
+            // Calculate module progress
+            const moduleProg = calculateModuleProgress(module);
+            modulesProgress[module.id] = moduleProg;
+          });
         });
-      });
+      } else {
+        goalsProgress[goal.id] = 0;
+      }
     });
 
     setLocalProgress({
@@ -67,6 +77,9 @@ export default function Courses() {
   };
 
   const toggleGoal = (goalId) => {
+    const isUnlocked = unlockedGoals[goalId.toLowerCase().replace(" ", "")];
+    if (!isUnlocked) return;
+
     setExpandedGoal(expandedGoal === goalId ? null : goalId);
     setExpandedCourse(null);
     setExpandedModule(null);
@@ -133,7 +146,6 @@ export default function Courses() {
         },
       });
     } else if (isCodingPractice(subtopicName)) {
-      // For coding practices, navigate to the practice page
       navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
         state: {
           subtopicId,
@@ -162,19 +174,14 @@ export default function Courses() {
   const getGoalProgress = (goal) => {
     return (
       localProgress.goals[goal.id] ||
-      goalProgress[goal.title] ||
+      contextGoalProgress[goal.id] ||
       goal.progress ||
       0
     );
   };
 
   const getCourseProgress = (course) => {
-    return (
-      localProgress.courses[course.id] ||
-      courseProgress[course.title] ||
-      course.progress ||
-      0
-    );
+    return localProgress.courses[course.id] || course.progress || 0;
   };
 
   const getModuleProgress = (module) => {
@@ -183,31 +190,85 @@ export default function Courses() {
     );
   };
 
+  // ✅ Get date range for goal
+  const getGoalDateRange = (goal) => {
+    const goalKey = goal.id.toLowerCase().replace(" ", "");
+    return goalDates[goalKey]?.range || "Loading dates...";
+  };
+
+  // ✅ Check if goal is unlocked
+  const isGoalUnlocked = (goal) => {
+    const goalKey = goal.id.toLowerCase().replace(" ", "");
+    return unlockedGoals[goalKey] || false;
+  };
+
+  // ✅ Render locked goal message
+  const renderLockedGoalMessage = (goal) => {
+    const previousGoal = goal.id === "Goal 2" ? "Goal 1" : "Goal 2";
+    const previousGoalProgress = getGoalProgress(
+      goalsData.find((g) => g.id === previousGoal) || {}
+    );
+
+    return (
+      <div className="locked-goal-message">
+        <div className="locked-icon">🔒</div>
+        <h3>{goal.title} is Locked</h3>
+        <p>
+          Complete {previousGoal} to unlock this goal. Current progress:{" "}
+          {previousGoalProgress.toFixed(1)}%
+        </p>
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${previousGoalProgress}%` }}
+          ></div>
+        </div>
+      </div>
+    );
+  };
+
+  if (goalsLoading) {
+    return (
+      <div className="courses-container" style={{ marginTop: "50px" }}>
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>Loading your learning journey...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="courses-container" style={{ marginTop: "50px" }}>
       {/* Goals List */}
       <div className="goals-wrapper">
         {goalsData.map((goal) => {
           const goalPercent = getGoalProgress(goal);
+          const isUnlocked = isGoalUnlocked(goal);
+          const dateRange = getGoalDateRange(goal);
 
           return (
-            <section className="goal-group" key={goal.id}>
+            <section
+              className={`goal-group ${!isUnlocked ? "locked" : ""}`}
+              key={goal.id}
+            >
               <div
                 className="goal-rail"
                 style={{ backgroundColor: goal.color }}
                 aria-hidden="true"
               />
               <header
-                className="goal-header"
+                className={`goal-header ${!isUnlocked ? "locked" : ""}`}
                 onClick={() => toggleGoal(goal.id)}
               >
                 <div className="goal-title-wrap">
                   <h2 className="goal-title" style={{ color: goal.color }}>
                     {goal.title}
+                    {!isUnlocked && <span className="lock-icon"> 🔒</span>}
                   </h2>
-                  {goal.dateRange ? (
-                    <span className="goal-dates">({goal.dateRange})</span>
-                  ) : null}
+                  {dateRange && (
+                    <span className="goal-dates">({dateRange})</span>
+                  )}
                 </div>
                 <div className="goal-meta">
                   <div className="progress-section">
@@ -230,7 +291,9 @@ export default function Courses() {
               </header>
 
               <div className="goal-body">
-                {goal.courses.length === 0 ? (
+                {!isUnlocked ? (
+                  renderLockedGoalMessage(goal)
+                ) : goal.courses.length === 0 ? (
                   <div className="no-courses">
                     <h4>No courses found</h4>
                     <p>You don't have any courses in this goal.</p>

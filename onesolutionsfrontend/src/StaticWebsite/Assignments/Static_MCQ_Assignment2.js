@@ -294,7 +294,7 @@ const Static_MCQ_Assignment2 = ({
 
   return (
     <MCQLogic
-      title="Bootstrap All Subtopics - Assignment MCQs"
+      title="Static MCQ Assignment 2"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

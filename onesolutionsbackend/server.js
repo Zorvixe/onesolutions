@@ -180,6 +180,11 @@ const createTables = async () => {
     );
   `;
 
+  await pool.query(`
+  ALTER TABLE students 
+  ADD COLUMN join_date DATE DEFAULT CURRENT_DATE,
+  ADD COLUMN status VARCHAR(20) DEFAULT 'active';`);
+
   // Student progress table
   const progressTableQuery = `
     CREATE TABLE IF NOT EXISTS student_content_progress (
@@ -236,7 +241,7 @@ const createTables = async () => {
     );
   `;
 
-   const codingPracticeProgressTableQuery = `
+  const codingPracticeProgressTableQuery = `
     CREATE TABLE IF NOT EXISTS coding_practice_progress (
       id SERIAL PRIMARY KEY,
       student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
@@ -267,11 +272,11 @@ const createTables = async () => {
     );
   `;
 
-// ==========================================
-// 🔹 DISCUSSION SYSTEM - TABLES CREATION
-// ==========================================
+  // ==========================================
+  // 🔹 DISCUSSION SYSTEM - TABLES CREATION
+  // ==========================================
 
-const discussionThreadsTableQuery = `
+  const discussionThreadsTableQuery = `
   CREATE TABLE IF NOT EXISTS discussion_threads (
     id SERIAL PRIMARY KEY,
     student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
@@ -288,7 +293,7 @@ const discussionThreadsTableQuery = `
   );
 `;
 
-const discussionRepliesTableQuery = `
+  const discussionRepliesTableQuery = `
   CREATE TABLE IF NOT EXISTS discussion_replies (
     id SERIAL PRIMARY KEY,
     thread_id INTEGER REFERENCES discussion_threads(id) ON DELETE CASCADE,
@@ -300,12 +305,11 @@ const discussionRepliesTableQuery = `
 `;
 
   try {
-
-// Add to your createTables function
-await pool.query(discussionThreadsTableQuery);
-console.log("✅ Discussion threads table ready");
-await pool.query(discussionRepliesTableQuery);
-console.log("✅ Discussion replies table ready");
+    // Add to your createTables function
+    await pool.query(discussionThreadsTableQuery);
+    console.log("✅ Discussion threads table ready");
+    await pool.query(discussionRepliesTableQuery);
+    console.log("✅ Discussion replies table ready");
 
     await pool.query(studentsTableQuery);
     console.log("✅ Students table ready");
@@ -322,11 +326,11 @@ console.log("✅ Discussion replies table ready");
     await pool.query(otpTableQuery);
     console.log("✅ OTP store table ready");
 
-    await pool.query(codingPracticeProgressTableQuery)
-    console.log("✅ Coding practice progress table ready")
+    await pool.query(codingPracticeProgressTableQuery);
+    console.log("✅ Coding practice progress table ready");
 
-    await pool.query(codingPracticeCompletionTableQuery)
-    console.log("✅ Coding practice completion table ready")
+    await pool.query(codingPracticeCompletionTableQuery);
+    console.log("✅ Coding practice completion table ready");
   } catch (error) {
     console.error("❌ Table creation error:", error.message);
     throw error;
@@ -1093,9 +1097,12 @@ app.get("/api/progress/summary", auth, async (req, res) => {
 
     // Calculate individual goal and course progress
     result.rows.forEach((row) => {
-      const progressPercentage = row.total_content > 0 
-        ? Math.round((Number(row.completed_content) / Number(row.total_content)) * 100)
-        : 0;
+      const progressPercentage =
+        row.total_content > 0
+          ? Math.round(
+              (Number(row.completed_content) / Number(row.total_content)) * 100
+            )
+          : 0;
 
       if (row.goal_name) {
         goalProgress[row.goal_name] = progressPercentage;
@@ -1143,10 +1150,13 @@ app.get("/api/progress/overall", auth, async (req, res) => {
     );
 
     const totalContent = Number(totalResult.rows[0]?.total_content || 0);
-    const completedContent = Number(totalResult.rows[0]?.completed_content || 0);
-    const overallProgress = totalContent > 0 
-      ? Math.round((completedContent / totalContent) * 100)
-      : 0;
+    const completedContent = Number(
+      totalResult.rows[0]?.completed_content || 0
+    );
+    const overallProgress =
+      totalContent > 0
+        ? Math.round((completedContent / totalContent) * 100)
+        : 0;
 
     res.json({
       success: true,
@@ -1349,28 +1359,31 @@ app.get("/api/progress/goal/:goalName", auth, async (req, res) => {
 // Save or update question progress
 app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
   try {
-    const { practiceId, questionId, language, code, status, score, attempt } = req.body
+    const { practiceId, questionId, language, code, status, score, attempt } =
+      req.body;
 
     if (!practiceId || !questionId || !language) {
       return res.status(400).json({
         success: false,
         message: "Practice ID, Question ID, and Language are required",
-      })
+      });
     }
 
     // Check if record exists
     const existing = await pool.query(
       `SELECT * FROM coding_practice_progress 
        WHERE student_id = $1 AND question_id = $2`,
-      [req.student.id, questionId],
-    )
+      [req.student.id, questionId]
+    );
 
-    let result
+    let result;
 
     if (existing.rows.length > 0) {
       // Update existing record
-      const previousAttempts = existing.rows[0].attempts || []
-      const newAttempts = attempt ? [...previousAttempts, attempt] : previousAttempts
+      const previousAttempts = existing.rows[0].attempts || [];
+      const newAttempts = attempt
+        ? [...previousAttempts, attempt]
+        : previousAttempts;
 
       result = await pool.query(
         `UPDATE coding_practice_progress 
@@ -1378,61 +1391,77 @@ app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
              last_attempt = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP
          WHERE student_id = $5 AND question_id = $6
          RETURNING *`,
-        [code, status, score || 0, JSON.stringify(newAttempts), req.student.id, questionId],
-      )
+        [
+          code,
+          status,
+          score || 0,
+          JSON.stringify(newAttempts),
+          req.student.id,
+          questionId,
+        ]
+      );
     } else {
       // Insert new record
-      const newAttempts = attempt ? [attempt] : []
+      const newAttempts = attempt ? [attempt] : [];
       result = await pool.query(
         `INSERT INTO coding_practice_progress 
          (student_id, practice_id, question_id, language, code, status, score, attempts, last_attempt)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, CURRENT_TIMESTAMP)
          RETURNING *`,
-        [req.student.id, practiceId, questionId, language, code, status, score || 0, JSON.stringify(newAttempts)],
-      )
+        [
+          req.student.id,
+          practiceId,
+          questionId,
+          language,
+          code,
+          status,
+          score || 0,
+          JSON.stringify(newAttempts),
+        ]
+      );
     }
 
     res.json({
       success: true,
       message: "Progress saved successfully",
       data: result.rows[0],
-    })
+    });
   } catch (error) {
-    console.error("Coding practice save error:", error.message)
+    console.error("Coding practice save error:", error.message);
     res.status(500).json({
       success: false,
       message: "Failed to save progress",
-    })
+    });
   }
-})
+});
 
 // Get question progress
 app.get("/api/coding-practice/question/:questionId", auth, async (req, res) => {
   try {
-    const { questionId } = req.params
+    const { questionId } = req.params;
 
     const result = await pool.query(
       `SELECT * FROM coding_practice_progress 
        WHERE student_id = $1 AND question_id = $2`,
-      [req.student.id, questionId],
-    )
+      [req.student.id, questionId]
+    );
 
-    const progress = result.rows[0] || null
+    const progress = result.rows[0] || null;
 
     res.json({
       success: true,
       data: {
         progress,
       },
-    })
+    });
   } catch (error) {
-    console.error("Coding practice fetch error:", error.message)
+    console.error("Coding practice fetch error:", error.message);
     res.status(500).json({
       success: false,
       message: "Failed to fetch progress",
-    })
+    });
   }
-})
+});
 
 // Get all practice progress for student
 app.get("/api/coding-practice/progress", auth, async (req, res) => {
@@ -1441,47 +1470,47 @@ app.get("/api/coding-practice/progress", auth, async (req, res) => {
       `SELECT * FROM coding_practice_progress 
        WHERE student_id = $1
        ORDER BY updated_at DESC`,
-      [req.student.id],
-    )
+      [req.student.id]
+    );
 
     res.json({
       success: true,
       data: {
         progress: result.rows,
       },
-    })
+    });
   } catch (error) {
-    console.error("Coding practice progress fetch error:", error.message)
+    console.error("Coding practice progress fetch error:", error.message);
     res.status(500).json({
       success: false,
       message: "Failed to fetch practice progress",
-    })
+    });
   }
-})
+});
 
 // Mark entire practice as completed
 app.post("/api/coding-practice/complete-practice", auth, async (req, res) => {
   try {
-    const { practiceId, goalName, courseName } = req.body
+    const { practiceId, goalName, courseName } = req.body;
 
     if (!practiceId) {
       return res.status(400).json({
         success: false,
         message: "Practice ID is required",
-      })
+      });
     }
 
     // Check if practice is already completed
     const existing = await pool.query(
       `SELECT * FROM coding_practice_completion 
        WHERE student_id = $1 AND practice_id = $2`,
-      [req.student.id, practiceId],
-    )
+      [req.student.id, practiceId]
+    );
 
-    let result
+    let result;
 
     if (existing.rows.length > 0) {
-      result = existing.rows[0]
+      result = existing.rows[0];
     } else {
       // Insert new completion record
       const insertResult = await pool.query(
@@ -1489,34 +1518,34 @@ app.post("/api/coding-practice/complete-practice", auth, async (req, res) => {
          (student_id, practice_id, goal_name, course_name, completed_at)
          VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP)
          RETURNING *`,
-        [req.student.id, practiceId, goalName || null, courseName || null],
-      )
-      result = insertResult.rows[0]
+        [req.student.id, practiceId, goalName || null, courseName || null]
+      );
+      result = insertResult.rows[0];
     }
 
     // Also mark in student_content_progress for course/goal tracking
     if (goalName || courseName) {
-      const contentId = `practice-${practiceId}`
+      const contentId = `practice-${practiceId}`;
       const progressResult = await pool.query(
         `SELECT * FROM student_content_progress 
          WHERE student_id = $1 AND content_id = $2`,
-        [req.student.id, contentId],
-      )
+        [req.student.id, contentId]
+      );
 
       if (progressResult.rows.length > 0) {
         await pool.query(
           `UPDATE student_content_progress 
            SET completed = true, completed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP
            WHERE student_id = $1 AND content_id = $2`,
-          [req.student.id, contentId],
-        )
+          [req.student.id, contentId]
+        );
       } else {
         await pool.query(
           `INSERT INTO student_content_progress 
            (student_id, content_id, goal_name, course_name, completed, completed_at)
            VALUES ($1, $2, $3, $4, true, CURRENT_TIMESTAMP)`,
-          [req.student.id, contentId, goalName || null, courseName || null],
-        )
+          [req.student.id, contentId, goalName || null, courseName || null]
+        );
       }
     }
 
@@ -1524,60 +1553,68 @@ app.post("/api/coding-practice/complete-practice", auth, async (req, res) => {
       success: true,
       message: "Practice marked as completed",
       data: result,
-    })
+    });
   } catch (error) {
-    console.error("Practice completion error:", error.message)
+    console.error("Practice completion error:", error.message);
     res.status(500).json({
       success: false,
       message: "Failed to mark practice as completed",
-    })
+    });
   }
-})
+});
 
 // Get practice completion status
-app.get("/api/coding-practice/completion/:practiceId", auth, async (req, res) => {
-  try {
-    const { practiceId } = req.params
+app.get(
+  "/api/coding-practice/completion/:practiceId",
+  auth,
+  async (req, res) => {
+    try {
+      const { practiceId } = req.params;
 
-    const result = await pool.query(
-      `SELECT * FROM coding_practice_completion 
+      const result = await pool.query(
+        `SELECT * FROM coding_practice_completion 
        WHERE student_id = $1 AND practice_id = $2`,
-      [req.student.id, practiceId],
-    )
+        [req.student.id, practiceId]
+      );
 
-    const isCompleted = result.rows.length > 0
+      const isCompleted = result.rows.length > 0;
 
-    res.json({
-      success: true,
-      data: {
-        isCompleted,
-        completion: isCompleted ? result.rows[0] : null,
-      },
-    })
-  } catch (error) {
-    console.error("Practice completion fetch error:", error.message)
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch completion status",
-    })
+      res.json({
+        success: true,
+        data: {
+          isCompleted,
+          completion: isCompleted ? result.rows[0] : null,
+        },
+      });
+    } catch (error) {
+      console.error("Practice completion fetch error:", error.message);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch completion status",
+      });
+    }
   }
-})
+);
 
 // Get practice summary (all questions status for a practice)
 app.get("/api/coding-practice/summary/:practiceId", auth, async (req, res) => {
   try {
-    const { practiceId } = req.params
+    const { practiceId } = req.params;
 
     const result = await pool.query(
       `SELECT * FROM coding_practice_progress 
        WHERE student_id = $1 AND practice_id = $2
        ORDER BY question_id`,
-      [req.student.id, practiceId],
-    )
+      [req.student.id, practiceId]
+    );
 
-    const totalQuestions = result.rows.length
-    const solvedQuestions = result.rows.filter((q) => q.status === "solved").length
-    const attemptedQuestions = result.rows.filter((q) => q.status === "attempted" || q.status === "solved").length
+    const totalQuestions = result.rows.length;
+    const solvedQuestions = result.rows.filter(
+      (q) => q.status === "solved"
+    ).length;
+    const attemptedQuestions = result.rows.filter(
+      (q) => q.status === "attempted" || q.status === "solved"
+    ).length;
 
     res.json({
       success: true,
@@ -1588,16 +1625,15 @@ app.get("/api/coding-practice/summary/:practiceId", auth, async (req, res) => {
         attemptedQuestions,
         progress: result.rows,
       },
-    })
+    });
   } catch (error) {
-    console.error("Practice summary error:", error.message)
+    console.error("Practice summary error:", error.message);
     res.status(500).json({
       success: false,
       message: "Failed to fetch practice summary",
-    })
+    });
   }
-})
-
+});
 
 // -------------------------------------------
 // 🔹 Register Route
@@ -1700,12 +1736,13 @@ app.post(
         : new Date().getFullYear();
 
       // Insert new student
+      // In your registration route, add this field
       const result = await pool.query(
         `INSERT INTO students (student_id, email, password, first_name, last_name, phone, 
-                              profile_image, batch_month, batch_year, is_current_batch)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-         RETURNING id, student_id, email, first_name, last_name, phone, profile_image, 
-                   batch_month, batch_year, is_current_batch, created_at`,
+                        profile_image, batch_month, batch_year, is_current_batch, join_date)
+   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, CURRENT_DATE)
+   RETURNING id, student_id, email, first_name, last_name, phone, profile_image, 
+             batch_month, batch_year, is_current_batch, join_date, created_at`,
         [
           studentId,
           email,
@@ -2886,22 +2923,22 @@ app.use((error, req, res, next) => {
 
 const verifyAdminRequest = async (req, res, next) => {
   try {
-    const adminToken = req.headers['x-admin-token'];
-    const adminApiKey = req.headers['x-admin-api-key'];
-    
+    const adminToken = req.headers["x-admin-token"];
+    const adminApiKey = req.headers["x-admin-api-key"];
+
     // Simple token verification - you can make this more secure
     if (!adminToken || adminToken !== process.env.ADMIN_ACCESS_TOKEN) {
       return res.status(401).json({
         success: false,
-        message: "Invalid admin access token"
+        message: "Invalid admin access token",
       });
     }
-    
+
     next();
   } catch (error) {
     res.status(401).json({
       success: false,
-      message: "Admin authentication failed"
+      message: "Admin authentication failed",
     });
   }
 };
@@ -2913,7 +2950,8 @@ const verifyAdminRequest = async (req, res, next) => {
 // Create discussion thread
 app.post("/api/discussions/threads", auth, async (req, res) => {
   try {
-    const { title, content, subtopicId, moduleName, topicName, images } = req.body;
+    const { title, content, subtopicId, moduleName, topicName, images } =
+      req.body;
 
     if (!title || !content || !subtopicId) {
       return res.status(400).json({
@@ -3104,12 +3142,15 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
 // ==========================================
 
 // Get all threads for admin panel
-app.get("/api/admin/discussions/threads", verifyAdminRequest, async (req, res) => {
-  try {
-    const { status, page = 1, limit = 20, search } = req.query;
-    const offset = (page - 1) * limit;
+app.get(
+  "/api/admin/discussions/threads",
+  verifyAdminRequest,
+  async (req, res) => {
+    try {
+      const { status, page = 1, limit = 20, search } = req.query;
+      const offset = (page - 1) * limit;
 
-    let query = `
+      let query = `
       SELECT dt.*, 
              s.first_name, 
              s.last_name,
@@ -3126,100 +3167,107 @@ app.get("/api/admin/discussions/threads", verifyAdminRequest, async (req, res) =
       LEFT JOIN discussion_replies dr ON dt.id = dr.thread_id
     `;
 
-    let queryParams = [];
-    let whereConditions = [];
-    let paramCount = 1;
+      let queryParams = [];
+      let whereConditions = [];
+      let paramCount = 1;
 
-    // Filter by status
-    if (status === 'replied') {
-      whereConditions.push(`EXISTS (
+      // Filter by status
+      if (status === "replied") {
+        whereConditions.push(`EXISTS (
         SELECT 1 FROM discussion_replies dr2 
         WHERE dr2.thread_id = dt.id AND dr2.replied_by_admin IS NOT NULL
       )`);
-    } else if (status === 'unanswered') {
-      whereConditions.push(`NOT EXISTS (
+      } else if (status === "unanswered") {
+        whereConditions.push(`NOT EXISTS (
         SELECT 1 FROM discussion_replies dr2 
         WHERE dr2.thread_id = dt.id
       )`);
-    } else if (status === 'student_replied') {
-      whereConditions.push(`EXISTS (
+      } else if (status === "student_replied") {
+        whereConditions.push(`EXISTS (
         SELECT 1 FROM discussion_replies dr2 
         WHERE dr2.thread_id = dt.id AND dr2.replied_by_student IS NOT NULL
       ) AND NOT EXISTS (
         SELECT 1 FROM discussion_replies dr3 
         WHERE dr3.thread_id = dt.id AND dr3.replied_by_admin IS NOT NULL
       )`);
-    }
+      }
 
-    // Search functionality
-    if (search) {
-      whereConditions.push(`(
+      // Search functionality
+      if (search) {
+        whereConditions.push(`(
         dt.title ILIKE $${paramCount} OR 
         dt.content ILIKE $${paramCount} OR
         s.first_name ILIKE $${paramCount} OR
         s.last_name ILIKE $${paramCount}
       )`);
-      queryParams.push(`%${search}%`);
-      paramCount++;
-    }
+        queryParams.push(`%${search}%`);
+        paramCount++;
+      }
 
-    if (whereConditions.length > 0) {
-      query += ` WHERE ` + whereConditions.join(' AND ');
-    }
+      if (whereConditions.length > 0) {
+        query += ` WHERE ` + whereConditions.join(" AND ");
+      }
 
-    query += ` 
+      query += ` 
       GROUP BY dt.id, s.first_name, s.last_name, s.email, s.batch_month, s.batch_year
       ORDER BY dt.is_important DESC, dt.created_at DESC
       LIMIT $${paramCount} OFFSET $${paramCount + 1}
     `;
 
-    queryParams.push(limit, offset);
+      queryParams.push(limit, offset);
 
-    const result = await pool.query(query, queryParams);
+      const result = await pool.query(query, queryParams);
 
-    // Get total count for pagination
-    let countQuery = `
+      // Get total count for pagination
+      let countQuery = `
       SELECT COUNT(DISTINCT dt.id) as total
       FROM discussion_threads dt
       LEFT JOIN students s ON dt.student_id = s.id
     `;
 
-    if (whereConditions.length > 0) {
-      countQuery += ` WHERE ` + whereConditions.join(' AND ');
-    }
-
-    const countResult = await pool.query(countQuery, queryParams.slice(0, -2));
-    const total = parseInt(countResult.rows[0].total);
-
-    res.json({
-      success: true,
-      data: {
-        threads: result.rows,
-        pagination: {
-          page: parseInt(page),
-          limit: parseInt(limit),
-          total,
-          pages: Math.ceil(total / limit)
-        }
+      if (whereConditions.length > 0) {
+        countQuery += ` WHERE ` + whereConditions.join(" AND ");
       }
-    });
-  } catch (error) {
-    console.error("Admin threads fetch error:", error.message);
-    res.status(500).json({
-      success: false,
-      error: "Failed to fetch threads"
-    });
+
+      const countResult = await pool.query(
+        countQuery,
+        queryParams.slice(0, -2)
+      );
+      const total = parseInt(countResult.rows[0].total);
+
+      res.json({
+        success: true,
+        data: {
+          threads: result.rows,
+          pagination: {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            total,
+            pages: Math.ceil(total / limit),
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Admin threads fetch error:", error.message);
+      res.status(500).json({
+        success: false,
+        error: "Failed to fetch threads",
+      });
+    }
   }
-});
+);
 
 // Get thread detail for admin
-app.get("/api/admin/discussions/threads/:threadId", verifyAdminRequest, async (req, res) => {
-  try {
-    const { threadId } = req.params;
+app.get(
+  "/api/admin/discussions/threads/:threadId",
+  verifyAdminRequest,
+  async (req, res) => {
+    try {
+      const { threadId } = req.params;
 
-    // Get thread details
-    const threadResult = await pool.query(
-      `SELECT dt.*, 
+      // Get thread details
+      const threadResult = await pool.query(
+        `SELECT dt.*, 
               s.first_name, 
               s.last_name,
               s.email,
@@ -3229,19 +3277,19 @@ app.get("/api/admin/discussions/threads/:threadId", verifyAdminRequest, async (r
        FROM discussion_threads dt
        LEFT JOIN students s ON dt.student_id = s.id
        WHERE dt.id = $1`,
-      [threadId]
-    );
+        [threadId]
+      );
 
-    if (threadResult.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Thread not found"
-      });
-    }
+      if (threadResult.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Thread not found",
+        });
+      }
 
-    // Get all replies (both student and admin)
-    const repliesResult = await pool.query(
-      `SELECT dr.*, 
+      // Get all replies (both student and admin)
+      const repliesResult = await pool.query(
+        `SELECT dr.*, 
               -- Student reply details
               s.first_name as student_first_name,
               s.last_name as student_last_name,
@@ -3257,147 +3305,527 @@ app.get("/api/admin/discussions/threads/:threadId", verifyAdminRequest, async (r
        LEFT JOIN students s ON dr.replied_by_student = s.id
        WHERE dr.thread_id = $1
        ORDER BY dr.created_at ASC`,
-      [threadId]
-    );
+        [threadId]
+      );
 
-    res.json({
-      success: true,
-      data: {
-        thread: threadResult.rows[0],
-        replies: repliesResult.rows,
-      }
-    });
-  } catch (error) {
-    console.error("Admin thread detail error:", error.message);
-    res.status(500).json({
-      success: false,
-      error: "Failed to fetch thread details"
-    });
+      res.json({
+        success: true,
+        data: {
+          thread: threadResult.rows[0],
+          replies: repliesResult.rows,
+        },
+      });
+    } catch (error) {
+      console.error("Admin thread detail error:", error.message);
+      res.status(500).json({
+        success: false,
+        error: "Failed to fetch thread details",
+      });
+    }
   }
-});
+);
 
 // Admin posts a reply (called by admin backend)
-app.post("/api/admin/discussions/replies", verifyAdminRequest, async (req, res) => {
-  try {
-    const { threadId, content, adminId, adminName, adminImage } = req.body;
+app.post(
+  "/api/admin/discussions/replies",
+  verifyAdminRequest,
+  async (req, res) => {
+    try {
+      const { threadId, content, adminId, adminName, adminImage } = req.body;
 
-    if (!threadId || !content || !adminId || !adminName) {
-      return res.status(400).json({
-        success: false,
-        message: "Thread ID, content, admin ID, and admin name are required"
-      });
-    }
+      if (!threadId || !content || !adminId || !adminName) {
+        return res.status(400).json({
+          success: false,
+          message: "Thread ID, content, admin ID, and admin name are required",
+        });
+      }
 
-    // Verify thread exists
-    const threadCheck = await pool.query(
-      "SELECT id FROM discussion_threads WHERE id = $1",
-      [threadId]
-    );
+      // Verify thread exists
+      const threadCheck = await pool.query(
+        "SELECT id FROM discussion_threads WHERE id = $1",
+        [threadId]
+      );
 
-    if (threadCheck.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Thread not found"
-      });
-    }
+      if (threadCheck.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Thread not found",
+        });
+      }
 
-    // Insert admin reply with admin details
-    const result = await pool.query(
-      `INSERT INTO discussion_replies 
+      // Insert admin reply with admin details
+      const result = await pool.query(
+        `INSERT INTO discussion_replies 
        (thread_id, replied_by_admin, admin_name, admin_image, content)
        VALUES ($1, $2, $3, $4, $5)
        RETURNING *`,
-      [threadId, adminId, adminName, adminImage || null, content]
-    );
+        [threadId, adminId, adminName, adminImage || null, content]
+      );
 
-    // Update thread's updated_at timestamp
-    await pool.query(
-      `UPDATE discussion_threads 
+      // Update thread's updated_at timestamp
+      await pool.query(
+        `UPDATE discussion_threads 
        SET updated_at = CURRENT_TIMESTAMP 
        WHERE id = $1`,
-      [threadId]
-    );
+        [threadId]
+      );
 
-    const replyWithDetails = {
-      ...result.rows[0],
-      replied_by_role: 'admin',
-      replied_by_name: adminName,
-      replied_by_image: adminImage,
-      admin_name: adminName,
-      admin_image: adminImage
-    };
+      const replyWithDetails = {
+        ...result.rows[0],
+        replied_by_role: "admin",
+        replied_by_name: adminName,
+        replied_by_image: adminImage,
+        admin_name: adminName,
+        admin_image: adminImage,
+      };
 
-    res.status(201).json({
-      success: true,
-      message: "Reply added successfully",
-      data: { reply: replyWithDetails },
-    });
-  } catch (error) {
-    console.error("Admin reply error:", error.message);
-    res.status(500).json({
-      success: false,
-      error: "Failed to add reply"
-    });
-  }
-});
-
-// Update thread status (important, resolved, etc.)
-app.put("/api/admin/discussions/threads/:threadId/status", verifyAdminRequest, async (req, res) => {
-  try {
-    const { threadId } = req.params;
-    const { status, is_important } = req.body;
-
-    const updates = [];
-    const values = [];
-    let paramCount = 1;
-
-    if (status) {
-      updates.push(`status = $${paramCount}`);
-      values.push(status);
-      paramCount++;
-    }
-
-    if (is_important !== undefined) {
-      updates.push(`is_important = $${paramCount}`);
-      values.push(is_important);
-      paramCount++;
-    }
-
-    if (updates.length === 0) {
-      return res.status(400).json({
+      res.status(201).json({
+        success: true,
+        message: "Reply added successfully",
+        data: { reply: replyWithDetails },
+      });
+    } catch (error) {
+      console.error("Admin reply error:", error.message);
+      res.status(500).json({
         success: false,
-        message: "No fields to update"
+        error: "Failed to add reply",
       });
     }
+  }
+);
 
-    values.push(threadId);
+// Update thread status (important, resolved, etc.)
+app.put(
+  "/api/admin/discussions/threads/:threadId/status",
+  verifyAdminRequest,
+  async (req, res) => {
+    try {
+      const { threadId } = req.params;
+      const { status, is_important } = req.body;
 
-    const query = `
+      const updates = [];
+      const values = [];
+      let paramCount = 1;
+
+      if (status) {
+        updates.push(`status = $${paramCount}`);
+        values.push(status);
+        paramCount++;
+      }
+
+      if (is_important !== undefined) {
+        updates.push(`is_important = $${paramCount}`);
+        values.push(is_important);
+        paramCount++;
+      }
+
+      if (updates.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No fields to update",
+        });
+      }
+
+      values.push(threadId);
+
+      const query = `
       UPDATE discussion_threads 
-      SET ${updates.join(', ')}, updated_at = CURRENT_TIMESTAMP
+      SET ${updates.join(", ")}, updated_at = CURRENT_TIMESTAMP
       WHERE id = $${paramCount}
       RETURNING *
     `;
 
-    const result = await pool.query(query, values);
+      const result = await pool.query(query, values);
 
-    if (result.rows.length === 0) {
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Thread not found",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Thread status updated successfully",
+        data: { thread: result.rows[0] },
+      });
+    } catch (error) {
+      console.error("Thread status update error:", error.message);
+      res.status(500).json({
+        success: false,
+        error: "Failed to update thread status",
+      });
+    }
+  }
+);
+
+// Add this route to server.js
+app.get("/api/goals/dynamic-data", auth, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+
+    // Get student's join date
+    const studentResult = await pool.query(
+      "SELECT join_date FROM students WHERE id = $1",
+      [studentId]
+    );
+
+    if (studentResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Thread not found"
+        message: "Student not found",
       });
     }
 
+    const joinDate = new Date(studentResult.rows[0].join_date);
+
+    // Calculate goal date ranges
+    const goal1Start = new Date(joinDate);
+    const goal1End = new Date(joinDate);
+    goal1End.setDate(goal1End.getDate() + 75); // 75 days from join date
+
+    const goal2Start = new Date(goal1End);
+    goal2Start.setDate(goal2Start.getDate() + 1); // Next day after goal 1 ends
+    const goal2End = new Date(goal2Start);
+    goal2End.setDate(goal2End.getDate() + 120); // 120 days from goal 2 start
+
+    const goal3Start = new Date(goal2End);
+    goal3Start.setDate(goal3Start.getDate() + 1); // Next day after goal 2 ends
+    const goal3End = new Date(goal3Start);
+    goal3End.setDate(goal3End.getDate() + 45); // 45 days from goal 3 start
+
+    // Format dates as "MMM D, YYYY"
+    const formatDate = (date) => {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    };
+
+    const dynamicGoalsData = {
+      goal1: {
+        startDate: formatDate(goal1Start),
+        endDate: formatDate(goal1End),
+        dateRange: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
+        duration: 75,
+      },
+      goal2: {
+        startDate: formatDate(goal2Start),
+        endDate: formatDate(goal2End),
+        dateRange: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
+        duration: 120,
+      },
+      goal3: {
+        startDate: formatDate(goal3Start),
+        endDate: formatDate(goal3End),
+        dateRange: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
+        duration: 45,
+      },
+      joinDate: formatDate(joinDate),
+      calculatedAt: new Date().toISOString(),
+    };
+
     res.json({
       success: true,
-      message: "Thread status updated successfully",
-      data: { thread: result.rows[0] },
+      data: dynamicGoalsData,
     });
   } catch (error) {
-    console.error("Thread status update error:", error.message);
+    console.error("Dynamic goals data error:", error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to update thread status"
+      message: "Error calculating goal date ranges",
+    });
+  }
+});
+
+// Add route to get goals progress with dynamic dates
+app.get("/api/goals/progress-with-dates", auth, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+
+    // Get student's join date
+    const studentResult = await pool.query(
+      "SELECT join_date FROM students WHERE id = $1",
+      [studentId]
+    );
+
+    if (studentResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
+    }
+
+    const joinDate = new Date(studentResult.rows[0].join_date);
+
+    // Calculate goal date ranges
+    const calculateGoalDates = () => {
+      const goal1Start = new Date(joinDate);
+      const goal1End = new Date(joinDate);
+      goal1End.setDate(goal1End.getDate() + 75);
+
+      const goal2Start = new Date(goal1End);
+      goal2Start.setDate(goal2Start.getDate() + 1);
+      const goal2End = new Date(goal2Start);
+      goal2End.setDate(goal2End.getDate() + 120);
+
+      const goal3Start = new Date(goal2End);
+      goal3Start.setDate(goal3Start.getDate() + 1);
+      const goal3End = new Date(goal3Start);
+      goal3End.setDate(goal3End.getDate() + 45);
+
+      const formatDate = (date) => {
+        return date.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      };
+
+      return {
+        goal1: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
+        goal2: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
+        goal3: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
+      };
+    };
+
+    const dateRanges = calculateGoalDates();
+
+    // Get progress data for each goal
+    const goalsProgress = await Promise.all([
+      // Goal 1 progress
+      pool.query(
+        `SELECT COUNT(*) as total, 
+                SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed
+         FROM student_content_progress 
+         WHERE student_id = $1 AND goal_name = 'Goal 1'`,
+        [studentId]
+      ),
+      // Goal 2 progress
+      pool.query(
+        `SELECT COUNT(*) as total, 
+                SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed
+         FROM student_content_progress 
+         WHERE student_id = $1 AND goal_name = 'Goal 2'`,
+        [studentId]
+      ),
+      // Goal 3 progress
+      pool.query(
+        `SELECT COUNT(*) as total, 
+                SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed
+         FROM student_content_progress 
+         WHERE student_id = $1 AND goal_name = 'Goal 3'`,
+        [studentId]
+      ),
+    ]);
+
+    const goalsData = [
+      {
+        id: "goal 1",
+        title: "Goal 1",
+        color: "#1e90ff",
+        dateRange: dateRanges.goal1,
+        progress:
+          goalsProgress[0].rows[0].total > 0
+            ? Math.round(
+                (parseInt(goalsProgress[0].rows[0].completed) /
+                  parseInt(goalsProgress[0].rows[0].total)) *
+                  100
+              )
+            : 0,
+        // Include courses data as needed
+      },
+      {
+        id: "goal 2",
+        title: "Goal 2",
+        color: "#ff8c00",
+        dateRange: dateRanges.goal2,
+        progress:
+          goalsProgress[1].rows[0].total > 0
+            ? Math.round(
+                (parseInt(goalsProgress[1].rows[0].completed) /
+                  parseInt(goalsProgress[1].rows[0].total)) *
+                  100
+              )
+            : 0,
+      },
+      {
+        id: "goal 3",
+        title: "Goal 3",
+        color: "#28a745",
+        dateRange: dateRanges.goal3,
+        progress:
+          goalsProgress[2].rows[0].total > 0
+            ? Math.round(
+                (parseInt(goalsProgress[2].rows[0].completed) /
+                  parseInt(goalsProgress[2].rows[0].total)) *
+                  100
+              )
+            : 0,
+      },
+    ];
+
+    res.json({
+      success: true,
+      data: {
+        goals: goalsData,
+        joinDate: joinDate.toISOString(),
+        calculatedAt: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    console.error("Goals progress with dates error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching goals progress with dates",
+    });
+  }
+});
+
+// ==========================================
+// 🔹 GOAL PROGRESS & DATE MANAGEMENT ROUTES
+// ==========================================
+
+// Get student's goal dates and progress
+app.get("/api/student/goal-progress", auth, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const studentCreatedAt = req.student.created_at;
+
+    // Calculate goal dates based on registration date
+    const registrationDate = new Date(studentCreatedAt);
+
+    // Goal 1: 75 days from registration
+    const goal1Start = new Date(registrationDate);
+    const goal1End = new Date(registrationDate);
+    goal1End.setDate(goal1End.getDate() + 75);
+
+    // Goal 2: 120 days after goal 1 completion
+    const goal2Start = new Date(goal1End);
+    goal2Start.setDate(goal2Start.getDate() + 1);
+    const goal2End = new Date(goal2Start);
+    goal2End.setDate(goal2End.getDate() + 120);
+
+    // Goal 3: 45 days after goal 2 completion
+    const goal3Start = new Date(goal2End);
+    goal3Start.setDate(goal3Start.getDate() + 1);
+    const goal3End = new Date(goal3Start);
+    goal3End.setDate(goal3End.getDate() + 45);
+
+    // Format dates for display
+    const formatDate = (date) => {
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+    };
+
+    // Get goal completion status
+    const goalCompletion = await pool.query(
+      `SELECT goal_name, COUNT(*) as total_content, 
+              SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_content
+       FROM student_content_progress 
+       WHERE student_id = $1 AND goal_name IS NOT NULL
+       GROUP BY goal_name`,
+      [studentId]
+    );
+
+    const goalProgress = {};
+    goalCompletion.rows.forEach((row) => {
+      const progress =
+        row.total_content > 0
+          ? (row.completed_content / row.total_content) * 100
+          : 0;
+      goalProgress[row.goal_name] = progress;
+    });
+
+    const goal1Progress = goalProgress["Goal 1"] || 0;
+    const goal2Progress = goalProgress["Goal 2"] || 0;
+    const goal3Progress = goalProgress["Goal 3"] || 0;
+
+    // Determine which goals are unlocked
+    const isGoal1Unlocked = true; // Always unlocked
+    const isGoal2Unlocked = goal1Progress >= 100;
+    const isGoal3Unlocked = goal2Progress >= 100;
+
+    res.json({
+      success: true,
+      data: {
+        goalDates: {
+          goal1: {
+            start: formatDate(goal1Start),
+            end: formatDate(goal1End),
+            range: `${formatDate(goal1Start)} - ${formatDate(goal1End)}`,
+          },
+          goal2: {
+            start: formatDate(goal2Start),
+            end: formatDate(goal2End),
+            range: `${formatDate(goal2Start)} - ${formatDate(goal2End)}`,
+          },
+          goal3: {
+            start: formatDate(goal3Start),
+            end: formatDate(goal3End),
+            range: `${formatDate(goal3Start)} - ${formatDate(goal3End)}`,
+          },
+        },
+        goalProgress: {
+          goal1: goal1Progress,
+          goal2: goal2Progress,
+          goal3: goal3Progress,
+        },
+        unlockedGoals: {
+          goal1: isGoal1Unlocked,
+          goal2: isGoal2Unlocked,
+          goal3: isGoal3Unlocked,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Goal progress fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching goal progress",
+    });
+  }
+});
+
+// Check if specific goal is unlocked
+app.get("/api/student/goal/:goalName/unlocked", auth, async (req, res) => {
+  try {
+    const { goalName } = req.params;
+    const studentId = req.student.id;
+
+    if (goalName === "Goal 1") {
+      return res.json({ success: true, unlocked: true });
+    }
+
+    // For goal 2 and 3, check previous goal completion
+    const previousGoal = goalName === "Goal 2" ? "Goal 1" : "Goal 2";
+
+    const progressResult = await pool.query(
+      `SELECT COUNT(*) as total_content, 
+              SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_content
+       FROM student_content_progress 
+       WHERE student_id = $1 AND goal_name = $2`,
+      [studentId, previousGoal]
+    );
+
+    const total = parseInt(progressResult.rows[0]?.total_content || 0);
+    const completed = parseInt(progressResult.rows[0]?.completed_content || 0);
+    const isUnlocked = total > 0 && completed >= total;
+
+    res.json({
+      success: true,
+      unlocked: isUnlocked,
+      progress: total > 0 ? (completed / total) * 100 : 0,
+    });
+  } catch (error) {
+    console.error("Goal unlock check error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error checking goal unlock status",
     });
   }
 });

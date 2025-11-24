@@ -185,18 +185,18 @@ const Introductionto_Html = ({
   };
 
   return (
-    <div className="subtopic-container">
+    <div className="subtopic-container-clss">
       {/* Header Section */}
-      <div className="subtopic-header">
-        <div className="breadcrumb">
-          <span className="module-name">{moduleName}</span>
-          <span className="separator">
+      <div className="subtopic-header-clss">
+        <div className="breadcrumb-clss">
+          <span className="module-name-clss">{moduleName}</span>
+          <span className="separator-clss">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
               fill="currentColor"
-              className="bi bi-chevron-right right-icon"
+              className="bi bi-chevron-right right-icon-clss"
               viewBox="0 0 16 16"
             >
               <path
@@ -205,14 +205,14 @@ const Introductionto_Html = ({
               />
             </svg>
           </span>
-          <span className="topic-name">{topicName}</span>
+          <span className="topic-name-clss">{topicName}</span>
         </div>
       </div>
 
-      <div className="content-tab">
+      <div className="content-tab-clss">
         {/* Video Section */}
-        <div className="video-section">
-          <div className="video-container">
+        <div className="video-section-clss">
+          <div className="video-container-clss">
             <iframe
               width="100%"
               height="400"
@@ -226,10 +226,10 @@ const Introductionto_Html = ({
         </div>
 
         {/* Completion Section */}
-        <div className="completion-section">
+        <div className="completion-section-clss">
           <button
-            className={`complete-button ${
-              isSubtopicCompleted ? "completed" : ""
+            className={`complete-button-clss ${
+              isSubtopicCompleted ? "completed-clss" : ""
             }`}
             onClick={handleContinue}
             disabled={isLoading || isSubtopicCompleted}
@@ -244,17 +244,19 @@ const Introductionto_Html = ({
       </div>
 
       {/* Navigation Tabs */}
-      <div className="subtopic-tabs">
+      <div className="subtopic-tabs-clss">
         <button
-          className={`tab-button ${
-            activeTab === "discussions" ? "active" : ""
+          className={`tab-button-clss ${
+            activeTab === "discussions" ? "active-clss" : ""
           }`}
           onClick={() => setActiveTab("discussions")}
         >
           Discussions
         </button>
         <button
-          className={`tab-button ${activeTab === "slides" ? "active" : ""}`}
+          className={`tab-button-clss ${
+            activeTab === "slides" ? "active-clss" : ""
+          }`}
           onClick={() => setActiveTab("slides")}
         >
           Slides
@@ -263,21 +265,23 @@ const Introductionto_Html = ({
 
       {/* Discussions Tab */}
       {activeTab === "discussions" && (
-        <div className="discussions-tab">
-          <div className="discussions-header">
+        <div className="discussions-tab-clss">
+          <div className="discussions-header-clss">
             <h2>Discussions</h2>
-            <button
-              className="new-thread-btn"
-              onClick={() => setShowNewThread(true)}
-            >
-              + New Thread
-            </button>
+            <div>
+              <button
+                className="new-thread-btn-clss"
+                onClick={() => setShowNewThread(true)}
+              >
+                + New Thread
+              </button>
+            </div>
           </div>
 
           {/* New Thread Form */}
           {showNewThread && (
-            <div className="new-thread-modal">
-              <div className="new-thread-form">
+            <div className="new-thread-modal-clss">
+              <div className="new-thread-form-clss">
                 <h3>Create New Thread</h3>
                 <input
                   type="text"
@@ -286,15 +290,15 @@ const Introductionto_Html = ({
                   onChange={(e) =>
                     setNewThread((prev) => ({ ...prev, title: e.target.value }))
                   }
-                  className="thread-title-input"
+                  className="thread-title-input-clss"
                 />
 
                 {/* Rich Text Editor */}
-                <div className="rich-text-editor">
-                  <div className="editor-toolbar">
+                <div className="rich-text-editor-clss">
+                  <div className="editor-toolbar-clss">
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("bold")}
                       title="Bold"
                     >
@@ -303,7 +307,7 @@ const Introductionto_Html = ({
                         width="16"
                         height="16"
                         fill="currentColor"
-                        class="bi bi-type-bold"
+                        className="bi bi-type-bold"
                         viewBox="0 0 16 16"
                       >
                         <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z" />
@@ -311,7 +315,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("italic")}
                       title="Italic"
                     >
@@ -326,7 +330,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("underline")}
                       title="Underline"
                     >
@@ -341,7 +345,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("insertUnorderedList")}
                       title="Bullet List"
                     >
@@ -356,7 +360,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("insertOrderedList")}
                       title="Numbered List"
                     >
@@ -371,7 +375,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("formatBlock", "<blockquote>")}
                       title="Quote"
                     >
@@ -379,7 +383,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("formatBlock", "<h2>")}
                       title="Heading"
                     >
@@ -387,7 +391,7 @@ const Introductionto_Html = ({
                     </button>
                     <button
                       type="button"
-                      className="toolbar-btn"
+                      className="toolbar-btn-clss"
                       onClick={() => formatText("formatBlock", "<pre>")}
                       title="Code"
                     >
@@ -400,13 +404,13 @@ const Introductionto_Html = ({
                         <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0L19.2 12l-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
                       </svg>
                     </button>
-                    <div className="toolbar-btn image-upload-btn">
+                    <div className="toolbar-btn-clss image-upload-btn-clss">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
                         height="16"
                         fill="currentColor"
-                        class="bi bi-image"
+                        className="bi bi-image"
                         viewBox="0 0 16 16"
                       >
                         <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
@@ -421,20 +425,24 @@ const Introductionto_Html = ({
                   </div>
                   <div
                     ref={editorRef}
-                    className="editor-content"
+                    className="editor-content-clss"
                     contentEditable
                     onInput={handleEditorInput}
-                    dangerouslySetInnerHTML={{ __html: newThread.content }}
+                    dir="ltr"
+                    style={{ textAlign: "left" }}
                   />
                 </div>
 
-                <div className="thread-actions">
-                  <button onClick={handleCreateThread} className="submit-btn">
+                <div className="thread-actions-clss">
+                  <button
+                    onClick={handleCreateThread}
+                    className="submit-btn-clss"
+                  >
                     Create Thread
                   </button>
                   <button
                     onClick={() => setShowNewThread(false)}
-                    className="cancel-btn"
+                    className="cancel-btn-clss"
                   >
                     Cancel
                   </button>
@@ -444,31 +452,33 @@ const Introductionto_Html = ({
           )}
 
           {/* Threads List */}
-          <div className="threads-list">
+          <div className="threads-list-clss">
             {threads.length === 0 ? (
-              <div className="no-threads">
+              <div className="no-threads-clss">
                 <p>No discussions yet. Start the first thread!</p>
               </div>
             ) : (
               threads.map((thread) => (
                 <div
                   key={thread.id}
-                  className={`thread-item ${
-                    thread.is_important ? "important" : ""
+                  className={`thread-item-clss ${
+                    thread.is_important ? "important-clss" : ""
                   }`}
                   onClick={() => openThreadDetail(thread.id)}
                 >
-                  <div className="thread-header">
-                    <h3 className="thread-title">{thread.title}</h3>
-                    <span className="reply-count">
+                  <div className="thread-header-clss">
+                    <h3 className="thread-title-clss">{thread.title}</h3>
+                    <span className="reply-count-clss">
                       {thread.reply_count} replies
                     </span>
                     {thread.has_admin_reply && (
-                      <span className="admin-replied-badge">Admin Replied</span>
+                      <span className="admin-replied-badge-clss">
+                        Admin Replied
+                      </span>
                     )}
                   </div>
                   <div
-                    className="thread-content-preview"
+                    className="thread-content-preview-clss"
                     dangerouslySetInnerHTML={{
                       __html:
                         thread.content.length > 150
@@ -476,18 +486,18 @@ const Introductionto_Html = ({
                           : stripHtml(thread.content),
                     }}
                   />
-                  <div className="thread-footer">
-                    <div className="thread-author">
+                  <div className="thread-footer-clss">
+                    <div className="thread-author-clss">
                       <img
                         src={thread.profile_image || "/default-avatar.png"}
                         alt="Author"
-                        className="author-avatar"
+                        className="author-avatar-clss"
                       />
                       <span>
                         {thread.first_name} {thread.last_name}
                       </span>
                     </div>
-                    <span className="thread-date">
+                    <span className="thread-date-clss">
                       {new Date(thread.created_at).toLocaleDateString()}
                     </span>
                   </div>
@@ -500,9 +510,9 @@ const Introductionto_Html = ({
 
       {/* Slides Tab */}
       {activeTab === "slides" && (
-        <div className="slides-tab">
+        <div className="slides-tab-clss">
           <h2>Presentation Slides</h2>
-          <div className="slides-container">
+          <div className="slides-container-clss">
             <iframe
               src={slidesUrl}
               width="100%"

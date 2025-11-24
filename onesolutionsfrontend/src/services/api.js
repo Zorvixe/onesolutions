@@ -129,11 +129,13 @@ export const progressAPI = {
   getGoalProgress: (goalName) => api.get(`/api/progress/goal/${goalName}`),
 };
 
-export const threadsAPI = {
-  createThread: (threadData) => api.post("/api/threads", threadData),
-  getThreads: (subtopicId) => api.get(`/api/threads/${subtopicId}`),
-  getThreadDetail: (threadId) => api.get(`/api/threads/detail/${threadId}`),
-  createReply: (replyData) => api.post("/api/threads/reply", replyData),
+export const studentAPI = {
+  // Get goal progress and dates
+  getGoalProgress: () => api.get("/api/student/goal-progress"),
+
+  // Check if specific goal is unlocked
+  checkGoalUnlocked: (goalName) =>
+    api.get(`/api/student/goal/${goalName}/unlocked`),
 };
 
 // ✅ Health Check API

@@ -290,7 +290,7 @@ const Static_MCQ_Assignment3 = ({
 
   return (
     <MCQLogic
-      title="Static MCQ Assignment 3"
+      title= "Static MCQ Assignment 3"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}
