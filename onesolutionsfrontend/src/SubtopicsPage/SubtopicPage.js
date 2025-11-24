@@ -219,6 +219,7 @@ import Responsive_Coding_Assignment_3 from "../ResponsiveWebsite/Assignments/Res
 import Responsive_Coding_Test_1 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_1.js";
 import Responsive_Coding_Test_2 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_2.js";
 import Responsive_Coding_Test_3 from "../ResponsiveWebsite/Mock_Tests/Responsive_Coding_Test_3.js";
+import Responsive_Project from "../ResponsiveWebsite/Mock_Tests/Responsive_Project.js";
 // Map subtopics to their components
 const subtopicComponents = {
   //Responsive Website
@@ -255,8 +256,9 @@ const subtopicComponents = {
   "Responsive Coding Assignment 2": Responsive_Coding_Assignment_2,
   "Responsive Coding Assignment 3": Responsive_Coding_Assignment_3,
   "Reponsive Coding Test 1": Responsive_Coding_Test_1,
-  "Reponsive Coding Test 2": Responsive_Coding_Test_2,
-  "Reponsive Coding Test 3": Responsive_Coding_Test_3,
+  "Responsive Coding Test 2": Responsive_Coding_Test_2,
+  "Responsive Coding Test 3": Responsive_Coding_Test_3,
+  "Build Your Own Responsive Project": Responsive_Project,
 
   //Responsive Start
   "Introduction to Responsive Web Design | Cheat Sheet":
@@ -298,7 +300,7 @@ const subtopicComponents = {
   "Static Coding Assignment 3": Static_Coding_Assignment_3,
   "Static Coding Test 1": Static_Mock_Test_1,
   "Static Coding Test 2": Static_Mock_Test_2,
-  "Static Website Project": Static_Website_Project,
+  "Build Your Own Static Website Project": Static_Website_Project,
 
   //Static Website Cheat Sheet Start
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,

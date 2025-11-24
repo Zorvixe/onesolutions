@@ -3,7 +3,7 @@ export const goalsData = [
     id: "goal 1",
     title: "Goal 1",
     color: "#1e90ff", // blue
-    dateRange: "", // Will be populated dynamically
+    dateRange: "",
     progress: 0,
     courses: [
       {
@@ -351,7 +351,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m8_H g1_7B c1_D2E",
-                name: "Static Website Project",
+                name: "Build Your Own Static Website Project",
               },
             ],
           },

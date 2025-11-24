@@ -129,15 +129,6 @@ export const progressAPI = {
   getGoalProgress: (goalName) => api.get(`/api/progress/goal/${goalName}`),
 };
 
-export const studentAPI = {
-  // FIXED: Remove trailing slash to prevent 404
-  getGoalProgress: () => api.get("/api/student/goal-progress"),
-
-  // Check if specific goal is unlocked
-  checkGoalUnlocked: (goalName) =>
-    api.get(`/api/student/goal/${goalName}/unlocked`),
-};
-
 // ✅ Health Check API
 export const healthCheck = () => api.get("/api/health");
 

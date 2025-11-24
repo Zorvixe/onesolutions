@@ -7,7 +7,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import { authAPI, progressAPI, studentAPI } from "../services/api";
+import { authAPI, progressAPI } from "../services/api";
 
 const AuthContext = createContext();
 
@@ -35,14 +35,6 @@ export const AuthProvider = ({ children }) => {
   const [codingPracticeProgress, setCodingPracticeProgress] = useState({});
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const [goalDates, setGoalDates] = useState({});
-  const [unlockedGoals, setUnlockedGoals] = useState({
-    goal1: true,
-    goal2: false,
-    goal3: false,
-  });
-  const [goalsLoading, setGoalsLoading] = useState(false);
-
   useEffect(() => {
     checkAuthStatus();
   }, []);
@@ -56,7 +48,6 @@ export const AuthProvider = ({ children }) => {
         await loadCompleteProfile();
         await loadUserProgress();
         await loadProgressSummary();
-        await loadGoalProgress(); // Add this line
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -70,24 +61,6 @@ export const AuthProvider = ({ children }) => {
       setCompleteProfile(null);
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Add this function to load goal progress
-  const loadGoalProgress = async () => {
-    try {
-      setGoalsLoading(true);
-      const response = await studentAPI.getGoalProgress();
-      if (response.data.success) {
-        const { goalProgress, goalDates, unlockedGoals } = response.data.data;
-        setGoalProgress(goalProgress);
-        setGoalDates(goalDates);
-        setUnlockedGoals(unlockedGoals);
-      }
-    } catch (error) {
-      console.error("[AUTH] Goal progress load failed:", error.message);
-    } finally {
-      setGoalsLoading(false);
     }
   };
 
@@ -583,10 +556,6 @@ export const AuthProvider = ({ children }) => {
     },
     completedContent,
     goalProgress,
-    goalDates,
-    unlockedGoals,
-    goalsLoading,
-    loadGoalProgress,
     courseProgress,
     overallProgress,
     progressLoading,
