@@ -44,18 +44,25 @@ export const AuthProvider = ({ children }) => {
   const [goalsLoading, setGoalsLoading] = useState(false);
 
   // Add this function to load goal progress
+  // In your AuthContext.js, update the loadGoalProgress function:
   const loadGoalProgress = async () => {
     try {
       setGoalsLoading(true);
+      console.log("[AUTH] Loading goal progress...");
+
       const response = await studentAPI.getGoalProgress();
+      console.log("[AUTH] Goal progress response:", response);
+
       if (response.data.success) {
         const { goalProgress, goalDates, unlockedGoals } = response.data.data;
         setGoalProgress(goalProgress);
         setGoalDates(goalDates);
         setUnlockedGoals(unlockedGoals);
+        console.log("[AUTH] Goal progress loaded successfully");
       }
     } catch (error) {
-      console.error("[AUTH] Goal progress load failed:", error.message);
+      console.error("[AUTH] Goal progress load failed:", error);
+      console.error("[AUTH] Error details:", error.response?.data);
     } finally {
       setGoalsLoading(false);
     }

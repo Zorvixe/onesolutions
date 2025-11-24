@@ -3685,6 +3685,11 @@ app.get("/api/goals/progress-with-dates", auth, async (req, res) => {
 // ==========================================
 
 // Enhanced goal progress endpoint with proper date calculation
+// ==========================================
+// 🔹 GOAL PROGRESS & DATE MANAGEMENT ROUTES
+// ==========================================
+
+// Get student's goal dates and progress
 app.get("/api/student/goal-progress", auth, async (req, res) => {
   try {
     const studentId = req.student.id;

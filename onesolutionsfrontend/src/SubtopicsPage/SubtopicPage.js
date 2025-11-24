@@ -197,6 +197,7 @@ import Why_Chooseus_Section_1 from "../ResponsiveWebsite/Developing_Layouts1/Why
 import Healthy_Delivary_Payments_1 from "../ResponsiveWebsite/Developing_Layouts1/Healthy_Delivary_Payments_1.js";
 import Followus_More_Styles_1 from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_1.js";
 import Css_Gradience_1 from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_1.js";
+import Responsive_Coding_Pratice_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Responsive_Coding_Pratice_1.js";
 // Map subtopics to their components
 const subtopicComponents = {
   //Responsive Website
@@ -213,6 +214,7 @@ const subtopicComponents = {
     Healthy_Delivary_Payments_1,
   "Follow Us Section & More Styling": Followus_More_Styles_1,
   "CSS Gradients & More BootStrap Components": Css_Gradience_1,
+  "Responsive Coding Practice 1": Responsive_Coding_Pratice_1,
 
   //Responsive Start
   "Introduction to Responsive Web Design | Cheat Sheet":
