@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // adjust the path if needed
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Bootstrap_Grid_Sys_CS_2 = ({
   subtopicId,
@@ -15,15 +15,14 @@ const Bootstrap_Grid_Sys_CS_2 = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -40,52 +39,61 @@ const Bootstrap_Grid_Sys_CS_2 = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} style={{ marginBottom: "10px" }}>
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          style={{
-            fontWeight: "bold",
-            color: mcqAnswers[q.question] === q.answer ? "green" : "red",
-          }}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
+  /* -------------------- MCQ DATA (Your Exact Questions) -------------------- */
+  const mcqs = [
+    {
+      id: "css_margin_1",
+      section: "CSS Box Properties",
+      question: "Which CSS property is used to get spacing between elements?",
+      options: ["padding", "margin", "border", "spacing"],
+      answer: "margin",
+      explanation: "The margin property creates space around elements.",
+    },
+    {
+      id: "bs_margin_1",
+      section: "Bootstrap Spacing Utilities",
+      question: "What Bootstrap class is used for top margin?",
+      options: ["mt-*", "mb-*", "m-*", "ml-*"],
+      answer: "mt-*",
+      explanation: "mt-* is used for margin-top in Bootstrap.",
+    },
+    {
+      id: "bs_padding_1",
+      section: "Bootstrap Spacing Utilities",
+      question: "What Bootstrap class is used for left padding?",
+      options: ["pl-*", "pr-*", "pt-*", "pb-*"],
+      answer: "pl-*",
+      explanation: "pl-* applies left padding.",
+    },
+    {
+      id: "bs_bgcolor_1",
+      section: "Bootstrap Background Utilities",
+      question: "Which Bootstrap class applies a primary background color?",
+      options: ["bg-primary", "text-primary", "p-2", "bg-success"],
+      answer: "bg-primary",
+      explanation: "bg-primary applies the primary color background.",
+    },
+    {
+      id: "bs_palette_1",
+      section: "Bootstrap Color Palette",
+      question:
+        "Bootstrap provides background color utilities for which elements?",
+      options: ["Only text", "Only divs", "All HTML elements", "Only buttons"],
+      answer: "All HTML elements",
+      explanation:
+        "Bootstrap background utility classes can be applied to any HTML element.",
+    },
+  ];
 
   return (
     <div className="intro-container">
@@ -94,14 +102,17 @@ const Bootstrap_Grid_Sys_CS_2 = ({
       {/* 1. CSS Box Properties */}
       <section>
         <h2>1. CSS Box Properties</h2>
+
         <h3>1.1 Margin</h3>
         <p>
           We can get spacing between two HTML elements with the CSS Box property{" "}
-          <code>margin</code>.{" "}
+          <code>margin</code>.
         </p>
         <p>
-          To get space only on one side, we use <b>Margin Variants:</b>
+          To get space only on one side, we use{" "}
+          <strong>Margin Variants:</strong>
         </p>
+
         <ul>
           <li>margin-top</li>
           <li>margin-right</li>
@@ -121,24 +132,16 @@ const Bootstrap_Grid_Sys_CS_2 = ({
 }`}
         />
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question:
-              "Which CSS property is used to get spacing between elements?",
-            options: ["padding", "margin", "border", "spacing"],
-            answer: "margin",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "css_margin"))}
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. Bootstrap Spacing Utilities */}
       <section>
         <h2>2. Bootstrap Spacing Utilities</h2>
 
-        {/* 2.1 Margin */}
         <h3>2.1 Margin</h3>
         <p>Bootstrap class names for margin:</p>
+
         <table>
           <thead>
             <tr>
@@ -170,11 +173,13 @@ const Bootstrap_Grid_Sys_CS_2 = ({
           </tbody>
         </table>
         <p>
-          The <code>asterisk (*)</code> symbol can be any number in the range of
-          0 to 5. For example,<b> m-5, mr-2, mb-3,</b> etc.
+          The asterisk (<code>*</code>) symbol can be any number in the range of
+          0 to 5. For example,<code>m-5</code>, <code>mr-2</code>,{" "}
+          <code>mb-3</code>, etc.
         </p>
 
         <h3>2.1.1 Margin Values</h3>
+
         <table>
           <thead>
             <tr>
@@ -209,33 +214,42 @@ const Bootstrap_Grid_Sys_CS_2 = ({
             </tr>
           </tbody>
         </table>
-        <p>The spacer is a variable and has a value of 16 pixels by default.</p>
-        <p>
-          {" "}
-          <b>Example:</b> <code>mb-3 = 16px</code>, <code>m-5 = 48px</code>.
-        </p>
-        <p>
-          <b>Note: </b> Avoid using CSS margin-left and margin-right for
-          Bootstrap Grid Columns; it may break the layout.
-        </p>
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "What Bootstrap class is used for top margin?",
-            options: ["mt-*", "mb-*", "m-*", "ml-*"],
-            answer: "mt-*",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "bs_margin"))}
+        <p>
+          The <b>spacer</b> is a variable and has a value of 16 pixels by
+          default.
+        </p>
+        <p>For Example:</p>
+        <ul>
+          <li>
+            <code>mb-3</code> = 1 * 16px = 16px
+          </li>
+          <li>
+            <code>m-5</code> = 3 * 16px = 48px
+          </li>
+        </ul>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Avoid using CSS <b>margin-left</b> and <b>margin-right</b>{" "}
+            properties for <b>Bootstrap Grid Columns</b>. It disturbs the
+            Bootstrap Grid System and gives unexpected results.
+          </p>
+        </div>
 
-        {/* 2.2 Padding */}
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
+
         <h3>2.2 Padding</h3>
-        <p>Bootstrap class names for padding:</p>
+
         <table>
           <thead>
             <tr>
               <th>CSS Padding Property</th>
-              <th>Bootstrap Class Name</th>
+              <th>Bootstrap Class</th>
             </tr>
           </thead>
           <tbody>
@@ -261,89 +275,55 @@ const Bootstrap_Grid_Sys_CS_2 = ({
             </tr>
           </tbody>
         </table>
-
-        <h3>2.2.1 Padding Values</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Size</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>0</td>
-              <td>0</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>0.25 * spacer</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>0.5 * spacer</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>1 * spacer</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>1.5 * spacer</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>3 * spacer</td>
-            </tr>
-          </tbody>
-        </table>
         <p>
-          Example: <code>p-1 = 4px</code>, <code>pt-4 = 24px</code>.
+          The asterisk (<code>*</code>) symbol can be any number in the range of
+          0 to 5. For example, <code>p-3</code>, <code>pr-1</code>,{" "}
+          <code>pb-5</code>, etc.
         </p>
+        <p>
+          The<b> spacer</b> is a variable and has a value of 16 pixels by
+          default.
+        </p>
+        <p>For Example:</p>
+        <ul>
+          <li>
+            <code>p-1</code> = 0.25 * 16px = 4px
+          </li>
+          <li>
+            <code>pt-4</code> = 1.5 * 16px = 24px
+          </li>
+        </ul>
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "What Bootstrap class is used for left padding?",
-            options: ["pl-*", "pr-*", "pt-*", "pb-*"],
-            answer: "pl-*",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "bs_padding"))}
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* 3. Bootstrap Background Color Utilities */}
+      {/* 3. Background Utilities */}
       <section>
         <h2>3. Bootstrap Background Color Utilities</h2>
         <p>
-          Use Bootstrap class names to apply background colors to HTML elements.
+          Bootstrap provides a set of predefined utility classes to quickly
+          apply background colors to any HTML element.
+        </p>{" "}
+        <p>
+          These classes help you style sections, cards, buttons, and containers
+          without writing custom CSS.
         </p>
-
         <CodeBlock
           language="html"
           code={`<div class="bg-primary text-white p-2">Primary Background</div>
 <div class="bg-success text-white p-2">Success Background</div>`}
         />
-        <p className="note">
-          Note: In the example, we used <code>p-2</code> for padding.
-        </p>
-
-        <h3>MCQ</h3>
-        {[
-          {
-            question:
-              "Which Bootstrap class applies a primary background color?",
-            options: ["bg-primary", "text-primary", "p-2", "bg-success"],
-            answer: "bg-primary",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "bs_bgcolor"))}
+        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
-      {/* 4. Developing Layouts for Five Responsive Breakpoints */}
+      {/* 4. Color Palette */}
       <section>
-        <h2>4. Developing Layouts for Five Responsive Breakpoints</h2>
-        <h3>4.1 Color Palette</h3>
+        <h2>4.Color Palette</h2>
         <p>
-          Bootstrap provides a color palette for each responsive breakpoint.
+          The Bootstrap <b>Color Palette</b> provides a consistent set of colors
+          that you can use across backgrounds, borders, buttons, and text. These
+          predefined theme colors help you maintain a professional and uniform
+          design without needing custom CSS.
         </p>
 
         <CodeBlock
@@ -353,20 +333,7 @@ const Bootstrap_Grid_Sys_CS_2 = ({
 <div class="bg-success">Success</div>`}
         />
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question:
-              "Bootstrap provides background color utilities for which elements?",
-            options: [
-              "Only text",
-              "Only divs",
-              "All HTML elements",
-              "Only buttons",
-            ],
-            answer: "All HTML elements",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "bs_palette"))}
+        <MCQBlock mcq={mcqs[4]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}
@@ -383,6 +350,53 @@ const Bootstrap_Grid_Sys_CS_2 = ({
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- INTERNAL MCQ BLOCK (NO IMPORT NEEDED) -------------------- */
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

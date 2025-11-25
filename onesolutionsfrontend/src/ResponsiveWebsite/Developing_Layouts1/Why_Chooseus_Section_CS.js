@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Why_Chooseus_Section_CS = ({
   subtopicId,
@@ -16,15 +15,14 @@ const Why_Chooseus_Section_CS = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -41,25 +39,76 @@ const Why_Chooseus_Section_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
+        console.log("Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "padding_class",
+      section: "Bootstrap Spacing",
+      question:
+        "Which Bootstrap class adds padding to all sides of an element?",
+      options: ["m-3", "p-3", "pad-3", "space-3"],
+      answer: "p-3",
+      explanation:
+        "The 'p-' prefix in Bootstrap stands for padding. p-3 applies padding on all four sides.",
+    },
+    {
+      id: "padding_top",
+      section: "Bootstrap Spacing",
+      question: "How do you add padding only to the top of an element?",
+      options: ["pt-*", "mt-*", "py-*", "top-padding-*"],
+      answer: "pt-*",
+      explanation:
+        "pt- stands for padding-top. Example: pt-4 adds 1.5rem (24px) padding to the top.",
+    },
+    {
+      id: "spacer_value",
+      section: "Bootstrap Spacing Values",
+      question:
+        "What is the default Bootstrap spacer value (used in p-1, p-2, etc.)?",
+      options: ["10px", "16px", "20px", "1rem"],
+      answer: "16px",
+      explanation:
+        "Bootstrap uses a base spacer of 1rem (usually 16px). p-1 = 0.25rem (4px), p-3 = 1rem (16px), p-5 = 3rem (48px).",
+    },
+    {
+      id: "span_element",
+      section: "HTML Span",
+      question: "What type of HTML element is <span> by default?",
+      options: ["Block-level", "Inline", "Inline-block", "Flex"],
+      answer: "Inline",
+      explanation:
+        "<span> is an inline element — it does not start on a new line and only takes up as much width as its content.",
+    },
+    {
+      id: "span_usage",
+      section: "HTML Span",
+      question: "What is the most common use of the <span> element?",
+      options: [
+        "To create a new section",
+        "To style a portion of text differently",
+        "To group block elements",
+        "To make elements responsive",
+      ],
+      answer: "To style a portion of text differently",
+      explanation:
+        "span is perfect for applying styles (color, font-weight, background, etc.) to specific words or phrases inside a paragraph.",
+    },
+  ];
+
   return (
     <div className="intro-container">
-      <h1>Why Choose us Sectio | Cheat Sheet</h1>
+      <h1>Why Choose us Section | Cheat Sheet</h1>
 
       {/* 1. Bootstrap Spacing Utilities */}
       <section>
@@ -117,23 +166,23 @@ const Why_Chooseus_Section_CS = ({
             </tr>
             <tr>
               <td>1</td>
-              <td>0.25 * spacer</td>
+              <td>0.25 × spacer</td>
             </tr>
             <tr>
               <td>2</td>
-              <td>0.5 * spacer</td>
+              <td>0.5 × spacer</td>
             </tr>
             <tr>
               <td>3</td>
-              <td>1 * spacer</td>
+              <td>1 × spacer</td>
             </tr>
             <tr>
               <td>4</td>
-              <td>1.5 * spacer</td>
+              <td>1.5 × spacer</td>
             </tr>
             <tr>
               <td>5</td>
-              <td>3 * spacer</td>
+              <td>3 × spacer</td>
             </tr>
           </tbody>
         </table>
@@ -167,6 +216,19 @@ const Why_Chooseus_Section_CS = ({
         />
       </section>
 
+      {/* MCQs - CLEAN, CONSISTENT, AND EDUCATIONAL */}
+      <section>
+        <h3>MCQs</h3>
+        {mcqs.map((mcq) => (
+          <MCQBlock
+            key={mcq.id}
+            mcq={mcq}
+            answers={mcqAnswers}
+            onAnswer={handleAnswer}
+          />
+        ))}
+      </section>
+
       {/* Continue Button */}
       <div className="view-continue">
         <button
@@ -177,10 +239,56 @@ const Why_Chooseus_Section_CS = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
+            ? "Completed"
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

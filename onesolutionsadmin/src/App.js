@@ -84,7 +84,7 @@ function App() {
               />
             </Route>
 
-            <Route path="/studnet_register" element={<StudentRegister />} />
+            <Route path="/student_register" element={<StudentRegister />} />
 
             {/* Default redirect */}
             <Route path="*" element={<Navigate to="/login" replace />} />

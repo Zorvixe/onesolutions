@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Healthy_Delivary_Payments_CS = ({
   subtopicId,
@@ -16,15 +15,14 @@ const Healthy_Delivary_Payments_CS = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -41,25 +39,85 @@ const Healthy_Delivary_Payments_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
+        console.log("Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "flex_order",
+      section: "Bootstrap Flex Order",
+      question: "What does the class 'order-3' do in a flex container?",
+      options: [
+        "Makes the item appear third visually",
+        "Sets the flex-grow to 3",
+        "Adds 3rem margin",
+        "Changes z-index to 3",
+      ],
+      answer: "Makes the item appear third visually",
+      explanation:
+        "order-* classes change the visual order of flex items without changing the HTML source order.",
+    },
+    {
+      id: "responsive_order",
+      section: "Bootstrap Flex Order",
+      question: "How do you change order only on large screens?",
+      options: ["order-lg-1", "lg-order-1", "order-1-lg", "flex-order-lg-1"],
+      answer: "order-lg-1",
+      explanation:
+        "Bootstrap uses breakpoint prefixes like order-md-*, order-lg-*, order-xl-* for responsive ordering.",
+    },
+    {
+      id: "display_none",
+      section: "Bootstrap Display Utilities",
+      question: "Which class hides an element on all screen sizes?",
+      options: ["d-hide", "d-none", "visible-none", "d-invisible"],
+      answer: "d-none",
+      explanation:
+        "d-none applies display: none !important; — completely hides the element everywhere.",
+    },
+    {
+      id: "responsive_display",
+      section: "Bootstrap Display Utilities",
+      question: "How do you show an element only on medium and larger screens?",
+      options: [
+        "d-md-block",
+        "d-block d-md-none",
+        "d-none d-md-block",
+        "visible-md-up",
+      ],
+      answer: "d-none d-md-block",
+      explanation:
+        "The pattern d-none d-{breakpoint}-block hides by default and shows from that breakpoint upward.",
+    },
+    {
+      id: "food_sections",
+      section: "Food Munch Sections",
+      question:
+        "Which of these is a real section class used in the Food Munch website?",
+      options: [
+        "healthy-food",
+        "food-delivery",
+        "payment-options",
+        "customer-thanks",
+      ],
+      answer: "healthy-food",
+      explanation:
+        "The cheat sheet shows actual section classes: .healthy-food, .delivery-payment, and .thank-you.",
+    },
+  ];
+
   return (
     <div className="intro-container">
-      <h1>Healthy Delivery Payments | Cheat Sheet</h1>
+      <h1>Healthy Delivery & Payments | Cheat Sheet</h1>
 
       {/* 1. Bootstrap Flex Utilities */}
       <section>
@@ -135,6 +193,19 @@ const Healthy_Delivary_Payments_CS = ({
         />
       </section>
 
+      {/* MCQs - CLEAN, CONSISTENT & EDUCATIONAL */}
+      <section>
+        <h3>MCQs</h3>
+        {mcqs.map((mcq) => (
+          <MCQBlock
+            key={mcq.id}
+            mcq={mcq}
+            answers={mcqAnswers}
+            onAnswer={handleAnswer}
+          />
+        ))}
+      </section>
+
       {/* Continue Button */}
       <div className="view-continue">
         <button
@@ -145,10 +216,56 @@ const Healthy_Delivary_Payments_CS = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
+            ? "Completed"
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

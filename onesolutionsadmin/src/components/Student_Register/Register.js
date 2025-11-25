@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import registerBanner from "../../assests/register_banner.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./Register.css";
 
@@ -20,7 +22,7 @@ const Register = () => {
   const [profileImagePreview, setProfileImagePreview] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [apiError, setApiError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -120,7 +122,6 @@ const Register = () => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    setApiError("");
 
     try {
       // Create FormData for file upload
@@ -139,7 +140,6 @@ const Register = () => {
         {
           method: "POST",
           body: submitData,
-          // Note: Don't set Content-Type header for FormData, let browser set it with boundary
         }
       );
 
@@ -155,14 +155,14 @@ const Register = () => {
         // Store token in localStorage
         localStorage.setItem("token", token);
 
-        // Redirect to home page
-        navigate("/home");
+        // Show success toast
+        toast.success("Registration successful...");
       } else {
         throw new Error(responseData.message || "Registration failed");
       }
     } catch (err) {
       console.error("Registration error:", err);
-      setApiError(err.message || "Registration failed. Please try again.");
+      toast.error(err.message || "Registration failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -173,9 +173,32 @@ const Register = () => {
     setProfileImagePreview("");
   };
 
+  const handleBack = () => {
+    navigate("/home");
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="register-page">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       <div className="image-section-register">
+        <button className="back-button" onClick={handleBack}>
+          Back
+        </button>
         <img src={registerBanner} alt="Register Banner" />
       </div>
 
@@ -185,7 +208,6 @@ const Register = () => {
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             {/* Profile Image Upload */}
             <div className="form-group">
-              {/* <label>Profile Image</label> */}
               <div className="image-upload-container">
                 <input
                   type="file"
@@ -208,7 +230,6 @@ const Register = () => {
                     </div>
                   ) : (
                     <div className="upload-placeholder">
-                      {/* Profile icon with small plus/upload badge */}
                       <svg
                         className="profile-icon with-badge"
                         xmlns="http://www.w3.org/2000/svg"
@@ -233,6 +254,11 @@ const Register = () => {
                   )}
                 </label>
               </div>
+              {validationErrors.profileImage && (
+                <span className="error-text">
+                  {validationErrors.profileImage}
+                </span>
+              )}
             </div>
 
             <div className="form-group">
@@ -250,6 +276,7 @@ const Register = () => {
                 <span className="error-text">{validationErrors.studentId}</span>
               )}
             </div>
+
             <div className="form-row">
               <div className="form-group">
                 <label>First Name *</label>
@@ -304,17 +331,57 @@ const Register = () => {
               )}
             </div>
 
-            <div className="form-group">
+            <div className="form-group password-field">
               <label>Password *</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={validationErrors.password ? "error" : ""}
-                placeholder="Enter your password"
-                disabled={isSubmitting}
-              />
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={validationErrors.password ? "error" : ""}
+                  placeholder="Enter your password"
+                  disabled={isSubmitting}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={togglePasswordVisibility}
+                  disabled={isSubmitting}
+                >
+                  {showPassword ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  )}
+                </button>
+              </div>
               {validationErrors.password && (
                 <span className="error-text">{validationErrors.password}</span>
               )}
@@ -398,7 +465,7 @@ const Register = () => {
           </form>
 
           <div className="auth-link">
-            Already have an account? <Link to="/login">Login here</Link>
+            <Link to="/login">Login here</Link>
           </div>
         </div>
       </div>

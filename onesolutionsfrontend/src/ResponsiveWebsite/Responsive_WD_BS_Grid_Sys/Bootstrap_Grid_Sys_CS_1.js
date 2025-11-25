@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Bootstrap_Grid_Sys_CS_1 = ({
   subtopicId,
@@ -15,15 +15,14 @@ const Bootstrap_Grid_Sys_CS_1 = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -40,69 +39,46 @@ const Bootstrap_Grid_Sys_CS_1 = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+      alert("Error marking as complete.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} style={{ marginBottom: "10px" }}>
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          style={{
-            fontWeight: "bold",
-            color: mcqAnswers[q.question] === q.answer ? "green" : "red",
-          }}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "col_prefix",
+      section: "Bootstrap Grid Prefix",
+      question: "Which Bootstrap column prefix is used for medium devices?",
+      options: ["col-sm-", "col-md-", "col-lg-", "col-xl-"],
+      answer: "col-md-",
+      explanation:
+        "`col-md-` is used for medium devices (≥768px) in Bootstrap.",
+    },
+  ];
 
   return (
     <div className="intro-container">
       <h1>Bootstrap Grid System | Cheat Sheet</h1>
 
-      {/* 1. Column Wrapping */}
+      {/* 1. COLUMN WRAPPING */}
       <section>
         <h2>1. Column Wrapping</h2>
+
         <p>
-          When we place more than 12 grid columns in a single row, the extra
-          columns wrap to a new line.
+          When more than <strong>12 columns</strong> are placed in a single row,
+          the remaining columns automatically wrap to the next line.
         </p>
-        <p>Try combinations like:</p>
-        <ul>
-          <li>col-4, col-4, col-6</li>
-          <li>col-6, col-4, col-6, col-4</li>
-        </ul>
+
+        <p>
+          Try out the different combinations of Bootstrap class names like
+          <code>col-4</code>, <code>col-4</code>, <code>col-6</code>, etc.
+        </p>
 
         <CodeBlock
           language="html"
@@ -114,11 +90,17 @@ const Bootstrap_Grid_Sys_CS_1 = ({
         />
       </section>
 
-      {/* 2. Layout at different Breakpoints */}
+      {/* 2. GRID BREAKPOINTS */}
       <section>
-        <h2>2. Layout at Different Breakpoints</h2>
-        <p>Bootstrap provides column class prefixes for 5 responsive tiers:</p>
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <h2>2. The Layout at different Breakpoints (Grid Breakpoints)</h2>
+
+        <p>
+          Bootstrap provides different{" "}
+          <b>Bootstrap Grid Column class name prefixes</b>
+          for Five Responsive Tiers (Responsive Breakpoints).
+        </p>
+
+        <table className="default-table">
           <thead>
             <tr>
               <th>Device</th>
@@ -128,7 +110,7 @@ const Bootstrap_Grid_Sys_CS_1 = ({
           </thead>
           <tbody>
             <tr>
-              <td>Extra small</td>
+              <td>Extra Small</td>
               <td>&lt;576px</td>
               <td>col-</td>
             </tr>
@@ -158,29 +140,63 @@ const Bootstrap_Grid_Sys_CS_1 = ({
         <CodeBlock
           language="html"
           code={`<div class="row">
-  <div class="col-12 col-md-6 col-lg-4">Column</div>
-  <div class="col-12 col-md-6 col-lg-8">Column</div>
+  <div class="col-12 col-md-6 col-lg-4">Column A</div>
+  <div class="col-12 col-md-6 col-lg-8">Column B</div>
 </div>`}
         />
+      </section>
+      <section>
+        <h3>2.1 Class Names in Combination</h3>
+        <p>
+          We can use a combination of different Bootstrap class names for each
+          Bootstrap Grid Column.
+        </p>
+        <p>
+          Each class controls how many columns the content should occupy at a
+          specific breakpoint.
+        </p>
 
-        <div>
-          <b>Note: </b> Bootstrap follows a{" "}
-          <strong>Mobile First Approach</strong>. Design the mobile layout
-          first; larger devices adopt it automatically.
-        </div>
+        <p>Try using combinations such as:</p>
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question:
-              "Which Bootstrap prefix is used for medium devices (>=768px)?",
-            options: ["col-sm-", "col-md-", "col-lg-", "col-xl-"],
-            answer: "col-md-",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "breakpoints"))}
+        <ul>
+          <li>
+            <code>col-lg-4</code>
+          </li>
+          <li>
+            <code>col-lg-3</code>
+          </li>
+          <li>
+            <code>col-lg-8</code>
+          </li>
+          <li>
+            <code>col-md-6</code> + <code>col-lg-4</code>
+          </li>
+          <li>
+            <code>col-sm-12</code> + <code>col-md-4</code> +{" "}
+            <code>col-lg-3</code>
+          </li>
+        </ul>
+
+        <p>
+          These class combinations help control how the grid behaves on small,
+          medium, and large screens.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 bg-light">Column A</div>
+    <div class="col-sm-12 col-md-6 col-lg-3 bg-info">Column B</div>
+    <div class="col-sm-12 col-lg-8 bg-warning">Column C</div>
+  </div>
+</div>`}
+        />
       </section>
 
-      {/* Continue Button */}
+      <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
+
+      {/* CONTINUE BUTTON */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
@@ -194,6 +210,52 @@ const Bootstrap_Grid_Sys_CS_1 = ({
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

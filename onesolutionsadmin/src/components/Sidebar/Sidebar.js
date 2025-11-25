@@ -66,8 +66,8 @@ const Sidebar = () => {
     {
       id: "StudnetRegister",
       icon: <FaUserPlus />,
-      path: "/studnet_register",
-      label: "Studnet Register",
+      path: "student_register",
+      label: "Student Register",
     },
   ];
 

@@ -15,15 +15,14 @@ const Bootstrap_Navbar_CS = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -40,52 +39,60 @@ const Bootstrap_Navbar_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+      alert("Error marking as complete.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} style={{ marginBottom: "10px" }}>
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          style={{
-            fontWeight: "bold",
-            color: mcqAnswers[q.question] === q.answer ? "green" : "red",
-          }}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "navbar_element",
+      section: "Navbar Container",
+      question: "Which HTML element is used as a container for a Navbar?",
+      options: ["div", "nav", "header", "section"],
+      answer: "nav",
+      explanation:
+        "The <nav> element is specifically designed for navigation sections, making it the appropriate container for a Navbar.",
+    },
+    {
+      id: "block_level_element",
+      section: "Block-level Elements",
+      question: "Which of these is a block-level element?",
+      options: ["div", "img", "a", "span"],
+      answer: "div",
+      explanation:
+        "The <div> element is a block-level element that starts on a new line and takes up the full width available.",
+    },
+    {
+      id: "css_margin_auto",
+      section: "CSS Margin Auto",
+      question: "What does 'margin: 0 auto;' do?",
+      options: [
+        "Aligns element to left",
+        "Aligns element to right",
+        "Centers element horizontally",
+        "Aligns element to top",
+      ],
+      answer: "Centers element horizontally",
+      explanation:
+        "The 'margin: 0 auto;' declaration sets the top and bottom margins to 0 and the left and right margins to auto, which centers the element horizontally within its parent.",
+    },
+    {
+      id: "bs_margin_auto",
+      section: "Bootstrap Margin Auto",
+      question: "Which Bootstrap class centers an element horizontally?",
+      options: ["m-0", "m-auto", "ml-5", "mr-5"],
+      answer: "m-auto",
+      explanation:
+        "The 'm-auto' class in Bootstrap applies auto margins, which centers the element horizontally.",
+    },
+  ];
 
   return (
     <div className="intro-container">
@@ -110,9 +117,7 @@ const Bootstrap_Navbar_CS = ({
         </p>
         <CodeBlock
           language="html"
-          code={`<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <!-- Navbar content -->
-</nav>`}
+          code={`<nav class="navbar navbar-expand-lg navbar-light bg-light"></nav>`}
         />
 
         <h3>1.1.2 Nav Items inside Navbar</h3>
@@ -130,14 +135,7 @@ const Bootstrap_Navbar_CS = ({
           code={`<a class="nav-link" href="#">Home</a>`}
         />
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "Which HTML element is used as a container for a Navbar?",
-            options: ["div", "nav", "header", "section"],
-            answer: "nav",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "navbar_element"))}
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. HTML Elements */}
@@ -152,7 +150,7 @@ const Bootstrap_Navbar_CS = ({
         <h3>2.1 Block-level Elements</h3>
         <p>
           These elements always start in a new line and take up the{" "}
-          <b>full width</b>
+          <b>full width </b>
           available. So, an HTML Block-level element occupies the entire
           horizontal space of its parent element.
         </p>
@@ -160,22 +158,41 @@ const Bootstrap_Navbar_CS = ({
           {" "}
           <b>Example: </b> <code>h1</code>, <code>p</code>, <code>div</code>
         </p>
+        <CodeBlock
+          language="html"
+          code={`<h1 class="heading">The seven wonders of the world</h1>
+<p class="paragraph">The Taj Mahal is one of the seven wonders of the world</p>`}
+        />
 
         <h3>2.2 Inline Elements</h3>
         <p>
           Inline elements do not start in a new line and take only as much width
-          as necessary. Example: <code>button</code>, <code>img</code>,{" "}
-          <code>a</code>
+          as necessary.{" "}
         </p>
+        <p>
+          Example: <code>button</code>, <code>img</code>, <code>a</code>
+        </p>
+        <CodeBlock
+          language="html"
+          code={`<img
+  src="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/mysore-palace2-img.png"
+  class="image"
+/>
+<img
+  src="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/varanasi1-img.png"
+  class="image"
+/>`}
+        />
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "Which of these is a block-level element?",
-            options: ["div", "img", "a", "span"],
-            answer: "div",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "html_elements"))}
+        <CodeBlock
+          language="html"
+          code={`<p class="paragraph">
+  The <a class="link-text" href="https://en.wikipedia.org/wiki/Taj_Mahal">Taj Mahal</a>
+  is one of the seven wonders of the world.
+</p>`}
+        />
+
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 3. CSS Box properties */}
@@ -191,13 +208,24 @@ const Bootstrap_Navbar_CS = ({
           Apart from values that are specified in pixels, it also accepts{" "}
           <code>auto</code> keyword as a value.
         </p>
-        <p>
-          <b>Note: </b>If we specify the CSS text-align property to the HTML
-          Block-level element, it aligns the text or HTML Inline elements inside
-          it.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            If we specify the CSS <b>text-align</b> property to the HTML
+            Block-level element, it aligns the text or HTML Inline elements
+            inside it.
+          </p>
+        </div>
 
         <h3>3.1.1 Auto Value</h3>
+        <p>
+          The child element will be horizontally centred inside the HTML
+          container element.
+        </p>
         <CodeBlock
           language="css"
           code={`div {
@@ -228,19 +256,7 @@ div.right-align {
 }`}
         />
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "What does 'margin: 0 auto;' do?",
-            options: [
-              "Aligns element to left",
-              "Aligns element to right",
-              "Centers element horizontally",
-              "Aligns element to top",
-            ],
-            answer: "Centers element horizontally",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "css_margin_auto"))}
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 4. Bootstrap Utilities */}
@@ -258,25 +274,26 @@ div.right-align {
           code={`<div class="m-auto">Centered using Bootstrap</div>`}
         />
 
-        <h3>MCQ</h3>
-        {[
-          {
-            question: "Which Bootstrap class centers an element horizontally?",
-            options: ["m-0", "m-auto", "ml-5", "mr-5"],
-            answer: "m-auto",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "bs_margin_auto"))}
+        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 5. Step by Step Process to build a Navbar */}
       <section>
         <h2>5. Step by Step Process to build a Navbar</h2>
-        <ol>
-          <li>Adding Bootstrap Navbar Component</li>
-          <li>Adding Logo</li>
-          <li>Aligning Nav Items</li>
-          <li>Changing Navbar Background color</li>
-        </ol>
+        <ul>
+          <li>
+            <b>Step-1: </b>Adding Bootstrap Navbar Component
+          </li>
+          <li>
+            <b>Step-2: </b>Adding Logo
+          </li>
+          <li>
+            <b>Step-3: </b>Aligning Nav Items
+          </li>
+          <li>
+            <b>Step-4: </b>Changing Navbar Background color
+          </li>
+        </ul>
 
         <CodeBlock
           language="html"
@@ -290,7 +307,7 @@ div.right-align {
         />
       </section>
 
-      {/* Continue Button */}
+      {/* CONTINUE BUTTON */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
@@ -304,6 +321,52 @@ div.right-align {
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

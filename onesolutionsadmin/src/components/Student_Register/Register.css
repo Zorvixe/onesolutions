@@ -6,22 +6,57 @@
   background-color: #f9fafb;
   overflow: hidden;
 }
-.register-page {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  font-family: "Poppins", sans-serif;
-  overflow: hidden;
+/* Password field styles */
+.password-field {
+  position: relative;
 }
 
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle:hover {
+  color: #333;
+}
+
+.password-toggle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.password-toggle:focus {
+  outline: none;
+  border: none;
+}
+
+/* Adjust input padding to make space for the eye icon */
+.password-input-container input {
+  padding-right: 45px;
+  width: 100%;
+}
 /* ---------- Left Image Section ---------- */
 .image-section-register {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f3f4f6;
   padding: 1rem;
+  position: relative;
 }
 
 .image-section-register img {
@@ -32,36 +67,57 @@
   object-fit: cover;
 }
 
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  background: black;
+  color: white;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.back-button:hover {
+  background: #3730a3;
+}
+
 /* ---------- Right Form Section ---------- */
 .form-section-register {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 2rem 0;
+  padding: 1.5rem 0;
   overflow: hidden;
 }
 
 .card-register {
   width: 75%;
-  padding: 2.5rem;
+  padding: 2rem;
   max-height: 90vh;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   overflow-y: auto;
 }
 
 .card-register h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #0361bfd6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   text-align: center;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .form-group label {
@@ -69,16 +125,16 @@
   font-weight: 600;
   margin-bottom: 0.4rem;
   color: #374151;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-  padding: 0.75rem 0.9rem;
+  padding: 0.6rem 0.8rem;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
   background-color: transparent;
   transition: border 0.3s, box-shadow 0.3s;
 }
@@ -87,7 +143,7 @@
 .form-group select:focus {
   outline: none;
   border-color: #4f46e5;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
 }
 
 .form-group input.error,
@@ -97,14 +153,14 @@
 
 .error-text {
   color: #e63946;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   margin-top: 0.3rem;
   display: block;
 }
 
 .form-row {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .form-row .form-group {
@@ -120,24 +176,25 @@
   align-items: center;
   cursor: pointer;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: #374151;
 }
 
 .checkbox-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   accent-color: #4f46e5;
 }
 
 .btn.btn-primary {
   width: 100%;
-  padding: 0.9rem;
+  padding: 0.75rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   background: black;
   color: white;
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: background 0.3s;
 }
@@ -153,8 +210,8 @@
 
 .auth-link {
   text-align: center;
-  margin-top: 1.2rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
   color: #374151;
 }
 
@@ -167,11 +224,12 @@
 .auth-link a:hover {
   text-decoration: underline;
 }
+
 .image-upload-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   width: 100%;
 }
 
@@ -182,8 +240,8 @@
 
 /* Circle label that acts as clickable upload area */
 .file-input-label {
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   background-color: #f9fafb;
   display: flex;
@@ -193,13 +251,13 @@
   overflow: hidden;
   cursor: pointer;
   transition: border-color 0.3s, background-color 0.3s;
-  /* border: 2px dashed #cbd5e1; */
+  border: 2px dashed #cbd5e1;
 }
-/* 
+
 .file-input-label:hover {
   border-color: #4f46e5;
   background-color: #edf2ff;
-} */
+}
 
 /* Placeholder when no image is selected */
 .upload-placeholder {
@@ -215,17 +273,27 @@
 }
 
 .profile-icon {
-  font-size: 3rem;
+  width: 48px;
+  height: 48px;
+  display: block;
   color: #6b7280;
+  fill: currentColor;
+  margin: 0 auto;
 }
 
-.upload-placeholder span {
-  font-size: 0.85rem;
+.profile-icon.with-badge {
+  width: 56px;
+  height: 56px;
   color: #6b7280;
-  margin-top: 0.2rem;
 }
 
 /* Preview image */
+.preview-with-remove {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 .preview-with-remove img {
   width: 100%;
   height: 100%;
@@ -236,15 +304,15 @@
 
 .remove-image-btn {
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 4px;
+  right: 4px;
   background-color: rgba(230, 57, 70, 0.9);
   color: white;
   border: none;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  font-size: 16px;
+  width: 22px;
+  height: 22px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,29 +324,23 @@
   background-color: rgba(230, 57, 70, 1);
 }
 
-/* Error text */
-.error-text {
-  color: #e63946;
-  font-size: 0.85rem;
-  margin-top: 0.3rem;
-  text-align: center;
-}
 .checkbox-label {
   display: flex;
   align-items: center;
-  gap: 20px;
-  font-size: 0.9rem;
+  gap: 8px;
+  font-size: 0.85rem;
   color: #374151;
   cursor: pointer;
 }
 
 .checkbox-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   accent-color: #4f46e5;
 }
+
 .checkmark {
-  padding-right: 10px;
+  padding-right: 8px;
 }
 
 .checkbox-label span {
@@ -292,7 +354,13 @@
   }
 
   .image-section-register {
-    height: 35vh;
+    height: 30vh;
+    padding: 0.5rem;
+  }
+
+  .image-section-register img {
+    width: 90%;
+    max-height: 100%;
   }
 
   .form-section-register {
@@ -303,33 +371,40 @@
 
   .card-register {
     width: 90%;
-    padding: 2rem;
+    padding: 1.5rem;
+    max-height: none;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .back-button {
+    top: 15px;
+    left: 15px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
   }
 }
 
-.profile-icon {
-  width: 48px;
-  height: 48px;
-  display: block;
-  color: #6b7280; /* fallback color (uses currentColor for fill) */
-  fill: currentColor;
-  margin: 0 auto;
-}
+@media (max-width: 480px) {
+  .card-register {
+    width: 95%;
+    padding: 1rem;
+  }
 
-.profile-icon.with-badge {
-  width: 56px;
-  height: 56px;
-  color: #6b7280;
-}
+  .card-register h2 {
+    font-size: 1.2rem;
+  }
 
-/* optional container styling */
-.upload-placeholder {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 2px dashed #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #fafafa;
+  .file-input-label {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-icon.with-badge {
+    width: 48px;
+    height: 48px;
+  }
 }

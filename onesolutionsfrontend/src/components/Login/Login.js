@@ -16,6 +16,7 @@ const Login = () => {
   const [step, setStep] = useState(1); // 1 = credentials, 2 = otp
   const [otpTimer, setOtpTimer] = useState(0); // Timer for resend OTP
   const [successMessage, setSuccessMessage] = useState(""); // Success feedback
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     loginOtpRequest,
@@ -61,6 +62,10 @@ const Login = () => {
 
     if (error) clearError();
     if (successMessage) setSuccessMessage("");
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const validateEmail = (email) => {
@@ -259,24 +264,64 @@ const Login = () => {
                 )}
               </div>
 
-              <div className="form-group-login">
+              <div className="form-group-login password-field-login">
                 <label className="label-login" htmlFor="password">
                   Password
                 </label>
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={`input-login ${
-                    validationErrors.password ? "error-login" : ""
-                  }`}
-                  placeholder="Enter your password"
-                  disabled={isSubmitting}
-                  autoComplete="current-password"
-                  required
-                />
+                <div className="password-input-container-login">
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={`input-login ${
+                      validationErrors.password ? "error-login" : ""
+                    }`}
+                    placeholder="Enter your password"
+                    disabled={isSubmitting}
+                    autoComplete="current-password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle-login"
+                    onClick={togglePasswordVisibility}
+                    disabled={isSubmitting}
+                  >
+                    {showPassword ? (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                      </svg>
+                    ) : (
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 {validationErrors.password && (
                   <span className="error-text-login">
                     {validationErrors.password}

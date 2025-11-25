@@ -51,6 +51,56 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       setIsLoading(false);
     }
   };
+  const mcqs = [
+    {
+      id: "navbar_toggler",
+      section: "Bootstrap Navbar",
+      question: "What is the purpose of the navbar-toggler button?",
+      options: [
+        "To change navbar color",
+        "To show/hide the menu on small screens",
+        "To make the navbar sticky",
+        "To add a logo",
+      ],
+      answer: "To show/hide the menu on small screens",
+      explanation:
+        "The toggler button appears on mobile devices and collapses/expands the navigation links.",
+    },
+    {
+      id: "container_vs_fluid",
+      section: "Bootstrap Containers",
+      question:
+        "What is the main difference between container and container-fluid?",
+      options: [
+        "container has fixed width, container-fluid is full width",
+        "container is for images only",
+        "container-fluid has padding, container does not",
+        "They are exactly the same",
+      ],
+      answer: "container has fixed width, container-fluid is full width",
+      explanation:
+        "container has max-width at each breakpoint; container-fluid always spans 100% of the viewport width.",
+    },
+    {
+      id: "container_breakpoint",
+      section: "Container Breakpoints",
+      question: "At what screen size does .container become 1140px wide?",
+      options: ["≥576px", "≥768px", "≥992px", "≥1200px"],
+      answer: "≥1200px",
+      explanation:
+        "Extra Large (xl) breakpoint starts at 1200px → container max-width becomes 1140px.",
+    },
+    {
+      id: "bg_transparent",
+      section: "CSS Colors",
+      question:
+        "Which Bootstrap class makes an element's background fully transparent?",
+      options: ["bg-none", "bg-transparent", "transparent-bg", "bg-clear"],
+      answer: "bg-transparent",
+      explanation:
+        "bg-transparent applies background-color: transparent; to any element.",
+    },
+  ];
 
   return (
     <div className="intro-container">
@@ -181,6 +231,9 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   Transparent Background
 </div>`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}
@@ -197,6 +250,51 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

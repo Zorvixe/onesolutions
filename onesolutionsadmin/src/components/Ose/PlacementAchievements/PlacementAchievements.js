@@ -61,7 +61,7 @@ const PlacementAchievements = () => {
         <img
           src={achievement.image_url}
           alt={achievement.student_name}
-          className="student-image"
+          className="pa-student-image"
           onError={(e) => {
             // If image fails to load, show initial
             e.target.style.display = "none";
@@ -76,10 +76,10 @@ const PlacementAchievements = () => {
         <img
           src="/assets/placements.jpg"
           alt={achievement.student_name}
-          className="student-image"
+          className="pa-student-image"
           style={{ display: "none" }}
         />
-        <div className="student-initial">
+        <div className="pa-student-initial">
           {achievement.student_name.charAt(0).toUpperCase()}
         </div>
       </>
@@ -114,16 +114,16 @@ const PlacementAchievements = () => {
         fetchAchievements();
         resetForm();
         // Close the modal manually using native DOM
-        const modal = document.getElementById("createModal");
-        const modalBackdrop = document.querySelector(".modal-backdrop");
+        const modal = document.getElementById("pa-create-modal");
+        const modalBackdrop = document.querySelector(".pa-modal-backdrop");
         if (modal) {
-          modal.classList.remove("show");
+          modal.classList.remove("pa-show");
           modal.style.display = "none";
         }
         if (modalBackdrop) {
           modalBackdrop.remove();
         }
-        document.body.classList.remove("modal-open");
+        document.body.classList.remove("pa-modal-open");
         document.body.style.overflow = "auto";
         document.body.style.paddingRight = "0";
 
@@ -170,48 +170,48 @@ const PlacementAchievements = () => {
     });
     setEditingAchievement(achievement);
     // Show the modal using native Bootstrap data attributes
-    const modalElement = document.getElementById("createModal");
+    const modalElement = document.getElementById("pa-create-modal");
     if (modalElement) {
-      modalElement.classList.add("show");
+      modalElement.classList.add("pa-show");
       modalElement.style.display = "block";
       modalElement.setAttribute("aria-hidden", "false");
 
       // Add backdrop
       const backdrop = document.createElement("div");
-      backdrop.className = "modal-backdrop fade show";
+      backdrop.className = "pa-modal-backdrop pa-fade pa-show";
       document.body.appendChild(backdrop);
 
       // Add body classes
-      document.body.classList.add("modal-open");
+      document.body.classList.add("pa-modal-open");
       document.body.style.overflow = "hidden";
     }
   };
 
   const showCreateModal = () => {
     resetForm();
-    const modalElement = document.getElementById("createModal");
+    const modalElement = document.getElementById("pa-create-modal");
     if (modalElement) {
-      modalElement.classList.add("show");
+      modalElement.classList.add("pa-show");
       modalElement.style.display = "block";
       modalElement.setAttribute("aria-hidden", "false");
 
       // Add backdrop
       const backdrop = document.createElement("div");
-      backdrop.className = "modal-backdrop fade show";
+      backdrop.className = "pa-modal-backdrop pa-fade pa-show";
       document.body.appendChild(backdrop);
 
       // Add body classes
-      document.body.classList.add("modal-open");
+      document.body.classList.add("pa-modal-open");
       document.body.style.overflow = "hidden";
     }
   };
 
   const closeModal = () => {
-    const modalElement = document.getElementById("createModal");
-    const backdrop = document.querySelector(".modal-backdrop");
+    const modalElement = document.getElementById("pa-create-modal");
+    const backdrop = document.querySelector(".pa-modal-backdrop");
 
     if (modalElement) {
-      modalElement.classList.remove("show");
+      modalElement.classList.remove("pa-show");
       modalElement.style.display = "none";
       modalElement.setAttribute("aria-hidden", "true");
     }
@@ -220,7 +220,7 @@ const PlacementAchievements = () => {
       backdrop.remove();
     }
 
-    document.body.classList.remove("modal-open");
+    document.body.classList.remove("pa-modal-open");
     document.body.style.overflow = "auto";
     document.body.style.paddingRight = "0";
   };
@@ -254,60 +254,60 @@ const PlacementAchievements = () => {
 
   if (loading) {
     return (
-      <div className="chats-loading-container">
-        <img
-          src={assests.one_solutions}
-          className="one-solutions-image-chats"
-        />
-        <div className="loader-chats"></div>
+      <div className="pa-loading-container">
+        <img src={assests.one_solutions} className="pa-one-solutions-image" />
+        <div className="pa-loader"></div>
       </div>
     );
   }
 
   return (
-    <div className="placement-achievements-admin">
-      <div className="admin-header">
-        <h2>Placement Achievements Management</h2>
-        <button className="btn btn-primary" onClick={showCreateModal}>
+    <div className="pa-admin">
+      <div className="pa-admin-header">
+        <h2 className="pa-admin-title">Placement Achievements Management</h2>
+        <button className="pa-btn pa-btn-primary" onClick={showCreateModal}>
           + Add New Achievement
         </button>
       </div>
 
-      <div className="admin-content">
-        {/* Bootstrap Modal */}
+      <div className="pa-admin-content">
+        {/* Custom Modal */}
         <div
-          className="modal fade"
-          id="createModal"
+          className="pa-modal pa-fade"
+          id="pa-create-modal"
           tabIndex="-1"
-          aria-labelledby="createModalLabel"
+          aria-labelledby="pa-create-modal-label"
           aria-hidden="true"
         >
-          <div className="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="createModalLabel">
+          <div className="pa-modal-dialog pa-modal-lg pa-modal-dialog-centered pa-modal-dialog-scrollable">
+            <div className="pa-modal-content">
+              <div className="pa-modal-header">
+                <h5 className="pa-modal-title" id="pa-create-modal-label">
                   {editingAchievement
                     ? "Edit Achievement"
                     : "Add New Achievement"}
                 </h5>
                 <button
                   type="button"
-                  className="btn-close"
+                  className="pa-btn-close"
                   onClick={closeModal}
                   aria-label="Close"
                 ></button>
               </div>
-              <div className="modal-body">
-                <form onSubmit={handleSubmit}>
-                  <div className="row">
-                    <div className="mb-3 col-md-6">
-                      <label htmlFor="student-name" className="form-label">
+              <div className="pa-modal-body">
+                <form onSubmit={handleSubmit} className="pa-form">
+                  <div className="pa-form-row">
+                    <div className="pa-form-group pa-col-md-6">
+                      <label
+                        htmlFor="pa-student-name"
+                        className="pa-form-label"
+                      >
                         Student Name *
                       </label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="student-name"
+                        className="pa-form-control"
+                        id="pa-student-name"
                         value={formData.student_name}
                         onChange={(e) =>
                           setFormData({
@@ -318,14 +318,14 @@ const PlacementAchievements = () => {
                         required
                       />
                     </div>
-                    <div className="mb-3 col-md-6">
-                      <label htmlFor="role-text" className="form-label">
+                    <div className="pa-form-group pa-col-md-6">
+                      <label htmlFor="pa-role-text" className="pa-form-label">
                         Role *
                       </label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="role-text"
+                        className="pa-form-control"
+                        id="pa-role-text"
                         value={formData.role}
                         onChange={(e) =>
                           setFormData({ ...formData, role: e.target.value })
@@ -335,15 +335,15 @@ const PlacementAchievements = () => {
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="mb-3 col-md-6">
-                      <label htmlFor="batch-text" className="form-label">
+                  <div className="pa-form-row">
+                    <div className="pa-form-group pa-col-md-6">
+                      <label htmlFor="pa-batch-text" className="pa-form-label">
                         Batch *
                       </label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="batch-text"
+                        className="pa-form-control"
+                        id="pa-batch-text"
                         value={formData.batch}
                         onChange={(e) =>
                           setFormData({ ...formData, batch: e.target.value })
@@ -352,14 +352,17 @@ const PlacementAchievements = () => {
                         required
                       />
                     </div>
-                    <div className="mb-3 col-md-6">
-                      <label htmlFor="College-text" className="form-label">
+                    <div className="pa-form-group pa-col-md-6">
+                      <label
+                        htmlFor="pa-college-text"
+                        className="pa-form-label"
+                      >
                         College *
                       </label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="College-text"
+                        className="pa-form-control"
+                        id="pa-college-text"
                         value={formData.college}
                         onChange={(e) =>
                           setFormData({ ...formData, college: e.target.value })
@@ -369,15 +372,18 @@ const PlacementAchievements = () => {
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="mb-3 col-md-6">
-                      <label htmlFor="Company-text" className="form-label">
+                  <div className="pa-form-row">
+                    <div className="pa-form-group pa-col-md-6">
+                      <label
+                        htmlFor="pa-company-text"
+                        className="pa-form-label"
+                      >
                         Company *
                       </label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="Company-text"
+                        className="pa-form-control"
+                        id="pa-company-text"
                         value={formData.company}
                         onChange={(e) =>
                           setFormData({ ...formData, company: e.target.value })
@@ -385,14 +391,17 @@ const PlacementAchievements = () => {
                         required
                       />
                     </div>
-                    <div className="mb-3 col-md-6">
-                      <label htmlFor="Package-text" className="form-label">
+                    <div className="pa-form-group pa-col-md-6">
+                      <label
+                        htmlFor="pa-package-text"
+                        className="pa-form-label"
+                      >
                         Package *
                       </label>
                       <input
                         type="text"
-                        className="form-control"
-                        id="Package-text"
+                        className="pa-form-control"
+                        id="pa-package-text"
                         value={formData.package}
                         onChange={(e) =>
                           setFormData({ ...formData, package: e.target.value })
@@ -403,32 +412,32 @@ const PlacementAchievements = () => {
                     </div>
                   </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="Image-text" className="form-label">
+                  <div className="pa-form-group">
+                    <label htmlFor="pa-image-text" className="pa-form-label">
                       Image URL (Optional)
                     </label>
                     <input
                       type="text"
-                      className="form-control"
-                      id="Image-text"
+                      className="pa-form-control"
+                      id="pa-image-text"
                       value={formData.image_url}
                       onChange={(e) =>
                         setFormData({ ...formData, image_url: e.target.value })
                       }
                       placeholder="https://example.com/image.jpg"
                     />
-                    <div className="form-text">
+                    <div className="pa-form-text">
                       Leave empty to use student's initial instead of image
                     </div>
                   </div>
 
-                  <div className="mb-3">
-                    <label htmlFor="Feedback-text" className="form-label">
+                  <div className="pa-form-group">
+                    <label htmlFor="pa-feedback-text" className="pa-form-label">
                       Feedback *
                     </label>
                     <textarea
-                      className="form-control"
-                      id="Feedback-text"
+                      className="pa-form-control"
+                      id="pa-feedback-text"
                       value={formData.feedback}
                       onChange={(e) =>
                         setFormData({ ...formData, feedback: e.target.value })
@@ -438,15 +447,15 @@ const PlacementAchievements = () => {
                     ></textarea>
                   </div>
 
-                  <div className="modal-footer">
+                  <div className="pa-modal-footer">
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="pa-btn pa-btn-secondary"
                       onClick={closeModal}
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="pa-btn pa-btn-primary">
                       {editingAchievement
                         ? "Update Achievement"
                         : "Create Achievement"}
@@ -459,27 +468,31 @@ const PlacementAchievements = () => {
         </div>
 
         {/* Achievements List */}
-        <div className="achievements-list">
+        <div className="pa-achievements-list">
           {achievements.length === 0 ? (
-            <p>No placement achievements recorded yet.</p>
+            <p className="pa-no-data">
+              No placement achievements recorded yet.
+            </p>
           ) : (
-            <div className="achievements-grid">
+            <div className="pa-achievements-grid">
               {achievements.map((achievement) => (
-                <div key={achievement.id} className="achievement-card">
-                  <div className="card-header">
-                    <div className="student-info">
-                      <div className="image-container">
+                <div key={achievement.id} className="pa-achievement-card">
+                  <div className="pa-card-header">
+                    <div className="pa-student-info">
+                      <div className="pa-image-container">
                         {renderStudentImage(achievement)}
                       </div>
-                      <div>
-                        <h4>{achievement.student_name}</h4>
-                        <p>{achievement.role}</p>
-                        <p className="batch">{achievement.batch}</p>
+                      <div className="pa-student-details">
+                        <h4 className="pa-student-name">
+                          {achievement.student_name}
+                        </h4>
+                        <p className="pa-student-role">{achievement.role}</p>
+                        <p className="pa-student-batch">{achievement.batch}</p>
                       </div>
                     </div>
-                    <div className="card-actions">
+                    <div className="pa-card-actions">
                       <button
-                        className="btn btn-edit"
+                        className="pa-btn pa-btn-edit"
                         onClick={() => handleEdit(achievement)}
                       >
                         <svg
@@ -492,7 +505,7 @@ const PlacementAchievements = () => {
                         </svg>
                       </button>
                       <button
-                        className="btn btn-delete"
+                        className="pa-btn pa-btn-delete"
                         onClick={() => handleDelete(achievement.id)}
                       >
                         <svg
@@ -507,29 +520,37 @@ const PlacementAchievements = () => {
                     </div>
                   </div>
 
-                  <div className="card-details">
-                    <div className="detail-row">
-                      <span>College:</span>
-                      <span>{achievement.college}</span>
+                  <div className="pa-card-details">
+                    <div className="pa-detail-row">
+                      <span className="pa-detail-label">College:</span>
+                      <span className="pa-detail-value">
+                        {achievement.college}
+                      </span>
                     </div>
-                    <div className="detail-row">
-                      <span>Company:</span>
-                      <span>{achievement.company}</span>
+                    <div className="pa-detail-row">
+                      <span className="pa-detail-label">Company:</span>
+                      <span className="pa-detail-value">
+                        {achievement.company}
+                      </span>
                     </div>
-                    <div className="detail-row">
-                      <span>Package:</span>
-                      <span className="package">{achievement.package}</span>
+                    <div className="pa-detail-row">
+                      <span className="pa-detail-label">Package:</span>
+                      <span className="pa-package-value">
+                        {achievement.package}
+                      </span>
                     </div>
                   </div>
 
-                  <div className="feedback">
-                    <p>{achievement.feedback}</p>
+                  <div className="pa-feedback">
+                    <p className="pa-feedback-text">{achievement.feedback}</p>
                   </div>
 
-                  <div className="card-footer">
-                    <small>
+                  <div className="pa-card-footer">
+                    <small className="pa-footer-text">
                       Created by: {achievement.created_by_name} | Status:{" "}
-                      <span className={`status ${achievement.status}`}>
+                      <span
+                        className={`pa-status pa-status-${achievement.status}`}
+                      >
                         {achievement.status}
                       </span>
                     </small>

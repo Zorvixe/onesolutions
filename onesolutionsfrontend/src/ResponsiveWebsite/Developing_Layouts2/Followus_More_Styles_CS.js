@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
 import { CodeBlock } from "../../CodeOutputBlocks";
+
 const Followus_More_Styles_CS = ({
   subtopicId,
   goalName,
@@ -15,15 +15,14 @@ const Followus_More_Styles_CS = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -40,21 +39,106 @@ const Followus_More_Styles_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
+        console.log("Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "fontawesome_kit",
+      section: "Font Awesome Icons",
+      question: "Where should you place the Font Awesome Kit script?",
+      options: [
+        "In the <body>",
+        "In the <head>",
+        "Before closing </body>",
+        "Anywhere",
+      ],
+      answer: "In the <head>",
+      explanation:
+        "The Font Awesome kit script should be added inside the <head> tag for optimal loading and performance.",
+    },
+    {
+      id: "social_icons_class",
+      section: "Follow Us Section",
+      question: "What does the 'fab' class stand for in Font Awesome?",
+      options: [
+        "Font Awesome Brand",
+        "Fixed Absolute Button",
+        "Flex Align Bottom",
+        "Font Awesome Basic",
+      ],
+      answer: "Font Awesome Brand",
+      explanation:
+        "'fab' is used for brand icons (Facebook, Twitter, Instagram, etc.), while 'fas' is for solid, 'far' for regular.",
+    },
+    {
+      id: "circular_icons",
+      section: "Follow Us Styling",
+      question: "To make social icons perfectly circular, what must be true?",
+      options: [
+        "height = width + border-radius: 50%",
+        "Only border-radius: 50%",
+        "width: 100% and padding",
+        "Use class 'rounded-circle' only",
+      ],
+      answer: "height = width + border-radius: 50%",
+      explanation:
+        "For a perfect circle, the element must have equal height & width, and border-radius: 50%. Bootstrap’s 'rounded-circle' does exactly this.",
+    },
+    {
+      id: "section_links",
+      section: "Linking to Sections",
+      question:
+        "How do you create a smooth link to a section on the same page?",
+      options: [
+        'href="#section-id"',
+        'href="/section-id"',
+        'href="section-id.html"',
+        'onclick="scrollTo(section-id)"',
+      ],
+      answer: 'href="#section-id"',
+      explanation:
+        'Using href="#contact-us" with an id on the target section creates an anchor link that jumps (or scrolls smoothly if CSS is added).',
+    },
+    {
+      id: "fixed_top",
+      section: "Bootstrap Position",
+      question: "What does the class 'fixed-top' do?",
+      options: [
+        "Pins element to top of viewport (always visible)",
+        "Pins element to top of parent",
+        "Makes element sticky after scrolling",
+        "Fixes element only on mobile",
+      ],
+      answer: "Pins element to top of viewport (always visible)",
+      explanation:
+        "fixed-top removes the element from flow and sticks it to the top of the screen, even when scrolling.",
+    },
+    {
+      id: "fixed_bottom",
+      section: "Bootstrap Position",
+      question:
+        "Which class creates a footer that stays at the bottom while scrolling?",
+      options: [
+        "fixed-bottom",
+        "sticky-bottom",
+        "position-bottom",
+        "footer-fixed",
+      ],
+      answer: "fixed-bottom",
+      explanation:
+        "fixed-bottom works just like fixed-top but pins the element to the bottom of the viewport.",
+    },
+  ];
 
   return (
     <div className="intro-container">
@@ -145,6 +229,19 @@ const Followus_More_Styles_CS = ({
         />
       </section>
 
+      {/* MCQs - CLEAN, CONSISTENT & EDUCATIONAL */}
+      <section>
+        <h3>MCQs</h3>
+        {mcqs.map((mcq) => (
+          <MCQBlock
+            key={mcq.id}
+            mcq={mcq}
+            answers={mcqAnswers}
+            onAnswer={handleAnswer}
+          />
+        ))}
+      </section>
+
       {/* Continue Button */}
       <div className="view-continue">
         <button
@@ -155,10 +252,56 @@ const Followus_More_Styles_CS = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
+            ? "Completed"
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

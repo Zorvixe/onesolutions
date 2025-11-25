@@ -15,15 +15,14 @@ const Css_Selector_Inheritance_CS = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -40,51 +39,40 @@ const Css_Selector_Inheritance_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
+        console.log("Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
+        console.error("Failed to mark cheat sheet complete:", result.message);
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
+      console.error("Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} style={{ marginBottom: "10px" }}>
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          style={{
-            fontWeight: "bold",
-            color: mcqAnswers[q.question] === q.answer ? "green" : "red",
-          }}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
+
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "class_selector",
+      section: "CSS Selectors",
+      question: "Which CSS selector is used to style an element by its class?",
+      options: [".className", "#idName", "p", "*"],
+      answer: ".className",
+      explanation:
+        "Class selectors start with a dot (.) followed by the class name.",
+    },
+    {
+      id: "inherited_property",
+      section: "CSS Inheritance",
+      question: "Which CSS property is inherited by child elements by default?",
+      options: ["margin", "padding", "font-family", "width"],
+      answer: "font-family",
+      explanation:
+        "Text-related properties like font-family, color, text-align, etc., are inherited from parent to child elements.",
+    },
+  ];
 
   return (
     <div className="intro-container">
@@ -95,18 +83,30 @@ const Css_Selector_Inheritance_CS = ({
         <h2>1. CSS Selectors</h2>
         <p>
           CSS Selectors are used to select HTML elements that we want to style.
-          The different types include:
         </p>
+        <p>The different types of CSS Selectors are:</p>
         <ul>
-          <li>Simple Selectors</li>
-          <li>Class Selector</li>
-          <li>ID Selector</li>
-          <li>Type (tag name) Selector</li>
-          <li>Attribute Selector</li>
-          <li>Universal Selector</li>
-          <li>Pseudo-class</li>
+          <li>
+            Simple Selectors
+            <ul>
+              <li>
+                <b>Class Selector</b>
+              </li>
+              <li>
+                <b>ID Selector</b>
+              </li>
+              <li>
+                <b>Type (tag name) Selector</b>
+              </li>
+              <li>Attribute Selector</li>
+              <li>Universal Selector</li>
+              <li>Pseudo-class</li>
+            </ul>
+          </li>
+
           <li>Compound Selectors</li>
-          <li>Complex Selectors</li>
+
+          <li>Complex Selectors and many more.</li>
         </ul>
 
         <h3>1.1 Class Selector</h3>
@@ -131,17 +131,23 @@ const Css_Selector_Inheritance_CS = ({
           selects all the HTML elements that have an HTML attribute name{" "}
           <b>class</b>, and it's value <code>paragraph</code>.
         </p>
-
-        <p>
-          <b>Note: </b> There can be more than one HTML element with the same
-          class name in the HTML document.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            There can be <b>more than one</b> HTML element with the same class
+            name in the HTML document.
+          </p>
+        </div>
 
         <h3>1.2 ID Selector</h3>
         <p>
           The CSS ID selector selects an HTML element based on its ID attribute
-          value. It consists of a hash <code>#</code>, followed by the ID of the
-          HTML element.
+          value. It consists of a hash (<code>#</code>), followed by the ID of
+          the HTML element.
         </p>
         <CodeBlock
           language="html"
@@ -159,9 +165,18 @@ const Css_Selector_Inheritance_CS = ({
           <code>id</code> and it's value <code>populationParagraph</code>.
         </p>
 
-        <p>
-          <b>Note: </b> IDs must be unique within an HTML document.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Note There should be only <b>one</b> HTML element with a given ID in
+            the entire HTML document. The HTML <b>id</b> attribute value doesn't
+            need to have the prefix <b>section</b> as CCBP UI Kit is not used.
+          </p>
+        </div>
 
         <h3>1.3 Type (tag name) Selector</h3>
         <p>
@@ -178,6 +193,7 @@ const Css_Selector_Inheritance_CS = ({
   color: green;
 }`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. Fundamental Concepts of CSS */}
@@ -215,10 +231,17 @@ const Css_Selector_Inheritance_CS = ({
   <p>Paragraph</p>
 </div>`}
         />
-        <p>
-          The <code>div</code> is the parent of <code>h1</code> and{" "}
-          <code>p</code>.
-        </p>
+        <p>From the above Code Snippet, we can say:</p>
+        <ul>
+          <li>
+            The HTML <code>div</code> element is the parent element of the HTML
+            <code>h1</code> and <code>p</code> elements.
+          </li>
+          <li>
+            The HTML <code>p</code> element is the parent element of the HTML
+            <code>a</code> element.
+          </li>
+        </ul>
 
         <h4>2.1.2 Child Element</h4>
         <p>
@@ -231,9 +254,18 @@ const Css_Selector_Inheritance_CS = ({
   <a href="#">Link</a>
 </p>`}
         />
-        <p>
-          The <code>a</code> element is a child of <code>p</code>.
-        </p>
+        <p>From the above Code Snippet, we can say:</p>
+        <ul>
+          <li>
+            The HTML <code>h1</code> and <code>p</code> elements are the child
+            elements of the HTML
+            <code>div</code> element.
+          </li>
+          <li>
+            The HTML <code>a</code> element is the child element of the HTML
+            <code>p</code> element.
+          </li>
+        </ul>
 
         <h3>CSS properties can be categorized into two types:</h3>
         <ul>
@@ -244,69 +276,69 @@ const Css_Selector_Inheritance_CS = ({
         <h3>2.1.3 Inherited Properties</h3>
         <p>
           If the CSS properties applied to the parent element are inherited by
-          the child elements, then they are called{" "}
-          <strong>Inherited properties</strong>.
+          the child elements, then they are called <b>Inherited properties</b>.
         </p>
 
         <p>Some of the CSS Inherited Properties are:</p>
-
-        <h4>Text related Properties</h4>
         <ul>
-          <li>font-family</li>
-          <li>font-style</li>
-          <li>font-weight</li>
-          <li>text-align</li>
-        </ul>
+          <li>Text related Properties</li>
+          <ul>
+            <li>
+              <code>font-family</code>
+            </li>
+            <li>
+              <code>font-style</code>
+            </li>
+            <li>
+              <code>font-weight</code>
+            </li>
+            <li>
+              <code>text-align</code>
+            </li>
+          </ul>
 
-        <h4>List related Properties</h4>
-        <ul>
-          <li>list-style-type</li>
-          <li>color property and many more.</li>
+          <li>List related Properties</li>
+          <ul>
+            <li>
+              <code>list-style-type</code>
+            </li>
+          </ul>
+          <li>
+            <code>color</code> property and many more.
+          </li>
         </ul>
 
         <h3>2.1.4 Non-inherited Properties</h3>
         <p>
-          If the CSS properties applied to the parent element are not inherited
-          by the child elements, then they are called{" "}
-          <strong>Non-inherited properties</strong>.
+          If the CSS properties applied to the parent element{" "}
+          <b>are not inherited</b>
+          by the child elements, then they are called Non-inherited properties.
         </p>
 
         <p>Some of the CSS Non-inherited properties are:</p>
-
-        <h4>CSS Box Properties</h4>
         <ul>
-          <li>width</li>
-          <li>height</li>
-          <li>margin</li>
-          <li>padding</li>
-          <li>border-style</li>
-          <li>border-width</li>
-          <li>border-color</li>
-          <li>border-radius</li>
+          <li>CSS Box Properties</li>
+          <ul>
+            <li>width</li>
+            <li>height</li>
+            <li>margin</li>
+            <li>padding</li>
+            <li>border-style</li>
+            <li>border-width</li>
+            <li>border-color</li>
+            <li>border-radius</li>
+          </ul>
+
+          <li>CSS Background Properties</li>
+          <ul>
+            <li>background-image</li>
+            <li>background-color</li>
+            <li>background-size</li>
+          </ul>
+          <li>text-decorationand many more.</li>
         </ul>
 
-        <h4>CSS Background Properties</h4>
-        <ul>
-          <li>background-image</li>
-          <li>background-color</li>
-          <li>background-size</li>
-        </ul>
-
-        <h3>MCQ</h3>
-        {[
-          {
-            question:
-              "Which CSS selector is used to style an element by its class?",
-            options: [".className", "#idName", "p", "*"],
-            answer: ".className",
-          },
-          {
-            question:
-              "Which CSS property is inherited by child elements by default?",
-            options: ["margin", "padding", "font-family", "width"],
-            answer: "font-family",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "css_selectors_inheritance"))}
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}
@@ -319,10 +351,56 @@ const Css_Selector_Inheritance_CS = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
+            ? "Completed"
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

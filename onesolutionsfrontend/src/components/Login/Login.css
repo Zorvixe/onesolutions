@@ -409,3 +409,46 @@
     display: none;
   }
 }
+/* Password field styles for Login */
+.password-field-login {
+  position: relative;
+}
+
+.password-input-container-login {
+  position: relative;
+}
+
+.password-toggle-login {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-toggle-login:hover {
+  color: #333;
+}
+
+.password-toggle-login:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.password-toggle-login:focus {
+  outline: none;
+  border: none;
+}
+
+/* Adjust input padding to make space for the eye icon */
+.password-input-container-login .input-login {
+  padding-right: 45px;
+  width: 100%;
+}

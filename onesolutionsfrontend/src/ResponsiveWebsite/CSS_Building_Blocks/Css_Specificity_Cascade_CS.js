@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks"; // adjust path if needed
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Css_Specificity_Cascade_CS = ({
   subtopicId,
@@ -15,15 +15,14 @@ const Css_Specificity_Cascade_CS = ({
   const [isLoading, setIsLoading] = useState(false);
   const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
+  const handleAnswer = (questionId, option) => {
+    setMcqAnswers((prev) => ({ ...prev, [questionId]: option }));
   };
 
   const handleContinue = async () => {
@@ -40,56 +39,66 @@ const Css_Specificity_Cascade_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
+        console.log("Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const renderMCQ = (q, idx, namePrefix) => (
-    <div key={idx} style={{ marginBottom: "10px" }}>
-      <p>{q.question}</p>
-      {q.options.map((option) => (
-        <div key={option}>
-          <label>
-            <input
-              type="radio"
-              name={`${namePrefix}_${idx}`}
-              checked={mcqAnswers[q.question] === option}
-              onChange={() => handleAnswer(q.question, option)}
-            />{" "}
-            {option}
-          </label>
-        </div>
-      ))}
-      {mcqAnswers[q.question] && (
-        <p
-          style={{
-            fontWeight: "bold",
-            color: mcqAnswers[q.question] === q.answer ? "green" : "red",
-          }}
-        >
-          {mcqAnswers[q.question] === q.answer
-            ? "✅ Correct"
-            : `❌ Wrong. Correct answer: ${q.answer}`}
-        </p>
-      )}
-    </div>
-  );
+  /* -------------------- MCQ DATA -------------------- */
+  const mcqs = [
+    {
+      id: "highest_specificity",
+      section: "Specificity Hierarchy",
+      question: "Which has the HIGHEST specificity?",
+      options: [
+        "Type selector (p)",
+        "Class selector (.text)",
+        "ID selector (#header)",
+        "Inline style",
+      ],
+      answer: "Inline style",
+      explanation:
+        "Inline styles have the highest specificity, beating even ID selectors and !important in normal cases.",
+    },
+    {
+      id: "cascade_order",
+      section: "CSS Cascade",
+      question: "When two rules have the same specificity, which one wins?",
+      options: [
+        "The first one",
+        "The last one in the CSS file",
+        "Both apply",
+        "Neither applies",
+      ],
+      answer: "The last one in the CSS file",
+      explanation:
+        "This is the 'Cascade' — later rules with equal specificity override earlier ones.",
+    },
+    {
+      id: "important_override",
+      section: "!important Rule",
+      question: "What overrides EVERYTHING except another !important?",
+      options: [
+        "ID selector",
+        "Inline style",
+        "!important declaration",
+        "Universal selector",
+      ],
+      answer: "!important declaration",
+      explanation:
+        "!important gives a property the highest possible priority (except when another !important appears later).",
+    },
+  ];
 
   return (
     <div className="intro-container">
-      <h1>CSS Specificity & Cascade | Cheet Sheet</h1>
+      <h1>CSS Specificity & Cascade | Cheat Sheet</h1>
 
       {/* 1. Specificity */}
       <section>
@@ -128,16 +137,23 @@ const Css_Specificity_Cascade_CS = ({
 }`}
         />
 
-        <p>
-          <b>Note: </b> Only the overlapping properties are overwritten, not the
-          entire rule.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            It doesn't overwrite the entire CSS Ruleset but only overwrites the
+            CSS properties that are the same.
+          </p>
+        </div>
 
         <h3>1.2 Class Selector & ID Selector</h3>
         <p>
           An ID Selector is more specific when compared to a Class Selector as
           we provide a unique ID within the HTML document and it selects only a
-          <b>single</b> HTML Element.
+          <b> single</b> HTML Element.
         </p>
         <CodeBlock
           language="html"
@@ -152,6 +168,7 @@ const Css_Specificity_Cascade_CS = ({
   color: red;
 }`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. Inline Styles */}
@@ -173,9 +190,22 @@ const Css_Specificity_Cascade_CS = ({
           language="html"
           code={`<p style="color: red; font-weight: bold;">This text is red and bold due to inline style.</p>`}
         />
-        <p className="note">
-          Note: Inline styles are not reusable and reduce readability.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Inline Styles have the highest specificity. They overwrite any other
+            styles specified using CSS Selectors.
+          </p>
+          <p>Using Inline Styles is not recommended because</p>
+          <ul>
+            <li>Inline Styles are not reusable.</li>
+            <li>Writing HTML and CSS separately increases code readability.</li>
+          </ul>
+        </div>
       </section>
 
       {/* 3. CSS Cascade */}
@@ -194,16 +224,25 @@ p {
   color: red;
 }`}
         />
-        <p className="note">
-          Here, the paragraph text will be red because the second rule comes
-          later.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The styles that apply to the HTML Elements are not determined by the
+            <b>order the classes</b> defined in the HTML <b>class</b> attribute,
+            but instead the order in which they appear in the CSS.
+          </p>
+        </div>
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
         <h3>3.1 The !important Exception</h3>
         <p>
           It is a special piece of CSS used to make a particular CSS property
-          and value the <b>most specific</b> thing, irrespective of source order
-          and specificity.
+          and value the <code>most specific thing</code>, irrespective of source
+          order and specificity.
         </p>
         <CodeBlock
           language="css"
@@ -214,44 +253,13 @@ p {
   color: red;
 }`}
         />
-        <p className="note">
-          Use <code>!important</code> sparingly, only to override external
-          libraries like Bootstrap.
+        <p>
+          The only way to override a <code>!important</code> property value is
+          to include another <code>!important</code> property value. The added
+          property value should either come later in the order or should be of
+          higher specificity.
         </p>
-      </section>
-
-      {/* MCQs */}
-      <section>
-        <h3>MCQs</h3>
-        {[
-          {
-            question: "Which selector has the highest specificity?",
-            options: [
-              "Type Selector",
-              "Class Selector",
-              "ID Selector",
-              "Inline Style",
-            ],
-            answer: "Inline Style",
-          },
-          {
-            question:
-              "When two rules have equal specificity, which one is applied?",
-            options: ["The first rule", "The last rule", "Both", "Neither"],
-            answer: "The last rule",
-          },
-          {
-            question:
-              "Which property overrides all other selectors except another !important?",
-            options: [
-              "ID Selector",
-              "Class Selector",
-              "Inline Style",
-              "!important property",
-            ],
-            answer: "!important property",
-          },
-        ].map((q, idx) => renderMCQ(q, idx, "css_specificity_cascade"))}
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}
@@ -264,10 +272,56 @@ p {
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
+            ? "Completed"
             : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

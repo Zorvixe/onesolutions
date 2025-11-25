@@ -52,6 +52,68 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
     }
   };
 
+  const mcqs = [
+    {
+      id: "linear_gradient",
+      section: "CSS Gradients",
+      question:
+        "What is the correct syntax for a linear gradient from top to bottom?",
+      options: [
+        "linear-gradient(to bottom, red, blue)",
+        "linear-gradient(bottom, red, blue)",
+        "linear-gradient(red to blue)",
+        "gradient(to bottom, red, blue)",
+      ],
+      answer: "linear-gradient(to bottom, red, blue)",
+      explanation:
+        "The correct function is linear-gradient(), and direction keywords like 'to bottom' come first.",
+    },
+    {
+      id: "default_direction",
+      section: "Linear Gradient Direction",
+      question:
+        "What is the default direction of a linear gradient if no direction is specified?",
+      options: ["to right", "to bottom", "to left", "to top"],
+      answer: "to bottom",
+      explanation:
+        "If you write linear-gradient(red, blue), it defaults to top → bottom (to bottom).",
+    },
+    {
+      id: "radial_gradient",
+      section: "Radial Gradient",
+      question: "Which keyword creates a circular radial gradient?",
+      options: ["circle", "ellipse", "round", "radial"],
+      answer: "circle",
+      explanation:
+        "Use radial-gradient(circle, ...) for perfect circles. Without 'circle', it defaults to ellipse.",
+    },
+    {
+      id: "multiple_colors",
+      section: "Multiple Colors",
+      question: "How do you create a rainbow gradient from left to right?",
+      options: [
+        "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
+        "linear-gradient(rainbow)",
+        "background: rainbow;",
+        "linear-gradient(colors: red orange yellow...)",
+      ],
+      answer:
+        "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
+      explanation:
+        "Just list all colors separated by commas inside linear-gradient() with direction.",
+    },
+    {
+      id: "modal_trigger",
+      section: "Bootstrap Modal",
+      question:
+        "Which attribute opens a Bootstrap modal when a button is clicked?",
+      options: ["data-bs-toggle", "data-open", "onclick", "modal-trigger"],
+      answer: "data-bs-toggle",
+      explanation:
+        'data-bs-toggle="modal" + data-bs-target="#modalId" is required to trigger a Bootstrap 5 modal.',
+    },
+  ];
+
   return (
     <div className="intro-container">
       <h1>CSS Gradience | Cheat Sheet</h1>
@@ -262,17 +324,79 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 </div>`}
         />
       </section>
+      {/* MCQs - NOW CLEAN, CONSISTENT & EDUCATIONAL */}
+      <section>
+        <h3>MCQs</h3>
+        {mcqs.map((mcq) => (
+          <MCQBlock
+            key={mcq.id}
+            mcq={mcq}
+            answers={mcqAnswers}
+            onAnswer={handleAnswer}
+          />
+        ))}
+      </section>
 
       {/* Continue Button */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
           onClick={handleContinue}
-          disabled={isSubtopicCompleted}
+          disabled={isSubtopicCompleted || isLoading}
         >
-          {isSubtopicCompleted ? "Completed" : "Continue"}
+          {isLoading
+            ? "Marking..."
+            : isSubtopicCompleted
+            ? "Completed"
+            : "Continue"}
         </button>
       </div>
+    </div>
+  );
+};
+
+/* -------------------- REUSABLE MCQ BLOCK -------------------- */
+const MCQBlock = ({ mcq, answers, onAnswer }) => {
+  const userAnswer = answers[mcq.id];
+  const isCorrect = userAnswer === mcq.answer;
+
+  return (
+    <div className="mcq-container">
+      <h3 className="mcq-title">Quiz: {mcq.section}</h3>
+      <p className="mcq-question">{mcq.question}</p>
+
+      {mcq.options.map((option) => {
+        const active = userAnswer === option;
+        const correct = active && isCorrect;
+        const wrong = active && !isCorrect;
+
+        return (
+          <label
+            key={option}
+            className={`mcq-option ${
+              correct ? "selected-correct" : wrong ? "selected-wrong" : ""
+            }`}
+          >
+            <input
+              type="radio"
+              name={mcq.id}
+              checked={active}
+              onChange={() => onAnswer(mcq.id, option)}
+              style={{ marginRight: "8px" }}
+            />
+            <code>{option}</code>
+          </label>
+        );
+      })}
+
+      {userAnswer && (
+        <div className={`mcq-result ${isCorrect ? "correct" : "wrong"}`}>
+          {isCorrect ? "Correct!" : `Wrong. Correct answer: ${mcq.answer}`}
+          <p>
+            <strong>Explanation:</strong> {mcq.explanation}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

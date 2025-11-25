@@ -261,8 +261,6 @@ const OnDemand_Session_CS = ({
         </table>
 
         <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[4]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[5]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Final Tips */}
