@@ -25,7 +25,8 @@ import OJBAdminDashboard from "./components/OJB/OJBAdminDashboard/OJBAdminDashbo
 import OJBAdminJobsList from "./components/OJB/OJBAdminJobsList/OJBAdminJobsList";
 import OJBAdminJobDetail from "./components/OJB/OJBAdminJobDetail/OJBAdminJobDetail";
 
-import StudentRegister from "./components/Student_Register/Register";
+import StudentRegister from "./components/Ose/Student_Register/Register";
+import AdminFeedbackPanel from "./components/Ose/AdminFeedbackPanel/AdminFeedbackPanel";
 
 import "./App.css";
 
@@ -71,6 +72,8 @@ function App() {
               <Route path="/edit-profile" element={<UpdateAdmin />} />
               <Route path="/live_classes" element={<LiveClasses />} />
               <Route path="/achievements" element={<Achievements />} />
+              <Route path="/student_register" element={<StudentRegister />} />
+              <Route path="/feedback" element={<AdminFeedbackPanel />} />
 
               {/* OJB routes */}
               <Route
@@ -83,8 +86,6 @@ function App() {
                 element={<OJBAdminJobDetail />}
               />
             </Route>
-
-            <Route path="/student_register" element={<StudentRegister />} />
 
             {/* Default redirect */}
             <Route path="*" element={<Navigate to="/login" replace />} />

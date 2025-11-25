@@ -6,7 +6,6 @@ import "./Landing.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-
 function Landing() {
   // State for admin details and error
   const [adminDetails, setAdminDetails] = useState(null);
@@ -32,7 +31,6 @@ function Landing() {
     currentSessionStart: null,
   });
 
-
   // Fetch admin details on component mount
   useEffect(() => {
     const fetchAdminDetails = async () => {
@@ -44,11 +42,14 @@ function Landing() {
       }
 
       try {
-        const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `https://ose.onesolutionsekam.in/api/admin/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -96,9 +97,12 @@ function Landing() {
           fetch(`https://ose.onesolutionsekam.in/api/session/status`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch(`https://ose.onesolutionsekam.in/api/admins/status/individual`, {
-            headers: { Authorization: `Bearer ${token}` },
-          }),
+          fetch(
+            `https://ose.onesolutionsekam.in/api/admins/status/individual`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          ),
         ]);
 
         const jobs = await jobsResponse.json();
@@ -329,13 +333,13 @@ function Landing() {
                 <span>OJB Dashboard</span>
                 <span className="action-arrow-land">→</span>
               </a>
-              <a href="/zorvixe" className="action-btn-land secondary-land">
+              <a href="/feedback" className="action-btn-land secondary-land">
                 <img
-                  src={assests.Zorvixe_logo || "/placeholder.svg"}
+                  src={assests.Logo || "/placeholder.svg"}
                   alt="Zorvixe"
                   className="action-icon-land"
                 />
-                <span>Zorvixe Portal</span>
+                <span>Student feedback</span>
                 <span className="action-arrow-land">→</span>
               </a>
             </div>
