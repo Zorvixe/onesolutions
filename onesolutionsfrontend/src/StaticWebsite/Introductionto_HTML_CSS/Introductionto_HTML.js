@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
+import FeedbackModal from "../../FeedbackModal/FeedbackModal";
+
 import "../../Class_CSS/Class_Css.css";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const Introductionto_Html = ({
   subtopicId,
@@ -22,6 +26,13 @@ const Introductionto_Html = ({
   const [showNewThread, setShowNewThread] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
 
+    
+  // Feedback states
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
+  const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
+
+
   const editorRef = useRef(null);
 
   useEffect(() => {
@@ -29,13 +40,38 @@ const Introductionto_Html = ({
       setIsSubtopicCompleted(true);
     }
     loadThreads();
+    checkFeedbackStatus();
   }, [completedContent, subtopicId]);
+
+  const checkFeedbackStatus = async () => {
+    try {
+      setIsCheckingFeedback(true);
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${API_BASE_URL}/api/feedback/subtopic/${subtopicId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setHasSubmittedFeedback(!!data.data.feedback);
+      }
+    } catch (error) {
+      console.error("Error checking feedback status:", error);
+    } finally {
+      setIsCheckingFeedback(false);
+    }
+  };
 
   const loadThreads = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://api.onesolutionsekam.in/api/discussions/threads/${subtopicId}`,
+        `${API_BASE_URL}/api/discussions/threads/${subtopicId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,6 +116,44 @@ const Introductionto_Html = ({
       setIsLoading(false);
     }
   };
+
+  const handleSubmitFeedback = async (feedbackData) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${API_BASE_URL}/api/feedback/submit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            subtopicId,
+            moduleName,
+            topicName,
+            ...feedbackData
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setHasSubmittedFeedback(true);
+          setShowFeedbackModal(false);
+          alert("Thank you for your feedback! It helps us improve.");
+          return data;
+        }
+      }
+      throw new Error("Failed to submit feedback");
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      alert("Failed to submit feedback. Please try again.");
+      throw error;
+    }
+  };
+
 
   // Rich Text Editor Functions
   const formatText = (command, value = null) => {
@@ -143,7 +217,7 @@ const Introductionto_Html = ({
       };
 
       const response = await fetch(
-        "https://api.onesolutionsekam.in/api/discussions/threads",
+        "${API_BASE_URL}/api/discussions/threads",
         {
           method: "POST",
           headers: {
@@ -227,6 +301,19 @@ const Introductionto_Html = ({
 
         {/* Completion Section */}
         <div className="completion-section-clss">
+        <button
+                className={`feedback-button-clss ${
+                  hasSubmittedFeedback ? "submitted-clss" : ""
+                }`}
+                onClick={() => setShowFeedbackModal(true)}
+                disabled={hasSubmittedFeedback || isCheckingFeedback}
+              >
+                {isCheckingFeedback
+                  ? "Checking..."
+                  : hasSubmittedFeedback
+                  ? "✓ Feedback Submitted"
+                  : "Submit Feedback"}
+              </button>
           <button
             className={`complete-button-clss ${
               isSubtopicCompleted ? "completed-clss" : ""
@@ -240,6 +327,7 @@ const Introductionto_Html = ({
               ? "✓ Completed"
               : "Mark as Complete"}
           </button>
+             
         </div>
       </div>
 
@@ -523,6 +611,16 @@ const Introductionto_Html = ({
           </div>
         </div>
       )}
+
+       {/* Feedback Modal */}
+       <FeedbackModal
+        isOpen={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        subtopicId={subtopicId}
+        moduleName={moduleName}
+        topicName={topicName}
+        onSubmitFeedback={handleSubmitFeedback}
+      />
     </div>
   );
 };

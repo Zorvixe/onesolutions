@@ -296,8 +296,10 @@
 
 /* Completion Section */
 .completion-section-clss {
-  text-align: end;
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
+  margin-bottom: 20px
 }
 
 .complete-button-clss {

@@ -301,6 +301,31 @@ const createTables = async () => {
   );
 `;
 
+const feedbackTableQuery = `
+CREATE TABLE IF NOT EXISTS student_feedback (
+  id SERIAL PRIMARY KEY,
+  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+  subtopic_id VARCHAR(500) NOT NULL,
+  module_name VARCHAR(500),
+  topic_name VARCHAR(500),
+  rating_understanding INTEGER CHECK (rating_understanding >= 1 AND rating_understanding <= 5),
+  rating_instructor INTEGER CHECK (rating_instructor >= 1 AND rating_instructor <= 5),
+  rating_pace INTEGER CHECK (rating_pace >= 1 AND rating_pace <= 5),
+  feedback_text TEXT,
+  submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`;
+
+(async () => {
+  try {
+    await pool.query(feedbackTableQuery);
+    console.log("✅ Student feedback table ready");
+  } catch (error) {
+    console.error("❌ Feedback table creation error:", error.message);
+  }
+})();
+
   try {
     // Add to your createTables function
     await pool.query(discussionThreadsTableQuery);
@@ -3455,6 +3480,260 @@ app.put(
     }
   }
 );
+
+// ==========================================
+// 🔹 STUDENT FEEDBACK ROUTES
+// ==========================================
+
+// Submit feedback
+app.post("/api/feedback/submit", auth, async (req, res) => {
+  try {
+    const {
+      subtopicId,
+      moduleName,
+      topicName,
+      ratingUnderstanding,
+      ratingInstructor,
+      ratingPace,
+      feedbackText
+    } = req.body;
+
+    if (!subtopicId) {
+      return res.status(400).json({
+        success: false,
+        message: "Subtopic ID is required"
+      });
+    }
+
+    // Check if feedback already exists for this subtopic by this student
+    const existingFeedback = await pool.query(
+      `SELECT id FROM student_feedback 
+       WHERE student_id = $1 AND subtopic_id = $2`,
+      [req.student.id, subtopicId]
+    );
+
+    if (existingFeedback.rows.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Feedback already submitted for this class"
+      });
+    }
+
+    // Insert new feedback
+    const result = await pool.query(
+      `INSERT INTO student_feedback 
+       (student_id, subtopic_id, module_name, topic_name, 
+        rating_understanding, rating_instructor, rating_pace, feedback_text)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING *`,
+      [
+        req.student.id,
+        subtopicId,
+        moduleName || null,
+        topicName || null,
+        ratingUnderstanding,
+        ratingInstructor,
+        ratingPace,
+        feedbackText || null
+      ]
+    );
+
+    res.json({
+      success: true,
+      message: "Feedback submitted successfully",
+      data: { feedback: result.rows[0] }
+    });
+  } catch (error) {
+    console.error("Feedback submission error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while submitting feedback"
+    });
+  }
+});
+
+// Get feedback for a specific subtopic (student can see their own)
+app.get("/api/feedback/subtopic/:subtopicId", auth, async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+
+    const result = await pool.query(
+      `SELECT * FROM student_feedback 
+       WHERE student_id = $1 AND subtopic_id = $2`,
+      [req.student.id, subtopicId]
+    );
+
+    res.json({
+      success: true,
+      data: {
+        feedback: result.rows[0] || null
+      }
+    });
+  } catch (error) {
+    console.error("Feedback fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching feedback"
+    });
+  }
+});
+
+// ==========================================
+// 🔹 ADMIN FEEDBACK ROUTES
+// ==========================================
+
+// Get all feedback with student details (Admin)
+app.get("/api/admin/feedback", verifyAdminRequest, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, subtopicId, moduleName, rating } = req.query;
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT sf.*, 
+             s.first_name, 
+             s.last_name,
+             s.email,
+             s.batch_month,
+             s.batch_year
+      FROM student_feedback sf
+      LEFT JOIN students s ON sf.student_id = s.id
+      WHERE 1=1
+    `;
+    
+    let queryParams = [];
+    let paramCount = 1;
+
+    // Filter by subtopic ID
+    if (subtopicId) {
+      query += ` AND sf.subtopic_id = $${paramCount}`;
+      queryParams.push(subtopicId);
+      paramCount++;
+    }
+
+    // Filter by module name
+    if (moduleName) {
+      query += ` AND sf.module_name ILIKE $${paramCount}`;
+      queryParams.push(`%${moduleName}%`);
+      paramCount++;
+    }
+
+    // Filter by rating
+    if (rating) {
+      query += ` AND (sf.rating_understanding = $${paramCount} OR sf.rating_instructor = $${paramCount} OR sf.rating_pace = $${paramCount})`;
+      queryParams.push(parseInt(rating));
+      paramCount++;
+    }
+
+    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    queryParams.push(limit, offset);
+
+    const result = await pool.query(query, queryParams);
+
+    // Get total count for pagination
+    let countQuery = `
+      SELECT COUNT(*) as total
+      FROM student_feedback sf
+      WHERE 1=1
+    `;
+    
+    let countParams = [];
+    paramCount = 1;
+
+    if (subtopicId) {
+      countQuery += ` AND sf.subtopic_id = $${paramCount}`;
+      countParams.push(subtopicId);
+      paramCount++;
+    }
+
+    if (moduleName) {
+      countQuery += ` AND sf.module_name ILIKE $${paramCount}`;
+      countParams.push(`%${moduleName}%`);
+      paramCount++;
+    }
+
+    if (rating) {
+      countQuery += ` AND (sf.rating_understanding = $${paramCount} OR sf.rating_instructor = $${paramCount} OR sf.rating_pace = $${paramCount})`;
+      countParams.push(parseInt(rating));
+      paramCount++;
+    }
+
+    const countResult = await pool.query(countQuery, countParams);
+    const total = parseInt(countResult.rows[0].total);
+
+    // Calculate average ratings
+    const avgRatingsQuery = `
+      SELECT 
+        ROUND(AVG(rating_understanding), 2) as avg_understanding,
+        ROUND(AVG(rating_instructor), 2) as avg_instructor,
+        ROUND(AVG(rating_pace), 2) as avg_pace,
+        COUNT(*) as total_feedbacks
+      FROM student_feedback
+      ${countParams.length > 0 ? 'WHERE ' + countQuery.split('WHERE')[1] : ''}
+    `;
+
+    const avgResult = await pool.query(
+      avgRatingsQuery.split('WHERE')[0] + (countParams.length > 0 ? 'WHERE ' + countQuery.split('WHERE')[1] : ''),
+      countParams
+    );
+
+    res.json({
+      success: true,
+      data: {
+        feedbacks: result.rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / limit)
+        },
+        averageRatings: avgResult.rows[0]
+      }
+    });
+  } catch (error) {
+    console.error("Admin feedback fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch feedbacks"
+    });
+  }
+});
+
+// Get feedback statistics (Admin)
+app.get("/api/admin/feedback/stats", verifyAdminRequest, async (req, res) => {
+  try {
+    const statsQuery = `
+      SELECT 
+        COUNT(*) as total_feedbacks,
+        COUNT(DISTINCT student_id) as unique_students,
+        COUNT(DISTINCT subtopic_id) as unique_subtopics,
+        ROUND(AVG(rating_understanding), 2) as avg_understanding,
+        ROUND(AVG(rating_instructor), 2) as avg_instructor,
+        ROUND(AVG(rating_pace), 2) as avg_pace,
+        DATE(created_at) as date,
+        COUNT(*) as daily_count
+      FROM student_feedback 
+      WHERE created_at >= CURRENT_DATE - INTERVAL '30 days'
+      GROUP BY DATE(created_at)
+      ORDER BY date DESC
+      LIMIT 30
+    `;
+
+    const result = await pool.query(statsQuery);
+
+    res.json({
+      success: true,
+      data: {
+        stats: result.rows
+      }
+    });
+  } catch (error) {
+    console.error("Feedback stats error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch feedback statistics"
+    });
+  }
+});
 
 
 // -------------------------------------------
