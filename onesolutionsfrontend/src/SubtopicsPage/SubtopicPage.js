@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.js";
 import "./SubtopicPage.css";
 import { goalsData } from "../data/goalsData";
@@ -644,45 +644,66 @@ const SubtopicPage = () => {
   const [selectedCourseSub, setSelectedCourseSub] = useState(null);
   const [selectedGoalSub, setSelectedGoalSub] = useState(null);
   const [expandedModuleSub, setExpandedModuleSub] = useState(null);
-
+  
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // ✅ Enhanced content finding with better error handling
+  const findContentByIds = (moduleId, subtopicId) => {
+    let foundSubtopicSub = null;
+    let foundModuleSub = null;
+    let foundCourseSub = null;
+    let foundGoalSub = null;
+
+    goalsData.forEach((goal) => {
+      goal.courses.forEach((course) => {
+        course.modules.forEach((module) => {
+          if (module.topic) {
+            module.topic.forEach((subtopic) => {
+              if (subtopic.id === subtopicId && module.id === moduleId) {
+                foundSubtopicSub = subtopic;
+                foundModuleSub = module;
+                foundCourseSub = course;
+                foundGoalSub = goal;
+              }
+            });
+          }
+        });
+      });
+    });
+
+    return { foundSubtopicSub, foundModuleSub, foundCourseSub, foundGoalSub };
+  };
 
   useEffect(() => {
     if (topicId && subtopicId && goalsData) {
-      let foundSubtopicSub = null;
-      let foundModuleSub = null;
-      let foundCourseSub = null;
-      let foundGoalSub = null;
+      const { 
+        foundSubtopicSub, 
+        foundModuleSub, 
+        foundCourseSub, 
+        foundGoalSub 
+      } = findContentByIds(topicId, subtopicId);
 
-      // Search through goalsData to find the matching subtopic
-      goalsData.forEach((goal) => {
-        goal.courses.forEach((course) => {
-          course.modules.forEach((module) => {
-            if (module.topic) {
-              module.topic.forEach((subtopic) => {
-                if (subtopic.id === subtopicId && module.id === topicId) {
-                  foundSubtopicSub = subtopic;
-                  foundModuleSub = module;
-                  foundCourseSub = course;
-                  foundGoalSub = goal;
-                }
-              });
-            }
+      if (foundSubtopicSub && foundModuleSub) {
+        setSelectedSubtopicSub(foundSubtopicSub);
+        setSelectedModuleSub(foundModuleSub);
+        setSelectedCourseSub(foundCourseSub);
+        setSelectedGoalSub(foundGoalSub);
+        setExpandedModuleSub(topicId);
+      } else {
+        console.warn("Content not found for:", { topicId, subtopicId });
+        // Fallback: Use state from navigation if available
+        if (location.state) {
+          setSelectedSubtopicSub({
+            id: subtopicId,
+            name: location.state.subtopicName || "Unknown Subtopic"
           });
-        });
-      });
-
-      setSelectedSubtopicSub(foundSubtopicSub);
-      setSelectedModuleSub(foundModuleSub);
-      setSelectedCourseSub(foundCourseSub);
-      setSelectedGoalSub(foundGoalSub);
-
-      // AUTO-EXPAND THE ACTIVE MODULE
-      setExpandedModuleSub(topicId);
+        }
+      }
     }
-  }, [topicId, subtopicId]);
+  }, [topicId, subtopicId, goalsData, location.state]);
 
-  // NEW: Auto-scroll to active element
+  // ✅ Auto-scroll to active element
   useEffect(() => {
     if (expandedModuleSub && selectedSubtopicSub) {
       const timer = setTimeout(() => {
@@ -715,9 +736,19 @@ const SubtopicPage = () => {
     setExpandedModuleSub((prev) => (prev === moduleId ? null : moduleId));
   };
 
-  // Handle subtopic click - only navigate
-  const handleSubtopicClickSub = (subtopic) => {
-    navigate(`/topic/${selectedModuleSub.id}/subtopic/${subtopic.id}`);
+  // ✅ Enhanced subtopic click handler
+  const handleSubtopicClickSub = (module, subtopic) => {
+    // Navigate to the new subtopic
+    navigate(`/topic/${module.id}/subtopic/${subtopic.id}`, {
+      state: {
+        moduleId: module.id,
+        subtopicId: subtopic.id,
+        subtopicName: subtopic.name,
+        goalName: selectedGoalSub?.title,
+        courseName: selectedCourseSub?.title,
+        fromCourse: true
+      }
+    });
   };
 
   // Universal MCQ check
@@ -730,73 +761,11 @@ const SubtopicPage = () => {
     return false;
   };
 
-  const renderContentSub = () => {
-    if (!selectedSubtopicSub) return <p>Please select a subtopic</p>;
-
-    // Check if subtopic exists in the current course
-    const subtopicExistsSub = selectedCourseSub?.modules?.some((module) =>
-      module.topic?.some((sub) => sub.id === selectedSubtopicSub.id)
-    );
-
-    if (!subtopicExistsSub) {
-      return <p>Subtopic not available in this course</p>;
-    }
-
-    if (isMCQSub(selectedSubtopicSub)) {
-      const actualSubtopicSub = mcqMapping[selectedSubtopicSub.name];
-      if (!actualSubtopicSub) return <p>No MCQ found for this section</p>;
-
-      return (
-        <MCQWrapper
-          subtopic={actualSubtopicSub}
-          subtopicId={selectedSubtopicSub.id}
-          goalName={selectedGoalSub?.title}
-          courseName={selectedCourseSub?.title}
-          onSubtopicComplete={() => {
-            console.log("MCQ completed for:", selectedSubtopicSub.name);
-          }}
-        />
-      );
-    }
-
-    const ComponentSub = subtopicComponents[selectedSubtopicSub.name];
-    return ComponentSub ? (
-      <ComponentSub
-        subtopicId={selectedSubtopicSub.id}
-        goalName={selectedGoalSub?.title}
-        courseName={selectedCourseSub?.title}
-        subtopic={selectedSubtopicSub.name}
-      />
-    ) : (
-      <div>
-        <h3>{selectedSubtopicSub.name}</h3>
-        <p>Content for this subtopic is coming soon...</p>
-        {completedContent.includes(selectedSubtopicSub.id) && (
-          <p style={{ color: "green", marginTop: "10px" }}>
-            ✓ This subtopic has been completed
-          </p>
-        )}
-      </div>
-    );
-  };
-
-  // Helper function to render content based on subtopic type
+  // ✅ Enhanced content renderer
   const renderSubtopicContentSub = (subtopic) => {
     if (!subtopic) return <p>No subtopic selected</p>;
 
-    if (subtopic.name.toLowerCase().includes("cheat sheet")) {
-      const ComponentSub = subtopicComponents[subtopic.name];
-      return ComponentSub ? (
-        <ComponentSub
-          subtopicId={subtopic.id}
-          goalName={selectedGoalSub?.title}
-          courseName={selectedCourseSub?.title}
-          subtopic={subtopic.name}
-        />
-      ) : (
-        <p>Cheat sheet content not available for "{subtopic.name}"</p>
-      );
-    } else if (subtopic.name.toLowerCase().includes("mcq")) {
+    if (isMCQSub(subtopic)) {
       const actualSubtopicSub = mcqMapping[subtopic.name];
       return actualSubtopicSub ? (
         <MCQWrapper
@@ -811,6 +780,18 @@ const SubtopicPage = () => {
       ) : (
         <p>MCQ content not available for "{subtopic.name}"</p>
       );
+    } else if (subtopic.name.toLowerCase().includes("cheat sheet")) {
+      const ComponentSub = subtopicComponents[subtopic.name];
+      return ComponentSub ? (
+        <ComponentSub
+          subtopicId={subtopic.id}
+          goalName={selectedGoalSub?.title}
+          courseName={selectedCourseSub?.title}
+          subtopic={subtopic.name}
+        />
+      ) : (
+        <p>Cheat sheet content not available for "{subtopic.name}"</p>
+      );
     } else {
       const ComponentSub = subtopicComponents[subtopic.name];
       return ComponentSub ? (
@@ -824,9 +805,23 @@ const SubtopicPage = () => {
         <div>
           <h3>{subtopic.name}</h3>
           <p>Content for this subtopic is coming soon...</p>
+          {completedContent.includes(subtopic.id) && (
+            <p style={{ color: "green", marginTop: "10px" }}>
+              ✓ This subtopic has been completed
+            </p>
+          )}
         </div>
       );
     }
+  };
+
+  // ✅ Check if content exists in current context
+  const isContentInCurrentContext = (subtopic) => {
+    if (!selectedCourseSub || !subtopic) return false;
+    
+    return selectedCourseSub.modules?.some(module => 
+      module.topic?.some(topic => topic.id === subtopic.id)
+    );
   };
 
   return (
@@ -895,13 +890,26 @@ const SubtopicPage = () => {
                           completedContent.includes(subtopic.id)
                             ? "completed-sub"
                             : ""
+                        } ${
+                          !isContentInCurrentContext(subtopic) 
+                            ? "disabled-sub" 
+                            : ""
                         }`}
-                        onClick={() => handleSubtopicClickSub(subtopic)}
+                        onClick={() => {
+                          if (isContentInCurrentContext(subtopic)) {
+                            handleSubtopicClickSub(module, subtopic);
+                          }
+                        }}
                       >
                         <div className="subtopic-page-sub__item-content-sub">
                           <span className="subtopic-page-sub__item-text-sub">
                             {subtopic.name}
                           </span>
+                          {!isContentInCurrentContext(subtopic) && (
+                            <span className="subtopic-page-sub__lock-icon-sub">
+                              🔒
+                            </span>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -920,7 +928,23 @@ const SubtopicPage = () => {
       <div className="subtopic-page-sub__right-panel-sub">
         {selectedSubtopicSub ? (
           <div className="subtopic-page-sub__content-area-sub">
-            {renderSubtopicContentSub(selectedSubtopicSub)}
+            {isContentInCurrentContext(selectedSubtopicSub) ? (
+              renderSubtopicContentSub(selectedSubtopicSub)
+            ) : (
+              <div className="subtopic-page-sub__access-denied-sub">
+                <h3>Content Not Accessible</h3>
+                <p>
+                  This content is not available in the current course context. 
+                  Please navigate to this content from the Courses page.
+                </p>
+                <button 
+                  onClick={() => navigate("/courses")}
+                  className="subtopic-page-sub__back-button-sub"
+                >
+                  Back to Courses
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="subtopic-page-sub__welcome-sub">

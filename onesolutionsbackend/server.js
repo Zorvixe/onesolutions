@@ -639,9 +639,7 @@ function cleanExpiredOtps() {
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
 
-// -------------------------------------------
-// 🔹 Admin Auth Middleware (Simplified)
-// -------------------------------------------
+
 // -------------------------------------------
 // 🔹 Enhanced Admin Auth Middleware
 // -------------------------------------------

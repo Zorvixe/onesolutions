@@ -244,12 +244,12 @@
 }
 
 .feedback-button-clss:disabled {
-  background: #9ca3af;
+  background: #94c9f54b;
   cursor: not-allowed;
 }
 
 .feedback-button-clss.submitted-clss {
-  background: #6b7280;
+  background: #94c9f54b;
 }
 
 /* Responsive design */

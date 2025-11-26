@@ -116,6 +116,8 @@ const authorizeAdmin = (req, res, next) => {
   next();
 };
 
+
+
 // Configure passport with Google strategy
 passport.use(
   new GoogleStrategy(

@@ -13,7 +13,7 @@ const Introductionto_First_Project = ({
   subtopic,
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to Your First Project - Lets Build Together",
-  videoUrl = "https://www.youtube.com/embed/N1cdFu7h7-M?si=yEfpuiN5V1Cyhu-J",
+  videoUrl = "https://www.youtube.com/embed/",
   slidesUrl = "https://docs.google.com/presentation/d/1buUfhf63MBF55n32mpzNfbMwFsXwLLrkdm1RsXQjki4/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

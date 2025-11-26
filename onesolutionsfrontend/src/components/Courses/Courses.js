@@ -144,63 +144,38 @@ export default function Courses() {
   };
 
   // ✅ Enhanced subtopic click handler with comprehensive lock check
-  const handleSubtopicClick = (
-    moduleId,
-    subtopicId,
-    subtopicName,
-    goalName,
-    courseName,
-    goalIndex
-  ) => {
-    // Don't allow clicking subtopics in locked goals
-    if (isGoalLocked(goalIndex)) {
-      showLockedMessage();
-      return;
-    }
+  // ✅ Enhanced subtopic click handler with proper navigation
+const handleSubtopicClick = (
+  moduleId,
+  subtopicId,
+  subtopicName,
+  goalName,
+  courseName,
+  goalIndex
+) => {
+  // Don't allow clicking subtopics in locked goals
+  if (isGoalLocked(goalIndex)) {
+    showLockedMessage();
+    return;
+  }
 
-    setSelectedSubtopic(subtopicName);
+  setSelectedSubtopic(subtopicName);
 
-    // Navigate based on content type
-    if (isMCQ(subtopicName)) {
-      navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
-        state: {
-          subtopicId,
-          subtopicName,
-          goalName,
-          courseName,
-          isMCQ: true,
-        },
-      });
-    } else if (subtopicName.toLowerCase().includes("cheat sheet")) {
-      navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
-        state: {
-          subtopicId,
-          subtopicName,
-          goalName,
-          courseName,
-          isCheatSheet: true,
-        },
-      });
-    } else if (isCodingPractice(subtopicName)) {
-      navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
-        state: {
-          subtopicId,
-          goalName,
-          courseName,
-          fromCourse: true,
-        },
-      });
-    } else {
-      navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
-        state: {
-          subtopicId,
-          subtopicName,
-          goalName,
-          courseName,
-        },
-      });
+  // Navigate to subtopic with all necessary parameters
+  navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
+    state: {
+      moduleId,
+      subtopicId,
+      subtopicName,
+      goalName,
+      courseName,
+      goalIndex,
+      fromCourse: true
     }
-  };
+  });
+};
+
+  
 
   const getSubtopicContent = (subtopic) => {
     return <p>Content for {subtopic}</p>;

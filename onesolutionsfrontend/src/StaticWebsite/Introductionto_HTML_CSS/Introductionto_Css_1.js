@@ -9,7 +9,7 @@ const Introductionto_Css1 = ({
   subtopic,
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to CSS Part -1",
-  videoUrl = "https://www.youtube.com/embed/N1cdFu7h7-M?si=yEfpuiN5V1Cyhu-J",
+  videoUrl = "https://www.youtube.com/embed/",
   slidesUrl = "https://docs.google.com/presentation/d/192VNaNRBGgIb-QNMAQrHFJk8OYeYFK7vujzApCiNwwg/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

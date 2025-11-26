@@ -13,7 +13,7 @@ const Introductionto_Html = ({
   subtopic,
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to HTML",
-  videoUrl = "https://www.youtube.com/embed/N1cdFu7h7-M?si=yEfpuiN5V1Cyhu-J",
+  videoUrl = "https://www.youtube.com/embed/",
   slidesUrl = "https://docs.google.com/presentation/d/1Bdc6tTnGMFl_4bAiVuRmYPUiLSujCVoSUYqFKgahP-s/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
@@ -26,12 +26,10 @@ const Introductionto_Html = ({
   const [showNewThread, setShowNewThread] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
 
-    
   // Feedback states
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
-
 
   const editorRef = useRef(null);
 
@@ -120,22 +118,19 @@ const Introductionto_Html = ({
   const handleSubmitFeedback = async (feedbackData) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${API_BASE_URL}/api/feedback/submit`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            subtopicId,
-            moduleName,
-            topicName,
-            ...feedbackData
-          }),
-        }
-      );
+      const response = await fetch(`${API_BASE_URL}/api/feedback/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          subtopicId,
+          moduleName,
+          topicName,
+          ...feedbackData,
+        }),
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -153,7 +148,6 @@ const Introductionto_Html = ({
       throw error;
     }
   };
-
 
   // Rich Text Editor Functions
   const formatText = (command, value = null) => {
@@ -216,17 +210,14 @@ const Introductionto_Html = ({
         topicName: topicName,
       };
 
-      const response = await fetch(
-        "${API_BASE_URL}/api/discussions/threads",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("${API_BASE_URL}/api/discussions/threads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -301,19 +292,19 @@ const Introductionto_Html = ({
 
         {/* Completion Section */}
         <div className="completion-section-clss">
-        <button
-                className={`feedback-button-clss ${
-                  hasSubmittedFeedback ? "submitted-clss" : ""
-                }`}
-                onClick={() => setShowFeedbackModal(true)}
-                disabled={hasSubmittedFeedback || isCheckingFeedback}
-              >
-                {isCheckingFeedback
-                  ? "Checking..."
-                  : hasSubmittedFeedback
-                  ? "✓ Feedback Submitted"
-                  : "Submit Feedback"}
-              </button>
+          <button
+            className={`feedback-button-clss ${
+              hasSubmittedFeedback ? "submitted-clss" : ""
+            }`}
+            onClick={() => setShowFeedbackModal(true)}
+            disabled={hasSubmittedFeedback || isCheckingFeedback}
+          >
+            {isCheckingFeedback
+              ? "Checking..."
+              : hasSubmittedFeedback
+              ? "✓ Feedback Submitted"
+              : "Submit Feedback"}
+          </button>
           <button
             className={`complete-button-clss ${
               isSubtopicCompleted ? "completed-clss" : ""
@@ -327,7 +318,6 @@ const Introductionto_Html = ({
               ? "✓ Completed"
               : "Mark as Complete"}
           </button>
-             
         </div>
       </div>
 
@@ -612,8 +602,8 @@ const Introductionto_Html = ({
         </div>
       )}
 
-       {/* Feedback Modal */}
-       <FeedbackModal
+      {/* Feedback Modal */}
+      <FeedbackModal
         isOpen={showFeedbackModal}
         onClose={() => setShowFeedbackModal(false)}
         subtopicId={subtopicId}

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+
 import { useAuth } from "./context/AuthContext";
 
 import Login from "./components/Login/Login";
@@ -19,34 +20,80 @@ import CodeGround from "./CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ThreadDetail from "./NewThreadModal/ThreadDetail";
 
+import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
 
 function App() {
   const { isAuthenticated } = useAuth();
+
+  const [isAppLoading, setIsAppLoading] = useState(true);
+
+  // -----------------------------
+  // 🔥 FORCE LOAD ALL DATA ONCE
+  // -----------------------------
+  useEffect(() => {
+    const loadInitialData = async () => {
+      try {
+        if (isAuthenticated) {
+          await Promise.all([
+            authAPI.getProfile(),
+            authAPI.getCompleteProfile(),
+            progressAPI.getCompletedContent(),
+            progressAPI.getProgressSummary(),
+            progressAPI.getOverallProgress(),
+          ]);
+        }
+      } catch (error) {
+        console.error("[APP INIT] Error loading initial data:", error);
+      } finally {
+        setIsAppLoading(false); // stop loader
+      }
+    };
+
+    loadInitialData();
+  }, [isAuthenticated]);
+
+  // -----------------------------
+  // 🔄 Full Screen Loader Before App Loads
+  // -----------------------------
+  if (isAuthenticated && isAppLoading) {
+    return (
+      <div className="global-loader">
+        <div className="spinner"></div>
+        <p>Loading your dashboard...</p>
+      </div>
+    );
+  }
 
   return (
     <Router>
       {isAuthenticated ? (
         <div className="app-container">
           <Navbar />
+
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Navigate to="/home" replace />} />
               <Route path="/home" element={<Home />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/courses" element={<Courses />} />
+
               <Route path="/practice" element={<Practice />} />
               <Route path="/practice/:practiceId" element={<Practice />} />
               <Route
                 path="/practice/:practiceId/:questionId"
                 element={<Practice />}
               />
+
               <Route path="/placements" element={<Placements />} />
+
               <Route
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
+
               <Route path="/codeGround" element={<CodeGround />} />
+
               <Route path="/thread/:threadId" element={<ThreadDetail />} />
 
               <Route path="*" element={<Navigate to="/home" replace />} />
