@@ -204,7 +204,8 @@ const Why_Chooseus_Section_CS = ({
 
         <h3>2.1 HTML Span Element</h3>
         <p>
-          The HTML <code>span</code> element is a generic inline container
+          The HTML <code>span</code> element is a{" "}
+          <b>generic inline container </b>
           element which is mainly used for styling text in HTML Elements.
         </p>
 
@@ -221,19 +222,9 @@ const Why_Chooseus_Section_CS = ({
 }`}
         />
       </section>
+      <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
       {/* MCQs - CLEAN, CONSISTENT, AND EDUCATIONAL */}
-      <section>
-        <h3>MCQs</h3>
-        {mcqs.map((mcq) => (
-          <MCQBlock
-            key={mcq.id}
-            mcq={mcq}
-            answers={mcqAnswers}
-            onAnswer={handleAnswer}
-          />
-        ))}
-      </section>
 
       {/* Continue Button */}
       <div className="view-continue">
