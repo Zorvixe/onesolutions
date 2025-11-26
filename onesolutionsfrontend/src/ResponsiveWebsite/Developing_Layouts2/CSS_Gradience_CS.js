@@ -284,9 +284,17 @@ background: linear-gradient(to right, red, orange, yellow, green, blue);;
         <p>
           <strong>Example:</strong>
         </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="radial-gradient-background"></div>`}
+        />
+
         <CodeBlock
           language="css"
-          code={`background: radial-gradient(circle, #ff7e5f, #feb47b);`}
+          code={`.radial-gradient-background {
+background: radial-gradient(circle, #ff7e5f, #feb47b);
+}`}
         />
         <p>
           This creates a circular gradient that starts with{" "}
@@ -302,6 +310,17 @@ background: linear-gradient(to right, red, orange, yellow, green, blue);;
         <CodeBlock
           language="css"
           code={`background: radial-gradient(circle, red, yellow, green, blue);`}
+        />
+        <CodeBlock
+          language="html"
+          code={`<div class="radial-gradient-background"></div>`}
+        />
+
+        <CodeBlock
+          language="css"
+          code={`.radial-gradient-background {
+background: radial-gradient(circle, red, yellow, green, blue);
+}`}
         />
         <p>
           This example creates a colorful circular gradient starting from red in
