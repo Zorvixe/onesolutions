@@ -56,7 +56,9 @@ const StudentDashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(
+    localStorage.getItem("adminToken") || localStorage.getItem("token")
+  );
 
   const fetchStats = async () => {
     setLoading(true);
@@ -66,42 +68,27 @@ const StudentDashboard = () => {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
       });
 
       if (!response.ok) {
-        if (response.status === 401) {
-          return;
-        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
+      console.log("Stats API Response:", result);
 
       if (result.success) {
         setStats(result.data);
       } else {
         throw new Error(result.message || "Failed to fetch stats");
       }
-    } catch (error) {
-      console.error("Error fetching stats:", error);
-
-      if (
-        error.name === "TypeError" &&
-        error.message.includes("Failed to fetch")
-      ) {
-        setError(
-          "Cannot connect to server. Please check if the server is running and CORS is configured properly."
-        );
-      } else if (error.message.includes("Network Error")) {
-        setError(
-          "Network error. Please check your internet connection and try again."
-        );
-      } else {
-        setError(
-          error.message || "Failed to load dashboard data. Please try again."
-        );
-      }
+    } catch (err) {
+      console.error("Error fetching stats:", err);
+      setError(
+        err.message || "Failed to load dashboard data. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -143,13 +130,6 @@ const StudentDashboard = () => {
         >
           {error}
         </Alert>
-        <Button
-          variant="contained"
-          onClick={fetchStats}
-          startIcon={<RefreshIcon />}
-        >
-          Retry Loading Dashboard
-        </Button>
       </Box>
     );
   }
@@ -169,17 +149,17 @@ const StudentDashboard = () => {
     );
   }
 
-  const { overview = {}, batchStats = [], monthlyStats = [] } = stats;
+  const { overview = {}, batchStats = [] } = stats;
 
-  // Default values to prevent undefined errors
+  // Safe overview with defaults
   const safeOverview = {
     total_students: 0,
     active_students: 0,
+    inactive_students: 0,
     current_batch_students: 0,
-    job_seekers: 0,
+    unique_batches: 0,
     first_join_date: null,
     latest_join_date: null,
-    unique_batches: 0,
     ...overview,
   };
 
@@ -192,7 +172,7 @@ const StudentDashboard = () => {
         mb={3}
       >
         <Typography variant="h4" gutterBottom>
-          Admin Dashboard
+          Student Dashboard
         </Typography>
         <Button
           variant="outlined"
@@ -211,7 +191,6 @@ const StudentDashboard = () => {
             value={safeOverview.total_students}
             icon={<PeopleIcon fontSize="large" />}
             color="primary"
-            loading={loading}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -220,7 +199,6 @@ const StudentDashboard = () => {
             value={safeOverview.active_students}
             icon={<SchoolIcon fontSize="large" />}
             color="success"
-            loading={loading}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
@@ -229,16 +207,14 @@ const StudentDashboard = () => {
             value={safeOverview.current_batch_students}
             icon={<TrendingUpIcon fontSize="large" />}
             color="info"
-            loading={loading}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <StatCard
-            title="Job Seekers"
-            value={safeOverview.job_seekers}
+            title="Inactive Students"
+            value={safeOverview.inactive_students}
             icon={<WorkIcon fontSize="large" />}
             color="warning"
-            loading={loading}
           />
         </Grid>
       </Grid>
@@ -274,27 +250,27 @@ const StudentDashboard = () => {
           </Card>
         </Grid>
 
-        {/* Recent Activity */}
+        {/* System Info */}
         <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                Recent Student Registrations
+                System Information
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                First Join:{" "}
+                Total Batches: {safeOverview.unique_batches}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                First Student Joined:{" "}
                 {safeOverview.first_join_date
                   ? new Date(safeOverview.first_join_date).toLocaleDateString()
                   : "N/A"}
               </Typography>
               <Typography variant="body2" color="textSecondary">
-                Latest Join:{" "}
+                Latest Student Joined:{" "}
                 {safeOverview.latest_join_date
                   ? new Date(safeOverview.latest_join_date).toLocaleDateString()
                   : "N/A"}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
-                Unique Batches: {safeOverview.unique_batches}
               </Typography>
             </CardContent>
           </Card>

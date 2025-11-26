@@ -56,8 +56,8 @@ app.use(
 // Handle preflight requests
 app.options("*", cors());
 
-app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -600,6 +600,52 @@ function cleanExpiredOtps() {
 
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
+
+// -------------------------------------------
+// 🔹 Admin Auth Middleware (Simplified)
+// -------------------------------------------
+const adminAuth = async (req, res, next) => {
+  try {
+    let token = req.header("Authorization");
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "No token provided",
+      });
+    }
+
+    if (token.startsWith("Bearer ")) {
+      token = token.slice(7, token.length);
+    }
+
+    // For admin routes, we'll accept any valid student token for now
+    // In production, you should implement proper admin role checking
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const result = await pool.query(
+      `SELECT id, student_id, email, first_name, last_name, status 
+       FROM students WHERE id = $1`,
+      [decoded.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid admin token",
+      });
+    }
+
+    req.admin = result.rows[0];
+    next();
+  } catch (error) {
+    console.error("Admin auth error:", error.message);
+    res.status(401).json({
+      success: false,
+      message: "Admin authentication failed",
+    });
+  }
+};
 
 // -------------------------------------------
 // 🔹 OTP Routes with Better Error Handling
@@ -2908,9 +2954,7 @@ app.post("/api/student/achievements", auth, async (req, res) => {
   }
 });
 
-
 // ==========================================
-
 
 // ==========================================
 // 🔹 DISCUSSION ROUTES FOR STUDENTS
@@ -3110,8 +3154,6 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
 // 🔹 ADMIN-ONLY ROUTES (Called by Admin Backend)
 // ==========================================
 
-
-
 // ==========================================
 // 🔹 STUDENT FEEDBACK ROUTES
 // ==========================================
@@ -3213,13 +3255,9 @@ app.get("/api/feedback/subtopic/:subtopicId", auth, async (req, res) => {
 // 🔹 ADMIN FEEDBACK ROUTES
 // ==========================================
 
-
-
-
 // ==========================================
 // 🔹 ADMIN STUDENT MANAGEMENT ROUTES
 // ==========================================
-
 
 // ==========================================
 // 🔹 UPDATED ROUTES WITH AUTH INSTEAD OF verifyAdminRequest
@@ -3310,10 +3348,7 @@ app.get("/api/admin/discussions/threads", auth, async (req, res) => {
       countQuery += ` WHERE ` + whereConditions.join(" AND ");
     }
 
-    const countResult = await pool.query(
-      countQuery,
-      queryParams.slice(0, -2)
-    );
+    const countResult = await pool.query(countQuery, queryParams.slice(0, -2));
     const total = parseInt(countResult.rows[0].total);
 
     res.json({
@@ -3467,65 +3502,69 @@ app.post("/api/admin/discussions/replies", auth, async (req, res) => {
 });
 
 // Update thread status (important, resolved, etc.) with auth
-app.put("/api/admin/discussions/threads/:threadId/status", auth, async (req, res) => {
-  try {
-    const { threadId } = req.params;
-    const { status, is_important } = req.body;
+app.put(
+  "/api/admin/discussions/threads/:threadId/status",
+  auth,
+  async (req, res) => {
+    try {
+      const { threadId } = req.params;
+      const { status, is_important } = req.body;
 
-    const updates = [];
-    const values = [];
-    let paramCount = 1;
+      const updates = [];
+      const values = [];
+      let paramCount = 1;
 
-    if (status) {
-      updates.push(`status = $${paramCount}`);
-      values.push(status);
-      paramCount++;
-    }
+      if (status) {
+        updates.push(`status = $${paramCount}`);
+        values.push(status);
+        paramCount++;
+      }
 
-    if (is_important !== undefined) {
-      updates.push(`is_important = $${paramCount}`);
-      values.push(is_important);
-      paramCount++;
-    }
+      if (is_important !== undefined) {
+        updates.push(`is_important = $${paramCount}`);
+        values.push(is_important);
+        paramCount++;
+      }
 
-    if (updates.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No fields to update",
-      });
-    }
+      if (updates.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No fields to update",
+        });
+      }
 
-    values.push(threadId);
+      values.push(threadId);
 
-    const query = `
+      const query = `
       UPDATE discussion_threads 
       SET ${updates.join(", ")}, updated_at = CURRENT_TIMESTAMP
       WHERE id = $${paramCount}
       RETURNING *
     `;
 
-    const result = await pool.query(query, values);
+      const result = await pool.query(query, values);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Thread not found",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Thread status updated successfully",
+        data: { thread: result.rows[0] },
+      });
+    } catch (error) {
+      console.error("Thread status update error:", error.message);
+      res.status(500).json({
         success: false,
-        message: "Thread not found",
+        error: "Failed to update thread status",
       });
     }
-
-    res.json({
-      success: true,
-      message: "Thread status updated successfully",
-      data: { thread: result.rows[0] },
-    });
-  } catch (error) {
-    console.error("Thread status update error:", error.message);
-    res.status(500).json({
-      success: false,
-      error: "Failed to update thread status",
-    });
   }
-});
+);
 
 // Get all feedback with student details (with auth)
 app.get("/api/admin/feedback", auth, async (req, res) => {
@@ -3569,7 +3608,9 @@ app.get("/api/admin/feedback", auth, async (req, res) => {
       paramCount++;
     }
 
-    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(limit, offset);
 
     const result = await pool.query(query, queryParams);
@@ -3681,8 +3722,8 @@ app.get("/api/admin/feedback/stats", auth, async (req, res) => {
   }
 });
 
-// Get all students with pagination and search (with auth)
-app.get("/api/admin/students", auth, async (req, res) => {
+// Get all students with pagination and search - FIXED
+app.get("/api/admin/students", adminAuth, async (req, res) => {
   try {
     const {
       page = 1,
@@ -3691,8 +3732,6 @@ app.get("/api/admin/students", auth, async (req, res) => {
       batchMonth,
       batchYear,
       status,
-      sortBy = "created_at",
-      sortOrder = "DESC",
     } = req.query;
 
     const offset = (page - 1) * limit;
@@ -3701,11 +3740,7 @@ app.get("/api/admin/students", auth, async (req, res) => {
       SELECT 
         id, student_id, email, first_name, last_name, phone,
         profile_image, batch_month, batch_year, is_current_batch,
-        status, join_date, created_at,
-        -- Additional fields for admin view
-        name_on_certificate, gender, 
-        current_coding_level, job_search_status,
-        occupation_status, has_work_experience
+        status, join_date, created_at
       FROM students 
       WHERE 1=1
     `;
@@ -3716,12 +3751,12 @@ app.get("/api/admin/students", auth, async (req, res) => {
 
     // Search filter
     if (search) {
-      const searchCondition = `
-        AND (first_name ILIKE $${paramCount} OR 
-             last_name ILIKE $${paramCount} OR 
-             email ILIKE $${paramCount} OR 
-             student_id ILIKE $${paramCount})
-      `;
+      const searchCondition = ` AND (
+        first_name ILIKE $${paramCount} OR 
+        last_name ILIKE $${paramCount} OR 
+        email ILIKE $${paramCount} OR 
+        student_id ILIKE $${paramCount}
+      )`;
       query += searchCondition;
       countQuery += searchCondition;
       queryParams.push(`%${search}%`);
@@ -3752,23 +3787,15 @@ app.get("/api/admin/students", auth, async (req, res) => {
       paramCount++;
     }
 
-    // Sorting
-    const validSortColumns = [
-      "created_at",
-      "first_name",
-      "last_name",
-      "batch_year",
-      "join_date",
-    ];
-    const sortColumn = validSortColumns.includes(sortBy)
-      ? sortBy
-      : "created_at";
-    const order = sortOrder.toUpperCase() === "ASC" ? "ASC" : "DESC";
-
-    query += ` ORDER BY ${sortColumn} ${order} LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    // Add ordering and pagination
+    query += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(parseInt(limit), offset);
 
-    // Execute queries
+    console.log("Executing query with params:", queryParams);
+
+    // Execute both queries in parallel
     const [studentsResult, countResult] = await Promise.all([
       pool.query(query, queryParams),
       pool.query(countQuery, queryParams.slice(0, -2)), // Remove limit and offset for count
@@ -3778,13 +3805,13 @@ app.get("/api/admin/students", auth, async (req, res) => {
     const baseUrl =
       process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
-    // Format students with full image URLs
+    // Format students with full URLs for images
     const students = studentsResult.rows.map((student) => ({
       ...student,
       profileImage: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
-      fullName: `${student.first_name} ${student.last_name}`,
+      fullName: `${student.first_name} ${student.last_name}`.trim(),
     }));
 
     res.json({
@@ -3803,15 +3830,17 @@ app.get("/api/admin/students", auth, async (req, res) => {
     console.error("Admin students fetch error:", error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch students",
+      error: "Failed to fetch students: " + error.message,
     });
   }
 });
 
-// Get student by ID for admin (with auth)
-app.get("/api/admin/students/:studentId", auth, async (req, res) => {
+// Get student by ID for admin - FIXED
+app.get("/api/admin/students/:studentId", adminAuth, async (req, res) => {
   try {
     const { studentId } = req.params;
+
+    console.log(`Fetching student details for ID: ${studentId}`);
 
     const result = await pool.query(`SELECT * FROM students WHERE id = $1`, [
       studentId,
@@ -3826,8 +3855,7 @@ app.get("/api/admin/students/:studentId", auth, async (req, res) => {
 
     const student = result.rows[0];
     const baseUrl =
-      process.env.BACKEND_URL ||
-      `http://localhost:${process.env.PORT || 5002}`;
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
     // Get student's projects and achievements
     const [projectsResult, achievementsResult] = await Promise.all([
@@ -3846,12 +3874,10 @@ app.get("/api/admin/students/:studentId", auth, async (req, res) => {
       profileImage: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
-      resumeUrl: student.resume_url
-        ? `${baseUrl}${student.resume_url}`
-        : null,
+      resumeUrl: student.resume_url ? `${baseUrl}${student.resume_url}` : null,
       projects: projectsResult.rows,
       achievements: achievementsResult.rows,
-      fullName: `${student.first_name} ${student.last_name}`,
+      fullName: `${student.first_name} ${student.last_name}`.trim(),
     };
 
     res.json({
@@ -3862,368 +3888,18 @@ app.get("/api/admin/students/:studentId", auth, async (req, res) => {
     console.error("Admin student fetch error:", error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch student details",
+      error: "Failed to fetch student details: " + error.message,
     });
   }
 });
 
-// Update student by admin (with auth)
-app.put(
-  "/api/admin/students/:studentId",
-  auth,
-  upload.fields([
-    { name: "profileImage", maxCount: 1 },
-    { name: "resume", maxCount: 1 },
-  ]),
-  async (req, res) => {
-    try {
-      const { studentId } = req.params;
-      console.log(`🔄 Admin updating student: ${studentId}`);
-
-      // Check if student exists
-      const existingStudent = await pool.query(
-        "SELECT * FROM students WHERE id = $1",
-        [studentId]
-      );
-
-      if (existingStudent.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Student not found",
-        });
-      }
-
-      const currentStudent = existingStudent.rows[0];
-
-      // Helper function to parse values
-      const parseValue = (value, type = "string") => {
-        if (value === "" || value === null || value === undefined) {
-          return null;
-        }
-
-        switch (type) {
-          case "int":
-            const intVal = parseInt(value);
-            return isNaN(intVal) ? null : intVal;
-          case "float":
-            const floatVal = parseFloat(value);
-            return isNaN(floatVal) ? null : floatVal;
-          case "boolean":
-            if (typeof value === "boolean") return value;
-            return value === "true" || value === true || value === "1";
-          case "date":
-            if (!value) return null;
-            const date = new Date(value);
-            return isNaN(date.getTime()) ? null : value;
-          case "array":
-            if (Array.isArray(value)) return value;
-            if (typeof value === "string") {
-              try {
-                const parsed = JSON.parse(value);
-                return Array.isArray(parsed) ? parsed : [];
-              } catch (e) {
-                return value
-                  .split(",")
-                  .map((item) => item.trim())
-                  .filter((item) => item);
-              }
-            }
-            return [];
-          default:
-            return value;
-        }
-      };
-
-      // Extract all fields from request body
-      const updateFields = { ...req.body };
-
-      // Handle file uploads
-      let profileImagePath = currentStudent.profile_image;
-      let resumePath = currentStudent.resume_url;
-
-      if (req.files) {
-        if (req.files.profileImage && req.files.profileImage[0]) {
-          profileImagePath = `/uploads/${req.files.profileImage[0].filename}`;
-          // Delete old profile image if exists and is not default
-          if (
-            currentStudent.profile_image &&
-            !currentStudent.profile_image.includes("default")
-          ) {
-            const oldImagePath = path.join(
-              __dirname,
-              currentStudent.profile_image
-            );
-            if (fs.existsSync(oldImagePath)) {
-              fs.unlinkSync(oldImagePath);
-            }
-          }
-        }
-
-        if (req.files.resume && req.files.resume[0]) {
-          resumePath = `/uploads/${req.files.resume[0].filename}`;
-          // Delete old resume if exists
-          if (currentStudent.resume_url) {
-            const oldResumePath = path.join(
-              __dirname,
-              currentStudent.resume_url
-            );
-            if (fs.existsSync(oldResumePath)) {
-              fs.unlinkSync(oldResumePath);
-            }
-          }
-        }
-      }
-
-      // Parse all values
-      const parsedData = {
-        // Basic Details
-        student_id: parseValue(updateFields.studentId),
-        email: parseValue(updateFields.email),
-        first_name: parseValue(updateFields.firstName),
-        last_name: parseValue(updateFields.lastName),
-        phone: parseValue(updateFields.phone),
-        batch_month: parseValue(updateFields.batchMonth),
-        batch_year: parseValue(updateFields.batchYear, "int"),
-        is_current_batch: parseValue(updateFields.isCurrentBatch, "boolean"),
-        status: parseValue(updateFields.status),
-
-        // Personal Details
-        name_on_certificate: parseValue(updateFields.nameOnCertificate),
-        gender: parseValue(updateFields.gender),
-        preferred_languages: parseValue(
-          updateFields.preferredLanguages,
-          "array"
-        ),
-        date_of_birth: parseValue(updateFields.dateOfBirth, "date"),
-        code_playground_username: parseValue(
-          updateFields.codePlaygroundUsername
-        ),
-        linkedin_profile_url: parseValue(updateFields.linkedinProfileUrl),
-        github_profile_url: parseValue(updateFields.githubProfileUrl),
-        hackerrank_profile_url: parseValue(updateFields.hackerrankProfileUrl),
-        leetcode_profile_url: parseValue(updateFields.leetcodeProfileUrl),
-
-        // Parent/Guardian Details
-        parent_first_name: parseValue(updateFields.parentFirstName),
-        parent_last_name: parseValue(updateFields.parentLastName),
-        parent_relation: parseValue(updateFields.parentRelation),
-
-        // Current Address
-        address_line_1: parseValue(updateFields.addressLine1),
-        address_line_2: parseValue(updateFields.addressLine2),
-        country: parseValue(updateFields.country),
-        state: parseValue(updateFields.state),
-        district: parseValue(updateFields.district),
-        city: parseValue(updateFields.city),
-        postal_code: parseValue(updateFields.postalCode),
-
-        // Current Expertise
-        current_coding_level: parseValue(updateFields.currentCodingLevel),
-        technical_skills: parseValue(updateFields.technicalSkills, "array"),
-        has_laptop: parseValue(updateFields.hasLaptop, "boolean"),
-
-        // Job Preferences
-        job_search_status: parseValue(updateFields.jobSearchStatus),
-        preferred_job_locations: parseValue(
-          updateFields.preferredJobLocations,
-          "array"
-        ),
-        expected_ctc_range: parseValue(updateFields.expectedCtcRange),
-        preferred_teaching_language: parseValue(
-          updateFields.preferredTeachingLanguage
-        ),
-        preferred_video_language: parseValue(
-          updateFields.preferredVideoLanguage
-        ),
-
-        // Education Details
-        tenth_marks_type: parseValue(updateFields.tenthMarksType),
-        tenth_marks: parseValue(updateFields.tenthMarks),
-        twelfth_education_type: parseValue(updateFields.twelfthEducationType),
-        twelfth_marks_type: parseValue(updateFields.twelfthMarksType),
-        twelfth_marks: parseValue(updateFields.twelfthMarks),
-        bachelor_degree: parseValue(updateFields.bachelorDegree),
-        bachelor_branch: parseValue(updateFields.bachelorBranch),
-        bachelor_cgpa: parseValue(updateFields.bachelorCgpa),
-        bachelor_start_year: parseValue(updateFields.bachelorStartYear, "int"),
-        bachelor_end_year: parseValue(updateFields.bachelorEndYear, "int"),
-        bachelor_status: parseValue(updateFields.bachelorStatus),
-        bachelor_institute: parseValue(updateFields.bachelorInstitute),
-        bachelor_institute_state: parseValue(
-          updateFields.bachelorInstituteState
-        ),
-        bachelor_institute_city: parseValue(updateFields.bachelorInstituteCity),
-        bachelor_institute_pincode: parseValue(
-          updateFields.bachelorInstitutePincode
-        ),
-        bachelor_institute_district: parseValue(
-          updateFields.bachelorInstituteDistrict
-        ),
-
-        // Work Experience
-        occupation_status: parseValue(updateFields.occupationStatus),
-        has_work_experience: parseValue(
-          updateFields.hasWorkExperience,
-          "boolean"
-        ),
-      };
-
-      // Build dynamic update query
-      const updateFieldsArray = [];
-      const updateValues = [];
-      let paramCount = 1;
-
-      // Add file paths
-      if (profileImagePath !== currentStudent.profile_image) {
-        updateFieldsArray.push(`profile_image = $${paramCount}`);
-        updateValues.push(profileImagePath);
-        paramCount++;
-      }
-
-      if (resumePath !== currentStudent.resume_url) {
-        updateFieldsArray.push(`resume_url = $${paramCount}`);
-        updateValues.push(resumePath);
-        paramCount++;
-      }
-
-      // Add all other fields
-      Object.keys(parsedData).forEach((key) => {
-        if (parsedData[key] !== undefined) {
-          updateFieldsArray.push(`${key} = $${paramCount}`);
-          updateValues.push(parsedData[key]);
-          paramCount++;
-        }
-      });
-
-      // Add updated_at timestamp
-      updateFieldsArray.push(`updated_at = CURRENT_TIMESTAMP`);
-
-      // Add student ID as the last parameter
-      updateValues.push(studentId);
-
-      const updateQuery = `
-        UPDATE students 
-        SET ${updateFieldsArray.join(", ")}
-        WHERE id = $${paramCount}
-        RETURNING *
-      `;
-
-      const result = await pool.query(updateQuery, updateValues);
-      const updatedStudent = result.rows[0];
-
-      // Handle projects if provided
-      if (updateFields.projects) {
-        try {
-          const projectsData =
-            typeof updateFields.projects === "string"
-              ? JSON.parse(updateFields.projects)
-              : updateFields.projects;
-
-          // Delete existing projects
-          await pool.query(
-            "DELETE FROM student_projects WHERE student_id = $1",
-            [studentId]
-          );
-
-          // Insert new projects
-          for (const project of projectsData) {
-            if (project.projectTitle && project.projectTitle.trim()) {
-              const skillsArray = Array.isArray(project.skills)
-                ? project.skills
-                : project.skills
-                ? [project.skills]
-                : [];
-
-              await pool.query(
-                `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
-                 VALUES ($1, $2, $3, $4, $5)`,
-                [
-                  studentId,
-                  project.projectTitle.trim(),
-                  project.projectDescription || "",
-                  project.projectLink || "",
-                  skillsArray,
-                ]
-              );
-            }
-          }
-        } catch (parseError) {
-          console.error("Error parsing projects:", parseError.message);
-        }
-      }
-
-      // Handle achievements if provided
-      if (updateFields.achievements) {
-        try {
-          const achievementsData =
-            typeof updateFields.achievements === "string"
-              ? JSON.parse(updateFields.achievements)
-              : updateFields.achievements;
-
-          // Delete existing achievements
-          await pool.query(
-            "DELETE FROM student_achievements WHERE student_id = $1",
-            [studentId]
-          );
-
-          // Insert new achievements
-          for (const achievement of achievementsData) {
-            if (
-              achievement.achievementTitle &&
-              achievement.achievementTitle.trim()
-            ) {
-              await pool.query(
-                `INSERT INTO student_achievements (student_id, achievement_title, achievement_description, achievement_link, achievement_date)
-                 VALUES ($1, $2, $3, $4, $5)`,
-                [
-                  studentId,
-                  achievement.achievementTitle.trim(),
-                  achievement.achievementDescription || "",
-                  achievement.achievementLink || "",
-                  achievement.achievementDate || null,
-                ]
-              );
-            }
-          }
-        } catch (parseError) {
-          console.error("Error parsing achievements:", parseError.message);
-        }
-      }
-
-      const baseUrl =
-        process.env.BACKEND_URL ||
-        `http://localhost:${process.env.PORT || 5002}`;
-
-      const studentResponse = {
-        ...updatedStudent,
-        profileImage: updatedStudent.profile_image
-          ? `${baseUrl}${updatedStudent.profile_image}`
-          : null,
-        resumeUrl: updatedStudent.resume_url
-          ? `${baseUrl}${updatedStudent.resume_url}`
-          : null,
-        fullName: `${updatedStudent.first_name} ${updatedStudent.last_name}`,
-      };
-
-      res.json({
-        success: true,
-        message: "Student updated successfully",
-        data: { student: studentResponse },
-      });
-    } catch (error) {
-      console.error("Admin student update error:", error.message);
-      res.status(500).json({
-        success: false,
-        error: "Failed to update student",
-      });
-    }
-  }
-);
-
-// Delete student (with auth)
-app.delete("/api/admin/students/:studentId", auth, async (req, res) => {
+// Update student by admin - FIXED
+app.put("/api/admin/students/:studentId", adminAuth, async (req, res) => {
   try {
     const { studentId } = req.params;
+    const updateData = req.body;
+
+    console.log(`Updating student ${studentId} with data:`, updateData);
 
     // Check if student exists
     const existingStudent = await pool.query(
@@ -4238,21 +3914,101 @@ app.delete("/api/admin/students/:studentId", auth, async (req, res) => {
       });
     }
 
-    const student = existingStudent.rows[0];
+    // Build dynamic update query
+    const updateFields = [];
+    const updateValues = [];
+    let paramCount = 1;
 
-    // Delete student's files if they exist
-    if (student.profile_image && !student.profile_image.includes("default")) {
-      const imagePath = path.join(__dirname, student.profile_image);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
+    const allowedFields = [
+      "student_id",
+      "email",
+      "first_name",
+      "last_name",
+      "phone",
+      "batch_month",
+      "batch_year",
+      "is_current_batch",
+      "status",
+      "name_on_certificate",
+      "gender",
+      "date_of_birth",
+    ];
+
+    allowedFields.forEach((field) => {
+      if (updateData[field] !== undefined) {
+        updateFields.push(`${field} = $${paramCount}`);
+        updateValues.push(updateData[field]);
+        paramCount++;
       }
+    });
+
+    if (updateFields.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No valid fields to update",
+      });
     }
 
-    if (student.resume_url) {
-      const resumePath = path.join(__dirname, student.resume_url);
-      if (fs.existsSync(resumePath)) {
-        fs.unlinkSync(resumePath);
-      }
+    // Add updated_at timestamp
+    updateFields.push(`updated_at = CURRENT_TIMESTAMP`);
+
+    // Add student ID as the last parameter
+    updateValues.push(studentId);
+
+    const updateQuery = `
+      UPDATE students 
+      SET ${updateFields.join(", ")}
+      WHERE id = $${paramCount}
+      RETURNING *
+    `;
+
+    const result = await pool.query(updateQuery, updateValues);
+    const updatedStudent = result.rows[0];
+
+    const baseUrl =
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
+    const studentResponse = {
+      ...updatedStudent,
+      profileImage: updatedStudent.profile_image
+        ? `${baseUrl}${updatedStudent.profile_image}`
+        : null,
+      fullName:
+        `${updatedStudent.first_name} ${updatedStudent.last_name}`.trim(),
+    };
+
+    res.json({
+      success: true,
+      message: "Student updated successfully",
+      data: { student: studentResponse },
+    });
+  } catch (error) {
+    console.error("Admin student update error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to update student: " + error.message,
+    });
+  }
+});
+
+// Delete student - FIXED
+app.delete("/api/admin/students/:studentId", adminAuth, async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    console.log(`Deleting student: ${studentId}`);
+
+    // Check if student exists
+    const existingStudent = await pool.query(
+      "SELECT * FROM students WHERE id = $1",
+      [studentId]
+    );
+
+    if (existingStudent.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found",
+      });
     }
 
     // Delete student (cascade will handle related records)
@@ -4266,13 +4022,13 @@ app.delete("/api/admin/students/:studentId", auth, async (req, res) => {
     console.error("Admin student delete error:", error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to delete student",
+      error: "Failed to delete student: " + error.message,
     });
   }
 });
 
-// Get student statistics for admin dashboard (with auth)
-app.get("/api/admin/students/stats", auth, async (req, res) => {
+// Get student statistics for admin dashboard - FIXED
+app.get("/api/admin/students/stats", adminAuth, async (req, res) => {
   try {
     const statsQuery = `
       SELECT 
@@ -4280,8 +4036,6 @@ app.get("/api/admin/students/stats", auth, async (req, res) => {
         COUNT(CASE WHEN status = 'active' THEN 1 END) as active_students,
         COUNT(CASE WHEN status = 'inactive' THEN 1 END) as inactive_students,
         COUNT(CASE WHEN is_current_batch = true THEN 1 END) as current_batch_students,
-        COUNT(CASE WHEN has_work_experience = true THEN 1 END) as experienced_students,
-        COUNT(CASE WHEN job_search_status = 'actively_looking' THEN 1 END) as job_seekers,
         COUNT(DISTINCT batch_year) as unique_batches,
         TO_CHAR(MIN(created_at), 'YYYY-MM-DD') as first_join_date,
         TO_CHAR(MAX(created_at), 'YYYY-MM-DD') as latest_join_date
@@ -4300,42 +4054,36 @@ app.get("/api/admin/students/stats", auth, async (req, res) => {
       LIMIT 10
     `;
 
-    const monthlyStatsQuery = `
-      SELECT 
-        DATE_TRUNC('month', created_at) as month,
-        COUNT(*) as new_students
-      FROM students 
-      WHERE created_at >= CURRENT_DATE - INTERVAL '12 months'
-      GROUP BY DATE_TRUNC('month', created_at)
-      ORDER BY month DESC
-      LIMIT 12
-    `;
+    const [statsResult, batchStatsResult] = await Promise.all([
+      pool.query(statsQuery),
+      pool.query(batchStatsQuery),
+    ]);
 
-    const [statsResult, batchStatsResult, monthlyStatsResult] =
-      await Promise.all([
-        pool.query(statsQuery),
-        pool.query(batchStatsQuery),
-        pool.query(monthlyStatsQuery),
-      ]);
+    const stats = statsResult.rows[0] || {
+      total_students: 0,
+      active_students: 0,
+      inactive_students: 0,
+      current_batch_students: 0,
+      unique_batches: 0,
+      first_join_date: null,
+      latest_join_date: null,
+    };
 
     res.json({
       success: true,
       data: {
-        overview: statsResult.rows[0],
+        overview: stats,
         batchStats: batchStatsResult.rows,
-        monthlyStats: monthlyStatsResult.rows,
       },
     });
   } catch (error) {
     console.error("Admin student stats error:", error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch student statistics",
+      error: "Failed to fetch student statistics: " + error.message,
     });
   }
 });
-
-
 // Handle 404 routes
 app.use("*", (req, res) => {
   res.status(404).json({

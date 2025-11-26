@@ -68,16 +68,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       explanation:
         "The correct function is linear-gradient(), and direction keywords like 'to bottom' come first.",
     },
-    {
-      id: "default_direction",
-      section: "Linear Gradient Direction",
-      question:
-        "What is the default direction of a linear gradient if no direction is specified?",
-      options: ["to right", "to bottom", "to left", "to top"],
-      answer: "to bottom",
-      explanation:
-        "If you write linear-gradient(red, blue), it defaults to top → bottom (to bottom).",
-    },
+
     {
       id: "radial_gradient",
       section: "Radial Gradient",
@@ -86,31 +77,6 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       answer: "circle",
       explanation:
         "Use radial-gradient(circle, ...) for perfect circles. Without 'circle', it defaults to ellipse.",
-    },
-    {
-      id: "multiple_colors",
-      section: "Multiple Colors",
-      question: "How do you create a rainbow gradient from left to right?",
-      options: [
-        "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
-        "linear-gradient(rainbow)",
-        "background: rainbow;",
-        "linear-gradient(colors: red orange yellow...)",
-      ],
-      answer:
-        "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)",
-      explanation:
-        "Just list all colors separated by commas inside linear-gradient() with direction.",
-    },
-    {
-      id: "modal_trigger",
-      section: "Bootstrap Modal",
-      question:
-        "Which attribute opens a Bootstrap modal when a button is clicked?",
-      options: ["data-bs-toggle", "data-open", "onclick", "modal-trigger"],
-      answer: "data-bs-toggle",
-      explanation:
-        'data-bs-toggle="modal" + data-bs-target="#modalId" is required to trigger a Bootstrap 5 modal.',
     },
   ];
 
@@ -158,7 +124,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
       <section>
         <h2>2. Gradients</h2>
         <p>
-          A <strong>gradient</strong> is a smooth transition between two or more
+          A <code>gradient</code> is a smooth transition between two or more
           colors. In CSS, gradients are used as background images to create
           visually appealing transitions without using actual image files.
         </p>
@@ -174,7 +140,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 
         <h3>2.1 Linear Gradient</h3>
         <p>
-          A <strong>linear gradient</strong> creates a smooth transition between
+          A <code>linear gradient</code> creates a smooth transition between
           colors along a straight line — horizontally, vertically, or
           diagonally.
         </p>
@@ -190,7 +156,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           The above code creates a gradient that smoothly transitions from{" "}
           <strong>#ff7e5f</strong> (top) to <strong>#feb47b</strong> (bottom).
         </p>
-
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
         <h4>2.1.1 Changing Direction</h4>
         <p>
           You can control the direction of the gradient using keywords like
@@ -276,9 +242,8 @@ background: linear-gradient(to right, red, orange, yellow, green, blue);;
 
         <h3>2.2 Radial Gradient</h3>
         <p>
-          A <strong>radial gradient</strong> creates a color transition
-          radiating outward from a center point in a circular or elliptical
-          shape.
+          A <code>radial gradient</code> creates a color transition radiating
+          outward from a center point in a circular or elliptical shape.
         </p>
 
         <p>
@@ -301,6 +266,7 @@ background: radial-gradient(circle, #ff7e5f, #feb47b);
           <strong>#ff7e5f</strong> at the center and fades out to{" "}
           <strong>#feb47b</strong> at the edges.
         </p>
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
         <h4>2.2.1 More than Two Colors</h4>
         <p>
@@ -326,31 +292,6 @@ background: radial-gradient(circle, red, yellow, green, blue);
           This example creates a colorful circular gradient starting from red in
           the center and transitioning outward to blue.
         </p>
-      </section>
-
-      {/* 4. Food Munch Website Code */}
-      <section>
-        <h2>3. Food Munch Website Example</h2>
-        <p>Example container using Bootstrap:</p>
-        <CodeBlock
-          language="html"
-          code={`<div class="container">
-  <h2>Food Munch</h2>
-  <p>Delicious meals delivered to your doorstep.</p>
-</div>`}
-        />
-      </section>
-      {/* MCQs - NOW CLEAN, CONSISTENT & EDUCATIONAL */}
-      <section>
-        <h3>MCQs</h3>
-        {mcqs.map((mcq) => (
-          <MCQBlock
-            key={mcq.id}
-            mcq={mcq}
-            answers={mcqAnswers}
-            onAnswer={handleAnswer}
-          />
-        ))}
       </section>
 
       {/* Continue Button */}

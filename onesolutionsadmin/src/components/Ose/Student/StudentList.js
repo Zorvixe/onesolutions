@@ -24,6 +24,8 @@ import {
   DialogTitle,
   Alert,
   Pagination,
+  CircularProgress,
+  Avatar,
 } from "@mui/material";
 import {
   Edit as EditIcon,
@@ -38,11 +40,13 @@ const API_BASE_URL = "https://api.onesolutionsekam.in";
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [deleteDialog, setDeleteDialog] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(
+    localStorage.getItem("adminToken") || localStorage.getItem("token")
+  );
 
   const [filters, setFilters] = useState({
     search: "",
@@ -50,14 +54,12 @@ const StudentList = () => {
     batchYear: "",
     status: "",
     page: 1,
-    limit: 20,
-    sortBy: "created_at",
-    sortOrder: "DESC",
+    limit: 10,
   });
 
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 20,
+    limit: 10,
     total: 0,
     pages: 1,
   });
@@ -66,6 +68,7 @@ const StudentList = () => {
     setLoading(true);
     setError("");
     try {
+      // Build query parameters
       const params = new URLSearchParams();
       Object.keys(filters).forEach((key) => {
         if (filters[key]) {
@@ -73,34 +76,39 @@ const StudentList = () => {
         }
       });
 
+      console.log(
+        "Fetching students from:",
+        `${API_BASE_URL}/api/admin/students?${params}`
+      );
+
       const response = await fetch(
-        `${API_BASE_URL}/api/admin/students?${params.toString()}`,
+        `${API_BASE_URL}/api/admin/students?${params}`,
         {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
       if (!response.ok) {
         if (response.status === 401) {
-          localStorage.removeItem("adminToken");
-          localStorage.removeItem("adminApiKey");
-          window.location.href = "/admin/login";
+          setError("Authentication failed. Please login again.");
           return;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const result = await response.json();
+      console.log("API Response:", result);
 
       if (result.success) {
         setStudents(result.data.students || []);
         setPagination(
           result.data.pagination || {
             page: 1,
-            limit: 20,
+            limit: 10,
             total: 0,
             pages: 1,
           }
@@ -110,7 +118,7 @@ const StudentList = () => {
       }
     } catch (err) {
       console.error("Error fetching students:", err);
-      setError("Failed to fetch students");
+      setError(err.message || "Failed to fetch students. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -124,6 +132,7 @@ const StudentList = () => {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -137,7 +146,7 @@ const StudentList = () => {
       if (result.success) {
         setSuccess("Student deleted successfully");
         setDeleteDialog(null);
-        fetchStudents();
+        fetchStudents(); // Refresh the list
       } else {
         throw new Error(result.message || "Failed to delete student");
       }
@@ -149,7 +158,7 @@ const StudentList = () => {
 
   useEffect(() => {
     fetchStudents();
-  }, [filters]);
+  }, [filters.page, filters.limit]);
 
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({
@@ -173,18 +182,25 @@ const StudentList = () => {
       batchYear: "",
       status: "",
       page: 1,
-      limit: 20,
-      sortBy: "created_at",
-      sortOrder: "DESC",
+      limit: 10,
     });
   };
 
+  const applyFilters = () => {
+    setFilters((prev) => ({
+      ...prev,
+      page: 1, // Reset to first page
+    }));
+  };
+
   const getStatusColor = (status) => {
-    switch (status) {
+    switch (status?.toLowerCase()) {
       case "active":
         return "success";
       case "inactive":
         return "error";
+      case "pending":
+        return "warning";
       default:
         return "default";
     }
@@ -192,7 +208,23 @@ const StudentList = () => {
 
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
-    return new Date(dateString).toLocaleDateString();
+    try {
+      return new Date(dateString).toLocaleDateString("en-IN", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
+    } catch (error) {
+      return "Invalid Date";
+    }
+  };
+
+  const getDisplayName = (student) => {
+    return (
+      student.fullName ||
+      `${student.first_name || ""} ${student.last_name || ""}`.trim() ||
+      "Unknown Student"
+    );
   };
 
   return (
@@ -208,13 +240,16 @@ const StudentList = () => {
             <Typography variant="h5" component="h2">
               Student Management
             </Typography>
-            <Button
-              variant="outlined"
-              startIcon={<RefreshIcon />}
-              onClick={fetchStudents}
-            >
-              Refresh
-            </Button>
+            <Box display="flex" gap={1}>
+              <Button
+                variant="outlined"
+                startIcon={<RefreshIcon />}
+                onClick={fetchStudents}
+                disabled={loading}
+              >
+                {loading ? "Refreshing..." : "Refresh"}
+              </Button>
+            </Box>
           </Box>
 
           {error && (
@@ -239,7 +274,7 @@ const StudentList = () => {
                 <FilterIcon sx={{ mr: 1, verticalAlign: "middle" }} />
                 Filters
               </Typography>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} md={3}>
                   <TextField
                     fullWidth
@@ -254,6 +289,7 @@ const StudentList = () => {
                         <SearchIcon color="action" sx={{ mr: 1 }} />
                       ),
                     }}
+                    disabled={loading}
                   />
                 </Grid>
                 <Grid item xs={12} md={2}>
@@ -265,6 +301,7 @@ const StudentList = () => {
                     onChange={(e) =>
                       handleFilterChange("batchMonth", e.target.value)
                     }
+                    disabled={loading}
                   >
                     <MenuItem value="">All Months</MenuItem>
                     <MenuItem value="January">January</MenuItem>
@@ -290,9 +327,10 @@ const StudentList = () => {
                     onChange={(e) =>
                       handleFilterChange("batchYear", e.target.value)
                     }
+                    disabled={loading}
                   >
                     <MenuItem value="">All Years</MenuItem>
-                    {[2023, 2024, 2025].map((year) => (
+                    {[2023, 2024, 2025, 2026].map((year) => (
                       <MenuItem key={year} value={year}>
                         {year}
                       </MenuItem>
@@ -308,6 +346,7 @@ const StudentList = () => {
                     onChange={(e) =>
                       handleFilterChange("status", e.target.value)
                     }
+                    disabled={loading}
                   >
                     <MenuItem value="">All Status</MenuItem>
                     <MenuItem value="active">Active</MenuItem>
@@ -316,8 +355,19 @@ const StudentList = () => {
                 </Grid>
                 <Grid item xs={12} md={3}>
                   <Box display="flex" gap={1}>
-                    <Button variant="outlined" onClick={clearFilters} fullWidth>
-                      Clear Filters
+                    <Button
+                      variant="outlined"
+                      onClick={clearFilters}
+                      disabled={loading}
+                    >
+                      Clear
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={applyFilters}
+                      disabled={loading}
+                    >
+                      Apply Filters
                     </Button>
                   </Box>
                 </Grid>
@@ -333,6 +383,7 @@ const StudentList = () => {
                   <TableCell>Student ID</TableCell>
                   <TableCell>Name</TableCell>
                   <TableCell>Email</TableCell>
+                  <TableCell>Phone</TableCell>
                   <TableCell>Batch</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Join Date</TableCell>
@@ -343,65 +394,108 @@ const StudentList = () => {
               <TableBody>
                 {loading ? (
                   <TableRow>
-                    <TableCell colSpan={8} align="center">
-                      Loading...
+                    <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                      >
+                        <CircularProgress />
+                        <Typography variant="body2" sx={{ mt: 2 }}>
+                          Loading students...
+                        </Typography>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ) : students.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={8} align="center">
-                      No students found
+                    <TableCell colSpan={9} align="center" sx={{ py: 4 }}>
+                      <Typography
+                        variant="h6"
+                        color="textSecondary"
+                        gutterBottom
+                      >
+                        No students found
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary">
+                        {filters.search ||
+                        filters.batchMonth ||
+                        filters.batchYear ||
+                        filters.status
+                          ? "Try adjusting your filters to see more results."
+                          : "There are no students in the system yet."}
+                      </Typography>
                     </TableCell>
                   </TableRow>
                 ) : (
                   students.map((student) => (
-                    <TableRow key={student.id}>
+                    <TableRow
+                      key={student.id}
+                      hover
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                        opacity: student.status === "inactive" ? 0.7 : 1,
+                      }}
+                    >
                       <TableCell>
-                        <Typography variant="body2" fontWeight="bold">
-                          {student.student_id || "N/A"}
+                        <Typography
+                          variant="body2"
+                          fontWeight="bold"
+                          color="primary"
+                        >
+                          {student.student_id}
                         </Typography>
                       </TableCell>
                       <TableCell>
                         <Box display="flex" alignItems="center">
-                          {student.profileImage && (
-                            <img
-                              src={student.profileImage}
-                              alt={student.fullName}
-                              style={{
-                                width: 40,
-                                height: 40,
-                                borderRadius: "50%",
-                                marginRight: 12,
-                                objectFit: "cover",
-                              }}
-                            />
-                          )}
+                          <Avatar
+                            src={student.profileImage}
+                            alt={getDisplayName(student)}
+                            sx={{ width: 40, height: 40, mr: 2 }}
+                          >
+                            {getDisplayName(student).charAt(0).toUpperCase()}
+                          </Avatar>
                           <Box>
                             <Typography variant="body2" fontWeight="medium">
-                              {student.fullName ||
-                                `${student.first_name || ""} ${
-                                  student.last_name || ""
-                                }`}
-                            </Typography>
-                            <Typography variant="caption" color="textSecondary">
-                              {student.phone || "No phone"}
+                              {getDisplayName(student)}
                             </Typography>
                           </Box>
                         </Box>
                       </TableCell>
-                      <TableCell>{student.email || "N/A"}</TableCell>
                       <TableCell>
-                        {student.batch_month || "N/A"}{" "}
-                        {student.batch_year || ""}
+                        <Typography variant="body2">
+                          {student.email || "N/A"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body2">
+                          {student.phone || "N/A"}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body2">
+                          {student.batch_month && student.batch_year
+                            ? `${student.batch_month} ${student.batch_year}`
+                            : "N/A"}
+                        </Typography>
                       </TableCell>
                       <TableCell>
                         <Chip
-                          label={student.status || "unknown"}
+                          label={
+                            student.status
+                              ? student.status.charAt(0).toUpperCase() +
+                                student.status.slice(1)
+                              : "Unknown"
+                          }
                           color={getStatusColor(student.status)}
                           size="small"
                         />
                       </TableCell>
-                      <TableCell>{formatDate(student.join_date)}</TableCell>
+                      <TableCell>
+                        <Typography variant="body2">
+                          {formatDate(student.join_date || student.created_at)}
+                        </Typography>
+                      </TableCell>
                       <TableCell>
                         <Chip
                           label={student.is_current_batch ? "Yes" : "No"}
@@ -409,6 +503,7 @@ const StudentList = () => {
                             student.is_current_batch ? "success" : "default"
                           }
                           size="small"
+                          variant="outlined"
                         />
                       </TableCell>
                       <TableCell>
@@ -422,6 +517,7 @@ const StudentList = () => {
                                 "_blank"
                               )
                             }
+                            title="View Student"
                           >
                             <ViewIcon />
                           </IconButton>
@@ -434,6 +530,7 @@ const StudentList = () => {
                                 "_blank"
                               )
                             }
+                            title="Edit Student"
                           >
                             <EditIcon />
                           </IconButton>
@@ -441,6 +538,7 @@ const StudentList = () => {
                             size="small"
                             color="error"
                             onClick={() => setDeleteDialog(student)}
+                            title="Delete Student"
                           >
                             <DeleteIcon />
                           </IconButton>
@@ -454,13 +552,14 @@ const StudentList = () => {
           </TableContainer>
 
           {/* Pagination */}
-          {pagination.pages > 1 && (
+          {!loading && pagination.pages > 1 && (
             <Box display="flex" justifyContent="center" mt={3}>
               <Pagination
                 count={pagination.pages}
                 page={pagination.page}
                 onChange={handlePageChange}
                 color="primary"
+                disabled={loading}
               />
             </Box>
           )}
@@ -468,24 +567,31 @@ const StudentList = () => {
       </Card>
 
       {/* Delete Confirmation Dialog */}
-      <Dialog open={!!deleteDialog} onClose={() => setDeleteDialog(null)}>
+      <Dialog
+        open={!!deleteDialog}
+        onClose={() => setDeleteDialog(null)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Delete Student</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Are you sure you want to delete student "
-            {deleteDialog?.fullName || deleteDialog?.first_name}"? This action
-            cannot be undone and will permanently delete all their data
-            including projects and achievements.
+            {deleteDialog ? getDisplayName(deleteDialog) : ""}"? This action
+            cannot be undone and will permanently delete all their data.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialog(null)}>Cancel</Button>
+          <Button onClick={() => setDeleteDialog(null)} disabled={loading}>
+            Cancel
+          </Button>
           <Button
-            onClick={() => handleDeleteStudent(deleteDialog.id)}
+            onClick={() => handleDeleteStudent(deleteDialog?.id)}
             color="error"
             variant="contained"
+            disabled={loading}
           >
-            Delete
+            {loading ? "Deleting..." : "Delete"}
           </Button>
         </DialogActions>
       </Dialog>
