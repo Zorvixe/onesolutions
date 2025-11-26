@@ -3722,7 +3722,11 @@ app.get("/api/admin/feedback/stats", auth, async (req, res) => {
   }
 });
 
-// Get all students with pagination and search - FIXED
+// ==========================================
+// 🔹 STUDENT MANAGEMENT ROUTES (UPDATED)
+// ==========================================
+
+// Get all students with pagination and search - FIXED VERSION
 app.get("/api/admin/students", adminAuth, async (req, res) => {
   try {
     const {
@@ -3736,11 +3740,14 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let query = `
+    // Build base query
+    let baseQuery = `
       SELECT 
         id, student_id, email, first_name, last_name, phone,
         profile_image, batch_month, batch_year, is_current_batch,
-        status, join_date, created_at
+        status, join_date, created_at,
+        name_on_certificate, gender, current_coding_level,
+        occupation_status, has_work_experience
       FROM students 
       WHERE 1=1
     `;
@@ -3750,56 +3757,58 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     let paramCount = 1;
 
     // Search filter
-    if (search) {
+    if (search && search.trim() !== "") {
       const searchCondition = ` AND (
         first_name ILIKE $${paramCount} OR 
         last_name ILIKE $${paramCount} OR 
         email ILIKE $${paramCount} OR 
         student_id ILIKE $${paramCount}
       )`;
-      query += searchCondition;
+      baseQuery += searchCondition;
       countQuery += searchCondition;
       queryParams.push(`%${search}%`);
       paramCount++;
     }
 
     // Batch month filter
-    if (batchMonth) {
-      query += ` AND batch_month = $${paramCount}`;
+    if (batchMonth && batchMonth !== "") {
+      baseQuery += ` AND batch_month = $${paramCount}`;
       countQuery += ` AND batch_month = $${paramCount}`;
       queryParams.push(batchMonth);
       paramCount++;
     }
 
     // Batch year filter
-    if (batchYear) {
-      query += ` AND batch_year = $${paramCount}`;
+    if (batchYear && batchYear !== "") {
+      baseQuery += ` AND batch_year = $${paramCount}`;
       countQuery += ` AND batch_year = $${paramCount}`;
       queryParams.push(parseInt(batchYear));
       paramCount++;
     }
 
     // Status filter
-    if (status) {
-      query += ` AND status = $${paramCount}`;
+    if (status && status !== "") {
+      baseQuery += ` AND status = $${paramCount}`;
       countQuery += ` AND status = $${paramCount}`;
       queryParams.push(status);
       paramCount++;
     }
 
     // Add ordering and pagination
-    query += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
       paramCount + 1
     }`;
     queryParams.push(parseInt(limit), offset);
 
-    console.log("Executing query with params:", queryParams);
+    console.log("Student Query:", baseQuery);
+    console.log("Query Params:", queryParams);
 
-    // Execute both queries in parallel
-    const [studentsResult, countResult] = await Promise.all([
-      pool.query(query, queryParams),
-      pool.query(countQuery, queryParams.slice(0, -2)), // Remove limit and offset for count
-    ]);
+    // Execute queries
+    const studentsResult = await pool.query(baseQuery, queryParams);
+
+    // For count query, remove the limit and offset parameters
+    const countParams = queryParams.slice(0, -2);
+    const countResult = await pool.query(countQuery, countParams);
 
     const total = parseInt(countResult.rows[0]?.total || 0);
     const baseUrl =
@@ -3807,25 +3816,44 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
 
     // Format students with full URLs for images
     const students = studentsResult.rows.map((student) => ({
-      ...student,
-      profileImage: student.profile_image
+      id: student.id,
+      student_id: student.student_id,
+      email: student.email,
+      first_name: student.first_name,
+      last_name: student.last_name,
+      phone: student.phone,
+      profile_image: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
-      fullName: `${student.first_name} ${student.last_name}`.trim(),
+      batch_month: student.batch_month,
+      batch_year: student.batch_year,
+      is_current_batch: student.is_current_batch,
+      status: student.status || "active",
+      join_date: student.join_date,
+      created_at: student.created_at,
+      name_on_certificate: student.name_on_certificate,
+      gender: student.gender,
+      current_coding_level: student.current_coding_level,
+      occupation_status: student.occupation_status,
+      has_work_experience: student.has_work_experience,
+      fullName: `${student.first_name || ""} ${student.last_name || ""}`.trim(),
     }));
 
-    res.json({
+    const response = {
       success: true,
       data: {
-        students,
+        students: students,
         pagination: {
           page: parseInt(page),
           limit: parseInt(limit),
-          total,
+          total: total,
           pages: Math.ceil(total / limit),
         },
       },
-    });
+    };
+
+    console.log("Sending response with", students.length, "students");
+    res.json(response);
   } catch (error) {
     console.error("Admin students fetch error:", error.message);
     res.status(500).json({
@@ -3893,7 +3921,7 @@ app.get("/api/admin/students/:studentId", adminAuth, async (req, res) => {
   }
 });
 
-// Update student by admin - FIXED
+// Update student by admin - SIMPLIFIED
 app.put("/api/admin/students/:studentId", adminAuth, async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -3931,7 +3959,6 @@ app.put("/api/admin/students/:studentId", adminAuth, async (req, res) => {
       "status",
       "name_on_certificate",
       "gender",
-      "date_of_birth",
     ];
 
     allowedFields.forEach((field) => {
@@ -4027,7 +4054,7 @@ app.delete("/api/admin/students/:studentId", adminAuth, async (req, res) => {
   }
 });
 
-// Get student statistics for admin dashboard - FIXED
+// Get student statistics for admin dashboard
 app.get("/api/admin/students/stats", adminAuth, async (req, res) => {
   try {
     const statsQuery = `
