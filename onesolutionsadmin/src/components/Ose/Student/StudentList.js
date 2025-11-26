@@ -1,7 +1,8 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import "./StudentList.css"; // We'll create this CSS file
+import "./StudentList.css";
+import AdminAuthModal from "../AdminAuthModal/AdminAuthModal";
+import { useAdminAuth } from "../AdminAuthModal/useAdminAuth";
 
 const API_BASE_URL = "https://api.onesolutionsekam.in";
 
@@ -19,7 +20,6 @@ const StudentList = () => {
     status: "active",
   });
   const [editingStudent, setEditingStudent] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token"));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -32,26 +32,40 @@ const StudentList = () => {
     status: "",
   });
 
+  // Admin Auth - FIXED: Use the hook properly
+  const { 
+    isAuthenticated, 
+    showAuthModal, 
+    loading: authLoading, 
+    setShowAuthModal, 
+    handleAuthSuccess 
+  } = useAdminAuth();
+
+  // Get token from localStorage
+  const getToken = () => {
+    return localStorage.getItem('adminToken') || localStorage.getItem('token');
+  };
+
   useEffect(() => {
-    fetchStudents();
-  }, [filters]);
+    if (isAuthenticated) {
+      fetchStudents();
+    }
+  }, [filters, isAuthenticated]);
 
   const fetchStudents = async () => {
+    if (!isAuthenticated) return;
+    
     setLoading(true);
     setError("");
     try {
-      // Build query parameters
       const params = new URLSearchParams();
-      Object.keys(filters).forEach((key) => {
-        if (filters[key]) {
-          params.append(key, filters[key]);
-        }
-      });
+      if (filters.search) params.append('search', filters.search);
+      if (filters.batchMonth) params.append('batchMonth', filters.batchMonth);
+      if (filters.batchYear) params.append('batchYear', filters.batchYear);
+      if (filters.status) params.append('status', filters.status);
 
-      console.log(
-        "Fetching students from:",
-        `${API_BASE_URL}/api/admin/students?${params}`
-      );
+      const token = getToken();
+      console.log('Fetching students with token:', token ? 'Present' : 'Missing');
 
       const response = await fetch(
         `${API_BASE_URL}/api/admin/students?${params}`,
@@ -65,6 +79,9 @@ const StudentList = () => {
       );
 
       if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Authentication failed. Please login again.");
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
@@ -79,6 +96,12 @@ const StudentList = () => {
     } catch (err) {
       console.error("Error fetching students:", err);
       setError(err.message || "Failed to fetch students. Please try again.");
+      
+      // If authentication failed, show auth modal again
+      if (err.message.includes('Authentication failed') || err.message.includes('401')) {
+        localStorage.removeItem('adminAuth');
+        setShowAuthModal(true);
+      }
     } finally {
       setLoading(false);
     }
@@ -86,7 +109,11 @@ const StudentList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+
     try {
+      const token = getToken();
       const url = editingStudent
         ? `${API_BASE_URL}/api/admin/students/${editingStudent.id}`
         : `${API_BASE_URL}/api/admin/students`;
@@ -102,33 +129,29 @@ const StudentList = () => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setSuccess(
-            editingStudent
-              ? "Student updated successfully"
-              : "Student created successfully"
-          );
-          closeModal();
-          setFormData({
-            student_id: "",
-            email: "",
-            first_name: "",
-            last_name: "",
-            phone: "",
-            batch_month: "",
-            batch_year: "",
-            status: "active",
-          });
-          setEditingStudent(null);
-          fetchStudents();
-        } else {
-          throw new Error(result.message || "Failed to save student");
-        }
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSuccess(
+          editingStudent
+            ? "Student updated successfully"
+            : "Student created successfully"
+        );
+        closeModal();
+        setFormData({
+          student_id: "",
+          email: "",
+          first_name: "",
+          last_name: "",
+          phone: "",
+          batch_month: "",
+          batch_year: "",
+          status: "active",
+        });
+        setEditingStudent(null);
+        fetchStudents(); // Refresh the list
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to save student");
+        throw new Error(result.message || result.error || "Failed to save student");
       }
     } catch (error) {
       console.error("Error saving student:", error);
@@ -136,6 +159,7 @@ const StudentList = () => {
     }
   };
 
+  // Add this function to handle student creation
   const showCreateModal = () => {
     setEditingStudent(null);
     setFormData({
@@ -149,8 +173,11 @@ const StudentList = () => {
       status: "active",
     });
     setIsModalOpen(true);
+    setError("");
+    setSuccess("");
   };
 
+  // Update the handleEdit function
   const handleEdit = (student) => {
     console.log("Editing student:", student);
     setEditingStudent(student);
@@ -165,18 +192,21 @@ const StudentList = () => {
       status: student.status || "active",
     });
     setIsModalOpen(true);
+    setError("");
+    setSuccess("");
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
     setError("");
+    setEditingStudent(null);
   };
 
   const handleDelete = async (studentId) => {
-    if (!window.confirm("Are you sure you want to delete this student?"))
-      return;
+    if (!window.confirm("Are you sure you want to delete this student?")) return;
 
     try {
+      const token = getToken();
       const response = await fetch(
         `${API_BASE_URL}/api/admin/students/${studentId}`,
         {
@@ -187,23 +217,21 @@ const StudentList = () => {
         }
       );
 
-      if (response.ok) {
-        const result = await response.json();
-        if (result.success) {
-          setSuccess("Student deleted successfully");
-          fetchStudents();
-        } else {
-          throw new Error(result.message || "Failed to delete student");
-        }
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSuccess("Student deleted successfully");
+        fetchStudents(); // Refresh the list
       } else {
-        throw new Error("Failed to delete student");
+        throw new Error(result.message || result.error || "Failed to delete student");
       }
     } catch (error) {
       console.error("Error deleting student:", error);
-      setError("Failed to delete student");
+      setError(error.message || "Failed to delete student");
     }
   };
 
+  // Rest of your component remains the same...
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({
       ...prev,
@@ -281,30 +309,60 @@ const StudentList = () => {
     );
   };
 
-  if (loading) {
+  if (authLoading) {
     return (
       <div className="pa-loading-container">
         <div className="pa-loader"></div>
-        <p>Loading students...</p>
+        <p>Checking authorization...</p>
       </div>
     );
   }
 
+  if (!isAuthenticated) {
+    return (
+      <AdminAuthModal
+        open={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
+    );
+  }
+
+  // Rest of your JSX remains the same...
   return (
     <div className="student-management-admin">
-      {/* Header Section */}
+      {/* Header with logout button */}
       <div className="admin-header">
         <div className="header-content">
           <h1>Student Management</h1>
           <p>Manage and monitor all student accounts</p>
         </div>
-        <button className="btn-create" onClick={showCreateModal}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-          </svg>
-          Add New Student
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button 
+            className="btn-logout"
+            onClick={() => {
+              localStorage.removeItem('adminAuth');
+              window.location.reload();
+            }}
+          >
+            Logout Admin
+          </button>
+          <button className="btn-create" onClick={showCreateModal}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Add New Student
+          </button>
+        </div>
       </div>
+
+      {/* Loading state */}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner"></div>
+          <p>Loading students...</p>
+        </div>
+      )}
 
       {/* Stats Overview */}
       <div className="stats-overview">
@@ -442,7 +500,7 @@ const StudentList = () => {
         )}
 
         {/* Students Grid */}
-        {students.length === 0 ? (
+        {!loading && students.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">
               <svg
@@ -456,6 +514,9 @@ const StudentList = () => {
             </div>
             <h3>No students found</h3>
             <p>Try adjusting your filters or add new students</p>
+            <button className="btn-create" onClick={showCreateModal}>
+              Add New Student
+            </button>
           </div>
         ) : (
           <div className="students-grid">
@@ -467,12 +528,15 @@ const StudentList = () => {
                       <img
                         src={student.profile_image}
                         alt={getDisplayName(student)}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
                       />
-                    ) : (
-                      <span>
-                        {getDisplayName(student).charAt(0).toUpperCase()}
-                      </span>
-                    )}
+                    ) : null}
+                    <span style={{display: student.profile_image ? 'none' : 'flex'}}>
+                      {getDisplayName(student).charAt(0).toUpperCase()}
+                    </span>
                   </div>
                   <div className="student-basic-info">
                     <h3>{getDisplayName(student)}</h3>

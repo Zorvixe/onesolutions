@@ -643,11 +643,10 @@ setInterval(cleanExpiredOtps, 60 * 1000);
 // -------------------------------------------
 // 🔹 Enhanced Admin Auth Middleware
 // -------------------------------------------
+// Enhanced Admin Auth Middleware
 const adminAuth = async (req, res, next) => {
   try {
     let token = req.header("Authorization");
-
-    console.log(`🔐 Admin auth attempt - Token present: ${!!token}`);
 
     if (!token) {
       return res.status(401).json({
@@ -660,19 +659,9 @@ const adminAuth = async (req, res, next) => {
       token = token.slice(7, token.length).trim();
     }
 
-    if (!token || token === "null" || token === "undefined") {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid token format",
-      });
-    }
-
-    const JWT_SECRET =
-      process.env.JWT_SECRET ||
-      "your-fallback-secret-key-for-development-only-change-in-production";
+    const JWT_SECRET = process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production";
 
     if (!JWT_SECRET) {
-      console.error("❌ JWT_SECRET is missing in admin auth");
       return res.status(500).json({
         success: false,
         message: "Server configuration error",
@@ -680,9 +669,8 @@ const adminAuth = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(`✅ Admin token decoded for user ID: ${decoded.id}`);
 
-    // For admin routes, verify the user exists and has appropriate permissions
+    // Verify user exists in database
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, status 
        FROM students WHERE id = $1 AND status = 'active'`,
@@ -697,29 +685,20 @@ const adminAuth = async (req, res, next) => {
     }
 
     req.admin = result.rows[0];
-    console.log(`✅ Admin auth successful for: ${req.admin.email}`);
     next();
   } catch (error) {
-    console.error("🔐 Admin auth error:", error.message);
+    console.error("Admin auth error:", error.message);
 
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({
         success: false,
         message: "Invalid admin token",
-        error: "invalid_token",
-      });
-    } else if (error.name === "TokenExpiredError") {
-      return res.status(401).json({
-        success: false,
-        message: "Admin token expired",
-        error: "token_expired",
       });
     }
 
     res.status(401).json({
       success: false,
       message: "Admin authentication failed",
-      error: error.message,
     });
   }
 };

@@ -1,3 +1,4 @@
+// StudentDashboard.js (Updated)
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -13,6 +14,8 @@ import {
   Alert,
   CircularProgress,
   Button,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import {
   People as PeopleIcon,
@@ -20,7 +23,10 @@ import {
   Work as WorkIcon,
   TrendingUp as TrendingUpIcon,
   Refresh as RefreshIcon,
+  AdminPanelSettings,
 } from "@mui/icons-material";
+import AdminAuthModal from "../AdminAuthModal/AdminAuthModal";
+import { useAdminAuth } from "../AdminAuthModal/useAdminAuth";
 
 const API_BASE_URL = "https://api.onesolutionsekam.in";
 
@@ -60,7 +66,18 @@ const StudentDashboard = () => {
     localStorage.getItem("adminToken") || localStorage.getItem("token")
   );
 
+  // Admin Auth
+  const { 
+    isAuthenticated, 
+    showAuthModal, 
+    loading: authLoading, 
+    setShowAuthModal, 
+    handleAuthSuccess 
+  } = useAdminAuth();
+
   const fetchStats = async () => {
+    if (!isAuthenticated) return;
+    
     setLoading(true);
     setError("");
     try {
@@ -95,8 +112,37 @@ const StudentDashboard = () => {
   };
 
   useEffect(() => {
-    fetchStats();
-  }, []);
+    if (isAuthenticated) {
+      fetchStats();
+    }
+  }, [isAuthenticated]);
+
+  if (authLoading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="400px"
+        flexDirection="column"
+      >
+        <CircularProgress size={40} />
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Checking authorization...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <AdminAuthModal
+        open={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
+    );
+  }
 
   if (loading) {
     return (

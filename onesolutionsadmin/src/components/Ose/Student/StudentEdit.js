@@ -1,3 +1,4 @@
+// StudentEdit.js (Updated)
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -15,14 +16,19 @@ import {
   Tab,
   IconButton,
   Paper,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import {
   Save as SaveIcon,
   ArrowBack as ArrowBackIcon,
   Add as AddIcon,
   Delete as DeleteIcon,
+  AdminPanelSettings,
 } from "@mui/icons-material";
 import { useParams, useNavigate } from "react-router-dom";
+import AdminAuthModal from "../AdminAuthModal/AdminAuthModal";
+import { useAdminAuth } from "../AdminAuthModal/useAdminAuth";
 
 const API_BASE_URL = "https://api.onesolutionsekam.in";
 
@@ -37,13 +43,24 @@ const StudentEdit = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
- 
+  // Admin Auth
+  const { 
+    isAuthenticated, 
+    showAuthModal, 
+    loading: authLoading, 
+    setShowAuthModal, 
+    handleAuthSuccess 
+  } = useAdminAuth();
 
   useEffect(() => {
-    fetchStudent();
-  }, [studentId]);
+    if (isAuthenticated && studentId) {
+      fetchStudent();
+    }
+  }, [studentId, isAuthenticated]);
 
   const fetchStudent = async () => {
+    if (!isAuthenticated) return;
+    
     setLoading(true);
     try {
       const response = await fetch(
@@ -74,6 +91,33 @@ const StudentEdit = () => {
       setLoading(false);
     }
   };
+
+  if (authLoading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="400px"
+        flexDirection="column"
+      >
+        <div className="pa-loader"></div>
+        <Typography variant="h6" sx={{ mt: 2 }}>
+          Checking authorization...
+        </Typography>
+      </Box>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <AdminAuthModal
+        open={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        onSuccess={handleAuthSuccess}
+      />
+    );
+  }
 
   const handleSave = async () => {
     setSaving(true);
@@ -236,12 +280,30 @@ const StudentEdit = () => {
 
   return (
     <Box>
-      <Box display="flex" alignItems="center" mb={3} gap={2}>
+      {/* Admin Header Bar */}
+      <AppBar position="static" color="default" elevation={1}>
+        <Toolbar>
+          <AdminPanelSettings color="primary" sx={{ mr: 2 }} />
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Admin Panel - Student Management
+          </Typography>
+          <Button 
+            color="inherit"
+            onClick={() => {
+              localStorage.removeItem('adminAuth');
+              window.location.reload();
+            }}
+          >
+            Logout Admin
+          </Button>
+        </Toolbar>
+      </AppBar>
+      <Box display="flex" alignItems="center" mb={3} gap={2} sx={{ mt: 2 }}>
         <IconButton onClick={() => navigate("/admin/students")}>
           <ArrowBackIcon />
         </IconButton>
         <Typography variant="h4">
-          Edit Student: {student.first_name} {student.last_name}
+          Edit Student: {student?.first_name} {student?.last_name}
         </Typography>
       </Box>
 
