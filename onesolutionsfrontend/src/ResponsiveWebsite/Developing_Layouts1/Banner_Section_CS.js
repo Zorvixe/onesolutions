@@ -132,6 +132,7 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   </div>
 </nav>`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. Bootstrap Containers */}
@@ -185,9 +186,18 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <CodeBlock
           language="html"
           code={`<div class="container">
-  <p>Content inside a fixed-width container.</p>
+<div class="row">
+  <div class="col-12">
+    <h1>Taj Mahal</h1>
+    <p>
+      The Taj Mahal is an ivory-white marble mausoleum on the southern
+      bank of the river Yamuna in the Indian city of Agra.
+    </p>
+  </div>
+</div>
 </div>`}
         />
+        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
         <h3>2.2 Fluid Container</h3>
         <p>
@@ -201,9 +211,18 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <CodeBlock
           language="html"
           code={`<div class="container-fluid">
-  <p>Content inside a full-width container.</p>
+<div class="row">
+  <div class="col-12">
+    <h1>Taj Mahal</h1>
+    <p>
+      The Taj Mahal is an ivory-white marble mausoleum on the southern
+      bank of the river Yamuna in the Indian city of Agra.
+    </p>
+  </div>
+</div>
 </div>`}
         />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 3. CSS Colors */}
@@ -222,8 +241,13 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
         />
         <p>
-          Bootstrap provides <code>bg-transparent</code> class to make any
-          element's background transparent.
+          This allows you to set the background color of the HTML element to
+          transparent so that any background HTML element will show through.
+        </p>
+        <p>
+          Bootstrap also provides you with a class name{" "}
+          <code>bg-transparent</code> to set the background color to
+          transparent.
         </p>
         <CodeBlock
           language="html"
@@ -231,9 +255,6 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   Transparent Background
 </div>`}
         />
-        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
-        <MCQBlock mcq={mcqs[2]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}

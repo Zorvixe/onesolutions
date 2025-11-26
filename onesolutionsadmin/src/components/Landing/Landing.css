@@ -2,7 +2,7 @@
 .landing-land {
   min-height: calc(100vh - 60px);
   padding: 20px;
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
   background: #ffffff;
   color: #333333;
@@ -31,8 +31,12 @@
 }
 
 @keyframes spin-land {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Header Styles */
@@ -129,8 +133,13 @@
 }
 
 @keyframes pulse-land {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 /* Stats Grid */
@@ -155,7 +164,7 @@
 }
 
 .stat-card-land::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -482,8 +491,12 @@
 }
 
 @keyframes growUp-land {
-  from { height: 0; }
-  to { height: inherit; }
+  from {
+    height: 0;
+  }
+  to {
+    height: inherit;
+  }
 }
 
 .time-filter-land {
@@ -691,8 +704,12 @@
 }
 
 @keyframes fadeIn-land {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Responsive Design */
@@ -791,4 +808,50 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
+}
+.dropdown-land {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-toggle-land {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  width: 100%; /* full width button */
+}
+
+.dropdown-toggle-land .action-icon-land {
+  width: 24px;
+  height: 24px;
+}
+
+.dropdown-menu-land {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  width: 100%; /* makes dropdown full width */
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 0;
+  display: none;
+  z-index: 20;
+}
+
+.dropdown-menu-land a {
+  padding: 10px 14px;
+  display: block;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-menu-land a:hover {
+  background: #f3f3f3;
 }

@@ -30,6 +30,7 @@ function Landing() {
     todayTotal: 0,
     currentSessionStart: null,
   });
+  const [open, setOpen] = useState(false);
 
   // Fetch admin details on component mount
   useEffect(() => {
@@ -333,15 +334,26 @@ function Landing() {
                 <span>OJB Dashboard</span>
                 <span className="action-arrow-land">→</span>
               </a>
-              <a href="/feedback" className="action-btn-land secondary-land">
-                <img
-                  src={assests.Logo || "/placeholder.svg"}
-                  alt="Zorvixe"
-                  className="action-icon-land"
-                />
-                <span>Student feedback</span>
-                <span className="action-arrow-land">→</span>
-              </a>
+
+              <div className="dropdown-land" onClick={() => setOpen(!open)}>
+                <button className="dropdown-toggle-land">
+                  <img
+                    src={assests.Logo || "/placeholder.svg"}
+                    alt="Zorvixe"
+                    className="action-icon-land"
+                  />
+                  <span>OSE Student</span>
+                  <span className="action-arrow-land">{open ? "▲" : "▼"}</span>
+                </button>
+
+                <div
+                  className="dropdown-menu-land"
+                  style={{ display: open ? "block" : "none" }}
+                >
+                  <a href="/feedback">Feedback</a>
+                  <a href="/student_dashboard">Student</a>
+                </div>
+              </div>
             </div>
           </div>
 

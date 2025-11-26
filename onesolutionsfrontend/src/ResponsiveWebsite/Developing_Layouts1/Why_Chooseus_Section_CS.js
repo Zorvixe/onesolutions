@@ -116,7 +116,7 @@ const Why_Chooseus_Section_CS = ({
 
         <h3>1.1 Padding</h3>
         <p>Bootstrap class names for padding:</p>
-        <table>
+        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
           <thead>
             <tr>
               <th>CSS Padding Property</th>
@@ -147,12 +147,12 @@ const Why_Chooseus_Section_CS = ({
           </tbody>
         </table>
         <p>
-          The asterisk <code>*</code> symbol can be any number in the range of 0
-          to 5. For example, <b>p-3, pr-1, pb-5,</b> etc.
+          The asterisk (<code>*</code>) symbol can be any number in the range of
+          0 to 5. For example, <b>p-3, pr-1, pb-5,</b> etc.
         </p>
 
         <h3>1.1.1 Padding Values</h3>
-        <table>
+        <table border="1" style={{ borderCollapse: "collapse", width: "30%" }}>
           <thead>
             <tr>
               <th>Size</th>
@@ -186,10 +186,16 @@ const Why_Chooseus_Section_CS = ({
             </tr>
           </tbody>
         </table>
-        <p>
-          Spacer = 16px by default. Examples: <code>p-1 = 4px</code>,{" "}
-          <code>pt-4 = 24px</code>.
-        </p>
+        <p>The spacer is a variable and has a value of 16 pixels by default.</p>
+        <p>For example,</p>
+        <ul>
+          <li>
+            <code>p-1</code> = 0.25 * 16px = 4px
+          </li>
+          <li>
+            <code>pt-4</code> = 1.5 * 16px = 24px
+          </li>
+        </ul>
       </section>
 
       {/* 2. HTML Elements */}
@@ -198,8 +204,8 @@ const Why_Chooseus_Section_CS = ({
 
         <h3>2.1 HTML Span Element</h3>
         <p>
-          The <code>span</code> element is a generic inline container element
-          which is mainly used for styling text in HTML Elements.
+          The HTML <code>span</code> element is a generic inline container
+          element which is mainly used for styling text in HTML Elements.
         </p>
 
         <CodeBlock
