@@ -53,63 +53,6 @@ const Followus_More_Styles_CS = ({
   /* -------------------- MCQ DATA -------------------- */
   const mcqs = [
     {
-      id: "fontawesome_kit",
-      section: "Font Awesome Icons",
-      question: "Where should you place the Font Awesome Kit script?",
-      options: [
-        "In the <body>",
-        "In the <head>",
-        "Before closing </body>",
-        "Anywhere",
-      ],
-      answer: "In the <head>",
-      explanation:
-        "The Font Awesome kit script should be added inside the <head> tag for optimal loading and performance.",
-    },
-    {
-      id: "social_icons_class",
-      section: "Follow Us Section",
-      question: "What does the 'fab' class stand for in Font Awesome?",
-      options: [
-        "Font Awesome Brand",
-        "Fixed Absolute Button",
-        "Flex Align Bottom",
-        "Font Awesome Basic",
-      ],
-      answer: "Font Awesome Brand",
-      explanation:
-        "'fab' is used for brand icons (Facebook, Twitter, Instagram, etc.), while 'fas' is for solid, 'far' for regular.",
-    },
-    {
-      id: "circular_icons",
-      section: "Follow Us Styling",
-      question: "To make social icons perfectly circular, what must be true?",
-      options: [
-        "height = width + border-radius: 50%",
-        "Only border-radius: 50%",
-        "width: 100% and padding",
-        "Use class 'rounded-circle' only",
-      ],
-      answer: "height = width + border-radius: 50%",
-      explanation:
-        "For a perfect circle, the element must have equal height & width, and border-radius: 50%. Bootstrap’s 'rounded-circle' does exactly this.",
-    },
-    {
-      id: "section_links",
-      section: "Linking to Sections",
-      question:
-        "How do you create a smooth link to a section on the same page?",
-      options: [
-        'href="#section-id"',
-        'href="/section-id"',
-        'href="section-id.html"',
-        'onclick="scrollTo(section-id)"',
-      ],
-      answer: 'href="#section-id"',
-      explanation:
-        'Using href="#contact-us" with an id on the target section creates an anchor link that jumps (or scrolls smoothly if CSS is added).',
-    },
-    {
       id: "fixed_top",
       section: "Bootstrap Position",
       question: "What does the class 'fixed-top' do?",
@@ -175,10 +118,19 @@ const Followus_More_Styles_CS = ({
   <a href="#" class="fab fa-instagram mx-2"></a>
 </section>`}
         />
-        <p>
-          <b>Note: </b> Use <code>border-radius</code> to create circular icons.
-          Ensure height = width for perfect circles.
-        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The CSS Property <b>border-radius </b> allows you to add circular
+            corners to an HTML element. We need to provide the same height and
+            width to get circular corners else we will get elliptical corners.
+          </p>
+        </div>
       </section>
 
       {/* 3. Adding Links to Sections */}
@@ -206,40 +158,25 @@ const Followus_More_Styles_CS = ({
 
         <h3>4.1 Fixed Top</h3>
         <p>
-          Use <code>fixed-top</code> to pin an element to the top of the
-          viewport:
+          The bootstrap class name <code>fixed-top</code> positions an HTML
+          element at the top of the viewport irrespective of the scrolling.
         </p>
         <CodeBlock
           language="html"
-          code={`<nav class="navbar fixed-top navbar-light bg-light">
-  Fixed Top Navbar
-</nav>`}
+          code={`<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">...</nav>`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
         <h3>4.2 Fixed Bottom</h3>
         <p>
-          Use <code>fixed-bottom</code> to pin an element to the bottom of the
-          viewport:
+          The bootstrap class name <code>fixed-bottom</code> positions an HTML
+          element at the bottom of the viewport irrespective of the scrolling.
         </p>
         <CodeBlock
           language="html"
-          code={`<footer class="footer fixed-bottom bg-dark text-white p-3 text-center">
-  Fixed Bottom Footer
-</footer>`}
+          code={`<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-bottom">...</nav>`}
         />
-      </section>
-
-      {/* MCQs - CLEAN, CONSISTENT & EDUCATIONAL */}
-      <section>
-        <h3>MCQs</h3>
-        {mcqs.map((mcq) => (
-          <MCQBlock
-            key={mcq.id}
-            mcq={mcq}
-            answers={mcqAnswers}
-            onAnswer={handleAnswer}
-          />
-        ))}
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}

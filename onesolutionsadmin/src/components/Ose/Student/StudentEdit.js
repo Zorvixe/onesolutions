@@ -1,4 +1,3 @@
-// src/components/admin/StudentEdit.js
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -12,12 +11,8 @@ import {
   FormControlLabel,
   Checkbox,
   Alert,
-  Stepper,
-  Step,
-  StepLabel,
   Tabs,
   Tab,
-  Chip,
   IconButton,
   Paper,
 } from "@mui/material";
@@ -28,7 +23,8 @@ import {
   Delete as DeleteIcon,
 } from "@mui/icons-material";
 import { useParams, useNavigate } from "react-router-dom";
-import { adminApi } from "../../services/adminApi";
+
+const API_BASE_URL = "https://api.onesolutionsekam.in";
 
 const StudentEdit = () => {
   const { studentId } = useParams();
@@ -39,6 +35,9 @@ const StudentEdit = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [activeTab, setActiveTab] = useState(0);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+ 
 
   useEffect(() => {
     fetchStudent();
@@ -47,11 +46,30 @@ const StudentEdit = () => {
   const fetchStudent = async () => {
     setLoading(true);
     try {
-      const response = await adminApi.getStudent(studentId);
-      setStudent(response.data.student);
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/students/${studentId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStudent(result.data.student);
+      } else {
+        throw new Error(result.message || "Failed to fetch student details");
+      }
     } catch (err) {
-      setError("Failed to fetch student details");
       console.error("Error:", err);
+      setError("Failed to fetch student details");
     } finally {
       setLoading(false);
     }
@@ -63,17 +81,45 @@ const StudentEdit = () => {
     setSuccess("");
 
     try {
-      await adminApi.updateStudent(studentId, student);
-      setSuccess("Student updated successfully");
-      fetchStudent(); // Refresh data
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/students/${studentId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(student),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess("Student updated successfully");
+        fetchStudent(); // Refresh data
+      } else {
+        throw new Error(result.message || "Failed to update student");
+      }
     } catch (err) {
+      console.error("Update error:", err);
       setError("Failed to update student");
     } finally {
       setSaving(false);
     }
   };
 
-  const handleChange = (section, field, value) => {
+  const handleChange = (field, value) => {
+    setStudent((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleNestedChange = (section, field, value) => {
     setStudent((prev) => ({
       ...prev,
       [section]: {
@@ -88,7 +134,7 @@ const StudentEdit = () => {
       typeof value === "string"
         ? value.split(",").map((item) => item.trim())
         : value;
-    handleChange(section, field, arrayValue);
+    handleNestedChange(section, field, arrayValue);
   };
 
   const addProject = () => {
@@ -106,7 +152,7 @@ const StudentEdit = () => {
 
   const updateProject = (index, field, value) => {
     setStudent((prev) => {
-      const updatedProjects = [...prev.projects];
+      const updatedProjects = [...(prev.projects || [])];
       updatedProjects[index] = {
         ...updatedProjects[index],
         [field]: value,
@@ -118,7 +164,7 @@ const StudentEdit = () => {
   const removeProject = (index) => {
     setStudent((prev) => ({
       ...prev,
-      projects: prev.projects.filter((_, i) => i !== index),
+      projects: (prev.projects || []).filter((_, i) => i !== index),
     }));
   };
 
@@ -137,7 +183,7 @@ const StudentEdit = () => {
 
   const updateAchievement = (index, field, value) => {
     setStudent((prev) => {
-      const updatedAchievements = [...prev.achievements];
+      const updatedAchievements = [...(prev.achievements || [])];
       updatedAchievements[index] = {
         ...updatedAchievements[index],
         [field]: value,
@@ -149,16 +195,34 @@ const StudentEdit = () => {
   const removeAchievement = (index) => {
     setStudent((prev) => ({
       ...prev,
-      achievements: prev.achievements.filter((_, i) => i !== index),
+      achievements: (prev.achievements || []).filter((_, i) => i !== index),
     }));
   };
 
   if (loading) {
-    return <Typography>Loading student details...</Typography>;
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="400px"
+      >
+        <Typography>Loading student details...</Typography>
+      </Box>
+    );
   }
 
   if (!student) {
-    return <Typography>Student not found</Typography>;
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="400px"
+      >
+        <Typography color="error">Student not found</Typography>
+      </Box>
+    );
   }
 
   const tabLabels = [
@@ -182,12 +246,12 @@ const StudentEdit = () => {
       </Box>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
+        <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
       {success && (
-        <Alert severity="success" sx={{ mb: 2 }}>
+        <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess("")}>
           {success}
         </Alert>
       )}
@@ -212,12 +276,7 @@ const StudentEdit = () => {
                   fullWidth
                   label="Student ID"
                   value={student.student_id || ""}
-                  onChange={(e) =>
-                    setStudent((prev) => ({
-                      ...prev,
-                      student_id: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => handleChange("student_id", e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -226,9 +285,7 @@ const StudentEdit = () => {
                   label="Email"
                   type="email"
                   value={student.email || ""}
-                  onChange={(e) =>
-                    setStudent((prev) => ({ ...prev, email: e.target.value }))
-                  }
+                  onChange={(e) => handleChange("email", e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -236,12 +293,7 @@ const StudentEdit = () => {
                   fullWidth
                   label="First Name"
                   value={student.first_name || ""}
-                  onChange={(e) =>
-                    setStudent((prev) => ({
-                      ...prev,
-                      first_name: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => handleChange("first_name", e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -249,12 +301,7 @@ const StudentEdit = () => {
                   fullWidth
                   label="Last Name"
                   value={student.last_name || ""}
-                  onChange={(e) =>
-                    setStudent((prev) => ({
-                      ...prev,
-                      last_name: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => handleChange("last_name", e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={6}>
@@ -262,9 +309,7 @@ const StudentEdit = () => {
                   fullWidth
                   label="Phone"
                   value={student.phone || ""}
-                  onChange={(e) =>
-                    setStudent((prev) => ({ ...prev, phone: e.target.value }))
-                  }
+                  onChange={(e) => handleChange("phone", e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} md={3}>
@@ -273,12 +318,7 @@ const StudentEdit = () => {
                   select
                   label="Batch Month"
                   value={student.batch_month || ""}
-                  onChange={(e) =>
-                    setStudent((prev) => ({
-                      ...prev,
-                      batch_month: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => handleChange("batch_month", e.target.value)}
                 >
                   <MenuItem value="January">January</MenuItem>
                   <MenuItem value="February">February</MenuItem>
@@ -301,10 +341,7 @@ const StudentEdit = () => {
                   type="number"
                   value={student.batch_year || ""}
                   onChange={(e) =>
-                    setStudent((prev) => ({
-                      ...prev,
-                      batch_year: parseInt(e.target.value),
-                    }))
+                    handleChange("batch_year", parseInt(e.target.value) || "")
                   }
                 />
               </Grid>
@@ -314,9 +351,7 @@ const StudentEdit = () => {
                   select
                   label="Status"
                   value={student.status || "active"}
-                  onChange={(e) =>
-                    setStudent((prev) => ({ ...prev, status: e.target.value }))
-                  }
+                  onChange={(e) => handleChange("status", e.target.value)}
                 >
                   <MenuItem value="active">Active</MenuItem>
                   <MenuItem value="inactive">Inactive</MenuItem>
@@ -328,10 +363,7 @@ const StudentEdit = () => {
                     <Checkbox
                       checked={student.is_current_batch || false}
                       onChange={(e) =>
-                        setStudent((prev) => ({
-                          ...prev,
-                          is_current_batch: e.target.checked,
-                        }))
+                        handleChange("is_current_batch", e.target.checked)
                       }
                     />
                   }

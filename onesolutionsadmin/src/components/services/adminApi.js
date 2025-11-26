@@ -10,6 +10,7 @@ const adminApi = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: false, // Important for CORS
 });
 
 // Add admin authentication token to requests
@@ -25,6 +26,11 @@ adminApi.interceptors.request.use(
       config.headers["x-admin-api-key"] = apiKey;
     }
 
+    // Add CORS headers
+    config.headers["Access-Control-Allow-Origin"] = "*";
+    config.headers["Access-Control-Allow-Methods"] =
+      "GET,PUT,POST,DELETE,PATCH,OPTIONS";
+
     return config;
   },
   (error) => {
@@ -32,16 +38,27 @@ adminApi.interceptors.request.use(
   }
 );
 
-// Response interceptor for error handling
+// Enhanced response interceptor for better error handling
 adminApi.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.code === "NETWORK_ERROR" || error.message === "Network Error") {
+      console.error("Network error - server might be down or CORS issue");
+      error.message =
+        "Unable to connect to server. Please check your connection.";
+    }
+
     if (error.response?.status === 401) {
       // Admin unauthorized, redirect to login
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminApiKey");
       window.location.href = "/admin/login";
     }
+
+    if (error.response?.status === 403) {
+      error.message = "Access forbidden. Please check your permissions.";
+    }
+
     return Promise.reject(error);
   }
 );
@@ -84,4 +101,4 @@ export const adminStudentApi = {
   },
 };
 
-export default adminStudentApi;
+export default adminApi;

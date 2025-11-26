@@ -137,11 +137,11 @@ const Explore_Menu_Section_CS = ({
           code={`.parent {
   height: 100px;
 }
-
 .child {
   height: 100%;
 }`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. Bootstrap Sizing Utilities */}
@@ -178,9 +178,28 @@ const Explore_Menu_Section_CS = ({
             </tr>
           </tbody>
         </table>
-        <p>
-          <b>Note: </b> Height adjusts automatically when width changes.
-        </p>
+        <CodeBlock
+          language=""
+          code={`<img
+  src="https://d2clawv67efefq.cloudfront.net/ccbp-responsive-website/em-ginger-fried-img.png"
+  class="menu-item-image w-100"
+/>`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            <p>
+              By default, the height of the image automatically adjusts when we
+              alter the width.
+            </p>
+          </p>
+        </div>
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 3. Bootstrap Icons */}
@@ -197,23 +216,18 @@ const Explore_Menu_Section_CS = ({
               target="_blank"
               rel="noopener"
             >
-              https://icons.getbootstrap.com
+              <b> https://icons.getbootstrap.com </b>
             </a>
             in your web browser. You will find many icons available.
           </li>
           <li>
-            Click on the icon you need. For example, to use the icon in this
-            section, click on
-            <strong>arrow-right-short</strong>.
+            Click on the icon you need. For the icon used in this section, click
+            on <code>arrow-right-short</code>.
           </li>
+          <li>Copy the HTML code and paste it.</li>
           <li>
-            Copy the HTML code provided for the icon and paste it into your HTML
-            file.
-          </li>
-          <li>
-            Adjust the HTML attributes such as <strong>width</strong>,{" "}
-            <strong>height</strong>, and <strong>fill</strong> of the{" "}
-            <strong>&lt;svg&gt;</strong> element as needed.
+            Change the HTML attributes <code>width</code>, <code>height</code>,
+            and fill of the HTML <code>svg</code> element as you need.
           </li>
         </ul>
 
@@ -223,42 +237,76 @@ const Explore_Menu_Section_CS = ({
   <path fillRule="evenodd" d="M8.146 12.354a.5.5 0 0 1 0-.708L10.793 9H1.5a.5.5 0 0 1 0-1h9.293L8.146 4.354a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708 0z"/>
 </svg>`}
         />
-        <p className="note">
-          The <code>svg</code> element is an inline HTML element that can be
-          used for icons.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The HTML <b>svg</b> element is an HTML inline element. We can use it
+            to add icons to our website.
+          </p>
+        </div>
+        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 4. Bootstrap Utilities */}
       <section>
         <h2>4. Bootstrap Utilities</h2>
         <h3>4.1 Shadow</h3>
-        <p>Bootstrap class names to apply shadow to elements:</p>
+        <p>
+          To apply shadows to HTML elements, you can use the below Bootstrap
+          class names.
+        </p>
         <ul>
           <li>shadow-none</li>
           <li>shadow-sm</li>
           <li>shadow</li>
           <li>shadow-lg</li>
         </ul>
+        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th>Class Name</th>
+              <th>Description</th>
+              <th>Shadow Level</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>shadow-none</td>
+              <td>Removes all box-shadow from the element.</td>
+              <td>No shadow</td>
+            </tr>
+
+            <tr>
+              <td>shadow-sm</td>
+              <td>Applies a small and lighter box-shadow.</td>
+              <td>Small shadow</td>
+            </tr>
+
+            <tr>
+              <td>shadow</td>
+              <td>Applies the default Bootstrap box-shadow.</td>
+              <td>Medium shadow</td>
+            </tr>
+
+            <tr>
+              <td>shadow-lg</td>
+              <td>Applies a large and deeper box-shadow.</td>
+              <td>Large shadow</td>
+            </tr>
+          </tbody>
+        </table>
 
         <CodeBlock
           language="html"
           code={`<div class="shadow p-3 mb-3 bg-light rounded">Default Shadow</div>
 <div class="shadow-lg p-3 mb-3 bg-light rounded">Large Shadow</div>`}
         />
-      </section>
-
-      {/* MCQs - CLEAN & CONSISTENT */}
-      <section>
-        <h3>MCQs</h3>
-        {mcqs.map((mcq) => (
-          <MCQBlock
-            key={mcq.id}
-            mcq={mcq}
-            answers={mcqAnswers}
-            onAnswer={handleAnswer}
-          />
-        ))}
+        <MCQBlock mcq={mcqs[4]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}

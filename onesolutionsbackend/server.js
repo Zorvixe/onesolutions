@@ -2910,30 +2910,7 @@ app.post("/api/student/achievements", auth, async (req, res) => {
 
 
 // ==========================================
-// 🔹 ADMIN AUTHENTICATION MIDDLEWARE
-// ==========================================
 
-const verifyAdminRequest = async (req, res, next) => {
-  try {
-    const adminToken = req.headers["x-admin-token"];
-    const adminApiKey = req.headers["x-admin-api-key"];
-
-    // Simple token verification - you can make this more secure
-    if (!adminToken || adminToken !== process.env.ADMIN_ACCESS_TOKEN) {
-      return res.status(401).json({
-        success: false,
-        message: "Invalid admin access token",
-      });
-    }
-
-    next();
-  } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: "Admin authentication failed",
-    });
-  }
-};
 
 // ==========================================
 // 🔹 DISCUSSION ROUTES FOR STUDENTS
@@ -3133,323 +3110,7 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
 // 🔹 ADMIN-ONLY ROUTES (Called by Admin Backend)
 // ==========================================
 
-// Get all threads for admin panel
-app.get(
-  "/api/admin/discussions/threads",
-  verifyAdminRequest,
-  async (req, res) => {
-    try {
-      const { status, page = 1, limit = 20, search } = req.query;
-      const offset = (page - 1) * limit;
 
-      let query = `
-      SELECT dt.*, 
-             s.first_name, 
-             s.last_name,
-             s.email as student_email,
-             s.batch_month,
-             s.batch_year,
-             COUNT(dr.id) as reply_count,
-             EXISTS (
-               SELECT 1 FROM discussion_replies dr2 
-               WHERE dr2.thread_id = dt.id AND dr2.replied_by_admin IS NOT NULL
-             ) as has_admin_reply
-      FROM discussion_threads dt
-      LEFT JOIN students s ON dt.student_id = s.id
-      LEFT JOIN discussion_replies dr ON dt.id = dr.thread_id
-    `;
-
-      let queryParams = [];
-      let whereConditions = [];
-      let paramCount = 1;
-
-      // Filter by status
-      if (status === "replied") {
-        whereConditions.push(`EXISTS (
-        SELECT 1 FROM discussion_replies dr2 
-        WHERE dr2.thread_id = dt.id AND dr2.replied_by_admin IS NOT NULL
-      )`);
-      } else if (status === "unanswered") {
-        whereConditions.push(`NOT EXISTS (
-        SELECT 1 FROM discussion_replies dr2 
-        WHERE dr2.thread_id = dt.id
-      )`);
-      } else if (status === "student_replied") {
-        whereConditions.push(`EXISTS (
-        SELECT 1 FROM discussion_replies dr2 
-        WHERE dr2.thread_id = dt.id AND dr2.replied_by_student IS NOT NULL
-      ) AND NOT EXISTS (
-        SELECT 1 FROM discussion_replies dr3 
-        WHERE dr3.thread_id = dt.id AND dr3.replied_by_admin IS NOT NULL
-      )`);
-      }
-
-      // Search functionality
-      if (search) {
-        whereConditions.push(`(
-        dt.title ILIKE $${paramCount} OR 
-        dt.content ILIKE $${paramCount} OR
-        s.first_name ILIKE $${paramCount} OR
-        s.last_name ILIKE $${paramCount}
-      )`);
-        queryParams.push(`%${search}%`);
-        paramCount++;
-      }
-
-      if (whereConditions.length > 0) {
-        query += ` WHERE ` + whereConditions.join(" AND ");
-      }
-
-      query += ` 
-      GROUP BY dt.id, s.first_name, s.last_name, s.email, s.batch_month, s.batch_year
-      ORDER BY dt.is_important DESC, dt.created_at DESC
-      LIMIT $${paramCount} OFFSET $${paramCount + 1}
-    `;
-
-      queryParams.push(limit, offset);
-
-      const result = await pool.query(query, queryParams);
-
-      // Get total count for pagination
-      let countQuery = `
-      SELECT COUNT(DISTINCT dt.id) as total
-      FROM discussion_threads dt
-      LEFT JOIN students s ON dt.student_id = s.id
-    `;
-
-      if (whereConditions.length > 0) {
-        countQuery += ` WHERE ` + whereConditions.join(" AND ");
-      }
-
-      const countResult = await pool.query(
-        countQuery,
-        queryParams.slice(0, -2)
-      );
-      const total = parseInt(countResult.rows[0].total);
-
-      res.json({
-        success: true,
-        data: {
-          threads: result.rows,
-          pagination: {
-            page: parseInt(page),
-            limit: parseInt(limit),
-            total,
-            pages: Math.ceil(total / limit),
-          },
-        },
-      });
-    } catch (error) {
-      console.error("Admin threads fetch error:", error.message);
-      res.status(500).json({
-        success: false,
-        error: "Failed to fetch threads",
-      });
-    }
-  }
-);
-
-// Get thread detail for admin
-app.get(
-  "/api/admin/discussions/threads/:threadId",
-  verifyAdminRequest,
-  async (req, res) => {
-    try {
-      const { threadId } = req.params;
-
-      // Get thread details
-      const threadResult = await pool.query(
-        `SELECT dt.*, 
-              s.first_name, 
-              s.last_name,
-              s.email,
-              s.phone,
-              s.batch_month,
-              s.batch_year
-       FROM discussion_threads dt
-       LEFT JOIN students s ON dt.student_id = s.id
-       WHERE dt.id = $1`,
-        [threadId]
-      );
-
-      if (threadResult.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Thread not found",
-        });
-      }
-
-      // Get all replies (both student and admin)
-      const repliesResult = await pool.query(
-        `SELECT dr.*, 
-              -- Student reply details
-              s.first_name as student_first_name,
-              s.last_name as student_last_name,
-              s.profile_image as student_image,
-              -- Determine reply type and get appropriate name/image
-              CASE 
-                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
-                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
-              END as replied_by_role,
-              COALESCE(s.first_name || ' ' || s.last_name, dr.admin_name) as replied_by_name,
-              COALESCE(s.profile_image, dr.admin_image) as replied_by_image
-       FROM discussion_replies dr
-       LEFT JOIN students s ON dr.replied_by_student = s.id
-       WHERE dr.thread_id = $1
-       ORDER BY dr.created_at ASC`,
-        [threadId]
-      );
-
-      res.json({
-        success: true,
-        data: {
-          thread: threadResult.rows[0],
-          replies: repliesResult.rows,
-        },
-      });
-    } catch (error) {
-      console.error("Admin thread detail error:", error.message);
-      res.status(500).json({
-        success: false,
-        error: "Failed to fetch thread details",
-      });
-    }
-  }
-);
-
-// Admin posts a reply (called by admin backend)
-app.post(
-  "/api/admin/discussions/replies",
-  verifyAdminRequest,
-  async (req, res) => {
-    try {
-      const { threadId, content, adminId, adminName, adminImage } = req.body;
-
-      if (!threadId || !content || !adminId || !adminName) {
-        return res.status(400).json({
-          success: false,
-          message: "Thread ID, content, admin ID, and admin name are required",
-        });
-      }
-
-      // Verify thread exists
-      const threadCheck = await pool.query(
-        "SELECT id FROM discussion_threads WHERE id = $1",
-        [threadId]
-      );
-
-      if (threadCheck.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Thread not found",
-        });
-      }
-
-      // Insert admin reply with admin details
-      const result = await pool.query(
-        `INSERT INTO discussion_replies 
-       (thread_id, replied_by_admin, admin_name, admin_image, content)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING *`,
-        [threadId, adminId, adminName, adminImage || null, content]
-      );
-
-      // Update thread's updated_at timestamp
-      await pool.query(
-        `UPDATE discussion_threads 
-       SET updated_at = CURRENT_TIMESTAMP 
-       WHERE id = $1`,
-        [threadId]
-      );
-
-      const replyWithDetails = {
-        ...result.rows[0],
-        replied_by_role: "admin",
-        replied_by_name: adminName,
-        replied_by_image: adminImage,
-        admin_name: adminName,
-        admin_image: adminImage,
-      };
-
-      res.status(201).json({
-        success: true,
-        message: "Reply added successfully",
-        data: { reply: replyWithDetails },
-      });
-    } catch (error) {
-      console.error("Admin reply error:", error.message);
-      res.status(500).json({
-        success: false,
-        error: "Failed to add reply",
-      });
-    }
-  }
-);
-
-// Update thread status (important, resolved, etc.)
-app.put(
-  "/api/admin/discussions/threads/:threadId/status",
-  verifyAdminRequest,
-  async (req, res) => {
-    try {
-      const { threadId } = req.params;
-      const { status, is_important } = req.body;
-
-      const updates = [];
-      const values = [];
-      let paramCount = 1;
-
-      if (status) {
-        updates.push(`status = $${paramCount}`);
-        values.push(status);
-        paramCount++;
-      }
-
-      if (is_important !== undefined) {
-        updates.push(`is_important = $${paramCount}`);
-        values.push(is_important);
-        paramCount++;
-      }
-
-      if (updates.length === 0) {
-        return res.status(400).json({
-          success: false,
-          message: "No fields to update",
-        });
-      }
-
-      values.push(threadId);
-
-      const query = `
-      UPDATE discussion_threads 
-      SET ${updates.join(", ")}, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $${paramCount}
-      RETURNING *
-    `;
-
-      const result = await pool.query(query, values);
-
-      if (result.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Thread not found",
-        });
-      }
-
-      res.json({
-        success: true,
-        message: "Thread status updated successfully",
-        data: { thread: result.rows[0] },
-      });
-    } catch (error) {
-      console.error("Thread status update error:", error.message);
-      res.status(500).json({
-        success: false,
-        error: "Failed to update thread status",
-      });
-    }
-  }
-);
 
 // ==========================================
 // 🔹 STUDENT FEEDBACK ROUTES
@@ -3552,8 +3213,322 @@ app.get("/api/feedback/subtopic/:subtopicId", auth, async (req, res) => {
 // 🔹 ADMIN FEEDBACK ROUTES
 // ==========================================
 
-// Get all feedback with student details (Admin)
-app.get("/api/admin/feedback", verifyAdminRequest, async (req, res) => {
+
+
+
+// ==========================================
+// 🔹 ADMIN STUDENT MANAGEMENT ROUTES
+// ==========================================
+
+
+// ==========================================
+// 🔹 UPDATED ROUTES WITH AUTH INSTEAD OF verifyAdminRequest
+// ==========================================
+
+// Get all threads for admin panel (with auth)
+app.get("/api/admin/discussions/threads", auth, async (req, res) => {
+  try {
+    const { status, page = 1, limit = 20, search } = req.query;
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT dt.*, 
+             s.first_name, 
+             s.last_name,
+             s.email as student_email,
+             s.batch_month,
+             s.batch_year,
+             COUNT(dr.id) as reply_count,
+             EXISTS (
+               SELECT 1 FROM discussion_replies dr2 
+               WHERE dr2.thread_id = dt.id AND dr2.replied_by_admin IS NOT NULL
+             ) as has_admin_reply
+      FROM discussion_threads dt
+      LEFT JOIN students s ON dt.student_id = s.id
+      LEFT JOIN discussion_replies dr ON dt.id = dr.thread_id
+    `;
+
+    let queryParams = [];
+    let whereConditions = [];
+    let paramCount = 1;
+
+    // Filter by status
+    if (status === "replied") {
+      whereConditions.push(`EXISTS (
+        SELECT 1 FROM discussion_replies dr2 
+        WHERE dr2.thread_id = dt.id AND dr2.replied_by_admin IS NOT NULL
+      )`);
+    } else if (status === "unanswered") {
+      whereConditions.push(`NOT EXISTS (
+        SELECT 1 FROM discussion_replies dr2 
+        WHERE dr2.thread_id = dt.id
+      )`);
+    } else if (status === "student_replied") {
+      whereConditions.push(`EXISTS (
+        SELECT 1 FROM discussion_replies dr2 
+        WHERE dr2.thread_id = dt.id AND dr2.replied_by_student IS NOT NULL
+      ) AND NOT EXISTS (
+        SELECT 1 FROM discussion_replies dr3 
+        WHERE dr3.thread_id = dt.id AND dr3.replied_by_admin IS NOT NULL
+      )`);
+    }
+
+    // Search functionality
+    if (search) {
+      whereConditions.push(`(
+        dt.title ILIKE $${paramCount} OR 
+        dt.content ILIKE $${paramCount} OR
+        s.first_name ILIKE $${paramCount} OR
+        s.last_name ILIKE $${paramCount}
+      )`);
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+
+    if (whereConditions.length > 0) {
+      query += ` WHERE ` + whereConditions.join(" AND ");
+    }
+
+    query += ` 
+      GROUP BY dt.id, s.first_name, s.last_name, s.email, s.batch_month, s.batch_year
+      ORDER BY dt.is_important DESC, dt.created_at DESC
+      LIMIT $${paramCount} OFFSET $${paramCount + 1}
+    `;
+
+    queryParams.push(limit, offset);
+
+    const result = await pool.query(query, queryParams);
+
+    // Get total count for pagination
+    let countQuery = `
+      SELECT COUNT(DISTINCT dt.id) as total
+      FROM discussion_threads dt
+      LEFT JOIN students s ON dt.student_id = s.id
+    `;
+
+    if (whereConditions.length > 0) {
+      countQuery += ` WHERE ` + whereConditions.join(" AND ");
+    }
+
+    const countResult = await pool.query(
+      countQuery,
+      queryParams.slice(0, -2)
+    );
+    const total = parseInt(countResult.rows[0].total);
+
+    res.json({
+      success: true,
+      data: {
+        threads: result.rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / limit),
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Admin threads fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch threads",
+    });
+  }
+});
+
+// Get thread detail for admin (with auth)
+app.get("/api/admin/discussions/threads/:threadId", auth, async (req, res) => {
+  try {
+    const { threadId } = req.params;
+
+    // Get thread details
+    const threadResult = await pool.query(
+      `SELECT dt.*, 
+              s.first_name, 
+              s.last_name,
+              s.email,
+              s.phone,
+              s.batch_month,
+              s.batch_year
+       FROM discussion_threads dt
+       LEFT JOIN students s ON dt.student_id = s.id
+       WHERE dt.id = $1`,
+      [threadId]
+    );
+
+    if (threadResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Thread not found",
+      });
+    }
+
+    // Get all replies (both student and admin)
+    const repliesResult = await pool.query(
+      `SELECT dr.*, 
+              -- Student reply details
+              s.first_name as student_first_name,
+              s.last_name as student_last_name,
+              s.profile_image as student_image,
+              -- Determine reply type and get appropriate name/image
+              CASE 
+                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
+                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
+              END as replied_by_role,
+              COALESCE(s.first_name || ' ' || s.last_name, dr.admin_name) as replied_by_name,
+              COALESCE(s.profile_image, dr.admin_image) as replied_by_image
+       FROM discussion_replies dr
+       LEFT JOIN students s ON dr.replied_by_student = s.id
+       WHERE dr.thread_id = $1
+       ORDER BY dr.created_at ASC`,
+      [threadId]
+    );
+
+    res.json({
+      success: true,
+      data: {
+        thread: threadResult.rows[0],
+        replies: repliesResult.rows,
+      },
+    });
+  } catch (error) {
+    console.error("Admin thread detail error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch thread details",
+    });
+  }
+});
+
+// Admin posts a reply (with auth)
+app.post("/api/admin/discussions/replies", auth, async (req, res) => {
+  try {
+    const { threadId, content, adminId, adminName, adminImage } = req.body;
+
+    if (!threadId || !content || !adminId || !adminName) {
+      return res.status(400).json({
+        success: false,
+        message: "Thread ID, content, admin ID, and admin name are required",
+      });
+    }
+
+    // Verify thread exists
+    const threadCheck = await pool.query(
+      "SELECT id FROM discussion_threads WHERE id = $1",
+      [threadId]
+    );
+
+    if (threadCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Thread not found",
+      });
+    }
+
+    // Insert admin reply with admin details
+    const result = await pool.query(
+      `INSERT INTO discussion_replies 
+       (thread_id, replied_by_admin, admin_name, admin_image, content)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [threadId, adminId, adminName, adminImage || null, content]
+    );
+
+    // Update thread's updated_at timestamp
+    await pool.query(
+      `UPDATE discussion_threads 
+       SET updated_at = CURRENT_TIMESTAMP 
+       WHERE id = $1`,
+      [threadId]
+    );
+
+    const replyWithDetails = {
+      ...result.rows[0],
+      replied_by_role: "admin",
+      replied_by_name: adminName,
+      replied_by_image: adminImage,
+      admin_name: adminName,
+      admin_image: adminImage,
+    };
+
+    res.status(201).json({
+      success: true,
+      message: "Reply added successfully",
+      data: { reply: replyWithDetails },
+    });
+  } catch (error) {
+    console.error("Admin reply error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to add reply",
+    });
+  }
+});
+
+// Update thread status (important, resolved, etc.) with auth
+app.put("/api/admin/discussions/threads/:threadId/status", auth, async (req, res) => {
+  try {
+    const { threadId } = req.params;
+    const { status, is_important } = req.body;
+
+    const updates = [];
+    const values = [];
+    let paramCount = 1;
+
+    if (status) {
+      updates.push(`status = $${paramCount}`);
+      values.push(status);
+      paramCount++;
+    }
+
+    if (is_important !== undefined) {
+      updates.push(`is_important = $${paramCount}`);
+      values.push(is_important);
+      paramCount++;
+    }
+
+    if (updates.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No fields to update",
+      });
+    }
+
+    values.push(threadId);
+
+    const query = `
+      UPDATE discussion_threads 
+      SET ${updates.join(", ")}, updated_at = CURRENT_TIMESTAMP
+      WHERE id = $${paramCount}
+      RETURNING *
+    `;
+
+    const result = await pool.query(query, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Thread not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Thread status updated successfully",
+      data: { thread: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Thread status update error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to update thread status",
+    });
+  }
+});
+
+// Get all feedback with student details (with auth)
+app.get("/api/admin/feedback", auth, async (req, res) => {
   try {
     const { page = 1, limit = 20, subtopicId, moduleName, rating } = req.query;
     const offset = (page - 1) * limit;
@@ -3594,9 +3569,7 @@ app.get("/api/admin/feedback", verifyAdminRequest, async (req, res) => {
       paramCount++;
     }
 
-    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(limit, offset);
 
     const result = await pool.query(query, queryParams);
@@ -3671,8 +3644,8 @@ app.get("/api/admin/feedback", verifyAdminRequest, async (req, res) => {
   }
 });
 
-// Get feedback statistics (Admin)
-app.get("/api/admin/feedback/stats", verifyAdminRequest, async (req, res) => {
+// Get feedback statistics (with auth)
+app.get("/api/admin/feedback/stats", auth, async (req, res) => {
   try {
     const statsQuery = `
       SELECT 
@@ -3708,12 +3681,8 @@ app.get("/api/admin/feedback/stats", verifyAdminRequest, async (req, res) => {
   }
 });
 
-// ==========================================
-// 🔹 ADMIN STUDENT MANAGEMENT ROUTES
-// ==========================================
-
-// Get all students with pagination and search
-app.get("/api/admin/students", verifyAdminRequest, async (req, res) => {
+// Get all students with pagination and search (with auth)
+app.get("/api/admin/students", auth, async (req, res) => {
   try {
     const {
       page = 1,
@@ -3796,9 +3765,7 @@ app.get("/api/admin/students", verifyAdminRequest, async (req, res) => {
       : "created_at";
     const order = sortOrder.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
-    query += ` ORDER BY ${sortColumn} ${order} LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    query += ` ORDER BY ${sortColumn} ${order} LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -3841,73 +3808,69 @@ app.get("/api/admin/students", verifyAdminRequest, async (req, res) => {
   }
 });
 
-// Get student by ID for admin
-app.get(
-  "/api/admin/students/:studentId",
-  verifyAdminRequest,
-  async (req, res) => {
-    try {
-      const { studentId } = req.params;
+// Get student by ID for admin (with auth)
+app.get("/api/admin/students/:studentId", auth, async (req, res) => {
+  try {
+    const { studentId } = req.params;
 
-      const result = await pool.query(`SELECT * FROM students WHERE id = $1`, [
-        studentId,
-      ]);
+    const result = await pool.query(`SELECT * FROM students WHERE id = $1`, [
+      studentId,
+    ]);
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Student not found",
-        });
-      }
-
-      const student = result.rows[0];
-      const baseUrl =
-        process.env.BACKEND_URL ||
-        `http://localhost:${process.env.PORT || 5002}`;
-
-      // Get student's projects and achievements
-      const [projectsResult, achievementsResult] = await Promise.all([
-        pool.query(
-          `SELECT * FROM student_projects WHERE student_id = $1 ORDER BY created_at DESC`,
-          [studentId]
-        ),
-        pool.query(
-          `SELECT * FROM student_achievements WHERE student_id = $1 ORDER BY created_at DESC`,
-          [studentId]
-        ),
-      ]);
-
-      const studentResponse = {
-        ...student,
-        profileImage: student.profile_image
-          ? `${baseUrl}${student.profile_image}`
-          : null,
-        resumeUrl: student.resume_url
-          ? `${baseUrl}${student.resume_url}`
-          : null,
-        projects: projectsResult.rows,
-        achievements: achievementsResult.rows,
-        fullName: `${student.first_name} ${student.last_name}`,
-      };
-
-      res.json({
-        success: true,
-        data: { student: studentResponse },
-      });
-    } catch (error) {
-      console.error("Admin student fetch error:", error.message);
-      res.status(500).json({
+    if (result.rows.length === 0) {
+      return res.status(404).json({
         success: false,
-        error: "Failed to fetch student details",
+        message: "Student not found",
       });
     }
-  }
-);
 
-// Update student by admin
+    const student = result.rows[0];
+    const baseUrl =
+      process.env.BACKEND_URL ||
+      `http://localhost:${process.env.PORT || 5002}`;
+
+    // Get student's projects and achievements
+    const [projectsResult, achievementsResult] = await Promise.all([
+      pool.query(
+        `SELECT * FROM student_projects WHERE student_id = $1 ORDER BY created_at DESC`,
+        [studentId]
+      ),
+      pool.query(
+        `SELECT * FROM student_achievements WHERE student_id = $1 ORDER BY created_at DESC`,
+        [studentId]
+      ),
+    ]);
+
+    const studentResponse = {
+      ...student,
+      profileImage: student.profile_image
+        ? `${baseUrl}${student.profile_image}`
+        : null,
+      resumeUrl: student.resume_url
+        ? `${baseUrl}${student.resume_url}`
+        : null,
+      projects: projectsResult.rows,
+      achievements: achievementsResult.rows,
+      fullName: `${student.first_name} ${student.last_name}`,
+    };
+
+    res.json({
+      success: true,
+      data: { student: studentResponse },
+    });
+  } catch (error) {
+    console.error("Admin student fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch student details",
+    });
+  }
+});
+
+// Update student by admin (with auth)
 app.put(
   "/api/admin/students/:studentId",
-  verifyAdminRequest,
+  auth,
   upload.fields([
     { name: "profileImage", maxCount: 1 },
     { name: "resume", maxCount: 1 },
@@ -4257,63 +4220,59 @@ app.put(
   }
 );
 
-// Delete student
-app.delete(
-  "/api/admin/students/:studentId",
-  verifyAdminRequest,
-  async (req, res) => {
-    try {
-      const { studentId } = req.params;
+// Delete student (with auth)
+app.delete("/api/admin/students/:studentId", auth, async (req, res) => {
+  try {
+    const { studentId } = req.params;
 
-      // Check if student exists
-      const existingStudent = await pool.query(
-        "SELECT * FROM students WHERE id = $1",
-        [studentId]
-      );
+    // Check if student exists
+    const existingStudent = await pool.query(
+      "SELECT * FROM students WHERE id = $1",
+      [studentId]
+    );
 
-      if (existingStudent.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Student not found",
-        });
-      }
-
-      const student = existingStudent.rows[0];
-
-      // Delete student's files if they exist
-      if (student.profile_image && !student.profile_image.includes("default")) {
-        const imagePath = path.join(__dirname, student.profile_image);
-        if (fs.existsSync(imagePath)) {
-          fs.unlinkSync(imagePath);
-        }
-      }
-
-      if (student.resume_url) {
-        const resumePath = path.join(__dirname, student.resume_url);
-        if (fs.existsSync(resumePath)) {
-          fs.unlinkSync(resumePath);
-        }
-      }
-
-      // Delete student (cascade will handle related records)
-      await pool.query("DELETE FROM students WHERE id = $1", [studentId]);
-
-      res.json({
-        success: true,
-        message: "Student deleted successfully",
-      });
-    } catch (error) {
-      console.error("Admin student delete error:", error.message);
-      res.status(500).json({
+    if (existingStudent.rows.length === 0) {
+      return res.status(404).json({
         success: false,
-        error: "Failed to delete student",
+        message: "Student not found",
       });
     }
-  }
-);
 
-// Get student statistics for admin dashboard
-app.get("/api/admin/students/stats", verifyAdminRequest, async (req, res) => {
+    const student = existingStudent.rows[0];
+
+    // Delete student's files if they exist
+    if (student.profile_image && !student.profile_image.includes("default")) {
+      const imagePath = path.join(__dirname, student.profile_image);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+    }
+
+    if (student.resume_url) {
+      const resumePath = path.join(__dirname, student.resume_url);
+      if (fs.existsSync(resumePath)) {
+        fs.unlinkSync(resumePath);
+      }
+    }
+
+    // Delete student (cascade will handle related records)
+    await pool.query("DELETE FROM students WHERE id = $1", [studentId]);
+
+    res.json({
+      success: true,
+      message: "Student deleted successfully",
+    });
+  } catch (error) {
+    console.error("Admin student delete error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to delete student",
+    });
+  }
+});
+
+// Get student statistics for admin dashboard (with auth)
+app.get("/api/admin/students/stats", auth, async (req, res) => {
   try {
     const statsQuery = `
       SELECT 
@@ -4375,7 +4334,6 @@ app.get("/api/admin/students/stats", verifyAdminRequest, async (req, res) => {
     });
   }
 });
-
 
 
 // Handle 404 routes

@@ -28,6 +28,7 @@ import OJBAdminJobDetail from "./components/OJB/OJBAdminJobDetail/OJBAdminJobDet
 import StudentRegister from "./components/Ose/Student_Register/Register";
 import AdminFeedbackPanel from "./components/Ose/AdminFeedbackPanel/AdminFeedbackPanel";
 import StudentDashboard from "./components/Ose/Student/StudentDashboard";
+import StudentList from "./components/Ose/Student/StudentList";
 
 import "./App.css";
 
@@ -76,6 +77,7 @@ function App() {
               <Route path="/student_register" element={<StudentRegister />} />
               <Route path="/feedback" element={<AdminFeedbackPanel />} />
               <Route path="/student_dashboard" element={<StudentDashboard />} />
+              <Route path="/student_list" element={<StudentList />} />
 
               {/* OJB routes */}
               <Route

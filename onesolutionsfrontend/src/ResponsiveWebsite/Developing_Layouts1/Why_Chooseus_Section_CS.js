@@ -62,25 +62,7 @@ const Why_Chooseus_Section_CS = ({
       explanation:
         "The 'p-' prefix in Bootstrap stands for padding. p-3 applies padding on all four sides.",
     },
-    {
-      id: "padding_top",
-      section: "Bootstrap Spacing",
-      question: "How do you add padding only to the top of an element?",
-      options: ["pt-*", "mt-*", "py-*", "top-padding-*"],
-      answer: "pt-*",
-      explanation:
-        "pt- stands for padding-top. Example: pt-4 adds 1.5rem (24px) padding to the top.",
-    },
-    {
-      id: "spacer_value",
-      section: "Bootstrap Spacing Values",
-      question:
-        "What is the default Bootstrap spacer value (used in p-1, p-2, etc.)?",
-      options: ["10px", "16px", "20px", "1rem"],
-      answer: "16px",
-      explanation:
-        "Bootstrap uses a base spacer of 1rem (usually 16px). p-1 = 0.25rem (4px), p-3 = 1rem (16px), p-5 = 3rem (48px).",
-    },
+
     {
       id: "span_element",
       section: "HTML Span",
@@ -89,20 +71,6 @@ const Why_Chooseus_Section_CS = ({
       answer: "Inline",
       explanation:
         "<span> is an inline element — it does not start on a new line and only takes up as much width as its content.",
-    },
-    {
-      id: "span_usage",
-      section: "HTML Span",
-      question: "What is the most common use of the <span> element?",
-      options: [
-        "To create a new section",
-        "To style a portion of text differently",
-        "To group block elements",
-        "To make elements responsive",
-      ],
-      answer: "To style a portion of text differently",
-      explanation:
-        "span is perfect for applying styles (color, font-weight, background, etc.) to specific words or phrases inside a paragraph.",
     },
   ];
 
@@ -196,6 +164,7 @@ const Why_Chooseus_Section_CS = ({
             <code>pt-4</code> = 1.5 * 16px = 24px
           </li>
         </ul>
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. HTML Elements */}
@@ -221,8 +190,8 @@ const Why_Chooseus_Section_CS = ({
   font-weight: bold;
 }`}
         />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
-      <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
 
       {/* MCQs - CLEAN, CONSISTENT, AND EDUCATIONAL */}
 

@@ -351,7 +351,8 @@ function Landing() {
                   style={{ display: open ? "block" : "none" }}
                 >
                   <a href="/feedback">Feedback</a>
-                  <a href="/student_dashboard">Student</a>
+                  <a href="/student_dashboard">Student Dashboard</a>
+                  <a href="/student_list">Student List</a>
                 </div>
               </div>
             </div>

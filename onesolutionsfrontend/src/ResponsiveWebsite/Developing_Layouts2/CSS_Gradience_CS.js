@@ -128,16 +128,21 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         </p>
         <CodeBlock
           language="html"
-          code={`<!-- Modal Example -->
+          code={`<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        Modal body content goes here.
+        ...
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -149,48 +154,25 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         />
       </section>
 
-      {/* 2. Thanking Customers Section with Bootstrap Modal */}
+      {/* 2. Gradients */}
       <section>
-        <h2>2. Thanking Customers Section</h2>
-        <p>
-          Use a Bootstrap Modal to thank customers after form submission or
-          purchase.
-        </p>
-        <CodeBlock
-          language="html"
-          code={`<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#thankModal">
-  Thank You
-</button>
-
-<div class="modal fade" id="thankModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Thank You!</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        We appreciate your visit.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>`}
-        />
-      </section>
-
-      {/* 3. Gradients */}
-      <section>
-        <h2>3. Gradients</h2>
+        <h2>2. Gradients</h2>
         <p>
           A <strong>gradient</strong> is a smooth transition between two or more
           colors. In CSS, gradients are used as background images to create
           visually appealing transitions without using actual image files.
         </p>
+        <p>
+          A special type of Background Image formed by the transition between
+          two or more colors.
+        </p>
+        <p>There are mainly two types of gradients:</p>
+        <ul>
+          <li>Linear Gradient</li>
+          <li>Radial Gradient</li>
+        </ul>
 
-        <h3>3.1 Linear Gradient</h3>
+        <h3>2.1 Linear Gradient</h3>
         <p>
           A <strong>linear gradient</strong> creates a smooth transition between
           colors along a straight line — horizontally, vertically, or
@@ -209,7 +191,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           <strong>#ff7e5f</strong> (top) to <strong>#feb47b</strong> (bottom).
         </p>
 
-        <h4>3.1.1 Changing Direction</h4>
+        <h4>2.1.1 Changing Direction</h4>
         <p>
           You can control the direction of the gradient using keywords like
           <strong> to top</strong>, <strong>to bottom</strong>,{" "}
@@ -255,29 +237,44 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           <strong>Example:</strong>
         </p>
         <CodeBlock
+          language="html"
+          code={`<div class="linear-gradient-background"></div>`}
+        />
+
+        <CodeBlock
           language="css"
-          code={`background: linear-gradient(to right, #6a11cb, #2575fc);`}
+          code={`.linear-gradient-background {
+  height: 100vh;
+  background-image: linear-gradient(#2196f3, #f44336);
+}`}
         />
         <p>
-          This example creates a gradient flowing from <strong>#6a11cb</strong>{" "}
-          on the left to <strong>#2575fc</strong> on the right.
+          This example creates a gradient flowing from <strong>#2196f3</strong>{" "}
+          on the left to <strong>#f44336</strong> on the right.
         </p>
 
-        <h4>3.1.2 More than Two Colors</h4>
+        <h4>2.1.2 More than Two Colors</h4>
         <p>
           You can add more than two colors in a linear gradient to create
           complex or multicolor effects.
         </p>
         <CodeBlock
+          language="html"
+          code={`<div class="linear-gradient-background"></div>`}
+        />
+
+        <CodeBlock
           language="css"
-          code={`background: linear-gradient(to right, red, orange, yellow, green, blue);`}
+          code={`.linear-gradient-background {
+background: linear-gradient(to right, red, orange, yellow, green, blue);;
+}`}
         />
         <p>
           The above example creates a rainbow-like gradient transitioning from
           red to blue horizontally.
         </p>
 
-        <h3>3.2 Radial Gradient</h3>
+        <h3>2.2 Radial Gradient</h3>
         <p>
           A <strong>radial gradient</strong> creates a color transition
           radiating outward from a center point in a circular or elliptical
@@ -297,7 +294,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           <strong>#feb47b</strong> at the edges.
         </p>
 
-        <h4>3.2.1 More than Two Colors</h4>
+        <h4>2.2.1 More than Two Colors</h4>
         <p>
           You can include multiple colors in a radial gradient for more vibrant
           effects.
@@ -314,7 +311,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 
       {/* 4. Food Munch Website Code */}
       <section>
-        <h2>4. Food Munch Website Example</h2>
+        <h2>3. Food Munch Website Example</h2>
         <p>Example container using Bootstrap:</p>
         <CodeBlock
           language="html"

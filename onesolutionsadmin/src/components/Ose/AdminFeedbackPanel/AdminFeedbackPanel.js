@@ -14,6 +14,8 @@ const AdminFeedbackPanel = () => {
   });
   const [activeTab, setActiveTab] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
 
   useEffect(() => {
     loadFeedbacks();
@@ -28,7 +30,8 @@ const AdminFeedbackPanel = () => {
         `https://api.onesolutionsekam.in/api/admin/feedback?${queryParams}`,
         {
           headers: {
-            "x-admin-token": localStorage.getItem("adminToken"),
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -50,7 +53,8 @@ const AdminFeedbackPanel = () => {
         "https://api.onesolutionsekam.in/api/admin/feedback/stats",
         {
           headers: {
-            "x-admin-token": localStorage.getItem("adminToken"),
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );

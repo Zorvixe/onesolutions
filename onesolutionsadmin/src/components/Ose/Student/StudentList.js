@@ -1,4 +1,3 @@
-// src/components/admin/StudentList.js
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -25,9 +24,6 @@ import {
   DialogTitle,
   Alert,
   Pagination,
-  FormControl,
-  InputLabel,
-  Select,
 } from "@mui/material";
 import {
   Edit as EditIcon,
@@ -37,7 +33,8 @@ import {
   FilterList as FilterIcon,
   Refresh as RefreshIcon,
 } from "@mui/icons-material";
-import { adminApi } from "../../services/adminApi";
+
+const API_BASE_URL = "https://api.onesolutionsekam.in";
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -45,6 +42,8 @@ const StudentList = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [deleteDialog, setDeleteDialog] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
   const [filters, setFilters] = useState({
     search: "",
     batchMonth: "",
@@ -67,31 +66,90 @@ const StudentList = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await adminApi.getStudents(filters);
-      setStudents(response.data.students);
-      setPagination(response.data.pagination);
+      const params = new URLSearchParams();
+      Object.keys(filters).forEach((key) => {
+        if (filters[key]) {
+          params.append(key, filters[key]);
+        }
+      });
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/students?${params.toString()}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          localStorage.removeItem("adminToken");
+          localStorage.removeItem("adminApiKey");
+          window.location.href = "/admin/login";
+          return;
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStudents(result.data.students || []);
+        setPagination(
+          result.data.pagination || {
+            page: 1,
+            limit: 20,
+            total: 0,
+            pages: 1,
+          }
+        );
+      } else {
+        throw new Error(result.message || "Failed to fetch students");
+      }
     } catch (err) {
-      setError("Failed to fetch students");
       console.error("Error fetching students:", err);
+      setError("Failed to fetch students");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteStudent = async (studentId) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/students/${studentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSuccess("Student deleted successfully");
+        setDeleteDialog(null);
+        fetchStudents();
+      } else {
+        throw new Error(result.message || "Failed to delete student");
+      }
+    } catch (err) {
+      console.error("Error deleting student:", err);
+      setError("Failed to delete student");
     }
   };
 
   useEffect(() => {
     fetchStudents();
   }, [filters]);
-
-  const handleDeleteStudent = async (studentId) => {
-    try {
-      await adminApi.deleteStudent(studentId);
-      setSuccess("Student deleted successfully");
-      setDeleteDialog(null);
-      fetchStudents();
-    } catch (err) {
-      setError("Failed to delete student");
-    }
-  };
 
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({
@@ -133,6 +191,7 @@ const StudentList = () => {
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString();
   };
 
@@ -159,12 +218,16 @@ const StudentList = () => {
           </Box>
 
           {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
+            <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError("")}>
               {error}
             </Alert>
           )}
           {success && (
-            <Alert severity="success" sx={{ mb: 2 }}>
+            <Alert
+              severity="success"
+              sx={{ mb: 2 }}
+              onClose={() => setSuccess("")}
+            >
               {success}
             </Alert>
           )}
@@ -295,7 +358,7 @@ const StudentList = () => {
                     <TableRow key={student.id}>
                       <TableCell>
                         <Typography variant="body2" fontWeight="bold">
-                          {student.student_id}
+                          {student.student_id || "N/A"}
                         </Typography>
                       </TableCell>
                       <TableCell>
@@ -315,21 +378,25 @@ const StudentList = () => {
                           )}
                           <Box>
                             <Typography variant="body2" fontWeight="medium">
-                              {student.fullName}
+                              {student.fullName ||
+                                `${student.first_name || ""} ${
+                                  student.last_name || ""
+                                }`}
                             </Typography>
                             <Typography variant="caption" color="textSecondary">
-                              {student.phone}
+                              {student.phone || "No phone"}
                             </Typography>
                           </Box>
                         </Box>
                       </TableCell>
-                      <TableCell>{student.email}</TableCell>
+                      <TableCell>{student.email || "N/A"}</TableCell>
                       <TableCell>
-                        {student.batch_month} {student.batch_year}
+                        {student.batch_month || "N/A"}{" "}
+                        {student.batch_year || ""}
                       </TableCell>
                       <TableCell>
                         <Chip
-                          label={student.status}
+                          label={student.status || "unknown"}
                           color={getStatusColor(student.status)}
                           size="small"
                         />
@@ -405,9 +472,10 @@ const StudentList = () => {
         <DialogTitle>Delete Student</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete student "{deleteDialog?.fullName}"?
-            This action cannot be undone and will permanently delete all their
-            data including projects and achievements.
+            Are you sure you want to delete student "
+            {deleteDialog?.fullName || deleteDialog?.first_name}"? This action
+            cannot be undone and will permanently delete all their data
+            including projects and achievements.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -124,13 +124,25 @@ const Healthy_Delivary_Payments_CS = ({
         <h2>1. Bootstrap Flex Utilities</h2>
         <h3>1.1 Order</h3>
         <p>
-          The <code>order</code> classes change the visual order of flex items
-          inside a flex container. Numbers can be 0–12. They are responsive:
+          The Bootstrap Order class names are used to change the visual order of
+          the flex items that appear inside the Flex Container.
         </p>
-        <ul>
-          <li>order-1, order-2, order-3, …</li>
-          <li>order-md-2, order-lg-3, etc.</li>
-        </ul>
+        <p>
+          For example, <code>order-1</code>, <code>order-2</code>,{" "}
+          <code>order-3</code>, etc.
+        </p>
+        <p>
+          We can use any number in the range of <code>0</code> to{" "}
+          <code>order-3</code> for a bootstrap <code>order</code> class name.
+        </p>
+        <p>
+          These class names are responsive. So, you can set the order by
+          breakpoint.
+        </p>
+        <p>
+          For example, <code>order-1</code>, <code>order-md-2</code>,{" "}
+          <code>order-lg-3</code>, etc.
+        </p>
 
         <CodeBlock
           language="html"
@@ -140,70 +152,33 @@ const Healthy_Delivary_Payments_CS = ({
   <div class="order-3">Third</div>
 </div>`}
         />
+        <MCQBlock mcq={mcqs[0]} answers={mcqAnswers} onAnswer={handleAnswer} />
+        <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* 2. Bootstrap Display Utilities */}
       <section>
         <h2>2. Bootstrap Display Utilities</h2>
         <p>
-          Show or hide HTML elements responsively using <code>d-*-none</code>,{" "}
-          <code>d-*-block</code>, and <code>d-*-inline</code> classes.
+          We can hide and show HTML elements responsively for each screen size
+          with the Display utilities.
         </p>
-        <ul>
-          <li>Hide: d-none, d-sm-none, d-md-none, …</li>
-          <li>Show: d-block, d-md-inline, d-lg-block, …</li>
-        </ul>
+        <p>
+          We can hide HTML Elements using <code>d-*-none</code> class names,
+          where <code>*</code> represents breakpoints
+          <code>(sm, md, lg, xl)</code>
+        </p>
+        <p>
+          For example, <code>d-none</code>, <code>d-sm-none</code>,{" "}
+          <code>d-md-none</code>, etc.
+        </p>
 
         <CodeBlock
           language="html"
           code={`<div class="d-none d-md-block">Visible on md and up</div>
 <div class="d-block d-md-none">Visible on sm and below</div>`}
         />
-      </section>
-
-      {/* 3. Sections in Food Munch Website */}
-      <section>
-        <h2>3. Sections in Food Munch Website</h2>
-
-        <h3>3.1 Healthy Food Section</h3>
-        <CodeBlock
-          language="html"
-          code={`<section class="healthy-food p-3">
-  <h2>Healthy Food Options</h2>
-  <p>Fresh salads, juices, and organic meals.</p>
-</section>`}
-        />
-
-        <h3>3.2 Delivery & Payment Section</h3>
-        <CodeBlock
-          language="html"
-          code={`<section class="delivery-payment p-3">
-  <h2>Delivery & Payment</h2>
-  <p>Fast delivery and multiple payment options available.</p>
-</section>`}
-        />
-
-        <h3>3.3 Thanking Customers Section</h3>
-        <CodeBlock
-          language="html"
-          code={`<section class="thank-you p-3">
-  <h2>Thank You!</h2>
-  <p>We appreciate your order and hope you enjoy your meal.</p>
-</section>`}
-        />
-      </section>
-
-      {/* MCQs - CLEAN, CONSISTENT & EDUCATIONAL */}
-      <section>
-        <h3>MCQs</h3>
-        {mcqs.map((mcq) => (
-          <MCQBlock
-            key={mcq.id}
-            mcq={mcq}
-            answers={mcqAnswers}
-            onAnswer={handleAnswer}
-          />
-        ))}
+        <MCQBlock mcq={mcqs[3]} answers={mcqAnswers} onAnswer={handleAnswer} />
       </section>
 
       {/* Continue Button */}
