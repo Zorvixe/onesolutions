@@ -362,19 +362,36 @@ CREATE TABLE IF NOT EXISTS student_feedback (
 // -------------------------------------------
 // 🔹 JWT Token Generator
 // -------------------------------------------
+// -------------------------------------------
+// 🔹 JWT Token Generator (Updated)
+// -------------------------------------------
 const generateToken = (id) => {
-  if (!process.env.JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined in environment variables");
+  const JWT_SECRET =
+    process.env.JWT_SECRET ||
+    "your-fallback-secret-key-for-development-only-change-in-production";
+
+  if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET is not configured");
   }
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
+
+  return jwt.sign({ id }, JWT_SECRET, {
+    expiresIn: "30d",
+    issuer: "onesolutions-backend",
+    subject: id.toString(),
+  });
 };
 
 // -------------------------------------------
 // 🔹 Auth Middleware
 // -------------------------------------------
+// -------------------------------------------
+// 🔹 Enhanced Auth Middleware
+// -------------------------------------------
 const auth = async (req, res, next) => {
   try {
     let token = req.header("Authorization");
+
+    console.log(`🔐 Auth attempt - Token present: ${!!token}`);
 
     if (!token) {
       return res.status(401).json({
@@ -383,8 +400,9 @@ const auth = async (req, res, next) => {
       });
     }
 
+    // Extract token from Bearer format
     if (token.startsWith("Bearer ")) {
-      token = token.slice(7, token.length);
+      token = token.slice(7, token.length).trim();
     }
 
     if (!token || token === "null" || token === "undefined") {
@@ -394,16 +412,27 @@ const auth = async (req, res, next) => {
       });
     }
 
-    if (!process.env.JWT_SECRET) {
-      console.error("JWT_SECRET is missing");
+    // Use the same JWT_SECRET consistently
+    const JWT_SECRET =
+      process.env.JWT_SECRET ||
+      "your-fallback-secret-key-for-development-only-change-in-production";
+
+    if (!JWT_SECRET) {
+      console.error("❌ JWT_SECRET is not configured");
       return res.status(500).json({
         success: false,
         message: "Server configuration error",
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log(
+      `🔐 Verifying token with secret: ${JWT_SECRET ? "Set" : "Not set"}`
+    );
 
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(`✅ Token decoded for user ID: ${decoded.id}`);
+
+    // Verify user exists in database
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, phone, 
               profile_image, batch_month, batch_year, is_current_batch,
@@ -422,42 +451,51 @@ const auth = async (req, res, next) => {
               bachelor_institute_pincode, bachelor_institute_district,
               occupation_status, has_work_experience,
               created_at 
-       FROM students WHERE id = $1`,
+       FROM students WHERE id = $1 AND status = 'active'`,
       [decoded.id]
     );
 
-    const student = result.rows[0];
-    if (!student) {
+    if (result.rows.length === 0) {
+      console.log(`❌ User not found or inactive: ${decoded.id}`);
       return res.status(401).json({
         success: false,
-        message: "Token is not valid - user not found",
+        message: "User not found or account inactive",
       });
     }
 
-    req.student = student;
+    req.student = result.rows[0];
+    console.log(`✅ Auth successful for: ${req.student.email}`);
     next();
   } catch (error) {
-    console.error("Auth middleware error:", error.message);
+    console.error("🔐 Auth middleware error:", error.message);
 
     if (error.name === "JsonWebTokenError") {
       return res.status(401).json({
         success: false,
-        message: "Invalid token",
+        message: "Invalid token - please login again",
+        error: "invalid_token",
       });
     } else if (error.name === "TokenExpiredError") {
       return res.status(401).json({
         success: false,
-        message: "Token expired",
+        message: "Token expired - please login again",
+        error: "token_expired",
+      });
+    } else if (error.name === "NotBeforeError") {
+      return res.status(401).json({
+        success: false,
+        message: "Token not active",
+        error: "token_not_active",
       });
     }
 
     res.status(401).json({
       success: false,
-      message: "Token verification failed",
+      message: "Authentication failed",
+      error: error.message,
     });
   }
 };
-
 // -------------------------------------------
 // 🔹 Email Configuration with Better Error Handling
 // -------------------------------------------
@@ -604,9 +642,14 @@ setInterval(cleanExpiredOtps, 60 * 1000);
 // -------------------------------------------
 // 🔹 Admin Auth Middleware (Simplified)
 // -------------------------------------------
+// -------------------------------------------
+// 🔹 Enhanced Admin Auth Middleware
+// -------------------------------------------
 const adminAuth = async (req, res, next) => {
   try {
     let token = req.header("Authorization");
+
+    console.log(`🔐 Admin auth attempt - Token present: ${!!token}`);
 
     if (!token) {
       return res.status(401).json({
@@ -616,33 +659,69 @@ const adminAuth = async (req, res, next) => {
     }
 
     if (token.startsWith("Bearer ")) {
-      token = token.slice(7, token.length);
+      token = token.slice(7, token.length).trim();
     }
 
-    // For admin routes, we'll accept any valid student token for now
-    // In production, you should implement proper admin role checking
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!token || token === "null" || token === "undefined") {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid token format",
+      });
+    }
 
+    const JWT_SECRET =
+      process.env.JWT_SECRET ||
+      "your-fallback-secret-key-for-development-only-change-in-production";
+
+    if (!JWT_SECRET) {
+      console.error("❌ JWT_SECRET is missing in admin auth");
+      return res.status(500).json({
+        success: false,
+        message: "Server configuration error",
+      });
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(`✅ Admin token decoded for user ID: ${decoded.id}`);
+
+    // For admin routes, verify the user exists and has appropriate permissions
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, status 
-       FROM students WHERE id = $1`,
+       FROM students WHERE id = $1 AND status = 'active'`,
       [decoded.id]
     );
 
     if (result.rows.length === 0) {
       return res.status(401).json({
         success: false,
-        message: "Invalid admin token",
+        message: "Admin access denied - user not found",
       });
     }
 
     req.admin = result.rows[0];
+    console.log(`✅ Admin auth successful for: ${req.admin.email}`);
     next();
   } catch (error) {
-    console.error("Admin auth error:", error.message);
+    console.error("🔐 Admin auth error:", error.message);
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid admin token",
+        error: "invalid_token",
+      });
+    } else if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        success: false,
+        message: "Admin token expired",
+        error: "token_expired",
+      });
+    }
+
     res.status(401).json({
       success: false,
       message: "Admin authentication failed",
+      error: error.message,
     });
   }
 };
@@ -4111,6 +4190,39 @@ app.get("/api/admin/students/stats", adminAuth, async (req, res) => {
     });
   }
 });
+
+// -------------------------------------------
+// 🔹 Token Refresh Endpoint
+// -------------------------------------------
+app.post("/api/auth/refresh-token", auth, async (req, res) => {
+  try {
+    // If we reach here, the token is valid (auth middleware passed)
+    // Generate a new token with extended expiry
+    const newToken = generateToken(req.student.id);
+
+    res.json({
+      success: true,
+      message: "Token refreshed successfully",
+      data: {
+        token: newToken,
+        student: {
+          id: req.student.id,
+          studentId: req.student.student_id,
+          email: req.student.email,
+          firstName: req.student.first_name,
+          lastName: req.student.last_name,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Token refresh error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to refresh token",
+    });
+  }
+});
+
 // Handle 404 routes
 app.use("*", (req, res) => {
   res.status(404).json({
