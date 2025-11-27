@@ -482,4 +482,202 @@ export const codingPracticesData = {
       ],
     },
   ],
+
+  static: [
+    {
+      id: "static-coding-practice-1",
+      title: "Todolist",
+      description:
+        "Build a Todolist by applying the concepts we learned till now.",
+      questions: [
+        {
+          id: "todolist-html-css",
+          title: "Build Todolist UI",
+          description:
+            "Create a responsive Todolist interface matching the design specifications",
+          difficulty: "Easy",
+          score: 100,
+          type: "web", // This indicates it's an HTML/CSS/JS practice
+          defaultCode: {
+            html: ``,
+            css: "",
+            javascript: "",
+          },
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the CSS property text-align and the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+          ],
+          sampleInput: "No specific input required",
+          sampleOutput: "A Todolist UI matching the design specifications",
+        },
+      ],
+    },
+    {
+      id: "static-responsive-layout",
+      title: "Responsive Layout",
+      description:
+        "Build a responsive website layout using CSS Grid and Flexbox",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "responsive-grid",
+          title: "CSS Grid Layout",
+          description:
+            "Create a responsive grid layout that works on mobile and desktop",
+          difficulty: "Medium",
+          score: 150,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: "",
+            javascript: "",
+          },
+          testCases: [],
+        },
+      ],
+    },
+  ],
+
+  // Dynamic Web Practices (JavaScript functionality)
+  dynamic: [
+    {
+      id: "dynamic-calculator",
+      title: "JavaScript Calculator",
+      description: "Build a functional calculator with JavaScript",
+      type: "web",
+      category: "dynamic",
+      questions: [
+        {
+          id: "calculator-js",
+          title: "Build Calculator",
+          description:
+            "Create a calculator that can perform basic arithmetic operations",
+          difficulty: "Medium",
+          score: 200,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: "",
+            javascript: "",
+          },
+          testCases: [],
+        },
+      ],
+    },
+    {
+      id: "dynamic-weather-app",
+      title: "Weather App",
+      description: "Build a weather application with API integration",
+      type: "web",
+      category: "dynamic",
+      questions: [
+        {
+          id: "weather-app-js",
+          title: "Weather Application",
+          description: "Create a weather app that fetches data from an API",
+          difficulty: "Hard",
+          score: 300,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: "",
+            javascript: "",
+          },
+          testCases: [],
+        },
+      ],
+    },
+  ],
+
+  // Responsive Web Practices
+  responsive: [
+    {
+      id: "responsive-portfolio",
+      title: "Portfolio Website",
+      description: "Build a responsive portfolio website",
+      type: "web",
+      category: "responsive",
+      questions: [
+        {
+          id: "portfolio-responsive",
+          title: "Responsive Portfolio",
+          description: "Create a portfolio that works on all device sizes",
+          difficulty: "Medium",
+          score: 250,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: "",
+            javascript: "",
+          },
+          testCases: [],
+        },
+      ],
+    },
+  ],
+};
+
+// Helper function to find practice by ID across all categories
+export const findPracticeById = (practiceId) => {
+  for (const category in codingPracticesData) {
+    const practice = codingPracticesData[category].find(
+      (p) => p.id === practiceId
+    );
+    if (practice) return practice;
+  }
+  return null;
+};
+
+// Helper function to find question by practice ID and question ID
+export const findQuestionById = (practiceId, questionId) => {
+  const practice = findPracticeById(practiceId);
+  if (!practice) return null;
+
+  return (
+    practice.questions.find((q) => q.id === questionId) || practice.questions[0]
+  );
 };

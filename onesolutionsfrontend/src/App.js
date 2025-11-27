@@ -16,9 +16,12 @@ import Courses from "./components/Courses/Courses";
 import Practice from "./components/Practice/Practice";
 import Placements from "./components/Placements/Placements";
 import SubtopicPage from "./SubtopicsPage/SubtopicPage";
-import CodeGround from "./CodePlayground";
+import CodeGround from "./CodePlayground/CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ThreadDetail from "./NewThreadModal/ThreadDetail";
+
+// In App.js - add the new route
+import WebPractice from './components/WebPractice/WebPractice';
 
 import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
@@ -84,6 +87,9 @@ function App() {
                 path="/practice/:practiceId/:questionId"
                 element={<Practice />}
               />
+
+              <Route path="/web-practice/:practiceId/:questionId" element={<WebPractice />} />
+
 
               <Route path="/placements" element={<Placements />} />
 

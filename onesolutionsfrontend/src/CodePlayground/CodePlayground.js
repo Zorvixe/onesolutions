@@ -20,13 +20,20 @@ import "ace-builds/src-noconflict/ext-language_tools";
 // Import SQL.js
 import initSqlJs from "sql.js";
 
+// UPDATE THE FUNCTION SIGNATURE:
 export default function CodePlayground({
   initialLanguage = "web",
   initialCode,
   autoRun = false,
   remoteRunners = {},
+  onCodeChange = () => {},
+  iframeRef: externalIframeRef = null,
+  customRunHandler = null,
+  runButtonText = "Run Code",
 }) {
-  const iframeRef = useRef(null);
+// ADD THESE 2 LINES after your existing useRef declarations:
+const internalIframeRef = useRef(null);
+const iframeRef = externalIframeRef || internalIframeRef;
   const editorRef = useRef(null);
   const [language, setLanguage] = useState(initialLanguage);
   const [output, setOutput] = useState("");
@@ -787,6 +794,12 @@ remoteRunners={{
   // Check if input section should be shown
   const showInputSection = ["python", "java"].includes(language);
 
+
+  // ADD THIS useEffect after your other useEffects:
+useEffect(() => {
+  onCodeChange(code);
+}, [code, onCodeChange]);
+
   return (
     <section className="code-playground-codep">
       <div className="playground-content-codep">
@@ -910,12 +923,12 @@ remoteRunners={{
                   />
                   <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
                 </svg>{" "}
-                Reset Code
+                {runButtonText}
               </button>
 
               <button
                 className="btn-codep btn-primary-codep"
-                onClick={handleRun}
+                onClick={customRunHandler || handleRun}
                 disabled={
                   isRunning ||
                   (language === "sql" && !sqlJs) ||
