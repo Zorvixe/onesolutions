@@ -6,15 +6,15 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Explore_Menu_Section_1 = ({
+const Inp_Oup_Basics_Class = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Developing Layouts",
-  topicName = "Explore New Section",
+  moduleName = "I/O Basics",
+  topicName = "Type Conversion",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1R0XCuON41A3Ofv1KQMhfvzdVcQ_kc8lY1G8qZ0leFKQ/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/176g97oiRL5Sh-GwQVIEAAwtAvn-VWrI8-uS4uErBuNs/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +614,4 @@ const Explore_Menu_Section_1 = ({
     </div>
   );
 };
-export default Explore_Menu_Section_1;
+export default Inp_Oup_Basics_Class;

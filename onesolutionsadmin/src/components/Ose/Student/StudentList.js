@@ -9,6 +9,8 @@ const API_BASE_URL = "https://api.onesolutionsekam.in";
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [formData, setFormData] = useState({
     student_id: "",
     email: "",
@@ -32,80 +34,88 @@ const StudentList = () => {
     status: "",
   });
 
-  // Admin Auth - FIXED: Use the hook properly
-  const { 
-    isAuthenticated, 
-    showAuthModal, 
-    loading: authLoading, 
-    setShowAuthModal, 
-    handleAuthSuccess 
-  } = useAdminAuth();
+   // Online stats
+   const [onlineStats, setOnlineStats] = useState({
+    totalOnline: 0,
+    totalStudents: 0
+  });
 
-  // Get token from localStorage
-  const getToken = () => {
-    return localStorage.getItem('adminToken') || localStorage.getItem('token');
-  };
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchStudents();
+// Admin Auth
+const { 
+  isAuthenticated, 
+  showAuthModal, 
+  loading: authLoading, 
+  setShowAuthModal, 
+  handleAuthSuccess,
+  getAuthHeaders
+} = useAdminAuth();
+
+useEffect(() => {
+  if (isAuthenticated) {
+    fetchStudents();
+    // Set up interval to refresh online status every 30 seconds
+    const interval = setInterval(fetchStudents, 30000);
+    return () => clearInterval(interval);
+  }
+}, [filters, isAuthenticated]);
+
+const fetchStudents = async () => {
+  if (!isAuthenticated) return;
+  
+  setLoading(true);
+  setError("");
+  try {
+    const params = new URLSearchParams();
+    if (filters.search) params.append('search', filters.search);
+    if (filters.batchMonth) params.append('batchMonth', filters.batchMonth);
+    if (filters.batchYear) params.append('batchYear', filters.batchYear);
+    if (filters.status) params.append('status', filters.status);
+
+    const response = await fetch(
+      `${API_BASE_URL}/api/admin/students?${params}`,
+      {
+        method: "GET",
+        headers: getAuthHeaders()
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Authentication failed. Please login again.");
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  }, [filters, isAuthenticated]);
 
-  const fetchStudents = async () => {
-    if (!isAuthenticated) return;
+    const result = await response.json();
+
+    if (result.success) {
+      setStudents(result.data.students || []);
+      setOnlineStats(result.data.onlineStats || { totalOnline: 0, totalStudents: 0 });
+    } else {
+      throw new Error(result.message || "Failed to fetch students");
+    }
+  } catch (err) {
+    console.error("Error fetching students:", err);
+    setError(err.message || "Failed to fetch students. Please try again.");
     
-    setLoading(true);
-    setError("");
-    try {
-      const params = new URLSearchParams();
-      if (filters.search) params.append('search', filters.search);
-      if (filters.batchMonth) params.append('batchMonth', filters.batchMonth);
-      if (filters.batchYear) params.append('batchYear', filters.batchYear);
-      if (filters.status) params.append('status', filters.status);
-
-      const token = getToken();
-      console.log('Fetching students with token:', token ? 'Present' : 'Missing');
-
-      const response = await fetch(
-        `${API_BASE_URL}/api/admin/students?${params}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error("Authentication failed. Please login again.");
-        }
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log("API Response:", result);
-
-      if (result.success) {
-        setStudents(result.data.students || []);
-      } else {
-        throw new Error(result.message || "Failed to fetch students");
-      }
-    } catch (err) {
-      console.error("Error fetching students:", err);
-      setError(err.message || "Failed to fetch students. Please try again.");
-      
-      // If authentication failed, show auth modal again
-      if (err.message.includes('Authentication failed') || err.message.includes('401')) {
-        localStorage.removeItem('adminAuth');
-        setShowAuthModal(true);
-      }
-    } finally {
-      setLoading(false);
+    if (err.message.includes('Authentication failed') || err.message.includes('401')) {
+      localStorage.removeItem('adminAuth');
+      localStorage.removeItem('adminToken');
+      setShowAuthModal(true);
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
+// Online status indicator component
+const OnlineStatus = ({ isOnline }) => (
+  <div className={`online-status ${isOnline ? 'online' : 'offline'}`}>
+    <div className="status-dot"></div>
+    <span>{isOnline ? 'Online' : 'Offline'}</span>
+  </div>
+);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -331,17 +341,29 @@ const StudentList = () => {
   // Rest of your JSX remains the same...
   return (
     <div className="student-management-admin">
-      {/* Header with logout button */}
+      {/* Header */}
       <div className="admin-header">
         <div className="header-content">
           <h1>Student Management</h1>
           <p>Manage and monitor all student accounts</p>
+          {/* Online Stats */}
+          <div className="online-stats">
+            <div className="stat-item">
+              <span className="stat-number">{onlineStats.totalOnline}</span>
+              <span className="stat-label">Online Now</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-number">{onlineStats.totalStudents}</span>
+              <span className="stat-label">Total Students</span>
+            </div>
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button 
             className="btn-logout"
             onClick={() => {
               localStorage.removeItem('adminAuth');
+              localStorage.removeItem('adminToken');
               window.location.reload();
             }}
           >
@@ -364,7 +386,7 @@ const StudentList = () => {
         </div>
       )}
 
-      {/* Stats Overview */}
+      {/* Stats Overview - Updated with online stats */}
       <div className="stats-overview">
         <div className="stat-card">
           <div className="stat-icon total">
@@ -389,14 +411,14 @@ const StudentList = () => {
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-icon current">
+          <div className="stat-icon online">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
           </div>
           <div className="stat-info">
-            <h3>{students.filter((s) => s.is_current_batch).length}</h3>
-            <p>Current Batch</p>
+            <h3>{onlineStats.totalOnline}</h3>
+            <p>Online Now</p>
           </div>
         </div>
         <div className="stat-card">
@@ -411,6 +433,7 @@ const StudentList = () => {
           </div>
         </div>
       </div>
+
 
       {/* Filters Section */}
       <div className="filters-section">
@@ -520,23 +543,34 @@ const StudentList = () => {
           </div>
         ) : (
           <div className="students-grid">
-            {students.map((student) => (
-              <div key={student.id} className="student-card">
-                <div className="student-header">
-                  <div className="student-avatar">
-                    {student.profile_image ? (
-                      <img
-                        src={student.profile_image}
-                        alt={getDisplayName(student)}
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                    ) : null}
-                    <span style={{display: student.profile_image ? 'none' : 'flex'}}>
-                      {getDisplayName(student).charAt(0).toUpperCase()}
-                    </span>
+           {students.map((student) => (
+        <div key={student.id} className="student-card">
+          <div className="student-header">
+            <div className="student-avatar">
+              {student.profile_image ? (
+                <img
+                  src={student.profile_image}
+                  alt={getDisplayName(student)}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+              ) : null}
+                   <span style={{display: student.profile_image ? 'none' : 'flex'}}>
+                {getDisplayName(student).charAt(0).toUpperCase()}
+              </span>
+               {/* Online Status Badge */}
+               <div className={`online-badge ${student.is_online ? 'online' : 'offline'}`}></div>
+            </div>
+            <div className="student-basic-info">
+              <h3>{getDisplayName(student)}</h3>
+              <p className="student-id">{student.student_id}</p>
+              <div className="status-container">
+                {getStatusBadge(student.status)}
+                <OnlineStatus isOnline={student.is_online} />
+              </div>
+            </div>
                   </div>
                   <div className="student-basic-info">
                     <h3>{getDisplayName(student)}</h3>

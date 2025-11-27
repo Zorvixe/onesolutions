@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import "./CodingPractice.css";
+import "../CodingPracticeCss/CodingPractice.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";

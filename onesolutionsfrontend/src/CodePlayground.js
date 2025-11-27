@@ -63,6 +63,8 @@ export default function CodePlayground({
   <div id="output"></div>
 </body>
 </html>`,
+      css: ``,
+      javascript: ``,
     }),
     []
   );

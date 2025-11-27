@@ -6,15 +6,15 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Explore_Menu_Section_1 = ({
+const Pro_W_P_Class = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Developing Layouts",
-  topicName = "Explore New Section",
+  moduleName = "Introduction to Python",
+  topicName = "Programming with Python",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1R0XCuON41A3Ofv1KQMhfvzdVcQ_kc8lY1G8qZ0leFKQ/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1nYAm8gHe5MepkIN_WPaSCb2cDfnQKSTqmPQFyud70Nw/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +614,4 @@ const Explore_Menu_Section_1 = ({
     </div>
   );
 };
-export default Explore_Menu_Section_1;
+export default Pro_W_P_Class;

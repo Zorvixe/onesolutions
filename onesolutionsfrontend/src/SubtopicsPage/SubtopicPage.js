@@ -236,10 +236,40 @@ import Responsive_Coding_Test_3 from "../ResponsiveWebsite/Mock_Tests/Responsive
 import Responsive_Project from "../ResponsiveWebsite/Mock_Tests/Responsive_Project.js";
 import Responsive_Course_Exam_Instructions from "../ResponsiveWebsite/Responsive_Course_Exam/Responsive_Course_Exam_Instructions.js";
 import Responsive_Course_Exam from "../ResponsiveWebsite/Responsive_Course_Exam/Responsive_Course_Exam.js";
+
+//Python Coding & Class
+import Inp_Oup_Basics_Class from "../Python/Inp_Oup_Basiscs/Inp_Oup_Basics_Class.js";
+import Type_Con_Class from "../Python/Inp_Oup_Basiscs/Type_Con_Class.js";
+import Pro_W_P_Class from "../Python/IntroductiontoPython/Pro_W_P_Class.js";
+import Seq_Of_Instruction_Class from "../Python/IntroductiontoPython/Seq_OF_Instruction_Class.js";
+import Variables_DT_Class from "../Python/IntroductiontoPython/Variables_DT_Class.js";
+import Coding_Pratice_1A from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1A.js";
+import Coding_Pratice_1B from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1B.js";
+import Coding_Pratice_1C from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1C.js";
+import Coding_Pratice_1D from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1D.js";
+import Coding_Pratice_1E from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1E.js";
+import Coding_Pratice_1F from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1F.js";
+import Assignment_1A from "../Python/Inp_Oup_Basiscs/Assignment_1A.js";
+import Assignment_1B from "../Python/Inp_Oup_Basiscs/Assignment_1B.js";
 // Map subtopics to their components
 const subtopicComponents = {
+  //Python Coding & Class
+  "Input and Output Basics": Inp_Oup_Basics_Class,
+  "Type Conversion": Type_Con_Class,
+  "Programming with Python": Pro_W_P_Class,
+  "Variables and Data Types": Variables_DT_Class,
+  "Sequence of Instructions": Seq_Of_Instruction_Class,
+  "Coding Practice 1A": Coding_Pratice_1A,
+  "Coding Practice 1B": Coding_Pratice_1B,
+  "Coding Practice 1C": Coding_Pratice_1C,
+  "Coding Practice 1D": Coding_Pratice_1D,
+  "Coding Practice 1E": Coding_Pratice_1E,
+  "Coding Practice 1F": Coding_Pratice_1F,
+  "Assignment 1A": Assignment_1A,
+  "Assignment 1B": Assignment_1B,
+
   //Responsive Website
-  "Introduction to Dynamic Web Applications": Introductionto_Responsive_WD_1,
+  "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
   "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
   "BootStrap Grid System Part 2": Bootstrap_Grid_Sys_2,
   "BootStrap Navbar": Bootstrap_Navbar_1,
@@ -644,7 +674,7 @@ const SubtopicPage = () => {
   const [selectedCourseSub, setSelectedCourseSub] = useState(null);
   const [selectedGoalSub, setSelectedGoalSub] = useState(null);
   const [expandedModuleSub, setExpandedModuleSub] = useState(null);
-  
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -677,12 +707,8 @@ const SubtopicPage = () => {
 
   useEffect(() => {
     if (topicId && subtopicId && goalsData) {
-      const { 
-        foundSubtopicSub, 
-        foundModuleSub, 
-        foundCourseSub, 
-        foundGoalSub 
-      } = findContentByIds(topicId, subtopicId);
+      const { foundSubtopicSub, foundModuleSub, foundCourseSub, foundGoalSub } =
+        findContentByIds(topicId, subtopicId);
 
       if (foundSubtopicSub && foundModuleSub) {
         setSelectedSubtopicSub(foundSubtopicSub);
@@ -696,7 +722,7 @@ const SubtopicPage = () => {
         if (location.state) {
           setSelectedSubtopicSub({
             id: subtopicId,
-            name: location.state.subtopicName || "Unknown Subtopic"
+            name: location.state.subtopicName || "Unknown Subtopic",
           });
         }
       }
@@ -746,8 +772,8 @@ const SubtopicPage = () => {
         subtopicName: subtopic.name,
         goalName: selectedGoalSub?.title,
         courseName: selectedCourseSub?.title,
-        fromCourse: true
-      }
+        fromCourse: true,
+      },
     });
   };
 
@@ -818,9 +844,9 @@ const SubtopicPage = () => {
   // ✅ Check if content exists in current context
   const isContentInCurrentContext = (subtopic) => {
     if (!selectedCourseSub || !subtopic) return false;
-    
-    return selectedCourseSub.modules?.some(module => 
-      module.topic?.some(topic => topic.id === subtopic.id)
+
+    return selectedCourseSub.modules?.some((module) =>
+      module.topic?.some((topic) => topic.id === subtopic.id)
     );
   };
 
@@ -891,8 +917,8 @@ const SubtopicPage = () => {
                             ? "completed-sub"
                             : ""
                         } ${
-                          !isContentInCurrentContext(subtopic) 
-                            ? "disabled-sub" 
+                          !isContentInCurrentContext(subtopic)
+                            ? "disabled-sub"
                             : ""
                         }`}
                         onClick={() => {
@@ -934,10 +960,10 @@ const SubtopicPage = () => {
               <div className="subtopic-page-sub__access-denied-sub">
                 <h3>Content Not Accessible</h3>
                 <p>
-                  This content is not available in the current course context. 
+                  This content is not available in the current course context.
                   Please navigate to this content from the Courses page.
                 </p>
-                <button 
+                <button
                   onClick={() => navigate("/courses")}
                   className="subtopic-page-sub__back-button-sub"
                 >

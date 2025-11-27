@@ -1,4 +1,3 @@
-// AdminAuthModal.js
 import React, { useState } from 'react';
 import {
   Dialog,
@@ -12,44 +11,75 @@ import {
   Alert,
   Box,
   Typography,
+  CircularProgress
 } from '@mui/material';
 import { Security, AdminPanelSettings } from '@mui/icons-material';
 
-const ADMIN_SECRET_KEY = process.env.REACT_APP_ADMIN_SECRET_KEY || "onesolution@2024";
+const API_BASE_URL = process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
 
 const AdminAuthModal = ({ open, onClose, onSuccess }) => {
   const [secretKey, setSecretKey] = useState('');
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [attempts, setAttempts] = useState(0);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     if (!agreed) {
       setError('Please confirm that you are authorized to access the admin panel');
+      setLoading(false);
       return;
     }
 
     if (!secretKey.trim()) {
       setError('Please enter the admin secret key');
+      setLoading(false);
       return;
     }
 
-    if (secretKey === ADMIN_SECRET_KEY) {
-      // Store admin auth in localStorage with expiry (24 hours)
-      const authData = {
-        authenticated: true,
-        timestamp: new Date().getTime(),
-        expiresIn: 24 * 60 * 60 * 1000 // 24 hours
-      };
-      localStorage.setItem('adminAuth', JSON.stringify(authData));
-      onSuccess();
-      onClose();
-    } else {
+    try {
+      // Verify admin access by making a test API call
+      const response = await fetch(`${API_BASE_URL}/api/admin/students/stats`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${secretKey}`,
+          'Content-Type': 'application/json',
+          'x-admin-secret': secretKey
+        }
+      });
+
+      if (response.ok) {
+        // Store admin authentication
+        const authData = {
+          authenticated: true,
+          timestamp: new Date().getTime(),
+          expiresIn: 24 * 60 * 60 * 1000, // 24 hours
+          token: secretKey
+        };
+        
+        localStorage.setItem('adminAuth', JSON.stringify(authData));
+        localStorage.setItem('adminToken', secretKey);
+        
+        setLoading(false);
+        onSuccess();
+        onClose();
+        
+        // Clear form
+        setSecretKey('');
+        setAgreed(false);
+        setError('');
+        setAttempts(0);
+      } else {
+        throw new Error('Invalid admin credentials');
+      }
+    } catch (err) {
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
+      setLoading(false);
       
       if (newAttempts >= 3) {
         setError('Too many failed attempts. Please refresh the page and try again.');
@@ -64,7 +94,7 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
 
   const handleClose = () => {
     if (attempts > 0) {
-      window.location.href = '/'; // Redirect to home if failed attempts
+      window.location.href = '/';
     } else {
       onClose();
     }
@@ -111,7 +141,8 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
             margin="normal"
             error={!!error}
             helperText={error ? error : "Enter the admin authorization key"}
-            disabled={attempts >= 3}
+            disabled={attempts >= 3 || loading}
+            autoComplete="off"
           />
 
           <FormControlLabel
@@ -120,7 +151,7 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
                 color="primary"
-                disabled={attempts >= 3}
+                disabled={attempts >= 3 || loading}
               />
             }
             label={
@@ -141,17 +172,17 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
         <DialogActions>
           <Button 
             onClick={handleClose}
-            disabled={attempts >= 3}
+            disabled={attempts >= 3 || loading}
           >
             Cancel
           </Button>
           <Button 
             type="submit" 
             variant="contained" 
-            startIcon={<AdminPanelSettings />}
-            disabled={attempts >= 3 || !agreed || !secretKey.trim()}
+            startIcon={loading ? <CircularProgress size={16} /> : <AdminPanelSettings />}
+            disabled={attempts >= 3 || !agreed || !secretKey.trim() || loading}
           >
-            Authorize Access
+            {loading ? 'Verifying...' : 'Authorize Access'}
           </Button>
         </DialogActions>
       </form>

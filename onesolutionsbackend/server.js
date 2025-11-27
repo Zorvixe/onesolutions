@@ -3782,13 +3782,103 @@ app.get("/api/admin/feedback/stats", auth, async (req, res) => {
 // 🔹 STUDENT MANAGEMENT ROUTES (UPDATED)
 // ==========================================
 
-// Get all students with pagination and search - FIXED VERSION
-app.get("/api/admin/students", adminAuth, async (req, res) => {
+// Add this to your existing server.js file
+
+// -------------------------------------------
+// 🔹 Student Online Status Tracking
+// -------------------------------------------
+const activeStudents = new Map();
+
+// Middleware to track student activity
+app.use('/api/', (req, res, next) => {
+  if (req.student) {
+    const studentId = req.student.id;
+    activeStudents.set(studentId, {
+      studentId,
+      lastActive: Date.now(),
+      isOnline: true,
+      student: req.student
+    });
+  }
+  next();
+});
+
+// Clean up inactive students (offline after 5 minutes)
+setInterval(() => {
+  const now = Date.now();
+  const fiveMinutes = 5 * 60 * 1000;
+  
+  for (let [studentId, data] of activeStudents.entries()) {
+    if (now - data.lastActive > fiveMinutes) {
+      activeStudents.delete(studentId);
+    }
+  }
+}, 60000); // Run every minute
+
+// Get online students (Admin only)
+app.get('/api/admin/online-students', adminAuth, async (req, res) => {
+  try {
+    const onlineStudents = Array.from(activeStudents.values()).map(data => ({
+      id: data.student.id,
+      studentId: data.student.student_id,
+      email: data.student.email,
+      firstName: data.student.first_name,
+      lastName: data.student.last_name,
+      profileImage: data.student.profile_image,
+      batchMonth: data.student.batch_month,
+      batchYear: data.student.batch_year,
+      lastActive: data.lastActive,
+      isOnline: true
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        onlineStudents,
+        totalOnline: onlineStudents.length
+      }
+    });
+  } catch (error) {
+    console.error('Online students fetch error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch online students'
+    });
+  }
+});
+
+// Student heartbeat to maintain online status
+app.post('/api/student/heartbeat', auth, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    
+    activeStudents.set(studentId, {
+      studentId,
+      lastActive: Date.now(),
+      isOnline: true,
+      student: req.student
+    });
+
+    res.json({
+      success: true,
+      message: 'Heartbeat recorded'
+    });
+  } catch (error) {
+    console.error('Heartbeat error:', error.message);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to record heartbeat'
+    });
+  }
+});
+
+// Update the students list endpoint to include online status
+app.get('/api/admin/students', adminAuth, async (req, res) => {
   try {
     const {
       page = 1,
       limit = 20,
-      search = "",
+      search = '',
       batchMonth,
       batchYear,
       status,
@@ -3813,7 +3903,7 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     let paramCount = 1;
 
     // Search filter
-    if (search && search.trim() !== "") {
+    if (search && search.trim() !== '') {
       const searchCondition = ` AND (
         first_name ILIKE $${paramCount} OR 
         last_name ILIKE $${paramCount} OR 
@@ -3827,7 +3917,7 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     }
 
     // Batch month filter
-    if (batchMonth && batchMonth !== "") {
+    if (batchMonth && batchMonth !== '') {
       baseQuery += ` AND batch_month = $${paramCount}`;
       countQuery += ` AND batch_month = $${paramCount}`;
       queryParams.push(batchMonth);
@@ -3835,7 +3925,7 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     }
 
     // Batch year filter
-    if (batchYear && batchYear !== "") {
+    if (batchYear && batchYear !== '') {
       baseQuery += ` AND batch_year = $${paramCount}`;
       countQuery += ` AND batch_year = $${paramCount}`;
       queryParams.push(parseInt(batchYear));
@@ -3843,7 +3933,7 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     }
 
     // Status filter
-    if (status && status !== "") {
+    if (status && status !== '') {
       baseQuery += ` AND status = $${paramCount}`;
       countQuery += ` AND status = $${paramCount}`;
       queryParams.push(status);
@@ -3851,13 +3941,8 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(parseInt(limit), offset);
-
-    console.log("Student Query:", baseQuery);
-    console.log("Query Params:", queryParams);
 
     // Execute queries
     const studentsResult = await pool.query(baseQuery, queryParams);
@@ -3867,10 +3952,14 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
     const countResult = await pool.query(countQuery, countParams);
 
     const total = parseInt(countResult.rows[0]?.total || 0);
-    const baseUrl =
-      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
-    // Format students with full URLs for images
+    // Get online student IDs
+    const onlineStudentIds = new Set(
+      Array.from(activeStudents.values()).map(data => data.student.id)
+    );
+
+    // Format students with full URLs for images and online status
     const students = studentsResult.rows.map((student) => ({
       id: student.id,
       student_id: student.student_id,
@@ -3884,7 +3973,7 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
       batch_month: student.batch_month,
       batch_year: student.batch_year,
       is_current_batch: student.is_current_batch,
-      status: student.status || "active",
+      status: student.status || 'active',
       join_date: student.join_date,
       created_at: student.created_at,
       name_on_certificate: student.name_on_certificate,
@@ -3892,7 +3981,8 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
       current_coding_level: student.current_coding_level,
       occupation_status: student.occupation_status,
       has_work_experience: student.has_work_experience,
-      fullName: `${student.first_name || ""} ${student.last_name || ""}`.trim(),
+      fullName: `${student.first_name || ''} ${student.last_name || ''}`.trim(),
+      is_online: onlineStudentIds.has(student.id)
     }));
 
     const response = {
@@ -3905,16 +3995,19 @@ app.get("/api/admin/students", adminAuth, async (req, res) => {
           total: total,
           pages: Math.ceil(total / limit),
         },
+        onlineStats: {
+          totalOnline: onlineStudentIds.size,
+          totalStudents: total
+        }
       },
     };
 
-    console.log("Sending response with", students.length, "students");
     res.json(response);
   } catch (error) {
-    console.error("Admin students fetch error:", error.message);
+    console.error('Admin students fetch error:', error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch students: " + error.message,
+      error: 'Failed to fetch students: ' + error.message,
     });
   }
 });
@@ -4168,37 +4261,6 @@ app.get("/api/admin/students/stats", adminAuth, async (req, res) => {
   }
 });
 
-// -------------------------------------------
-// 🔹 Token Refresh Endpoint
-// -------------------------------------------
-app.post("/api/auth/refresh-token", auth, async (req, res) => {
-  try {
-    // If we reach here, the token is valid (auth middleware passed)
-    // Generate a new token with extended expiry
-    const newToken = generateToken(req.student.id);
-
-    res.json({
-      success: true,
-      message: "Token refreshed successfully",
-      data: {
-        token: newToken,
-        student: {
-          id: req.student.id,
-          studentId: req.student.student_id,
-          email: req.student.email,
-          firstName: req.student.first_name,
-          lastName: req.student.last_name,
-        },
-      },
-    });
-  } catch (error) {
-    console.error("Token refresh error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Failed to refresh token",
-    });
-  }
-});
 
 // Handle 404 routes
 app.use("*", (req, res) => {

@@ -7,7 +7,7 @@ import { codingPracticesData } from "../../codingPracticesData/codingPracticesDa
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const Coding_Practice_2 = () => {
+const Coding_Pratice_1A = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,7 +42,7 @@ const Coding_Practice_2 = () => {
   // Load "Coding Practice - 1" from codingPracticesData
   useEffect(() => {
     const practice1 = codingPracticesData.python.find(
-      (p) => p.id === "practice-python-2"
+      (p) => p.id === "Codingpractice-python-1A"
     );
     if (practice1) {
       setSelectedPractice(practice1);
@@ -430,5 +430,4 @@ const Coding_Practice_2 = () => {
     </div>
   );
 };
-
-export default Coding_Practice_2;
+export default Coding_Pratice_1A;

@@ -67,17 +67,17 @@ const StudentDashboard = () => {
   );
 
   // Admin Auth
-  const { 
-    isAuthenticated, 
-    showAuthModal, 
-    loading: authLoading, 
-    setShowAuthModal, 
-    handleAuthSuccess 
+  const {
+    isAuthenticated,
+    showAuthModal,
+    loading: authLoading,
+    setShowAuthModal,
+    handleAuthSuccess,
   } = useAdminAuth();
 
   const fetchStats = async () => {
     if (!isAuthenticated) return;
-    
+
     setLoading(true);
     setError("");
     try {
@@ -116,6 +116,33 @@ const StudentDashboard = () => {
       fetchStats();
     }
   }, [isAuthenticated]);
+
+  // Student heartbeat to maintain online status
+  useEffect(() => {
+    if (isAuthenticated) {
+      // Send heartbeat immediately
+      sendHeartbeat();
+
+      // Set up interval to send heartbeat every 2 minutes
+      const interval = setInterval(sendHeartbeat, 120000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated]);
+
+  const sendHeartbeat = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/api/student/heartbeat`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.error("Heartbeat failed:", error);
+    }
+  };
 
   if (authLoading) {
     return (

@@ -1,7 +1,7 @@
 /* CodingPractice.css */
 
 .coding-practice-container-cod {
-  padding: 20px;
+  padding: 20px 10px;
   max-width: 1200px;
   margin: 0 auto;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -206,6 +206,8 @@
   color: #7f8c8d;
   font-size: 13px;
   line-height: 1.4;
+  white-space: pre-line;
+
 }
 
 .difficulty-cell-cod {
