@@ -10,17 +10,28 @@
 }
 
 .web-practice-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 999; /* stays above everything */
+  width: 100%; /* full-width fixed bar */
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-top: 22px !important;
+
   padding: 15px 20px;
   background: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
+
   box-sizing: border-box;
   border-radius: 0;
+
+  /* keep your earlier styles */
+  flex-shrink: 0;
+
+  padding-top: 90px; /* adjust depending on header height */
 }
 
 .back-button {
@@ -75,6 +86,10 @@
   background: #f8f9fa;
 }
 
+.run-tests-button {
+  display: none !important;
+}
+
 .difficulty {
   padding: 4px 12px;
   border-radius: 12px;
@@ -111,7 +126,7 @@
   flex-direction: column;
   width: 100%;
   gap: 20px;
-  padding: 0;
+  padding-top: 90px; /* adjust depending on header height */
 }
 
 .left-panel {
@@ -122,6 +137,7 @@
   padding: 0;
   box-sizing: border-box;
   margin: 0px 20px;
+  max-height: 500px; /* Updated to 500px */
 }
 
 .right-panel {
@@ -134,24 +150,70 @@
 .question-description,
 .test-cases {
   background: white;
-  padding: 20px;
+  padding: 0; /* Remove padding from container, will be applied to inner elements */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   box-sizing: border-box;
   border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px; /* Set max-height for containers */
+  overflow: hidden; /* Prevent container overflow */
 }
 .test-cases {
   margin-right: 40px;
 }
 
-.question-description h3,
-.test-cases h3,
-.output-section h3 {
+/* Fixed header styles for question description */
+.question-description-header {
+  padding: 5px 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: white;
+  z-index: 10;
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.question-description-header h3 {
   margin-top: 0;
   color: #333;
   border-bottom: 2px solid #007bff;
   padding-bottom: 10px;
   margin-bottom: 15px;
+}
+
+/* Scrollable content area for question description */
+.question-description-content {
+  padding: 0 20px 20px 20px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  flex: 1; /* Take remaining space */
+  height: calc(100% - 80px); /* Calculate height minus header */
+}
+
+/* Fixed header styles for test cases */
+.test-cases-header {
+  padding: 5px 20px;
+  border-bottom: 1px solid #e9ecef;
+  background: white;
+  z-index: 10;
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+.test-cases-header h3 {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+/* Scrollable content area for test cases */
+.test-cases-content {
+  padding: 0 20px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  flex: 1; /* Take remaining space */
+  height: calc(100% - 150px); /* Calculate height minus header and actions */
+  display: flex;
+  flex-direction: column;
 }
 
 .output-section {
@@ -161,15 +223,15 @@
   box-sizing: border-box;
 }
 
-.question-description p {
+.question-description-content p {
   line-height: 1.6;
   color: #555;
   margin: 0;
 }
 
 .test-results {
-  max-height: 300px;
-  overflow-y: auto;
+  flex: 1; /* Take available space */
+  overflow-y: auto; /* Enable scrolling for test results */
   margin-bottom: 15px;
 }
 
@@ -242,8 +304,10 @@
 .test-actions {
   display: flex;
   justify-content: center;
-  padding-top: 15px;
+  padding: 15px 20px;
   border-top: 1px solid #e9ecef;
+  background: white;
+  flex-shrink: 0; /* Prevent actions from shrinking */
 }
 
 .run-tests-btn {
@@ -326,5 +390,15 @@
 
   .question-meta {
     gap: 8px;
+  }
+
+  .left-panel {
+    flex-direction: column;
+    max-height: none;
+  }
+
+  .question-description,
+  .test-cases {
+    max-height: 400px;
   }
 }

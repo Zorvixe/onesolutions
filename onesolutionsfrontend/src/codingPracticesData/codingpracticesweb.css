@@ -1,0 +1,14 @@
+.desc-que-blue {
+  color: #164687 !important;
+  font-weight: bold;
+}
+
+.desc-que-img {
+  width: 50%;
+}
+
+.desc-question-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

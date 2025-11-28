@@ -429,10 +429,447 @@ export const codingPracticesData = {
           id: "q-python-1B-004",
           title: "Simple Triangle",
           difficulty: "Easy",
-          description: "Write a program that prints a simple Triangle using",
+          description:
+            "Write a program that prints a simple Triangle using star(*).\nPrint a star on the first line and two stars on the second line.",
           sampleInput: "",
-          sampleOutput: "* *\n* *",
-          testCases: [{ input: "", output: "* * \n* * ", visible: true }],
+          sampleOutput: "*\n**",
+          testCases: [{ input: "", output: "*\n**", visible: true }],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1B-005",
+          title: "Simple Triangle - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints a simple Triangle using star(*).\nPrint a star on the first line and two stars on the second line.\nNote:There is a space after every star.",
+          sampleInput: "",
+          sampleOutput: "*\n* * ",
+          testCases: [{ input: "", output: "*\n* * ", visible: true }],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1B-006",
+          title: "Stars",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the word in `* * * Word * * *` format.\nInput:The input will be a single line cpntaining a string.\nOutput:Output should be a single line containing a string in the format shown in the sample output.",
+          sampleInput: "Welcome",
+          sampleOutput: "* * * Welcome * * *",
+          testCases: [
+            {
+              input: "OneSolution",
+              output: "* * * OneSolution * * *",
+              visible: true,
+            },
+            {
+              input: "Hyderbad",
+              output: "* * * Hyderbad * * *",
+              visible: true,
+            },
+            { input: "Ganesh", output: "* * * Ganesh * * *", visible: false },
+            { input: "apple", output: "* * * apple * * *", visible: false },
+            { input: "Mysore", output: "* * * Mysore * * *", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1B-007",
+          title: "First Character",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the first Character of the word",
+          sampleInput: "Python",
+          sampleOutput: "P",
+          testCases: [
+            { input: "Apple", output: "A", visible: true },
+            { input: "Mango", output: "M", visible: true },
+            { input: "bat", output: "b", visible: false },
+            { input: "car", output: "c", visible: false },
+            { input: "van", output: "v", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1B-008",
+          title: "Third Character",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the Third Character of the word",
+          sampleInput: "java",
+          sampleOutput: "v",
+          testCases: [
+            { input: "Microbio", output: "c", visible: true },
+            { input: "Ramesh", output: "m", visible: true },
+            { input: "bat", output: "t", visible: false },
+            { input: "Driver", output: "i", visible: false },
+            { input: "heart", output: "a", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1B-009",
+          title: "First and Last digits",
+          difficulty: "Easy",
+          description:
+            "Given a four-digit Number `N` as input.Write a program to print first and last digit of the number.\nOutput:Print the first digit in the first line and the last digit in the second line.",
+          sampleInput: "1246",
+          sampleOutput: "1\n6",
+          testCases: [
+            { input: "6578", output: "6\n8", visible: true },
+            { input: "2479", output: "2\n9", visible: true },
+            { input: "3458", output: "3\n8", visible: false },
+            { input: "9876", output: "9\n6", visible: false },
+            { input: "3271", output: "3\n1", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1B-0010",
+          title: "Reverse the digits",
+          difficulty: "Medium",
+          description:
+            "Write a program to reverse the digits of a given two-digit number.",
+          sampleInput: "56",
+          sampleOutput: "65",
+          testCases: [
+            { input: "95", output: "59", visible: true },
+            { input: "24", output: "42", visible: true },
+            { input: "34", output: "43", visible: false },
+            { input: "98", output: "89", visible: false },
+            { input: "38", output: "83", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-1C",
+      title: "Coding Practice - 1C",
+      description: "Input or output Basics",
+      questions: [
+        {
+          id: "q-python-1C-001",
+          title: "Length of the String",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the Length of the word.\nInput:The input will be a single line containing a string.\nOutput:Prints the number of Characters in the word.",
+          sampleInput: "Software",
+          sampleOutput: "8",
+          testCases: [
+            { input: "python", output: "6", visible: true },
+            { input: "Bhumi", output: "5", visible: true },
+            { input: "Ravi", output: "4", visible: false },
+            { input: "kushi", output: "5", visible: false },
+            { input: "dev", output: "3", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-002",
+          title: "Star Repetition",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints Stars(*) equal to the Length of the word.",
+          sampleInput: "Simple",
+          sampleOutput: "******",
+          testCases: [
+            { input: "python", output: "******", visible: true },
+            { input: "Bhumi", output: "*****", visible: true },
+            { input: "Ravi", output: "****", visible: false },
+            { input: "kushi", output: "*****", visible: false },
+            { input: "dev", output: "***", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-003",
+          title: "Substract 1 from String Length",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a word and prints L-1 ,where `L` is the Length of the word.\nInput:Input will be a single line containing a string.\nOutput:The output should be a single line containing an integer obtained after subtracting 1 from the Length of the word.",
+          sampleInput: "Ice",
+          sampleOutput: "2",
+          testCases: [
+            { input: "cake", output: "3", visible: true },
+            { input: "man", output: "2", visible: true },
+            { input: "Ravi", output: "3", visible: false },
+            { input: "kushi", output: "4", visible: false },
+            { input: "dev", output: "2", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-004",
+          title: "Index of last Character",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the index of last Character of the word.",
+          sampleInput: "orange",
+          sampleOutput: "5",
+          testCases: [
+            { input: "lion", output: "3", visible: true },
+            { input: "rabbit", output: "5", visible: true },
+            { input: "Ravi", output: "3", visible: false },
+            { input: "kushi", output: "4", visible: false },
+            { input: "dev", output: "2", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-005",
+          title: "Last Character",
+          difficulty: "Easy",
+          description:
+            "Write a program which prints the last character of a given word.",
+          sampleInput: "january",
+          sampleOutput: "y",
+          testCases: [
+            { input: "boat", output: "t", visible: true },
+            { input: "tiger", output: "r", visible: true },
+            { input: "Ravi", output: "i", visible: false },
+            { input: "kushi", output: "i", visible: false },
+            { input: "dev", output: "v", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-006",
+          title: "Length excluding Characters",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the Length of the word excluding the first and last character.",
+          sampleInput: "April",
+          sampleOutput: "3",
+          testCases: [
+            { input: "boating", output: "5", visible: true },
+            { input: "donkey", output: "4", visible: true },
+            { input: "Ravi", output: "2", visible: false },
+            { input: "kushi", output: "3", visible: false },
+            { input: "dev", output: "1", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-007",
+          title: "Star Repetition - 2",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a word  and prints the first letter of the given word and stars (*) instead of other letters.",
+          sampleInput: "November",
+          sampleOutput: "N*******",
+          testCases: [
+            { input: "December", output: "D*******", visible: true },
+            { input: "June", output: "J***", visible: true },
+            { input: "Ravi", output: "R***", visible: false },
+            { input: "kushi", output: "k****", visible: false },
+            { input: "dev", output: "d**", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1C-008",
+          title: "Half length of string",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word  and prints half the length of the word.",
+          sampleInput: "zebra",
+          sampleOutput: "2.5",
+          testCases: [
+            { input: "mysore", output: "3.0", visible: true },
+            { input: "June", output: "2.0", visible: true },
+            { input: "Ravi", output: "2.0", visible: false },
+            { input: "kushi", output: "2.5", visible: false },
+            { input: "dev", output: "1.5", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-1A",
+      title: "Assignment-1A",
+      description: "Input or output Basics",
+      questions: [
+        {
+          id: "q-python-Assignment-1A-001",
+          title: "Simple Rectangle",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints a simple Rectangle using stars(*).\nNote:There is a space after every star.",
+          sampleInput: "",
+          sampleOutput: "* * \n* * \n* * \n* * \n* * ",
+          testCases: [
+            {
+              input: "",
+              output: "* * \n* * \n* * \n* * \n* * ",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1A-002",
+          title: "Simple Square -3",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints a simple square using stars(*).\nNote:Print three stars on the first line,Three stars on the second line , Three stars on the third line and There is a space after every star.",
+          sampleInput: "",
+          sampleOutput: "* * * \n* * * \n* * * \n* * * \n* * * ",
+          testCases: [
+            {
+              input: "",
+              output: "* * * \n* * * \n* * * \n* * * \n* * * ",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1A-003",
+          title: "Simple Triangle -3",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints a simple Triangle using stars(*).\nNote:There is a space after every star.",
+          sampleInput: "",
+          sampleOutput: "* \n* * \n* * * ",
+          testCases: [
+            {
+              input: "",
+              output: "* \n* * \n* * * ",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1A-004",
+          title: "Star - 2",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a word and prints the word in the given format.\nNote:Number of stars before and after the word is equal to the length of the word.\nExplanation:If the given word is `code`.\nThe length of the word `code`is 4.\nAdd 4 stars and a space before the word `code`.\nAdd a space and 4 stars aafter the word `code`.",
+          sampleInput: "Code",
+          sampleOutput: "**** Code ****",
+          testCases: [
+            { input: "dog", output: "*** dog ***", visible: true },
+            { input: "number", output: "****** number ******", visible: true },
+            { input: "cat", output: "*** cat ***", visible: false },
+            { input: "animal", output: "****** animal ******", visible: false },
+            { input: "xerox", output: "***** xerox *****", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1A-005",
+          title: "Second word in first word",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads two words w1 and w2. w2 is the at the beginning of w1.\nInput:The first line of input contains a string representing w1.The second line of input contains a string representing w2.\nOutput:The output should be a single line containing an integer that is the index at which the word `W2` ends in the word `w1`.",
+          sampleInput: "midterm\nmid",
+          sampleOutput: "2",
+          testCases: [
+            { input: "unkind\nun", output: "1", visible: true },
+            { input: "number\nnum", output: "2", visible: true },
+            { input: "catdog\ncat", output: "2", visible: false },
+            { input: "number\nnum", output: "2", visible: false },
+            { input: "number\nnum", output: "2", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1A-006",
+          title: "Print in reverse order - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two words `A` and `B`,and prints the given words in reverse order separated by `###`.",
+          sampleInput: "cat\nrat",
+          sampleOutput: "rat\n###\ncat",
+          testCases: [
+            { input: "man\ngirl", output: "girl\n###\nman", visible: true },
+            { input: "dog\nsnake", output: "snake\n###\ndog", visible: true },
+            { input: "bus\ncar", output: "car\n###\nbus", visible: false },
+            { input: "num\nbun", output: "bun\n###\nnum", visible: false },
+            { input: "buss\ncars", output: "cars\n###\nbuss", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1A-007",
+          title: "Print in reverse order - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and prints the first and last characters of the w",
+          sampleInput: "cat\nrat",
+          sampleOutput: "rat\n###\ncat",
+          testCases: [
+            { input: "man\ngirl", output: "girl\n###\nman", visible: true },
+            { input: "dog\nsnake", output: "snake\n###\ndog", visible: true },
+            { input: "bus\ncar", output: "car\n###\nbus", visible: false },
+            { input: "num\nbun", output: "bun\n###\nnum", visible: false },
+            { input: "buss\ncars", output: "cars\n###\nbuss", visible: false },
+          ],
           defaultCode: ``,
           score: 10,
           status: "unsolved",
@@ -486,23 +923,52 @@ export const codingPracticesData = {
   static: [
     {
       id: "static-coding-practice-1",
-      title: "Todolist",
+      title: "Static Coding Practice 1",
       description:
         "Build a Todolist by applying the concepts we learned till now.",
       questions: [
         {
-          id: "todolist-html-css",
-          title: "Build Todolist UI",
+          id: "91bcc4c6-0533-40bd-814f-a37b81618319",
+          title: "Build Todolist",
           description:
             "Create a responsive Todolist interface matching the design specifications",
           difficulty: "Easy",
           score: 100,
-          type: "web", // This indicates it's an HTML/CSS/JS practice
+          type: "web",
           defaultCode: {
             html: ``,
             css: "",
             javascript: "",
           },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below image.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316021/Coding_Practice_-1-todolist-001_hy94wb.png" class="desc-que-img" />
+              <p class="desc-que-blue">Note:</p>
+              <p class="">Try to achieve the design as close as possible.</p>
+              <p class="desc-que-blue">Resources</p>
+              <p class="">Use this background image,</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
+              <p class="desc-que-blue">CSS Colors used:</p>
+              <p class="">Background color for button:</p>
+              <ul>
+                <li><span>Orange</span></li>
+              </ul>
+              <p class="">Text color:</p>
+              <ul>
+                <li><span>white</span></li>
+              </ul>
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>Roboto</span></li>
+              </ul>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
           testCases: [
             {
               id: 1,
@@ -556,16 +1022,16 @@ export const codingPracticesData = {
       ],
     },
     {
-      id: "static-responsive-layout",
-      title: "Responsive Layout",
+      id: "static-coding-practice-2",
+      title: "Static Coding Practice 2",
       description:
-        "Build a responsive website layout using CSS Grid and Flexbox",
+        "In this assignment, let's build a Chat Page by applying the concepts we learned till now.",
       type: "web",
       category: "static",
       questions: [
         {
-          id: "responsive-grid",
-          title: "CSS Grid Layout",
+          id: "91bcc4c6-0533-40bd-814f-a37b81618320",
+          title: "Chat Page",
           description:
             "Create a responsive grid layout that works on mobile and desktop",
           difficulty: "Medium",
@@ -576,7 +1042,109 @@ export const codingPracticesData = {
             css: "",
             javascript: "",
           },
-          testCases: [],
+          descriptionDetails: `
+          <div class="desc-question-details">
+            <p class="desc-que-blue">Refer to the below image.</p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316021/Coding_Practice_-1-todolist-001_hy94wb.png" class="desc-que-img" />
+            <p class="desc-que-blue">Note:</p>
+            <p class="">Try to achieve the design as close as possible.</p>
+            <p class="desc-que-blue">Resources</p>
+            <p class="">Use this background image,</p>
+            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
+            <p class="desc-que-blue">CSS Colors used:</p>
+            <p class="">Background color for button:</p>
+            <ul>
+              <li><span>Orange</span></li>
+            </ul>
+            <p class="">Text color:</p>
+            <ul>
+              <li><span>white</span></li>
+            </ul>
+            <p class="desc-que-blue">CSS Font families used:</p>
+            <ul>
+              <li><span>Roboto</span></li>
+            </ul>
+            <p class="desc-que-blue">Concepts Review</p>
+            <p class="">Want to quickly review some of the concepts you've been learning?</p>
+            <p class="">Take a look at the Cheat Sheets.</p>
+          </div>
+        `,
+
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of at least three HTML paragraph elements in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the CSS property text-align and value right",
+              type: "css-validation",
+              input: "check-text-align-right",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the CSS property text-align and the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of at least an HTML paragraph element with the property border-top-left-radius",
+              type: "css-validation",
+              input: "check-border-top-left-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of at least an HTML paragraph element with the property border-top-right-radius",
+              type: "css-validation",
+              input: "check-border-top-right-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML element with the CSS property `padding` and its value should be greater than `0`px.",
+              type: "css-validation",
+              input: "check-padding",
+              output: "true",
+              visible: true,
+            },
+          ],
         },
       ],
     },

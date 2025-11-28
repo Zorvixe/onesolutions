@@ -6,11 +6,6 @@ import { CodeBlock } from "../../CodeOutputBlocks";
 const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary } = useAuth();
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
-
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
 
   const handleContinue = async () => {
     try {

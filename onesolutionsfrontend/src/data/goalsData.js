@@ -848,11 +848,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   2A",
+                name: "Coding Practice 2A",
               },
               {
                 id: "QW9_s5_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   2B",
+                name: "Coding Practice 2B",
               },
               {
                 id: "QW9_s6_A0 m3_H g1_7B c3_D2E",
@@ -872,15 +872,15 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   2C",
+                name: "Coding Practice 2C",
               },
               {
                 id: "QW9_s11_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   2D",
+                name: "Coding Practice 2D",
               },
               {
                 id: "QW9_s12_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   2E",
+                name: "Coding Practice 2E",
               },
               {
                 id: "QW9_s13_A0 m3_H g1_7B c3_D2E",
@@ -900,11 +900,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s17_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   3A",
+                name: "Coding Practice 3A",
               },
               {
                 id: "QW9_s18_A0 m3_H g1_7B c3_D2E",
-                name: "Coding Practice   3B",
+                name: "Coding Practice 3B",
               },
               {
                 id: "QW9_s19_A0 m3_H g1_7B c3_D2E",
@@ -918,11 +918,11 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g1_7B c3_D2E",
-                name: "Problem Solving and Debugging",
+                name: "Problem Solving and Debugging Part 1",
               },
               {
                 id: "QW9_s2_A0 m4_H g1_7B c3_D2E",
-                name: "Problem Solving and Debugging   Part 2",
+                name: "Problem Solving and Debugging Part 2",
               },
               {
                 id: "QW9_s3_A0 m4_H g1_7B c3_D2E",
@@ -934,11 +934,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m4_H g1_7B c3_D2E",
-                name: "Coding Practice   4A",
+                name: "Coding Practice 4A",
               },
               {
                 id: "QW9_s6_A0 m4_H g1_7B c3_D2E",
-                name: "Coding Practice   4B",
+                name: "Coding Practice 4B",
               },
               {
                 id: "QW9_s7_A0 m4_H g1_7B c3_D2E",
@@ -958,11 +958,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m4_H g1_7B c3_D2E",
-                name: "Problem Solving | Part 1",
+                name: "Problem Solving Part 1",
               },
               {
                 id: "QW9_s12_A0 m4_H g1_7B c3_D2E",
-                name: "Coding Practice   5",
+                name: "Coding Practice 5",
               },
               {
                 id: "QW9_s13_A0 m4_H g1_7B c3_D2E",
@@ -970,11 +970,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m4_H g1_7B c3_D2E",
-                name: "Coding Practice   6A",
+                name: "Coding Practice 6A",
               },
               {
                 id: "QW9_s15_A0 m4_H g1_7B c3_D2E",
-                name: "Coding Practice   6B",
+                name: "Coding Practice 6B",
               },
               {
                 id: "QW9_s16_A0 m4_H g1_7B c3_D2E",
@@ -982,7 +982,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s17_A0 m4_H g1_7B c3_D2E",
-                name: "Grand Assignment   1",
+                name: "Grand Assignment 1",
               },
             ],
           },
@@ -1004,11 +1004,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   7A",
+                name: "Coding Practice 7A",
               },
               {
                 id: "QW9_s5_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   7B",
+                name: "Coding Practice 7B",
               },
               {
                 id: "QW9_s6_A0 m5_H g1_7B c3_D2E",
@@ -1028,7 +1028,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   8A",
+                name: "Coding Practice 8A",
               },
               {
                 id: "QW9_s11_A0 m5_H g1_7B c3_D2E",
@@ -1036,7 +1036,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   8B",
+                name: "Coding Practice 8B",
               },
               {
                 id: "QW9_s13_A0 m5_H g1_7B c3_D2E",
@@ -1044,11 +1044,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   9A",
+                name: "Coding Practice 9A",
               },
               {
                 id: "QW9_s15_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   9B",
+                name: "Coding Practice 9B",
               },
               {
                 id: "QW9_s16_A0 m5_H g1_7B c3_D2E",
@@ -1056,11 +1056,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s17_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   10A",
+                name: "Coding Practice 10A",
               },
               {
                 id: "QW9_s18_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   10B",
+                name: "Coding Practice 10B",
               },
               {
                 id: "QW9_s19_A0 m5_H g1_7B c3_D2E",
@@ -1068,11 +1068,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s20_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   10C",
+                name: "Coding Practice 10C",
               },
               {
                 id: "QW9_s21_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   10D",
+                name: "Coding Practice 10D",
               },
               {
                 id: "QW9_s22_A0 m5_H g1_7B c3_D2E",
@@ -1080,7 +1080,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s23_A0 m5_H g1_7B c3_D2E",
-                name: "Problem Solving   Part 4",
+                name: "Problem Solving Part 4",
               },
               {
                 id: "QW9_s24_A0 m5_H g1_7B c3_D2E",
@@ -1088,11 +1088,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s25_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   10E",
+                name: "Coding Practice 10E",
               },
               {
                 id: "QW9_s26_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   10F",
+                name: "Coding Practice 10F",
               },
               {
                 id: "QW9_s27_A0 m5_H g1_7B c3_D2E",
@@ -1100,7 +1100,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s28_A0 m5_H g1_7B c3_D2E",
-                name: "Foundations Exam   1",
+                name: "Foundations Exam 1",
               },
               {
                 id: "QW9_s29_A0 m5_H g1_7B c3_D2E",
@@ -1120,11 +1120,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s33_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   11A",
+                name: "Coding Practice 11A",
               },
               {
                 id: "QW9_s34_A0 m5_H g1_7B c3_D2E",
-                name: "Coding Practice   11B",
+                name: "Coding Practice 11B",
               },
               {
                 id: "QW9_s35_A0 m5_H g1_7B c3_D2E",
@@ -1146,7 +1146,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m6_H g1_7B c3_D2E",
-                name: "Coding Practice   12",
+                name: "Coding Practice 12",
               },
               {
                 id: "QW9_s4_A0 m6_H g1_7B c3_D2E",

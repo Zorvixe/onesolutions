@@ -400,6 +400,8 @@ const Static_Coding_Pratice_1 = () => {
             </div>
           </div>
 
+         
+
           {/* Practice Completion Status */}
           <div className="practice-completion-status-cod">
             <div className="completion-header-cod">

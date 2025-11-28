@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Introductionto_Css_CS_1 = ({
   subtopicId,

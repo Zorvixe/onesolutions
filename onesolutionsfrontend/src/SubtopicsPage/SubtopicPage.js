@@ -251,8 +251,99 @@ import Coding_Pratice_1E from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1E.js";
 import Coding_Pratice_1F from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1F.js";
 import Assignment_1A from "../Python/Inp_Oup_Basiscs/Assignment_1A.js";
 import Assignment_1B from "../Python/Inp_Oup_Basiscs/Assignment_1B.js";
+import Relationoperator_Class from "../Python/Operators&ConditionalStmts/RelationOperator_Class.js";
+import Logicaloperators_Class from "../Python/Operators&ConditionalStmts/LogicalOperators_Class.js";
+import Conditionalstmts_Class from "../Python/Operators&ConditionalStmts/ConditionalStmts_Class.js";
+import Coding_Pratice_2A from "../Python/Operators&ConditionalStmts/Coding_Pratice_2A.js";
+import Coding_Pratice_2B from "../Python/Operators&ConditionalStmts/Coding_Pratice_2B.js";
+import Assignment_2A from "../Python/Operators&ConditionalStmts/Assignment_2A.js";
+import Coding_Pratice_2C from "../Python/Operators&ConditionalStmts/Coding_Pratice_2C.js";
+import Coding_Pratice_2D from "../Python/Operators&ConditionalStmts/Coding_Pratice_2D.js";
+import Coding_Pratice_2E from "../Python/Operators&ConditionalStmts/Coding_Pratice_2E.js";
+import Assignment_2B from "../Python/Operators&ConditionalStmts/Assignment_2B.js";
+import Coding_Pratice_3A from "../Python/Operators&ConditionalStmts/Coding_Pratice_3A.js";
+import Coding_Pratice_3B from "../Python/Operators&ConditionalStmts/Coding_Pratice_3B.js";
+import Assignment_3A from "../Python/Operators&ConditionalStmts/Assignment_3A.js";
+import ProblemSol_Debugging_Class_1 from "../Python/NestedConditions/ProblemSol_Debugging_Class_1.js";
+import ProblemSol_Debugging_Class_2 from "../Python/NestedConditions/ProblemSol_Debugging_Class_2.js";
+import Nested_con_Class from "../Python/NestedConditions/Nested_con_Class.js";
+import Coding_Pratice_4A from "../Python/NestedConditions/Coding_Pratice_4A.js";
+import Coding_Pratice_4B from "../Python/NestedConditions/Coding_Pratice_4B.js";
+import Assignment_4 from "../Python/NestedConditions/Assignment_4.js";
+import Coding_Pratice_5 from "../Python/NestedConditions/Coding_Pratice_5.js";
+import Assignment_5 from "../Python/NestedConditions/Assignment_5.js";
+import Coding_Pratice_6A from "../Python/NestedConditions/Coding_Pratice_6A.js";
+import Coding_Pratice_6B from "../Python/NestedConditions/Coding_Pratice_6B.js";
+import Assignment_6 from "../Python/NestedConditions/Assignment_6.js";
+import Grand_Assignment_1 from "../Python/NestedConditions/Grand_Assignment_1.js";
+import Loops_Class from "../Python/Loops/Loops_Class.js";
+import FoorLoop_Class from "../Python/Loops/ForLoop_Class.js";
+import Problem_Solving_Part_1_Class from "../Python/NestedConditions/Problem_Solving_Part_1_Class.js";
+import Problem_Solving_Part_2_Class from "../Python/Loops/Problem_Solving_Part_2_Class.js";
+import Problem_Solving_Part_3_Class from "../Python/Loops/Problem_Solving_Part_3_Class.js";
+import Problem_Solving_Part_4_Class from "../Python/Loops/Problem_Solving_Part_4_Class.js";
+import String_Methods_Class from "../Python/Loops/String_Methods_Class.js";
+import Assignment_7 from "../Python/Loops/Assignment_7.js";
+import Assignment_8 from "../Python/Loops/Assignment_8.js";
+import Assignment_9 from "../Python/Loops/Assignment_9.js";
+import Assignment_10A from "../Python/Loops/Assignment_10A.js";
+import Assignment_10B from "../Python/Loops/Assignment_10B.js";
+import Assignment_11 from "../Python/Loops/Assignment_11.js";
+import Coding_Pratice_7A from "../Python/Loops/Coding_Pratice_7A.js";
+import Coding_Pratice_7B from "../Python/Loops/Coding_Pratice_7B.js";
+import Coding_Pratice_8A from "../Python/Loops/Coding_Pratice_8A.js";
+import Coding_Pratice_8B from "../Python/Loops/Coding_Pratice_8B.js";
+import Coding_Pratice_9A from "../Python/Loops/Coding_Pratice_9A.js";
+import Coding_Pratice_9B from "../Python/Loops/Coding_Pratice_9B.js";
+import Coding_Pratice_10A from "../Python/Loops/Coding_Pratice_10A.js";
+import Coding_Pratice_10B from "../Python/Loops/Coding_Pratice_10B.js";
+import Coding_Pratice_10C from "../Python/Loops/Coding_Pratice_10C.js";
+import Coding_Pratice_10D from "../Python/Loops/Coding_Pratice_10D.js";
+import Coding_Pratice_10E from "../Python/Loops/Coding_Pratice_10E.js";
+import Coding_Pratice_10F from "../Python/Loops/Coding_Pratice_10F.js";
+import Coding_Pratice_11A from "../Python/Loops/Coding_Pratice_11A.js";
+import Coding_Pratice_11B from "../Python/Loops/Coding_Pratice_11B.js";
+import Fundations_Exam_1 from "../Python/Loops/Fundations_Exam_1.js";
+import NestedLoops_Class from "../Python/LoopContronStmts/NestedLoops_Class.js";
+import LoopControlStmts_Class from "../Python/LoopContronStmts/LoopControlStmts_Class.js";
+import Assignment_12 from "../Python/LoopContronStmts/Assignment_12.js";
+import Assignment_13 from "../Python/LoopContronStmts/Assignment_13.js";
+import Assignment_14 from "../Python/LoopContronStmts/Assignment_14.js";
+import Assignment_16 from "../Python/LoopContronStmts/Assignment_16.js";
+import Coding_Pratice_12 from "../Python/LoopContronStmts/Coding_Pratice_12.js";
+import Coding_Pratice_13A from "../Python/LoopContronStmts/Coding_Pratice_13A.js";
+import Coding_Pratice_13B from "../Python/LoopContronStmts/Coding_Pratice_13B.js";
+import Coding_Pratice_14A from "../Python/LoopContronStmts/Coding_Pratice_14A.js";
+import Coding_Pratice_14B from "../Python/LoopContronStmts/Coding_Pratice_14B.js";
+import Coding_Pratice_15A from "../Python/LoopContronStmts/Coding_Pratice_15A.js";
+import Coding_Pratice_15B from "../Python/LoopContronStmts/Coding_Pratice_15B.js";
+import Coding_Pratice_16 from "../Python/LoopContronStmts/Coding_Pratice_16.js";
+import Problem_Solving_Part_5_Class from "../Python/LoopContronStmts/Problem_Solving_Part_5_Class.js";
+import Problem_Solving_Part_6_Class from "../Python/LoopContronStmts/Problem_Solving_Part_6_Class.js";
+import Problem_Solving_Part_7_Class from "../Python/LoopContronStmts/Problem_Solving_Part_7_Class.js";
+import ProblemSol_Debugging_Class_3 from "../Python/LoopContronStmts/ProblemSol_Debugging_Class_3.js";
+import Grand_Assignment_2 from "../Python/LoopContronStmts/Grand_Assignment_2.js";
 // Map subtopics to their components
 const subtopicComponents = {
+  "Problem Solving and Debugging Part 3": ProblemSol_Debugging_Class_3,
+  "Coding Practice 12": Coding_Pratice_12,
+  "Assignment 12": Assignment_12,
+  "Nested Loops": NestedLoops_Class,
+  "Problem Solving Part 5": Problem_Solving_Part_5_Class,
+  "Problem Solving Part 6": Problem_Solving_Part_6_Class,
+  "Coding Practice 13A": Coding_Pratice_13A,
+  "Coding Practice 13B": Coding_Pratice_13B,
+  "Assignment 13": Assignment_13,
+  "Problem Solving Part 7": Problem_Solving_Part_7_Class,
+  "Coding Practice 14A": Coding_Pratice_14A,
+  "Coding Practice 14B": Coding_Pratice_14B,
+  "Assignment 14": Assignment_14,
+  "Coding Practice 15A": Coding_Pratice_15A,
+  "Coding Practice 15B": Coding_Pratice_15B,
+  "Loop Control Statements": LoopControlStmts_Class,
+  "Coding Practice 16": Coding_Pratice_16,
+  "Assignment 16": Assignment_16,
+  "Grand Assignment 2": Grand_Assignment_2,
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
   "Type Conversion": Type_Con_Class,
@@ -267,6 +358,59 @@ const subtopicComponents = {
   "Coding Practice 1F": Coding_Pratice_1F,
   "Assignment 1A": Assignment_1A,
   "Assignment 1B": Assignment_1B,
+  "Relational Operators": Relationoperator_Class,
+  "Logical Operators": Logicaloperators_Class,
+  "Conditional Statements": Conditionalstmts_Class,
+  "Coding Practice 2A": Coding_Pratice_2A,
+  "Coding Practice 2B": Coding_Pratice_2B,
+  "Assignment 2A": Assignment_2A,
+  "Coding Practice 2C": Coding_Pratice_2C,
+  "Coding Practice 2D": Coding_Pratice_2D,
+  "Coding Practice 2E": Coding_Pratice_2E,
+  "Assignment 2B": Assignment_2B,
+  "Coding Practice 3A": Coding_Pratice_3A,
+  "Coding Practice 3B": Coding_Pratice_3B,
+  "Assignment 3": Assignment_3A,
+  "Problem Solving and Debugging Part 2": ProblemSol_Debugging_Class_2,
+  "Problem Solving and Debugging Part 1": ProblemSol_Debugging_Class_1,
+  "Nested Conditional Statements": Nested_con_Class,
+  "Coding Practice 4A": Coding_Pratice_4A,
+  "Coding Practice 4B": Coding_Pratice_4B,
+  "Assignment 4": Assignment_4,
+  "Coding Practice 5": Coding_Pratice_5,
+  "Assignment 5": Assignment_5,
+  "Coding Practice 6A": Coding_Pratice_6A,
+  "Coding Practice 6B": Coding_Pratice_6B,
+  "Assignment 6": Assignment_6,
+  "Grand Assignment 1": Grand_Assignment_1,
+  Loops: Loops_Class,
+  "For Loop": FoorLoop_Class,
+  "Problem Solving Part 1": Problem_Solving_Part_1_Class,
+  "Problem Solving Part 2": Problem_Solving_Part_2_Class,
+  "Problem Solving Part 3": Problem_Solving_Part_3_Class,
+  "Problem Solving Part 4": Problem_Solving_Part_4_Class,
+  "String Methods": String_Methods_Class,
+  "Assignment 7": Assignment_7,
+  "Assignment 8": Assignment_8,
+  "Assignment 9": Assignment_9,
+  "Assignment 10A": Assignment_10A,
+  "Assignment 10B": Assignment_10B,
+  "Assignment 11": Assignment_11,
+  "Coding Practice 7A": Coding_Pratice_7A,
+  "Coding Practice 7B": Coding_Pratice_7B,
+  "Coding Practice 8A": Coding_Pratice_8A,
+  "Coding Practice 8B": Coding_Pratice_8B,
+  "Coding Practice 9A": Coding_Pratice_9A,
+  "Coding Practice 9B": Coding_Pratice_9B,
+  "Coding Practice 10A": Coding_Pratice_10A,
+  "Coding Practice 10B": Coding_Pratice_10B,
+  "Coding Practice 10C": Coding_Pratice_10C,
+  "Coding Practice 10D": Coding_Pratice_10D,
+  "Coding Practice 10E": Coding_Pratice_10E,
+  "Coding Practice 10F": Coding_Pratice_10F,
+  "Coding Practice 11A": Coding_Pratice_11A,
+  "Coding Practice 11B": Coding_Pratice_11B,
+  "Foundations Exam 1": Fundations_Exam_1,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,

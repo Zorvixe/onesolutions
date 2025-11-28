@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
-import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
   // ==================== 10 CONCEPTUAL QUESTIONS ====================

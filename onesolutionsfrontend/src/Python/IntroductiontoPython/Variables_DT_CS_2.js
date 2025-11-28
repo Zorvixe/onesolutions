@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Variables_DT_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
@@ -8,7 +8,6 @@ const Variables_DT_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
 
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
 
   // Check if subtopic is already completed
   useEffect(() => {
@@ -16,10 +15,6 @@ const Variables_DT_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
-
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
