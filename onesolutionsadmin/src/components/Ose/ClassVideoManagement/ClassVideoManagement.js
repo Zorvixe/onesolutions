@@ -5,11 +5,9 @@ import "./ClassVideoManagement.css";
 import AdminAuthModal from "../AdminAuthModal/AdminAuthModal";
 import { useAdminAuth } from "../AdminAuthModal/useAdminAuth";
 
-import GoalsPDFView from "../GoalsPDFView/GoalsPDFView"
+import GoalsPDFView from "../GoalsPDFView/GoalsPDFView";
 
 const API_BASE_URL = "https://api.onesolutionsekam.in";
-
-
 
 const ClassVideoManagement = () => {
   const [videos, setVideos] = useState([]);
@@ -48,9 +46,8 @@ const ClassVideoManagement = () => {
   // View mode state
   const [viewMode, setViewMode] = useState("grid");
 
-
-   // Admin Auth
-   const {
+  // Admin Auth
+  const {
     isAuthenticated,
     showAuthModal,
     loading: authLoading,
@@ -124,23 +121,26 @@ const ClassVideoManagement = () => {
     try {
       const formDataToSend = new FormData();
 
+      // Append all form data
       Object.keys(formData).forEach((key) => {
-        formDataToSend.append(key, formData[key]);
+        if (formData[key] !== undefined && formData[key] !== null) {
+          formDataToSend.append(key, formData[key]);
+        }
       });
 
       if (videoFile) {
         formDataToSend.append("video", videoFile);
       }
 
+      // Use PUT for updates, POST for creation
       const url = editingVideo
-        ? `${API_BASE_URL}/api/admin/class-videos`
+        ? `${API_BASE_URL}/api/admin/class-videos/${formData.subtopicId}`
         : `${API_BASE_URL}/api/admin/class-videos`;
 
+      const method = editingVideo ? "PUT" : "POST";
+
       const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        method: method,
         body: formDataToSend,
       });
 
@@ -331,10 +331,10 @@ const ClassVideoManagement = () => {
   };
 
   const handleSubtopicSelect = (topic) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       subtopicId: topic.id,
-      topicName: topic.name
+      topicName: topic.name,
     }));
     toast.success(`Selected subtopic: ${topic.name}`);
   };
@@ -664,7 +664,9 @@ const ClassVideoManagement = () => {
                         required
                         placeholder="e.g., introduction-to-html"
                       />
-                      <small>Click on any subtopic from the right panel to auto-fill</small>
+                      <small>
+                        Click on any subtopic from the right panel to auto-fill
+                      </small>
                     </div>
 
                     <div className="form-groupvidd">
@@ -743,7 +745,8 @@ const ClassVideoManagement = () => {
                           }
                         />
                         <small>
-                          Max file size: 100MB. Supported formats: MP4, WebM, MOV
+                          Max file size: 100MB. Supported formats: MP4, WebM,
+                          MOV
                         </small>
                       </div>
                     )}
