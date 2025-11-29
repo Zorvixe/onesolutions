@@ -9,8 +9,7 @@ const API_BASE_URL = "https://api.onesolutionsekam.in";
 const StudentList = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+
   const [formData, setFormData] = useState({
     student_id: "",
     email: "",
@@ -34,88 +33,92 @@ const StudentList = () => {
     status: "",
   });
 
-   // Online stats
-   const [onlineStats, setOnlineStats] = useState({
+  // Online stats
+  const [onlineStats, setOnlineStats] = useState({
     totalOnline: 0,
-    totalStudents: 0
+    totalStudents: 0,
   });
 
+  // Admin Auth
+  const {
+    isAuthenticated,
+    showAuthModal,
+    loading: authLoading,
+    setShowAuthModal,
+    handleAuthSuccess,
+    getAuthHeaders,
+  } = useAdminAuth();
 
-// Admin Auth
-const { 
-  isAuthenticated, 
-  showAuthModal, 
-  loading: authLoading, 
-  setShowAuthModal, 
-  handleAuthSuccess,
-  getAuthHeaders
-} = useAdminAuth();
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchStudents();
+      // Set up interval to refresh online status every 30 seconds
+      const interval = setInterval(fetchStudents, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [filters, isAuthenticated]);
 
-useEffect(() => {
-  if (isAuthenticated) {
-    fetchStudents();
-    // Set up interval to refresh online status every 30 seconds
-    const interval = setInterval(fetchStudents, 30000);
-    return () => clearInterval(interval);
-  }
-}, [filters, isAuthenticated]);
+  const fetchStudents = async () => {
+    if (!isAuthenticated) return;
 
-const fetchStudents = async () => {
-  if (!isAuthenticated) return;
-  
-  setLoading(true);
-  setError("");
-  try {
-    const params = new URLSearchParams();
-    if (filters.search) params.append('search', filters.search);
-    if (filters.batchMonth) params.append('batchMonth', filters.batchMonth);
-    if (filters.batchYear) params.append('batchYear', filters.batchYear);
-    if (filters.status) params.append('status', filters.status);
+    setLoading(true);
+    setError("");
+    try {
+      const params = new URLSearchParams();
+      if (filters.search) params.append("search", filters.search);
+      if (filters.batchMonth) params.append("batchMonth", filters.batchMonth);
+      if (filters.batchYear) params.append("batchYear", filters.batchYear);
+      if (filters.status) params.append("status", filters.status);
 
-    const response = await fetch(
-      `${API_BASE_URL}/api/admin/students?${params}`,
-      {
-        method: "GET",
-        headers: getAuthHeaders()
+      const response = await fetch(
+        `${API_BASE_URL}/api/admin/students?${params}`,
+        {
+          method: "GET",
+          headers: getAuthHeaders(),
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Authentication failed. Please login again.");
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    );
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error("Authentication failed. Please login again.");
+      const result = await response.json();
+
+      if (result.success) {
+        setStudents(result.data.students || []);
+        setOnlineStats(
+          result.data.onlineStats || { totalOnline: 0, totalStudents: 0 }
+        );
+      } else {
+        throw new Error(result.message || "Failed to fetch students");
       }
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    } catch (err) {
+      console.error("Error fetching students:", err);
+      setError(err.message || "Failed to fetch students. Please try again.");
 
-    const result = await response.json();
-
-    if (result.success) {
-      setStudents(result.data.students || []);
-      setOnlineStats(result.data.onlineStats || { totalOnline: 0, totalStudents: 0 });
-    } else {
-      throw new Error(result.message || "Failed to fetch students");
+      if (
+        err.message.includes("Authentication failed") ||
+        err.message.includes("401")
+      ) {
+        localStorage.removeItem("adminAuth");
+        localStorage.removeItem("adminToken");
+        setShowAuthModal(true);
+      }
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    console.error("Error fetching students:", err);
-    setError(err.message || "Failed to fetch students. Please try again.");
-    
-    if (err.message.includes('Authentication failed') || err.message.includes('401')) {
-      localStorage.removeItem('adminAuth');
-      localStorage.removeItem('adminToken');
-      setShowAuthModal(true);
-    }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
-// Online status indicator component
-const OnlineStatus = ({ isOnline }) => (
-  <div className={`online-status ${isOnline ? 'online' : 'offline'}`}>
-    <div className="status-dot"></div>
-    <span>{isOnline ? 'Online' : 'Offline'}</span>
-  </div>
-);
+  // Online status indicator component
+  const OnlineStatus = ({ isOnline }) => (
+    <div className={`online-status ${isOnline ? "online" : "offline"}`}>
+      <div className="status-dot"></div>
+      <span>{isOnline ? "Online" : "Offline"}</span>
+    </div>
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,7 +126,6 @@ const OnlineStatus = ({ isOnline }) => (
     setSuccess("");
 
     try {
-      const token = getToken();
       const url = editingStudent
         ? `${API_BASE_URL}/api/admin/students/${editingStudent.id}`
         : `${API_BASE_URL}/api/admin/students`;
@@ -132,10 +134,7 @@ const OnlineStatus = ({ isOnline }) => (
 
       const response = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getAuthHeaders(), // Use this instead
         body: JSON.stringify(formData),
       });
 
@@ -161,7 +160,9 @@ const OnlineStatus = ({ isOnline }) => (
         setEditingStudent(null);
         fetchStudents(); // Refresh the list
       } else {
-        throw new Error(result.message || result.error || "Failed to save student");
+        throw new Error(
+          result.message || result.error || "Failed to save student"
+        );
       }
     } catch (error) {
       console.error("Error saving student:", error);
@@ -213,17 +214,15 @@ const OnlineStatus = ({ isOnline }) => (
   };
 
   const handleDelete = async (studentId) => {
-    if (!window.confirm("Are you sure you want to delete this student?")) return;
+    if (!window.confirm("Are you sure you want to delete this student?"))
+      return;
 
     try {
-      const token = getToken();
       const response = await fetch(
         `${API_BASE_URL}/api/admin/students/${studentId}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: getAuthHeaders(), // Use this instead
         }
       );
 
@@ -233,7 +232,9 @@ const OnlineStatus = ({ isOnline }) => (
         setSuccess("Student deleted successfully");
         fetchStudents(); // Refresh the list
       } else {
-        throw new Error(result.message || result.error || "Failed to delete student");
+        throw new Error(
+          result.message || result.error || "Failed to delete student"
+        );
       }
     } catch (error) {
       console.error("Error deleting student:", error);
@@ -358,12 +359,12 @@ const OnlineStatus = ({ isOnline }) => (
             </div>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '10px' }}>
-          <button 
+        <div style={{ display: "flex", gap: "10px" }}>
+          <button
             className="btn-logout"
             onClick={() => {
-              localStorage.removeItem('adminAuth');
-              localStorage.removeItem('adminToken');
+              localStorage.removeItem("adminAuth");
+              localStorage.removeItem("adminToken");
               window.location.reload();
             }}
           >
@@ -433,7 +434,6 @@ const OnlineStatus = ({ isOnline }) => (
           </div>
         </div>
       </div>
-
 
       {/* Filters Section */}
       <div className="filters-section">
@@ -543,95 +543,112 @@ const OnlineStatus = ({ isOnline }) => (
           </div>
         ) : (
           <div className="students-grid">
-           {students.map((student) => (
-        <div key={student.id} className="student-card">
-          <div className="student-header">
-            <div className="student-avatar">
-              {student.profile_image ? (
-                <img
-                  src={student.profile_image}
-                  alt={getDisplayName(student)}
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-              ) : null}
-                   <span style={{display: student.profile_image ? 'none' : 'flex'}}>
-                {getDisplayName(student).charAt(0).toUpperCase()}
-              </span>
-               {/* Online Status Badge */}
-               <div className={`online-badge ${student.is_online ? 'online' : 'offline'}`}></div>
-            </div>
-            <div className="student-basic-info">
-              <h3>{getDisplayName(student)}</h3>
-              <p className="student-id">{student.student_id}</p>
-              <div className="status-container">
-                {getStatusBadge(student.status)}
-                <OnlineStatus isOnline={student.is_online} />
-              </div>
-            </div>
+            {students.map((student) => (
+              <div key={student.id} className="student-card">
+                {/* Header */}
+                <div className="student-header">
+                  <div className="student-avatar">
+                    {student.profile_image ? (
+                      <img
+                        src={student.profile_image}
+                        alt={getDisplayName(student)}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                          e.target.nextSibling.style.display = "flex";
+                        }}
+                      />
+                    ) : null}
+
+                    <span
+                      style={{
+                        display: student.profile_image ? "none" : "flex",
+                      }}
+                    >
+                      {getDisplayName(student).charAt(0).toUpperCase()}
+                    </span>
+
+                    {/* Online Badge */}
+                    <div
+                      className={`online-badge ${
+                        student.is_online ? "online" : "offline"
+                      }`}
+                    ></div>
                   </div>
+
                   <div className="student-basic-info">
                     <h3>{getDisplayName(student)}</h3>
                     <p className="student-id">{student.student_id}</p>
-                    {getStatusBadge(student.status)}
-                  </div>
-                  <div className="student-actions">
-                    <button
-                      className="btn-action edit"
-                      onClick={() => handleEdit(student)}
-                      title="Edit student"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                      </svg>
-                    </button>
-                    <button
-                      className="btn-action delete"
-                      onClick={() => handleDelete(student.id)}
-                      title="Delete student"
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                      </svg>
-                    </button>
+
+                    <div className="status-container">
+                      {getStatusBadge(student.status)}
+                      <OnlineStatus isOnline={student.is_online} />
+                    </div>
                   </div>
                 </div>
 
+                {/* Duplicate removed - Only one basic info block kept */}
+
+                {/* Actions */}
+                <div className="student-actions">
+                  <button
+                    className="btn-action edit"
+                    onClick={() => handleEdit(student)}
+                    title="Edit student"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                    </svg>
+                  </button>
+
+                  <button
+                    className="btn-action delete"
+                    onClick={() => handleDelete(student.id)}
+                    title="Delete student"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Details */}
                 <div className="student-details">
                   <div className="detail-row">
                     <span className="detail-label">Email:</span>
                     <span className="detail-value">{student.email}</span>
                   </div>
+
                   <div className="detail-row">
                     <span className="detail-label">Phone:</span>
                     <span className="detail-value">
                       {student.phone || "Not provided"}
                     </span>
                   </div>
+
                   <div className="detail-row">
                     <span className="detail-label">Batch:</span>
                     <span className="detail-value">
                       {getBatchInfo(student.batch_month, student.batch_year)}
                     </span>
                   </div>
+
                   <div className="detail-row">
                     <span className="detail-label">Join Date:</span>
                     <span className="detail-value">
                       {formatDate(student.join_date || student.created_at)}
                     </span>
                   </div>
+
                   <div className="detail-row">
                     <span className="detail-label">Current Batch:</span>
                     <span className="detail-value">
@@ -640,6 +657,7 @@ const OnlineStatus = ({ isOnline }) => (
                   </div>
                 </div>
 
+                {/* Coding Level */}
                 {student.current_coding_level && (
                   <div className="student-skills">
                     <span className="skills-label">Coding Level:</span>

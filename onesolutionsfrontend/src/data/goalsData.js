@@ -1268,11 +1268,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m7_H g1_7B c3_D2E",
-                name: "Coding Practice   17A",
+                name: "Coding Practice 17A",
               },
               {
                 id: "QW9_s5_A0 m7_H g1_7B c3_D2E",
-                name: "Coding Practice   17B",
+                name: "Coding Practice 17B",
               },
               {
                 id: "QW9_s6_A0 m7_H g1_7B c3_D2E",
@@ -1304,7 +1304,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s13_A0 m7_H g1_7B c3_D2E",
-                name: "Coding Practice   19",
+                name: "Coding Practice 19",
               },
               {
                 id: "QW9_s14_A0 m7_H g1_7B c3_D2E",
@@ -1342,7 +1342,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m8_H g1_7B c3_D2E",
-                name: "Coding Practice   20",
+                name: "Coding Practice 20",
               },
               {
                 id: "QW9_s8_A0 m8_H g1_7B c3_D2E",
@@ -1368,11 +1368,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m9_H g1_7B c3_D2E",
-                name: "Coding Practice   21A",
+                name: "Coding Practice 21A",
               },
               {
                 id: "QW9_s5_A0 m9_H g1_7B c3_D2E",
-                name: "Coding Practice   21B",
+                name: "Coding Practice 21B",
               },
               {
                 id: "QW9_s6_A0 m9_H g1_7B c3_D2E",
@@ -1392,11 +1392,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m9_H g1_7B c3_D2E",
-                name: "Coding Practice   22A",
+                name: "Coding Practice 22A",
               },
               {
                 id: "QW9_s11_A0 m9_H g1_7B c3_D2E",
-                name: "Coding Practice   22B",
+                name: "Coding Practice 22B",
               },
               {
                 id: "QW9_s12_A0 m9_H g1_7B c3_D2E",
@@ -1416,11 +1416,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s16_A0 m9_H g1_7B c3_D2E",
-                name: "Coding Practice   23A",
+                name: "Coding Practice 23A",
               },
               {
                 id: "QW9_s17_A0 m9_H g1_7B c3_D2E",
-                name: "Coding Practice   23B",
+                name: "Coding Practice 23B",
               },
               {
                 id: "QW9_s18_A0 m9_H g1_7B c3_D2E",

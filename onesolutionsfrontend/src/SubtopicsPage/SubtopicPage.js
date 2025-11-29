@@ -323,27 +323,47 @@ import Problem_Solving_Part_6_Class from "../Python/LoopContronStmts/Problem_Sol
 import Problem_Solving_Part_7_Class from "../Python/LoopContronStmts/Problem_Solving_Part_7_Class.js";
 import ProblemSol_Debugging_Class_3 from "../Python/LoopContronStmts/ProblemSol_Debugging_Class_3.js";
 import Grand_Assignment_2 from "../Python/LoopContronStmts/Grand_Assignment_2.js";
+import List_Class from "../Python/Lists/List_Class.js";
+import Workingwith_List_Class from "../Python/Lists/Workingwith_List_Class.js";
+import Coding_Pratice_20 from "../Python/Lists/Coding_Pratice_20.js";
+import Assignment_20 from "../Python/Lists/Assignment_20.js";
+import ComparigStr_NamingVar_Class from "../Python/ComparingStr&NamingVar/ComparingStr_NamingVar_Class.js";
+import ProblemSol_Debugging_Class_4 from "../Python/ComparingStr&NamingVar/ProblemSol_Debugging_Class_4.js";
+import ProblemSol_Debugging_Class_5 from "../Python/ComparingStr&NamingVar/ProblemSol_Debugging_Class_5.js";
+import Coding_Pratice_17A from "../Python/ComparingStr&NamingVar/Coding_Pratice_17A.js";
+import Coding_Pratice_17B from "../Python/ComparingStr&NamingVar/Coding_Pratice_17B.js";
+import Coding_Pratice_18 from "../Python/ComparingStr&NamingVar/Coding_Pratice_18.js";
+import Coding_Pratice_19 from "../Python/ComparingStr&NamingVar/Coding_Pratice_19.js";
+import Assignment_17 from "../Python/ComparingStr&NamingVar/Assignment_17.js";
+import Assignment_18 from "../Python/ComparingStr&NamingVar/Assignment_18.js";
+import Assignment_19 from "../Python/ComparingStr&NamingVar/Assignment_19.js";
+import Function_Argu_Class from "../Python/Functions/Function_Argu_Class.js";
+import Functions_Class from "../Python/Functions/Functions_Class.js";
+import Lists_String_Class from "../Python/Functions/Lists_String_Class.js";
+import Assignment_21 from "../Python/Functions/Assignment_21.js";
+import Assignment_22 from "../Python/Functions/Assignment_22.js";
+import Assignment_23 from "../Python/Functions/Assignment_23.js";
+import Coding_Pratice_21A from "../Python/Functions/Coding_Pratice_21A.js";
+import Coding_Pratice_21B from "../Python/Functions/Coding_Pratice_21B.js";
+import Coding_Pratice_22A from "../Python/Functions/Coding_Pratice_22A.js";
+import Coding_Pratice_22B from "../Python/Functions/Coding_Pratice_22B.js";
+import Coding_Pratice_23A from "../Python/Functions/Coding_Pratice_23A.js";
+import Coding_Pratice_23B from "../Python/Functions/Coding_Pratice_23B.js";
 // Map subtopics to their components
 const subtopicComponents = {
-  "Problem Solving and Debugging Part 3": ProblemSol_Debugging_Class_3,
-  "Coding Practice 12": Coding_Pratice_12,
-  "Assignment 12": Assignment_12,
-  "Nested Loops": NestedLoops_Class,
-  "Problem Solving Part 5": Problem_Solving_Part_5_Class,
-  "Problem Solving Part 6": Problem_Solving_Part_6_Class,
-  "Coding Practice 13A": Coding_Pratice_13A,
-  "Coding Practice 13B": Coding_Pratice_13B,
-  "Assignment 13": Assignment_13,
-  "Problem Solving Part 7": Problem_Solving_Part_7_Class,
-  "Coding Practice 14A": Coding_Pratice_14A,
-  "Coding Practice 14B": Coding_Pratice_14B,
-  "Assignment 14": Assignment_14,
-  "Coding Practice 15A": Coding_Pratice_15A,
-  "Coding Practice 15B": Coding_Pratice_15B,
-  "Loop Control Statements": LoopControlStmts_Class,
-  "Coding Practice 16": Coding_Pratice_16,
-  "Assignment 16": Assignment_16,
-  "Grand Assignment 2": Grand_Assignment_2,
+  "Coding Practice 21A": Coding_Pratice_21A,
+  "Coding Practice 21B": Coding_Pratice_21B,
+  "Coding Practice 22A": Coding_Pratice_22A,
+  "Coding Practice 22B": Coding_Pratice_22B,
+  "Coding Practice 23A": Coding_Pratice_23A,
+  "Coding Practice 23B": Coding_Pratice_23B,
+  "List & Strings": Lists_String_Class,
+  "Assignment 21": Assignment_21,
+  "Assignment 22": Assignment_22,
+  "Assignment 23": Assignment_23,
+  Functions: Functions_Class,
+  "Function Arguments": Function_Argu_Class,
+
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
   "Type Conversion": Type_Con_Class,
@@ -411,6 +431,39 @@ const subtopicComponents = {
   "Coding Practice 11A": Coding_Pratice_11A,
   "Coding Practice 11B": Coding_Pratice_11B,
   "Foundations Exam 1": Fundations_Exam_1,
+  "Problem Solving and Debugging Part 3": ProblemSol_Debugging_Class_3,
+  "Coding Practice 12": Coding_Pratice_12,
+  "Assignment 12": Assignment_12,
+  "Nested Loops": NestedLoops_Class,
+  "Problem Solving Part 5": Problem_Solving_Part_5_Class,
+  "Problem Solving Part 6": Problem_Solving_Part_6_Class,
+  "Coding Practice 13A": Coding_Pratice_13A,
+  "Coding Practice 13B": Coding_Pratice_13B,
+  "Assignment 13": Assignment_13,
+  "Problem Solving Part 7": Problem_Solving_Part_7_Class,
+  "Coding Practice 14A": Coding_Pratice_14A,
+  "Coding Practice 14B": Coding_Pratice_14B,
+  "Assignment 14": Assignment_14,
+  "Coding Practice 15A": Coding_Pratice_15A,
+  "Coding Practice 15B": Coding_Pratice_15B,
+  "Loop Control Statements": LoopControlStmts_Class,
+  "Coding Practice 16": Coding_Pratice_16,
+  "Assignment 16": Assignment_16,
+  "Grand Assignment 2": Grand_Assignment_2,
+  "Comparing Strings & Naming Variables": ComparigStr_NamingVar_Class,
+  "Problem Solving and Debugging Part 4": ProblemSol_Debugging_Class_4,
+  "Problem Solving and Debugging Part 5": ProblemSol_Debugging_Class_5,
+  "Coding Practice 17A": Coding_Pratice_17A,
+  "Coding Practice 17B": Coding_Pratice_17B,
+  "Coding Practice 18": Coding_Pratice_18,
+  "Coding Practice 19": Coding_Pratice_19,
+  "Assignment 17": Assignment_17,
+  "Assignment 18": Assignment_18,
+  "Assignment 19": Assignment_19,
+  Lists: List_Class,
+  "Working with Lists": Workingwith_List_Class,
+  "Coding Practice 20": Coding_Pratice_20,
+  "Assignment 20": Assignment_20,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
