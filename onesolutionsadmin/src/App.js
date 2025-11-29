@@ -28,7 +28,7 @@ import OJBAdminJobDetail from "./components/OJB/OJBAdminJobDetail/OJBAdminJobDet
 import StudentRegister from "./components/Ose/Student_Register/Register";
 import AdminFeedbackPanel from "./components/Ose/AdminFeedbackPanel/AdminFeedbackPanel";
 import StudentList from "./components/Ose/Student/StudentList";
-import VideoManagement from "./components/ClassVideoManagement/ClassVideoManagement";
+import VideoManagement from "./components/Ose/ClassVideoManagement/ClassVideoManagement";
 
 import "./App.css";
 

@@ -53,14 +53,6 @@ app.use(
   })
 );
 
-// Handle preflight requests
-app.options("*", cors());
-
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-
-// Serve uploaded files statically
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -------------------------------------------
 // 🔹 Multer Configuration for File Uploads
@@ -124,6 +116,16 @@ const videoUpload = multer({
     fileSize: 500 * 1024 * 1024, // 100MB limit
   },
 });
+
+// Handle preflight requests
+app.options("*", cors());
+
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "300mb" }));
+
+// Serve uploaded files statically
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // -------------------------------------------
 // 🔹 Database Table Creation
@@ -4428,12 +4430,17 @@ app.get("/api/admin/class-videos", async (req, res) => {
   }
 });
 
-// Create or update class video
+
+// Update the existing POST route to be creation-only
 app.post(
   "/api/admin/class-videos",
   videoUpload.single("video"),
   async (req, res) => {
     try {
+      console.log("📹 Class video creation request received");
+      console.log("📦 Request body:", req.body);
+      console.log("🎥 Uploaded file:", req.file);
+
       const {
         subtopicId,
         videoTitle,
@@ -4453,79 +4460,65 @@ app.post(
         });
       }
 
-      let finalVideoUrl = videoUrl;
-      let thumbnailUrl = null;
-
-      // Handle uploaded video
-      if (req.file) {
-        finalVideoUrl = `/uploads/videos/${req.file.filename}`;
-        videoType = "uploaded";
-
-        // Generate thumbnail for uploaded video (you can implement this later)
-        // For now, we'll use a default thumbnail
-        thumbnailUrl = "/uploads/thumbnails/default-video-thumbnail.jpg";
-      }
-
       // Check if video already exists for this subtopic
       const existingVideo = await pool.query(
         "SELECT * FROM class_videos WHERE subtopic_id = $1",
         [subtopicId]
       );
 
-      let result;
-
       if (existingVideo.rows.length > 0) {
-        // Update existing video
-        result = await pool.query(
-          `UPDATE class_videos 
-         SET video_title = $1, video_description = $2, video_url = $3, 
-             video_type = $4, module_name = $5, topic_name = $6, 
-             duration = $7, thumbnail_url = $8, is_active = $9,
-             updated_at = CURRENT_TIMESTAMP
-         WHERE subtopic_id = $10
-         RETURNING *`,
-          [
-            videoTitle,
-            videoDescription,
-            finalVideoUrl,
-            videoType,
-            moduleName,
-            topicName,
-            duration ? parseInt(duration) : null,
-            thumbnailUrl,
-            isActive === "true",
-            subtopicId,
-          ]
-        );
-      } else {
-        // Insert new video
-        result = await pool.query(
-          `INSERT INTO class_videos 
+        return res.status(400).json({
+          success: false,
+          message: "Video already exists for this subtopic. Use update instead.",
+        });
+      }
+
+      let finalVideoUrl = videoUrl;
+      let finalVideoType = videoType;
+      let thumbnailUrl = null;
+
+      // Handle uploaded video
+      if (req.file) {
+        finalVideoUrl = `/uploads/videos/${req.file.filename}`;
+        finalVideoType = "uploaded";
+        console.log(`✅ Video file uploaded: ${finalVideoUrl}`);
+      }
+
+      // Validate URL for non-uploaded videos
+      if (finalVideoType !== "uploaded" && !finalVideoUrl) {
+        return res.status(400).json({
+          success: false,
+          message: "Video URL is required for non-uploaded videos",
+        });
+      }
+
+      // Insert new video
+      console.log(`🆕 Creating new video for subtopic: ${subtopicId}`);
+      const result = await pool.query(
+        `INSERT INTO class_videos 
          (subtopic_id, video_title, video_description, video_url, 
           video_type, module_name, topic_name, duration, thumbnail_url, 
           is_active, created_by)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
          RETURNING *`,
-          [
-            subtopicId,
-            videoTitle,
-            videoDescription,
-            finalVideoUrl,
-            videoType,
-            moduleName,
-            topicName,
-            duration ? parseInt(duration) : null,
-            thumbnailUrl,
-            isActive === "true",
-            req.student.id, // Assuming admin is logged in as student
-          ]
-        );
-      }
+        [
+          subtopicId,
+          videoTitle,
+          videoDescription || "",
+          finalVideoUrl,
+          finalVideoType,
+          moduleName || null,
+          topicName || null,
+          duration ? parseInt(duration) : null,
+          thumbnailUrl,
+          isActive === "true" || isActive === true,
+          req.student?.id || 1, // Fallback to admin user
+        ]
+      );
 
       const video = result.rows[0];
       const baseUrl =
-        process.env.BACKEND_URL ||
-        `http://localhost:${process.env.PORT || 5002}`;
+        process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
       // Format response with full URLs
       const videoResponse = {
@@ -4540,19 +4533,179 @@ app.post(
             : video.thumbnail_url,
       };
 
-      res.json({
+      console.log("✅ Video created successfully");
+
+      res.status(201).json({
         success: true,
-        message:
-          existingVideo.rows.length > 0
-            ? "Video updated successfully"
-            : "Video created successfully",
+        message: "Video created successfully",
         data: { video: videoResponse },
       });
     } catch (error) {
-      console.error("Class video save error:", error.message);
+      console.error("❌ Class video creation error:", error.message);
+      console.error("Error stack:", error.stack);
+      
+      // Clean up uploaded file if there was an error
+      if (req.file) {
+        try {
+          fs.unlinkSync(req.file.path);
+          console.log("🧹 Cleaned up uploaded file due to error");
+        } catch (cleanupError) {
+          console.error("File cleanup error:", cleanupError.message);
+        }
+      }
+
       res.status(500).json({
         success: false,
-        error: "Failed to save class video",
+        error: "Failed to create class video: " + error.message,
+      });
+    }
+  }
+);
+// -------------------------------------------
+// 🔹 UPDATE Class Video Route (NEW)
+// -------------------------------------------
+app.put(
+  "/api/admin/class-videos/:subtopicId",
+  videoUpload.single("video"),
+  async (req, res) => {
+    try {
+      const { subtopicId } = req.params;
+      
+      console.log("📹 Class video update request received for:", subtopicId);
+      console.log("📦 Request body:", req.body);
+      console.log("🎥 Uploaded file:", req.file);
+
+      const {
+        videoTitle,
+        videoDescription,
+        videoUrl,
+        videoType = "youtube",
+        moduleName,
+        topicName,
+        duration,
+        isActive = true,
+      } = req.body;
+
+      if (!videoTitle) {
+        return res.status(400).json({
+          success: false,
+          message: "Video title is required",
+        });
+      }
+
+      // Check if video exists
+      const existingVideo = await pool.query(
+        "SELECT * FROM class_videos WHERE subtopic_id = $1",
+        [subtopicId]
+      );
+
+      if (existingVideo.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Video not found for this subtopic",
+        });
+      }
+
+      let finalVideoUrl = videoUrl;
+      let finalVideoType = videoType;
+
+      // Handle uploaded video
+      if (req.file) {
+        finalVideoUrl = `/uploads/videos/${req.file.filename}`;
+        finalVideoType = "uploaded";
+        console.log(`✅ New video file uploaded: ${finalVideoUrl}`);
+        
+        // Delete old video file if it was an uploaded file
+        const oldVideo = existingVideo.rows[0];
+        if (oldVideo.video_type === "uploaded" && oldVideo.video_url) {
+          const oldVideoPath = path.join(__dirname, oldVideo.video_url);
+          if (fs.existsSync(oldVideoPath)) {
+            fs.unlinkSync(oldVideoPath);
+            console.log("🗑️ Deleted old video file");
+          }
+        }
+      } else if (videoType !== "uploaded" && videoUrl) {
+        // For YouTube/Vimeo, use the provided URL
+        finalVideoUrl = videoUrl;
+        finalVideoType = videoType;
+        
+        // If switching from uploaded to YouTube/Vimeo, delete the old file
+        const oldVideo = existingVideo.rows[0];
+        if (oldVideo.video_type === "uploaded" && oldVideo.video_url) {
+          const oldVideoPath = path.join(__dirname, oldVideo.video_url);
+          if (fs.existsSync(oldVideoPath)) {
+            fs.unlinkSync(oldVideoPath);
+            console.log("🗑️ Deleted old uploaded video file");
+          }
+        }
+      } else {
+        // Keep existing video URL if no new file/URL provided
+        finalVideoUrl = existingVideo.rows[0].video_url;
+        finalVideoType = existingVideo.rows[0].video_type;
+      }
+
+      // Update video in database
+      const result = await pool.query(
+        `UPDATE class_videos 
+         SET video_title = $1, video_description = $2, video_url = $3, 
+             video_type = $4, module_name = $5, topic_name = $6, 
+             duration = $7, is_active = $8, updated_at = CURRENT_TIMESTAMP
+         WHERE subtopic_id = $9
+         RETURNING *`,
+        [
+          videoTitle,
+          videoDescription || "",
+          finalVideoUrl,
+          finalVideoType,
+          moduleName || null,
+          topicName || null,
+          duration ? parseInt(duration) : null,
+          isActive === "true" || isActive === true,
+          subtopicId,
+        ]
+      );
+
+      const video = result.rows[0];
+      const baseUrl =
+        process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
+      // Format response with full URLs
+      const videoResponse = {
+        ...video,
+        video_url:
+          video.video_type === "uploaded" && !video.video_url.startsWith("http")
+            ? `${baseUrl}${video.video_url}`
+            : video.video_url,
+        thumbnail_url:
+          video.thumbnail_url && !video.thumbnail_url.startsWith("http")
+            ? `${baseUrl}${video.thumbnail_url}`
+            : video.thumbnail_url,
+      };
+
+      console.log("✅ Video updated successfully");
+
+      res.json({
+        success: true,
+        message: "Video updated successfully",
+        data: { video: videoResponse },
+      });
+    } catch (error) {
+      console.error("❌ Class video update error:", error.message);
+      console.error("Error stack:", error.stack);
+      
+      // Clean up uploaded file if there was an error
+      if (req.file) {
+        try {
+          fs.unlinkSync(req.file.path);
+          console.log("🧹 Cleaned up uploaded file due to error");
+        } catch (cleanupError) {
+          console.error("File cleanup error:", cleanupError.message);
+        }
+      }
+
+      res.status(500).json({
+        success: false,
+        error: "Failed to update class video: " + error.message,
       });
     }
   }

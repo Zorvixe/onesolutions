@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ClassVideoManagement.css";
+import AdminAuthModal from "../AdminAuthModal/AdminAuthModal";
+import { useAdminAuth } from "../AdminAuthModal/useAdminAuth";
+
+import GoalsPDFView from "../GoalsPDFView/GoalsPDFView"
 
 const API_BASE_URL = "https://api.onesolutionsekam.in";
+
+
 
 const ClassVideoManagement = () => {
   const [videos, setVideos] = useState([]);
@@ -34,22 +40,39 @@ const ClassVideoManagement = () => {
   // Pagination state
   const [pagination, setPagination] = useState({
     page: 1,
-    limit: 12, // Changed to 12 for better grid layout
+    limit: 12,
     total: 0,
     pages: 0,
   });
 
   // View mode state
-  const [viewMode, setViewMode] = useState("grid"); // 'grid' or 'list'
+  const [viewMode, setViewMode] = useState("grid");
+
+
+   // Admin Auth
+   const {
+    isAuthenticated,
+    showAuthModal,
+    loading: authLoading,
+    setShowAuthModal,
+    handleAuthSuccess,
+    getAuthHeaders,
+  } = useAdminAuth();
 
   useEffect(() => {
-    fetchVideos();
-  }, [filters, pagination.page]);
+    if (isAuthenticated) {
+      fetchVideos();
+      // Set up interval to refresh online status every 30 seconds
+      const interval = setInterval(fetchVideos, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [filters, pagination.page, isAuthenticated]);
 
   const fetchVideos = async () => {
+    if (!isAuthenticated) return;
+
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
       const params = new URLSearchParams();
       if (filters.search) params.append("search", filters.search);
       if (filters.moduleName) params.append("moduleName", filters.moduleName);
@@ -61,8 +84,9 @@ const ClassVideoManagement = () => {
       const response = await fetch(
         `${API_BASE_URL}/api/admin/class-videos?${params}`,
         {
+          method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -98,15 +122,12 @@ const ClassVideoManagement = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token");
       const formDataToSend = new FormData();
 
-      // Append all form data
       Object.keys(formData).forEach((key) => {
         formDataToSend.append(key, formData[key]);
       });
 
-      // Append video file if selected
       if (videoFile) {
         formDataToSend.append("video", videoFile);
       }
@@ -118,7 +139,7 @@ const ClassVideoManagement = () => {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: formDataToSend,
       });
@@ -169,7 +190,7 @@ const ClassVideoManagement = () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -196,7 +217,7 @@ const ClassVideoManagement = () => {
         {
           method: "PATCH",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
@@ -307,6 +328,15 @@ const ClassVideoManagement = () => {
         {isActive ? "Active" : "Inactive"}
       </span>
     );
+  };
+
+  const handleSubtopicSelect = (topic) => {
+    setFormData(prev => ({
+      ...prev,
+      subtopicId: topic.id,
+      topicName: topic.name
+    }));
+    toast.success(`Selected subtopic: ${topic.name}`);
   };
 
   return (
@@ -594,11 +624,11 @@ const ClassVideoManagement = () => {
         )}
       </div>
 
-      {/* Modal */}
+      {/* Modal with Split View */}
       {showModal && (
         <div className="modal-overlayvidd" onClick={closeModal}>
           <div
-            className="modal-contentvidd"
+            className="modal-contentvidd split-view-modal"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-headervidd">
@@ -615,180 +645,191 @@ const ClassVideoManagement = () => {
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="modal-formvidd">
-              <div className="form-gridvidd">
-                <div className="form-groupvidd">
-                  <label>Subtopic ID *</label>
-                  <input
-                    type="text"
-                    value={formData.subtopicId}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        subtopicId: e.target.value,
-                      }))
-                    }
-                    required
-                    placeholder="e.g., introduction-to-html"
-                  />
-                </div>
+            <div className="split-view-container">
+              {/* Left Side - Form */}
+              <div className="form-section">
+                <form onSubmit={handleSubmit} className="modal-formvidd">
+                  <div className="form-gridvidd">
+                    <div className="form-groupvidd">
+                      <label>Subtopic ID *</label>
+                      <input
+                        type="text"
+                        value={formData.subtopicId}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            subtopicId: e.target.value,
+                          }))
+                        }
+                        required
+                        placeholder="e.g., introduction-to-html"
+                      />
+                      <small>Click on any subtopic from the right panel to auto-fill</small>
+                    </div>
 
-                <div className="form-groupvidd">
-                  <label>Video Title *</label>
-                  <input
-                    type="text"
-                    value={formData.videoTitle}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        videoTitle: e.target.value,
-                      }))
-                    }
-                    required
-                    placeholder="Enter video title"
-                  />
-                </div>
+                    <div className="form-groupvidd">
+                      <label>Video Title *</label>
+                      <input
+                        type="text"
+                        value={formData.videoTitle}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            videoTitle: e.target.value,
+                          }))
+                        }
+                        required
+                        placeholder="Enter video title"
+                      />
+                    </div>
 
-                <div className="form-groupvidd full-widthvidd">
-                  <label>Video Description</label>
-                  <textarea
-                    value={formData.videoDescription}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        videoDescription: e.target.value,
-                      }))
-                    }
-                    placeholder="Enter video description"
-                    rows="3"
-                  />
-                </div>
+                    <div className="form-groupvidd full-widthvidd">
+                      <label>Video Description</label>
+                      <textarea
+                        value={formData.videoDescription}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            videoDescription: e.target.value,
+                          }))
+                        }
+                        placeholder="Enter video description"
+                        rows="3"
+                      />
+                    </div>
 
-                <div className="form-groupvidd">
-                  <label>Video Type</label>
-                  <select
-                    value={formData.videoType}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        videoType: e.target.value,
-                      }))
-                    }
-                  >
-                    <option value="youtube">YouTube</option>
-                    <option value="vimeo">Vimeo</option>
-                    <option value="uploaded">Upload Video</option>
-                  </select>
-                </div>
+                    <div className="form-groupvidd">
+                      <label>Video Type</label>
+                      <select
+                        value={formData.videoType}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            videoType: e.target.value,
+                          }))
+                        }
+                      >
+                        <option value="youtube">YouTube</option>
+                        <option value="vimeo">Vimeo</option>
+                        <option value="uploaded">Upload Video</option>
+                      </select>
+                    </div>
 
-                {formData.videoType !== "uploaded" ? (
-                  <div className="form-groupvidd full-widthvidd">
-                    <label>Video URL *</label>
-                    <input
-                      type="url"
-                      value={formData.videoUrl}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          videoUrl: e.target.value,
-                        }))
-                      }
-                      required={formData.videoType !== "uploaded"}
-                      placeholder="Enter video URL"
-                    />
+                    {formData.videoType !== "uploaded" ? (
+                      <div className="form-groupvidd full-widthvidd">
+                        <label>Video URL *</label>
+                        <input
+                          type="url"
+                          value={formData.videoUrl}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              videoUrl: e.target.value,
+                            }))
+                          }
+                          required={formData.videoType !== "uploaded"}
+                          placeholder="Enter video URL"
+                        />
+                      </div>
+                    ) : (
+                      <div className="form-groupvidd full-widthvidd">
+                        <label>Upload Video *</label>
+                        <input
+                          type="file"
+                          accept="video/*"
+                          onChange={(e) => setVideoFile(e.target.files[0])}
+                          required={
+                            formData.videoType === "uploaded" && !editingVideo
+                          }
+                        />
+                        <small>
+                          Max file size: 100MB. Supported formats: MP4, WebM, MOV
+                        </small>
+                      </div>
+                    )}
+
+                    <div className="form-groupvidd">
+                      <label>Module Name</label>
+                      <input
+                        type="text"
+                        value={formData.moduleName}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            moduleName: e.target.value,
+                          }))
+                        }
+                        placeholder="e.g., Introduction to HTML & CSS"
+                      />
+                    </div>
+
+                    <div className="form-groupvidd">
+                      <label>Topic Name</label>
+                      <input
+                        type="text"
+                        value={formData.topicName}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            topicName: e.target.value,
+                          }))
+                        }
+                        placeholder="e.g., Introduction to HTML"
+                      />
+                    </div>
+
+                    <div className="form-groupvidd">
+                      <label>Duration (seconds)</label>
+                      <input
+                        type="number"
+                        value={formData.duration}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            duration: e.target.value,
+                          }))
+                        }
+                        placeholder="e.g., 3600"
+                      />
+                    </div>
+
+                    <div className="form-groupvidd">
+                      <label>Status</label>
+                      <select
+                        value={formData.isActive}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            isActive: e.target.value === "true",
+                          }))
+                        }
+                      >
+                        <option value={true}>Active</option>
+                        <option value={false}>Inactive</option>
+                      </select>
+                    </div>
                   </div>
-                ) : (
-                  <div className="form-groupvidd full-widthvidd">
-                    <label>Upload Video *</label>
-                    <input
-                      type="file"
-                      accept="video/*"
-                      onChange={(e) => setVideoFile(e.target.files[0])}
-                      required={
-                        formData.videoType === "uploaded" && !editingVideo
-                      }
-                    />
-                    <small>
-                      Max file size: 100MB. Supported formats: MP4, WebM, MOV
-                    </small>
+
+                  <div className="form-actionsvidd">
+                    <button
+                      type="button"
+                      className="btn-cancelvidd"
+                      onClick={closeModal}
+                    >
+                      Cancel
+                    </button>
+                    <button type="submit" className="btn-submitvidd">
+                      {editingVideo ? "Update Video" : "Create Video"}
+                    </button>
                   </div>
-                )}
-
-                <div className="form-groupvidd">
-                  <label>Module Name</label>
-                  <input
-                    type="text"
-                    value={formData.moduleName}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        moduleName: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g., Introduction to HTML & CSS"
-                  />
-                </div>
-
-                <div className="form-groupvidd">
-                  <label>Topic Name</label>
-                  <input
-                    type="text"
-                    value={formData.topicName}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        topicName: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g., Introduction to HTML"
-                  />
-                </div>
-
-                <div className="form-groupvidd">
-                  <label>Duration (seconds)</label>
-                  <input
-                    type="number"
-                    value={formData.duration}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        duration: e.target.value,
-                      }))
-                    }
-                    placeholder="e.g., 3600"
-                  />
-                </div>
-
-                <div className="form-groupvidd">
-                  <label>Status</label>
-                  <select
-                    value={formData.isActive}
-                    onChange={(e) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        isActive: e.target.value === "true",
-                      }))
-                    }
-                  >
-                    <option value={true}>Active</option>
-                    <option value={false}>Inactive</option>
-                  </select>
-                </div>
+                </form>
               </div>
 
-              <div className="form-actionsvidd">
-                <button
-                  type="button"
-                  className="btn-cancelvidd"
-                  onClick={closeModal}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn-submitvidd">
-                  {editingVideo ? "Update Video" : "Create Video"}
-                </button>
+              {/* Right Side - Goals PDF View */}
+              <div className="goals-preview-section">
+                <GoalsPDFView onSelectSubtopic={handleSubtopicSelect} />
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
