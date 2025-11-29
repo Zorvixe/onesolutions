@@ -4269,7 +4269,7 @@ app.delete("/api/admin/students/:studentId", async (req, res) => {
 });
 
 // Get video by subtopic ID
-app.get("/api/class-video/:subtopicId", auth, async (req, res) => {
+app.get("/api/class-video/:subtopicId", async (req, res) => {
   try {
     const { subtopicId } = req.params;
 
@@ -4315,7 +4315,7 @@ app.get("/api/class-video/:subtopicId", auth, async (req, res) => {
 });
 
 // Admin routes for class videos management
-app.get("/api/admin/class-videos", auth, async (req, res) => {
+app.get("/api/admin/class-videos", async (req, res) => {
   try {
     const {
       page = 1,
@@ -4431,7 +4431,6 @@ app.get("/api/admin/class-videos", auth, async (req, res) => {
 // Create or update class video
 app.post(
   "/api/admin/class-videos",
-  auth,
   videoUpload.single("video"),
   async (req, res) => {
     try {
@@ -4560,7 +4559,7 @@ app.post(
 );
 
 // Delete class video
-app.delete("/api/admin/class-videos/:subtopicId", auth, async (req, res) => {
+app.delete("/api/admin/class-videos/:subtopicId", async (req, res) => {
   try {
     const { subtopicId } = req.params;
 

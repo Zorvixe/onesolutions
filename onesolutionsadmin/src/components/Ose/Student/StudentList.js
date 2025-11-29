@@ -88,7 +88,7 @@ const StudentList = () => {
         {
           method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
@@ -104,12 +104,14 @@ const StudentList = () => {
         setOnlineStats(
           result.data.onlineStats || { totalOnline: 0, totalStudents: 0 }
         );
-        setPagination(result.data.pagination || {
-          page: 1,
-          limit: 10,
-          total: 0,
-          pages: 0,
-        });
+        setPagination(
+          result.data.pagination || {
+            page: 1,
+            limit: 10,
+            total: 0,
+            pages: 0,
+          }
+        );
       } else {
         throw new Error(result.message || "Failed to fetch students");
       }
@@ -123,7 +125,11 @@ const StudentList = () => {
 
   // Online status indicator component
   const OnlineStatus = ({ isOnline }) => (
-    <div className={`online-status-stud ${isOnline ? "online-stud" : "offline-stud"}`}>
+    <div
+      className={`online-status-stud ${
+        isOnline ? "online-stud" : "offline-stud"
+      }`}
+    >
       <div className="status-dot-stud"></div>
       <span>{isOnline ? "Online" : "Offline"}</span>
     </div>
@@ -132,10 +138,10 @@ const StudentList = () => {
   // Password display component
   const PasswordDisplay = ({ password }) => {
     const [visible, setVisible] = useState(false);
-    
+
     return (
       <div className="password-display-stud">
-        <span>{visible ? password : '••••••••'}</span>
+        <span>{visible ? password : "••••••••"}</span>
         <button
           type="button"
           className="btn-password-toggle-stud"
@@ -144,9 +150,9 @@ const StudentList = () => {
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
             {visible ? (
-              <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+              <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z" />
             ) : (
-              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
             )}
           </svg>
         </button>
@@ -167,7 +173,7 @@ const StudentList = () => {
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -222,8 +228,8 @@ const StudentList = () => {
   };
 
   const createstudent = () => {
-    navigate("/student_register")
-  }
+    navigate("/student_register");
+  };
 
   const handleEdit = (student) => {
     console.log("Editing student:", student);
@@ -258,7 +264,7 @@ const StudentList = () => {
         {
           method: "DELETE",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
         }
       );
@@ -285,7 +291,7 @@ const StudentList = () => {
       [key]: value,
     }));
     // Reset to first page when filters change
-    setPagination(prev => ({ ...prev, page: 1 }));
+    setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
   const clearFilters = () => {
@@ -295,11 +301,11 @@ const StudentList = () => {
       batchYear: "",
       status: "",
     });
-    setPagination(prev => ({ ...prev, page: 1 }));
+    setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
   const handlePageChange = (newPage) => {
-    setPagination(prev => ({ ...prev, page: newPage }));
+    setPagination((prev) => ({ ...prev, page: newPage }));
   };
 
   const getStatusBadge = (status) => {
@@ -366,7 +372,7 @@ const StudentList = () => {
   // Pagination component
   const Pagination = () => {
     const { page, pages } = pagination;
-    
+
     if (pages <= 1) return null;
 
     return (
@@ -378,18 +384,24 @@ const StudentList = () => {
         >
           Previous
         </button>
-        
+
         <div className="pagination-pages-stud">
           {Array.from({ length: pages }, (_, i) => i + 1)
-            .filter(p => p === 1 || p === pages || (p >= page - 1 && p <= page + 1))
+            .filter(
+              (p) => p === 1 || p === pages || (p >= page - 1 && p <= page + 1)
+            )
             .map((p, index, array) => {
               // Add ellipsis for gaps
               const showEllipsis = index > 0 && p - array[index - 1] > 1;
               return (
-                <div key={p} style={{ display: 'flex', alignItems: 'center' }}>
-                  {showEllipsis && <span className="pagination-ellipsis-stud">...</span>}
+                <div key={p} style={{ display: "flex", alignItems: "center" }}>
+                  {showEllipsis && (
+                    <span className="pagination-ellipsis-stud">...</span>
+                  )}
                   <button
-                    className={`pagination-page-stud ${p === page ? 'active-stud' : ''}`}
+                    className={`pagination-page-stud ${
+                      p === page ? "active-stud" : ""
+                    }`}
                     onClick={() => handlePageChange(p)}
                   >
                     {p}
@@ -442,7 +454,7 @@ const StudentList = () => {
         draggable
         pauseOnHover
       />
-      
+
       {/* Header */}
       <div className="admin-header-stud">
         <div className="header-content-stud">
@@ -451,11 +463,15 @@ const StudentList = () => {
           {/* Online Stats */}
           <div className="online-stats-stud">
             <div className="stat-item-stud">
-              <span className="stat-number-stud">{onlineStats.totalOnline}</span>
+              <span className="stat-number-stud">
+                {onlineStats.totalOnline}
+              </span>
               <span className="stat-label-stud">Online Now</span>
             </div>
             <div className="stat-item-stud">
-              <span className="stat-number-stud">{onlineStats.totalStudents}</span>
+              <span className="stat-number-stud">
+                {onlineStats.totalStudents}
+              </span>
               <span className="stat-label-stud">Total Students</span>
             </div>
           </div>
@@ -608,7 +624,8 @@ const StudentList = () => {
           <h2>Student Directory</h2>
           <span className="student-count-stud">
             Showing {students.length} of {pagination.total} students
-            {pagination.pages > 1 && ` (Page ${pagination.page} of ${pagination.pages})`}
+            {pagination.pages > 1 &&
+              ` (Page ${pagination.page} of ${pagination.pages})`}
           </span>
         </div>
 
@@ -687,25 +704,25 @@ const StudentList = () => {
                     </td>
                     <td>
                       <div>
-                        <div style={{ color: '#6b7280', fontSize: '12px' }}>{student.email}</div>
-                        <div style={{ color: '#6b7280', fontSize: '12px' }}>
-                          {student.phone || 'Not provided'}
+                        <div style={{ color: "#6b7280", fontSize: "12px" }}>
+                          {student.email}
+                        </div>
+                        <div style={{ color: "#6b7280", fontSize: "12px" }}>
+                          {student.phone || "Not provided"}
                         </div>
                       </div>
                     </td>
-                    <td style={{ color: '#6b7280', fontSize: '12px' }}>
+                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getBatchInfo(student.batch_month, student.batch_year)}
                     </td>
-                    <td>
+                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       <PasswordDisplay password={student.password} />
                     </td>
-                    <td>
-                      {getStatusBadge(student.status)}
-                    </td>
+                    <td>{getStatusBadge(student.status)}</td>
                     <td>
                       <OnlineStatus isOnline={student.is_online} />
                     </td>
-                    <td style={{ color: '#6b7280', fontSize: '12px' }}>
+                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {formatDate(student.join_date || student.created_at)}
                     </td>
                     <td>
@@ -754,7 +771,10 @@ const StudentList = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="modal-overlay-stud" onClick={closeModal}>
-          <div className="modal-content-stud" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="modal-content-stud"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="modal-header-stud">
               <h2>{editingStudent ? "Edit Student" : "Add New Student"}</h2>
               <button className="modal-close-stud" onClick={closeModal}>
@@ -872,7 +892,7 @@ const StudentList = () => {
 
                 <div className="form-group-stud password-field-stud">
                   <label htmlFor="password" className="form-label-stud">
-                    Password {editingStudent && '(Leave blank to keep current)'}
+                    Password {editingStudent && "(Leave blank to keep current)"}
                   </label>
                   <div className="password-input-container-stud">
                     <input
@@ -886,18 +906,25 @@ const StudentList = () => {
                           password: e.target.value,
                         })
                       }
-                      placeholder={editingStudent ? "Enter new password" : "Enter password"}
+                      placeholder={
+                        editingStudent ? "Enter new password" : "Enter password"
+                      }
                     />
                     <button
                       type="button"
                       className="password-toggle-stud"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
                         {showPassword ? (
-                          <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+                          <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z" />
                         ) : (
-                          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                          <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
                         )}
                       </svg>
                     </button>
