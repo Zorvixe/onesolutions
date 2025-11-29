@@ -299,7 +299,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  margin-bottom: 20px
+  margin-bottom: 20px;
 }
 
 .complete-button-clss {
@@ -747,5 +747,283 @@
 
   .toolbar-btn-clss {
     margin-bottom: 5px;
+  }
+}
+
+/* Video Loading and Error States */
+.video-loading-clss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.loading-spinner-clss {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e3e3e3;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.video-error-clss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  text-align: center;
+  padding: 40px;
+}
+
+.video-error-clss svg {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.video-error-clss h3 {
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.video-error-clss p {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.retry-btn-clss {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.retry-btn-clss:hover {
+  background: #2563eb;
+}
+
+/* Video Player Styles */
+.video-player-container-clss {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.video-header-clss {
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.video-header-clss h2 {
+  margin: 0 0 8px 0;
+  color: #111827;
+  font-size: 1.5rem;
+}
+
+.video-description-clss {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.video-meta-clss {
+  padding: 12px 20px;
+  background: #f9fafb;
+  display: flex;
+  gap: 20px;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.duration-clss,
+.video-type-clss {
+  display: flex;
+  align-items: center;
+}
+
+/* Video player responsive */
+.video-player-container-clss iframe,
+.video-player-container-clss video {
+  display: block;
+}
+
+/* Admin Video Management Styles */
+.class-video-management {
+  padding: 20px;
+}
+
+.video-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.video-thumbnail {
+  width: 120px;
+  height: 68px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.video-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.video-title {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.video-description {
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.subtopic-id {
+  background: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: "Courier New", monospace;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.module-topic-info {
+  font-size: 0.875rem;
+}
+
+.module-name {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 2px;
+}
+
+.topic-name {
+  color: #6b7280;
+}
+
+.video-type-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-badge.active {
+  background: #ecfdf5;
+  color: #10b981;
+}
+
+.status-badge.inactive {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.video-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  padding: 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action.edit {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.btn-action.toggle-active {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+
+.btn-action.delete {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+.btn-action:hover {
+  opacity: 0.8;
+}
+
+/* Form styles for video management */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .video-info {
+    flex-direction: column;
+  }
+
+  .video-thumbnail {
+    width: 100%;
+    height: 120px;
   }
 }

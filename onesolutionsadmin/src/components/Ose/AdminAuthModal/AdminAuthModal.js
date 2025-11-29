@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -11,78 +11,74 @@ import {
   Alert,
   Box,
   Typography,
-  CircularProgress
-} from '@mui/material';
-import { Security, AdminPanelSettings } from '@mui/icons-material';
-
-const API_BASE_URL = process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
+  CircularProgress,
+} from "@mui/material";
+import { Security, AdminPanelSettings } from "@mui/icons-material";
 
 const AdminAuthModal = ({ open, onClose, onSuccess }) => {
-  const [secretKey, setSecretKey] = useState('');
+  const [secretKey, setSecretKey] = useState("");
   const [agreed, setAgreed] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [attempts, setAttempts] = useState(0);
 
+  // Fixed secret key for frontend authentication
+  const FIXED_SECRET_KEY = "Onesolutions@2024";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     if (!agreed) {
-      setError('Please confirm that you are authorized to access the admin panel');
+      setError(
+        "Please confirm that you are authorized to access the admin panel"
+      );
       setLoading(false);
       return;
     }
 
     if (!secretKey.trim()) {
-      setError('Please enter the admin secret key');
+      setError("Please enter the admin secret key");
       setLoading(false);
       return;
     }
 
     try {
-      // Verify admin access by making a test API call
-      const response = await fetch(`${API_BASE_URL}/api/admin/students/stats`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${secretKey}`,
-          'Content-Type': 'application/json',
-          'x-admin-secret': secretKey
-        }
-      });
-
-      if (response.ok) {
+      // Frontend-only validation
+      if (secretKey === FIXED_SECRET_KEY) {
         // Store admin authentication
         const authData = {
           authenticated: true,
           timestamp: new Date().getTime(),
           expiresIn: 24 * 60 * 60 * 1000, // 24 hours
-          token: secretKey
+          token: secretKey,
         };
-        
-        localStorage.setItem('adminAuth', JSON.stringify(authData));
-        localStorage.setItem('adminToken', secretKey);
-        
+
+        localStorage.setItem("adminAuth", JSON.stringify(authData));
+        localStorage.setItem("adminToken", secretKey);
+
         setLoading(false);
         onSuccess();
         onClose();
-        
+
         // Clear form
-        setSecretKey('');
+        setSecretKey("");
         setAgreed(false);
-        setError('');
+        setError("");
         setAttempts(0);
       } else {
-        throw new Error('Invalid admin credentials');
+        throw new Error("Invalid admin credentials");
       }
     } catch (err) {
       const newAttempts = attempts + 1;
       setAttempts(newAttempts);
       setLoading(false);
-      
+
       if (newAttempts >= 3) {
-        setError('Too many failed attempts. Please refresh the page and try again.');
+        setError(
+          "Too many failed attempts. Please refresh the page and try again."
+        );
         setTimeout(() => {
           window.location.reload();
         }, 3000);
@@ -94,15 +90,15 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
 
   const handleClose = () => {
     if (attempts > 0) {
-      window.location.href = '/';
+      window.location.href = "/";
     } else {
       onClose();
     }
   };
 
   return (
-    <Dialog 
-      open={open} 
+    <Dialog
+      open={open}
       onClose={handleClose}
       maxWidth="sm"
       fullWidth
@@ -115,17 +111,24 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
             <Typography variant="h6">Admin Authorization Required</Typography>
           </Box>
         </DialogTitle>
-        
+
         <DialogContent>
           <Alert severity="warning" sx={{ mb: 2 }}>
-            <strong>Restricted Access:</strong> This area contains sensitive student data and administrative functions.
+            <strong>Restricted Access:</strong> This area contains sensitive
+            student data and administrative functions.
           </Alert>
 
           <Box sx={{ mb: 2 }}>
             <Typography variant="body2" color="textSecondary" paragraph>
               To proceed, you must:
             </Typography>
-            <ul style={{ color: 'text.secondary', fontSize: '0.875rem', paddingLeft: '20px' }}>
+            <ul
+              style={{
+                color: "text.secondary",
+                fontSize: "0.875rem",
+                paddingLeft: "20px",
+              }}
+            >
               <li>Be an authorized administrator</li>
               <li>Have the valid admin secret key</li>
               <li>Agree to handle data responsibly</li>
@@ -149,14 +152,15 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
             control={
               <Checkbox
                 checked={agreed}
-                onChange={(e) => setAgreed(e.target.checked)}
+                onChange={(e) => setAgreed(e.target.value)}
                 color="primary"
                 disabled={attempts >= 3 || loading}
               />
             }
             label={
               <Typography variant="body2">
-                I confirm that I am an authorized administrator and will handle all data responsibly
+                I confirm that I am an authorized administrator and will handle
+                all data responsibly
               </Typography>
             }
             sx={{ mt: 2 }}
@@ -170,19 +174,18 @@ const AdminAuthModal = ({ open, onClose, onSuccess }) => {
         </DialogContent>
 
         <DialogActions>
-          <Button 
-            onClick={handleClose}
-            disabled={attempts >= 3 || loading}
-          >
+          <Button onClick={handleClose} disabled={attempts >= 3 || loading}>
             Cancel
           </Button>
-          <Button 
-            type="submit" 
-            variant="contained" 
-            startIcon={loading ? <CircularProgress size={16} /> : <AdminPanelSettings />}
+          <Button
+            type="submit"
+            variant="contained"
+            startIcon={
+              loading ? <CircularProgress size={16} /> : <AdminPanelSettings />
+            }
             disabled={attempts >= 3 || !agreed || !secretKey.trim() || loading}
           >
-            {loading ? 'Verifying...' : 'Authorize Access'}
+            {loading ? "Verifying..." : "Authorize Access"}
           </Button>
         </DialogActions>
       </form>

@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 
-const API_BASE_URL = process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
+const API_BASE_URL = "https://api.onesolutionsekam.in";
 
 export const useAdminAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState('');
 
   useEffect(() => {
     checkAdminAuth();
@@ -23,28 +22,9 @@ export const useAdminAuth = () => {
         const isExpired = new Date().getTime() - timestamp > expiresIn;
         
         if (authenticated && !isExpired) {
-          // Verify token is still valid by making a test API call
-          try {
-            const response = await fetch(`${API_BASE_URL}/api/admin/students/stats`, {
-              method: 'GET',
-              headers: {
-                'Authorization': `Bearer ${storedToken}`,
-                'Content-Type': 'application/json',
-                'x-admin-secret': storedToken
-              }
-            });
-
-            if (response.ok) {
-              setIsAuthenticated(true);
-              setToken(storedToken);
-              setShowAuthModal(false);
-            } else {
-              throw new Error('Token invalid');
-            }
-          } catch (error) {
-            console.error('Token verification failed:', error);
-            logoutAdmin();
-          }
+          // Frontend-only validation - no API call
+          setIsAuthenticated(true);
+          setShowAuthModal(false);
         } else {
           logoutAdmin();
         }
@@ -59,8 +39,6 @@ export const useAdminAuth = () => {
   };
 
   const handleAuthSuccess = () => {
-    const storedToken = localStorage.getItem('adminToken');
-    setToken(storedToken);
     setIsAuthenticated(true);
     setShowAuthModal(false);
   };
@@ -70,14 +48,12 @@ export const useAdminAuth = () => {
     localStorage.removeItem('adminToken');
     setIsAuthenticated(false);
     setShowAuthModal(true);
-    setToken('');
   };
 
   const getAuthHeaders = () => {
+    // Return empty headers since we don't need backend authorization
     return {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'x-admin-secret': token
+      'Content-Type': 'application/json'
     };
   };
 
@@ -85,7 +61,6 @@ export const useAdminAuth = () => {
     isAuthenticated,
     showAuthModal,
     loading,
-    token,
     setShowAuthModal,
     handleAuthSuccess,
     logoutAdmin,

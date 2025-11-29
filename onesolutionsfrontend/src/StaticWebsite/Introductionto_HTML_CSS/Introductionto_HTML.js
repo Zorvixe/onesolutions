@@ -13,7 +13,6 @@ const Introductionto_Html = ({
   subtopic,
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to HTML",
-  videoUrl = "https://www.youtube.com/embed/MWLtSutTs40",
   slidesUrl = "https://docs.google.com/presentation/d/1Bdc6tTnGMFl_4bAiVuRmYPUiLSujCVoSUYqFKgahP-s/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
@@ -25,6 +24,11 @@ const Introductionto_Html = ({
   const [threads, setThreads] = useState([]);
   const [showNewThread, setShowNewThread] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
+
+  // Video states
+  const [classVideo, setClassVideo] = useState(null);
+  const [videoLoading, setVideoLoading] = useState(true);
+  const [videoError, setVideoError] = useState(null);
 
   // Feedback states
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -39,7 +43,40 @@ const Introductionto_Html = ({
     }
     loadThreads();
     checkFeedbackStatus();
+    fetchClassVideo();
   }, [completedContent, subtopicId]);
+
+  const fetchClassVideo = async () => {
+    try {
+      setVideoLoading(true);
+      setVideoError(null);
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${API_BASE_URL}/api/class-video/${subtopicId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setClassVideo(data.data.video);
+        } else {
+          setVideoError("Video not found for this class");
+        }
+      } else {
+        setVideoError("Failed to load video");
+      }
+    } catch (error) {
+      console.error("Error fetching class video:", error);
+      setVideoError("Error loading video");
+    } finally {
+      setVideoLoading(false);
+    }
+  };
 
   const checkFeedbackStatus = async () => {
     try {
@@ -249,6 +286,91 @@ const Introductionto_Html = ({
     window.open(`/thread/${threadId}`, "_blank");
   };
 
+  // Video player component
+  const VideoPlayer = () => {
+    if (videoLoading) {
+      return (
+        <div className="video-loading-clss">
+          <div className="loading-spinner-clss"></div>
+          <p>Loading video...</p>
+        </div>
+      );
+    }
+
+    if (videoError) {
+      return (
+        <div className="video-error-clss">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+          <h3>Video Not Available</h3>
+          <p>{videoError}</p>
+          <button className="retry-btn-clss" onClick={fetchClassVideo}>
+            Retry
+          </button>
+        </div>
+      );
+    }
+
+    if (!classVideo) {
+      return (
+        <div className="video-error-clss">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+          </svg>
+          <h3>No Video Available</h3>
+          <p>Video content for this class is not yet available.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="video-player-container-clss">
+        <div className="video-header-clss">
+          <h2>{classVideo.video_title}</h2>
+          {classVideo.video_description && (
+            <p className="video-description-clss">
+              {classVideo.video_description}
+            </p>
+          )}
+        </div>
+
+        {classVideo.video_type === "youtube" ||
+        classVideo.video_type === "vimeo" ? (
+          <iframe
+            width="100%"
+            height="400"
+            src={classVideo.video_url}
+            title={classVideo.video_title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        ) : (
+          <video
+            controls
+            width="100%"
+            height="400"
+            poster={classVideo.thumbnail_url}
+          >
+            <source src={classVideo.video_url} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        )}
+
+        <div className="video-meta-clss">
+          {classVideo.duration && (
+            <span className="duration-clss">
+              Duration: {Math.floor(classVideo.duration / 60)}:
+              {(classVideo.duration % 60).toString().padStart(2, "0")}
+            </span>
+          )}
+          <span className="video-type-clss">Type: {classVideo.video_type}</span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="subtopic-container-clss">
       {/* Header Section */}
@@ -277,19 +399,9 @@ const Introductionto_Html = ({
       <div className="content-tab-clss">
         {/* Video Section */}
         <div className="video-section-clss">
-          <div className="video-container-clss">
-            <iframe
-              width="100%"
-              height="400"
-              src={videoUrl}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
+          {" "}
+          <VideoPlayer />
         </div>
-
         {/* Completion Section */}
         <div className="completion-section-clss">
           <button

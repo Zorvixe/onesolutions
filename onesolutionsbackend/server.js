@@ -96,6 +96,36 @@ const upload = multer({
   },
 });
 
+
+// Multer configuration for video uploads
+const videoStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const videoDir = path.join(uploadsDir, 'videos');
+    if (!fs.existsSync(videoDir)) {
+      fs.mkdirSync(videoDir, { recursive: true });
+    }
+    cb(null, videoDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    cb(null, 'video-' + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
+const videoUpload = multer({
+  storage: videoStorage,
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('video/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only video files are allowed!'), false);
+    }
+  },
+  limits: {
+    fileSize: 500 * 1024 * 1024, // 100MB limit
+  },
+});
+
 // -------------------------------------------
 // 🔹 Database Table Creation
 // -------------------------------------------
@@ -316,6 +346,37 @@ CREATE TABLE IF NOT EXISTS student_feedback (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `;
+
+// Create class_videos table
+const classVideosTableQuery = `
+  CREATE TABLE IF NOT EXISTS class_videos (
+    id SERIAL PRIMARY KEY,
+    subtopic_id VARCHAR(500) UNIQUE NOT NULL,
+    video_title VARCHAR(500) NOT NULL,
+    video_description TEXT,
+    video_url VARCHAR(1000) NOT NULL,
+    video_type VARCHAR(50) DEFAULT 'youtube', -- youtube, vimeo, uploaded
+    module_name VARCHAR(500),
+    topic_name VARCHAR(500),
+    duration INTEGER, -- in seconds
+    thumbnail_url VARCHAR(1000),
+    is_active BOOLEAN DEFAULT true,
+    created_by INTEGER REFERENCES students(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`;
+
+// Add to createTables function
+(async () => {
+  try {
+    await pool.query(classVideosTableQuery);
+    console.log("✅ Class videos table ready");
+  } catch (error) {
+    console.error("❌ Class videos table creation error:", error.message);
+  }
+})();
+
 
   (async () => {
     try {
@@ -3781,12 +3842,6 @@ app.get("/api/admin/feedback/stats", auth, async (req, res) => {
 // ==========================================
 // 🔹 STUDENT MANAGEMENT ROUTES (UPDATED)
 // ==========================================
-
-// Add this to your existing server.js file
-
-// -------------------------------------------
-// 🔹 Student Online Status Tracking
-// -------------------------------------------
 const activeStudents = new Map();
 
 // Middleware to track student activity
@@ -3872,12 +3927,12 @@ app.post('/api/student/heartbeat', async (req, res) => {
   }
 });
 
-// Update the students list endpoint to include online status
+// Update the students list endpoint to include online status with pagination
 app.get('/api/admin/students', async (req, res) => {
   try {
     const {
       page = 1,
-      limit = 20,
+      limit = 10,
       search = '',
       batchMonth,
       batchYear,
@@ -3891,7 +3946,7 @@ app.get('/api/admin/students', async (req, res) => {
       SELECT 
         id, student_id, email, first_name, last_name, phone,
         profile_image, batch_month, batch_year, is_current_batch,
-        status, join_date, created_at,
+        status, join_date, created_at, password,
         name_on_certificate, gender, current_coding_level,
         occupation_status, has_work_experience
       FROM students 
@@ -3908,7 +3963,8 @@ app.get('/api/admin/students', async (req, res) => {
         first_name ILIKE $${paramCount} OR 
         last_name ILIKE $${paramCount} OR 
         email ILIKE $${paramCount} OR 
-        student_id ILIKE $${paramCount}
+        student_id ILIKE $${paramCount} OR
+        phone ILIKE $${paramCount}
       )`;
       baseQuery += searchCondition;
       countQuery += searchCondition;
@@ -3967,6 +4023,7 @@ app.get('/api/admin/students', async (req, res) => {
       first_name: student.first_name,
       last_name: student.last_name,
       phone: student.phone,
+      password: student.password, // Include password in response
       profile_image: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
@@ -4012,7 +4069,7 @@ app.get('/api/admin/students', async (req, res) => {
   }
 });
 
-// Get student by ID for admin - FIXED
+// Get student by ID for admin
 app.get("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -4070,7 +4127,7 @@ app.get("/api/admin/students/:studentId", async (req, res) => {
   }
 });
 
-// Update student by admin - SIMPLIFIED
+// Update student by admin with password support
 app.put("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -4108,12 +4165,20 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       "status",
       "name_on_certificate",
       "gender",
+      "password",
     ];
 
     allowedFields.forEach((field) => {
       if (updateData[field] !== undefined) {
-        updateFields.push(`${field} = $${paramCount}`);
-        updateValues.push(updateData[field]);
+        // Hash password if it's being updated
+        if (field === 'password' && updateData[field]) {
+          const hashedPassword = await bcrypt.hash(updateData[field], 10);
+          updateFields.push(`${field} = $${paramCount}`);
+          updateValues.push(hashedPassword);
+        } else {
+          updateFields.push(`${field} = $${paramCount}`);
+          updateValues.push(updateData[field]);
+        }
         paramCount++;
       }
     });
@@ -4167,28 +4232,25 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
   }
 });
 
-// Delete student - FIXED
+// Delete student
 app.delete("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
 
-    console.log(`Deleting student: ${studentId}`);
-
-    // Check if student exists
-    const existingStudent = await pool.query(
-      "SELECT * FROM students WHERE id = $1",
+    const result = await pool.query(
+      "DELETE FROM students WHERE id = $1 RETURNING *",
       [studentId]
     );
 
-    if (existingStudent.rows.length === 0) {
+    if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         message: "Student not found",
       });
     }
 
-    // Delete student (cascade will handle related records)
-    await pool.query("DELETE FROM students WHERE id = $1", [studentId]);
+    // Remove from active students if present
+    activeStudents.delete(studentId);
 
     res.json({
       success: true,
@@ -4203,64 +4265,349 @@ app.delete("/api/admin/students/:studentId", async (req, res) => {
   }
 });
 
-// Get student statistics for admin dashboard
-app.get("/api/admin/students/stats", async (req, res) => {
+
+// Get video by subtopic ID
+app.get('/api/class-video/:subtopicId', auth, async (req, res) => {
   try {
-    const statsQuery = `
-      SELECT 
-        COUNT(*) as total_students,
-        COUNT(CASE WHEN status = 'active' THEN 1 END) as active_students,
-        COUNT(CASE WHEN status = 'inactive' THEN 1 END) as inactive_students,
-        COUNT(CASE WHEN is_current_batch = true THEN 1 END) as current_batch_students,
-        COUNT(DISTINCT batch_year) as unique_batches,
-        TO_CHAR(MIN(created_at), 'YYYY-MM-DD') as first_join_date,
-        TO_CHAR(MAX(created_at), 'YYYY-MM-DD') as latest_join_date
-      FROM students
-    `;
+    const { subtopicId } = req.params;
 
-    const batchStatsQuery = `
-      SELECT 
-        batch_year,
-        batch_month,
-        COUNT(*) as student_count
-      FROM students 
-      WHERE batch_year IS NOT NULL 
-      GROUP BY batch_year, batch_month 
-      ORDER BY batch_year DESC, batch_month DESC
-      LIMIT 10
-    `;
+    const result = await pool.query(
+      `SELECT * FROM class_videos WHERE subtopic_id = $1 AND is_active = true`,
+      [subtopicId]
+    );
 
-    const [statsResult, batchStatsResult] = await Promise.all([
-      pool.query(statsQuery),
-      pool.query(batchStatsQuery),
-    ]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Video not found for this class',
+      });
+    }
 
-    const stats = statsResult.rows[0] || {
-      total_students: 0,
-      active_students: 0,
-      inactive_students: 0,
-      current_batch_students: 0,
-      unique_batches: 0,
-      first_join_date: null,
-      latest_join_date: null,
-    };
+    const video = result.rows[0];
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
+    // Construct full URL for uploaded videos
+    if (video.video_type === 'uploaded' && !video.video_url.startsWith('http')) {
+      video.video_url = `${baseUrl}${video.video_url}`;
+    }
+
+    if (video.thumbnail_url && !video.thumbnail_url.startsWith('http')) {
+      video.thumbnail_url = `${baseUrl}${video.thumbnail_url}`;
+    }
 
     res.json({
       success: true,
-      data: {
-        overview: stats,
-        batchStats: batchStatsResult.rows,
-      },
+      data: { video },
     });
   } catch (error) {
-    console.error("Admin student stats error:", error.message);
+    console.error('Class video fetch error:', error.message);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch student statistics: " + error.message,
+      error: 'Failed to fetch class video',
     });
   }
 });
 
+// Admin routes for class videos management
+app.get('/api/admin/class-videos', auth, async (req, res) => {
+  try {
+    const {
+      page = 1,
+      limit = 10,
+      search = '',
+      moduleName,
+      topicName,
+      isActive,
+    } = req.query;
+
+    const offset = (page - 1) * limit;
+
+    let baseQuery = `
+      SELECT cv.*, 
+             s.first_name as created_by_first_name,
+             s.last_name as created_by_last_name
+      FROM class_videos cv
+      LEFT JOIN students s ON cv.created_by = s.id
+      WHERE 1=1
+    `;
+
+    let countQuery = `SELECT COUNT(*) as total FROM class_videos cv WHERE 1=1`;
+    let queryParams = [];
+    let paramCount = 1;
+
+    // Search filter
+    if (search && search.trim() !== '') {
+      const searchCondition = ` AND (
+        cv.video_title ILIKE $${paramCount} OR 
+        cv.video_description ILIKE $${paramCount} OR
+        cv.subtopic_id ILIKE $${paramCount} OR
+        cv.module_name ILIKE $${paramCount} OR
+        cv.topic_name ILIKE $${paramCount}
+      )`;
+      baseQuery += searchCondition;
+      countQuery += searchCondition;
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+
+    // Module name filter
+    if (moduleName && moduleName !== '') {
+      baseQuery += ` AND cv.module_name ILIKE $${paramCount}`;
+      countQuery += ` AND cv.module_name ILIKE $${paramCount}`;
+      queryParams.push(`%${moduleName}%`);
+      paramCount++;
+    }
+
+    // Topic name filter
+    if (topicName && topicName !== '') {
+      baseQuery += ` AND cv.topic_name ILIKE $${paramCount}`;
+      countQuery += ` AND cv.topic_name ILIKE $${paramCount}`;
+      queryParams.push(`%${topicName}%`);
+      paramCount++;
+    }
+
+    // Active status filter
+    if (isActive !== undefined && isActive !== '') {
+      baseQuery += ` AND cv.is_active = $${paramCount}`;
+      countQuery += ` AND cv.is_active = $${paramCount}`;
+      queryParams.push(isActive === 'true');
+      paramCount++;
+    }
+
+    // Add ordering and pagination
+    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    queryParams.push(parseInt(limit), offset);
+
+    // Execute queries
+    const videosResult = await pool.query(baseQuery, queryParams);
+    const countResult = await pool.query(countQuery, queryParams.slice(0, -2));
+
+    const total = parseInt(countResult.rows[0]?.total || 0);
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
+    // Format videos with full URLs
+    const videos = videosResult.rows.map((video) => ({
+      ...video,
+      video_url: video.video_type === 'uploaded' && !video.video_url.startsWith('http') 
+        ? `${baseUrl}${video.video_url}`
+        : video.video_url,
+      thumbnail_url: video.thumbnail_url && !video.thumbnail_url.startsWith('http')
+        ? `${baseUrl}${video.thumbnail_url}`
+        : video.thumbnail_url,
+    }));
+
+    res.json({
+      success: true,
+      data: {
+        videos,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / limit),
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Admin class videos fetch error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch class videos',
+    });
+  }
+});
+
+// Create or update class video
+app.post('/api/admin/class-videos', auth, videoUpload.single('video'), async (req, res) => {
+  try {
+    const {
+      subtopicId,
+      videoTitle,
+      videoDescription,
+      videoUrl,
+      videoType = 'youtube',
+      moduleName,
+      topicName,
+      duration,
+      isActive = true,
+    } = req.body;
+
+    if (!subtopicId || !videoTitle) {
+      return res.status(400).json({
+        success: false,
+        message: 'Subtopic ID and video title are required',
+      });
+    }
+
+    let finalVideoUrl = videoUrl;
+    let thumbnailUrl = null;
+
+    // Handle uploaded video
+    if (req.file) {
+      finalVideoUrl = `/uploads/videos/${req.file.filename}`;
+      videoType = 'uploaded';
+      
+      // Generate thumbnail for uploaded video (you can implement this later)
+      // For now, we'll use a default thumbnail
+      thumbnailUrl = '/uploads/thumbnails/default-video-thumbnail.jpg';
+    }
+
+    // Check if video already exists for this subtopic
+    const existingVideo = await pool.query(
+      'SELECT * FROM class_videos WHERE subtopic_id = $1',
+      [subtopicId]
+    );
+
+    let result;
+
+    if (existingVideo.rows.length > 0) {
+      // Update existing video
+      result = await pool.query(
+        `UPDATE class_videos 
+         SET video_title = $1, video_description = $2, video_url = $3, 
+             video_type = $4, module_name = $5, topic_name = $6, 
+             duration = $7, thumbnail_url = $8, is_active = $9,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE subtopic_id = $10
+         RETURNING *`,
+        [
+          videoTitle,
+          videoDescription,
+          finalVideoUrl,
+          videoType,
+          moduleName,
+          topicName,
+          duration ? parseInt(duration) : null,
+          thumbnailUrl,
+          isActive === 'true',
+          subtopicId,
+        ]
+      );
+    } else {
+      // Insert new video
+      result = await pool.query(
+        `INSERT INTO class_videos 
+         (subtopic_id, video_title, video_description, video_url, 
+          video_type, module_name, topic_name, duration, thumbnail_url, 
+          is_active, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+         RETURNING *`,
+        [
+          subtopicId,
+          videoTitle,
+          videoDescription,
+          finalVideoUrl,
+          videoType,
+          moduleName,
+          topicName,
+          duration ? parseInt(duration) : null,
+          thumbnailUrl,
+          isActive === 'true',
+          req.student.id, // Assuming admin is logged in as student
+        ]
+      );
+    }
+
+    const video = result.rows[0];
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+
+    // Format response with full URLs
+    const videoResponse = {
+      ...video,
+      video_url: video.video_type === 'uploaded' && !video.video_url.startsWith('http')
+        ? `${baseUrl}${video.video_url}`
+        : video.video_url,
+      thumbnail_url: video.thumbnail_url && !video.thumbnail_url.startsWith('http')
+        ? `${baseUrl}${video.thumbnail_url}`
+        : video.thumbnail_url,
+    };
+
+    res.json({
+      success: true,
+      message: existingVideo.rows.length > 0 ? 'Video updated successfully' : 'Video created successfully',
+      data: { video: videoResponse },
+    });
+  } catch (error) {
+    console.error('Class video save error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to save class video',
+    });
+  }
+});
+
+// Delete class video
+app.delete('/api/admin/class-videos/:subtopicId', auth, async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+
+    const result = await pool.query(
+      'DELETE FROM class_videos WHERE subtopic_id = $1 RETURNING *',
+      [subtopicId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Video not found',
+      });
+    }
+
+    // Delete the actual video file if it's uploaded
+    const video = result.rows[0];
+    if (video.video_type === 'uploaded' && video.video_url) {
+      const videoPath = path.join(__dirname, video.video_url);
+      if (fs.existsSync(videoPath)) {
+        fs.unlinkSync(videoPath);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: 'Video deleted successfully',
+    });
+  } catch (error) {
+    console.error('Class video delete error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to delete class video',
+    });
+  }
+});
+
+// Toggle video active status
+app.patch('/api/admin/class-videos/:subtopicId/toggle-active', auth, async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+
+    const result = await pool.query(
+      `UPDATE class_videos 
+       SET is_active = NOT is_active, updated_at = CURRENT_TIMESTAMP
+       WHERE subtopic_id = $1
+       RETURNING *`,
+      [subtopicId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Video not found',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: `Video ${result.rows[0].is_active ? 'activated' : 'deactivated'} successfully`,
+      data: { video: result.rows[0] },
+    });
+  } catch (error) {
+    console.error('Video toggle active error:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to toggle video status',
+    });
+  }
+});
 
 // Handle 404 routes
 app.use("*", (req, res) => {

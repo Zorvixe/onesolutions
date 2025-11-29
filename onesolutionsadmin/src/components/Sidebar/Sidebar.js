@@ -63,12 +63,7 @@ const Sidebar = () => {
       path: "/achievements",
       label: "Achievements",
     },
-    {
-      id: "StudnetRegister",
-      icon: <FaUserPlus />,
-      path: "/student_register",
-      label: "Student Register",
-    },
+    
   ];
 
   const handleNavigate = (item) => {

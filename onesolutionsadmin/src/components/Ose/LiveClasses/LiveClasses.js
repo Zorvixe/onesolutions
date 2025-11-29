@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import "./LiveClasses.css";
 import { assests } from "../../../assests/assests";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -23,6 +24,7 @@ const LiveClasses = () => {
   const [editingClass, setEditingClass] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchClasses();
@@ -283,6 +285,10 @@ const LiveClasses = () => {
     }
   };
 
+  const newClassVideo = () => {
+    navigate("/Video_Management");
+  };
+
   if (loading) {
     return (
       <div className="pa-loading-container">
@@ -300,12 +306,20 @@ const LiveClasses = () => {
           <h1>Live Classes Management</h1>
           <p>Manage and schedule your live classes efficiently</p>
         </div>
-        <button className="btn-create" onClick={showCreateModal}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-          </svg>
-          Create New Class
-        </button>
+        <div>
+          <button className="btn-create mb-2" onClick={showCreateModal}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Create New Class
+          </button>
+          <button className="btn-create" onClick={newClassVideo}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Create New Video
+          </button>
+        </div>
       </div>
 
       {/* Stats Overview */}

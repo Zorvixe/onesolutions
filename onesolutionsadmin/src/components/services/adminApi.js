@@ -95,10 +95,6 @@ export const adminStudentApi = {
     return adminApi.delete(`/api/admin/students/${studentId}`);
   },
 
-  // Get student statistics
-  getStudentStats: () => {
-    return adminApi.get("/api/admin/students/stats");
-  },
 };
 
 export default adminApi;
