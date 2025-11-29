@@ -96,29 +96,28 @@ const upload = multer({
   },
 });
 
-
 // Multer configuration for video uploads
 const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const videoDir = path.join(uploadsDir, 'videos');
+    const videoDir = path.join(uploadsDir, "videos");
     if (!fs.existsSync(videoDir)) {
       fs.mkdirSync(videoDir, { recursive: true });
     }
     cb(null, videoDir);
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'video-' + uniqueSuffix + path.extname(file.originalname));
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "video-" + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
 const videoUpload = multer({
   storage: videoStorage,
   fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith('video/')) {
+    if (file.mimetype.startsWith("video/")) {
       cb(null, true);
     } else {
-      cb(new Error('Only video files are allowed!'), false);
+      cb(new Error("Only video files are allowed!"), false);
     }
   },
   limits: {
@@ -347,8 +346,8 @@ CREATE TABLE IF NOT EXISTS student_feedback (
 );
 `;
 
-// Create class_videos table
-const classVideosTableQuery = `
+  // Create class_videos table
+  const classVideosTableQuery = `
   CREATE TABLE IF NOT EXISTS class_videos (
     id SERIAL PRIMARY KEY,
     subtopic_id VARCHAR(500) UNIQUE NOT NULL,
@@ -367,16 +366,15 @@ const classVideosTableQuery = `
   );
 `;
 
-// Add to createTables function
-(async () => {
-  try {
-    await pool.query(classVideosTableQuery);
-    console.log("✅ Class videos table ready");
-  } catch (error) {
-    console.error("❌ Class videos table creation error:", error.message);
-  }
-})();
-
+  // Add to createTables function
+  (async () => {
+    try {
+      await pool.query(classVideosTableQuery);
+      console.log("✅ Class videos table ready");
+    } catch (error) {
+      console.error("❌ Class videos table creation error:", error.message);
+    }
+  })();
 
   (async () => {
     try {
@@ -700,7 +698,6 @@ function cleanExpiredOtps() {
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
 
-
 // -------------------------------------------
 // 🔹 Enhanced Admin Auth Middleware
 // -------------------------------------------
@@ -720,7 +717,9 @@ const adminAuth = async (req, res, next) => {
       token = token.slice(7, token.length).trim();
     }
 
-    const JWT_SECRET = process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production";
+    const JWT_SECRET =
+      process.env.JWT_SECRET ||
+      "your-fallback-secret-key-for-development-only-change-in-production";
 
     if (!JWT_SECRET) {
       return res.status(500).json({
@@ -3845,14 +3844,14 @@ app.get("/api/admin/feedback/stats", auth, async (req, res) => {
 const activeStudents = new Map();
 
 // Middleware to track student activity
-app.use('/api/', (req, res, next) => {
+app.use("/api/", (req, res, next) => {
   if (req.student) {
     const studentId = req.student.id;
     activeStudents.set(studentId, {
       studentId,
       lastActive: Date.now(),
       isOnline: true,
-      student: req.student
+      student: req.student,
     });
   }
   next();
@@ -3862,7 +3861,7 @@ app.use('/api/', (req, res, next) => {
 setInterval(() => {
   const now = Date.now();
   const fiveMinutes = 5 * 60 * 1000;
-  
+
   for (let [studentId, data] of activeStudents.entries()) {
     if (now - data.lastActive > fiveMinutes) {
       activeStudents.delete(studentId);
@@ -3871,9 +3870,9 @@ setInterval(() => {
 }, 60000); // Run every minute
 
 // Get online students (Admin only)
-app.get('/api/admin/online-students', async (req, res) => {
+app.get("/api/admin/online-students", async (req, res) => {
   try {
-    const onlineStudents = Array.from(activeStudents.values()).map(data => ({
+    const onlineStudents = Array.from(activeStudents.values()).map((data) => ({
       id: data.student.id,
       studentId: data.student.student_id,
       email: data.student.email,
@@ -3883,57 +3882,57 @@ app.get('/api/admin/online-students', async (req, res) => {
       batchMonth: data.student.batch_month,
       batchYear: data.student.batch_year,
       lastActive: data.lastActive,
-      isOnline: true
+      isOnline: true,
     }));
 
     res.json({
       success: true,
       data: {
         onlineStudents,
-        totalOnline: onlineStudents.length
-      }
+        totalOnline: onlineStudents.length,
+      },
     });
   } catch (error) {
-    console.error('Online students fetch error:', error.message);
+    console.error("Online students fetch error:", error.message);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch online students'
+      error: "Failed to fetch online students",
     });
   }
 });
 
 // Student heartbeat to maintain online status
-app.post('/api/student/heartbeat', async (req, res) => {
+app.post("/api/student/heartbeat", async (req, res) => {
   try {
     const studentId = req.student.id;
-    
+
     activeStudents.set(studentId, {
       studentId,
       lastActive: Date.now(),
       isOnline: true,
-      student: req.student
+      student: req.student,
     });
 
     res.json({
       success: true,
-      message: 'Heartbeat recorded'
+      message: "Heartbeat recorded",
     });
   } catch (error) {
-    console.error('Heartbeat error:', error.message);
+    console.error("Heartbeat error:", error.message);
     res.status(500).json({
       success: false,
-      message: 'Failed to record heartbeat'
+      message: "Failed to record heartbeat",
     });
   }
 });
 
 // Update the students list endpoint to include online status with pagination
-app.get('/api/admin/students', async (req, res) => {
+app.get("/api/admin/students", async (req, res) => {
   try {
     const {
       page = 1,
       limit = 10,
-      search = '',
+      search = "",
       batchMonth,
       batchYear,
       status,
@@ -3958,7 +3957,7 @@ app.get('/api/admin/students', async (req, res) => {
     let paramCount = 1;
 
     // Search filter
-    if (search && search.trim() !== '') {
+    if (search && search.trim() !== "") {
       const searchCondition = ` AND (
         first_name ILIKE $${paramCount} OR 
         last_name ILIKE $${paramCount} OR 
@@ -3973,7 +3972,7 @@ app.get('/api/admin/students', async (req, res) => {
     }
 
     // Batch month filter
-    if (batchMonth && batchMonth !== '') {
+    if (batchMonth && batchMonth !== "") {
       baseQuery += ` AND batch_month = $${paramCount}`;
       countQuery += ` AND batch_month = $${paramCount}`;
       queryParams.push(batchMonth);
@@ -3981,7 +3980,7 @@ app.get('/api/admin/students', async (req, res) => {
     }
 
     // Batch year filter
-    if (batchYear && batchYear !== '') {
+    if (batchYear && batchYear !== "") {
       baseQuery += ` AND batch_year = $${paramCount}`;
       countQuery += ` AND batch_year = $${paramCount}`;
       queryParams.push(parseInt(batchYear));
@@ -3989,7 +3988,7 @@ app.get('/api/admin/students', async (req, res) => {
     }
 
     // Status filter
-    if (status && status !== '') {
+    if (status && status !== "") {
       baseQuery += ` AND status = $${paramCount}`;
       countQuery += ` AND status = $${paramCount}`;
       queryParams.push(status);
@@ -3997,7 +3996,9 @@ app.get('/api/admin/students', async (req, res) => {
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -4008,11 +4009,12 @@ app.get('/api/admin/students', async (req, res) => {
     const countResult = await pool.query(countQuery, countParams);
 
     const total = parseInt(countResult.rows[0]?.total || 0);
-    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    const baseUrl =
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
     // Get online student IDs
     const onlineStudentIds = new Set(
-      Array.from(activeStudents.values()).map(data => data.student.id)
+      Array.from(activeStudents.values()).map((data) => data.student.id)
     );
 
     // Format students with full URLs for images and online status
@@ -4030,7 +4032,7 @@ app.get('/api/admin/students', async (req, res) => {
       batch_month: student.batch_month,
       batch_year: student.batch_year,
       is_current_batch: student.is_current_batch,
-      status: student.status || 'active',
+      status: student.status || "active",
       join_date: student.join_date,
       created_at: student.created_at,
       name_on_certificate: student.name_on_certificate,
@@ -4038,8 +4040,8 @@ app.get('/api/admin/students', async (req, res) => {
       current_coding_level: student.current_coding_level,
       occupation_status: student.occupation_status,
       has_work_experience: student.has_work_experience,
-      fullName: `${student.first_name || ''} ${student.last_name || ''}`.trim(),
-      is_online: onlineStudentIds.has(student.id)
+      fullName: `${student.first_name || ""} ${student.last_name || ""}`.trim(),
+      is_online: onlineStudentIds.has(student.id),
     }));
 
     const response = {
@@ -4054,17 +4056,17 @@ app.get('/api/admin/students', async (req, res) => {
         },
         onlineStats: {
           totalOnline: onlineStudentIds.size,
-          totalStudents: total
-        }
+          totalStudents: total,
+        },
       },
     };
 
     res.json(response);
   } catch (error) {
-    console.error('Admin students fetch error:', error.message);
+    console.error("Admin students fetch error:", error.message);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch students: ' + error.message,
+      error: "Failed to fetch students: " + error.message,
     });
   }
 });
@@ -4168,10 +4170,11 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       "password",
     ];
 
-    allowedFields.forEach((field) => {
+    // Use for...of loop instead of forEach to handle async operations
+    for (const field of allowedFields) {
       if (updateData[field] !== undefined) {
         // Hash password if it's being updated
-        if (field === 'password' && updateData[field]) {
+        if (field === "password" && updateData[field]) {
           const hashedPassword = await bcrypt.hash(updateData[field], 10);
           updateFields.push(`${field} = $${paramCount}`);
           updateValues.push(hashedPassword);
@@ -4181,7 +4184,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
         }
         paramCount++;
       }
-    });
+    }
 
     if (updateFields.length === 0) {
       return res.status(400).json({
@@ -4265,9 +4268,8 @@ app.delete("/api/admin/students/:studentId", async (req, res) => {
   }
 });
 
-
 // Get video by subtopic ID
-app.get('/api/class-video/:subtopicId', auth, async (req, res) => {
+app.get("/api/class-video/:subtopicId", auth, async (req, res) => {
   try {
     const { subtopicId } = req.params;
 
@@ -4279,19 +4281,23 @@ app.get('/api/class-video/:subtopicId', auth, async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'Video not found for this class',
+        message: "Video not found for this class",
       });
     }
 
     const video = result.rows[0];
-    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    const baseUrl =
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
     // Construct full URL for uploaded videos
-    if (video.video_type === 'uploaded' && !video.video_url.startsWith('http')) {
+    if (
+      video.video_type === "uploaded" &&
+      !video.video_url.startsWith("http")
+    ) {
       video.video_url = `${baseUrl}${video.video_url}`;
     }
 
-    if (video.thumbnail_url && !video.thumbnail_url.startsWith('http')) {
+    if (video.thumbnail_url && !video.thumbnail_url.startsWith("http")) {
       video.thumbnail_url = `${baseUrl}${video.thumbnail_url}`;
     }
 
@@ -4300,21 +4306,21 @@ app.get('/api/class-video/:subtopicId', auth, async (req, res) => {
       data: { video },
     });
   } catch (error) {
-    console.error('Class video fetch error:', error.message);
+    console.error("Class video fetch error:", error.message);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch class video',
+      error: "Failed to fetch class video",
     });
   }
 });
 
 // Admin routes for class videos management
-app.get('/api/admin/class-videos', auth, async (req, res) => {
+app.get("/api/admin/class-videos", auth, async (req, res) => {
   try {
     const {
       page = 1,
       limit = 10,
-      search = '',
+      search = "",
       moduleName,
       topicName,
       isActive,
@@ -4336,7 +4342,7 @@ app.get('/api/admin/class-videos', auth, async (req, res) => {
     let paramCount = 1;
 
     // Search filter
-    if (search && search.trim() !== '') {
+    if (search && search.trim() !== "") {
       const searchCondition = ` AND (
         cv.video_title ILIKE $${paramCount} OR 
         cv.video_description ILIKE $${paramCount} OR
@@ -4351,7 +4357,7 @@ app.get('/api/admin/class-videos', auth, async (req, res) => {
     }
 
     // Module name filter
-    if (moduleName && moduleName !== '') {
+    if (moduleName && moduleName !== "") {
       baseQuery += ` AND cv.module_name ILIKE $${paramCount}`;
       countQuery += ` AND cv.module_name ILIKE $${paramCount}`;
       queryParams.push(`%${moduleName}%`);
@@ -4359,7 +4365,7 @@ app.get('/api/admin/class-videos', auth, async (req, res) => {
     }
 
     // Topic name filter
-    if (topicName && topicName !== '') {
+    if (topicName && topicName !== "") {
       baseQuery += ` AND cv.topic_name ILIKE $${paramCount}`;
       countQuery += ` AND cv.topic_name ILIKE $${paramCount}`;
       queryParams.push(`%${topicName}%`);
@@ -4367,15 +4373,17 @@ app.get('/api/admin/class-videos', auth, async (req, res) => {
     }
 
     // Active status filter
-    if (isActive !== undefined && isActive !== '') {
+    if (isActive !== undefined && isActive !== "") {
       baseQuery += ` AND cv.is_active = $${paramCount}`;
       countQuery += ` AND cv.is_active = $${paramCount}`;
-      queryParams.push(isActive === 'true');
+      queryParams.push(isActive === "true");
       paramCount++;
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -4383,17 +4391,20 @@ app.get('/api/admin/class-videos', auth, async (req, res) => {
     const countResult = await pool.query(countQuery, queryParams.slice(0, -2));
 
     const total = parseInt(countResult.rows[0]?.total || 0);
-    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    const baseUrl =
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
     // Format videos with full URLs
     const videos = videosResult.rows.map((video) => ({
       ...video,
-      video_url: video.video_type === 'uploaded' && !video.video_url.startsWith('http') 
-        ? `${baseUrl}${video.video_url}`
-        : video.video_url,
-      thumbnail_url: video.thumbnail_url && !video.thumbnail_url.startsWith('http')
-        ? `${baseUrl}${video.thumbnail_url}`
-        : video.thumbnail_url,
+      video_url:
+        video.video_type === "uploaded" && !video.video_url.startsWith("http")
+          ? `${baseUrl}${video.video_url}`
+          : video.video_url,
+      thumbnail_url:
+        video.thumbnail_url && !video.thumbnail_url.startsWith("http")
+          ? `${baseUrl}${video.thumbnail_url}`
+          : video.thumbnail_url,
     }));
 
     res.json({
@@ -4409,153 +4420,165 @@ app.get('/api/admin/class-videos', auth, async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('Admin class videos fetch error:', error.message);
+    console.error("Admin class videos fetch error:", error.message);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch class videos',
+      error: "Failed to fetch class videos",
     });
   }
 });
 
 // Create or update class video
-app.post('/api/admin/class-videos', auth, videoUpload.single('video'), async (req, res) => {
-  try {
-    const {
-      subtopicId,
-      videoTitle,
-      videoDescription,
-      videoUrl,
-      videoType = 'youtube',
-      moduleName,
-      topicName,
-      duration,
-      isActive = true,
-    } = req.body;
+app.post(
+  "/api/admin/class-videos",
+  auth,
+  videoUpload.single("video"),
+  async (req, res) => {
+    try {
+      const {
+        subtopicId,
+        videoTitle,
+        videoDescription,
+        videoUrl,
+        videoType = "youtube",
+        moduleName,
+        topicName,
+        duration,
+        isActive = true,
+      } = req.body;
 
-    if (!subtopicId || !videoTitle) {
-      return res.status(400).json({
-        success: false,
-        message: 'Subtopic ID and video title are required',
-      });
-    }
+      if (!subtopicId || !videoTitle) {
+        return res.status(400).json({
+          success: false,
+          message: "Subtopic ID and video title are required",
+        });
+      }
 
-    let finalVideoUrl = videoUrl;
-    let thumbnailUrl = null;
+      let finalVideoUrl = videoUrl;
+      let thumbnailUrl = null;
 
-    // Handle uploaded video
-    if (req.file) {
-      finalVideoUrl = `/uploads/videos/${req.file.filename}`;
-      videoType = 'uploaded';
-      
-      // Generate thumbnail for uploaded video (you can implement this later)
-      // For now, we'll use a default thumbnail
-      thumbnailUrl = '/uploads/thumbnails/default-video-thumbnail.jpg';
-    }
+      // Handle uploaded video
+      if (req.file) {
+        finalVideoUrl = `/uploads/videos/${req.file.filename}`;
+        videoType = "uploaded";
 
-    // Check if video already exists for this subtopic
-    const existingVideo = await pool.query(
-      'SELECT * FROM class_videos WHERE subtopic_id = $1',
-      [subtopicId]
-    );
+        // Generate thumbnail for uploaded video (you can implement this later)
+        // For now, we'll use a default thumbnail
+        thumbnailUrl = "/uploads/thumbnails/default-video-thumbnail.jpg";
+      }
 
-    let result;
+      // Check if video already exists for this subtopic
+      const existingVideo = await pool.query(
+        "SELECT * FROM class_videos WHERE subtopic_id = $1",
+        [subtopicId]
+      );
 
-    if (existingVideo.rows.length > 0) {
-      // Update existing video
-      result = await pool.query(
-        `UPDATE class_videos 
+      let result;
+
+      if (existingVideo.rows.length > 0) {
+        // Update existing video
+        result = await pool.query(
+          `UPDATE class_videos 
          SET video_title = $1, video_description = $2, video_url = $3, 
              video_type = $4, module_name = $5, topic_name = $6, 
              duration = $7, thumbnail_url = $8, is_active = $9,
              updated_at = CURRENT_TIMESTAMP
          WHERE subtopic_id = $10
          RETURNING *`,
-        [
-          videoTitle,
-          videoDescription,
-          finalVideoUrl,
-          videoType,
-          moduleName,
-          topicName,
-          duration ? parseInt(duration) : null,
-          thumbnailUrl,
-          isActive === 'true',
-          subtopicId,
-        ]
-      );
-    } else {
-      // Insert new video
-      result = await pool.query(
-        `INSERT INTO class_videos 
+          [
+            videoTitle,
+            videoDescription,
+            finalVideoUrl,
+            videoType,
+            moduleName,
+            topicName,
+            duration ? parseInt(duration) : null,
+            thumbnailUrl,
+            isActive === "true",
+            subtopicId,
+          ]
+        );
+      } else {
+        // Insert new video
+        result = await pool.query(
+          `INSERT INTO class_videos 
          (subtopic_id, video_title, video_description, video_url, 
           video_type, module_name, topic_name, duration, thumbnail_url, 
           is_active, created_by)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
          RETURNING *`,
-        [
-          subtopicId,
-          videoTitle,
-          videoDescription,
-          finalVideoUrl,
-          videoType,
-          moduleName,
-          topicName,
-          duration ? parseInt(duration) : null,
-          thumbnailUrl,
-          isActive === 'true',
-          req.student.id, // Assuming admin is logged in as student
-        ]
-      );
+          [
+            subtopicId,
+            videoTitle,
+            videoDescription,
+            finalVideoUrl,
+            videoType,
+            moduleName,
+            topicName,
+            duration ? parseInt(duration) : null,
+            thumbnailUrl,
+            isActive === "true",
+            req.student.id, // Assuming admin is logged in as student
+          ]
+        );
+      }
+
+      const video = result.rows[0];
+      const baseUrl =
+        process.env.BACKEND_URL ||
+        `http://localhost:${process.env.PORT || 5002}`;
+
+      // Format response with full URLs
+      const videoResponse = {
+        ...video,
+        video_url:
+          video.video_type === "uploaded" && !video.video_url.startsWith("http")
+            ? `${baseUrl}${video.video_url}`
+            : video.video_url,
+        thumbnail_url:
+          video.thumbnail_url && !video.thumbnail_url.startsWith("http")
+            ? `${baseUrl}${video.thumbnail_url}`
+            : video.thumbnail_url,
+      };
+
+      res.json({
+        success: true,
+        message:
+          existingVideo.rows.length > 0
+            ? "Video updated successfully"
+            : "Video created successfully",
+        data: { video: videoResponse },
+      });
+    } catch (error) {
+      console.error("Class video save error:", error.message);
+      res.status(500).json({
+        success: false,
+        error: "Failed to save class video",
+      });
     }
-
-    const video = result.rows[0];
-    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
-
-    // Format response with full URLs
-    const videoResponse = {
-      ...video,
-      video_url: video.video_type === 'uploaded' && !video.video_url.startsWith('http')
-        ? `${baseUrl}${video.video_url}`
-        : video.video_url,
-      thumbnail_url: video.thumbnail_url && !video.thumbnail_url.startsWith('http')
-        ? `${baseUrl}${video.thumbnail_url}`
-        : video.thumbnail_url,
-    };
-
-    res.json({
-      success: true,
-      message: existingVideo.rows.length > 0 ? 'Video updated successfully' : 'Video created successfully',
-      data: { video: videoResponse },
-    });
-  } catch (error) {
-    console.error('Class video save error:', error.message);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to save class video',
-    });
   }
-});
+);
 
 // Delete class video
-app.delete('/api/admin/class-videos/:subtopicId', auth, async (req, res) => {
+app.delete("/api/admin/class-videos/:subtopicId", auth, async (req, res) => {
   try {
     const { subtopicId } = req.params;
 
     const result = await pool.query(
-      'DELETE FROM class_videos WHERE subtopic_id = $1 RETURNING *',
+      "DELETE FROM class_videos WHERE subtopic_id = $1 RETURNING *",
       [subtopicId]
     );
 
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'Video not found',
+        message: "Video not found",
       });
     }
 
     // Delete the actual video file if it's uploaded
     const video = result.rows[0];
-    if (video.video_type === 'uploaded' && video.video_url) {
+    if (video.video_type === "uploaded" && video.video_url) {
       const videoPath = path.join(__dirname, video.video_url);
       if (fs.existsSync(videoPath)) {
         fs.unlinkSync(videoPath);
@@ -4564,50 +4587,56 @@ app.delete('/api/admin/class-videos/:subtopicId', auth, async (req, res) => {
 
     res.json({
       success: true,
-      message: 'Video deleted successfully',
+      message: "Video deleted successfully",
     });
   } catch (error) {
-    console.error('Class video delete error:', error.message);
+    console.error("Class video delete error:", error.message);
     res.status(500).json({
       success: false,
-      error: 'Failed to delete class video',
+      error: "Failed to delete class video",
     });
   }
 });
 
 // Toggle video active status
-app.patch('/api/admin/class-videos/:subtopicId/toggle-active', auth, async (req, res) => {
-  try {
-    const { subtopicId } = req.params;
+app.patch(
+  "/api/admin/class-videos/:subtopicId/toggle-active",
+  auth,
+  async (req, res) => {
+    try {
+      const { subtopicId } = req.params;
 
-    const result = await pool.query(
-      `UPDATE class_videos 
+      const result = await pool.query(
+        `UPDATE class_videos 
        SET is_active = NOT is_active, updated_at = CURRENT_TIMESTAMP
        WHERE subtopic_id = $1
        RETURNING *`,
-      [subtopicId]
-    );
+        [subtopicId]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Video not found",
+        });
+      }
+
+      res.json({
+        success: true,
+        message: `Video ${
+          result.rows[0].is_active ? "activated" : "deactivated"
+        } successfully`,
+        data: { video: result.rows[0] },
+      });
+    } catch (error) {
+      console.error("Video toggle active error:", error.message);
+      res.status(500).json({
         success: false,
-        message: 'Video not found',
+        error: "Failed to toggle video status",
       });
     }
-
-    res.json({
-      success: true,
-      message: `Video ${result.rows[0].is_active ? 'activated' : 'deactivated'} successfully`,
-      data: { video: result.rows[0] },
-    });
-  } catch (error) {
-    console.error('Video toggle active error:', error.message);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to toggle video status',
-    });
   }
-});
+);
 
 // Handle 404 routes
 app.use("*", (req, res) => {
