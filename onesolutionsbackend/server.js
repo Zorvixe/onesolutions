@@ -3816,7 +3816,7 @@ setInterval(() => {
 }, 60000); // Run every minute
 
 // Get online students (Admin only)
-app.get('/api/admin/online-students', adminAuth, async (req, res) => {
+app.get('/api/admin/online-students', async (req, res) => {
   try {
     const onlineStudents = Array.from(activeStudents.values()).map(data => ({
       id: data.student.id,
@@ -3848,7 +3848,7 @@ app.get('/api/admin/online-students', adminAuth, async (req, res) => {
 });
 
 // Student heartbeat to maintain online status
-app.post('/api/student/heartbeat', auth, async (req, res) => {
+app.post('/api/student/heartbeat', async (req, res) => {
   try {
     const studentId = req.student.id;
     
@@ -3873,7 +3873,7 @@ app.post('/api/student/heartbeat', auth, async (req, res) => {
 });
 
 // Update the students list endpoint to include online status
-app.get('/api/admin/students', adminAuth, async (req, res) => {
+app.get('/api/admin/students', async (req, res) => {
   try {
     const {
       page = 1,
@@ -4013,7 +4013,7 @@ app.get('/api/admin/students', adminAuth, async (req, res) => {
 });
 
 // Get student by ID for admin - FIXED
-app.get("/api/admin/students/:studentId", adminAuth, async (req, res) => {
+app.get("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
 
@@ -4071,7 +4071,7 @@ app.get("/api/admin/students/:studentId", adminAuth, async (req, res) => {
 });
 
 // Update student by admin - SIMPLIFIED
-app.put("/api/admin/students/:studentId", adminAuth, async (req, res) => {
+app.put("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
     const updateData = req.body;
@@ -4168,7 +4168,7 @@ app.put("/api/admin/students/:studentId", adminAuth, async (req, res) => {
 });
 
 // Delete student - FIXED
-app.delete("/api/admin/students/:studentId", adminAuth, async (req, res) => {
+app.delete("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
 
@@ -4204,7 +4204,7 @@ app.delete("/api/admin/students/:studentId", adminAuth, async (req, res) => {
 });
 
 // Get student statistics for admin dashboard
-app.get("/api/admin/students/stats", adminAuth, async (req, res) => {
+app.get("/api/admin/students/stats", async (req, res) => {
   try {
     const statsQuery = `
       SELECT 
