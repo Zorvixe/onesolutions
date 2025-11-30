@@ -14,7 +14,7 @@ const IntroductiontoCss2 = ({
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to Class Part 2",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1cctynSATjNa-T336ENu29dT3_f-FubhYUHZ8v-rYxgQ/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1efbSDXIRre8LBuApCXCU9C0_XYuYT9-UR63dancP9KU/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

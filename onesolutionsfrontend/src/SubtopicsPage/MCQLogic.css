@@ -385,7 +385,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 32px;
+  font-size: 50px;
   font-weight: bold;
   color: #333;
 }
@@ -434,11 +434,11 @@
 
 .result-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
   margin: 30px 0;
   justify-content: center;
-  width: 50%;
+  align-items: center;
 }
 
 .btn-primary {

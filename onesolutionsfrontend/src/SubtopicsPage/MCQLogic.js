@@ -40,6 +40,11 @@ const MCQLogic = ({
   const [markedComplete, setMarkedComplete] = useState(isCompleted);
   const [error, setError] = useState("");
 
+  // Calculate points per question for 15 questions (100 total marks)
+  const POINTS_PER_QUESTION = 6.67; // 100 / 15 ≈ 6.67
+  const TIME_BONUS_POINTS = 3.33; // Bonus for quick answers
+  const PENALTY_POINTS = 1; // Penalty for wrong answers
+
   // Check if already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
@@ -114,15 +119,25 @@ const MCQLogic = ({
 
     let points = 0;
     if (isCorrect) {
-      points = timeLeft > 0 ? 10 : 7;
+      points =
+        timeLeft > 10
+          ? POINTS_PER_QUESTION + TIME_BONUS_POINTS
+          : timeLeft > 0
+          ? POINTS_PER_QUESTION
+          : POINTS_PER_QUESTION - 1;
       setAnsweredStats((prev) => ({ ...prev, correct: prev.correct + 1 }));
     } else {
       points = -1;
+      points = -PENALTY_POINTS;
       setAnsweredStats((prev) => ({ ...prev, wrong: prev.wrong + 1 }));
     }
 
     setScore((prev) => Math.min(100, Math.max(0, prev + points)));
-    setFeedback({ correct: isCorrect, points });
+    setFeedback({
+      correct: isCorrect,
+      points: Number(points),
+      timeBonus: timeLeft > 10 && isCorrect ? TIME_BONUS_POINTS : 0,
+    });
   };
 
   const handleSkip = () => {
@@ -216,6 +231,11 @@ const MCQLogic = ({
   const timeTaken = endTime ? Math.floor((endTime - startTime) / 1000) : 0;
   const mins = String(Math.floor(timeTaken / 60)).padStart(2, "0");
   const secs = String(timeTaken % 60).padStart(2, "0");
+
+  // Calculate progress percentage
+  const progressPercentage = ((questionNumber / totalQuestions) * 100).toFixed(
+    1
+  );
 
   return (
     <div className="mcq-container full-width">
@@ -348,8 +368,8 @@ const MCQLogic = ({
             </p>
           </div>
 
-          <div className="result-gauge">
-            <div className="circular-progress">
+          <div className="Mcq-result-gauge">
+            <div className="Mcq-circular-progress">
               <div className="progress-value">{finalScore}/100</div>
               <svg>
                 <circle className="bg"></circle>

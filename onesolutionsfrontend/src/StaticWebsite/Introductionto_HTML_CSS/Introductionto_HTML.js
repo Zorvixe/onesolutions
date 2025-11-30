@@ -17,25 +17,20 @@ const Introductionto_Html = ({
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
-
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("discussions");
   const [threads, setThreads] = useState([]);
   const [showNewThread, setShowNewThread] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
-
-  // Video states
   const [classVideo, setClassVideo] = useState(null);
   const [videoLoading, setVideoLoading] = useState(true);
   const [videoError, setVideoError] = useState(null);
-
-  // Feedback states
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
-
   const editorRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
@@ -44,6 +39,55 @@ const Introductionto_Html = ({
     loadThreads();
     checkFeedbackStatus();
     fetchClassVideo();
+
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    const handleKeyDown = (e) => {
+      // Disable common download shortcuts
+      if (
+        (e.ctrlKey || e.metaKey) &&
+        (e.key === "s" || e.key === "S") // Ctrl+S or Cmd+S
+      ) {
+        e.preventDefault();
+        alert("Downloading is not allowed for this video");
+        return false;
+      }
+      // Disable F12, Ctrl+Shift+I (DevTools)
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "i")) ||
+        (e.ctrlKey && e.shiftKey && (e.key === "J" || e.key === "j")) ||
+        (e.ctrlKey && e.shiftKey && (e.key === "C" || e.key === "c"))
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    const handleDragStart = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("dragstart", handleDragStart);
+    document.addEventListener("drop", handleDrop);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("dragstart", handleDragStart);
+      document.removeEventListener("drop", handleDrop);
+    };
   }, [completedContent, subtopicId]);
 
   const fetchClassVideo = async () => {
@@ -59,7 +103,6 @@ const Introductionto_Html = ({
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -68,7 +111,7 @@ const Introductionto_Html = ({
           setVideoError("Video not found for this class");
         }
       } else {
-        setVideoError("Failed to load video");
+        setVideoError("Your Class will coming soon");
       }
     } catch (error) {
       console.error("Error fetching class video:", error);
@@ -90,7 +133,6 @@ const Introductionto_Html = ({
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         setHasSubmittedFeedback(!!data.data.feedback);
@@ -113,7 +155,6 @@ const Introductionto_Html = ({
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -127,7 +168,6 @@ const Introductionto_Html = ({
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
-
     try {
       setIsLoading(true);
       const result = await markSubtopicComplete(
@@ -135,7 +175,6 @@ const Introductionto_Html = ({
         goalName,
         courseName
       );
-
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
@@ -168,7 +207,6 @@ const Introductionto_Html = ({
           ...feedbackData,
         }),
       });
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -186,7 +224,6 @@ const Introductionto_Html = ({
     }
   };
 
-  // Rich Text Editor Functions
   const formatText = (command, value = null) => {
     document.execCommand(command, false, value);
     editorRef.current.focus();
@@ -202,7 +239,6 @@ const Introductionto_Html = ({
       img.style.height = "auto";
       img.style.borderRadius = "4px";
       img.style.margin = "10px 0";
-
       document.execCommand("insertHTML", false, img.outerHTML);
       updateContent();
     };
@@ -214,7 +250,6 @@ const Introductionto_Html = ({
     if (files && files[0]) {
       insertImage(files[0]);
     }
-    // Reset the input
     e.target.value = "";
   };
 
@@ -236,7 +271,6 @@ const Introductionto_Html = ({
       alert("Please fill in both title and content");
       return;
     }
-
     try {
       const token = localStorage.getItem("token");
       const formData = {
@@ -246,7 +280,6 @@ const Introductionto_Html = ({
         moduleName: moduleName,
         topicName: topicName,
       };
-
       const response = await fetch(`${API_BASE_URL}/api/discussions/threads`, {
         method: "POST",
         headers: {
@@ -255,7 +288,6 @@ const Introductionto_Html = ({
         },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -286,7 +318,6 @@ const Introductionto_Html = ({
     window.open(`/thread/${threadId}`, "_blank");
   };
 
-  // Video player component
   const VideoPlayer = () => {
     if (videoLoading) {
       return (
@@ -302,12 +333,7 @@ const Introductionto_Html = ({
         <div className="video-error-clss">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-          </svg>
-          <h3>Video Not Available</h3>
-          <p>{videoError}</p>
-          <button className="retry-btn-clss" onClick={fetchClassVideo}>
-            Retry
-          </button>
+          </svg>         
         </div>
       );
     }
@@ -319,17 +345,16 @@ const Introductionto_Html = ({
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
           </svg>
           <h3>No Video Available</h3>
-          <p>Video content for this class is not yet available.</p>
         </div>
       );
     }
 
     return (
-      <div className="video-player-container-clss">
-
+      <div className="secure-video-player-clss">
         {classVideo.video_type === "youtube" ||
         classVideo.video_type === "vimeo" ? (
           <iframe
+            ref={videoRef}
             width="100%"
             height="400"
             src={classVideo.video_url}
@@ -337,37 +362,64 @@ const Introductionto_Html = ({
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            className="secure-iframe-clss"
+            onContextMenu={(e) => {
+              e.preventDefault();
+              return false;
+            }}
+            onCopy={(e) => {
+              e.preventDefault();
+              return false;
+            }}
+            onCut={(e) => {
+              e.preventDefault();
+              return false;
+            }}
+            onDrag={(e) => {
+              e.preventDefault();
+              return false;
+            }}
           ></iframe>
         ) : (
           <video
+            ref={videoRef}
             controls
             width="100%"
             height="400"
             poster={classVideo.thumbnail_url}
+            allow="accelerometer;encrypted-media"
+            allowFullScreen
+            className="secure-video-clss"
+            onContextMenu={(e) => {
+              e.preventDefault();
+              return false;
+            }}
+            controlsList="nodownload"
+            onCopy={(e) => {
+              e.preventDefault();
+              return false;
+            }}
+            onCut={(e) => {
+              e.preventDefault();
+              return false;
+            }}
+            onDrag={(e) => {
+              e.preventDefault();
+              return false;
+            }}
           >
             <source src={classVideo.video_url} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         )}
-
-        <div className="video-meta-clss">
-          {classVideo.duration && (
-            <span className="duration-clss">
-              Duration: {Math.floor(classVideo.duration / 60)}:
-              {(classVideo.duration % 60).toString().padStart(2, "0")}
-            </span>
-          )}
-        </div>
       </div>
     );
   };
 
   return (
     <div className="subtopic-container-clss">
-      {/* Header Section */}
       <div className="subtopic-header-clss">
         <div className="breadcrumb-clss">
-          {/* FIX: Use safe navigation with fallback values */}
           <span className="module-name-clss">
             {classVideo ? classVideo.module_name : moduleName}
           </span>
@@ -386,7 +438,6 @@ const Introductionto_Html = ({
               />
             </svg>
           </span>
-          {/* FIX: Use safe navigation with fallback values */}
           <span className="topic-name-clss">
             {classVideo ? classVideo.video_title : topicName}
           </span>
@@ -394,11 +445,10 @@ const Introductionto_Html = ({
       </div>
 
       <div className="content-tab-clss">
-        {/* Video Section */}
         <div className="video-section-clss">
           <VideoPlayer />
         </div>
-        {/* Completion Section */}
+
         <div className="completion-section-clss">
           <button
             className={`feedback-button-clss ${
@@ -429,7 +479,6 @@ const Introductionto_Html = ({
         </div>
       </div>
 
-      {/* Navigation Tabs */}
       <div className="subtopic-tabs-clss">
         <button
           className={`tab-button-clss ${
@@ -449,7 +498,6 @@ const Introductionto_Html = ({
         </button>
       </div>
 
-      {/* Discussions Tab */}
       {activeTab === "discussions" && (
         <div className="discussions-tab-clss">
           <div className="discussions-header-clss">
@@ -464,7 +512,6 @@ const Introductionto_Html = ({
             </div>
           </div>
 
-          {/* New Thread Form */}
           {showNewThread && (
             <div className="new-thread-modal-clss">
               <div className="new-thread-form-clss">
@@ -479,7 +526,6 @@ const Introductionto_Html = ({
                   className="thread-title-input-clss"
                 />
 
-                {/* Rich Text Editor */}
                 <div className="rich-text-editor-clss">
                   <div className="editor-toolbar-clss">
                     <button
@@ -637,7 +683,6 @@ const Introductionto_Html = ({
             </div>
           )}
 
-          {/* Threads List */}
           <div className="threads-list-clss">
             {threads.length === 0 ? (
               <div className="no-threads-clss">
@@ -694,7 +739,6 @@ const Introductionto_Html = ({
         </div>
       )}
 
-      {/* Slides Tab */}
       {activeTab === "slides" && (
         <div className="slides-tab-clss">
           <h2>Presentation Slides</h2>
@@ -710,7 +754,6 @@ const Introductionto_Html = ({
         </div>
       )}
 
-      {/* Feedback Modal */}
       <FeedbackModal
         isOpen={showFeedbackModal}
         onClose={() => setShowFeedbackModal(false)}
