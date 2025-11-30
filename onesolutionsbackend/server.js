@@ -82,7 +82,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 2 * 1024 * 1024 * 1024 } // 2GB
+  limits: { fileSize: 2 * 1024 * 1024 * 1024 }, // 2GB
 });
 
 // Enhanced storage configuration for videos
@@ -4316,8 +4316,234 @@ app.delete("/api/admin/students/:studentId", async (req, res) => {
   }
 });
 
-// Get video by subtopic ID
-app.get("/api/class-video/:subtopicId", async (req, res) => {
+
+
+// Secure video streaming with token-based authentication
+app.get("/api/secure-video/:subtopicId", auth, async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+
+    // Get video details from database
+    const videoResult = await pool.query(
+      `SELECT * FROM class_videos WHERE subtopic_id = $1 AND is_active = true`,
+      [subtopicId]
+    );
+
+    if (videoResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Video not found for this class",
+      });
+    }
+
+    const video = videoResult.rows[0];
+
+    // For YouTube/Vimeo, return the URL
+    if (video.video_type === "youtube" || video.video_type === "vimeo") {
+      return res.json({
+        success: true,
+        data: { 
+          video: {
+            ...video,
+            requiresSecureStreaming: false
+          }
+        },
+      });
+    }
+
+    // For uploaded videos, generate secure streaming URL
+    if (video.video_type === "uploaded") {
+      const token = generateVideoToken(subtopicId, req.student.id);
+      const secureUrl = `/api/stream-video/${subtopicId}?token=${token}`;
+      
+      return res.json({
+        success: true,
+        data: { 
+          video: {
+            ...video,
+            secure_streaming_url: secureUrl,
+            requiresSecureStreaming: true
+          }
+        },
+      });
+    }
+
+    return res.status(400).json({
+      success: false,
+      message: "Unsupported video type",
+    });
+
+  } catch (error) {
+    console.error("Secure video fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch video",
+    });
+  }
+});
+
+// Generate secure video token
+function generateVideoToken(subtopicId, studentId) {
+  const payload = {
+    subtopicId,
+    studentId,
+    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour expiry
+  };
+
+  const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+  return jwt.sign(payload, JWT_SECRET);
+}
+
+// Verify video token
+function verifyVideoToken(token) {
+  try {
+    const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    throw new Error("Invalid video token");
+  }
+}
+
+// Secure video streaming endpoint
+app.get("/api/stream-video/:subtopicId", async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+    const { token } = req.query;
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: "Access token required",
+      });
+    }
+
+    // Verify token
+    const decoded = verifyVideoToken(token);
+    
+    // Check if student has access to this subtopic
+    const progressCheck = await pool.query(
+      `SELECT * FROM student_content_progress WHERE student_id = $1 AND content_id = $2`,
+      [decoded.studentId, subtopicId]
+    );
+
+    // Allow access even if not completed, but student must exist
+    const studentCheck = await pool.query(
+      `SELECT id FROM students WHERE id = $1 AND status = 'active'`,
+      [decoded.studentId]
+    );
+
+    if (studentCheck.rows.length === 0) {
+      return res.status(403).json({
+        success: false,
+        message: "Student not found or inactive",
+      });
+    }
+
+    // Get video details
+    const videoResult = await pool.query(
+      `SELECT * FROM class_videos WHERE subtopic_id = $1 AND is_active = true`,
+      [subtopicId]
+    );
+
+    if (videoResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Video not found",
+      });
+    }
+
+    const video = videoResult.rows[0];
+
+    if (video.video_type !== "uploaded") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid video type for streaming",
+      });
+    }
+
+    const videoPath = path.join(__dirname, video.video_url);
+
+    if (!fs.existsSync(videoPath)) {
+      return res.status(404).json({
+        success: false,
+        message: "Video file not found",
+      });
+    }
+
+    // Get file stats
+    const stat = fs.statSync(videoPath);
+    const fileSize = stat.size;
+    const range = req.headers.range;
+
+    // Security headers to prevent downloading
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+    res.setHeader('Content-Security-Policy', "default-src 'self'");
+    
+    // Prevent caching of video URLs
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+
+    if (range) {
+      // Handle range requests for video streaming
+      const parts = range.replace(/bytes=/, "").split("-");
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+      const chunksize = (end - start) + 1;
+
+      // Validate range
+      if (start >= fileSize || end >= fileSize) {
+        res.setHeader('Content-Range', `bytes */${fileSize}`);
+        return res.status(416).end();
+      }
+
+      const file = fs.createReadStream(videoPath, { start, end });
+      const head = {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunksize,
+        'Content-Type': 'video/mp4',
+        // Prevent download
+        'Content-Disposition': 'inline',
+        'X-Content-Type-Options': 'nosniff',
+      };
+
+      res.writeHead(206, head);
+      file.pipe(res);
+    } else {
+      // No range request - stream entire file but with security headers
+      const head = {
+        'Content-Length': fileSize,
+        'Content-Type': 'video/mp4',
+        // Critical: This prevents download dialog and forces inline play
+        'Content-Disposition': 'inline',
+        'X-Content-Type-Options': 'nosniff',
+      };
+
+      res.writeHead(200, head);
+      fs.createReadStream(videoPath).pipe(res);
+    }
+
+  } catch (error) {
+    console.error("Video streaming error:", error.message);
+    
+    if (error.message === "Invalid video token") {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid or expired video token",
+      });
+    }
+
+    res.status(500).json({
+      success: false,
+      message: "Error streaming video",
+    });
+  }
+});
+
+// Update the existing class-video route to use secure streaming
+app.get("/api/class-video/:subtopicId", auth, async (req, res) => {
   try {
     const { subtopicId } = req.params;
 
@@ -4334,24 +4560,40 @@ app.get("/api/class-video/:subtopicId", async (req, res) => {
     }
 
     const video = result.rows[0];
-    const baseUrl =
-      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
-    // Construct full URL for uploaded videos
-    if (
-      video.video_type === "uploaded" &&
-      !video.video_url.startsWith("http")
-    ) {
-      video.video_url = `${baseUrl}${video.video_url}`;
+    // For uploaded videos, don't return direct URL - use secure streaming
+    if (video.video_type === "uploaded") {
+      const token = generateVideoToken(subtopicId, req.student.id);
+      const secureUrl = `${baseUrl}/api/stream-video/${subtopicId}?token=${token}`;
+      
+      return res.json({
+        success: true,
+        data: { 
+          video: {
+            ...video,
+            secure_streaming_url: secureUrl,
+            requiresSecureStreaming: true,
+            // Don't expose direct URL
+            video_url: null
+          }
+        },
+      });
     }
 
+    // For YouTube/Vimeo, return as before
     if (video.thumbnail_url && !video.thumbnail_url.startsWith("http")) {
       video.thumbnail_url = `${baseUrl}${video.thumbnail_url}`;
     }
 
     res.json({
       success: true,
-      data: { video },
+      data: { 
+        video: {
+          ...video,
+          requiresSecureStreaming: false
+        }
+      },
     });
   } catch (error) {
     console.error("Class video fetch error:", error.message);

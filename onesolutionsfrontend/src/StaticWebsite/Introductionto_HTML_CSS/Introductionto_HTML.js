@@ -52,7 +52,7 @@ const Introductionto_Html = ({
       setVideoError(null);
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${API_BASE_URL}/api/class-video/${subtopicId}`,
+        `${API_BASE_URL}/api/secure-video/${subtopicId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -247,7 +247,7 @@ const Introductionto_Html = ({
         topicName: topicName,
       };
 
-      const response = await fetch("${API_BASE_URL}/api/discussions/threads", {
+      const response = await fetch(`${API_BASE_URL}/api/discussions/threads`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -284,6 +284,82 @@ const Introductionto_Html = ({
 
   const openThreadDetail = (threadId) => {
     window.open(`/thread/${threadId}`, "_blank");
+  };
+
+  // Secure Video Player Component
+  const SecureVideoPlayer = ({ video }) => {
+    const videoRef = useRef(null);
+
+    // Prevent right-click and context menu
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Prevent keyboard shortcuts for saving
+    const handleKeyDown = (e) => {
+      // Disable F12, Ctrl+S, Ctrl+Shift+I, etc.
+      if (
+        e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+        (e.ctrlKey && e.keyCode === 83) // Ctrl+S
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    useEffect(() => {
+      // Add event listeners when component mounts
+      document.addEventListener('contextmenu', handleContextMenu);
+      document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        // Remove event listeners when component unmounts
+        document.removeEventListener('contextmenu', handleContextMenu);
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }, []);
+
+    if (video.video_type === "youtube" || video.video_type === "vimeo") {
+      return (
+        <iframe
+          width="100%"
+          height="400"
+          src={video.video_url}
+          title={video.video_title}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          onContextMenu={handleContextMenu}
+        ></iframe>
+      );
+    }
+
+    // For secure uploaded videos
+    return (
+      <div className="secure-video-wrapper-clss">
+        <video
+          ref={videoRef}
+          controls
+          width="100%"
+          height="400"
+          poster={video.thumbnail_url}
+          onContextMenu={handleContextMenu}
+          controlsList="nodownload noremoteplayback"
+          disablePictureInPicture
+        >
+          <source src={video.secure_streaming_url} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Overlay to prevent right-click download */}
+        <div 
+          className="video-protection-overlay-clss"
+          onContextMenu={handleContextMenu}
+        />
+      </div>
+    );
   };
 
   // Video player component
@@ -335,28 +411,7 @@ const Introductionto_Html = ({
           )}
         </div>
 
-        {classVideo.video_type === "youtube" ||
-        classVideo.video_type === "vimeo" ? (
-          <iframe
-            width="100%"
-            height="400"
-            src={classVideo.video_url}
-            title={classVideo.video_title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        ) : (
-          <video
-            controls
-            width="100%"
-            height="400"
-            poster={classVideo.thumbnail_url}
-          >
-            <source src={classVideo.video_url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
+        <SecureVideoPlayer video={classVideo} />
 
         <div className="video-meta-clss">
           {classVideo.duration && (
@@ -366,6 +421,9 @@ const Introductionto_Html = ({
             </span>
           )}
           <span className="video-type-clss">Type: {classVideo.video_type}</span>
+          {classVideo.requiresSecureStreaming && (
+            <span className="security-badge-clss">🔒 Secure Streaming</span>
+          )}
         </div>
       </div>
     );
@@ -376,7 +434,10 @@ const Introductionto_Html = ({
       {/* Header Section */}
       <div className="subtopic-header-clss">
         <div className="breadcrumb-clss">
-          <span className="module-name-clss">{moduleName}</span>
+          {/* FIX: Use safe navigation with fallback values */}
+          <span className="module-name-clss">
+            {classVideo ? classVideo.module_name : moduleName}
+          </span>
           <span className="separator-clss">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -392,14 +453,16 @@ const Introductionto_Html = ({
               />
             </svg>
           </span>
-          <span className="topic-name-clss">{topicName}</span>
+          {/* FIX: Use safe navigation with fallback values */}
+          <span className="topic-name-clss">
+            {classVideo ? classVideo.video_title : topicName}
+          </span>
         </div>
       </div>
 
       <div className="content-tab-clss">
         {/* Video Section */}
         <div className="video-section-clss">
-          {" "}
           <VideoPlayer />
         </div>
         {/* Completion Section */}

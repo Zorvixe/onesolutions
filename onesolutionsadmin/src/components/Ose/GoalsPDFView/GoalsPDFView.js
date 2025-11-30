@@ -3830,74 +3830,79 @@ const GoalsPDFView = ({ onSelectSubtopic }) => {
     setExpandedCourses(newExpanded);
   };
 
-  const handleSubtopicSelect = (topic) => {
+  const handleSubtopicSelect = (goal, course, module, topic) => {
     if (onSelectSubtopic) {
-      onSelectSubtopic(topic);
+      onSelectSubtopic({
+        topic: topic,
+        goalTitle: goal.title,
+        courseTitle: course.title,
+        moduleName: module.name
+      });
     }
   };
 
   return (
-    <div className="goals-pdf-view">
-      <div className="pdf-header">
+    <div className="clvm-goals-pdf-view">
+      <div className="clvm-pdf-header">
         <h2>Learning Goals Structure</h2>
         <p>Select a subtopic to link with your video</p>
       </div>
 
-      <div className="goals-container">
+      <div className="clvm-goals-container">
         {goalsData.map((goal, goalIndex) => (
-          <div key={goal.id} className="goal-section" style={{ borderLeftColor: goal.color }}>
+          <div key={goal.id} className="clvm-goal-section" style={{ borderLeftColor: goal.color }}>
             <div 
-              className="goal-header"
+              className="clvm-goal-header"
               onClick={() => toggleGoal(goal.id)}
             >
-              <div className="goal-title">
-                <span className="expand-icon">
+              <div className="clvm-goal-title">
+                <span className="clvm-expand-icon">
                   {expandedGoals.has(goal.id) ? '▼' : '►'}
                 </span>
                 <h3>{goal.title}</h3>
-                <span className="goal-progress">{goal.progress}%</span>
+                <span className="clvm-goal-progress">{goal.progress}%</span>
               </div>
             </div>
 
             {expandedGoals.has(goal.id) && (
-              <div className="courses-container">
+              <div className="clvm-courses-container">
                 {goal.courses.map((course, courseIndex) => (
-                  <div key={course.id} className="course-section">
+                  <div key={course.id} className="clvm-course-section">
                     <div 
-                      className="course-header"
+                      className="clvm-course-header"
                       onClick={() => toggleCourse(course.id)}
                     >
-                      <div className="course-title">
-                        <span className="expand-icon">
+                      <div className="clvm-course-title">
+                        <span className="clvm-expand-icon">
                           {expandedCourses.has(course.id) ? '▼' : '►'}
                         </span>
                         <h4>{course.title}</h4>
-                        <span className="course-progress">{course.progress}%</span>
+                        <span className="clvm-course-progress">{course.progress}%</span>
                       </div>
                     </div>
 
                     {expandedCourses.has(course.id) && (
-                      <div className="modules-container">
+                      <div className="clvm-modules-container">
                         {course.modules.map((module, moduleIndex) => (
-                          <div key={module.id} className="module-section">
-                            <div className="module-header">
+                          <div key={module.id} className="clvm-module-section">
+                            <div className="clvm-module-header">
                               <h5>{module.name}</h5>
-                              <span className="module-id">ID: {module.id}</span>
+                              <span className="clvm-module-id">ID: {module.id}</span>
                             </div>
-                            <div className="topics-container">
+                            <div className="clvm-topics-container">
                               {module.topic.map((topic, topicIndex) => (
                                 <div 
                                   key={topic.id} 
-                                  className="topic-item"
-                                  onClick={() => handleSubtopicSelect(topic)}
-                                >
-                                  <div className="topic-content">
-                                    <span className="topic-number">
+                                  className="clvm-topic-item"
+                                  onClick={() => handleSubtopicSelect(goal, course, module, topic)}
+                                  >
+                                  <div className="clvm-topic-content">
+                                    <span className="clvm-topic-number">
                                       {goalIndex + 1}.{courseIndex + 1}.{moduleIndex + 1}.{topicIndex + 1}
                                     </span>
-                                    <span className="topic-name">{topic.name}</span>
+                                    <span className="clvm-topic-name">{topic.name}</span>
                                   </div>
-                                  <span className="topic-id">{topic.id}</span>
+                                  <span className="clvm-topic-id">{topic.id}</span>
                                 </div>
                               ))}
                             </div>
