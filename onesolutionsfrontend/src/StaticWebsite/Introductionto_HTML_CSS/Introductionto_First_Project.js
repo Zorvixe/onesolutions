@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+"use client";
+
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import FeedbackModal from "../../FeedbackModal/FeedbackModal";
-
 import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -13,25 +14,35 @@ const Introductionto_First_Project = ({
   subtopic,
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to Your First Project - Lets Build Together",
-  videoUrl = "https://www.youtube.com/embed/",
+  videoUrl = "https://www.youtube.com/embed/MWLtSutTs40",
   slidesUrl = "https://docs.google.com/presentation/d/1buUfhf63MBF55n32mpzNfbMwFsXwLLrkdm1RsXQjki4/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
-
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("discussions");
   const [threads, setThreads] = useState([]);
   const [showNewThread, setShowNewThread] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
-
   // Feedback states
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
-
   const editorRef = useRef(null);
+
+  const getCleanYouTubeUrl = (url) => {
+    if (!url || url === "https://www.youtube.com/embed/") return url;
+    // Parameters to hide all UI except play/pause:
+    // controls=1 - shows minimal controls (play/pause)
+    // modestbranding=1 - hides YouTube logo
+    // rel=0 - hides related videos
+    // showinfo=0 - hides video info
+    // iv_load_policy=3 - hides annotations
+    // fs=0 - disables fullscreen
+    const separator = url.includes("?") ? "&" : "?";
+    return `${url}${separator}controls=1&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&fs=0`;
+  };
 
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
@@ -53,7 +64,6 @@ const Introductionto_First_Project = ({
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         setHasSubmittedFeedback(!!data.data.feedback);
@@ -76,7 +86,6 @@ const Introductionto_First_Project = ({
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -90,7 +99,6 @@ const Introductionto_First_Project = ({
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
-
     try {
       setIsLoading(true);
       const result = await markSubtopicComplete(
@@ -98,7 +106,6 @@ const Introductionto_First_Project = ({
         goalName,
         courseName
       );
-
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
@@ -131,7 +138,6 @@ const Introductionto_First_Project = ({
           ...feedbackData,
         }),
       });
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -165,7 +171,6 @@ const Introductionto_First_Project = ({
       img.style.height = "auto";
       img.style.borderRadius = "4px";
       img.style.margin = "10px 0";
-
       document.execCommand("insertHTML", false, img.outerHTML);
       updateContent();
     };
@@ -199,7 +204,6 @@ const Introductionto_First_Project = ({
       alert("Please fill in both title and content");
       return;
     }
-
     try {
       const token = localStorage.getItem("token");
       const formData = {
@@ -209,8 +213,7 @@ const Introductionto_First_Project = ({
         moduleName: moduleName,
         topicName: topicName,
       };
-
-      const response = await fetch("${API_BASE_URL}/api/discussions/threads", {
+      const response = await fetch(`${API_BASE_URL}/api/discussions/threads`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -218,7 +221,6 @@ const Introductionto_First_Project = ({
         },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
@@ -273,7 +275,6 @@ const Introductionto_First_Project = ({
           <span className="topic-name-clss">{topicName}</span>
         </div>
       </div>
-
       <div className="content-tab-clss">
         {/* Video Section */}
         <div className="video-section-clss">
@@ -281,7 +282,7 @@ const Introductionto_First_Project = ({
             <iframe
               width="100%"
               height="400"
-              src={videoUrl}
+              src={getCleanYouTubeUrl(videoUrl)}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -289,7 +290,6 @@ const Introductionto_First_Project = ({
             ></iframe>
           </div>
         </div>
-
         {/* Completion Section */}
         <div className="completion-section-clss">
           <button
@@ -320,7 +320,6 @@ const Introductionto_First_Project = ({
           </button>
         </div>
       </div>
-
       {/* Navigation Tabs */}
       <div className="subtopic-tabs-clss">
         <button
@@ -340,7 +339,6 @@ const Introductionto_First_Project = ({
           Slides
         </button>
       </div>
-
       {/* Discussions Tab */}
       {activeTab === "discussions" && (
         <div className="discussions-tab-clss">
@@ -355,7 +353,6 @@ const Introductionto_First_Project = ({
               </button>
             </div>
           </div>
-
           {/* New Thread Form */}
           {showNewThread && (
             <div className="new-thread-modal-clss">
@@ -370,7 +367,6 @@ const Introductionto_First_Project = ({
                   }
                   className="thread-title-input-clss"
                 />
-
                 {/* Rich Text Editor */}
                 <div className="rich-text-editor-clss">
                   <div className="editor-toolbar-clss">
@@ -510,7 +506,6 @@ const Introductionto_First_Project = ({
                     style={{ textAlign: "left" }}
                   />
                 </div>
-
                 <div className="thread-actions-clss">
                   <button
                     onClick={handleCreateThread}
@@ -528,7 +523,6 @@ const Introductionto_First_Project = ({
               </div>
             </div>
           )}
-
           {/* Threads List */}
           <div className="threads-list-clss">
             {threads.length === 0 ? (
@@ -585,7 +579,6 @@ const Introductionto_First_Project = ({
           </div>
         </div>
       )}
-
       {/* Slides Tab */}
       {activeTab === "slides" && (
         <div className="slides-tab-clss">
@@ -601,7 +594,6 @@ const Introductionto_First_Project = ({
           </div>
         </div>
       )}
-
       {/* Feedback Modal */}
       <FeedbackModal
         isOpen={showFeedbackModal}

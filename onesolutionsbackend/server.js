@@ -83,9 +83,8 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
+  limits: { fileSize: 1024 * 1024 * 1024 } // 1GB
+
 });
 
 // Multer configuration for video uploads
@@ -112,16 +111,15 @@ const videoUpload = multer({
       cb(new Error("Only video files are allowed!"), false);
     }
   },
-  limits: {
-    fileSize: 500 * 1024 * 1024, // 100MB limit
-  },
+  limits: { fileSize: 1024 * 1024 * 1024 } // 1GB
+
 });
 
 // Handle preflight requests
 app.options("*", cors());
 
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true, limit: "300mb" }));
+app.use(express.json({ limit: "1000mb" }));
+app.use(express.urlencoded({ limit: "1000mb", extended: true }));
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
