@@ -63,70 +63,6 @@
   border-bottom-color: #4f46e5;
 }
 
-/* Secure Video Player Styles */
-.secure-video-wrapper-clss {
-  position: relative;
-  width: 100%;
-  height: 400px;
-}
-
-.video-protection-overlay-clss {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Hide download button in video controls */
-video::-internal-media-controls-download-button {
-  display: none;
-}
-
-video::-webkit-media-controls-enclosure {
-  overflow: hidden;
-}
-
-video::-webkit-media-controls-panel {
-  width: calc(100% + 30px);
-}
-
-.security-badge-clss {
-  background: #10b981;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  margin-left: 10px;
-}
-
-/* Disable text selection in video player */
-.secure-video-wrapper-clss {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Additional security styles */
-.video-player-container-clss {
-  position: relative;
-}
-
-.video-player-container-clss::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
 /* Custom Video Player Styles */
 .custom-video-player-clss {
   position: relative;
@@ -783,10 +719,6 @@ video::-webkit-media-controls-panel {
     padding: 4px 8px;
     font-size: 12px;
   }
-
-  .secure-video-wrapper-clss {
-    height: 300px;
-  }
 }
 
 @media (max-width: 480px) {
@@ -815,10 +747,6 @@ video::-webkit-media-controls-panel {
 
   .toolbar-btn-clss {
     margin-bottom: 5px;
-  }
-
-  .secure-video-wrapper-clss {
-    height: 250px;
   }
 }
 
@@ -918,6 +846,8 @@ video::-webkit-media-controls-panel {
   font-size: 0.9rem;
   line-height: 1.5;
 }
+
+
 
 .duration-clss,
 .video-type-clss {
