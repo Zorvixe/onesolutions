@@ -82,7 +82,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 1024 * 1024 * 1024 }, // 1GB
+  limits: { fileSize: 2 * 1024 * 1024 * 1024 } // 2GB
 });
 
 // Enhanced storage configuration for videos
@@ -167,8 +167,8 @@ const validateVideoFile = (file) => {
 // Handle preflight requests
 app.options("*", cors());
 
-app.use(express.json({ limit: "1000mb" }));
-app.use(express.urlencoded({ limit: "1000mb", extended: true }));
+app.use(express.json({ limit: "2gb" }));
+app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
