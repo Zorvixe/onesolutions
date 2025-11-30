@@ -117,35 +117,61 @@ const ClassVideoManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Validate form
+    if (formData.videoType !== 'uploaded' && !formData.videoUrl) {
+      toast.error('Video URL is required for non-uploaded videos');
+      return;
+    }
+  
+    if (formData.videoType === 'uploaded' && !videoFile && !editingVideo) {
+      toast.error('Please select a video file to upload');
+      return;
+    }
+  
     try {
       const formDataToSend = new FormData();
-
+  
       // Append all form data
       Object.keys(formData).forEach((key) => {
         if (formData[key] !== undefined && formData[key] !== null) {
-          formDataToSend.append(key, formData[key]);
+          formDataToSend.append(key, formData[key].toString());
         }
       });
-
+  
+      // Append video file if selected
       if (videoFile) {
         formDataToSend.append("video", videoFile);
+        console.log("📤 Appending video file:", videoFile.name, videoFile.size);
       }
-
+  
+      // Log form data for debugging
+      console.log("📦 Form data to send:");
+      for (let [key, value] of formDataToSend.entries()) {
+        if (key !== 'video') {
+          console.log(`  ${key}: ${value}`);
+        } else {
+          console.log(`  ${key}: [File] ${value.name} (${value.size} bytes)`);
+        }
+      }
+  
       // Use PUT for updates, POST for creation
       const url = editingVideo
         ? `${API_BASE_URL}/api/admin/class-videos/${formData.subtopicId}`
         : `${API_BASE_URL}/api/admin/class-videos`;
-
+  
       const method = editingVideo ? "PUT" : "POST";
-
+  
+      console.log(`🚀 Sending ${method} request to: ${url}`);
+  
       const response = await fetch(url, {
         method: method,
         body: formDataToSend,
+        // Don't set Content-Type header - let browser set it with boundary
       });
-
+  
       const result = await response.json();
-
+  
       if (response.ok && result.success) {
         toast.success(
           editingVideo
@@ -155,10 +181,10 @@ const ClassVideoManagement = () => {
         closeModal();
         fetchVideos();
       } else {
-        throw new Error(result.message || "Failed to save video");
+        throw new Error(result.message || result.error || "Failed to save video");
       }
     } catch (error) {
-      console.error("Error saving video:", error);
+      console.error("❌ Error saving video:", error);
       toast.error(error.message || "Failed to save video");
     }
   };
