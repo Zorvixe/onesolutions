@@ -167,12 +167,6 @@ const Introductionto_Css_BoxModel_CS_2 = ({
           the corners of an HTML element.
         </p>
 
-        <p>
-          <b>Quick Tip: </b>
-          Specifying the background color for an HTML element makes the border
-          radius more visible.
-        </p>
-
         <CodeBlock
           language="css"
           code={`div {
@@ -180,6 +174,11 @@ const Introductionto_Css_BoxModel_CS_2 = ({
   background-color: lightblue;
 }`}
         />
+        <p>
+          <b>Quick Tip: </b>
+          Specifying the background color for an HTML element makes the border
+          radius more visible.
+        </p>
 
         <p>
           You can use the below CSS properties to round a specific corner of an

@@ -108,8 +108,8 @@ const Introductionto_Css_CS_3 = ({
       <section style={{ marginBottom: "3rem" }}>
         <h2>1. Font Family</h2>
         <p>
-          The <code>font-family</code> property specifies the typeface applied
-          to text.
+          The CSS <code>font-family</code> property specifies the font for an
+          element.
         </p>
 
         <CodeBlock
@@ -117,9 +117,8 @@ const Introductionto_Css_CS_3 = ({
           code={`h1 {
   font-family: "Roboto";
 }
-
-p {
-  font-family: "Times New Roman";
+.paragraph {
+  font-family: "Roboto";
 }`}
         />
         <p>You can use one of the below values of the font-family property,</p>
@@ -161,13 +160,17 @@ p {
       <section style={{ marginBottom: "3rem" }}>
         <h2>2. Font Size</h2>
         <p>
-          The <code>font-size</code> property sets the size of the text.
+          The CSS <code>font-size</code> property specifies the size of the
+          font.
         </p>
 
         <CodeBlock
           language="css"
           code={`p {
   font-size: 20px;
+}
+.main-heading {
+  font-size: 36px;
 }`}
         />
         <div className="Note-container">
@@ -200,7 +203,7 @@ p {
       <section style={{ marginBottom: "3rem" }}>
         <h2>3. Font Style</h2>
         <p>
-          The <code>font-style</code> property specifies the font style for
+          The CSS <code>font-style</code> property specifies the font style for
           text.
         </p>
         <p>You can use one of the below values of the font-style property,</p>
@@ -266,8 +269,8 @@ p {
       <section style={{ marginBottom: "3rem" }}>
         <h2>4. Font Weight</h2>
         <p>
-          The CSS font-weight property specifies how thick or thin characters in
-          text should be displayed.
+          The CSS <code>font-weight</code> property specifies how thick or thin
+          characters in text should be displayed.
         </p>
 
         <CodeBlock
@@ -380,7 +383,7 @@ p {
       <section style={{ marginBottom: "3rem" }}>
         <h2>5. Text Decoration</h2>
         <p>
-          The <code>text-decoration</code> property specifies the decoration
+          The CSS <code>text-decoration</code> property specifies the decoration
           added to the text.
         </p>
 

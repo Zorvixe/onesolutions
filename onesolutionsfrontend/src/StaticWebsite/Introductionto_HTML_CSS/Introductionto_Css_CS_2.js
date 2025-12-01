@@ -100,13 +100,16 @@ const Introductionto_Css_CS_2 = ({
           code={`h1 {
   color: grey;
 }
-
 p {
   color: blue;
-}
-
 span {
   color: red;
+}
+.main-heading {
+  color: blue;
+}
+.paragraph {
+  color: grey;
 }`}
         />
 
@@ -130,9 +133,8 @@ span {
           code={`div.container {
   background-color: lightblue;
 }
-
-section {
-  background-color: orange;
+.card {
+  background-color: lightblue;
 }`}
         />
 

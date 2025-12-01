@@ -90,11 +90,9 @@ const Introductionto_Css_CS_1 = ({
       <section style={{ marginBottom: "3rem" }}>
         <h2>1. HTML Container Element</h2>
         <p>
-          The HTML <code>&lt;div&gt;</code> element is used to group other HTML
-          elements.
+          The HTML <code>div</code> element defines a container.
         </p>
 
-        <h3>Example Code</h3>
         <CodeBlock
           language="html"
           code={`<div>
@@ -110,9 +108,16 @@ const Introductionto_Css_CS_1 = ({
       {/* 2. CSS Properties */}
       <section style={{ marginBottom: "3rem" }}>
         <h2>2. CSS Properties</h2>
-        <p>Below is a CSS class containing a simple property.</p>
 
-        <h3>Example Code</h3>
+        <b>Syntax: </b>
+        <CodeBlock
+          language="css"
+          code={`selector {
+  property1: value1;
+  property2: value2;
+}`}
+        />
+        <p>Below is a CSS class containing a simple property.</p>
         <CodeBlock
           language="css"
           code={`.h-center {
@@ -127,8 +132,8 @@ const Introductionto_Css_CS_1 = ({
       <section style={{ marginBottom: "3rem" }}>
         <h2>3. CSS Text Align</h2>
         <p>
-          The <code>text-align</code> property sets how inline content is
-          aligned.
+          The CSS <code>text-align</code> property specifies the horizontal
+          alignment of the text in an HTML element.
         </p>
 
         <table

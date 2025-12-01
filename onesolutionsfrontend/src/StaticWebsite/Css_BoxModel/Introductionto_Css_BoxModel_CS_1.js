@@ -124,8 +124,8 @@ const Introductionto_Css_BoxModel_CS_1 = ({
 
         <h3>3.1 Background Image</h3>
         <p>
-          The <code>background-image</code> property sets the background image
-          of an HTML element.
+          The CSS <code>background-image</code> property specifies the
+          background image of an HTML element.
         </p>
 
         <CodeBlock
@@ -179,8 +179,8 @@ const Introductionto_Css_BoxModel_CS_1 = ({
       <section>
         <h3>3.2 Background Size</h3>
         <p>
-          The <code>background-size</code> property specifies the size of a
-          background image.
+          The CSS <code>background-size</code> property specifies the size of
+          the background image of an HTML element.
         </p>
 
         <CodeBlock language="css" code={`.card {  background-size: cover; }`} />
