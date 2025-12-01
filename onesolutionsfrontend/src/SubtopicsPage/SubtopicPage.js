@@ -349,20 +349,20 @@ import Coding_Pratice_22A from "../Python/Functions/Coding_Pratice_22A.js";
 import Coding_Pratice_22B from "../Python/Functions/Coding_Pratice_22B.js";
 import Coding_Pratice_23A from "../Python/Functions/Coding_Pratice_23A.js";
 import Coding_Pratice_23B from "../Python/Functions/Coding_Pratice_23B.js";
+import Built_in_Fun_Class from "../Python/Recursion/Built_in_Fun_Class.js";
+import FunCallStack_Recursion_Class from "../Python/Recursion/FunCallStack_Recursion_Class.js";
+import ListMethods_Class from "../Python/Recursion/ListMethods_Class.js";
+import Assignment_24 from "../Python/Recursion/Assignment_24.js";
+import Assignment_25 from "../Python/Recursion/Assignment_25.js";
+import Assignment_26 from "../Python/Recursion/Assignment_26.js";
 // Map subtopics to their components
 const subtopicComponents = {
-  "Coding Practice 21A": Coding_Pratice_21A,
-  "Coding Practice 21B": Coding_Pratice_21B,
-  "Coding Practice 22A": Coding_Pratice_22A,
-  "Coding Practice 22B": Coding_Pratice_22B,
-  "Coding Practice 23A": Coding_Pratice_23A,
-  "Coding Practice 23B": Coding_Pratice_23B,
-  "List & Strings": Lists_String_Class,
-  "Assignment 21": Assignment_21,
-  "Assignment 22": Assignment_22,
-  "Assignment 23": Assignment_23,
-  Functions: Functions_Class,
-  "Function Arguments": Function_Argu_Class,
+  "Built in Functions": Built_in_Fun_Class,
+  "Function Call Stack & Recursion": FunCallStack_Recursion_Class,
+  "List Methods": ListMethods_Class,
+  "Assignment 24": Assignment_24,
+  "Assignment 25": Assignment_25,
+  "Assignment 26": Assignment_26,
 
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
@@ -464,6 +464,18 @@ const subtopicComponents = {
   "Working with Lists": Workingwith_List_Class,
   "Coding Practice 20": Coding_Pratice_20,
   "Assignment 20": Assignment_20,
+  "Coding Practice 21A": Coding_Pratice_21A,
+  "Coding Practice 21B": Coding_Pratice_21B,
+  "Coding Practice 22A": Coding_Pratice_22A,
+  "Coding Practice 22B": Coding_Pratice_22B,
+  "Coding Practice 23A": Coding_Pratice_23A,
+  "Coding Practice 23B": Coding_Pratice_23B,
+  "List & Strings": Lists_String_Class,
+  "Assignment 21": Assignment_21,
+  "Assignment 22": Assignment_22,
+  "Assignment 23": Assignment_23,
+  Functions: Functions_Class,
+  "Function Arguments": Function_Argu_Class,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
