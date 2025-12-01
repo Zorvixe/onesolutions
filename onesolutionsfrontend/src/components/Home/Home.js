@@ -6,6 +6,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import { useAuth } from "../../context/AuthContext";
 
+import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
+
 const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
 
 const Home = () => {
@@ -378,6 +380,7 @@ const Home = () => {
                   )}
                 </div>
               </div>
+              <DescriptionToggle text={classItem.description} />
             </div>
           ))
         ) : (
