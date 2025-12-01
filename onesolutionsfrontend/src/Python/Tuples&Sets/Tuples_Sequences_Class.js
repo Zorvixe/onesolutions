@@ -11,10 +11,10 @@ const Tuples_Sequences_Class = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Loop Control Statements",
-  topicName = "Nested Loops",
+  moduleName = "Tuples & Sets",
+  topicName = "Tuples & Sequences",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1zyvG7Dd6bhKIk1Uw7ihyUQWm-J7KYbIQE3roviShSRo/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/15W0lUtn3UdPtdusxtc9wBc4YcZEUd0VVPwUlt-v21rQ/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

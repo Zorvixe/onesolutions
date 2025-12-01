@@ -6,15 +6,15 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Classes_Object_Class = ({
+const Introductionto_OPP_Part_1_Class = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
   moduleName = "Introduction to Object Oriented Programming",
-  topicName = "Classes & Objects",
+  topicName = "Introduction to Object Oriented Programming",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1FM1-n4w61Mbv9rOZjTJ7gJX71a2-b3b7Wl18VMp7B2I/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1WmfqWFrn5KF-qUbpauZSIS2M2klyqeMq1QQkt8vWZAY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +614,4 @@ const Classes_Object_Class = ({
     </div>
   );
 };
-export default Classes_Object_Class;
+export default Introductionto_OPP_Part_1_Class;

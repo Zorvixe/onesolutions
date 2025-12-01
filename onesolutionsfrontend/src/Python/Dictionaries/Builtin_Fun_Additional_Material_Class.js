@@ -11,7 +11,7 @@ const Builtin_Fun_Additional_Material_Class = ({
     goalName,
     courseName,
     subtopic,
-    moduleName = "Loop Control Statements",
+    moduleName = "Dictionaries",
     topicName = "Nested Loops",
     videoUrl = "https://www.youtube.com/embed/",
     slidesUrl = "https://docs.google.com/presentation/d/1zyvG7Dd6bhKIk1Uw7ihyUQWm-J7KYbIQE3roviShSRo/embed",

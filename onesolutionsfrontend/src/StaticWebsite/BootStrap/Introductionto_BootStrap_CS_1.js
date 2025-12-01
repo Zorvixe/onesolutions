@@ -121,7 +121,7 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="button">Get Started</button>
+          code={`<button class="button">Explore Places</button>
 <button class="button">Visit Now</button>`}
         />
 
@@ -164,7 +164,7 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="button button-green">Get Started</button>`}
+          code={`<button class="button button-green">Explore Places</button>`}
         />
 
         <MCQBlock mcq={mcqs[1]} answers={mcqAnswers} onAnswer={handleAnswer} />
@@ -211,12 +211,12 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-primary">Get Started</button>
-<button class="btn btn-secondary">Get Started</button>
-<button class="btn btn-success">Get Started</button>
-<button class="btn btn-danger">Get Started</button>
-<button class="btn btn-warning">Get Started</button>
-<button class="btn btn-info">Get Started</button>`}
+          code={`<button class="btn btn-primary">Explore Places</button>
+<button class="btn btn-secondary">Explore Places</button>
+<button class="btn btn-success">Explore Places</button>
+<button class="btn btn-danger">Explore Places</button>
+<button class="btn btn-warning">Explore Places</button>
+<button class="btn btn-info">Explore Places</button>`}
         />
 
         <p>
@@ -230,13 +230,13 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-outline-primary">Get Started</button>
-<button class="btn btn-outline-secondary">Get Started</button>
-<button class="btn btn-outline-success">Get Started</button>
-<button class="btn btn-outline-danger">Get Started</button>
-<button class="btn btn-outline-warning">Get Started</button>
-<button class="btn btn-outline-info">Get Started</button>
-<button class="btn btn-outline-light">Get Started</button>`}
+          code={`<button class="btn btn-outline-primary">Explore Places</button>
+<button class="btn btn-outline-secondary">Explore Places</button>
+<button class="btn btn-outline-success">Explore Places</button>
+<button class="btn btn-outline-danger">Explore Places</button>
+<button class="btn btn-outline-warning">Explore Places</button>
+<button class="btn btn-outline-info">Explore Places</button>
+<button class="btn btn-outline-light">Explore Places</button>`}
         />
 
         <div className="Note-container">
@@ -260,13 +260,13 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<p class="text-primary">Tourism</p>
-<p class="text-secondary">Tourism</p>
-<p class="text-success">Tourism</p>
-<p class="text-danger">Tourism</p>
-<p class="text-warning">Tourism</p>
-<p class="text-info">Tourism</p>
-<p class="text-light">Tourism</p>`}
+          code={`<p class="text-primary">Explore Paradise</p>
+<p class="text-secondary">Explore Paradise</p>
+<p class="text-success">Explore Paradise</p>
+<p class="text-danger">Explore Paradise</p>
+<p class="text-warning">Explore Paradise</p>
+<p class="text-info">Explore Paradise</p>
+<p class="text-light">Explore Paradise</p>`}
         />
 
         {/* 3.2.3 Text Transform */}
@@ -278,9 +278,9 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<p class="text-uppercase">Plan your TRIP.</p>
-<p class="text-capitalize">plan your trip.</p>
-<p class="text-lowercase">PLAN your TRIP.</p>`}
+          code={`<p class="text-uppercase">Discover the world's most beautiful destinations and create unforgettable memories</p>
+<p class="text-capitalize">Discover the world's most beautiful destinations and create unforgettable memories</p>
+<p class="text-lowercase">Discover the world's most beautiful destinations and create unforgettable memories</p>`}
         />
 
         {/* 3.2.4 Background Colors */}
@@ -292,13 +292,13 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<div class="bg-primary"><p>Tourism</p></div>
-<div class="bg-secondary"><p>Tourism</p></div>
-<div class="bg-success"><p>Tourism</p></div>
-<div class="bg-danger"><p>Tourism</p></div>
-<div class="bg-warning"><p>Tourism</p></div>
-<div class="bg-info"><p>Tourism</p></div>
-<div class="bg-light"><p>Tourism</p></div>`}
+          code={`<div class="bg-primary"><p>Explore Paradise</p></div>
+<div class="bg-secondary"><p>Explore Paradise</p></div>
+<div class="bg-success"><p>Explore Paradise</p></div>
+<div class="bg-danger"><p>Explore Paradise</p></div>
+<div class="bg-warning"><p>Explore Paradise</p></div>
+<div class="bg-info"><p>Explore Paradise</p></div>
+<div class="bg-light"><p>Explore Paradise</p></div>`}
         />
 
         <h3>Using Predefined Bootstrap Classes</h3>
@@ -341,7 +341,7 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="button">Get Started</button>`}
+          code={`<button class="button">Explore Places</button>`}
         />
 
         <h4>Don’ts</h4>
@@ -359,7 +359,7 @@ const Introductionto_BootStrap_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="btn">Get Started</button>`}
+          code={`<button class="btn">Explore Places</button>`}
         />
 
         {/* MCQ */}

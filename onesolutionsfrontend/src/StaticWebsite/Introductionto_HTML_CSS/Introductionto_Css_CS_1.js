@@ -96,9 +96,9 @@ const Introductionto_Css_CS_1 = ({
         <CodeBlock
           language="html"
           code={`<div>
-  <h1>Tourism</h1>
-  <p>Plan your trip wherever you want to go</p>
-  <button>Get Started</button>
+  <h1>Explore Paradise</h1>
+  <p>Discover the world's most beautiful destinations and create unforgettable memories</p>
+  <button>Explore Places</button>
 </div>`}
         />
 

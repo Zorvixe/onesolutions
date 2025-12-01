@@ -1150,7 +1150,7 @@ export const codingPracticesData = {
           attempts: [],
         },
         {
-          id: "q-python-1E-001",
+          id: "q-python-1E-002",
           title: "Indexing",
           difficulty: "Easy",
           description:
@@ -1163,6 +1163,146 @@ export const codingPracticesData = {
             { input: "dear\n2", output: "a", visible: false },
             { input: "horse\n1", output: "o", visible: false },
             { input: "cat\n2", output: "t", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-003",
+          title: "String Repetition - 2",
+          difficulty: "Easy",
+          description:
+            "Given a word and number N,write a program to print the given word,N number of times in a single line.",
+          sampleInput: "maths\n2",
+          sampleOutput: "mathsmaths",
+          testCases: [
+            { input: "animal\n3", output: "animalanimalanimal", visible: true },
+            { input: "fox\n2", output: "foxfox", visible: true },
+            { input: "dear\n2", output: "deardear", visible: false },
+            { input: "horse\n1", output: "horse", visible: false },
+            { input: "cat\n2", output: "catcat", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-004",
+          title: "First three characters",
+          difficulty: "Easy",
+          description:
+            "Write a program to read a single line of input and print first three characters in it.",
+          sampleInput: "maths",
+          sampleOutput: "mat",
+          testCases: [
+            { input: "bhumika", output: "bhu", visible: true },
+            { input: "ganesh", output: "gan", visible: true },
+            { input: "bhumika", output: "bhu", visible: false },
+            { input: "horse", output: "hor", visible: false },
+            { input: "billing", output: "bil", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-005",
+          title: "part of a string",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and an index and prints a part of the word from the given index to the end of the word.",
+          sampleInput: "goodnight\n4",
+          sampleOutput: "night",
+          testCases: [
+            { input: "helloo\n2", output: "lloo", visible: true },
+            { input: "unhappy\n2", output: "happy", visible: true },
+            { input: "bhumika\n4", output: "ika", visible: false },
+            { input: "horse\n1", output: "orse", visible: false },
+            { input: "billing\n2", output: "lling", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-006",
+          title: "part of a string - 2",
+          difficulty: "medium",
+          description:
+            "Write a program that reads a word and two indices(x,y) and prints a part of the word from the index X to the index Y.",
+          sampleInput: "goodnight\n4\n8",
+          sampleOutput: "night",
+          testCases: [
+            { input: "helloo\n2\n4", output: "llo", visible: true },
+            { input: "unhappy\n2\n6", output: "happy", visible: true },
+            { input: "bhumika\n4\n6", output: "ika", visible: false },
+            { input: "horse\n1\n4", output: "orse", visible: false },
+            { input: "billing\n2\n6", output: "lling", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-007",
+          title: "First N characters",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and number N and prints the first N characters of the word.\nInput:The first line of input contains a string.second line of input contains an integer.\nOutput:The output should be a single line containing a string that is the part of the word",
+          sampleInput: "superman\n5",
+          sampleOutput: "super",
+          testCases: [
+            { input: "manage\n3", output: "man", visible: true },
+            { input: "unhappy\n2", output: "un", visible: true },
+            { input: "bhumika\n5", output: "bhumi", visible: false },
+            { input: "horse\n3", output: "hor", visible: false },
+            { input: "billing\n4", output: "bill", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-008",
+          title: "Last N characters",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and number N and prints the Last N characters of the word.\nInput:The first line of input contains a string.second line of input contains an integer.\nOutput:The output should be a single line containing a string that is the part of the word",
+          sampleInput: "barber\n3",
+          sampleOutput: "ber",
+          testCases: [
+            { input: "manago\n3", output: "ago", visible: true },
+            { input: "unhappy\n2", output: "py", visible: true },
+            { input: "bhumika\n5", output: "umika", visible: false },
+            { input: "horse\n3", output: "rse", visible: false },
+            { input: "billing\n4", output: "ling", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-009",
+          title: "Second part of a string",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a string and prints the second part of the string that has digits.\nNote:Given string contains two part-The first part contains only two characters.The second part contains only digits.",
+          sampleInput: "of21",
+          sampleOutput: "21",
+          testCases: [
+            { input: "manago\n3", output: "ago", visible: true },
+            { input: "unhappy\n2", output: "py", visible: true },
+            { input: "bhumika\n5", output: "umika", visible: false },
+            { input: "horse\n3", output: "rse", visible: false },
+            { input: "billing\n4", output: "ling", visible: false },
           ],
           defaultCode: ``,
           score: 10,
@@ -1326,6 +1466,133 @@ export const codingPracticesData = {
         {
           id: "91bcc4c6-0533-40bd-814f-a37b81618320",
           title: "Chat Page",
+          description:
+            "Create a responsive grid layout that works on mobile and desktop",
+          difficulty: "Medium",
+          score: 150,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: "",
+            javascript: "",
+          },
+          descriptionDetails: `
+          <div class="desc-question-details">
+            <p class="desc-que-blue">Refer to the below image.</p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316021/Coding_Practice_-1-todolist-001_hy94wb.png" class="desc-que-img" />
+            <p class="desc-que-blue">Note:</p>
+            <p class="">Try to achieve the design as close as possible.</p>
+            <p class="desc-que-blue">Resources</p>
+            <p class="">Use this background image,</p>
+            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
+            <p class="desc-que-blue">CSS Colors used:</p>
+            <p class="">Background color for button:</p>
+            <ul>
+              <li><span>Orange</span></li>
+            </ul>
+            <p class="">Text color:</p>
+            <ul>
+              <li><span>white</span></li>
+            </ul>
+            <p class="desc-que-blue">CSS Font families used:</p>
+            <ul>
+              <li><span>Roboto</span></li>
+            </ul>
+            <p class="desc-que-blue">Concepts Review</p>
+            <p class="">Want to quickly review some of the concepts you've been learning?</p>
+            <p class="">Take a look at the Cheat Sheets.</p>
+          </div>
+        `,
+
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of at least three HTML paragraph elements in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the CSS property text-align and value right",
+              type: "css-validation",
+              input: "check-text-align-right",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the CSS property text-align and the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of at least an HTML paragraph element with the property border-top-left-radius",
+              type: "css-validation",
+              input: "check-border-top-left-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of at least an HTML paragraph element with the property border-top-right-radius",
+              type: "css-validation",
+              input: "check-border-top-right-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML element with the CSS property `padding` and its value should be greater than `0`px.",
+              type: "css-validation",
+              input: "check-padding",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "static-coding-practice-3",
+      title: "Static Coding Practice 3",
+      description:
+        "In this assignment, let's build a Chat Page by applying the concepts we learned till now.",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "91bcc4c6-0533-40bd-814f-a37b81618321",
+          title: "Chat2 Page",
           description:
             "Create a responsive grid layout that works on mobile and desktop",
           difficulty: "Medium",

@@ -105,9 +105,9 @@ const Introductionto_BootStrap_CS_2 = ({
           language="html"
           code={`<div class="d-flex">
   <div>
-    <h1>Tourism</h1>
-    <p>Plan your trip.</p>
-    <button>Get Started</button>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories</p>
+    <button>Explore Places</button>
   </div>
 </div>`}
         />
@@ -261,9 +261,9 @@ const Introductionto_BootStrap_CS_2 = ({
           language="html"
           code={`<div class="d-flex flex-column justify-content-start">
   <div>
-    <h1>Tourism</h1>
-    <p>Plan your trip.</p>
-    <button>Get Started</button>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories</p>
+    <button>Explore Places</button>
   </div>
 </div>`}
         />
@@ -298,9 +298,9 @@ const Introductionto_BootStrap_CS_2 = ({
           language="html"
           code={`<div class="d-flex flex-column justify-content-center">
   <div>
-    <h1>Tourism</h1>
-    <p>Plan your trip.</p>
-    <button>Get Started</button>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories</p>
+    <button>Explore Places</button>
   </div>
 </div>`}
         />
@@ -353,9 +353,9 @@ const Introductionto_BootStrap_CS_2 = ({
           language="html"
           code={`<div class="d-flex flex-column justify-content-end">
   <div>
-    <h1>Tourism</h1>
-    <p>Plan your trip.</p>
-    <button>Get Started</button>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories</p>
+    <button>Explore Places</button>
   </div>
 </div>`}
         />
@@ -391,9 +391,9 @@ const Introductionto_BootStrap_CS_2 = ({
           language="html"
           code={`<div class="d-flex flex-column justify-content-between">
   <div>
-    <h1>Tourism</h1>
-    <p>Plan your trip.</p>
-    <button>Get Started</button>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories</p>
+    <button>Explore Places</button>
   </div>
 </div>`}
         />

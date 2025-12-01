@@ -1,5 +1,6 @@
-// WebPractice.js
-import React, { useState, useEffect, useRef } from "react";
+"use client";
+
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
@@ -78,7 +79,6 @@ const WebPractice = () => {
     loadProgress();
   }, []);
 
-  // Check if all tests are passed whenever testResults change
   useEffect(() => {
     if (testResults.length > 0) {
       const passed = testResults.every((test) => test.passed);
@@ -95,7 +95,6 @@ const WebPractice = () => {
   // Handle code changes from CodePlayground
   const handleCodeChange = (newCode) => {
     setCurrentCode(newCode);
-    // Reset submission status when code changes
     setAllTestsPassed(false);
     setSubmitMessage("");
   };
@@ -125,7 +124,7 @@ const WebPractice = () => {
     iframeDoc.close();
   };
 
-  // ============================ UPDATED TEST RUNNER ============================
+  // ============================ TEST RUNNER HANDLERS ============================
 
   // Get validation type - handles both old and new test case formats
   const getValidationType = (testCase) => {
@@ -223,7 +222,7 @@ const WebPractice = () => {
       };
     },
 
-    // Container relationship tests - UPDATED FOR YOUR TEST CASES
+    // Container relationship tests
     "check-heading-container": (testCase, iframeDoc) => {
       const containers = iframeDoc.querySelectorAll(
         "div, section, main, article, header, footer, nav, span, p, li, ul, ol, form"
@@ -312,7 +311,7 @@ const WebPractice = () => {
     },
   };
 
-  // CSS Validation Test Handlers - UPDATED FOR YOUR TEST CASES
+  // CSS Validation Test Handlers
   const cssTestHandlers = {
     "style-check": (testCase, iframeDoc, iframe) => {
       const element = iframeDoc.querySelector(testCase.selector);
@@ -508,7 +507,7 @@ const WebPractice = () => {
       if (!element) return { passed: false, actual: "Element not found" };
 
       const computedStyle = iframe.contentWindow.getComputedStyle(element);
-      const padding = parseFloat(computedStyle.padding);
+      const padding = Number.parseFloat(computedStyle.padding);
       return {
         passed: padding > 0,
         actual: `${padding}px`,
@@ -521,7 +520,7 @@ const WebPractice = () => {
 
       elements.forEach((el) => {
         const style = iframe.contentWindow.getComputedStyle(el);
-        const padding = parseFloat(style.padding);
+        const padding = Number.parseFloat(style.padding);
         if (padding > 0) {
           hasPadding = true;
         }
@@ -538,7 +537,7 @@ const WebPractice = () => {
       if (!element) return { passed: false, actual: "Element not found" };
 
       const computedStyle = iframe.contentWindow.getComputedStyle(element);
-      const margin = parseFloat(computedStyle.margin);
+      const margin = Number.parseFloat(computedStyle.margin);
       return {
         passed: margin === testCase.expected,
         actual: `${margin}px`,
@@ -639,7 +638,6 @@ const WebPractice = () => {
       const element = iframeDoc.querySelector(testCase.selector);
       if (!element) return { passed: false, actual: "Element not found" };
 
-      // This is a simplified check - in real implementation you might need more complex logic
       const hasClickHandler = element.onclick !== null;
       return {
         passed: hasClickHandler === testCase.expected,
@@ -648,8 +646,6 @@ const WebPractice = () => {
     },
 
     "console-output-check": (testCase, iframeDoc, iframe) => {
-      // This would require intercepting console.log - complex to implement
-      // For now, return a placeholder
       return {
         passed: false,
         actual: "Console output check not implemented",
@@ -679,14 +675,12 @@ const WebPractice = () => {
     },
 
     "media-query-check": (testCase, iframeDoc, iframe) => {
-      // This is complex to test properly in this environment
-      // For now, check if CSS contains media queries
       const styleSheets = iframeDoc.styleSheets;
       let hasMediaQueries = false;
 
       try {
-        for (let sheet of styleSheets) {
-          for (let rule of sheet.cssRules) {
+        for (const sheet of styleSheets) {
+          for (const rule of sheet.cssRules) {
             if (rule instanceof CSSMediaRule) {
               hasMediaQueries = true;
               break;
@@ -695,7 +689,6 @@ const WebPractice = () => {
           if (hasMediaQueries) break;
         }
       } catch (e) {
-        // Cross-origin stylesheets might throw errors
         console.log("Could not check all stylesheets:", e);
       }
 
@@ -764,7 +757,7 @@ const WebPractice = () => {
     },
   };
 
-  // Main test runner function - UPDATED
+  // Main test runner function
   const runTests = async (iframeRef) => {
     if (!selectedQuestion || !iframeRef.current) return;
 
@@ -781,7 +774,7 @@ const WebPractice = () => {
       for (const testCase of selectedQuestion.testCases) {
         let passed = false;
         let actual = "";
-        let error = null;
+        const error = null;
 
         try {
           let testResult = { passed: false, actual: "Test not implemented" };
@@ -914,7 +907,8 @@ const WebPractice = () => {
         timestamp: new Date().toISOString(),
       };
 
-      await CodingPracticeService.saveProgress(
+      // Save progress to the backend
+      const response = await CodingPracticeService.saveProgress(
         practiceId,
         questionId,
         "web",
@@ -924,15 +918,29 @@ const WebPractice = () => {
         attemptData
       );
 
-      await loadProgressSummary();
-      return { success: true };
+      if (response.success) {
+        // Update local userProgress state immediately
+        setUserProgress((prev) => ({
+          ...prev,
+          [questionId]: {
+            question_id: questionId,
+            status: passed ? "solved" : "attempted",
+            score: passed ? score : 0,
+            ...prev[questionId],
+          },
+        }));
+
+        await loadProgressSummary();
+        return { success: true, data: response.data };
+      } else {
+        return { success: false, error: response.error };
+      }
     } catch (error) {
       console.error("Failed to update question status:", error);
       return { success: false, error: error.message };
     }
   };
 
-  // Handle submission - FIXED VERSION
   const handleSubmit = async () => {
     // Check if all tests are passed by examining testResults directly
     const allTestsCurrentlyPassed =
@@ -945,10 +953,17 @@ const WebPractice = () => {
       return;
     }
 
+    const currentStatus = getQuestionStatus(selectedQuestion.id);
+    if (currentStatus === "solved") {
+      setSubmitMessage("✅ This question has already been solved!");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitMessage("Submitting your solution...");
 
     try {
+      // Call the updateQuestionStatus function
       const result = await updateQuestionStatus(
         selectedQuestion.id,
         true,
@@ -959,10 +974,30 @@ const WebPractice = () => {
         setSubmitMessage(
           "✅ Congratulations! Your solution has been submitted successfully and marked as completed."
         );
-        // Refresh progress to update the UI
+
+        // Force a refresh of the progress data
         await loadProgressSummary();
+
+        // Also update the practice completion status
+        if (selectedPractice) {
+          try {
+            await CodingPracticeService.completePractice(
+              selectedPractice.id,
+              goalName,
+              courseName
+            );
+            console.log("Practice marked as complete");
+          } catch (practiceError) {
+            console.log(
+              "Practice completion update optional:",
+              practiceError.message
+            );
+          }
+        }
       } else {
-        setSubmitMessage("❌ Failed to submit solution. Please try again.");
+        setSubmitMessage(
+          `❌ Failed to submit solution: ${result.error || "Unknown error"}`
+        );
       }
     } catch (error) {
       setSubmitMessage(`❌ Error submitting solution: ${error.message}`);
@@ -1115,7 +1150,7 @@ const WebPractice = () => {
               <div className="test-actions">
                 <button
                   onClick={handleSubmit}
-                  disabled={isSubmitting || !allTestsPassed}
+                  disabled={isSubmitting || !allTestsPassed || isAlreadySolved}
                   className="submit-btn"
                 >
                   {isSubmitting ? "Submitting..." : "Submit Solution"}

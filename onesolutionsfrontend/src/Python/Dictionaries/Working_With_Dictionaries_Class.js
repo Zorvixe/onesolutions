@@ -11,10 +11,10 @@ const Working_With_Dictionaries_Class = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Loop Control Statements",
-  topicName = "Nested Loops",
+  moduleName = "Dictionaries",
+  topicName = "Working with Dictionaries",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1zyvG7Dd6bhKIk1Uw7ihyUQWm-J7KYbIQE3roviShSRo/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1YKHDEGcG5D4cZi3vYClkR84-j2DhPUvEGt-W5i-bZ_8/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

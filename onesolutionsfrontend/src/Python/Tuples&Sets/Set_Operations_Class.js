@@ -11,10 +11,10 @@ const Set_Operations_Class = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Loop Control Statements",
-  topicName = "Nested Loops",
+  moduleName = "Tuples & Sets",
+  topicName = "Set Operations",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1zyvG7Dd6bhKIk1Uw7ihyUQWm-J7KYbIQE3roviShSRo/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1ER1TZbrnQ-hMGWTp3VpyZd0gjDqy27BuZrm-MeznXGE/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

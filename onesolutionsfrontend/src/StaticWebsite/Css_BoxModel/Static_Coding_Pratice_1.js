@@ -1,21 +1,17 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+
+// Static_Coding_Practice_1.js
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import {
-  codingPracticesData,
-  findPracticeById,
-  findQuestionById,
-} from "../../codingPracticesData/codingPracticesData";
+import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
-import CodePlayground from "../../CodePlayground/CodePlayground";
 
-const Static_Coding_Pratice_1 = () => {
+const Static_Coding_Practice_1 = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Use Auth context for progress tracking
   const {
     codingPracticeProgress,
     loadProgressSummary,
@@ -28,45 +24,33 @@ const Static_Coding_Pratice_1 = () => {
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
 
-  // Get goalName and courseName from navigation state with fallbacks
   const {
     goalName: stateGoalName,
     courseName: stateCourseName,
     subtopicId: codingPracticeSubtopicId,
   } = location.state || {};
 
-  // Extract goal and course names from practice data
   const goalName = stateGoalName;
   const courseName = stateCourseName;
-
-  // Use provided subtopicId or fallback
   const finalSubtopicId = codingPracticeSubtopicId;
 
-  // Load "Coding Practice - 1" from codingPracticesData
   useEffect(() => {
     const practice1 = codingPracticesData.static.find(
       (p) => p.id === "static-coding-practice-1"
     );
     if (practice1) {
       setSelectedPractice(practice1);
-      console.log("📝 Loaded practice with details:", {
-        practiceId: practice1.id,
-        goalName,
-        courseName,
-        subtopicId: finalSubtopicId,
-      });
+      console.log("[v0] Loaded practice:", practice1.id);
     }
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
 
-  // Load progress data when component mounts or when progress updates
   useEffect(() => {
     const loadProgressData = async () => {
       try {
         setLoading(true);
         await loadProgressSummary();
 
-        // Check completion status for each practice
         if (selectedPractice) {
           const completionStatus = {};
           for (const practice of codingPracticesData.static) {
@@ -97,7 +81,6 @@ const Static_Coding_Pratice_1 = () => {
     loadProgressData();
   }, [selectedPractice, loadProgressSummary]);
 
-  // Enhanced progress tracking functions
   const getQuestionStatus = useCallback(
     (questionId) => {
       return codingPracticeProgress[questionId]?.status || "unsolved";
@@ -108,22 +91,6 @@ const Static_Coding_Pratice_1 = () => {
   const getQuestionScore = useCallback(
     (questionId) => {
       return codingPracticeProgress[questionId]?.score || 0;
-    },
-    [codingPracticeProgress]
-  );
-
-  const getQuestionAttempts = useCallback(
-    (questionId) => {
-      const progress = codingPracticeProgress[questionId];
-      if (!progress) return [];
-
-      return [
-        {
-          passed: progress.status === "solved",
-          score: progress.score,
-          timestamp: new Date().toISOString(),
-        },
-      ];
     },
     [codingPracticeProgress]
   );
@@ -145,7 +112,6 @@ const Static_Coding_Pratice_1 = () => {
     [getQuestionStatus]
   );
 
-  // ✅ FIXED: Auto-mark practice as complete when all questions are solved
   useEffect(() => {
     const autoCompletePractice = async () => {
       if (
@@ -154,56 +120,25 @@ const Static_Coding_Pratice_1 = () => {
         !isPracticeCompleted(selectedPractice.id)
       ) {
         try {
-          console.log(
-            "🎯 All questions solved in practice! Marking as complete...",
-            {
-              practiceId: selectedPractice.id,
-              goalName,
-              courseName,
-              subtopicId: finalSubtopicId,
-            }
-          );
-
-          // Method 1: Mark coding practice as complete via coding practice service
+          console.log("[v0] All questions solved, marking practice complete");
           await CodingPracticeService.completePractice(
             selectedPractice.id,
             goalName,
             courseName
           );
 
-          // Method 2: ALSO mark the subtopic as complete in the main progress system
-          // This is crucial for goal and course progress tracking
-          const result = await markSubtopicComplete(
-            finalSubtopicId,
-            goalName,
-            courseName
-          );
-
-          if (result.success) {
-            console.log(
-              "✅ Coding practice subtopic marked as complete in main progress system"
-            );
-          }
+          await markSubtopicComplete(finalSubtopicId, goalName, courseName);
 
           await refreshProgress();
 
-          // Update local completion status
           setPracticeCompletionStatus((prev) => ({
             ...prev,
             [selectedPractice.id]: true,
           }));
 
-          console.log("✅ Practice marked as completed in both systems!");
+          console.log("[v0] Practice marked complete");
         } catch (error) {
-          console.error("❌ Failed to mark practice complete:", error);
-
-          // Fallback: Try to mark just the subtopic
-          try {
-            await markSubtopicComplete(finalSubtopicId, goalName, courseName);
-            await refreshProgress();
-          } catch (fallbackError) {
-            console.error("❌ Fallback also failed:", fallbackError);
-          }
+          console.error("[v0] Failed to mark practice complete:", error);
         }
       }
     };
@@ -220,12 +155,7 @@ const Static_Coding_Pratice_1 = () => {
     courseName,
   ]);
 
-  // Check if this coding practice subtopic is already completed in main system
-  const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
-
-  // In Static_Coding_Pratice_1.js - update the handleQuestionSelect function
   const handleQuestionSelect = (question) => {
-    // Check if it's a web practice question
     if (question.type === "web") {
       navigate(`/web-practice/${selectedPractice.id}/${question.id}`, {
         state: {
@@ -235,7 +165,6 @@ const Static_Coding_Pratice_1 = () => {
         },
       });
     } else {
-      // For regular coding questions
       navigate(`/practice/${selectedPractice.id}/${question.id}`, {
         state: {
           subtopicId: finalSubtopicId,
@@ -262,19 +191,15 @@ const Static_Coding_Pratice_1 = () => {
     );
   }
 
-  const practiceCompleted = isPracticeCompleted(selectedPractice.id);
-  const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
   const solvedCount = selectedPractice.questions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
 
   return (
     <div className="coding-practice-container-cod">
-      {/* Header */}
       <div className="coding-header-cod">
         <div className="header-left-cod">
           <h3>{selectedPractice.title}</h3>
-
           <div className="practice-stats-cod">
             <p className="practice-description-cod">
               {selectedPractice.description}
@@ -290,7 +215,6 @@ const Static_Coding_Pratice_1 = () => {
       </div>
 
       <div className="coding-practice-content-cod">
-        {/* Questions List View */}
         <div className="questions-list-view-cod">
           <div className="questions-table-container-cod">
             <div className="questions-table-cod">
@@ -301,38 +225,24 @@ const Static_Coding_Pratice_1 = () => {
                     <th>Question</th>
                     <th>Difficulty</th>
                     <th>Score</th>
-                    <th>Progress</th>
                   </tr>
                 </thead>
                 <tbody>
                   {selectedPractice.questions.map((question) => {
                     const status = getQuestionStatus(question.id);
                     const score = getQuestionScore(question.id);
-                    const attempts = getQuestionAttempts(question.id);
-                    const lastAttempt =
-                      attempts.length > 0
-                        ? attempts[attempts.length - 1]
-                        : null;
 
                     return (
                       <tr
                         key={question.id}
                         className={`question-row-cod ${
-                          status === "solved"
-                            ? "solved-cod"
-                            : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                          status === "solved" ? "solved-cod" : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
                         <td className="status-cell-cod">
                           <span className={`status-indicator-cod ${status}`}>
-                            {status === "solved"
-                              ? "✓"
-                              : status === "attempted"
-                              ? "●"
-                              : "○"}
+                            {status === "solved" ? "✓" : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
@@ -343,9 +253,6 @@ const Static_Coding_Pratice_1 = () => {
                                 Solved
                               </span>
                             )}
-                          </div>
-                          <div className="question-description-cod">
-                            {question.description}
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">
@@ -361,37 +268,6 @@ const Static_Coding_Pratice_1 = () => {
                             : `0/${question.score}`}{" "}
                           pts
                         </td>
-                        <td className="progress-cell-cod">
-                          {lastAttempt ? (
-                            <div className="progress-info-cod">
-                              <span
-                                className={`attempt-status-cod ${
-                                  lastAttempt.passed
-                                    ? "passed-cod"
-                                    : "failed-cod"
-                                }`}
-                              >
-                                {lastAttempt.passed ? "Passed" : "Failed"}
-                              </span>
-                              <div className="progress-bar-cod">
-                                <div
-                                  className={`progress-fill-cod ${
-                                    lastAttempt.passed
-                                      ? "passed-fill-cod"
-                                      : "failed-fill-cod"
-                                  }`}
-                                  style={{
-                                    width: lastAttempt.passed ? "100%" : "50%",
-                                  }}
-                                ></div>
-                              </div>
-                            </div>
-                          ) : (
-                            <span className="no-attempts-cod">
-                              Not attempted
-                            </span>
-                          )}
-                        </td>
                       </tr>
                     );
                   })}
@@ -400,37 +276,11 @@ const Static_Coding_Pratice_1 = () => {
             </div>
           </div>
 
-         
-
-          {/* Practice Completion Status */}
           <div className="practice-completion-status-cod">
             <div className="completion-header-cod">
               <h4>Practice Progress</h4>
             </div>
             <div className="progress-summary-cod">
-              <div className="progress-stats-cod">
-                <div className="progress-stat-cod">
-                  <span className="stat-label-cod">Questions Solved:</span>
-                  <span className="stat-value-cod">
-                    {solvedCount} / {selectedPractice.questions.length}
-                  </span>
-                </div>
-                <div className="progress-stat-cod">
-                  <span className="stat-label-cod">Total Score:</span>
-                  <span className="stat-value-cod">
-                    {selectedPractice.questions.reduce(
-                      (total, q) => total + (getQuestionScore(q.id) || 0),
-                      0
-                    )}{" "}
-                    /{" "}
-                    {selectedPractice.questions.reduce(
-                      (total, q) => total + q.score,
-                      0
-                    )}{" "}
-                    pts
-                  </span>
-                </div>
-              </div>
               <div className="overall-progress-bar-cod">
                 <div
                   className="overall-progress-fill-cod"
@@ -449,4 +299,4 @@ const Static_Coding_Pratice_1 = () => {
   );
 };
 
-export default Static_Coding_Pratice_1;
+export default Static_Coding_Practice_1;

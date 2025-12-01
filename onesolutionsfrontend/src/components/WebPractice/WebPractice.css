@@ -310,6 +310,10 @@
   flex-shrink: 0; /* Prevent actions from shrinking */
 }
 
+.test-actions button{
+  cursor: pointer !important;
+}
+
 .run-tests-btn {
   background: #007bff;
   color: white;
@@ -319,6 +323,14 @@
   cursor: pointer;
   font-size: 14px;
   transition: background 0.2s;
+}
+
+.submit-btn {
+  background: #0056b3;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .run-tests-btn:hover:not(:disabled) {
