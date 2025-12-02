@@ -1298,12 +1298,229 @@ export const codingPracticesData = {
           sampleInput: "of21",
           sampleOutput: "21",
           testCases: [
-            { input: "manago\n3", output: "ago", visible: true },
-            { input: "unhappy\n2", output: "py", visible: true },
-            { input: "bhumika\n5", output: "umika", visible: false },
-            { input: "horse\n3", output: "rse", visible: false },
-            { input: "billing\n4", output: "ling", visible: false },
+            { input: "ma55", output: "55", visible: true },
+            { input: "un33", output: "33", visible: true },
+            { input: "bh21", output: "21", visible: false },
+            { input: "ho20", output: "20", visible: false },
+            { input: "bi17", output: "17", visible: false },
           ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1E-0010",
+          title: "First part of a string",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a string and prints the First part of the string that has numbers.\nNote:Given string contains two part-The first part contains only digits .The second part contains only one character.",
+          sampleInput: "15y",
+          sampleOutput: "15",
+          testCases: [
+            { input: "21B", output: "21", visible: true },
+            { input: "20G", output: "20", visible: true },
+            { input: "12D", output: "12", visible: false },
+            { input: "11M", output: "11", visible: false },
+            { input: "32C", output: "32", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-1F",
+      title: "Coding Practice - 1F",
+      description: "Type Conversions",
+      questions: [
+        {
+          id: "q-python-1F-001",
+          title: "Half String",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a string and prints the first half part of the string.",
+          sampleInput: "amazon",
+          sampleOutput: "ama",
+          testCases: [
+            { input: "bottle", output: "bot", visible: true },
+            { input: "ganesh", output: "gan", visible: true },
+            { input: "bhumik", output: "bhu", visible: false },
+            { input: "applee", output: "app", visible: false },
+            { input: "mangoo", output: "man", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-002",
+          title: "String Repetition - 3",
+          difficulty: "Easy",
+          description:
+            "Given a word and a number (N), write a program to print the last three characters of the word N times in a single line.\nInput:The first line of input contains a word.The second line of input contains the integer N which denotes the number of times the last three characters of word has to be repeated.\nOutput:The first line of output contains the last three characters of the given word repeated N times.\nNote:Note: There should not be any spaces between the repetitions.",
+          sampleInput: "amazon\n2",
+          sampleOutput: "zonzon",
+          testCases: [
+            { input: "bottle\n3", output: "tletletle", visible: true },
+            { input: "ganesh\n2", output: "eshesh", visible: true },
+            { input: "bhumika\n2", output: "ikaika", visible: false },
+            { input: "applee\n3", output: "leeleelee", visible: false },
+            { input: "mangoo\n2", output: "googoo", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-003",
+          title: "String Repetition - 4",
+          difficulty: "Medium",
+          description:
+            "You are given a string.Repeat the same string N times separate by space.",
+          sampleInput: "message\n2",
+          sampleOutput: "messaage message",
+          testCases: [
+            {
+              input: "bottle\n3",
+              output: "bottle bottle bottle",
+              visible: true,
+            },
+            { input: "ganesh\n2", output: "ganesh ganesh", visible: true },
+            { input: "bhumi\n2", output: "bhumi bhumi", visible: false },
+            { input: "applee\n1", output: "applee", visible: false },
+            { input: "mangoo\n2", output: "mangoo mangoo", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-004",
+          title: "Star Repetition - 4",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a word and prints the first two and last two letters of the word and prints the stars(*)instead of the remaining letters.",
+          sampleInput: "manage",
+          sampleOutput: "ma**ge",
+          testCases: [
+            {
+              input: "bottle",
+              output: "bo**le",
+              visible: true,
+            },
+            { input: "ganesh", output: "ga**sh", visible: true },
+            { input: "bhumi", output: "bh*mi", visible: false },
+            { input: "apple", output: "ap*le", visible: false },
+            { input: "mangoo", output: "ma**oo", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-005",
+          title: "Skip the fourth character",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a word and prints the word excluding the fourth letter of the word.",
+          sampleInput: "manage",
+          sampleOutput: "mange",
+          testCases: [
+            {
+              input: "bottle",
+              output: "botle",
+              visible: true,
+            },
+            { input: "ganesh", output: "gansh", visible: true },
+            { input: "bhumii", output: "bhuii", visible: false },
+            { input: "apple", output: "appe", visible: false },
+            { input: "mangoo", output: "manoo", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-006",
+          title: "Simple square - 4",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints a simple square using the (#).",
+          sampleInput: "",
+          sampleOutput: "###\n###\n###",
+          testCases: [
+            {
+              input: "",
+              output: "###\n###\n###",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-007",
+          title: "Simple Triangle - 4",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints a simple Triangle using the (+).",
+          sampleInput: "",
+          sampleOutput: "+\n++\n+++",
+          testCases: [
+            {
+              input: "",
+              output: "+\n++\n+++",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-1F-008",
+          title: "Stars - 3",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number N and prints three lines with each line containing  N stars (*).\nNote:There is a space after every stars.",
+          sampleInput: "2",
+          sampleOutput: "* * \n* * \n* * ",
+          testCases: [
+            { input: "3", output: "* * * \n* * * \n* * * ", visible: true },
+            { input: "2", output: "* * \n* * \n* * ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-1B",
+      title: "Assignment-1B",
+      description: "Type Conversions",
+      questions: [
+        {
+          id: "q-python-Assignment-1B-001",
+          title: "Shape",
+          difficulty: "Easy",
+          description:
+            "Write a program that prints the product of three numbers, 37, 61, and 391",
+          sampleInput: "",
+          sampleOutput: "882487",
+          testCases: [{ input: "", output: "882487", visible: true }],
           defaultCode: ``,
           score: 10,
           status: "unsolved",
@@ -1788,25 +2005,4 @@ export const codingPracticesData = {
       ],
     },
   ],
-};
-
-// Helper function to find practice by ID across all categories
-export const findPracticeById = (practiceId) => {
-  for (const category in codingPracticesData) {
-    const practice = codingPracticesData[category].find(
-      (p) => p.id === practiceId
-    );
-    if (practice) return practice;
-  }
-  return null;
-};
-
-// Helper function to find question by practice ID and question ID
-export const findQuestionById = (practiceId, questionId) => {
-  const practice = findPracticeById(practiceId);
-  if (!practice) return null;
-
-  return (
-    practice.questions.find((q) => q.id === questionId) || practice.questions[0]
-  );
 };

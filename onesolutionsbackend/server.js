@@ -1,4 +1,3 @@
-
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -1589,6 +1588,8 @@ app.get("/api/progress/goal/:goalName", auth, async (req, res) => {
   }
 });
 
+// In server.js, find the /api/coding-practice/save-progress route and update it:
+
 // Save or update question progress
 app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
   try {
@@ -1602,6 +1603,16 @@ app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
       });
     }
 
+    console.log(`💾 Saving progress for:`, {
+      practiceId,
+      questionId,
+      language,
+      status,
+      score,
+      hasCode: !!code,
+      codeLength: code ? code.length : 0,
+    });
+
     // Check if record exists
     const existing = await pool.query(
       `SELECT * FROM coding_practice_progress 
@@ -1610,32 +1621,53 @@ app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
     );
 
     let result;
+    let newAttempts;
 
     if (existing.rows.length > 0) {
       // Update existing record
       const previousAttempts = existing.rows[0].attempts || [];
-      const newAttempts = attempt
-        ? [...previousAttempts, attempt]
-        : previousAttempts;
+
+      // Add new attempt if provided
+      if (attempt) {
+        newAttempts = [...previousAttempts, attempt];
+      } else {
+        newAttempts = previousAttempts;
+      }
+
+      // Ensure code is properly stored as JSON string
+      let codeToStore = code;
+      if (typeof code === "object") {
+        codeToStore = JSON.stringify(code);
+      }
 
       result = await pool.query(
         `UPDATE coding_practice_progress 
          SET code = $1, status = $2, score = $3, attempts = $4, 
-             last_attempt = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP
-         WHERE student_id = $5 AND question_id = $6
+             last_attempt = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP,
+             practice_id = $5, language = $6
+         WHERE student_id = $7 AND question_id = $8
          RETURNING *`,
         [
-          code,
+          codeToStore,
           status,
           score || 0,
           JSON.stringify(newAttempts),
+          practiceId,
+          language,
           req.student.id,
           questionId,
         ]
       );
     } else {
       // Insert new record
-      const newAttempts = attempt ? [attempt] : [];
+      newAttempts = attempt ? [attempt] : [];
+
+      // Ensure code is properly stored as JSON string
+      let codeToStore = code;
+      if (typeof code === "object") {
+        codeToStore = JSON.stringify(code);
+      }
+
       result = await pool.query(
         `INSERT INTO coding_practice_progress 
          (student_id, practice_id, question_id, language, code, status, score, attempts, last_attempt)
@@ -1646,7 +1678,7 @@ app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
           practiceId,
           questionId,
           language,
-          code,
+          codeToStore,
           status,
           score || 0,
           JSON.stringify(newAttempts),
@@ -1654,21 +1686,25 @@ app.post("/api/coding-practice/save-progress", auth, async (req, res) => {
       );
     }
 
+    console.log(`✅ Progress saved successfully for question: ${questionId}`);
+
     res.json({
       success: true,
       message: "Progress saved successfully",
       data: result.rows[0],
     });
   } catch (error) {
-    console.error("Coding practice save error:", error.message);
+    console.error("❌ Coding practice save error:", error.message);
+    console.error("Error stack:", error.stack);
     res.status(500).json({
       success: false,
       message: "Failed to save progress",
+      error: error.message,
     });
   }
 });
 
-// Get question progress
+// Also update the get question progress endpoint:
 app.get("/api/coding-practice/question/:questionId", auth, async (req, res) => {
   try {
     const { questionId } = req.params;
@@ -1680,6 +1716,16 @@ app.get("/api/coding-practice/question/:questionId", auth, async (req, res) => {
     );
 
     const progress = result.rows[0] || null;
+
+    // Try to parse code if it exists
+    if (progress && progress.code) {
+      try {
+        progress.code = JSON.parse(progress.code);
+      } catch (e) {
+        // If it's not valid JSON, leave it as is
+        console.log("Code is not JSON, keeping as string");
+      }
+    }
 
     res.json({
       success: true,
@@ -1696,7 +1742,7 @@ app.get("/api/coding-practice/question/:questionId", auth, async (req, res) => {
   }
 });
 
-// Get all practice progress for student
+// Update the get all progress endpoint:
 app.get("/api/coding-practice/progress", auth, async (req, res) => {
   try {
     const result = await pool.query(
@@ -1706,10 +1752,26 @@ app.get("/api/coding-practice/progress", auth, async (req, res) => {
       [req.student.id]
     );
 
+    // Parse code for each progress record
+    const progressWithParsedCode = result.rows.map((record) => {
+      if (record.code) {
+        try {
+          record.code = JSON.parse(record.code);
+        } catch (e) {
+          // If parsing fails, keep as is
+          console.log(
+            `Failed to parse code for ${record.question_id}:`,
+            e.message
+          );
+        }
+      }
+      return record;
+    });
+
     res.json({
       success: true,
       data: {
-        progress: result.rows,
+        progress: progressWithParsedCode,
       },
     });
   } catch (error) {
@@ -4969,4 +5031,3 @@ const PORT = process.env.PORT || 5002;
     process.exit(1);
   }
 })();
-

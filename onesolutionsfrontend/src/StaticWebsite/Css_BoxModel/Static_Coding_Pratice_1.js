@@ -1,6 +1,5 @@
 "use client";
 
-// Static_Coding_Practice_1.js
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
@@ -16,13 +15,13 @@ const Static_Coding_Practice_1 = () => {
     codingPracticeProgress,
     loadProgressSummary,
     markSubtopicComplete,
-    completedContent,
     loadProgressSummary: refreshProgress,
   } = useAuth();
 
   const [selectedPractice, setSelectedPractice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
+  const [progressData, setProgressData] = useState({});
 
   const {
     goalName: stateGoalName,
@@ -34,65 +33,92 @@ const Static_Coding_Practice_1 = () => {
   const courseName = stateCourseName;
   const finalSubtopicId = codingPracticeSubtopicId;
 
+  // Load progress data
+  const loadProgressData = useCallback(async () => {
+    try {
+      console.log("🔄 Loading progress data...");
+
+      // Load overall progress summary
+      await loadProgressSummary();
+
+      // Load specific practice progress
+      const response = await CodingPracticeService.getAllProgress();
+      if (response.success) {
+        const progressMap = {};
+        response.data.progress.forEach((prog) => {
+          progressMap[prog.question_id] = prog;
+        });
+        setProgressData(progressMap);
+        console.log(
+          "✅ Progress data loaded:",
+          Object.keys(progressMap).length,
+          "items"
+        );
+      }
+
+      // Load completion status for all static practices
+      const completionStatus = {};
+      for (const practice of codingPracticesData.static) {
+        try {
+          const response = await CodingPracticeService.getCompletionStatus(
+            practice.id
+          );
+          if (response.success) {
+            completionStatus[practice.id] = response.data.isCompleted;
+          }
+        } catch (error) {
+          console.error(
+            `Failed to check completion for ${practice.id}:`,
+            error
+          );
+          completionStatus[practice.id] = false;
+        }
+      }
+      setPracticeCompletionStatus(completionStatus);
+    } catch (error) {
+      console.error("❌ Failed to load progress data:", error);
+    }
+  }, [loadProgressSummary]);
+
+  // Load practice
   useEffect(() => {
     const practice1 = codingPracticesData.static.find(
       (p) => p.id === "static-coding-practice-1"
     );
     if (practice1) {
       setSelectedPractice(practice1);
-      console.log("[v0] Loaded practice:", practice1.id);
+      console.log("✅ Loaded practice:", practice1.id);
     }
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
 
+  // Load progress on mount and when practice changes
   useEffect(() => {
-    const loadProgressData = async () => {
-      try {
-        setLoading(true);
-        await loadProgressSummary();
-
-        if (selectedPractice) {
-          const completionStatus = {};
-          for (const practice of codingPracticesData.static) {
-            try {
-              const response = await CodingPracticeService.getCompletionStatus(
-                practice.id
-              );
-              if (response.success) {
-                completionStatus[practice.id] = response.data.isCompleted;
-              }
-            } catch (error) {
-              console.error(
-                `Failed to check completion for ${practice.id}:`,
-                error
-              );
-              completionStatus[practice.id] = false;
-            }
-          }
-          setPracticeCompletionStatus(completionStatus);
-        }
-      } catch (error) {
-        console.error("Failed to load progress data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProgressData();
-  }, [selectedPractice, loadProgressSummary]);
+    if (selectedPractice) {
+      loadProgressData();
+    }
+  }, [selectedPractice, loadProgressData]);
 
   const getQuestionStatus = useCallback(
     (questionId) => {
-      return codingPracticeProgress[questionId]?.status || "unsolved";
+      return (
+        progressData[questionId]?.status ||
+        codingPracticeProgress[questionId]?.status ||
+        "unsolved"
+      );
     },
-    [codingPracticeProgress]
+    [progressData, codingPracticeProgress]
   );
 
   const getQuestionScore = useCallback(
     (questionId) => {
-      return codingPracticeProgress[questionId]?.score || 0;
+      return (
+        progressData[questionId]?.score ||
+        codingPracticeProgress[questionId]?.score ||
+        0
+      );
     },
-    [codingPracticeProgress]
+    [progressData, codingPracticeProgress]
   );
 
   const isPracticeCompleted = useCallback(
@@ -112,6 +138,7 @@ const Static_Coding_Practice_1 = () => {
     [getQuestionStatus]
   );
 
+  // Auto-complete practice when all questions are solved
   useEffect(() => {
     const autoCompletePractice = async () => {
       if (
@@ -120,25 +147,30 @@ const Static_Coding_Practice_1 = () => {
         !isPracticeCompleted(selectedPractice.id)
       ) {
         try {
-          console.log("[v0] All questions solved, marking practice complete");
+          console.log("🎉 All questions solved, marking practice complete");
           await CodingPracticeService.completePractice(
             selectedPractice.id,
             goalName,
             courseName
           );
 
-          await markSubtopicComplete(finalSubtopicId, goalName, courseName);
+          if (finalSubtopicId) {
+            await markSubtopicComplete(finalSubtopicId, goalName, courseName);
+          }
 
           await refreshProgress();
+
+          // Reload progress data
+          await loadProgressData();
 
           setPracticeCompletionStatus((prev) => ({
             ...prev,
             [selectedPractice.id]: true,
           }));
 
-          console.log("[v0] Practice marked complete");
+          console.log("✅ Practice marked complete");
         } catch (error) {
-          console.error("[v0] Failed to mark practice complete:", error);
+          console.error("❌ Failed to mark practice complete:", error);
         }
       }
     };
@@ -150,6 +182,7 @@ const Static_Coding_Practice_1 = () => {
     isPracticeCompleted,
     markSubtopicComplete,
     refreshProgress,
+    loadProgressData,
     finalSubtopicId,
     goalName,
     courseName,

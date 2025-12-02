@@ -1,8 +1,7 @@
-// ================================
-// CODING PRACTICE SERVICE
-// ================================
+// services/codingPracticeService.js
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5002";
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
 
 class CodingPracticeService {
   // Save question progress
@@ -17,7 +16,7 @@ class CodingPracticeService {
   ) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/coding-practice/save-progress`,
+        `${API_BASE_URL}/api/coding-practice/save-progress`,
         {
           method: "POST",
           headers: {
@@ -35,7 +34,6 @@ class CodingPracticeService {
           }),
         }
       );
-
       if (!response.ok) throw new Error("Failed to save progress");
       return await response.json();
     } catch (error) {
@@ -48,14 +46,13 @@ class CodingPracticeService {
   static async getQuestionProgress(questionId) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/coding-practice/question/${questionId}`,
+        `${API_BASE_URL}/api/coding-practice/question/${questionId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
       if (!response.ok) throw new Error("Failed to fetch question progress");
       return await response.json();
     } catch (error) {
@@ -67,12 +64,14 @@ class CodingPracticeService {
   // Get all practice progress
   static async getAllProgress() {
     try {
-      const response = await fetch(`${API_BASE_URL}/coding-practice/progress`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-
+      const response = await fetch(
+        `${API_BASE_URL}/api/coding-practice/progress`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (!response.ok) throw new Error("Failed to fetch practice progress");
       return await response.json();
     } catch (error) {
@@ -85,7 +84,7 @@ class CodingPracticeService {
   static async completePractice(practiceId, goalName, courseName) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/coding-practice/complete-practice`,
+        `${API_BASE_URL}/api/coding-practice/complete-practice`,
         {
           method: "POST",
           headers: {
@@ -99,7 +98,6 @@ class CodingPracticeService {
           }),
         }
       );
-
       if (!response.ok) throw new Error("Failed to complete practice");
       return await response.json();
     } catch (error) {
@@ -112,14 +110,13 @@ class CodingPracticeService {
   static async getCompletionStatus(practiceId) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/coding-practice/completion/${practiceId}`,
+        `${API_BASE_URL}/api/coding-practice/completion/${practiceId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
       if (!response.ok) throw new Error("Failed to fetch completion status");
       return await response.json();
     } catch (error) {
@@ -132,14 +129,13 @@ class CodingPracticeService {
   static async getPracticeSummary(practiceId) {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/coding-practice/summary/${practiceId}`,
+        `${API_BASE_URL}/api/coding-practice/summary/${practiceId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-
       if (!response.ok) throw new Error("Failed to fetch practice summary");
       return await response.json();
     } catch (error) {
