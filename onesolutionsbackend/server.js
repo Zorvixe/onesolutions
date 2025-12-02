@@ -4971,6 +4971,27 @@ app.get("/uploads/videos/:filename", async (req, res) => {
   }
 });
 
+
+// ==========================
+// IMAGE UPLOAD ROUTE
+// ==========================
+app.post("/api/projects/images/upload-image", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "No file uploaded",
+    });
+  }
+
+  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+
+  res.json({
+    success: true,
+    message: "Image uploaded successfully",
+    url: imageUrl,
+  });
+});
+
 // Handle 404 routes
 app.use("*", (req, res) => {
   res.status(404).json({
