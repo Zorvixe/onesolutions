@@ -352,6 +352,7 @@ function Landing() {
                 >
                   <a href="/feedback">Feedback</a>
                   <a href="/student_list">Student List</a>
+                  <a href="/image_manager">Image Manager</a>
                 </div>
               </div>
             </div>

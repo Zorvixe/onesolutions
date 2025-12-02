@@ -85,6 +85,17 @@ const upload = multer({
   limits: { fileSize: 2 * 1024 * 1024 * 1024 }, // 2GB
 });
 
+const storageAdmin = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "admin_uploads/");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const uploadAdmin = multer({ storage: storageAdmin });
+
 // Enhanced storage configuration for videos
 const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -169,6 +180,10 @@ app.options("*", cors());
 
 app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
+app.use(
+  "/admin_uploads",
+  express.static(path.join(__dirname, "admin_uploads"))
+);
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -4971,24 +4986,80 @@ app.get("/uploads/videos/:filename", async (req, res) => {
   }
 });
 
-
 // ==========================
 // IMAGE UPLOAD ROUTE
 // ==========================
-app.post("/api/projects/images/upload-image", upload.single("image"), (req, res) => {
-  if (!req.file) {
+app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
+  const imageUrl = `${req.protocol}://${req.get("host")}/admin_uploads/${
+    req.file.filename
+  }`;
+  res.json({ success: true, url: imageUrl });
+});
+
+app.get("/api/admin/images", (req, res) => {
+  const folder = path.join(__dirname, "admin_uploads");
+
+  fs.readdir(folder, (err, files) => {
+    if (err) return res.status(500).json({ success: false });
+
+    const baseUrl = `${req.protocol}://${req.get("host")}/admin_uploads/`;
+    const images = files.map((file) => baseUrl + file);
+
+    res.json({ success: true, images });
+  });
+});
+
+app.delete("/api/admin/delete-image", (req, res) => {
+  const { filename } = req.body;
+
+  if (!filename) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Filename required" });
+  }
+
+  const filePath = path.join(__dirname, "admin_uploads", filename);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to delete file",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Image deleted successfully",
+    });
+  });
+});
+app.put("/api/admin/rename-image", (req, res) => {
+  const { oldName, newName } = req.body;
+
+  if (!oldName || !newName) {
     return res.status(400).json({
       success: false,
-      message: "No file uploaded",
+      message: "Both oldName and newName are required",
     });
   }
 
-  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+  const oldPath = path.join(__dirname, "admin_uploads", oldName);
+  const newPath = path.join(__dirname, "admin_uploads", newName);
 
-  res.json({
-    success: true,
-    message: "Image uploaded successfully",
-    url: imageUrl,
+  fs.rename(oldPath, newPath, (err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to rename file",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "File renamed successfully",
+      url: `${req.protocol}://${req.get("host")}/admin_uploads/${newName}`,
+    });
   });
 });
 
