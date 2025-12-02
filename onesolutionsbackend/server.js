@@ -503,7 +503,6 @@ const generateToken = (id) => {
   });
 };
 
-
 // ==========================
 // IMAGE UPLOAD ROUTE
 // ==========================
@@ -4471,8 +4470,6 @@ app.delete("/api/admin/students/:studentId", async (req, res) => {
     });
   }
 });
-
-
 
 // Get video by subtopic ID
 app.get("/api/class-video/:subtopicId", auth, async (req, res) => {

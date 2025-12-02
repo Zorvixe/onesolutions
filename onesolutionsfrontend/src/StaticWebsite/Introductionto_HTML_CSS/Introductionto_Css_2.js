@@ -12,7 +12,6 @@ const IntroductiontoCss2 = ({
   subtopic,
   moduleName = "Introduction to HTML & CSS",
   topicName = "Introduction to Class Part 2",
-  videoUrl = "https://www.youtube.com/embed/",
   slidesUrl = "https://docs.google.com/presentation/d/1efbSDXIRre8LBuApCXCU9C0_XYuYT9-UR63dancP9KU/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
