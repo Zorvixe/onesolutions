@@ -503,6 +503,84 @@ const generateToken = (id) => {
   });
 };
 
+
+// ==========================
+// IMAGE UPLOAD ROUTE
+// ==========================
+app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
+  const imageUrl = `${req.protocol}://${req.get("host")}/admin_uploads/${
+    req.file.filename
+  }`;
+  res.json({ success: true, url: imageUrl });
+});
+
+app.get("/api/admin/images", (req, res) => {
+  const folder = path.join(__dirname, "admin_uploads");
+
+  fs.readdir(folder, (err, files) => {
+    if (err) return res.status(500).json({ success: false });
+
+    const baseUrl = `${req.protocol}://${req.get("host")}/admin_uploads/`;
+    const images = files.map((file) => baseUrl + file);
+
+    res.json({ success: true, images });
+  });
+});
+
+app.delete("/api/admin/delete-image", (req, res) => {
+  const { filename } = req.body;
+
+  if (!filename) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Filename required" });
+  }
+
+  const filePath = path.join(__dirname, "admin_uploads", filename);
+
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to delete file",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Image deleted successfully",
+    });
+  });
+});
+app.put("/api/admin/rename-image", (req, res) => {
+  const { oldName, newName } = req.body;
+
+  if (!oldName || !newName) {
+    return res.status(400).json({
+      success: false,
+      message: "Both oldName and newName are required",
+    });
+  }
+
+  const oldPath = path.join(__dirname, "admin_uploads", oldName);
+  const newPath = path.join(__dirname, "admin_uploads", newName);
+
+  fs.rename(oldPath, newPath, (err) => {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Failed to rename file",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "File renamed successfully",
+      url: `${req.protocol}://${req.get("host")}/admin_uploads/${newName}`,
+    });
+  });
+});
+
 // -------------------------------------------
 // 🔹 Auth Middleware
 // -------------------------------------------
@@ -4394,82 +4472,7 @@ app.delete("/api/admin/students/:studentId", async (req, res) => {
   }
 });
 
-// ==========================
-// IMAGE UPLOAD ROUTE
-// ==========================
-app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
-  const imageUrl = `${req.protocol}://${req.get("host")}/admin_uploads/${
-    req.file.filename
-  }`;
-  res.json({ success: true, url: imageUrl });
-});
 
-app.get("/api/admin/images", (req, res) => {
-  const folder = path.join(__dirname, "admin_uploads");
-
-  fs.readdir(folder, (err, files) => {
-    if (err) return res.status(500).json({ success: false });
-
-    const baseUrl = `${req.protocol}://${req.get("host")}/admin_uploads/`;
-    const images = files.map((file) => baseUrl + file);
-
-    res.json({ success: true, images });
-  });
-});
-
-app.delete("/api/admin/delete-image", (req, res) => {
-  const { filename } = req.body;
-
-  if (!filename) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Filename required" });
-  }
-
-  const filePath = path.join(__dirname, "admin_uploads", filename);
-
-  fs.unlink(filePath, (err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to delete file",
-      });
-    }
-
-    res.json({
-      success: true,
-      message: "Image deleted successfully",
-    });
-  });
-});
-app.put("/api/admin/rename-image", (req, res) => {
-  const { oldName, newName } = req.body;
-
-  if (!oldName || !newName) {
-    return res.status(400).json({
-      success: false,
-      message: "Both oldName and newName are required",
-    });
-  }
-
-  const oldPath = path.join(__dirname, "admin_uploads", oldName);
-  const newPath = path.join(__dirname, "admin_uploads", newName);
-
-  fs.rename(oldPath, newPath, (err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to rename file",
-      });
-    }
-
-    res.json({
-      success: true,
-      message: "File renamed successfully",
-      url: `${req.protocol}://${req.get("host")}/admin_uploads/${newName}`,
-    });
-  });
-});
 
 // Get video by subtopic ID
 app.get("/api/class-video/:subtopicId", auth, async (req, res) => {
