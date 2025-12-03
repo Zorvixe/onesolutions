@@ -1786,7 +1786,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s17_A0 m14_H g1_7B c3_D2E",
-                name: "Grand Assignment   5",
+                name: "Grand Assignment 5",
               },
             ],
           },

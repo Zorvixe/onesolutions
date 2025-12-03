@@ -190,7 +190,6 @@ app.options("*", cors());
 app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
-// In your server.js, find this section and update it:
 // Serve admin uploaded images statically
 const adminUploadsDir = path.join(__dirname, "admin_uploads");
 // Ensure directory exists
@@ -205,9 +204,10 @@ app.use(
     setHeaders: (res, path) => {
       res.setHeader("Cache-Control", "public, max-age=31536000"); // 1 year cache
       res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+      res.setHeader("Access-Control-Allow-Origin", "*"); // ADD THIS
     },
   })
-); // Serve uploaded files statically
+);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -------------------------------------------
@@ -534,8 +534,11 @@ app.get("/api/admin/images", (req, res) => {
       return res.status(500).json({ success: false, error: err.message });
     }
 
-    // Use the domain without /api prefix for media files
-    const baseUrl = process.env.FRONTEND_URL || "https://onesolutionsekam.in";
+    // Get base URL properly
+    const baseUrl = process.env.FRONTEND_URL_2 || "https://onesolutionsekam.in";
+
+    // Ensure baseUrl ends with slash
+    const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 
     // Filter only image files
     const imageFiles = files.filter((file) =>
@@ -545,7 +548,7 @@ app.get("/api/admin/images", (req, res) => {
     // Create a mapping of display names to actual filenames
     const images = imageFiles.map((file) => ({
       displayName: file,
-      url: `${baseUrl}media/${file}`, // Changed from `${baseUrl}media/${file}`
+      url: `${normalizedBaseUrl}media/${file}`, // FIXED: Add slash between baseUrl and media
       originalPath: file,
     }));
 
@@ -564,10 +567,11 @@ app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
     });
   }
 
-  const baseUrl = process.env.FRONTEND_URL || "https://onesolutionsekam.in";
+  const baseUrl = process.env.FRONTEND_URL_2 || "https://onesolutionsekam.in";
+  const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 
   // Make sure URL starts with http:// or https://
-  const imageUrl = `${baseUrl}media/${req.file.filename}`;
+  const imageUrl = `${normalizedBaseUrl}media/${req.file.filename}`; // FIXED
 
   res.json({
     success: true,
@@ -625,13 +629,13 @@ app.put("/api/admin/rename-image", (req, res) => {
       });
     }
 
-    const baseUrl =
-      process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
+    const baseUrl = process.env.FRONTEND_URL_2 || "https://onesolutionsekam.in";
+    const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 
     res.json({
       success: true,
       message: "File renamed successfully",
-      url: `${baseUrl}media/${newFilename}`,
+      url: `${normalizedBaseUrl}media/${newFilename}`, // FIXED
       filename: newFilename,
     });
   });
@@ -688,8 +692,8 @@ app.get("/api/admin/image/:filename", (req, res) => {
     });
   }
 
-  const baseUrl =
-    process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
+  const baseUrl = process.env.FRONTEND_URL_2 || "https://onesolutionsekam.in";
+  const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
 
   const stats = fs.statSync(filePath);
 
@@ -697,7 +701,7 @@ app.get("/api/admin/image/:filename", (req, res) => {
     success: true,
     data: {
       filename: filename,
-      url: `${baseUrl}media/${filename}`,
+      url: `${normalizedBaseUrl}media/${filename}`, // FIXED
       size: stats.size,
       created: stats.birthtime,
       modified: stats.mtime,
@@ -705,7 +709,6 @@ app.get("/api/admin/image/:filename", (req, res) => {
   });
 });
 
-// Add this test route to verify file access
 app.get("/api/test-images", (req, res) => {
   const folder = path.join(__dirname, "admin_uploads");
 
@@ -718,13 +721,16 @@ app.get("/api/test-images", (req, res) => {
       f.match(/\.(jpg|jpeg|png|gif|webp)$/i)
     );
 
+    const baseUrl = process.env.FRONTEND_URL_2 || "https://onesolutionsekam.in";
+    const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+
     res.json({
       folder,
       totalFiles: files.length,
       imageFiles: imageFiles.length,
       files: imageFiles.slice(0, 5),
       exampleUrl: imageFiles[0]
-        ? `https://onesolutionsekam.in/media/${imageFiles[0]}`
+        ? `${normalizedBaseUrl}media/${imageFiles[0]}` // FIXED HERE TOO
         : "none",
     });
   });

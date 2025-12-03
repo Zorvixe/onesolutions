@@ -386,15 +386,20 @@ import Coding_Pratice_33 from "../Python/IntroductiontoOOP/Coding_Pratice_33.js"
 import OPP_On_Demand_Session from "../Python/IntroductiontoOOP/OPP_On_Demand_Session.js";
 import Python_Standard_Library_Class from "../Python/Miscellaneous/Python_Standard_Library_Class.js";
 import Scope_Namespaces_Class from "../Python/Miscellaneous/Scope_Namespaces_Class.js";
-import Erro
+import Errors_Exceptions_Class from "../Python/Miscellaneous/Errors_Exceptions_Class.js";
+import Dates_Time_Class from "../Python/Miscellaneous/Dates_Time_Class.js";
+import Workingwith_Data_Time_Class from "../Python/Miscellaneous/Workingwith_Data_Time_Class.js";
+import Coding_Pratice_34 from "../Python/Miscellaneous/Coding_Pratice_34.js";
+import Grand_Assignment_5 from "../Python/Miscellaneous/Grand_Assignment_5.js";
 // Map subtopics to their components
 const subtopicComponents = {
-
-  "Scope & Namespaces" : Scope_Namespaces_Class,
-
   "Problem Solving and Debugging Part 7": ProblemSol_Debugging_Class_7,
-  "Errors & Exceptions": 
-
+  "Scope & Namespaces": Scope_Namespaces_Class,
+  "Errors & Exceptions": Errors_Exceptions_Class,
+  "Dates & Time": Dates_Time_Class,
+  "Working with Dates & Times": Workingwith_Data_Time_Class,
+  "Coding Practice 34": Coding_Pratice_34,
+  "Grand Assignment 5": Grand_Assignment_5,
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
   "Type Conversion": Type_Con_Class,
@@ -534,15 +539,15 @@ const subtopicComponents = {
   "Grand Assignment 4": Grand_Assignment_4,
   "Foundations Exam 3": Foundations_Exam_3,
   "Introduction to Object Oriented Programming":
-  Introductionto_OPP_Part_1_Class,
-"Object Oriented Programming": Introductionto_OPP_Part_2_Class,
-"Classes & Objects": Classes_Object_Class,
-"Attribute Methods": Attributes_Methods_Class,
-"Inheritance Part 1": Inheritance_Part_1_Class,
-"Inheritance Part 2": Inheritance_Part_2_Class,
-"Coding Practice 32": Coding_Pratice_32,
-"Coding Practice 33": Coding_Pratice_33,
-"OOP: On Demand Session": OPP_On_Demand_Session,
+    Introductionto_OPP_Part_1_Class,
+  "Object Oriented Programming": Introductionto_OPP_Part_2_Class,
+  "Classes & Objects": Classes_Object_Class,
+  "Attribute Methods": Attributes_Methods_Class,
+  "Inheritance Part 1": Inheritance_Part_1_Class,
+  "Inheritance Part 2": Inheritance_Part_2_Class,
+  "Coding Practice 32": Coding_Pratice_32,
+  "Coding Practice 33": Coding_Pratice_33,
+  "OOP: On Demand Session": OPP_On_Demand_Session,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
