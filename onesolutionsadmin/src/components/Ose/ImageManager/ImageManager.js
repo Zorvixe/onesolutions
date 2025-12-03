@@ -223,27 +223,23 @@ export default function AdminImageManager() {
       return "";
     }
 
-    const parts = filename.split("-");
-    if (parts.length > 1) {
-      const ext = path.extname(filename);
-      const randomPart = parts.slice(1).join("-");
-      const nameWithoutExt = randomPart.replace(ext, "");
+    // Extract just the filename from URL if it's a full URL
+    const fileNameOnly = filename.split("/").pop();
 
-      if (nameWithoutExt.length > 12) {
-        return nameWithoutExt.substring(0, 8) + "..." + ext;
-      }
-      return randomPart;
-    }
+    // Remove timestamp and hash prefix if present
+    const cleanName = fileNameOnly.replace(/^\d+-/, ""); // Remove timestamp prefix
 
-    if (filename.length > 20) {
+    if (cleanName.length > 20) {
+      const extension = cleanName.split(".").pop();
+      const nameWithoutExt = cleanName.substring(0, cleanName.lastIndexOf("."));
       return (
-        filename.substring(0, 10) +
+        nameWithoutExt.substring(0, 15) +
         "..." +
-        filename.substring(filename.length - 8)
+        (extension ? "." + extension : "")
       );
     }
 
-    return filename;
+    return cleanName;
   };
 
   const formatFileSize = (bytes) => {

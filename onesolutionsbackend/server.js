@@ -193,8 +193,21 @@ app.use(express.urlencoded({ limit: "2gb", extended: true }));
 // In your server.js, find this section and update it:
 // Serve admin uploaded images statically
 const adminUploadsDir = path.join(__dirname, "admin_uploads");
-app.use("/media", express.static(adminUploadsDir));
-// Serve uploaded files statically
+// Ensure directory exists
+if (!fs.existsSync(adminUploadsDir)) {
+  fs.mkdirSync(adminUploadsDir, { recursive: true });
+}
+
+// Serve static files with proper caching headers
+app.use(
+  "/media",
+  express.static(adminUploadsDir, {
+    setHeaders: (res, path) => {
+      res.setHeader("Cache-Control", "public, max-age=31536000"); // 1 year cache
+      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+    },
+  })
+); // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -------------------------------------------
@@ -512,16 +525,17 @@ const generateToken = (id) => {
   });
 };
 
-// GET all images
 app.get("/api/admin/images", (req, res) => {
   const folder = path.join(__dirname, "admin_uploads");
 
   fs.readdir(folder, (err, files) => {
-    if (err) return res.status(500).json({ success: false });
+    if (err) {
+      console.error("Error reading uploads directory:", err);
+      return res.status(500).json({ success: false, error: err.message });
+    }
 
-    // Use FRONTEND_URL if available, otherwise use the request's host
-    const baseUrl =
-      process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
+    // Use the domain without /api prefix for media files
+    const baseUrl = process.env.FRONTEND_URL || "https://onesolutionsekam.in";
 
     // Filter only image files
     const imageFiles = files.filter((file) =>
@@ -530,28 +544,30 @@ app.get("/api/admin/images", (req, res) => {
 
     // Create a mapping of display names to actual filenames
     const images = imageFiles.map((file) => ({
-      displayName: file, // This is the random filename
-      url: `${baseUrl}media/${file}`,
+      displayName: file,
+      url: `${baseUrl}/media/${file}`, // Changed from `${baseUrl}media/${file}`
       originalPath: file,
     }));
 
+    console.log(
+      `Found ${images.length} images, first URL: ${images[0]?.url || "none"}`
+    );
     res.json({ success: true, images });
   });
 });
 
-// POST upload image
 app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
   if (!req.file) {
-    return res
-      .status(400)
-      .json({ success: false, message: "No file uploaded" });
+    return res.status(400).json({
+      success: false,
+      message: "No file uploaded",
+    });
   }
 
-  const baseUrl =
-    process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
+  const baseUrl = process.env.FRONTEND_URL || "https://onesolutionsekam.in";
 
-  // The filename is already random from multer storage
-  const imageUrl = `${baseUrl}media/${req.file.filename}`;
+  // Make sure URL starts with http:// or https://
+  const imageUrl = `${baseUrl}/media/${req.file.filename}`;
 
   res.json({
     success: true,
@@ -686,6 +702,31 @@ app.get("/api/admin/image/:filename", (req, res) => {
       created: stats.birthtime,
       modified: stats.mtime,
     },
+  });
+});
+
+// Add this test route to verify file access
+app.get("/api/test-images", (req, res) => {
+  const folder = path.join(__dirname, "admin_uploads");
+
+  fs.readdir(folder, (err, files) => {
+    if (err) {
+      return res.json({ error: err.message, folder });
+    }
+
+    const imageFiles = files.filter((f) =>
+      f.match(/\.(jpg|jpeg|png|gif|webp)$/i)
+    );
+
+    res.json({
+      folder,
+      totalFiles: files.length,
+      imageFiles: imageFiles.length,
+      files: imageFiles.slice(0, 5),
+      exampleUrl: imageFiles[0]
+        ? `https://onesolutionsekam.in/media/${imageFiles[0]}`
+        : "none",
+    });
   });
 });
 
