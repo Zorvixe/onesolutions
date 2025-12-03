@@ -301,6 +301,7 @@ body {
   font-weight: 700;
   font-size: 0.85rem;
   outline: 2px solid #dbeafe;
+  cursor: pointer;
 }
 
 .profile-header {
