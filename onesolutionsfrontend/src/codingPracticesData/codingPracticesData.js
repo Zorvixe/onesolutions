@@ -1931,21 +1931,42 @@ export const codingPracticesData = {
           title: "Check one greater",
           difficulty: "Easy",
           description:
-            "Write a program that ",
-          sampleInput: "8\n7",
-          sampleOutput: "A > B is True",
+            "Write a program that reads two numbers(integer) A and B,and checks if B is greater than A by `one`.",
+          sampleInput: "5\n6",
+          sampleOutput: "True",
           testCases: [
-            { input: "40\n39", output: "A > B is True", visible: true },
-            { input: "87\n100", output: "A > B is False", visible: true },
-            { input: "60\n29", output: "A > B is True", visible: false },
-            { input: "30\n20", output: "A > B is True", visible: false },
-            { input: "90\n10", output: "A > B is True", visible: false },
+            { input: "40\n39", output: "False", visible: true },
+            { input: "81\n82", output: "True", visible: true },
+            { input: "60\n91", output: "False", visible: false },
+            { input: "30\n40", output: "False", visible: false },
+            { input: "90\n91", output: "True", visible: false },
           ],
           defaultCode: ``,
           score: 10,
           status: "unsolved",
           attempts: [],
-        }
+        },
+        {
+          id: "q-python-2B-003",
+          title: "Compare first and last letters",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and checks if the first letter and last letter of the word are not the same.\nInput:The input will be a single line containing a string.\nOutput:Output should be a single line containing a boolean.True should be printed if the first letter and last letter of the word are not same,otherwise False should be printed.",
+          sampleInput: "python",
+          sampleOutput: "True",
+          testCases: [
+            { input: "label", output: "False", visible: true },
+            { input: "gagan", output: "True", visible: true },
+            { input: "label", output: "False", visible: false },
+            { input: "label", output: "False", visible: false },
+            { input: "label", output: "False", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+       
         
       ],
     }

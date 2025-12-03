@@ -1708,7 +1708,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s20_A0 m13_H g1_7B c3_D2E",
-                name: "Coding Practice   33",
+                name: "Coding Practice 33",
               },
               {
                 id: "QW9_s21_A0 m13_H g1_7B c3_D2E",

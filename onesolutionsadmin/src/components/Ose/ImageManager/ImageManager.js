@@ -456,9 +456,6 @@ export default function AdminImageManager() {
                       <div className="file-size">
                         {formatFileSize(file?.size || 0)}
                       </div>
-                      <div className="file-type">
-                        Will be saved as: <strong>random-name.jpg</strong>
-                      </div>
                     </div>
                     {!uploading && (
                       <button
@@ -472,7 +469,7 @@ export default function AdminImageManager() {
                           }
                         }}
                       >
-                        <i className="fas fa-times"></i>
+                        <span className="preview-close">X</span>
                       </button>
                     )}
                   </div>

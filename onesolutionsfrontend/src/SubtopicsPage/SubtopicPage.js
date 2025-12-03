@@ -380,10 +380,20 @@ import Introductionto_OPP_Part_2_Class from "../Python/IntroductiontoOOP/Introdu
 import Classes_Object_Class from "../Python/IntroductiontoOOP/Classes_Object_Class.js";
 import Attributes_Methods_Class from "../Python/IntroductiontoOOP/Attributes_Methods_Class.js";
 import Inheritance_Part_1_Class from "../Python/IntroductiontoOOP/Inheritance_Part_1_Class.js";
+import Inheritance_Part_2_Class from "../Python/IntroductiontoOOP/Inheritance_Part_2_Class.js";
 import Coding_Pratice_32 from "../Python/IntroductiontoOOP/Coding_Pratice_32.js";
+import Coding_Pratice_33 from "../Python/IntroductiontoOOP/Coding_Pratice_33.js";
 import Python_Standard_Library_Class from "../Python/Miscellaneous/Python_Standard_Library_Class.js";
 // Map subtopics to their components
 const subtopicComponents = {
+  "Introduction to Object Oriented Programming":
+    Introductionto_OPP_Part_1_Class,
+  "Object Oriented Programming": Introductionto_OPP_Part_2_Class,
+  "Classes & Objects": Classes_Object_Class,
+  "Attribute Methods": Attributes_Methods_Class,
+  "Inheritance Part 1": Inheritance_Part_1_Class,
+  "Inheritance Part 2": Inheritance_Part_2_Class,
+  "Coding Practice 33": Coding_Pratice_33,
   "Problem Solving and Debugging Part 7": ProblemSol_Debugging_Class_7,
 
   //Python Coding & Class

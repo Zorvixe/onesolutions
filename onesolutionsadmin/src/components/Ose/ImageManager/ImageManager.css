@@ -336,10 +336,85 @@
   margin: 0;
   font-size: 20px;
   font-weight: 700;
+  color: #ffffff;
+}
+
+.close-btn {
+  color: #fff;
+  background: none;
+  border: none;
 }
 
 .modal-body {
   padding: 26px;
+}
+
+.file-name {
+  color: #000000;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  position: relative; /* 🔥 Needed for top-right close btn */
+}
+
+/* Image preview left */
+.file-preview {
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* File details right */
+.file-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #000000;
+}
+
+/* Top-right close button */
+.remove-file-btn {
+  position: absolute;
+  top: -35px;
+  right: -10px;
+  background: #e76b6b; /* light red background */
+  color: #ffffff; /* white icon */
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+.preview-close {
+  color: #fff !important;
+}
+
+.remove-file-btn:hover {
+  background: #e01c1c; /* darker red on hover */
+}
+
+/* Fix invalid selector in your code */
+.file-info.show {
+  display: flex;
+}
+
+.file-info show {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .file-drop-area {
@@ -376,25 +451,8 @@
   font-weight: 600;
 }
 
-.file-info {
-  display: none;
-  align-items: center;
-  gap: 10px;
-  padding: 14px;
-  background: #f8f9fa;
-  border-radius: 10px;
-  margin-bottom: 20px;
-}
-
 .file-info.show {
   display: flex;
-}
-
-.file-preview {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  object-fit: cover;
 }
 
 .modal-actions {
@@ -417,6 +475,7 @@
 }
 
 .btn-secondary:hover {
+  background: none !important;
   border-color: #667eea;
   color: #667eea;
 }

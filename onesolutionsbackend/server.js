@@ -191,8 +191,9 @@ app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
 // In your server.js, find this section and update it:
-app.use("/media", express.static(path.join(__dirname, "admin_uploads")));
-
+// Serve admin uploaded images statically
+const adminUploadsDir = path.join(__dirname, "admin_uploads");
+app.use("/media", express.static(adminUploadsDir));
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
