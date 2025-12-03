@@ -5,16 +5,15 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
-const Workingwith_Data_Time_Class = ({
+const Coding_Pratice_Walkthough = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Miscellaneous Topics",
-  topicName = "Working with Dates & Times",
+  moduleName = "Introduction to Python",
+  topicName = "Coding Practice Walkthrough | Part 1",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1fjN0VLTY0elgHlF4ALtEcmr0MZb9sluPj3n39AzbB4Q/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1ITBg6t2NRBFR8MAmrdvaVFrujOT2puaKbg9lZmjGaQ8/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +613,4 @@ const Workingwith_Data_Time_Class = ({
     </div>
   );
 };
-export default Workingwith_Data_Time_Class;
+export default Coding_Pratice_Walkthough;

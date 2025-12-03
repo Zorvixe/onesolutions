@@ -1898,7 +1898,7 @@ export const codingPracticesData = {
           score: 10,
           status: "unsolved",
           attempts: [],
-        }
+        },
       ],
     },
     {
@@ -2031,25 +2031,70 @@ export const codingPracticesData = {
           title: "Check Part of a String",
           difficulty: "Easy",
           description:
-            "Write a program that reads two words A,B,and an Index I.Check if B starts at index I in",
-          sampleInput: "blackhole\nhole",
+            "Write a program that reads two words `A`,`B`,and an Index `I`.Check if `B` starts at index `I` in `A`",
+          sampleInput: "black\nack\n2",
           sampleOutput: "True",
           testCases: [
-            { input: "holesale\nsale", output: "True", visible: true },
-            { input: "volleyball\nval", output: "False", visible: true },
-            { input: "carll\ncar", output: "False", visible: false },
-            { input: "axell\nax", output: "False", visible: false },
-            { input: "abchdh\nav", output: "False", visible: false },
+            { input: "black\nack\n2", output: "True", visible: true },
+            { input: "volleyball\nval\n3", output: "False", visible: true },
+            { input: "black\nack\n2", output: "True", visible: false },
+            { input: "black\nack\n2", output: "True", visible: false },
+            { input: "black\nack\n2", output: "True", visible: false },
           ],
           defaultCode: ``,
           score: 10,
           status: "unsolved",
           attempts: [],
-        }
-       
-        
+        },
+        {
+          id: "q-python-2B-008",
+          title: "Compare first three characters",
+          difficulty: "Easy",
+          description:
+            "Write a program to check if the first three characters in the two given strings are the same.",
+          sampleInput: "apple\napps",
+          sampleOutput: "True",
+          testCases: [
+            { input: "rabbit\nrabbis", output: "True", visible: true },
+            { input: "catt\ncammel", output: "False", visible: true },
+            { input: "book\nblood", output: "False", visible: false },
+            { input: "calcium\nbed", output: "False", visible: false },
+            { input: "mango\nmanage", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
-    }
+    },
+    {
+      id: "Codingpractice-python-Assignment-2A",
+      title: "Assignment-2A",
+      description: "Operators and Conditional Statements",
+      questions: [
+        {
+          id: "q-python-Assignment-2A-001",
+          title: "Compare digits",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a two-digit number N and checks,if the number N is greater than 25.if the first digit of N is greater than the second digit of N.",
+          sampleInput: "85",
+          sampleOutput: "True\nTrue",
+          testCases: [
+            { input: "68", output: "True\nFalse", visible: true },
+            { input: "14", output: "False\nFalse", visible: true },
+            { input: "68", output: "True\nFalse", visible: false },
+            { input: "68", output: "True\nFalse", visible: false },
+            { input: "68", output: "True\nFalse", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
   ],
 
   javascript: [
@@ -2117,13 +2162,13 @@ export const codingPracticesData = {
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below image.</p>
-              <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_1" class="desc-que-img" />
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316021/Coding_Practice_-1-todolist-001_hy94wb.png" class="desc-que-img" />
               <p class="desc-que-blue">Note:</p>
               <p class="">Try to achieve the design as close as possible.</p>
               <p class="desc-que-blue">Resources</p>
               <p class="">Use this background image,</p>
-              <p>URL: <a href="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2">http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2</a></p>
-              <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2" class="desc-que-img" />
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png</a></p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png" class="desc-que-img" />
               <p class="desc-que-blue">CSS Colors used:</p>
               <p class="">Background color for button:</p>
               <ul>
@@ -2218,13 +2263,13 @@ export const codingPracticesData = {
           descriptionDetails: `
           <div class="desc-question-details">
             <p class="desc-que-blue">Refer to the below image.</p>
-            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316021/Coding_Practice_-1-todolist-001_hy94wb.png" class="desc-que-img" />
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766519/static_website_chat_page_pmxf3c.png" class="desc-que-img" />
             <p class="desc-que-blue">Note:</p>
             <p class="">Try to achieve the design as close as possible.</p>
             <p class="desc-que-blue">Resources</p>
             <p class="">Use this background image,</p>
-            <p>URL: <a href="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2">http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2</a></p>
-            <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2" class="desc-que-img" />
+            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png</a></p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png" class="desc-que-img" />
             <p class="desc-que-blue">CSS Colors used:</p>
             <p class="">Background color for button:</p>
             <ul>
@@ -2350,8 +2395,8 @@ export const codingPracticesData = {
             <p class="">Try to achieve the design as close as possible.</p>
             <p class="desc-que-blue">Resources</p>
             <p class="">Use this background image,</p>
-            <p>URL: <a href="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2">http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2</a></p>
-            <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2" class="desc-que-img" />
+            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png</a></p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png" class="desc-que-img" />
             <p class="desc-que-blue">CSS Colors used:</p>
             <p class="">Background color for button:</p>
             <ul>

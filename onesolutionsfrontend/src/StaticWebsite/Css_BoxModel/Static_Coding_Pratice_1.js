@@ -121,6 +121,22 @@ const Static_Coding_Practice_1 = () => {
     [progressData, codingPracticeProgress]
   );
 
+  const getQuestionAttempts = useCallback(
+    (questionId) => {
+      const progress = codingPracticeProgress[questionId];
+      if (!progress) return [];
+
+      return [
+        {
+          passed: progress.status === "solved",
+          score: progress.score,
+          timestamp: new Date().toISOString(),
+        },
+      ];
+    },
+    [codingPracticeProgress]
+  );
+
   const isPracticeCompleted = useCallback(
     (practiceId) => {
       return practiceCompletionStatus[practiceId] || false;
@@ -258,18 +274,27 @@ const Static_Coding_Practice_1 = () => {
                     <th>Question</th>
                     <th>Difficulty</th>
                     <th>Score</th>
+                    <th>Progress</th>
                   </tr>
                 </thead>
                 <tbody>
                   {selectedPractice.questions.map((question) => {
                     const status = getQuestionStatus(question.id);
                     const score = getQuestionScore(question.id);
-
+                    const attempts = getQuestionAttempts(question.id);
+                    const lastAttempt =
+                      attempts.length > 0
+                        ? attempts[attempts.length - 1]
+                        : null;
                     return (
                       <tr
                         key={question.id}
                         className={`question-row-cod ${
-                          status === "solved" ? "solved-cod" : ""
+                          status === "solved"
+                            ? "solved-cod"
+                            : status === "attempted"
+                            ? "attempted-cod"
+                            : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
@@ -300,6 +325,38 @@ const Static_Coding_Practice_1 = () => {
                             ? `${score}/${question.score}`
                             : `0/${question.score}`}{" "}
                           pts
+                        </td>
+
+                        <td className="progress-cell-cod">
+                          {lastAttempt ? (
+                            <div className="progress-info-cod">
+                              <span
+                                className={`attempt-status-cod ${
+                                  lastAttempt.passed
+                                    ? "passed-cod"
+                                    : "failed-cod"
+                                }`}
+                              >
+                                {lastAttempt.passed ? "Passed" : "Failed"}
+                              </span>
+                              <div className="progress-bar-cod">
+                                <div
+                                  className={`progress-fill-cod ${
+                                    lastAttempt.passed
+                                      ? "passed-fill-cod"
+                                      : "failed-fill-cod"
+                                  }`}
+                                  style={{
+                                    width: lastAttempt.passed ? "100%" : "50%",
+                                  }}
+                                ></div>
+                              </div>
+                            </div>
+                          ) : (
+                            <span className="no-attempts-cod">
+                              Not attempted
+                            </span>
+                          )}
                         </td>
                       </tr>
                     );

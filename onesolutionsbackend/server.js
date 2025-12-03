@@ -53,14 +53,6 @@ app.use(
   })
 );
 
-// Function to generate random string for filename
-const generateRandomFilename = (originalname) => {
-  const ext = path.extname(originalname);
-  const randomString = crypto.randomBytes(16).toString("hex");
-  const timestamp = Date.now();
-  return `${timestamp}-${randomString}${ext}`;
-};
-
 // -------------------------------------------
 // 🔹 Multer Configuration for Video Uploads (FIXED)
 // -------------------------------------------
@@ -92,18 +84,6 @@ const upload = multer({
   fileFilter: fileFilter,
   limits: { fileSize: 2 * 1024 * 1024 * 1024 }, // 2GB
 });
-
-// Update the storage configuration
-const storageAdmin = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "admin_uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, generateRandomFilename(file.originalname));
-  },
-});
-
-const uploadAdmin = multer({ storage: storageAdmin });
 
 // Enhanced storage configuration for videos
 const videoStorage = multer.diskStorage({
@@ -190,24 +170,6 @@ app.options("*", cors());
 app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
-// Serve admin uploaded images statically
-const adminUploadsDir = path.join(__dirname, "admin_uploads");
-// Ensure directory exists
-if (!fs.existsSync(adminUploadsDir)) {
-  fs.mkdirSync(adminUploadsDir, { recursive: true });
-}
-
-// Serve static files with proper caching headers
-app.use(
-  "/media",
-  express.static(adminUploadsDir, {
-    setHeaders: (res, path) => {
-      res.setHeader("Cache-Control", "public, max-age=31536000"); // 1 year cache
-      res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-      res.setHeader("Access-Control-Allow-Origin", "*"); // ADD THIS
-    },
-  })
-);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // -------------------------------------------

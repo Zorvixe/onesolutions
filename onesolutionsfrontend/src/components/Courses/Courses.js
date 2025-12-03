@@ -145,37 +145,35 @@ export default function Courses() {
 
   // ✅ Enhanced subtopic click handler with comprehensive lock check
   // ✅ Enhanced subtopic click handler with proper navigation
-const handleSubtopicClick = (
-  moduleId,
-  subtopicId,
-  subtopicName,
-  goalName,
-  courseName,
-  goalIndex
-) => {
-  // Don't allow clicking subtopics in locked goals
-  if (isGoalLocked(goalIndex)) {
-    showLockedMessage();
-    return;
-  }
-
-  setSelectedSubtopic(subtopicName);
-
-  // Navigate to subtopic with all necessary parameters
-  navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
-    state: {
-      moduleId,
-      subtopicId,
-      subtopicName,
-      goalName,
-      courseName,
-      goalIndex,
-      fromCourse: true
+  const handleSubtopicClick = (
+    moduleId,
+    subtopicId,
+    subtopicName,
+    goalName,
+    courseName,
+    goalIndex
+  ) => {
+    // Don't allow clicking subtopics in locked goals
+    if (isGoalLocked(goalIndex)) {
+      showLockedMessage();
+      return;
     }
-  });
-};
 
-  
+    setSelectedSubtopic(subtopicName);
+
+    // Navigate to subtopic with all necessary parameters
+    navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
+      state: {
+        moduleId,
+        subtopicId,
+        subtopicName,
+        goalName,
+        courseName,
+        goalIndex,
+        fromCourse: true,
+      },
+    });
+  };
 
   const getSubtopicContent = (subtopic) => {
     return <p>Content for {subtopic}</p>;

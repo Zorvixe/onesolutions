@@ -238,6 +238,7 @@ import Responsive_Course_Exam_Instructions from "../ResponsiveWebsite/Responsive
 import Responsive_Course_Exam from "../ResponsiveWebsite/Responsive_Course_Exam/Responsive_Course_Exam.js";
 
 //Python Coding & Class
+import Coding_Pratice_Walkthough from "../Python/IntroductiontoPython/Coding_Pratice_Walkthough.js";
 import Inp_Oup_Basics_Class from "../Python/Inp_Oup_Basiscs/Inp_Oup_Basics_Class.js";
 import Type_Con_Class from "../Python/Inp_Oup_Basiscs/Type_Con_Class.js";
 import Pro_W_P_Class from "../Python/IntroductiontoPython/Pro_W_P_Class.js";
@@ -399,8 +400,10 @@ const subtopicComponents = {
   "Dates & Time": Dates_Time_Class,
   "Working with Dates & Times": Workingwith_Data_Time_Class,
   "Coding Practice 34": Coding_Pratice_34,
+
   "Grand Assignment 5": Grand_Assignment_5,
   //Python Coding & Class
+  "Coding Practice Walkthrough | Part 1": Coding_Pratice_Walkthough,
   "Input and Output Basics": Inp_Oup_Basics_Class,
   "Type Conversion": Type_Con_Class,
   "Programming with Python": Pro_W_P_Class,

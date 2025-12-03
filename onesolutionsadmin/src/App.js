@@ -29,7 +29,6 @@ import StudentRegister from "./components/Ose/Student_Register/Register";
 import AdminFeedbackPanel from "./components/Ose/AdminFeedbackPanel/AdminFeedbackPanel";
 import StudentList from "./components/Ose/Student/StudentList";
 import VideoManagement from "./components/Ose/ClassVideoManagement/ClassVideoManagement";
-import ImageManager from "./components/Ose/ImageManager/ImageManager";
 
 import "./App.css";
 
@@ -79,7 +78,6 @@ function App() {
               <Route path="/feedback" element={<AdminFeedbackPanel />} />
               <Route path="/student_list" element={<StudentList />} />
               <Route path="/Video_Management" element={<VideoManagement />} />
-              <Route path="/image_manager" element={<ImageManager />} />
 
               {/* OJB routes */}
               <Route

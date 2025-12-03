@@ -181,7 +181,7 @@
 }
 
 .question-title-cell-cod {
-  min-width: 300px;
+  min-width: 150px !important;
 }
 
 .question-title-main-cod {
@@ -207,7 +207,6 @@
   font-size: 13px;
   line-height: 1.4;
   white-space: pre-line;
-
 }
 
 .difficulty-cell-cod {
@@ -238,7 +237,7 @@
 }
 
 .score-cell-cod {
-  width: 100px;
+  width: 120px;
   font-weight: 500;
   color: #2c3e50;
 }
