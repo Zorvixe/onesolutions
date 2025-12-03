@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./ImageManager.css";
 
-const API_BASE = process.env.REACT_APP_API_URL || "https://api.onesolutionsekam.in/api";
+const API_BASE =
+  process.env.REACT_APP_API_URL || "https://api.onesolutionsekam.in/api";
 const API_LIST = `${API_BASE}/admin/images`;
 const API_UPLOAD = `${API_BASE}/admin/upload-image`;
 const API_DELETE = `${API_BASE}/admin/delete-image`;
@@ -167,7 +168,10 @@ export default function AdminImageManager() {
 
     // Validate filename
     if (!/^[a-zA-Z0-9_\-\.]+$/.test(newName)) {
-      showToast("Filename can only contain letters, numbers, underscores, hyphens, and dots", "error");
+      showToast(
+        "Filename can only contain letters, numbers, underscores, hyphens, and dots",
+        "error"
+      );
       return;
     }
 
@@ -175,9 +179,9 @@ export default function AdminImageManager() {
       const res = await fetch(API_RENAME, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          oldName: imageObj.displayName, 
-          newName 
+        body: JSON.stringify({
+          oldName: imageObj.displayName,
+          newName,
         }),
       });
 
@@ -215,21 +219,22 @@ export default function AdminImageManager() {
   };
 
   const formatFilename = (filename) => {
-    // Extract just the random string part for display
+    if (!filename || typeof filename !== "string") {
+      return "";
+    }
+
     const parts = filename.split("-");
     if (parts.length > 1) {
-      // Skip the timestamp and show the random string
-      const randomPart = parts.slice(1).join("-");
       const ext = path.extname(filename);
+      const randomPart = parts.slice(1).join("-");
       const nameWithoutExt = randomPart.replace(ext, "");
-      
+
       if (nameWithoutExt.length > 12) {
         return nameWithoutExt.substring(0, 8) + "..." + ext;
       }
       return randomPart;
     }
-    
-    // Fallback to original logic
+
     if (filename.length > 20) {
       return (
         filename.substring(0, 10) +
@@ -237,6 +242,7 @@ export default function AdminImageManager() {
         filename.substring(filename.length - 8)
       );
     }
+
     return filename;
   };
 
@@ -344,7 +350,8 @@ export default function AdminImageManager() {
                       className="image-thumbnail"
                       loading="lazy"
                       onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/80x80?text=Image+Error";
+                        e.target.src =
+                          "https://via.placeholder.com/80x80?text=Image+Error";
                       }}
                     />
                   </div>
@@ -380,7 +387,9 @@ export default function AdminImageManager() {
                           [imageObj.url]: e.target.value,
                         }))
                       }
-                      onKeyPress={(e) => e.key === "Enter" && renameImage(imageObj)}
+                      onKeyPress={(e) =>
+                        e.key === "Enter" && renameImage(imageObj)
+                      }
                     />
                     <button
                       className="btn btn-rename"
@@ -424,7 +433,9 @@ export default function AdminImageManager() {
             </div>
             <div className="modal-body">
               <div
-                className={`file-drop-area ${filePreview ? "has-file" : ""} ${uploading ? "uploading" : ""}`}
+                className={`file-drop-area ${filePreview ? "has-file" : ""} ${
+                  uploading ? "uploading" : ""
+                }`}
                 ref={dropAreaRef}
                 onClick={() => !uploading && fileInputRef.current?.click()}
                 onDrop={handleDrop}
@@ -546,6 +557,6 @@ export default function AdminImageManager() {
 const path = {
   extname: (filename) => {
     const match = filename.match(/\.[^/.]+$/);
-    return match ? match[0] : '';
-  }
+    return match ? match[0] : "";
+  },
 };

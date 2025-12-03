@@ -1908,24 +1908,44 @@ export const codingPracticesData = {
       questions: [
         {
           id: "q-python-2B-001",
-          title: "Greater than 70",
+          title: "Greater than - 2",
           difficulty: "Easy",
           description:
-            "Write a program that reads a number and checks if the given number is greater than 70.\nInput:The input will be a single line containing  an integer.\nOutput:The output should be a single line containing a boolean.",
-          sampleInput: "86",
-          sampleOutput: "True",
+            "Write a program that reads two numbers(integer) A and B and checks if the A is greater than B.Prints the result as shown in the sample output.",
+          sampleInput: "8\n7",
+          sampleOutput: "A > B is True",
           testCases: [
-            { input: "40", output: "False", visible: true },
-            { input: "87", output: "True", visible: true },
-            { input: "60", output: "False", visible: false },
-            { input: "30", output: "False", visible: false },
-            { input: "90", output: "True", visible: false },
+            { input: "40\n39", output: "A > B is True", visible: true },
+            { input: "87\n100", output: "A > B is False", visible: true },
+            { input: "60\n29", output: "A > B is True", visible: false },
+            { input: "30\n20", output: "A > B is True", visible: false },
+            { input: "90\n10", output: "A > B is True", visible: false },
           ],
           defaultCode: ``,
           score: 10,
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-2B-002",
+          title: "Check one greater",
+          difficulty: "Easy",
+          description:
+            "Write a program that ",
+          sampleInput: "8\n7",
+          sampleOutput: "A > B is True",
+          testCases: [
+            { input: "40\n39", output: "A > B is True", visible: true },
+            { input: "87\n100", output: "A > B is False", visible: true },
+            { input: "60\n29", output: "A > B is True", visible: false },
+            { input: "30\n20", output: "A > B is True", visible: false },
+            { input: "90\n10", output: "A > B is True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        }
         
       ],
     }

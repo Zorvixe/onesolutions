@@ -53,7 +53,6 @@ app.use(
   })
 );
 
-
 // Function to generate random string for filename
 const generateRandomFilename = (originalname) => {
   const ext = path.extname(originalname);
@@ -61,7 +60,6 @@ const generateRandomFilename = (originalname) => {
   const timestamp = Date.now();
   return `${timestamp}-${randomString}${ext}`;
 };
-
 
 // -------------------------------------------
 // 🔹 Multer Configuration for Video Uploads (FIXED)
@@ -194,7 +192,6 @@ app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
 // In your server.js, find this section and update it:
 app.use("/media", express.static(path.join(__dirname, "admin_uploads")));
-
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -514,7 +511,6 @@ const generateToken = (id) => {
   });
 };
 
-
 // GET all images
 app.get("/api/admin/images", (req, res) => {
   const folder = path.join(__dirname, "admin_uploads");
@@ -523,19 +519,19 @@ app.get("/api/admin/images", (req, res) => {
     if (err) return res.status(500).json({ success: false });
 
     // Use FRONTEND_URL if available, otherwise use the request's host
-    const baseUrl = process.env.FRONTEND_URL || 
-      `${req.protocol}://${req.get("host")}`;
-    
+    const baseUrl =
+      process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
+
     // Filter only image files
-    const imageFiles = files.filter(file => 
+    const imageFiles = files.filter((file) =>
       /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(file)
     );
-    
+
     // Create a mapping of display names to actual filenames
     const images = imageFiles.map((file) => ({
       displayName: file, // This is the random filename
-      url: `${baseUrl}/media/${file}`,
-      originalPath: file
+      url: `${baseUrl}media/${file}`,
+      originalPath: file,
     }));
 
     res.json({ success: true, images });
@@ -545,19 +541,21 @@ app.get("/api/admin/images", (req, res) => {
 // POST upload image
 app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ success: false, message: "No file uploaded" });
+    return res
+      .status(400)
+      .json({ success: false, message: "No file uploaded" });
   }
-  
-  const baseUrl = process.env.FRONTEND_URL || 
-    `${req.protocol}://${req.get("host")}`;
-  
+
+  const baseUrl =
+    process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
+
   // The filename is already random from multer storage
-  const imageUrl = `${baseUrl}/media/${req.file.filename}`;
-  
-  res.json({ 
-    success: true, 
+  const imageUrl = `${baseUrl}media/${req.file.filename}`;
+
+  res.json({
+    success: true,
     url: imageUrl,
-    filename: req.file.filename
+    filename: req.file.filename,
   });
 });
 
@@ -575,7 +573,7 @@ app.put("/api/admin/rename-image", (req, res) => {
   // Extract just the filename from the URL if full URL is sent
   const oldFilename = oldName.split("/").pop();
   let newFilename = newName;
-  
+
   // Ensure new filename has extension
   if (!path.extname(newFilename)) {
     // Add .jpg as default if no extension
@@ -610,14 +608,14 @@ app.put("/api/admin/rename-image", (req, res) => {
       });
     }
 
-    const baseUrl = process.env.FRONTEND_URL || 
-      `${req.protocol}://${req.get("host")}`;
+    const baseUrl =
+      process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
 
     res.json({
       success: true,
       message: "File renamed successfully",
-      url: `${baseUrl}/media/${newFilename}`,
-      filename: newFilename
+      url: `${baseUrl}media/${newFilename}`,
+      filename: newFilename,
     });
   });
 });
@@ -673,8 +671,8 @@ app.get("/api/admin/image/:filename", (req, res) => {
     });
   }
 
-  const baseUrl = process.env.FRONTEND_URL || 
-    `${req.protocol}://${req.get("host")}`;
+  const baseUrl =
+    process.env.FRONTEND_URL || `${req.protocol}://${req.get("host")}`;
 
   const stats = fs.statSync(filePath);
 
@@ -682,11 +680,11 @@ app.get("/api/admin/image/:filename", (req, res) => {
     success: true,
     data: {
       filename: filename,
-      url: `${baseUrl}/media/${filename}`,
+      url: `${baseUrl}media/${filename}`,
       size: stats.size,
       created: stats.birthtime,
-      modified: stats.mtime
-    }
+      modified: stats.mtime,
+    },
   });
 });
 
