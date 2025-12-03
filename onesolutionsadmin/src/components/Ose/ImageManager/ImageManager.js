@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./ImageManager.css";
 
-const API_LIST = "https://api.onesolutionsekam.in/api/admin/images";
-const API_UPLOAD = "https://api.onesolutionsekam.in/api/admin/upload-image";
-const API_DELETE = "https://api.onesolutionsekam.in/api/admin/delete-image";
-const API_RENAME = "https://api.onesolutionsekam.in/api/admin/rename-image";
+const API_BASE = process.env.REACT_APP_API_URL || "https://api.onesolutionsekam.in/api";
+const API_LIST = `${API_BASE}/admin/images`;
+const API_UPLOAD = `${API_BASE}/admin/upload-image`;
+const API_DELETE = `${API_BASE}/admin/delete-image`;
+const API_RENAME = `${API_BASE}/admin/rename-image`;
 
 export default function AdminImageManager() {
   const [images, setImages] = useState([]);
@@ -24,6 +25,12 @@ export default function AdminImageManager() {
 
   useEffect(() => {
     fetchImages();
+    return () => {
+      // Cleanup preview URLs on unmount
+      if (filePreview) {
+        URL.revokeObjectURL(filePreview);
+      }
+    };
   }, []);
 
   const fetchImages = async () => {
@@ -52,6 +59,23 @@ export default function AdminImageManager() {
   const handleFileSelect = (selectedFile) => {
     if (!selectedFile) return;
 
+    // Validate file type
+    if (!selectedFile.type.startsWith("image/")) {
+      showToast("Please select an image file", "error");
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (selectedFile.size > 10 * 1024 * 1024) {
+      showToast("File size should be less than 10MB", "error");
+      return;
+    }
+
+    // Cleanup previous preview
+    if (filePreview) {
+      URL.revokeObjectURL(filePreview);
+    }
+
     setFile(selectedFile);
     const preview = URL.createObjectURL(selectedFile);
     setFilePreview(preview);
@@ -63,6 +87,7 @@ export default function AdminImageManager() {
     if (droppedFile && droppedFile.type.startsWith("image/")) {
       handleFileSelect(droppedFile);
     }
+    dropAreaRef.current?.classList.remove("dragover");
   };
 
   const handleDragOver = (e) => {
@@ -95,7 +120,10 @@ export default function AdminImageManager() {
         showToast("Image uploaded successfully!");
         setShowModal(false);
         setFile(null);
-        setFilePreview("");
+        if (filePreview) {
+          URL.revokeObjectURL(filePreview);
+          setFilePreview("");
+        }
         fetchImages();
       } else {
         showToast(data.message || "Upload failed", "error");
@@ -107,34 +135,39 @@ export default function AdminImageManager() {
     }
   };
 
-  const deleteImage = async (url) => {
+  const deleteImage = async (imageObj) => {
     if (!window.confirm("Are you sure you want to delete this image?")) return;
-
-    const filename = url.split("/").pop();
 
     try {
       const res = await fetch(API_DELETE, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ filename }),
+        body: JSON.stringify({ filename: imageObj.displayName }),
       });
 
       const data = await res.json();
       if (data.success) {
         showToast("Image deleted successfully!");
         fetchImages();
+      } else {
+        showToast(data.message || "Delete failed", "error");
       }
     } catch (error) {
       showToast("Failed to delete image", "error");
     }
   };
 
-  const renameImage = async (url) => {
-    const oldName = url.split("/").pop();
-    const newName = renameInputs[url]?.trim();
+  const renameImage = async (imageObj) => {
+    const newName = renameInputs[imageObj.url]?.trim();
 
     if (!newName) {
       showToast("Please enter a new filename", "error");
+      return;
+    }
+
+    // Validate filename
+    if (!/^[a-zA-Z0-9_\-\.]+$/.test(newName)) {
+      showToast("Filename can only contain letters, numbers, underscores, hyphens, and dots", "error");
       return;
     }
 
@@ -142,14 +175,19 @@ export default function AdminImageManager() {
       const res = await fetch(API_RENAME, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ oldName, newName }),
+        body: JSON.stringify({ 
+          oldName: imageObj.displayName, 
+          newName 
+        }),
       });
 
       const data = await res.json();
       if (data.success) {
         showToast("Image renamed successfully!");
         fetchImages();
-        setRenameInputs((prev) => ({ ...prev, [url]: "" }));
+        setRenameInputs((prev) => ({ ...prev, [imageObj.url]: "" }));
+      } else {
+        showToast(data.message || "Rename failed", "error");
       }
     } catch (error) {
       showToast("Failed to rename image", "error");
@@ -159,21 +197,64 @@ export default function AdminImageManager() {
   const copyToClipboard = async (url) => {
     try {
       await navigator.clipboard.writeText(url);
-      showToast("URL copied to clipboard!");
+      showToast("Image URL copied to clipboard!");
     } catch (error) {
-      showToast("Failed to copy URL", "error");
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = url;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        showToast("Image URL copied to clipboard!");
+      } catch (err) {
+        showToast("Failed to copy URL", "error");
+      }
+      document.body.removeChild(textArea);
     }
   };
 
   const formatFilename = (filename) => {
-    if (filename.length > 25) {
+    // Extract just the random string part for display
+    const parts = filename.split("-");
+    if (parts.length > 1) {
+      // Skip the timestamp and show the random string
+      const randomPart = parts.slice(1).join("-");
+      const ext = path.extname(filename);
+      const nameWithoutExt = randomPart.replace(ext, "");
+      
+      if (nameWithoutExt.length > 12) {
+        return nameWithoutExt.substring(0, 8) + "..." + ext;
+      }
+      return randomPart;
+    }
+    
+    // Fallback to original logic
+    if (filename.length > 20) {
       return (
-        filename.substring(0, 12) +
+        filename.substring(0, 10) +
         "..." +
-        filename.substring(filename.length - 10)
+        filename.substring(filename.length - 8)
       );
     }
     return filename;
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setFile(null);
+    if (filePreview) {
+      URL.revokeObjectURL(filePreview);
+      setFilePreview("");
+    }
   };
 
   return (
@@ -203,7 +284,9 @@ export default function AdminImageManager() {
           <div className="icon">
             <i className="fas fa-database"></i>
           </div>
-          <div className="number">{images.length * 0.5}MB</div>
+          <div className="number">
+            {images.length > 0 ? (images.length * 0.5).toFixed(1) : "0"}MB
+          </div>
           <div className="label">Storage Used</div>
         </div>
       </div>
@@ -251,25 +334,35 @@ export default function AdminImageManager() {
               <div>Rename</div>
               <div>Delete</div>
             </div>
-            {images.map((url, index) => {
-              const filename = url.split("/").pop();
+            {images.map((imageObj, index) => {
               return (
                 <div key={index} className="table-row">
                   <div>
                     <img
-                      src={url}
-                      alt={filename}
+                      src={imageObj.url}
+                      alt={`Image ${index + 1}`}
                       className="image-thumbnail"
                       loading="lazy"
+                      onError={(e) => {
+                        e.target.src = "https://via.placeholder.com/80x80?text=Image+Error";
+                      }}
                     />
                   </div>
                   <div className="filename-cell">
-                    {formatFilename(filename)}
+                    <div className="filename-text">
+                      {formatFilename(imageObj.displayName)}
+                    </div>
+                    <div className="file-url">
+                      <small title={imageObj.url}>
+                        /media/{formatFilename(imageObj.displayName)}
+                      </small>
+                    </div>
                   </div>
                   <div className="action-buttons">
                     <button
                       className="btn btn-copy"
-                      onClick={() => copyToClipboard(url)}
+                      onClick={() => copyToClipboard(imageObj.url)}
+                      title="Copy image URL"
                     >
                       <i className="fas fa-copy"></i>
                       Copy URL
@@ -278,20 +371,21 @@ export default function AdminImageManager() {
                   <div className="rename-input-container">
                     <input
                       type="text"
-                      placeholder="new-filename.jpg"
+                      placeholder="new-name.jpg"
                       className="rename-input"
-                      value={renameInputs[url] || ""}
+                      value={renameInputs[imageObj.url] || ""}
                       onChange={(e) =>
                         setRenameInputs((prev) => ({
                           ...prev,
-                          [url]: e.target.value,
+                          [imageObj.url]: e.target.value,
                         }))
                       }
-                      onKeyPress={(e) => e.key === "Enter" && renameImage(url)}
+                      onKeyPress={(e) => e.key === "Enter" && renameImage(imageObj)}
                     />
                     <button
                       className="btn btn-rename"
-                      onClick={() => renameImage(url)}
+                      onClick={() => renameImage(imageObj)}
+                      disabled={!renameInputs[imageObj.url]?.trim()}
                     >
                       <i className="fas fa-edit"></i>
                       Rename
@@ -300,7 +394,8 @@ export default function AdminImageManager() {
                   <div>
                     <button
                       className="btn btn-delete"
-                      onClick={() => deleteImage(url)}
+                      onClick={() => deleteImage(imageObj)}
+                      title="Delete image"
                     >
                       <i className="fas fa-trash-alt"></i>
                       Delete
@@ -315,16 +410,23 @@ export default function AdminImageManager() {
 
       {/* Upload Modal */}
       {showModal && (
-        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>Upload New Image</h2>
+              <button
+                className="close-btn"
+                onClick={closeModal}
+                disabled={uploading}
+              >
+                <i className="fas fa-times"></i>
+              </button>
             </div>
             <div className="modal-body">
               <div
-                className={`file-drop-area ${filePreview ? "dragover" : ""}`}
+                className={`file-drop-area ${filePreview ? "has-file" : ""} ${uploading ? "uploading" : ""}`}
                 ref={dropAreaRef}
-                onClick={() => fileInputRef.current?.click()}
+                onClick={() => !uploading && fileInputRef.current?.click()}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -336,35 +438,41 @@ export default function AdminImageManager() {
                       alt="Preview"
                       className="file-preview"
                     />
-                    <div>
-                      <p
-                        style={{
-                          fontWeight: "600",
-                          color: "#333",
-                          fontSize: "14px",
+                    <div className="file-details">
+                      <div className="file-name" title={file?.name}>
+                        {file?.name}
+                      </div>
+                      <div className="file-size">
+                        {formatFileSize(file?.size || 0)}
+                      </div>
+                      <div className="file-type">
+                        Will be saved as: <strong>random-name.jpg</strong>
+                      </div>
+                    </div>
+                    {!uploading && (
+                      <button
+                        className="remove-file-btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFile(null);
+                          if (filePreview) {
+                            URL.revokeObjectURL(filePreview);
+                            setFilePreview("");
+                          }
                         }}
                       >
-                        {file.name}
-                      </p>
-                      <p style={{ fontSize: "12px", color: "#666" }}>
-                        {(file.size / 1024 / 1024).toFixed(2)} MB
-                      </p>
-                    </div>
+                        <i className="fas fa-times"></i>
+                      </button>
+                    )}
                   </div>
                 ) : (
                   <>
                     <i className="fas fa-cloud-upload-alt"></i>
                     <p>Drag & drop your image here</p>
                     <p>
-                      or <span>browse files</span>
+                      or <span className="browse-link">browse files</span>
                     </p>
-                    <p
-                      style={{
-                        fontSize: "12px",
-                        color: "#999",
-                        marginTop: "6px",
-                      }}
-                    >
+                    <p className="file-types">
                       Supports JPG, PNG, WEBP up to 10MB
                     </p>
                   </>
@@ -374,17 +482,18 @@ export default function AdminImageManager() {
                   type="file"
                   accept="image/*"
                   style={{ display: "none" }}
-                  onChange={(e) => handleFileSelect(e.target.files[0])}
+                  onChange={(e) => {
+                    if (e.target.files[0]) {
+                      handleFileSelect(e.target.files[0]);
+                    }
+                  }}
+                  disabled={uploading}
                 />
               </div>
               <div className="modal-actions">
                 <button
                   className="btn-secondary"
-                  onClick={() => {
-                    setShowModal(false);
-                    setFile(null);
-                    setFilePreview("");
-                  }}
+                  onClick={closeModal}
                   disabled={uploading}
                 >
                   Cancel
@@ -420,7 +529,7 @@ export default function AdminImageManager() {
               toast.type === "success" ? "check-circle" : "exclamation-circle"
             }`}
           ></i>
-          <span style={{ fontSize: "14px" }}>{toast.message}</span>
+          <span className="toast-message">{toast.message}</span>
         </div>
       )}
 
@@ -429,10 +538,14 @@ export default function AdminImageManager() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       />
-      <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
-        rel="stylesheet"
-      />
     </div>
   );
 }
+
+// Helper function for path operations (since we removed the import)
+const path = {
+  extname: (filename) => {
+    const match = filename.match(/\.[^/.]+$/);
+    return match ? match[0] : '';
+  }
+};

@@ -6,7 +6,7 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Inheritance_Part1_Class = ({
+const Inheritance_Part_1_Class = ({
   subtopicId,
   goalName,
   courseName,
@@ -614,4 +614,4 @@ const Inheritance_Part1_Class = ({
     </div>
   );
 };
-export default Inheritance_Part1_Class;
+export default Inheritance_Part_1_Class;

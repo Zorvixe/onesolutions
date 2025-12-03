@@ -1428,7 +1428,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s19_A0 m9_H g1_7B c3_D2E",
-                name: "Foundations Exam   2",
+                name: "Foundations Exam 2",
               },
             ],
           },
@@ -1450,7 +1450,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m10_H g1_7B c3_D2E",
-                name: "Coding Practice   24",
+                name: "Coding Practice 24",
               },
               {
                 id: "QW9_s5_A0 m10_H g1_7B c3_D2E",
@@ -1470,7 +1470,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m10_H g1_7B c3_D2E",
-                name: "Coding Practice   25",
+                name: "Coding Practice 25",
               },
               {
                 id: "QW9_s10_A0 m10_H g1_7B c3_D2E",
@@ -1490,7 +1490,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m10_H g1_7B c3_D2E",
-                name: "Coding Practice   26",
+                name: "Coding Practice 26",
               },
               {
                 id: "QW9_s15_A0 m10_H g1_7B c3_D2E",
@@ -1540,7 +1540,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m11_H g1_7B c3_D2E",
-                name: "Coding Practice   27",
+                name: "Coding Practice 27",
               },
             ],
           },
@@ -1550,7 +1550,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m12_H g1_7B c3_D2E",
-                name: "Problem Solving and Debugging   Part 6",
+                name: "Problem Solving and Debugging Part 6",
               },
               {
                 id: "QW9_s2_A0 m12_H g1_7B c3_D2E",
@@ -1602,7 +1602,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m12_H g1_7B c3_D2E",
-                name: "Problem Solving and Debugging   Part 7",
+                name: "Problem Solving and Debugging Part 7",
               },
               {
                 id: "QW9_s15_A0 m12_H g1_7B c3_D2E",
@@ -1614,15 +1614,15 @@ export const goalsData = [
               },
               {
                 id: "QW9_s17_A0 m12_H g1_7B c3_D2E",
-                name: "Grand Assignment   3",
+                name: "Grand Assignment 3",
               },
               {
                 id: "QW9_s18_A0 m12_H g1_7B c3_D2E",
-                name: "Grand Assignment   4",
+                name: "Grand Assignment 4",
               },
               {
                 id: "QW9_s19_A0 m12_H g1_7B c3_D2E",
-                name: "Foundations Exam   3",
+                name: "Foundations Exam 3",
               },
             ],
           },
@@ -1668,7 +1668,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m13_H g1_7B c3_D2E",
-                name: "Coding Practice - 32",
+                name: "Coding Practice 32",
               },
               {
                 id: "QW9_s11_A0 m13_H g1_7B c3_D2E",
@@ -1684,7 +1684,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m13_H g1_7B c3_D2E",
-                name: "Inheritance Part1",
+                name: "Inheritance Part 1",
               },
               {
                 id: "QW9_s15_A0 m13_H g1_7B c3_D2E",
@@ -1696,7 +1696,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s17_A0 m13_H g1_7B c3_D2E",
-                name: "Inheritance Part2",
+                name: "Inheritance Part 2",
               },
               {
                 id: "QW9_s18_A0 m13_H g1_7B c3_D2E",

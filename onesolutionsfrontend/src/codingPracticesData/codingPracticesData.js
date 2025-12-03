@@ -1532,8 +1532,403 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-Assignment-1B-002",
+          title: "Percentage - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number N. N is divided into two parts X and Y.\nX is 30 percent of N.\n Y is the remaining percentage of N.print Y.\nNote:value=(percentage/100)*number",
+          sampleInput: "50",
+          sampleOutput: "35.o",
+          testCases: [
+            { input: "40", output: "28.0", visible: true },
+            { input: "60", output: "42.0", visible: true },
+            { input: "40", output: "28.0", visible: false },
+            { input: "60", output: "42.0", visible: false },
+            { input: "30", output: "21.0", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1B-003",
+          title: "Basic arithmetic",
+          difficulty: "Easy",
+          description:
+            "Write a program to take two integer inputs (say A and B) and print the result of the following operations\n1.Addition\n2.Substraction\n3.Multiplication.",
+          sampleInput: "4\n3",
+          sampleOutput: "7\n1\n12",
+          testCases: [
+            { input: "4\n2", output: "6\n2\n8", visible: true },
+            { input: "12\n4", output: "16\n8\n48", visible: true },
+            { input: "12\n4", output: "16\n8\n48", visible: false },
+            { input: "12\n4", output: "16\n8\n48", visible: false },
+            { input: "12\n4", output: "16\n8\n48", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1B-004",
+          title: "Area and Perimeter of square",
+          difficulty: "Easy",
+          description:
+            "You are given a side of square as input.Write a program to find the perimeter and area of the square.\nNote:Area of square = side * side \nPerimeter of square=4* side.",
+          sampleInput: "3",
+          sampleOutput: "area of square is:9\nperimeter of square is:12",
+          testCases: [
+            {
+              input: "4",
+              output: "area of square is:16\nperimeter of square is:16",
+              visible: true,
+            },
+            {
+              input: "5",
+              output: "area of square is:25\nperimeter of square is:20",
+              visible: true,
+            },
+            {
+              input: "3",
+              output: "area of square is:9\nperimeter of square is:12",
+              visible: false,
+            },
+            {
+              input: "3",
+              output: "area of square is:9\nperimeter of square is:12",
+              visible: false,
+            },
+            {
+              input: "6",
+              output: "area of square is:36\nperimeter of square is:24",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1B-005",
+          title: "Part of a string - 3",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a string A and prints the string A by excluding the first two and last two Characters of the string.",
+          sampleInput: "#@gani#@",
+          sampleOutput: "gani",
+          testCases: [
+            {
+              input: "**uday**",
+              output: "uday",
+              visible: true,
+            },
+            {
+              input: "@@pratibha**",
+              output: "pratibha",
+              visible: true,
+            },
+            {
+              input: "##ekam##",
+              output: "ekam",
+              visible: false,
+            },
+            {
+              input: "**dude**",
+              output: "dude",
+              visible: false,
+            },
+            {
+              input: "&&ball&&",
+              output: "ball",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1B-006",
+          title: "Replace a letter",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a word W,an Index I,and a letter C.Print the word W by replacing the letter at the index I with the given letter C.\nInputThe first line of input contains a string.The second line of input contains an intiger.The third line of input contains a string.\nOutput:The output should be a single line containing a string obtained by replacing the letter at the index `I` of the word `W` with the letter `C`",
+          sampleInput: "prime\n3\nz",
+          sampleOutput: "prize",
+          testCases: [
+            {
+              input: "cell\n2\ni",
+              output: "ceil",
+              visible: true,
+            },
+            {
+              input: "manage\n3\ne",
+              output: "manege",
+              visible: true,
+            },
+            {
+              input: "manage\n3\ne",
+              output: "manege",
+              visible: false,
+            },
+            {
+              input: "manage\n3\ne",
+              output: "manege",
+              visible: false,
+            },
+            {
+              input: "manage\n3\ne",
+              output: "manege",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-1B-007",
+          title: "Half string - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a string and prints the second half part of the string",
+          sampleInput: "football",
+          sampleOutput: "ball",
+          testCases: [
+            {
+              input: "heaven",
+              output: "ven",
+              visible: true,
+            },
+            {
+              input: "call",
+              output: "ll",
+              visible: true,
+            },
+            {
+              input: "ball",
+              output: "ll",
+              visible: false,
+            },
+            {
+              input: "shalvi",
+              output: "lvi",
+              visible: false,
+            },
+            {
+              input: "door",
+              output: "or",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
     },
+    {
+      id: "Codingpractice-python-2A",
+      title: "Coding Practice - 2A",
+      description: "Operators and Conditional Statements",
+      questions: [
+        {
+          id: "q-python-2A-001",
+          title: "Greater than 70",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number and checks if the given number is greater than 70.\nInput:The input will be a single line containing  an integer.\nOutput:The output should be a single line containing a boolean.",
+          sampleInput: "86",
+          sampleOutput: "True",
+          testCases: [
+            { input: "40", output: "False", visible: true },
+            { input: "87", output: "True", visible: true },
+            { input: "60", output: "False", visible: false },
+            { input: "30", output: "False", visible: false },
+            { input: "90", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-002",
+          title: "Greatest among two numbers",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number and checks if the first number is greater than the second number.",
+          sampleInput: "86\n100",
+          sampleOutput: "False",
+          testCases: [
+            { input: "40\n29", output: "True", visible: true },
+            { input: "87\n90", output: "False", visible: true },
+            { input: "60\n20", output: "True", visible: false },
+            { input: "30\n10", output: "True", visible: false },
+            { input: "90\n2", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-003",
+          title: "Negative number",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number and checks if the Given number is a Negative number.",
+          sampleInput: "-21",
+          sampleOutput: "True",
+          testCases: [
+            { input: "-2", output: "True", visible: true },
+            { input: "4", output: "False", visible: true },
+            { input: "-12", output: "True", visible: false },
+            { input: "-3", output: "True", visible: false },
+            { input: "-11", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-004",
+          title: "equal to",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two words and checks if the given two words are the same.\nInput:first and second line of input contains a string.\nOutput:The output should be a single line containing a boolean.",
+          sampleInput: "jam\njam",
+          sampleOutput: "True",
+          testCases: [
+            { input: "gan\ngan", output: "True", visible: true },
+            { input: "ban\ngan", output: "False", visible: true },
+            { input: "abc\nabc", output: "True", visible: false },
+            { input: "abd\nabd", output: "True", visible: false },
+            { input: "ab\nab", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-005",
+          title: "Sunday",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a day number and checks if the given day is a sunday.\nNote:If the given number is 7 than is True.(7=Sunday)",
+          sampleInput: "7",
+          sampleOutput: "True",
+          testCases: [
+            { input: "6", output: "False", visible: true },
+            { input: "7", output: "True", visible: true },
+            { input: "7", output: "True", visible: false },
+            { input: "7", output: "True", visible: false },
+            { input: "7", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-006",
+          title: "Not Equal to",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two numbers(integer) and checks if the given two numbers are not the same.",
+          sampleInput: "7\n3",
+          sampleOutput: "True",
+          testCases: [
+            { input: "6\n6", output: "False", visible: true },
+            { input: "7\n3", output: "True", visible: true },
+            { input: "7\n4", output: "True", visible: false },
+            { input: "7\n5", output: "True", visible: false },
+            { input: "7\n2", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-007",
+          title: "Greater than or equal to",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two numbers A and B and checks if `A` is greater than or equal to `B`.Print the result as shown in the sample output.\nInput:first and second line of input contains a `float`.",
+          sampleInput: "4.5\n2.3",
+          sampleOutput: "A>=B is True",
+          testCases: [
+            { input: "6.9\n3.6", output: "A>=B is True", visible: true },
+            { input: "7.2\n9.5", output: "A>=B is False", visible: true },
+            { input: "7.2\n4.3", output: "A>=B is True", visible: false },
+            { input: "7.9\n5.3", output: "A>=B is True", visible: false },
+            { input: "7.3\n2.2", output: "A>=B is True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-2A-008",
+          title: "Less than or equal to",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two numbers A and B and checks if `A` is Less than or equal to `B`.Print the result as shown in the sample output.\nInput:First  line of input contains an integer and second line of input contains a `float`.",
+          sampleInput: "3\n4.2",
+          sampleOutput: "True",
+          testCases: [
+            { input: "2\n3.6", output: "True", visible: true },
+            { input: "7\n3.3", output: "False", visible: true },
+            { input: "7\n3.3", output: "False", visible: false },
+            { input: "7\n3.3", output: "False", visible: false },
+            { input: "8\n2.2", output: "False", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        }
+      ],
+    },
+    {
+      id: "Codingpractice-python-2B",
+      title: "Coding Practice - 2B",
+      description: "Operators and Conditional Statements",
+      questions: [
+        {
+          id: "q-python-2B-001",
+          title: "Greater than 70",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number and checks if the given number is greater than 70.\nInput:The input will be a single line containing  an integer.\nOutput:The output should be a single line containing a boolean.",
+          sampleInput: "86",
+          sampleOutput: "True",
+          testCases: [
+            { input: "40", output: "False", visible: true },
+            { input: "87", output: "True", visible: true },
+            { input: "60", output: "False", visible: false },
+            { input: "30", output: "False", visible: false },
+            { input: "90", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        
+      ],
+    }
   ],
 
   javascript: [
@@ -1601,13 +1996,13 @@ export const codingPracticesData = {
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below image.</p>
-              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316021/Coding_Practice_-1-todolist-001_hy94wb.png" class="desc-que-img" />
+              <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_1" class="desc-que-img" />
               <p class="desc-que-blue">Note:</p>
               <p class="">Try to achieve the design as close as possible.</p>
               <p class="desc-que-blue">Resources</p>
               <p class="">Use this background image,</p>
-              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
-              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
+              <p>URL: <a href="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2">http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2</a></p>
+              <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2" class="desc-que-img" />
               <p class="desc-que-blue">CSS Colors used:</p>
               <p class="">Background color for button:</p>
               <ul>
@@ -1707,8 +2102,8 @@ export const codingPracticesData = {
             <p class="">Try to achieve the design as close as possible.</p>
             <p class="desc-que-blue">Resources</p>
             <p class="">Use this background image,</p>
-            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
-            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
+            <p>URL: <a href="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2">http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2</a></p>
+            <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2" class="desc-que-img" />
             <p class="desc-que-blue">CSS Colors used:</p>
             <p class="">Background color for button:</p>
             <ul>
@@ -1834,8 +2229,8 @@ export const codingPracticesData = {
             <p class="">Try to achieve the design as close as possible.</p>
             <p class="desc-que-blue">Resources</p>
             <p class="">Use this background image,</p>
-            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
-            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
+            <p>URL: <a href="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2">http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2</a></p>
+            <img src="http://api.onesolutionsekam.in/admin_uploads/todolist_bg_2" class="desc-que-img" />
             <p class="desc-que-blue">CSS Colors used:</p>
             <p class="">Background color for button:</p>
             <ul>

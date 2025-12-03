@@ -349,16 +349,43 @@ import Coding_Pratice_22A from "../Python/Functions/Coding_Pratice_22A.js";
 import Coding_Pratice_22B from "../Python/Functions/Coding_Pratice_22B.js";
 import Coding_Pratice_23A from "../Python/Functions/Coding_Pratice_23A.js";
 import Coding_Pratice_23B from "../Python/Functions/Coding_Pratice_23B.js";
+import Fundations_Exam_2 from "../Python/Functions/Foundations_Exam_2.js";
 import Built_in_Fun_Class from "../Python/Recursion/Built_in_Fun_Class.js";
 import FunCallStack_Recursion_Class from "../Python/Recursion/FunCallStack_Recursion_Class.js";
 import ListMethods_Class from "../Python/Recursion/ListMethods_Class.js";
+import Coding_Pratice_24 from "../Python/Recursion/Coding_Pratice_24.js";
+import Coding_Pratice_25 from "../Python/Recursion/Coding_Pratice_25.js";
+import Coding_Pratice_26 from "../Python/Recursion/Coding_Pratice_26.js";
 import Assignment_24 from "../Python/Recursion/Assignment_24.js";
 import Assignment_25 from "../Python/Recursion/Assignment_25.js";
 import Assignment_26 from "../Python/Recursion/Assignment_26.js";
+import Tuples_Sequences_Class from "../Python/Tuples&Sets/Tuples_Sequences_Class.js";
+import Sets_Class from "../Python/Tuples&Sets/Sets_Class.js";
+import Set_Operations_Class from "../Python/Tuples&Sets/Set_Operations_Class.js";
+import Coding_Pratice_27 from "../Python/Tuples&Sets/Coding_Pratice_27.js";
+import ProblemSol_Debugging_Class_6 from "../Python/Dictionaries/ProblemSol_Debugging_Class_6.js";
+import ProblemSol_Debugging_Class_7 from "../Python/Dictionaries/ProblemSol_Debugging_Class_7.js";
+import Coding_Pratice_28 from "../Python/Dictionaries/Coding_Pratice_28.js";
+import Coding_Pratice_29 from "../Python/Dictionaries/Coding_Pratice_29.js";
+import Coding_Pratice_30 from "../Python/Dictionaries/Coding_Pratice_30.js";
+import Coding_Pratice_31 from "../Python/Dictionaries/Coding_Pratice_31.js";
+import NestedList_StringFormating_Class from "../Python/Dictionaries/NestedList_StringFormating_Class.js";
+import Dictionaries_Class from "../Python/Dictionaries/Dictionaries_Class.js";
+import Working_With_Dictionaries_Class from "../Python/Dictionaries/Working_With_Dictionaries_Class.js";
+import Grand_Assignment_3 from "../Python/Dictionaries/Grand_Assignment_3.js";
+import Grand_Assignment_4 from "../Python/Dictionaries/Grand_Assignment_4.js";
+import Foundations_Exam_3 from "../Python/Dictionaries/Foundations_Exam_3.js";
+import Introductionto_OPP_Part_1_Class from "../Python/IntroductiontoOOP/Introductionto_OPP_Part_1_Class.js";
+import Introductionto_OPP_Part_2_Class from "../Python/IntroductiontoOOP/Introductionto_OPP_Part_2_Class.js";
+import Classes_Object_Class from "../Python/IntroductiontoOOP/Classes_Object_Class.js";
+import Attributes_Methods_Class from "../Python/IntroductiontoOOP/Attributes_Methods_Class.js";
+import Inheritance_Part_1_Class from "../Python/IntroductiontoOOP/Inheritance_Part_1_Class.js";
+import Coding_Pratice_32 from "../Python/IntroductiontoOOP/Coding_Pratice_32.js";
 import Python_Standard_Library_Class from "../Python/Miscellaneous/Python_Standard_Library_Class.js";
 // Map subtopics to their components
 const subtopicComponents = {
-  "Python Standard Library": Python_Standard_Library_Class,
+  "Problem Solving and Debugging Part 7": ProblemSol_Debugging_Class_7,
+
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
   "Type Conversion": Type_Con_Class,
@@ -470,6 +497,7 @@ const subtopicComponents = {
   "Assignment 22": Assignment_22,
   "Assignment 23": Assignment_23,
   Functions: Functions_Class,
+  "Foundations Exam 2": Fundations_Exam_2,
   "Function Arguments": Function_Argu_Class,
   "Built in Functions": Built_in_Fun_Class,
   "Function Call Stack & Recursion": FunCallStack_Recursion_Class,
@@ -477,6 +505,25 @@ const subtopicComponents = {
   "Assignment 24": Assignment_24,
   "Assignment 25": Assignment_25,
   "Assignment 26": Assignment_26,
+  "Coding Practice 24": Coding_Pratice_24,
+  "Coding Practice 25": Coding_Pratice_25,
+  "Coding Practice 26": Coding_Pratice_26,
+  "Python Standard Library": Python_Standard_Library_Class,
+  "Tuples & Sequences": Tuples_Sequences_Class,
+  Sets: Sets_Class,
+  "Set Operations": Set_Operations_Class,
+  "Coding Practice 27": Coding_Pratice_27,
+  "Problem Solving and Debugging Part 6": ProblemSol_Debugging_Class_6,
+  "Nested Lists & String Formatting": NestedList_StringFormating_Class,
+  Dictionaries: Dictionaries_Class,
+  "Working with Dictionaries": Working_With_Dictionaries_Class,
+  "Coding Practice 28": Coding_Pratice_28,
+  "Coding Practice 29": Coding_Pratice_29,
+  "Coding Practice 30": Coding_Pratice_30,
+  "Coding Practice 31": Coding_Pratice_31,
+  "Grand Assignment 3": Grand_Assignment_3,
+  "Grand Assignment 4": Grand_Assignment_4,
+  "Foundations Exam 3": Foundations_Exam_3,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,

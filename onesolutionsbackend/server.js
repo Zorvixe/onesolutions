@@ -53,6 +53,16 @@ app.use(
   })
 );
 
+
+// Function to generate random string for filename
+const generateRandomFilename = (originalname) => {
+  const ext = path.extname(originalname);
+  const randomString = crypto.randomBytes(16).toString("hex");
+  const timestamp = Date.now();
+  return `${timestamp}-${randomString}${ext}`;
+};
+
+
 // -------------------------------------------
 // 🔹 Multer Configuration for Video Uploads (FIXED)
 // -------------------------------------------
@@ -85,12 +95,13 @@ const upload = multer({
   limits: { fileSize: 2 * 1024 * 1024 * 1024 }, // 2GB
 });
 
+// Update the storage configuration
 const storageAdmin = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "admin_uploads/");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    cb(null, generateRandomFilename(file.originalname));
   },
 });
 
@@ -180,10 +191,10 @@ app.options("*", cors());
 
 app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
-app.use(
-  "/admin_uploads",
-  express.static(path.join(__dirname, "admin_uploads"))
-);
+
+// In your server.js, find this section and update it:
+app.use("/media", express.static(path.join(__dirname, "admin_uploads")));
+
 
 // Serve uploaded files statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -503,42 +514,140 @@ const generateToken = (id) => {
   });
 };
 
-// ==========================
-// IMAGE UPLOAD ROUTE
-// ==========================
-app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
-  const imageUrl = `${req.protocol}://${req.get("host")}/admin_uploads/${
-    req.file.filename
-  }`;
-  res.json({ success: true, url: imageUrl });
-});
 
+// GET all images
 app.get("/api/admin/images", (req, res) => {
   const folder = path.join(__dirname, "admin_uploads");
 
   fs.readdir(folder, (err, files) => {
     if (err) return res.status(500).json({ success: false });
 
-    const baseUrl = `${req.protocol}://${req.get("host")}/admin_uploads/`;
-    const images = files.map((file) => baseUrl + file);
+    // Use FRONTEND_URL if available, otherwise use the request's host
+    const baseUrl = process.env.FRONTEND_URL || 
+      `${req.protocol}://${req.get("host")}`;
+    
+    // Filter only image files
+    const imageFiles = files.filter(file => 
+      /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(file)
+    );
+    
+    // Create a mapping of display names to actual filenames
+    const images = imageFiles.map((file) => ({
+      displayName: file, // This is the random filename
+      url: `${baseUrl}/media/${file}`,
+      originalPath: file
+    }));
 
     res.json({ success: true, images });
   });
 });
 
+// POST upload image
+app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ success: false, message: "No file uploaded" });
+  }
+  
+  const baseUrl = process.env.FRONTEND_URL || 
+    `${req.protocol}://${req.get("host")}`;
+  
+  // The filename is already random from multer storage
+  const imageUrl = `${baseUrl}/media/${req.file.filename}`;
+  
+  res.json({ 
+    success: true, 
+    url: imageUrl,
+    filename: req.file.filename
+  });
+});
+
+// PUT rename image
+app.put("/api/admin/rename-image", (req, res) => {
+  const { oldName, newName } = req.body;
+
+  if (!oldName || !newName) {
+    return res.status(400).json({
+      success: false,
+      message: "Both oldName and newName are required",
+    });
+  }
+
+  // Extract just the filename from the URL if full URL is sent
+  const oldFilename = oldName.split("/").pop();
+  let newFilename = newName;
+  
+  // Ensure new filename has extension
+  if (!path.extname(newFilename)) {
+    // Add .jpg as default if no extension
+    newFilename += ".jpg";
+  }
+
+  const oldPath = path.join(__dirname, "admin_uploads", oldFilename);
+  const newPath = path.join(__dirname, "admin_uploads", newFilename);
+
+  // Check if old file exists
+  if (!fs.existsSync(oldPath)) {
+    return res.status(404).json({
+      success: false,
+      message: "File not found",
+    });
+  }
+
+  // Check if new filename already exists
+  if (fs.existsSync(newPath)) {
+    return res.status(400).json({
+      success: false,
+      message: "A file with this name already exists",
+    });
+  }
+
+  fs.rename(oldPath, newPath, (err) => {
+    if (err) {
+      console.error("Rename error:", err);
+      return res.status(500).json({
+        success: false,
+        message: "Failed to rename file",
+      });
+    }
+
+    const baseUrl = process.env.FRONTEND_URL || 
+      `${req.protocol}://${req.get("host")}`;
+
+    res.json({
+      success: true,
+      message: "File renamed successfully",
+      url: `${baseUrl}/media/${newFilename}`,
+      filename: newFilename
+    });
+  });
+});
+
+// DELETE image
 app.delete("/api/admin/delete-image", (req, res) => {
   const { filename } = req.body;
 
   if (!filename) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Filename required" });
+    return res.status(400).json({
+      success: false,
+      message: "Filename required",
+    });
   }
 
-  const filePath = path.join(__dirname, "admin_uploads", filename);
+  // Extract just the filename from the URL if full URL is sent
+  const fileToDelete = filename.split("/").pop();
+  const filePath = path.join(__dirname, "admin_uploads", fileToDelete);
+
+  // Check if file exists
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({
+      success: false,
+      message: "File not found",
+    });
+  }
 
   fs.unlink(filePath, (err) => {
     if (err) {
+      console.error("Delete error:", err);
       return res.status(500).json({
         success: false,
         message: "Failed to delete file",
@@ -551,32 +660,33 @@ app.delete("/api/admin/delete-image", (req, res) => {
     });
   });
 });
-app.put("/api/admin/rename-image", (req, res) => {
-  const { oldName, newName } = req.body;
 
-  if (!oldName || !newName) {
-    return res.status(400).json({
+// Additional route to get image details by filename
+app.get("/api/admin/image/:filename", (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, "admin_uploads", filename);
+
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({
       success: false,
-      message: "Both oldName and newName are required",
+      message: "Image not found",
     });
   }
 
-  const oldPath = path.join(__dirname, "admin_uploads", oldName);
-  const newPath = path.join(__dirname, "admin_uploads", newName);
+  const baseUrl = process.env.FRONTEND_URL || 
+    `${req.protocol}://${req.get("host")}`;
 
-  fs.rename(oldPath, newPath, (err) => {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: "Failed to rename file",
-      });
+  const stats = fs.statSync(filePath);
+
+  res.json({
+    success: true,
+    data: {
+      filename: filename,
+      url: `${baseUrl}/media/${filename}`,
+      size: stats.size,
+      created: stats.birthtime,
+      modified: stats.mtime
     }
-
-    res.json({
-      success: true,
-      message: "File renamed successfully",
-      url: `${req.protocol}://${req.get("host")}/admin_uploads/${newName}`,
-    });
   });
 });
 

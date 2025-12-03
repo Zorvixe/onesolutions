@@ -42,7 +42,7 @@ const Fundations_Exam_1 = () => {
   // Load "Coding Practice - 1" from codingPracticesData
   useEffect(() => {
     const practice1 = codingPracticesData.python.find(
-      (p) => p.id === "Fundations-Exam-1"
+      (p) => p.id === "Python-Fundations-Exam-1"
     );
     if (practice1) {
       setSelectedPractice(practice1);
