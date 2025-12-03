@@ -19,6 +19,7 @@ import SubtopicPage from "./SubtopicsPage/SubtopicPage";
 import CodeGround from "./CodePlayground/CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ThreadDetail from "./NewThreadModal/ThreadDetail";
+import SavedSnippets from './SavedSnippets/SavedSnippets';
 
 // In App.js - add the new route
 import WebPractice from './components/WebPractice/WebPractice';
@@ -80,6 +81,7 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/courses" element={<Courses />} />
+              <Route path="/saved-snippets" element={<SavedSnippets />} />
 
               <Route path="/practice" element={<Practice />} />
               <Route path="/practice/:practiceId" element={<Practice />} />

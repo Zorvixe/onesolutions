@@ -254,8 +254,8 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="profile_list_li">
-                  <Link to="/codeGround">
-                    <i className="bi bi-code-slash"></i>Compiler
+                  <Link to="/saved-snippets">
+                    <i className="bi bi-code-slash"></i>My Snippets
                   </Link>
                 </li>
                 <li className="profile_list_li">
