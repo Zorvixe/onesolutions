@@ -2031,7 +2031,7 @@ export const codingPracticesData = {
           title: "Check Part of a String",
           difficulty: "Easy",
           description:
-            "Write a program ",
+            "Write a program that reads two words A,B,and an Index I.Check if B starts at index I in",
           sampleInput: "blackhole\nhole",
           sampleOutput: "True",
           testCases: [
