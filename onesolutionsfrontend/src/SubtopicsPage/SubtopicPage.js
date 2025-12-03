@@ -355,15 +355,10 @@ import ListMethods_Class from "../Python/Recursion/ListMethods_Class.js";
 import Assignment_24 from "../Python/Recursion/Assignment_24.js";
 import Assignment_25 from "../Python/Recursion/Assignment_25.js";
 import Assignment_26 from "../Python/Recursion/Assignment_26.js";
+import Python_Standard_Library_Class from "../Python/Miscellaneous/Python_Standard_Library_Class.js";
 // Map subtopics to their components
 const subtopicComponents = {
-  "Built in Functions": Built_in_Fun_Class,
-  "Function Call Stack & Recursion": FunCallStack_Recursion_Class,
-  "List Methods": ListMethods_Class,
-  "Assignment 24": Assignment_24,
-  "Assignment 25": Assignment_25,
-  "Assignment 26": Assignment_26,
-
+  "Python Standard Library": Python_Standard_Library_Class,
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
   "Type Conversion": Type_Con_Class,
@@ -476,6 +471,12 @@ const subtopicComponents = {
   "Assignment 23": Assignment_23,
   Functions: Functions_Class,
   "Function Arguments": Function_Argu_Class,
+  "Built in Functions": Built_in_Fun_Class,
+  "Function Call Stack & Recursion": FunCallStack_Recursion_Class,
+  "List Methods": ListMethods_Class,
+  "Assignment 24": Assignment_24,
+  "Assignment 25": Assignment_25,
+  "Assignment 26": Assignment_26,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
