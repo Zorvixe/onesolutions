@@ -1966,6 +1966,26 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-2B-004",
+          title: "Compare sum of the digits",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a word and checks if the first letter and last letter of the word are not the same.\nInput:The input will be a single line containing a string.\nOutput:Output should be a single line containing a boolean.True should be printed if the first letter and last letter of the word are not same,otherwise False should be printed.",
+          sampleInput: "python",
+          sampleOutput: "True",
+          testCases: [
+            { input: "label", output: "False", visible: true },
+            { input: "gagan", output: "True", visible: true },
+            { input: "label", output: "False", visible: false },
+            { input: "label", output: "False", visible: false },
+            { input: "label", output: "False", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        }
        
         
       ],

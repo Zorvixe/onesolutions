@@ -545,7 +545,7 @@ app.get("/api/admin/images", (req, res) => {
     // Create a mapping of display names to actual filenames
     const images = imageFiles.map((file) => ({
       displayName: file,
-      url: `${baseUrl}/media/${file}`, // Changed from `${baseUrl}media/${file}`
+      url: `${baseUrl}media/${file}`, // Changed from `${baseUrl}media/${file}`
       originalPath: file,
     }));
 
@@ -567,7 +567,7 @@ app.post("/api/admin/upload-image", uploadAdmin.single("image"), (req, res) => {
   const baseUrl = process.env.FRONTEND_URL || "https://onesolutionsekam.in";
 
   // Make sure URL starts with http:// or https://
-  const imageUrl = `${baseUrl}/media/${req.file.filename}`;
+  const imageUrl = `${baseUrl}media/${req.file.filename}`;
 
   res.json({
     success: true,

@@ -386,19 +386,14 @@ import Coding_Pratice_33 from "../Python/IntroductiontoOOP/Coding_Pratice_33.js"
 import OPP_On_Demand_Session from "../Python/IntroductiontoOOP/OPP_On_Demand_Session.js";
 import Python_Standard_Library_Class from "../Python/Miscellaneous/Python_Standard_Library_Class.js";
 import Scope_Namespaces_Class from "../Python/Miscellaneous/Scope_Namespaces_Class.js";
+import Erro
 // Map subtopics to their components
 const subtopicComponents = {
-  "Introduction to Object Oriented Programming":
-    Introductionto_OPP_Part_1_Class,
-  "Object Oriented Programming": Introductionto_OPP_Part_2_Class,
-  "Classes & Objects": Classes_Object_Class,
-  "Attribute Methods": Attributes_Methods_Class,
-  "Inheritance Part 1": Inheritance_Part_1_Class,
-  "Inheritance Part 2": Inheritance_Part_2_Class,
-  "Coding Practice 32": Coding_Pratice_32,
-  "Coding Practice 33": Coding_Pratice_33,
-  "OOP: On Demand Session": OPP_On_Demand_Session,
+
+  "Scope & Namespaces" : Scope_Namespaces_Class,
+
   "Problem Solving and Debugging Part 7": ProblemSol_Debugging_Class_7,
+  "Errors & Exceptions": 
 
   //Python Coding & Class
   "Input and Output Basics": Inp_Oup_Basics_Class,
@@ -538,6 +533,16 @@ const subtopicComponents = {
   "Grand Assignment 3": Grand_Assignment_3,
   "Grand Assignment 4": Grand_Assignment_4,
   "Foundations Exam 3": Foundations_Exam_3,
+  "Introduction to Object Oriented Programming":
+  Introductionto_OPP_Part_1_Class,
+"Object Oriented Programming": Introductionto_OPP_Part_2_Class,
+"Classes & Objects": Classes_Object_Class,
+"Attribute Methods": Attributes_Methods_Class,
+"Inheritance Part 1": Inheritance_Part_1_Class,
+"Inheritance Part 2": Inheritance_Part_2_Class,
+"Coding Practice 32": Coding_Pratice_32,
+"Coding Practice 33": Coding_Pratice_33,
+"OOP: On Demand Session": OPP_On_Demand_Session,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
