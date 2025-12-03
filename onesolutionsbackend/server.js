@@ -413,6 +413,53 @@ CREATE TABLE IF NOT EXISTS student_feedback (
   );
 `;
 
+// Code snippets table
+const codeSnippetsTableQuery = `
+  CREATE TABLE IF NOT EXISTS code_snippets (
+    id SERIAL PRIMARY KEY,
+    student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+    snippet_name VARCHAR(255) NOT NULL,
+    language VARCHAR(50) NOT NULL,
+    html_code TEXT,
+    css_code TEXT,
+    javascript_code TEXT,
+    python_code TEXT,
+    java_code TEXT,
+    sql_code TEXT,
+    is_public BOOLEAN DEFAULT false,
+    is_published BOOLEAN DEFAULT false,
+    published_at TIMESTAMP,
+    tags TEXT[] DEFAULT '{}',
+    description TEXT,
+    likes INTEGER DEFAULT 0,
+    views INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`;
+
+// Code snippet likes table
+const snippetLikesTableQuery = `
+  CREATE TABLE IF NOT EXISTS code_snippet_likes (
+    id SERIAL PRIMARY KEY,
+    snippet_id INTEGER REFERENCES code_snippets(id) ON DELETE CASCADE,
+    student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+    liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(snippet_id, student_id)
+  );
+`;
+
+// Add to your existing createTables function
+try {
+  await pool.query(codeSnippetsTableQuery);
+  console.log("✅ Code snippets table ready");
+  
+  await pool.query(snippetLikesTableQuery);
+  console.log("✅ Code snippet likes table ready");
+} catch (error) {
+  console.error("❌ Code snippets table creation error:", error.message);
+}
+
   // Add to createTables function
   (async () => {
     try {
@@ -486,6 +533,490 @@ const generateToken = (id) => {
     subject: id.toString(),
   });
 };
+
+// Save code snippet
+app.post("/api/code-snippets/save", auth, async (req, res) => {
+  try {
+    const {
+      snippetName,
+      language,
+      htmlCode,
+      cssCode,
+      javascriptCode,
+      pythonCode,
+      javaCode,
+      sqlCode,
+      isPublic = false,
+      tags = [],
+      description = "",
+    } = req.body;
+
+    if (!snippetName || !language) {
+      return res.status(400).json({
+        success: false,
+        message: "Snippet name and language are required",
+      });
+    }
+
+    console.log(`💾 Saving snippet: ${snippetName} for student ${req.student.id}`);
+
+    const result = await pool.query(
+      `INSERT INTO code_snippets 
+       (student_id, snippet_name, language, html_code, css_code, 
+        javascript_code, python_code, java_code, sql_code, 
+        is_public, tags, description)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+       RETURNING *`,
+      [
+        req.student.id,
+        snippetName,
+        language,
+        htmlCode || null,
+        cssCode || null,
+        javascriptCode || null,
+        pythonCode || null,
+        javaCode || null,
+        sqlCode || null,
+        isPublic,
+        tags,
+        description,
+      ]
+    );
+
+    const snippet = result.rows[0];
+    console.log(`✅ Snippet saved with ID: ${snippet.id}`);
+
+    res.status(201).json({
+      success: true,
+      message: "Code snippet saved successfully",
+      data: { snippet },
+    });
+  } catch (error) {
+    console.error("❌ Save snippet error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to save code snippet",
+      error: error.message,
+    });
+  }
+});
+
+// Get student's snippets
+app.get("/api/code-snippets/my-snippets", auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT cs.*, 
+              s.first_name, 
+              s.last_name,
+              COUNT(csl.id) as like_count,
+              EXISTS (
+                SELECT 1 FROM code_snippet_likes csl2 
+                WHERE csl2.snippet_id = cs.id AND csl2.student_id = $1
+              ) as is_liked
+       FROM code_snippets cs
+       LEFT JOIN students s ON cs.student_id = s.id
+       LEFT JOIN code_snippet_likes csl ON cs.id = csl.snippet_id
+       WHERE cs.student_id = $1
+       GROUP BY cs.id, s.first_name, s.last_name
+       ORDER BY cs.updated_at DESC`,
+      [req.student.id]
+    );
+
+    res.json({
+      success: true,
+      data: { snippets: result.rows },
+    });
+  } catch (error) {
+    console.error("Get snippets error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch snippets",
+    });
+  }
+});// Get published snippets
+app.get("/api/code-snippets/published", auth, async (req, res) => {
+  try {
+    const { page = 1, limit = 20, language, search } = req.query;
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT cs.*, 
+              s.first_name, 
+              s.last_name,
+              s.profile_image,
+              COUNT(csl.id) as like_count,
+              EXISTS (
+                SELECT 1 FROM code_snippet_likes csl2 
+                WHERE csl2.snippet_id = cs.id AND csl2.student_id = $1
+              ) as is_liked
+       FROM code_snippets cs
+       LEFT JOIN students s ON cs.student_id = s.id
+       LEFT JOIN code_snippet_likes csl ON cs.id = csl.snippet_id
+       WHERE cs.is_published = true AND (cs.is_public = true OR cs.student_id = $1)
+    `;
+
+    const queryParams = [req.student.id];
+    let paramCount = 2;
+
+    if (language && language !== "all") {
+      query += ` AND cs.language = $${paramCount}`;
+      queryParams.push(language);
+      paramCount++;
+    }
+
+    if (search) {
+      query += ` AND (
+        cs.snippet_name ILIKE $${paramCount} OR 
+        cs.description ILIKE $${paramCount} OR
+        s.first_name ILIKE $${paramCount} OR
+        s.last_name ILIKE $${paramCount}
+      )`;
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+
+    query += `
+      GROUP BY cs.id, s.first_name, s.last_name, s.profile_image
+      ORDER BY cs.likes DESC, cs.views DESC, cs.published_at DESC
+      LIMIT $${paramCount} OFFSET $${paramCount + 1}
+    `;
+
+    queryParams.push(parseInt(limit), offset);
+
+    const result = await pool.query(query, queryParams);
+
+    // Get total count
+    let countQuery = `
+      SELECT COUNT(*) as total
+      FROM code_snippets cs
+      LEFT JOIN students s ON cs.student_id = s.id
+      WHERE cs.is_published = true AND (cs.is_public = true OR cs.student_id = $1)
+    `;
+
+    const countParams = [req.student.id];
+    paramCount = 2;
+
+    if (language && language !== "all") {
+      countQuery += ` AND cs.language = $${paramCount}`;
+      countParams.push(language);
+      paramCount++;
+    }
+
+    if (search) {
+      countQuery += ` AND (
+        cs.snippet_name ILIKE $${paramCount} OR 
+        cs.description ILIKE $${paramCount} OR
+        s.first_name ILIKE $${paramCount} OR
+        s.last_name ILIKE $${paramCount}
+      )`;
+      countParams.push(`%${search}%`);
+      paramCount++;
+    }
+
+    const countResult = await pool.query(countQuery, countParams);
+    const total = parseInt(countResult.rows[0]?.total || 0);
+
+    res.json({
+      success: true,
+      data: {
+        snippets: result.rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          pages: Math.ceil(total / limit),
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Get published snippets error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch published snippets",
+    });
+  }
+});// Update snippet
+app.put("/api/code-snippets/:snippetId", auth, async (req, res) => {
+  try {
+    const { snippetId } = req.params;
+    const {
+      snippetName,
+      htmlCode,
+      cssCode,
+      javascriptCode,
+      pythonCode,
+      javaCode,
+      sqlCode,
+      isPublic,
+      tags,
+      description,
+    } = req.body;
+
+    // Check if snippet belongs to student
+    const snippetCheck = await pool.query(
+      `SELECT * FROM code_snippets WHERE id = $1 AND student_id = $2`,
+      [snippetId, req.student.id]
+    );
+
+    if (snippetCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Snippet not found or access denied",
+      });
+    }
+
+    const result = await pool.query(
+      `UPDATE code_snippets 
+       SET snippet_name = COALESCE($1, snippet_name),
+           html_code = COALESCE($2, html_code),
+           css_code = COALESCE($3, css_code),
+           javascript_code = COALESCE($4, javascript_code),
+           python_code = COALESCE($5, python_code),
+           java_code = COALESCE($6, java_code),
+           sql_code = COALESCE($7, sql_code),
+           is_public = COALESCE($8, is_public),
+           tags = COALESCE($9, tags),
+           description = COALESCE($10, description),
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $11 AND student_id = $12
+       RETURNING *`,
+      [
+        snippetName,
+        htmlCode,
+        cssCode,
+        javascriptCode,
+        pythonCode,
+        javaCode,
+        sqlCode,
+        isPublic,
+        tags,
+        description,
+        snippetId,
+        req.student.id,
+      ]
+    );
+
+    res.json({
+      success: true,
+      message: "Snippet updated successfully",
+      data: { snippet: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Update snippet error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update snippet",
+    });
+  }
+});// Publish snippet
+app.post("/api/code-snippets/:snippetId/publish", auth, async (req, res) => {
+  try {
+    const { snippetId } = req.params;
+    const { publish = true } = req.body;
+
+    const snippetCheck = await pool.query(
+      `SELECT * FROM code_snippets WHERE id = $1 AND student_id = $2`,
+      [snippetId, req.student.id]
+    );
+
+    if (snippetCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Snippet not found or access denied",
+      });
+    }
+
+    const result = await pool.query(
+      `UPDATE code_snippets 
+       SET is_published = $1,
+           published_at = ${publish ? "CURRENT_TIMESTAMP" : "NULL"},
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $2 AND student_id = $3
+       RETURNING *`,
+      [publish, snippetId, req.student.id]
+    );
+
+    res.json({
+      success: true,
+      message: publish ? "Snippet published successfully" : "Snippet unpublished",
+      data: { snippet: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Publish snippet error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update publish status",
+    });
+  }
+});// Delete snippet
+app.delete("/api/code-snippets/:snippetId", auth, async (req, res) => {
+  try {
+    const { snippetId } = req.params;
+
+    const snippetCheck = await pool.query(
+      `SELECT * FROM code_snippets WHERE id = $1 AND student_id = $2`,
+      [snippetId, req.student.id]
+    );
+
+    if (snippetCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Snippet not found or access denied",
+      });
+    }
+
+    await pool.query("DELETE FROM code_snippets WHERE id = $1", [snippetId]);
+
+    res.json({
+      success: true,
+      message: "Snippet deleted successfully",
+    });
+  } catch (error) {
+    console.error("Delete snippet error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete snippet",
+    });
+  }
+});// Like snippet
+app.post("/api/code-snippets/:snippetId/like", auth, async (req, res) => {
+  try {
+    const { snippetId } = req.params;
+    const { like = true } = req.body;
+
+    // Check if snippet exists and is published
+    const snippetCheck = await pool.query(
+      `SELECT id, is_published FROM code_snippets WHERE id = $1`,
+      [snippetId]
+    );
+
+    if (snippetCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Snippet not found",
+      });
+    }
+
+    if (!snippetCheck.rows[0].is_published) {
+      return res.status(403).json({
+        success: false,
+        message: "Cannot like unpublished snippet",
+      });
+    }
+
+    if (like) {
+      // Add like
+      try {
+        await pool.query(
+          `INSERT INTO code_snippet_likes (snippet_id, student_id)
+           VALUES ($1, $2)
+           ON CONFLICT (snippet_id, student_id) DO NOTHING`,
+          [snippetId, req.student.id]
+        );
+
+        // Update like count
+        await pool.query(
+          `UPDATE code_snippets 
+           SET likes = likes + 1
+           WHERE id = $1`,
+          [snippetId]
+        );
+      } catch (err) {
+        // Ignore duplicate likes
+      }
+    } else {
+      // Remove like
+      await pool.query(
+        `DELETE FROM code_snippet_likes 
+         WHERE snippet_id = $1 AND student_id = $2`,
+        [snippetId, req.student.id]
+      );
+
+      // Update like count
+      await pool.query(
+        `UPDATE code_snippets 
+         SET likes = GREATEST(likes - 1, 0)
+         WHERE id = $1`,
+        [snippetId]
+      );
+    }
+
+    // Get updated like count
+    const updatedSnippet = await pool.query(
+      `SELECT cs.*,
+              EXISTS (
+                SELECT 1 FROM code_snippet_likes csl 
+                WHERE csl.snippet_id = cs.id AND csl.student_id = $1
+              ) as is_liked
+       FROM code_snippets cs
+       WHERE cs.id = $2`,
+      [req.student.id, snippetId]
+    );
+
+    res.json({
+      success: true,
+      message: like ? "Snippet liked" : "Snippet unliked",
+      data: { snippet: updatedSnippet.rows[0] },
+    });
+  } catch (error) {
+    console.error("Like snippet error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update like",
+    });
+  }
+});// Get single snippet by ID
+app.get("/api/code-snippets/:snippetId", auth, async (req, res) => {
+  try {
+    const { snippetId } = req.params;
+
+    // Increment view count
+    await pool.query(
+      `UPDATE code_snippets 
+       SET views = views + 1
+       WHERE id = $1 AND is_published = true`,
+      [snippetId]
+    );
+
+    const result = await pool.query(
+      `SELECT cs.*, 
+              s.first_name, 
+              s.last_name,
+              s.profile_image,
+              s.student_id as author_id,
+              COUNT(csl.id) as like_count,
+              EXISTS (
+                SELECT 1 FROM code_snippet_likes csl2 
+                WHERE csl2.snippet_id = cs.id AND csl2.student_id = $1
+              ) as is_liked
+       FROM code_snippets cs
+       LEFT JOIN students s ON cs.student_id = s.id
+       LEFT JOIN code_snippet_likes csl ON cs.id = csl.snippet_id
+       WHERE cs.id = $2 AND (cs.is_published = true OR cs.student_id = $1)
+       GROUP BY cs.id, s.first_name, s.last_name, s.profile_image, s.student_id`,
+      [req.student.id, snippetId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Snippet not found",
+      });
+    }
+
+    res.json({
+      success: true,
+      data: { snippet: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Get snippet error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch snippet",
+    });
+  }
+});
+
 
 app.get("/api/admin/images", (req, res) => {
   const folder = path.join(__dirname, "admin_uploads");

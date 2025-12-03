@@ -1,10 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 import AceEditor from "react-ace";
-
-import "./CodePlayground.css";
-
 // Import Ace modes & themes
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
@@ -17,28 +15,37 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/ext-language_tools";
 
+import "./CodePlayground.css";
+
 // Import SQL.js
 import initSqlJs from "sql.js";
+
+const API_URL = process.env.REACT_APP_API_BASE_URL;
 
 // UPDATE THE FUNCTION SIGNATURE:
 export default function CodePlayground({
   initialLanguage = "web",
   initialCode,
-  autoRun = false,
   remoteRunners = {},
   onCodeChange = () => {},
   iframeRef: externalIframeRef = null,
   customRunHandler = null,
   runButtonText = "Run Code",
 }) {
-// ADD THESE 2 LINES after your existing useRef declarations:
-const internalIframeRef = useRef(null);
-const iframeRef = externalIframeRef || internalIframeRef;
+  // Add these state variables at the top of your component
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [snippetName, setSnippetName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [mySnippets, setMySnippets] = useState([]);
+  const [showSnippetsModal, setShowSnippetsModal] = useState(false);
+
+  // ADD THESE 2 LINES after your existing useRef declarations:
+  const internalIframeRef = useRef(null);
+  const iframeRef = externalIframeRef || internalIframeRef;
   const editorRef = useRef(null);
   const [language, setLanguage] = useState(initialLanguage);
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
-  const [autoRunEnabled, setAutoRunEnabled] = useState(Boolean(autoRun));
   const [theme, setTheme] = useState("monokai");
   const [fontSize, setFontSize] = useState(14);
   const [pyodideReady, setPyodideReady] = useState(false);
@@ -96,18 +103,6 @@ const iframeRef = externalIframeRef || internalIframeRef;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     ${code.css}
-    
-    /* Error styling */
-    .js-error {
-      background: #fee;
-      color: #c33;
-      padding: 15px;
-      margin: 10px;
-      border: 1px solid #c33;
-      border-radius: 5px;
-      font-family: monospace;
-      white-space: pre-wrap;
-    }
   </style>
 </head>
 <body>
@@ -181,7 +176,6 @@ sys.stderr = OutputCapture()
 
         pyodideRef.current = pyodide;
         setPyodideReady(true);
-        setOutput("Python environment loaded successfully! 🐍\n");
       } catch (error) {
         console.error("Failed to load Pyodide:", error);
         if (mounted) {
@@ -645,14 +639,6 @@ remoteRunners={{
     }
   }, [language, runWeb, runJavaScriptStandalone, runPython, runJava, runSQL]);
 
-  // Auto-run for web languages
-  useEffect(() => {
-    if (!autoRunEnabled) return;
-    if (language !== "web") return;
-    const timeout = setTimeout(runWeb, 500);
-    return () => clearTimeout(timeout);
-  }, [code.html, code.css, code.javascript, autoRunEnabled, language, runWeb]);
-
   const onChangeCode = useCallback(
     (value) => {
       if (language === "web") {
@@ -713,7 +699,7 @@ remoteRunners={{
     setInputValue("");
     inputIndexRef.current = 0;
     if (iframeRef.current && language === "web") {
-      iframeRef.current.srcdoc = combineWebSrcDoc;
+      iframeRef.current.srcdoc = ""; // Clear the iframe
     }
     if (sqlJs && language === "sql") {
       const newDb = new sqlJs.Database();
@@ -794,11 +780,100 @@ remoteRunners={{
   // Check if input section should be shown
   const showInputSection = ["python", "java"].includes(language);
 
-
   // ADD THIS useEffect after your other useEffects:
-useEffect(() => {
-  onCodeChange(code);
-}, [code, onCodeChange]);
+  useEffect(() => {
+    onCodeChange(code);
+  }, [code, onCodeChange]);
+
+  // Add these functions to your component
+  const handleSaveSnippet = async () => {
+    if (!snippetName.trim()) {
+      alert("Please enter a name for your snippet");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const snippetData = {
+        snippetName: snippetName.trim(),
+        language: language,
+        htmlCode: language === "web" ? code.html : null,
+        cssCode: language === "web" ? code.css : null,
+        javascriptCode:
+          language === "web" || language === "javascript_standalone"
+            ? language === "web"
+              ? code.javascript
+              : code.javascript_standalone
+            : null,
+        pythonCode: language === "python" ? code.python : null,
+        javaCode: language === "java" ? code.java : null,
+        sqlCode: language === "sql" ? code.sql : null,
+      };
+
+      const response = await fetch(`${API_URL}/api/code-snippets/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(snippetData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Snippet saved successfully!");
+        setShowSaveModal(false);
+        setSnippetName("");
+        // Refresh snippets list
+        fetchMySnippets();
+      } else {
+        alert(`Failed to save: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      alert("Failed to save snippet");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const fetchMySnippets = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/code-snippets/my-snippets`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const result = await response.json();
+      if (result.success) {
+        setMySnippets(result.data.snippets);
+      }
+    } catch (error) {
+      console.error("Fetch snippets error:", error);
+    }
+  };
+
+  const loadSnippet = (snippet) => {
+    if (snippet.language === "web") {
+      setLanguage("web");
+      setCode((prev) => ({
+        ...prev,
+        html: snippet.html_code || "",
+        css: snippet.css_code || "",
+        javascript: snippet.javascript_code || "",
+      }));
+    } else {
+      setLanguage(snippet.language);
+      const codeField = `${snippet.language}_code`;
+      setCode((prev) => ({
+        ...prev,
+        [snippet.language]: snippet[codeField] || "",
+      }));
+    }
+    setShowSnippetsModal(false);
+    alert(`Loaded snippet: ${snippet.snippet_name}`);
+  };
 
   return (
     <section className="code-playground-codep">
@@ -895,15 +970,38 @@ useEffect(() => {
 
           <header className="playground-header-codep">
             <div className="header-right-codep">
-              <label className="auto-run-toggle-codep">
-                <input
-                  type="checkbox"
-                  checked={autoRunEnabled}
-                  onChange={(e) => setAutoRunEnabled(e.target.checked)}
-                  disabled={language !== "web"}
-                />
-                <span className="auto-run-codep">Auto-run</span>
-              </label>
+              <button
+                className="btn-codep btn-secondary-codep"
+                onClick={() => setShowSnippetsModal(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+                  <path d="M5.5 12a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5zm3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5zm3 0a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.5.5z" />
+                </svg>
+                My Snippets
+              </button>
+
+              <button
+                className="btn-codep btn-secondary-codep"
+                onClick={() => setShowSaveModal(true)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z" />
+                </svg>
+                Save Snippet
+              </button>
 
               <button
                 className="btn-codep btn-secondary-codep"
@@ -922,7 +1020,7 @@ useEffect(() => {
                     d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
                   />
                   <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
-                </svg>{" "}
+                </svg>
                 Reset
               </button>
 
@@ -1001,6 +1099,139 @@ useEffect(() => {
           </div>
         </div>
       </div>
+      {/* Save Snippet Modal */}
+      {showSaveModal && (
+        <div className="modal-overlay-codep">
+          <div className="modal-codep">
+            <div className="modal-header-codep">
+              <h3>Save Snippet</h3>
+              <button onClick={() => setShowSaveModal(false)}>×</button>
+            </div>
+            <div className="modal-body-codep">
+              <div className="form-group-codep">
+                <label htmlFor="snippetName">Snippet Name</label>
+                <input
+                  type="text"
+                  id="snippetName"
+                  value={snippetName}
+                  onChange={(e) => setSnippetName(e.target.value)}
+                  placeholder="Enter snippet name"
+                  autoFocus
+                />
+              </div>
+              <div className="form-group-codep">
+                <label>Language</label>
+                <div className="language-display-codep">
+                  {getLanguageIcon(language)} {getLanguageDisplayName(language)}
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer-codep">
+              <button
+                className="btn-codep btn-secondary-codep"
+                onClick={() => setShowSaveModal(false)}
+                disabled={saving}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-codep btn-primary-codep"
+                onClick={handleSaveSnippet}
+                disabled={saving || !snippetName.trim()}
+              >
+                {saving ? "Saving..." : "Save"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* My Snippets Modal */}
+      {showSnippetsModal && (
+        <div className="modal-overlay-codep">
+          <div className="modal-codep modal-large-codep">
+            <div className="modal-header-codep">
+              <h3>My Saved Snippets</h3>
+              <button onClick={() => setShowSnippetsModal(false)}>×</button>
+            </div>
+            <div className="modal-body-codep">
+              {mySnippets.length === 0 ? (
+                <div className="empty-state-codep">
+                  <p>No snippets saved yet.</p>
+                  <p>Save your first snippet to see it here!</p>
+                </div>
+              ) : (
+                <div className="snippets-grid-codep">
+                  {mySnippets.map((snippet) => (
+                    <div key={snippet.id} className="snippet-card-codep">
+                      <div className="snippet-header-codep">
+                        <div className="snippet-language-codep">
+                          {getLanguageIcon(snippet.language)}
+                          <span>
+                            {getLanguageDisplayName(snippet.language)}
+                          </span>
+                        </div>
+                        <div className="snippet-status-codep">
+                          {snippet.is_published ? (
+                            <span className="published-codep">Published</span>
+                          ) : (
+                            <span className="draft-codep">Draft</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="snippet-body-codep">
+                        <h4>{snippet.snippet_name}</h4>
+                        {snippet.description && (
+                          <p className="snippet-description-codep">
+                            {snippet.description}
+                          </p>
+                        )}
+                        <div className="snippet-meta-codep">
+                          <span>
+                            Saved:{" "}
+                            {new Date(snippet.created_at).toLocaleDateString()}
+                          </span>
+                          {snippet.tags && snippet.tags.length > 0 && (
+                            <div className="snippet-tags-codep">
+                              {snippet.tags.slice(0, 3).map((tag, idx) => (
+                                <span key={idx} className="tag-codep">
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="snippet-actions-codep">
+                        <button
+                          className="btn-codep btn-small-codep btn-primary-codep"
+                          onClick={() => loadSnippet(snippet)}
+                        >
+                          Load
+                        </button>
+                        <button
+                          className="btn-codep btn-small-codep btn-secondary-codep"
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                `Delete "${snippet.snippet_name}"?`
+                              )
+                            ) {
+                              // Implement delete functionality
+                            }
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
