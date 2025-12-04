@@ -127,6 +127,7 @@ import Lists_Keys_CS from "../Reactjs/Introductionto_Reactjs/Lists_Keys_CS.js";
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
 //Static Website Classes
+import A_Note_ON_BootStrap_Version_Class from "../StaticWebsite/DevelopingLayouts/A_Note_ON_BootStrap_Version_Class.js";
 import Introductionto_Html from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML.js";
 import Introductionto_Css_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_1.js";
 import Introductionto_Css_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_2.js";
@@ -152,6 +153,7 @@ import Static_Course_Exam_Instruction from "../StaticWebsite/Static_Course_Exam/
 import Static_Course_Exam from "../StaticWebsite/Static_Course_Exam/Static_Course_Exam.js";
 
 //Static Website Cheat Sheets
+import Coding_Practice_Platform_Walkthrough from "../StaticWebsite/Css_BoxModel/Coding_Practice_Platform_Walkthrough.js";
 import Introductionto_First_Project from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_First_Project.js";
 import Introductionto_HTML_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_CS_1";
 import Introductionto_Css_CS_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_CS_1";
@@ -394,14 +396,6 @@ import Coding_Pratice_34 from "../Python/Miscellaneous/Coding_Pratice_34.js";
 import Grand_Assignment_5 from "../Python/Miscellaneous/Grand_Assignment_5.js";
 // Map subtopics to their components
 const subtopicComponents = {
-  "Problem Solving and Debugging Part 7": ProblemSol_Debugging_Class_7,
-  "Scope & Namespaces": Scope_Namespaces_Class,
-  "Errors & Exceptions": Errors_Exceptions_Class,
-  "Dates & Time": Dates_Time_Class,
-  "Working with Dates & Times": Workingwith_Data_Time_Class,
-  "Coding Practice 34": Coding_Pratice_34,
-
-  "Grand Assignment 5": Grand_Assignment_5,
   //Python Coding & Class
   "Coding Practice Walkthrough | Part 1": Coding_Pratice_Walkthough,
   "Input and Output Basics": Inp_Oup_Basics_Class,
@@ -551,6 +545,13 @@ const subtopicComponents = {
   "Coding Practice 32": Coding_Pratice_32,
   "Coding Practice 33": Coding_Pratice_33,
   "OOP: On Demand Session": OPP_On_Demand_Session,
+  "Problem Solving and Debugging Part 7": ProblemSol_Debugging_Class_7,
+  "Scope & Namespaces": Scope_Namespaces_Class,
+  "Errors & Exceptions": Errors_Exceptions_Class,
+  "Dates & Time": Dates_Time_Class,
+  "Working with Dates & Times": Workingwith_Data_Time_Class,
+  "Coding Practice 34": Coding_Pratice_34,
+  "Grand Assignment 5": Grand_Assignment_5,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
@@ -613,6 +614,8 @@ const subtopicComponents = {
   //Responsive End
 
   //Static Website Class
+  "Coding Platform Walk through": Coding_Practice_Platform_Walkthrough,
+  "A Note on BootStrap Versions": A_Note_ON_BootStrap_Version_Class,
   "Introduction to Your First Project - Lets Build Together":
     Introductionto_First_Project,
   "Introduction to HTML": Introductionto_Html,

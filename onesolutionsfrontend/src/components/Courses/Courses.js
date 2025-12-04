@@ -67,7 +67,7 @@ export default function Courses() {
     });
   };
 
-  // ✅ Enhanced goal locking - checks ALL previous goals
+  //  Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
     if (goalIndex === 0) return false; // First goal is always open
 

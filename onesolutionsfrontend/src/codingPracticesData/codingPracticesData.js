@@ -25,10 +25,10 @@ export const codingPracticesData = {
           title: "Three Hashes",
           difficulty: "Easy",
           description:
-            "Write a program that prints three hashes (#) in separate lines.",
-          sampleInput: "###",
+            "Write a program that prints three hashes (#) as output.",
+          sampleInput: "",
           sampleOutput: "###",
-          testCases: [{ input: "###", output: "###", visible: true }],
+          testCases: [{ input: "", output: "###", visible: true }],
           defaultCode: ``,
           score: 5,
           status: "unsolved",
@@ -72,7 +72,7 @@ export const codingPracticesData = {
           testCases: [
             {
               input: "",
-              output: "",
+              output: "791853",
               visible: true,
             },
           ],
@@ -83,12 +83,12 @@ export const codingPracticesData = {
         },
         {
           id: "q-python-2-002",
-          title: "Type Conversion",
+          title: "Substraction",
           difficulty: "Easy",
           description: "Subtract 596 from 193856",
           sampleInput: "",
           sampleOutput: "193260",
-          testCases: [{ input: "", output: "", visible: true }],
+          testCases: [{ input: "", output: "193260", visible: true }],
           defaultCode: ``,
           score: 5,
           status: "unsolved",
@@ -112,6 +112,19 @@ export const codingPracticesData = {
           testCases: [{ input: "", output: "882487", visible: true }],
           defaultCode: ``,
           score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3-002",
+          title: "Division",
+          difficulty: "Easy",
+          description: "Divide 33968 by 176",
+          sampleInput: "",
+          sampleOutput: "193.0",
+          testCases: [{ input: "", output: "193.0", visible: true }],
+          defaultCode: ``,
+          score: 5,
           status: "unsolved",
           attempts: [],
         },
@@ -2093,6 +2106,233 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-Assignment-2A-002",
+          title: "Compare first digit and last digit",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads two three-digit numbers A and B and checks if the first digit of A is less than the last digit of B.",
+          sampleInput: "254\n353",
+          sampleOutput: "True",
+          testCases: [
+            { input: "68\n23", output: "False", visible: true },
+            { input: "14\n55", output: "True", visible: true },
+            { input: "682\n234", output: "False", visible: false },
+            { input: "68\n21", output: "False", visible: false },
+            { input: "68\n29", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-2A-003",
+          title: "Compare Last three characters",
+          difficulty: "Medium",
+          description:
+            "Write a program to check if the last three characters in the two given strings are the same.",
+          sampleInput: "apple\npimple",
+          sampleOutput: "True",
+          testCases: [
+            { input: "sample\ndimple", output: "True", visible: true },
+            { input: "cat\nbat", output: "False", visible: true },
+            { input: "bangle\nsingle", output: "True", visible: false },
+            { input: "bangle\nsingle", output: "True", visible: false },
+            { input: "bangle\nsingle", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-2A-004",
+          title: "Percentage - 3",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a percentage P and a number N and checks if the P percentage of 500 is equal to the number N.\nNote:Percentage(p)of 500 can be calculated as\nValue=(percentage/100)*500.\nInput:first line of input contains an integer representing P.The second line of input contains an integer representing N.\nOutput:The output should be a single line containing a boolean.True should be printed if the `P` percentage of 500 is equal to the number N,otherwise False should be printed.",
+          sampleInput: "50\n250",
+          sampleOutput: "True",
+          testCases: [
+            { input: "100\n500", output: "True", visible: true },
+            { input: "60\n400", output: "False", visible: true },
+            { input: "100\n500", output: "True", visible: false },
+            { input: "100\n500", output: "True", visible: false },
+            { input: "100\n500", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-2A-005",
+          title: "Compare area and perimeter",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads the length and breadth of the reactangle and checks if the area of the reactangle is less than or equal to the perimeter of the rectangle.\nNote:Area of rectangle=length * breadth \nPerimeter of Rectangle=2*(length+ breadth)",
+          sampleInput: "3\n4",
+          sampleOutput: "True",
+          testCases: [
+            { input: "4\n4", output: "True", visible: true },
+            { input: "6\n4", output: "False", visible: true },
+            { input: "4\n4", output: "True", visible: false },
+            { input: "4\n4", output: "True", visible: false },
+            { input: "4\n4", output: "True", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-2A-006",
+          title: "Less than or equal to - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two numbers A and B and checks, If A is less than or equal to B,If B is less than or equal to A.",
+          sampleInput: "3\n4",
+          sampleOutput: "A<=B is True\nB<=A is False",
+          testCases: [
+            {
+              input: "8\n4",
+              output: "A<=B is False\nB<=A is True",
+              visible: true,
+            },
+            {
+              input: "6\n4",
+              output: "A<=B is False\nB<=A is True",
+              visible: true,
+            },
+            {
+              input: "3\n4",
+              output: "A<=B is True\nB<=A is False",
+              visible: false,
+            },
+            {
+              input: "2\n4",
+              output: "A<=B is True\nB<=A is False",
+              visible: false,
+            },
+            {
+              input: "1\n4",
+              output: "A<=B is True\nB<=A is False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-2A-007",
+          title: "Profit",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads the selling price S and buying  price B of a product and checks if s is greater than B.\nInput: The first line of input contains an integer representing the selling price S.The second line of input contains  an integer representing the buying price B.\nOutput:output should be a single line containing a boolean ,True should be printed if S is greater than B,otherwise False should be printed",
+          sampleInput: "300\n200",
+          sampleOutput: "True",
+          testCases: [
+            {
+              input: "800\n500",
+              output: "True",
+              visible: true,
+            },
+            {
+              input: "600\n900",
+              output: "False",
+              visible: true,
+            },
+            {
+              input: "800\n500",
+              output: "True",
+              visible: false,
+            },
+            {
+              input: "800\n500",
+              output: "True",
+              visible: false,
+            },
+            {
+              input: "800\n500",
+              output: "True",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-2A-008",
+          title: "Check first part of a string",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two strings S1 and S2,and checks if S2 is the first part of S1\nNote:No of characters in the first part of S1 is equal to the number of characters in S2",
+          sampleInput: "rainbow|nrain",
+          sampleOutput: "True",
+          testCases: [
+            {
+              input: "heaven\nhea",
+              output: "True",
+              visible: true,
+            },
+            {
+              input: "snake\nshall",
+              output: "False",
+              visible: true,
+            },
+            {
+              input: "heaven\nhea",
+              output: "True",
+              visible: false,
+            },
+            {
+              input: "rainbow|nrain",
+              output: "True",
+              visible: false,
+            },
+            {
+              input: "rainbow|nrain",
+              output: "True",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-2C",
+      title: "Coding Practice - 2C",
+      description: "Operators and Conditional Statements",
+      questions: [
+        {
+          id: "q-python-2C-001",
+          title: "Compare digits",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a two-digit number N and checks,if the number N is greater than 25.if the first digit of N is greater than the second digit of N.",
+          sampleInput: "85",
+          sampleOutput: "True\nTrue",
+          testCases: [
+            { input: "68", output: "True\nFalse", visible: true },
+            { input: "14", output: "False\nFalse", visible: true },
+            { input: "68", output: "True\nFalse", visible: false },
+            { input: "68", output: "True\nFalse", visible: false },
+            { input: "68", output: "True\nFalse", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
     },
   ],
@@ -2167,8 +2407,8 @@ export const codingPracticesData = {
               <p class="">Try to achieve the design as close as possible.</p>
               <p class="desc-que-blue">Resources</p>
               <p class="">Use this background image,</p>
-              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png</a></p>
-              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764766568/chatpage_bg_lbbdwy.png" class="desc-que-img" />
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png</a></p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764316062/Coding_Practice_-1-todolist-002_pchk7n.png" class="desc-que-img" />
               <p class="desc-que-blue">CSS Colors used:</p>
               <p class="">Background color for button:</p>
               <ul>

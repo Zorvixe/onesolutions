@@ -6,14 +6,14 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Introductionto_Css_Boxmodel_1 = ({
+const Coding_Practice_Platform_Walkthrough = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Bootstrap",
-  topicName = "Introduction to Bootstrap Part 2",
-  slidesUrl = "https://docs.google.com/presentation/d/1A4B9Dsf7mBqUSU1Ani9XdCOKVG8wpznOxPmEGHoo8mA/embed",
+  moduleName = "CSS Box Model",
+  topicName = "Coding Platform Walk through",
+  slidesUrl = "https://docs.google.com/presentation/d/1ITBg6t2NRBFR8MAmrdvaVFrujOT2puaKbg9lZmjGaQ8/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -766,4 +766,4 @@ const Introductionto_Css_Boxmodel_1 = ({
     </div>
   );
 };
-export default Introductionto_Css_Boxmodel_1;
+export default Coding_Practice_Platform_Walkthrough;
