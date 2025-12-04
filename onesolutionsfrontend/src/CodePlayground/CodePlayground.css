@@ -181,7 +181,6 @@
   align-items: center;
   background: #000000;
   border: none;
-  margin-bottom: 15px;
 }
 
 .panel-header-codep h3 {
@@ -215,8 +214,9 @@
 .editor-container-codep .ace_editor {
   background: transparent !important;
   color: #ffffff !important;
-  font-family: "Fira Code", "Cascadia Code", "Monaco", "Consolas", monospace !important;
+  font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
   line-height: 1.8 !important;
+  height: 100px;
 }
 
 .editor-container-codep .ace_gutter {
@@ -315,7 +315,7 @@
   font-size: 14px;
   line-height: 1.4;
   resize: vertical;
-  min-height: 80px;
+  min-height: 60px;
   outline: none;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
@@ -505,80 +505,6 @@
   border-radius: 6px !important;
   font-family: "Fira Code", monospace !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4) !important;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-  .playground-header-codep {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .header-left-codep,
-  .header-right-codep {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .language-select-codep {
-    min-width: 100%;
-  }
-
-  .playground-content-codep {
-    flex-direction: column;
-    height: auto;
-  }
-
-  .editor-panel-codep,
-  .output-panel-codep {
-    width: 100% !important;
-    height: 50vh;
-  }
-
-  .resizer-codep {
-    width: 100%;
-    height: 8px;
-    cursor: ns-resize;
-  }
-
-  .resizer-codep::before {
-    width: 40px;
-    height: 2px;
-  }
-}
-
-@media (max-width: 768px) {
-  .code-playground-codep {
-    height: 100vh;
-    border-radius: 0;
-    border: none;
-  }
-
-  .playground-header-codep {
-    padding: 10px;
-  }
-
-  .header-right-codep {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 4px;
-  }
-
-  .control-label-codep {
-    font-size: 12px;
-  }
-
-  .theme-select-codep,
-  .font-size-select-codep {
-    padding: 4px 6px;
-    font-size: 12px;
-  }
-
-  .btn-codep {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
 }
 
 /* Dark theme enhancements for preview */
