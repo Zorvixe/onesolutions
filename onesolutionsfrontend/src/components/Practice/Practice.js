@@ -44,6 +44,7 @@ const Practice = () => {
   const [pyodideReady, setPyodideReady] = useState(false);
 
   const subtopicId = location.state?.subtopicId;
+  const topicId = location.state?.topicId; // Add this line
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
 
@@ -263,13 +264,15 @@ const Practice = () => {
   };
 
   const handleBackToPractice = () => {
-    navigate(`/practice/${practiceId}`, {
-      state: {
-        subtopicId,
-        goalName,
-        courseName,
-      },
-    });
+    // Check if topicId exists before navigating
+    if (topicId && subtopicId) {
+      navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
+        state: { subtopicId, goalName, courseName, topicId }, // Include topicId in state
+      });
+    } else {
+      // Fallback navigation if topicId is not available
+      navigate(-1); // Go back to previous page
+    }
   };
 
   const isEmptyCode = (userCode) => {

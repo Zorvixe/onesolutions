@@ -12,7 +12,7 @@ const Introductionto_Bootstrap_2 = ({
   courseName,
   subtopic,
   moduleName = "BootStrap",
-  topicName = "Introduction to CSS Box Model Part 2",
+  topicName = "IIntroduction to Bootstrap Part 2",
   slidesUrl = "https://docs.google.com/presentation/d/1xLxg9KgWvwyN_p_k3X4TFpiLvl5OuTpMnNXqB2Mz7ao/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

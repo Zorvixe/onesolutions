@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
+import { staticCodingPracticesData } from "../../codingPracticesData/staticCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 const Static_Coding_Pratice_4 = () => {
@@ -57,7 +57,7 @@ const Static_Coding_Pratice_4 = () => {
 
       // Load completion status for all static practices
       const completionStatus = {};
-      for (const practice of codingPracticesData.static) {
+      for (const practice of staticCodingPracticesData.static) {
         try {
           const response = await CodingPracticeService.getCompletionStatus(
             practice.id
@@ -81,7 +81,7 @@ const Static_Coding_Pratice_4 = () => {
 
   // Load practice
   useEffect(() => {
-    const practice4 = codingPracticesData.static.find(
+    const practice4 = staticCodingPracticesData.static.find(
       (p) => p.id === "static-coding-practice-4"
     );
     if (practice4) {

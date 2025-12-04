@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
+import { staticCodingPracticesData } from "../../codingPracticesData/staticCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 import CodePlayground from "../../CodePlayground/CodePlayground";
@@ -12,7 +12,7 @@ const WebPractice = () => {
   const { practiceId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { loadProgressSummary, codingPracticeProgress } = useAuth();
+  const { loadProgressSummary, codingPracticeProgress, user } = useAuth(); // Added user from useAuth
   const [selectedPractice, setSelectedPractice] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [testResults, setTestResults] = useState([]);
@@ -30,9 +30,13 @@ const WebPractice = () => {
   const [debugInfo, setDebugInfo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showCelebrationModal, setShowCelebrationModal] = useState(false); // NEW: Modal state
+  const [tweakIncrease, setTweakIncrease] = useState(0); // NEW: Tweak increase value
   const iframeRef = useRef(null);
+  const confettiRef = useRef([]);
 
   const subtopicId = location.state?.subtopicId;
+  const topicId = location.state?.topicId; // Add this line
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
 
@@ -66,13 +70,15 @@ const WebPractice = () => {
         setIsLoading(true);
         setError(null);
 
-        if (!codingPracticesData || !codingPracticesData.static) {
-          console.error("[v0] codingPracticesData is not properly structured");
+        if (!staticCodingPracticesData || !staticCodingPracticesData.static) {
+          console.error(
+            "[v0] staticCodingPracticesData is not properly structured"
+          );
           setError("Practice data not found. Please try again.");
           return;
         }
 
-        const practice = codingPracticesData.static.find(
+        const practice = staticCodingPracticesData.static.find(
           (p) => p.id === practiceId
         );
         if (!practice) {
@@ -188,6 +194,7 @@ const WebPractice = () => {
       const validationType = testCase.input;
 
       switch (validationType) {
+        // Existing cases...
         case "check-heading-container": {
           const containers = iframeDoc.querySelectorAll(
             "div, section, main, article, header, footer, nav, form"
@@ -247,6 +254,54 @@ const WebPractice = () => {
           };
         }
 
+        // NEW CASES FOR PRACTICE 3
+        case "check-d-flex-container": {
+          const dFlexElements = iframeDoc.querySelectorAll(".d-flex");
+          const hasDFlexClass = dFlexElements.length > 0;
+          return {
+            passed: hasDFlexClass,
+            actual: hasDFlexClass
+              ? `Found ${dFlexElements.length} element(s) with class d-flex`
+              : "No element with class d-flex found",
+          };
+        }
+
+        case "check-flex-column": {
+          const flexColumnElements = iframeDoc.querySelectorAll(".flex-column");
+          const hasFlexColumnClass = flexColumnElements.length > 0;
+          return {
+            passed: hasFlexColumnClass,
+            actual: hasFlexColumnClass
+              ? `Found ${flexColumnElements.length} element(s) with class flex-column`
+              : "No element with class flex-column found",
+          };
+        }
+
+        case "check-justify-content-center": {
+          const justifyCenterElements = iframeDoc.querySelectorAll(
+            ".justify-content-center"
+          );
+          const hasJustifyCenterClass = justifyCenterElements.length > 0;
+          return {
+            passed: hasJustifyCenterClass,
+            actual: hasJustifyCenterClass
+              ? `Found ${justifyCenterElements.length} element(s) with class justify-content-center`
+              : "No element with class justify-content-center found",
+          };
+        }
+        case "check-justify-content-end": {
+          const justifyEndElements = iframeDoc.querySelectorAll(
+            ".justify-content-end"
+          );
+          const hasJustifyEndClass = justifyEndElements.length > 0;
+          return {
+            passed: hasJustifyEndClass,
+            actual: hasJustifyEndClass
+              ? `Found ${justifyEndElements.length} element(s) with class justify-content-End`
+              : "No element with class justify-content-End found",
+          };
+        }
+
         default:
           return { passed: false, actual: "Unknown HTML test type" };
       }
@@ -259,11 +314,13 @@ const WebPractice = () => {
     }
   };
 
+  // In the validateCssTest function, add these new cases:
   const validateCssTest = (testCase, iframeDoc, iframe) => {
     try {
       const validationType = testCase.input;
 
       switch (validationType) {
+        // Existing cases...
         case "check-background-image": {
           const elements = iframeDoc.querySelectorAll("*");
           let hasBackgroundImage = false;
@@ -368,6 +425,60 @@ const WebPractice = () => {
           return {
             passed: hasPadding,
             actual: hasPadding ? "Found padding > 0" : "No padding found",
+          };
+        }
+
+        // NEW CASES FOR PRACTICE 3
+        case "check-border-style": {
+          const elements = iframeDoc.querySelectorAll("*");
+          let hasBorderStyle = false;
+          elements.forEach((el) => {
+            const style = iframe.contentWindow.getComputedStyle(el);
+            if (
+              style.borderStyle &&
+              style.borderStyle !== "none" &&
+              style.borderStyle !== "hidden"
+            ) {
+              hasBorderStyle = true;
+            }
+          });
+          return {
+            passed: hasBorderStyle,
+            actual: hasBorderStyle
+              ? "Found element with border-style"
+              : "No element with border-style found",
+          };
+        }
+
+        case "check-border-width": {
+          const elements = iframeDoc.querySelectorAll("*");
+          let hasBorderWidth = false;
+          elements.forEach((el) => {
+            const style = iframe.contentWindow.getComputedStyle(el);
+            // Check all border widths (top, right, bottom, left)
+            const borderTop = Number.parseFloat(style.borderTopWidth);
+            const borderRight = Number.parseFloat(style.borderRightWidth);
+            const borderBottom = Number.parseFloat(style.borderBottomWidth);
+            const borderLeft = Number.parseFloat(style.borderLeftWidth);
+
+            // Also check generic border-width
+            const borderWidth = Number.parseFloat(style.borderWidth);
+
+            if (
+              borderTop > 0 ||
+              borderRight > 0 ||
+              borderBottom > 0 ||
+              borderLeft > 0 ||
+              borderWidth > 0
+            ) {
+              hasBorderWidth = true;
+            }
+          });
+          return {
+            passed: hasBorderWidth,
+            actual: hasBorderWidth
+              ? "Found element with border-width > 0"
+              : "No element with border-width > 0 found",
           };
         }
 
@@ -514,17 +625,6 @@ const WebPractice = () => {
           `Tests completed: ${passedCount}/${selectedQuestion.testCases.length} passed. Fix the issues and run tests again.`
         );
       }
-
-      try {
-        await updateQuestionStatus(
-          selectedQuestion.id,
-          allPassed,
-          allPassed ? selectedQuestion.score : 0,
-          currentCode
-        );
-      } catch (saveError) {
-        console.log("[v0] Could not auto-save progress:", saveError.message);
-      }
     } catch (error) {
       console.error("[v0] Error running tests:", error);
       setOutput(`Error running tests: ${error.message}`);
@@ -550,6 +650,44 @@ const WebPractice = () => {
     }
   };
 
+  // NEW: Function to create confetti effect
+  const createConfetti = () => {
+    const colors = [
+      "#FFD700",
+      "#FF6B6B",
+      "#4ECDC4",
+      "#FFDE59",
+      "#667eea",
+      "#764ba2",
+    ];
+    const container = document.querySelector(".confetti-container");
+    if (!container) return;
+
+    // Clear existing confetti
+    confettiRef.current.forEach((conf) => conf.remove());
+    confettiRef.current = [];
+
+    // Create new confetti
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.width = `${Math.random() * 10 + 5}px`;
+      confetti.style.height = confetti.style.width;
+      confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+      confetti.style.animation = `confettiRain ${
+        Math.random() * 3 + 2
+      }s linear forwards`;
+      confetti.style.animationDelay = `${Math.random() * 1}s`;
+
+      container.appendChild(confetti);
+      confettiRef.current.push(confetti);
+    }
+  };
+
+  // Update the handleSubmit function to show the modal
   const handleSubmit = async () => {
     const allTestsCurrentlyPassed =
       testResults.length > 0 && testResults.every((test) => test.passed);
@@ -572,6 +710,17 @@ const WebPractice = () => {
     setDebugInfo("");
 
     try {
+      await updateQuestionStatus(
+        selectedQuestion.id,
+        true,
+        selectedQuestion.score,
+        currentCode
+      );
+    } catch (saveError) {
+      console.log("[v0] Could not auto-save progress:", saveError.message);
+    }
+
+    try {
       const result = await updateQuestionStatus(
         selectedQuestion.id,
         true,
@@ -580,6 +729,18 @@ const WebPractice = () => {
       );
 
       if (result.success) {
+        // Set tweak increase value (you can calculate this based on score or use a fixed value)
+        const tweakIncreaseValue = selectedQuestion.score || 10;
+        setTweakIncrease(tweakIncreaseValue);
+
+        // Show celebration modal
+        setShowCelebrationModal(true);
+
+        // Start confetti effect
+        setTimeout(() => {
+          createConfetti();
+        }, 100);
+
         setSubmitMessage(
           "✅ Congratulations! Your solution has been submitted successfully and marked as completed."
         );
@@ -612,10 +773,23 @@ const WebPractice = () => {
     }
   };
 
+  // NEW: Function to close the modal
+  const closeCelebrationModal = () => {
+    setShowCelebrationModal(false);
+    // Clear confetti when modal closes
+    confettiRef.current.forEach((conf) => conf.remove());
+    confettiRef.current = [];
+  };
   const handleBackToPractice = () => {
-    navigate(`/static-practice/${practiceId}`, {
-      state: { subtopicId, goalName, courseName },
-    });
+    // Check if topicId exists before navigating
+    if (topicId && subtopicId) {
+      navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
+        state: { subtopicId, goalName, courseName, topicId }, // Include topicId in state
+      });
+    } else {
+      // Fallback navigation if topicId is not available
+      navigate(-1); // Go back to previous page
+    }
   };
 
   const getQuestionStatus = (questionId) => {
@@ -667,8 +841,49 @@ const WebPractice = () => {
   const currentStatus = getQuestionStatus(selectedQuestion.id);
   const isAlreadySolved = currentStatus === "solved";
 
+  // Add the Celebration Modal JSX before the final return statement
+  const CelebrationModal = () => {
+    if (!showCelebrationModal) return null;
+
+    return (
+      <div className="celebration-modal-overlay">
+        <div className="confetti-container"></div>
+        <div className="celebration-modal">
+          <h2 className="modal-title">Congratulations!</h2>
+
+          <div className="modal-message">
+            <p>
+              Great job{" "}
+              <span className="modal-username">
+                {user?.username || "Coder"}
+              </span>
+              !
+            </p>
+            <p>You've successfully solved this challenge!</p>
+          </div>
+
+          <div className="modal-tweak-increase">
+            <p>Your Today's Tweak has increased by</p>
+            <div className="tweak-value">+{tweakIncrease}</div>
+            <p>Keep up the great work!</p>
+          </div>
+
+          <button
+            className="modal-button"
+            onClick={closeCelebrationModal}
+            autoFocus
+          >
+            Continue Practicing
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="web-practice-container">
+      {/* Celebration Modal */}
+      <CelebrationModal />
       <div className="web-practice-header">
         <button className="back-button" onClick={handleBackToPractice}>
           ← {selectedPractice.title}
@@ -754,35 +969,10 @@ const WebPractice = () => {
               </div>
 
               <div className="test-actions">
-                <button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting || !allTestsPassed || isAlreadySolved}
-                  className="submit-btn"
-                >
+                <button onClick={handleSubmit} className="submit-btn">
                   {isSubmitting ? "Submitting..." : "Submit Solution"}
                 </button>
-                {isAlreadySolved && (
-                  <div className="already-solved-message">
-                    ✅ This question has already been solved!
-                  </div>
-                )}
               </div>
-
-              {submitMessage && (
-                <div
-                  className={`submit-message ${
-                    submitMessage.includes("✅") ? "success" : "error"
-                  }`}
-                >
-                  {submitMessage}
-                </div>
-              )}
-
-              {debugInfo && (
-                <div className="debug-info">
-                  <small>{debugInfo}</small>
-                </div>
-              )}
             </div>
           </div>
         </div>

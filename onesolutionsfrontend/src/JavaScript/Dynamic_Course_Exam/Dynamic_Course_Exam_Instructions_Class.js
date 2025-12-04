@@ -5,14 +5,14 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Callbacks_Schedulers_Class = ({
+const Dynamic_Course_Exam_Instructions_Class = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Fetch & Callbacks",
-  topicName = "Callbacks & Schedulers",
-  slidesUrl = "https://docs.google.com/presentation/d/1n7xfc3pCoY5FttoKEacz6o87d-RwYqdmwiSkvSNkVqk/embed",
+  moduleName = "Build Your Own Dynamic Web Application Course Exam",
+  topicName = "Build Your Own Dynamic Web Application Course Exam | Instructions",
+  slidesUrl = "https://docs.google.com/presentation/d/1ubW23AD0OtoB7DjBrr8b8xHlPfNFIs1fDnElcrdEznc/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -766,4 +766,4 @@ const Callbacks_Schedulers_Class = ({
     </div>
   );
 };
-export default Callbacks_Schedulers_Class;
+export default Dynamic_Course_Exam_Instructions_Class;

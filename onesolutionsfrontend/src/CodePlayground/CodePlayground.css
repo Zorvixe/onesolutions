@@ -21,9 +21,9 @@
   font-family: "Segoe UI", system-ui, sans-serif;
   display: flex;
   flex-direction: column;
-  min-height: 80vh;
-  margin: 20px;
-  margin-top: 100px;
+  margin: 0px 20px;
+  margin-top: 80px;
+  min-height: 85vh;
 }
 
 /* Header Styles */
@@ -41,7 +41,7 @@
 .header-right-codep {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
@@ -159,8 +159,6 @@
   flex: 1;
   overflow: hidden;
   position: relative;
-  min-height: 80vh;
-  max-height: 80vh;
 }
 
 /* Panel Styles */
@@ -215,8 +213,6 @@
   background: transparent !important;
   color: #ffffff !important;
   font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
-  line-height: 1.8 !important;
-  height: 100px;
 }
 
 .editor-container-codep .ace_gutter {
@@ -249,7 +245,7 @@
 
 /* Resizer */
 .resizer-codep {
-  width: 8px;
+  width: 5px;
   background: var(--border-color);
   cursor: ew-resize;
   transition: background-color 0.2s ease;

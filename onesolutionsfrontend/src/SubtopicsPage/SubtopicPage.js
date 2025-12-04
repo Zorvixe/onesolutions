@@ -399,9 +399,10 @@ import Programmig_Foundations_Course_Exam_Instructions_Class from "../Python/Pro
 import Programmig_Foundations_Course_Exam from "../Python/Programmig_Foundations_Course_Exam/Programmig_Foundations_Course_Exam.js";
 // Map subtopics to their components
 
-//Dynamic Website Classes 
-
+//Dynamic Website Classes
+import Dom_Event_Fundamentals_Class from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_Class.js";
 const subtopicComponents = {
+  "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
   "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
