@@ -12,7 +12,7 @@ const WebPractice = () => {
   const { practiceId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { loadProgressSummary, codingPracticeProgress, user } = useAuth(); // Added user from useAuth
+  const { loadProgressSummary, codingPracticeProgress, user } = useAuth();
   const [selectedPractice, setSelectedPractice] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [testResults, setTestResults] = useState([]);
@@ -30,13 +30,15 @@ const WebPractice = () => {
   const [debugInfo, setDebugInfo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showCelebrationModal, setShowCelebrationModal] = useState(false); // NEW: Modal state
-  const [tweakIncrease, setTweakIncrease] = useState(0); // NEW: Tweak increase value
+  const [showCelebrationModal, setShowCelebrationModal] = useState(false);
+  const [tweakIncrease, setTweakIncrease] = useState(0);
   const iframeRef = useRef(null);
   const confettiRef = useRef([]);
+  const autoSaveTimeoutRef = useRef(null);
+  const [isJustSolved, setIsJustSolved] = useState(false); // NEW: Track if question was just solved
 
   const subtopicId = location.state?.subtopicId;
-  const topicId = location.state?.topicId; // Add this line
+  const topicId = location.state?.topicId;
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
 
@@ -62,7 +64,47 @@ const WebPractice = () => {
       setDebugInfo(`Error loading progress: ${error.message}`);
     }
     return {};
-  }, [questionId]);
+  }, []);
+
+  const autoSaveCode = useCallback(async (questionId, code, isSolved = false) => {
+    try {
+      const codeContent = JSON.stringify(code);
+      const status = isSolved ? "solved" : "attempted";
+      const score = isSolved ? selectedQuestion?.score || 0 : 0;
+      
+      const response = await CodingPracticeService.saveProgress(
+        practiceId,
+        questionId,
+        "web",
+        codeContent,
+        status,
+        score,
+        {
+          passed: isSolved,
+          score: score,
+          timestamp: new Date().toISOString(),
+        }
+      );
+
+      if (response.success) {
+        setUserProgress((prev) => ({
+          ...prev,
+          [questionId]: {
+            ...prev[questionId],
+            question_id: questionId,
+            status: status,
+            score: score,
+            code: codeContent,
+          },
+        }));
+        return { success: true };
+      }
+      return { success: false };
+    } catch (error) {
+      console.error("[v0] Auto-save failed:", error);
+      return { success: false, error: error.message };
+    }
+  }, [practiceId, selectedQuestion]);
 
   useEffect(() => {
     const loadPracticeData = async () => {
@@ -133,6 +175,7 @@ const WebPractice = () => {
         }
 
         setCurrentCode(initialCode);
+        setIsJustSolved(false); // Reset just solved flag when loading new question
       } catch (error) {
         console.error("[v0] Error loading practice data:", error);
         setError(`Error loading practice: ${error.message}`);
@@ -148,17 +191,19 @@ const WebPractice = () => {
     async (questionId, passed, score, code) => {
       try {
         const codeContent = JSON.stringify(code || currentCode);
+        const status = passed ? "solved" : "attempted";
+        const finalScore = passed ? score : 0;
 
         const response = await CodingPracticeService.saveProgress(
           practiceId,
           questionId,
           "web",
           codeContent,
-          passed ? "solved" : "attempted",
-          passed ? score : 0,
+          status,
+          finalScore,
           {
             passed,
-            score: passed ? score : 0,
+            score: finalScore,
             timestamp: new Date().toISOString(),
           }
         );
@@ -169,8 +214,8 @@ const WebPractice = () => {
             [questionId]: {
               ...prev[questionId],
               question_id: questionId,
-              status: passed ? "solved" : "attempted",
-              score: passed ? score : 0,
+              status: status,
+              score: finalScore,
               code: codeContent,
             },
           }));
@@ -189,12 +234,19 @@ const WebPractice = () => {
     [practiceId, currentCode, loadProgressSummary]
   );
 
+  useEffect(() => {
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const validateHtmlTest = (testCase, iframeDoc, iframe) => {
     try {
       const validationType = testCase.input;
 
       switch (validationType) {
-        // Existing cases...
         case "check-heading-container": {
           const containers = iframeDoc.querySelectorAll(
             "div, section, main, article, header, footer, nav, form"
@@ -254,7 +306,6 @@ const WebPractice = () => {
           };
         }
 
-        // NEW CASES FOR PRACTICE 3
         case "check-d-flex-container": {
           const dFlexElements = iframeDoc.querySelectorAll(".d-flex");
           const hasDFlexClass = dFlexElements.length > 0;
@@ -314,13 +365,11 @@ const WebPractice = () => {
     }
   };
 
-  // In the validateCssTest function, add these new cases:
   const validateCssTest = (testCase, iframeDoc, iframe) => {
     try {
       const validationType = testCase.input;
 
       switch (validationType) {
-        // Existing cases...
         case "check-background-image": {
           const elements = iframeDoc.querySelectorAll("*");
           let hasBackgroundImage = false;
@@ -428,7 +477,6 @@ const WebPractice = () => {
           };
         }
 
-        // NEW CASES FOR PRACTICE 3
         case "check-border-style": {
           const elements = iframeDoc.querySelectorAll("*");
           let hasBorderStyle = false;
@@ -455,13 +503,10 @@ const WebPractice = () => {
           let hasBorderWidth = false;
           elements.forEach((el) => {
             const style = iframe.contentWindow.getComputedStyle(el);
-            // Check all border widths (top, right, bottom, left)
             const borderTop = Number.parseFloat(style.borderTopWidth);
             const borderRight = Number.parseFloat(style.borderRightWidth);
             const borderBottom = Number.parseFloat(style.borderBottomWidth);
             const borderLeft = Number.parseFloat(style.borderLeftWidth);
-
-            // Also check generic border-width
             const borderWidth = Number.parseFloat(style.borderWidth);
 
             if (
@@ -509,14 +554,12 @@ const WebPractice = () => {
         return;
       }
 
-      // Prepare the complete HTML content
       const htmlContent = `<!DOCTYPE html>
 <html style="margin:0;padding:0;width:100%;height:100%;overflow:auto;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
- 
     ${currentCode.css || ""}
   </style>
 </head>
@@ -534,13 +577,11 @@ const WebPractice = () => {
 </body>
 </html>`;
 
-      // Use document.open/write for more reliable updates
       iframeDoc.open("text/html", "replace");
       iframeDoc.write(htmlContent);
       iframeDoc.close();
     } catch (error) {
       console.error("[v0] Error updating preview:", error);
-      // Fallback: Try alternative method
       try {
         const iframeDoc =
           iframe.contentDocument || iframe.contentWindow.document;
@@ -636,7 +677,6 @@ const WebPractice = () => {
   const handleRunTests = (iframeRef) => {
     console.log("[v0] Running tests...");
     updatePreview(iframeRef);
-    // Use a longer timeout to allow iframe to stabilize
     setTimeout(() => {
       runTests(iframeRef);
     }, 500);
@@ -647,10 +687,29 @@ const WebPractice = () => {
       setCurrentCode(newCode);
       setAllTestsPassed(false);
       setSubmitMessage("");
+
+      // If question was just solved, don't auto-save as attempted
+      if (isJustSolved) {
+        setIsJustSolved(false); // Reset the flag
+        return;
+      }
+
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+
+      autoSaveTimeoutRef.current = setTimeout(() => {
+        if (selectedQuestion) {
+          const currentStatus = getQuestionStatus(selectedQuestion.id);
+          // Only auto-save as attempted if not already solved
+          if (currentStatus !== "solved") {
+            autoSaveCode(selectedQuestion.id, newCode, false);
+          }
+        }
+      }, 2000);
     }
   };
 
-  // NEW: Function to create confetti effect
   const createConfetti = () => {
     const colors = [
       "#FFD700",
@@ -663,11 +722,9 @@ const WebPractice = () => {
     const container = document.querySelector(".confetti-container");
     if (!container) return;
 
-    // Clear existing confetti
     confettiRef.current.forEach((conf) => conf.remove());
     confettiRef.current = [];
 
-    // Create new confetti
     for (let i = 0; i < 150; i++) {
       const confetti = document.createElement("div");
       confetti.className = "confetti";
@@ -687,7 +744,6 @@ const WebPractice = () => {
     }
   };
 
-  // Update the handleSubmit function to show the modal
   const handleSubmit = async () => {
     const allTestsCurrentlyPassed =
       testResults.length > 0 && testResults.every((test) => test.passed);
@@ -699,26 +755,9 @@ const WebPractice = () => {
       return;
     }
 
-    const currentStatus = getQuestionStatus(selectedQuestion.id);
-    if (currentStatus === "solved") {
-      setSubmitMessage("✅ This question has already been solved!");
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitMessage("Submitting your solution...");
     setDebugInfo("");
-
-    try {
-      await updateQuestionStatus(
-        selectedQuestion.id,
-        true,
-        selectedQuestion.score,
-        currentCode
-      );
-    } catch (saveError) {
-      console.log("[v0] Could not auto-save progress:", saveError.message);
-    }
 
     try {
       const result = await updateQuestionStatus(
@@ -729,14 +768,19 @@ const WebPractice = () => {
       );
 
       if (result.success) {
-        // Set tweak increase value (you can calculate this based on score or use a fixed value)
         const tweakIncreaseValue = selectedQuestion.score || 10;
         setTweakIncrease(tweakIncreaseValue);
+        
+        // Set the flag that question was just solved
+        setIsJustSolved(true);
+        
+        // Clear any pending auto-save
+        if (autoSaveTimeoutRef.current) {
+          clearTimeout(autoSaveTimeoutRef.current);
+        }
 
-        // Show celebration modal
         setShowCelebrationModal(true);
 
-        // Start confetti effect
         setTimeout(() => {
           createConfetti();
         }, 100);
@@ -773,22 +817,19 @@ const WebPractice = () => {
     }
   };
 
-  // NEW: Function to close the modal
   const closeCelebrationModal = () => {
     setShowCelebrationModal(false);
-    // Clear confetti when modal closes
     confettiRef.current.forEach((conf) => conf.remove());
     confettiRef.current = [];
   };
+
   const handleBackToPractice = () => {
-    // Check if topicId exists before navigating
     if (topicId && subtopicId) {
       navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
-        state: { subtopicId, goalName, courseName, topicId }, // Include topicId in state
+        state: { subtopicId, goalName, courseName, topicId },
       });
     } else {
-      // Fallback navigation if topicId is not available
-      navigate(-1); // Go back to previous page
+      navigate(-1);
     }
   };
 
@@ -841,7 +882,6 @@ const WebPractice = () => {
   const currentStatus = getQuestionStatus(selectedQuestion.id);
   const isAlreadySolved = currentStatus === "solved";
 
-  // Add the Celebration Modal JSX before the final return statement
   const CelebrationModal = () => {
     if (!showCelebrationModal) return null;
 
@@ -882,7 +922,6 @@ const WebPractice = () => {
 
   return (
     <div className="web-practice-container">
-      {/* Celebration Modal */}
       <CelebrationModal />
       <div className="web-practice-header">
         <button className="back-button" onClick={handleBackToPractice}>
@@ -969,7 +1008,11 @@ const WebPractice = () => {
               </div>
 
               <div className="test-actions">
-                <button onClick={handleSubmit} className="submit-btn">
+                <button
+                  onClick={handleSubmit}
+                  className="submit-btn"
+                  disabled={isSubmitting}
+                >
                   {isSubmitting ? "Submitting..." : "Submit Solution"}
                 </button>
               </div>
