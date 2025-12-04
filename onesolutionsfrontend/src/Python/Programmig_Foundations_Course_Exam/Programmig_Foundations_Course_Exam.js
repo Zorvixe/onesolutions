@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
+import "../CodingPracticeCss/CodingPractice.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const Static_Course_Exam = () => {
+const Programmig_Foundations_Course_Exam = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -41,7 +42,7 @@ const Static_Course_Exam = () => {
   // Load "Coding Practice - 1" from codingPracticesData
   useEffect(() => {
     const practice1 = codingPracticesData.python.find(
-      (p) => p.id === "Static-Course-Exam"
+      (p) => p.id === "Programming-Foundations-Course-Exam"
     );
     if (practice1) {
       setSelectedPractice(practice1);
@@ -429,4 +430,4 @@ const Static_Course_Exam = () => {
     </div>
   );
 };
-export default Static_Course_Exam;
+export default Programmig_Foundations_Course_Exam;

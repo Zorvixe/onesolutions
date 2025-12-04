@@ -3,8 +3,7 @@
   display: flex;
   flex-direction: column;
   background-color: #f5f5f5;
-  min-height: 100vh;
-  padding-top: 70px;
+  padding-top: 65px;
 }
 
 .practice-content-prac {
@@ -21,6 +20,7 @@
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  height: 82vh;
 }
 
 .practice-name-prac {
@@ -44,6 +44,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  height: 60vh;
+  overflow-y: auto;
 }
 
 .practice-item-prac {
@@ -88,6 +90,7 @@
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  height: 82vh;
 }
 
 .questions-section-prac {
@@ -116,6 +119,8 @@
 .questions-table-prac {
   width: 100%;
   border-collapse: collapse;
+  height: 66vh;
+  overflow-y: auto;
 }
 
 .questions-table-prac table {
@@ -310,14 +315,13 @@
   color: #666;
   line-height: 1.6;
   white-space: pre-line;
-
 }
 
-.question-title-main-prac{
+.question-title-main-prac {
   font-weight: bold;
 }
 
-.question-description-prac{
+.question-description-prac {
   color: #999999;
   white-space: pre-line;
 }
@@ -634,10 +638,15 @@
   overflow: hidden;
 }
 
+.code-editor-container-prac .ace_selection {
+  background: #7aa2f75b !important; /* Or any color you prefer for selection */
+}
+
 .ace_editor {
   font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
   line-height: 2 !important;
   background: #0f172a !important;
+  border-right: 1px solid #7aa2f73d; /* Add this line for the vertical separator */
 }
 
 .ace-twilight {

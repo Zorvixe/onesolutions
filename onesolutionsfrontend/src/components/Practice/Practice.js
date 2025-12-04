@@ -713,90 +713,88 @@ builtins.input = custom_input
                 )}
               </div>
               <div className="test-cases-grid-prac">
-                {selectedQuestion.testCases.map((testCase, index) => (
-                  <div
-                    key={index}
-                    className={`test-case-prac ${
-                      testCase.visible ? "visible-prac" : "hidden-prac"
-                    }`}
-                  >
-                    <div className="test-case-header-prac">
-                      <span className="test-case-number-prac">
-                        Test Case {index + 1}
-                      </span>
-                      <span
-                        className={`test-case-visibility-prac ${
-                          testCase.visible ? "visible-prac" : "hidden-prac"
-                        }`}
-                      >
-                        {testCase.visible ? "Visible" : "Hidden"}
-                      </span>
-                    </div>
-                    {testCase.visible && (
-                      <div className="test-case-content-prac">
-                        <div className="test-input-prac">
-                          <label>Input:</label>
-                          <div className="code-block-prac small-prac">
-                            <pre>{testCase.input || "No input"}</pre>
+                {selectedQuestion.testCases
+                  .filter((testCase) => testCase.visible)
+                  .map((testCase, visibleIndex) => {
+                    // Get test result for this visible test case
+                    // Assuming testResults is an object keyed by test case ID or index
+                    const testResult =
+                      testResults[testCase.id] || testResults[visibleIndex];
+
+                    return (
+                      <div key={visibleIndex} className="test-case-prac">
+                        <div className="test-case-header-prac">
+                          <span className="test-case-number-prac">
+                            Test Case {visibleIndex + 1}
+                          </span>
+                          <span className="test-case-visibility-prac visible-prac">
+                            Visible
+                          </span>
+                        </div>
+                        <div className="test-case-content-prac">
+                          <div className="test-input-prac">
+                            <label>Input:</label>
+                            <div className="code-block-prac small-prac">
+                              <pre>{testCase.input || "No input"}</pre>
+                            </div>
+                          </div>
+                          <div className="test-output-prac">
+                            <label>Expected Output:</label>
+                            <div className="code-block-prac small-prac">
+                              <pre>{testCase.output}</pre>
+                            </div>
                           </div>
                         </div>
-                        <div className="test-output-prac">
-                          <label>Expected Output:</label>
-                          <div className="code-block-prac small-prac">
-                            <pre>{testCase.output}</pre>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    {testResults[index] && (
-                      <div className="test-execution-result-prac">
-                        <div
-                          className={`test-result-prac ${
-                            testResults[index].passed
-                              ? "passed-prac"
-                              : "failed-prac"
-                          }`}
-                        >
-                          {testResults[index].passed ? "✓ Passed" : "✗ Failed"}
-                        </div>
-                        {!testResults[index].passed && testCase.visible && (
-                          <div className="output-comparison-prac">
-                            <div className="output-row-prac">
-                              <span className="output-label-prac">
-                                Your Output:
-                              </span>
-                              <div className="code-block-prac small-prac error-prac">
-                                <pre>
-                                  {testResults[index].actualOutput || "(empty)"}
-                                </pre>
-                              </div>
+                        {testResult && (
+                          <div className="test-execution-result-prac">
+                            <div
+                              className={`test-result-prac ${
+                                testResult.passed
+                                  ? "passed-prac"
+                                  : "failed-prac"
+                              }`}
+                            >
+                              {testResult.passed ? "✓ Passed" : "✗ Failed"}
                             </div>
-                            <div className="output-row-prac">
-                              <span className="output-label-prac">
-                                Expected Output:
-                              </span>
-                              <div className="code-block-prac small-prac success-prac">
-                                <pre>{testResults[index].expectedOutput}</pre>
+                            {!testResult.passed && (
+                              <div className="output-comparison-prac">
+                                <div className="output-row-prac">
+                                  <span className="output-label-prac">
+                                    Your Output:
+                                  </span>
+                                  <div className="code-block-prac small-prac error-prac">
+                                    <pre>
+                                      {testResult.actualOutput || "(empty)"}
+                                    </pre>
+                                  </div>
+                                </div>
+                                <div className="output-row-prac">
+                                  <span className="output-label-prac">
+                                    Expected Output:
+                                  </span>
+                                  <div className="code-block-prac small-prac success-prac">
+                                    <pre>{testResult.expectedOutput}</pre>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
+                            )}
+                            {testResult.passed && (
+                              <div className="output-comparison-prac">
+                                <div className="output-row-prac">
+                                  <span className="output-label-prac">
+                                    Your Output:
+                                  </span>
+                                  <div className="code-block-prac small-prac success-prac">
+                                    <pre>{testResult.actualOutput}</pre>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         )}
-                        {testResults[index].passed && testCase.visible && (
-                          <div className="output-comparison-prac">
-                            <div className="output-row-prac">
-                              <span className="output-label-prac">
-                                Your Output:
-                              </span>
-                              <div className="code-block-prac small-prac success-prac">
-                                <pre>{testResults[index].actualOutput}</pre>
-                              </div>
-                            </div>
-                          </div>
-                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
+                    );
+                  })}
               </div>
             </div>
           </div>

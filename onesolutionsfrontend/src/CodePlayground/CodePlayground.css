@@ -223,6 +223,11 @@
   background: transparent !important;
   color: #858585 !important;
   border: none;
+  border-right: 1px solid #7aa2f73d; /* Add this line for the vertical separator */
+}
+
+.editor-container-codep .ace_selection {
+  background: #7aa2f75b !important; /* Or any color you prefer for selection */
 }
 
 .editor-container-codep .ace_gutter-cell {

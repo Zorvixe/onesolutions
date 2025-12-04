@@ -128,6 +128,7 @@ import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
 //Static Website Classes
 import A_Note_ON_BootStrap_Version_Class from "../StaticWebsite/DevelopingLayouts/A_Note_ON_BootStrap_Version_Class.js";
+import Website_Behind_the_Scenes from "../StaticWebsite/WebSiteIntegration/Website_Behind_the_Scenes.js";
 import Introductionto_Html from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML.js";
 import Introductionto_Css_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_1.js";
 import Introductionto_Css_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_2.js";
@@ -394,8 +395,144 @@ import Dates_Time_Class from "../Python/Miscellaneous/Dates_Time_Class.js";
 import Workingwith_Data_Time_Class from "../Python/Miscellaneous/Workingwith_Data_Time_Class.js";
 import Coding_Pratice_34 from "../Python/Miscellaneous/Coding_Pratice_34.js";
 import Grand_Assignment_5 from "../Python/Miscellaneous/Grand_Assignment_5.js";
+import Programmig_Foundations_Course_Exam_Instructions_Class from "../Python/Programmig_Foundations_Course_Exam/Programmig_Foundations_Course_Exam_Instructions_Class.js";
+import Programmig_Foundations_Course_Exam from "../Python/Programmig_Foundations_Course_Exam/Programmig_Foundations_Course_Exam.js";
 // Map subtopics to their components
+
+//Dynamic Website Classes 
+
 const subtopicComponents = {
+  //Responsive Website
+  "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
+  "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
+  "BootStrap Grid System Part 2": Bootstrap_Grid_Sys_2,
+  "BootStrap Navbar": Bootstrap_Navbar_1,
+  "CSS Selectors & Inheritance": Css_Selector_Inheritance_1,
+  "CSS Specificity & Cascade": Css_Specificity_Cascade_1,
+  "Banner Section": Banner_Section_1,
+  "Why Choose Us? Section": Why_Chooseus_Section_1,
+  "Explore New Section": Explore_Menu_Section_1,
+  "Healthy Food, Delivery and Payment, Thanking Customers Section":
+    Healthy_Delivary_Payments_1,
+  "Follow Us Section & More Styling": Followus_More_Styles_1,
+  "CSS Gradients & More BootStrap Components": Css_Gradience_1,
+  "Responsive Coding Practice 1": Responsive_Coding_Pratice_1,
+  "Responsive Coding Practice 2": Responsive_Coding_Pratice_2,
+  "Responsive Coding Practice 3": Responsive_Coding_Pratice_3,
+  "Responsive Coding Practice 4": Responsive_Coding_Pratice_4,
+  "Responsive Coding Practice 5": Responsive_Coding_Pratice_5,
+  "Responsive Coding Practice 6": Responsive_Coding_Pratice_6,
+  "Responsive Coding Practice 7": Responsive_Coding_Pratice_7,
+  "Responsive Coding Practice 8": Responsive_Coding_Pratice_8,
+  "Responsive Coding Practice 9": Responsive_Coding_Pratice_9,
+  "Responsive Coding Practice 10": Responsive_Coding_Pratice_10,
+  "Responsive Coding Practice 11": Responsive_Coding_Pratice_11,
+  "Responsive Coding Practice 12": Responsive_Coding_Pratice_12,
+  "Responsive Coding Practice 13": Responsive_Coding_Pratice_13,
+  "Responsive Coding Practice 14": Responsive_Coding_Pratice_14,
+  "Responsive Coding Practice 15": Responsive_Coding_Pratice_15,
+  "Responsive Coding Practice 16": Responsive_Coding_Pratice_16,
+  "Responsive Coding Assignment 1": Responsive_Coding_Assignment_1,
+  "Responsive Coding Assignment 2": Responsive_Coding_Assignment_2,
+  "Responsive Coding Assignment 3": Responsive_Coding_Assignment_3,
+  "Reponsive Coding Test 1": Responsive_Coding_Test_1,
+  "Responsive Coding Test 2": Responsive_Coding_Test_2,
+  "Responsive Coding Test 3": Responsive_Coding_Test_3,
+  "Build Your Own Responsive Project": Responsive_Project,
+  "Build Your Own Responsive Website Course Exam | Instructions":
+    Responsive_Course_Exam_Instructions,
+  "Build Your Own Responsive Website Course Exam": Responsive_Course_Exam,
+
+  //Responsive Start
+  "Introduction to Responsive Web Design | Cheat Sheet":
+    Introductionto_Responsive_WD_CS,
+  "BootStrap Grid System Part 1 | Cheat Sheet": Bootstrap_Grid_Sys_CS_1,
+  "BootStrap Grid System Part 2 | Cheat Sheet": Bootstrap_Grid_Sys_CS_2,
+  "BootStrap Navbar | Cheat Sheet": Bootstrap_Navbar_CS,
+  "CSS Selectors & Inheritance | Cheat Sheet": Css_Selector_Inheritance_CS,
+  "CSS Specificity & Cascade | Cheat Sheet": Css_Specificity_Cascade_CS,
+  "Banner Section | Cheat Sheet": Banner_Section_CS,
+  "Explore New Section | Cheat Sheet": Explore_Menu_Section_CS,
+  "Healthy Food, Delivery and Payment, Thanking Customers Section | Cheat Sheet":
+    Healthy_Delivary_Payments_CS,
+  "Why Choose us? Section | Cheat Sheet": Why_Chooseus_Section_CS,
+  "CSS Gradients & More BootStrap Components | Cheat Sheet": CSS_Gradience_CS,
+  "Follow Us Section & More Styling | Cheat Sheet": Followus_More_Styles_CS,
+  "Responsive Summary CheatSheet": Responsive_Summary_CS,
+
+  //Responsive End
+
+  //Static Website Class
+  "Coding Platform Walk through": Coding_Practice_Platform_Walkthrough,
+  "A Note on BootStrap Versions": A_Note_ON_BootStrap_Version_Class,
+  "Website: Behind the Scenes": Website_Behind_the_Scenes,
+  "Introduction to Your First Project - Lets Build Together":
+    Introductionto_First_Project,
+  "Introduction to HTML": Introductionto_Html,
+  "Introduction to CSS Part 1": Introductionto_Css_1,
+  "Introduction to CSS Part 2": Introductionto_Css_2,
+  "Introduction to CSS Part 3": Introductionto_Css_3,
+  "Introduction to CSS Box Model Part 1": Introductionto_Css_Boxmodel_1,
+  "Introduction to CSS Box Model Part 2": Introductionto_Css_Boxmodel_2,
+  "Introduction to Bootstrap Part 1": Introductionto_Bootstrap_1,
+  "Introduction to Bootstrap Part 2": Introductionto_Bootstrap_2,
+  "Favourite Places Section": FavouritePlaces_Section_1,
+  "Approach to Develop a Layout": Approachto_Develop_Layout_1,
+  "Favourite Place Detailed View Section": Favouriteplaces_Detailview_1,
+  "Website Integration Part 1": WebSite_Integration_1,
+  "Website Integration | Part 2": WebSite_Integration_2,
+  "HTML Hyperlinks": Html_HyperLinks_1,
+  "On Demand Session": OnDemand_Session_1,
+  "Static Coding Assignment 1": Static_Coding_Assignment_1,
+  "Static Coding Assignment 2": Static_Coding_Assignment_2,
+  "Static Coding Assignment 3": Static_Coding_Assignment_3,
+  "Static Coding Practice 1": Static_Coding_Pratice_1,
+  "Static Coding Practice 2": Static_Coding_Pratice_2,
+  "Static Coding Practice 3": Static_Coding_Pratice_3,
+  "Static Coding Practice 4": Static_Coding_Pratice_4,
+  "Static Coding Practice 5": Static_Coding_Pratice_5,
+  "Static Coding Practice 6": Static_Coding_Pratice_6,
+  "Static Coding Practice 7": Static_Coding_Pratice_7,
+  "Static Coding Practice 8": Static_Coding_Pratice_8,
+  "Static Coding Practice 9": Static_Coding_Pratice_9,
+  "Static Coding Practice 10": Static_Coding_Pratice_10,
+  "Static Coding Practice 11": Static_Coding_Pratice_11,
+  "Static Coding Practice 12": Static_Coding_Pratice_12,
+  "Static Coding Practice 13": Static_Coding_Pratice_13,
+  "Static Coding Test 1": Static_Mock_Test_1,
+  "Static Coding Test 2": Static_Mock_Test_2,
+  "Build Your Own Static Website Project": Static_Website_Project,
+  "Build Your Own Static Website Course Exam | Instructions":
+    Static_Course_Exam_Instruction,
+  "Build Your Own Static Website Course Exam": Static_Course_Exam,
+
+  //Static Website Cheat Sheet Start
+  "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
+  "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
+  "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
+  "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,
+  "Introduction to CSS Box Model Part 1 | Cheat Sheet":
+    Introductionto_Css_BoxModel_CS_1,
+  "Introduction to CSS Box Model Part 2 | Cheat Sheet":
+    Introductionto_Css_BoxModel_CS_2,
+  "Introduction to Bootstrap Part 1 | Cheat Sheet":
+    Introductionto_BootStrap_CS_1,
+  "Introduction to Bootstrap Part 2 | Cheat Sheet":
+    Introductionto_BootStrap_CS_2,
+  "Approach to Develop a Layout | Cheat Sheet": Approachto_Develop_Layout_CS_1,
+  "Favourite Place Detailed View Section | Cheat Sheet":
+    FavouritePlaces_DetailView_CS,
+  "Favourite Places Section | Cheat Sheet": FavouritePlaces_Section_CS_1,
+  "OnDemand Session | Cheat Sheet": OnDemand_Session_CS,
+  "Hypertext Transfer Protocol (HTTP) | Cheat Sheet":
+    Hypertext_Transfer_Protocal_CS,
+  "Forms | Part 2 | Cheat sheet": Forms_CS_2,
+  "HTML Hyperlinks | Cheat Sheets": HTML_HyperLinks_CS,
+  "Website Integration Part 1 | Cheat Sheet": Website_Integration_CS_1,
+  "Website Integration Part 2 | Cheat Sheet": Website_Integration_CS_2,
+  "Static Summary CheatSheet": StaticSummary_CS,
+  //Static End
+
   //Python Coding & Class
   "Coding Practice Walkthrough | Part 1": Coding_Pratice_Walkthough,
   "Input and Output Basics": Inp_Oup_Basics_Class,
@@ -552,136 +689,9 @@ const subtopicComponents = {
   "Working with Dates & Times": Workingwith_Data_Time_Class,
   "Coding Practice 34": Coding_Pratice_34,
   "Grand Assignment 5": Grand_Assignment_5,
-
-  //Responsive Website
-  "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
-  "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
-  "BootStrap Grid System Part 2": Bootstrap_Grid_Sys_2,
-  "BootStrap Navbar": Bootstrap_Navbar_1,
-  "CSS Selectors & Inheritance": Css_Selector_Inheritance_1,
-  "CSS Specificity & Cascade": Css_Specificity_Cascade_1,
-  "Banner Section": Banner_Section_1,
-  "Why Choose Us? Section": Why_Chooseus_Section_1,
-  "Explore New Section": Explore_Menu_Section_1,
-  "Healthy Food, Delivery and Payment, Thanking Customers Section":
-    Healthy_Delivary_Payments_1,
-  "Follow Us Section & More Styling": Followus_More_Styles_1,
-  "CSS Gradients & More BootStrap Components": Css_Gradience_1,
-  "Responsive Coding Practice 1": Responsive_Coding_Pratice_1,
-  "Responsive Coding Practice 2": Responsive_Coding_Pratice_2,
-  "Responsive Coding Practice 3": Responsive_Coding_Pratice_3,
-  "Responsive Coding Practice 4": Responsive_Coding_Pratice_4,
-  "Responsive Coding Practice 5": Responsive_Coding_Pratice_5,
-  "Responsive Coding Practice 6": Responsive_Coding_Pratice_6,
-  "Responsive Coding Practice 7": Responsive_Coding_Pratice_7,
-  "Responsive Coding Practice 8": Responsive_Coding_Pratice_8,
-  "Responsive Coding Practice 9": Responsive_Coding_Pratice_9,
-  "Responsive Coding Practice 10": Responsive_Coding_Pratice_10,
-  "Responsive Coding Practice 11": Responsive_Coding_Pratice_11,
-  "Responsive Coding Practice 12": Responsive_Coding_Pratice_12,
-  "Responsive Coding Practice 13": Responsive_Coding_Pratice_13,
-  "Responsive Coding Practice 14": Responsive_Coding_Pratice_14,
-  "Responsive Coding Practice 15": Responsive_Coding_Pratice_15,
-  "Responsive Coding Practice 16": Responsive_Coding_Pratice_16,
-  "Responsive Coding Assignment 1": Responsive_Coding_Assignment_1,
-  "Responsive Coding Assignment 2": Responsive_Coding_Assignment_2,
-  "Responsive Coding Assignment 3": Responsive_Coding_Assignment_3,
-  "Reponsive Coding Test 1": Responsive_Coding_Test_1,
-  "Responsive Coding Test 2": Responsive_Coding_Test_2,
-  "Responsive Coding Test 3": Responsive_Coding_Test_3,
-  "Build Your Own Responsive Project": Responsive_Project,
-  "Build Your Own Responsive Website Course Exam | Instructions":
-    Responsive_Course_Exam_Instructions,
-  "Build Your Own Responsive Website Course Exam": Responsive_Course_Exam,
-
-  //Responsive Start
-  "Introduction to Responsive Web Design | Cheat Sheet":
-    Introductionto_Responsive_WD_CS,
-  "BootStrap Grid System Part 1 | Cheat Sheet": Bootstrap_Grid_Sys_CS_1,
-  "BootStrap Grid System Part 2 | Cheat Sheet": Bootstrap_Grid_Sys_CS_2,
-  "BootStrap Navbar | Cheat Sheet": Bootstrap_Navbar_CS,
-  "CSS Selectors & Inheritance | Cheat Sheet": Css_Selector_Inheritance_CS,
-  "CSS Specificity & Cascade | Cheat Sheet": Css_Specificity_Cascade_CS,
-  "Banner Section | Cheat Sheet": Banner_Section_CS,
-  "Explore New Section | Cheat Sheet": Explore_Menu_Section_CS,
-  "Healthy Food, Delivery and Payment, Thanking Customers Section | Cheat Sheet":
-    Healthy_Delivary_Payments_CS,
-  "Why Choose us? Section | Cheat Sheet": Why_Chooseus_Section_CS,
-  "CSS Gradients & More BootStrap Components | Cheat Sheet": CSS_Gradience_CS,
-  "Follow Us Section & More Styling | Cheat Sheet": Followus_More_Styles_CS,
-  "Responsive Summary CheatSheet": Responsive_Summary_CS,
-
-  //Responsive End
-
-  //Static Website Class
-  "Coding Platform Walk through": Coding_Practice_Platform_Walkthrough,
-  "A Note on BootStrap Versions": A_Note_ON_BootStrap_Version_Class,
-  "Introduction to Your First Project - Lets Build Together":
-    Introductionto_First_Project,
-  "Introduction to HTML": Introductionto_Html,
-  "Introduction to CSS Part 1": Introductionto_Css_1,
-  "Introduction to CSS Part 2": Introductionto_Css_2,
-  "Introduction to CSS Part 3": Introductionto_Css_3,
-  "Introduction to CSS Box Model Part 1": Introductionto_Css_Boxmodel_1,
-  "Introduction to CSS Box Model Part 2": Introductionto_Css_Boxmodel_2,
-  "Introduction to Bootstrap Part 1": Introductionto_Bootstrap_1,
-  "Introduction to Bootstrap Part 2": Introductionto_Bootstrap_2,
-  "Favourite Places Section": FavouritePlaces_Section_1,
-  "Approach to Develop a Layout": Approachto_Develop_Layout_1,
-  "Favourite Place Detailed View Section": Favouriteplaces_Detailview_1,
-  "Website Integration Part 1": WebSite_Integration_1,
-  "Website Integration | Part 2": WebSite_Integration_2,
-  "HTML Hyperlinks": Html_HyperLinks_1,
-  "On Demand Session": OnDemand_Session_1,
-  "Static Coding Assignment 1": Static_Coding_Assignment_1,
-  "Static Coding Assignment 2": Static_Coding_Assignment_2,
-  "Static Coding Assignment 3": Static_Coding_Assignment_3,
-  "Static Coding Practice 1": Static_Coding_Pratice_1,
-  "Static Coding Practice 2": Static_Coding_Pratice_2,
-  "Static Coding Practice 3": Static_Coding_Pratice_3,
-  "Static Coding Practice 4": Static_Coding_Pratice_4,
-  "Static Coding Practice 5": Static_Coding_Pratice_5,
-  "Static Coding Practice 6": Static_Coding_Pratice_6,
-  "Static Coding Practice 7": Static_Coding_Pratice_7,
-  "Static Coding Practice 8": Static_Coding_Pratice_8,
-  "Static Coding Practice 9": Static_Coding_Pratice_9,
-  "Static Coding Practice 10": Static_Coding_Pratice_10,
-  "Static Coding Practice 11": Static_Coding_Pratice_11,
-  "Static Coding Practice 12": Static_Coding_Pratice_12,
-  "Static Coding Practice 13": Static_Coding_Pratice_13,
-  "Static Coding Test 1": Static_Mock_Test_1,
-  "Static Coding Test 2": Static_Mock_Test_2,
-  "Build Your Own Static Website Project": Static_Website_Project,
-  "Build Your Own Static Website Course Exam | Instructions":
-    Static_Course_Exam_Instruction,
-  "Build Your Own Static Website Course Exam": Static_Course_Exam,
-
-  //Static Website Cheat Sheet Start
-  "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
-  "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
-  "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
-  "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,
-  "Introduction to CSS Box Model Part 1 | Cheat Sheet":
-    Introductionto_Css_BoxModel_CS_1,
-  "Introduction to CSS Box Model Part 2 | Cheat Sheet":
-    Introductionto_Css_BoxModel_CS_2,
-  "Introduction to Bootstrap Part 1 | Cheat Sheet":
-    Introductionto_BootStrap_CS_1,
-  "Introduction to Bootstrap Part 2 | Cheat Sheet":
-    Introductionto_BootStrap_CS_2,
-  "Approach to Develop a Layout | Cheat Sheet": Approachto_Develop_Layout_CS_1,
-  "Favourite Place Detailed View Section | Cheat Sheet":
-    FavouritePlaces_DetailView_CS,
-  "Favourite Places Section | Cheat Sheet": FavouritePlaces_Section_CS_1,
-  "OnDemand Session | Cheat Sheet": OnDemand_Session_CS,
-  "Hypertext Transfer Protocol (HTTP) | Cheat Sheet":
-    Hypertext_Transfer_Protocal_CS,
-  "Forms | Part 2 | Cheat sheet": Forms_CS_2,
-  "HTML Hyperlinks | Cheat Sheets": HTML_HyperLinks_CS,
-  "Website Integration Part 1 | Cheat Sheet": Website_Integration_CS_1,
-  "Website Integration Part 2 | Cheat Sheet": Website_Integration_CS_2,
-  "Static Summary CheatSheet": StaticSummary_CS,
-  //Static End
+  "Programming Foundations Course Exam | Instructions":
+    Programmig_Foundations_Course_Exam_Instructions_Class,
+  "Programming Foundations Course Exam": Programmig_Foundations_Course_Exam,
 
   //Reactjs Cheat Sheet
   "Introduction to React JS | Cheat Sheet": Introductionto_Reactjs_CS,

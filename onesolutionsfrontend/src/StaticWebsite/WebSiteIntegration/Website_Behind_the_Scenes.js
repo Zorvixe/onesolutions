@@ -3,16 +3,17 @@ import { useAuth } from "../../context/AuthContext";
 import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 
 import "../../Class_CSS/Class_Css.css";
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const InputEle_Mathfunctions_Class = ({
+const Website_Behind_the_Scenes = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Introduction to JS & Variables",
-  topicName = "Input Element and Math Functions",
-  slidesUrl = "https://docs.google.com/presentation/d/1wudfE8UxhqYzbAf85u1vp-Hq5LDnopZga4uHim5JO0g/embed",
+  moduleName = "Website Integration",
+  topicName = "Website: Behind the Scenes",
+  slidesUrl = "https://docs.google.com/presentation/d/1oxMrytBbIQyNyFisBBkLqJfQNrYxqH4or5SqImpHFlY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -28,7 +29,6 @@ const InputEle_Mathfunctions_Class = ({
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
-
   const editorRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -720,11 +720,11 @@ const InputEle_Mathfunctions_Class = ({
                   />
                   <div className="thread-footer-clss">
                     <div className="thread-author-clss">
-                      <span className="profile_image_avatar">
-                        {thread.first_name.slice(0, 1)}
-                        {thread.last_name.slice(0, 1)}
-                      </span>
-
+                      <img
+                        src={thread.profile_image || "/default-avatar.png"}
+                        alt="Author"
+                        className="author-avatar-clss"
+                      />
                       <span>
                         {thread.first_name} {thread.last_name}
                       </span>
@@ -766,4 +766,4 @@ const InputEle_Mathfunctions_Class = ({
     </div>
   );
 };
-export default InputEle_Mathfunctions_Class;
+export default Website_Behind_the_Scenes;

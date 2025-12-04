@@ -69,7 +69,7 @@ export default function Courses() {
 
   //  Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 0) return false; // First goal is always open
+    if (goalIndex === 1) return false; // First goal is always open
 
     // Check ALL previous goals (not just immediate previous)
     for (let i = 0; i < goalIndex; i++) {
