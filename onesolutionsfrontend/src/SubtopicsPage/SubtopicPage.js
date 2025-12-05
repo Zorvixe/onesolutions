@@ -401,8 +401,51 @@ import Programmig_Foundations_Course_Exam from "../Python/Programmig_Foundations
 
 //Dynamic Website Classes
 import Dom_Event_Fundamentals_Class from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_Class.js";
+import Introductionto_Dynamic_Application_Class from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_Class.js";
+import PrimitiveTypes_Conditionals_Class from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_Class.js";
+import InputEle_Mathfunctions_Class from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_Class.js";
+import Coding_Pratice_1 from "../JavaScript/Introductionto_Js_Variables/Coding_Pratice_1.js";
+import Coding_Pratice_2 from "../JavaScript/Introductionto_Js_Variables/Coding_Pratice_2.js";
+import Coding_Pratice_3 from "../JavaScript/Introductionto_Js_Variables/Coding_Pratice_3.js";
+import Arrays_Dom_Manipulations_Class from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_Class.js";
+import JS_Coding_Pratice_Walkthrough from "../JavaScript/Arrays_Objects/JS_Coding_Pratice_Walkthrough.js";
+import Objects_Class from "../JavaScript/Arrays_Objects/Objects_Class.js";
+import A_Note_ON_Software_Capability from "../JavaScript/Arrays_Objects/A_Note_ON_Software_Capability.js";
+import Coding_Pratice_4 from "../JavaScript/Arrays_Objects/Coding_Pratice_4.js";
+import Coding_Pratice_6 from "../JavaScript/Todos_Application/Coding_Pratice_6.js";
+import Coding_Pratice_7 from "../JavaScript/Todos_Application/Coding_Pratice_7.js";
+import Coding_Pratice_8 from "../JavaScript/Todos_Application/Coding_Pratice_8.js";
+import JS_Coding_Pratic_1 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_1.js";
+import JS_Coding_Pratic_2 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_2.js";
+import JS_Coding_Pratic_3 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_3.js";
+import JS_Coding_Pratic_4 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_4.js";
+import Todos_Application_Part_1_Class from "../JavaScript/Todos_Application/Todos_Application_Part_1_Class.js";
+import Todos_Application_Part_2_Class from "../JavaScript/Todos_Application/Todos_Application_Part_2_Class.js";
+import On_Demand_Session_Class from "../JavaScript/Todos_Application/On_Demand_Session_Class.js";
 const subtopicComponents = {
+  "Introduction to Dynamic Web Applications":
+    Introductionto_Dynamic_Application_Class,
   "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
+  "Primitive Types & Conditionals": PrimitiveTypes_Conditionals_Class,
+  "Input Element and Math Functions": InputEle_Mathfunctions_Class,
+  "Coding Practice 1": Coding_Pratice_1,
+  "Coding Practice 2": Coding_Pratice_2,
+  "Coding Practice 3": Coding_Pratice_3,
+  "Arrays & More DOM Manipulations": Arrays_Dom_Manipulations_Class,
+  "JS Coding Platform Walk through": JS_Coding_Pratice_Walkthrough,
+  Objects: Objects_Class,
+  "A Note On Software Compatibility": A_Note_ON_Software_Capability,
+  "JS Coding Practice 1": JS_Coding_Pratic_1,
+  "JS Coding Practice 2": JS_Coding_Pratic_2,
+  "JS Coding Practice 3": JS_Coding_Pratic_3,
+  "JS Coding Practice 4": JS_Coding_Pratic_4,
+  "Coding Practice 4": Coding_Pratice_4,
+  "Coding Practice 6": Coding_Pratice_6,
+  "Coding Practice 7": Coding_Pratice_7,
+  "Coding Practice 8": Coding_Pratice_8,
+  "Todos Application Introduction": Todos_Application_Part_1_Class,
+  "On Demand Session": On_Demand_Session_Class,
+  "Todos Application | Part 2": Todos_Application_Part_2_Class,
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
   "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,

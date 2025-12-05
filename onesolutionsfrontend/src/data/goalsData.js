@@ -1950,7 +1950,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s10_A0 m2_H g2_7B c1_D2E",
-                name: "JS Coding Platform   Walk through",
+                name: "JS Coding Platform Walk through",
               },
               {
                 id: "QW9_s11_A0 m2_H g2_7B c1_D2E",

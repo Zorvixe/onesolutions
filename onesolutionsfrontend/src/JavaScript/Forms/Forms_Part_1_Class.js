@@ -5,7 +5,7 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Forms_Part1_Class = ({
+const Forms_Part_1_Class = ({
   subtopicId,
   goalName,
   courseName,
@@ -766,4 +766,4 @@ const Forms_Part1_Class = ({
     </div>
   );
 };
-export default Forms_Part1_Class;
+export default Forms_Part_1_Class;
