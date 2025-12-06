@@ -3956,16 +3956,16 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
   }
 });
 
-app.get(
-  "/api/discussions/thread-detail/:threadSlug",
-  auth,
-  async (req, res) => {
-    try {
-      const { threadSlug } = req.params;
+// ==========================================
+// 🔹 GET THREAD BY SLUG (KEEP ONLY THIS ONE)
+// ==========================================
+app.get("/api/discussions/thread-detail/:threadSlug", auth, async (req, res) => {
+  try {
+    const { threadSlug } = req.params;
 
-      // Get thread details by slug
-      const threadResult = await pool.query(
-        `SELECT dt.*, 
+    // Get thread details by slug
+    const threadResult = await pool.query(
+      `SELECT dt.*, 
               s.first_name, 
               s.last_name, 
               s.profile_image,
@@ -3974,19 +3974,19 @@ app.get(
        FROM discussion_threads dt
        LEFT JOIN students s ON dt.student_id = s.id
        WHERE dt.thread_slug = $1`,
-        [threadSlug]
-      );
+      [threadSlug]
+    );
 
-      if (threadResult.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Thread not found",
-        });
-      }
+    if (threadResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Thread not found",
+      });
+    }
 
-      // Get replies for this thread
-      const repliesResult = await pool.query(
-        `SELECT dr.*, 
+    // Get replies for this thread
+    const repliesResult = await pool.query(
+      `SELECT dr.*, 
               s.first_name as student_first_name,
               s.last_name as student_last_name, 
               s.profile_image as student_profile_image,
@@ -4008,25 +4008,115 @@ app.get(
        LEFT JOIN students s ON dr.replied_by_student = s.id
        WHERE dr.thread_id = $1
        ORDER BY dr.created_at ASC`,
-        [threadResult.rows[0].id]
-      );
+      [threadResult.rows[0].id]
+    );
 
-      res.json({
-        success: true,
-        data: {
-          thread: threadResult.rows[0],
-          replies: repliesResult.rows,
-        },
-      });
-    } catch (error) {
-      console.error("Thread detail fetch error:", error.message);
-      res.status(500).json({
+    res.json({
+      success: true,
+      data: {
+        thread: threadResult.rows[0],
+        replies: repliesResult.rows,
+      },
+    });
+  } catch (error) {
+    console.error("Thread detail fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching thread details",
+    });
+  }
+});
+
+// ==========================================
+// 🔹 GET THREAD BY NUMERIC ID (FOR BACKWARD COMPATIBILITY)
+// ==========================================
+app.get("/api/discussions/thread-detail/:threadId", auth, async (req, res) => {
+  try {
+    const { threadId } = req.params;
+
+    // Check if threadId is numeric
+    const isNumeric = /^\d+$/.test(threadId);
+    
+    let query;
+    let params;
+
+    if (isNumeric) {
+      // If it's numeric, search by ID
+      query = `SELECT dt.*, 
+                s.first_name, 
+                s.last_name, 
+                s.profile_image,
+                s.email as student_email,
+                s.student_id as author_id
+         FROM discussion_threads dt
+         LEFT JOIN students s ON dt.student_id = s.id
+         WHERE dt.id = $1`;
+      params = [parseInt(threadId)];
+    } else {
+      // If it's not numeric, assume it's a slug
+      query = `SELECT dt.*, 
+                s.first_name, 
+                s.last_name, 
+                s.profile_image,
+                s.email as student_email,
+                s.student_id as author_id
+         FROM discussion_threads dt
+         LEFT JOIN students s ON dt.student_id = s.id
+         WHERE dt.thread_slug = $1`;
+      params = [threadId];
+    }
+
+    const threadResult = await pool.query(query, params);
+
+    if (threadResult.rows.length === 0) {
+      return res.status(404).json({
         success: false,
-        message: "Server error while fetching thread details",
+        message: "Thread not found",
       });
     }
+
+    // Get replies for this thread
+    const repliesResult = await pool.query(
+      `SELECT dr.*, 
+              s.first_name as student_first_name,
+              s.last_name as student_last_name, 
+              s.profile_image as student_profile_image,
+              dr.admin_name,
+              dr.admin_image,
+              CASE 
+                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
+                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
+              END as replied_by_role,
+              COALESCE(
+                s.first_name || ' ' || s.last_name, 
+                dr.admin_name
+              ) as replied_by_name,
+              COALESCE(
+                s.profile_image, 
+                dr.admin_image
+              ) as replied_by_image
+       FROM discussion_replies dr
+       LEFT JOIN students s ON dr.replied_by_student = s.id
+       WHERE dr.thread_id = $1
+       ORDER BY dr.created_at ASC`,
+      [threadResult.rows[0].id]
+    );
+
+    res.json({
+      success: true,
+      data: {
+        thread: threadResult.rows[0],
+        replies: repliesResult.rows,
+      },
+    });
+  } catch (error) {
+    console.error("Thread detail fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching thread details",
+    });
   }
-);
+});
 
 // Get threads by subtopic
 app.get("/api/discussions/threads/:subtopicId", auth, async (req, res) => {
@@ -4061,77 +4151,6 @@ app.get("/api/discussions/threads/:subtopicId", auth, async (req, res) => {
   }
 });
 
-// Get thread by ID with replies (BOTH student and admin replies)
-app.get("/api/discussions/thread-detail/:threadId", auth, async (req, res) => {
-  try {
-    const { threadId } = req.params;
-
-    // Get thread details
-    const threadResult = await pool.query(
-      `SELECT dt.*, 
-              s.first_name, 
-              s.last_name, 
-              s.profile_image,
-              s.email as student_email
-       FROM discussion_threads dt
-       LEFT JOIN students s ON dt.student_id = s.id
-       WHERE dt.id = $1`,
-      [threadId]
-    );
-
-    if (threadResult.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Thread not found",
-      });
-    }
-
-    // Get replies for this thread (BOTH student and admin replies)
-    const repliesResult = await pool.query(
-      `SELECT dr.*, 
-              -- Student replies
-              s.first_name as student_first_name,
-              s.last_name as student_last_name, 
-              s.profile_image as student_profile_image,
-              -- Admin replies (we store admin name and image in the reply for display)
-              dr.admin_name,
-              dr.admin_image,
-              -- Determine who replied
-              CASE 
-                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
-                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
-              END as replied_by_role,
-              -- Get the appropriate name and image
-              COALESCE(
-                s.first_name || ' ' || s.last_name, 
-                dr.admin_name
-              ) as replied_by_name,
-              COALESCE(
-                s.profile_image, 
-                dr.admin_image
-              ) as replied_by_image
-       FROM discussion_replies dr
-       LEFT JOIN students s ON dr.replied_by_student = s.id
-       WHERE dr.thread_id = $1
-       ORDER BY dr.created_at ASC`,
-      [threadId]
-    );
-
-    res.json({
-      success: true,
-      data: {
-        thread: threadResult.rows[0],
-        replies: repliesResult.rows,
-      },
-    });
-  } catch (error) {
-    console.error("Thread detail fetch error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error while fetching thread details",
-    });
-  }
-});
 
 // Student reply to thread
 app.post("/api/discussions/replies", auth, async (req, res) => {
@@ -4175,78 +4194,6 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
   }
 });
 
-// Get thread by slug (using thread_slug instead of id)
-app.get(
-  "/api/discussions/thread-detail/:threadSlug",
-  auth,
-  async (req, res) => {
-    try {
-      const { threadSlug } = req.params;
-
-      // Get thread details by slug
-      const threadResult = await pool.query(
-        `SELECT dt.*, 
-              s.first_name, 
-              s.last_name, 
-              s.profile_image,
-              s.email as student_email,
-              s.student_id as author_id
-       FROM discussion_threads dt
-       LEFT JOIN students s ON dt.student_id = s.id
-       WHERE dt.thread_slug = $1`,
-        [threadSlug]
-      );
-
-      if (threadResult.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Thread not found",
-        });
-      }
-
-      // Get replies for this thread
-      const repliesResult = await pool.query(
-        `SELECT dr.*, 
-              s.first_name as student_first_name,
-              s.last_name as student_last_name, 
-              s.profile_image as student_profile_image,
-              dr.admin_name,
-              dr.admin_image,
-              CASE 
-                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
-                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
-              END as replied_by_role,
-              COALESCE(
-                s.first_name || ' ' || s.last_name, 
-                dr.admin_name
-              ) as replied_by_name,
-              COALESCE(
-                s.profile_image, 
-                dr.admin_image
-              ) as replied_by_image
-       FROM discussion_replies dr
-       LEFT JOIN students s ON dr.replied_by_student = s.id
-       WHERE dr.thread_id = $1
-       ORDER BY dr.created_at ASC`,
-        [threadResult.rows[0].id]
-      );
-
-      res.json({
-        success: true,
-        data: {
-          thread: threadResult.rows[0],
-          replies: repliesResult.rows,
-        },
-      });
-    } catch (error) {
-      console.error("Thread detail fetch error:", error.message);
-      res.status(500).json({
-        success: false,
-        message: "Server error while fetching thread details",
-      });
-    }
-  }
-);
 
 // Admin thread detail by slug
 app.get(
