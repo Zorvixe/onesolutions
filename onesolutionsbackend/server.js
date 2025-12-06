@@ -490,42 +490,6 @@ const createTables = async () => {
 `;
 
 
-const updateDiscussionRepliesTable = async () => {
-  try {
-    // Check for admin_name column
-    const checkAdminName = await pool.query(`
-      SELECT column_name 
-      FROM information_schema.columns 
-      WHERE table_name='discussion_replies' AND column_name='admin_name'
-    `);
-
-    if (checkAdminName.rows.length === 0) {
-      await pool.query(`
-        ALTER TABLE discussion_replies 
-        ADD COLUMN admin_name VARCHAR(255)
-      `);
-      console.log("✅ Added admin_name column to discussion_replies");
-    }
-
-    // Check for admin_image column
-    const checkAdminImage = await pool.query(`
-      SELECT column_name 
-      FROM information_schema.columns 
-      WHERE table_name='discussion_replies' AND column_name='admin_image'
-    `);
-
-    if (checkAdminImage.rows.length === 0) {
-      await pool.query(`
-        ALTER TABLE discussion_replies 
-        ADD COLUMN admin_image VARCHAR(500)
-      `);
-      console.log("✅ Added admin_image column to discussion_replies");
-    }
-  } catch (error) {
-    console.error("Error updating discussion_replies table:", error.message);
-  }
-};
-
   const feedbackTableQuery = `
 CREATE TABLE IF NOT EXISTS student_feedback (
   id SERIAL PRIMARY KEY,
@@ -629,6 +593,9 @@ CREATE TABLE IF NOT EXISTS student_feedback (
   })();
 
   try {
+
+    await checkAndAddMissingColumns();
+
     // Add to your createTables function
     await pool.query(discussionThreadsTableQuery);
     console.log("✅ Discussion threads table ready");
@@ -3996,72 +3963,111 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
 // ==========================================
 // 🔹 GET THREAD BY SLUG (KEEP ONLY THIS ONE)
 // ==========================================
-app.get("/api/discussions/thread-detail/:threadSlug", auth, async (req, res) => {
+async function checkAndAddMissingColumns() {
   try {
-    const { threadSlug } = req.params;
+      // Check for admin_name column
+      const checkAdminName = await pool.query(`
+          SELECT column_name 
+          FROM information_schema.columns 
+          WHERE table_name='discussion_replies' AND column_name='admin_name'
+      `);
 
-    // Get thread details by slug
-    const threadResult = await pool.query(
-      `SELECT dt.*, 
-              s.first_name, 
-              s.last_name, 
-              s.profile_image,
-              s.email as student_email,
-              s.student_id as author_id
-       FROM discussion_threads dt
-       LEFT JOIN students s ON dt.student_id = s.id
-       WHERE dt.thread_slug = $1`,
-      [threadSlug]
-    );
+      if (checkAdminName.rows.length === 0) {
+          await pool.query(`
+              ALTER TABLE discussion_replies 
+              ADD COLUMN admin_name VARCHAR(255)
+          `);
+          console.log("✅ Added admin_name column to discussion_replies");
+      }
 
-    if (threadResult.rows.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Thread not found",
-      });
-    }
+      // Check for admin_image column
+      const checkAdminImage = await pool.query(`
+          SELECT column_name 
+          FROM information_schema.columns 
+          WHERE table_name='discussion_replies' AND column_name='admin_image'
+      `);
 
-    // Get replies for this thread
-    const repliesResult = await pool.query(
-      `SELECT dr.*, 
-              s.first_name as student_first_name,
-              s.last_name as student_last_name, 
-              s.profile_image as student_profile_image,
-              dr.admin_name,
-              dr.admin_image,
-              CASE 
-                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
-                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
-              END as replied_by_role,
-              COALESCE(
-                s.first_name || ' ' || s.last_name, 
-                dr.admin_name
-              ) as replied_by_name,
-              COALESCE(
-                s.profile_image, 
-                dr.admin_image
-              ) as replied_by_image
-       FROM discussion_replies dr
-       LEFT JOIN students s ON dr.replied_by_student = s.id
-       WHERE dr.thread_id = $1
-       ORDER BY dr.created_at ASC`,
-      [threadResult.rows[0].id]
-    );
-
-    res.json({
-      success: true,
-      data: {
-        thread: threadResult.rows[0],
-        replies: repliesResult.rows,
-      },
-    });
+      if (checkAdminImage.rows.length === 0) {
+          await pool.query(`
+              ALTER TABLE discussion_replies 
+              ADD COLUMN admin_image VARCHAR(500)
+          `);
+          console.log("✅ Added admin_image column to discussion_replies");
+      }
   } catch (error) {
-    console.error("Thread detail fetch error:", error.message);
-    res.status(500).json({
+      console.error("Error checking/adding columns:", error.message);
+  }
+}
+
+// Also update the GET thread detail route to handle cases where columns might not exist
+app.get("/api/discussions/thread-detail/:threadSlug", auth, async (req, res) => {
+try {
+  const { threadSlug } = req.params;
+
+  // Get thread details by slug
+  const threadResult = await pool.query(
+    `SELECT dt.*, 
+            s.first_name, 
+            s.last_name, 
+            s.profile_image,
+            s.email as student_email,
+            s.student_id as author_id
+     FROM discussion_threads dt
+     LEFT JOIN students s ON dt.student_id = s.id
+     WHERE dt.thread_slug = $1`,
+    [threadSlug]
+  );
+
+  if (threadResult.rows.length === 0) {
+    return res.status(404).json({
       success: false,
-      message: "Server error while fetching thread details",
+      message: "Thread not found",
     });
   }
+
+  // Get replies for this thread with COALESCE for admin columns
+  const repliesResult = await pool.query(
+    `SELECT dr.*, 
+            s.first_name as student_first_name,
+            s.last_name as student_last_name, 
+            s.profile_image as student_profile_image,
+            COALESCE(dr.admin_name, '') as admin_name,
+            COALESCE(dr.admin_image, '') as admin_image,
+            CASE 
+              WHEN dr.replied_by_student IS NOT NULL THEN 'student'
+              WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
+            END as replied_by_role,
+            CASE
+              WHEN dr.replied_by_student IS NOT NULL THEN COALESCE(s.first_name || ' ' || s.last_name, '')
+              WHEN dr.replied_by_admin IS NOT NULL THEN COALESCE(dr.admin_name, 'Admin')
+              ELSE 'Unknown'
+            END as replied_by_name,
+            CASE
+              WHEN dr.replied_by_student IS NOT NULL THEN COALESCE(s.profile_image, '')
+              WHEN dr.replied_by_admin IS NOT NULL THEN COALESCE(dr.admin_image, '')
+              ELSE ''
+            END as replied_by_image
+     FROM discussion_replies dr
+     LEFT JOIN students s ON dr.replied_by_student = s.id
+     WHERE dr.thread_id = $1
+     ORDER BY dr.created_at ASC`,
+    [threadResult.rows[0].id]
+  );
+
+  res.json({
+    success: true,
+    data: {
+      thread: threadResult.rows[0],
+      replies: repliesResult.rows,
+    },
+  });
+} catch (error) {
+  console.error("Thread detail fetch error:", error.message);
+  res.status(500).json({
+    success: false,
+    message: "Server error while fetching thread details",
+  });
+}
 });
 
 // ==========================================
@@ -4232,7 +4238,7 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
 });
 
 
-// Admin thread detail by slug
+// Also update the admin thread detail endpoint similarly
 app.get(
   "/api/admin/discussions/threads/:threadSlug",
   auth,
@@ -4243,15 +4249,15 @@ app.get(
       // Get thread details by slug
       const threadResult = await pool.query(
         `SELECT dt.*, 
-              s.first_name, 
-              s.last_name,
-              s.email,
-              s.phone,
-              s.batch_month,
-              s.batch_year
-       FROM discussion_threads dt
-       LEFT JOIN students s ON dt.student_id = s.id
-       WHERE dt.thread_slug = $1`,
+                s.first_name, 
+                s.last_name,
+                s.email,
+                s.phone,
+                s.batch_month,
+                s.batch_year
+         FROM discussion_threads dt
+         LEFT JOIN students s ON dt.student_id = s.id
+         WHERE dt.thread_slug = $1`,
         [threadSlug]
       );
 
@@ -4262,22 +4268,32 @@ app.get(
         });
       }
 
-      // Get all replies
+      // Get all replies with COALESCE
       const repliesResult = await pool.query(
         `SELECT dr.*, 
-              s.first_name as student_first_name,
-              s.last_name as student_last_name,
-              s.profile_image as student_image,
-              CASE 
-                WHEN dr.replied_by_student IS NOT NULL THEN 'student'
-                WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
-              END as replied_by_role,
-              COALESCE(s.first_name || ' ' || s.last_name, dr.admin_name) as replied_by_name,
-              COALESCE(s.profile_image, dr.admin_image) as replied_by_image
-       FROM discussion_replies dr
-       LEFT JOIN students s ON dr.replied_by_student = s.id
-       WHERE dr.thread_id = $1
-       ORDER BY dr.created_at ASC`,
+                s.first_name as student_first_name,
+                s.last_name as student_last_name,
+                s.profile_image as student_image,
+                COALESCE(dr.admin_name, '') as admin_name,
+                COALESCE(dr.admin_image, '') as admin_image,
+                CASE 
+                  WHEN dr.replied_by_student IS NOT NULL THEN 'student'
+                  WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
+                END as replied_by_role,
+                CASE
+                  WHEN dr.replied_by_student IS NOT NULL THEN COALESCE(s.first_name || ' ' || s.last_name, '')
+                  WHEN dr.replied_by_admin IS NOT NULL THEN COALESCE(dr.admin_name, 'Admin')
+                  ELSE 'Unknown'
+                END as replied_by_name,
+                CASE
+                  WHEN dr.replied_by_student IS NOT NULL THEN COALESCE(s.profile_image, '')
+                  WHEN dr.replied_by_admin IS NOT NULL THEN COALESCE(dr.admin_image, '')
+                  ELSE ''
+                END as replied_by_image
+         FROM discussion_replies dr
+         LEFT JOIN students s ON dr.replied_by_student = s.id
+         WHERE dr.thread_id = $1
+         ORDER BY dr.created_at ASC`,
         [threadResult.rows[0].id]
       );
 
@@ -4298,13 +4314,6 @@ app.get(
   }
 );
 
-// ==========================================
-// 🔹 ADMIN-ONLY ROUTES (Called by Admin Backend)
-// ==========================================
-
-// ==========================================
-// 🔹 STUDENT FEEDBACK ROUTES
-// ==========================================
 
 // Submit feedback
 app.post("/api/feedback/submit", auth, async (req, res) => {
@@ -4398,15 +4407,46 @@ app.get("/api/feedback/subtopic/:subtopicId", auth, async (req, res) => {
     });
   }
 });
+// Add this endpoint for backward compatibility with numeric IDs
+app.get("/api/discussions/thread-detail-by-id/:threadId", auth, async (req, res) => {
+  try {
+    const { threadId } = req.params;
 
-// ==========================================
-// 🔹 ADMIN FEEDBACK ROUTES
-// ==========================================
+    // Get thread details by numeric ID
+    const threadResult = await pool.query(
+      `SELECT dt.*, 
+              s.first_name, 
+              s.last_name, 
+              s.profile_image,
+              s.email as student_email,
+              s.student_id as author_id
+       FROM discussion_threads dt
+       LEFT JOIN students s ON dt.student_id = s.id
+       WHERE dt.id = $1`,
+      [threadId]
+    );
 
-// ==========================================
-// 🔹 ADMIN STUDENT MANAGEMENT ROUTES
-// ==========================================
+    if (threadResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Thread not found",
+      });
+    }
 
+    res.json({
+      success: true,
+      data: {
+        thread: threadResult.rows[0],
+      },
+    });
+  } catch (error) {
+    console.error("Thread fetch by ID error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching thread",
+    });
+  }
+});
 // ==========================================
 // 🔹 UPDATED ROUTES WITH AUTH INSTEAD OF verifyAdminRequest
 // ==========================================

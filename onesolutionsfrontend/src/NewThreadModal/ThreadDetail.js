@@ -28,59 +28,95 @@ const ThreadDetail = () => {
     setAuthChecked(true);
   }, [isAuthenticated, authLoading, threadId, navigate]);
 
-  useEffect(() => {
-    if (authChecked && threadId) {
-      loadThreadDetail();
+ // In ThreadDetail.js, update the useEffect for loading thread detail
+useEffect(() => {
+  if (authChecked && threadId) {
+    // Check if threadId is numeric or a slug
+    const isNumeric = /^\d+$/.test(threadId);
+    
+    if (isNumeric) {
+      // For backward compatibility, if numeric ID is provided, 
+      // first get the thread to find its slug, then redirect
+      loadThreadDetailByNumericId(threadId);
+    } else {
+      // If it's already a slug, load directly
+      loadThreadDetailBySlug(threadId);
     }
-  }, [authChecked, threadId]);
+  }
+}, [authChecked, threadId]);
 
-  const loadThreadDetail = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Authentication required. Please login again.");
-        return;
+const loadThreadDetailByNumericId = async (threadId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `${
+        process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
+      }/api/discussions/thread-detail-by-id/${threadId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
+    );
 
-      const response = await fetch(
-        `${
-          process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
-        }/api/discussions/thread-detail/${threadId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 401) {
-        // Token expired or invalid
-        localStorage.removeItem("token");
-        navigate(`/login?redirect=/thread/${threadId}`);
-        return;
-      }
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          setThread(data.data.thread);
-          setReplies(data.data.replies);
-        } else {
-          setError(data.message || "Thread not found");
-        }
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success && data.data.thread.thread_slug) {
+        // Redirect to slug-based URL
+        navigate(`/thread/${data.data.thread.thread_slug}`, { replace: true });
       } else {
-        setError("Failed to load thread");
+        setError("Thread not found");
       }
-    } catch (error) {
-      console.error("Error loading thread detail:", error);
-      setError("Error loading thread. Please try again.");
-    } finally {
-      setLoading(false);
+    } else {
+      setError("Failed to load thread");
     }
-  };
+  } catch (error) {
+    console.error("Error loading thread:", error);
+    setError("Error loading thread. Please try again.");
+  }
+};
+
+const loadThreadDetailBySlug = async (threadSlug) => {
+  try {
+    setLoading(true);
+    setError(null);
+    
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      `${
+        process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
+      }/api/discussions/thread-detail/${threadSlug}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (response.status === 401) {
+      localStorage.removeItem("token");
+      navigate(`/login?redirect=/thread/${threadSlug}`);
+      return;
+    }
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success) {
+        setThread(data.data.thread);
+        setReplies(data.data.replies);
+      } else {
+        setError(data.message || "Thread not found");
+      }
+    } else {
+      setError("Failed to load thread");
+    }
+  } catch (error) {
+    console.error("Error loading thread detail:", error);
+    setError("Error loading thread. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleSubmitReply = async () => {
     if (!newReply.trim() || replying) return;
