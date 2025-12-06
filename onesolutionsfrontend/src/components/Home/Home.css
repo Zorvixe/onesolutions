@@ -330,9 +330,9 @@ hr {
   .BroOne-container {
     flex-direction: column;
     width: 95%;
-    margin: 20px auto;
     text-align: center;
     padding: 15px;
+    margin-top: 20px;
   }
 
   .BroOne-container img {

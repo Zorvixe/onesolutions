@@ -178,13 +178,8 @@ import Static_Coding_Pratice_3 from "../StaticWebsite/BootStrap/Static_Coding_Pr
 import Static_Coding_Pratice_4 from "../StaticWebsite/BootStrap/Static_Coding_Pratice_4.js";
 import Static_Coding_Pratice_5 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_5.js";
 import Static_Coding_Pratice_6 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_6.js";
-import Static_Coding_Pratice_7 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_7.js";
+import Static_Coding_Pratice_7 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_7.js";
 import Static_Coding_Pratice_8 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_8.js";
-import Static_Coding_Pratice_9 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_9.js";
-import Static_Coding_Pratice_10 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_10.js";
-import Static_Coding_Pratice_11 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_11.js";
-import Static_Coding_Pratice_12 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_12.js";
-import Static_Coding_Pratice_13 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_13.js";
 //Responsive Website Cheat Sheets
 
 import Introductionto_Responsive_WD_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_CS";
@@ -422,7 +417,60 @@ import JS_Coding_Pratic_4 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_4.
 import Todos_Application_Part_1_Class from "../JavaScript/Todos_Application/Todos_Application_Part_1_Class.js";
 import Todos_Application_Part_2_Class from "../JavaScript/Todos_Application/Todos_Application_Part_2_Class.js";
 import On_Demand_Session_Class from "../JavaScript/Todos_Application/On_Demand_Session_Class.js";
+import Todos_Application_Part_3_Class from "../JavaScript/Todos_Application_2/Todos_Application_Part_3_Class.js";
+import Todos_Application_Part_4_Class from "../JavaScript/Todos_Application_2/Todos_Application_Part_4_Class.js";
+import Coding_Pratice_9 from "../JavaScript/Todos_Application_2/Coding_Pratice_9.js";
+import Coding_Pratice_10 from "../JavaScript/Todos_Application_2/Coding_Pratice_10.js";
+import Coding_Pratice_11 from "../JavaScript/Todos_Application_3/Coding_Pratice_11.js";
+import JS_Coding_Pratice_6 from "../JavaScript/Todos_Application_3/JS_Coding_Pratice_6.js";
+import JS_Coding_Pratice_7 from "../JavaScript/Todos_Application_3/JS_Coding_Pratice_7.js";
+import Todos_Application_Part_5_Class from "../JavaScript/Todos_Application_3/Todos_Application_Part_5_Class.js";
+import Array_Methods_Pratice_1 from "../JavaScript/Todos_Application_3/Array_Methods_Pratice_1.js";
+import Array_Methods_Pratice_2 from "../JavaScript/Todos_Application_3/Array_Methods_Pratice_2.js";
+import Array_Methods_Pratice_3 from "../JavaScript/Todos_Application_3/Array_Methods_Pratice_3.js";
+import Todos_Application_Part_6_Class from "../JavaScript/Todos_Application_4/Todos_Application_Part_6_Class.js";
+import Coding_Pratice_13 from "../JavaScript/Todos_Application_4/Coding_Pratice_13.js";
+import Callbacks_Schedulers_Class from "../JavaScript/Fetch_Callbacks/Callbacks_Schedulers_Class.js";
+import Event_Listners_More_Events_Class from "../JavaScript/Fetch_Callbacks/Event_Listners_More_Events_Class.js";
+import Hypertext_Transfer_Protocal_Class from "../JavaScript/Fetch_Callbacks/Hypertext_Transfer_Protocal_Class.js";
+import Coding_Pratice_14 from "../JavaScript/Fetch_Callbacks/Coding_Pratice_14.js";
+import Coding_Pratice_15 from "../JavaScript/Fetch_Callbacks/Coding_Pratice_15.js";
+import Coding_Assignment_1 from "../JavaScript/Fetch_Callbacks/Coding_Assignment_1.js";
+import HTTP_Request_Using_Class from "../JavaScript/Fetch_Callbacks_2/HTTP_Request_Using_Class.js";
+import Wikipedia_Search_Class from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_Class.js";
+import Coding_Pratice_JS_16 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_JS_16.js";
+import Coding_Pratice_17 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_17.js";
+// import Coding_Pratice_18 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_18.js";
+// import Coding_Pratice_19 from "../JavaScript/Forms/Coding_Pratice_19.js";
+// import Coding_Pratice_20 from "../JavaScript/Forms/Coding_Pratice_20.js";
+import Forms_Part_1_Class from "../JavaScript/Forms/Forms_Part_1_Class.js";
+import Forms_Part_2_Class from "../JavaScript/Forms/Forms_Part_2_Class.js";
+import JS_Coding_Assignment_2 from "../JavaScript/Assignment/JS_Coding_Assignment_2.js";
+import JS_Coding_Assignment_3 from "../JavaScript/Assignment/JS_Coding_Assignment_3.js";
+import Coding_Test_1 from "../JavaScript/Mock_Test/Coding_Test_1.js";
+import Coding_Test_2 from "../JavaScript/Mock_Test/Coding_Test_2.js";
+import Coding_Test_3 from "../JavaScript/Mock_Test/Coding_Test_3.js";
+import Coding_Test_4 from "../JavaScript/Mock_Test/Coding_Test_4.js";
+import JS_Coding_Test_1 from "../JavaScript/Mock_Test/JS_Coding_Test_1.js";
+import JS_Coding_Test_2 from "../JavaScript/Mock_Test/JS_Coding_Test_2.js";
+import MCQ_Test_1 from "../JavaScript/Mock_Test/JS_MCQ_Test_1.js";
+import MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
+import Dynamic_Course_Exam_Instructions_Class from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam_Instructions_Class.js";
+import Dynamic_Course_Exam from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam.js";
+import Comments from "../JavaScript/Arrays_Objects/Comments.js";
 const subtopicComponents = {
+  "Coding Test 1": Coding_Test_1,
+  "Coding Test 2": Coding_Test_2,
+  "Coding Test 3": Coding_Test_3,
+  "Coding Test 4": Coding_Test_4,
+  "JS Coding Test 1": JS_Coding_Test_1,
+  "JS Coding Test 2": JS_Coding_Test_2,
+  "MCQ Test 1": MCQ_Test_1,
+  "MCQ Test 2": MCQ_Test_2,
+  Objects: Comments,
+  "Build Your Own Dynamic Web Application Course Exam | Instructions":
+    Dynamic_Course_Exam_Instructions_Class,
+  "Build Your Own Dynamic Web Application Course Exam": Dynamic_Course_Exam,
   "Introduction to Dynamic Web Applications":
     Introductionto_Dynamic_Application_Class,
   "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
@@ -446,6 +494,37 @@ const subtopicComponents = {
   "Todos Application Introduction": Todos_Application_Part_1_Class,
   "On Demand Session": On_Demand_Session_Class,
   "Todos Application | Part 2": Todos_Application_Part_2_Class,
+  "Todos Application | Part 3": Todos_Application_Part_3_Class,
+  "Todos Application | Part 4": Todos_Application_Part_4_Class,
+  "Coding Practice 9": Coding_Pratice_9,
+  "Coding Practice 10": Coding_Pratice_10,
+  "Coding Practice 11": Coding_Pratice_11,
+  "JS Coding Practice 6": JS_Coding_Pratice_6,
+  "JS Coding Practice 7": JS_Coding_Pratice_7,
+  "Todos Application | Part 5": Todos_Application_Part_5_Class,
+  "Array Methods | Practice 1": Array_Methods_Pratice_1,
+  "Array Methods | Practice 2": Array_Methods_Pratice_2,
+  "Array Methods | Practice 3": Array_Methods_Pratice_3,
+  "Coding Practice 13": Coding_Pratice_13,
+  "Todos Application | Part 6": Todos_Application_Part_6_Class,
+  "Callbacks & Schedulers": Callbacks_Schedulers_Class,
+  "Event Listeners & More Events": Event_Listners_More_Events_Class,
+  "Hypertext Transfer Protocol (HTTP)": Hypertext_Transfer_Protocal_Class,
+  "Coding Practice 14": Coding_Pratice_14,
+  "Coding Practice 15": Coding_Pratice_15,
+  "Coding Assignment 1": Coding_Assignment_1,
+  "HTTP Requests using JS": HTTP_Request_Using_Class,
+  "Wikipedia Search Application": Wikipedia_Search_Class,
+  "Coding Practice 17": Coding_Pratice_17,
+  "Coding Practice 16 js": Coding_Pratice_JS_16,
+  // "Coding Practice 18": Coding_Pratice_18,
+  // "Coding Practice 19": Coding_Pratice_19,
+  // "Coding Practice 20": Coding_Pratice_20,
+  Forms: Forms_Part_1_Class,
+  "Forms | Part 2": Forms_Part_2_Class,
+  "Coding Assignment 2": JS_Coding_Assignment_2,
+  "Coding Assignment 3": JS_Coding_Assignment_3,
+
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
   "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
@@ -538,11 +617,6 @@ const subtopicComponents = {
   "Static Coding Practice 6": Static_Coding_Pratice_6,
   "Static Coding Practice 7": Static_Coding_Pratice_7,
   "Static Coding Practice 8": Static_Coding_Pratice_8,
-  "Static Coding Practice 9": Static_Coding_Pratice_9,
-  "Static Coding Practice 10": Static_Coding_Pratice_10,
-  "Static Coding Practice 11": Static_Coding_Pratice_11,
-  "Static Coding Practice 12": Static_Coding_Pratice_12,
-  "Static Coding Practice 13": Static_Coding_Pratice_13,
   "Static Coding Test 1": Static_Mock_Test_1,
   "Static Coding Test 2": Static_Mock_Test_2,
   "Build Your Own Static Website Project": Static_Website_Project,

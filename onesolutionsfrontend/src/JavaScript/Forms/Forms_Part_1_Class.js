@@ -12,7 +12,7 @@ const Forms_Part_1_Class = ({
   subtopic,
   moduleName = "Forms",
   topicName = "Forms",
-  slidesUrl = "https://docs.google.com/presentation/d/1qGQDzChOklLxnALbzglT1LeZKxOOYi_WstU9ryx4avs/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1Qwv2_PYUgxOf1X1hKmcTGEdu5n5OOpf4uE9T7-342Zw/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

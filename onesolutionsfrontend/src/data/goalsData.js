@@ -201,10 +201,6 @@ export const goalsData = [
                 id: "QW9_s12_A0 m4_H g1_7B c1_D2E",
                 name: "Static Coding Practice 6",
               },
-              {
-                id: "QW9_s13_A0 m4_H g1_7B c1_D2E",
-                name: "Static Coding Practice 7",
-              },
             ],
           },
           {
@@ -237,16 +233,9 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m5_H g1_7B c1_D2E",
-                name: "Static Coding Practice 8",
+                name: "Static Coding Practice 7",
               },
-              {
-                id: "QW9_s8_A0 m5_H g1_7B c1_D2E",
-                name: "Static Coding Practice 9",
-              },
-              {
-                id: "QW9_s9_A0 m5_H g1_7B c1_D2E",
-                name: "Static Coding Practice 10",
-              },
+
               {
                 id: "QW9_s10_A0 m5_H g1_7B c1_D2E",
                 name: "Website: Behind the Scenes",
@@ -281,15 +270,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s18_A0 m5_H g1_7B c1_D2E",
-                name: "Static Coding Practice 11",
-              },
-              {
-                id: "QW9_s19_A0 m5_H g1_7B c1_D2E",
-                name: "Static Coding Practice 12",
-              },
-              {
-                id: "QW9_s20_A0 m5_H g1_7B c1_D2E",
-                name: "Static Coding Practice 13",
+                name: "Static Coding Practice 8",
               },
             ],
           },
@@ -2226,7 +2207,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m8_H g2_7B c1_D2E",
-                name: "Coding Practice 16",
+                name: "Coding Practice 16 js",
               },
               {
                 id: "QW9_s8_A0 m8_H g2_7B c1_D2E",

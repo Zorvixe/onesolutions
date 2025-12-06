@@ -29,6 +29,7 @@ const Introductionto_Html = ({
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
+
   const editorRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -333,7 +334,8 @@ const Introductionto_Html = ({
         <div className="video-error-clss">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-          </svg>         
+          </svg>
+          <h3>Comming Soon</h3>
         </div>
       );
     }
@@ -344,7 +346,7 @@ const Introductionto_Html = ({
           <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
           </svg>
-          <h3>No Video Available</h3>
+          <h3>Comming Soon</h3>
         </div>
       );
     }
@@ -719,11 +721,11 @@ const Introductionto_Html = ({
                   />
                   <div className="thread-footer-clss">
                     <div className="thread-author-clss">
-                      <img
-                        src={thread.profile_image || "/default-avatar.png"}
-                        alt="Author"
-                        className="author-avatar-clss"
-                      />
+                      <span className="profile_image_avatar">
+                        {thread.first_name.slice(0, 1)}
+                        {thread.last_name.slice(0, 1)}
+                      </span>
+
                       <span>
                         {thread.first_name} {thread.last_name}
                       </span>

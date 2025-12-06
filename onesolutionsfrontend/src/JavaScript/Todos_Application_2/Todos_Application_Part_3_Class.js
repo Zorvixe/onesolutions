@@ -5,7 +5,7 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Todos_Application_Part_1_Class = ({
+const Todos_Application_Part_3_Class = ({
   subtopicId,
   goalName,
   courseName,

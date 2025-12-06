@@ -1,7 +1,7 @@
 const Dynamic_Course_Exam = () => {
   return (
     <div>
-      <h1>DynamicCourseExam</h1>
+      <h1>Dynamic Course Exam</h1>
     </div>
   );
 };

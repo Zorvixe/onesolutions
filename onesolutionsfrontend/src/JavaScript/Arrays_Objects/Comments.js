@@ -3,17 +3,16 @@ import { useAuth } from "../../context/AuthContext";
 import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 
 import "../../Class_CSS/Class_Css.css";
-
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Introductionto_Bootstrap_2 = ({
+const Comments = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "BootStrap",
-  topicName = "IIntroduction to Bootstrap Part 2",
-  slidesUrl = "https://docs.google.com/presentation/d/1xLxg9KgWvwyN_p_k3X4TFpiLvl5OuTpMnNXqB2Mz7ao/embed",
+  moduleName = "Arrays and Objects",
+  topicName = "Comments",
+  slidesUrl = "https://docs.google.com/presentation/d/1kENuavoCD2Cq9Z0bE4AQTGw1kbD0c5lwwiIm9z1Y8JI/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -767,4 +766,4 @@ const Introductionto_Bootstrap_2 = ({
     </div>
   );
 };
-export default Introductionto_Bootstrap_2;
+export default Comments;

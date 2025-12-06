@@ -24,7 +24,7 @@ body {
   align-items: center;
   padding: 10px 15px;
   background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #ccc
 }
 
 .logo img {
@@ -386,8 +386,192 @@ body {
   font-size: 10px;
 }
 
-/* Mobile Responsive Styles */
+/* Add these styles to your existing Navbar.css */
+
+/* Hamburger Menu Button */
+.hamburger-menu {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-right: 10px;
+}
+
+.hamburger-menu:hover {
+  opacity: 0.7;
+}
+
+/* Mobile Navigation Menu */
+.mobile-nav-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 3000;
+  transform: translateX(0);
+  animation: slideIn 0.3s ease-out;
+  overflow-y: auto;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 15px;
+  border-bottom: 1px solid #eee;
+  background: linear-gradient(90deg, #800080, #000080);
+  color: white;
+}
+
+.mobile-nav-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.close-mobile-menu {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.close-mobile-menu:hover {
+  opacity: 0.7;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+}
+
+.mobile-nav-links li {
+  width: 100%;
+}
+
+.mobile-nav-links li a,
+.mobile-nav-links li button {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-links li a:hover,
+.mobile-nav-links li button:hover {
+  background-color: #f8f8f8;
+  color: #800080;
+}
+
+.mobile-nav-links li a i,
+.mobile-nav-links li button i {
+  font-size: 18px;
+  width: 24px;
+}
+
+.mobile-nav-links .logout-btn {
+  color: #d32f2f;
+}
+
+.mobile-nav-links .logout-btn:hover {
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+/* Overlay for mobile menu */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2999;
+}
+
+/* Mobile Responsive Styles Updates */
+@media (max-width: 768px) {
+  .hamburger-menu {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .nav_c_btn {
+    display: none;
+  }
+
+  .mentor-connect {
+    display: none;
+  }
+
+  /* Adjust logo position */
+  .logo {
+    margin-left: 0;
+  }
+
+  /* Adjust nav_right for mobile */
+  .nav_right {
+    gap: 5px;
+  }
+
+  .help-earn-wrapper button {
+    display: none;
+  }
+
+  .profile-anchor,
+  .placementimg {
+    margin-left: auto;
+  }
+
+  .nav-links {
+    display: none !important;
+  }
+
+}
+
 @media (max-width: 480px) {
+  .hamburger-menu {
+    font-size: 22px;
+    padding: 8px;
+  }
+
+  .logo img {
+    height: 35px;
+    border-radius: 8px;
+  }
+
+  .mobile-nav-menu {
+    width: 85%;
+  }
   body {
     padding-top: 50px;
   }
@@ -447,10 +631,36 @@ body {
     left: 0;
     width: 100%;
     padding: 5px 0;
-    background: #fff;
-    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(90deg, #800080, #000080);
+    color: #ffffff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
   }
-
+  
+  /* Make icons + text white */
+  .footer-menu a,
+  .footer-menu a span,
+  .footer-menu a i,
+  .footer-menu button,
+  .footer-menu button span,
+  .footer-menu button i {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 15px;
+  }
+  
+  /* Active link style */
+  .footer-menu a.active {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+  }
+  
+  .footer-menu a.active i,
+  .footer-menu a.active span {
+    color: #ffea00 !important;  /* Yellow highlight for active */
+  }
+  
+  /* Layout for first 3 items */
   .footer-menu a:nth-child(1),
   .footer-menu a:nth-child(2),
   .footer-menu a:nth-child(3) {
@@ -461,17 +671,16 @@ body {
     gap: 3px;
     font-size: 11px;
     padding: 5px 0;
-    color: #333;
     flex: 1;
     text-align: center;
   }
-
+  
+  /* Hide placements + community */
   .footer-menu a:nth-child(4),
   .footer-menu a:nth-child(5) {
     display: none;
   }
-}
-
+}  
 @media (max-width: 768px) {
   body {
     padding-top: 60px;

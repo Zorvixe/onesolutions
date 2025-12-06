@@ -1,19 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false); // New state for mobile menu
 
   const { user, logout } = useAuth();
 
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
   const helpEarnButtonRef = useRef(null);
+  const mobileMenuRef = useRef(null); // New ref for mobile menu
 
   // ✅ Always define hooks before any conditional return
   useEffect(() => {
@@ -32,6 +33,15 @@ const Navbar = () => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setShowProfile(false);
       }
+
+      // Close Mobile Menu if clicked outside
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        !event.target.closest('.hamburger-menu')
+      ) {
+        setShowMobileMenu(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -49,6 +59,7 @@ const Navbar = () => {
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const toggleProfile = () => setShowProfile(!showProfile);
+  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu); // Toggle mobile menu
 
   const handleCopy = () => {
     const referralLink = "https://myreferral.link/abcd123";
@@ -60,24 +71,105 @@ const Navbar = () => {
 
   return (
     <div className="container nav-con">
+      {/* Hamburger Menu for Mobile */}
+      <button 
+        className="hamburger-menu"
+        onClick={toggleMobileMenu}
+        aria-label="Toggle navigation menu"
+      >
+        <i className="bi bi-list"></i>
+      </button>
+
       <Link to="/" className="logo">
         <img src="/assets/onesolutions.png" alt="logo" />
       </Link>
-      <ul className="nav-links">
-        <li>
-          <Link to="/" className="active">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/courses">Courses</Link>
-        </li>
-        <li>
-          <Link to="/practice" className="practice">
-            Practice
-          </Link>
-        </li>
-      </ul>
+
+     {/* Desktop Navigation Links */}
+<ul className="nav-links">
+  <li>
+    <NavLink 
+      to="/" 
+      className={({ isActive }) => isActive ? "active" : ""}
+      end
+    >
+      Home
+    </NavLink>
+  </li>
+  <li>
+    <NavLink 
+      to="/courses" 
+      className={({ isActive }) => isActive ? "active" : ""}
+    >
+      Courses
+    </NavLink>
+  </li>
+  <li>
+    <NavLink 
+      to="/practice" 
+      className={({ isActive }) => isActive ? "active practice" : "practice"}
+    >
+      Practice
+    </NavLink>
+  </li>
+</ul>
+
+      {/* Mobile Navigation Menu */}
+      {showMobileMenu && (
+        <div className="mobile-nav-menu" ref={mobileMenuRef}>
+          <div className="mobile-nav-header">
+          <Link to="/" className="logo">
+        <img src="/assets/onesolutions.png" alt="logo" />
+      </Link>
+            <button 
+              className="close-mobile-menu"
+              onClick={() => setShowMobileMenu(false)}
+              aria-label="Close navigation menu"
+            >
+              <i className="bi bi-x-lg"></i>
+            </button>
+          </div>
+          <ul className="mobile-nav-links">
+            <li>
+              <Link to="/" className="active" onClick={() => setShowMobileMenu(false)}>
+                <i className="bi bi-house"></i> Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/courses" onClick={() => setShowMobileMenu(false)}>
+                <i className="bi bi-journal-bookmark"></i> Courses
+              </Link>
+            </li>
+            <li>
+              <Link to="/practice" className="practice" onClick={() => setShowMobileMenu(false)}>
+                <i className="bi bi-pencil-square"></i> Practice
+              </Link>
+            </li>
+            <li>
+              <Link to="/codeGround" onClick={() => setShowMobileMenu(false)}>
+                <i className="bi bi-code-slash"></i> Code Playground
+              </Link>
+            </li>
+            <li>
+              <button onClick={() => {
+                setShowMobileMenu(false);
+                setShowDropdown(true);
+              }}>
+                <i className="bi bi-gift"></i> Help & Earn
+              </button>
+            </li>
+            <li>
+              <Link to="/profile" onClick={() => setShowMobileMenu(false)}>
+                <i className="bi bi-person"></i> My Profile
+              </Link>
+            </li>
+            <li>
+              <button className="logout-btn" onClick={handleLogout}>
+                <i className="bi bi-box-arrow-right"></i> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
 
       <div className="nav_right">
         <li className="nav_c_btn">
@@ -195,32 +287,34 @@ const Navbar = () => {
             </div>
           )}
 
-          <div className="footer-menu">
-            <Link to="/" className="active">
-              <i className="bi bi-house"></i>
-              <span>Home</span>
-            </Link>
-            <Link to="/courses">
-              <i className="bi bi-journal-bookmark"></i>
-              <span>Courses</span>
-            </Link>
-            <Link to="/practice">
-              <i className="bi bi-pencil-square"></i>
-              <span>Practice</span>
-            </Link>
-            <Link to="/placements">
-              <i className="bi bi-award"></i>
-              <span>Placements</span>
-            </Link>
-            <Link to="/community">
-              <i className="bi bi-people"></i>
-              <span>Community</span>
-            </Link>
-            <button onClick={toggleDropdown}>
-              <i className="bi bi-gift"></i>
-              <span>Help & Earn</span>
-            </button>
-          </div>
+<div className="footer-menu">
+  <NavLink 
+    to="/" 
+    className={({ isActive }) => isActive ? "active" : ""}
+    end
+  >
+    <i className="bi bi-house"></i>
+    <span>Home</span>
+  </NavLink>
+  
+  <NavLink 
+    to="/courses" 
+    className={({ isActive }) => isActive ? "active" : ""}
+  >
+    <i className="bi bi-journal-bookmark"></i>
+    <span>Courses</span>
+  </NavLink>
+  
+  <NavLink 
+    to="/practice" 
+    className={({ isActive }) => isActive ? "active" : ""}
+  >
+    <i className="bi bi-pencil-square"></i>
+    <span>Practice</span>
+  </NavLink>
+  
+ 
+</div>
 
           {showProfile && (
             <div className="profile-dropdown" ref={profileRef}>

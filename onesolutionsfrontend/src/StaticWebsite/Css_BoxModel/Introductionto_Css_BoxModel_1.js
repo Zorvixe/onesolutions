@@ -29,6 +29,7 @@ const Introductionto_Css_Boxmodel_1 = ({
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
+
   const editorRef = useRef(null);
   const videoRef = useRef(null);
 
@@ -720,11 +721,11 @@ const Introductionto_Css_Boxmodel_1 = ({
                   />
                   <div className="thread-footer-clss">
                     <div className="thread-author-clss">
-                      <img
-                        src={thread.profile_image || "/default-avatar.png"}
-                        alt="Author"
-                        className="author-avatar-clss"
-                      />
+                      <span className="profile_image_avatar">
+                        {thread.first_name.slice(0, 1)}
+                        {thread.last_name.slice(0, 1)}
+                      </span>
+
                       <span>
                         {thread.first_name} {thread.last_name}
                       </span>
