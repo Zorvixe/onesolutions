@@ -316,8 +316,8 @@ const Introductionto_Css1 = ({
     return tmp.textContent || tmp.innerText || "";
   };
 
-  const openThreadDetail = (threadSlug) => {
-    navigate(`/thread/${threadSlug}`);
+  const openThreadDetail = (threadId) => {
+    navigate(`/thread/${threadId}`);
   };
 
   const VideoPlayer = () => {
@@ -694,10 +694,12 @@ const Introductionto_Css1 = ({
             ) : (
               threads.map((thread) => (
                 <div
-  key={thread.id}
-  className={`thread-item-clss ${thread.is_important ? "important-clss" : ""}`}
-  onClick={() => openThreadDetail(thread.thread_slug)}
->
+                  key={thread.id}
+                  className={`thread-item-clss ${
+                    thread.is_important ? "important-clss" : ""
+                  }`}
+                  onClick={() => openThreadDetail(thread.thread_slug)}
+                >
                   <div className="thread-header-clss">
                     <h3 className="thread-title-clss">{thread.title}</h3>
                     <span className="reply-count-clss">

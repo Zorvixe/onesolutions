@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import "./ThreadDetail.css";
 
 const ThreadDetail = () => {
-  const { threadSlug } = useParams();
+  const { threadId } = useParams();
   const navigate = useNavigate();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth(); // Get auth state
   const [thread, setThread] = useState(null);
@@ -21,18 +21,18 @@ const ThreadDetail = () => {
     
     if (!isAuthenticated) {
       // Redirect to login with return URL
-      navigate(`/login?redirect=/thread/${threadSlug}`);
+      navigate(`/login?redirect=/thread/${threadId}`);
       return;
     }
     
     setAuthChecked(true);
-  }, [isAuthenticated, authLoading, threadSlug, navigate]);
+  }, [isAuthenticated, authLoading, threadId, navigate]);
 
   useEffect(() => {
-    if (authChecked && threadSlug) {
+    if (authChecked && threadId) {
       loadThreadDetail();
     }
-  }, [authChecked, threadSlug]);
+  }, [authChecked, threadId]);
 
   const loadThreadDetail = async () => {
     try {
@@ -48,7 +48,7 @@ const ThreadDetail = () => {
       const response = await fetch(
         `${
           process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
-        }/api/discussions/thread-detail/${threadSlug}`,
+        }/api/discussions/thread-detail/${threadId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ const ThreadDetail = () => {
       if (response.status === 401) {
         // Token expired or invalid
         localStorage.removeItem("token");
-        navigate(`/login?redirect=/thread/${threadSlug}`);
+        navigate(`/login?redirect=/thread/${threadId}`);
         return;
       }
 
@@ -113,7 +113,7 @@ const ThreadDetail = () => {
         }
       } else if (response.status === 401) {
         localStorage.removeItem("token");
-        navigate(`/login?redirect=/thread/${threadSlug}`);
+        navigate(`/login?redirect=/thread/${threadId}`);
       }
     } catch (error) {
       console.error("Error submitting reply:", error);

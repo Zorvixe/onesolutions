@@ -113,7 +113,7 @@ function App() {
                 element={<SubtopicPage />}
               />
               <Route path="/codeGround" element={<CodeGround />} />
-              <Route path="/thread/:threadSlug" element={<ThreadDetail />} />
+              <Route path="/thread/:threadId" element={<ThreadDetail />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>

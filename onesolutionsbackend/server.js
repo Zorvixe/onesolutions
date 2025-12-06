@@ -489,6 +489,43 @@ const createTables = async () => {
   );
 `;
 
+
+const updateDiscussionRepliesTable = async () => {
+  try {
+    // Check for admin_name column
+    const checkAdminName = await pool.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name='discussion_replies' AND column_name='admin_name'
+    `);
+
+    if (checkAdminName.rows.length === 0) {
+      await pool.query(`
+        ALTER TABLE discussion_replies 
+        ADD COLUMN admin_name VARCHAR(255)
+      `);
+      console.log("✅ Added admin_name column to discussion_replies");
+    }
+
+    // Check for admin_image column
+    const checkAdminImage = await pool.query(`
+      SELECT column_name 
+      FROM information_schema.columns 
+      WHERE table_name='discussion_replies' AND column_name='admin_image'
+    `);
+
+    if (checkAdminImage.rows.length === 0) {
+      await pool.query(`
+        ALTER TABLE discussion_replies 
+        ADD COLUMN admin_image VARCHAR(500)
+      `);
+      console.log("✅ Added admin_image column to discussion_replies");
+    }
+  } catch (error) {
+    console.error("Error updating discussion_replies table:", error.message);
+  }
+};
+
   const feedbackTableQuery = `
 CREATE TABLE IF NOT EXISTS student_feedback (
   id SERIAL PRIMARY KEY,
