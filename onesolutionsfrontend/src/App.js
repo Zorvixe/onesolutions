@@ -28,9 +28,11 @@ import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth(); // Add isLoading from your auth context
 
   const [isAppLoading, setIsAppLoading] = useState(true);
+
+ 
 
   // -----------------------------
   // 🔥 FORCE LOAD ALL DATA ONCE
@@ -56,6 +58,15 @@ function App() {
 
     loadInitialData();
   }, [isAuthenticated]);
+
+  if (isAppLoading || isLoading) { // ← Also check auth loading
+    return (
+      <div className="global-loader">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   // -----------------------------
   // 🔄 Full Screen Loader Before App Loads

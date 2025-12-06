@@ -4,28 +4,50 @@ import { useAuth } from "../context/AuthContext";
 import "./ThreadDetail.css";
 
 const ThreadDetail = () => {
-  const { threadSlug } = useParams(); // Changed from threadId to threadSlug
+  const { threadSlug } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth(); // Get auth state
   const [thread, setThread] = useState(null);
   const [replies, setReplies] = useState([]);
   const [newReply, setNewReply] = useState("");
   const [loading, setLoading] = useState(true);
   const [replying, setReplying] = useState(false);
+  const [error, setError] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
-    if (threadSlug) {
+    // Wait for auth to finish loading
+    if (authLoading) return;
+    
+    if (!isAuthenticated) {
+      // Redirect to login with return URL
+      navigate(`/login?redirect=/thread/${threadSlug}`);
+      return;
+    }
+    
+    setAuthChecked(true);
+  }, [isAuthenticated, authLoading, threadSlug, navigate]);
+
+  useEffect(() => {
+    if (authChecked && threadSlug) {
       loadThreadDetail();
     }
-  }, [threadSlug]);
+  }, [authChecked, threadSlug]);
 
   const loadThreadDetail = async () => {
     try {
       setLoading(true);
+      setError(null);
+      
       const token = localStorage.getItem("token");
+      if (!token) {
+        setError("Authentication required. Please login again.");
+        return;
+      }
+
       const response = await fetch(
         `${
-          process.env.REACT_APP_API_URL || "http://localhost:5002"
+          process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
         }/api/discussions/thread-detail/${threadSlug}`,
         {
           headers: {
@@ -34,22 +56,27 @@ const ThreadDetail = () => {
         }
       );
 
+      if (response.status === 401) {
+        // Token expired or invalid
+        localStorage.removeItem("token");
+        navigate(`/login?redirect=/thread/${threadSlug}`);
+        return;
+      }
+
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
           setThread(data.data.thread);
           setReplies(data.data.replies);
         } else {
-          console.error("Error loading thread:", data.message);
-          navigate("/not-found");
+          setError(data.message || "Thread not found");
         }
       } else {
-        console.error("Failed to load thread");
-        navigate("/not-found");
+        setError("Failed to load thread");
       }
     } catch (error) {
       console.error("Error loading thread detail:", error);
-      navigate("/not-found");
+      setError("Error loading thread. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -72,7 +99,7 @@ const ThreadDetail = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            threadId: thread.id, // Still use numeric ID for the database
+            threadId: thread.id,
             content: newReply,
           }),
         }
@@ -82,8 +109,11 @@ const ThreadDetail = () => {
         const data = await response.json();
         if (data.success) {
           setNewReply("");
-          loadThreadDetail(); // Reload to get updated replies
+          loadThreadDetail();
         }
+      } else if (response.status === 401) {
+        localStorage.removeItem("token");
+        navigate(`/login?redirect=/thread/${threadSlug}`);
       }
     } catch (error) {
       console.error("Error submitting reply:", error);
@@ -108,12 +138,26 @@ const ThreadDetail = () => {
     return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
   };
 
-  if (loading) {
+  // Show loading while auth is being checked
+  if (authLoading || loading) {
     return (
       <div className="thread-detail-container">
         <div className="loading-container">
           <div className="spinner"></div>
           <p>Loading thread...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error if any
+  if (error) {
+    return (
+      <div className="thread-detail-container">
+        <div className="error-container">
+          <h2>Error</h2>
+          <p>{error}</p>
+          <button onClick={() => navigate("/home")}>Go Home</button>
         </div>
       </div>
     );
