@@ -19,10 +19,10 @@ import SubtopicPage from "./SubtopicsPage/SubtopicPage";
 import CodeGround from "./CodePlayground/CodePlayground";
 import ForgotPassword from "./components/ForgotPassword/ForgotPassword";
 import ThreadDetail from "./NewThreadModal/ThreadDetail";
-import SavedSnippets from './SavedSnippets/SavedSnippets';
+import SavedSnippets from "./SavedSnippets/SavedSnippets";
 
 // In App.js - add the new route
-import WebPractice from './components/WebPractice/WebPractice';
+import WebPractice from "./components/WebPractice/WebPractice";
 
 import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
@@ -90,8 +90,10 @@ function App() {
                 element={<Practice />}
               />
 
-              <Route path="/web-practice/:practiceId/:questionId" element={<WebPractice />} />
-
+              <Route
+                path="/web-practice/:practiceId/:questionId"
+                element={<WebPractice />}
+              />
 
               <Route path="/placements" element={<Placements />} />
 
@@ -99,11 +101,8 @@ function App() {
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
-
               <Route path="/codeGround" element={<CodeGround />} />
-
-              <Route path="/thread/:threadId" element={<ThreadDetail />} />
-
+              <Route path="/thread/:threadSlug" element={<ThreadDetail />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
           </main>
