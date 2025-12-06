@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../context/AuthContext";
 import FeedbackModal from "../../FeedbackModal/FeedbackModal";
+import { useNavigate } from "react-router-dom";
 
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -28,6 +29,7 @@ const IntroductiontoCss2 = ({
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [hasSubmittedFeedback, setHasSubmittedFeedback] = useState(false);
   const [isCheckingFeedback, setIsCheckingFeedback] = useState(true);
+  const navigate = useNavigate();
 
   const editorRef = useRef(null);
   const videoRef = useRef(null);
@@ -315,7 +317,7 @@ const IntroductiontoCss2 = ({
   };
 
   const openThreadDetail = (threadId) => {
-    window.open(`/thread/${threadId}`, "_blank");
+    navigate(`/thread/${threadId}`);
   };
 
   const VideoPlayer = () => {
@@ -696,7 +698,7 @@ const IntroductiontoCss2 = ({
                   className={`thread-item-clss ${
                     thread.is_important ? "important-clss" : ""
                   }`}
-                  onClick={() => openThreadDetail(thread.id)}
+                  onClick={() => openThreadDetail(thread.thread_slug)}
                 >
                   <div className="thread-header-clss">
                     <h3 className="thread-title-clss">{thread.title}</h3>

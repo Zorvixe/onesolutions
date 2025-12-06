@@ -6,7 +6,7 @@ import "./ThreadDetail.css";
 const ThreadDetail = () => {
   const { threadId } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated, isLoading: authLoading } = useAuth(); // Get auth state
+  const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [thread, setThread] = useState(null);
   const [replies, setReplies] = useState([]);
   const [newReply, setNewReply] = useState("");
@@ -14,112 +14,116 @@ const ThreadDetail = () => {
   const [replying, setReplying] = useState(false);
   const [error, setError] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [currentSlug, setCurrentSlug] = useState(null); // Add this state
 
   useEffect(() => {
     // Wait for auth to finish loading
     if (authLoading) return;
-    
+
     if (!isAuthenticated) {
       // Redirect to login with return URL
       navigate(`/login?redirect=/thread/${threadId}`);
       return;
     }
-    
+
     setAuthChecked(true);
   }, [isAuthenticated, authLoading, threadId, navigate]);
 
- // In ThreadDetail.js, update the useEffect for loading thread detail
-useEffect(() => {
-  if (authChecked && threadId) {
-    // Check if threadId is numeric or a slug
-    const isNumeric = /^\d+$/.test(threadId);
-    
-    if (isNumeric) {
-      // For backward compatibility, if numeric ID is provided, 
-      // first get the thread to find its slug, then redirect
-      loadThreadDetailByNumericId(threadId);
-    } else {
-      // If it's already a slug, load directly
-      loadThreadDetailBySlug(threadId);
-    }
-  }
-}, [authChecked, threadId]);
+  // In ThreadDetail.js, update the useEffect for loading thread detail
+  useEffect(() => {
+    if (authChecked && threadId) {
+      // Check if threadId is numeric or a slug
+      const isNumeric = /^\d+$/.test(threadId);
 
-const loadThreadDetailByNumericId = async (threadId) => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetch(
-      `${
-        process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
-      }/api/discussions/thread-detail-by-id/${threadId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success && data.data.thread.thread_slug) {
-        // Redirect to slug-based URL
-        navigate(`/thread/${data.data.thread.thread_slug}`, { replace: true });
+      if (isNumeric) {
+        // For backward compatibility, if numeric ID is provided,
+        // first get the thread to find its slug, then redirect
+        loadThreadDetailByNumericId(threadId);
       } else {
-        setError("Thread not found");
+        // If it's already a slug, load directly
+        loadThreadDetailBySlug(threadId);
       }
-    } else {
-      setError("Failed to load thread");
     }
-  } catch (error) {
-    console.error("Error loading thread:", error);
-    setError("Error loading thread. Please try again.");
-  }
-};
+  }, [authChecked, threadId]);
 
-const loadThreadDetailBySlug = async (threadSlug) => {
-  try {
-    setLoading(true);
-    setError(null);
-    
-    const token = localStorage.getItem("token");
-    const response = await fetch(
-      `${
-        process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
-      }/api/discussions/thread-detail/${threadSlug}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  const loadThreadDetailByNumericId = async (threadId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${
+          process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
+        }/api/discussions/thread-detail-by-id/${threadId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    if (response.status === 401) {
-      localStorage.removeItem("token");
-      navigate(`/login?redirect=/thread/${threadSlug}`);
-      return;
-    }
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success) {
-        setThread(data.data.thread);
-        setReplies(data.data.replies);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data.thread.thread_slug) {
+          // Redirect to slug-based URL
+          navigate(`/thread/${data.data.thread.thread_slug}`, {
+            replace: true,
+          });
+        } else {
+          setError("Thread not found");
+        }
       } else {
-        setError(data.message || "Thread not found");
+        setError("Failed to load thread");
       }
-    } else {
-      setError("Failed to load thread");
+    } catch (error) {
+      console.error("Error loading thread:", error);
+      setError("Error loading thread. Please try again.");
     }
-  } catch (error) {
-    console.error("Error loading thread detail:", error);
-    setError("Error loading thread. Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
+
+  const loadThreadDetailBySlug = async (threadSlug) => {
+    try {
+      setLoading(true);
+      setError(null);
+      setCurrentSlug(threadSlug); // Store the current slug
+
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        `${
+          process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
+        }/api/discussions/thread-detail/${threadSlug}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 401) {
+        localStorage.removeItem("token");
+        navigate(`/login?redirect=/thread/${threadSlug}`);
+        return;
+      }
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setThread(data.data.thread);
+          setReplies(data.data.replies);
+        } else {
+          setError(data.message || "Thread not found");
+        }
+      } else {
+        setError("Failed to load thread");
+      }
+    } catch (error) {
+      console.error("Error loading thread detail:", error);
+      setError("Error loading thread. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmitReply = async () => {
-    if (!newReply.trim() || replying) return;
+    if (!newReply.trim() || replying || !thread) return;
 
     try {
       setReplying(true);
@@ -135,7 +139,7 @@ const loadThreadDetailBySlug = async (threadSlug) => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            threadId: thread.id,
+            threadId: thread.id, // This should be the numeric ID
             content: newReply,
           }),
         }
@@ -145,11 +149,17 @@ const loadThreadDetailBySlug = async (threadSlug) => {
         const data = await response.json();
         if (data.success) {
           setNewReply("");
-          loadThreadDetail();
+          // Reload using the current slug
+          if (currentSlug) {
+            loadThreadDetailBySlug(currentSlug);
+          } else {
+            // Fallback to thread's slug
+            loadThreadDetailBySlug(thread.thread_slug || threadId);
+          }
         }
       } else if (response.status === 401) {
         localStorage.removeItem("token");
-        navigate(`/login?redirect=/thread/${threadId}`);
+        navigate(`/login?redirect=/thread/${currentSlug || threadId}`);
       }
     } catch (error) {
       console.error("Error submitting reply:", error);
@@ -215,26 +225,18 @@ const loadThreadDetailBySlug = async (threadSlug) => {
 
   return (
     <div className="thread-detail-container">
+      <button className="back-button" onClick={() => navigate(-1)}>
+        ← Back
+      </button>
       <div className="thread-detail">
         {/* Thread Header */}
         <div className="thread-header">
-          <button className="back-button" onClick={() => navigate(-1)}>
-            ← Back
-          </button>
-          <h1>{thread.title}</h1>
           <div className="thread-meta">
             <div className="author-info">
-              {thread.profile_image ? (
-                <img
-                  src={thread.profile_image}
-                  alt="Author"
-                  className="author-avatar"
-                />
-              ) : (
-                <div className="avatar-initials">
-                  {getInitials(thread.first_name, thread.last_name)}
-                </div>
-              )}
+              <div className="avatar-initials">
+                {getInitials(thread.first_name, thread.last_name)}
+              </div>
+
               <div className="author-details">
                 <span className="author-name">
                   {thread.first_name} {thread.last_name}
@@ -260,6 +262,7 @@ const loadThreadDetailBySlug = async (threadSlug) => {
 
         {/* Thread Content */}
         <div className="thread-content">
+          <h2>{thread.title}</h2>
           <div dangerouslySetInnerHTML={{ __html: thread.content }} />
 
           {thread.images && thread.images.length > 0 && (

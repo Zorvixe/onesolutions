@@ -2,6 +2,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  padding-top: 100px;
 }
 
 .thread-detail {
@@ -21,7 +22,7 @@
 .back-button {
   background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
+  color: #000;
   padding: 8px 16px;
   border-radius: 6px;
   cursor: pointer;
@@ -32,12 +33,6 @@
 
 .back-button:hover {
   background: rgba(255, 255, 255, 0.3);
-}
-
-.thread-header h1 {
-  margin: 0 0 20px 0;
-  font-size: 28px;
-  font-weight: 600;
 }
 
 .thread-meta {
@@ -134,7 +129,7 @@
 }
 
 .thread-content {
-  padding: 32px;
+  padding: 0px 20px;
   line-height: 1.8;
   font-size: 16px;
   color: #374151;
@@ -177,7 +172,7 @@
 
 .replies-section h2 {
   margin: 0 0 24px 0;
-  font-size: 24px;
+  font-size: 18px;
   color: #111827;
 }
 
@@ -190,10 +185,10 @@
   padding: 16px;
   border: 2px solid #e5e7eb;
   border-radius: 8px;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 12px;
+  line-height: 1;
   resize: vertical;
-  min-height: 120px;
+  min-height: 100px;
   margin-bottom: 16px;
   transition: border-color 0.3s;
 }
@@ -212,9 +207,9 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 12px 32px;
+  padding: 8px 20px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 10px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -238,7 +233,7 @@
 
 .no-replies {
   text-align: center;
-  padding: 48px 0;
+  padding: 10px 0;
   color: #6b7280;
   font-size: 18px;
 }
