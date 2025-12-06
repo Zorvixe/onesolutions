@@ -362,53 +362,121 @@ const createTables = async () => {
     status VARCHAR(50) DEFAULT 'open',
     is_important BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    thread_slug VARCHAR(255) NOT NULL UNIQUE
   );
 `;
 
-try {
-  // Check if column exists
-  const checkResult = await pool.query(`
+  // Add this trigger to automatically generate slugs if not provided
+  const addSlugTriggerQuery = `
+  CREATE OR REPLACE FUNCTION generate_thread_slug()
+  RETURNS TRIGGER AS $$
+  BEGIN
+    -- If thread_slug is not provided, generate one
+    IF NEW.thread_slug IS NULL OR NEW.thread_slug = '' THEN
+      NEW.thread_slug := generate_thread_slug_function(NEW.title);
+    END IF;
+    RETURN NEW;
+  END;
+  $$ LANGUAGE plpgsql;
+
+  CREATE OR REPLACE FUNCTION generate_thread_slug_function(title VARCHAR)
+  RETURNS VARCHAR AS $$
+  DECLARE
+    base_slug VARCHAR;
+    final_slug VARCHAR;
+    random_str VARCHAR;
+    timestamp_str VARCHAR;
+  BEGIN
+    random_str := substring(md5(random()::text), 1, 8);
+    timestamp_str := to_char(EXTRACT(EPOCH FROM CURRENT_TIMESTAMP)::integer, 'FM9999999999');
+    
+    base_slug := lower(title);
+    base_slug := regexp_replace(base_slug, '[^a-z0-9\s-]', '', 'g');
+    base_slug := regexp_replace(base_slug, '\s+', '-', 'g');
+    base_slug := regexp_replace(base_slug, '-+', '-', 'g');
+    base_slug := trim(both '-' from base_slug);
+    base_slug := substring(base_slug from 1 for 100);
+    
+    IF base_slug = '' THEN
+      base_slug := 'thread';
+    END IF;
+    
+    final_slug := base_slug || '-' || timestamp_str || '-' || random_str;
+    RETURN final_slug;
+  END;
+  $$ LANGUAGE plpgsql;
+
+  DROP TRIGGER IF EXISTS set_thread_slug_trigger ON discussion_threads;
+  CREATE TRIGGER set_thread_slug_trigger
+  BEFORE INSERT ON discussion_threads
+  FOR EACH ROW
+  EXECUTE FUNCTION generate_thread_slug();
+`;
+
+  // In your createTables function, after creating the discussion_threads table:
+  try {
+    // Ensure no null slugs exist
+    const nullSlugsCheck = await pool.query(`
+    UPDATE discussion_threads 
+    SET thread_slug = generate_thread_slug_function(title)
+    WHERE thread_slug IS NULL OR thread_slug = ''
+  `);
+
+    if (nullSlugsCheck.rowCount > 0) {
+      console.log(
+        `✅ Fixed ${nullSlugsCheck.rowCount} threads with null slugs`
+      );
+    }
+  } catch (error) {
+    console.error("Error fixing null slugs:", error.message);
+  }
+
+  try {
+    // Check if column exists
+    const checkResult = await pool.query(`
     SELECT column_name 
     FROM information_schema.columns 
     WHERE table_name='discussion_threads' AND column_name='thread_slug'
   `);
 
-  if (checkResult.rows.length === 0) {
-    // Add the column as nullable first
-    await pool.query(`
+    if (checkResult.rows.length === 0) {
+      // Add the column as nullable first
+      await pool.query(`
       ALTER TABLE discussion_threads 
       ADD COLUMN thread_slug VARCHAR(255)
     `);
-    console.log("✅ Added thread_slug column");
-    
-    // Generate slugs for existing rows
-    const existingThreads = await pool.query(
-      "SELECT id, title FROM discussion_threads WHERE thread_slug IS NULL"
-    );
-    
-    for (const thread of existingThreads.rows) {
-      const slug = generateThreadSlug(thread.title);
-      await pool.query(
-        "UPDATE discussion_threads SET thread_slug = $1 WHERE id = $2",
-        [slug, thread.id]
+      console.log("✅ Added thread_slug column");
+
+      // Generate slugs for existing rows
+      const existingThreads = await pool.query(
+        "SELECT id, title FROM discussion_threads WHERE thread_slug IS NULL"
       );
-    }
-    
-    // Now make it unique and not null
-    await pool.query(`
+
+      for (const thread of existingThreads.rows) {
+        const slug = generateThreadSlug(thread.title);
+        await pool.query(
+          "UPDATE discussion_threads SET thread_slug = $1 WHERE id = $2",
+          [slug, thread.id]
+        );
+      }
+
+      // Now make it unique and not null
+      await pool.query(`
       ALTER TABLE discussion_threads 
       ALTER COLUMN thread_slug SET NOT NULL,
       ADD CONSTRAINT thread_slug_unique UNIQUE (thread_slug)
     `);
-    console.log("✅ Updated thread_slug constraints");
-  } else {
-    console.log("✅ thread_slug column already exists");
+      console.log("✅ Updated thread_slug constraints");
+    } else {
+      console.log("✅ thread_slug column already exists");
+    }
+  } catch (columnError) {
+    console.error(
+      "❌ Error setting up thread_slug column:",
+      columnError.message
+    );
   }
-} catch (columnError) {
-  console.error("❌ Error setting up thread_slug column:", columnError.message);
-}
-
 
   const discussionRepliesTableQuery = `
   CREATE TABLE IF NOT EXISTS discussion_replies (
@@ -492,9 +560,6 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     UNIQUE(snippet_id, student_id)
   );
 `;
-
- 
- 
 
   // Add to your existing createTables function
   try {
@@ -702,10 +767,10 @@ function generateThreadSlug(title) {
   if (!title) {
     throw new Error("Title is required to generate slug");
   }
-  
+
   const randomString = crypto.randomBytes(4).toString("hex");
   const timestamp = Date.now().toString(36);
-  
+
   // Create slug from title
   const slug = title
     .toLowerCase()
@@ -714,10 +779,10 @@ function generateThreadSlug(title) {
     .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
     .trim() // Trim whitespace
     .substring(0, 100); // Limit length
-    
+
   // If slug is empty (e.g., title was all special characters), use fallback
   const finalSlug = slug || "thread";
-  
+
   return `${finalSlug}-${timestamp}-${randomString}`;
 }
 // -------------------------------------------
@@ -3806,7 +3871,8 @@ app.post("/api/student/achievements", auth, async (req, res) => {
 
 app.post("/api/discussions/threads", auth, async (req, res) => {
   try {
-    const { title, content, subtopicId, moduleName, topicName, images } = req.body;
+    const { title, content, subtopicId, moduleName, topicName, images } =
+      req.body;
 
     console.log("📝 Creating thread with data:", {
       title,
@@ -3815,7 +3881,7 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
       topicName,
       studentId: req.student.id,
       hasContent: !!content,
-      contentLength: content?.length
+      contentLength: content?.length,
     });
 
     if (!title || !content || !subtopicId) {
@@ -3825,14 +3891,17 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
       });
     }
 
-    // First, insert without thread_slug (it might be auto-generated by trigger or have default)
+    // Generate slug before insertion
+    const threadSlug = generateThreadSlug(title);
+
+    // Insert with thread_slug included
     const insertQuery = `
       INSERT INTO discussion_threads 
-      (student_id, subtopic_id, module_name, topic_name, title, content, images)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      (student_id, subtopic_id, module_name, topic_name, title, content, images, thread_slug)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
-    
+
     const result = await pool.query(insertQuery, [
       req.student.id,
       subtopicId,
@@ -3841,29 +3910,15 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
       title,
       content,
       images || [],
+      threadSlug, // Include the generated slug
     ]);
 
-    // Generate slug for the new thread
-    const threadSlug = generateThreadSlug(title);
-    
-    // Update the thread with the slug
-    await pool.query(
-      "UPDATE discussion_threads SET thread_slug = $1 WHERE id = $2",
-      [threadSlug, result.rows[0].id]
-    );
-
-    // Get the updated thread
-    const updatedThread = await pool.query(
-      "SELECT * FROM discussion_threads WHERE id = $1",
-      [result.rows[0].id]
-    );
-
-    console.log(`✅ Thread created successfully with ID: ${updatedThread.rows[0].id}`);
+    console.log(`✅ Thread created successfully with ID: ${result.rows[0].id}`);
 
     res.status(201).json({
       success: true,
       message: "Thread created successfully",
-      data: { thread: updatedThread.rows[0] },
+      data: { thread: result.rows[0] },
     });
   } catch (error) {
     console.error("❌ Thread creation error:", error.message);
@@ -3872,28 +3927,31 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
       code: error.code,
       detail: error.detail,
       table: error.table,
-      column: error.column
+      column: error.column,
     });
-    
+
     // Check for common errors
-    if (error.code === '23505') { // Unique violation
+    if (error.code === "23505") {
+      // Unique violation
       return res.status(400).json({
         success: false,
-        message: "A thread with similar title already exists. Please try a different title.",
+        message:
+          "A thread with similar title already exists. Please try a different title.",
       });
     }
-    
-    if (error.code === '42703') { // Undefined column
+
+    if (error.code === "42703") {
+      // Undefined column
       return res.status(500).json({
         success: false,
         message: "Database configuration error. Please contact support.",
       });
     }
-    
+
     res.status(500).json({
       success: false,
       message: "Server error while creating thread",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 });
