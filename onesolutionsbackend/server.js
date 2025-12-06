@@ -352,7 +352,7 @@ const createTables = async () => {
   const discussionThreadsTableQuery = `
   CREATE TABLE IF NOT EXISTS discussion_threads (
     id SERIAL PRIMARY KEY,
-    thread_slug VARCHAR(255) UNIQUE NOT NULL DEFAULT MD5(random()::text || clock_timestamp()::text)::VARCHAR(10),
+    thread_slug VARCHAR(255) UNIQUE NOT NULL,
     student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
     subtopic_id VARCHAR(500) NOT NULL,
     module_name VARCHAR(500),
@@ -366,11 +366,6 @@ const createTables = async () => {
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `;
-
-  await pool.query(`
-ALTER TABLE discussion_threads
-ADD COLUMN thread_slug VARCHAR(255) UNIQUE NOT NULL DEFAULT MD5(random()::text || clock_timestamp()::text)::VARCHAR(10),
-`);
 
   const discussionRepliesTableQuery = `
   CREATE TABLE IF NOT EXISTS discussion_replies (
@@ -454,6 +449,45 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     UNIQUE(snippet_id, student_id)
   );
 `;
+
+  // Add trigger function to generate thread slug
+  const createThreadSlugTrigger = `
+CREATE OR REPLACE FUNCTION generate_thread_slug()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.thread_slug IS NULL OR NEW.thread_slug = '' THEN
+    NEW.thread_slug := MD5(random()::text || clock_timestamp()::text)::VARCHAR(32);
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS set_thread_slug_trigger ON discussion_threads;
+CREATE TRIGGER set_thread_slug_trigger
+  BEFORE INSERT ON discussion_threads
+  FOR EACH ROW
+  EXECUTE FUNCTION generate_thread_slug();
+`;
+
+  try {
+    await pool.query(`
+ALTER TABLE discussion_threads
+ADD COLUMN thread_slug VARCHAR(255) UNIQUE NOT NULL,
+`);
+    console.log("Database Updated");
+  } catch (error) {
+    console.log("Database Error");
+  }
+
+  try {
+    await pool.query(`
+ALTER TABLE discussion_replies
+ADD COLUMN admin_name VARCHAR(255),admin_image VARCHAR(500),
+`);
+    console.log("Database Updated");
+  } catch (error) {
+    console.log("Database Error");
+  }
 
   // Add to your existing createTables function
   try {
