@@ -342,7 +342,7 @@ function Landing() {
                     alt="Zorvixe"
                     className="action-icon-land"
                   />
-                  <span>OSE Student</span>
+                  <span>OSE Management</span>
                   <span className="action-arrow-land">{open ? "▲" : "▼"}</span>
                 </button>
 
@@ -350,7 +350,7 @@ function Landing() {
                   className="dropdown-menu-land"
                   style={{ display: open ? "block" : "none" }}
                 >
-                  <a href="/feedback">Feedback</a>
+                  <a href="/ose_Management">OSE Management</a>
                   <a href="/student_list">Student List</a>
                 </div>
               </div>

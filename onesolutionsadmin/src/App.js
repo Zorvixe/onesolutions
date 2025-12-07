@@ -26,9 +26,10 @@ import OJBAdminJobsList from "./components/OJB/OJBAdminJobsList/OJBAdminJobsList
 import OJBAdminJobDetail from "./components/OJB/OJBAdminJobDetail/OJBAdminJobDetail";
 
 import StudentRegister from "./components/Ose/Student_Register/Register";
-import AdminFeedbackPanel from "./components/Ose/AdminFeedbackPanel/AdminFeedbackPanel";
 import StudentList from "./components/Ose/Student/StudentList";
 import VideoManagement from "./components/Ose/ClassVideoManagement/ClassVideoManagement";
+
+import OseManagement from "./components/Ose/Ose";
 
 import "./App.css";
 
@@ -75,9 +76,9 @@ function App() {
               <Route path="/live_classes" element={<LiveClasses />} />
               <Route path="/achievements" element={<Achievements />} />
               <Route path="/student_register" element={<StudentRegister />} />
-              <Route path="/feedback" element={<AdminFeedbackPanel />} />
               <Route path="/student_list" element={<StudentList />} />
               <Route path="/Video_Management" element={<VideoManagement />} />
+              <Route path="/ose_Management" element={<OseManagement />} />
 
               {/* OJB routes */}
               <Route

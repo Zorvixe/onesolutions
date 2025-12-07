@@ -14,7 +14,7 @@ const WebPractice = () => {
   const { practiceId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { loadProgressSummary, codingPracticeProgress, user } = useAuth();
+  const { loadProgressSummary, user } = useAuth();
   const [selectedPractice, setSelectedPractice] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [testResults, setTestResults] = useState([]);
