@@ -130,7 +130,7 @@ const ThreadDetail = () => {
       const token = localStorage.getItem("token");
       const response = await fetch(
         `${
-          process.env.REACT_APP_API_URL || "http://localhost:5002"
+          process.env.REACT_APP_API_BASE_URL || "http://localhost:5002"
         }/api/discussions/replies`,
         {
           method: "POST",
@@ -241,7 +241,6 @@ const ThreadDetail = () => {
                 <span className="author-name">
                   {thread.first_name} {thread.last_name}
                 </span>
-                <span className="author-email">{thread.student_email}</span>
               </div>
             </div>
             <div className="thread-info">
@@ -311,13 +310,7 @@ const ThreadDetail = () => {
                 <div key={reply.id} className="reply-item">
                   <div className="reply-header">
                     <div className="reply-author">
-                      {reply.replied_by_image ? (
-                        <img
-                          src={reply.replied_by_image}
-                          alt="Reply author"
-                          className="reply-avatar"
-                        />
-                      ) : (
+                     
                         <div className="reply-avatar-initials">
                           {getInitials(
                             reply.student_first_name ||
@@ -326,7 +319,6 @@ const ThreadDetail = () => {
                               reply.admin_name?.split(" ")[1]
                           )}
                         </div>
-                      )}
                       <div className="reply-author-details">
                         <strong>{reply.replied_by_name}</strong>
                         <span className={`role-badge ${reply.replied_by_role}`}>

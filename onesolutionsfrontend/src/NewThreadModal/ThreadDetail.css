@@ -13,7 +13,7 @@
 }
 
 .thread-header {
-  padding: 24px;
+  padding: 15px;
   border-bottom: 1px solid #e5e7eb;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -58,15 +58,15 @@
 }
 
 .avatar-initials {
-  width: 48px;
-  height: 48px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
   color: white;
   border: 2px solid white;
 }
@@ -247,7 +247,6 @@
 
 .reply-item:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .reply-header {

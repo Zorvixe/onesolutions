@@ -561,7 +561,14 @@ const WebPractice = () => {
   };
 
   if (isLoading) {
-    return <div className="loading-container">Loading practice...</div>;
+    return (
+      <div className="thread-detail-container">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error) {

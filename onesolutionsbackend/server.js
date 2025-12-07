@@ -3867,7 +3867,42 @@ app.post("/api/student/achievements", auth, async (req, res) => {
   }
 });
 
-// ==========================================
+
+async function checkAndAddMissingColumns() {
+  try {
+      // Check for admin_name column
+      const checkAdminName = await pool.query(`
+          SELECT column_name 
+          FROM information_schema.columns 
+          WHERE table_name='discussion_replies' AND column_name='admin_name'
+      `);
+
+      if (checkAdminName.rows.length === 0) {
+          await pool.query(`
+              ALTER TABLE discussion_replies 
+              ADD COLUMN admin_name VARCHAR(255)
+          `);
+          console.log("✅ Added admin_name column to discussion_replies");
+      }
+
+      // Check for admin_image column
+      const checkAdminImage = await pool.query(`
+          SELECT column_name 
+          FROM information_schema.columns 
+          WHERE table_name='discussion_replies' AND column_name='admin_image'
+      `);
+
+      if (checkAdminImage.rows.length === 0) {
+          await pool.query(`
+              ALTER TABLE discussion_replies 
+              ADD COLUMN admin_image VARCHAR(500)
+          `);
+          console.log("✅ Added admin_image column to discussion_replies");
+      }
+  } catch (error) {
+      console.error("Error checking/adding columns:", error.message);
+  }
+}
 
 // ==========================================
 // 🔹 DISCUSSION ROUTES FOR STUDENTS
@@ -3960,46 +3995,6 @@ app.post("/api/discussions/threads", auth, async (req, res) => {
   }
 });
 
-// ==========================================
-// 🔹 GET THREAD BY SLUG (KEEP ONLY THIS ONE)
-// ==========================================
-async function checkAndAddMissingColumns() {
-  try {
-      // Check for admin_name column
-      const checkAdminName = await pool.query(`
-          SELECT column_name 
-          FROM information_schema.columns 
-          WHERE table_name='discussion_replies' AND column_name='admin_name'
-      `);
-
-      if (checkAdminName.rows.length === 0) {
-          await pool.query(`
-              ALTER TABLE discussion_replies 
-              ADD COLUMN admin_name VARCHAR(255)
-          `);
-          console.log("✅ Added admin_name column to discussion_replies");
-      }
-
-      // Check for admin_image column
-      const checkAdminImage = await pool.query(`
-          SELECT column_name 
-          FROM information_schema.columns 
-          WHERE table_name='discussion_replies' AND column_name='admin_image'
-      `);
-
-      if (checkAdminImage.rows.length === 0) {
-          await pool.query(`
-              ALTER TABLE discussion_replies 
-              ADD COLUMN admin_image VARCHAR(500)
-          `);
-          console.log("✅ Added admin_image column to discussion_replies");
-      }
-  } catch (error) {
-      console.error("Error checking/adding columns:", error.message);
-  }
-}
-
-// Also update the GET thread detail route to handle cases where columns might not exist
 app.get("/api/discussions/thread-detail/:threadSlug", auth, async (req, res) => {
 try {
   const { threadSlug } = req.params;
@@ -4241,7 +4236,6 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
 // Also update the admin thread detail endpoint similarly
 app.get(
   "/api/admin/discussions/threads/:threadSlug",
-  auth,
   async (req, res) => {
     try {
       const { threadSlug } = req.params;
@@ -4314,99 +4308,6 @@ app.get(
   }
 );
 
-
-// Submit feedback
-app.post("/api/feedback/submit", auth, async (req, res) => {
-  try {
-    const {
-      subtopicId,
-      moduleName,
-      topicName,
-      ratingUnderstanding,
-      ratingInstructor,
-      ratingPace,
-      feedbackText,
-    } = req.body;
-
-    if (!subtopicId) {
-      return res.status(400).json({
-        success: false,
-        message: "Subtopic ID is required",
-      });
-    }
-
-    // Check if feedback already exists for this subtopic by this student
-    const existingFeedback = await pool.query(
-      `SELECT id FROM student_feedback 
-       WHERE student_id = $1 AND subtopic_id = $2`,
-      [req.student.id, subtopicId]
-    );
-
-    if (existingFeedback.rows.length > 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Feedback already submitted for this class",
-      });
-    }
-
-    // Insert new feedback
-    const result = await pool.query(
-      `INSERT INTO student_feedback 
-       (student_id, subtopic_id, module_name, topic_name, 
-        rating_understanding, rating_instructor, rating_pace, feedback_text)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-       RETURNING *`,
-      [
-        req.student.id,
-        subtopicId,
-        moduleName || null,
-        topicName || null,
-        ratingUnderstanding,
-        ratingInstructor,
-        ratingPace,
-        feedbackText || null,
-      ]
-    );
-
-    res.json({
-      success: true,
-      message: "Feedback submitted successfully",
-      data: { feedback: result.rows[0] },
-    });
-  } catch (error) {
-    console.error("Feedback submission error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error while submitting feedback",
-    });
-  }
-});
-
-// Get feedback for a specific subtopic (student can see their own)
-app.get("/api/feedback/subtopic/:subtopicId", auth, async (req, res) => {
-  try {
-    const { subtopicId } = req.params;
-
-    const result = await pool.query(
-      `SELECT * FROM student_feedback 
-       WHERE student_id = $1 AND subtopic_id = $2`,
-      [req.student.id, subtopicId]
-    );
-
-    res.json({
-      success: true,
-      data: {
-        feedback: result.rows[0] || null,
-      },
-    });
-  } catch (error) {
-    console.error("Feedback fetch error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Server error while fetching feedback",
-    });
-  }
-});
 // Add this endpoint for backward compatibility with numeric IDs
 app.get("/api/discussions/thread-detail-by-id/:threadId", auth, async (req, res) => {
   try {
@@ -4452,7 +4353,7 @@ app.get("/api/discussions/thread-detail-by-id/:threadId", auth, async (req, res)
 // ==========================================
 
 // Get all threads for admin panel (with auth)
-app.get("/api/admin/discussions/threads", auth, async (req, res) => {
+app.get("/api/admin/discussions/threads", async (req, res) => {
   try {
     const { status, page = 1, limit = 20, search } = req.query;
     const offset = (page - 1) * limit;
@@ -4561,7 +4462,7 @@ app.get("/api/admin/discussions/threads", auth, async (req, res) => {
 });
 
 // Get thread detail for admin (with auth)
-app.get("/api/admin/discussions/threads/:threadId", auth, async (req, res) => {
+app.get("/api/admin/discussions/threads/:threadId", async (req, res) => {
   try {
     const { threadId } = req.params;
 
@@ -4625,7 +4526,7 @@ app.get("/api/admin/discussions/threads/:threadId", auth, async (req, res) => {
 });
 
 // Admin posts a reply (with auth)
-app.post("/api/admin/discussions/replies", auth, async (req, res) => {
+app.post("/api/admin/discussions/replies", async (req, res) => {
   try {
     const { threadId, content, adminId, adminName, adminImage } = req.body;
 
@@ -4692,7 +4593,6 @@ app.post("/api/admin/discussions/replies", auth, async (req, res) => {
 // Update thread status (important, resolved, etc.) with auth
 app.put(
   "/api/admin/discussions/threads/:threadId/status",
-  auth,
   async (req, res) => {
     try {
       const { threadId } = req.params;
@@ -4755,7 +4655,7 @@ app.put(
 );
 
 // Get all feedback with student details (with auth)
-app.get("/api/admin/feedback", auth, async (req, res) => {
+app.get("/api/admin/feedback", async (req, res) => {
   try {
     const { page = 1, limit = 20, subtopicId, moduleName, rating } = req.query;
     const offset = (page - 1) * limit;
@@ -4874,7 +4774,7 @@ app.get("/api/admin/feedback", auth, async (req, res) => {
 });
 
 // Get feedback statistics (with auth)
-app.get("/api/admin/feedback/stats", auth, async (req, res) => {
+app.get("/api/admin/feedback/stats", async (req, res) => {
   try {
     const statsQuery = `
       SELECT 
@@ -4906,6 +4806,98 @@ app.get("/api/admin/feedback/stats", auth, async (req, res) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch feedback statistics",
+    });
+  }
+});
+// Submit feedback
+app.post("/api/feedback/submit", auth, async (req, res) => {
+  try {
+    const {
+      subtopicId,
+      moduleName,
+      topicName,
+      ratingUnderstanding,
+      ratingInstructor,
+      ratingPace,
+      feedbackText,
+    } = req.body;
+
+    if (!subtopicId) {
+      return res.status(400).json({
+        success: false,
+        message: "Subtopic ID is required",
+      });
+    }
+
+    // Check if feedback already exists for this subtopic by this student
+    const existingFeedback = await pool.query(
+      `SELECT id FROM student_feedback 
+       WHERE student_id = $1 AND subtopic_id = $2`,
+      [req.student.id, subtopicId]
+    );
+
+    if (existingFeedback.rows.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Feedback already submitted for this class",
+      });
+    }
+
+    // Insert new feedback
+    const result = await pool.query(
+      `INSERT INTO student_feedback 
+       (student_id, subtopic_id, module_name, topic_name, 
+        rating_understanding, rating_instructor, rating_pace, feedback_text)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING *`,
+      [
+        req.student.id,
+        subtopicId,
+        moduleName || null,
+        topicName || null,
+        ratingUnderstanding,
+        ratingInstructor,
+        ratingPace,
+        feedbackText || null,
+      ]
+    );
+
+    res.json({
+      success: true,
+      message: "Feedback submitted successfully",
+      data: { feedback: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Feedback submission error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while submitting feedback",
+    });
+  }
+});
+
+// Get feedback for a specific subtopic (student can see their own)
+app.get("/api/feedback/subtopic/:subtopicId", auth, async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+
+    const result = await pool.query(
+      `SELECT * FROM student_feedback 
+       WHERE student_id = $1 AND subtopic_id = $2`,
+      [req.student.id, subtopicId]
+    );
+
+    res.json({
+      success: true,
+      data: {
+        feedback: result.rows[0] || null,
+      },
+    });
+  } catch (error) {
+    console.error("Feedback fetch error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching feedback",
     });
   }
 });

@@ -381,7 +381,7 @@
 
 @media (max-width: 480px) {
   .card-login {
-    padding: 1.25rem;
+    padding: 1px;
   }
 
   .title-login {
