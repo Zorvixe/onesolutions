@@ -104,16 +104,6 @@ const DiscussionManagement = () => {
     });
   };
 
-  // Create a URL-friendly slug from thread title and ID
-  const createThreadSlug = (thread) => {
-    const titleSlug = thread.title
-      .toLowerCase()
-      .replace(/[^\w\s]/gi, "")
-      .replace(/\s+/g, "-")
-      .substring(0, 50);
-    return `${titleSlug}-${thread.id}`;
-  };
-
   return (
     <div className="dissMContainer">
       {/* Header */}
@@ -269,7 +259,6 @@ const DiscussionManagement = () => {
               <tbody className="dissMTableBody">
                 {threads.map((thread) => {
                   const status = getStatusBadge(thread);
-                  const threadSlug = thread.slug || createThreadSlug(thread);
                   return (
                     <tr key={thread.id} className="dissMTableRow">
                       <td className="dissMTableCell">
@@ -295,7 +284,7 @@ const DiscussionManagement = () => {
                           </div>
                           <div className="dissMThreadContent">
                             <Link
-                              to={`/discussions/thread/${threadSlug}`}
+                              to={`/discussions/thread/${thread.thread_slug}`}
                               className="dissMThreadTitle"
                             >
                               {thread.title}
@@ -366,7 +355,7 @@ const DiscussionManagement = () => {
                       </td>
                       <td className="dissMTableCell">
                         <Link
-                          to={`/discussions/thread/${threadSlug}`}
+                          to={`/discussions/thread/${thread.thread_slug}`}
                           className="dissMViewButton"
                         >
                           <Eye size={16} className="dissMViewButtonIcon" />

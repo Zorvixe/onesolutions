@@ -2591,11 +2591,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s2_A0 m6_H g2_7B c2_D2E",
-                name: "MCQ Practice   MileStone",
+                name: "MCQ Practice MileStone",
               },
               {
                 id: "QW9_s3_A0 m6_H g2_7B c2_D2E",
-                name: "Assignment   1",
+                name: "Assignment 1",
               },
               {
                 id: "QW9_s4_A0 m6_H g2_7B c2_D2E",
