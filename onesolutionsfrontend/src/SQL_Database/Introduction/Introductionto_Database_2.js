@@ -6,15 +6,15 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Introductionto_SQL_2 = ({
+const Introductionto_Database_2 = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Introduction to SQL",
-  topicName = "Introduction to SQL | Part 2",
+  moduleName = "Introduction",
+  topicName = "Introduction to Databases | Part 2",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1T4ekCBicn5Pl4o-fEHdbM9SuqWH95xDdhCCicDIL4K0/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1C7pRiP3wKXJgi7V61FNZqraT7MW4YFdQz81_r3Cr5gc/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +614,4 @@ const Introductionto_SQL_2 = ({
     </div>
   );
 };
-export default Introductionto_SQL_2;
+export default Introductionto_Database_2;

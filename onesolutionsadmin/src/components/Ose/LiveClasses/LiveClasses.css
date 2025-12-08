@@ -473,8 +473,6 @@
 }
 .livcss-live {
   display: flex;
-  justify-content: center;
-  align-items: center;
   padding-top: 10px;
 }
 .live-classes-row-con {
@@ -485,13 +483,11 @@
 .livcss-liveclasses-container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 5px;
   overflow: hidden;
   padding: 0px;
-  position: relative;
   height: 100%;
   transition: all 0.3s ease;
 }

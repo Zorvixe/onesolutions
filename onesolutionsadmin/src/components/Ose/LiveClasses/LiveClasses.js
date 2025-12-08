@@ -395,14 +395,14 @@ const LiveClasses = () => {
           </div>
         ) : (
           <div className="livcss-live container-fluid">
-            <div className="row g-4 live-classes-row-con">
+            <div className="row live-classes-row-con">
               {" "}
               {/* Changed to g-4 for larger gap */}
               {classes.length > 0 ? (
                 classes.map((classItem) => (
                   <div
                     key={classItem.id}
-                    className="livcss-liveclasses-container col-12 col-sm-6 col-lg-4 mb-4" // Added mb-4 back as backup
+                    className="livcss-liveclasses-container" // Added mb-4 back as backup
                   >
                     {/* Rest of your card content remains exactly the same */}
                     <div

@@ -100,18 +100,6 @@ import JS_Promises_CS from "../JavaScript_Essentials/Promises_Array_Methods/JS_P
 import JS_Promises_CS_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS_2.js";
 import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Conceptes_CS.js";
 
-// SQL DataBase
-import Introduction_to_Databases_CS from "../SQL_Database/Introduction/Introduction_to_Databases_CS.js";
-import Create_Table_CS from "../SQL_Database/Introdutionto_SQL/Create_Table_CS.js";
-import Inserting_Row_CS from "../SQL_Database/Introdutionto_SQL/Inserting_Row_CS.js";
-import Retrieving_Data_CS from "../SQL_Database/Introdutionto_SQL/Retrieving_Data_CS.js";
-import Update_Rows_CS from "../SQL_Database/Introdutionto_SQL/Update_Rows_CS.js";
-import Delete_Rows_CS from "../SQL_Database/Introdutionto_SQL/Delete_Rows_CS.js";
-import Alter_Table_CS from "../SQL_Database/Introdutionto_SQL/Alert_Table_CS.js";
-import Comparison_Operators_CS from "../SQL_Database/Quering_SQL/Comparision_Opeartors_CS.js";
-import String_Operators_CS from "../SQL_Database/Quering_SQL/String_Operators_CS.js";
-import Logical_Operators_CS from "../SQL_Database/Quering_SQL/Logical_Operators_CS.js";
-
 //Flexbox
 import Sizing_Ele_Handling_Overflow_CS from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_CS.js";
 import Box_Sizing_CS from "../FlexBox/CSS_Flexbox/Box_Sizing_CS.js";
@@ -458,19 +446,49 @@ import MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 import Dynamic_Course_Exam_Instructions_Class from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam_Instructions_Class.js";
 import Dynamic_Course_Exam from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam.js";
 import Comments from "../JavaScript/Arrays_Objects/Comments.js";
+
+// SQL DataBase
+import Introductionto_Database_1 from "../SQL_Database/Introduction/Introductionto_Database_1.js";
+import Introductionto_Database_2 from "../SQL_Database/Introduction/Introductionto_Database_2.js";
+import Introductionto_Database_MCQ from "../SQL_Database/Introduction/Introductionto_Database_MCQ.js";
+import Introduction_to_Databases_CS from "../SQL_Database/Introduction/Introduction_to_Databases_CS.js";
+import Introductionto_SQL_1 from "../SQL_Database/Introdutionto_SQL/Introductionto_SQL_1.js";
+import Introductionto_SQL_2 from "../SQL_Database/Introdutionto_SQL/Introductionto_SQL_2.js";
+import SQL_Platform_Walkthrough from "../SQL_Database/Introdutionto_SQL/SQL_Platform_Walkthrough.js";
+import Create_Table_CS from "../SQL_Database/Introdutionto_SQL/Create_Table_CS.js";
+import Inserting_Row_CS from "../SQL_Database/Introdutionto_SQL/Inserting_Row_CS.js";
+import Retrieving_Data_CS from "../SQL_Database/Introdutionto_SQL/Retrieving_Data_CS.js";
+import Update_Rows_CS from "../SQL_Database/Introdutionto_SQL/Update_Rows_CS.js";
+import Delete_Rows_CS from "../SQL_Database/Introdutionto_SQL/Delete_Rows_CS.js";
+import Alter_Table_CS from "../SQL_Database/Introdutionto_SQL/Alert_Table_CS.js";
+import Introductionto_SQL_MCQ_1 from "../SQL_Database/Introdutionto_SQL/Introductionto_SQL_MCQ_1.js";
+import Introductionto_SQL_MCQ_2 from "../SQL_Database/Introdutionto_SQL/Introductionto_SQL_MCQ_2.js";
+import Comparison_Operators_CS from "../SQL_Database/Quering_SQL/Comparision_Opeartors_CS.js";
+import String_Operators_CS from "../SQL_Database/Quering_SQL/String_Operators_CS.js";
+import Logical_Operators_CS from "../SQL_Database/Quering_SQL/Logical_Operators_CS.js";
+
 const subtopicComponents = {
-  "Coding Test 1": Coding_Test_1,
-  "Coding Test 2": Coding_Test_2,
-  "Coding Test 3": Coding_Test_3,
-  "Coding Test 4": Coding_Test_4,
-  "JS Coding Test 1": JS_Coding_Test_1,
-  "JS Coding Test 2": JS_Coding_Test_2,
-  "MCQ Test 1": MCQ_Test_1,
-  "MCQ Test 2": MCQ_Test_2,
-  Objects: Comments,
-  "Build Your Own Dynamic Web Application Course Exam | Instructions":
-    Dynamic_Course_Exam_Instructions_Class,
-  "Build Your Own Dynamic Web Application Course Exam": Dynamic_Course_Exam,
+  //SQL Database
+
+  "Introduction to Databases | Part 1": Introductionto_Database_1,
+  "Introduction to Databases | Part 2": Introductionto_Database_2,
+  "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
+  "MCQ Practice Introduction to Databases": Introductionto_Database_MCQ,
+  "Introduction to SQL | Part 1": Introductionto_SQL_1,
+  "Introduction to SQL | Part 2": Introductionto_SQL_2,
+  "Platform Walkthrough": SQL_Platform_Walkthrough,
+  "Create Table Cheat Sheet": Create_Table_CS,
+  "Inserting Rows Cheat Sheet": Inserting_Row_CS,
+  "Retrieving Data Cheat Sheet": Retrieving_Data_CS,
+  "Update Rows Cheat Sheet": Update_Rows_CS,
+  "Delete Rows Cheat Sheet": Delete_Rows_CS,
+  "Alter Table Cheat Sheet": Alter_Table_CS,
+  "MCQ Practice - Introduction to SQL | Part 1": Introductionto_SQL_MCQ_1,
+  "MCQ Practice - Introduction to SQL | Part 2": Introductionto_SQL_MCQ_2,
+  "Comparison Operators Cheat Sheet": Comparison_Operators_CS,
+  "String Operations Cheat Sheet": String_Operators_CS,
+  "Logical Operators Cheat sheet": Logical_Operators_CS,
+
   "Introduction to Dynamic Web Applications":
     Introductionto_Dynamic_Application_Class,
   "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
@@ -524,6 +542,18 @@ const subtopicComponents = {
   "Forms | Part 2": Forms_Part_2_Class,
   "Coding Assignment 2": JS_Coding_Assignment_2,
   "Coding Assignment 3": JS_Coding_Assignment_3,
+  "Coding Test 1": Coding_Test_1,
+  "Coding Test 2": Coding_Test_2,
+  "Coding Test 3": Coding_Test_3,
+  "Coding Test 4": Coding_Test_4,
+  "JS Coding Test 1": JS_Coding_Test_1,
+  "JS Coding Test 2": JS_Coding_Test_2,
+  "MCQ Test 1": MCQ_Test_1,
+  "MCQ Test 2": MCQ_Test_2,
+  Objects: Comments,
+  "Build Your Own Dynamic Web Application Course Exam | Instructions":
+    Dynamic_Course_Exam_Instructions_Class,
+  "Build Your Own Dynamic Web Application Course Exam": Dynamic_Course_Exam,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
@@ -824,17 +854,6 @@ const subtopicComponents = {
     Introductionto_CSS_Flexbox_CS_2,
   "Introduction to CSS Flexbox | Part 3| Cheat Sheet":
     Introductionto_CSS_Flexbox_CS_3,
-  //SQL Database
-  "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
-  "Create Table Cheat Sheet": Create_Table_CS,
-  "Inserting Rows Cheat Sheet": Inserting_Row_CS,
-  "Retrieving Data Cheat Sheet": Retrieving_Data_CS,
-  "Update Rows Cheat Sheet": Update_Rows_CS,
-  "Delete Rows Cheat Sheet": Delete_Rows_CS,
-  "Alter Table Cheat Sheet": Alter_Table_CS,
-  "Comparison Operators Cheat Sheet": Comparison_Operators_CS,
-  "String Operations Cheat Sheet": String_Operators_CS,
-  "Logical Operators Cheat sheet": Logical_Operators_CS,
 
   //Python Coding Practices
   "Coding Practice - 1": Coding_Practice_1,
@@ -958,6 +977,12 @@ const subtopicComponents = {
 
 // Explicit MCQ Mapping (no change)
 const mcqMapping = {
+  //SQL DataBase
+  "MCQ Practice Introduction to Databases":
+    "Introduction to Databases | Part 1",
+  "MCQ Practice - Introduction to SQL | Part 1": "Introduction to SQL | Part 1",
+  "MCQ Practice - Introduction to SQL | Part 2": "Introduction to SQL | Part 2",
+
   //Reactjs MCQs
   "MCQ Pratice - Introduction to React JS": "Introduction to React JS",
   "MCQ Pratice - Components & Pros": "Components & Pros",

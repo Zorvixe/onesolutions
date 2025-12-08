@@ -3083,5 +3083,295 @@ export const codingPracticesData = {
         },
       ],
     },
+    {
+      id: "Codingpractice-python-3B",
+      title: "Coding Practice - 3B",
+      description: "Operators and Conditional Statements",
+      questions: [
+        {
+          id: "q-python-3B-001",
+          title: "Increment the number",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number N and checks if N is greater than 10.Print the result of N+5 if N is greater than 10.otherwise,print the result of N+1.",
+          sampleInput: "11",
+          sampleOutput: "16",
+          testCases: [
+            { input: "8", output: "9", visible: true },
+            { input: "16", output: "21", visible: true },
+            { input: "8", output: "9", visible: false },
+            { input: "3", output: "4", visible: false },
+            { input: "2", output: "3", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3B-002",
+          title: "Valid Triangle - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads the three angles A,B, and C of a Triangle and checks if the sum of the three angle of the Triangle is equal to 180.Print the triangle as given below if the sum of the three angles of the Triangle is equal to 180.otherwise,Print Not a Valid Triangle.",
+          sampleInput: "60\n45\n75",
+          sampleOutput: "*\n**\n***",
+          testCases: [
+            {
+              input: "20\n30\n60",
+              output: "not a valid triangle",
+              visible: true,
+            },
+            { input: "59\n46\n75", output: "*\n**\n***", visible: true },
+            {
+              input: "8\n53\n12",
+              output: "not a valid triangle",
+              visible: false,
+            },
+            {
+              input: "3\n23\n33",
+              output: "not a valid triangle",
+              visible: false,
+            },
+            {
+              input: "2\n22\n25",
+              output: "not a valid triangle",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3B-003",
+          title: "Greater than 100",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads three numbers A,B, and C, and checks if each number is greater than 100.Print all are greater than 100 if each number is greater than 100.otherwise, print Not all are greater than 100.",
+          sampleInput: "111\n334\n545",
+          sampleOutput: "All are greater than 100",
+          testCases: [
+            {
+              input: "80\n23\n220",
+              output: "not all are greater than 100",
+              visible: true,
+            },
+            {
+              input: "161\n111\n232",
+              output: "All are greater than 100",
+              visible: true,
+            },
+            {
+              input: "8\n23\n111",
+              output: "not all are greater than 100",
+              visible: false,
+            },
+            {
+              input: "3\n22\n232",
+              output: "not all are greater than 100",
+              visible: false,
+            },
+            {
+              input: "2\n23\n22",
+              output: "not all are greater than 100",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3B-004",
+          title: "Floor",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a Room Number and checks if the number in the given room number is less than 30.The room Numbers are in the format of  R1,R35,etc,Print ground floor if the number is less than 30.Otherwise,print not ground floor.",
+          sampleInput: "R27",
+          sampleOutput: "Ground floor",
+          testCases: [
+            {
+              input: "R39",
+              output: "not ground floor",
+              visible: true,
+            },
+            {
+              input: "R22",
+              output: "ground floor",
+              visible: true,
+            },
+            {
+              input: "R44",
+              output: "not ground floor",
+              visible: false,
+            },
+            {
+              input: "R34",
+              output: "not ground floor",
+              visible: false,
+            },
+            {
+              input: "R57",
+              output: "not ground floor",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3B-005",
+          title: "Valid string",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a string S and checks if the length of S is between 2 and 7 or the first character of S is not equal to`a`.Print valid string if the length of s is between 2 and 7 or the first character of s is not equal to `a`.otherwise,print not a valid string.",
+          sampleInput: "apple",
+          sampleOutput: "valid string",
+          testCases: [
+            {
+              input: "rat",
+              output: "valid string",
+              visible: true,
+            },
+            {
+              input: "atlantic",
+              output: " not a valid string",
+              visible: true,
+            },
+            {
+              input: "bag",
+              output: "valid string",
+              visible: false,
+            },
+            {
+              input: "cat",
+              output: "valid string",
+              visible: false,
+            },
+            {
+              input: "apple",
+              output: "valid string",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3B-006",
+          title: "Between 40 and 140",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two numbers A and B and checks if any of the given numbers is between 40 and 140.Print between 40 and 140:Yes if any of the given number is between 40 and 140.Otherwise, Print between 40 and 140:No.",
+          sampleInput: "12\n110",
+          sampleOutput: "between 40 and 140:Yes",
+          testCases: [
+            {
+              input: "34\n120",
+              output: "between 40 and 140:Yes",
+              visible: true,
+            },
+            {
+              input: "30\n20",
+              output: "between 40 and 140:no",
+              visible: true,
+            },
+            {
+              input: "20\n122",
+              output: "between 40 and 140:Yes",
+              visible: false,
+            },
+            {
+              input: "30\n55",
+              output: "between 40 and 140:Yes",
+              visible: false,
+            },
+            {
+              input: "55\n55",
+              output: "between 40 and 140:Yes",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-3B-007",
+          title: "Bonous salary",
+          difficulty: "Easy",
+          description:
+            "A company is decided to give a bonus of 5% to an employee if his/her years of service is more than five years.write a program that reads an employee's salary and years of service and decides whether the employee gets the bonus or not." ,
+          sampleInput: "25000\n3",
+          sampleOutput: "No bonus",
+          testCases: [
+            {
+              input: "35000\n3",
+              output: "No bonus",
+              visible: true,
+            },
+            {
+              input: "25000\n7",
+              output: "1250.0",
+              visible: true,
+            },
+            {
+              input: "25000\n3",
+              output: "No bonus",
+              visible: false,
+            },
+            {
+              input: "25000\n3",
+              output: "No bonus",
+              visible: false,
+            },
+            {
+              input: "25000\n3",
+              output: "No bonus",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        }
+        ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-3A",
+      title: "Assignment-3A",
+      description: "Operators and Conditional Statements",
+      questions: [
+        {
+          id: "q-python-Assignment-3A-001",
+          title: "Top 10 Rankers",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads a number N and checks if N is greater than 10.Print the result of N+5 if N is greater than 10.otherwise,print the result of N+1.",
+          sampleInput: "11",
+          sampleOutput: "16",
+          testCases: [
+            { input: "8", output: "9", visible: true },
+            { input: "16", output: "21", visible: true },
+            { input: "8", output: "9", visible: false },
+            { input: "3", output: "4", visible: false },
+            { input: "2", output: "3", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        ],
+    }
   ],
 };

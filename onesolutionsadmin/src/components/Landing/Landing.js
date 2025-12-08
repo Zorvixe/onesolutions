@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { OnlineStatusContext } from "../Context/OnlineStatusContext";
+import { useNavigate } from "react-router-dom";
+
 import { assests } from "../../assests/assests";
 import { ojbassests } from "../OJB/ojbassests/ojbassests";
 import "./Landing.css";
@@ -11,7 +13,6 @@ function Landing() {
   const [adminDetails, setAdminDetails] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
   // Dashboard Analytics States
   const [dashboardStats, setDashboardStats] = useState({
     totalJobs: 0,
@@ -31,6 +32,14 @@ function Landing() {
     currentSessionStart: null,
   });
   const [open, setOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const admintoken = localStorage.getItem("token");
+
+  if (!admintoken) {
+    navigate("/login");
+  }
 
   // Fetch admin details on component mount
   useEffect(() => {

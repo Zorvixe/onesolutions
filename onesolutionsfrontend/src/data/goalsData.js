@@ -2364,7 +2364,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m1_H g2_7B c2_D2E",
-                name: "MCQ Practice   Introduction to Databases",
+                name: "MCQ Practice Introduction to Databases",
               },
             ],
           },
