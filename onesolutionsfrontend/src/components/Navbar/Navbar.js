@@ -38,7 +38,7 @@ const Navbar = () => {
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
-        !event.target.closest('.hamburger-menu')
+        !event.target.closest(".hamburger-menu")
       ) {
         setShowMobileMenu(false);
       }
@@ -72,7 +72,7 @@ const Navbar = () => {
   return (
     <div className="container nav-con">
       {/* Hamburger Menu for Mobile */}
-      <button 
+      <button
         className="hamburger-menu"
         onClick={toggleMobileMenu}
         aria-label="Toggle navigation menu"
@@ -84,43 +84,45 @@ const Navbar = () => {
         <img src="/assets/onesolutions.png" alt="logo" />
       </Link>
 
-     {/* Desktop Navigation Links */}
-<ul className="nav-links">
-  <li>
-    <NavLink 
-      to="/" 
-      className={({ isActive }) => isActive ? "active" : ""}
-      end
-    >
-      Home
-    </NavLink>
-  </li>
-  <li>
-    <NavLink 
-      to="/courses" 
-      className={({ isActive }) => isActive ? "active" : ""}
-    >
-      Courses
-    </NavLink>
-  </li>
-  <li>
-    <NavLink 
-      to="/practice" 
-      className={({ isActive }) => isActive ? "active practice" : "practice"}
-    >
-      Practice
-    </NavLink>
-  </li>
-</ul>
+      {/* Desktop Navigation Links */}
+      <ul className="nav-links">
+        <li>
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            end
+          >
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/courses"
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Courses
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/practice"
+            className={({ isActive }) =>
+              isActive ? "active practice" : "practice"
+            }
+          >
+            Practice
+          </NavLink>
+        </li>
+      </ul>
 
       {/* Mobile Navigation Menu */}
       {showMobileMenu && (
         <div className="mobile-nav-menu" ref={mobileMenuRef}>
           <div className="mobile-nav-header">
-          <Link to="/" className="logo">
-        <img src="/assets/onesolutions.png" alt="logo" />
-      </Link>
-            <button 
+            <Link to="/" className="logo">
+              <img src="/assets/onesolutions.png" alt="logo" />
+            </Link>
+            <button
               className="close-mobile-menu"
               onClick={() => setShowMobileMenu(false)}
               aria-label="Close navigation menu"
@@ -130,7 +132,11 @@ const Navbar = () => {
           </div>
           <ul className="mobile-nav-links">
             <li>
-              <Link to="/" className="active" onClick={() => setShowMobileMenu(false)}>
+              <Link
+                to="/"
+                className="active"
+                onClick={() => setShowMobileMenu(false)}
+              >
                 <i className="bi bi-house"></i> Home
               </Link>
             </li>
@@ -140,7 +146,11 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to="/practice" className="practice" onClick={() => setShowMobileMenu(false)}>
+              <Link
+                to="/practice"
+                className="practice"
+                onClick={() => setShowMobileMenu(false)}
+              >
                 <i className="bi bi-pencil-square"></i> Practice
               </Link>
             </li>
@@ -150,10 +160,12 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <button onClick={() => {
-                setShowMobileMenu(false);
-                setShowDropdown(true);
-              }}>
+              <button
+                onClick={() => {
+                  setShowMobileMenu(false);
+                  setShowDropdown(true);
+                }}
+              >
                 <i className="bi bi-gift"></i> Help & Earn
               </button>
             </li>
@@ -262,7 +274,7 @@ const Navbar = () => {
           <div className="mentor-connect">
             <i className="bi bi-question-circle"></i>
             <a
-              href="https://meet.google.com/vrn-qdyg-fey"
+              href="https://meet.google.com/yki-uajw-seu"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -287,34 +299,32 @@ const Navbar = () => {
             </div>
           )}
 
-<div className="footer-menu">
-  <NavLink 
-    to="/" 
-    className={({ isActive }) => isActive ? "active" : ""}
-    end
-  >
-    <i className="bi bi-house"></i>
-    <span>Home</span>
-  </NavLink>
-  
-  <NavLink 
-    to="/courses" 
-    className={({ isActive }) => isActive ? "active" : ""}
-  >
-    <i className="bi bi-journal-bookmark"></i>
-    <span>Courses</span>
-  </NavLink>
-  
-  <NavLink 
-    to="/practice" 
-    className={({ isActive }) => isActive ? "active" : ""}
-  >
-    <i className="bi bi-pencil-square"></i>
-    <span>Practice</span>
-  </NavLink>
-  
- 
-</div>
+          <div className="footer-menu">
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active" : "")}
+              end
+            >
+              <i className="bi bi-house"></i>
+              <span>Home</span>
+            </NavLink>
+
+            <NavLink
+              to="/courses"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              <i className="bi bi-journal-bookmark"></i>
+              <span>Courses</span>
+            </NavLink>
+
+            <NavLink
+              to="/practice"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              <i className="bi bi-pencil-square"></i>
+              <span>Practice</span>
+            </NavLink>
+          </div>
 
           {showProfile && (
             <div className="profile-dropdown" ref={profileRef}>
