@@ -3523,7 +3523,7 @@ export const codingPracticesData = {
           id: "q-python-Codingpractice-4A-004",
           title: "Even or odd",
           difficulty: "Easy",
-          description: "Write a program that reads a number N and checks  if N is divisible by 2.",
+          description: "Write a program that reads a number N and checks  if N is divisible by 2.Print even if N is divisible by",
           sampleInput: "35\n7",
           sampleOutput: "5\n0",
           testCases: [

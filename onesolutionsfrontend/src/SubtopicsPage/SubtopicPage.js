@@ -483,6 +483,14 @@ import Aggregations_MCQ from "../SQL_Database/Aggregations/Aggregations_MCQ.js";
 import Group_By from "../SQL_Database/Aggregations/Group_By.js";
 import Group_By_Having from "../SQL_Database/Aggregations/Group_By_Having.js";
 import Group_By_Having_CS from "../SQL_Database/Aggregations/Group_By_Having_CS.js";
+import Common_Concepts_Class from "../SQL_Database/Common_Concepts/Common_Concepts_Class.js";
+import Common_Concepte_MCQ from "../SQL_Database/Common_Concepts/Common_Concepte_MCQ.js";
+import SQL_Expression_Cs from "../SQL_Database/Common_Concepts/SQL_Expression_CS.js";
+import SQL_Functions_CS from "../SQL_Database/Common_Concepts/SQL_Functions_CS.js";
+import Arthmetic_Functions_CS from "../SQL_Database/Common_Concepts/Arthmetic_Functions_CS.js";
+import SQL_Case_CS from "../SQL_Database/Common_Concepts/SQL_Case_CS.js";
+import SQL_Set_Operations_CS from "../SQL_Database/Common_Concepts/SQL_Set_Operations_CS.js";
+import Coding_Pratice_5 from "../SQL_Database/Common_Concepts/Coding_Pratice_5.js";
 
 const subtopicComponents = {
   //SQL Database
