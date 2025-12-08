@@ -2599,7 +2599,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m6_H g2_7B c2_D2E",
-                name: "Assignment   2",
+                name: "Assignment 2",
               },
             ],
           },

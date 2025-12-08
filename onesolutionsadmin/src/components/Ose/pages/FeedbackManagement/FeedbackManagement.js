@@ -44,7 +44,7 @@ const FeedbackManagement = () => {
   const fetchFeedbacks = async (page = 1) => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const response = await axios.get(`https://api.onesolutionsekam.in/api/admin/feedback`, {
         headers: { Authorization: `Bearer ${token}` },
         params: {
@@ -68,7 +68,7 @@ const FeedbackManagement = () => {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const response = await axios.get(`https://api.onesolutionsekam.in/api/admin/feedback/stats`, {
         headers: { Authorization: `Bearer ${token}` },
       });

@@ -44,20 +44,79 @@ const DiscussionThreadDetail = () => {
 
   useEffect(() => {
     fetchThreadDetails();
+    fetchAdminDetails();
   }, [threadSlug]);
+
+  // Fetch admin details from the API
+  const fetchAdminDetails = async () => {
+    try {
+      const token =
+        localStorage.getItem("adminToken") || localStorage.getItem("token");
+
+      if (!token) {
+        console.log("No admin token found");
+        return;
+      }
+
+      console.log("🔍 Fetching admin details...");
+
+      const response = await axios.get(
+        `https://ose.onesolutionsekam.in/api/admin/me`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("✅ Admin details received:", response.data);
+
+      if (response.data && response.data.adminname) {
+        setAdminDetails({
+          name: response.data.adminname,
+          image: response.data.admin_image_link || null,
+        });
+
+        // Also store in localStorage for consistency
+        localStorage.setItem("adminName", response.data.adminname);
+        if (response.data.admin_image_link) {
+          localStorage.setItem("adminImage", response.data.admin_image_link);
+        }
+
+        console.log(`✅ Admin name set to: ${response.data.adminname}`);
+      }
+    } catch (error) {
+      console.error("❌ Error fetching admin details:", error);
+      // Fallback to localStorage if API fails
+      const adminName = localStorage.getItem("adminName");
+      const adminImage = localStorage.getItem("adminImage");
+
+      if (adminName) {
+        setAdminDetails({
+          name: adminName,
+          image: adminImage || null,
+        });
+      }
+    }
+  };
 
   const fetchThreadDetails = async () => {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem("adminToken");
+      const token =
+        localStorage.getItem("adminToken") || localStorage.getItem("token");
 
       console.log(`🔍 Fetching thread details for slug: ${threadSlug}`);
 
       const response = await axios.get(
         `https://api.onesolutionsekam.in/api/admin/discussions/threads/${threadSlug}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -86,10 +145,18 @@ const DiscussionThreadDetail = () => {
 
     try {
       setReplying(true);
-      const token = localStorage.getItem("adminToken");
+      const token =
+        localStorage.getItem("adminToken") || localStorage.getItem("token");
+
+      // Get admin ID and name
       const adminId = localStorage.getItem("adminId") || "1";
+      const adminName =
+        adminDetails.name || localStorage.getItem("adminName") || "Admin";
+      const adminImage =
+        adminDetails.image || localStorage.getItem("adminImage") || null;
 
       console.log(`📝 Submitting reply to thread ${thread.id}`);
+      console.log(`👤 Admin details: ${adminName} (ID: ${adminId})`);
 
       await axios.post(
         `https://api.onesolutionsekam.in/api/admin/discussions/replies`,
@@ -97,11 +164,14 @@ const DiscussionThreadDetail = () => {
           threadId: thread.id,
           content: replyContent,
           adminId,
-          adminName: adminDetails.name,
-          adminImage: adminDetails.image,
+          adminName: adminName,
+          adminImage: adminImage,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -117,14 +187,18 @@ const DiscussionThreadDetail = () => {
 
   const handleMarkImportant = async (important) => {
     try {
-      const token = localStorage.getItem("adminToken");
+      const token =
+        localStorage.getItem("adminToken") || localStorage.getItem("token");
       await axios.put(
         `https://api.onesolutionsekam.in/api/admin/discussions/threads/${thread.id}/status`,
         {
           is_important: important,
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -226,7 +300,6 @@ const DiscussionThreadDetail = () => {
           </button>
           <button onClick={fetchThreadDetails} className="refresh-button-detT">
             <RefreshCw className="refresh-icon-detT" size={16} />
-            Refresh
           </button>
         </div>
 
@@ -400,7 +473,11 @@ const DiscussionThreadDetail = () => {
                           }`}
                         >
                           {reply.replied_by_role === "admin" ? (
-                            <span className="avatar-admin-initial-detT">A</span>
+                            <span className="avatar-admin-initial-detT">
+                              {reply.replied_by_name?.[0] ||
+                                adminDetails.name?.[0] ||
+                                "A"}
+                            </span>
                           ) : (
                             <User className="avatar-user-icon-detT" />
                           )}
@@ -443,7 +520,7 @@ const DiscussionThreadDetail = () => {
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
                 placeholder="Type your reply here..."
-                rows="4"
+                rows="2"
                 className="reply-textarea-detT"
                 disabled={replying}
               />
@@ -451,7 +528,9 @@ const DiscussionThreadDetail = () => {
               <div className="form-footer-detT">
                 <div className="admin-info-detT">
                   <div className="admin-avatar-detT">
-                    <span className="admin-avatar-initial-detT">A</span>
+                    <span className="admin-avatar-initial-detT">
+                      {adminDetails.name?.[0] || "A"}
+                    </span>
                   </div>
                   <span className="admin-name-detT">
                     Replying as: {adminDetails.name}

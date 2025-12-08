@@ -26,9 +26,33 @@ const LiveClasses = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
+  // Fixed: Use useEffect for navigation
   useEffect(() => {
-    fetchClasses();
-  }, []);
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token, navigate]);
+
+  // Also add a second effect to handle token changes during component lifecycle
+  useEffect(() => {
+    const checkToken = () => {
+      const currentToken = localStorage.getItem("token");
+      if (!currentToken) {
+        navigate("/login");
+      }
+    }; // Check token periodically or on specific events
+    window.addEventListener("storage", checkToken);
+
+    return () => {
+      window.removeEventListener("storage", checkToken);
+    };
+  }, [navigate]);
+
+  useEffect(() => {
+    if (token) {
+      fetchClasses();
+    }
+  }, [token]); // Add token as dependency
 
   const fetchClasses = async () => {
     try {

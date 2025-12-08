@@ -34,7 +34,7 @@ const DiscussionManagement = () => {
   const fetchThreads = async (page = 1) => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("adminToken");
+      const token = localStorage.getItem("token");
       const response = await axios.get(
         `https://api.onesolutionsekam.in/api/admin/discussions/threads`,
         {

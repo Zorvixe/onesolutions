@@ -2,644 +2,657 @@
 
 /* Base container */
 .dissMContainer {
-    padding: 1.5rem;
-    background-color: #f9fafb;
-    min-height: 100vh;
-  }
-  
-  /* Header styles */
-  .dissMHeaderContainer {
-    margin-bottom: 2rem;
-  }
-  
-  .dissMHeaderFlex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .dissMHeaderTitleContainer {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .dissMHeaderTitle {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 0;
-  }
-  
-  .dissMHeaderSubtitle {
-    color: #6b7280;
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
-  }
-  
-  .dissMHeaderActions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .dissMRefreshButton {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: white;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    color: #374151;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .dissMRefreshButton:hover {
-    background-color: #f9fafb;
-    border-color: #9ca3af;
-  }
-  
-  /* Stats cards */
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* Header styles */
+.dissMHeaderContainer {
+  margin-bottom: 2rem;
+}
+
+.dissMHeaderFlex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dissMHeaderTitleContainer {
+  flex: 1;
+  min-width: 300px;
+}
+
+.dissMHeaderTitle {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.dissMHeaderSubtitle {
+  color: #6b7280;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.dissMHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dissMRefreshButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dissMRefreshButton:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* Stats cards */
+.dissMStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
   .dissMStatsGrid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(4, 1fr);
   }
-  
-  @media (min-width: 768px) {
-    .dissMStatsGrid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-  
-  .dissMStatCard {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  }
-  
-  .dissMStatCardInner {
-    display: flex;
+}
+
+.dissMStatCard {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.dissMStatCardInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dissMStatTextContainer {
+  flex: 1;
+}
+
+.dissMStatLabel {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.dissMStatValue {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.dissMStatIconContainer {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dissMStatIconBlue {
+  background-color: #dbeafe;
+}
+
+.dissMStatIconRed {
+  background-color: #fee2e2;
+}
+
+.dissMStatIconGreen {
+  background-color: #d1fae5;
+}
+
+.dissMStatIconPurple {
+  background-color: #f3e8ff;
+}
+
+.dissMStatIconBlueText {
+  color: #2563eb;
+}
+
+.dissMStatIconRedText {
+  color: #dc2626;
+}
+
+.dissMStatIconGreenText {
+  color: #059669;
+}
+
+.dissMStatIconPurpleText {
+  color: #7c3aed;
+}
+
+/* Filters and search */
+.dissMFiltersCard {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.dissMFiltersFlex {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .dissMFiltersFlex {
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 0;
   }
-  
-  .dissMStatTextContainer {
-    flex: 1;
+}
+
+.dissMSearchForm {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.dissMSearchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.dissMSearchIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.dissMSearchInput {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #111827;
+  transition: all 0.2s ease;
+}
+
+.dissMSearchInput:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.dissMFiltersContainer {
+  display: flex;
+  align-items: center;
+}
+
+.dissMFiltersGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dissMFilterIcon {
+  color: #6b7280;
+}
+
+.dissMFilterSelect {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #111827;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dissMFilterSelect:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Table styles */
+.dissMTableCard {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.dissMLoadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16rem;
+}
+
+.dissMSpinner {
+  animation: dissMSpin 1s linear infinite;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  border: 0.25rem solid #e5e7eb;
+  border-top-color: #6366f1;
+}
+
+@keyframes dissMSpin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .dissMStatLabel {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin: 0;
+  100% {
+    transform: rotate(360deg);
   }
-  
-  .dissMStatValue {
+}
+
+.dissMEmptyState {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.dissMEmptyIcon {
+  margin: 0 auto 1rem;
+  color: #9ca3af;
+}
+
+.dissMEmptyTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem;
+}
+
+.dissMEmptyText {
+  color: #6b7280;
+  margin: 0;
+}
+
+.dissMTableWrapper {
+  overflow-x: auto;
+}
+
+.dissMTable {
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.dissMTableHead {
+  background-color: #f9fafb;
+}
+
+.dissMTableHeader {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.dissMTableBody {
+  background-color: white;
+}
+
+.dissMTableRow {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+.dissMTableRow:hover {
+  background-color: #f9fafb;
+}
+
+.dissMTableRow:last-child {
+  border-bottom: none;
+}
+
+.dissMTableCell {
+  padding: 1rem 1.5rem;
+  vertical-align: top;
+}
+
+/* Thread cell */
+.dissMThreadCell {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.dissMThreadIcon {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dissMThreadIconNormal {
+  background-color: #f3f4f6;
+}
+
+.dissMThreadIconImportant {
+  background-color: #f3e8ff;
+}
+
+.dissMThreadIconNormalText {
+  color: #4b5563;
+}
+
+.dissMThreadIconImportantText {
+  color: #7c3aed;
+}
+
+.dissMThreadContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.dissMThreadTitle {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.dissMThreadTitle:hover {
+  color: #4f46e5;
+}
+
+.dissMThreadExcerpt {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0.25rem 0 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.dissMThreadMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.dissMThreadDate {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.dissMThreadTag {
+  font-size: 0.75rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+/* Student cell */
+.dissMStudentCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.dissMAvatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #e0e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dissMAvatarText {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.dissMStudentInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.dissMStudentName {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dissMStudentBatch {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0.125rem 0 0;
+}
+
+/* Status badges */
+.dissMStatusCell {
+  display: flex;
+  align-items: center;
+}
+
+.dissMStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  gap: 0.25rem;
+}
+
+.dissMStatusReplied {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.dissMStatusUnanswered {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.dissMStatusStudent {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.dissMStatusLabel {
+  margin-left: 0.125rem;
+}
+
+/* Activity cell */
+.dissMActivityCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dissMActivityItem {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.dissMActivityIcon {
+  color: #6b7280;
+}
+
+.dissMActivityText {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.dissMActivityDate {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+/* View button */
+.dissMViewButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.dissMViewButton:hover {
+  background-color: #4338ca;
+  color: white;
+}
+
+.dissMViewButtonIcon {
+  margin-right: 0.375rem;
+}
+
+.dissMViewButtonChevron {
+  margin-left: 0.375rem;
+}
+
+/* Pagination */
+.dissMPagination {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+@media (min-width: 640px) {
+  .dissMPagination {
+    flex-direction: row;
+  }
+}
+
+.dissMPaginationInfo {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.dissMPaginationControls {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.dissMPaginationButton {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dissMPaginationButton:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.dissMPaginationButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dissMPaginationPageActive {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+  color: white;
+}
+
+.dissMPaginationPageActive:hover {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dissMContainer {
+    padding: 1rem;
+  }
+
+  .dissMHeaderTitle {
     font-size: 1.5rem;
-    font-weight: 700;
-    color: #111827;
-    margin-top: 0.5rem;
-    margin-bottom: 0;
   }
-  
-  .dissMStatIconContainer {
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .dissMStatIconBlue {
-    background-color: #dbeafe;
-  }
-  
-  .dissMStatIconRed {
-    background-color: #fee2e2;
-  }
-  
-  .dissMStatIconGreen {
-    background-color: #d1fae5;
-  }
-  
-  .dissMStatIconPurple {
-    background-color: #f3e8ff;
-  }
-  
-  .dissMStatIconBlueText {
-    color: #2563eb;
-  }
-  
-  .dissMStatIconRedText {
-    color: #dc2626;
-  }
-  
-  .dissMStatIconGreenText {
-    color: #059669;
-  }
-  
-  .dissMStatIconPurpleText {
-    color: #7c3aed;
-  }
-  
-  /* Filters and search */
-  .dissMFiltersCard {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    margin-bottom: 1.5rem;
-  }
-  
-  .dissMFiltersFlex {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  @media (min-width: 768px) {
-    .dissMFiltersFlex {
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0;
-    }
-  }
-  
-  .dissMSearchForm {
-    flex: 1;
-    margin-right: 1rem;
-  }
-  
-  .dissMSearchContainer {
-    position: relative;
-    width: 100%;
-  }
-  
-  .dissMSearchIcon {
-    position: absolute;
-    left: 0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #9ca3af;
-    pointer-events: none;
-  }
-  
-  .dissMSearchInput {
-    width: 100%;
-    padding: 0.5rem 0.75rem 0.5rem 2.5rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    color: #111827;
-    transition: all 0.2s ease;
-  }
-  
-  .dissMSearchInput:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
-  }
-  
-  .dissMFiltersContainer {
-    display: flex;
-    align-items: center;
-  }
-  
-  .dissMFiltersGroup {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .dissMFilterIcon {
-    color: #6b7280;
-  }
-  
-  .dissMFilterSelect {
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    color: #111827;
-    background-color: white;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .dissMFilterSelect:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
-  }
-  
-  /* Table styles */
-  .dissMTableCard {
-    background-color: white;
-    border-radius: 0.75rem;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-  }
-  
-  .dissMLoadingContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 16rem;
-  }
-  
-  .dissMSpinner {
-    animation: dissMSpin 1s linear infinite;
-    border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
-    border: 0.25rem solid #e5e7eb;
-    border-top-color: #6366f1;
-  }
-  
-  @keyframes dissMSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .dissMEmptyState {
-    text-align: center;
-    padding: 3rem 1rem;
-  }
-  
-  .dissMEmptyIcon {
-    margin: 0 auto 1rem;
-    color: #9ca3af;
-  }
-  
-  .dissMEmptyTitle {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #111827;
-    margin: 0 0 0.5rem;
-  }
-  
-  .dissMEmptyText {
-    color: #6b7280;
-    margin: 0;
-  }
-  
-  .dissMTableWrapper {
-    overflow-x: auto;
-  }
-  
-  .dissMTable {
-    min-width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-  
-  .dissMTableHead {
-    background-color: #f9fafb;
-  }
-  
-  .dissMTableHeader {
-    padding: 0.75rem 1.5rem;
-    text-align: left;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-bottom: 1px solid #e5e7eb;
-  }
-  
-  .dissMTableBody {
-    background-color: white;
-  }
-  
-  .dissMTableRow {
-    border-bottom: 1px solid #e5e7eb;
-    transition: background-color 0.2s ease;
-  }
-  
-  .dissMTableRow:hover {
-    background-color: #f9fafb;
-  }
-  
-  .dissMTableRow:last-child {
-    border-bottom: none;
-  }
-  
+
+  .dissMTableHeader,
   .dissMTableCell {
-    padding: 1rem 1.5rem;
-    vertical-align: top;
+    padding: 0.75rem 1rem;
   }
-  
-  /* Thread cell */
-  .dissMThreadCell {
-    display: flex;
-    gap: 0.75rem;
+
+  .dissMThreadMeta {
+    flex-direction: column;
+    gap: 0.5rem;
     align-items: flex-start;
   }
-  
-  .dissMThreadIcon {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .dissMThreadIconNormal {
-    background-color: #f3f4f6;
-  }
-  
-  .dissMThreadIconImportant {
-    background-color: #f3e8ff;
-  }
-  
-  .dissMThreadIconNormalText {
-    color: #4b5563;
-  }
-  
-  .dissMThreadIconImportantText {
-    color: #7c3aed;
-  }
-  
-  .dissMThreadContent {
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .dissMThreadTitle {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #111827;
-    text-decoration: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: color 0.2s ease;
-  }
-  
-  .dissMThreadTitle:hover {
-    color: #4f46e5;
-  }
-  
-  .dissMThreadExcerpt {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin: 0.25rem 0 0;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  
-  .dissMThreadMeta {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
-  }
-  
-  .dissMThreadDate {
-    font-size: 0.75rem;
-    color: #6b7280;
-  }
-  
-  .dissMThreadTag {
-    font-size: 0.75rem;
-    background-color: #f3f4f6;
-    color: #374151;
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.25rem;
-  }
-  
-  /* Student cell */
-  .dissMStudentCell {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .dissMAvatar {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background-color: #e0e7ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  
-  .dissMAvatarText {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #4f46e5;
-  }
-  
-  .dissMStudentInfo {
-    flex: 1;
-    min-width: 0;
-  }
-  
-  .dissMStudentName {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #111827;
-    margin: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  
-  .dissMStudentBatch {
-    font-size: 0.75rem;
-    color: #6b7280;
-    margin: 0.125rem 0 0;
-  }
-  
-  /* Status badges */
-  .dissMStatusCell {
-    display: flex;
-    align-items: center;
-  }
-  
-  .dissMStatusBadge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    gap: 0.25rem;
-  }
-  
-  .dissMStatusReplied {
-    background-color: #d1fae5;
-    color: #065f46;
-  }
-  
-  .dissMStatusUnanswered {
-    background-color: #fee2e2;
-    color: #991b1b;
-  }
-  
-  .dissMStatusStudent {
-    background-color: #fef3c7;
-    color: #92400e;
-  }
-  
-  .dissMStatusLabel {
-    margin-left: 0.125rem;
-  }
-  
-  /* Activity cell */
-  .dissMActivityCell {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  
-  .dissMActivityItem {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  
-  .dissMActivityIcon {
-    color: #6b7280;
-  }
-  
-  .dissMActivityText {
-    font-size: 0.875rem;
-    color: #4b5563;
-  }
-  
-  .dissMActivityDate {
-    font-size: 0.75rem;
-    color: #9ca3af;
-  }
-  
-  /* View button */
-  .dissMViewButton {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: #4f46e5;
-    color: white;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-  }
-  
-  .dissMViewButton:hover {
-    background-color: #4338ca;
-  }
-  
-  .dissMViewButtonIcon {
-    margin-right: 0.375rem;
-  }
-  
-  .dissMViewButtonChevron {
-    margin-left: 0.375rem;
-  }
-  
-  /* Pagination */
-  .dissMPagination {
-    padding: 1rem 1.5rem;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  @media (min-width: 640px) {
-    .dissMPagination {
-      flex-direction: row;
-    }
-  }
-  
-  .dissMPaginationInfo {
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-  
-  .dissMPaginationControls {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-  }
-  
-  .dissMPaginationButton {
-    padding: 0.375rem 0.75rem;
-    border: 1px solid #d1d5db;
-    background-color: white;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    color: #374151;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    min-width: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .dissMPaginationButton:hover:not(:disabled) {
-    background-color: #f9fafb;
-    border-color: #9ca3af;
-  }
-  
-  .dissMPaginationButton:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .dissMPaginationPageActive {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
-    color: white;
-  }
-  
-  .dissMPaginationPageActive:hover {
-    background-color: #4338ca;
-    border-color: #4338ca;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .dissMContainer {
-      padding: 1rem;
-    }
-    
-    .dissMHeaderTitle {
-      font-size: 1.5rem;
-    }
-    
-    .dissMTableHeader,
-    .dissMTableCell {
-      padding: 0.75rem 1rem;
-    }
-    
-    .dissMThreadMeta {
-      flex-direction: column;
-      gap: 0.5rem;
-      align-items: flex-start;
-    }
-  }
+}

@@ -2,687 +2,690 @@
 
 /* Container Styles */
 .container-detT {
-    max-width: 72rem;
-    margin: 0 auto;
-    padding: 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Loading State */
+.loading-container-detT {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
+
+.loading-spinner-detT {
+  animation: spin 1s linear infinite;
+  border-radius: 9999px;
+  height: 3rem;
+  width: 3rem;
+  border: 3px solid #e5e7eb;
+  border-top-color: #4f46e5;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
-  
-  /* Loading State */
-  .loading-container-detT {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-  }
-  
-  .loading-spinner-detT {
-    animation: spin 1s linear infinite;
-    border-radius: 9999px;
-    height: 3rem;
-    width: 3rem;
-    border: 3px solid #e5e7eb;
-    border-top-color: #4f46e5;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  /* Not Found State */
-  .not-found-container-detT {
-    text-align: center;
-    padding: 3rem 1rem;
-  }
-  
-  .not-found-icon-detT {
-    margin: 0 auto 1rem;
-    color: #9ca3af;
-    height: 3rem;
-    width: 3rem;
-  }
-  
-  .not-found-title-detT {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #111827;
-  }
-  
-  .not-found-description-detT {
-    color: #6b7280;
-    margin-top: 0.25rem;
-  }
-  
-  .back-button-detT {
-    margin-top: 1rem;
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: #4f46e5;
-    color: white;
-    border-radius: 0.5rem;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .back-button-detT:hover {
-    background-color: #4338ca;
-  }
-  
-  .back-icon-detT {
-    margin-right: 0.5rem;
-    height: 1rem;
-    width: 1rem;
-  }
-  
-  /* Header Styles */
-  .header-detT {
-    margin-bottom: 1.5rem;
-  }
-  
-  .back-link-detT {
-    display: inline-flex;
-    align-items: center;
-    color: #4b5563;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    transition: color 0.2s;
-  }
-  
-  .back-link-detT:hover {
-    color: #111827;
-  }
-  
-  .back-link-icon-detT {
-    margin-right: 0.5rem;
-    height: 1.125rem;
-    width: 1.125rem;
-  }
-  
-  .header-content-detT {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-  
-  .header-left-detT {
-    flex: 1;
-  }
-  
-  .thread-title-row-detT {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .thread-title-detT {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #111827;
-    margin: 0;
-  }
-  
-  .important-badge-detT {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    background-color: #f3e8ff;
-    color: #6b21a8;
-  }
-  
-  .star-icon-detT {
-    margin-right: 0.25rem;
-    height: 0.875rem;
-    width: 0.875rem;
-  }
-  
-  .thread-meta-detT {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    font-size: 0.875rem;
-    color: #4b5563;
-  }
-  
-  .meta-item-detT {
-    display: flex;
-    align-items: center;
-  }
-  
-  .meta-icon-detT {
-    margin-right: 0.25rem;
-    height: 0.875rem;
-    width: 0.875rem;
-  }
-  
-  .header-actions-detT {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .action-button-detT {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    border: none;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-  
-  .action-icon-detT {
-    margin-right: 0.5rem;
-    height: 1rem;
-    width: 1rem;
-  }
-  
-  .important-active-detT {
-    background-color: #f3e8ff;
-    color: #6b21a8;
-  }
-  
-  .important-active-detT:hover {
-    background-color: #e9d5ff;
-  }
-  
-  .important-inactive-detT {
-    background-color: #f3f4f6;
-    color: #374151;
-  }
-  
-  .important-inactive-detT:hover {
-    background-color: #e5e7eb;
-  }
-  
-  /* Content Grid */
+}
+
+/* Not Found State */
+.not-found-container-detT {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.not-found-icon-detT {
+  margin: 0 auto 1rem;
+  color: #9ca3af;
+  height: 3rem;
+  width: 3rem;
+}
+
+.not-found-title-detT {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.not-found-description-detT {
+  color: #6b7280;
+  margin-top: 0.25rem;
+}
+
+.back-button-detT {
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.back-button-detT:hover {
+  background-color: #4338ca;
+}
+
+.back-icon-detT {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+/* Header Styles */
+.header-detT {
+  margin-bottom: 1.5rem;
+}
+
+.back-link-detT {
+  display: inline-flex;
+  align-items: center;
+  color: #4b5563;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.back-link-detT:hover {
+  color: #111827;
+}
+
+.back-link-icon-detT {
+  margin-right: 0.5rem;
+  height: 1.125rem;
+  width: 1.125rem;
+}
+
+.header-content-detT {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.header-left-detT {
+  flex: 1;
+}
+
+.thread-title-row-detT {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.thread-title-detT {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.important-badge-detT {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}
+
+.star-icon-detT {
+  margin-right: 0.25rem;
+  height: 0.875rem;
+  width: 0.875rem;
+}
+
+.thread-meta-detT {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.meta-item-detT {
+  display: flex;
+  align-items: center;
+}
+
+.meta-icon-detT {
+  margin-right: 0.25rem;
+  height: 0.875rem;
+  width: 0.875rem;
+}
+
+.header-actions-detT {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-button-detT {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.action-icon-detT {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+.important-active-detT {
+  background-color: #f3e8ff;
+  color: #6b21a8;
+}
+
+.important-active-detT:hover {
+  background-color: #e9d5ff;
+}
+
+.important-inactive-detT {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.important-inactive-detT:hover {
+  background-color: #e5e7eb;
+}
+
+/* Content Grid */
+.content-grid-detT {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
   .content-grid-detT {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  @media (min-width: 1024px) {
-    .content-grid-detT {
-      grid-template-columns: 1fr 3fr;
-    }
-  }
-  
-  /* Left Column - Student Card */
-  .left-column-detT {
-    width: 100%;
-  }
-  
-  .student-card-detT {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-  }
-  
-  .card-title-detT {
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 1rem;
-  }
-  
-  .student-info-detT {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .student-avatar-row-detT {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .student-avatar-detT {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 9999px;
-    background-color: #e0e7ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .avatar-initial-detT {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #4f46e5;
-  }
-  
-  .student-details-detT {
-    flex: 1;
-  }
-  
-  .student-name-detT {
-    font-weight: 500;
-    color: #111827;
-    margin: 0;
-  }
-  
-  .student-email-detT {
-    font-size: 0.875rem;
-    color: #6b7280;
-    margin: 0;
-  }
-  
-  .student-meta-detT {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .meta-row-detT {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .meta-label-detT {
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-  
-  .meta-value-detT {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #111827;
-  }
-  
-  .profile-link-detT {
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 0.5rem 1rem;
-    background-color: #f3f4f6;
-    color: #374151;
-    border-radius: 0.5rem;
-    text-decoration: none;
-    transition: background-color 0.2s;
-  }
-  
-  .profile-link-detT:hover {
-    background-color: #e5e7eb;
-  }
-  
-  /* Right Column */
-  .right-column-detT {
-    width: 100%;
-  }
-  
-  /* Thread Card */
-  .thread-card-detT {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-    margin-bottom: 1.5rem;
-  }
-  
-  .thread-content-detT {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .thread-avatar-detT {
-    flex-shrink: 0;
-  }
-  
-  .avatar-circle-detT {
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 9999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .student-avatar-circle-detT {
-    background-color: #dbeafe;
-  }
-  
-  .admin-avatar-circle-detT {
-    background-color: #dcfce7;
-  }
-  
-  .avatar-user-icon-detT {
-    color: #1d4ed8;
-    height: 1.25rem;
-    width: 1.25rem;
-  }
-  
-  .avatar-admin-initial-detT {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: #15803d;
-  }
-  
-  .thread-body-detT {
-    flex: 1;
-  }
-  
-  .thread-header-detT {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-  }
-  
-  .thread-author-detT {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-  }
-  
-  .author-name-detT {
-    font-weight: 500;
-    color: #111827;
-  }
-  
-  .thread-date-detT {
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-  
-  .original-badge-detT {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    background-color: #dbeafe;
-    color: #1e40af;
-  }
-  
-  .thread-text-detT {
-    margin-bottom: 1rem;
-  }
-  
-  .thread-message-detT {
-    color: #374151;
-    white-space: pre-wrap;
-    margin: 0;
-    line-height: 1.6;
-  }
-  
-  .thread-images-detT {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-  
-  .thread-image-detT {
-    border-radius: 0.5rem;
-    width: 100%;
-    height: 8rem;
-    object-fit: cover;
-  }
-  
-  /* Replies Section */
-  .replies-section-detT {
-    margin-bottom: 2rem;
-  }
-  
-  .replies-title-detT {
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 1rem;
-  }
-  
-  .no-replies-detT {
-    text-align: center;
-    padding: 2rem;
-    background-color: #f9fafb;
-    border-radius: 0.5rem;
-  }
-  
-  .no-replies-icon-detT {
-    margin: 0 auto 0.5rem;
-    color: #9ca3af;
-    height: 2rem;
-    width: 2rem;
-  }
-  
-  .no-replies-text-detT {
-    color: #6b7280;
-    margin: 0;
-  }
-  
-  /* Reply Card */
-  .reply-card-detT {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-    margin-bottom: 1rem;
-  }
-  
-  .reply-content-detT {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .reply-avatar-detT {
-    flex-shrink: 0;
-  }
-  
-  .reply-body-detT {
-    flex: 1;
-  }
-  
-  .reply-header-detT {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-  }
-  
-  .reply-author-detT {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .badge-detT {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-  
-  .badge-admin-detT {
-    background-color: #dcfce7;
-    color: #15803d;
-  }
-  
-  .badge-student-detT {
-    background-color: #dbeafe;
-    color: #1e40af;
-  }
-  
-  .badge-label-detT {
-    margin-left: 0.25rem;
-  }
-  
-  .reply-date-detT {
-    font-size: 0.875rem;
-    color: #6b7280;
-  }
-  
-  .reply-text-detT {
-    margin-bottom: 0;
-  }
-  
-  .reply-message-detT {
-    color: #374151;
-    white-space: pre-wrap;
-    margin: 0;
-    line-height: 1.6;
-  }
-  
-  /* Reply Form */
-  .reply-form-card-detT {
-    background-color: white;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid #e5e7eb;
-  }
-  
-  .form-title-detT {
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 1rem;
-  }
-  
-  .form-content-detT {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .reply-textarea-detT {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    font-family: inherit;
-    font-size: 0.875rem;
-    resize: none;
-    transition: all 0.2s;
-  }
-  
-  .reply-textarea-detT:focus {
-    outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  }
-  
-  .form-footer-detT {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .admin-info-detT {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .admin-avatar-detT {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 9999px;
-    background-color: #dcfce7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .admin-avatar-initial-detT {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #15803d;
-  }
-  
-  .admin-name-detT {
-    font-size: 0.875rem;
-    color: #374151;
-  }
-  
-  .submit-button-detT {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1.5rem;
-    background-color: #4f46e5;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .submit-button-detT:hover:not(:disabled) {
-    background-color: #4338ca;
-  }
-  
-  .submit-button-detT:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .submit-icon-detT {
-    margin-right: 0.5rem;
-    height: 1rem;
-    width: 1rem;
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .container-detT {
-      padding: 1rem;
-    }
-    
-    .header-content-detT {
-      flex-direction: column;
-      gap: 1rem;
-    }
-    
-    .thread-meta-detT {
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    
-    .content-grid-detT {
-      gap: 1rem;
-    }
-    
-    .thread-content-detT,
-    .reply-content-detT {
-      flex-direction: column;
-    }
-    
-    .thread-header-detT,
-    .reply-header-detT {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-    
-    .form-footer-detT {
-      flex-direction: column;
-      gap: 1rem;
-      align-items: stretch;
-    }
-    
-    .submit-button-detT {
-      width: 100%;
-      justify-content: center;
-    }
+    grid-template-columns: 1fr 3fr;
+  }
+}
+
+/* Left Column - Student Card */
+.left-column-detT {
+  width: 100%;
+}
+
+.student-card-detT {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.card-title-detT {
+  font-size: 20px !important;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.student-info-detT {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.student-avatar-row-detT {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.student-avatar-detT {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background-color: #e0e7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-initial-detT {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.student-details-detT {
+  flex: 1;
+}
+
+.student-name-detT {
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.student-email-detT {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.student-meta-detT {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.meta-row-detT {
+  display: flex;
+  justify-content: space-between;
+}
+
+.meta-label-detT {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.meta-value-detT {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.profile-link-detT {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  color: #374151;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.profile-link-detT:hover {
+  background-color: #e5e7eb;
+}
+
+/* Right Column */
+.right-column-detT {
+  width: 100%;
+}
+
+/* Thread Card */
+.thread-card-detT {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1.5rem;
+}
+
+.thread-content-detT {
+  display: flex;
+  gap: 1rem;
+}
+
+.thread-avatar-detT {
+  flex-shrink: 0;
+}
+
+.avatar-circle-detT {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.student-avatar-circle-detT {
+  background-color: #dbeafe;
+}
+
+.admin-avatar-circle-detT {
+  background-color: #dcfce7;
+}
+
+.avatar-user-icon-detT {
+  color: #1d4ed8;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.avatar-admin-initial-detT {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.thread-body-detT {
+  flex: 1;
+}
+
+.thread-header-detT {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.thread-author-detT {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.author-name-detT {
+  font-weight: 500;
+  color: #111827;
+}
+
+.thread-date-detT {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.original-badge-detT {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.thread-text-detT {
+  margin-bottom: 1rem;
+}
+
+.thread-message-detT {
+  color: #374151;
+  white-space: pre-wrap;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.thread-images-detT {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.thread-image-detT {
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 8rem;
+  object-fit: cover;
+}
+
+/* Replies Section */
+.replies-section-detT {
+  margin-bottom: 2rem;
+}
+
+.replies-title-detT {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.no-replies-detT {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+}
+
+.no-replies-icon-detT {
+  margin: 0 auto 0.5rem;
+  color: #9ca3af;
+  height: 2rem;
+  width: 2rem;
+}
+
+.no-replies-text-detT {
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Reply Card */
+.reply-card-detT {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  margin-bottom: 1rem;
+}
+
+.reply-content-detT {
+  display: flex;
+  gap: 1rem;
+}
+
+.reply-avatar-detT {
+  flex-shrink: 0;
+}
+
+.reply-body-detT {
+  flex: 1;
+}
+
+.reply-header-detT {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.reply-author-detT {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge-detT {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.badge-admin-detT {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.badge-student-detT {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badge-label-detT {
+  margin-left: 0.25rem;
+}
+
+.reply-date-detT {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.reply-text-detT {
+  margin-bottom: 0;
+}
+
+.reply-message-detT {
+  color: #374151;
+  white-space: pre-wrap;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Reply Form */
+.reply-form-card-detT {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.form-title-detT {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.form-content-detT {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reply-textarea-detT {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  resize: none;
+  transition: all 0.2s;
+}
+
+.reply-textarea-detT:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-footer-detT {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.admin-info-detT {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-avatar-detT {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: #dcfce7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-avatar-initial-detT {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #15803d;
+}
+
+.admin-name-detT {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.submit-button-detT {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-button-detT:hover:not(:disabled) {
+  background-color: #4338ca;
+}
+
+.submit-button-detT:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.submit-icon-detT {
+  margin-right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container-detT {
+    padding: 1rem;
   }
 
-  /* Add these styles to your existing CSS file */
+  .header-content-detT {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .thread-meta-detT {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .content-grid-detT {
+    gap: 1rem;
+  }
+
+  .thread-content-detT,
+  .reply-content-detT {
+    flex-direction: column;
+  }
+
+  .thread-header-detT,
+  .reply-header-detT {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .form-footer-detT {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .submit-button-detT {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Add these styles to your existing CSS file */
 
 .loading-text-detT {
   margin-top: 1rem;
@@ -788,6 +791,10 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
