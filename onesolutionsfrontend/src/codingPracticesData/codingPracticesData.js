@@ -3586,7 +3586,7 @@ export const codingPracticesData = {
           description:
             "Write a program that reads a string s and checks if all the given conditions are satisfied.The first three characters of S is NXT.The remaining characters of s contains a number.Number is divisible by 2 or 7. Print special string if all the given conditions are satisfied.Otherwise,print not a special string.\nNote:Example:s=nxt1234,The number in nxt1234 is 1234. 1234 should be converted into an integer before doing any operations.",
           sampleInput: "nxt1234",
-          sampleOutput: "special eleven",
+          sampleOutput: "special string",
           testCases: [
             { input: "23", output: "special eleven", visible: true },
             { input: "15", output: "normal number", visible: true },
