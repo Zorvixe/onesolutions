@@ -12,10 +12,10 @@ const Common_Concepts_Class = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Aggregations and Group By",
-  topicName = "Group By",
+  moduleName = "Common Concepts",
+  topicName =  "Common Concepts",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1quphlc7zJmTqKfLPw034fcETwClCX6mnnLFOv4Dxytc/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1eNqfunyx2m7VGxPSA0ju1aTlu4jlmZ_BqfE6Dlu7ITY/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();

@@ -4233,67 +4233,70 @@ app.post("/api/discussions/replies", auth, async (req, res) => {
 });
 
 // Also update the admin thread detail endpoint similarly
-// Get single thread by slug
 app.get("/api/admin/discussions/threads/:threadSlug", async (req, res) => {
   try {
     const { threadSlug } = req.params;
 
-    let query = `
-      SELECT dt.*, 
-             s.first_name, 
-             s.last_name,
-             s.email as student_email,
-             s.batch_month,
-             s.batch_year,
-             s.student_id,
-             s.phone
-      FROM discussion_threads dt
-      LEFT JOIN students s ON dt.student_id = s.id
-      WHERE dt.slug = $1 OR CAST(dt.id AS TEXT) = $1
-    `;
-
-    const threadResult = await pool.query(query, [threadSlug]);
+    // Get thread details by slug
+    const threadResult = await pool.query(
+      `SELECT dt.*, 
+                s.first_name, 
+                s.last_name,
+                s.email,
+                s.phone,
+                s.batch_month,
+                s.batch_year
+         FROM discussion_threads dt
+         LEFT JOIN students s ON dt.student_id = s.id
+         WHERE dt.thread_slug = $1`,
+      [threadSlug]
+    );
 
     if (threadResult.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        error: "Thread not found",
+        message: "Thread not found",
       });
     }
 
-    const thread = threadResult.rows[0];
-
-    // Get replies for this thread
-    const repliesQuery = `
-      SELECT dr.*,
-             CASE 
-               WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
-               WHEN dr.replied_by_student IS NOT NULL THEN 'student'
-               ELSE 'unknown'
-             END as replied_by_role,
-             CASE 
-               WHEN dr.replied_by_admin IS NOT NULL THEN a.name
-               WHEN dr.replied_by_student IS NOT NULL THEN s.first_name || ' ' || s.last_name
-               ELSE 'Unknown User'
-             END as replied_by_name
-      FROM discussion_replies dr
-      LEFT JOIN admins a ON dr.replied_by_admin = a.id
-      LEFT JOIN students s ON dr.replied_by_student = s.id
-      WHERE dr.thread_id = $1
-      ORDER BY dr.created_at ASC
-    `;
-
-    const repliesResult = await pool.query(repliesQuery, [thread.id]);
+    // Get all replies with COALESCE
+    const repliesResult = await pool.query(
+      `SELECT dr.*, 
+                s.first_name as student_first_name,
+                s.last_name as student_last_name,
+                s.profile_image as student_image,
+                COALESCE(dr.admin_name, '') as admin_name,
+                COALESCE(dr.admin_image, '') as admin_image,
+                CASE 
+                  WHEN dr.replied_by_student IS NOT NULL THEN 'student'
+                  WHEN dr.replied_by_admin IS NOT NULL THEN 'admin'
+                END as replied_by_role,
+                CASE
+                  WHEN dr.replied_by_student IS NOT NULL THEN COALESCE(s.first_name || ' ' || s.last_name, '')
+                  WHEN dr.replied_by_admin IS NOT NULL THEN COALESCE(dr.admin_name, 'Admin')
+                  ELSE 'Unknown'
+                END as replied_by_name,
+                CASE
+                  WHEN dr.replied_by_student IS NOT NULL THEN COALESCE(s.profile_image, '')
+                  WHEN dr.replied_by_admin IS NOT NULL THEN COALESCE(dr.admin_image, '')
+                  ELSE ''
+                END as replied_by_image
+         FROM discussion_replies dr
+         LEFT JOIN students s ON dr.replied_by_student = s.id
+         WHERE dr.thread_id = $1
+         ORDER BY dr.created_at ASC`,
+      [threadResult.rows[0].id]
+    );
 
     res.json({
       success: true,
       data: {
-        thread: thread,
+        thread: threadResult.rows[0],
         replies: repliesResult.rows,
       },
     });
   } catch (error) {
-    console.error("Thread detail fetch error:", error.message);
+    console.error("Admin thread detail error:", error.message);
     res.status(500).json({
       success: false,
       error: "Failed to fetch thread details",
@@ -4537,7 +4540,6 @@ app.get("/api/admin/discussions/threads", async (req, res) => {
              s.email as student_email,
              s.batch_month,
              s.batch_year,
-             dt.slug,  // Add this line to include slug
              COUNT(dr.id) as reply_count,
              EXISTS (
                SELECT 1 FROM discussion_replies dr2 
