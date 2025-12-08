@@ -2453,7 +2453,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m3_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with SQL | Part 1",
+                name: "MCQ Practice Querying with SQL | Part 1",
               },
               {
                 id: "QW9_s5_A0 m3_H g2_7B c2_D2E",
@@ -2469,7 +2469,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m3_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with SQL | Part 2",
+                name: "MCQ Practice Querying with SQL | Part 2",
               },
               {
                 id: "QW9_s9_A0 m3_H g2_7B c2_D2E",
@@ -2493,7 +2493,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m3_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with SQL | Part 3",
+                name: "MCQ Practice Querying with SQL | Part 3",
               },
               {
                 id: "QW9_s15_A0 m3_H g2_7B c2_D2E",
@@ -2503,7 +2503,7 @@ export const goalsData = [
           },
           {
             id: "QW9_m4_A0 g2_H c2_7B",
-            name: "Aggregations",
+            name: "Aggregations and Gropu By",
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g2_7B c2_D2E",
@@ -2515,7 +2515,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m4_H g2_7B c2_D2E",
-                name: "MCQ Practice   Aggregations",
+                name: "MCQ Practice - Aggregations",
               },
               {
                 id: "QW9_s4_A0 m4_H g2_7B c2_D2E",
@@ -2531,7 +2531,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m4_H g2_7B c2_D2E",
-                name: "Coding Practice",
+                name: "MCQ Pratice - Group By with Having",
+              },
+              {
+                id: "QW9_s8_A0 m4_H g2_7B c2_D2E",
+                name: "Coding Practice 4",
               },
             ],
           },

@@ -1,46 +1,35 @@
-/* ========== MAIN CONTAINER ========== */
+/* components/layout/AdminLayout.css */
 .admin-container {
-  background: #f3f4f6;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
 }
 
-/* ========== SIDEBAR ========== */
 .admin-sidebar {
-  margin-left: 95px;
-  position: fixed;
-  inset: 0 0 0 0;
-  width: 220px;
-  background: white;
-  border-right: 1px solid #e5e7eb;
-  z-index: 40;
+  width: 16rem;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  color: white;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.06);
+  height: 100vh;
+  position: fixed;
+  z-index: 40;
+  box-shadow: 4px 0 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo */
 .admin-logo {
-  padding: 22px;
-  background: linear-gradient(to right, #4f46e5, #6366f1);
-  color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.admin-logo h1 {
-  font-size: 22px;
-  font-weight: bold;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-logo p {
-  font-size: 13px;
-  opacity: 0.8;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: white;
 }
 
-/* Navigation */
 .admin-nav {
   flex: 1;
-  padding: 16px;
-  overflow-y: auto;
+  padding: 1rem 0;
 }
 
 .admin-nav ul {
@@ -52,110 +41,80 @@
 .admin-link {
   display: flex;
   align-items: center;
-  padding: 12px 14px;
-  margin-bottom: 6px;
-  border-radius: 10px;
-  color: #4b5563;
+  padding: 0.75rem 1rem;
+  margin: 0 0.5rem;
+  border-radius: 0.5rem;
+  color: #cbd5e1;
   text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
   font-weight: 500;
-  transition: 0.25s ease;
-  gap: 10px;
 }
 
 .admin-link:hover {
-  background: #f3f4f6;
-  color: #4f46e5;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 .admin-link.active {
-  background: #e0e7ff;
-  color: #4f46e5;
-  box-shadow: inset 0 0 8px rgba(79, 70, 229, 0.15);
+  background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
 }
 
-.icon {
-  color: #6b7280;
-  display: flex;
-}
-
-.icon-active {
-  color: #4f46e5 !important;
-}
-
-/* ========== FOOTER ========== */
-.admin-footer {
-  padding: 14px 18px;
-  border-top: 1px solid #e5e7eb;
-  background: #fafafa;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.admin-user {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.avatar {
-  width: 40px;
-  height: 40px;
-  background: #c7d2fe;
-  color: #4338ca;
+.admin-link .icon {
+  margin-right: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  font-weight: bold;
 }
 
-.name {
-  font-weight: 600;
-  color: #1f2937;
+.admin-link.active .icon {
+  color: white;
 }
 
-.role {
-  font-size: 11px;
-  color: #6b7280;
-}
-
-/* ========== MAIN CONTENT ========== */
-.admin-main {
+.admin-link .label {
   flex: 1;
-  padding: 20px;
-  margin-left: 220px;
+}
+
+.admin-main {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .admin-content {
-  background: white;
-  padding: 24px;
-  border-radius: 14px;
-  min-height: 82vh;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* ========== MOBILE TOGGLE BUTTON ========== */
-.sidebar-toggle {
-  padding: 12px;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-  transition: 0.3s ease;
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    width: 100%;
+    max-width: 16rem;
+  }
+
+  .admin-main {
+    margin-left: 0;
+  }
 }
 
-.sidebar-toggle:hover {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
-}
-
-/* Scrollbar styling */
-.admin-nav::-webkit-scrollbar {
+/* Custom scrollbar */
+.admin-content::-webkit-scrollbar {
   width: 6px;
 }
-.admin-nav::-webkit-scrollbar-track {
+
+.admin-content::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-.admin-nav::-webkit-scrollbar-thumb {
-  background: #c7c7c7;
-  border-radius: 10px;
+
+.admin-content::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.admin-content::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
 }

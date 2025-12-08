@@ -466,9 +466,32 @@ import Introductionto_SQL_MCQ_2 from "../SQL_Database/Introdutionto_SQL/Introduc
 import Comparison_Operators_CS from "../SQL_Database/Quering_SQL/Comparision_Opeartors_CS.js";
 import String_Operators_CS from "../SQL_Database/Quering_SQL/String_Operators_CS.js";
 import Logical_Operators_CS from "../SQL_Database/Quering_SQL/Logical_Operators_CS.js";
+import Common_Mistakes_RM_CS from "../SQL_Database/Introdutionto_SQL/Common_Mistakes_RM_CS.js";
+import Common_Mistakes_RM_MCQ from "../SQL_Database/Introdutionto_SQL/Common_Mistakes_RM_MCQ.js";
+import Quering_SQL_1 from "../SQL_Database/Quering_SQL/Quering_SQL_1.js";
+import Quering_SQL_2 from "../SQL_Database/Quering_SQL/Quering_SQL_2.js";
+import Quering_SQL_3 from "../SQL_Database/Quering_SQL/Quering_SQL_3.js";
+import Quering_SQL_MCQ_1 from "../SQL_Database/Quering_SQL/Quering_SQL_MCQ_1.js";
+import Quering_SQL_MCQ_2 from "../SQL_Database/Quering_SQL/Quering_SQL_MCQ_2.js";
+import Quering_SQL_MCQ_3 from "../SQL_Database/Quering_SQL/Quering_SQL_MCQ_3.js";
+import In_Between_Operators_CS from "../SQL_Database/Quering_SQL/In_Between_Operators_CS.js";
+import Order_By_Distinct_CS from "../SQL_Database/Quering_SQL/Order_By_Distinct_CS_.js";
+import Pagination_CS from "../SQL_Database/Quering_SQL/Pagination_CS.js";
+import Aggregations from "../SQL_Database/Aggregations/Aggregations.js";
+import Aggregations_CS from "../SQL_Database/Aggregations/Aggregations_CS.js";
+import Aggregations_MCQ from "../SQL_Database/Aggregations/Aggregations_MCQ.js";
+import Group_By from "../SQL_Database/Aggregations/Group_By.js";
+import Group_By_Having from "../SQL_Database/Aggregations/Group_By_Having.js";
+import Group_By_Having_CS from "../SQL_Database/Aggregations/Group_By_Having_CS.js";
 
 const subtopicComponents = {
   //SQL Database
+  Aggregations: Aggregations,
+  "Aggregations | Cheat Sheet": Aggregations_CS,
+  "MCQ Practice Aggregations": Aggregations_MCQ,
+  "Group By": Group_By,
+  "Group By with Having": Group_By_Having,
+  "Group By with Having | Cheat Sheet": Group_By_Having_CS,
 
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
@@ -485,10 +508,21 @@ const subtopicComponents = {
   "Alter Table Cheat Sheet": Alter_Table_CS,
   "MCQ Practice - Introduction to SQL | Part 1": Introductionto_SQL_MCQ_1,
   "MCQ Practice - Introduction to SQL | Part 2": Introductionto_SQL_MCQ_2,
+  "Common Mistakes | Reading Material": Common_Mistakes_RM_CS,
   "Comparison Operators Cheat Sheet": Comparison_Operators_CS,
   "String Operations Cheat Sheet": String_Operators_CS,
   "Logical Operators Cheat sheet": Logical_Operators_CS,
-
+  "MCQ Practice - Common Mistakes | Reading Material": Common_Mistakes_RM_MCQ,
+  "Querying with SQL | Part 1": Quering_SQL_1,
+  "Querying with SQL | Part 2": Quering_SQL_2,
+  "Querying with SQL | Part 3": Quering_SQL_3,
+  "MCQ Practice Querying with SQL | Part 1": Quering_SQL_MCQ_1,
+  "MCQ Practice Querying with SQL | Part 2": Quering_SQL_MCQ_2,
+  "MCQ Practice Querying with SQL | Part 3": Quering_SQL_MCQ_3,
+  "In and Between Operators Cheat Sheet": In_Between_Operators_CS,
+  "Order By Distinct Cheat Sheet": Order_By_Distinct_CS,
+  "Pagination Cheat Sheet": Pagination_CS,
+  //Dynamic Website
   "Introduction to Dynamic Web Applications":
     Introductionto_Dynamic_Application_Class,
   "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
@@ -982,6 +1016,13 @@ const mcqMapping = {
     "Introduction to Databases | Part 1",
   "MCQ Practice - Introduction to SQL | Part 1": "Introduction to SQL | Part 1",
   "MCQ Practice - Introduction to SQL | Part 2": "Introduction to SQL | Part 2",
+  "MCQ Practice - Common Mistakes | Reading Material":
+    "Common Mistakes | Reading Material",
+  "MCQ Practice Querying with SQL | Part 1": "Querying with SQL | Part 1",
+  "MCQ Practice Querying with SQL | Part 2": "Querying with SQL | Part 2",
+  "MCQ Practice Querying with SQL | Part 3": "Querying with SQL | Part 3",
+  "MCQ Practice - Aggregations": "Aggregations",
+  "MCQ Pratice - Group By with Having": "Group By with Having",
 
   //Reactjs MCQs
   "MCQ Pratice - Introduction to React JS": "Introduction to React JS",

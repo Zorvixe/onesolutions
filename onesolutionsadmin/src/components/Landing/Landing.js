@@ -359,7 +359,8 @@ function Landing() {
                   className="dropdown-menu-land"
                   style={{ display: open ? "block" : "none" }}
                 >
-                  <a href="/ose_Management">OSE Management</a>
+                  <a href="/discussions">Discussions</a>
+                  <a href="/feedbacks">Feedbacks</a>
                   <a href="/student_list">Student List</a>
                 </div>
               </div>

@@ -1,3 +1,4 @@
+// App.js
 import {
   BrowserRouter as Router,
   Routes,
@@ -29,7 +30,9 @@ import StudentRegister from "./components/Ose/Student_Register/Register";
 import StudentList from "./components/Ose/Student/StudentList";
 import VideoManagement from "./components/Ose/ClassVideoManagement/ClassVideoManagement";
 
-import OseManagement from "./components/Ose/Ose";
+import DiscussionManagement from "./components/Ose/pages/DiscussionManagement/DiscussionManagement";
+import DiscussionThreadDetail from "./components/Ose/pages/ThreadDetail/DiscussionThreadDetail";
+import FeedbackManagement from "./components/Ose/pages/FeedbackManagement/FeedbackManagement";
 
 import "./App.css";
 
@@ -78,7 +81,12 @@ function App() {
               <Route path="/student_register" element={<StudentRegister />} />
               <Route path="/student_list" element={<StudentList />} />
               <Route path="/Video_Management" element={<VideoManagement />} />
-              <Route path="/ose_Management" element={<OseManagement />} />
+              <Route path="/discussions" element={<DiscussionManagement />} />
+              <Route
+                path="/discussions/thread/:threadId"
+                element={<DiscussionThreadDetail />}
+              />
+              <Route path="/feedbacks" element={<FeedbackManagement />} />
 
               {/* OJB routes */}
               <Route
