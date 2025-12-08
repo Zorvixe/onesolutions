@@ -21,10 +21,11 @@ import {
   Users,
   Clock,
   ThumbsUp,
+  RefreshCw,
 } from "lucide-react";
-import "./DiscussionThreadDetail.css"; // Import the CSS file
+import "./DiscussionThreadDetail.css";
 
-const API_BASE = process.env.REACT_APP_API_APP_URL;
+const API_BASE = process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
 
 const DiscussionThreadDetail = () => {
   const { threadId } = useParams();
@@ -32,6 +33,7 @@ const DiscussionThreadDetail = () => {
   const [thread, setThread] = useState(null);
   const [replies, setReplies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [replying, setReplying] = useState(false);
   const [replyContent, setReplyContent] = useState("");
   const [adminDetails, setAdminDetails] = useState({
@@ -46,18 +48,33 @@ const DiscussionThreadDetail = () => {
   const fetchThreadDetails = async () => {
     try {
       setLoading(true);
+      setError(null);
       const token = localStorage.getItem("adminToken");
+      
+      console.log(`🔍 Fetching thread details for ID: ${threadId}`);
+      
       const response = await axios.get(
-        `https://api.onesolutionsekam.in/api/admin/discussions/threads/${threadId}`,
+        `${API_BASE}/api/admin/discussions/threads/${threadId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      setThread(response.data.data.thread);
-      setReplies(response.data.data.replies || []);
+      console.log("✅ Thread details received:", response.data);
+      
+      if (response.data.success) {
+        setThread(response.data.data.thread);
+        setReplies(response.data.data.replies || []);
+      } else {
+        setError(response.data.message || "Failed to load thread");
+      }
     } catch (error) {
-      console.error("Error fetching thread details:", error);
+      console.error("❌ Error fetching thread details:", error);
+      setError(
+        error.response?.data?.message || 
+        error.response?.data?.error || 
+        "Failed to load thread details. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -67,11 +84,14 @@ const DiscussionThreadDetail = () => {
     if (!replyContent.trim()) return;
 
     try {
+      setReplying(true);
       const token = localStorage.getItem("adminToken");
       const adminId = localStorage.getItem("adminId") || "1";
 
+      console.log(`📝 Submitting reply to thread ${thread.id}`);
+
       await axios.post(
-        `https://api.onesolutionsekam.in/api/admin/discussions/replies`,
+        `${API_BASE}/api/admin/discussions/replies`,
         {
           threadId: thread.id,
           content: replyContent,
@@ -86,9 +106,11 @@ const DiscussionThreadDetail = () => {
 
       setReplyContent("");
       setReplying(false);
-      fetchThreadDetails();
+      fetchThreadDetails(); // Refresh thread data
     } catch (error) {
-      console.error("Error submitting reply:", error);
+      console.error("❌ Error submitting reply:", error);
+      alert("Failed to submit reply. Please try again.");
+      setReplying(false);
     }
   };
 
@@ -96,7 +118,7 @@ const DiscussionThreadDetail = () => {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `https://api.onesolutionsekam.in/api/admin/discussions/threads/${threadId}/status`,
+        `${API_BASE}/api/admin/discussions/threads/${threadId}/status`,
         {
           is_important: important,
         },
@@ -107,11 +129,13 @@ const DiscussionThreadDetail = () => {
 
       setThread((prev) => ({ ...prev, is_important: important }));
     } catch (error) {
-      console.error("Error updating thread status:", error);
+      console.error("❌ Error updating thread status:", error);
+      alert("Failed to update thread status. Please try again.");
     }
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
     return new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
@@ -140,6 +164,33 @@ const DiscussionThreadDetail = () => {
     return (
       <div className="loading-container-detT">
         <div className="loading-spinner-detT"></div>
+        <p className="loading-text-detT">Loading thread details...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container-detT">
+        <AlertCircle className="error-icon-detT" size={48} />
+        <h3 className="error-title-detT">Error Loading Thread</h3>
+        <p className="error-description-detT">{error}</p>
+        <div className="error-actions-detT">
+          <button
+            onClick={() => navigate("/discussions")}
+            className="back-button-detT"
+          >
+            <ArrowLeft className="back-icon-detT" />
+            Back to Discussions
+          </button>
+          <button
+            onClick={fetchThreadDetails}
+            className="retry-button-detT"
+          >
+            <RefreshCw className="retry-icon-detT" />
+            Retry
+          </button>
+        </div>
       </div>
     );
   }
@@ -147,7 +198,7 @@ const DiscussionThreadDetail = () => {
   if (!thread) {
     return (
       <div className="not-found-container-detT">
-        <AlertCircle className="not-found-icon-detT" />
+        <AlertCircle className="not-found-icon-detT" size={48} />
         <h3 className="not-found-title-detT">Thread not found</h3>
         <p className="not-found-description-detT">
           The requested discussion thread could not be found.
@@ -167,13 +218,22 @@ const DiscussionThreadDetail = () => {
     <div className="container-detT">
       {/* Header */}
       <div className="header-detT">
-        <button
-          onClick={() => navigate("/discussions")}
-          className="back-link-detT"
-        >
-          <ArrowLeft className="back-link-icon-detT" />
-          Back to Discussions
-        </button>
+        <div className="header-top-detT">
+          <button
+            onClick={() => navigate("/discussions")}
+            className="back-link-detT"
+          >
+            <ArrowLeft className="back-link-icon-detT" />
+            Back to Discussions
+          </button>
+          <button
+            onClick={fetchThreadDetails}
+            className="refresh-button-detT"
+          >
+            <RefreshCw className="refresh-icon-detT" size={16} />
+            Refresh
+          </button>
+        </div>
 
         <div className="header-content-detT">
           <div className="header-left-detT">
@@ -199,6 +259,12 @@ const DiscussionThreadDetail = () => {
                 <span className="meta-item-detT">
                   <Tag className="meta-icon-detT" />
                   {thread.module_name}
+                </span>
+              )}
+              {thread.topic_name && (
+                <span className="meta-item-detT">
+                  <Tag className="meta-icon-detT" />
+                  {thread.topic_name}
                 </span>
               )}
             </div>
@@ -244,7 +310,7 @@ const DiscussionThreadDetail = () => {
               <div className="student-meta-detT">
                 <div className="meta-row-detT">
                   <span className="meta-label-detT">Student ID:</span>
-                  <span className="meta-value-detT">{thread.student_id}</span>
+                  <span className="meta-value-detT">{thread.student_id || "N/A"}</span>
                 </div>
                 <div className="meta-row-detT">
                   <span className="meta-label-detT">Batch:</span>
@@ -317,7 +383,7 @@ const DiscussionThreadDetail = () => {
 
             {replies.length === 0 ? (
               <div className="no-replies-detT">
-                <MessageSquare className="no-replies-icon-detT" />
+                <MessageSquare className="no-replies-icon-detT" size={48} />
                 <p className="no-replies-text-detT">
                   No replies yet. Be the first to respond!
                 </p>
@@ -349,7 +415,7 @@ const DiscussionThreadDetail = () => {
                         <div className="reply-header-detT">
                           <div className="reply-author-detT">
                             <span className="author-name-detT">
-                              {reply.replied_by_name}
+                              {reply.replied_by_name || "Unknown User"}
                             </span>
                             <span
                               className={`badge-detT ${status.color}`}
@@ -386,6 +452,7 @@ const DiscussionThreadDetail = () => {
                 placeholder="Type your reply here..."
                 rows="4"
                 className="reply-textarea-detT"
+                disabled={replying}
               />
 
               <div className="form-footer-detT">
@@ -400,11 +467,20 @@ const DiscussionThreadDetail = () => {
 
                 <button
                   onClick={handleSubmitReply}
-                  disabled={!replyContent.trim()}
+                  disabled={!replyContent.trim() || replying}
                   className="submit-button-detT"
                 >
-                  <Send className="submit-icon-detT" />
-                  Post Reply
+                  {replying ? (
+                    <>
+                      <div className="spinner-small-detT"></div>
+                      Posting...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="submit-icon-detT" />
+                      Post Reply
+                    </>
+                  )}
                 </button>
               </div>
             </div>

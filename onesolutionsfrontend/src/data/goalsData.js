@@ -2573,11 +2573,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m5_H g2_7B c2_D2E",
-                name: "MCQ Practice   Common Concepts",
+                name: "MCQ Practice Common Concepts",
               },
               {
                 id: "QW9_s9_A0 m5_H g2_7B c2_D2E",
-                name: "Coding Practice",
+                name: "Coding Practice 5",
               },
             ],
           },
