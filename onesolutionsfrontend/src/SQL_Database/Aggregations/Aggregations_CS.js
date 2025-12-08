@@ -1,7 +1,7 @@
 const Aggregations_CS = () => {
   return (
     <div>
-      <h1>Aggregation sCs</h1>
+      <h1>Aggregations Cs</h1>
     </div>
   );
 };

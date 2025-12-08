@@ -487,19 +487,23 @@ import Common_Concepts_Class from "../SQL_Database/Common_Concepts/Common_Concep
 import Common_Concepte_MCQ from "../SQL_Database/Common_Concepts/Common_Concepte_MCQ.js";
 import SQL_Expression_Cs from "../SQL_Database/Common_Concepts/SQL_Expression_CS.js";
 import SQL_Functions_CS from "../SQL_Database/Common_Concepts/SQL_Functions_CS.js";
+import Cast_Functions_CS from "../SQL_Database/Common_Concepts/Cast_Functions_CS.js";
 import Arthmetic_Functions_CS from "../SQL_Database/Common_Concepts/Arthmetic_Functions_CS.js";
 import SQL_Case_CS from "../SQL_Database/Common_Concepts/SQL_Case_CS.js";
 import SQL_Set_Operations_CS from "../SQL_Database/Common_Concepts/SQL_Set_Operations_CS.js";
-import Coding_Pratice_5 from "../SQL_Database/Common_Concepts/Coding_Pratice_5.js";
+// import Coding_Pratice_5 from "../SQL_Database/Common_Concepts/Coding_Pratice_5.js";
 
 const subtopicComponents = {
   //SQL Database
-  Aggregations: Aggregations,
-  "Aggregations | Cheat Sheet": Aggregations_CS,
-  "MCQ Practice Aggregations": Aggregations_MCQ,
-  "Group By": Group_By,
-  "Group By with Having": Group_By_Having,
-  "Group By with Having | Cheat Sheet": Group_By_Having_CS,
+  "Common Concepts": Common_Concepts_Class,
+  "MCQ Practice Common Concepts": Common_Concepte_MCQ,
+  "SQL Expression | Cheat Sheet": SQL_Expression_Cs,
+  "SQL Functions | Cheat Sheet": SQL_Functions_CS,
+  "Cast Functions | Cheat Sheet": Cast_Functions_CS,
+  "Arthmetic Functions | Cheat Cheet": Arthmetic_Functions_CS,
+  "SQL Case | Cheat Sheet": SQL_Case_CS,
+  "SQL Set Operations | Cheat Sheet": SQL_Set_Operations_CS,
+  // "Coding Practice 5": Coding_Pratice_5,
 
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
@@ -530,6 +534,13 @@ const subtopicComponents = {
   "In and Between Operators Cheat Sheet": In_Between_Operators_CS,
   "Order By Distinct Cheat Sheet": Order_By_Distinct_CS,
   "Pagination Cheat Sheet": Pagination_CS,
+  Aggregations: Aggregations,
+  "Aggregations | Cheat Sheet": Aggregations_CS,
+  "MCQ Practice Aggregations": Aggregations_MCQ,
+  "Group By": Group_By,
+  "Group By with Having": Group_By_Having,
+  "Group By with Having | Cheat Sheet": Group_By_Having_CS,
+
   //Dynamic Website
   "Introduction to Dynamic Web Applications":
     Introductionto_Dynamic_Application_Class,
@@ -1031,6 +1042,7 @@ const mcqMapping = {
   "MCQ Practice Querying with SQL | Part 3": "Querying with SQL | Part 3",
   "MCQ Practice - Aggregations": "Aggregations",
   "MCQ Pratice - Group By with Having": "Group By with Having",
+  "MCQ Practice Common Concepts": "Common Concepts",
 
   //Reactjs MCQs
   "MCQ Pratice - Introduction to React JS": "Introduction to React JS",

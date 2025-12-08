@@ -25,10 +25,11 @@ import {
 } from "lucide-react";
 import "./DiscussionThreadDetail.css";
 
-const API_BASE = process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
+const API_BASE =
+  process.env.REACT_APP_API_APP_URL || "https://api.onesolutionsekam.in";
 
 const DiscussionThreadDetail = () => {
-  const { threadId } = useParams();
+  const { threadSlug } = useParams();
   const navigate = useNavigate();
   const [thread, setThread] = useState(null);
   const [replies, setReplies] = useState([]);
@@ -43,25 +44,25 @@ const DiscussionThreadDetail = () => {
 
   useEffect(() => {
     fetchThreadDetails();
-  }, [threadId]);
+  }, [threadSlug]);
 
   const fetchThreadDetails = async () => {
     try {
       setLoading(true);
       setError(null);
       const token = localStorage.getItem("adminToken");
-      
-      console.log(`🔍 Fetching thread details for ID: ${threadId}`);
-      
+
+      console.log(`🔍 Fetching thread details for slug: ${threadSlug}`);
+
       const response = await axios.get(
-        `${API_BASE}/api/admin/discussions/threads/${threadId}`,
+        `https://api.onesolutionsekam.in/api/admin/discussions/threads/${threadSlug}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       console.log("✅ Thread details received:", response.data);
-      
+
       if (response.data.success) {
         setThread(response.data.data.thread);
         setReplies(response.data.data.replies || []);
@@ -71,9 +72,9 @@ const DiscussionThreadDetail = () => {
     } catch (error) {
       console.error("❌ Error fetching thread details:", error);
       setError(
-        error.response?.data?.message || 
-        error.response?.data?.error || 
-        "Failed to load thread details. Please try again."
+        error.response?.data?.message ||
+          error.response?.data?.error ||
+          "Failed to load thread details. Please try again."
       );
     } finally {
       setLoading(false);
@@ -91,7 +92,7 @@ const DiscussionThreadDetail = () => {
       console.log(`📝 Submitting reply to thread ${thread.id}`);
 
       await axios.post(
-        `${API_BASE}/api/admin/discussions/replies`,
+        `https://api.onesolutionsekam.in/api/admin/discussions/replies`,
         {
           threadId: thread.id,
           content: replyContent,
@@ -118,7 +119,7 @@ const DiscussionThreadDetail = () => {
     try {
       const token = localStorage.getItem("adminToken");
       await axios.put(
-        `${API_BASE}/api/admin/discussions/threads/${threadId}/status`,
+        `https://api.onesolutionsekam.in/api/admin/discussions/threads/${thread.id}/status`,
         {
           is_important: important,
         },
@@ -183,10 +184,7 @@ const DiscussionThreadDetail = () => {
             <ArrowLeft className="back-icon-detT" />
             Back to Discussions
           </button>
-          <button
-            onClick={fetchThreadDetails}
-            className="retry-button-detT"
-          >
+          <button onClick={fetchThreadDetails} className="retry-button-detT">
             <RefreshCw className="retry-icon-detT" />
             Retry
           </button>
@@ -226,10 +224,7 @@ const DiscussionThreadDetail = () => {
             <ArrowLeft className="back-link-icon-detT" />
             Back to Discussions
           </button>
-          <button
-            onClick={fetchThreadDetails}
-            className="refresh-button-detT"
-          >
+          <button onClick={fetchThreadDetails} className="refresh-button-detT">
             <RefreshCw className="refresh-icon-detT" size={16} />
             Refresh
           </button>
@@ -310,7 +305,9 @@ const DiscussionThreadDetail = () => {
               <div className="student-meta-detT">
                 <div className="meta-row-detT">
                   <span className="meta-label-detT">Student ID:</span>
-                  <span className="meta-value-detT">{thread.student_id || "N/A"}</span>
+                  <span className="meta-value-detT">
+                    {thread.student_id || "N/A"}
+                  </span>
                 </div>
                 <div className="meta-row-detT">
                   <span className="meta-label-detT">Batch:</span>
@@ -403,9 +400,7 @@ const DiscussionThreadDetail = () => {
                           }`}
                         >
                           {reply.replied_by_role === "admin" ? (
-                            <span className="avatar-admin-initial-detT">
-                              A
-                            </span>
+                            <span className="avatar-admin-initial-detT">A</span>
                           ) : (
                             <User className="avatar-user-icon-detT" />
                           )}
@@ -417,9 +412,7 @@ const DiscussionThreadDetail = () => {
                             <span className="author-name-detT">
                               {reply.replied_by_name || "Unknown User"}
                             </span>
-                            <span
-                              className={`badge-detT ${status.color}`}
-                            >
+                            <span className={`badge-detT ${status.color}`}>
                               {status.icon}
                               <span className="badge-label-detT">
                                 {status.label}

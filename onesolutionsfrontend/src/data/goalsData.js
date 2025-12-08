@@ -2503,7 +2503,7 @@ export const goalsData = [
           },
           {
             id: "QW9_m4_A0 g2_H c2_7B",
-            name: "Aggregations and Gropu By",
+            name: "Aggregations and Group By",
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g2_7B c2_D2E",

@@ -83,7 +83,7 @@ function App() {
               <Route path="/Video_Management" element={<VideoManagement />} />
               <Route path="/discussions" element={<DiscussionManagement />} />
               <Route
-                path="/discussions/thread/:threadId"
+                path="/discussions/thread/:threadSlug"
                 element={<DiscussionThreadDetail />}
               />
               <Route path="/feedbacks" element={<FeedbackManagement />} />
