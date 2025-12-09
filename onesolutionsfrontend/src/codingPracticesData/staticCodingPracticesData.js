@@ -945,5 +945,171 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 8
+    {
+      id: "static-coding-practice-8",
+      title: "Static Coding Practice 8",
+      description:
+        "In this assignment, let's build an My Projects Page by applying the concepts we learned till now.",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "92bcc4c6-0536-40bd-815f-a37b81618326",
+          title: "My Projects Page",
+          description:
+            "In this assignment, let's build an My Projects Page by applying the concepts we learned till now. You can use the Bootstrap concepts as well.",
+          difficulty: "Easy",
+          score: 150,
+          type: "web",
+          defaultCode: {
+            html: `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            <body>
+            </body>
+            </html>`,
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            #section-Advanced,
+            #section-diwali,
+            #section-happymeals,
+            #section-news {
+                display: none;
+            }`,
+            javascript: `function display(sectionId) {
+              document.querySelectorAll("#section-homepage,  #section-Advanced, #section-diwali, #section-happymeals, #section-news")
+                  .forEach(sec => sec.style.display = "none");
+              document.getElementById(sectionId).style.display = "block";
+            }`,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below image.</p>
+              <p class="desc-que-blue">Home Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765309762/projects-page-home_peawki.png" class="desc-que-img" />
+              <p class="desc-que-blue">Advanced Technologies Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765012643/advanced-tech-1_h2lvqv.png" class="desc-que-img" />
+             <p class="desc-que-blue">Diwali Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765308723/diwali-project-home_r1zfne.png" class="desc-que-img" />
+              <p class="desc-que-blue">Happy Meals Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764872997/food_order_lndzbu.png" class="desc-que-img" />
+               <p class="desc-que-blue">NewsPaper Article Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765310273/news_paper_img_kh3oqz.png" class="desc-que-img" />
+             
+              <div class="Note-container">
+          <div class="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+              <li>
+                When clicked on the Project category on the Project Home Page, it must display the respective Project page and when the back button is clicked Project Home Page must be displayed.
+              </li>
+              <li>
+                Try to achieve the design as close as possible.
+              </li>
+            </ul>
+          </p>
+        </div>
+        <p class="desc-que-blue">Resources</p>
+          <p class="desc-que-blue">Use the Image URLs given below.</p>
+                <p class="desc-que-blue">Images:</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765309397/software_developer_u3go2d.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765309397/software_developer_u3go2d.png</a></p>            
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765137502/diwali_bg.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765137502/diwali_bg.png</a></p>            
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765012372/advanced-technologies-bg_bkytk0.avif">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765012372/advanced-technologies-bg_bkytk0.avif</a></p>            
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765138467/food-order-img.jpg">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765138467/food-order-img.jpg</a></p>            
+               <p class="desc-que-blue">CSS Colors used:</p>
+            
+               <p class="">Text color Hex Code values:</p>
+              <ul>
+                <li><span>#183b56</span></li>
+                <li><span>#616e7c</span></li>
+              </ul>
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>Bree Serif</span></li>
+              </ul>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-row",
+              type: "html-validation",
+              input: "check-flex-row", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description: `Page should consist of an HTML image element in an HTML container element`,
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML paragraph element in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of an HTML container element with the CSS property text-align and the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
