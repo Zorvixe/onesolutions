@@ -492,19 +492,26 @@ import Arthmetic_Functions_CS from "../SQL_Database/Common_Concepts/Arthmetic_Fu
 import SQL_Case_CS from "../SQL_Database/Common_Concepts/SQL_Case_CS.js";
 import SQL_Set_Operations_CS from "../SQL_Database/Common_Concepts/SQL_Set_Operations_CS.js";
 // import Coding_Pratice_5 from "../SQL_Database/Common_Concepts/Coding_Pratice_5.js";
-
+import Milestone_CS from "../SQL_Database/MileStone/MileStone_CS.js";
+import Milestone_MCQ from "../SQL_Database/MileStone/MileStone_MCQ.js";
+import SQL_Assignment_1 from "../SQL_Database/MileStone/SQL_Assignment_1.js";
+import SQL_Assignment_2 from "../SQL_Database/MileStone/SQL_Assignment_2.js";
+import Applying_ER_Model_Concepts_CS from "../SQL_Database/Modelling_Databases/Applying_ER_Model_Concepts_CS.js";
+import Core_Concepts_ER_CS from "../SQL_Database/Modelling_Databases/Core_Concepts_ER_CS.js";
+import Creating_Relation_DB_CS from "../SQL_Database/Modelling_Databases/Creating_Relation_DB_CS.js";
+import ER_Model_Relational_DB from "../SQL_Database/Modelling_Databases/ER_Model_Relational_DB.js";
+import Modelling_Database_Class_1 from "../SQL_Database/Modelling_Databases/Modelling_Database_Class_1.js";
+import Modelling_Database_Class_2 from "../SQL_Database/Modelling_Databases/Modelling_Database_Class_2.js";
+import Modelling_Database_MCQ from "../SQL_Database/Modelling_Databases/Modelling_Database_MCQ.js";
 const subtopicComponents = {
   //SQL Database
-  "Common Concepts": Common_Concepts_Class,
-  "MCQ Practice Common Concepts": Common_Concepte_MCQ,
-  "SQL Expression | Cheat Sheet": SQL_Expression_Cs,
-  "SQL Functions | Cheat Sheet": SQL_Functions_CS,
-  "Cast Functions | Cheat Sheet": Cast_Functions_CS,
-  "Arthmetic Functions | Cheat Cheet": Arthmetic_Functions_CS,
-  "SQL Case | Cheat Sheet": SQL_Case_CS,
-  "SQL Set Operations | Cheat Sheet": SQL_Set_Operations_CS,
-  // "Coding Practice 5": Coding_Pratice_5,
-
+  "Modelling Database | Part 1": Modelling_Database_Class_1,
+  "Core Concepts of ER Model | Cheat Sheets": Core_Concepts_ER_CS,
+  "Appliying ER Model Concepts | Cheat Sheets": Applying_ER_Model_Concepts_CS,
+  "ER Model to Relational Database | Cheat Sheets": ER_Model_Relational_DB,
+  "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
+  "Modelling Database | Part 2": Modelling_Database_Class_2,
+  "Createing a Relational Database | Cheat Sheets": Creating_Relation_DB_CS,
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
   "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
@@ -540,6 +547,19 @@ const subtopicComponents = {
   "Group By": Group_By,
   "Group By with Having": Group_By_Having,
   "Group By with Having | Cheat Sheet": Group_By_Having_CS,
+  "Common Concepts": Common_Concepts_Class,
+  "MCQ Practice Common Concepts": Common_Concepte_MCQ,
+  "SQL Expression | Cheat Sheet": SQL_Expression_Cs,
+  "SQL Functions | Cheat Sheet": SQL_Functions_CS,
+  "Cast Functions | Cheat Sheet": Cast_Functions_CS,
+  "Arthmetic Functions | Cheat Cheet": Arthmetic_Functions_CS,
+  "SQL Case | Cheat Sheet": SQL_Case_CS,
+  "SQL Set Operations | Cheat Sheet": SQL_Set_Operations_CS,
+  // "Coding Practice 5": Coding_Pratice_5,
+  "MileStone | Cheat Sheet": Milestone_CS,
+  "MCQ Practice MileStone": Milestone_MCQ,
+  "Assignment 1": SQL_Assignment_1,
+  "Assignment 2": SQL_Assignment_2,
 
   //Dynamic Website
   "Introduction to Dynamic Web Applications":
@@ -1043,7 +1063,9 @@ const mcqMapping = {
   "MCQ Practice - Aggregations": "Aggregations",
   "MCQ Pratice - Group By with Having": "Group By with Having",
   "MCQ Practice Common Concepts": "Common Concepts",
-
+  "MCQ Practice MileStone": "MileStone | Cheat Sheet",
+  "MCQ Practice Modelling Database | Part 1": "Modelling Database | Part 1",
+  "MCQ Practice Modelling Database | Part 2": "Modelling Database | Part 2",
   //Reactjs MCQs
   "MCQ Pratice - Introduction to React JS": "Introduction to React JS",
   "MCQ Pratice - Components & Pros": "Components & Pros",

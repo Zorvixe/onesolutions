@@ -762,5 +762,188 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    {
+      id: "static-coding-practice-7",
+      title: "Static Coding Practice 7",
+      description:
+        "In this assignment, let's build an Podcast Page by applying the concepts we learned till now.",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "92bcc4c6-0535-40bd-815f-a37b81618325",
+          title: "Podcast Page",
+          description:
+            "In this assignment, let's build an Podcast Page by applying the concepts we learned till now. You can use the Bootstrap concepts as well.",
+          difficulty: "Easy",
+          score: 150,
+          type: "web",
+          defaultCode: {
+            html: `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            <body>
+            </body>
+            </html>`,
+            css: `#section-puriJaganadh,
+#section-Tedx,
+#section-Sadhguru,
+#section-ONPurpose {
+    display: none;
+}`,
+            javascript: `function display(sectionId) {
+    document.querySelectorAll("#sectionHome, #section-puriJaganadh, #section-Tedx, #section-Sadhguru, #section-ONPurpose")
+        .forEach(sec => sec.style.display = "none");
+    document.getElementById(sectionId).style.display = "block";
+}`,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below image.</p>
+              <p class="desc-que-blue">Podcast Home Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765224269/podcast-home_fbvh1g.png" class="desc-que-img" />
+              <p class="desc-que-blue">Podcast Puri Jagannadh Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765224269/puri-detail_jrrheu.png" class="desc-que-img" />
+             <p class="desc-que-blue">Podcast Tedx Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765224268/tedx-detail_pmcqcr.png" class="desc-que-img" />
+              <p class="desc-que-blue">Podcast Sadhguru Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765224269/sadguru-detail_g6wvmb.png" class="desc-que-img" />
+              <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+              <li>
+                When clicked on the Podcast category on the Podcast Home Page, it must display the respective person podcasts page and when the back button is clicked Podcast Home Page must be displayed.
+              </li>
+              <li>
+                Try to achieve the design as close as possible.
+              </li>
+            </ul>
+          </p>
+        </div>
+        <p class="desc-que-blue">Resources</p>
+          <p class="desc-que-blue">Use the Image URLs given below.</p>
+           <p class="desc-que-blue">Background Image:</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222781/podcast_1_ohrxvp.avif">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222781/podcast_1_ohrxvp.avif</a></p> 
+              <p class="desc-que-blue">Images:</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222913/puri-jagannadh-img_hwgfjx.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222913/puri-jagannadh-img_hwgfjx.png</a></p>            
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222952/tedx-img_ei8nkj.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222952/tedx-img_ei8nkj.png</a></p>            
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222952/sadhguru-img_r64r58.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222952/sadhguru-img_r64r58.png</a></p>            
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222951/on-purpose-img_aarguh.png">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765222951/on-purpose-img_aarguh.png</a></p>            
+               <p class="desc-que-blue">CSS Colors used:</p>
+              <p class="">Background color Hex Code values:</p>
+              <ul>
+                <li><span>#151765</span></li>
+              </ul>
+               <p class="">Text color Hex Code values:</p>
+              <ul>
+                <li><span>#151765</span></li>
+                <li><span>#ffffff</span></li>
+                <li><span>#5a7184</span></li>
+              </ul>
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>Roboto</span></li>
+              </ul>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-row",
+              type: "html-validation",
+              input: "check-flex-row", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description: `Page should consist of an HTML container element with CSS property "padding" and its value should be greater than "0" px.`,
+              type: "css-validation",
+              input: "check-padding",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description: `Page should consist of an HTML container element with CSS property "margin" and its value should be greater than "0" px`,
+              type: "css-validation",
+              input: "check-margin",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 7,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML element with the CSS property `padding` and its value should be greater than `0`px.",
+              type: "css-validation",
+              input: "check-padding",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description: `Page should consist of an HTML container element with CSS property "margin" and its value should be greater than "0" px`,
+              type: "css-validation",
+              input: "check-margin",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };

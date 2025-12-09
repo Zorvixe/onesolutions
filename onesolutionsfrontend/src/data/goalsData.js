@@ -2625,7 +2625,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m7_H g2_7B c2_D2E",
-                name: "MCQ Practice   Modelling Database | Part 1",
+                name: "MCQ Practice Modelling Database | Part 1",
               },
               {
                 id: "QW9_s6_A0 m7_H g2_7B c2_D2E",
@@ -2637,11 +2637,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m7_H g2_7B c2_D2E",
-                name: "MCQ Practice   Modelling Database | Part 2",
+                name: "MCQ Practice Modelling Database | Part 2",
               },
               {
                 id: "QW9_s9_A0 m7_H g2_7B c2_D2E",
-                name: "Coding Practice",
+                name: "Coding Practice 6",
               },
             ],
           },

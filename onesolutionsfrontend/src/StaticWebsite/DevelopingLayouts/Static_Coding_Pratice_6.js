@@ -81,12 +81,12 @@ const Static_Coding_Pratice_6 = () => {
 
   // Load practice
   useEffect(() => {
-    const practice4 = staticCodingPracticesData.static.find(
+    const practice6 = staticCodingPracticesData.static.find(
       (p) => p.id === "static-coding-practice-6"
     );
-    if (practice4) {
-      setSelectedPractice(practice4);
-      console.log("✅ Loaded practice:", practice4.id);
+    if (practice6) {
+      setSelectedPractice(practice6);
+      console.log("✅ Loaded practice:", practice6.id);
     }
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
