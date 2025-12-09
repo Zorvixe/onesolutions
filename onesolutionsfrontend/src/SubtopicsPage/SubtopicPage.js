@@ -515,7 +515,6 @@ import Joins_Coding_Pratice_1 from "../SQL_Database/Joins/Joins_Coding_Pratice_1
 import Joins_Coding_Pratice_2 from "../SQL_Database/Joins/Joins_Coding_Pratice_2.js";
 import Joins_Coding_Pratice_3 from "../SQL_Database/Joins/Joins_Coding_Pratice_3.js";
 import Joins_Coding_Pratice_4 from "../SQL_Database/Joins/Joins_Coding_Pratice_4.js";
-import Coding_Pratice_11 from "../SQL_Database/Views_Subqueries/View_Subqeries_Coding_Pratice_11.js";
 import Views_And_Subqueries from "../SQL_Database/Views_Subqueries/Views_And_Subqueries.js";
 import Views_And_Subqueries_CS from "../SQL_Database/Views_Subqueries/Views_And_Subqueries_CS.js";
 import Views_And_Subqueries_MCQ from "../SQL_Database/Views_Subqueries/Views_And_Subqueries_MCQ.js";

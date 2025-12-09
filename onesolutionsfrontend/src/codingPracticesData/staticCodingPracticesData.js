@@ -799,17 +799,17 @@ export const staticCodingPracticesData = {
             </body>
             </html>`,
             css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
-#section-puriJaganadh,
-#section-Tedx,
-#section-Sadhguru,
-#section-ONPurpose {
-    display: none;
-}`,
+            #section-puriJaganadh,
+            #section-Tedx,
+            #section-Sadhguru,
+            #section-ONPurpose {
+                display: none;
+            }`,
             javascript: `function display(sectionId) {
-    document.querySelectorAll("#sectionHome, #section-puriJaganadh, #section-Tedx, #section-Sadhguru, #section-ONPurpose")
-        .forEach(sec => sec.style.display = "none");
-    document.getElementById(sectionId).style.display = "block";
-}`,
+              document.querySelectorAll("#sectionHome, #section-puriJaganadh, #section-Tedx, #section-Sadhguru, #section-ONPurpose")
+                  .forEach(sec => sec.style.display = "none");
+              document.getElementById(sectionId).style.display = "block";
+          }`,
           },
           descriptionDetails: `
             <div class="desc-question-details">
