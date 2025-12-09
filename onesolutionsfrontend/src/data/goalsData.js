@@ -2659,11 +2659,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m8_H g2_7B c2_D2E",
-                name: "MCQ Practice   Joins",
+                name: "MCQ Practice Joins",
               },
               {
                 id: "QW9_s4_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   1",
+                name: "Coding Practice - 7",
               },
               {
                 id: "QW9_s5_A0 m8_H g2_7B c2_D2E",
@@ -2675,11 +2675,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m8_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with Joins | Part 2",
+                name: "MCQ Practice Querying with Joins | Part 2",
               },
               {
                 id: "QW9_s8_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   2",
+                name: "Coding Practice - 8",
               },
               {
                 id: "QW9_s9_A0 m8_H g2_7B c2_D2E",
@@ -2691,15 +2691,15 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m8_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with Joins | Part 3",
+                name: "MCQ Practice Querying with Joins | Part 3",
               },
               {
                 id: "QW9_s12_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   3",
+                name: "Coding Practice - 9",
               },
               {
                 id: "QW9_s13_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   4",
+                name: "Coding Practice - 10",
               },
             ],
           },
@@ -2721,11 +2721,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m9_H g2_7B c2_D2E",
-                name: "MCQ Practice   Views and Subqueries",
+                name: "MCQ Practice Views and Subqueries",
               },
               {
                 id: "QW9_s5_A0 m9_H g2_7B c2_D2E",
-                name: "Coding Practice",
+                name: "Coding Practice - 11",
               },
             ],
           },

@@ -1,5 +1,6 @@
 export const staticCodingPracticesData = {
   static: [
+    //Coding Practice - 1
     {
       id: "static-coding-practice-1",
       title: "Static Coding Practice 1",
@@ -100,6 +101,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 2
     {
       id: "static-coding-practice-2",
       title: "Static Coding Practice 2",
@@ -227,6 +229,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 3
     {
       id: "static-coding-practice-3",
       title: "Static Coding Practice 3",
@@ -336,6 +339,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 4
     {
       id: "static-coding-practice-4",
       title: "Static Coding Practice 4",
@@ -463,6 +467,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 5
     {
       id: "static-coding-practice-5",
       title: "Static Coding Practice 5",
@@ -492,7 +497,7 @@ export const staticCodingPracticesData = {
             <body>
             </body>
             </html>`,
-            css: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: "",
           },
           descriptionDetails: `
@@ -621,6 +626,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 6
     {
       id: "static-coding-practice-6",
       title: "Static Coding Practice 6",
@@ -650,7 +656,7 @@ export const staticCodingPracticesData = {
             <body>
             </body>
             </html>`,
-            css: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: "",
           },
           descriptionDetails: `
@@ -762,6 +768,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+    //Coding Practice - 7
     {
       id: "static-coding-practice-7",
       title: "Static Coding Practice 7",
@@ -791,7 +798,8 @@ export const staticCodingPracticesData = {
             <body>
             </body>
             </html>`,
-            css: `#section-puriJaganadh,
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+#section-puriJaganadh,
 #section-Tedx,
 #section-Sadhguru,
 #section-ONPurpose {
@@ -814,8 +822,9 @@ export const staticCodingPracticesData = {
               <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765224268/tedx-detail_pmcqcr.png" class="desc-que-img" />
               <p class="desc-que-blue">Podcast Sadhguru Page:</p>
               <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765224269/sadguru-detail_g6wvmb.png" class="desc-que-img" />
-              <div className="Note-container">
-          <div className="icon-note">
+              
+              <div class="Note-container">
+          <div class="icon-note">
             <h6>
               <i class="bi bi-journal-text"></i>Note
             </h6>
@@ -926,18 +935,9 @@ export const staticCodingPracticesData = {
             },
             {
               id: 8,
-              description:
-                "Page should consist of an HTML element with the CSS property `padding` and its value should be greater than `0`px.",
-              type: "css-validation",
-              input: "check-padding",
-              output: "true",
-              visible: true,
-            },
-            {
-              id: 9,
-              description: `Page should consist of an HTML container element with CSS property "margin" and its value should be greater than "0" px`,
-              type: "css-validation",
-              input: "check-margin",
+              description: `Page should consist of an HTML image element in an HTML container element`,
+              type: "html-validation",
+              input: "check-image-container",
               output: "true",
               visible: true,
             },

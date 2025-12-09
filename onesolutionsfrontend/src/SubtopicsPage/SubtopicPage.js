@@ -503,15 +503,29 @@ import ER_Model_Relational_DB from "../SQL_Database/Modelling_Databases/ER_Model
 import Modelling_Database_Class_1 from "../SQL_Database/Modelling_Databases/Modelling_Database_Class_1.js";
 import Modelling_Database_Class_2 from "../SQL_Database/Modelling_Databases/Modelling_Database_Class_2.js";
 import Modelling_Database_MCQ from "../SQL_Database/Modelling_Databases/Modelling_Database_MCQ.js";
+import Joins_Class_Part_1 from "../SQL_Database/Joins/Joins_Class_Part_1.js";
+import Joins_Part_1_Cs from "../SQL_Database/Joins/Joins_Part_1_CS.js";
+import Joins_MCQ from "../SQL_Database/Joins/Joins_MCQ.js";
+import Quering_with_Joins_Class_Part_2 from "../SQL_Database/Joins/Quering_with_Joins_Class_Part_2.js";
+import Quering_with_Joins_CS_Part_2 from "../SQL_Database/Joins/Quering_with_Joins_CS_Part_2.js";
+import Quering_with_Joins_Part_2_MCQ from "../SQL_Database/Joins/Quering_with_Joins_Part_2_MCQ.js";
+import Quering_with_Joins_Class_Part_3 from "../SQL_Database/Joins/Quering_with_Joins_Class_Part_3.js";
+import Quering_with_Joins_MCQ_Part_3 from "../SQL_Database/Joins/Quering_with_Joins_MCQ_Part_3.js";
+import Joins_Coding_Pratice_1 from "../SQL_Database/Joins/Joins_Coding_Pratice_1.js";
+import Joins_Coding_Pratice_2 from "../SQL_Database/Joins/Joins_Coding_Pratice_2.js";
+import Joins_Coding_Pratice_3 from "../SQL_Database/Joins/Joins_Coding_Pratice_3.js";
+import Joins_Coding_Pratice_4 from "../SQL_Database/Joins/Joins_Coding_Pratice_4.js";
+import Coding_Pratice_11 from "../SQL_Database/Views_Subqueries/View_Subqeries_Coding_Pratice_11.js";
+import Views_And_Subqueries from "../SQL_Database/Views_Subqueries/Views_And_Subqueries.js";
+import Views_And_Subqueries_CS from "../SQL_Database/Views_Subqueries/Views_And_Subqueries_CS.js";
+import Views_And_Subqueries_MCQ from "../SQL_Database/Views_Subqueries/Views_And_Subqueries_MCQ.js";
+import View_Subqeries_Coding_Pratice_11 from "../SQL_Database/Views_Subqueries/View_Subqeries_Coding_Pratice_11.js";
 const subtopicComponents = {
   //SQL Database
-  "Modelling Database | Part 1": Modelling_Database_Class_1,
-  "Core Concepts of ER Model | Cheat Sheets": Core_Concepts_ER_CS,
-  "Appliying ER Model Concepts | Cheat Sheets": Applying_ER_Model_Concepts_CS,
-  "ER Model to Relational Database | Cheat Sheets": ER_Model_Relational_DB,
-  "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
-  "Modelling Database | Part 2": Modelling_Database_Class_2,
-  "Createing a Relational Database | Cheat Sheets": Creating_Relation_DB_CS,
+  "Views and Subqueries": Views_And_Subqueries,
+  "Views Subqueries | Cheat Sheet": Views_And_Subqueries_CS,
+  "MCQ Practice Views and Subqueries": Views_And_Subqueries_MCQ,
+  "Coding Practice - 11": View_Subqeries_Coding_Pratice_11,
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
   "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
@@ -560,6 +574,25 @@ const subtopicComponents = {
   "MCQ Practice MileStone": Milestone_MCQ,
   "Assignment 1": SQL_Assignment_1,
   "Assignment 2": SQL_Assignment_2,
+  "Modelling Database | Part 1": Modelling_Database_Class_1,
+  "Core Concepts of ER Model | Cheat Sheets": Core_Concepts_ER_CS,
+  "Appliying ER Model Concepts | Cheat Sheets": Applying_ER_Model_Concepts_CS,
+  "ER Model to Relational Database | Cheat Sheets": ER_Model_Relational_DB,
+  "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
+  "Modelling Database | Part 2": Modelling_Database_Class_2,
+  "Createing a Relational Database | Cheat Sheets": Creating_Relation_DB_CS,
+  "Joins | Part 1": Joins_Class_Part_1,
+  "Joins | Part 1 | Cheat Sheet": Joins_Part_1_Cs,
+  "MCQ Practice Joins": Joins_MCQ,
+  "Querying with Joins | Part 2": Quering_with_Joins_Class_Part_2,
+  "Querying with Joins | Part 2 | Cheat Sheet": Quering_with_Joins_CS_Part_2,
+  "MCQ Practice Querying with Joins | Part 2": Quering_with_Joins_Part_2_MCQ,
+  "Querying with Joins | Part 3": Quering_with_Joins_Class_Part_3,
+  "MCQ Practice Querying with Joins | Part 3": Quering_with_Joins_MCQ_Part_3,
+  "Coding Practice - 7": Joins_Coding_Pratice_1,
+  "Coding Practice - 8": Joins_Coding_Pratice_2,
+  "Coding Practice - 9": Joins_Coding_Pratice_3,
+  "Coding Practice - 10": Joins_Coding_Pratice_4,
 
   //Dynamic Website
   "Introduction to Dynamic Web Applications":
@@ -1267,7 +1300,7 @@ const SubtopicPage = () => {
           if (leftPanelSub) {
             const scrollPositionSub =
               activeSubtopicElementSub.offsetTop -
-              leftPanelSub.clientHeight / 3;
+              leftPanelSub.clientHeight / 10;
 
             leftPanelSub.scrollTo({
               top: scrollPositionSub,

@@ -3903,7 +3903,7 @@ export const codingPracticesData = {
           sampleInput: "1329",
           sampleOutput: "3\n33\n3",
           testCases: [
-            { input: "0", output: "0", visible: true },
+            { input: "0", output: "0\n0\n0", visible: true },
             { input: "1328", output: "3\n33\n2", visible: true },
             { input: "1328", output: "3\n33\n2", visible: false },
             { input: "1328", output: "3\n33\n2", visible: false },
@@ -4011,7 +4011,7 @@ export const codingPracticesData = {
           sampleOutput: "Divisible by 5",
           testCases: [
             { input: "10", output: "Divisible by 10", visible: true },
-            { input: "5", output: " Not Divisible by 10 or 5", visible: true },
+            { input: "10", output: "Divisible by 10", visible: true },
             { input: "20", output: "Divisible by 5", visible: false },
             { input: "25", output: "Divisible by 5", visible: false },
             { input: "30", output: "Divisible by 5", visible: false },
@@ -4021,6 +4021,46 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-Codingpractice-5-006",
+          title: "Leap year",
+          difficulty: "Hard",
+          description:
+            "Write a program that reads a year Y and checks if the year Y is a leap year.A year is a leap year if any of the given conditions are satisfied.\nY is divisible by 400.\nY is divisible by 4,and not divisible by 100.\nPrint True if any of the given conditions are satisfied.Otherwise,print false.",
+          sampleInput: "2016",
+          sampleOutput: "True",
+          testCases: [
+            { input: "1800", output: "False", visible: true },
+            { input: "2024", output: "True", visible: true },
+            { input: "1800", output: "False", visible: false },
+            { input: "1800", output: "False", visible: false },
+            { input: "1800", output: "False", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-5-007",
+          title: "Electricity Bill",
+          difficulty: "Hard",
+          description:
+            "In this problem, you need to write a program to calculate the Electricity bill for a household,based on the units of Electricity the household consumed.The price for unit varies based on the slab.The charges per unit for different slabs are as mentioned below:\nFor the first 50 units(0-50),the charge is 2/unit\nFor the next 100 units(51-150),the charge is 3/unit\nFor the next 100 units(151-250),the charge is 5/unit\nFor above 250 units(251 and above),the charge is 8/unit\nApart from these charges,there is also an additional surcharge of 20% on the total amount is added to the bill.",
+          sampleInput: "50",
+          sampleOutput: "120.0",
+          testCases: [
+            { input: "200", output: "780.0", visible: true },
+            { input: "50", output: "120.0", visible: true },
+            { input: "50", output: "120.0", visible: false },
+            { input: "50", output: "120.0", visible: false },
+            { input: "200", output: "780.0", visible: false },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        }
       
       ],
     }

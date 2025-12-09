@@ -9,6 +9,7 @@ import validateHtmlTest from "./validateHtmlTest";
 import validateCssTest from "./validateCssTest";
 import "./WebPractice.css";
 import "../../codingPracticesData/codingpracticesweb.css";
+import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
 
 const WebPractice = () => {
   const { practiceId, questionId } = useParams();
@@ -562,11 +563,9 @@ const WebPractice = () => {
 
   if (isLoading) {
     return (
-      <div className="thread-detail-container">
-        <div className="loading-container">
-          <div className="spinner"></div>
-          <p>Loading...</p>
-        </div>
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading...</p>
       </div>
     );
   }
