@@ -1397,7 +1397,7 @@ export const staticCodingPracticesData = {
       category: "static",
       questions: [
         {
-          id: "91bcc4c6-0536-40bd-814f-a37b81618430",
+          id: "91bcc4c6-0540-40bd-814f-a37b81618500",
           title: "Flats Page",
           description:
             "In this assignment, let's build the Sunrise Avenue page by applying the concepts we learned till now. You can use the Bootstrap concepts",
