@@ -316,10 +316,6 @@ export const goalsData = [
                 id: "QW9_s7_A0 m7_H g1_7B c1_D2E",
                 name: "Static Coding Assignment 3",
               },
-              {
-                id: "QW9_s8_A0 m7_H g1_7B c1_D2E",
-                name: "Coding Assignment 4",
-              },
             ],
           },
           {
@@ -2743,7 +2739,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m10_H g2_7B c2_D2E",
-                name: "MCQ Practice   Transaction and Indexes",
+                name: "MCQ Practice Transaction and Indexes",
               },
             ],
           },
@@ -2763,11 +2759,11 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m12_H g2_7B c2_D2E",
-                name: "Assignment   3",
+                name: "Assignment 3",
               },
               {
                 id: "QW9_s2_A0 m12_H g2_7B c2_D2E",
-                name: "MCQ   Exam   1",
+                name: "MCQ Exam 1",
               },
             ],
           },

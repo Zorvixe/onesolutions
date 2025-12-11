@@ -527,6 +527,26 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+
+      case "check-section-prefix": {
+        // Select ANY element whose id starts with 'section'
+        const allSectionIdElements = iframeDoc.querySelectorAll("[id^='section']");
+    
+        if (allSectionIdElements.length < 2) {
+            return {
+                passed: false,
+                actual: `Found only ${allSectionIdElements.length} element(s) with id starting with 'section'. Need at least 2.`
+            };
+        }
+    
+        return {
+            passed: true,
+            actual: `Found ${allSectionIdElements.length} element(s) with id prefix 'section'.`
+        };
+    }
+    
+      
+
       default:
         return {
           passed: false,

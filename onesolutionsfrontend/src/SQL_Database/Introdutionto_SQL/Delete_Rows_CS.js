@@ -1,5 +1,3 @@
-// /project/workspace/onesolutionsfrontend/src/SQL_Database/Introdutionto_SQL/Delete_Rows_CS.js
-
 import React, { useState } from "react";
 import { CodeBlock } from "../../CodeOutputBlocks";
 

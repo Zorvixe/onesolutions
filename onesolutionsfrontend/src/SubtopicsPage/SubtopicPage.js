@@ -517,14 +517,18 @@ import Joins_Coding_Pratice_3 from "../SQL_Database/Joins/Joins_Coding_Pratice_3
 import Joins_Coding_Pratice_4 from "../SQL_Database/Joins/Joins_Coding_Pratice_4.js";
 import Views_And_Subqueries from "../SQL_Database/Views_Subqueries/Views_And_Subqueries.js";
 import Views_And_Subqueries_CS from "../SQL_Database/Views_Subqueries/Views_And_Subqueries_CS.js";
+import Subqueries_CS from "../SQL_Database/Views_Subqueries/Subqueries_CS.js";
 import Views_And_Subqueries_MCQ from "../SQL_Database/Views_Subqueries/Views_And_Subqueries_MCQ.js";
 import View_Subqeries_Coding_Pratice_11 from "../SQL_Database/Views_Subqueries/View_Subqeries_Coding_Pratice_11.js";
+import Transaction_Indexes_Class from "../SQL_Database/Transaction_Indexes/Transaction_Indexes_Class.js";
+import Transaction_Indexes_CS from "../SQL_Database/Transaction_Indexes/Transaction_Indexes_CS.js";
+import Transaction_Indexes_MCQ from "../SQL_Database/Transaction_Indexes/Transaction_Indexes_MCQ.js";
+import SQL_Syntax_Differences from "../SQL_Database/SQL_Syntax_Differences/SQL_Syntax_Differences.js";
+import SQL_Assignment_3 from "../SQL_Database/MileStone_2/SQL_Assignment_3.js";
+import MCQ_Exam_1 from "../SQL_Database/MileStone_2/MCQ_Exam_1.js";
+
 const subtopicComponents = {
   //SQL Database
-  "Views and Subqueries": Views_And_Subqueries,
-  "Views Subqueries | Cheat Sheet": Views_And_Subqueries_CS,
-  "MCQ Practice Views and Subqueries": Views_And_Subqueries_MCQ,
-  "Coding Practice - 11": View_Subqeries_Coding_Pratice_11,
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
   "Introduction to Databases | Cheat Sheet": Introduction_to_Databases_CS,
@@ -592,6 +596,19 @@ const subtopicComponents = {
   "Coding Practice - 8": Joins_Coding_Pratice_2,
   "Coding Practice - 9": Joins_Coding_Pratice_3,
   "Coding Practice - 10": Joins_Coding_Pratice_4,
+  "Views and Subqueries": Views_And_Subqueries,
+  "Views Subqueries | Cheat Sheet": Views_And_Subqueries_CS,
+  "Subqueries | Cheat Sheet": Subqueries_CS,
+  "MCQ Practice Views and Subqueries": Views_And_Subqueries_MCQ,
+  "Coding Practice - 11": View_Subqeries_Coding_Pratice_11,
+  "Transaction and Indexes": Transaction_Indexes_Class,
+  "Transaction and Indexes | Cheat Sheet": Transaction_Indexes_CS,
+  "MCQ Practice Transaction and Indexes": Transaction_Indexes_MCQ,
+  "SQL Syntax Differences Between SQLite, MySQL, and Oracle":
+    SQL_Syntax_Differences,
+
+  "Assignment 3": SQL_Assignment_3,
+  "MCQ Exam 1": MCQ_Exam_1,
 
   //Dynamic Website
   "Introduction to Dynamic Web Applications":
@@ -1098,6 +1115,9 @@ const mcqMapping = {
   "MCQ Practice MileStone": "MileStone | Cheat Sheet",
   "MCQ Practice Modelling Database | Part 1": "Modelling Database | Part 1",
   "MCQ Practice Modelling Database | Part 2": "Modelling Database | Part 2",
+  "MCQ Practice Views and Subqueries": "Views and Subqueries",
+  "MCQ Practice Transaction and Indexes": "Transaction and Indexes",
+  "MCQ Exam 1": "Assignment 3",
   //Reactjs MCQs
   "MCQ Pratice - Introduction to React JS": "Introduction to React JS",
   "MCQ Pratice - Components & Pros": "Components & Pros",

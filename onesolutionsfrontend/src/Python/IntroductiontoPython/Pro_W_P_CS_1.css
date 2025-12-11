@@ -304,3 +304,19 @@ code {
   font-size: 0.9em;
   font-weight: normal;
 }
+
+.Error-message {
+  background: #ffe6e6f5 !important;
+  border: 1px solid red !important;
+
+  border-radius: 8px;
+  padding: 8px;
+  margin: 16px 0;
+}
+
+.Error-message p {
+  color: rgb(251, 54, 54);
+}
+/* background: #ffd9d9 !important; */
+/* background: #ffd1d1f5 !important; */
+/* border: 1px solid rgb(115, 12, 12) !important; */

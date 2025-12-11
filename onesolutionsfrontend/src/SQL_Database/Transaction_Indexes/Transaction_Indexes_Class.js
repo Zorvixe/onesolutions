@@ -6,15 +6,15 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Quering_with_Joins_Class_Part_3 = ({
+const Transaction_Indexes_Class = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Joins",
-  topicName = "Querying with Joins | Part 3",
+  moduleName = "Transaction and Indexes",
+  topicName = "Transaction and Indexes",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1W2ojtKmRgyNnRo_YMnewbJLcLQ5dwOuFIFBjKVVbkBU/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/13KB4--zJTkEQA752k9EdQf56RF9n_VbSOgeXrdjUvLw/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +614,4 @@ const Quering_with_Joins_Class_Part_3 = ({
     </div>
   );
 };
-export default Quering_with_Joins_Class_Part_3;
+export default Transaction_Indexes_Class;

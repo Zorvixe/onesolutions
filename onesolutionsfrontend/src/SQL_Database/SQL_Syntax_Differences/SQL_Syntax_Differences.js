@@ -6,15 +6,15 @@ import "../../Class_CSS/Class_Css.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Quering_with_Joins_Class_Part_3 = ({
+const SQL_Syntax_Differences = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Joins",
-  topicName = "Querying with Joins | Part 3",
+  moduleName = "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
+  topicName = "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
   videoUrl = "https://www.youtube.com/embed/",
-  slidesUrl = "https://docs.google.com/presentation/d/1W2ojtKmRgyNnRo_YMnewbJLcLQ5dwOuFIFBjKVVbkBU/embed",
+  slidesUrl = "https://docs.google.com/presentation/d/1yXq6nj_fFlaUt91v7MWTbn5XCZJ_OEn878W5kTAvjJU/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
     useAuth();
@@ -614,4 +614,4 @@ const Quering_with_Joins_Class_Part_3 = ({
     </div>
   );
 };
-export default Quering_with_Joins_Class_Part_3;
+export default SQL_Syntax_Differences;

@@ -91,20 +91,20 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <h3>1. Heading, Paragraph, Button, Div</h3>
         <CodeBlock
           language="html"
-          code={`<h1>Tourism</h1>
-<p>Plan your trip wherever you want to go</p>
-<button>Get Started</button>
+          code={`<h1>Expolre Paradise</h1>
+<p>Forgetable Memories wherever you want to go</p>
+<button>Explore Places</button>
 <div>
-  <h1>Tourism</h1>
-  <p>Plan your trip</p>
-  <button>Get Started</button>
+  <h1>Expolre Paradise</h1>
+  <p>Forgetable Memories</p>
+  <button>Explore Places</button>
 </div>`}
         />
 
         <h3>2. Image Element</h3>
         <CodeBlock
           language="html"
-          code={`<img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png" />`}
+          code={`<img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765392869/paris_1_zckrjw.avif" />`}
         />
         <p>
           <strong>src</strong> → Image URL
@@ -113,7 +113,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <h3>3. Anchor Element</h3>
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/">Explore CCBP</a>`}
+          code={`<a href="https://www.ccbp.in/">Explore Places</a>`}
         />
         <CodeBlock
           language="html"
@@ -215,11 +215,46 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         </h2>
         <ul style={{ fontSize: "1.1rem" }}>
           <li>
-            <strong>id:</strong> Unique → <code>&lt;div id="section1"&gt;</code>{" "}
-            (CCBP UI Kit needs <code>section</code> prefix)
+            <b
+              style={{
+                textAlign: "center",
+                color: "#ffffff",
+                backgroundColor: "#25b1cc",
+                fontFamily: "Roboto",
+                fontSize: "16px",
+                borderRadius: "10px",
+                fontWeight: "bold",
+                padding: "6px",
+              }}
+            >
+              Home Page
+            </b>{" "}
+            <strong>id:</strong> Unique →{" "}
+            <code>&lt;div id="section-1" data-section data-default&gt;</code>{" "}
+            (One Solutions UI Kit needs <code>section</code> prefix)
           </li>
           <li>
-            <strong>onclick:</strong> <code>onclick="display('section3')"</code>
+            <b
+              style={{
+                textAlign: "center",
+                color: "#ffffff",
+                backgroundColor: "#25b1cc",
+                fontFamily: "Roboto",
+                fontSize: "16px",
+                borderRadius: "5px",
+                fontWeight: "bold",
+                padding: "6px",
+              }}
+            >
+              {" "}
+              Other Pages
+            </b>{" "}
+            <strong>id:</strong> Unique →{" "}
+            <code>&lt;div id="section-1" data-section&gt;</code> (One Solutions
+            UI Kit needs <code>section</code> prefix)
+          </li>
+          <li>
+            <strong>onclick:</strong> <code>onclick="display('section-3')"</code>
           </li>
           <li>
             <strong>src, href, target="_blank"</strong>
@@ -257,12 +292,6 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   font-weight: bold;
   text-decoration: underline;
 }`}
-        />
-
-        <h3>Font Family Import</h3>
-        <CodeBlock
-          language="css"
-          code={`@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");`}
         />
 
         <h3>Colors</h3>
@@ -388,7 +417,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         </h2>
         <CodeBlock
           language="html"
-          code={`<button class="button button-green">Get Started</button>`}
+          code={`<button class="button button-green">Explore Places</button>`}
         />
         <CodeBlock
           language="css"
@@ -418,10 +447,10 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         </h2>
         <CodeBlock
           language="html"
-          code={`<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>`}
+          code={`<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>`}
         />
 
         <h3>Buttons</h3>
@@ -552,7 +581,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         />
       </section>
 
-      {/* CCBP UI Kit */}
+      {/* One Solutions UI Kit */}
       <section
         style={{
           marginBottom: "4rem",
@@ -569,11 +598,12 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
             paddingBottom: "0.5rem",
           }}
         >
-          CCBP UI Kit
+          One Solutions UI Kit
         </h2>
         <CodeBlock
           language="html"
-          code={`<script type="text/javascript" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/js/ccbp-ui-kit.js"></script>`}
+          code={`<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zorvixe/zorvixe-ui-kit/dist/zorvixe-ui-kit.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Zorvixe/zorvixe-ui-kit/dist/zorvixe-ui-kit.js"></script>`}
         />
         <p>
           Must be just before <code>&lt;/body&gt;</code>

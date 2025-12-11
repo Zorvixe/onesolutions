@@ -67,7 +67,7 @@ const WebSite_Integration_CS_1 = ({
       id: "id_prefix",
       section: "HTML id Attribute",
       question:
-        "What prefix must the id of each container section have when using the CCBP UI Kit?",
+        "What prefix must the id of each container section have when using the One Solutions UI Kit?",
       options: ["page", "container", "section", "view"],
       answer: "section",
       explanation:
@@ -79,12 +79,12 @@ const WebSite_Integration_CS_1 = ({
       question:
         "Which of the following is the correct HTML onclick syntax when using display()?",
       options: [
-        `onclick="display(section3)"`,
-        `onclick="display('section3')"`,
-        `onclick='display("section3")'`,
-        `onclick=display('section3')`,
+        `onclick="display(section-3)"`,
+        `onclick="display('section-3')"`,
+        `onclick='display("section-3")'`,
+        `onclick=display('section-3')`,
       ],
-      answer: `onclick="display('section3')"`,
+      answer: `onclick="display('section-3')"`,
       explanation:
         "onclick should be inside double quotes, and the argument inside display() should be in single quotes.",
     },
@@ -112,25 +112,85 @@ const WebSite_Integration_CS_1 = ({
       {/* 1. UI Kit Overview */}
 
       <section>
-        <h2>1. UI Kit</h2>
+        <h2>1. One Solutions UI Kit</h2>
         <p>
-          UI Kit is a collection of reusable code snippets for CCBP training.
+          Must be just before <code>&lt;/head&gt;</code>
         </p>
-
-        <h3>1.1 Adding CCBP UI Kit Script</h3>
         <CodeBlock
           language="html"
-          code={`<!-- Add just before closing </body> -->
-<script src="https://cdn.ccbp.in/ui-kit/v1.0/ccbp-ui-kit.js"></script>`}
+          code={`<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zorvixe/zorvixe-ui-kit/dist/zorvixe-ui-kit.css">`}
         />
+
+        <p>
+          Must be just before <code>&lt;/body&gt;</code>
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Zorvixe/zorvixe-ui-kit/dist/zorvixe-ui-kit.js"></script>`}
+        />
+        <p>
+          Uses <code>display('sectionId')</code> function
+        </p>
+      </section>
+      <h2>2. HTML Attributes</h2>
+
+      <section>
+        <h3>2.1 The HTML id [data-section] [data-default] Attribute</h3>
+
+        <ul style={{ fontSize: "1.1rem" }}>
+          <li>
+            <b
+              style={{
+                textAlign: "center",
+                color: "#ffffff",
+                backgroundColor: "#25b1cc",
+                fontFamily: "Roboto",
+                fontSize: "16px",
+                borderRadius: "10px",
+                fontWeight: "bold",
+                padding: "6px",
+              }}
+            >
+              Home Page
+            </b>{" "}
+            <strong>id:</strong> Unique →{" "}
+            <code>&lt;div id="section-1" data-section data-default&gt;</code>{" "}
+            (One Solutions UI Kit needs <code>section</code> prefix)
+          </li>
+          <li>
+            <b
+              style={{
+                textAlign: "center",
+                color: "#ffffff",
+                backgroundColor: "#25b1cc",
+                fontFamily: "Roboto",
+                fontSize: "16px",
+                borderRadius: "5px",
+                fontWeight: "bold",
+                padding: "6px",
+              }}
+            >
+              {" "}
+              Other Pages
+            </b>{" "}
+            <strong>id:</strong> Unique →{" "}
+            <code>&lt;div id="section-1" data-section&gt;</code> (One Solutions
+            UI Kit needs <code>section</code> prefix)
+          </li>
+          <li>
+            <strong>onclick:</strong> <code>onclick="display('section-3')"</code>
+          </li>
+          <li>
+            <strong>src, href, target="_blank"</strong>
+          </li>
+        </ul>
       </section>
 
       {/* 2. HTML Attributes */}
 
       <section>
-        <h2>2. HTML Attributes</h2>
-
-        <h3>2.1 The HTML id Attribute</h3>
+        <h3>2.2 The HTML id Attribute</h3>
         <p>
           The HTML <code>id</code> attribute specifies a unique id for an HTML
           element. The value of the <code>id</code> attribute must be unique
@@ -139,7 +199,7 @@ const WebSite_Integration_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<div id="section1">Section 1</div>`}
+          code={`<div id="section-1">Section 1</div>`}
         />
         <div className="Warning-container">
           <div>
@@ -149,12 +209,12 @@ const WebSite_Integration_CS_1 = ({
           </div>
           <ul>
             <li>
-              The CCBP UI kit works only if the value of the HTML id attribute
-              of the container <b>section</b> has the prefix as section.
+              The UI kit works only if the value of the HTML id attribute of the
+              container <b>section</b> has the prefix as section.
             </li>
             <li>
               So, the <b>id</b> which we specify for any <b>section</b> should
-              always contain its prefix as section if you are using CCBP UI Kit.
+              always contain its prefix as section if you are using One Solutions UI Kit.
             </li>
           </ul>
         </div>
@@ -168,7 +228,7 @@ const WebSite_Integration_CS_1 = ({
 
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-primary" onclick="display('section3')">
+          code={`<button class="btn btn-primary" onclick="display('section-3')">
   Go to Section 3
 </button>`}
         />

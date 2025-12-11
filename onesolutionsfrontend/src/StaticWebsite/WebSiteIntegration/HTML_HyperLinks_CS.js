@@ -160,7 +160,7 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
+          code={`<a href="https://onesolutionsekam.in/">Full Stack Development</a>`}
         />
 
         <h3>1.2 HTML target Attribute</h3>
@@ -267,7 +267,7 @@ const HTML_HyperLinks_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           language="html"
           code={`<a href="https://www.tajmahal.gov.in" target="_blank" rel="noopener">
   <img 
-    src="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/tajmahal-img.png" 
+    src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765479623/taj-mahal_le4nar.jpg 
     alt="Taj Mahal - Click to visit official site"
     class="img-link"
   />
