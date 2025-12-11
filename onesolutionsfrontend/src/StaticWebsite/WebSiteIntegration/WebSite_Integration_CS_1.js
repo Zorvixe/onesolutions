@@ -179,7 +179,8 @@ const WebSite_Integration_CS_1 = ({
             UI Kit needs <code>section</code> prefix)
           </li>
           <li>
-            <strong>onclick:</strong> <code>onclick="display('section-3')"</code>
+            <strong>onclick:</strong>{" "}
+            <code>onclick="display('section-3')"</code>
           </li>
           <li>
             <strong>src, href, target="_blank"</strong>
@@ -214,7 +215,8 @@ const WebSite_Integration_CS_1 = ({
             </li>
             <li>
               So, the <b>id</b> which we specify for any <b>section</b> should
-              always contain its prefix as section if you are using One Solutions UI Kit.
+              always contain its prefix as section if you are using One
+              Solutions UI Kit.
             </li>
           </ul>
         </div>
