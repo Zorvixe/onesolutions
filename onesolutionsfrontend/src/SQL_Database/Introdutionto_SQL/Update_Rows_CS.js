@@ -107,9 +107,9 @@ const Update_Rows_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Update Rows</h2>
         <p>
-          The <b>UPDATE</b> clause is used to update the data of an existing
-          table in a database. We can update all rows or only specific rows as
-          per the requirement.
+          The <code>UPDATE</code> clause is used to update the data of an
+          existing table in a database. We can update all rows or only specific
+          rows as per the requirement.
         </p>
       </section>
 
@@ -125,7 +125,7 @@ SET column1 = value1;`}
 
         <h3>Example</h3>
         <p>
-          Update the <b>score</b> of all players to <b>100</b> in the{" "}
+          Update the <code>score</code> of all players to <b>100</b> in the{" "}
           <code>player</code> table.
         </p>
 
@@ -203,12 +203,18 @@ FROM player;`}
 from player;`}
         />
 
-        <p>
-          <b>Note: </b>
-          Best Practice: Both Query 1 and Query 2 give the same output. But, it
-          is recommended to write <b>keywords in uppercase</b> to make the query
-          more readable. Prefer Query 1 format over Query 2.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            <b>Best Practice:</b> Both Query 1 and Query 2 give the same output.
+            But, it is recommended to write keywords in uppercase to make the
+            query more readable. Prefer Query 1 format over Query 2.
+          </p>
+        </div>
       </section>
 
       {/* Continue Button */}

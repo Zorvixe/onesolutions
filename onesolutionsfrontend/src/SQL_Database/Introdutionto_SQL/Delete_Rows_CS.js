@@ -105,8 +105,8 @@ const Delete_Rows_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Delete Rows</h2>
         <p>
-          The <b>DELETE</b> clause is used to delete existing records from a
-          table.
+          The <code>DELETE</code> clause is used to delete existing records from
+          a table.
         </p>
       </section>
 
@@ -139,11 +139,14 @@ WHERE column1 = value1;`}
           Delete <b>"Shyam"</b> from the <code>player</code> table.
         </p>
 
-        <p>
-          <b>Note:</b> In this table, we can uniquely identify a player by{" "}
-          <b>name</b>.
-        </p>
-
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>In this table, we can uniquely identify a player by name.</p>
+        </div>
         <CodeBlock
           language="sql"
           code={`DELETE FROM player
@@ -156,13 +159,16 @@ WHERE name = "Shyam";`}
         </p>
       </section>
 
-      {/* 5. Warning */}
-      <section>
-        <h2>Warning</h2>
+      <div className="Warning-container">
+        <div>
+          <h5>
+            <i class="bi bi-exclamation-triangle"></i>Warning
+          </h5>
+        </div>
         <p>
-          We cannot retrieve the data once we delete the data from the table.
+          We can not retrieve the data once we delete the data from the table.
         </p>
-      </section>
+      </div>
 
       {/* 6. Drop Table */}
       <section>
@@ -189,10 +195,19 @@ WHERE name = "Shyam";`}
 
       {/* 7. DELETE VS DROP */}
       <section>
+        <h2>DELETE VS DROP</h2>
+        <p>
+          <code> DELETE</code> clause deletes <b>specific rows</b> from a table
+          based on a condition (using WHERE clause).
+        </p>
+        <p>
+          <code>DROP</code> clause deletes the entire <b>table</b> from the
+          database.
+        </p>
         <img
           src="/assets/img/delete_vs_drop_img.png"
           alt="DOM Tree"
-          style={{ width: "100%", height: "400px" }}
+          style={{ width: "70%", height: "300px" }}
         />
       </section>
 

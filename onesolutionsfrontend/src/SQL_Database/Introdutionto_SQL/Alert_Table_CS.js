@@ -19,9 +19,12 @@ const Alter_Table_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>ALTER Clause</h2>
         <p>
-          The <b>ALTER</b> clause is used to <b>add</b>, <b>delete</b>, or{" "}
-          <b>modify</b> columns in an existing table. Let’s learn more about the{" "}
-          <b>ALTER</b> clause using the following database.
+          The <code>ALTER</code> clause is used to add, delete, or modify{" "}
+          columns in an existing table.{" "}
+        </p>
+        <p>
+          Let’s learn more about the <b>ALTER</b> clause using the following
+          database.
         </p>
       </section>
 
@@ -34,14 +37,82 @@ const Alter_Table_CS = ({ onSubtopicComplete }) => {
         </p>
 
         <h3>Tables</h3>
-        <ul>
-          <li>
-            <b>student</b> table
-          </li>
-          <li>
-            <b>player</b> table
-          </li>
-        </ul>
+        <p>
+          <b>student</b> table
+        </p>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse" }}
+        >
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>percentage</th>
+              <th>scholarship_amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ramesh</td>
+              <td>82</td>
+              <td>10000</td>
+            </tr>
+            <tr>
+              <td>Mahesh</td>
+              <td>85</td>
+              <td>11000</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          The <code>student</code> table stores the data of the students,
+          including <b>name</b>, <b>percentage</b>, and{" "}
+          <b>scholarship_amount</b>.
+        </p>
+
+        <p>
+          <b>player</b> table
+        </p>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse" }}
+        >
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>age</th>
+              <th>score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Suresh</td>
+              <td>21</td>
+              <td>70</td>
+            </tr>
+            <tr>
+              <td>Venkat</td>
+              <td>21</td>
+              <td>43</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          The <code>player</code> table stores the data of players, including{" "}
+          <b>name</b>, <b>age</b>, and <b>score</b>.
+        </p>
       </section>
 
       {/* 3. Add Column */}
@@ -60,8 +131,8 @@ ADD column_name datatype;`}
 
         <h3>Example</h3>
         <p>
-          Add a new column <b>jersey_num</b> of type <b>integer</b> to the{" "}
-          <code>player</code> table.
+          Add a new column <code>jersey_num</code> of type <code>integer</code>{" "}
+          to the <code>player</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -72,11 +143,17 @@ ADD jersey_num INT;`}
           After you run the query, check the <b>player</b> table in the database
           for the new column.
         </p>
-
-        <p>
-          <b>Note:</b> Default values for newly added columns in the existing
-          rows will be <b>NULL</b>.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Default values for newly added columns in the existing rows will be
+            NULL.
+          </p>
+        </div>
       </section>
 
       {/* 4. Rename Column */}
@@ -137,12 +214,12 @@ DROP COLUMN jersey_number;`}
         <h2>Try it Yourself!</h2>
         <ul>
           <li>
-            Add a new column <b>id</b> of type <b>int</b> to the{" "}
-            <code>player</code> table.
+            Add a new column <code>id</code> of type <code>int</code> to the{" "}
+            <b>player</b> table.
           </li>
           <li>
-            Update the name of the column <b>id</b> to <b>player_id</b> in the{" "}
-            <code>player</code> table.
+            Update the name of the column <code>id</code> to{" "}
+            <code>player_id</code> in the <b>player</b> table.
           </li>
           <li>
             After executing the queries, check the <b>player</b> table in the
@@ -157,12 +234,12 @@ DROP COLUMN jersey_number;`}
         <h2>ALTER vs UPDATE</h2>
         <ul>
           <li>
-            <b>UPDATE</b> clause updates the data of an existing table in the
-            database.
+            <code>UPDATE</code> clause updates the data of an{" "}
+            <b>existing table</b> in the database.
           </li>
           <li>
-            <b>ALTER</b> clause alters the layout of the table. It adds,
-            deletes, or modifies existing columns in a table.
+            <code>ALTER</code> clause alters the layout of the table. It adds,
+            deletes, or modifies <b>existing columns</b> in a table.
           </li>
         </ul>
       </section>
@@ -170,7 +247,7 @@ DROP COLUMN jersey_number;`}
         <img
           src="/assets/img/update_vs_alter_img.png"
           alt="DOM Tree"
-          style={{ width: "100%", height: "400px" }}
+          style={{ width: "70%", height: "300px" }}
         />
       </section>
 

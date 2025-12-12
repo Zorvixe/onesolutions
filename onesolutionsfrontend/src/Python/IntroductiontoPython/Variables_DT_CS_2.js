@@ -103,11 +103,18 @@ const Variables_DT_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
         </ul>
         <h3>Some Examples</h3>
         <code>"Hello World!", "some@example.com", "1234"</code>
-        <p>
-          <b>Note:</b> The stream of characters enclosed within quotes (both
-          single quotes and double quotes) are considered as strings.
-        </p>
 
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The stream of characters enclosed within quotes (both single quotes
+            and double quotes) are considered as strings.
+          </p>
+        </div>
         <code>"'hello'", '"hello"'</code>
       </section>
 

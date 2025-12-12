@@ -37,7 +37,8 @@ const Introduction_to_Databases_CS = ({ onSubtopicComplete }) => {
           />
           <div className="text">
             <p>
-              Any sort of information that is stored is called <b>data</b>.
+              Any sort of information that is stored is called <code>data</code>
+              .
             </p>
             <p>
               <b>Examples:</b>
@@ -146,18 +147,25 @@ const Introduction_to_Databases_CS = ({ onSubtopicComplete }) => {
         </div>
       </section>
       <section>
-        <h2>Note</h2>
-        <ul>
-          <li>Choice of database depends on project requirements.</li>
-          <li>Relational databases are the most commonly used.</li>
-        </ul>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+            <li>Choice of database depends on project requirements.</li>
+            <li>Relational databases are the most commonly used.</li>
+          </ul>
+        </div>
       </section>
 
       <section>
         <h2>7. Relational Database</h2>
         <p>
-          A <b>Relational DBMS (RDBMS)</b> is a DBMS designed specifically for
-          relational databases.
+          A<code> Relational DBMS</code> is a DBMS designed specifically for
+          relational databases. Relational databases organise the data in the
+          form of tables.
         </p>
         <p>
           <b>Examples:</b>
@@ -172,7 +180,7 @@ const Introduction_to_Databases_CS = ({ onSubtopicComplete }) => {
         </ul>
         <h2>8. Non-Relational Database</h2>
         <p>
-          In <b>non-relational databases</b>, data is stored in{" "}
+          In <code>non-relational databases</code>, data is stored in{" "}
           <b>non-tabular formats</b> such as key-value pairs, documents, graphs,
           or wide-columns.
         </p>

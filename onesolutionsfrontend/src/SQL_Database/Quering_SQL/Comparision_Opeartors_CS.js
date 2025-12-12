@@ -45,13 +45,13 @@ const Comparison_Operators_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>
-          The database contains a <b>product</b> table that stores information
-          about products such as <b>name</b>, <b>category</b>, <b>price</b>,{" "}
-          <b>brand</b>, and <b>rating</b>.
+          The database contains a <code>product</code> table that stores
+          information about products such as <b>name</b>, <b>category</b>,{" "}
+          <b>price</b>, <b>brand</b>, and <b>rating</b>.
         </p>
         <p>
-          You can check the schema and data of the <b>product</b> table in the
-          code playground.
+          You can check the schema and data of the <code>product</code> table in
+          the code playground.
         </p>
       </section>
 
@@ -100,10 +100,10 @@ const Comparison_Operators_CS = ({ onSubtopicComplete }) => {
 
       {/* 4. Examples */}
       <section>
-        <h3>Example 1</h3>
+        <h3>Examples </h3>
         <p>
-          Get all the details of the products whose <b>category</b> is "Food"
-          from the <b>product</b> table.
+          1. Get all the details of the products whose <code>category</code> is
+          "Food" from the <code>product</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -147,10 +147,9 @@ WHERE category = "Food";`}
           </tbody>
         </table>
 
-        <h3>Example 2</h3>
         <p>
-          Get all the details of the products that do not belong to the{" "}
-          <b>Food</b> category from the <b>product</b> table.
+          2. Get all the details of the products that do not belong to the{" "}
+          <code>Food</code> category from the <code>product</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -214,10 +213,18 @@ WHERE category <> "Food";`}
           the following conditions:
         </p>
         <ul>
-          <li>rating greater than 4.5</li>
-          <li>price less than or equal to 1000</li>
-          <li>brand is "Puma"</li>
-          <li>product that does not belong to "Gadgets" category</li>
+          <li>
+            <code>rating</code> greater than 4.5
+          </li>
+          <li>
+            <code>price</code> less than or equal to 1000
+          </li>
+          <li>
+            <code>brand</code> is "Puma"
+          </li>
+          <li>
+            product that does not belong to "Gadgets" <code>category</code>
+          </li>
         </ul>
       </section>
 

@@ -38,13 +38,13 @@ const Logical_Operators_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>
-          The database contains a <b>product</b> table that stores the data of
-          products like <b>name</b>, <b>category</b>, <b>price</b>, <b>brand</b>{" "}
-          and <b>rating</b>.
+          The database contains a <code>product</code> table that stores the
+          data of products like <b>name</b>, <b>category</b>, <b>price</b>,{" "}
+          <b>brand</b> and <b>rating</b>.
         </p>
         <p>
-          You can check the schema and data of <b>product</b> table in the code
-          playground.
+          You can check the schema and data of <code>product</code> table in the
+          code playground.
         </p>
       </section>
 
@@ -94,9 +94,8 @@ WHERE  condition1  operator condition2  operator condition3  ...;`}
       <section>
         <h2>Examples</h2>
 
-        <h3>Example 1</h3>
         <p>
-          Get all the details of the products whose <b>category</b> is
+          1. Get all the details of the products whose <b>category</b> is
           "Clothing" and <b>price</b> is less than or equal to 1000 from the{" "}
           <b>product</b> table.
         </p>
@@ -142,10 +141,9 @@ WHERE  category = "Clothing"  AND price <= 1000;`}
           </tbody>
         </table>
 
-        <h3>Example 2</h3>
         <p>
-          Ignore all the products with <b>name</b> containing "Cake" from the
-          list of products.
+          2. Ignore all the products with <code>name</code> containing "Cake"
+          from the list of products.
         </p>
         <CodeBlock
           language="sql"
@@ -195,16 +193,18 @@ WHERE  NOT name LIKE "%Cake%";`}
         <h2>Try it Yourself!</h2>
         <ul>
           <li>
-            Fetch all the products with price less than 20000 and brand is
-            "Apple".
+            Fetch all the products with <code>price</code> less than 20000 and{" "}
+            <code>brand</code> is "Apple".
           </li>
           <li>
             Fetch all the products which follow any of the following conditions:
-            rating greater than 4.0 or brand is "Britannia".
+            <code>rating</code> greater than 4.0 or <code>brand</code> is
+            "Britannia".
           </li>
           <li>
-            Ignore all the products with category containing "Food" in the
-            product table.
+            Ignore all the products with <code>category</code> containing "Food"
+            in the
+            <code>product</code> table.
           </li>
         </ul>
       </section>
@@ -244,8 +244,13 @@ WHERE  NOT name LIKE "%Cake%";`}
         <h3>Example</h3>
         <p>Fetch the products that follow any of the following condition:</p>
         <ul>
-          <li>Belongs to Redmi brand and rating greater than 4</li>
-          <li>Belongs to the products from OnePlus brand</li>
+          <li>
+            Belongs to Redmi <code>brand</code> and <code>rating</code> greater
+            than <b>4</b>
+          </li>
+          <li>
+            Belongs to the products from OnePlus <code>brand</code>
+          </li>
         </ul>
 
         <CodeBlock
@@ -265,10 +270,18 @@ WHERE  brand = "Redmi"  AND rating > 4  OR brand = "OnePlus";`}
 FROM  product
 WHERE  (brand = "Redmi" AND rating > 4) OR brand = "OnePlus";`}
         />
-        <p>
-          <b>Quick Tip:</b> Always use parentheses to ensure correctness while
-          grouping conditions.
-        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-lightbulb"></i>Quick Tip:
+            </h6>
+          </div>
+          <p>
+            Always use parentheses to ensure correctness while grouping
+            conditions.
+          </p>
+        </div>
       </section>
 
       {/* 8. Try it Yourself 2 */}

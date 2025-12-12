@@ -156,11 +156,7 @@ FROM player;`}
       <section>
         <h2>5. Selecting Specific Rows</h2>
         <p>
-          To retrieve only specific rows, we use the <b>WHERE</b> clause.
-        </p>
-        <p>
-          The <b>WHERE</b> clause specifies a condition that must be satisfied
-          to retrieve data from the database.
+          We use <code>WHERE</code> clause to retrieve only specific rows.
         </p>
 
         <h3>Syntax</h3>
@@ -170,7 +166,10 @@ FROM player;`}
 FROM table_name
 WHERE condition;`}
         />
-
+        <p>
+          The <b>WHERE</b> clause specifies a condition that must be satisfied
+          to retrieve data from the database.
+        </p>
         <h3>Example</h3>
         <p>
           Get the <b>name</b> and <b>age</b> of the player whose name is
@@ -222,7 +221,7 @@ WHERE name = "Sai";`}
           </li>
           <li>
             Get <b>employee_id</b> and <b>salary</b> of the employee whose{" "}
-            <b>name</b> is "Raju".
+            <b>name</b> is "Raju" from the <code>employee</code> table.
           </li>
         </ul>
       </section>

@@ -985,22 +985,22 @@ export const staticCodingPracticesData = {
               <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765310273/news_paper_img_kh3oqz.png" class="desc-que-img" />
              
               <div class="Note-container">
-          <div class="icon-note">
-            <h6>
-              <i class="bi bi-journal-text"></i>Note
-            </h6>
-          </div>
-          <p>
-            <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-              <li>
-                When clicked on the Project category on the Project Home Page, it must display the respective Project page and when the back button is clicked Project Home Page must be displayed.
-              </li>
-              <li>
-                Try to achieve the design as close as possible.
-              </li>
-            </ul>
-          </p>
-        </div>
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                    <li>
+                      When clicked on the Project category on the Project Home Page, it must display the respective Project page and when the back button is clicked Project Home Page must be displayed.
+                    </li>
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                  </ul>
+                </p>
+              </div>
         <p class="desc-que-blue">Resources</p>
           <p class="desc-que-blue">Use the Image URLs given below.</p>
                 <p class="desc-que-blue">Images:</p>
@@ -1425,31 +1425,31 @@ export const staticCodingPracticesData = {
               <p class="desc-que-blue">4BHK Flat Page:</p>
               <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765386319/flat_details_page_3_qvqegm.png" class="desc-que-img" />
                 <div class="Note-container">
-          <div class="icon-note">
-            <h6>
-              <i class="bi bi-journal-text"></i>Note
-            </h6>
-          </div>
-          <p>
-            <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-              <li>
-               When clicked on the Book Flat button on the Sunrise Avenue Home Page, it must display the Flats List Page.
-              </li>
-              <li>
-                  When clicked on each flat in Flats List Page, it must display the respective Flat Details Page.  
-                </li>
-              <li>
-                  When clicked on Confirm button in Flat Details Page, it must display Sunrise Avenue Home Page            
-                  </li>
-              <li>
-                  When clicked on Back button in Flat Details Page, it must display Flats List Page          
-                </li>
-              <li>
-                Try to achieve the design as close as possible.
-              </li>
-            </ul>
-          </p>
-        </div>
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                    <li>
+                    When clicked on the Book Flat button on the Sunrise Avenue Home Page, it must display the Flats List Page.
+                    </li>
+                    <li>
+                        When clicked on each flat in Flats List Page, it must display the respective Flat Details Page.  
+                      </li>
+                    <li>
+                        When clicked on Confirm button in Flat Details Page, it must display Sunrise Avenue Home Page            
+                        </li>
+                    <li>
+                        When clicked on Back button in Flat Details Page, it must display Flats List Page          
+                      </li>
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                  </ul>
+                </p>
+              </div>
               <p class="desc-que-blue">Resources</p>
                <p class="">Home Page Background Image</p>
               <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765386915/assignment-3-home-bg_mwh5bz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765386915/assignment-3-home-bg_mwh5bz.png</a></p>
@@ -1559,5 +1559,1035 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+   //Static Website Project
+    {
+      id: "Build-Your-Own-Static-Website-Project",
+      title: "Build Your Own Static Website Project",
+      description:
+        "In this assignment, let's build a Static Website Project by applying the concepts we learned till now.",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "91bcc4c6-0550-40bd-814f-a37b81618600",
+          title: "Static Website Project",
+          description:
+            "In this assignment, let's build the Static Website Project by applying the concepts we learned till now. You can use the Bootstrap concepts",
+          difficulty: "Hard",
+          score: 200,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <p class="desc-que-blue">Home Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765534869/static-project-section-1_knkrfk.png" class="desc-que-img" />
+              <p class="desc-que-blue">List Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765534869/static-project-section-2_ntdvdf.png" class="desc-que-img" />
+              <p class="desc-que-blue">Full Detailed View Bali, Indonesia</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765534869/static-project-section-3_sgi7ib.png" class="desc-que-img" />
+              <p class="desc-que-blue">Full Detailed View Swiss, Alps</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537036/static-project-section-5_ntmwpa.png" class="desc-que-img" />
+              <p class="desc-que-blue">Full Detailed View Paris, France</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537037/static-project-section-4_lrclnp.png" class="desc-que-img" />
+               
+              <p class="desc-que-blue">Full Detailed New York, USA</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537036/static-project-section-6_zxq2qp.png" class="desc-que-img" />
+               
+              <p class="desc-que-blue">Full Detailed Tokyo, Japan</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537036/static-project-section-7_wdt0xy.png" class="desc-que-img" />
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                    <li>
+                    When clicked on the Book Explore Places button on the Home Page, it must display the Places List Page.
+                    </li>
+                    <li>
+                    When clicked on each place in List Page, it must display the respective Place Details Page.  
+                    </li>
+                    <li>
+                    When clicked on Back button in Place List Page, it must display Home Page            
+                    </li>
+                    <li>
+                    When clicked on Back button in Place Details Page, it must display Place List Page          
+                    </li>
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
+               
+              <p class="desc-que-blue">Resources</p>
+               <p class="">Home Page Background Image</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764610174/home-bg_oflcds.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764610174/home-bg_oflcds.jpg</a></p>
+              
+               <p class="">Place List Card Images</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537952/bali-indonesia_umsvtu.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537952/bali-indonesia_umsvtu.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538016/Paris-france_sibpd1.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538016/Paris-france_sibpd1.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538088/tokyo-japan_mwg0lk.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538088/tokyo-japan_mwg0lk.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538222/swiss-alps_wuvvvj.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538222/swiss-alps_wuvvvj.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538313/Newyork-usa_xg9plr.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538313/Newyork-usa_xg9plr.jpg</a></p>
+              
+              <p class="desc-que-blue">CSS Colors used:</p>
+              <p class="">Background color Hex Code values card:</p>
+                <div  class="desc-colors cffffff">#ffffff</div>
+              <p class="">Background color Hex Code values Button Home Page:</p>
+                <div  class="desc-colors c1a472a">#1a472a</div>
+              <p class="">Background color Hex Code values Button Detail Page:</p>
+                <div  class="desc-colors cd4a574">#d4a574</div>
+              <p class="">Text color Hex Code values Button Detail Page:</p>
+                <div  class="desc-colors cffffff">#ffffff</div>
+              <p class="">Text color Hex Code vales:</p>
+                <div  class="desc-colors c333333">#333333</div>
+                <div  class="desc-colors c666">#666</div>
+                <p class="">Text color Hex Code vales Detail Rating:</p>
+                <div  class="desc-colors cffa500">#ffa500</div>
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>'Segoe UI', Tahoma, Geneva, Verdana, sans-serif</span></li>
+              </ul>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: `Page should consist of an HTML image element in an HTML container element`,
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 7,
+              description:
+                "Page should consist of at least two HTML container sections that have HTML id attribute value with prefix section",
+              type: "html-validation",
+              input: "check-section-prefix",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    //Coding Test - 1
+    {
+      id: "Static-Coding-Test-1",
+      title: "Static Coding Test 1",
+      description:
+        "",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "91bcc4c6-0600-40bd-814f-a37b816187000",
+          title: "Introduction to HTML and CSS",
+          description:
+            "The goal of this coding exam is to quickly get you off the basic HTML and CSS concepts.",
+          difficulty: "Easy",
+          score: 85,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765544986/coding-test-1-1_dfm2uj.png" class="desc-que-img" />
+              
+            
+              <p class="desc-que-blue">Resources</p>
+                 
+              <p class="desc-que-blue">CSS Colors used:</p>
+             
+              <p class="">Text color Hex Code vales:</p>
+                <div  class="desc-colors lightblue">lightblue</div>
+                
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>Roboto</span></li>
+              </ul>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              visible: true,
+            },
+
+          ],
+        },
+        {
+          id: "91bcc4c6-0800-40bd-814f-a37b8161865dh00",
+          title: "CSS Backgrounds and Box Model Properties",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with CSS Background Images, Width, and Height properties.",
+          difficulty: "Easy",
+          score: 75,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765545828/coding-test-1-2_abm49e.png" class="desc-que-img" />
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                    <li>
+                      The three HTML image elements should have the width and height of 200px, 250px, and 300px respectively.
+                      </li>                
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
+              <p class="desc-que-blue">Resources</p>
+                 
+              <p class="">Use the image URLs given below.</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765546078/beach-1-img_rvam3o.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765546078/beach-1-img_rvam3o.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765546134/beach-2-img_gnredr.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765546134/beach-2-img_gnredr.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765546186/beach-3-img_xlpejj.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765546186/beach-3-img_xlpejj.png</a></p>
+             
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+          
+          {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 3,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of three HTML image elements with widths 200px, 250px, and 300px",
+              type: "css-validation",
+              input: "check-width",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description:
+                "Page should consist of three HTML image elements with heights 200px, 250px, and 300px",
+              type: "css-validation",
+              input: "check-height",
+              output: "true",
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "91bcc4c6-0df-8A-fgh0-40bd-814f-a37b815-8fg-6dah00",
+          title: "CSS Background Images and Units",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with CSS Background Images, Height, and vh unit.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765547404/coding-test-1-3_leulio.png" class="desc-que-img" />
+
+              <p class="desc-que-blue">Resources</p>
+                 
+              <p class="">Use the image URLs given below.</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765547592/scuba-diving-bg_pqbwcn.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765547592/scuba-diving-bg_pqbwcn.png</a></p>
+            
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+          
+          {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 3,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            
+          ],
+        },
+        {
+          id: "91b89c6-0dfAdfgs58-f040b-d814a3da3000",
+          title: "Viewport Width",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Viewport Width",
+          difficulty: "Easy",
+          score: 55,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765550141/coding-test-1-4_x7bz5h.png" class="desc-que-img" />
+
+              <p class="desc-que-blue">Resources</p>
+                 
+              <p class="">Use the image URLs given below.</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765547592/scuba-diving-bg_pqbwcn.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765547592/scuba-diving-bg_pqbwcn.png</a></p>
+             <p class="">Background color Hex Code values:</p>
+                <div  class="desc-colors c5cb85c">#5cb85c</div>
+                <div  class="desc-colors c5bc0de">#5bc0de</div>
+                <div  class="desc-colors cf0ad4e">#f0ad4e</div>
+                <div  class="desc-colors cd9534f">#d9534f</div>
+              <p class="">Text color Hex Code values:</p>
+                <div  class="desc-colors cffffff">#ffffff</div>
+                <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>Roboto</span></li>
+              </ul>
+             
+            </div>
+          `,
+
+          testCases: [
+          
+          {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+         {
+              id: 2,
+              description:
+                "Page should consist of three HTML image elements with widths.",
+              type: "css-validation",
+              input: "check-width",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "91basdc6-0dfAdsadgs58-f0sav5sdw8f240b-d814a3da3000",
+          title: "Viewport Height",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Viewport Height.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765551764/coding-test-1-5_bqijaa.png" class="desc-que-img" />
+
+              <p class="desc-que-blue">Resources</p>
+               <p class="">Background color Hex Code values:</p>
+                <div  class="desc-colors c5cb85c">#5cb85c</div>
+                <div  class="desc-colors c5bc0de">#5bc0de</div>
+                <div  class="desc-colors cf0ad4e">#f0ad4e</div>
+                <div  class="desc-colors cd9534f">#d9534f</div>
+              <p class="">Text color Hex Code values:</p>
+                <div  class="desc-colors cffffff">#ffffff</div>
+                <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>Roboto</span></li>
+              </ul>
+             
+            </div>
+          `,
+
+          testCases: [
+          
+          {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+         {
+              id: 2,
+              description:
+                "Page should consist of three HTML image elements with height.",
+              type: "css-validation",
+              input: "check-height",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "91badc6-0dfAd58-f0sdw8f240b-d81a3000",
+          title: "CSS Box Model Properties",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the CSS Box Model Properties.",
+          difficulty: "Easy",
+          score: 85,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765552306/coding-test-1-6_zpoqno.png" class="desc-que-img" />
+                 <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                    <li>
+                    The HTML <strong>button</strong> element in the leaf shape should consist of the class name <strong> leaf-button </strong>
+                    </li>                
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+               <p class="">CSS color Hex Code values:</p>
+                <div  class="desc-colors c007854">#007854</div>
+                <div  class="desc-colors cffd0b5">#ffd0b5</div>
+                <div  class="desc-colors c841003">#841003</div>
+                <div  class="desc-colors cfab8d9">#fab8d9</div>
+                <div  class="desc-colors c5c0b33">#5c0b33</div>
+                <div  class="desc-colors c0c6b58">#0c6b58</div>
+            </div>
+          `,
+          testCases: [
+          {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+         {
+              id: 2,
+              description:
+                "Page should consist of at least an HTML element with the CSS property color",
+              type: "css-validation",
+              input: "check-color",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+        //Coding Test - 2
+    {
+      id: "Static-Coding-Test-2",
+      title: "Static Coding Test 2",
+      description: "",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "91bcc4c6-0800040bd-814f-a37b8162007000",
+          title: "Flexbox Properties-1",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Flexbox Properties.",
+          difficulty: "Easy",
+          score: 75,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+    
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765559303/coding-test-2-1_sgisfa.png" class="desc-que-img" />
+              
+              <p class="desc-que-blue">Resources</p>
+                  
+              <p class="desc-que-blue">CSS Colors used:</p>
+            
+              <p class="">CSS color Hex Code values:</p>
+              <div class="desc-colors c6c757d">#6c757d</div>
+              <div class="desc-colors c343a40">#343a40</div>
+
+              <p class="">Text color Hex Code values:</p>
+              <div class="desc-colors c6c757d">#6c757d</div>
+             
+            </div>
+          `,
+    
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-row",
+              type: "html-validation",
+              input: "check-flex-row",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-center",
+              type: "html-validation",
+              input: "check-justify-content-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-end",
+              type: "html-validation",
+              input: "check-justify-content-end",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of elements with heights.",
+              type: "css-validation",
+              input: "check-height",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of at least an HTML element with the CSS property background-color",
+              type: "css-validation",
+              input: "check-background-color",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "91bcc4c6-0ssfv4b6sfb46-814f-00ass54df5sd200",
+          title: "Flexbox Properties-2",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Flexbox properties.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+        
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765560835/coding-test-2-2_eyfcrx.png" class="desc-que-img" />
+        
+              <p class="desc-que-blue">Instructions</p>
+              <p class="">Move the flex-items in the flexbox container to the bottom left of the Viewport.</p>
+        
+              <p class="desc-que-blue">Resources</p>
+        
+              <p class="desc-que-blue">CSS Colors used:</p>
+        
+              <p class="">CSS color Hex Code values:</p>
+              <div class="desc-colors cdff0d8">#dff0d8</div>
+              <div class="desc-colors ca78bfa">#a78bfa</div>
+              <div class="desc-colors c7b4ae1">#7b4ae1</div>
+            </div>
+          `,
+        
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+        
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-end",
+              type: "html-validation",
+              input: "check-justify-content-end",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of elements with heights.",
+              type: "css-validation",
+              input: "check-height",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of at least an HTML element with the CSS property background-color",
+              type: "css-validation",
+              input: "check-background-color",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "eth464s64dbcc4c6-0s6sfb46-814f-0043d5fb4e00",
+          title: "HTML Images",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with HTML Images.",
+          difficulty: "Easy",
+          score: 55,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+        
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765561856/coding-test-2-3_rwiulb.png" class="desc-que-img" />
+        
+              <p class="desc-que-blue">Instructions</p>
+              <p class="">Images width and height should be 200px.</p>
+        
+              <p class="desc-que-blue">Resources</p>
+        
+              <p class="desc-que-blue">Use the image URLs given below:</p>
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562152/lotus-temple-img_o1t2dz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562152/lotus-temple-img_o1t2dz.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562209/kerala-img_xrhspv.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562209/kerala-img_xrhspv.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562266/coimbatore-img_un1xdm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562266/coimbatore-img_un1xdm.png</a></p> 
+                      <p class="desc-que-blue">CSS Font families used:</p>
+                      <ul>
+                        <li><span>Roboto</span></li>
+                      </ul>
+            </div>
+          `,
+        
+          testCases: [
+                 {
+                  id: 1,
+                  description:
+                    "Page should consist of an HTML main heading element in an HTML container element",
+                  type: "html-validation",
+                  input: "check-heading-container",
+                  output: "true",
+                  visible: true,
+                },
+                 {
+                      id: 2,
+                      description: `Page should consist of an HTML image element in an HTML container element`,
+                      type: "html-validation",
+                      input: "check-image-container",
+                      output: "true",
+                      visible: true,
+                    },
+                     {
+                      id: 3,
+                      description:
+                        "Page should consist of elements with widths.",
+                      type: "css-validation",
+                      input: "check-width",
+                      output: "true",
+                      visible: true,
+                    },
+        
+                    {
+                      id: 4,
+                      description:
+                        "Page should consist of elements with heights.",
+                      type: "css-validation",
+                      input: "check-height",
+                      output: "true",
+                      visible: true,
+                    }
+          ],
+        },
+        {
+          id: "edsds554dbcc4c6-0fds412fsegf6-dsv55fb4e00",
+          title: "CSS Box Property - Margin",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with CSS Box Property - Margin.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+        
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765562874/coding-test-2-4_qwckqt.png" class="desc-que-img" />
+        
+              <p class="desc-que-blue">Resources</p>
+        
+              <p class="desc-que-blue">CSS Colors used:</p>
+                      <p class="">Background color Hex Code values:</p>
+                        <div  class="desc-colors c6c757d">#6c757d</div>
+                        <div  class="desc-colors c343a40">#343a40</div>
+                      <p class="">Text color Hex Code values:</p>
+                        <div  class="desc-colors cffffff">#ffffff</div>
+                      <p class="">Border color Hex Code values:</p>
+                        <div  class="desc-colors c000000">#000000</div>
+                      <p class="desc-que-blue">CSS Font families used:</p>
+                      <ul>
+                        <li><span>Roboto</span></li>
+                      </ul>
+            </div>
+          `,
+        
+          testCases: [
+                 {
+                  id: 1,
+                  description:
+                    "Page should consist of an HTML main heading element in an HTML container element",
+                  type: "html-validation",
+                  input: "check-heading-container",
+                  output: "true",
+                  visible: true,
+                },
+                 
+                     {
+                      id: 2,
+                      description:
+                        "Page should consist of widths.",
+                      type: "css-validation",
+                      input: "check-width",
+                      output: "true",
+                      visible: true,
+                    },
+        
+                    {
+                      id: 3,
+                      description:
+                        "Page should consist of heights.",
+                      type: "css-validation",
+                      input: "check-height",
+                      output: "true",
+                      visible: true,
+                    },
+                    {
+                      id: 4,
+                      description: `Page should consist of "margin-left"`,
+                      type: "css-validation",
+                      input: "check-margin-left",
+                      output: "true",
+                      visible: true,
+                    },
+                    {
+                      id: 5,
+                      description: `Page should consist of "margin-right"`,
+                      type: "css-validation",
+                      input: "check-margin-right",
+                      output: "true",
+                      visible: true,
+                    },
+                     {
+                      id: 6,
+                      description: `Page should consist of "margin"`,
+                      type: "css-validation",
+                      input: "check-margin",
+                      output: "true",
+                      visible: true,
+                    },
+          ],
+        },
+        {
+          id: "s5dsvsvn8dfebcc4c6-0fds412fsegf6-dsv55fb4e00",
+          title: "Bootstrap Carousels",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Bootstrap Carousels.",
+          difficulty: "Easy",
+          score: 35,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+        
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765565777/coding-test-2-5_hwyb48.gif" class="desc-que-img" />
+        
+              <p class="desc-que-blue">Instructions</p>
+              <p class="">The carousel HTML container should have the id <strong>carouselExampleIndicators</strong> and class names <strong>carousel</strong>, <strong>slide</strong></p>
+               <div class="Note-container">
+                        <div class="icon-note">
+                          <h6>
+                            <i class="bi bi-journal-text"></i>Note
+                          </h6>
+                        </div>
+                        <p>
+                          <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                            <li>
+                            Bootstrap documentation can be used to get Bootstrap Carousel code.
+                            </li>
+                           
+                          </ul>
+                        </p>
+                      </div>
+                         <p class="desc-que-blue">Resources</p>
+                         <p class="desc-que-blue">Use the Image URLs given below.</p>
+                        <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765566194/bootstrap-carousels-football-img_plnukq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765566194/bootstrap-carousels-football-img_plnukq.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765566373/bootstrap-carousels-cricket-img_volaij.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765566373/bootstrap-carousels-cricket-img_volaij.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765566417/bootstrap-carousels-tennis-img_fqgall.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765566417/bootstrap-carousels-tennis-img_fqgall.png</a></p>            
+                   
+                      <p class="desc-que-blue">CSS Font families used:</p>
+                      <ul>
+                        <li><span>Roboto</span></li>
+                      </ul>
+            </div>
+          `,
+        
+          testCases: [
+                 {
+                  id: 1,
+                  description:
+                    "Page should consist of an HTML main heading element in an HTML container element",
+                  type: "html-validation",
+                  input: "check-heading-container",
+                  output: "true",
+                  visible: true,
+                },
+        
+          ],
+        }
+        
+      ],
+    }    
   ],
 };

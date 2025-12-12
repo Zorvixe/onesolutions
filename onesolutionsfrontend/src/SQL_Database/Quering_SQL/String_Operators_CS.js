@@ -29,13 +29,13 @@ const String_Operators_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>
-          The database contains a <b>product</b> table that stores the data of
-          products like <b>name</b>, <b>category</b>, <b>price</b>, <b>brand</b>{" "}
-          and <b>rating</b>.
+          The database contains a <code>product</code> table that stores the
+          data of products like <b>name</b>, <b>category</b>, <b>price</b>,{" "}
+          <b>brand</b> and <b>rating</b>.
         </p>
         <p>
-          You can check the schema and data of <b>product</b> table in the code
-          playground.
+          You can check the schema and data of <code>product</code> table in the
+          code playground.
         </p>
       </section>
 
@@ -43,12 +43,12 @@ const String_Operators_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>LIKE Operator</h2>
         <p>
-          <b>LIKE</b> operator is used to perform queries on strings. This
-          operator is especially used in <b>WHERE</b> clause to retrieve all the
-          rows that match the given pattern.
+          <code>LIKE</code> operator is used to perform queries on strings. This
+          operator is especially used in <code>WHERE</code> clause to retrieve
+          all the rows that match the given pattern.
         </p>
         <p>
-          We write <b>patterns</b> using the following <b>wildcard</b>{" "}
+          We write <code>patterns</code> using the following <b>wildcard</b>{" "}
           characters:
         </p>
 
@@ -143,10 +143,9 @@ WHERE
       <section>
         <h2>Examples</h2>
 
-        <h3>Example 1</h3>
         <p>
-          Get all the products in the "Gadgets" category from the <b>product</b>{" "}
-          table.
+          1. Get all the products in the "Gadgets" category from the{" "}
+          <code>product</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -197,10 +196,9 @@ WHERE  category LIKE "Gadgets";`}
           </tbody>
         </table>
 
-        <h3>Example 2</h3>
         <p>
-          Get all the products whose <b>name</b> starts with "Bourbon" from the{" "}
-          <b>product</b> table.
+          2. Get all the products whose <b>name</b> starts with "Bourbon" from
+          the <code>product</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -249,10 +247,9 @@ WHERE  name LIKE "Bourbon%";`}
           </tbody>
         </table>
 
-        <h3>Example 3</h3>
         <p>
-          Get all smart electronic products i.e., name contains "Smart" from the{" "}
-          <b>product</b> table.
+          3. Get all smart electronic products i.e., <b>name</b> contains
+          "Smart" from the <code>product</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -308,10 +305,9 @@ WHERE  name LIKE "%Smart%";`}
           </tbody>
         </table>
 
-        <h3>Example 4</h3>
         <p>
-          Get all the products which have exactly 5 characters in <b>brand</b>{" "}
-          from the product table.
+          4. Get all the products which have exactly 5 characters in{" "}
+          <b>brand</b> from the <code>product</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -365,15 +361,19 @@ WHERE  brand LIKE "_____";`}
 
       {/* 7. Note */}
       <section>
-        <h2>Note</h2>
-        <p>
-          The percent sign (<b>%</b>) is used when we are not sure of the number
-          of characters present in the string.
-        </p>
-        <p>
-          If we know the exact length of the string, then the wildcard character{" "}
-          <b>underscore (_)</b> comes in handy.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The percent sign<b>(%)</b> is used when we are not sure of the
+            number of characters present in the string. If we know the exact
+            length of the string, then the wildcard character underscore
+            <b>(_)</b> comes in handy.
+          </p>
+        </div>
       </section>
 
       {/* 8. Try it Yourself */}
@@ -385,11 +385,21 @@ WHERE  brand LIKE "_____";`}
         </p>
         <p>Write a query for each of the below patterns.</p>
         <ul>
-          <li>category is exactly "Food".</li>
-          <li>name containing "Cake".</li>
-          <li>name ends with "T-Shirt".</li>
-          <li>name contains "Chips".</li>
-          <li>category contains exactly 4 characters.</li>
+          <li>
+            <code>category</code> is exactly "Food".
+          </li>
+          <li>
+            <code>name</code> containing "Cake".
+          </li>
+          <li>
+            <code>name</code> ends with "T-Shirt".
+          </li>
+          <li>
+            <code>name</code> contains "Chips".
+          </li>
+          <li>
+            <code>category</code> contains exactly 4 characters.
+          </li>
         </ul>
       </section>
 
