@@ -116,8 +116,8 @@ export default function SavedSnippets() {
   };
 
   const handleLoadSnippet = (snippet) => {
-    // Navigate to CodePlayground with snippet slug in URL
-    navigate(`/codeGround/${snippet.slug}`, {
+    // Navigate to CodePlayground with snippet data
+    navigate("/codeGround", {
       state: {
         loadSnippet: true,
         snippetData: {

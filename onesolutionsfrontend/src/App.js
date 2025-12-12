@@ -82,25 +82,26 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/saved-snippets" element={<SavedSnippets />} />
+
               <Route path="/practice" element={<Practice />} />
               <Route path="/practice/:practiceId" element={<Practice />} />
               <Route
                 path="/practice/:practiceId/:questionId"
                 element={<Practice />}
               />
+
               <Route
                 path="/web-practice/:practiceId/:questionId"
                 element={<WebPractice />}
               />
+
               <Route path="/placements" element={<Placements />} />
+
               <Route
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
-              <Route path="/codeGround" element={<CodeGround />} />{" "}
-              {/* Create new */}
-              <Route path="/codeGround/:slug" element={<CodeGround />} />{" "}
-              {/* Edit existing */}
+              <Route path="/codeGround" element={<CodeGround />} />
               <Route path="/thread/:threadId" element={<ThreadDetail />} />
               <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>

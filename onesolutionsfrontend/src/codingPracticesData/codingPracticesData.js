@@ -5464,6 +5464,46 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-Assignment-6-005",
+          title: "Denominations - - 25",
+          difficulty: "Hard",
+          description:
+            "Write a program that reads an amount A and prints the minimum number of 2000,500,200,50,20,5,2 and 1 rupee notes required for the given amount.",
+          sampleInput: "2257",
+          sampleOutput: "2000:1 500:0 200:1 50:1 20:0 5:1 2:1 1:0",
+          testCases: [
+            {
+              input: "4000",
+              output: "2000:2 500:0 200:0 50:0 20:0 5:0 2:0 1:0",
+              visible: true,
+            },
+            {
+              input: "3000",
+              output: "2000:1 500:2 200:0 50:0 20:0 5:0 2:0 1:0",
+              visible: true,
+            },
+            {
+              input: "3000",
+              output: "2000:1 500:2 200:0 50:0 20:0 5:0 2:0 1:0",
+              visible: false,
+            },
+            {
+              input: "2500",
+              output: "2000:1 500:1 200:0 50:0 20:0 5:0 2:0 1:0",
+              visible: false,
+            },
+            {
+              input: "1000",
+              output: "2000:0 500:2 200:0 50:0 20:0 5:0 2:0 1:0",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
     },
   ],

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom"; // Added useParams
+import { useNavigate, useLocation } from "react-router-dom";
 
 import AceEditor from "react-ace";
 // Import Ace modes & themes
@@ -23,10 +23,6 @@ import initSqlJs from "sql.js";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
-// UUID validation regex
-const UUID_REGEX =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 export default function CodePlayground({
   initialLanguage = "web",
   initialCode,
@@ -36,7 +32,6 @@ export default function CodePlayground({
   customRunHandler = null,
   runButtonText = "Run Code",
 }) {
-  const { slug } = useParams(); // Get slug from URL
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -46,28 +41,11 @@ export default function CodePlayground({
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
   const [showSnippetsModal, setShowSnippetsModal] = useState(false);
-  const [loading, setLoading] = useState(false); // Added loading state
-  const [snippetData, setSnippetData] = useState(null); // Added snippetData state
 
   // Add these states for update functionality
   const [currentSnippetId, setCurrentSnippetId] = useState(null);
   const [originalSnippetName, setOriginalSnippetName] = useState("");
   const [originalCode, setOriginalCode] = useState({});
-
-  // Add this state for form data
-  const [formData, setFormData] = useState({
-    snippetName: "",
-    language: "web",
-    htmlCode: "",
-    cssCode: "",
-    javascriptCode: "",
-    pythonCode: "",
-    javaCode: "",
-    sqlCode: "",
-    isPublic: false,
-    tags: [],
-    description: "",
-  });
 
   // ADD THESE 2 LINES after your existing useRef declarations:
   const internalIframeRef = useRef(null);
@@ -164,89 +142,6 @@ export default function CodePlayground({
 </html>`;
   }, [code.html, code.css, code.javascript]);
 
-  // Load snippet by slug when component mounts or slug changes
-  useEffect(() => {
-    const loadSnippet = async () => {
-      if (slug) {
-        setLoading(true);
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            navigate("/login");
-            return;
-          }
-
-          // First try as UUID slug
-          let response;
-          if (UUID_REGEX.test(slug)) {
-            // Try as UUID slug
-            response = await fetch(
-              `${API_URL}/api/code-snippets/slug/${slug}`,
-              {
-                headers: { Authorization: `Bearer ${token}` },
-              }
-            );
-          } else {
-            // Try as numeric ID (for backward compatibility)
-            response = await fetch(`${API_URL}/api/code-snippets/${slug}`, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-          }
-
-          const result = await response.json();
-
-          if (result.success) {
-            const snippet = result.data.snippet;
-            setSnippetData(snippet);
-
-            // Set snippet info
-            setCurrentSnippetId(snippet.id);
-            setSnippetName(snippet.snippet_name);
-            setOriginalSnippetName(snippet.snippet_name);
-
-            // Set language
-            setLanguage(snippet.language);
-
-            // Set code based on snippet data
-            const newCode = { ...defaultCode };
-
-            if (snippet.language === "web") {
-              newCode.html = snippet.html_code || "";
-              newCode.css = snippet.css_code || "";
-              newCode.javascript = snippet.javascript_code || "";
-            } else if (snippet.language === "javascript_standalone") {
-              newCode.javascript_standalone = snippet.javascript_code || "";
-            } else if (snippet.language === "python") {
-              newCode.python = snippet.python_code || "";
-            } else if (snippet.language === "java") {
-              newCode.java = snippet.java_code || "";
-            } else if (snippet.language === "sql") {
-              newCode.sql = snippet.sql_code || "";
-            }
-
-            setCode(newCode);
-            setOriginalCode({ ...newCode });
-
-            // If we loaded by ID but snippet has a slug, update URL
-            if (!UUID_REGEX.test(slug) && snippet.slug) {
-              navigate(`/codeGround/${snippet.slug}`, { replace: true });
-            }
-          } else {
-            console.error("Failed to load snippet:", result.message);
-            navigate("/saved-snippets");
-          }
-        } catch (error) {
-          console.error("Error loading snippet:", error);
-          navigate("/saved-snippets");
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadSnippet();
-  }, [slug, navigate]);
-
   // ADD THIS useEffect to load snippets from navigation state
   useEffect(() => {
     const loadSnippetFromState = () => {
@@ -290,7 +185,7 @@ export default function CodePlayground({
     };
 
     loadSnippetFromState();
-  }, [location.state, navigate, location.pathname, defaultCode]);
+  }, [location.state, navigate, location.pathname]);
 
   // Check if snippet has been modified
   const isSnippetModified = useMemo(() => {
@@ -435,13 +330,6 @@ export default function CodePlayground({
           setCurrentSnippetId(result.data.snippet.id);
           setOriginalSnippetName(snippetData.snippetName);
           setOriginalCode({ ...code });
-
-          // If new snippet was created with a slug, update URL
-          if (result.data.snippet?.slug) {
-            navigate(`/codeGround/${result.data.snippet.slug}`, {
-              replace: true,
-            });
-          }
         }
         // Refresh snippets list
         fetchMySnippets();
@@ -1122,7 +1010,6 @@ remoteRunners={{
   }, []);
 
   // Update the fetchMySnippets function
-  // Update the fetchMySnippets function
   const fetchMySnippets = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -1142,16 +1029,6 @@ remoteRunners={{
       console.error("Fetch snippets error:", error);
     }
   };
-
-  // Loading state UI
-  if (loading && slug) {
-    return (
-      <div className="codeground-loading">
-        <div className="spinner"></div>
-        <p>Loading snippet...</p>
-      </div>
-    );
-  }
 
   return (
     <section className="code-playground-codep">
