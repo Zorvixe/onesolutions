@@ -10,6 +10,8 @@ export default function SavedSnippets() {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all"); // all, published, draft
   const [languageFilter, setLanguageFilter] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [snippetsPerPage] = useState(6);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,6 +70,14 @@ export default function SavedSnippets() {
       if (result.success) {
         alert("Snippet deleted successfully!");
         fetchMySnippets(); // Refresh the list
+        // Reset to page 1 if current page becomes empty
+        const filtered = getFilteredSnippets();
+        const totalPages = Math.ceil(filtered.length / snippetsPerPage);
+        if (currentPage > totalPages && totalPages > 0) {
+          setCurrentPage(totalPages);
+        } else if (totalPages === 0) {
+          setCurrentPage(1);
+        }
       } else {
         alert(`Failed to delete: ${result.message}`);
       }
@@ -106,8 +116,8 @@ export default function SavedSnippets() {
   };
 
   const handleLoadSnippet = (snippet) => {
-    // Navigate to CodePlayground with snippet data
-    navigate("/codeGround", {
+    // Navigate to CodePlayground with snippet slug in URL
+    navigate(`/codeGround/${snippet.slug}`, {
       state: {
         loadSnippet: true,
         snippetData: {
@@ -188,11 +198,39 @@ export default function SavedSnippets() {
     });
   };
 
+  // Calculate pagination
+  const filteredSnippets = getFilteredSnippets();
+  const indexOfLastSnippet = currentPage * snippetsPerPage;
+  const indexOfFirstSnippet = indexOfLastSnippet - snippetsPerPage;
+  const currentSnippets = filteredSnippets.slice(
+    indexOfFirstSnippet,
+    indexOfLastSnippet
+  );
+  const totalPages = Math.ceil(filteredSnippets.length / snippetsPerPage);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const goToPrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter, languageFilter]);
+
   if (loading) {
     return (
       <div className="snippets-loading-container">
         <div className="loading-spinner"></div>
-        <p>Loading your snippets...</p>
+        <p>Loading snippets...</p>
       </div>
     );
   }
@@ -210,8 +248,6 @@ export default function SavedSnippets() {
     );
   }
 
-  const filteredSnippets = getFilteredSnippets();
-
   return (
     <div className="saved-snippets-container">
       <div className="filters-container">
@@ -223,12 +259,6 @@ export default function SavedSnippets() {
               onClick={() => setFilter("all")}
             >
               All
-            </button>
-            <button
-              className={`filter-btn ${filter === "published" ? "active" : ""}`}
-              onClick={() => setFilter("published")}
-            >
-              Published
             </button>
             <button
               className={`filter-btn ${filter === "draft" ? "active" : ""}`}
@@ -262,7 +292,7 @@ export default function SavedSnippets() {
         </button>
       </div>
 
-      {filteredSnippets.length === 0 ? (
+      {currentSnippets.length === 0 ? (
         <div className="empty-snippets-state">
           <div className="empty-icon">📁</div>
           <h3>No snippets found</h3>
@@ -279,112 +309,141 @@ export default function SavedSnippets() {
           </button>
         </div>
       ) : (
-        <div className="snippets-grid">
-          {filteredSnippets.map((snippet) => (
-            <div key={snippet.id} className="snippet-card">
-              <div className="snippet-card-header">
-                <div className="snippet-language-badge">
-                  <span className="language-icon">
-                    {getLanguageIcon(snippet.language)}
-                  </span>
-                  <span className="language-name">
-                    {snippet.language === "javascript_standalone"
-                      ? "JavaScript"
-                      : snippet.language.toUpperCase()}
-                  </span>
-                </div>
-                <div className="snippet-status">
-                  {snippet.is_published ? (
-                    <span className="status-published">
-                      <span className="status-dot"></span>
-                      Published
+        <>
+          <div className="snippets-grid">
+            {currentSnippets.map((snippet) => (
+              <div key={snippet.id} className="snippet-card">
+                <div className="snippet-card-header">
+                  <div className="snippet-language-badge">
+                    <span className="language-icon">
+                      {getLanguageIcon(snippet.language)}
                     </span>
-                  ) : (
+                    <span className="language-name">
+                      {snippet.language === "javascript_standalone"
+                        ? "JavaScript"
+                        : snippet.language.toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="snippet-status">
                     <span className="status-draft">
                       <span className="status-dot"></span>
                       Draft
                     </span>
-                  )}
+                  </div>
                 </div>
-              </div>
 
-              <div className="snippet-card-body">
-                <h3 className="snippet-title">{snippet.snippet_name}</h3>
+                <div className="snippet-card-body">
+                  <h3 className="snippet-title">{snippet.snippet_name}</h3>
 
-                {snippet.description && (
-                  <p className="snippet-description">
-                    {snippet.description.length > 100
-                      ? `${snippet.description.substring(0, 100)}...`
-                      : snippet.description}
-                  </p>
-                )}
+                  {snippet.description && (
+                    <p className="snippet-description">
+                      {snippet.description.length > 100
+                        ? `${snippet.description.substring(0, 100)}...`
+                        : snippet.description}
+                    </p>
+                  )}
 
-                <div className="snippet-meta">
-                  <div className="meta-item">
-                    <span className="meta-label">Created:</span>
-                    <span className="meta-value">
-                      {formatDate(snippet.created_at)}
-                    </span>
-                  </div>
-
-                  <div className="meta-item">
-                    <span className="meta-label">Updated:</span>
-                    <span className="meta-value">
-                      {formatDate(snippet.updated_at)}
-                    </span>
-                  </div>
-
-                  {snippet.tags && snippet.tags.length > 0 && (
-                    <div className="snippet-tags">
-                      {snippet.tags.slice(0, 3).map((tag, idx) => (
-                        <span key={idx} className="tag">
-                          {tag}
-                        </span>
-                      ))}
-                      {snippet.tags.length > 3 && (
-                        <span className="tag-more">
-                          +{snippet.tags.length - 3}
-                        </span>
-                      )}
+                  <div className="snippet-meta">
+                    <div className="meta-item">
+                      <span className="meta-label">Created:</span>
+                      <span className="meta-value">
+                        {formatDate(snippet.created_at)}
+                      </span>
                     </div>
-                  )}
+
+                    <div className="meta-item">
+                      <span className="meta-label">Updated:</span>
+                      <span className="meta-value">
+                        {formatDate(snippet.updated_at)}
+                      </span>
+                    </div>
+
+                    {snippet.tags && snippet.tags.length > 0 && (
+                      <div className="snippet-tags">
+                        {snippet.tags.slice(0, 3).map((tag, idx) => (
+                          <span key={idx} className="tag">
+                            {tag}
+                          </span>
+                        ))}
+                        {snippet.tags.length > 3 && (
+                          <span className="tag-more">
+                            +{snippet.tags.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="snippet-card-actions">
+                  <button
+                    className="btn-action btn-load"
+                    onClick={() => handleLoadSnippet(snippet)}
+                    title="Load in Code Playground"
+                  >
+                    <span className="action-icon"></span>
+                    Open
+                  </button>
+
+                  <button
+                    className="btn-action btn-delete"
+                    onClick={() =>
+                      handleDeleteSnippet(snippet.id, snippet.snippet_name)
+                    }
+                    title="Delete snippet"
+                  >
+                    <span className="action-icon"></span>
+                    Delete
+                  </button>
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="snippet-card-actions">
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="pagination-container">
+              <div className="pagination-info">
+                Showing {indexOfFirstSnippet + 1} to{" "}
+                {Math.min(indexOfLastSnippet, filteredSnippets.length)} of{" "}
+                {filteredSnippets.length} snippets
+              </div>
+              <div className="pagination-controls">
                 <button
-                  className="btn-action btn-load"
-                  onClick={() => handleLoadSnippet(snippet)}
-                  title="Load in Code Playground"
+                  className="pagination-btn prev-btn"
+                  onClick={goToPrevPage}
+                  disabled={currentPage === 1}
                 >
-                  <span className="action-icon"></span>
-                  Open
+                  Previous
                 </button>
 
-                <button
-                  className="btn-action btn-publish"
-                  onClick={() =>
-                    handlePublishToggle(snippet.id, snippet.is_published)
-                  }
-                  title={snippet.is_published ? "Unpublish" : "Publish"}
-                >
-                  {snippet.is_published ? "Unpublish" : "Publish"}
-                </button>
+                <div className="page-numbers">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (number) => (
+                      <button
+                        key={number}
+                        className={`page-number ${
+                          currentPage === number ? "active" : ""
+                        }`}
+                        onClick={() => paginate(number)}
+                      >
+                        {number}
+                      </button>
+                    )
+                  )}
+                </div>
 
                 <button
-                  className="btn-action btn-delete"
-                  onClick={() =>
-                    handleDeleteSnippet(snippet.id, snippet.snippet_name)
-                  }
-                  title="Delete snippet"
+                  className="pagination-btn next-btn"
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
                 >
-                  <span className="action-icon"></span>
-                  Delete
+                  Next
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
       <div className="snippets-footer">

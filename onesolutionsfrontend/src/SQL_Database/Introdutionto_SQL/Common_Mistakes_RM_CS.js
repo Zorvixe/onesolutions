@@ -309,9 +309,10 @@ address VARCHAR(255)
 
         <p>
           This error message indicates that in the code, we are creating a table
-          named COLLEGE with columns name, reg_no, and address, but an error
-          occurred because there is a table with the same name in the database,
-          resulting in table already exists error.
+          named <b>COLLEGE</b> with columns <code>name</code>,{" "}
+          <code>reg_no</code>, and <code>address</code>, but an error occurred
+          because there is a table with the same name in the database, resulting
+          in table already exists error.
         </p>
 
         <h4>Solution:</h4>
@@ -373,16 +374,16 @@ VALUES
 
         <p>
           This error message indicates that in the code, we are attempting to
-          insert values into a table named PLAYERS, but the table likely doesn't
-          exist, resulting in no such table error.
+          insert values into a table named <code>PLAYERS</code>, but the table
+          likely doesn't exist, resulting in no such table error.
         </p>
 
         <h4>Solution:</h4>
         <p>
-          To resolve this error, we need to verify that the table PLAYERS exists
-          in the database. If it doesn't, you need to create it before executing
-          the INSERT INTO statement. Also, ensure that the table name is spelled
-          correctly.
+          To resolve this error, we need to verify that the table <b>PLAYERS</b>{" "}
+          exists in the database. If it doesn't, you need to create it before
+          executing the <b>INSERT INTO</b>statement. Also, ensure that the table
+          name is spelled correctly.
         </p>
 
         <h2>4. Row value misused</h2>
@@ -408,16 +409,17 @@ name = "Raju";`}
 
         <p>
           This error message indicates that in the code, we are trying to
-          retrieve the columns (employee_id, salary) from the Employee table
-          where the name is "Raju". However, the syntax is incorrect for
-          selecting specific columns as we have used parentheses ( after the
-          SELECT statement, resulting in row value misused error.
+          retrieve the columns <code>(employee_id, salary)</code> from the
+          Employee table where the name is "Raju". However, the syntax is
+          incorrect for selecting specific columns as we have used parentheses{" "}
+          <code>(</code> after the <b>SELECT</b> statement, resulting in row
+          value misused error.
         </p>
 
         <h4>Solution:</h4>
         <p>
-          We have to remove the unnecessary parentheses after the SELECT clause.
-          Below is the corrected SQL query.
+          We have to remove the unnecessary parentheses after the <b>SELECT</b>{" "}
+          clause. Below is the corrected SQL query.
         </p>
         <CodeBlock
           language="sql"
@@ -452,10 +454,10 @@ COLUMN height; -- Error`}
 
         <p>
           This error message indicates that in the code, we are adding a new
-          column named height to the existing PLAYER table. However, a column
-          with the same name already exists, a conflict arises, and the ALTER
-          TABLE operation cannot proceed, resulting in duplicate column name
-          error.
+          column named <code>height</code> to the existing <b>PLAYER</b> table.
+          However, a column with the same name already exists, a conflict
+          arises, and the <code>ALTER TABLE</code> operation cannot proceed,
+          resulting in duplicate column name error.
         </p>
 
         <h4>Solution:</h4>
@@ -479,10 +481,12 @@ PLAYER
 ADD
 COLUMN height;`}
         />
-        <p>
-          <strong>Note:</strong> Dropping the column from the table will result
-          in loss of data.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>Note</h6>
+          </div>
+          <p>Dropping the column from the table will result in loss of data.</p>
+        </div>
 
         <ul>
           <li>
@@ -526,7 +530,7 @@ VALUES
         <p>
           To resolve this error, ensure that the number of values matches the
           number of columns and that the data types are correct. In this case,
-          we are adding Shirt for the name column.
+          we are adding <code>Shirt</code> for the <b>name</b> column.
         </p>
         <CodeBlock
           language="sql"

@@ -17,7 +17,8 @@ const Inserting_Row_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>1. INSERT Clause</h2>
         <p>
-          The <b>INSERT</b> clause is used to insert new rows into a table.
+          The <code>INSERT</code> clause is used to insert new rows into a
+          table.
         </p>
       </section>
 
@@ -34,8 +35,8 @@ VALUES (value11, value12, ..., value1N),
        ...;`}
         />
         <p>
-          You can insert any number of rows (from 1 to n) into a table using the
-          above syntax.
+          Any number of rows from 1 to n can be inserted into a specified table
+          using the above syntax.
         </p>
       </section>
 
@@ -49,11 +50,11 @@ VALUES (value11, value12, ..., value1N),
         </p>
         <ul>
           <li>
-            <b>player</b> table stores: <i>name</i>, <i>age</i>, and{" "}
+            <code>player</code> table stores: <i>name</i>, <i>age</i>, and{" "}
             <i>score</i> of players.
           </li>
           <li>
-            <b>match_details</b> table stores: <i>team_name</i>,{" "}
+            <code>match_details</code> table stores: <i>team_name</i>,{" "}
             <i>played_with</i>, <i>venue</i>, <i>date</i>, and <i>is_won</i>.
           </li>
         </ul>
@@ -63,8 +64,8 @@ VALUES (value11, value12, ..., value1N),
       <section>
         <h3> Example: Inserting Players</h3>
         <p>
-          Insert <i>name</i>, <i>age</i>, and <i>score</i> of 2 players into the{" "}
-          <code>player</code> table.
+          1. Insert <code>name</code>, <code>age</code>, and <code>score</code>{" "}
+          of 2 players into the <code>player</code> table.
         </p>
         <CodeBlock
           language="sql"
@@ -80,42 +81,40 @@ VALUES ("Rakesh", 39, 35),
 
       {/* 5. Viewing the inserted data */}
       <section>
-        <h2>2. Viewing Inserted Data</h2>
-        <p>
-          Retrieve the inserted data using the <b>SELECT</b> statement.
-        </p>
+        <b>Let's view the added data!</b>
+        <p>We can retrieve the inserted data by using the following command.</p>
         <CodeBlock language="sql" code={`SELECT * FROM player;`} />
+        <p>We shall know more about retrieving data in further cheat sheets.</p>
         <p>
-          We will learn more about retrieving data in upcoming cheat sheets.
+          2. Similarly, let's insert the details of 2 matches in the
+          match_details table.
         </p>
-      </section>
-
-      {/* 6. Example 2: Inserting match details */}
-      <section>
-        <h3> Example: Inserting Match Details</h3>
         <CodeBlock
           language="sql"
           code={`INSERT INTO match_details (team_name, played_with, venue, date, is_won)
 VALUES ("CSK", "MI", "Chennai", "2020-04-21", true),
        ("SRH", "RR", "Hyderabad", "2020-04-23", true);`}
         />
-      </section>
-
-      {/* 7. Notes */}
-      <section>
-        <h2>Notes</h2>
-        <ul>
-          <li>
-            Boolean values can be written as <b>TRUE</b> or <b>FALSE</b>, or{" "}
-            <b>1</b> or <b>0</b>. In databases, they are stored as 1 or 0.
-          </li>
-          <li>
-            <b>Date</b> format: <code>'YYYY-MM-DD'</code>
-          </li>
-          <li>
-            <b>Datetime</b> format: <code>'YYYY-MM-DD HH:MM:SS'</code>
-          </li>
-        </ul>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+            <li>
+              Boolean values can be either given as <b>(TRUE or FALSE)</b> or{" "}
+              <b>(1 or 0)</b>. But in the database, the values are stored as 1
+              or 0.
+            </li>
+            <li>
+              Date object is represented as: <b>‘YYYY-MM-DD’</b>
+            </li>
+            <li>
+              Datetime object is represented as: <b>‘YYYY-MM-DD HH:MM:SS’</b>
+            </li>
+          </ul>
+        </div>
       </section>
 
       {/* 8. Possible Mistakes */}
@@ -123,49 +122,70 @@ VALUES ("CSK", "MI", "Chennai", "2020-04-21", true),
         <h2>Possible Mistakes</h2>
 
         <p>
-          <b>Mistake 1:</b> Mismatch in column and value count
+          <b>Mistake 1:</b> The number of values that we're inserting must match
+          with the number of column names that are specified in the query.
         </p>
         <CodeBlock
           language="sql"
           code={`INSERT INTO player (name, age, score)
 VALUES ("Virat", 31);`}
         />
-        <p>Error: 2 values for 3 columns</p>
+
+        <div className="Error-message">
+          <p>Error: 2 values for 3 columns</p>
+        </div>
 
         <p>
-          <b>Mistake 2:</b> Inserting into a non-existing table
+          <b>Mistake 2:</b> We have to specify only the existing tables in the
+          database.
         </p>
         <CodeBlock
           language="sql"
           code={`INSERT INTO players_information (name, age, score)
 VALUES ("Virat", 31, 30);`}
         />
-        <p>Error: no such table: players_information</p>
 
-        <hp>
-          <b>Mistake 3:</b> Extra parentheses after VALUES
-        </hp>
+        <div className="Error-message">
+          <p>Error: no such table: players_information</p>
+        </div>
+        <p>
+          <b>Mistake 3:</b> Do not add additional parenthesis <code>()</code>{" "}
+          post <code>VALUES</code> keyword in the code.
+        </p>
         <CodeBlock
           language="sql"
           code={`INSERT INTO player (name, age, score)
 VALUES (("Rakesh", 39, 35), ("Sai", 47, 30));`}
         />
-        <p>
-          Error: <b>2 values for 3 columns</b>
-        </p>
+
+        <div className="Error-message">
+          <p>
+            Error: <b>2 values for 3 columns</b>
+          </p>
+        </div>
 
         <p>
-          <b>Mistake 4:</b> Mismatched data types
+          <b>Mistake 4:</b> While inserting data, be careful with the datatypes
+          of the input values. Input value datatype should be same as the column
+          datatype.
         </p>
         <CodeBlock
           language="sql"
           code={`INSERT INTO player (name, age, score)
 VALUES ("Virat", 31, "Hundred");`}
         />
-        <p>
-          <b>Warning:</b> SQLite does not raise an error if datatypes do not
-          match.
-        </p>
+
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            If the datatype of the input value doesn't match with the datatype
+            of column, <b>SQLite</b> doesn't raise an error.
+          </p>
+        </div>
       </section>
 
       {/* 9. Try it Yourself */}

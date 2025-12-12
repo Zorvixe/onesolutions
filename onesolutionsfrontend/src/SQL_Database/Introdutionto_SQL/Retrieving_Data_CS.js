@@ -17,7 +17,7 @@ const Retrieving_Data_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>1. SELECT Clause</h2>
         <p>
-          The <b>SELECT</b> clause is used to retrieve data from a table.
+          The <code>SELECT</code> clause is used to retrieve data from a table.
         </p>
       </section>
 

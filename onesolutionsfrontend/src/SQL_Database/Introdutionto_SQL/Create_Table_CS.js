@@ -98,12 +98,21 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
             </tr>
           </tbody>
         </table>
-        <p>
-          <b>Note:</b> Boolean values are stored as <b>0</b> (FALSE) and{" "}
-          <b>1</b> (TRUE). <br />
-          <b>Date format:</b> 'YYYY-MM-DD' <br />
-          <b>Datetime format:</b> 'YYYY-MM-DD HH:MM:SS'
-        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+            <li>
+              Boolean values are stored as integers 0 (FALSE) and 1 (TRUE).
+            </li>
+            <li>Date object is represented as: ‘YYYY-MM-DD’</li>
+            <li>Datetime object is represented as: ‘YYYY-MM-DD HH:MM:SS’</li>
+          </ul>
+        </div>
       </section>
 
       {/* Create Table */}
@@ -158,14 +167,25 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
   score INTEGER
 );`}
         />
+        <p>
+          We can check the details of the created table at any point in time
+          using the <code>PRAGMA</code> command.
+        </p>
       </section>
 
       {/* Try it Yourself */}
       <section>
         <h2>Try it Yourself!</h2>
-        <p>Build a database for students, subjects, exam schedules, etc.</p>
-
-        <h3>Student Table</h3>
+        <p>
+          Assume that we have to build a database that stores all the
+          information about the students in a school, subjects, exam schedules,
+          etc. Lets build a few tables to store the data!
+        </p>
+        <p>
+          1. Create a <code>student</code> table to store the following details
+          of students.
+        </p>
+        <b>Student Table</b>
         <table>
           <thead>
             <tr>
@@ -188,8 +208,15 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
             </tr>
           </tbody>
         </table>
-
-        <h3>Exam Schedule Table</h3>
+        <p>
+          Check if the tables are created in the database after you run the
+          query
+        </p>
+        <p>
+          2. Create an <code>exam_schedule</code> table to store the information
+          about exams.
+        </p>
+        <b>Exam Schedule Table</b>
         <table>
           <thead>
             <tr>
@@ -241,10 +268,18 @@ const Create_Table_CS = ({ onSubtopicComplete }) => {
 1   | name        | VARCHAR(200)| 0       | NULL       | 0
 2   | salary      | INTEGER     | 0       | NULL       | 0`}
         />
-        <p>
-          <b>Note:</b> <code>dflt_value</code> is the default value of a column.
-          If the table name does not exist, PRAGMA returns no result.
-        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            If the given table name does not exist, <b>PRAGMA TABLE_INFO</b>{" "}
+            doesn’t give any result.
+          </p>
+        </div>
       </section>
 
       {/* Continue Button */}
