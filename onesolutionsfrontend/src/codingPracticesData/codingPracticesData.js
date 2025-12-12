@@ -5431,7 +5431,7 @@ export const codingPracticesData = {
           description:
             "Write a program that reads an amount A and prints the minimum number of 2000,500,200,50,20,5,2 and 1 rupee notes required for the given amount.",
           sampleInput: "2257",
-          sampleOutput: "",
+          sampleOutput: "2000:1 500:0 200:1 50:1 20:0 5:1 2:1 1:0",
           testCases: [
             {
               input: "250",
