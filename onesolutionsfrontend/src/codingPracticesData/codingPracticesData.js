@@ -5387,7 +5387,7 @@ export const codingPracticesData = {
         {
           id: "q-python-Assignment-6-003",
           title: "Denominations - 4",
-          difficulty: "Easy",
+          difficulty: "Medium",
           description:
             "Write a program that reads an amount A and prints the minimum number of 100,50,20 and 10 rupee notes required for the given amount.",
           sampleInput: "370",
@@ -5427,35 +5427,35 @@ export const codingPracticesData = {
         {
           id: "q-python-Assignment-6-004",
           title: "Denominations - 5",
-          difficulty: "Easy",
+          difficulty: "Medium",
           description:
             "Write a program that reads an amount A and prints the minimum number of 2000,500,200,50,20,5,2 and 1 rupee notes required for the given amount.",
           sampleInput: "2257",
           sampleOutput: "2000:1 500:0 200:1 50:1 20:0 5:1 2:1 1:0",
           testCases: [
             {
-              input: "250",
-              output: "100 Notes:2\n50 Notes:1\n20 Notes:0\n10 Notes:0",
+              input: "4000",
+              output: "2000:2 500:0 200:0 50:0 20:0 5:0 2:0 1:0",
               visible: true,
             },
             {
-              input: "120",
-              output: "100 Notes:1\n50 Notes:0\n20 Notes:1\n10 Notes:0",
+              input: "3000",
+              output: "2000:1 500:2 200:0 50:0 20:0 5:0 2:0 1:0",
               visible: true,
             },
             {
-              input: "250",
-              output: "100 Notes:2\n50 Notes:1\n20 Notes:0\n10 Notes:0",
+              input: "3000",
+              output: "2000:1 500:2 200:0 50:0 20:0 5:0 2:0 1:0",
               visible: false,
             },
             {
-              input: "250",
-              output: "100 Notes:2\n50 Notes:1\n20 Notes:0\n10 Notes:0",
+              input: "2500",
+              output: "2000:1 500:1 200:0 50:0 20:0 5:0 2:0 1:0",
               visible: false,
             },
             {
-              input: "250",
-              output: "100 Notes:2\n50 Notes:1\n20 Notes:0\n10 Notes:0",
+              input: "1000",
+              output: "2000:0 500:2 200:0 50:0 20:0 5:0 2:0 1:0",
               visible: false,
             },
           ],
