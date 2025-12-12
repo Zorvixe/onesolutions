@@ -10,8 +10,7 @@ const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const { Pool } = require('pg');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 // -------------------------------------------
 // 🔹 Database Connection
 // -------------------------------------------
@@ -592,57 +591,57 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     }
   })();
 
-  
-async function migrateSlugs() {
-  try {
-    console.log('Starting slug migration...');
-    
-    // Get all snippets without UUID slugs
-    const result = await pool.query(`
+  async function migrateSlugs() {
+    try {
+      console.log("Starting slug migration...");
+
+      // Get all snippets without UUID slugs
+      const result = await pool.query(`
       SELECT id, snippet_name, slug 
       FROM code_snippets 
       WHERE slug IS NULL OR slug = '' OR slug NOT SIMILAR TO '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
     `);
-    
-    console.log(`Found ${result.rows.length} snippets to migrate`);
-    
-    let updatedCount = 0;
-    
-    for (const snippet of result.rows) {
-      const newSlug = uuidv4();
-      
-      await pool.query(
-        'UPDATE code_snippets SET slug = $1 WHERE id = $2',
-        [newSlug, snippet.id]
-      );
-      
-      updatedCount++;
-      
-      if (updatedCount % 10 === 0) {
-        console.log(`Migrated ${updatedCount}/${result.rows.length} snippets`);
+
+      console.log(`Found ${result.rows.length} snippets to migrate`);
+
+      let updatedCount = 0;
+
+      for (const snippet of result.rows) {
+        const newSlug = uuidv4();
+
+        await pool.query("UPDATE code_snippets SET slug = $1 WHERE id = $2", [
+          newSlug,
+          snippet.id,
+        ]);
+
+        updatedCount++;
+
+        if (updatedCount % 10 === 0) {
+          console.log(
+            `Migrated ${updatedCount}/${result.rows.length} snippets`
+          );
+        }
       }
-    }
-    
-    console.log(`✅ Migration complete! Updated ${updatedCount} snippets`);
-    
-    // Verify migration
-    const verifyResult = await pool.query(`
+
+      console.log(`✅ Migration complete! Updated ${updatedCount} snippets`);
+
+      // Verify migration
+      const verifyResult = await pool.query(`
       SELECT COUNT(*) as total,
              SUM(CASE WHEN slug IS NULL OR slug = '' THEN 1 ELSE 0 END) as null_slugs,
              SUM(CASE WHEN slug NOT SIMILAR TO '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' THEN 1 ELSE 0 END) as invalid_format
       FROM code_snippets
     `);
-    
-    console.log('Verification results:', verifyResult.rows[0]);
-    
-  } catch (error) {
-    console.error('Migration error:', error);
-  } finally {
-    await pool.end();
-  }
-}
 
-migrateSlugs();
+      console.log("Verification results:", verifyResult.rows[0]);
+    } catch (error) {
+      console.error("Migration error:", error);
+    } finally {
+      await pool.end();
+    }
+  }
+
+  migrateSlugs();
 
   try {
     await checkAndAddMissingColumns();
@@ -992,7 +991,7 @@ setInterval(cleanExpiredOtps, 60 * 1000);
 app.post("/api/code-snippets/save", auth, async (req, res) => {
   try {
     const {
-      snippetId,  // Add this to handle updates from frontend
+      snippetId, // Add this to handle updates from frontend
       snippetName,
       language,
       htmlCode,
@@ -1087,7 +1086,9 @@ app.post("/api/code-snippets/save", auth, async (req, res) => {
     );
 
     const snippet = result.rows[0];
-    console.log(`✅ New snippet saved: ID ${snippet.id}, UUID: ${snippet.slug}`);
+    console.log(
+      `✅ New snippet saved: ID ${snippet.id}, UUID: ${snippet.slug}`
+    );
 
     res.status(201).json({
       success: true,
@@ -1096,9 +1097,10 @@ app.post("/api/code-snippets/save", auth, async (req, res) => {
     });
   } catch (error) {
     console.error("❌ Save snippet error:", error.message);
-    
-    if (error.code === '23505') { // Unique violation
-      if (error.constraint.includes('slug')) {
+
+    if (error.code === "23505") {
+      // Unique violation
+      if (error.constraint.includes("slug")) {
         // Regenerate slug and retry (extremely rare for UUIDs)
         return res.status(500).json({
           success: false,
@@ -1106,11 +1108,11 @@ app.post("/api/code-snippets/save", auth, async (req, res) => {
         });
       }
     }
-    
+
     res.status(500).json({
       success: false,
       message: "Failed to save code snippet",
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 });
@@ -1136,18 +1138,20 @@ app.get("/api/code-snippets/my-snippets", auth, async (req, res) => {
     );
 
     // Ensure all snippets have UUID slugs
-    const snippetsWithSlugs = await Promise.all(result.rows.map(async (snippet) => {
-      if (!snippet.slug || !isValidUuid(snippet.slug)) {
-        // Generate missing slug
-        const newSlug = uuidv4();
-        await pool.query(
-          `UPDATE code_snippets SET slug = $1 WHERE id = $2`,
-          [newSlug, snippet.id]
-        );
-        return { ...snippet, slug: newSlug };
-      }
-      return snippet;
-    }));
+    const snippetsWithSlugs = await Promise.all(
+      result.rows.map(async (snippet) => {
+        if (!snippet.slug || !isValidUuid(snippet.slug)) {
+          // Generate missing slug
+          const newSlug = uuidv4();
+          await pool.query(`UPDATE code_snippets SET slug = $1 WHERE id = $2`, [
+            newSlug,
+            snippet.id,
+          ]);
+          return { ...snippet, slug: newSlug };
+        }
+        return snippet;
+      })
+    );
 
     res.json({
       success: true,
@@ -1164,7 +1168,8 @@ app.get("/api/code-snippets/my-snippets", auth, async (req, res) => {
 
 // Helper function to validate UUID
 function isValidUuid(slug) {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   return uuidRegex.test(slug);
 } // Get published snippets
 app.get("/api/code-snippets/published", auth, async (req, res) => {
@@ -1638,38 +1643,37 @@ app.get("/api/code-snippets/gallery", async (req, res) => {
 app.post("/api/code-snippets/regenerate-slugs", auth, async (req, res) => {
   try {
     console.log(`Regenerating slugs for user: ${req.student.id}`);
-    
+
     // Get all user's snippets
     const snippetsResult = await pool.query(
       `SELECT id, snippet_name FROM code_snippets WHERE student_id = $1`,
       [req.student.id]
     );
-    
+
     const updatedSnippets = [];
-    
+
     for (const snippet of snippetsResult.rows) {
       const newSlug = uuidv4();
-      
-      await pool.query(
-        `UPDATE code_snippets SET slug = $1 WHERE id = $2`,
-        [newSlug, snippet.id]
-      );
-      
+
+      await pool.query(`UPDATE code_snippets SET slug = $1 WHERE id = $2`, [
+        newSlug,
+        snippet.id,
+      ]);
+
       updatedSnippets.push({
         id: snippet.id,
         name: snippet.snippet_name,
         newSlug: newSlug,
       });
     }
-    
+
     console.log(`✅ Regenerated slugs for ${updatedSnippets.length} snippets`);
-    
+
     res.json({
       success: true,
       message: `Regenerated slugs for ${updatedSnippets.length} snippets`,
       data: { updatedSnippets },
     });
-    
   } catch (error) {
     console.error("Regenerate slugs error:", error.message);
     res.status(500).json({
