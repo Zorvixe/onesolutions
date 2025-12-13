@@ -278,7 +278,6 @@ html,
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgb(0, 0, 0);
 }
 
 .spinner {

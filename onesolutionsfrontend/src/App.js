@@ -24,43 +24,21 @@ import SavedSnippets from "./SavedSnippets/SavedSnippets";
 // In App.js - add the new route
 import WebPractice from "./components/WebPractice/WebPractice";
 
+import WebPracticeExam from "./components/WebPractice/WebPracticeExam";
+import WebPracticeExamQuestion from "./components/WebPractice/WebPracticeExamQuestion";
+
 import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
 
 function App() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
   const [isAppLoading, setIsAppLoading] = useState(true);
 
   // -----------------------------
-  // 🔥 FORCE LOAD ALL DATA ONCE
-  // -----------------------------
-  useEffect(() => {
-    const loadInitialData = async () => {
-      try {
-        if (isAuthenticated) {
-          await Promise.all([
-            authAPI.getProfile(),
-            authAPI.getCompleteProfile(),
-            progressAPI.getCompletedContent(),
-            progressAPI.getProgressSummary(),
-            progressAPI.getOverallProgress(),
-          ]);
-        }
-      } catch (error) {
-        console.error("[APP INIT] Error loading initial data:", error);
-      } finally {
-        setIsAppLoading(false); // stop loader
-      }
-    };
-
-    loadInitialData();
-  }, [isAuthenticated]);
-
-  // -----------------------------
   // 🔄 Full Screen Loader Before App Loads
   // -----------------------------
-  if (isAuthenticated && isAppLoading) {
+  if (isAuthenticated && loading) {
     return (
       <div className="global-loader">
         <div className="spinner"></div>
@@ -101,6 +79,10 @@ function App() {
                 path="/topic/:topicId/subtopic/:subtopicId"
                 element={<SubtopicPage />}
               />
+
+              <Route path="/web-practice-exam/:practiceId" element={<WebPracticeExam />} />
+              <Route path="/web-practice-exam/:practiceId/:questionId" element={<WebPracticeExamQuestion />} />
+
               <Route path="/codeGround" element={<CodeGround />} />
               <Route path="/thread/:threadId" element={<ThreadDetail />} />
               <Route path="*" element={<Navigate to="/home" replace />} />

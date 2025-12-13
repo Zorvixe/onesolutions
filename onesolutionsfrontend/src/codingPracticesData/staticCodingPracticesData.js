@@ -3039,5 +3039,258 @@ export const staticCodingPracticesData = {
         },
       ],
     },
+
+    //Static Course Exam
+
+    {
+      id: "Static-Course-Exam",
+      title: "Static Course Exam",
+      description:
+        "In this assignment, let's build a Static Course Exam by applying the concepts we learned till now.",
+      type: "web",
+      category: "static",
+      questions: [
+        {
+          id: "91bcc4c6-814f-a37b81618600",
+          title: "Static Course Exam",
+          description:
+            "In this assignment, let's build the Static Course Exam by applying the concepts we learned till now. You can use the Bootstrap concepts",
+          difficulty: "Hard",
+          score: 200,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            `,
+            javascript: ``,
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <p class="desc-que-blue">Home Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765534869/static-project-section-1_knkrfk.png" class="desc-que-img" />
+              <p class="desc-que-blue">List Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765534869/static-project-section-2_ntdvdf.png" class="desc-que-img" />
+              <p class="desc-que-blue">Full Detailed View Bali, Indonesia</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765534869/static-project-section-3_sgi7ib.png" class="desc-que-img" />
+              <p class="desc-que-blue">Full Detailed View Swiss, Alps</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537036/static-project-section-5_ntmwpa.png" class="desc-que-img" />
+              <p class="desc-que-blue">Full Detailed View Paris, France</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537037/static-project-section-4_lrclnp.png" class="desc-que-img" />
+               
+              <p class="desc-que-blue">Full Detailed New York, USA</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537036/static-project-section-6_zxq2qp.png" class="desc-que-img" />
+               
+              <p class="desc-que-blue">Full Detailed Tokyo, Japan</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537036/static-project-section-7_wdt0xy.png" class="desc-que-img" />
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                    <li>
+                    When clicked on the Book Explore Places button on the Home Page, it must display the Places List Page.
+                    </li>
+                    <li>
+                    When clicked on each place in List Page, it must display the respective Place Details Page.  
+                    </li>
+                    <li>
+                    When clicked on Back button in Place List Page, it must display Home Page            
+                    </li>
+                    <li>
+                    When clicked on Back button in Place Details Page, it must display Place List Page          
+                    </li>
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
+               
+              <p class="desc-que-blue">Resources</p>
+               <p class="">Home Page Background Image</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1764610174/home-bg_oflcds.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1764610174/home-bg_oflcds.jpg</a></p>
+              
+               <p class="">Place List Card Images</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537952/bali-indonesia_umsvtu.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765537952/bali-indonesia_umsvtu.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538016/Paris-france_sibpd1.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538016/Paris-france_sibpd1.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538088/tokyo-japan_mwg0lk.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538088/tokyo-japan_mwg0lk.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538222/swiss-alps_wuvvvj.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538222/swiss-alps_wuvvvj.jpg</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538313/Newyork-usa_xg9plr.jpg" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765538313/Newyork-usa_xg9plr.jpg</a></p>
+              
+              <p class="desc-que-blue">CSS Colors used:</p>
+              <p class="">Background color Hex Code values card:</p>
+                <div  class="desc-colors cffffff">#ffffff</div>
+              <p class="">Background color Hex Code values Button Home Page:</p>
+                <div  class="desc-colors c1a472a">#1a472a</div>
+              <p class="">Background color Hex Code values Button Detail Page:</p>
+                <div  class="desc-colors cd4a574">#d4a574</div>
+              <p class="">Text color Hex Code values Button Detail Page:</p>
+                <div  class="desc-colors cffffff">#ffffff</div>
+              <p class="">Text color Hex Code vales:</p>
+                <div  class="desc-colors c333333">#333333</div>
+                <div  class="desc-colors c666">#666</div>
+                <p class="">Text color Hex Code vales Detail Rating:</p>
+                <div  class="desc-colors cffa500">#ffa500</div>
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul>
+                <li><span>'Segoe UI', Tahoma, Geneva, Verdana, sans-serif</span></li>
+              </ul>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: `Page should consist of an HTML image element in an HTML container element`,
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 7,
+              description:
+                "Page should consist of at least two HTML container sections that have HTML id attribute value with prefix section",
+              type: "html-validation",
+              input: "check-section-prefix",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of HTML button elements with onclick attribute value calling the display function with section id",
+              type: "html-validation",
+              input: "check-display-function-usage",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML container elements with data-section attribute and one element with data-default attribute",
+              type: "html-validation",
+              input: "check-data-section-and-default",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-end",
+              type: "html-validation",
+              input: "check-justify-content-end",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 11,
+              description:
+                "Page should consist of at least two section container elements with data-section attribute, one default section, and all section containers should correctly use the data-section attribute",
+              type: "html-validation",
+              input: "check-complete-section-validation",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 12,
+              description:
+                "Page should consist of a Bootstrap carousel container with class names carousel and slide",
+              type: "html-validation",
+              input: "check-carousel-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 13,
+              description:
+                "Page should consist of a carousel-inner element with at least one carousel-item having active class",
+              type: "html-validation",
+              input: "check-carousel-items",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 14,
+              description:
+                "Page should consist of at least an HTML Container element with the property border-top-left-radius",
+              type: "css-validation",
+              input: "check-border-top-left-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 15,
+              description:
+                "Page should consist of at least an HTML Container element with the property border-top-right-radius",
+              type: "css-validation",
+              input: "check-border-top-right-radius",
+              output: "true",
+              visible: true,
+            },
+            
+          ],
+        },
+      ],
+    },
   ],
 };

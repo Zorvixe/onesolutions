@@ -45,9 +45,6 @@ export const AuthProvider = ({ children }) => {
       if (token && token !== "null" && token !== "undefined") {
         const response = await authAPI.getProfile();
         setUser(response.data.data.student);
-        await loadCompleteProfile();
-        await loadUserProgress();
-        await loadProgressSummary();
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -331,6 +328,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
+  useEffect(() => {
+    if (!token) return;
+
+    const loadAllUserData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          loadCompleteProfile(),
+          loadUserProgress(),
+          loadProgressSummary(),
+          loadOverallProgress(),
+        ]);
+      } catch (err) {
+        console.error("[AUTH] Failed to load user data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAllUserData();
+  }, [token]);
+
   // ✅ Forgot Password Flow
   const forgotPasswordRequestOtp = async (email) => {
     try {
@@ -551,9 +571,12 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data.success) {
         const { student, token } = response.data.data;
+
         localStorage.setItem("token", token);
+        setToken(token); // 🔥 REQUIRED
         setUser(student);
         setOtpSent(false);
+
         return { success: true, message: "Login successful" };
       } else {
         const errorMsg = response.data.message || "OTP verification failed";
@@ -598,6 +621,7 @@ export const AuthProvider = ({ children }) => {
         if (response.data.success) {
           const { student, token } = response.data.data;
           localStorage.setItem("token", token);
+          setToken(token); // 🔥 REQUIRED
           setUser(student);
           return { success: true, message: "Registration successful" };
         } else {

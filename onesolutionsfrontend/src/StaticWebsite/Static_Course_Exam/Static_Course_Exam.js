@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
+import { staticCodingPracticesData } from "../../codingPracticesData/staticCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
 const Static_Course_Exam = () => {
-  const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,23 +23,22 @@ const Static_Course_Exam = () => {
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
 
-  // Get goalName and courseName from navigation state with fallbacks
+  // Get navigation params
   const {
     goalName: stateGoalName,
     courseName: stateCourseName,
     subtopicId: codingPracticeSubtopicId,
+    topicId,
   } = location.state || {};
 
-  // Extract goal and course names from practice data
+  // Extract goal and course names
   const goalName = stateGoalName;
   const courseName = stateCourseName;
-
-  // Use provided subtopicId or fallback
   const finalSubtopicId = codingPracticeSubtopicId;
 
-  // Load "Coding Practice - 1" from codingPracticesData
+  // Load "Static-Course-Exam" from staticCodingPracticesData
   useEffect(() => {
-    const practice1 = codingPracticesData.python.find(
+    const practice1 = staticCodingPracticesData.static.find(
       (p) => p.id === "Static-Course-Exam"
     );
     if (practice1) {
@@ -55,7 +53,7 @@ const Static_Course_Exam = () => {
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
 
-  // Load progress data when component mounts or when progress updates
+  // Load progress data
   useEffect(() => {
     const loadProgressData = async () => {
       try {
@@ -65,7 +63,7 @@ const Static_Course_Exam = () => {
         // Check completion status for each practice
         if (selectedPractice) {
           const completionStatus = {};
-          for (const practice of codingPracticesData.python) {
+          for (const practice of staticCodingPracticesData.static) {
             try {
               const response = await CodingPracticeService.getCompletionStatus(
                 practice.id
@@ -160,15 +158,14 @@ const Static_Course_Exam = () => {
             }
           );
 
-          // Method 1: Mark coding practice as complete via coding practice service
+          // Mark coding practice as complete via coding practice service
           await CodingPracticeService.completePractice(
             selectedPractice.id,
             goalName,
             courseName
           );
 
-          // Method 2: ALSO mark the subtopic as complete in the main progress system
-          // This is crucial for goal and course progress tracking
+          // ALSO mark the subtopic as complete in the main progress system
           const result = await markSubtopicComplete(
             finalSubtopicId,
             goalName,
@@ -192,14 +189,6 @@ const Static_Course_Exam = () => {
           console.log("✅ Practice marked as completed in both systems!");
         } catch (error) {
           console.error("❌ Failed to mark practice complete:", error);
-
-          // Fallback: Try to mark just the subtopic
-          try {
-            await markSubtopicComplete(finalSubtopicId, goalName, courseName);
-            await refreshProgress();
-          } catch (fallbackError) {
-            console.error("❌ Fallback also failed:", fallbackError);
-          }
         }
       }
     };
@@ -216,15 +205,14 @@ const Static_Course_Exam = () => {
     courseName,
   ]);
 
-  // Check if this coding practice subtopic is already completed in main system
-  const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
-
-  const handleQuestionSelect = (question) => {
-    navigate(`/practice/${selectedPractice.id}/${question.id}`, {
+  const handleQuestionSelect = () => {
+    // For exam, use the secure exam route
+    navigate(`/web-practice-exam/${selectedPractice.id}`, {
       state: {
         subtopicId: finalSubtopicId,
         goalName,
         courseName,
+        topicId,
       },
     });
   };
@@ -267,8 +255,34 @@ const Static_Course_Exam = () => {
                 {selectedPractice.questions.length} questions
               </span>
               <span className="solved-questions-cod">{solvedCount} solved</span>
+              <span className="detail-item">⏱️ 3 hours</span>
+              {!allQuestionsSolved && (
+                <button
+                  className="start-exam-btn-cod detail-item"
+                  onClick={handleQuestionSelect}
+                >
+                  Start Exam
+                </button>
+              )}
+              {practiceCompleted && (
+                <span className="completed-badge-cod">✓ Completed</span>
+              )}
             </div>
           </div>
+        </div>
+
+        <div className="exam-info-section">
+          {allQuestionsSolved && (
+            <div className="exam-completed-section">
+              <span className="completed-text">🎉 Exam Completed!</span>
+              <button
+                className="review-exam-btn-cod"
+                onClick={handleQuestionSelect}
+              >
+                Review Exam
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -307,7 +321,6 @@ const Static_Course_Exam = () => {
                             ? "attempted-cod"
                             : ""
                         }`}
-                        onClick={() => handleQuestionSelect(question)}
                       >
                         <td className="status-cell-cod">
                           <span className={`status-indicator-cod ${status}`}>
@@ -386,7 +399,10 @@ const Static_Course_Exam = () => {
           {/* Practice Completion Status */}
           <div className="practice-completion-status-cod">
             <div className="completion-header-cod">
-              <h4>Practice Progress</h4>
+              <h4>Exam Progress</h4>
+              {practiceCompleted && (
+                <span className="completion-badge">✓ Completed</span>
+              )}
             </div>
             <div className="progress-summary-cod">
               <div className="progress-stats-cod">
@@ -411,6 +427,19 @@ const Static_Course_Exam = () => {
                     pts
                   </span>
                 </div>
+                <div className="progress-stat-cod">
+                  <span className="stat-label-cod">Passing Score:</span>
+                  <span className="stat-value-cod">
+                    70% (
+                    {Math.ceil(
+                      selectedPractice.questions.reduce(
+                        (total, q) => total + q.score,
+                        0
+                      ) * 0.7
+                    )}{" "}
+                    points)
+                  </span>
+                </div>
               </div>
               <div className="overall-progress-bar-cod">
                 <div
@@ -429,4 +458,5 @@ const Static_Course_Exam = () => {
     </div>
   );
 };
+
 export default Static_Course_Exam;
