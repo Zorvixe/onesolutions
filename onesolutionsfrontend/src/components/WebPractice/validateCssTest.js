@@ -1134,6 +1134,94 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      case "check-carousel-image-width": {
+        const images = iframeDoc.querySelectorAll(
+          "#carouselExampleIndicators .carousel-item img"
+        );
+      
+        let hasFullWidthImage = false;
+      
+        images.forEach((img) => {
+          const style = win.getComputedStyle(img);
+          if (style.width === "100%" || style.maxWidth === "100%") {
+            hasFullWidthImage = true;
+          }
+        });
+      
+        return {
+          passed: hasFullWidthImage,
+          actual: hasFullWidthImage
+            ? "Carousel images have width set to 100%"
+            : "Carousel images do not have width 100%",
+        };
+      }
+      case "check-carousel-height": {
+        const carousel = iframeDoc.getElementById("carouselExampleIndicators");
+        if (!carousel) {
+          return {
+            passed: false,
+            actual: "Carousel container not found",
+          };
+        }
+      
+        const style = win.getComputedStyle(carousel);
+        const height = style.height;
+      
+        const passed =
+          height && height !== "auto" && !height.includes("initial");
+      
+        return {
+          passed,
+          actual: passed
+            ? `Carousel has custom height: ${height}`
+            : "Carousel height not set",
+        };
+      }
+
+      case "check-roboto-font": {
+        const elements = iframeDoc.querySelectorAll("*");
+        let hasRoboto = false;
+      
+        elements.forEach((el) => {
+          const style = win.getComputedStyle(el);
+          if (style.fontFamily.toLowerCase().includes("roboto")) {
+            hasRoboto = true;
+          }
+        });
+      
+        return {
+          passed: hasRoboto,
+          actual: hasRoboto
+            ? "Roboto font-family applied"
+            : "Roboto font-family not applied",
+        };
+      }
+
+      case "check-embed-responsive-width": {
+        const iframe = iframeDoc.querySelector(
+          ".embed-responsive iframe, .ratio iframe"
+        );
+      
+        if (!iframe) {
+          return {
+            passed: false,
+            actual: "Iframe not found",
+          };
+        }
+      
+        const style = win.getComputedStyle(iframe);
+        const passed = style.width === "100%" || style.maxWidth === "100%";
+      
+        return {
+          passed,
+          actual: passed
+            ? "Iframe has responsive width"
+            : "Iframe width is not responsive",
+        };
+      }
+      
+      
+
       default:
         return { 
           passed: false, 

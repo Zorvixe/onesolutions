@@ -937,6 +937,7 @@ export const staticCodingPracticesData = {
       ],
     },
     //Coding Practice - 8
+
     {
       id: "static-coding-practice-8",
       title: "Static Coding Practice 8",
@@ -1086,6 +1087,33 @@ export const staticCodingPracticesData = {
                 "Page should consist of an HTML container element with the CSS property text-align and the value center",
               type: "css-validation",
               input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of at least two HTML container sections that have HTML id attribute value with prefix section",
+              type: "html-validation",
+              input: "check-section-prefix",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML button elements with onclick attribute value calling the display function with section id",
+              type: "html-validation",
+              input: "check-display-function-usage",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of HTML container elements with data-section attribute and one element with data-default attribute",
+              type: "html-validation",
+              input: "check-data-section-and-default",
               output: "true",
               visible: true,
             },
@@ -1555,11 +1583,40 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
+            {
+              id: 8,
+              description:
+                "Page should consist of at least two HTML container sections that have HTML id attribute value with prefix section",
+              type: "html-validation",
+              input: "check-section-prefix",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML button elements with onclick attribute value calling the display function with section id",
+              type: "html-validation",
+              input: "check-display-function-usage",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of HTML container elements with data-section attribute and one element with data-default attribute",
+              type: "html-validation",
+              input: "check-data-section-and-default",
+              output: "true",
+              visible: true,
+            },
           ],
         },
       ],
     },
-   //Static Website Project
+
+    //Static Website Project
+
     {
       id: "Build-Your-Own-Static-Website-Project",
       title: "Build Your Own Static Website Project",
@@ -1733,6 +1790,79 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
+            {
+              id: 8,
+              description:
+                "Page should consist of HTML button elements with onclick attribute value calling the display function with section id",
+              type: "html-validation",
+              input: "check-display-function-usage",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML container elements with data-section attribute and one element with data-default attribute",
+              type: "html-validation",
+              input: "check-data-section-and-default",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-end",
+              type: "html-validation",
+              input: "check-justify-content-end",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 11,
+              description:
+                "Page should consist of at least two section container elements with data-section attribute, one default section, and all section containers should correctly use the data-section attribute",
+              type: "html-validation",
+              input: "check-complete-section-validation",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 12,
+              description:
+                "Page should consist of a Bootstrap carousel container with class names carousel and slide",
+              type: "html-validation",
+              input: "check-carousel-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 13,
+              description:
+                "Page should consist of a carousel-inner element with at least one carousel-item having active class",
+              type: "html-validation",
+              input: "check-carousel-items",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 14,
+              description:
+                "Page should consist of at least an HTML Container element with the property border-top-left-radius",
+              type: "css-validation",
+              input: "check-border-top-left-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 15,
+              description:
+                "Page should consist of at least an HTML Container element with the property border-top-right-radius",
+              type: "css-validation",
+              input: "check-border-top-right-radius",
+              output: "true",
+              visible: true,
+            },
+            
           ],
         },
       ],
@@ -1741,8 +1871,7 @@ export const staticCodingPracticesData = {
     {
       id: "Static-Coding-Test-1",
       title: "Static Coding Test 1",
-      description:
-        "",
+      description: "",
       type: "web",
       category: "static",
       questions: [
@@ -1793,26 +1922,26 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
+
             {
               id: 2,
               description:
-                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+                "Page should consist of an HTML paragraph element in an HTML container element",
               type: "html-validation",
-              input: "check-d-flex-container",
+              input: "check-paragraph-container",
               output: "true",
               visible: true,
             },
-
+            
             {
               id: 3,
               description:
-                "Page should consist of an HTML container element with the bootstrap class name flex-column",
-              type: "html-validation",
-              input: "check-flex-column",
+                "Page should consist of an HTML paragraph element with the CSS property text-align and value right",
+              type: "css-validation",
+              input: "check-text-align-right",
               output: "true",
               visible: true,
             },
-
             {
               id: 4,
               description:
@@ -1822,7 +1951,25 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-
+            {
+              id: 5,
+              description:
+                "Page should consist of at least one HTML element with the CSS property text-decoration and value underline",
+              type: "css-validation",
+              input: "check-text-decoration",
+              output: "true",
+              visible: true,
+            },
+            
+            {
+              id: 6,
+              description:
+                "Page should consist of at least an HTML element with the CSS property background-color",
+              type: "css-validation",
+              input: "check-background-color",
+              output: "true",
+              visible: true,
+            },
           ],
         },
         {
@@ -1875,8 +2022,7 @@ export const staticCodingPracticesData = {
           `,
 
           testCases: [
-          
-          {
+            {
               id: 1,
               description:
                 "Page should consist of an HTML main heading element in an HTML container element",
@@ -1894,7 +2040,7 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 3,
               description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
               type: "css-validation",
@@ -1920,7 +2066,7 @@ export const staticCodingPracticesData = {
               input: "check-height",
               output: "true",
               visible: true,
-            }
+            },
           ],
         },
         {
@@ -1954,8 +2100,7 @@ export const staticCodingPracticesData = {
           `,
 
           testCases: [
-          
-          {
+            {
               id: 1,
               description:
                 "Page should consist of an HTML main heading element in an HTML container element",
@@ -1973,7 +2118,7 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 3,
               description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
               type: "css-validation",
@@ -1990,7 +2135,6 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
           ],
         },
         {
@@ -2032,17 +2176,16 @@ export const staticCodingPracticesData = {
           `,
 
           testCases: [
-          
-          {
+            {
               id: 1,
               description:
-                "Page should consist of an HTML main heading element in an HTML container element",
+                "Page should consist of an HTML paragraph element in an HTML container element",
               type: "html-validation",
-              input: "check-heading-container",
+              input: "check-paragraph-container",
               output: "true",
               visible: true,
             },
-         {
+            {
               id: 2,
               description:
                 "Page should consist of three HTML image elements with widths.",
@@ -2089,17 +2232,16 @@ export const staticCodingPracticesData = {
           `,
 
           testCases: [
-          
-          {
+            {
               id: 1,
               description:
-                "Page should consist of an HTML main heading element in an HTML container element",
+                "Page should consist of an HTML paragraph element in an HTML container element",
               type: "html-validation",
-              input: "check-heading-container",
+              input: "check-paragraph-container",
               output: "true",
               visible: true,
             },
-         {
+            {
               id: 2,
               description:
                 "Page should consist of three HTML image elements with height.",
@@ -2156,7 +2298,7 @@ export const staticCodingPracticesData = {
             </div>
           `,
           testCases: [
-          {
+            {
               id: 1,
               description:
                 "Page should consist of an HTML main heading element in an HTML container element",
@@ -2165,12 +2307,39 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-         {
+            {
               id: 2,
               description:
-                "Page should consist of at least an HTML element with the CSS property color",
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of at least an HTML paragraph element with the property border-top-left-radius",
               type: "css-validation",
-              input: "check-color",
+              input: "check-border-top-left-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of at least an HTML paragraph element with the property border-top-right-radius",
+              type: "css-validation",
+              input: "check-border-top-right-radius",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of at least an HTML element with the CSS property background-color",
+              type: "css-validation",
+              input: "check-background-color",
               output: "true",
               visible: true,
             },
@@ -2178,7 +2347,7 @@ export const staticCodingPracticesData = {
         },
       ],
     },
-        //Coding Test - 2
+    //Coding Test - 2
     {
       id: "Static-Coding-Test-2",
       title: "Static Coding Test 2",
@@ -2199,7 +2368,7 @@ export const staticCodingPracticesData = {
             css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: ``,
           },
-    
+
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below images.</p>
@@ -2210,15 +2379,17 @@ export const staticCodingPracticesData = {
               <p class="desc-que-blue">CSS Colors used:</p>
             
               <p class="">CSS color Hex Code values:</p>
-              <div class="desc-colors c6c757d">#6c757d</div>
-              <div class="desc-colors c343a40">#343a40</div>
-
-              <p class="">Text color Hex Code values:</p>
-              <div class="desc-colors c6c757d">#6c757d</div>
+              <div class="desc-colors cfdba74">#fdba74</div>
+              <div class="desc-colors cea580c">#ea580c</div>
+              <div class="desc-colors ca5b4fc">#a5b4fc</div>
+             
+              <div class="desc-colors c4f46e5">#4f46e5</div>
+              <div class="desc-colors c5eead4">#5eead4</div>
+              <div class="desc-colors c0d9488">#0d9488</div>
              
             </div>
           `,
-    
+
           testCases: [
             {
               id: 1,
@@ -2258,8 +2429,7 @@ export const staticCodingPracticesData = {
             },
             {
               id: 5,
-              description:
-                "Page should consist of elements with heights.",
+              description: "Page should consist of elements with heights.",
               type: "css-validation",
               input: "check-height",
               output: "true",
@@ -2289,7 +2459,7 @@ export const staticCodingPracticesData = {
             css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: ``,
           },
-        
+
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below images.</p>
@@ -2308,7 +2478,7 @@ export const staticCodingPracticesData = {
               <div class="desc-colors c7b4ae1">#7b4ae1</div>
             </div>
           `,
-        
+
           testCases: [
             {
               id: 1,
@@ -2319,7 +2489,7 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-        
+
             {
               id: 2,
               description:
@@ -2331,8 +2501,7 @@ export const staticCodingPracticesData = {
             },
             {
               id: 3,
-              description:
-                "Page should consist of elements with heights.",
+              description: "Page should consist of elements with heights.",
               type: "css-validation",
               input: "check-height",
               output: "true",
@@ -2371,7 +2540,7 @@ export const staticCodingPracticesData = {
             css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: ``,
           },
-        
+
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below images.</p>
@@ -2392,44 +2561,42 @@ export const staticCodingPracticesData = {
                       </ul>
             </div>
           `,
-        
+
           testCases: [
-                 {
-                  id: 1,
-                  description:
-                    "Page should consist of an HTML main heading element in an HTML container element",
-                  type: "html-validation",
-                  input: "check-heading-container",
-                  output: "true",
-                  visible: true,
-                },
-                 {
-                      id: 2,
-                      description: `Page should consist of an HTML image element in an HTML container element`,
-                      type: "html-validation",
-                      input: "check-image-container",
-                      output: "true",
-                      visible: true,
-                    },
-                     {
-                      id: 3,
-                      description:
-                        "Page should consist of elements with widths.",
-                      type: "css-validation",
-                      input: "check-width",
-                      output: "true",
-                      visible: true,
-                    },
-        
-                    {
-                      id: 4,
-                      description:
-                        "Page should consist of elements with heights.",
-                      type: "css-validation",
-                      input: "check-height",
-                      output: "true",
-                      visible: true,
-                    }
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description: `Page should consist of an HTML image element in an HTML container element`,
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Page should consist of elements with widths.",
+              type: "css-validation",
+              input: "check-width",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description: "Page should consist of elements with heights.",
+              type: "css-validation",
+              input: "check-height",
+              output: "true",
+              visible: true,
+            },
           ],
         },
         {
@@ -2445,7 +2612,7 @@ export const staticCodingPracticesData = {
             css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: ``,
           },
-        
+
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below images.</p>
@@ -2467,61 +2634,59 @@ export const staticCodingPracticesData = {
                       </ul>
             </div>
           `,
-        
+
           testCases: [
-                 {
-                  id: 1,
-                  description:
-                    "Page should consist of an HTML main heading element in an HTML container element",
-                  type: "html-validation",
-                  input: "check-heading-container",
-                  output: "true",
-                  visible: true,
-                },
-                 
-                     {
-                      id: 2,
-                      description:
-                        "Page should consist of widths.",
-                      type: "css-validation",
-                      input: "check-width",
-                      output: "true",
-                      visible: true,
-                    },
-        
-                    {
-                      id: 3,
-                      description:
-                        "Page should consist of heights.",
-                      type: "css-validation",
-                      input: "check-height",
-                      output: "true",
-                      visible: true,
-                    },
-                    {
-                      id: 4,
-                      description: `Page should consist of "margin-left"`,
-                      type: "css-validation",
-                      input: "check-margin-left",
-                      output: "true",
-                      visible: true,
-                    },
-                    {
-                      id: 5,
-                      description: `Page should consist of "margin-right"`,
-                      type: "css-validation",
-                      input: "check-margin-right",
-                      output: "true",
-                      visible: true,
-                    },
-                     {
-                      id: 6,
-                      description: `Page should consist of "margin"`,
-                      type: "css-validation",
-                      input: "check-margin",
-                      output: "true",
-                      visible: true,
-                    },
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description: "Page should consist of widths.",
+              type: "css-validation",
+              input: "check-width",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description: "Page should consist of heights.",
+              type: "css-validation",
+              input: "check-height",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description: `Page should consist of "margin-left"`,
+              type: "css-validation",
+              input: "check-margin-left",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: `Page should consist of "margin-right"`,
+              type: "css-validation",
+              input: "check-margin-right",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description: `Page should consist of "margin"`,
+              type: "css-validation",
+              input: "check-margin",
+              output: "true",
+              visible: true,
+            },
           ],
         },
         {
@@ -2537,7 +2702,7 @@ export const staticCodingPracticesData = {
             css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
             javascript: ``,
           },
-        
+
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below images.</p>
@@ -2572,22 +2737,307 @@ export const staticCodingPracticesData = {
                       </ul>
             </div>
           `,
-        
+
           testCases: [
-                 {
-                  id: 1,
-                  description:
-                    "Page should consist of an HTML main heading element in an HTML container element",
-                  type: "html-validation",
-                  input: "check-heading-container",
-                  output: "true",
-                  visible: true,
-                },
-        
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with id carouselExampleIndicators and classes carousel and slide",
+              type: "html-validation",
+              input: "check-carousel-container",
+              output: "true",
+              visible: true,
+            },
+            
+            {
+              id: 3,
+              description:
+                "Carousel should consist of at least three carousel-item elements",
+              type: "html-validation",
+              input: "check-carousel-items",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "One carousel-item should have the active class",
+              type: "html-validation",
+              input: "check-active-carousel-item",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Carousel images should have width set to 100%",
+              type: "css-validation",
+              input: "check-carousel-image-width",
+              output: "true",
+              visible: true,
+            },
           ],
-        }
+        },
+        {
+          id: "693d76ba-d828-8332-bf16-2edcbd579868dvvwev596",
+          title: "Bootstrap Embed",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the Bootstrap Component Embed.",
+          difficulty: "Easy",
+          score: 30,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765640565/ce-4-3-2-embed-v1_jz24oi.gif" class="desc-que-img" />
         
+              <p class="">Insert a video using the Bootstrap Component Embed.</p>
+                         <p class="desc-que-blue">Resources</p>
+                         <p class="desc-que-blue">Use the video URL given below.</p>
+                        <p>URL: <a href="https://www.youtube.com/watch?v=5TR-blT4Ao4" target="_blank">https://www.youtube.com/watch?v=5TR-blT4Ao4</a></p>            
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with class embed-responsive",
+              type: "html-validation",
+              input: "check-embed-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an iframe element inside the embed container",
+              type: "html-validation",
+              input: "check-embed-iframe",
+              output: "true",
+              visible: true,
+            },
+            
+          ],
+        },
+        {
+          id: "7c56b6c2-7fda-4c07-93e9-04184d15a9bf",
+          title: "Website Integration",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the Website Integration using ZORVIXE UI Kit.",
+          difficulty: "Easy",
+          score: 80,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641096/ce-5-1-website-integration-v1_tm7hz2.gif" class="desc-que-img" />
+        
+           <p class="desc-que-blue">Animals Home Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641313/coding-test-2-7-1_kekxpm.png" class="desc-que-img" />
+              <p class="desc-que-blue">Turtles Details Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641446/coding-test-2-7-2_e2dflw.png" class="desc-que-img" />
+              <p class="desc-que-blue">Raccoon Details Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641448/coding-test-2-7-3_wseeyq.png" class="desc-que-img" />
+              <p class="desc-que-blue">Kangaroos Details Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641448/coding-test-2-7-4_uss5qn.png" class="desc-que-img" />
+              <p class="desc-que-blue">Lions Details Page:</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641446/coding-test-2-7-5_yvsitl.png" class="desc-que-img" />
+                <p class="desc-que-blue">Instructions</p>
+                 <p class="">Read these instructions carefully.</p>
+                        <ul>
+                            <li><span>When clicked on the <strong>View Details</strong> button on the animals home page, it must display the respective animal details page.</span></li>
+                            <li><span>When clicked on the <strong>Back</strong> button on any of the animal details pages, it must display the animals home page.</span></li>
+                         </ul>
+                         
+                          <p class="desc-que-blue">Resources</p>
+                         <p class="desc-que-blue">Use the Image URLs given below.</p>
+                        <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641815/animals-turtle-img_vjwogq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641815/animals-turtle-img_vjwogq.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641890/animals-turtle-bg_diisuz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641890/animals-turtle-bg_diisuz.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641936/animals-raccoon-img_demkjp.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765641936/animals-raccoon-img_demkjp.png</a></p>            
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642133/animals-raccoon-bg_lhfcfq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642133/animals-raccoon-bg_lhfcfq.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642192/animals-kangaroo-img_pbtzmo.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642192/animals-kangaroo-img_pbtzmo.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642236/animals-kangaroo-bg_cxhtsn.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642236/animals-kangaroo-bg_cxhtsn.png</a></p>            
+                   <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642301/animals-lion-img_gra45p.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642301/animals-lion-img_gra45p.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642350/animals-lion-bg_pinpqg.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765642350/animals-lion-bg_pinpqg.png</a></p>            
+                   
+             </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-row",
+              type: "html-validation",
+              input: "check-flex-row", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of at least two HTML container sections that have HTML id attribute value with prefix section",
+              type: "html-validation",
+              input: "check-section-prefix",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of HTML button elements with onclick attribute value calling the display function with section id",
+              type: "html-validation",
+              input: "check-display-function-usage",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "8eaec575-050f-47b7-bb97-1ed0eecfa3f8",
+          title: "HTML Hyperlinks",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the HTML Hyperlinks.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
+            javascript: ``,
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765643218/coding-test-8-1_dv5gms.gif" class="desc-que-img" />
+        
+                 <p class="desc-que-blue">Instructions</p>
+                 <p class="">Read these instructions carefully.</p>
+                        <ul>
+                            <li><span>When clicked on the hyperlink Google, the <strong>Google</strong> Home Page should open in a new tab of the browser.</span></li>
+                            <li><span>When clicked on the bio image, the page should navigate to the bio section.</span></li>
+                         </ul>
+                         
+                          <p class="desc-que-blue">Resources</p>
+                         <p class="desc-que-blue">Use the Image URLs given below.</p>
+                        <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765643708/coding-test-8-1_nxs46n.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765643708/coding-test-8-1_nxs46n.png</a></p>            
+                      <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765643796/coding-test-8-2-bio-img_bwppeq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1765643796/coding-test-8-2-bio-img_bwppeq.png</a></p>            
+                      
+             </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-center",
+              type: "html-validation",
+              input: "check-justify-content-center", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: `Page should consist of an HTML image element in an HTML container element`,
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
       ],
-    }    
+    },
   ],
 };

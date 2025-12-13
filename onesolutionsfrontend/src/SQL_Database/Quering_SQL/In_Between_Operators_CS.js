@@ -35,12 +35,12 @@ const In_Between_Operators_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>
-          The database contains a <b>product</b> table that stores the data of
-          products like name, category, price, brand and rating.
+          The database contains a <code>product</code> table that stores the
+          data of products like name, category, price, brand and rating.
         </p>
         <p>
-          You can check the schema and data of <b>product</b> table in the code
-          playground.
+          You can check the schema and data of <code>product</code> table in the
+          code playground.
         </p>
       </section>
 
@@ -61,8 +61,9 @@ WHERE  c1 IN (v1, v2,..);`}
 
         <h3>Example</h3>
         <p>
-          Get the details of all the products from <b>product</b> table, where
-          the brand is either "Puma", "Mufti", "Levi's", "Lee" or "Denim".
+          Get the details of all the products from <code>product</code> table,
+          where the <b>brand</b> is either "Puma", "Mufti", "Levi's", "Lee" or
+          "Denim".
         </p>
 
         <CodeBlock
@@ -122,7 +123,7 @@ WHERE  brand IN ( "Puma", "Levi's", "Mufti", "Lee", "Denim");`}
 
         <h3>Try it Yourself!</h3>
         <p>
-          Get all the products from <b>product</b> table, that belong to
+          Get all the products from <code>product</code> table, that belong to
           "Britannia", "Lay's", "Cadbury" brands from the "Food" category.
         </p>
       </section>
@@ -142,13 +143,22 @@ FROM  table_name
 WHERE  c1 BETWEEN v1  AND v2;`}
         />
 
-        <p>
-          <b>Note:</b> BETWEEN operator is inclusive, i.e., both the lower and
-          upper limit values of the range are included.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            <b>BETWEEN</b> operator is inclusive, i.e., both the lower and upper
+            limit values of the range are included.
+          </p>
+        </div>
 
         <h3>Example</h3>
-        <p>Find the products with price ranging from 1000 to 5000.</p>
+        <p>
+          Find the products with <code>price</code> ranging from 1000 to 5000.
+        </p>
 
         <CodeBlock
           language="sql"
@@ -195,9 +205,9 @@ WHERE  price BETWEEN 1000  AND 5000;`}
         <h2>Possible Mistakes</h2>
 
         <p>
-          When using the BETWEEN operator, the first value should be less than
-          second value. If not, we'll get an incorrect result depending on the
-          DBMS.
+          1. When using the <code>BETWEEN</code> operator, the first value
+          should be less than second value. If not, we'll get an incorrect
+          result depending on the DBMS.
         </p>
 
         <CodeBlock
@@ -223,7 +233,7 @@ WHERE  price BETWEEN 500  AND 300;`}
         </table>
 
         <p>
-          We have to give both lower limit and upper limit while specifying
+          2. We have to give both lower limit and upper limit while specifying
           range.
         </p>
 
@@ -234,11 +244,14 @@ FROM  product
 WHERE  price BETWEEN  AND 300;`}
         />
 
-        <CodeBlock language="sql" code={`Error: near "AND": syntax error`} />
+        <div className="Error-message">
+          <p>Error: near "AND": syntax error</p>
+        </div>
 
         <p>
-          The data type of the column for which we're using the BETWEEN operator
-          must match with the data types of the lower and upper limits.
+          3. The data type of the column for which we're using the{" "}
+          <code>BETWEEN</code>
+          operator must match with the data types of the lower and upper limits.
         </p>
 
         <CodeBlock
@@ -267,7 +280,8 @@ WHERE  name BETWEEN 300  AND 500;`}
       <section>
         <h2>Try it Yourself!</h2>
         <p>
-          Get all the products from the <b>product</b> table with the rating
+          Get all the products from the <code>product</code> table with the{" "}
+          <b>rating </b>
           values ranging from 4.3 to 4.8.
         </p>
       </section>

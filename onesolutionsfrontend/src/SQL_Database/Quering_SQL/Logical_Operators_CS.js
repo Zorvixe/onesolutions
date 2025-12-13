@@ -271,7 +271,7 @@ FROM  product
 WHERE  (brand = "Redmi" AND rating > 4) OR brand = "OnePlus";`}
         />
 
-        <div className="Note-container">
+        <div className="Quick-Tip-container">
           <div className="icon-note">
             <h6>
               <i class="bi bi-lightbulb"></i>Quick Tip:
@@ -289,17 +289,24 @@ WHERE  (brand = "Redmi" AND rating > 4) OR brand = "OnePlus";`}
         <h2>Try it Yourself!</h2>
         <ul>
           <li>
-            Fetch all the products from the "Clothing" category whose name does
-            not contain "Jeans".
+            Fetch all the products from the <code>"Clothing"</code> category
+            whose name does not contain <code>"Jeans"</code>.
           </li>
           <li>
             Fetch all the products belonging to any of the brands: Puma, Denim.
-            Exclude the products with names containing "Shirts".
+            Exclude the products with names containing <code>"Shirts"</code>.
           </li>
+
           <li>
             Fetch all the products that satisfy any of the following conditions:
-            price less than 100 or products belong to the "Food" category. Of
-            these, exclude ones with the name containing "Chocolate".
+            <ul>
+              <li>price less than 100</li>
+              <li>
+                products belong to the <code>"Food"</code> category.
+              </li>
+            </ul>
+            Of the products satisfying the above conditions, excluding the ones
+            with the name containing <code>"Chocolate"</code>.
           </li>
         </ul>
       </section>

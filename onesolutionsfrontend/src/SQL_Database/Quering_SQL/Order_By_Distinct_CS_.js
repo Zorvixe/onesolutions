@@ -26,12 +26,12 @@ const Order_By_Distinct_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>
-          The database contains a <b>product</b> table that stores the data of
-          products like name, category, price, brand and rating.
+          The database contains a <code>product</code> table that stores the
+          data of products like name, category, price, brand and rating.
         </p>
         <p>
-          You can check the schema and data of <b>product</b> table in the code
-          playground.
+          You can check the schema and data of <code>product</code> table in the
+          code playground.
         </p>
       </section>
 
@@ -39,9 +39,15 @@ const Order_By_Distinct_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>ORDER BY</h2>
         <p>
-          We use <b>ORDER BY</b> clause to order rows. By default, ORDER BY
+          We use <code>ORDER BY</code> clause to order rows. By default,{" "}
+          <b>ORDER BY</b>
           sorts the data in the <b>ascending order</b>.
         </p>
+        <img
+          src="/assets/img/order_by.png"
+          alt="DOM Tree"
+          style={{ width: "70%", height: "350px" }}
+        />
 
         <h3>Syntax</h3>
 
@@ -55,8 +61,8 @@ ORDER BY  column1 ASC / DESC;`}
 
         <h3>Example</h3>
         <p>
-          Get all products in the order of lowest price first in <b>"Puma"</b>{" "}
-          brand.
+          Get all products in the order of lowest <code>price</code> first in{" "}
+          <b>"Puma"</b> brand.
         </p>
 
         <CodeBlock
@@ -106,9 +112,11 @@ ORDER BY  price ASC;`}
         <h2>ORDER BY with Multiple Columns</h2>
 
         <p>
-          When you specify multiple columns in ORDER BY, the data is first
-          sorted by the first column. If values match, sorting continues using
-          the second column, and so on.
+          In the <code>ORDER BY</code> clause, when you specify multiple
+          columns, the data is first sorted by the first column you list. Then,
+          any items with the same value in that first column are further sorted
+          by the second column, and this process continues for subsequent
+          columns listed.
         </p>
 
         <h3>Syntax</h3>
@@ -122,10 +130,11 @@ ORDER BY column1 ASC / DESC,
          column2 ASC / DESC;`}
         />
 
-        <h3>Example 1</h3>
+        <h3>Examples</h3>
         <p>
-          Get all the products with the name <b>"Blue Shirt"</b> in the order of
-          highest rating first and then lowest price.
+          1. Get all the products with the name <b>"Blue Shirt"</b> in the order
+          of highest <code>rating</code> first and then lowest{" "}
+          <code>price</code>.
         </p>
 
         <CodeBlock
@@ -164,11 +173,10 @@ ORDER BY  rating DESC, price ASC;`}
           </tbody>
         </table>
 
-        <h3>Example 2</h3>
         <p>
-          Get all the products with the name <b>"Black Jeans"</b> and{" "}
-          <b>"Blue Shirt"</b> in the order of lowest price first and then
-          highest rating.
+          2. Get all the products with the name <b>"Black Jeans"</b> and{" "}
+          <b>"Blue Shirt"</b> in the order of lowest <code>price</code> first
+          and then highest <code>rating</code>.
         </p>
 
         <CodeBlock
@@ -178,6 +186,12 @@ FROM  product
 WHERE  name IN ("Black Jeans", "Blue Shirt")
 ORDER BY  price ASC, rating DESC;`}
         />
+        <p>
+          So here , multiple columns are there in <code>ORDER BY</code> clause.
+          The first column is <code>price</code>, so the data is sorted by
+          price. If any items with the same price, then they are further sorted
+          by the second column, <code>rating</code>.
+        </p>
 
         <h3>Output</h3>
 
@@ -214,21 +228,29 @@ ORDER BY  price ASC, rating DESC;`}
 
         <h3>Try it Yourself!</h3>
         <p>
-          Get all the shirts from <b>product</b> table in the{" "}
-          <b>descending order of rating</b> and <b>ascending order of price</b>.
+          Get all the shirts from <code>product</code> table in the{" "}
+          <b>descending order </b> of rating and <b>ascending order</b> of
+          price.
         </p>
 
-        <p>
-          <b>Note:</b> A product is a shirt if the <b>name</b> contains "Shirt".
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            A product is a shirt if the <b>name</b> contains "Shirt".
+          </p>
+        </div>
       </section>
 
       {/* DISTINCT Section */}
       <section>
         <h2>DISTINCT</h2>
         <p>
-          DISTINCT clause is used to return the <b>unique</b> values from a
-          column.
+          <code>DISTINCT</code> clause is used to return the <b>unique</b>{" "}
+          values from a column.
         </p>
 
         <h3>Syntax</h3>
@@ -278,7 +300,7 @@ ORDER BY brand;`}
         <h3>Try it Yourself!</h3>
         <p>
           Get a list of distinct <b>categories</b> available in the{" "}
-          <b>product</b> table.
+          <code>product</code> table.
         </p>
       </section>
 

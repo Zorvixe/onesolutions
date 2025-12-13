@@ -16,16 +16,28 @@ const Pagination_CS = ({ onSubtopicComplete }) => {
       <section>
         <p>
           E-commerce applications like Amazon or Flipkart hold millions of
-          products. But the user does not require all the products at once.
-          Fetching everything consumes a large amount of time and data.
+          products. But, the user does not require all the available products
+          every time s/he accesses the application. Infact, fetching all the
+          products takes too long and consumes huge amount of data.
         </p>
-
         <p>
-          Using <b>pagination</b>, only a small chunk of data is fetched based
-          on user request. The next chunk is fetched only when the user needs
-          it.
+          Using pagination, only a chunk of the data can be sent to the user
+          based on their request. And, the next chunk of data can be fetched
+          only when the user asks for it.
         </p>
-
+        <img
+          src="/assets/img/pagination.png"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "300px" }}
+        />
+        <p>
+          We use <code>LIMIT</code> & <code>OFFSET</code> clauses to select a
+          chunk of the results
+        </p>
+        <p>
+          Let's understand more about pagination concept using the following
+          databse.
+        </p>
         {/* Note Box */}
         <div className="Note-container">
           <div className="icon-note">
@@ -39,16 +51,12 @@ const Pagination_CS = ({ onSubtopicComplete }) => {
       </section>
 
       <section>
-        <h2>We use LIMIT &amp; OFFSET to fetch a chunk of results</h2>
-        <p>
-          Let's understand the pagination concept using the{" "}
-          <b>product</b> table.
-        </p>
-
         <h2>Database</h2>
         <p>
-          The database contains a <b>product</b> table with name, category,
-          price, brand and rating.
+          The database contains aproducttable that stores the data of{" "}
+          <b>products </b>
+          like name, category, price, brand and rating. You can check the schema
+          and data ofproducttable in the code playground.
         </p>
       </section>
 
@@ -57,7 +65,7 @@ const Pagination_CS = ({ onSubtopicComplete }) => {
         <h2>LIMIT</h2>
         <p>
           <b>LIMIT</b> clause is used to specify the{" "}
-          <b>number of rows (n)</b> we want in the result.
+          <code>number of rows (n)</code> we want in the result.
         </p>
 
         <h3>Syntax</h3>
@@ -120,8 +128,8 @@ LIMIT 2;`}
             </h6>
           </div>
           <p>
-            If LIMIT value is greater than the total rows, then all rows will
-            be retrieved.
+            If LIMIT value is greater than the total rows, then all rows will be
+            retrieved.
           </p>
         </div>
       </section>
@@ -130,8 +138,11 @@ LIMIT 2;`}
       <section>
         <h2>OFFSET</h2>
         <p>
-          <b>OFFSET</b> is used to specify the starting position (from{" "}
-          <b>n+1</b>th row) from where rows must be selected.
+          <b>OFFSET</b> is used to specify the starting position{" "}
+          <code>
+            (from <b>n+1</b>th row)
+          </code>{" "}
+          from where rows must be selected.
         </p>
 
         <h3>Syntax</h3>
@@ -202,7 +213,7 @@ LIMIT 5 OFFSET 6;`}
       <section>
         <h2>Possible Mistakes</h2>
 
-        <h3>1. Using OFFSET before LIMIT</h3>
+        <p>1. Using OFFSET before LIMIT</p>
 
         <CodeBlock
           language="sql"
@@ -211,8 +222,9 @@ FROM product
 OFFSET 2 
 LIMIT 4;`}
         />
-
-        <p><b>Error:</b> near "2": syntax error</p>
+        <div className="Error-message">
+          <p>Error: near "2": syntax error</p>
+        </div>
 
         <h3>2. Using OFFSET alone</h3>
 
@@ -223,7 +235,9 @@ FROM product
 OFFSET 2;`}
         />
 
-        <p><b>Error:</b> near "2": syntax error</p>
+        <div className="Error-message">
+          <p>Error: near "2": syntax error</p>
+        </div>
 
         <h3>Try it Yourself!</h3>
         <p>
@@ -237,20 +251,26 @@ OFFSET 2;`}
               <i className="bi bi-journal-text"></i>Note
             </h6>
           </div>
-          <p>In SQLite, OFFSET must be used after LIMIT.</p>
-          <p>Default OFFSET value is 0.</p>
-          <p>
-            In PostgreSQL, OFFSET can be used <b>with or without</b> LIMIT.
-          </p>
+          <ul>
+            <li>
+              In SQLite, <b>OFFSET</b> clause should be used after the{" "}
+              <b>LIMIT</b> clause.
+            </li>
+            <li>
+              Default <b>OFFSET</b> value is 0.
+            </li>
+            <li>
+              In PostgreSQL, the <b>OFFSET</b> clause can be used with or
+              without the <b>LIMIT</b> clause.
+            </li>
+          </ul>
         </div>
       </section>
 
       {/* Continue Button */}
       <div className="view-continue" style={{ marginTop: "20px" }}>
         <button
-          className={`btn-continue ${
-            isSubtopicCompleted ? "completed" : ""
-          }`}
+          className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
           onClick={handleContinue}
           disabled={isSubtopicCompleted}
         >

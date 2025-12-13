@@ -544,8 +544,214 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
             actual: `Found ${allSectionIdElements.length} element(s) with id prefix 'section'.`
         };
     }
+
+    case "check-carousel-container": {
+      const carousel = iframeDoc.getElementById("carouselExampleControls");
     
+      const passed =
+        carousel &&
+        carousel.classList.contains("carousel") &&
+        carousel.classList.contains("slide");
+    
+      return {
+        passed,
+        actual: passed
+          ? "Found carousel container with id carouselExampleControls and required classes"
+          : "Carousel container with id carouselExampleControls and classes carousel slide not found",
+      };
+    }
+    case "check-carousel-indicators": {
+      const carousel = iframeDoc.getElementById("carouselExampleControls");
+      if (!carousel) {
+        return {
+          passed: false,
+          actual: "Carousel container not found",
+        };
+      }
+    
+      const indicators = carousel.querySelector(".carousel-indicators");
+      const buttons = indicators
+        ? indicators.querySelectorAll("button")
+        : [];
+    
+      const passed = buttons.length >= 3;
+    
+      return {
+        passed,
+        actual: passed
+          ? `Found ${buttons.length} carousel indicator buttons`
+          : "Carousel indicators with minimum 3 buttons not found",
+      };
+    }
+
+    case "check-carousel-items": {
+      const carousel = iframeDoc.getElementById("carouselExampleControls");
+      if (!carousel) {
+        return {
+          passed: false,
+          actual: "Carousel container not found",
+        };
+      }
+    
+      const items = carousel.querySelectorAll(".carousel-item");
+      const passed = items.length >= 3;
+    
+      return {
+        passed,
+        actual: passed
+          ? `Found ${items.length} carousel-item elements`
+          : "Minimum 3 carousel-item elements not found",
+      };
+    }
+
+    case "check-active-carousel-item": {
+      const activeItems = iframeDoc.querySelectorAll(
+        "#carouselExampleControls .carousel-item.active"
+      );
+    
+      const passed = activeItems.length === 1;
+    
+      return {
+        passed,
+        actual: passed
+          ? "Exactly one active carousel-item found"
+          : `Expected 1 active carousel-item, found ${activeItems.length}`,
+      };
+    }
+
+    case "check-carousel-images": {
+      const images = iframeDoc.querySelectorAll(
+        "#carouselExampleControls .carousel-item img"
+      );
+    
+      const passed = images.length >= 3;
+    
+      return {
+        passed,
+        actual: passed
+          ? `Found ${images.length} images inside carousel items`
+          : "Carousel items with images not found",
+      };
+    }
+
+    case "check-embed-container": {
+      const embedContainer = iframeDoc.querySelector(
+        ".embed-responsive, .ratio"
+      );
+    
+      const passed = !!embedContainer;
+    
+      return {
+        passed,
+        actual: passed
+          ? "Embed container found with Bootstrap embed class"
+          : "Bootstrap embed container not found",
+      };
+    }
+    case "check-embed-iframe": {
+      const iframe = iframeDoc.querySelector(
+        ".embed-responsive iframe, .ratio iframe"
+      );
+    
+      const passed = !!iframe;
+    
+      return {
+        passed,
+        actual: passed
+          ? "Iframe element found inside embed container"
+          : "Iframe element not found inside embed container",
+      };
+    }
+        
+    case "check-display-function-usage": {
+      const buttons = iframeDoc.querySelectorAll("button[onclick]");
+      let isDisplayUsed = false;
+    
+      buttons.forEach((button) => {
+        const onclickValue = button.getAttribute("onclick");
+        if (
+          onclickValue &&
+          onclickValue.includes("display(") &&
+          onclickValue.includes("section-")
+        ) {
+          isDisplayUsed = true;
+        }
+      });
+    
+      return {
+        passed: isDisplayUsed,
+        actual: isDisplayUsed
+          ? "display() function is used with section id in onclick attribute"
+          : "display() function with section id not used in onclick attribute",
+      };
+    }
+    
+    case "check-data-section-and-default": {
+      const sectionElements = iframeDoc.querySelectorAll("[data-section]");
+      const defaultSection = iframeDoc.querySelector("[data-section][data-default]");
+    
+      const hasDataSection = sectionElements.length >= 2;
+      const hasDataDefault = !!defaultSection;
+    
+      const passed = hasDataSection && hasDataDefault;
+    
+      return {
+        passed,
+        actual: passed
+          ? `Found ${sectionElements.length} data-section elements and one default section`
+          : !hasDataSection
+          ? "No sufficient elements found with data-section attribute"
+          : "No element found with both data-section and data-default attributes",
+      };
+    }
+    case "check-complete-section-validation": {
+      // Get all elements with data-section
+      const sectionElements = iframeDoc.querySelectorAll("[data-section]");
       
+      // Get element with data-default
+      const defaultSection = iframeDoc.querySelector("[data-section][data-default]");
+      
+      // Get all elements that should be sections (by ID pattern)
+      const allExpectedSections = iframeDoc.querySelectorAll('[id^="section"], [id$="-page"], [id$="-details"], .page-section');
+      
+      const results = {
+        totalDataSections: sectionElements.length,
+        hasDefaultSection: !!defaultSection,
+        sectionsWithDataSection: [],
+        sectionsWithoutDataSection: [],
+        defaultSectionId: defaultSection ? defaultSection.id : "none"
+      };
+      
+      // Check which expected sections have data-section
+      allExpectedSections.forEach(section => {
+        if (section.hasAttribute("data-section")) {
+          results.sectionsWithDataSection.push(section.id || "unnamed");
+        } else {
+          results.sectionsWithoutDataSection.push(section.id || "unnamed");
+        }
+      });
+      
+      // Determine if passed
+      const passed = 
+        sectionElements.length >= 2 &&
+        results.hasDefaultSection &&
+        results.sectionsWithoutDataSection.length === 0;
+      
+      return {
+        passed,
+        actual: passed
+          ? `✓ Found ${results.totalDataSections} data-section elements
+             ✓ Default section: ${results.defaultSectionId}
+             ✓ All ${results.sectionsWithDataSection.length} sections have data-section`
+          : `✗ Issues found:
+             - Total data-section elements: ${results.totalDataSections} (need at least 2)
+             - Has default section: ${results.hasDefaultSection ? "Yes" : "No"}
+             - Sections missing data-section: ${results.sectionsWithoutDataSection.length > 0 ? results.sectionsWithoutDataSection.join(", ") : "None"}
+             - Default section ID: ${results.defaultSectionId}`
+      };
+    }
+    
+    
 
       default:
         return {

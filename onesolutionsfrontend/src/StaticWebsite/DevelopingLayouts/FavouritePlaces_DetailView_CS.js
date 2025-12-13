@@ -332,8 +332,12 @@ const FavouritePlaces_DetailView_CS = ({
 
       {/* Note */}
 
-      <div className="Note-container">
-        <h6>Pro Tip</h6>
+      <div className="Quick-Tip-container">
+        <div className="icon-note">
+          <h6>
+            <i class="bi bi-lightbulb"></i>Pro Tip:
+          </h6>
+        </div>
         <p>
           Always test the Video ID carefully. Even one wrong character will
           prevent the video from loading. Recommended: <b>?rel=0</b> hides

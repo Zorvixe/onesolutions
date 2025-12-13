@@ -45,7 +45,28 @@ p {
   flex-direction: row;
   justify-content: flex-end;
 } */
-
+.Quick-Tip-container {
+  background-color: rgba(179, 242, 185, 0.442);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.Quick-Tip-container h6 {
+  color: #fff;
+  font-size: 17px;
+  border-radius: 18px;
+  text-align: center;
+  width: 15%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #006a4e;
+  margin: 0;
+  gap: 5px;
+}
 .Note-container h6 {
   color: #fff;
   font-size: 17px;

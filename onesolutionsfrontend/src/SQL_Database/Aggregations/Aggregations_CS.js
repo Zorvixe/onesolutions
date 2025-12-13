@@ -15,27 +15,37 @@ const Aggregations_CS = ({ onSubtopicComplete }) => {
 
       <section>
         <p>
-          Consider sports tournaments like cricket. Players’ performances are
-          analysed based on batting average, maximum sixes hit, least score,
-          etc.
+          Consider the case of sports tournaments like cricket. Players’
+          performances are analysed based on their batting average, maximum
+          number of sixes hit, the least score in a tournament, etc.
         </p>
         <p>
-          Aggregation helps to combine multiple values into a single value,
-          e.g., individual scores to an average score.
+          We perform aggregations in such scenarios to combine multiple values
+          into a single value, i.e., individual scores to an average score.
+        </p>
+        <p>
+          Let’s learn more about aggregations to perform insightful analysis
+          using the following database.
         </p>
       </section>
 
       <section>
         <h2>Database</h2>
         <p>
-          The database contains <b>player_match_details</b> table storing
-          details of players in a match like name, match, score, fours, sixes,
-          and year.
+          The database consists of <code>player_match_details</code> table which
+          stores the details of players in a match like name, match, score,
+          year, number of fours and sixes scored. In the table:
         </p>
-        <p>
-          - Score, fours, and sixes may be <b>NULL</b> if player did not play.{" "}
-          <br />- A single player can participate in multiple matches in a year.
-        </p>
+        <ul>
+          <li>
+            The score, fours, and sixes may have NULL values if the player did
+            not get a chance to play in the match.
+          </li>
+          <li>
+            A single player can participate in multiple matches in a year. So,
+            there can be multiple entries for each player.
+          </li>
+        </ul>
 
         <h3>Schema</h3>
         <CodeBlock
@@ -55,6 +65,8 @@ const Aggregations_CS = ({ onSubtopicComplete }) => {
         <h2>Aggregation Functions</h2>
         <p>
           Combining multiple values into a single value is called aggregation.
+          Following are the functions provided by SQL to perform aggregations on
+          the given data:
         </p>
 
         <table
@@ -99,15 +111,25 @@ const Aggregations_CS = ({ onSubtopicComplete }) => {
 FROM TABLE;`}
         />
 
-        <p>
-          Note: We can calculate multiple aggregate functions in a single query.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            We can calculate multiple aggregate functions in a single query.
+          </p>
+        </div>
       </section>
 
       <section>
         <h2>Examples</h2>
 
-        <h3>Total runs scored by "Ram"</h3>
+        <p>
+          1. Get the total runs scored by "Ram" from the{" "}
+          <code>player_match_details</code> table.
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT SUM(score)
@@ -133,7 +155,10 @@ WHERE name = "Ram";`}
           </tbody>
         </table>
 
-        <h3>Highest and least scores in 2011</h3>
+        <p>
+          2. Get the highest and least scores among all the matches that
+          happened in the year 2011.
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT MAX(score), MIN(score)
@@ -165,7 +190,7 @@ WHERE year = 2011;`}
       <section>
         <h2>COUNT Variants</h2>
 
-        <p>Calculate total number of matches played:</p>
+        <p>Calculate the total number of matches played in the tournament.</p>
 
         <CodeBlock
           language="sql"
@@ -179,7 +204,11 @@ SELECT COUNT(1) FROM player_match_details;
 SELECT COUNT(column_name) FROM player_match_details;`}
         />
 
-        <p>Output: All variants give the same result: 18</p>
+        <b>Output of Variant 1, Variant 2 and Variant 3</b>
+        <p>
+          All the variants, i.e., Variant 1, Variant 2 and Variant 3 give the
+          same result: 18
+        </p>
 
         <div className="Note-container">
           <div className="icon-note">
@@ -188,52 +217,135 @@ SELECT COUNT(column_name) FROM player_match_details;`}
             </h6>
           </div>
           <p>
-            <b>COUNT(*)</b> counts all rows including NULLs. <br />
-            <b>COUNT(column_name)</b> counts only non-NULL values in that
-            column.
+            In SQL, there's a difference between using <b>COUNT(*)</b> and
+            <b> COUNT(column_name)</b>:
+            <ul>
+              <li>
+                <b>COUNT(*): </b> This function counts the total number of rows
+                in a table, regardless of whether any specific column contains
+                NULL values. It counts all rows, including those with NULL
+                values, and returns the total count.
+              </li>
+              <li>
+                <b>COUNT(column_name): </b> This function counts the number of
+                Non-NULL values in the specified column. It excludes NULL values
+                from the count and only considers the Non-NULL values within the
+                specified column.
+              </li>
+            </ul>
           </p>
         </div>
       </section>
 
       <section>
         <h2>Special Cases</h2>
-        <p>Aggregate functions on non-numeric data or NULL values:</p>
+        <ul>
+          <li>
+            When <code>SUM</code> function is applied on non-numeric data types
+            like strings, date, time, datetime etc.,
+            <br />
+            <strong>SQLite DBMS</strong> returns <code>0.0</code> and
+            <strong> PostgreSQL DBMS</strong> returns <code>NULL</code>.
+          </li>
 
-        <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "70%" }}
-        >
-          <thead>
-            <tr>
-              <th>Aggregate Function</th>
-              <th>Output on Strings / NULL only</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>MIN, MAX</td>
-              <td>Lexicographic ordering</td>
-            </tr>
-            <tr>
-              <td>SUM, AVG</td>
-              <td>0 (SQLite) / None (PostgreSQL)</td>
-            </tr>
-            <tr>
-              <td>COUNT</td>
-              <td>Default behavior (NULLs ignored)</td>
-            </tr>
-          </tbody>
-        </table>
+          <li>Aggregate functions on strings and their outputs</li>
+          <li>
+            <table
+              border="1"
+              cellPadding="6"
+              style={{ borderCollapse: "collapse", width: "60%" }}
+            >
+              <thead>
+                <tr>
+                  <th>Aggregate Functions</th>
+                  <th>Output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MIN, MAX</td>
+                  <td>Based on lexicographic ordering</td>
+                </tr>
+                <tr>
+                  <td>SUM, AVG</td>
+                  <td>0 (depends on DBMS)</td>
+                </tr>
+                <tr>
+                  <td>COUNT</td>
+                  <td>Default behavior</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>
+            <code>NULL</code> values are ignored while computing the aggregation
+            values.
+          </li>
+
+          <li>
+            When aggregate functions are applied on only <code>NULL</code>{" "}
+            values:
+          </li>
+          <li>
+            <table
+              border="1"
+              cellPadding="6"
+              style={{ borderCollapse: "collapse", width: "40%" }}
+            >
+              <thead>
+                <tr>
+                  <th>Aggregate Functions</th>
+                  <th>Output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>MIN</td>
+                  <td>NULL</td>
+                </tr>
+                <tr>
+                  <td>MAX</td>
+                  <td>NULL</td>
+                </tr>
+                <tr>
+                  <td>SUM</td>
+                  <td>NULL</td>
+                </tr>
+                <tr>
+                  <td>COUNT</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>AVG</td>
+                  <td>NULL</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+        </ul>
       </section>
 
       <section>
         <h2>Alias</h2>
         <p>
-          Use <b>AS</b> keyword to provide temporary column names in the output.
+          Using the keyword <code>AS</code>, we can provide alternate temporary
+          names to the columns in the output.
         </p>
-
-        <h3>Example 1: Rename player name</h3>
+        <b>Syntax: </b>
+        <CodeBlock
+          language="sql"
+          code={`SELECT
+  c1 AS a1,
+  c2 AS a2,
+  ...
+FROM
+  table_name;`}
+        />
+        <h3>Examples </h3>
+        <p>
+          1. Get all the names of players with column name as{" "}
+          <code>"player_name"</code>.
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT name AS player_name
@@ -261,7 +373,9 @@ FROM player_match_details;`}
           </tbody>
         </table>
 
-        <h3>Example 2: Average score as "avg_score"</h3>
+        <p>
+          2. Get the average of all scores as <code>"avg_score"</code>.
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT AVG(score) AS avg_score
@@ -294,7 +408,7 @@ FROM player_match_details;`}
           <li>Get the least score among all matches.</li>
           <li>Get the highest score in 2014.</li>
           <li>
-            Get the total number of sixes hit as <b>sixes_hit</b>.
+            Get the total number of sixes hit as <code>sixes_hit</code>.
           </li>
         </ul>
       </section>

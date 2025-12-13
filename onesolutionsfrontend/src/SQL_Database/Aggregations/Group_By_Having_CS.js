@@ -15,27 +15,35 @@ const Group_By_Having_CS = ({ onSubtopicComplete }) => {
 
       <section>
         <p>
-          The <b>GROUP BY</b> keyword groups rows with the same values for the
-          specified columns. Aggregations can then be performed on these groups
-          for deeper analytics.
+          The <code>GROUP BY</code> keyword in SQL is used to group rows which
+          have the same values for the mentioned attributes. You can perform
+          aggregations on these groups to get finer analytics.
         </p>
         <p>
-          <b>HAVING</b> keyword filters the aggregated results after GROUP BY is
-          applied.
+          THE <code>HAVING</code> keyword is used to further refine the data by
+          filtering the aggregated values. Let’s explore more about{" "}
+          <b>GROUP BY</b>
+          with <b>HAVING</b> clauses with the following database.
         </p>
       </section>
 
       <section>
         <h2>Database</h2>
         <p>
-          The database contains <b>player_match_details</b> table with player
-          information like name, match, score, year, fours, and sixes.
+          The database consists of <code>player_match_details</code> table that
+          stores the information of players' details like name, match, score,
+          year, number of fours and sixes scored. In the table:
         </p>
-        <p>
-          - Score, fours, and sixes may be <b>NULL</b> if the player did not
-          play. <br />- A single player can participate in multiple matches,
-          resulting in multiple entries.
-        </p>
+        <ul>
+          <li>
+            The score, fours, and sixes may have NULL values if the player has
+            not played the match.
+          </li>
+          <li>
+            A single player can participate in multiple matches in a year. So,
+            there can be multiple entries for each player.
+          </li>
+        </ul>
 
         <h3>Schema</h3>
         <CodeBlock
@@ -49,8 +57,11 @@ const Group_By_Having_CS = ({ onSubtopicComplete }) => {
   year INTEGER
 );`}
         />
+        <p>
+          You can run the below command to get the schema of{" "}
+          <code>player_match_details</code> table.
+        </p>
 
-        <h3>Check Schema</h3>
         <CodeBlock
           language="sql"
           code={`PRAGMA table_info(player_match_details);`}
@@ -60,8 +71,8 @@ const Group_By_Having_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>HAVING</h2>
         <p>
-          <b>HAVING</b> is used to filter groups after aggregation using GROUP
-          BY.
+          <code>HAVING</code> clause is used to filter the resultant rows after
+          the application ofGROUP BYclause.
         </p>
 
         <h3>Syntax</h3>
@@ -128,10 +139,17 @@ HAVING half_centuries > 1;`}
               <i className="bi bi-journal-text"></i>Note
             </h6>
           </div>
-          <p>
-            <b>WHERE</b> filters rows before grouping. <br />
-            <b>HAVING</b> filters groups after grouping.
-          </p>
+          <b>WHERE vs HAVING:</b>
+          <ul>
+            <li>
+              <b>WHERE</b> is used to filter rows and this operation is
+              performed before grouping.
+            </li>
+            <li>
+              <b>HAVING</b> is used to filter groups and this operation is
+              performed after grouping.
+            </li>
+          </ul>
         </div>
       </section>
 

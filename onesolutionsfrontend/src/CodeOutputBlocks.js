@@ -8,6 +8,7 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-jsx";
+import "ace-builds/src-noconflict/mode-sql"; // ✅ SQL MODE
 import "ace-builds/src-noconflict/theme-monokai";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
@@ -29,27 +30,26 @@ const getLanguageInfo = (code, language) => {
       css: "CSS",
       react: "React JSX",
       js: "JavaScript",
+      sql: "SQL", // ✅ SQL
     };
+
     return {
       mode: language === "jsx" || language === "react" ? "jsx" : language,
       displayName: displayNames[language] || "Note",
     };
   }
 
-  // Auto-detect language from code content
+  // Auto-detect React / JSX
   if (
     code.includes("import React") ||
     code.includes("export default") ||
-    code.includes("function Component") ||
-    code.includes("const Component") ||
     code.includes("className=") ||
-    (code.includes("</") && code.includes("/>")) ||
-    code.includes("React.") ||
-    (code.match(/return\s*\([\s\S]*?\)/) && code.includes("</"))
+    (code.includes("</") && code.includes("/>"))
   ) {
     return { mode: "jsx", displayName: "React JSX" };
   }
 
+  // Auto-detect HTML
   if (
     code.includes("<!DOCTYPE html>") ||
     code.includes("<html>") ||
@@ -58,6 +58,19 @@ const getLanguageInfo = (code, language) => {
     return { mode: "html", displayName: "HTML" };
   }
 
+  // ✅ Auto-detect SQL
+  if (
+    /\bSELECT\b/i.test(code) ||
+    /\bINSERT\b/i.test(code) ||
+    /\bUPDATE\b/i.test(code) ||
+    /\bDELETE\b/i.test(code) ||
+    /\bFROM\b/i.test(code) ||
+    /\bWHERE\b/i.test(code)
+  ) {
+    return { mode: "sql", displayName: "SQL" };
+  }
+
+  // Auto-detect JavaScript
   if (
     code.includes("function") &&
     code.includes("{") &&
@@ -67,10 +80,12 @@ const getLanguageInfo = (code, language) => {
     return { mode: "javascript", displayName: "JavaScript" };
   }
 
+  // Auto-detect Java
   if (code.includes("public class") || code.includes("System.out.println")) {
     return { mode: "java", displayName: "Java" };
   }
 
+  // Auto-detect Python
   if (
     code.includes("def ") ||
     (code.includes("print(") && !code.includes("console.log"))
@@ -78,6 +93,7 @@ const getLanguageInfo = (code, language) => {
     return { mode: "python", displayName: "Python" };
   }
 
+  // Auto-detect CSS
   if (code.includes("{") && code.includes("}") && code.includes(":")) {
     return { mode: "css", displayName: "CSS" };
   }
@@ -115,7 +131,6 @@ export const CodeBlock = ({
         theme={theme}
         name={`editor_${mode}`}
         fontSize={fontSize}
-        lineHeight={1.4}
         showPrintMargin={false}
         showGutter={true}
         highlightActiveLine={false}
@@ -124,31 +139,12 @@ export const CodeBlock = ({
         maxLines={Infinity}
         setOptions={{
           readOnly: true,
-          highlightActiveLine: false,
-          highlightGutterLine: false,
           showLineNumbers: true,
           tabSize: 2,
           useWorker: false,
-          showFoldWidgets: true,
-          behavioursEnabled: false,
-          enableBasicAutocompletion: false,
-          enableLiveAutocompletion: false,
-          enableSnippets: false,
           fontFamily:
             "'Fira Code', 'Cascadia Code', 'Monaco', 'Consolas', monospace",
-          scrollPastEnd: 0.5,
-          highlightSelectedWord: false,
-          displayIndentGuides: true,
-          showInvisibles: false,
           fixedWidthGutter: true,
-          wrap: false,
-          indentedSoftWrap: false,
-        }}
-        editorProps={{
-          $blockScrolling: true,
-        }}
-        style={{
-          lineHeight: "1.4",
         }}
       />
     </div>
@@ -168,7 +164,7 @@ export const OutputBlock = ({ output }) => {
   );
 };
 
-// Combined CodeOutputBlock component for displaying both code and output
+// Combined CodeOutputBlock component
 export const CodeOutputBlock = ({
   code,
   output,
@@ -176,8 +172,6 @@ export const CodeOutputBlock = ({
   theme = "monokai",
   fontSize = 15,
 }) => {
-  const { mode, displayName } = getLanguageInfo(code, language);
-
   return (
     <div className="code-output-combined-cheat">
       <CodeBlock
