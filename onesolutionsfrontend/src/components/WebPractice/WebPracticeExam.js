@@ -273,11 +273,7 @@ const WebPracticeExam = () => {
 
   const handleBack = () => {
     if (examStarted) {
-      if (
-        window.confirm(
-          "Are you sure you want to leave the exam?"
-        )
-      ) {
+      if (window.confirm("Are you sure you want to leave the exam?")) {
         navigate(-1);
       }
     } else {
@@ -377,7 +373,6 @@ const WebPracticeExam = () => {
         {examStarted && timeRemaining > 0 && (
           <div className="exam-timer">
             <div className="exam-timer-display">
-              <span className="exam-timer-label">Time Remaining:</span>
               <span
                 className={`exam-timer-value ${
                   timeRemaining < 300 ? "exam-timer-warning" : ""
@@ -400,20 +395,6 @@ const WebPracticeExam = () => {
 
       <div className="exam-content">
         <div className="exam-questions-list">
-          <div className="exam-questions-header">
-            <button className="exam-back-button" onClick={handleBack}>
-              ← Back
-            </button>
-            <div className="exam-questions-summary">
-              <span className="exam-summary-item">
-                ✅ Solved: {solvedCount}/{questions.length}
-              </span>
-              <span className="exam-summary-item">
-                🎯 Score: {totalScore}/{maxScore} points
-              </span>
-            </div>
-          </div>
-
           <div className="exam-questions-table-container">
             <table className="exam-questions-table exam-onesolutions-table">
               <thead>

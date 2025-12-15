@@ -336,20 +336,20 @@ export const goalsData = [
               },
             ],
           },
-          {
-            id: "QW9_m9_A0 g1_H c1_7B",
-            name: "Build Your Own Static Website Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m9_H g1_7B c1_D2E",
-                name: "Build Your Own Static Website Course Exam | Instructions",
-              },
-              {
-                id: "QW9_s2_A0 m9_H g1_7B c1_D2E",
-                name: "Build Your Own Static Website Course Exam",
-              },
-            ],
-          },
+          // {
+          //   id: "QW9_m9_A0 g1_H c1_7B",
+          //   name: "Build Your Own Static Website Course Exam",
+          //   topic: [
+          //     {
+          //       id: "QW9_s1_A0 m9_H g1_7B c1_D2E",
+          //       name: "Build Your Own Static Website Course Exam | Instructions",
+          //     },
+          //     {
+          //       id: "QW9_s2_A0 m9_H g1_7B c1_D2E",
+          //       name: "Build Your Own Static Website Course Exam",
+          //     },
+          //   ],
+          // },
         ],
       },
       {
