@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import CodePlayground from "../../CodePlayground/CodePlayground";
 import validateHtmlTest from "./validateHtmlTest";
 import validateCssTest from "./validateCssTest";
-import "./WebPracticeExam.css";
+import "./WebPractice.css";
 
 const WebPracticeExamQuestion = () => {
   const { practiceId, questionId } = useParams();
@@ -37,10 +37,13 @@ const WebPracticeExamQuestion = () => {
   const [warnings, setWarnings] = useState(0);
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [securityEvents, setSecurityEvents] = useState([]);
+  const [examFailed, setExamFailed] = useState(false);
 
   const iframeRef = useRef(null);
   const autoSaveTimeoutRef = useRef(null);
   const examEndTimeRef = useRef(null);
+  const timerIntervalRef = useRef(null);
+  const activityMonitorRef = useRef(null);
 
   const {
     subtopicId,
@@ -51,43 +54,43 @@ const WebPracticeExamQuestion = () => {
     timeRemaining: initialTime,
   } = location.state || {};
 
-  // Security event handlers
+  // Enhanced security event handlers
   const handleVisibilityChange = useCallback(() => {
-    if (document.visibilityState === "hidden" && examMode) {
+    if (document.visibilityState === "hidden" && examMode && !examFailed) {
       handleSecurityViolation("Tab switched");
     }
-  }, [examMode]);
+  }, [examMode, examFailed]);
 
   const handleBlur = useCallback(() => {
-    if (document.activeElement === document.body && examMode) {
+    if (document.activeElement === document.body && examMode && !examFailed) {
       handleSecurityViolation("Window switched");
     }
-  }, [examMode]);
+  }, [examMode, examFailed]);
 
   const handleBeforeUnload = useCallback(
     (e) => {
-      if (examMode && warnings < 3) {
+      if (examMode && !examFailed) {
         e.preventDefault();
-        e.returnValue =
-          "Are you sure you want to leave? You may fail the exam.";
+        e.returnValue = "Are you sure you want to leave? You will fail the exam if you leave.";
         handleSecurityViolation("Attempted to leave page");
       }
     },
-    [examMode, warnings]
+    [examMode, examFailed]
   );
 
-  const handleSecurityViolation = (type) => {
+  const handleSecurityViolation = async (type) => {
+    if (examFailed) return;
+
     const newWarnings = warnings + 1;
     setWarnings(newWarnings);
 
-    setSecurityEvents((prev) => [
-      ...prev,
-      {
-        type,
-        timestamp: new Date().toISOString(),
-        warningCount: newWarnings,
-      },
-    ]);
+    const event = {
+      type,
+      timestamp: new Date().toISOString(),
+      warningCount: newWarnings,
+    };
+
+    setSecurityEvents((prev) => [...prev, event]);
 
     // Save to localStorage
     const userId = user?.id || "guest";
@@ -95,7 +98,7 @@ const WebPracticeExamQuestion = () => {
     if (savedExam) {
       const examData = JSON.parse(savedExam);
       examData.warnings = newWarnings;
-      examData.securityEvents = securityEvents;
+      examData.securityEvents = [...(examData.securityEvents || []), event];
       localStorage.setItem(
         `exam_${practiceId}_${userId}`,
         JSON.stringify(examData)
@@ -107,30 +110,89 @@ const WebPracticeExamQuestion = () => {
     }
 
     if (newWarnings >= 3) {
-      handleExamFailure("Maximum security warnings exceeded (3/3)");
+      await handleExamFailure("Maximum security warnings exceeded (3/3)");
     }
   };
 
-  const handleExamFailure = (reason) => {
-    alert(`❌ Exam Failed: ${reason}. You will be redirected.`);
+  const handleExamFailure = async (reason) => {
+    if (examFailed) return;
+    
+    setExamFailed(true);
+    
+    // Stop all timers
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+    
+    // Clear all timeouts
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+    
+    if (activityMonitorRef.current) {
+      clearInterval(activityMonitorRef.current);
+    }
 
-    // Clear exam data
-    const userId = user?.id || "guest";
-    localStorage.removeItem(`exam_${practiceId}_${userId}`);
+    // Mark exam as failed in backend
+    try {
+      const userId = user?.id || "guest";
+      const savedExam = localStorage.getItem(`exam_${practiceId}_${userId}`);
+      
+      if (savedExam) {
+        const examData = JSON.parse(savedExam);
+        examData.status = "failed";
+        examData.failedReason = reason;
+        examData.failedAt = new Date().toISOString();
+        examData.timeRemaining = timeRemaining;
+        examData.finalWarnings = warnings;
+        
+        // Save failed exam data
+        localStorage.setItem(
+          `exam_${practiceId}_${userId}_failed`,
+          JSON.stringify(examData)
+        );
+        
+        // Remove active exam
+        localStorage.removeItem(`exam_${practiceId}_${userId}`);
+      }
+      
+      // Notify backend about exam failure
+      if (user?.id) {
+        await CodingPracticeService.recordExamFailure(
+          practiceId,
+          user.id,
+          reason,
+          warnings,
+          timeRemaining
+        );
+      }
+    } catch (error) {
+      console.error("Failed to record exam failure:", error);
+    }
+
+    // Show failure message
+    alert(`❌ Exam Failed: ${reason}. You will be redirected.`);
 
     // Navigate back
     if (topicId && subtopicId) {
       navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
-        state: { subtopicId, goalName, courseName, topicId },
+        state: { 
+          subtopicId, 
+          goalName, 
+          courseName, 
+          topicId,
+          examFailed: true,
+          failedReason: reason
+        },
       });
     } else {
       navigate(-1);
     }
   };
 
-  // Initialize security monitoring
+  // Initialize enhanced security monitoring
   useEffect(() => {
-    if (!examMode) return;
+    if (!examMode || examFailed) return;
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
     window.addEventListener("blur", handleBlur);
@@ -138,28 +200,75 @@ const WebPracticeExamQuestion = () => {
 
     // Prevent copy-paste
     const preventCopyPaste = (e) => {
-      if (examMode) e.preventDefault();
+      if (examMode && !examFailed) {
+        e.preventDefault();
+        handleSecurityViolation("Copy-paste attempt detected");
+      }
     };
 
     document.addEventListener("copy", preventCopyPaste);
     document.addEventListener("paste", preventCopyPaste);
     document.addEventListener("cut", preventCopyPaste);
 
-    // Prevent dev tools
+    // Prevent dev tools with enhanced detection
     const preventDevTools = (e) => {
-      if (
-        examMode &&
-        (e.key === "F12" ||
+      if (examMode && !examFailed) {
+        if (
+          e.key === "F12" ||
           (e.ctrlKey && e.shiftKey && e.key === "I") ||
           (e.ctrlKey && e.shiftKey && e.key === "J") ||
-          (e.ctrlKey && e.key === "U"))
-      ) {
-        e.preventDefault();
-        handleSecurityViolation("Dev tools attempt");
+          (e.ctrlKey && e.key === "U") ||
+          (e.metaKey && e.altKey && e.key === "I") // Mac dev tools
+        ) {
+          e.preventDefault();
+          handleSecurityViolation("Dev tools attempt detected");
+          return false;
+        }
       }
     };
 
     document.addEventListener("keydown", preventDevTools);
+
+    // Detect right-click context menu
+    const preventContextMenu = (e) => {
+      if (examMode && !examFailed) {
+        e.preventDefault();
+        handleSecurityViolation("Right-click context menu attempt");
+      }
+    };
+
+    document.addEventListener("contextmenu", preventContextMenu);
+
+    // Detect fullscreen exit
+    const detectFullscreenChange = () => {
+      if (examMode && !examFailed && !document.fullscreenElement) {
+        handleSecurityViolation("Fullscreen exit detected");
+      }
+    };
+
+    document.addEventListener("fullscreenchange", detectFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", detectFullscreenChange);
+    document.addEventListener("mozfullscreenchange", detectFullscreenChange);
+    document.addEventListener("MSFullscreenChange", detectFullscreenChange);
+
+    // Activity monitoring
+    let lastActivity = Date.now();
+    activityMonitorRef.current = setInterval(() => {
+      const now = Date.now();
+      if (examMode && !examFailed && (now - lastActivity) > 60000) { // 1 minute inactivity
+        handleSecurityViolation("Extended inactivity detected");
+      }
+    }, 30000); // Check every 30 seconds
+
+    // Update activity on user interaction
+    const updateActivity = () => {
+      lastActivity = Date.now();
+    };
+
+    document.addEventListener("mousemove", updateActivity);
+    document.addEventListener("keydown", updateActivity);
+    document.addEventListener("click", updateActivity);
+    document.addEventListener("scroll", updateActivity);
 
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
@@ -169,10 +278,23 @@ const WebPracticeExamQuestion = () => {
       document.removeEventListener("paste", preventCopyPaste);
       document.removeEventListener("cut", preventCopyPaste);
       document.removeEventListener("keydown", preventDevTools);
+      document.removeEventListener("contextmenu", preventContextMenu);
+      document.removeEventListener("fullscreenchange", detectFullscreenChange);
+      document.removeEventListener("webkitfullscreenchange", detectFullscreenChange);
+      document.removeEventListener("mozfullscreenchange", detectFullscreenChange);
+      document.removeEventListener("MSFullscreenChange", detectFullscreenChange);
+      document.removeEventListener("mousemove", updateActivity);
+      document.removeEventListener("keydown", updateActivity);
+      document.removeEventListener("click", updateActivity);
+      document.removeEventListener("scroll", updateActivity);
+      
+      if (activityMonitorRef.current) {
+        clearInterval(activityMonitorRef.current);
+      }
     };
-  }, [examMode, handleVisibilityChange, handleBlur, handleBeforeUnload]);
+  }, [examMode, examFailed, handleVisibilityChange, handleBlur, handleBeforeUnload]);
 
-  // Load exam data and timer
+  // Load exam data and timer with enhanced failure handling
   useEffect(() => {
     if (examMode) {
       const userId = user?.id || "guest";
@@ -180,6 +302,13 @@ const WebPracticeExamQuestion = () => {
 
       if (savedExam) {
         const examData = JSON.parse(savedExam);
+        
+        // Check if exam is already failed
+        if (examData.status === "failed") {
+          handleExamFailure("Exam was previously failed");
+          return;
+        }
+
         setWarnings(examData.warnings || 0);
         setSecurityEvents(examData.securityEvents || []);
 
@@ -189,6 +318,8 @@ const WebPracticeExamQuestion = () => {
 
           // Calculate remaining time
           const updateRemainingTime = () => {
+            if (examFailed) return;
+            
             const now = new Date();
             const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
             setTimeRemaining(remaining);
@@ -199,20 +330,30 @@ const WebPracticeExamQuestion = () => {
           };
 
           updateRemainingTime();
-          const timer = setInterval(updateRemainingTime, 1000);
+          timerIntervalRef.current = setInterval(updateRemainingTime, 1000);
 
-          return () => clearInterval(timer);
+          return () => {
+            if (timerIntervalRef.current) {
+              clearInterval(timerIntervalRef.current);
+            }
+          };
         }
       }
     } else if (initialTime) {
       setTimeRemaining(initialTime);
     }
-  }, [practiceId, user?.id, examMode, initialTime]);
+  }, [practiceId, user?.id, examMode, initialTime, examFailed]);
 
   const handleTimeUp = () => {
+    if (examFailed) return;
+    
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+    }
+    
     alert("⏰ Time's up! You will be redirected to the exam summary.");
     navigate(`/web-practice-exam/${practiceId}`, {
-      state: { subtopicId, goalName, courseName, topicId },
+      state: { subtopicId, goalName, courseName, topicId, timeUp: true },
     });
   };
 
@@ -299,8 +440,10 @@ const WebPracticeExamQuestion = () => {
       }
     };
 
-    loadQuestionData();
-  }, [practiceId, questionId]);
+    if (!examFailed) {
+      loadQuestionData();
+    }
+  }, [practiceId, questionId, examFailed]);
 
   const autoSaveCode = useCallback(
     async (questionId, code, isSolved = false) => {
@@ -336,7 +479,7 @@ const WebPracticeExamQuestion = () => {
           }));
 
           // Update exam progress in localStorage
-          if (examMode) {
+          if (examMode && !examFailed) {
             const userId = user?.id || "guest";
             const savedExam = localStorage.getItem(
               `exam_${practiceId}_${userId}`
@@ -364,11 +507,11 @@ const WebPracticeExamQuestion = () => {
         return { success: false, error: error.message };
       }
     },
-    [practiceId, selectedQuestion, examMode, user?.id]
+    [practiceId, selectedQuestion, examMode, user?.id, examFailed]
   );
 
   const updatePreview = (iframeRef) => {
-    if (!iframeRef.current) return;
+    if (!iframeRef.current || examFailed) return;
 
     const iframe = iframeRef.current;
     try {
@@ -394,7 +537,7 @@ const WebPracticeExamQuestion = () => {
   };
 
   const runTests = async (iframeRef) => {
-    if (!selectedQuestion || !iframeRef.current) return;
+    if (!selectedQuestion || !iframeRef.current || examFailed) return;
 
     setIsRunning(true);
     setOutput("Running tests...");
@@ -468,7 +611,24 @@ const WebPracticeExamQuestion = () => {
     }
   };
 
+  const renderDescriptionDetails = () => {
+    if (!selectedQuestion?.descriptionDetails || examFailed) return null;
+    if (typeof selectedQuestion.descriptionDetails === "string") {
+      return (
+        <div
+          className="desc-question-details"
+          dangerouslySetInnerHTML={{
+            __html: selectedQuestion.descriptionDetails,
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
   const handleRunTests = (iframeRef) => {
+    if (examFailed) return;
+    
     updatePreview(iframeRef);
     setTimeout(() => {
       runTests(iframeRef);
@@ -476,6 +636,8 @@ const WebPracticeExamQuestion = () => {
   };
 
   const handleCodeChange = (newCode) => {
+    if (examFailed) return;
+    
     if (newCode && typeof newCode === "object") {
       setCurrentCode(newCode);
       setAllTestsPassed(false);
@@ -494,6 +656,8 @@ const WebPracticeExamQuestion = () => {
   };
 
   const handleSubmit = async () => {
+    if (examFailed) return;
+    
     if (!allTestsPassed) {
       setSubmitMessage("❌ Please pass all tests before submitting.");
       return;
@@ -520,6 +684,8 @@ const WebPracticeExamQuestion = () => {
   };
 
   const handleBackToExam = () => {
+    if (examFailed) return;
+    
     navigate(`/web-practice-exam/${practiceId}`, {
       state: { subtopicId, goalName, courseName, topicId },
     });
@@ -535,7 +701,7 @@ const WebPracticeExamQuestion = () => {
   };
 
   const WarningModal = () => {
-    if (!showWarningModal) return null;
+    if (!showWarningModal || examFailed) return null;
 
     return (
       <div className="warning-modal-overlay">
@@ -551,6 +717,9 @@ const WebPracticeExamQuestion = () => {
           </p>
           <p className="warning-detail">
             Warning {warnings}/3 - {3 - warnings} remaining
+          </p>
+          <p className="warning-note">
+            <strong>Note:</strong> If you receive 3 warnings, your exam will be automatically failed.
           </p>
           <button
             className="warning-acknowledge-btn"
@@ -573,22 +742,11 @@ const WebPracticeExamQuestion = () => {
     );
   }
 
-  if (error) {
+  if (error || examFailed) {
     return (
       <div className="error-container">
-        <h2>Error</h2>
-        <p>{error}</p>
-        <button onClick={handleBackToExam} className="back-button">
-          ← Back to Exam
-        </button>
-      </div>
-    );
-  }
-
-  if (!selectedQuestion) {
-    return (
-      <div className="loading-container">
-        <p>Question not found...</p>
+        <h2>{examFailed ? "Exam Failed" : "Error"}</h2>
+        <p>{examFailed ? "You have failed the exam due to security violations." : error}</p>
         <button onClick={handleBackToExam} className="back-button">
           ← Back to Exam
         </button>
@@ -600,72 +758,57 @@ const WebPracticeExamQuestion = () => {
 
   return (
     <div className="web-practice-exam-question-container">
-      <WarningModal />
-
-      <div className="exam-question-header">
-        <div className="header-left">
-          <button className="back-button" onClick={handleBackToExam}>
-            ← Back to Exam
-          </button>
-          <div className="question-info">
-            <h2>{selectedQuestion.title}</h2>
-            <div className="question-meta">
-              <span className={`status ${currentStatus}`}>
-                {currentStatus === "solved"
-                  ? "✓ Solved"
-                  : currentStatus === "attempted"
-                  ? "● Attempted"
-                  : "○ Unsolved"}
-              </span>
-              <span
-                className={`difficulty ${selectedQuestion.difficulty?.toLowerCase()}`}
-              >
-                {selectedQuestion.difficulty || "Medium"}
-              </span>
-              <span className="score">
-                {selectedQuestion.score || 0} points
-              </span>
-            </div>
+      <div className="web-practice-header">
+        <button className="back-button" onClick={handleBackToExam}>
+          ← {selectedPractice.title}
+        </button>
+        <div>
+          <span
+            className={`timer-value ${timeRemaining < 300 ? "warning" : ""}`}
+          >
+            {formatTime(timeRemaining)}
+          </span>
+          {warnings > 0 && (
+            <span className="warnings-counter">
+              ⚠️ Warnings: {warnings}/3
+            </span>
+          )}
+        </div>
+        <div className="question-info">
+          <div className="question-meta">
+            <span className={`status ${currentStatus}`}>
+              {currentStatus === "solved"
+                ? "✓ Solved"
+                : currentStatus === "attempted"
+                ? "● Attempted"
+                : "○ Unsolved"}
+            </span>
+            <span
+              className={`difficulty ${
+                selectedQuestion.difficulty?.toLowerCase() || "medium"
+              }`}
+            >
+              {selectedQuestion.difficulty || "Medium"}
+            </span>
+            <span className="score-head">
+              {selectedQuestion.score || 0} points
+            </span>
           </div>
         </div>
-
-        {examMode && (
-          <div className="exam-security-info">
-            <div className="timer-display">
-              <span className="timer-label">Time:</span>
-              <span
-                className={`timer-value ${
-                  timeRemaining < 300 ? "warning" : ""
-                }`}
-              >
-                {formatTime(timeRemaining)}
-              </span>
-            </div>
-            <div className="warnings-display">
-              <span className="warnings-label">Warnings:</span>
-              <span
-                className={`warnings-value ${warnings >= 2 ? "critical" : ""}`}
-              >
-                {warnings}/3
-              </span>
-            </div>
-          </div>
-        )}
       </div>
 
-      <div className="exam-question-content">
+      <div className="web-practice-content" style={{ marginTop: "60px" }}>
         <div className="left-panel">
           <div className="question-description">
-            <h3>Description</h3>
-            <div className="description-content">
+            <div className="question-description-header">
+              <h3>Description</h3>
+              <h2>{selectedQuestion.title}</h2>
               <p>{selectedQuestion.description}</p>
-              {selectedQuestion.descriptionDetails && (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: selectedQuestion.descriptionDetails,
-                  }}
-                />
-              )}
+            </div>
+            <div className="question-description-content">
+              <div className="desc-question-full-view">
+                {renderDescriptionDetails()}
+              </div>
             </div>
           </div>
 
@@ -677,29 +820,49 @@ const WebPracticeExamQuestion = () => {
                 {testResults.length} Passed
               </span>
             </div>
-            <div className="test-results">
-              {testResults.map((test, index) => (
-                <div
-                  key={index}
-                  className={`test-case ${test.passed ? "passed" : "failed"}`}
-                >
-                  <div className="test-header">
-                    <span className="test-status">
-                      {test.passed ? "✓" : "✗"} Test {index + 1}
-                    </span>
-                  </div>
-                  <p>{test.description}</p>
-                  {!test.passed && (
-                    <div className="test-details">
-                      <span>Expected: {test.output}</span>
-                      <span>Actual: {test.actual}</span>
+            <div className="test-cases-content">
+              <div className="test-results">
+                {testResults.map((test, index) => (
+                  <div
+                    key={index}
+                    className={`test-case ${test.passed ? "passed" : "failed"}`}
+                  >
+                    <div className="test-header">
+                      <span className="test-status">
+                        {test.passed ? "✓" : "✗"} Test {index + 1}
+                        <span className="test-type-badge">
+                          {test.type} - {test.input || "unknown"}
+                        </span>
+                      </span>
+                      <span className="test-visibility">
+                        {test.visible ? "Visible" : "Hidden"}
+                      </span>
                     </div>
-                  )}
-                </div>
-              ))}
-              {testResults.length === 0 && (
-                <div className="no-tests">Run tests to see results</div>
-              )}
+                    <p className="test-description">{test.description}</p>
+                    {!test.passed && (
+                      <div className="test-details">
+                        <span>Expected: {test.output || "Test to pass"}</span>
+                        <span>Actual: {test.actual}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {testResults.length === 0 && (
+                  <div className="no-tests">
+                    Run the tests to see results here
+                  </div>
+                )}
+              </div>
+
+              <div className="test-actions">
+                <button
+                  onClick={handleSubmit}
+                  className="submit-btn"
+                  disabled={isSubmitting || examFailed}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Solution"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -713,36 +876,17 @@ const WebPracticeExamQuestion = () => {
             iframeRef={iframeRef}
             customRunHandler={() => handleRunTests(iframeRef)}
             runButtonText="Run Tests"
-            readOnly={!examMode || timeRemaining <= 0}
+            disabled={examFailed}
           />
-
           <div className="output-section">
             <h3>Test Output</h3>
             <div className="output-container">
-              <pre>{output || "Run tests to see output..."}</pre>
+              <pre>{output || "Test results will appear here..."}</pre>
             </div>
-          </div>
-
-          <div className="exam-question-actions">
-            <button
-              onClick={handleSubmit}
-              className="submit-btn"
-              disabled={isSubmitting || !allTestsPassed || timeRemaining <= 0}
-            >
-              {isSubmitting ? "Submitting..." : "Submit Question"}
-            </button>
-            {submitMessage && (
-              <div
-                className={`submit-message ${
-                  submitMessage.includes("✅") ? "success" : "error"
-                }`}
-              >
-                {submitMessage}
-              </div>
-            )}
           </div>
         </div>
       </div>
+      <WarningModal />
     </div>
   );
 };

@@ -221,16 +221,16 @@ const Navbar = () => {
                   <h3>Referral Bonus</h3>
                   <p>
                     Earn{" "}
-                    <span>
+                    {/* <span>
                       <i className="bi bi-currency-rupee"></i>2000
-                    </span>{" "}
+                    </span>{" "} */}
                     for every successful referral
                   </p>
                   <p>
                     Your friend gets{" "}
-                    <span>
+                    {/* <span>
                       <i className="bi bi-currency-rupee"></i>2000
-                    </span>{" "}
+                    </span>{" "} */}
                     discount on course fees
                   </p>
                   <p

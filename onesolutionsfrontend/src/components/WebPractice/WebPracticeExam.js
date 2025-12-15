@@ -275,7 +275,7 @@ const WebPracticeExam = () => {
     if (examStarted) {
       if (
         window.confirm(
-          "Are you sure you want to leave the exam? Your progress will be saved, but the timer will continue."
+          "Are you sure you want to leave the exam?"
         )
       ) {
         navigate(-1);
@@ -287,8 +287,8 @@ const WebPracticeExam = () => {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="spinner"></div>
+      <div className="exam-loading-container">
+        <div className="exam-spinner"></div>
         <p>Loading exam...</p>
       </div>
     );
@@ -296,10 +296,10 @@ const WebPracticeExam = () => {
 
   if (!selectedPractice) {
     return (
-      <div className="error-container">
+      <div className="exam-error-container">
         <h2>Exam Not Found</h2>
         <p>The requested exam could not be loaded.</p>
-        <button onClick={handleBack} className="back-button">
+        <button onClick={handleBack} className="exam-back-button">
           ← Go Back
         </button>
       </div>
@@ -312,24 +312,20 @@ const WebPracticeExam = () => {
     return (
       <div className="exam-start-modal-overlay">
         <div className="exam-start-modal">
-          <h2 className="modal-title">Start Exam</h2>
-
           <div className="exam-info">
             <h3>{selectedPractice.title}</h3>
-            <p className="exam-description">{selectedPractice.description}</p>
-
             <div className="exam-details">
-              <div className="detail-item">
-                <span className="detail-label">Duration:</span>
-                <span className="detail-value">3 hours</span>
+              <div className="exam-detail-item">
+                <span className="exam-detail-label">Duration:</span>
+                <span className="exam-detail-value">3 hours</span>
               </div>
-              <div className="detail-item">
-                <span className="detail-label">Questions:</span>
-                <span className="detail-value">{questions.length}</span>
+              <div className="exam-detail-item">
+                <span className="exam-detail-label">Questions:</span>
+                <span className="exam-detail-value">{questions.length}</span>
               </div>
-              <div className="detail-item">
-                <span className="detail-label">Passing Score:</span>
-                <span className="detail-value">70%</span>
+              <div className="exam-detail-item">
+                <span className="exam-detail-label">Passing Score:</span>
+                <span className="exam-detail-value">70%</span>
               </div>
             </div>
           </div>
@@ -339,21 +335,20 @@ const WebPracticeExam = () => {
             <ul>
               <li>✅ Complete all questions within 3 hours</li>
               <li>⚠️ Tab switching is monitored (3 warnings allowed)</li>
-              <li>⏱️ Timer cannot be paused</li>
               <li>📝 Submit each question individually</li>
               <li>🎯 Minimum 70% required to pass</li>
               <li>🚫 No external help allowed</li>
             </ul>
           </div>
 
-          <div className="modal-actions">
+          <div className="exam-modal-actions">
             <button
-              className="btn-secondary"
+              className="exam-btn-secondary"
               onClick={() => setShowStartModal(false)}
             >
               Cancel
             </button>
-            <button className="btn-primary" onClick={handleStartExam}>
+            <button className="exam-btn-primary" onClick={handleStartExam}>
               Start Exam Now
             </button>
           </div>
@@ -372,28 +367,28 @@ const WebPracticeExam = () => {
   const maxScore = questions.reduce((sum, q) => sum + (q.score || 0), 0);
 
   return (
-    <div className="web-practice-exam-container">
+    <div className="exam-container">
       <StartExamModal />
 
       <div className="exam-header">
-        <button className="back-button" onClick={handleBack}>
+        <button className="exam-back-button" onClick={handleBack}>
           ← Back
         </button>
         {examStarted && timeRemaining > 0 && (
           <div className="exam-timer">
-            <div className="timer-display">
-              <span className="timer-label">Time Remaining:</span>
+            <div className="exam-timer-display">
+              <span className="exam-timer-label">Time Remaining:</span>
               <span
-                className={`timer-value ${
-                  timeRemaining < 300 ? "warning" : ""
+                className={`exam-timer-value ${
+                  timeRemaining < 300 ? "exam-timer-warning" : ""
                 }`}
               >
                 {formatTime(timeRemaining)}
               </span>
             </div>
-            <div className="timer-progress">
+            <div className="exam-timer-progress">
               <div
-                className="timer-progress-bar"
+                className="exam-timer-progress-bar"
                 style={{
                   width: `${(timeRemaining / (examDuration * 60)) * 100}%`,
                 }}
@@ -404,21 +399,23 @@ const WebPracticeExam = () => {
       </div>
 
       <div className="exam-content">
-        <div className="questions-list">
-          <div className="questions-header">
-            <h2>Exam Questions</h2>
-            <div className="questions-summary">
-              <span className="summary-item">
+        <div className="exam-questions-list">
+          <div className="exam-questions-header">
+            <button className="exam-back-button" onClick={handleBack}>
+              ← Back
+            </button>
+            <div className="exam-questions-summary">
+              <span className="exam-summary-item">
                 ✅ Solved: {solvedCount}/{questions.length}
               </span>
-              <span className="summary-item">
+              <span className="exam-summary-item">
                 🎯 Score: {totalScore}/{maxScore} points
               </span>
             </div>
           </div>
 
-          <div className="questions-table-container">
-            <table className="questions-table onesolutions-table">
+          <div className="exam-questions-table-container">
+            <table className="exam-questions-table exam-onesolutions-table">
               <thead>
                 <tr>
                   <th>QUESTION</th>
@@ -438,32 +435,36 @@ const WebPracticeExam = () => {
                   return (
                     <tr
                       key={question.id}
-                      className={`onesolutions-row ${status}`}
+                      className={`exam-onesolutions-row ${status}`}
                       onClick={() => handleQuestionSelect(question)}
                     >
                       {/* Question */}
-                      <td className="question-title-cell">{question.title}</td>
+                      <td className="exam-question-title-cell">
+                        {question.title}
+                      </td>
 
                       {/* Difficulty */}
                       <td>
                         <span
-                          className={`difficulty-pill ${question.difficulty?.toLowerCase()}`}
+                          className={`exam-difficulty-pill ${question.difficulty?.toLowerCase()}`}
                         >
                           {question.difficulty}
                         </span>
                       </td>
 
                       {/* Test cases */}
-                      <td className="center">- / -</td>
+                      <td className="exam-center">-/-</td>
 
                       {/* Score */}
-                      <td className="center score-text">/{question.score}</td>
+                      <td className="exam-center exam-score-text">
+                        /{question.score}
+                      </td>
 
                       {/* Status */}
                       <td>
-                        <div className="status-wrap">
-                          <span className={`status-dot ${status}`}></span>
-                          <span className="status-label">
+                        <div className="exam-status-wrap">
+                          <span className={`exam-status-dot ${status}`}></span>
+                          <span className="exam-status-label">
                             {status === "attempted"
                               ? "ATTEMPTED"
                               : "NOT ATTEMPTED"}
@@ -472,8 +473,8 @@ const WebPracticeExam = () => {
                       </td>
 
                       {/* Action */}
-                      <td className="right">
-                        <button className="open-question-btn">
+                      <td className="exam-right">
+                        <button className="exam-open-question-btn">
                           Open Question
                         </button>
                       </td>
@@ -483,19 +484,6 @@ const WebPracticeExam = () => {
               </tbody>
             </table>
           </div>
-
-          {examStarted && (
-            <div className="exam-warning">
-              <div className="warning-icon">⚠️</div>
-              <div className="warning-content">
-                <h4>Security Active</h4>
-                <p>
-                  Tab switching, window switching, and dev tools are monitored.
-                  You have 3 warnings before automatic failure.
-                </p>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
