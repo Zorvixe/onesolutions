@@ -7166,6 +7166,26 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-Assignment-8-009",
+          title: "Solid Right Angled Triangle-2",
+          difficulty: "Medium",
+          description:
+            "Given an integer number N as input.Write a program to print the double triangular pattern of N lines using an asterisk(*)character as shown below.x\nUse for-loop.",
+          sampleInput: "3",
+          sampleOutput: "* \n* * \n* * * ",
+          testCases: [
+            { input: "3", output: "* \n* * \n* * * ", visible: true },
+            { input: "2", output: "* \n* * ", visible: true },
+            { input: "3", output: "* \n* * \n* * * ", visible: false },
+            { input: "3", output: "* \n* * \n* * * ", visible: false },
+            { input: "3", output: "* \n* * \n* * * ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
     }
   ],

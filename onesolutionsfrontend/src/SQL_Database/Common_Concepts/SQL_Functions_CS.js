@@ -30,16 +30,31 @@ const SQL_Functions_CS = ({ onSubtopicComplete }) => {
           The IMDb dataset stores information about movies, actors, and cast
           members.
         </p>
+        <p>
+          <b>Schema</b>
+        </p>
+        <img
+          src="/assets/img/expressions_schema.png"
+          alt="DOM Tree"
+          style={{ width: "70%", height: "300px" }}
+        />
       </section>
 
       <section>
         <h2>SQL Function Categories</h2>
         <p>SQL functions can be divided into different categories such as:</p>
-        <ul>
-          <li>Date Functions</li>
-          <li>Cast Functions</li>
-          <li>Arithmetic Functions</li>
-        </ul>
+        <ol>
+          <li>
+            <b>Date Functions: </b>Used to work with dates or times.
+          </li>
+          <li>
+            <b>Cast Functions: </b> Used to change the data type of a value.
+          </li>
+          <li>
+            <b>Arithmetic Functions:</b> Used to perform calculations on
+            numbers.
+          </li>
+        </ol>
       </section>
 
       <section>
@@ -52,9 +67,9 @@ const SQL_Functions_CS = ({ onSubtopicComplete }) => {
 
         <h3>strftime()</h3>
         <p>
-          The <code>strftime()</code> function is used to extract year, month,
-          day, hour, etc., from a date (or) datetime field based on a specified
-          format as strings.
+          The <code>strftime()</code> function is used to extract{" "}
+          <b>year, month, day, hour,</b> etc., from a date (or) datetime field
+          based on a specified <b>format</b> as strings.
         </p>
 
         <p>
@@ -66,20 +81,79 @@ const SQL_Functions_CS = ({ onSubtopicComplete }) => {
           <b>Example</b>
         </p>
         <CodeBlock language="sql" code={`strftime("%Y", release_date)`} />
+        <p>
+          Let's understand various formats in date functions with an example.
+        </p>
+        <p>
+          Consider the datetime <code>2021-02-28 08:00:00</code>
+        </p>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
+          <thead>
+            <tr>
+              <th>Format</th>
+              <th>Description</th>
+              <th>Output Format</th>
+              <th>Function</th>
+              <th>Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>%Y</td>
+              <td>Year</td>
+              <td>1990, 2021 etc.</td>
+              <td>strftime("%Y", field_name)</td>
+              <td>Extract Year</td>
+            </tr>
+            <tr>
+              <td>%m</td>
+              <td>Month</td>
+              <td>01 - 12</td>
+              <td>strftime("%m", field_name)</td>
+              <td>Extract Month</td>
+            </tr>
+            <tr>
+              <td>%d</td>
+              <td>Day of the month</td>
+              <td>01 - 31</td>
+              <td>strftime("%d", field_name)</td>
+              <td>Extract Day</td>
+            </tr>
+            <tr>
+              <td>%H</td>
+              <td>Hour</td>
+              <td>00 - 24</td>
+              <td>strftime("%H", field_name)</td>
+              <td>Extract Hour</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       <section>
         <h2>How to use strftime()</h2>
-        <ul>
+        <ol>
           <li>
-            Choose the format of the datetime that you want, such as the year,
-            the month, or the day, etc.
+            Choose the format of the datetime that you want, such as the{" "}
+            <code>year</code>, the <code>month</code>, or the <code>day</code>,
+            etc.
           </li>
           <li>
             Write the function using <code>strftime(format, field_name)</code>{" "}
             in your SQL query.
           </li>
-        </ul>
+        </ol>
 
         <div className="Note-container">
           <div className="icon-note">
@@ -87,14 +161,16 @@ const SQL_Functions_CS = ({ onSubtopicComplete }) => {
               <i className="bi bi-journal-text"></i>Note
             </h6>
           </div>
-          <p>Strftime() extracts date and time in the string format.</p>
+          <p>
+            <b>Strftime()</b> extracts date and time in the string format.
+          </p>
         </div>
       </section>
 
       <section>
-        <h2>Example 1</h2>
+        <h3>Example</h3>
         <p>
-          Get the movie title and release year for every movie from the
+          1. Get the movie title and release year for every movie from the
           database.
         </p>
 
@@ -106,7 +182,22 @@ const SQL_Functions_CS = ({ onSubtopicComplete }) => {
 FROM
   movie;`}
         />
-
+        <p>From the above query,</p>
+        <ul>
+          <li>
+            We want to get the year from the <code>release_date</code> column in
+            the movie table.
+          </li>
+          <li>
+            We use <code>strftime('%Y', release_date)</code> to extract the year
+            from the
+            <code>release_date</code> column.
+          </li>
+          <li>
+            We write this function in the <code>SELECT</code> clause of the
+            query.
+          </li>
+        </ul>
         <h3>Output</h3>
         <table
           border="1"
@@ -141,8 +232,9 @@ FROM
       </section>
 
       <section>
-        <h2>Example 2</h2>
-        <p>Get the number of movies released in each month of the year 2010</p>
+        <p>
+          2. Get the number of movies released in each month of the year 2010
+        </p>
 
         <CodeBlock
           language="sql"
@@ -156,6 +248,31 @@ WHERE
 GROUP BY
   month;`}
         />
+
+        <section>
+          <p>From the above query,</p>
+          <ul>
+            <li>
+              We want to get data from the <code>movie</code> table.
+            </li>
+            <li>
+              We use the <code>COUNT()</code> function to count the number of
+              movies released per month in the year 2010.
+            </li>
+            <li>
+              We use <code>strftime('%m', release_date)</code> to extract the
+              month from the <code>release_date</code> column.
+            </li>
+            <li>
+              We also use <code>strftime('%Y', release_date)</code> to extract
+              the year from the <code>release_date</code> column.
+            </li>
+            <li>
+              We group the results by month using the <code>GROUP BY</code>{" "}
+              clause.
+            </li>
+          </ul>
+        </section>
 
         <h3>Output</h3>
         <table
@@ -188,6 +305,10 @@ GROUP BY
             </tr>
           </tbody>
         </table>
+        <p>
+          By using <code>strftime()</code>, we can perform weekly, monthly, or
+          annual analyses enabling us to gain deeper insight into the data
+        </p>
       </section>
 
       <section>
