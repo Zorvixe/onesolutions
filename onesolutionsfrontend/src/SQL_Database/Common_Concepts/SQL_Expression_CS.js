@@ -53,7 +53,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+          style={{ borderCollapse: "collapse", width: "20%" }}
         >
           <thead>
             <tr>
@@ -90,7 +90,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+          style={{ borderCollapse: "collapse", width: "20%" }}
         >
           <thead>
             <tr>
@@ -127,7 +127,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          style={{ borderCollapse: "collapse", width: "25%" }}
         >
           <thead>
             <tr>
@@ -164,7 +164,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+          style={{ borderCollapse: "collapse", width: "25%" }}
         >
           <thead>
             <tr>
@@ -201,7 +201,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          style={{ borderCollapse: "collapse", width: "25%" }}
         >
           <thead>
             <tr>
@@ -253,7 +253,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          style={{ borderCollapse: "collapse", width: "40%" }}
         >
           <thead>
             <tr>
@@ -312,7 +312,7 @@ FROM
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          style={{ borderCollapse: "collapse", width: "28%" }}
         >
           <thead>
             <tr>
@@ -358,7 +358,7 @@ WHERE
         <table
           border="1"
           cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "80%" }}
+          style={{ borderCollapse: "collapse", width: "98%" }}
         >
           <thead>
             <tr>
@@ -415,7 +415,7 @@ WHERE
       <section>
         <h2>Using Expressions in UPDATE Clause</h2>
 
-        <p>Scale down ratings from 10 to 5 in movie table.</p>
+        <p>1. Scale down ratings from 10 to 5 in movie table.</p>
 
         <CodeBlock
           language="sql"
@@ -427,16 +427,6 @@ SET rating = rating / 2;`}
           You can check the updation of movie ratings by retrieving the data
           from the table.
         </p>
-      </section>
-
-      <section>
-        <h2>Using Expressions in UPDATE Clause</h2>
-        <p>Scale down ratings from 10 to 5 in movie table.</p>
-        <CodeBlock
-          language="sql"
-          code={`UPDATE movie
-SET rating = rating / 2;`}
-        />
       </section>
 
       <section>
@@ -453,26 +443,172 @@ GROUP BY
 HAVING
   AVG(collection_in_cr - budget_in_cr) >= 100;`}
         />
+        <h3>Output</h3>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{
+            borderCollapse: "collapse",
+            width: "20%",
+            textAlign: "center",
+          }}
+        >
+          <thead>
+            <tr>
+              <th>genre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Action</td>
+            </tr>
+            <tr>
+              <td>Animation</td>
+            </tr>
+            <tr>
+              <td>Mystery</td>
+            </tr>
+            <tr>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
-
       <section>
-        <h2>Try it Yourself!</h2>
+        <h2>Try it Yourself</h2>
+        <b>Question 1</b>
+
         <p>
-          <b>Question 1</b>
-          <br />
-          Get the profit of every movie with rating greater than 8.0
+          Get the profit of every movie with <code>rating</code> greater than
+          8.0
         </p>
+
+        <b>Expected Output</b>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>name</th>
+              <th>genre</th>
+              <th>budget_in_cr</th>
+              <th>collection_in_cr</th>
+              <th>rating</th>
+              <th>release_date</th>
+              <th>profit</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>The Matrix</td>
+              <td>Sci-fi</td>
+              <td>6.3</td>
+              <td>46.43</td>
+              <td>8.7</td>
+              <td>1999-04-31</td>
+              <td>40.13</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Inception</td>
+              <td>Action</td>
+              <td>16</td>
+              <td>83.68</td>
+              <td>8.8</td>
+              <td>2010-07-16</td>
+              <td>67.68</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>The Dark Knight</td>
+              <td>Drama</td>
+              <td>18</td>
+              <td>100.5</td>
+              <td>9</td>
+              <td>2008-07-18</td>
+              <td>82.5</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+        <b>Question 2</b>
+
         <p>
-          <b>Question 2</b>
-          <br />
-          Get all the movies having a profit of at least 30 crores, and belong
-          to "Action", "Animation" or "Drama" genres.
+          Get all the movies having a <code>profit</code>, of at least 30 crores
+          and belong to <b>"Action", "Animation" or "Drama"</b> genres.
         </p>
-        <p>
-          <b>Question 3</b>
-          <br />
-          Scale up the ratings from 5 to 100 in the movie table.
-        </p>
+
+        <b>Expected Output</b>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
+          <thead>
+            <tr>
+              <th>id</th>
+              <th>name</th>
+              <th>genre</th>
+              <th>budget_in_cr</th>
+              <th>collection_in_cr</th>
+              <th>rating</th>
+              <th>release_date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2</td>
+              <td>Inception</td>
+              <td>Action</td>
+              <td>16</td>
+              <td>83.68</td>
+              <td>8.8</td>
+              <td>2010-07-16</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Toy Story 3</td>
+              <td>Animation</td>
+              <td>20</td>
+              <td>106.7</td>
+              <td>8.5</td>
+              <td>2010-06-25</td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td>Iron Man</td>
+              <td>Action</td>
+              <td>75</td>
+              <td>600</td>
+              <td>9.2</td>
+              <td>2008-06-14</td>
+            </tr>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+        <b>Question 3</b>
+        <p>Scale up the ratings from 5 to 100 in the movie table.</p>
       </section>
 
       <div className="view-continue" style={{ marginTop: "20px" }}>

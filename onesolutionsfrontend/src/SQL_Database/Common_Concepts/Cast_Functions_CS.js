@@ -78,7 +78,7 @@ GROUP BY month;`}
         <ul>
           <li>
             <b>Question 1:</b> Get all <code>collection_in_cr</code> values
-            where rating > 8.5 as INT.
+            where rating &gt; 8.5 as INT.
             <br />
             <CodeBlock
               language="sql"
