@@ -106,6 +106,23 @@ export default function CodePlayground({
     sql: initialCode?.sql ?? defaultCode.sql,
   }));
 
+  // Add this useEffect to handle iframe links
+useEffect(() => {
+  const handleIframeMessage = (event) => {
+    if (event.data.type === 'NAVIGATE_TO_HASH') {
+      // Handle navigation
+      console.log('Navigating to:', event.data.hash);
+      // You can implement your own navigation logic here
+    }
+  };
+
+  window.addEventListener('message', handleIframeMessage);
+  
+  return () => {
+    window.removeEventListener('message', handleIframeMessage);
+  };
+}, []);
+
   // Combine HTML, CSS, JS for preview - MOVED THIS UP
   const combineWebSrcDoc = useMemo(() => {
     return `<!DOCTYPE html>
@@ -120,6 +137,20 @@ export default function CodePlayground({
 <body>
   ${code.html}
   <script>
+  // Handle anchor clicks
+  document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
+      e.preventDefault();
+      const hash = e.target.getAttribute('href').substring(1);
+      // Scroll to section within iframe
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  });
+  
+  ${code.javascript}
     // Enhanced error handling
     window.onerror = function(msg, url, lineNo, columnNo, error) {
       const errorDiv = document.createElement('div');

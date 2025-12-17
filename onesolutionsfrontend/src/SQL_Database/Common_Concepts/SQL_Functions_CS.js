@@ -190,8 +190,7 @@ FROM
           </li>
           <li>
             We use <code>strftime('%Y', release_date)</code> to extract the year
-            from the
-            <code>release_date</code> column.
+            from the <code>release_date</code> column.
           </li>
           <li>
             We write this function in the <code>SELECT</code> clause of the
@@ -322,12 +321,10 @@ GROUP BY
         <p>Get the number of Action movies released in the year 2010.</p>
 
         <h4>Approach</h4>
-        <ul>
-          <li>
-            We need to count the total number of movies that have a genre of{" "}
-            <code>Action</code> and were released in the year 2010.
-          </li>
-        </ul>
+        <p>
+          We need to count the total number of movies that have a genre of{" "}
+          <code>Action</code> and were released in the year 2010.
+        </p>
 
         <h4>Expected Output</h4>
         <table
@@ -352,24 +349,20 @@ GROUP BY
           <li>
             Use the <code>COUNT()</code> function to count the movies.
           </li>
+          <CodeBlock
+            language="sql"
+            code={`SELECT COUNT(*) AS total_movies
+FROM movie`}
+          />
           <li>
             Use <code>strftime('%Y', release_date)</code> to get the release
             year of the movie.
           </li>
           <li>
-            Use a <code>WHERE</code> clause to filter for genre = 'Action' and
-            year = 2010.
+            Use a <code>WHERE</code> clause to filter for the{" "}
+            <code>Action</code> genre and year 2010.
           </li>
         </ul>
-
-        <h4>SQL</h4>
-        <CodeBlock
-          language="sql"
-          code={`SELECT COUNT(*) AS total_movies
-FROM movie
-WHERE genre = 'Action' 
-  AND strftime('%Y', release_date) = '2010';`}
-        />
 
         <h3>Question 2</h3>
         <p>
@@ -382,7 +375,7 @@ WHERE genre = 'Action'
           We need to find all the movies that were released in the months of
           <b> April, May,</b> and <b>June</b>.
         </p>
-
+        <b>Expected Output</b>
         <table
           border="1"
           cellPadding="6"
@@ -410,150 +403,34 @@ WHERE genre = 'Action'
         </table>
         <h3>Hints</h3>
         <ul>
-          <li>We need to find all movies released in April, May, and June.</li>
           <li>
-            Use <code>strftime('%m', release_date)</code> to extract the release
-            month.
+            Use a <code>WHERE</code> clause to filter for the months of{" "}
+            <code>April(04)</code>, <code>May(05)</code>, and{" "}
+            <code>June(06)</code>.
           </li>
           <li>
-            Use a <code>WHERE</code> clause with{" "}
-            <code>IN ('04','05','06')</code> to filter summer months.
+            Use <code>strftime('%m', release_date)</code> to get the release
+            month of the movie.
+          </li>
+          <li>
+            Use the <code>IN</code> keyword to select movies released between{" "}
+            <code>April</code> and <code>June</code>.
           </li>
         </ul>
 
-        <h4>SQL</h4>
         <CodeBlock
           language="sql"
-          code={`SELECT name
-FROM movie
-WHERE strftime('%m', release_date) IN ('04','05','06');`}
+          code={`WHERE strftime('%m', release_date) IN ('04','05','06');`}
         />
 
         <h3>Question 3</h3>
         <p>Get the month in which the highest number of movies are released.</p>
 
         <h4>Approach</h4>
-        <ul>
-          <li>Count the number of movies released in each month.</li>
-          <li>
-            Use <code>strftime('%m', release_date)</code> to extract the month.
-          </li>
-          <li>
-            Use <code>COUNT()</code> to get the number of movies per month.
-          </li>
-          <li>
-            Use <code>GROUP BY</code> to group results by month.
-          </li>
-          <li>
-            Use <code>ORDER BY total_movies DESC LIMIT 1</code> to get the top
-            month.
-          </li>
-        </ul>
-
-        <h4>SQL</h4>
-        <CodeBlock
-          language="sql"
-          code={`SELECT strftime('%m', release_date) AS month,
-       COUNT(*) AS total_movies
-FROM movie
-GROUP BY month
-ORDER BY total_movies DESC
-LIMIT 1;`}
-        />
-
-        <h3>Question 4</h3>
         <p>
-          Get the name, profit, and release date for movies released in 2008,
-          2009, or 2010.
+          We need to count the number of movies released each month and select
+          the month with the highest movie count.
         </p>
-
-        <h4>Approach</h4>
-        <ul>
-          <li>
-            Calculate profit using{" "}
-            <code>(collection_in_cr - budget_in_cr)</code>.
-          </li>
-          <li>
-            Use <code>strftime('%Y', release_date)</code> to get the release
-            year.
-          </li>
-          <li>
-            Use a <code>WHERE</code> clause with{" "}
-            <code>IN ('2008','2009','2010')</code> to filter years.
-          </li>
-        </ul>
-
-        <h4>SQL</h4>
-        <CodeBlock
-          language="sql"
-          code={`SELECT name,
-       (collection_in_cr - budget_in_cr) AS profit,
-       release_date
-FROM movie
-WHERE strftime('%Y', release_date) IN ('2008','2009','2010');`}
-        />
-      </section>
-
-      <section>
-        <h2>Try it Yourself!</h2>
-
-        <b>Question 1</b>
-        <p>Get the number of Action movies released in the year 2010.</p>
-
-        <b>Expected Output</b>
-        <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
-        >
-          <thead>
-            <tr>
-              <th>total_movies</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>4</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <b>Question 2</b>
-        <p>
-          Get all the names of the movies that are released in summer, i.e.,
-          between April and June.
-        </p>
-
-        <b>Expected Output</b>
-        <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
-        >
-          <thead>
-            <tr>
-              <th>name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>The Matrix</td>
-            </tr>
-            <tr>
-              <td>Toy Story 3</td>
-            </tr>
-            <tr>
-              <td>Shutter Island</td>
-            </tr>
-            <tr>
-              <td>...</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <b>Question 3</b>
-        <p>Get the month in which the highest number of movies are released.</p>
-
         <b>Expected Output</b>
         <table
           border="1"
@@ -573,12 +450,88 @@ WHERE strftime('%Y', release_date) IN ('2008','2009','2010');`}
             </tr>
           </tbody>
         </table>
+        <h3>Hints</h3>
+        <ul>
+          <li>
+            Use <code>strftime('%m', release_date)</code> to get the release
+            month of the movie.
+          </li>
+          <li>
+            Use <code>COUNT()</code> function to count the movies for each
+            month.
+          </li>
+          <CodeBlock
+            language="sql"
+            code={`SELECT 
+  strftime('%m', release_date) AS month,
+  COUNT(*) AS total_movies
+FROM movie`}
+          />
+          <li>
+            Use <code>GROUP BY</code> to group results by month.
+          </li>
+          <li>
+            Use <code>ORDER BY</code> to sort by the number of movies, then
+            <code>LIMIT 1</code> to get the top month.
+          </li>
+        </ul>
 
-        <b>Question 4</b>
+        <h3>Question 4</h3>
         <p>
-          Get the name, profit and release date for the movies that were
-          released in the year 2008, 2009 or 2010.
+          Get the name, profit, and release date for movies released in 2008,
+          2009, or 2010.
         </p>
+
+        <h4>Approach</h4>
+        <p>
+          We need to calculate the profit by subtracting{" "}
+          <code>budget_in_cr</code> from
+          <code>collection_in_cr</code>. Then, we'll filter out movies released
+          in the year 2008, 2009 or 2010.
+        </p>
+        <b>Expected Output</b>
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "40%" }}
+        >
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>profit</th>
+              <th>release_date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Inception</td>
+              <td>67.68</td>
+              <td>2010-07-16</td>
+            </tr>
+            <tr>
+              <td>.....</td>
+              <td>.....</td>
+              <td>.....</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ul>
+          <li>Use the expression to calculate the profit of the movies.</li>
+          <CodeBlock
+            language="sql"
+            code={`SELECT 
+(collection_in_cr - budget_in_cr) AS profit`}
+          />
+          <li>
+            Use <code>strftime('%Y', release_date)</code> to get the release
+            year.
+          </li>
+          <li>
+            Use a <code>WHERE</code> clause with{" "}
+            <code>IN ('2008','2009','2010')</code> to filter years.
+          </li>
+        </ul>
       </section>
 
       <div className="view-continue" style={{ marginTop: "20px" }}>
