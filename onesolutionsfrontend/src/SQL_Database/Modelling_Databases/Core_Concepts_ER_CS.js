@@ -32,49 +32,89 @@ const Core_Concepts_ER_CS = ({ onSubtopicComplete }) => {
 
       <section>
         <h3>Entity</h3>
-        <p>Real world objects/concepts are called entities in ER Model.</p>
+        <div className="img-text">
+          <img
+            src="/assets/img/entity_er_model.png"
+            alt="DOM Tree"
+            style={{ width: "300px", height: "300px" }}
+          />
+          <div className="text">
+            <p>
+              Real world objects/concepts are called <b>entities</b> in ER
+              Model.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section>
         <h3>Attributes of an Entity</h3>
-        <p>
-          Properties of real world objects/concepts are represented as
-          attributes of an entity in ER model.
-        </p>
+        <div className="img-text">
+          <img
+            src="/assets/img/attributes_er_model.png"
+            alt="DOM Tree"
+            style={{ width: "300px", height: "300px" }}
+          />
+          <div className="text">
+            <p>
+              Properties of real world objects/concepts are represented as
+              <b> attributes</b> of an entity in ER model.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section>
         <h3>Key Attribute</h3>
-        <p>
-          The attribute that uniquely identifies each entity is called key
-          attribute.
-        </p>
+        <div className="img-text">
+          <img
+            src="/assets/img/key_attribute_er_model.png"
+            alt="DOM Tree"
+            style={{ width: "300px", height: "300px" }}
+          />
+          <div className="text">
+            <p>
+              The attribute that uniquely identifies each entity is called key
+              attribute.
+            </p>
+          </div>
+        </div>
       </section>
-
       <section>
         <h3>Entity Type</h3>
-        <p>
-          Entity Type is a collection of entities that have the same attributes
-          (not values).
-        </p>
+        <div className="img-text">
+          <img
+            src="/assets/img/entity_type_er_model.png"
+            alt="DOM Tree"
+            style={{ width: "450px", height: "350px" }}
+          />
+          <div className="text">
+            <p>
+              Entity Type is a <b>collection of entities</b> that have the same
+              attributes (not values).
+            </p>
+          </div>
+        </div>
       </section>
 
       <section>
-        <h3>Relationships</h3>
-        <p>Association among the entities is called a relationship.</p>
-
-        <b>Example:</b>
+        <h2>Relationships</h2>
+        <p>
+          Association among the entities is called a <b>relationship</b>.
+        </p>
+        <p>Example: </p>
         <ul>
-          <li>Person has a passport.</li>
-          <li>Person can have many cars.</li>
           <li>
-            Each student can register for many courses, and a course can have
-            many students.
+            Person <b>has a</b> passport.
+          </li>
+          <li>
+            Person can <b>have many</b> cars.
+          </li>
+          <li>
+            Each student can <b>register for many</b> courses, and a course can{" "}
+            <b>have many</b> students.
           </li>
         </ul>
-      </section>
-
-      <section>
         <h2>Types of relationships</h2>
         <ul>
           <li>One-to-One Relationship</li>
@@ -85,30 +125,64 @@ const Core_Concepts_ER_CS = ({ onSubtopicComplete }) => {
 
       <section>
         <h3>One-to-One Relationship</h3>
-        <p>An entity is related to only one entity, and vice versa.</p>
-
-        <b>Example</b>
-        <p>A person can have only one passport.</p>
-        <p>similarly, a passport belongs to one and only one person.</p>
+        <div className="img-text">
+          <img
+            src="/assets/img/one_to_one_relationship.png"
+            alt="DOM Tree"
+            style={{ width: "300px", height: "300px" }}
+          />
+          <div className="text">
+            <p>
+              An entity is related to <b>only one entity</b>, and vice versa.
+            </p>
+            <b>Example:</b>
+            <ul>
+              <li>A person can have only one passport.</li>
+              <li>similarly, a passport belongs to one and only one person.</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section>
         <h3>One-to-Many Relationship</h3>
-        <p>An entity is related to many other entities.</p>
-
-        <b>Example</b>
-        <p>
-          A person can have many cars. But a car belongs to only one person.
-        </p>
+        <div className="img-text">
+          <img
+            src="/assets/img/one_to_many_relationship.png"
+            alt="DOM Tree"
+            style={{ width: "300px", height: "300px" }}
+          />
+          <div className="text">
+            <p>
+              An entity is related to <b>many other</b> entities.
+            </p>
+            <b>Example:</b>
+            <p>
+              A person <b>can have many</b> cars. But a car belongs to{" "}
+              <b>only one</b>
+              person.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section>
         <h3>Many-to-Many Relationship</h3>
-        <p>Multiple entities are related to multiple entities.</p>
-
-        <b>Example</b>
-        <p>Each student can register to multiple courses.</p>
-        <p>similarly each course is taken by multiple students.</p>
+        <div className="img-text">
+          <img
+            src="/assets/img/many_to_many_relationship.png"
+            alt="DOM Tree"
+            style={{ width: "300px", height: "300px" }}
+          />
+          <div className="text">
+            <p>Multiple entities are related to multiple entities.</p>
+            <b>Example:</b>
+            <ul>
+              <li>Each student can register to multiple courses.</li>
+              <li>similarly each course is taken by multiple students.</li>
+            </ul>
+          </div>
+        </div>
       </section>
 
       <section>
@@ -117,6 +191,12 @@ const Core_Concepts_ER_CS = ({ onSubtopicComplete }) => {
           Cardinality in DBMS defines the maximum number of times an instance in
           one entity can relate to instances of another entity.
         </p>
+
+        <img
+          src="/assets/img/cardinality_ratio.png"
+          alt="DOM Tree"
+          style={{ width: "8po0%", height: "300px" }}
+        />
       </section>
 
       <div className="view-continue" style={{ marginTop: "20px" }}>

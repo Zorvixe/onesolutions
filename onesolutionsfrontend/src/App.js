@@ -42,7 +42,6 @@ function App() {
     return (
       <div className="global-loader">
         <div className="spinner"></div>
-        <p>Loading your dashboard...</p>
       </div>
     );
   }
@@ -80,8 +79,14 @@ function App() {
                 element={<SubtopicPage />}
               />
 
-              <Route path="/web-practice-exam/:practiceId" element={<WebPracticeExam />} />
-              <Route path="/web-practice-exam/:practiceId/:questionId" element={<WebPracticeExamQuestion />} />
+              <Route
+                path="/web-practice-exam/:practiceId"
+                element={<WebPracticeExam />}
+              />
+              <Route
+                path="/web-practice-exam/:practiceId/:questionId"
+                element={<WebPracticeExamQuestion />}
+              />
 
               <Route path="/codeGround" element={<CodeGround />} />
               <Route path="/thread/:threadId" element={<ThreadDetail />} />

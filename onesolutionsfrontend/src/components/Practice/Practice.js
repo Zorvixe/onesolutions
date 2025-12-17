@@ -7,6 +7,7 @@ import { codingPracticesData } from "../../codingPracticesData/codingPracticesDa
 import CodingPracticeService from "../../services/codingPracticeService";
 import AceEditor from "react-ace";
 import { useAuth } from "../../context/AuthContext";
+import confetti from "canvas-confetti";
 
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
@@ -39,12 +40,14 @@ const Practice = () => {
   const [isMarkingComplete, setIsMarkingComplete] = useState(false);
   const [isPracticeCompleted, setIsPracticeCompleted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const pyodideRef = useRef(null);
   const [pyodideReady, setPyodideReady] = useState(false);
 
   const subtopicId = location.state?.subtopicId;
-  const topicId = location.state?.topicId; // Add this line
+  const topicId = location.state?.topicId;
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
 
@@ -94,7 +97,6 @@ const Practice = () => {
     checkPracticeCompletion();
   }, [practiceId, checkPracticeCompletion]);
 
-  // Check if all questions in current practice are solved
   const areAllQuestionsSolved = useMemo(() => {
     if (!selectedPractice) return false;
 
@@ -197,7 +199,6 @@ const Practice = () => {
     setExecutionResult(null);
   }, [selectedPractice, questionId, userProgress]);
 
-  // Load Pyodide for Python
   useEffect(() => {
     let mounted = true;
 
@@ -264,14 +265,12 @@ const Practice = () => {
   };
 
   const handleBackToPractice = () => {
-    // Check if topicId exists before navigating
     if (topicId && subtopicId) {
       navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
-        state: { subtopicId, goalName, courseName, topicId }, // Include topicId in state
+        state: { subtopicId, goalName, courseName, topicId },
       });
     } else {
-      // Fallback navigation if topicId is not available
-      navigate(-1); // Go back to previous page
+      navigate(-1);
     }
   };
 
@@ -467,6 +466,7 @@ builtins.input = custom_input
     setIsRunning(true);
     setOutput("Running code...");
     setExecutionResult(null);
+    setTestResults([]);
 
     try {
       const results = [];
@@ -493,11 +493,12 @@ builtins.input = custom_input
       }
 
       setTestResults(results);
-      setExecutionResult({
+      const newExecutionResult = {
         total: selectedQuestion.testCases.length,
         passed: passedCount,
         failed: selectedQuestion.testCases.length - passedCount,
-      });
+      };
+      setExecutionResult(newExecutionResult);
 
       setOutput(
         `Execution completed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed`
@@ -507,6 +508,52 @@ builtins.input = custom_input
     } finally {
       setIsRunning(false);
     }
+  };
+
+  // Replace your playCoinSound function with this:
+
+  const playSuccessSound = () => {
+    try {
+      // Create a new Audio object and play it
+      const audio = new Audio("/sounds/success-sound.mp3"); // Update path if needed
+      audio.volume = 0.2; // Control volume (0.0 to 1.0)
+
+      // Optional: Play sound even if user hasn't interacted yet
+      // This is handled by the user's click on "Submit"
+      audio.play().catch((e) => {
+        console.log(
+          "Audio play failed, likely due to browser autoplay policy:",
+          e
+        );
+      });
+    } catch (error) {
+      console.warn("Could not play success sound:", error);
+    }
+  };
+
+  // Also update the celebrateSuccess function to use the new sound:
+  const celebrateSuccess = () => {
+    playSuccessSound(); // 🔊 Play the new, better sound
+
+    const duration = 1800;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
   };
 
   const handleSubmitCode = async () => {
@@ -520,6 +567,8 @@ builtins.input = custom_input
 
     setIsRunning(true);
     setOutput("Submitting code...");
+    setTestResults([]);
+    setExecutionResult(null);
 
     try {
       const results = [];
@@ -548,11 +597,12 @@ builtins.input = custom_input
       const allPassed = passedCount === selectedQuestion.testCases.length;
 
       setTestResults(results);
-      setExecutionResult({
+      const newExecutionResult = {
         total: selectedQuestion.testCases.length,
         passed: passedCount,
         failed: selectedQuestion.testCases.length - passedCount,
-      });
+      };
+      setExecutionResult(newExecutionResult);
 
       await updateQuestionStatus(
         selectedQuestion.id,
@@ -561,13 +611,24 @@ builtins.input = custom_input
       );
 
       if (allPassed) {
-        setOutput("✅ All test cases passed! Submission successful.");
+        const successMessage = `✅ All test cases passed! Submission successful.`;
+        setOutput(successMessage);
+        celebrateSuccess();
 
-        // Check if all questions in practice are now solved
+        // Set toast message with correct values
+        setToastMessage(
+          `✅ Hurrah! ${passedCount}/${selectedQuestion.testCases.length} Test Cases Passed`
+        );
+        setShowSuccessToast(true);
+
+        setTimeout(() => {
+          setShowSuccessToast(false);
+        }, 2200);
+
         const allQuestionsSolved = selectedPractice.questions.every(
           (question) => {
             if (question.id === selectedQuestion.id) {
-              return true; // Current question is solved
+              return true;
             }
             return userProgress[question.id]?.status === "solved";
           }
@@ -629,12 +690,16 @@ builtins.input = custom_input
       </div>
     );
   }
+
   if (questionId && selectedQuestion) {
     const currentStatus = getQuestionStatus(selectedQuestion.id);
-    const attempts = getQuestionAttempts(selectedQuestion.id);
 
     return (
       <div className="practice-full-question-prac">
+        {showSuccessToast && (
+          <div className="success-toast-center">{toastMessage}</div>
+        )}
+
         <div className="full-question-header-prac">
           <button className="back-button-prac" onClick={handleBackToPractice}>
             ←{" "}
@@ -666,7 +731,28 @@ builtins.input = custom_input
         <div className="full-question-content-prac">
           <div className="full-question-detail-prac">
             <div className="question-description-section-prac">
-              <h3>Description</h3>
+              <div className="desc-progre">
+                <h3>Description</h3>
+                {executionResult && (
+                  <div className="execution-summary-prac">
+                    <span className="summary-text-prac">
+                      {executionResult.passed}/{executionResult.total} test
+                      cases passed
+                    </span>
+                    <div className="progress-bar-prac">
+                      <div
+                        className="progress-fill-prac"
+                        style={{
+                          width: `${
+                            (executionResult.passed / executionResult.total) *
+                            100
+                          }%`,
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
+              </div>
               <span className="practice-name-prac">
                 {selectedQuestion.title}
               </span>
@@ -695,34 +781,12 @@ builtins.input = custom_input
             <div className="test-cases-section-prac">
               <div className="test-cases-header-prac">
                 <h3>Test Cases</h3>
-                {executionResult && (
-                  <div className="execution-summary-prac">
-                    <span className="summary-text-prac">
-                      {executionResult.passed}/{executionResult.total} test
-                      cases passed
-                    </span>
-                    <div className="progress-bar-prac">
-                      <div
-                        className="progress-fill-prac"
-                        style={{
-                          width: `${
-                            (executionResult.passed / executionResult.total) *
-                            100
-                          }%`,
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
               </div>
               <div className="test-cases-grid-prac">
                 {selectedQuestion.testCases
                   .filter((testCase) => testCase.visible)
                   .map((testCase, visibleIndex) => {
-                    // Get test result for this visible test case
-                    // Assuming testResults is an object keyed by test case ID or index
-                    const testResult =
-                      testResults[testCase.id] || testResults[visibleIndex];
+                    const testResult = testResults[visibleIndex];
 
                     return (
                       <div key={visibleIndex} className="test-case-prac">
@@ -896,9 +960,6 @@ builtins.input = custom_input
                       : "Running"}
                   </span>
                 )}
-              </div>
-              <div className="output-container-prac">
-                <pre className="output-content-prac">{output}</pre>
               </div>
             </div>
           </div>
