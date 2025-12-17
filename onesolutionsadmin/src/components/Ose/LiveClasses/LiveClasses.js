@@ -521,7 +521,7 @@ const LiveClasses = () => {
   };
 
   // Calculate elapsed time for live classes
-  getElapsedTime = (startTime) => {
+  const getElapsedTime = (startTime) => {
     if (!startTime) return "";
 
     const now = new Date().getTime();
