@@ -1,953 +1,880 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { staticCodingPracticesData } from "../../codingPracticesData/staticCodingPracticesData";
-import CodingPracticeService from "../../services/codingPracticeService";
-import { useAuth } from "../../context/AuthContext";
-import CodePlayground from "../../CodePlayground/CodePlayground";
-import validateHtmlTest from "./validateHtmlTest";
-import validateCssTest from "./validateCssTest";
-import "./WebPractice.css";
-import "../../codingPracticesData/codingpracticesweb.css";
-import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
-import confetti from "canvas-confetti";
 
-const WebPractice = () => {
-  const { practiceId, questionId } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { loadProgressSummary, user } = useAuth();
-  const [selectedPractice, setSelectedPractice] = useState(null);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [testResults, setTestResults] = useState([]);
-  const [isRunning, setIsRunning] = useState(false);
-  const [output, setOutput] = useState("");
-  const [userProgress, setUserProgress] = useState({});
-  const [currentCode, setCurrentCode] = useState({
-    html: "",
-    css: "",
-    javascript: "",
+import { useState, useEffect } from "react";
+import "./LiveClasses.css";
+import { assests } from "../../../assests/assests";
+import { useNavigate } from "react-router-dom";
+
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+const LiveClasses = () => {
+  const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [formData, setFormData] = useState({
+    class_name: "",
+    start_time: "",
+    end_time: "",
+    description: "",
+    zoom_link: "",
+    batch_month: "",
+    batch_year: "",
+    status: "upcoming",
+    progress: 0,
   });
-  const [allTestsPassed, setAllTestsPassed] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState("");
-  const [debugInfo, setDebugInfo] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [showCelebrationModal, setShowCelebrationModal] = useState(false);
-  const [tweakIncrease, setTweakIncrease] = useState(0);
-  const iframeRef = useRef(null);
-  const confettiRef = useRef([]);
-  const autoSaveTimeoutRef = useRef(null);
-  const [isJustSolved, setIsJustSolved] = useState(false);
-  const [audio, setAudio] = useState(null); // NEW: Audio state
+  const [editingClass, setEditingClass] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const subtopicId = location.state?.subtopicId;
-  const topicId = location.state?.topicId;
-  const goalName = location.state?.goalName;
-  const courseName = location.state?.courseName;
-
-  // REMOVED: Audio initialization on component mount
-
-  const loadProgress = useCallback(async () => {
-    try {
-      const response = await CodingPracticeService.getAllProgress();
-      if (response.success) {
-        const progressMap = {};
-        if (response.data?.progress && Array.isArray(response.data.progress)) {
-          response.data.progress.forEach((prog) => {
-            if (prog && prog.question_id) {
-              progressMap[prog.question_id] = prog;
-            }
-          });
-        }
-        setUserProgress(progressMap);
-        return progressMap;
-      } else {
-        console.error("Failed to load progress:", response.error);
-      }
-    } catch (error) {
-      console.error("Failed to load progress:", error);
-      setDebugInfo(`Error loading progress: ${error.message}`);
+  // Fixed: Use useEffect for navigation
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
     }
-    return {};
-  }, []);
+  }, [token, navigate]);
 
-  const autoSaveCode = useCallback(
-    async (questionId, code, isSolved = false) => {
-      try {
-        const codeContent = JSON.stringify(code);
-        const status = isSolved ? "solved" : "attempted";
-        const score = isSolved ? selectedQuestion?.score || 0 : 0;
-
-        const response = await CodingPracticeService.saveProgress(
-          practiceId,
-          questionId,
-          "web",
-          codeContent,
-          status,
-          score,
-          {
-            passed: isSolved,
-            score: score,
-            timestamp: new Date().toISOString(),
-          }
-        );
-
-        if (response.success) {
-          setUserProgress((prev) => ({
-            ...prev,
-            [questionId]: {
-              ...prev[questionId],
-              question_id: questionId,
-              status: status,
-              score: score,
-              code: codeContent,
-            },
-          }));
-          return { success: true };
-        }
-        return { success: false };
-      } catch (error) {
-        console.error("Auto-save failed:", error);
-        return { success: false, error: error.message };
-      }
-    },
-    [practiceId, selectedQuestion]
-  );
-
+  // Also add a second effect to handle token changes during component lifecycle
   useEffect(() => {
-    const loadPracticeData = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        if (!staticCodingPracticesData || !staticCodingPracticesData.static) {
-          console.error("staticCodingPracticesData is not properly structured");
-          setError("Practice data not found. Please try again.");
-          return;
-        }
-
-        const practice = staticCodingPracticesData.static.find(
-          (p) => p.id === practiceId
-        );
-        if (!practice) {
-          setError(`Practice with ID "${practiceId}" not found.`);
-          return;
-        }
-
-        setSelectedPractice(practice);
-
-        if (!practice.questions || !Array.isArray(practice.questions)) {
-          setError("Practice questions not available.");
-          return;
-        }
-
-        const question =
-          practice.questions.find((q) => q.id === questionId) ||
-          practice.questions[0];
-        if (!question) {
-          setError(`Question with ID "${questionId}" not found.`);
-          return;
-        }
-
-        setSelectedQuestion(question);
-
-        const progressMap = await loadProgress();
-        const savedProgress = progressMap[question.id];
-        let initialCode = {
-          html: question.defaultCode?.html || "",
-          css: question.defaultCode?.css || "",
-          javascript: question.defaultCode?.javascript || "",
-        };
-
-        if (savedProgress && savedProgress.code) {
-          try {
-            let parsedCode;
-            if (typeof savedProgress.code === "string") {
-              parsedCode = JSON.parse(savedProgress.code);
-            } else {
-              parsedCode = savedProgress.code;
-            }
-
-            if (parsedCode && typeof parsedCode === "object") {
-              initialCode = {
-                html: parsedCode.html || initialCode.html,
-                css: parsedCode.css || initialCode.css,
-                javascript: parsedCode.javascript || initialCode.javascript,
-              };
-            }
-          } catch (error) {
-            console.error("Failed to parse saved code:", error);
-          }
-        }
-
-        setCurrentCode(initialCode);
-        setIsJustSolved(false);
-      } catch (error) {
-        console.error("Error loading practice data:", error);
-        setError(`Error loading practice: ${error.message}`);
-      } finally {
-        setIsLoading(false);
+    const checkToken = () => {
+      const currentToken = localStorage.getItem("token");
+      if (!currentToken) {
+        navigate("/login");
       }
-    };
+    }; // Check token periodically or on specific events
+    window.addEventListener("storage", checkToken);
 
-    loadPracticeData();
-  }, [practiceId, questionId, loadProgress]);
-
-  const updateQuestionStatus = useCallback(
-    async (questionId, passed, score, code) => {
-      try {
-        const codeContent = JSON.stringify(code || currentCode);
-        const status = passed ? "solved" : "attempted";
-        const finalScore = passed ? score : 0;
-
-        const response = await CodingPracticeService.saveProgress(
-          practiceId,
-          questionId,
-          "web",
-          codeContent,
-          status,
-          finalScore,
-          {
-            passed,
-            score: finalScore,
-            timestamp: new Date().toISOString(),
-          }
-        );
-
-        if (response.success) {
-          setUserProgress((prev) => ({
-            ...prev,
-            [questionId]: {
-              ...prev[questionId],
-              question_id: questionId,
-              status: status,
-              score: finalScore,
-              code: codeContent,
-            },
-          }));
-
-          await loadProgressSummary();
-          return { success: true, data: response.data };
-        } else {
-          console.error("Failed to save progress:", response.message);
-          return { success: false, error: response.message };
-        }
-      } catch (error) {
-        console.error("Failed to update question status:", error);
-        return { success: false, error: error.message };
-      }
-    },
-    [practiceId, currentCode, loadProgressSummary]
-  );
-
-  useEffect(() => {
     return () => {
-      if (autoSaveTimeoutRef.current) {
-        clearTimeout(autoSaveTimeoutRef.current);
-      }
-      // Cleanup confetti
-      confettiRef.current.forEach((conf) => {
-        if (conf && conf.parentNode) {
-          conf.parentNode.removeChild(conf);
-        }
-      });
+      window.removeEventListener("storage", checkToken);
     };
-  }, []);
+  }, [navigate]);
 
-  const updatePreview = (iframeRef) => {
-    if (!iframeRef.current) {
-      return;
+  useEffect(() => {
+    if (token) {
+      fetchClasses();
     }
+  }, [token]); // Add token as dependency
 
-    const iframe = iframeRef.current;
-
+  const fetchClasses = async () => {
     try {
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-      if (!iframeDoc) {
-        console.error("Cannot access iframe document");
-        return;
-      }
-
-      const htmlContent = `<!DOCTYPE html>
-<html style="margin:0;padding:0;width:100%;height:100%;overflow:auto;">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    ${currentCode.css || ""}
-  </style>
-</head>
-<body>
-  ${currentCode.html || ""}
-  <script>
-    (function() {
-      try {
-        ${currentCode.javascript || ""}
-      } catch (e) {
-        console.error('Script error:', e);
-      }
-    })();
-  </script>
-</body>
-</html>`;
-
-      iframeDoc.open("text/html", "replace");
-      iframeDoc.write(htmlContent);
-      iframeDoc.close();
-    } catch (error) {
-      console.error("Error updating preview:", error);
-      try {
-        const iframeDoc =
-          iframe.contentDocument || iframe.contentWindow.document;
-        if (iframeDoc && iframeDoc.body) {
-          iframeDoc.body.innerHTML = `<div style="padding:20px;color:#d32f2f;font-family:Arial;"><p>Error rendering preview. Please check your HTML/CSS/JavaScript for syntax errors.</p><p style="font-size:12px;color:#999;margin-top:10px;">${error.message}</p></div>`;
+      const response = await fetch(
+        `https://ose.onesolutionsekam.in/api/admin/live-classes`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (fallbackError) {
-        console.error("Fallback preview update also failed:", fallbackError);
-      }
-    }
-  };
-
-  const runTests = async (iframeRef) => {
-    if (!selectedQuestion || !iframeRef.current) return;
-
-    setIsRunning(true);
-    setOutput("Running tests...");
-    setSubmitMessage("");
-    setDebugInfo("");
-
-    const iframe = iframeRef.current;
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-    const results = [];
-    let passedCount = 0;
-
-    try {
-      if (
-        !selectedQuestion.testCases ||
-        !Array.isArray(selectedQuestion.testCases)
-      ) {
-        setOutput("No test cases available for this question.");
-        setIsRunning(false);
-        return;
-      }
-
-      for (const testCase of selectedQuestion.testCases) {
-        let passed = false;
-        let actual = "";
-        const testType = testCase.type || "html-validation";
-
-        try {
-          if (testType === "html-validation") {
-            const result = validateHtmlTest(testCase, iframeDoc, iframe);
-            passed = result.passed;
-            actual = result.actual;
-          } else if (testType === "css-validation") {
-            const result = validateCssTest(testCase, iframeDoc, iframe);
-            passed = result.passed;
-            actual = result.actual;
-          } else {
-            passed = false;
-            actual = `Unknown test type: ${testType}`;
-          }
-
-          if (passed) passedCount++;
-        } catch (error) {
-          console.error(`Test ${testCase.id} error:`, error);
-          passed = false;
-          actual = `Error: ${error.message}`;
-        }
-
-        results.push({
-          ...testCase,
-          passed,
-          actual,
-        });
-      }
-
-      setTestResults(results);
-      const allPassed = passedCount === selectedQuestion.testCases.length;
-      setAllTestsPassed(allPassed);
-
-      if (allPassed) {
-        setOutput(
-          `✅ All tests passed! ${passedCount}/${selectedQuestion.testCases.length} tests completed successfully. You can now submit your solution.`
-        );
-      } else {
-        setOutput(
-          `Tests completed: ${passedCount}/${selectedQuestion.testCases.length} passed. Fix the issues and run tests again.`
-        );
+      );
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Fetched classes:", data);
+        setClasses(data);
       }
     } catch (error) {
-      console.error("Error running tests:", error);
-      setOutput(`Error running tests: ${error.message}`);
+      console.error("Error fetching classes:", error);
     } finally {
-      setIsRunning(false);
+      setLoading(false);
     }
   };
 
-  const handleRunTests = (iframeRef) => {
-    console.log("Running tests...");
-    updatePreview(iframeRef);
-    setTimeout(() => {
-      runTests(iframeRef);
-    }, 500);
-  };
-
-  const handleCodeChange = (newCode) => {
-    if (newCode && typeof newCode === "object") {
-      setCurrentCode(newCode);
-      setAllTestsPassed(false);
-      setSubmitMessage("");
-
-      if (isJustSolved) {
-        setIsJustSolved(false);
-        return;
-      }
-
-      if (autoSaveTimeoutRef.current) {
-        clearTimeout(autoSaveTimeoutRef.current);
-      }
-
-      autoSaveTimeoutRef.current = setTimeout(() => {
-        if (selectedQuestion) {
-          const currentStatus = getQuestionStatus(selectedQuestion.id);
-          if (currentStatus !== "solved") {
-            autoSaveCode(selectedQuestion.id, newCode, false);
-          }
-        }
-      }, 2000);
-    }
-  };
-
-  // UPDATED: Improved createConfetti function
-  const createConfetti = () => {
-    const container = document.querySelector(".confetti-container");
-    if (!container) {
-      console.warn("Confetti container not found");
-      return;
-    }
-
-    // Clear existing confetti
-    confettiRef.current.forEach((conf) => {
-      if (conf && conf.parentNode) {
-        conf.parentNode.removeChild(conf);
-      }
-    });
-    confettiRef.current = [];
-
-    const colors = [
-      "#FFD700",
-      "#FF6B6B",
-      "#4ECDC4",
-      "#FFDE59",
-      "#667eea",
-      "#764ba2",
-      "#ff9a9e",
-      "#a18cd1",
-      "#fbc2eb",
-      "#a1c4fd",
-    ];
-
-    for (let i = 0; i < 150; i++) {
-      const confetti = document.createElement("div");
-      confetti.className = "confetti";
-      confetti.style.position = "absolute";
-      confetti.style.zIndex = "9999";
-      confetti.style.left = `${Math.random() * 100}%`;
-      confetti.style.top = `${Math.random() * 100}%`;
-      confetti.style.backgroundColor =
-        colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.width = `${Math.random() * 12 + 6}px`;
-      confetti.style.height = confetti.style.width;
-      confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
-
-      // Create animation
-      const animationName = `confettiFall_${Date.now()}_${i}`;
-      const animationDuration = Math.random() * 3 + 2;
-
-      // Create style for animation
-      const style = document.createElement("style");
-      style.innerHTML = `
-        @keyframes ${animationName} {
-          0% {
-            transform: translate(0, -20px) rotate(0deg);
-            opacity: 1;
-          }
-          100% {
-            transform: translate(${Math.random() * 100 - 50}px, 100vh) rotate(${
-        Math.random() * 720
-      }deg);
-            opacity: 0;
-          }
-        }
-      `;
-      document.head.appendChild(style);
-
-      confetti.style.animation = `${animationName} ${animationDuration}s linear forwards`;
-      confetti.style.animationDelay = `${Math.random() * 1}s`;
-
-      container.appendChild(confetti);
-      confettiRef.current.push(confetti);
-
-      // Remove style element after animation
-      setTimeout(() => {
-        if (style.parentNode) {
-          style.parentNode.removeChild(style);
-        }
-      }, animationDuration * 1000 + 1000);
-    }
-  };
-
-  // UPDATED: Improved playSuccessSound function
-  const playSuccessSound = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      // Initialize audio only when needed (on submit)
-      if (!audio) {
-        const newAudio = new Audio("/sounds/success-sound.mp3");
-        newAudio.volume = 0.2;
-        newAudio.preload = "auto";
-        setAudio(newAudio);
+      const url = editingClass
+        ? `https://ose.onesolutionsekam.in/api/live-classes/${editingClass.id}`
+        : `https://ose.onesolutionsekam.in/api/live-classes`;
 
-        // Play the sound
-        newAudio.currentTime = 0;
-        const playPromise = newAudio.play();
+      const method = editingClass ? "PUT" : "POST";
 
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.log(
-              "Audio play failed, trying user interaction fallback:",
-              error
-            );
-            // Create a fallback beep sound using Web Audio API
-            playFallbackSound();
-          });
-        }
-      } else {
-        // If audio already exists, play it
-        audio.currentTime = 0;
-        const playPromise = audio.play();
-
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.log(
-              "Audio play failed, trying user interaction fallback:",
-              error
-            );
-            // Create a fallback beep sound using Web Audio API
-            playFallbackSound();
-          });
-        }
-      }
-    } catch (error) {
-      console.warn("Could not play success sound:", error);
-      playFallbackSound();
-    }
-  };
-
-  // NEW: Fallback sound using Web Audio API
-  const playFallbackSound = () => {
-    try {
-      // Check if AudioContext is available
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) {
-        console.log("Web Audio API not supported");
-        return;
-      }
-
-      const audioContext = new AudioContext();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.1);
-      oscillator.type = "sine";
-
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(
-        0.3,
-        audioContext.currentTime + 0.05
-      );
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01,
-        audioContext.currentTime + 1
-      );
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 1);
-
-      // Clean up after sound completes
-      setTimeout(() => {
-        audioContext.close();
-      }, 2000);
-    } catch (error) {
-      console.log("Fallback sound failed:", error);
-    }
-  };
-
-  // UPDATED: Improved celebrateSuccess function
-  const celebrateSuccess = () => {
-    // Play sound first (only when this function is called)
-    playSuccessSound();
-
-    // Then trigger confetti
-    const duration = 3000;
-    const end = Date.now() + duration;
-
-    const frame = () => {
-      // Launch confetti from left edge
-      confetti({
-        particleCount: 7,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0, y: 0.5 },
-        colors: ["#FFD700", "#FF6B6B", "#4ECDC4", "#FFDE59"],
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
       });
 
-      // Launch confetti from right edge
-      confetti({
-        particleCount: 7,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1, y: 0.5 },
-        colors: ["#667eea", "#764ba2", "#ff9a9e", "#a18cd1"],
-      });
-
-      // Launch some from the top
-      if (Math.random() > 0.7) {
-        confetti({
-          particleCount: 5,
-          angle: 90,
-          spread: 100,
-          origin: { x: 0.5, y: 0 },
-          colors: ["#FFD700", "#4ECDC4", "#FF6B6B"],
+      if (response.ok) {
+        closeModal();
+        setFormData({
+          class_name: "",
+          start_time: "",
+          end_time: "",
+          description: "",
+          zoom_link: "",
+          batch_month: "",
+          batch_year: "",
+          status: "upcoming",
+          progress: 0,
         });
+        setEditingClass(null);
+        fetchClasses();
+      } else {
+        const error = await response.json();
+        alert(error.error || "Failed to save class");
       }
+    } catch (error) {
+      console.error("Error saving class:", error);
+      alert("Failed to save class");
+    }
+  };
 
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
+  const showCreateModal = () => {
+    setEditingClass(null);
+    setFormData({
+      class_name: "",
+      start_time: "",
+      end_time: "",
+      description: "",
+      zoom_link: "",
+      batch_month: "",
+      batch_year: "",
+      status: "upcoming",
+      progress: 0,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleEdit = (classItem) => {
+    console.log("Editing class:", classItem);
+    setEditingClass(classItem);
+    setFormData({
+      class_name: classItem.class_name,
+      start_time: classItem.start_time ? classItem.start_time.slice(0, 16) : "",
+      end_time: classItem.end_time ? classItem.end_time.slice(0, 16) : "",
+      description: classItem.description || "",
+      zoom_link: classItem.zoom_link || "",
+      batch_month: classItem.batch_month || "",
+      batch_year: classItem.batch_year || "",
+      status: classItem.status,
+      progress: classItem.progress || 0,
+    });
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDelete = async (classId) => {
+    if (!window.confirm("Are you sure you want to delete this class?")) return;
+
+    try {
+      const response = await fetch(
+        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        fetchClasses();
+      } else {
+        alert("Failed to delete class");
       }
+    } catch (error) {
+      console.error("Error deleting class:", error);
+      alert("Failed to delete class");
+    }
+  };
+
+  const formatDateTime = (dateTime) => {
+    if (!dateTime) return "Not set";
+
+    const date = new Date(dateTime);
+
+    return date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+      timeZone: "UTC",
+    });
+  };
+
+  const getStatusBadge = (status) => {
+    const statusConfig = {
+      upcoming: { color: "#FF6B35", bg: "#FFF0EB", label: "UPCOMING" },
+      live: { color: "#10B981", bg: "#ECFDF5", label: "LIVE" },
+      completed: { color: "#6B7280", bg: "#F9FAFB", label: "COMPLETED" },
     };
 
-    // Start the animation
-    frame();
+    const config = statusConfig[status] || statusConfig.upcoming;
 
-    // Add an extra burst after 500ms
-    setTimeout(() => {
-      confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.6 },
-      });
-    }, 500);
+    return (
+      <span
+        className="status-badge"
+        style={{
+          backgroundColor: config.bg,
+          color: config.color,
+          border: `1px solid ${config.color}20`,
+        }}
+      >
+        {config.label}
+      </span>
+    );
   };
 
-  const handleSubmit = async () => {
-    const allTestsCurrentlyPassed =
-      testResults.length > 0 && testResults.every((test) => test.passed);
-
-    if (!allTestsCurrentlyPassed) {
-      setSubmitMessage(
-        "❌ Please pass all tests before submitting. Run tests first and ensure all tests pass."
-      );
-      return;
+  const getBatchInfo = (batch_month, batch_year) => {
+    if (!batch_month && !batch_year) {
+      return "All Batches";
     }
+    if (batch_month && batch_year) {
+      return `${batch_month} ${batch_year}`;
+    }
+    if (batch_month) {
+      return batch_month;
+    }
+    if (batch_year) {
+      return batch_year;
+    }
+    return "All Batches";
+  };
 
-    setIsSubmitting(true);
-    setSubmitMessage("Submitting your solution...");
-    setDebugInfo("");
-
+  const handleStatusChange = async (classId, newStatus) => {
     try {
-      const result = await updateQuestionStatus(
-        selectedQuestion.id,
-        true,
-        selectedQuestion.score,
-        currentCode
+      const response = await fetch(
+        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: newStatus }),
+        }
       );
 
-      if (result.success) {
-        const tweakIncreaseValue = selectedQuestion.score || 10;
-        setTweakIncrease(tweakIncreaseValue);
-
-        setIsJustSolved(true);
-
-        if (autoSaveTimeoutRef.current) {
-          clearTimeout(autoSaveTimeoutRef.current);
-        }
-
-        setShowCelebrationModal(true);
-
-        // Trigger both celebrations
-        setTimeout(() => {
-          createConfetti();
-          celebrateSuccess(); // This is where sound will play
-        }, 100);
-
-        if (selectedPractice) {
-          try {
-            await CodingPracticeService.completePractice(
-              selectedPractice.id,
-              goalName,
-              courseName
-            );
-            setDebugInfo("Practice completion status updated successfully.");
-          } catch (practiceError) {
-            console.log(
-              "Practice completion update optional:",
-              practiceError.message
-            );
-          }
-        }
+      if (response.ok) {
+        fetchClasses();
       } else {
-        setSubmitMessage(
-          `❌ Failed to submit solution: ${result.error || "Unknown error"}`
-        );
+        alert("Failed to update status");
       }
     } catch (error) {
-      console.error("Submit error:", error);
-      setSubmitMessage(`❌ Error submitting solution: ${error.message}`);
-    } finally {
-      setIsSubmitting(false);
+      console.error("Error updating status:", error);
+      alert("Failed to update status");
     }
   };
 
-  const closeCelebrationModal = () => {
-    setShowCelebrationModal(false);
-    // Clean up confetti
-    confettiRef.current.forEach((conf) => {
-      if (conf && conf.parentNode) {
-        conf.parentNode.removeChild(conf);
-      }
-    });
-    confettiRef.current = [];
-  };
-
-  const handleBackToPractice = () => {
-    if (topicId && subtopicId) {
-      navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
-        state: { subtopicId, goalName, courseName, topicId },
-      });
-    } else {
-      navigate(-1);
-    }
-  };
-
-  const getQuestionStatus = (questionId) => {
-    return userProgress[questionId]?.status || "unsolved";
-  };
-
-  const renderDescriptionDetails = () => {
-    if (!selectedQuestion?.descriptionDetails) return null;
-    if (typeof selectedQuestion.descriptionDetails === "string") {
-      return (
-        <div
-          className="desc-question-details"
-          dangerouslySetInnerHTML={{
-            __html: selectedQuestion.descriptionDetails,
-          }}
-        />
+  const handleProgressChange = async (classId, newProgress) => {
+    try {
+      const response = await fetch(
+        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ progress: newProgress }),
+        }
       );
+
+      if (response.ok) {
+        fetchClasses();
+      } else {
+        alert("Failed to update progress");
+      }
+    } catch (error) {
+      console.error("Error updating progress:", error);
+      alert("Failed to update progress");
     }
-    return null;
   };
 
-  if (isLoading) {
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "upcoming":
+        return "bi bi-stopwatch";
+      case "live":
+        return "bi bi-broadcast";
+      case "completed":
+        return "bi bi-check-circle";
+      default:
+        return "bi bi-stopwatch";
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "upcoming":
+        return "#ffa500";
+      case "live":
+        return "#28a745";
+      case "completed":
+        return "#6c757d";
+      default:
+        return "#ffa500";
+    }
+  };
+
+  const newClassVideo = () => {
+    navigate("/Video_Management");
+  };
+
+  if (loading) {
     return (
-      <div className="loading-container">
-        <div className="spinner"></div>
+      <div className="pa-loading-container">
+        <img src={assests.one_solutions} className="pa-one-solutions-image" />
+        <div className="pa-loader"></div>
       </div>
     );
   }
 
-  if (error) {
-    return (
-      <div className="error-container">
-        <h2>Error Loading Practice</h2>
-        <p>{error}</p>
-        <button onClick={handleBackToPractice} className="back-button">
-          ← Back to Practice
-        </button>
-      </div>
-    );
-  }
-
-  if (!selectedPractice || !selectedQuestion) {
-    return (
-      <div className="loading-container">
-        <p>Practice not found...</p>
-        <button onClick={handleBackToPractice} className="back-button">
-          ← Back to Practice
-        </button>
-      </div>
-    );
-  }
-
-  const currentStatus = getQuestionStatus(selectedQuestion.id);
-  const isAlreadySolved = currentStatus === "solved";
-
-  const CelebrationModal = () => {
-    if (!showCelebrationModal) return null;
-
-    return (
-      <div className="celebration-modal-overlay">
-        <div className="confetti-container"></div>
-        <div className="celebration-modal">
-          <h2 className="modal-title">Congratulations!</h2>
-
-          <div className="modal-message">
-            <p>
-              Great job{" "}
-              <span className="modal-username">
-                {user?.username || "Coder"}
-              </span>
-              !
-            </p>
-            <p>You've successfully solved this challenge!</p>
-          </div>
-
-          <div className="modal-tweak-increase">
-            <p>Your Today's Tweak has increased by</p>
-            <div className="tweak-value">+{tweakIncrease}</div>
-            <p>Keep up the great work!</p>
-          </div>
-
-          <button
-            className="modal-button"
-            onClick={closeCelebrationModal}
-            autoFocus
-          >
-            Continue Practicing
+  return (
+    <div className="live-classes-admin">
+      {/* Header Section */}
+      <div className="admin-header">
+        <div className="header-content">
+          <h1>Live Classes Management</h1>
+          <p>Manage and schedule your live classes efficiently</p>
+        </div>
+        <div>
+          <button className="btn-create mb-2" onClick={showCreateModal}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Create New Class
+          </button>
+          <button className="btn-create" onClick={newClassVideo}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Create New Video
           </button>
         </div>
       </div>
-    );
-  };
 
-  return (
-    <div className="web-practice-container">
-      <CelebrationModal />
-      <div className="web-practice-header">
-        <button className="back-button" onClick={handleBackToPractice}>
-          ← {selectedPractice.title}
-        </button>
-        <div className="question-info">
-          <div className="question-meta">
-            <span className={`status ${currentStatus}`}>
-              {currentStatus === "solved"
-                ? "✓ Solved"
-                : currentStatus === "attempted"
-                ? "● Attempted"
-                : "○ Unsolved"}
-            </span>
-            <span
-              className={`difficulty ${
-                selectedQuestion.difficulty?.toLowerCase() || "medium"
-              }`}
-            >
-              {selectedQuestion.difficulty || "Medium"}
-            </span>
-            <span className="score-head">
-              {selectedQuestion.score || 0} points
-            </span>
+      {/* Stats Overview */}
+      <div className="stats-overview">
+        <div className="stat-card">
+          <div className="stat-icon upcoming">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+            </svg>
+          </div>
+          <div className="stat-info">
+            <h3>{classes.filter((c) => c.status === "upcoming").length}</h3>
+            <p>Upcoming Classes</p>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon live">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zm-2-.79V18H4V6h12v3.69z" />
+            </svg>
+          </div>
+          <div className="stat-info">
+            <h3>{classes.filter((c) => c.status === "live").length}</h3>
+            <p>Live Now</p>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon completed">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+          </div>
+          <div className="stat-info">
+            <h3>{classes.filter((c) => c.status === "completed").length}</h3>
+            <p>Completed</p>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon total">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" />
+            </svg>
+          </div>
+          <div className="stat-info">
+            <h3>{classes.length}</h3>
+            <p>Total Classes</p>
           </div>
         </div>
       </div>
 
-      <div className="web-practice-content">
-        <div className="left-panel">
-          <div className="question-description">
-            <div className="question-description-header">
-              <h3>Description</h3>
-              <h2>{selectedQuestion.title}</h2>
-              <p>{selectedQuestion.description}</p>
+      {/* Main Content */}
+      <div className="admin-content">
+        <div className="content-header">
+          <h2>Scheduled Classes</h2>
+          <span className="class-count">({classes.length} classes)</span>
+        </div>
+
+        {/* Classes Grid */}
+        {classes.length === 0 ? (
+          <div className="empty-state">
+            <div className="empty-icon">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />
+              </svg>
             </div>
-            <div className="question-description-content">
-              <div className="desc-question-full-view">
-                {renderDescriptionDetails()}
-              </div>
+            <h3>No classes scheduled yet</h3>
+            <p>Get started by creating your first live class</p>
+          </div>
+        ) : (
+          <div className="livcss-live container-fluid">
+            <div className="row live-classes-row-con">
+              {" "}
+              {/* Changed to g-4 for larger gap */}
+              {classes.length > 0 ? (
+                classes.map((classItem) => (
+                  <div
+                    key={classItem.id}
+                    className="livcss-liveclasses-container" // Added mb-4 back as backup
+                  >
+                    {/* Rest of your card content remains exactly the same */}
+                    <div
+                      className="livcss-indicator-bar"
+                      style={{
+                        backgroundColor:
+                          classItem.status === "live"
+                            ? "#28a745"
+                            : classItem.status === "completed"
+                            ? "#6c757d"
+                            : "#ffa500",
+                      }}
+                    ></div>
+                    <div className="livcss-card-actions">
+                      <button
+                        className="livcss-btn-action livcss-btn-edit"
+                        onClick={() => handleEdit(classItem)}
+                        title="Edit class"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                        </svg>
+                      </button>
+                      <button
+                        className="livcss-btn-action livcss-btn-delete"
+                        onClick={() => handleDelete(classItem.id)}
+                        title="Delete class"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                        >
+                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="livcss-information">
+                      <div className="livcss-class-info">
+                        <button className="livcss-letter-tag">
+                          {classItem.class_name.toUpperCase().slice(0, 1)}
+                        </button>
+                        {classItem.class_name.toUpperCase().slice(0, 1)}
+
+                        <div className="livcss-class-text">
+                          <h3>{classItem.class_name}</h3>
+                          <p>Mentor: {classItem.mentor_name}</p>
+                          {classItem.batch_month && classItem.batch_year && (
+                            <p className="livcss-batch-info">
+                              Batch: {classItem.batch_month}{" "}
+                              {classItem.batch_year}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="d-flex flex-column">
+                          <button
+                            className="livcss-status"
+                            style={{
+                              backgroundColor: getStatusColor(classItem.status),
+                              color: "white",
+                              border: "none",
+                              padding: "5px",
+                              borderRadius: "8px",
+                              marginBottom: "10px",
+                            }}
+                          >
+                            <i
+                              className={getStatusIcon(classItem.status)}
+                              style={{ marginRight: "8px" }}
+                            ></i>
+                            {classItem.status.charAt(0).toUpperCase() +
+                              classItem.status.slice(1)}
+                          </button>
+                          {classItem.zoom_link && (
+                            <a
+                              href={classItem.zoom_link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: "#28a745",
+                                fontWeight: "bold",
+                                textDecoration: "none",
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <i
+                                className="bi bi-box-arrow-right"
+                                style={{ marginRight: "8px" }}
+                              ></i>
+                              Join Class
+                            </a>
+                          )}
+                          {classItem.status === "live" &&
+                            !classItem.zoom_link && (
+                              <p
+                                style={{ color: "#ff6b6b", fontWeight: "bold" }}
+                              >
+                                <i
+                                  className="bi bi-exclamation-triangle"
+                                  style={{ marginRight: "8px" }}
+                                ></i>
+                                No Zoom Link
+                              </p>
+                            )}
+                        </div>
+                      </div>
+                      <div className="livcss-progress-time">
+                        <div className="livcss-row">
+                          <p>Progress</p>
+                          <p className="livcss-highlight">
+                            {classItem.progress}%
+                          </p>
+                        </div>
+                        <div className="livcss-progress-bar-container">
+                          <div
+                            className="livcss-progress-bar-fill"
+                            style={{
+                              width: `${Math.min(
+                                100,
+                                Math.max(0, classItem.progress || 0)
+                              )}%`,
+                            }}
+                          ></div>
+                        </div>
+                        <div className="livcss-row livcss-highlights">
+                          <p>Class Time</p>
+                          <p>
+                            {" "}
+                            {formatDateTime(classItem.start_time)}
+                            {" - "}
+                            {formatDateTime(classItem.end_time)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Controls */}
+                      <div className="livcss-controls-section">
+                        <div className="livcss-status-controls">
+                          <h4>Update Status</h4>
+                          <div className="livcss-status-buttons">
+                            <button
+                              className={`livcss-status-btn ${
+                                classItem.status === "upcoming"
+                                  ? "livcss-active"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleStatusChange(classItem.id, "upcoming")
+                              }
+                            >
+                              Upcoming
+                            </button>
+                            <button
+                              className={`livcss-status-btn ${
+                                classItem.status === "live"
+                                  ? "livcss-active"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleStatusChange(classItem.id, "live")
+                              }
+                            >
+                              Live
+                            </button>
+                            <button
+                              className={`livcss-status-btn ${
+                                classItem.status === "completed"
+                                  ? "livcss-active"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleStatusChange(classItem.id, "completed")
+                              }
+                            >
+                              Completed
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="livcss-progress-controls">
+                          <label>Adjust Progress</label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={classItem.progress || 0}
+                            onChange={(e) =>
+                              handleProgressChange(
+                                classItem.id,
+                                Number.parseFloat(e.target.value)
+                              )
+                            }
+                            className="livcss-progress-slider"
+                          />
+                        </div>
+                      </div>
+                      {classItem.description && (
+                        <div className="livcss-description-section">
+                          <p>{classItem.description}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="livcss-no-classes col-12">
+                  <p>No live classes.</p>
+                </div>
+              )}
             </div>
           </div>
+        )}
+      </div>
 
-          <div className="test-cases">
-            <div className="test-cases-header">
-              <h3>Test Cases</h3>
-              <span className="tests-count">
-                {testResults.filter((t) => t.passed).length}/
-                {testResults.length} Passed
-              </span>
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{editingClass ? "Edit Class" : "Create New Class"}</h2>
+              <button className="modal-close" onClick={closeModal}>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                </svg>
+              </button>
             </div>
-            <div className="test-cases-content">
-              <div className="test-results">
-                {testResults.map((test, index) => (
-                  <div
-                    key={index}
-                    className={`test-case ${test.passed ? "passed" : "failed"}`}
+
+            <form onSubmit={handleSubmit} className="modal-form">
+              <div className="form-grid">
+                <div className="form-group">
+                  <label htmlFor="class-name" className="form-label">
+                    Class Name *
+                  </label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    id="class-name"
+                    value={formData.class_name}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        class_name: e.target.value,
+                      })
+                    }
+                    required
+                    placeholder="Enter class name"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="class-status" className="form-label">
+                    Status *
+                  </label>
+                  <select
+                    className="form-input"
+                    id="class-status"
+                    value={formData.status}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
+                    required
                   >
-                    <div className="test-header">
-                      <span className="test-status">
-                        {test.passed ? "✓" : "✗"} Test {index + 1}
-                        <span className="test-type-badge">
-                          {test.type} - {test.input || "unknown"}
-                        </span>
-                      </span>
-                      <span className="test-visibility">
-                        {test.visible ? "Visible" : "Hidden"}
-                      </span>
-                    </div>
-                    <p className="test-description">{test.description}</p>
-                    {!test.passed && (
-                      <div className="test-details">
-                        <span>Expected: {test.output || "Test to pass"}</span>
-                        <span>Actual: {test.actual}</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                {testResults.length === 0 && (
-                  <div className="no-tests">
-                    Run the tests to see results here
-                  </div>
-                )}
+                    <option value="upcoming">Upcoming</option>
+                    <option value="live">Live</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="batch-month" className="form-label">
+                    Batch Month
+                  </label>
+                  <select
+                    className="form-input"
+                    id="batch-month"
+                    value={formData.batch_month}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        batch_month: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">All Batches</option>
+                    <option value="January">January</option>
+                    <option value="February">February</option>
+                    <option value="March">March</option>
+                    <option value="April">April</option>
+                    <option value="May">May</option>
+                    <option value="June">June</option>
+                    <option value="July">July</option>
+                    <option value="August">August</option>
+                    <option value="September">September</option>
+                    <option value="October">October</option>
+                    <option value="November">November</option>
+                    <option value="December">December</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="batch-year" className="form-label">
+                    Batch Year
+                  </label>
+                  <select
+                    className="form-input"
+                    id="batch-year"
+                    value={formData.batch_year}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        batch_year: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">All Years</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2027">2027</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="start-time" className="form-label">
+                    Start Time *
+                  </label>
+                  <input
+                    type="datetime-local"
+                    className="form-input"
+                    id="start-time"
+                    value={formData.start_time}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        start_time: e.target.value,
+                      })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="end-time" className="form-label">
+                    End Time *
+                  </label>
+                  <input
+                    type="datetime-local"
+                    className="form-input"
+                    id="end-time"
+                    value={formData.end_time}
+                    onChange={(e) =>
+                      setFormData({ ...formData, end_time: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="class-progress" className="form-label">
+                    Progress (%) *
+                  </label>
+                  <input
+                    type="number"
+                    className="form-input"
+                    id="class-progress"
+                    min="0"
+                    max="100"
+                    value={formData.progress}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        progress: Number.parseFloat(e.target.value),
+                      })
+                    }
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="zoom-link" className="form-label">
+                    Zoom Link
+                  </label>
+                  <input
+                    type="url"
+                    className="form-input"
+                    id="zoom-link"
+                    placeholder="https://zoom.us/j/..."
+                    value={formData.zoom_link}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        zoom_link: e.target.value,
+                      })
+                    }
+                  />
+                </div>
               </div>
 
-              <div className="test-actions">
+              <div className="form-group full-width">
+                <label htmlFor="class-description" className="form-label">
+                  Description
+                </label>
+                <textarea
+                  className="form-textarea"
+                  id="class-description"
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      description: e.target.value,
+                    })
+                  }
+                  rows="3"
+                  placeholder="Enter class description..."
+                />
+              </div>
+
+              <div className="form-actions">
                 <button
-                  onClick={handleSubmit}
-                  className="submit-btn"
-                  disabled={isSubmitting}
+                  type="button"
+                  className="btn-cancel"
+                  onClick={closeModal}
                 >
-                  {isSubmitting ? "Submitting..." : "Submit Solution"}
+                  Cancel
+                </button>
+                <button type="submit" className="btn-submit">
+                  {editingClass ? "Update Class" : "Create Class"}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-
-        <div className="right-panel">
-          <CodePlayground
-            initialLanguage="web"
-            initialCode={currentCode}
-            autoRun={false}
-            onCodeChange={handleCodeChange}
-            iframeRef={iframeRef}
-            customRunHandler={() => handleRunTests(iframeRef)}
-            runButtonText="Run Tests"
-          />
-          <div className="output-section">
-            <h3>Test Output</h3>
-            <div className="output-container">
-              <pre>{output || "Test results will appear here..."}</pre>
-            </div>
-          </div>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
 
-export default WebPractice;
+export default LiveClasses;
