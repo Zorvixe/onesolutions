@@ -504,6 +504,7 @@ import Quering_with_Joins_Class_Part_2 from "../SQL_Database/Joins/Quering_with_
 import Quering_with_Joins_CS_Part_2 from "../SQL_Database/Joins/Quering_with_Joins_CS_Part_2.js";
 import Quering_with_Joins_Part_2_MCQ from "../SQL_Database/Joins/Quering_with_Joins_Part_2_MCQ.js";
 import Quering_with_Joins_Class_Part_3 from "../SQL_Database/Joins/Quering_with_Joins_Class_Part_3.js";
+import Quering_with_Joins_CS_Part_3 from "../SQL_Database/Joins/Quering_with_Joins_CS_Part_3.js";
 import Quering_with_Joins_MCQ_Part_3 from "../SQL_Database/Joins/Quering_with_Joins_MCQ_Part_3.js";
 import Joins_Coding_Pratice_1 from "../SQL_Database/Joins/Joins_Coding_Pratice_1.js";
 import Joins_Coding_Pratice_2 from "../SQL_Database/Joins/Joins_Coding_Pratice_2.js";
@@ -546,6 +547,7 @@ export const subtopicComponents = {
   "Querying with SQL | Part 1": Quering_SQL_1,
   "Querying with SQL | Part 2": Quering_SQL_2,
   "Querying with SQL | Part 3": Quering_SQL_3,
+  "Querying with Joins | Part 3 | Cheat Sheet": Quering_with_Joins_CS_Part_3,
   "MCQ Practice Querying with SQL | Part 1": Quering_SQL_MCQ_1,
   "MCQ Practice Querying with SQL | Part 2": Quering_SQL_MCQ_2,
   "MCQ Practice Querying with SQL | Part 3": Quering_SQL_MCQ_3,

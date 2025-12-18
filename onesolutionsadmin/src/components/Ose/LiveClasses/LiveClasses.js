@@ -41,7 +41,7 @@ const LiveClasses = () => {
       if (!currentToken) {
         navigate("/login");
       }
-    }; // Check token periodically or on specific events
+    };
     window.addEventListener("storage", checkToken);
 
     return () => {
@@ -53,15 +53,15 @@ const LiveClasses = () => {
     if (token) {
       fetchClasses();
     }
-  }, [token]); // Add token as dependency
+  }, [token]);
 
   // Function to calculate progress based on current time and class timings
-  const calculateProgress = useCallback((startTime, endTime) => {
+  const calculateProgress = (startTime, endTime) => {
     if (!startTime || !endTime) return 0;
 
-    const now = new Date().getTime();
-    const start = new Date(startTime).getTime();
-    const end = new Date(endTime).getTime();
+    const now = new Date();
+    const start = new Date(startTime);
+    const end = new Date(endTime);
 
     // If class hasn't started yet
     if (now < start) return 0;
@@ -70,119 +70,130 @@ const LiveClasses = () => {
     if (now > end) return 100;
 
     // Calculate progress percentage
-    const totalDuration = end - start;
-    const elapsedTime = now - start;
+    const totalDuration = end.getTime() - start.getTime();
+    const elapsedTime = now.getTime() - start.getTime();
+
+    if (totalDuration <= 0) return 0;
+
     const progressPercentage = (elapsedTime / totalDuration) * 100;
 
-    // Return progress between 0 and 100
+    // Return progress between 0 and 100, rounded to 1 decimal
     return Math.min(100, Math.max(0, Math.round(progressPercentage * 10) / 10));
-  }, []);
+  };
 
   // Function to update status based on current time
-  const determineStatus = useCallback((startTime, endTime) => {
-    if (!startTime || !endTime) return "upcoming";
+  const determineStatus = (startTime, endTime, currentStatus = "upcoming") => {
+    if (!startTime || !endTime) return currentStatus;
 
-    const now = new Date().getTime();
-    const start = new Date(startTime).getTime();
-    const end = new Date(endTime).getTime();
+    const now = new Date();
+    const start = new Date(startTime);
+    const end = new Date(endTime);
 
     if (now < start) return "upcoming";
     if (now > end) return "completed";
     return "live";
-  }, []);
+  };
 
-  // Function to update class progress and status automatically
-  const updateClassProgress = useCallback(
-    (classItem) => {
-      const newStatus = determineStatus(
-        classItem.start_time,
-        classItem.end_time
-      );
-      let newProgress = classItem.progress;
+  // Function to update a single class's progress and status
+  const updateSingleClassProgress = (classItem) => {
+    const newStatus = determineStatus(
+      classItem.start_time,
+      classItem.end_time,
+      classItem.status
+    );
+    let newProgress = classItem.progress || 0;
 
-      // Only update progress if class is live
-      if (newStatus === "live") {
-        newProgress = calculateProgress(
-          classItem.start_time,
-          classItem.end_time
-        );
-      } else if (newStatus === "upcoming") {
-        newProgress = 0;
-      } else if (newStatus === "completed") {
-        newProgress = 100;
-      }
+    // Calculate progress based on status
+    if (newStatus === "live") {
+      newProgress = calculateProgress(classItem.start_time, classItem.end_time);
+    } else if (newStatus === "upcoming") {
+      newProgress = 0;
+    } else if (newStatus === "completed") {
+      newProgress = 100;
+    }
 
-      // Only update if status or progress has changed
-      if (
-        newStatus !== classItem.status ||
-        Math.abs(newProgress - (classItem.progress || 0)) >= 1
-      ) {
-        return {
-          ...classItem,
-          status: newStatus,
-          progress: newProgress,
-        };
-      }
+    // Only return updated object if there are changes
+    if (
+      newStatus !== classItem.status ||
+      Math.abs(newProgress - (classItem.progress || 0)) > 0.1
+    ) {
+      return {
+        ...classItem,
+        status: newStatus,
+        progress: newProgress,
+        needsUpdate: true,
+      };
+    }
 
-      return classItem;
-    },
-    [determineStatus, calculateProgress]
-  );
+    return { ...classItem, needsUpdate: false };
+  };
 
-  // Function to update all classes progress and status
-  const updateAllClassesProgress = useCallback(() => {
-    setClasses((prevClasses) => {
-      const updatedClasses = prevClasses.map((classItem) =>
-        updateClassProgress(classItem)
-      );
-
-      // Check if any class needs to be updated in the database
-      updatedClasses.forEach(async (classItem, index) => {
-        const prevClass = prevClasses[index];
-        if (
-          classItem.status !== prevClass.status ||
-          Math.abs(classItem.progress - (prevClass.progress || 0)) >= 1
-        ) {
-          // Update in database if significant change
-          try {
-            await fetch(
-              `https://ose.onesolutionsekam.in/api/live-classes/${classItem.id}`,
-              {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify({
-                  status: classItem.status,
-                  progress: classItem.progress,
-                }),
-              }
-            );
-          } catch (error) {
-            console.error("Error updating class progress:", error);
-          }
+  // Function to update all classes in the database
+  const updateClassesInDatabase = async (updatedClasses) => {
+    const updatePromises = updatedClasses
+      .filter((cls) => cls.needsUpdate)
+      .map(async (classItem) => {
+        try {
+          const response = await fetch(
+            `https://ose.onesolutionsekam.in/api/live-classes/${classItem.id}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                status: classItem.status,
+                progress: classItem.progress,
+              }),
+            }
+          );
+          return response.ok;
+        } catch (error) {
+          console.error("Error updating class in database:", error);
+          return false;
         }
       });
 
-      return updatedClasses;
-    });
-  }, [token, updateClassProgress]);
+    await Promise.all(updatePromises);
+  };
 
-  // Set up interval to update progress every minute
+  // Function to update all classes progress and status
+  const updateAllClassesProgress = useCallback(async () => {
+    setClasses((prevClasses) => {
+      const updatedClasses = prevClasses.map(updateSingleClassProgress);
+
+      // Update database for classes that changed
+      setTimeout(() => {
+        updateClassesInDatabase(updatedClasses).catch((error) => {
+          console.error("Error in batch update:", error);
+        });
+      }, 0);
+
+      return updatedClasses.map((cls) => ({ ...cls, needsUpdate: undefined }));
+    });
+  }, [token]);
+
+  // Set up interval to update progress every 30 seconds
   useEffect(() => {
     if (classes.length > 0) {
-      // Update immediately when component mounts
+      // Clear any existing interval
+      if (updateIntervalRef.current) {
+        clearInterval(updateIntervalRef.current);
+      }
+
+      // Update immediately
       updateAllClassesProgress();
 
-      // Set up interval to update every minute
+      // Set up new interval
       updateIntervalRef.current = setInterval(() => {
         updateAllClassesProgress();
-      }, 60000); // Update every minute
+      }, 30000); // Update every 30 seconds
 
       return () => {
         if (updateIntervalRef.current) {
           clearInterval(updateIntervalRef.current);
+          updateIntervalRef.current = null;
         }
       };
     }
@@ -200,12 +211,33 @@ const LiveClasses = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched classes:", data);
 
         // Update each class with current progress and status
-        const updatedData = data.map((classItem) =>
-          updateClassProgress(classItem)
-        );
+        const updatedData = data.map((classItem) => {
+          const status = determineStatus(
+            classItem.start_time,
+            classItem.end_time,
+            classItem.status
+          );
+          let progress = classItem.progress || 0;
+
+          if (status === "live") {
+            progress = calculateProgress(
+              classItem.start_time,
+              classItem.end_time
+            );
+          } else if (status === "upcoming") {
+            progress = 0;
+          } else if (status === "completed") {
+            progress = 100;
+          }
+
+          return {
+            ...classItem,
+            status,
+            progress,
+          };
+        });
 
         setClasses(updatedData);
       }
@@ -225,24 +257,19 @@ const LiveClasses = () => {
 
       const method = editingClass ? "PUT" : "POST";
 
-      // Calculate initial progress based on timings
+      // Calculate initial progress and status based on timings
+      const status = determineStatus(formData.start_time, formData.end_time);
       let progress = 0;
-      if (formData.start_time && formData.end_time) {
-        const currentStatus = determineStatus(
-          formData.start_time,
-          formData.end_time
-        );
-        if (currentStatus === "live") {
-          progress = calculateProgress(formData.start_time, formData.end_time);
-        } else if (currentStatus === "completed") {
-          progress = 100;
-        }
+      if (status === "live") {
+        progress = calculateProgress(formData.start_time, formData.end_time);
+      } else if (status === "completed") {
+        progress = 100;
       }
 
       const submitData = {
         ...formData,
         progress: progress,
-        status: determineStatus(formData.start_time, formData.end_time),
+        status: status,
       };
 
       const response = await fetch(url, {
@@ -297,15 +324,10 @@ const LiveClasses = () => {
       setFormData((prev) => ({
         ...prev,
         status: currentStatus,
-        progress: progress,
+        progress: Math.round(progress),
       }));
     }
-  }, [
-    formData.start_time,
-    formData.end_time,
-    determineStatus,
-    calculateProgress,
-  ]);
+  }, [formData.start_time, formData.end_time]);
 
   const showCreateModal = () => {
     setEditingClass(null);
@@ -372,14 +394,20 @@ const LiveClasses = () => {
   const formatDateTime = (dateTime) => {
     if (!dateTime) return "Not set";
 
-    const date = new Date(dateTime);
+    try {
+      const date = new Date(dateTime);
+      if (isNaN(date.getTime())) return "Invalid date";
 
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "UTC",
-    });
+      return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+      });
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid date";
+    }
   };
 
   const getStatusBadge = (status) => {
@@ -497,17 +525,13 @@ const LiveClasses = () => {
     }
   };
 
-  const newClassVideo = () => {
-    navigate("/Video_Management");
-  };
-
   // Calculate remaining time for upcoming classes
   const getRemainingTime = (startTime) => {
     if (!startTime) return "";
 
-    const now = new Date().getTime();
-    const start = new Date(startTime).getTime();
-    const diff = start - now;
+    const now = new Date();
+    const start = new Date(startTime);
+    const diff = start.getTime() - now.getTime();
 
     if (diff <= 0) return "Starting soon";
 
@@ -524,9 +548,9 @@ const LiveClasses = () => {
   const getElapsedTime = (startTime) => {
     if (!startTime) return "";
 
-    const now = new Date().getTime();
-    const start = new Date(startTime).getTime();
-    const diff = now - start;
+    const now = new Date();
+    const start = new Date(startTime);
+    const diff = now.getTime() - start.getTime();
 
     if (diff <= 0) return "Just started";
 
@@ -537,6 +561,26 @@ const LiveClasses = () => {
       return `Live for ${hours}h ${minutes}m`;
     }
     return `Live for ${minutes}m`;
+  };
+
+  const newClassVideo = () => {
+    navigate("/Video_Management");
+  };
+
+  // Format date for display
+  const formatDateForDisplay = (dateTime) => {
+    if (!dateTime) return "";
+    try {
+      const date = new Date(dateTime);
+      return date.toLocaleDateString("en-US", {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch (error) {
+      return "";
+    }
   };
 
   if (loading) {
@@ -557,8 +601,8 @@ const LiveClasses = () => {
           <p>Manage and schedule your live classes efficiently</p>
           <div className="auto-update-info">
             <span className="update-badge">
-              <i className="bi bi-clock"></i> Progress updates automatically
-              every minute
+              <i className="bi bi-clock"></i> Auto-updating progress every 30
+              seconds
             </span>
           </div>
         </div>
@@ -652,266 +696,285 @@ const LiveClasses = () => {
         ) : (
           <div className="livcss-live container-fluid">
             <div className="row live-classes-row-con">
-              {" "}
-              {/* Changed to g-4 for larger gap */}
-              {classes.length > 0 ? (
-                classes.map((classItem) => {
-                  const isLive = classItem.status === "live";
-                  const isUpcoming = classItem.status === "upcoming";
-                  const isCompleted = classItem.status === "completed";
+              {classes.map((classItem) => {
+                const isLive = classItem.status === "live";
+                const isUpcoming = classItem.status === "upcoming";
+                const isCompleted = classItem.status === "completed";
 
-                  return (
+                return (
+                  <div
+                    key={classItem.id}
+                    className="livcss-liveclasses-container"
+                  >
                     <div
-                      key={classItem.id}
-                      className="livcss-liveclasses-container"
-                    >
-                      <div
-                        className="livcss-indicator-bar"
-                        style={{
-                          backgroundColor:
-                            classItem.status === "live"
-                              ? "#28a745"
-                              : classItem.status === "completed"
-                              ? "#6c757d"
-                              : "#ffa500",
-                        }}
-                      ></div>
-                      <div className="livcss-card-actions">
-                        <button
-                          className="livcss-btn-action livcss-btn-edit"
-                          onClick={() => handleEdit(classItem)}
-                          title="Edit class"
+                      className="livcss-indicator-bar"
+                      style={{
+                        backgroundColor:
+                          classItem.status === "live"
+                            ? "#28a745"
+                            : classItem.status === "completed"
+                            ? "#6c757d"
+                            : "#ffa500",
+                      }}
+                    ></div>
+                    <div className="livcss-card-actions">
+                      <button
+                        className="livcss-btn-action livcss-btn-edit"
+                        onClick={() => handleEdit(classItem)}
+                        title="Edit class"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                          </svg>
-                        </button>
-                        <button
-                          className="livcss-btn-action livcss-btn-delete"
-                          onClick={() => handleDelete(classItem.id)}
-                          title="Delete class"
+                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                        </svg>
+                      </button>
+                      <button
+                        className="livcss-btn-action livcss-btn-delete"
+                        onClick={() => handleDelete(classItem.id)}
+                        title="Delete class"
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                          >
-                            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                          </svg>
-                        </button>
-                      </div>
-                      <div className="livcss-information">
-                        <div className="livcss-class-info">
-                          <button className="livcss-letter-tag">
-                            {classItem.class_name.toUpperCase().slice(0, 1)}
-                          </button>
-                          {classItem.class_name.toUpperCase().slice(0, 1)}
-
-                          <div className="livcss-class-text">
-                            <h3>{classItem.class_name}</h3>
-                            <p>Mentor: {classItem.mentor_name}</p>
-                            {classItem.batch_month && classItem.batch_year && (
-                              <p className="livcss-batch-info">
-                                Batch: {classItem.batch_month}{" "}
-                                {classItem.batch_year}
-                              </p>
-                            )}
-                            {isUpcoming && classItem.start_time && (
-                              <p className="livcss-time-info">
-                                <i className="bi bi-clock"></i>{" "}
-                                {getRemainingTime(classItem.start_time)}
-                              </p>
-                            )}
-                            {isLive && classItem.start_time && (
-                              <p className="livcss-time-info">
-                                <i className="bi bi-clock-history"></i>{" "}
-                                {getElapsedTime(classItem.start_time)}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="d-flex flex-column">
-                            <button
-                              className="livcss-status"
-                              style={{
-                                backgroundColor: getStatusColor(
-                                  classItem.status
-                                ),
-                                color: "white",
-                                border: "none",
-                                padding: "5px",
-                                borderRadius: "8px",
-                                marginBottom: "10px",
-                              }}
-                            >
-                              <i
-                                className={getStatusIcon(classItem.status)}
-                                style={{ marginRight: "8px" }}
-                              ></i>
-                              {classItem.status.charAt(0).toUpperCase() +
-                                classItem.status.slice(1)}
-                            </button>
-                            {classItem.zoom_link && isLive && (
-                              <a
-                                href={classItem.zoom_link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                style={{
-                                  color: "#28a745",
-                                  fontWeight: "bold",
-                                  textDecoration: "none",
-                                }}
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <i
-                                  className="bi bi-box-arrow-right"
-                                  style={{ marginRight: "8px" }}
-                                ></i>
-                                Join Class
-                              </a>
-                            )}
-                            {isLive && !classItem.zoom_link && (
-                              <p
-                                style={{ color: "#ff6b6b", fontWeight: "bold" }}
-                              >
-                                <i
-                                  className="bi bi-exclamation-triangle"
-                                  style={{ marginRight: "8px" }}
-                                ></i>
-                                No Zoom Link
-                              </p>
-                            )}
-                          </div>
+                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+                        </svg>
+                      </button>
+                    </div>
+                    <div className="livcss-information">
+                      <div className="livcss-class-info">
+                        <div className="livcss-letter-tag">
+                          {classItem.class_name
+                            ? classItem.class_name.charAt(0).toUpperCase()
+                            : "C"}
                         </div>
-                        <div className="livcss-progress-time">
-                          <div className="livcss-row">
-                            <p>Progress</p>
-                            <p className="livcss-highlight">
-                              {classItem.progress}%
-                              {isLive && (
-                                <span className="auto-update-indicator">
-                                  <i className="bi bi-arrow-clockwise"></i>
-                                </span>
+                        <div className="livcss-class-text">
+                          <h3>{classItem.class_name}</h3>
+                          <p>
+                            Mentor: {classItem.mentor_name || "Not assigned"}
+                          </p>
+                          {(classItem.batch_month || classItem.batch_year) && (
+                            <p className="livcss-batch-info">
+                              Batch:{" "}
+                              {getBatchInfo(
+                                classItem.batch_month,
+                                classItem.batch_year
                               )}
                             </p>
-                          </div>
-                          <div className="livcss-progress-bar-container">
-                            <div
-                              className="livcss-progress-bar-fill"
-                              style={{
-                                width: `${Math.min(
-                                  100,
-                                  Math.max(0, classItem.progress || 0)
-                                )}%`,
-                                backgroundColor: isLive
-                                  ? "#28a745"
-                                  : isCompleted
-                                  ? "#6c757d"
-                                  : "#ffa500",
-                              }}
-                            ></div>
-                          </div>
-                          <div className="livcss-row livcss-highlights">
-                            <p>Class Time</p>
-                            <p>
-                              {" "}
-                              {formatDateTime(classItem.start_time)}
-                              {" - "}
-                              {formatDateTime(classItem.end_time)}
+                          )}
+                          {isUpcoming && classItem.start_time && (
+                            <p className="livcss-time-info">
+                              <i className="bi bi-clock"></i>{" "}
+                              {getRemainingTime(classItem.start_time)}
                             </p>
+                          )}
+                          {isLive && classItem.start_time && (
+                            <p className="livcss-time-info">
+                              <i className="bi bi-clock-history"></i>{" "}
+                              {getElapsedTime(classItem.start_time)}
+                            </p>
+                          )}
+                          {classItem.start_time && (
+                            <p className="livcss-date-info">
+                              <i className="bi bi-calendar"></i>{" "}
+                              {formatDateForDisplay(classItem.start_time)}
+                            </p>
+                          )}
+                        </div>
+
+                        <div className="d-flex flex-column align-items-end">
+                          <button
+                            className="livcss-status"
+                            style={{
+                              backgroundColor: getStatusColor(classItem.status),
+                              color: "white",
+                              border: "none",
+                              padding: "8px 12px",
+                              borderRadius: "8px",
+                              marginBottom: "10px",
+                              minWidth: "120px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <i
+                              className={getStatusIcon(classItem.status)}
+                              style={{ marginRight: "8px" }}
+                            ></i>
+                            {classItem.status.charAt(0).toUpperCase() +
+                              classItem.status.slice(1)}
+                          </button>
+                          {classItem.zoom_link && isLive && (
+                            <a
+                              href={classItem.zoom_link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn-join-class"
+                            >
+                              <i
+                                className="bi bi-box-arrow-right"
+                                style={{ marginRight: "8px" }}
+                              ></i>
+                              Join Class
+                            </a>
+                          )}
+                          {isLive && !classItem.zoom_link && (
+                            <p className="text-danger">
+                              <i
+                                className="bi bi-exclamation-triangle"
+                                style={{ marginRight: "8px" }}
+                              ></i>
+                              No Zoom Link
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="livcss-progress-time">
+                        <div className="livcss-row">
+                          <p>
+                            Progress{" "}
+                            {isLive && (
+                              <span className="auto-update-indicator">
+                                (Auto-updating)
+                              </span>
+                            )}
+                          </p>
+                          <p className="livcss-highlight">
+                            {typeof classItem.progress === "number"
+                              ? classItem.progress.toFixed(1)
+                              : classItem.progress}
+                            %
+                            {isLive && (
+                              <span className="live-indicator">
+                                <i className="bi bi-circle-fill"></i>
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                        <div className="livcss-progress-bar-container">
+                          <div
+                            className="livcss-progress-bar-fill"
+                            style={{
+                              width: `${Math.min(
+                                100,
+                                Math.max(0, classItem.progress || 0)
+                              )}%`,
+                              backgroundColor: isLive
+                                ? "#28a745"
+                                : isCompleted
+                                ? "#6c757d"
+                                : "#ffa500",
+                              transition: isLive
+                                ? "width 1s ease-in-out"
+                                : "none",
+                            }}
+                          ></div>
+                        </div>
+                        <div className="livcss-row livcss-highlights">
+                          <p>Class Time</p>
+                          <p>
+                            {formatDateTime(classItem.start_time)}
+                            {" - "}
+                            {formatDateTime(classItem.end_time)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Controls */}
+                      <div className="livcss-controls-section">
+                        <div className="livcss-status-controls">
+                          <h4>Update Status</h4>
+                          <div className="livcss-status-buttons">
+                            <button
+                              className={`livcss-status-btn ${
+                                classItem.status === "upcoming"
+                                  ? "livcss-active"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleStatusChange(classItem.id, "upcoming")
+                              }
+                            >
+                              Upcoming
+                            </button>
+                            <button
+                              className={`livcss-status-btn ${
+                                classItem.status === "live"
+                                  ? "livcss-active"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleStatusChange(classItem.id, "live")
+                              }
+                            >
+                              Live
+                            </button>
+                            <button
+                              className={`livcss-status-btn ${
+                                classItem.status === "completed"
+                                  ? "livcss-active"
+                                  : ""
+                              }`}
+                              onClick={() =>
+                                handleStatusChange(classItem.id, "completed")
+                              }
+                            >
+                              Completed
+                            </button>
                           </div>
                         </div>
 
-                        {/* Controls */}
-                        <div className="livcss-controls-section">
-                          <div className="livcss-status-controls">
-                            <h4>Update Status</h4>
-                            <div className="livcss-status-buttons">
-                              <button
-                                className={`livcss-status-btn ${
-                                  classItem.status === "upcoming"
-                                    ? "livcss-active"
-                                    : ""
-                                }`}
-                                onClick={() =>
-                                  handleStatusChange(classItem.id, "upcoming")
-                                }
-                              >
-                                Upcoming
-                              </button>
-                              <button
-                                className={`livcss-status-btn ${
-                                  classItem.status === "live"
-                                    ? "livcss-active"
-                                    : ""
-                                }`}
-                                onClick={() =>
-                                  handleStatusChange(classItem.id, "live")
-                                }
-                              >
-                                Live
-                              </button>
-                              <button
-                                className={`livcss-status-btn ${
-                                  classItem.status === "completed"
-                                    ? "livcss-active"
-                                    : ""
-                                }`}
-                                onClick={() =>
-                                  handleStatusChange(classItem.id, "completed")
-                                }
-                              >
-                                Completed
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className="livcss-progress-controls">
-                            <label>
-                              Adjust Progress (Auto-updates based on time)
-                            </label>
-                            <input
-                              type="range"
-                              min="0"
-                              max="100"
-                              value={classItem.progress || 0}
-                              onChange={(e) =>
-                                handleProgressChange(
-                                  classItem.id,
-                                  Number.parseFloat(e.target.value)
-                                )
-                              }
-                              className="livcss-progress-slider"
-                              disabled={isLive} // Disable manual adjustment when live (auto-updating)
-                            />
+                        <div className="livcss-progress-controls">
+                          <label>
+                            Adjust Progress{" "}
                             {isLive && (
-                              <div className="auto-progress-info">
+                              <span className="text-muted">
+                                (Disabled for live classes)
+                              </span>
+                            )}
+                          </label>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={classItem.progress || 0}
+                            onChange={(e) =>
+                              handleProgressChange(
+                                classItem.id,
+                                Number.parseFloat(e.target.value)
+                              )
+                            }
+                            className="livcss-progress-slider"
+                            disabled={isLive}
+                          />
+                          <div className="progress-info">
+                            <span>{classItem.progress || 0}%</span>
+                            {isLive && (
+                              <span className="auto-progress-info">
                                 <i className="bi bi-info-circle"></i> Progress
-                                updates automatically for live classes
-                              </div>
+                                updates automatically based on time
+                              </span>
                             )}
                           </div>
                         </div>
-                        {classItem.description && (
-                          <div className="livcss-description-section">
-                            <p>{classItem.description}</p>
-                          </div>
-                        )}
                       </div>
+                      {classItem.description && (
+                        <div className="livcss-description-section">
+                          <h5>Description:</h5>
+                          <p>{classItem.description}</p>
+                        </div>
+                      )}
                     </div>
-                  );
-                })
-              ) : (
-                <div className="livcss-no-classes col-12">
-                  <p>No live classes.</p>
-                </div>
-              )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
@@ -975,7 +1038,7 @@ const LiveClasses = () => {
                     <option value="completed">Completed</option>
                   </select>
                   <div className="form-hint">
-                    Status will auto-update based on class timings
+                    Status auto-updates based on current time and class schedule
                   </div>
                 </div>
 
@@ -1031,6 +1094,9 @@ const LiveClasses = () => {
                     <option value="2025">2025</option>
                     <option value="2026">2026</option>
                     <option value="2027">2027</option>
+                    <option value="2028">2028</option>
+                    <option value="2029">2029</option>
+                    <option value="2030">2030</option>
                   </select>
                 </div>
 
@@ -1071,7 +1137,7 @@ const LiveClasses = () => {
 
                 <div className="form-group">
                   <label htmlFor="class-progress" className="form-label">
-                    Progress (%) *
+                    Progress (%)
                     <span className="progress-auto-badge">Auto-calculated</span>
                   </label>
                   <input
@@ -1080,6 +1146,7 @@ const LiveClasses = () => {
                     id="class-progress"
                     min="0"
                     max="100"
+                    step="0.1"
                     value={formData.progress}
                     onChange={(e) =>
                       setFormData({
@@ -1087,13 +1154,11 @@ const LiveClasses = () => {
                         progress: Number.parseFloat(e.target.value),
                       })
                     }
-                    required
-                    disabled
-                    title="Progress is automatically calculated based on class timings"
+                    readOnly
+                    style={{ backgroundColor: "#f5f5f5" }}
                   />
                   <div className="form-hint">
-                    Progress will auto-update based on current time and class
-                    duration
+                    Progress is automatically calculated based on current time
                   </div>
                 </div>
 
@@ -1138,10 +1203,15 @@ const LiveClasses = () => {
 
               <div className="auto-update-note">
                 <i className="bi bi-info-circle"></i>
-                <span>
-                  Progress and status will automatically update based on class
-                  timings. Live classes will update progress in real-time.
-                </span>
+                <div>
+                  <strong>Automatic Updates:</strong>
+                  <ul>
+                    <li>Status changes automatically based on current time</li>
+                    <li>Progress updates in real-time during live sessions</li>
+                    <li>Live classes update progress every 30 seconds</li>
+                    <li>Completed classes are automatically set to 100%</li>
+                  </ul>
+                </div>
               </div>
 
               <div className="form-actions">

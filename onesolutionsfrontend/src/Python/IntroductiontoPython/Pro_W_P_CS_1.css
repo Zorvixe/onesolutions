@@ -341,3 +341,8 @@ code {
 /* background: #ffd9d9 !important; */
 /* background: #ffd1d1f5 !important; */
 /* border: 1px solid rgb(115, 12, 12) !important; */
+.right-images {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}

@@ -195,7 +195,7 @@ const Core_Concepts_ER_CS = ({ onSubtopicComplete }) => {
         <img
           src="/assets/img/cardinality_ratio.png"
           alt="DOM Tree"
-          style={{ width: "8po0%", height: "300px" }}
+          style={{ width: "80%", height: "300px" }}
         />
       </section>
 

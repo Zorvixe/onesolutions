@@ -29,7 +29,9 @@ const Common_Mistakes_CS = ({ onSubtopicComplete }) => {
 
         <div className="Note-container">
           <div className="icon-note">
-            <h6>Note</h6>
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
           </div>
           <p>
             The SQL interpreter is a component of a database management system
@@ -143,7 +145,9 @@ VALUES
 
         <div className="Note-container">
           <div className="icon-note">
-            <h6>Note</h6>
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
           </div>
           <p>
             Delimiters are special characters used to mark the start and end of
@@ -483,7 +487,9 @@ COLUMN height;`}
         />
         <div className="Note-container">
           <div className="icon-note">
-            <h6>Note</h6>
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
           </div>
           <p>Dropping the column from the table will result in loss of data.</p>
         </div>
