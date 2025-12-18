@@ -10,6 +10,7 @@ import validateCssTest from "./validateCssTest";
 import "./WebPractice.css";
 import "../../codingPracticesData/codingpracticesweb.css";
 import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
+import confetti from "canvas-confetti";
 
 const WebPractice = () => {
   const { practiceId, questionId } = useParams();
@@ -38,12 +39,15 @@ const WebPractice = () => {
   const iframeRef = useRef(null);
   const confettiRef = useRef([]);
   const autoSaveTimeoutRef = useRef(null);
-  const [isJustSolved, setIsJustSolved] = useState(false); // NEW: Track if question was just solved
+  const [isJustSolved, setIsJustSolved] = useState(false);
+  const [audio, setAudio] = useState(null); // NEW: Audio state
 
   const subtopicId = location.state?.subtopicId;
   const topicId = location.state?.topicId;
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
+
+  // REMOVED: Audio initialization on component mount
 
   const loadProgress = useCallback(async () => {
     try {
@@ -60,10 +64,10 @@ const WebPractice = () => {
         setUserProgress(progressMap);
         return progressMap;
       } else {
-        console.error("[v0] Failed to load progress:", response.error);
+        console.error("Failed to load progress:", response.error);
       }
     } catch (error) {
-      console.error("[v0] Failed to load progress:", error);
+      console.error("Failed to load progress:", error);
       setDebugInfo(`Error loading progress: ${error.message}`);
     }
     return {};
@@ -105,7 +109,7 @@ const WebPractice = () => {
         }
         return { success: false };
       } catch (error) {
-        console.error("[v0] Auto-save failed:", error);
+        console.error("Auto-save failed:", error);
         return { success: false, error: error.message };
       }
     },
@@ -119,9 +123,7 @@ const WebPractice = () => {
         setError(null);
 
         if (!staticCodingPracticesData || !staticCodingPracticesData.static) {
-          console.error(
-            "[v0] staticCodingPracticesData is not properly structured"
-          );
+          console.error("staticCodingPracticesData is not properly structured");
           setError("Practice data not found. Please try again.");
           return;
         }
@@ -176,14 +178,14 @@ const WebPractice = () => {
               };
             }
           } catch (error) {
-            console.error("[v0] Failed to parse saved code:", error);
+            console.error("Failed to parse saved code:", error);
           }
         }
 
         setCurrentCode(initialCode);
-        setIsJustSolved(false); // Reset just solved flag when loading new question
+        setIsJustSolved(false);
       } catch (error) {
-        console.error("[v0] Error loading practice data:", error);
+        console.error("Error loading practice data:", error);
         setError(`Error loading practice: ${error.message}`);
       } finally {
         setIsLoading(false);
@@ -229,11 +231,11 @@ const WebPractice = () => {
           await loadProgressSummary();
           return { success: true, data: response.data };
         } else {
-          console.error("[v0] Failed to save progress:", response.message);
+          console.error("Failed to save progress:", response.message);
           return { success: false, error: response.message };
         }
       } catch (error) {
-        console.error("[v0] Failed to update question status:", error);
+        console.error("Failed to update question status:", error);
         return { success: false, error: error.message };
       }
     },
@@ -245,6 +247,12 @@ const WebPractice = () => {
       if (autoSaveTimeoutRef.current) {
         clearTimeout(autoSaveTimeoutRef.current);
       }
+      // Cleanup confetti
+      confettiRef.current.forEach((conf) => {
+        if (conf && conf.parentNode) {
+          conf.parentNode.removeChild(conf);
+        }
+      });
     };
   }, []);
 
@@ -259,7 +267,7 @@ const WebPractice = () => {
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
       if (!iframeDoc) {
-        console.error("[v0] Cannot access iframe document");
+        console.error("Cannot access iframe document");
         return;
       }
 
@@ -290,7 +298,7 @@ const WebPractice = () => {
       iframeDoc.write(htmlContent);
       iframeDoc.close();
     } catch (error) {
-      console.error("[v0] Error updating preview:", error);
+      console.error("Error updating preview:", error);
       try {
         const iframeDoc =
           iframe.contentDocument || iframe.contentWindow.document;
@@ -298,10 +306,7 @@ const WebPractice = () => {
           iframeDoc.body.innerHTML = `<div style="padding:20px;color:#d32f2f;font-family:Arial;"><p>Error rendering preview. Please check your HTML/CSS/JavaScript for syntax errors.</p><p style="font-size:12px;color:#999;margin-top:10px;">${error.message}</p></div>`;
         }
       } catch (fallbackError) {
-        console.error(
-          "[v0] Fallback preview update also failed:",
-          fallbackError
-        );
+        console.error("Fallback preview update also failed:", fallbackError);
       }
     }
   };
@@ -350,7 +355,7 @@ const WebPractice = () => {
 
           if (passed) passedCount++;
         } catch (error) {
-          console.error(`[v0] Test ${testCase.id} error:`, error);
+          console.error(`Test ${testCase.id} error:`, error);
           passed = false;
           actual = `Error: ${error.message}`;
         }
@@ -376,7 +381,7 @@ const WebPractice = () => {
         );
       }
     } catch (error) {
-      console.error("[v0] Error running tests:", error);
+      console.error("Error running tests:", error);
       setOutput(`Error running tests: ${error.message}`);
     } finally {
       setIsRunning(false);
@@ -384,7 +389,7 @@ const WebPractice = () => {
   };
 
   const handleRunTests = (iframeRef) => {
-    console.log("[v0] Running tests...");
+    console.log("Running tests...");
     updatePreview(iframeRef);
     setTimeout(() => {
       runTests(iframeRef);
@@ -397,9 +402,8 @@ const WebPractice = () => {
       setAllTestsPassed(false);
       setSubmitMessage("");
 
-      // If question was just solved, don't auto-save as attempted
       if (isJustSolved) {
-        setIsJustSolved(false); // Reset the flag
+        setIsJustSolved(false);
         return;
       }
 
@@ -410,7 +414,6 @@ const WebPractice = () => {
       autoSaveTimeoutRef.current = setTimeout(() => {
         if (selectedQuestion) {
           const currentStatus = getQuestionStatus(selectedQuestion.id);
-          // Only auto-save as attempted if not already solved
           if (currentStatus !== "solved") {
             autoSaveCode(selectedQuestion.id, newCode, false);
           }
@@ -419,7 +422,22 @@ const WebPractice = () => {
     }
   };
 
+  // UPDATED: Improved createConfetti function
   const createConfetti = () => {
+    const container = document.querySelector(".confetti-container");
+    if (!container) {
+      console.warn("Confetti container not found");
+      return;
+    }
+
+    // Clear existing confetti
+    confettiRef.current.forEach((conf) => {
+      if (conf && conf.parentNode) {
+        conf.parentNode.removeChild(conf);
+      }
+    });
+    confettiRef.current = [];
+
     const colors = [
       "#FFD700",
       "#FF6B6B",
@@ -427,30 +445,206 @@ const WebPractice = () => {
       "#FFDE59",
       "#667eea",
       "#764ba2",
+      "#ff9a9e",
+      "#a18cd1",
+      "#fbc2eb",
+      "#a1c4fd",
     ];
-    const container = document.querySelector(".confetti-container");
-    if (!container) return;
-
-    confettiRef.current.forEach((conf) => conf.remove());
-    confettiRef.current = [];
 
     for (let i = 0; i < 150; i++) {
       const confetti = document.createElement("div");
       confetti.className = "confetti";
+      confetti.style.position = "absolute";
+      confetti.style.zIndex = "9999";
       confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.top = `${Math.random() * 100}%`;
       confetti.style.backgroundColor =
         colors[Math.floor(Math.random() * colors.length)];
-      confetti.style.width = `${Math.random() * 10 + 5}px`;
+      confetti.style.width = `${Math.random() * 12 + 6}px`;
       confetti.style.height = confetti.style.width;
       confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
-      confetti.style.animation = `confettiRain ${
-        Math.random() * 3 + 2
-      }s linear forwards`;
+
+      // Create animation
+      const animationName = `confettiFall_${Date.now()}_${i}`;
+      const animationDuration = Math.random() * 3 + 2;
+
+      // Create style for animation
+      const style = document.createElement("style");
+      style.innerHTML = `
+        @keyframes ${animationName} {
+          0% {
+            transform: translate(0, -20px) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(${Math.random() * 100 - 50}px, 100vh) rotate(${
+        Math.random() * 720
+      }deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+
+      confetti.style.animation = `${animationName} ${animationDuration}s linear forwards`;
       confetti.style.animationDelay = `${Math.random() * 1}s`;
 
       container.appendChild(confetti);
       confettiRef.current.push(confetti);
+
+      // Remove style element after animation
+      setTimeout(() => {
+        if (style.parentNode) {
+          style.parentNode.removeChild(style);
+        }
+      }, animationDuration * 1000 + 1000);
     }
+  };
+
+  // UPDATED: Improved playSuccessSound function
+  const playSuccessSound = () => {
+    try {
+      // Initialize audio only when needed (on submit)
+      if (!audio) {
+        const newAudio = new Audio("/sounds/success-sound.mp3");
+        newAudio.volume = 0.2;
+        newAudio.preload = "auto";
+        setAudio(newAudio);
+
+        // Play the sound
+        newAudio.currentTime = 0;
+        const playPromise = newAudio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.log(
+              "Audio play failed, trying user interaction fallback:",
+              error
+            );
+            // Create a fallback beep sound using Web Audio API
+            playFallbackSound();
+          });
+        }
+      } else {
+        // If audio already exists, play it
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.log(
+              "Audio play failed, trying user interaction fallback:",
+              error
+            );
+            // Create a fallback beep sound using Web Audio API
+            playFallbackSound();
+          });
+        }
+      }
+    } catch (error) {
+      console.warn("Could not play success sound:", error);
+      playFallbackSound();
+    }
+  };
+
+  // NEW: Fallback sound using Web Audio API
+  const playFallbackSound = () => {
+    try {
+      // Check if AudioContext is available
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        console.log("Web Audio API not supported");
+        return;
+      }
+
+      const audioContext = new AudioContext();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.1);
+      oscillator.type = "sine";
+
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(
+        0.3,
+        audioContext.currentTime + 0.05
+      );
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 1
+      );
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 1);
+
+      // Clean up after sound completes
+      setTimeout(() => {
+        audioContext.close();
+      }, 2000);
+    } catch (error) {
+      console.log("Fallback sound failed:", error);
+    }
+  };
+
+  // UPDATED: Improved celebrateSuccess function
+  const celebrateSuccess = () => {
+    // Play sound first (only when this function is called)
+    playSuccessSound();
+
+    // Then trigger confetti
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      // Launch confetti from left edge
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.5 },
+        colors: ["#FFD700", "#FF6B6B", "#4ECDC4", "#FFDE59"],
+      });
+
+      // Launch confetti from right edge
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.5 },
+        colors: ["#667eea", "#764ba2", "#ff9a9e", "#a18cd1"],
+      });
+
+      // Launch some from the top
+      if (Math.random() > 0.7) {
+        confetti({
+          particleCount: 5,
+          angle: 90,
+          spread: 100,
+          origin: { x: 0.5, y: 0 },
+          colors: ["#FFD700", "#4ECDC4", "#FF6B6B"],
+        });
+      }
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+
+    // Start the animation
+    frame();
+
+    // Add an extra burst after 500ms
+    setTimeout(() => {
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
+    }, 500);
   };
 
   const handleSubmit = async () => {
@@ -480,23 +674,19 @@ const WebPractice = () => {
         const tweakIncreaseValue = selectedQuestion.score || 10;
         setTweakIncrease(tweakIncreaseValue);
 
-        // Set the flag that question was just solved
         setIsJustSolved(true);
 
-        // Clear any pending auto-save
         if (autoSaveTimeoutRef.current) {
           clearTimeout(autoSaveTimeoutRef.current);
         }
 
         setShowCelebrationModal(true);
 
+        // Trigger both celebrations
         setTimeout(() => {
           createConfetti();
+          celebrateSuccess(); // This is where sound will play
         }, 100);
-
-        setSubmitMessage(
-          "✅ Congratulations! Your solution has been submitted successfully and marked as completed."
-        );
 
         if (selectedPractice) {
           try {
@@ -519,7 +709,7 @@ const WebPractice = () => {
         );
       }
     } catch (error) {
-      console.error("[v0] Submit error:", error);
+      console.error("Submit error:", error);
       setSubmitMessage(`❌ Error submitting solution: ${error.message}`);
     } finally {
       setIsSubmitting(false);
@@ -528,7 +718,12 @@ const WebPractice = () => {
 
   const closeCelebrationModal = () => {
     setShowCelebrationModal(false);
-    confettiRef.current.forEach((conf) => conf.remove());
+    // Clean up confetti
+    confettiRef.current.forEach((conf) => {
+      if (conf && conf.parentNode) {
+        conf.parentNode.removeChild(conf);
+      }
+    });
     confettiRef.current = [];
   };
 
