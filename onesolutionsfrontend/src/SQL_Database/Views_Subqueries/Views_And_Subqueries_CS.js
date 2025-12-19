@@ -17,19 +17,33 @@ const Views_And_Subqueries_CS = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>The database stores the sample data of an e-commerce application.</p>
-
         <p>
           Here, the database consists of <code>user</code>,{" "}
           <code>order_details</code> and <code>product</code> tables that store
           the information of products, orders placed, and the products on the
           platform.
         </p>
+        <img
+          src="/assets/img/subqueries_views_practice_set_er_diagram.png"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "300px" }}
+        />
 
         <ul>
-          <li>A user can place multiple orders.</li>
-          <li>An order can be placed by only one user.</li>
-          <li>A single order can contain multiple products.</li>
-          <li>A product can be included in multiple orders.</li>
+          <li>
+            A <code>user</code> can place multiple <code>orders</code>.
+          </li>
+          <li>
+            An <code>order</code> can be placed by only one <code>user</code>.
+          </li>
+          <li>
+            A single <code>order</code> can contain multiple{" "}
+            <code>products</code>.
+          </li>
+          <li>
+            A <code>product</code> can be included in multiple{" "}
+            <code>orders</code>.
+          </li>
         </ul>
 
         <p>
@@ -91,8 +105,8 @@ const Views_And_Subqueries_CS = ({ onSubtopicComplete }) => {
         </table>
 
         <p>
-          <code>user</code> table stores the data of the user details i.e., id,
-          name, age, gender, phone_no, address and pincode.
+          <code>user</code> table stores the data of the user details i.e.,{" "}
+          <b>id, name, age, gender, phone_no, address</b> and <b>pincode</b>.
         </p>
       </section>
 
@@ -146,12 +160,15 @@ const Views_And_Subqueries_CS = ({ onSubtopicComplete }) => {
         <p>
           <code>product</code> table stores the data of the product details.
         </p>
+        <p>
+          <code>product_id</code>,<code>name</code>,<code>price_per_unit</code>,
+          <code>rating</code>,<code>category</code> and brand.
+        </p>
       </section>
 
       {/* Order product */}
       <section>
         <h2>Order Product Table</h2>
-
         <table
           border="1"
           cellPadding="6"
@@ -182,17 +199,19 @@ const Views_And_Subqueries_CS = ({ onSubtopicComplete }) => {
             </tr>
           </tbody>
         </table>
-
         <p>
-          First row represents that order_id = 611 contains product_id = 236
-          with no_of_units = 1.
+          <code>order_producttable</code> stores the data of order_id,
+          product_id and no_of_units ordered.
+        </p>
+        <p>
+          First row in the table represents that the order with order_id=611 has
+          contain the product with product_id=236 and the ordered no_of_units=1.
         </p>
       </section>
 
       {/* Order details */}
       <section>
         <h2>Order Details Table</h2>
-
         <table
           border="1"
           cellPadding="6"
@@ -235,163 +254,23 @@ const Views_And_Subqueries_CS = ({ onSubtopicComplete }) => {
             </tr>
           </tbody>
         </table>
-      </section>
-
-      {/* View */}
-      <section>
-        <h2>View</h2>
-        <p>A view can simply be considered as a name to a SQL query.</p>
-
-        <h3>Create View</h3>
-        <CodeBlock
-          language="sql"
-          code={`CREATE VIEW user_base_details AS
-SELECT id, name, age, gender, pincode
-FROM user;`}
-        />
-
-        <div className="Note-container">
-          <p>
-            <b>Note:</b> In general, views are read only. We cannot perform
-            insert, update or delete operations through views.
-          </p>
-        </div>
-      </section>
-
-      {/* Querying view */}
-      <section>
-        <h2>Querying Using View</h2>
-
-        <CodeBlock
-          language="sql"
-          code={`SELECT *
-FROM user_base_details;`}
-        />
-
         <p>
-          <b>Output</b>
+          Similarly, <code>order_detailstable</code> stores the data of
+          order_id, customer_id, order_date, shipped_date, shipped_id and
+          total_amount.
         </p>
-        <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
-        >
-          <thead>
-            <tr>
-              <th>id</th>
-              <th>name</th>
-              <th>age</th>
-              <th>gender</th>
-              <th>pincode</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Sai</td>
-              <td>40</td>
-              <td>Male</td>
-              <td>400068</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Boult</td>
-              <td>20</td>
-              <td>Male</td>
-              <td>30154</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Sri</td>
-              <td>20</td>
-              <td>Female</td>
-              <td>700009</td>
-            </tr>
-            <tr>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-              <td>...</td>
-            </tr>
-          </tbody>
-        </table>
       </section>
 
-      {/* Error example */}
+      {/* Error format example */}
       <section>
         <h3>Error Example</h3>
         <CodeBlock
           language="sql"
-          code={`SELECT name, address
-FROM user_base_details
-WHERE gender = "Male"
-ORDER BY age ASC;`}
+          code={`SELECT name, address\nFROM user_base_details\nWHERE gender = "Male"\nORDER BY age ASC;`}
         />
-
-        <p>
-          <b>Output</b>
-        </p>
-        <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
-        >
-          <tbody>
-            <tr>
-              <td>Error: no such column: address</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      {/* List views */}
-      <section>
-        <h2>List All Available Views</h2>
-        <CodeBlock
-          language="sql"
-          code={`SELECT name
-FROM sqlite_master
-WHERE TYPE = 'view';`}
-        />
-
-        <p>
-          <b>Output</b>
-        </p>
-        <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
-        >
-          <thead>
-            <tr>
-              <th>name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>order_with_products</td>
-            </tr>
-            <tr>
-              <td>user_base_details</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      {/* Drop view */}
-      <section>
-        <h2>Delete View</h2>
-        <CodeBlock language="sql" code={`DROP VIEW user_base_details;`} />
-      </section>
-
-      {/* Advantages */}
-      <section>
-        <h2>Advantages</h2>
-        <ul>
-          <li>Used to store complex queries for reuse</li>
-          <li>Restrict access to sensitive data</li>
-        </ul>
+        <div className="Error-message">
+          <p>Error: no such column:address</p>
+        </div>
       </section>
 
       <div className="view-continue">

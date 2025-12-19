@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { staticCodingPracticesData } from "../../codingPracticesData/staticCodingPracticesData";
+import { responsiveCodingPracticesData } from "../../codingPracticesData/responsiveCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 import CodePlayground from "../../CodePlayground/CodePlayground";
@@ -122,13 +123,9 @@ const WebPractice = () => {
         setIsLoading(true);
         setError(null);
 
-        if (!staticCodingPracticesData || !staticCodingPracticesData.static) {
-          console.error("staticCodingPracticesData is not properly structured");
-          setError("Practice data not found. Please try again.");
-          return;
-        }
-
         const practice = staticCodingPracticesData.static.find(
+          (p) => p.id === practiceId
+        ) ||  responsiveCodingPracticesData.responsive.find(
           (p) => p.id === practiceId
         );
         if (!practice) {

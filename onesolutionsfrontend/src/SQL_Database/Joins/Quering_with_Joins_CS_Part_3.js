@@ -17,17 +17,31 @@ const Quering_with_Joins_CS_Part_3 = ({ onSubtopicComplete }) => {
       <section>
         <h2>Database</h2>
         <p>
-          The database stores the data of students, courses, course reviews,
-          instructors, etc., of an e-learning platform.
+          Here, the database stores the data of students, courses, course
+          reviews, instructors, etc., of an e-learning platform.
         </p>
+        <img
+          src="/assets/img/joins_db_diagram.png"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "300px" }}
+        />
 
         <ul>
-          <li>An instructor can teach many courses.</li>
-          <li>A course is taught by only one instructor.</li>
-          <li>A student can enroll for multiple courses.</li>
-          <li>A course can have multiple students.</li>
-          <li>A student can give multiple reviews.</li>
-          <li>A course can have multiple reviews.</li>
+          <li>
+            An <code>instructor</code> can teach many <code>courses</code>. A{" "}
+            <code>course</code> is taught by only one
+            <code>instructor</code>.
+          </li>
+          <li>
+            A <code>student</code> can enroll for multiple <code>courses</code>.
+            A <code>course</code> can have multiple students.
+          </li>
+          <li>
+            A <code>student</code> can give multiple <code>reviews</code>.
+          </li>
+          <li>
+            A <code>course</code> can have multiple <code>reviews</code>.
+          </li>
         </ul>
 
         <p>
@@ -41,9 +55,10 @@ const Quering_with_Joins_CS_Part_3 = ({ onSubtopicComplete }) => {
         <h2>RIGHT JOIN</h2>
         <p>RIGHT JOIN or RIGHT OUTER JOIN is vice versa of LEFT JOIN.</p>
         <p>
-          In RIGHT JOIN, for each row in the right table, matched rows from the
-          left table are combined. If there is no match, NULL values are
-          assigned to the left side.
+          In <code>RIGHT JOIN</code>, for each row in the right table, matched
+          rows from the left table are combined. If there is no match, NULL
+          values are assigned to the left half of the rows in the temporary
+          table.
         </p>
 
         <h3>Syntax</h3>
@@ -67,6 +82,9 @@ ON table1.c1 = table2.c2;`}
         />
 
         <h3>Example</h3>
+        <p>
+          Following query performs RIGHT JOIN on course and instructor tables
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT
@@ -78,9 +96,12 @@ ON course.instructor_id = instructor.instructor_id;`}
         />
 
         <div className="Note-container">
-          <p>
-            <b>Note:</b> RIGHT JOIN is not supported in SQLite.
-          </p>
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>Right Join is not supported in some dbms(SQLite).</p>
         </div>
       </section>
 
@@ -99,6 +120,9 @@ ON table1.c1 = table2.c2;`}
         />
 
         <h3>Example</h3>
+        <p>
+          Following query performs FULL JOIN ON course and instructor tables
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT
@@ -110,9 +134,12 @@ ON course.instructor_id = instructor.instructor_id;`}
         />
 
         <div className="Note-container">
-          <p>
-            <b>Note:</b> FULL JOIN is not supported in SQLite.
-          </p>
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>FULL JOIN is not supported in some dbms(SQLite).</p>
         </div>
       </section>
 
@@ -136,6 +163,9 @@ CROSS JOIN table2;`}
         />
 
         <h3>Example</h3>
+        <p>
+          Following query performs CROSS JOIN on course and instructor tables
+        </p>
         <CodeBlock
           language="sql"
           code={`SELECT
@@ -201,9 +231,12 @@ ON t1.c1 = t2.cn;`}
         />
 
         <div className="Note-container">
-          <p>
-            <b>Note:</b> Any JOIN clause can be used in SELF JOIN.
-          </p>
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>We can use any JOIN clause in self-join.</p>
         </div>
 
         <h3>Example</h3>

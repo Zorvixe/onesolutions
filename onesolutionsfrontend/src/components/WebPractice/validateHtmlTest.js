@@ -1,4 +1,13 @@
 const validateHtmlTest = (testCase, iframeDoc, iframe) => {
+  const hasExactGrid = (iframeDoc, classList) => {
+    // Find elements that could be bootstrap columns
+    const candidates = iframeDoc.querySelectorAll("[class*='col-']");
+
+    return Array.from(candidates).some((el) =>
+      classList.every((cls) => el.classList.contains(cls))
+    );
+  };
+
   try {
     const validationType = testCase.input;
 
@@ -205,6 +214,72 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
       }
 
       // ========== BOOTSTRAP GRID VALIDATIONS ==========
+
+      case "check-col-12-sm-8-md-6-lg-7-xl-3": {
+        const passed = hasExactGrid(iframeDoc, [
+          "col-12",
+          "col-sm-8",
+          "col-md-6",
+          "col-lg-7",
+          "col-xl-3",
+        ]);
+
+        return {
+          passed,
+          actual: passed
+            ? "Found grid: col-12 col-sm-8 col-md-6 col-lg-7 col-xl-3"
+            : "Missing grid: col-12 col-sm-8 col-md-6 col-lg-7 col-xl-3",
+        };
+      }
+      case "check-col-12-sm-4-md-6-lg-2-xl-5": {
+        const passed = hasExactGrid(iframeDoc, [
+          "col-12",
+          "col-sm-4",
+          "col-md-6",
+          "col-lg-2",
+          "col-xl-5",
+        ]);
+
+        return {
+          passed,
+          actual: passed
+            ? "Found grid: col-12 col-sm-4 col-md-6 col-lg-2 col-xl-5"
+            : "Missing grid: col-12 col-sm-4 col-md-6 col-lg-2 col-xl-5",
+        };
+      }
+      case "check-col-12-sm-4-md-2-lg-3-xl-2": {
+        const passed = hasExactGrid(iframeDoc, [
+          "col-12",
+          "col-sm-4",
+          "col-md-2",
+          "col-lg-3",
+          "col-xl-2",
+        ]);
+
+        return {
+          passed,
+          actual: passed
+            ? "Found grid: col-12 col-sm-4 col-md-2 col-lg-3 col-xl-2"
+            : "Missing grid: col-12 col-sm-4 col-md-2 col-lg-3 col-xl-2",
+        };
+      }
+      case "check-col-12-sm-6-md-2-lg-2-xl-7": {
+        const passed = hasExactGrid(iframeDoc, [
+          "col-12",
+          "col-sm-6",
+          "col-md-2",
+          "col-lg-2",
+          "col-xl-7",
+        ]);
+
+        return {
+          passed,
+          actual: passed
+            ? "Found grid: col-12 col-sm-6 col-md-2 col-lg-2 col-xl-7"
+            : "Missing grid: col-12 col-sm-6 col-md-2 col-lg-2 col-xl-7",
+        };
+      }
+
       case "check-container-class": {
         const containerElements = iframeDoc.querySelectorAll(
           ".container, .container-fluid"
@@ -226,6 +301,18 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
           actual: hasRowClass
             ? `Found ${rowElements.length} row element(s)`
             : "No row element found",
+        };
+      }
+
+      case "check-single-row-class": {
+        const rowElements = iframeDoc.querySelectorAll(".row");
+        const passed = rowElements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one row element found"
+            : `Expected exactly 1 row, found ${rowElements.length}`,
         };
       }
 

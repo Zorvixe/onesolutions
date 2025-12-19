@@ -8058,7 +8058,7 @@ export const codingPracticesData = {
           sampleOutput: "!snoituloseno olleh",
           testCases: [
             { input: "python", output: "nohtyp", visible: true },
-            { input: "OpenAI", output: "IAnepO", visible: true },   
+            { input: "OpenAI", output: "IAnepO", visible: true },
             { input: "Hello World", output: "dlroW olleH", visible: false },
           ],
           defaultCode: ``,
@@ -8077,9 +8077,9 @@ export const codingPracticesData = {
           testCases: [
             { input: "17", output: "50", visible: true },
             { input: "123", output: "36", visible: true },
-            { input: "405", output: "189", visible: false},
+            { input: "405", output: "189", visible: false },
             { input: "999", output: "2187", visible: false },
-            { input: "1024", output: "273", visible: false }
+            { input: "1024", output: "273", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -8262,10 +8262,26 @@ export const codingPracticesData = {
           sampleInput: "indian",
           sampleOutput: "string has more than two vowels",
           testCases: [
-            { input: "code", output: "string doesn't have more than two vowels", visible: true },
-            { input: "sky", output: "string doesn't have more than two vowels", visible: true },
-            { input: "education", output: "string has more than two vowels", visible: false },
-            { input: "try", output: "string doesn't have more than two vowels", visible: false },
+            {
+              input: "code",
+              output: "string doesn't have more than two vowels",
+              visible: true,
+            },
+            {
+              input: "sky",
+              output: "string doesn't have more than two vowels",
+              visible: true,
+            },
+            {
+              input: "education",
+              output: "string has more than two vowels",
+              visible: false,
+            },
+            {
+              input: "try",
+              output: "string doesn't have more than two vowels",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8305,7 +8321,7 @@ export const codingPracticesData = {
             { input: "9\n6\n12", output: "6", visible: true },
             { input: "5\n5\n5", output: "5", visible: false },
             { input: "10\n2\n8\n3", output: "2", visible: false },
-             { input: "-1\n4\n0", output: "-1", visible: false },
+            { input: "-1\n4\n0", output: "-1", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -8364,8 +8380,8 @@ export const codingPracticesData = {
             { input: "8", output: "24691356", visible: true },
             { input: "1", output: "2", visible: true },
             { input: "8", output: "24691356", visible: false },
-             { input: "8", output: "24691356", visible: false },
-             { input: "8", output: "24691356", visible: false },
+            { input: "8", output: "24691356", visible: false },
+            { input: "8", output: "24691356", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -8444,14 +8460,14 @@ export const codingPracticesData = {
           title: "Sum of N terms in power series",
           difficulty: "Easy",
           description:
-            "Given two numbers X and N,write a program to print the sum of N terms in the given series.\nseries:x^1,x^3,x^5...N terms.\nThe first line of input contains an integer representing X.\nThe second line of input contains an integer representing N.\nOutput:The output should be a single line containing an integer that is the sum of the series from the first term to the Nth term.",
+            "Given two numbers X and N,write a program to print the sum of N terms in the given series.\nseries:x^1,x^3,x^5...N terms.\nInput:The first line of input contains an integer representing X.\nThe second line of input contains an integer representing N.\nOutput:The output should be a single line containing an integer that is the sum of the series from the first term to the Nth term.",
           sampleInput: "2\n6",
           sampleOutput: "2730",
           testCases: [
             { input: "5\n3", output: "3255", visible: true },
             { input: "2\n1", output: "2", visible: true },
             { input: "3\n2", output: "30", visible: false },
-            { input: "4\n3", output: "4164", visible: false },
+            { input: "4\n3", output: "1092", visible: false },
             { input: "1\n5", output: "5", visible: false },
           ],
           defaultCode: ``,
@@ -8464,7 +8480,7 @@ export const codingPracticesData = {
           title: "Sum of N terms in power series - 2",
           difficulty: "Easy",
           description:
-            "Given two numbers X and N,write a program to print the sum of N terms in the given series.\nseries:x^2,x^4,x^6...N terms.\nThe first line of input contains an integer representing X.\nThe second line of input contains an integer representing N.\nOutput:The output should be a single line containing an integer that is the sum of the series from the first term to the Nth term.",
+            "Given two numbers X and N,write a program to print the sum of N terms in the given series.\nseries:x^2,x^4,x^6...N terms.\nInput:The first line of input contains an integer representing X.\nThe second line of input contains an integer representing N.\nOutput:The output should be a single line containing an integer that is the sum of the series from the first term to the Nth term.",
           sampleInput: "3\n4",
           sampleOutput: "7380",
           testCases: [
@@ -8479,7 +8495,470 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "q-python-Codingpractice-10C-003",
+          title: "Sum of N terms in power series - 3",
+          difficulty: "Easy",
+          description:
+            "Given two numbers X and N,write a program to print the sum of N terms in the given series.\nseries:x^2,-x^4,x^6,-x^8...N terms.\nInput:The first line of input contains an integer representing X.\nThe second line of input contains an integer representing N.\nOutput:The output should be a single line containing an integer that is the sum of the series from the first term to the Nth term.",
+          sampleInput: "2\n6",
+          sampleOutput: "-3276",
+          testCases: [
+            { input: "-7\n3", output: "115297", visible: true },
+            { input: "2\n1", output: "4", visible: true },
+            { input: "3\n2", output: "-72", visible: false },
+            { input: "2\n6", output: "-3276", visible: false },
+            { input: "1\n5", output: "1", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-004",
+          title: "Right angled triangle - 5",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print the right angled triangle of N rows using stars(*).",
+          sampleInput: "3",
+          sampleOutput: "  *\n **\n***",
+          testCases: [
+            { input: "2", output: " *\n**", visible: true },
+            { input: "4", output: "   *\n  **\n ***\n****", visible: true },
+            { input: "3", output: "  *\n **\n***", visible: false },
+            { input: "1", output: "*", visible: false },
+            {
+              input: "5",
+              output: "    *\n   **\n  ***\n ****\n*****",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-005",
+          title: "Right angled triangle - 6",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print the right angled triangle of N rows using stars(*).\nNote:There is a space after every star.",
+          sampleInput: "3",
+          sampleOutput: "    * \n  * * \n* * * ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: "  * \n* * ", visible: true },
+            { input: "3", output: "    * \n  * * \n* * * ", visible: true },
+            {input: "4",output: "      * \n    * * \n  * * * \n* * * * ",visible: false },
+            {
+              input: "5",
+              output: "        * \n      * * \n    * * * \n  * * * * \n* * * * * ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-006",
+          title: "Right angled triangle - 7",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print the right angled triangle of N rows using stars(*) and hashes(#).\nThe last row contains hashes(#) and the remaining rows contain stars(*).",
+          sampleInput: "3",
+          sampleOutput: "  *\n **\n###",
+          testCases: [
+            { input: "2", output: " *\n##", visible: true },
+            { input: "3", output: "  *\n **\n###", visible: true },
+            { input: "4", output: "   *\n  **\n ***\n####", visible: false },
+            { input: "2", output: " *\n##", visible: false },
+            {
+              input: "5",
+              output: "    *\n   **\n  ***\n ****\n#####",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-007",
+          title: "Pyramid",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a pyramid of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "    *  \n  * * * \n* * * * * ",
+          testCases: [
+            {
+              input: "1",
+              output: "* ",
+              visible: true
+            },
+          
+            {
+              input: "2",
+              output: "  * \n* * * ",
+              visible: true
+            },
+          
+            {
+              input: "3",
+              output: "    * \n  * * * \n* * * * * ",
+              visible: true
+            },
+          
+            {
+              input: "4",
+              output: "      * \n    * * * \n  * * * * * \n* * * * * * * ",
+              visible: false
+            },
+          
+            {
+              input: "5",
+              output: "        * \n      * * * \n    * * * * * \n  * * * * * * * \n* * * * * * * * * ",
+              visible: false
+            }
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-008",
+          title: "Pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a pyramid of N rows using numbers.\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "    1  \n  2 2 2 \n3 3 3 3 3 ",
+          testCases: [
+            { input: "1", output: "1 ", visible: true },
+            { input: "2", output: "  1 \n2 2 2 ", visible: true },
+            { input: "3", output: "    1 \n  2 2 2 \n3 3 3 3 3 ", visible: true },
+            { input: "4", output: "      1 \n    2 2 2 \n  3 3 3 3 3 \n4 4 4 4 4 4 4 ", visible: false },
+            { input: "5", output: "        1 \n      2 2 2 \n    3 3 3 3 3 \n  4 4 4 4 4 4 4 \n5 5 5 5 5 5 5 5 5 ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-009",
+          title: "Inverted right angled triangle - 4",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print an Inverted right angled triangle of N rows using numbers.",
+          sampleInput: "3",
+          sampleOutput: "333\n 22\n  1",
+          testCases: [
+             { input: "1", output: "1", visible: true },
+             { input: "2", output: "22\n 1", visible: true },
+             { input: "3", output: "333\n 22\n  1", visible: true },
+             { input: "4", output: "4444\n 333\n  22\n   1", visible: false },
+             { input: "5", output: "55555\n 4444\n  333\n   22\n    1", visible: false },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-0010",
+          title: "Inverted right angled triangle - 5",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print an Inverted right angled triangle of N rows using numbers.\nNote:there is a space after every number.",
+          sampleInput: "3",
+          sampleOutput: "3 3 3 \n  2 2 \n    1 ",
+          testCases: [
+            { input: "1", output: "1 ", visible: true },
+            { input: "2", output: "2 2 \n  1 ", visible: true },
+            { input: "3", output: "3 3 3 \n  2 2 \n    1 ", visible: true },
+            { input: "4", output: "4 4 4 4 \n  3 3 3 \n    2 2 \n      1 ", visible: false },
+            { input: "5", output: "5 5 5 5 5 \n  4 4 4 4 \n    3 3 3 \n      2 2 \n        1 ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10C-0011",
+          title: "Inverted Pyramid",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print an Inverted Pyramid of N rows using stars(*).",
+          sampleInput: "3",
+          sampleOutput: "*****\n ***\n  *",
+          testCases: [
+            { input: "1", output: "*", visible: true },
+            { input: "2", output: "***\n *", visible: true },
+            { input: "3", output: "*****\n ***\n  *", visible: true },
+            { input: "4", output: "*******\n *****\n  ***\n   *", visible: false },
+            { input: "5", output: "*********\n *******\n  *****\n   ***\n    *", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
-    }
+    },
+    {
+      id: "Codingpractice-python-10D",
+      title: "Codingpractice-10D",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Codingpractice-10D-001",
+          title: "M pattern with *",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print the letter M of N rows with two solid right angled triangles of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "*         * \n* *     * * \n* * * * * * ",
+          testCases: [
+            { input: "1", output: "* * ", visible: true },
+            { input: "2", output: "*     * \n* * * * ", visible: true },
+            { input: "3", output: "*         * \n* *     * * \n* * * * * * ", visible: false },
+            { input: "4", output: "*             * \n* *         * * \n* * *     * * * \n* * * * * * * * ", visible: false },
+            { input: "5", output: "*                 * \n* *             * * \n* * *         * * * \n* * * *     * * * * \n* * * * * * * * * * ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-002",
+          title: "Pyramid - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a Pyramid of 2*N-1 rows using stars(*).\nThere is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* \n* * \n* * * \n* * \n* ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: "* \n* * \n* ", visible: true },
+            { input: "3", output: "* \n* * \n* * * \n* * \n* ", visible: false },
+            { input: "4", output: "* \n* * \n* * * \n* * * * \n* * * \n* * \n* ", visible: false},
+            { input: "5", output: "* \n* * \n* * * \n* * * * \n* * * * * \n* * * * \n* * * \n* * \n* ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },    
+        {
+          id: "q-python-Codingpractice-10D-003",
+          title: "Pyramid - 4",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a Pyramid of 2*N-1 rows using numbers.\nNote:There is a space after every number.",
+          sampleInput: "2",
+          sampleOutput: "1 \n2 2 \n1 \n",
+          testCases: [
+            { input: "1", output: "1 \n", visible: true },
+            { input: "2", output: "1 \n2 2 \n1 \n", visible: true },
+            { input: "3", output: "1 \n2 2 \n3 3 3 \n2 2 \n1 \n", visible: false},
+            { input: "4", output: "1 \n2 2 \n3 3 3 \n4 4 4 4 \n3 3 3 \n2 2 \n1 \n", visible: false },
+            { input: "5", output: "1 \n2 2 \n3 3 3 \n4 4 4 4 \n5 5 5 5 5 \n4 4 4 4 \n3 3 3 \n2 2 \n1 \n", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        }, 
+        {
+          id: "q-python-Codingpractice-10D-004",
+          title: "Pyramid - 5",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a Pyramid of 2*N-1 rows using pluses (+) and hashes (#).\nThe last column of the pyramid contains hashes(#),and the remaining columns contain pluses(+).",
+          sampleInput: "2",
+          sampleOutput: "  #\n+ #\n  #\n",
+          testCases: [
+            { input: "1", output: "#\n", visible: true },
+            { input: "2", output: "  #\n+ #\n  #\n", visible: true }, 
+            { input: "3", output: "    #\n  + #\n+ + #\n  + #\n    #\n", visible: false },          
+            { input: "4", output: "      #\n    + #\n  + + #\n+ + + #\n  + + #\n    + #\n      #\n", visible: false },           
+            { input: "5", output: "        #\n      + #\n    + + #\n  + + + #\n+ + + + #\n  + + + #\n    + + #\n      + #\n        #\n", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-005",
+          title: "Butterfly",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a Butterfly of (2*N)-1 rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "2",
+          sampleOutput: "*     * \n* * * * \n*     * \n",
+          testCases: [
+            { input: "1", output: "* * \n", visible: true },
+
+            { input: "2", output: "*     * \n* * * * \n*     * \n", visible: true },
+            
+            { input: "3", output: "*         * \n* *     * * \n* * * * * * \n* *     * * \n*         * \n", visible: false },
+            
+            { input: "4", output: "*             * \n* *         * * \n* * *     * * * \n* * * * * * * * \n* * *     * * * \n* *         * * \n*             * \n", visible: false },
+            
+            { input: "5", output: "*                 * \n* *             * * \n* * *         * * * \n* * * *     * * * * \n* * * * * * * * * * \n* * * *     * * * * \n* * *         * * * \n* *             * * \n*                 * \n", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-006",
+          title: "Pyramid - 6",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a Pyramid of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "4",
+          sampleOutput: "   * \n  * * \n * * * \n* * * * \n",
+          testCases: [
+            { input: "1", output: "* \n", visible: true },
+
+            { input: "2", output: " * \n* * \n", visible: true },
+            
+            { input: "3", output: "  * \n * * \n* * * \n", visible: false },
+            
+            { input: "4", output: "   * \n  * * \n * * * \n* * * * \n", visible: false },
+            
+            { input: "5", output: "    * \n   * * \n  * * * \n * * * * \n* * * * * \n", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        { 
+          id: "q-python-Codingpractice-10D-007",
+          title: "Pyramid - 7",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a Pyramid of N rows using numbers\nNote:There is a space after every number.",
+          sampleInput: "4",
+          sampleOutput: "   1 \n  2 2 \n 3 3 3 \n4 4 4 4 \n",
+          testCases: [
+            { input: "1", output: "1 \n", visible: true },
+
+            { input: "2", output: " 1 \n2 2 \n", visible: true },
+            
+            { input: "3", output: "  1 \n 2 2 \n3 3 3 \n", visible: false },
+            
+            { input: "4", output: "   1 \n  2 2 \n 3 3 3 \n4 4 4 4 \n", visible: false },
+            
+            { input: "5", output: "    1 \n   2 2 \n  3 3 3 \n 4 4 4 4 \n5 5 5 5 5 \n", visible: false},
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-008",
+          title: "Inverted pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print an Inverted pyramid of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "4",
+          sampleOutput: "* * * * \n * * * \n  * * \n   * \n",
+          testCases: [
+            { input: "1", output: "* \n", visible: true },
+             { input: "2", output: "* * \n * \n", visible: true },
+             { input: "3", output: "* * * \n * * \n  * \n", visible: false },
+             { input: "4", output: "* * * * \n * * * \n  * * \n   * \n", visible: false},
+             { input: "5", output: "* * * * * \n * * * * \n  * * * \n   * * \n    * \n", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-009",
+          title: "Inverted pyramid - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print an Inverted pyramid of N rows using stars(*) and pluses(+).\nThe first row of the pyramid contains pluses(+),and the remaining rows contain stars(*).\nThere is a space after every star(*) and every plus(+).",
+          sampleInput: "4",
+          sampleOutput: "+ + + + \n * * * \n  * * \n   * \n",
+          testCases: [
+            { input: "1", output: "+ \n", visible: true },
+
+            { input: "2", output: "+ + \n * \n", visible: true },
+            
+            { input: "3", output: "+ + + \n * * \n  * \n", visible: false},
+            
+            { input: "4", output: "+ + + + \n * * * \n  * * \n   * \n", visible: false },
+            
+            { input: "5", output: "+ + + + + \n * * * * \n  * * * \n   * * \n    * \n", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-0010",
+          title: "Diamond",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a diamond of (2*N)-1 rows using stars(*).\nNote:There is a space after every star(*). ",
+          sampleInput: "4",
+          sampleOutput: "   * \n  * * \n * * * \n* * * * \n * * * \n  * * \n   * \n",
+          testCases: [
+            { "input": "1", "output": "* \n", "visible": true },
+            { "input": "2", "output": " * \n* * \n * \n", "visible": true },         
+            { "input": "3", "output": "  * \n * * \n* * * \n * * \n  * \n", "visible": false },        
+            { "input": "4", "output": "   * \n  * * \n * * * \n* * * * \n * * * \n  * * \n   * \n", "visible": false },        
+            { "input": "5", "output": "    * \n   * * \n  * * * \n * * * * \n* * * * * \n * * * * \n  * * * \n   * * \n    * \n", "visible": false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10D-0011",
+          title: "M pattern with * - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print the letter M of N rows with two solid pyramids using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "4",
+          sampleOutput: "   *       * \n  * *     * * \n * * *   * * * \n* * * * * * * * \n",
+          testCases: [
+            { "input": "1", "output": "* * \n", "visible": true },
+
+            { "input": "2", "output": " *   * \n* * * * \n", "visible": true },
+          
+            { "input": "3", "output": "  *     * \n * *   * * \n* * * * * * \n", "visible": true },
+          
+            { "input": "4", "output": "   *       * \n  * *     * * \n * * *   * * * \n* * * * * * * * \n", "visible": false},
+          
+            { "input": "5", "output": "    *         * \n   * *       * * \n  * * *     * * * \n * * * *   * * * * \n* * * * * * * * * * \n", "visible": false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
   ],
 };
