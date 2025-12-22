@@ -774,6 +774,7 @@ export const subtopicComponents = {
 
   //Static Website Cheat Sheet Start
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
+  "MCQ Practice - HTML": "Introduction to HTML",
   "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
   "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
   "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,
@@ -797,6 +798,25 @@ export const subtopicComponents = {
   "Website Integration Part 1 | Cheat Sheet": Website_Integration_CS_1,
   "Website Integration Part 2 | Cheat Sheet": Website_Integration_CS_2,
   "Static Summary CheatSheet": StaticSummary_CS,
+
+  "MCQ Practice - CSS 1": "Introduction to CSS Part 1",
+  "MCQ Practice - CSS 2": "Introduction to CSS Part 2",
+  "MCQ Practice - CSS 3": "Introduction to CSS Part 3",
+  "MCQ Practice - BoxModel 1": "Introduction to CSS Box Model Part 1",
+  "MCQ Practice - BoxModel 2": "Introduction to CSS Box Model Part 2",
+  "MCQ Practice - Bootstrap 1": "Introduction to Bootstrap Part 1",
+  "MCQ Practice - Bootstrap 2": "Introduction to Bootstrap Part 2",
+  "MCQ Practice - Layout 1": "Favourite Places Section",
+  "MCQ Practice - Layout 2": "Approach to Develop a Layout",
+  "MCQ Practice - Layout 3": "Favourite Place Detailed View Section",
+  "MCQ Practice - Website 1": "Website Integration Part 1",
+  "MCQ Practice - Website 2": "Website Integration Part 2",
+  "MCQ Practice - HTML Hyperlinks": "HTML Hyperlinks",
+  "MCQ Practice - OnDemand": "On-Demand Session",
+  "Static MCQ Assignment 1": "Static MCQ Assignment 1",
+  "Static MCQ Assignment 2": "Static MCQ Assignment 2",
+  "Static MCQ Assignment 3": "Static MCQ Assignment 3",
+  "Static MCQ Assignment 4": "Static MCQ Assignment 4",
   //Static End
 
   //Python Coding & Class
@@ -1087,10 +1107,6 @@ export const subtopicComponents = {
   "HTTP Requests using JS | Cheat Sheet": HTTP_Request_Using_JS_CS,
   "Forms | Cheat sheet": Forms_CS,
   "Forms | Part - 2 | Cheat sheet": Forms_CS_2,
-
-  //JavaScript End
-
-  //DataBase Cheet Sheets Start
 };
 
 export const mcqMapping = {

@@ -8551,11 +8551,16 @@ export const codingPracticesData = {
             { input: "1", output: "* ", visible: true },
             { input: "2", output: "  * \n* * ", visible: true },
             { input: "3", output: "    * \n  * * \n* * * ", visible: true },
-            {input: "4",output: "      * \n    * * \n  * * * \n* * * * ",visible: false },
+            {
+              input: "4",
+              output: "      * \n    * * \n  * * * \n* * * * ",
+              visible: false,
+            },
             {
               input: "5",
-              output: "        * \n      * * \n    * * * \n  * * * * \n* * * * * ",
-              visible: false
+              output:
+                "        * \n      * * \n    * * * \n  * * * * \n* * * * * ",
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -8599,32 +8604,33 @@ export const codingPracticesData = {
             {
               input: "1",
               output: "* ",
-              visible: true
+              visible: true,
             },
-          
+
             {
               input: "2",
               output: "  * \n* * * ",
-              visible: true
+              visible: true,
             },
-          
+
             {
               input: "3",
               output: "    * \n  * * * \n* * * * * ",
-              visible: true
+              visible: true,
             },
-          
+
             {
               input: "4",
               output: "      * \n    * * * \n  * * * * * \n* * * * * * * ",
-              visible: false
+              visible: false,
             },
-          
+
             {
               input: "5",
-              output: "        * \n      * * * \n    * * * * * \n  * * * * * * * \n* * * * * * * * * ",
-              visible: false
-            }
+              output:
+                "        * \n      * * * \n    * * * * * \n  * * * * * * * \n* * * * * * * * * ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8642,9 +8648,22 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "1 ", visible: true },
             { input: "2", output: "  1 \n2 2 2 ", visible: true },
-            { input: "3", output: "    1 \n  2 2 2 \n3 3 3 3 3 ", visible: true },
-            { input: "4", output: "      1 \n    2 2 2 \n  3 3 3 3 3 \n4 4 4 4 4 4 4 ", visible: false },
-            { input: "5", output: "        1 \n      2 2 2 \n    3 3 3 3 3 \n  4 4 4 4 4 4 4 \n5 5 5 5 5 5 5 5 5 ", visible: false },
+            {
+              input: "3",
+              output: "    1 \n  2 2 2 \n3 3 3 3 3 ",
+              visible: true,
+            },
+            {
+              input: "4",
+              output: "      1 \n    2 2 2 \n  3 3 3 3 3 \n4 4 4 4 4 4 4 ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "        1 \n      2 2 2 \n    3 3 3 3 3 \n  4 4 4 4 4 4 4 \n5 5 5 5 5 5 5 5 5 ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8660,11 +8679,15 @@ export const codingPracticesData = {
           sampleInput: "3",
           sampleOutput: "333\n 22\n  1",
           testCases: [
-             { input: "1", output: "1", visible: true },
-             { input: "2", output: "22\n 1", visible: true },
-             { input: "3", output: "333\n 22\n  1", visible: true },
-             { input: "4", output: "4444\n 333\n  22\n   1", visible: false },
-             { input: "5", output: "55555\n 4444\n  333\n   22\n    1", visible: false },
+            { input: "1", output: "1", visible: true },
+            { input: "2", output: "22\n 1", visible: true },
+            { input: "3", output: "333\n 22\n  1", visible: true },
+            { input: "4", output: "4444\n 333\n  22\n   1", visible: false },
+            {
+              input: "5",
+              output: "55555\n 4444\n  333\n   22\n    1",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 45,
@@ -8683,8 +8706,17 @@ export const codingPracticesData = {
             { input: "1", output: "1 ", visible: true },
             { input: "2", output: "2 2 \n  1 ", visible: true },
             { input: "3", output: "3 3 3 \n  2 2 \n    1 ", visible: true },
-            { input: "4", output: "4 4 4 4 \n  3 3 3 \n    2 2 \n      1 ", visible: false },
-            { input: "5", output: "5 5 5 5 5 \n  4 4 4 4 \n    3 3 3 \n      2 2 \n        1 ", visible: false },
+            {
+              input: "4",
+              output: "4 4 4 4 \n  3 3 3 \n    2 2 \n      1 ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "5 5 5 5 5 \n  4 4 4 4 \n    3 3 3 \n      2 2 \n        1 ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 45,
@@ -8703,8 +8735,16 @@ export const codingPracticesData = {
             { input: "1", output: "*", visible: true },
             { input: "2", output: "***\n *", visible: true },
             { input: "3", output: "*****\n ***\n  *", visible: true },
-            { input: "4", output: "*******\n *****\n  ***\n   *", visible: false },
-            { input: "5", output: "*********\n *******\n  *****\n   ***\n    *", visible: false },
+            {
+              input: "4",
+              output: "*******\n *****\n  ***\n   *",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "*********\n *******\n  *****\n   ***\n    *",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8729,9 +8769,23 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "* * ", visible: true },
             { input: "2", output: "*     * \n* * * * ", visible: true },
-            { input: "3", output: "*         * \n* *     * * \n* * * * * * ", visible: false },
-            { input: "4", output: "*             * \n* *         * * \n* * *     * * * \n* * * * * * * * ", visible: false },
-            { input: "5", output: "*                 * \n* *             * * \n* * *         * * * \n* * * *     * * * * \n* * * * * * * * * * ", visible: false },
+            {
+              input: "3",
+              output: "*         * \n* *     * * \n* * * * * * ",
+              visible: false,
+            },
+            {
+              input: "4",
+              output:
+                "*             * \n* *         * * \n* * *     * * * \n* * * * * * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "*                 * \n* *             * * \n* * *         * * * \n* * * *     * * * * \n* * * * * * * * * * ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -8749,15 +8803,28 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "* ", visible: true },
             { input: "2", output: "* \n* * \n* ", visible: true },
-            { input: "3", output: "* \n* * \n* * * \n* * \n* ", visible: false },
-            { input: "4", output: "* \n* * \n* * * \n* * * * \n* * * \n* * \n* ", visible: false},
-            { input: "5", output: "* \n* * \n* * * \n* * * * \n* * * * * \n* * * * \n* * * \n* * \n* ", visible: false },
+            {
+              input: "3",
+              output: "* \n* * \n* * * \n* * \n* ",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "* \n* * \n* * * \n* * * * \n* * * \n* * \n* ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* \n* * \n* * * \n* * * * \n* * * * * \n* * * * \n* * * \n* * \n* ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
           status: "unsolved",
           attempts: [],
-        },    
+        },
         {
           id: "q-python-Codingpractice-10D-003",
           title: "Pyramid - 4",
@@ -8769,15 +8836,28 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "1 \n", visible: true },
             { input: "2", output: "1 \n2 2 \n1 \n", visible: true },
-            { input: "3", output: "1 \n2 2 \n3 3 3 \n2 2 \n1 \n", visible: false},
-            { input: "4", output: "1 \n2 2 \n3 3 3 \n4 4 4 4 \n3 3 3 \n2 2 \n1 \n", visible: false },
-            { input: "5", output: "1 \n2 2 \n3 3 3 \n4 4 4 4 \n5 5 5 5 5 \n4 4 4 4 \n3 3 3 \n2 2 \n1 \n", visible: false },
+            {
+              input: "3",
+              output: "1 \n2 2 \n3 3 3 \n2 2 \n1 \n",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "1 \n2 2 \n3 3 3 \n4 4 4 4 \n3 3 3 \n2 2 \n1 \n",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "1 \n2 2 \n3 3 3 \n4 4 4 4 \n5 5 5 5 5 \n4 4 4 4 \n3 3 3 \n2 2 \n1 \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
           status: "unsolved",
           attempts: [],
-        }, 
+        },
         {
           id: "q-python-Codingpractice-10D-004",
           title: "Pyramid - 5",
@@ -8788,10 +8868,24 @@ export const codingPracticesData = {
           sampleOutput: "  #\n+ #\n  #\n",
           testCases: [
             { input: "1", output: "#\n", visible: true },
-            { input: "2", output: "  #\n+ #\n  #\n", visible: true }, 
-            { input: "3", output: "    #\n  + #\n+ + #\n  + #\n    #\n", visible: false },          
-            { input: "4", output: "      #\n    + #\n  + + #\n+ + + #\n  + + #\n    + #\n      #\n", visible: false },           
-            { input: "5", output: "        #\n      + #\n    + + #\n  + + + #\n+ + + + #\n  + + + #\n    + + #\n      + #\n        #\n", visible: false },
+            { input: "2", output: "  #\n+ #\n  #\n", visible: true },
+            {
+              input: "3",
+              output: "    #\n  + #\n+ + #\n  + #\n    #\n",
+              visible: false,
+            },
+            {
+              input: "4",
+              output:
+                "      #\n    + #\n  + + #\n+ + + #\n  + + #\n    + #\n      #\n",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "        #\n      + #\n    + + #\n  + + + #\n+ + + + #\n  + + + #\n    + + #\n      + #\n        #\n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -8809,13 +8903,32 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "* * \n", visible: true },
 
-            { input: "2", output: "*     * \n* * * * \n*     * \n", visible: true },
-            
-            { input: "3", output: "*         * \n* *     * * \n* * * * * * \n* *     * * \n*         * \n", visible: false },
-            
-            { input: "4", output: "*             * \n* *         * * \n* * *     * * * \n* * * * * * * * \n* * *     * * * \n* *         * * \n*             * \n", visible: false },
-            
-            { input: "5", output: "*                 * \n* *             * * \n* * *         * * * \n* * * *     * * * * \n* * * * * * * * * * \n* * * *     * * * * \n* * *         * * * \n* *             * * \n*                 * \n", visible: false },
+            {
+              input: "2",
+              output: "*     * \n* * * * \n*     * \n",
+              visible: true,
+            },
+
+            {
+              input: "3",
+              output:
+                "*         * \n* *     * * \n* * * * * * \n* *     * * \n*         * \n",
+              visible: false,
+            },
+
+            {
+              input: "4",
+              output:
+                "*             * \n* *         * * \n* * *     * * * \n* * * * * * * * \n* * *     * * * \n* *         * * \n*             * \n",
+              visible: false,
+            },
+
+            {
+              input: "5",
+              output:
+                "*                 * \n* *             * * \n* * *         * * * \n* * * *     * * * * \n* * * * * * * * * * \n* * * *     * * * * \n* * *         * * * \n* *             * * \n*                 * \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -8834,19 +8947,27 @@ export const codingPracticesData = {
             { input: "1", output: "* \n", visible: true },
 
             { input: "2", output: " * \n* * \n", visible: true },
-            
+
             { input: "3", output: "  * \n * * \n* * * \n", visible: false },
-            
-            { input: "4", output: "   * \n  * * \n * * * \n* * * * \n", visible: false },
-            
-            { input: "5", output: "    * \n   * * \n  * * * \n * * * * \n* * * * * \n", visible: false },
+
+            {
+              input: "4",
+              output: "   * \n  * * \n * * * \n* * * * \n",
+              visible: false,
+            },
+
+            {
+              input: "5",
+              output: "    * \n   * * \n  * * * \n * * * * \n* * * * * \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
           status: "unsolved",
           attempts: [],
         },
-        { 
+        {
           id: "q-python-Codingpractice-10D-007",
           title: "Pyramid - 7",
           difficulty: "Easy",
@@ -8858,12 +8979,20 @@ export const codingPracticesData = {
             { input: "1", output: "1 \n", visible: true },
 
             { input: "2", output: " 1 \n2 2 \n", visible: true },
-            
+
             { input: "3", output: "  1 \n 2 2 \n3 3 3 \n", visible: false },
-            
-            { input: "4", output: "   1 \n  2 2 \n 3 3 3 \n4 4 4 4 \n", visible: false },
-            
-            { input: "5", output: "    1 \n   2 2 \n  3 3 3 \n 4 4 4 4 \n5 5 5 5 5 \n", visible: false},
+
+            {
+              input: "4",
+              output: "   1 \n  2 2 \n 3 3 3 \n4 4 4 4 \n",
+              visible: false,
+            },
+
+            {
+              input: "5",
+              output: "    1 \n   2 2 \n  3 3 3 \n 4 4 4 4 \n5 5 5 5 5 \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -8880,10 +9009,18 @@ export const codingPracticesData = {
           sampleOutput: "* * * * \n * * * \n  * * \n   * \n",
           testCases: [
             { input: "1", output: "* \n", visible: true },
-             { input: "2", output: "* * \n * \n", visible: true },
-             { input: "3", output: "* * * \n * * \n  * \n", visible: false },
-             { input: "4", output: "* * * * \n * * * \n  * * \n   * \n", visible: false},
-             { input: "5", output: "* * * * * \n * * * * \n  * * * \n   * * \n    * \n", visible: false },
+            { input: "2", output: "* * \n * \n", visible: true },
+            { input: "3", output: "* * * \n * * \n  * \n", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n * * * \n  * * \n   * \n",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "* * * * * \n * * * * \n  * * * \n   * * \n    * \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8902,12 +9039,20 @@ export const codingPracticesData = {
             { input: "1", output: "+ \n", visible: true },
 
             { input: "2", output: "+ + \n * \n", visible: true },
-            
-            { input: "3", output: "+ + + \n * * \n  * \n", visible: false},
-            
-            { input: "4", output: "+ + + + \n * * * \n  * * \n   * \n", visible: false },
-            
-            { input: "5", output: "+ + + + + \n * * * * \n  * * * \n   * * \n    * \n", visible: false },
+
+            { input: "3", output: "+ + + \n * * \n  * \n", visible: false },
+
+            {
+              input: "4",
+              output: "+ + + + \n * * * \n  * * \n   * \n",
+              visible: false,
+            },
+
+            {
+              input: "5",
+              output: "+ + + + + \n * * * * \n  * * * \n   * * \n    * \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8921,13 +9066,28 @@ export const codingPracticesData = {
           description:
             "Given a number N,Write a program to print a diamond of (2*N)-1 rows using stars(*).\nNote:There is a space after every star(*). ",
           sampleInput: "4",
-          sampleOutput: "   * \n  * * \n * * * \n* * * * \n * * * \n  * * \n   * \n",
+          sampleOutput:
+            "   * \n  * * \n * * * \n* * * * \n * * * \n  * * \n   * \n",
           testCases: [
-            { "input": "1", "output": "* \n", "visible": true },
-            { "input": "2", "output": " * \n* * \n * \n", "visible": true },         
-            { "input": "3", "output": "  * \n * * \n* * * \n * * \n  * \n", "visible": false },        
-            { "input": "4", "output": "   * \n  * * \n * * * \n* * * * \n * * * \n  * * \n   * \n", "visible": false },        
-            { "input": "5", "output": "    * \n   * * \n  * * * \n * * * * \n* * * * * \n * * * * \n  * * * \n   * * \n    * \n", "visible": false },
+            { input: "1", output: "* \n", visible: true },
+            { input: "2", output: " * \n* * \n * \n", visible: true },
+            {
+              input: "3",
+              output: "  * \n * * \n* * * \n * * \n  * \n",
+              visible: false,
+            },
+            {
+              input: "4",
+              output:
+                "   * \n  * * \n * * * \n* * * * \n * * * \n  * * \n   * \n",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "    * \n   * * \n  * * * \n * * * * \n* * * * * \n * * * * \n  * * * \n   * * \n    * \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -8941,20 +9101,700 @@ export const codingPracticesData = {
           description:
             "Given a number N,Write a program to print the letter M of N rows with two solid pyramids using stars(*).\nNote:There is a space after every star(*).",
           sampleInput: "4",
-          sampleOutput: "   *       * \n  * *     * * \n * * *   * * * \n* * * * * * * * \n",
+          sampleOutput:
+            "   *       * \n  * *     * * \n * * *   * * * \n* * * * * * * * \n",
           testCases: [
-            { "input": "1", "output": "* * \n", "visible": true },
+            { input: "1", output: "* * \n", visible: true },
 
-            { "input": "2", "output": " *   * \n* * * * \n", "visible": true },
-          
-            { "input": "3", "output": "  *     * \n * *   * * \n* * * * * * \n", "visible": true },
-          
-            { "input": "4", "output": "   *       * \n  * *     * * \n * * *   * * * \n* * * * * * * * \n", "visible": false},
-          
-            { "input": "5", "output": "    *         * \n   * *       * * \n  * * *     * * * \n * * * *   * * * * \n* * * * * * * * * * \n", "visible": false },
+            { input: "2", output: " *   * \n* * * * \n", visible: true },
+
+            {
+              input: "3",
+              output: "  *     * \n * *   * * \n* * * * * * \n",
+              visible: true,
+            },
+
+            {
+              input: "4",
+              output:
+                "   *       * \n  * *     * * \n * * *   * * * \n* * * * * * * * \n",
+              visible: false,
+            },
+
+            {
+              input: "5",
+              output:
+                "    *         * \n   * *       * * \n  * * *     * * * \n * * * *   * * * * \n* * * * * * * * * * \n",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-10A",
+      title: "Assignment-10A",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Assignment-10A-001",
+          title: "Number of digits until N",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads the number N and finds the count of digits from 1 to N.\nNote:Numbers from 1 to 9 are single digits.\nNumbers from 10 to 99 are double digits and so on.",
+          sampleInput: "10",
+          sampleOutput: "11",
+          testCases: [
+            { input: "4", output: "4", visible: true },
+            { input: "6", output: "6", visible: true },
+            { input: "9", output: "9", visible: false },
+            { input: "10", output: "11", visible: false },
+            { input: "15", output: "21", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10A-002",
+          title: "Sum of N Terms in the series",
+          difficulty: "Medium",
+          description:
+            "Given two numbers X and N,Write a program to print the sum of N terms in the given series.\nSeries:x, -x^3, x^5, -x^7, x^9,...N terms",
+          sampleInput: "2\n5",
+          sampleOutput: "410",
+          testCases: [
+            { input: "3\n2", output: "-24", visible: true },
+            { input: "2\n2", output: "-6", visible: true },
+            { input: "3\n2", output: "-24", visible: false },
+            { input: "2\n3", output: "26", visible: false },
+            { input: "3\n3", output: "246", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10A-003",
+          title: "More than two Factors",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to find the count of factors of N.print Number has more than 2 factors if the count of factors is greater than 2.Otherwise,print number doesn't have more than 2 factors.",
+          sampleInput: "6",
+          sampleOutput: "Number has more than 2 factors",
+          testCases: [
+            {
+              input: "13",
+              output: "Number doesn't have more than 2 factors",
+              visible: true,
+            },
+            {
+              input: "1",
+              output: "Number doesn't have more than 2 factors",
+              visible: true,
+            },
+            {
+              input: "2",
+              output: "Number doesn't have more than 2 factors",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "Number has more than 2 factors",
+              visible: false,
+            },
+            {
+              input: "6",
+              output: "Number has more than 2 factors",
+              visible: false,
+            },
+            {
+              input: "13",
+              output: "Number doesn't have more than 2 factors",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10A-004",
+          title: "Right Angled Triangle - 8",
+          difficulty: "Medium",
+          description:
+            "Write a program that reads a number N and print two right angled triangles,each of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* \n* * \n* * * \n* \n* * \n* * * ",
+          testCases: [
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* \n* * \n* \n* * ", visible: true },
+            {
+              input: "3",
+              output: "* \n* * \n* * * \n* \n* * \n* * * ",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "* \n* * \n* * * \n* * * * \n* \n* * \n* * * \n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* \n* * \n* * * \n* * * * \n* * * * * \n* \n* * \n* * * \n* * * * \n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10A-005",
+          title: "Diamond - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a diamond of 2*N-1 rows using numbers.\nNote:There is a space after every number.",
+          sampleInput: "3",
+          sampleOutput: "  1 \n 2 2 \n3 3 3 \n 2 2 \n  1 ",
+          testCases: [
+            { input: "1", output: "1 ", visible: true },
+            { input: "2", output: " 1 \n2 2 \n 1 ", visible: true },
+            {
+              input: "3",
+              output: "  1 \n 2 2 \n3 3 3 \n 2 2 \n  1 ",
+              visible: false,
+            },
+            {
+              input: "4",
+              output:
+                "   1 \n  2 2 \n 3 3 3 \n4 4 4 4 \n 3 3 3 \n  2 2 \n   1 ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "    1 \n   2 2 \n  3 3 3 \n 4 4 4 4 \n5 5 5 5 5 \n 4 4 4 4 \n  3 3 3 \n   2 2 \n    1 ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10A-006",
+          title: "Inverted right angled triangle - 6",
+          difficulty: "Medium",
+          description:
+            "Given a number N,write a program to print a right angled triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* * * \n  * * \n    * ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: "* * \n  * ", visible: true },
+            { input: "3", output: "* * * \n  * * \n    * ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n  * * * \n    * * \n      * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* * * * * \n  * * * * \n    * * * \n      * * \n        * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10A-007",
+          title: "W Shape with * - 2",
+          difficulty: "Medium",
+          description:
+            "Given a number N,write a program to print the letter w of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* * * * * \n * *   * * \n  * * * * ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: "* * * \n * * ", visible: true },
+            {
+              input: "3",
+              output: "* * * * * \n * *   * * \n  * * * * ",
+              visible: false,
+            },
+            {
+              input: "4",
+              output:
+                "* * * * * * * \n * * *     * * * \n  * * *   * * * \n   * * * * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* * * * * * * * * \n * * * *       * * * * \n  * * * *     * * * * \n   * * * *   * * * * \n    * * * * * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-10E",
+      title: "Codingpractice-10E",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Codingpractice-10E-001",
+          title: "Square - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a squre of N rows using stars(*) in the borders and zeros (0) inside the square.\nNote:There is a space after every star(*) and every zero (0).",
+          sampleInput: "3",
+          sampleOutput: "* * * \n* 0 *\n* * * ",
+          testCases: [
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* * \n* * ", visible: true },
+            { input: "3", output: "* * * \n* 0 *\n* * * ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n* 0 0 *\n* 0 0 *\n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "* * * * * \n* 0 0 0 *\n* 0 0 0 *\n* 0 0 0 *\n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10E-002",
+          title: "Rectangle - 4",
+          difficulty: "Easy",
+          description:
+            "Given two numbers M and N,write a program to print a rectangle of M rows and N columns using stars(*)in the borders and zeros(0)inside the rectangle.\nNote:There is a space after every star(*) and every zero(0).",
+          sampleInput: "3\n3",
+          sampleOutput: "* * * \n* 0 *\n* * * ",
+          testCases: [
+            { input: "1\n1", output: "* \n* ", visible: true },
+            {
+              input: "4\n4",
+              output: "* * * * \n* 0 0 *\n* 0 0 *\n* * * * ",
+              visible: true,
+            },
+            { input: "2\n3", output: "* * * \n* * * ", visible: false },
+            { input: "3\n3", output: "* * * \n* 0 *\n* * * ", visible: false },
+            {
+              input: "5\n5",
+              output: "* * * * * \n* 0 0 0 *\n* 0 0 0 *\n* 0 0 0 *\n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10E-003",
+          title: "Right angled triangle - 9",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a right angled triangle of N rows using dots(.)in the borders and zeros(0)inside the right angled triangle.",
+          sampleInput: "3",
+          sampleOutput: ". \n. .\n. . . ",
+          testCases: [
+            { input: "1", output: ". ", visible: true },
+            { input: "2", output: ". \n. . ", visible: true },
+            { input: "3", output: ". \n. .\n. . . ", visible: false },
+            { input: "4", output: ". \n. .\n. 0 .\n. . . . ", visible: false },
+            {
+              input: "5",
+              output: ". \n. .\n. 0 .\n. 0 0 .\n. . . . . ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10E-004",
+          title: "Hollow Square",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a Square of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* * * \n*   * \n* * * ",
+          testCases: [
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* * \n* * ", visible: true },
+            { input: "3", output: "* * * \n*   * \n* * * ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n*     * \n*     * \n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* * * * * \n*       * \n*       * \n*       * \n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10E-005",
+          title: "Hollow Rectangle",
+          difficulty: "Easy",
+          description:
+            "Given two numbers M and N,write a program to print a Rectangle of M rows and N columns using stars(*).",
+          sampleInput: "4\n6",
+          sampleOutput:
+            "* * * * * * \n*         * \n*         * \n* * * * * * ",
+          testCases: [
+            {
+              input: "8\n5",
+              output:
+                "* * * * * \n*       * \n*       * \n*       * \n*       * \n*       * \n*       * \n* * * * * ",
+              visible: true,
+            },
+            {
+              input: "4\n6",
+              output: "* * * * * * \n*         * \n*         * \n* * * * * * ",
+              visible: true,
+            },
+            {
+              input: "5\n3",
+              output: "* * * \n*   * \n*   * \n*   * \n* * * ",
+              visible: false,
+            },
+            {
+              input: "3\n7",
+              output: "* * * * * * * \n*           * \n* * * * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10E-006",
+          title: "Hollow Right Angled Triangle",
+          difficulty: "Easy",
+          description:
+            "Given a number N,Write a program to print a right angled triangle of N rows using stars(*).",
+          sampleInput: "4",
+          sampleOutput: "* \n* * \n*   * \n* * * * ",
+          testCases: [
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* \n* * ", visible: true },
+            { input: "3", output: "* \n* * \n* * * ", visible: false },
+            {
+              input: "4",
+              output: "* \n* * \n*   * \n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "* \n* * \n*   * \n*     * \n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10E-007",
+          title: "Hollow Right Angled Triangle - 2",
+          difficulty: "Medium",
+          description:
+            "Given a number N,Write a program to print a right angled triangle of N rows using underscore(_),pipe(|),and forward slash(/).",
+          sampleInput: "4",
+          sampleOutput: "_____\n|   /\n|  /\n| /\n|/",
+          testCases: [
+            { input: "1", output: "__\n|/", visible: true },
+            { input: "2", output: "___\n| /\n|/", visible: true },
+            { input: "3", output: "____\n|  /\n| /\n|/", visible: false },
+            {
+              input: "4",
+              output: "_____\n|   /\n|  /\n| /\n|/",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "______\n|    /\n|   /\n|  /\n| /\n|/",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-10F",
+      title: "Codingpractice-10F",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Codingpractice-10F-001",
+          title: "Hollow Pyramid",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a hollow pyramid of N rows using stars(*).",
+          sampleInput: "3",
+          sampleOutput: "  * \n * *\n* * * ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: " * \n* * ", visible: true },
+            { input: "3", output: "  * \n * *\n* * * ", visible: false },
+            {
+              input: "4",
+              output: "   * \n  * *\n *   *\n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "    * \n   * *\n  *   *\n *     *\n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-002",
+          title: "Hollow Right Angled Triangle - 4",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a Hollow Right Angled Triangle of N rows using pluses (+) and hashes (#).\nThe first line contains hashes(#) and the next N-1 lines contain pluses(+).",
+          sampleInput: "3",
+          sampleOutput: "# # # \n+ + \n+",
+          testCases: [
+            { input: "1", output: "# ", visible: true },
+            { input: "2", output: "# # \n+", visible: true },
+            { input: "3", output: "# # # \n+ + \n+", visible: false },
+            { input: "4", output: "# # # # \n+   + \n+ + \n+", visible: false },
+            {
+              input: "5",
+              output: "# # # # # \n+     + \n+   + \n+ + \n+",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-003",
+          title: "Hollow Pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a Hollow Pyramid of 2*N-1 rows using numbers.\nThere is a space after every number(1).",
+          sampleInput: "3",
+          sampleOutput: "1\n2 2\n3  3\n3  3\n1",
+          testCases: [
+            { input: "1", output: "1", visible: true },
+            { input: "2", output: "1\n2 2\n1", visible: true },
+            { input: "3", output: "1\n2 2\n3  3\n3  3\n1", visible: false },
+            {
+              input: "4",
+              output: "1\n2 2\n3  3\n4    4\n4    4\n4    4\n1",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "1\n2 2\n3  3\n4    4\n5      5\n5      5\n5      5\n5      5\n1",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-004",
+          title: "Hollow Right Angled Triangle - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a Hollow Right Angled Triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "2",
+          sampleOutput: "* * \n* ",
+          testCases: [
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* * \n* ", visible: true },
+            { input: "3", output: "* * * \n*   * \n* ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n*     * \n*   * \n* ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "* * * * * \n*       * \n*     * \n*   * \n* ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-005",
+          title: "Hollow Right Angled Triangle - 5",
+          difficulty: "Medium",
+          description:
+            "Given a number N, write a program to print a Hollow Right Angled Triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "    *\n  * *\n* * * ",
+          testCases: [
+            { input: "1", output: "*\n* ", visible: true },
+            { input: "2", output: "  *\n* * ", visible: true },
+            { input: "3", output: "    *\n  * *\n* * * ", visible: false },
+            {
+              input: "4",
+              output: "      *\n    * *\n  *   *\n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "        *\n      * *\n    *   *\n  *     *\n* * * * * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-006",
+          title: "Hollow Right Angled Triangle - 6",
+          difficulty: "Medium",
+          description:
+            "Given a number N, write a program to print a Hollow Inverted Right Angled Triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* * * \n*   * \n    * ",
+          testCases: [
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* * \n  * ", visible: true },
+            { input: "3", output: "* * * \n*   * \n    * ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n*     * \n  *   * \n      * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* * * * * \n*       * \n  *     * \n    *   * \n        * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-007",
+          title: "Inverted hollow pyramid",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a Hollow Inverted Full Pyramid of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "3",
+          sampleOutput: "* * * \n *   * \n  * ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: "* * \n * ", visible: true },
+            { input: "3", output: "* * * \n *   * \n  * ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n *     * \n  *   * \n   * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "* * * * * \n *       * \n  *     * \n   *   * \n    * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-10F-008",
+          title: "Hollow Diamond",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a Hollow Diamond of 2*N-1 rows using stars(*).",
+          sampleInput: "3",
+          sampleOutput: "  *\n * *\n*   *\n * *\n  *",
+          testCases: [
+            { input: "1", output: "*", visible: true },
+            { input: "2", output: " *\n* *\n *", visible: true },
+            {
+              input: "3",
+              output: "  *\n * *\n*   *\n * *\n  *",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "   *\n  * *\n *   *\n*     *\n *   *\n  * *\n   *",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "    *\n   * *\n  *   *\n *     *\n*       *\n *     *\n  *   *\n   * *\n    *",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
           status: "unsolved",
           attempts: [],
         },
