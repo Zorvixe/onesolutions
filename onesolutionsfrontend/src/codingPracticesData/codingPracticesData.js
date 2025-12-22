@@ -9630,21 +9630,20 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a Hollow Pyramid of 2*N-1 rows using numbers.\nThere is a space after every number(1).",
           sampleInput: "3",
-          sampleOutput: "1\n2 2\n3  3\n3  3\n1",
+          sampleOutput: "1\n2 2\n3  3\n2 2\n1",
           testCases: [
             { input: "1", output: "1", visible: true },
             { input: "2", output: "1\n2 2\n1", visible: true },
-            { input: "3", output: "1\n2 2\n3  3\n3  3\n1", visible: false },
+            { input: "2", output: "1\n2 2\n1", visible: false },
             {
-              input: "4",
-              output: "1\n2 2\n3  3\n4    4\n4    4\n4    4\n1",
-              visible: false,
+              input: "2",
+              output: "1\n2 2\n1",
+              visible: false
             },
             {
-              input: "5",
-              output:
-                "1\n2 2\n3  3\n4    4\n5      5\n5      5\n5      5\n5      5\n1",
-              visible: false,
+              input: "2",
+              output: "1\n2 2\n1",
+              visible: false
             },
           ],
           defaultCode: ``,
@@ -9658,22 +9657,22 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print a Hollow Right Angled Triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
-          sampleInput: "2",
-          sampleOutput: "* * \n* ",
+          sampleInput: "3",
+          sampleOutput: "* * * \n* * \n* ",
           testCases: [
             { input: "1", output: "* \n* ", visible: true },
             { input: "2", output: "* * \n* ", visible: true },
-            { input: "3", output: "* * * \n*   * \n* ", visible: false },
-            {
-              input: "4",
-              output: "* * * * \n*     * \n*   * \n* ",
-              visible: false,
-            },
-            {
-              input: "5",
-              output: "* * * * * \n*       * \n*     * \n*   * \n* ",
-              visible: false,
-            },
+            { input: "3", output: "* * * \n* * \n* ", visible: false },
+              {
+                input: "4",
+                 output: "* * * * \n*   * \n* * \n* ",
+                  visible: false
+               },
+                {
+                   input: "5",
+                 output: "* * * * * \n*     * \n*   * \n* * \n* ",
+                 visible: false
+                    },
           ],
           defaultCode: ``,
           score: 30,
@@ -9715,21 +9714,24 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a Hollow Inverted Right Angled Triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
           sampleInput: "3",
-          sampleOutput: "* * * \n*   * \n    * ",
+          sampleOutput: "* * * \n  * * \n    * ",
           testCases: [
-            { input: "1", output: "* \n* ", visible: true },
+            { input: "4", output: "* * * * \n  *   * \n    * * \n      * ", visible: true },
+
             { input: "2", output: "* * \n  * ", visible: true },
-            { input: "3", output: "* * * \n*   * \n    * ", visible: false },
+          
+            { input: "3", output: "* * * \n  * * \n    * ", visible: false },
+          
             {
               input: "4",
-              output: "* * * * \n*     * \n  *   * \n      * ",
-              visible: false,
+              output: "* * * * \n  *   * \n    * * \n      * ",
+              visible: false
             },
+          
             {
               input: "5",
-              output:
-                "* * * * * \n*       * \n  *     * \n    *   * \n        * ",
-              visible: false,
+              output: "* * * * * \n  *     * \n    *   * \n      * * \n        * ",
+              visible: false
             },
           ],
           defaultCode: ``,
@@ -9743,21 +9745,25 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print a Hollow Inverted Full Pyramid of N rows using stars(*).\nNote:There is a space after every star(*).",
-          sampleInput: "3",
-          sampleOutput: "* * * \n *   * \n  * ",
+          sampleInput: "4",
+          sampleOutput: "* * * * \n *   * \n  * * \n   * ",
           testCases: [
             { input: "1", output: "* ", visible: true },
+
             { input: "2", output: "* * \n * ", visible: true },
-            { input: "3", output: "* * * \n *   * \n  * ", visible: false },
+          
+            { input: "3", output: "* * * \n * * \n  * ", visible: false },
+          
             {
               input: "4",
-              output: "* * * * \n *     * \n  *   * \n   * ",
-              visible: false,
+              output: "* * * * \n *   * \n  * * \n   * ",
+              visible: false
             },
+          
             {
               input: "5",
-              output: "* * * * * \n *       * \n  *     * \n   *   * \n    * ",
-              visible: false,
+              output: "* * * * * \n *     * \n  *   * \n   * * \n    * ",
+              visible: false
             },
           ],
           defaultCode: ``,
@@ -9795,6 +9801,191 @@ export const codingPracticesData = {
           ],
           defaultCode: ``,
           score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-10B",
+      title: "Assignment-10B",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Assignment-10B-001",
+          title: "Inverted Hollow Pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print an Inverted Hollow Pyramid of 2*N-1 rows using numbers.\nNote:There is a space after every number(1).",
+          sampleInput: "3",
+          sampleOutput: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
+          testCases: [
+            { input: "1", output: "1 ", visible: true },
+             { input: "2", output: "  1 \n2 2 \n  1 ", visible: true },
+             { input: "3", output: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ", visible: false },
+             {
+                 input: "4",
+                  output: "      1 \n    2 2 \n  3   3\n4     4\n  3   3\n    2 2 \n      1 ",
+                    visible: false
+                },
+                  {
+                         input: "5",
+                         output: "        1 \n      2 2 \n    3   3\n  4     4\n5       5\n  4     4\n    3   3\n      2 2 \n        1 ",
+                      visible: false
+                 },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10B-002",
+          title: "Two Triangles - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print two right angled triangles of N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "2",
+          sampleOutput: "*     * \n* * * * ",
+          testCases: [
+            {
+              input: "1",
+              output: "* * ",
+              visible: true
+            },
+            {
+              input: "2",
+              output: "*     * \n* * * * ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "*         * \n* *     * * \n* * * * * * ",
+              visible: false
+            },
+            {
+              input: "4",
+              output: "*             * \n* *         * * \n*   *     *   * \n* * * * * * * * ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10B-003",
+          title: "Hollow Butterfly",
+          difficulty: "Easy",
+          description:
+            "Given a number N, write a program to print a Hollow Butterfly of 2*N rows using stars(*).\nNote:There is a space after every star(*).",
+          sampleInput: "2",
+          sampleOutput: "*     * \n* * * * \n* * * * \n*     * ",
+          testCases: [
+            {
+              input: "1",
+              output: "* * \n* * ",
+              visible: true
+            },
+            {
+              input: "2",
+              output: "*     * \n* * * * \n* * * * \n*     * ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "*         * \n* *     * * \n*   *   *   * \n*   *   *   * \n* *     * * \n*         * ",
+              visible: false
+            },
+            {
+              input: "4",
+              output: "*             * \n* *         * * \n*   *     *   * \n*     * *     * \n*     * *     * \n*   *     *   * \n* *         * * \n*             * ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10B-004",
+          title: "Perfect Squares in a range",
+          difficulty: "Easy",
+          description:
+            "You are given two numbers,A and B where 1<=A<=B,Write a program to find the number of perfect squares in the range A to B(including A and B).",
+          sampleInput: "5\n25",
+          sampleOutput: "4",
+          testCases: [
+            { input: "1\n1", output: "1", visible: true },
+            { input: "1\n10", output: "3", visible: true },
+            { input: "5\n25", output: "4", visible: false },
+            { input: "10\n100", output: "7", visible: false },
+            { input: "50\n200", output: "6", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10B-005",
+          title: "Solid and Hollow Diamond",
+          difficulty: "Medium",
+          description:
+            "Given a number N,write a program to print a pyramid and an Inverted Hollow Pyramid in 2*N-1 rows using stars(*),.",
+          sampleInput: "2",
+          sampleOutput: " * \n* * \n *",
+          testCases: [
+            {
+              input: "1",
+              output: "* ",
+              visible: true
+            },
+            {
+              input: "2",
+              output: " * \n* * \n *",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "  * \n * * \n* * * \n * *\n  *",
+              visible: false
+            },
+            {
+              input: "4",
+              output: "   * \n  * * \n * * * \n* * * * \n *   *\n  * *\n   *",
+              visible: false
+            },
+            {
+              input: "5",
+              output: "    * \n   * * \n  * * * \n * * * * \n* * * * * \n *     *\n  *   *\n   * *\n    *",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-10B-006",
+          title: "Solid Right Angled Triangle - 2",
+          difficulty: "Medium",
+          description:
+            "Given an integer number N as input.Write a program to print the right-angled triangular pattern of N lines as shown below.\nNote:There is a space after each asterisk(*)character.",
+          sampleInput: "2",
+          sampleOutput: "  * \n* * ",
+          testCases: [
+            { input: "1", output: "* ", visible: true },
+            { input: "2", output: "  * \n* * ", visible: true },
+            { input: "3", output: "    * \n  * * \n* * * ", visible: false },
+            { input: "4", output: "      * \n    * * \n  * * * \n* * * * ", visible: false },
+            { input: "5", output: "        * \n      * * \n    * * * \n  * * * * \n* * * * * ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
           status: "unsolved",
           attempts: [],
         },

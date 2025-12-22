@@ -210,9 +210,10 @@ const Introductionto_Css_MCQ_3 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -241,7 +242,7 @@ const Introductionto_Css_MCQ_3 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -272,7 +273,7 @@ const Introductionto_Css_MCQ_3 = ({
   };
   return (
     <MCQLogic
-      title="CIntroduction to CSS Part 3 - MCQs"
+      title="Introduction to CSS Part 3 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

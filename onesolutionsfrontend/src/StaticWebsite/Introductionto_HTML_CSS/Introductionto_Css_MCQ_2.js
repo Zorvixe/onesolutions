@@ -111,7 +111,10 @@ const questionsData = [
     question: (
       <div>
         <p>What background color will the container have?</p>
-        <CodeBlock language="css" code={`.card { background-color: #f0f0f0; }`} />
+        <CodeBlock
+          language="css"
+          code={`.card { background-color: #f0f0f0; }`}
+        />
         <CodeBlock
           language="html"
           code={`<div class="card">Content here</div>`}
@@ -157,28 +160,25 @@ const questionsData = [
     answer: "color",
   },
   {
-    question: "Which CSS property is used to set the background color of an element?",
+    question:
+      "Which CSS property is used to set the background color of an element?",
     options: ["color", "bg-color", "background-color", "fill"],
     answer: "background-color",
   },
   {
     question: "What does the CSS 'color' property control?",
-    options: [
-      "Background color",
-      "Text color",
-      "Border color",
-      "All colors",
-    ],
+    options: ["Background color", "Text color", "Border color", "All colors"],
     answer: "Text color",
   },
 ];
-const Introductionto_Css_MCQ = ({
+const Introductionto_Css_MCQ_2 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -207,7 +207,7 @@ const Introductionto_Css_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -251,4 +251,4 @@ const Introductionto_Css_MCQ = ({
   );
 };
 
-export default Introductionto_Css_MCQ;
+export default Introductionto_Css_MCQ_2;

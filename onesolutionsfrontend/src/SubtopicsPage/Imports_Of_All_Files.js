@@ -521,6 +521,25 @@ import Transaction_Indexes_MCQ from "../SQL_Database/Transaction_Indexes/Transac
 import SQL_Syntax_Differences from "../SQL_Database/SQL_Syntax_Differences/SQL_Syntax_Differences.js";
 import SQL_Assignment_3 from "../SQL_Database/MileStone_2/SQL_Assignment_3.js";
 import MCQ_Exam_1 from "../SQL_Database/MileStone_2/MCQ_Exam_1.js";
+import Introductionto_HTML_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_MCQ.js";
+import Introductionto_Css_BoxModel_MCQ_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_1.js";
+import Introductionto_Css_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
+import Introductionto_Css_MCQ_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
+import Introductionto_Css_MCQ_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_3.js";
+import Introductionto_Css_BoxModel_MCQ_2 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_2.js";
+import Introductionto_BootStrap_MCQ_1 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_MCQ_1.js";
+import Introductionto_BootStrap_MCQ_2 from "../StaticWebsite/BootStrap/Introductionto_BootStrap_MCQ_2.js";
+import FavouritePlaces_Section_MCQ_1 from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_Section_MCQ_1.js";
+import Approachto_Develop_Layout_MCQ_2 from "../StaticWebsite/DevelopingLayouts/Approachto_Develop_Layout_MCQ_2.js";
+import FavouritePlaces_DetailedView_MCQ_3 from "../StaticWebsite/DevelopingLayouts/FavouritePlaces_DetailView_MCQ_3.js";
+import Website_Integration_MCQ_1 from "../StaticWebsite/WebSiteIntegration/Website_Integration_MCQ_1.js";
+import Website_Integration_MCQ_2 from "../StaticWebsite/WebSiteIntegration/Website_Integration_MCQ_2.js";
+import HTML_HyperLinks_MCQ from "../StaticWebsite/WebSiteIntegration/HTML_HyperLinks_MCQ.js";
+import OnDemand_Session_MCQ from "../StaticWebsite/WebSiteIntegration/OnDemand_Session_MCQ.js";
+import Static_MCQ_Assignment1 from "../StaticWebsite/Assignments/Static_MCQ_Assignment1.js";
+import Static_MCQ_Assignment2 from "../StaticWebsite/Assignments/Static_MCQ_Assignment2.js";
+import Static_MCQ_Assignment3 from "../StaticWebsite/Assignments/Static_MCQ_Assignment3.js";
+import Static_MCQ_Assignment4 from "../StaticWebsite/Assignments/Static_MCQ_Assignment4.js";
 
 export const subtopicComponents = {
   //SQL Database
@@ -774,49 +793,48 @@ export const subtopicComponents = {
 
   //Static Website Cheat Sheet Start
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
-  "MCQ Practice - HTML": "Introduction to HTML",
+  "MCQ Practice - HTML": Introductionto_HTML_MCQ,
   "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
+  "MCQ Practice - CSS 1": Introductionto_Css_BoxModel_MCQ_1,
   "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
+  "MCQ Practice - CSS 2": Introductionto_Css_MCQ_2,
   "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,
+  "MCQ Practice - CSS 3": Introductionto_Css_MCQ_3,
   "Introduction to CSS Box Model Part 1 | Cheat Sheet":
     Introductionto_Css_BoxModel_CS_1,
+  "MCQ Practice - BoxModel 1": Introductionto_Css_BoxModel_MCQ_1,
   "Introduction to CSS Box Model Part 2 | Cheat Sheet":
     Introductionto_Css_BoxModel_CS_2,
+  "MCQ Practice - BoxModel 2": Introductionto_Css_BoxModel_MCQ_2,
   "Introduction to Bootstrap Part 1 | Cheat Sheet":
     Introductionto_BootStrap_CS_1,
+  "MCQ Practice - Bootstrap 1": Introductionto_BootStrap_MCQ_1,
   "Introduction to Bootstrap Part 2 | Cheat Sheet":
     Introductionto_BootStrap_CS_2,
+  "MCQ Practice - Bootstrap 2": Introductionto_BootStrap_MCQ_2,
   "Approach to Develop a Layout | Cheat Sheet": Approachto_Develop_Layout_CS_1,
+  "MCQ Practice - Layout 2": Approachto_Develop_Layout_MCQ_2,
   "Favourite Place Detailed View Section | Cheat Sheet":
     FavouritePlaces_DetailView_CS,
+  "MCQ Practice - Layout 3": FavouritePlaces_DetailedView_MCQ_3,
   "Favourite Places Section | Cheat Sheet": FavouritePlaces_Section_CS_1,
+  "MCQ Practice - Layout 1": FavouritePlaces_Section_MCQ_1,
   "OnDemand Session | Cheat Sheet": OnDemand_Session_CS,
+  "MCQ Practice - OnDemand": OnDemand_Session_MCQ,
   "Hypertext Transfer Protocol (HTTP) | Cheat Sheet":
     Hypertext_Transfer_Protocal_CS,
   "Forms | Part 2 | Cheat sheet": Forms_CS_2,
   "HTML Hyperlinks | Cheat Sheets": HTML_HyperLinks_CS,
+  "MCQ Practice - HTML Hyperlinks": HTML_HyperLinks_MCQ,
   "Website Integration Part 1 | Cheat Sheet": Website_Integration_CS_1,
+  "MCQ Practice - Website 1": Website_Integration_MCQ_1,
   "Website Integration Part 2 | Cheat Sheet": Website_Integration_CS_2,
+  "MCQ Practice - Website 2": Website_Integration_MCQ_2,
   "Static Summary CheatSheet": StaticSummary_CS,
-
-  "MCQ Practice - CSS 1": "Introduction to CSS Part 1",
-  "MCQ Practice - CSS 2": "Introduction to CSS Part 2",
-  "MCQ Practice - CSS 3": "Introduction to CSS Part 3",
-  "MCQ Practice - BoxModel 1": "Introduction to CSS Box Model Part 1",
-  "MCQ Practice - BoxModel 2": "Introduction to CSS Box Model Part 2",
-  "MCQ Practice - Bootstrap 1": "Introduction to Bootstrap Part 1",
-  "MCQ Practice - Bootstrap 2": "Introduction to Bootstrap Part 2",
-  "MCQ Practice - Layout 1": "Favourite Places Section",
-  "MCQ Practice - Layout 2": "Approach to Develop a Layout",
-  "MCQ Practice - Layout 3": "Favourite Place Detailed View Section",
-  "MCQ Practice - Website 1": "Website Integration Part 1",
-  "MCQ Practice - Website 2": "Website Integration Part 2",
-  "MCQ Practice - HTML Hyperlinks": "HTML Hyperlinks",
-  "MCQ Practice - OnDemand": "On-Demand Session",
-  "Static MCQ Assignment 1": "Static MCQ Assignment 1",
-  "Static MCQ Assignment 2": "Static MCQ Assignment 2",
-  "Static MCQ Assignment 3": "Static MCQ Assignment 3",
-  "Static MCQ Assignment 4": "Static MCQ Assignment 4",
+  "Static MCQ Assignment 1": Static_MCQ_Assignment1,
+  "Static MCQ Assignment 2": Static_MCQ_Assignment2,
+  "Static MCQ Assignment 3": Static_MCQ_Assignment3,
+  "Static MCQ Assignment 4": Static_MCQ_Assignment4,
   //Static End
 
   //Python Coding & Class
@@ -1213,26 +1231,6 @@ export const mcqMapping = {
   "MCQ Practice - Errors_Excep": "Errors & Exceptions",
   "MCQ Practice - Dates_Time": "Dates & Time",
   "MCQ Practice - Working with Dates & Times": "Working with Dates & Times",
-
-  "MCQ Practice - HTML": "Introduction to HTML",
-  "MCQ Practice - CSS 1": "Introduction to CSS Part 1",
-  "MCQ Practice - CSS 2": "Introduction to CSS Part 2",
-  "MCQ Practice - CSS 3": "Introduction to CSS Part 3",
-  "MCQ Practice - BoxModel 1": "Introduction to CSS Box Model Part 1",
-  "MCQ Practice - BoxModel 2": "Introduction to CSS Box Model Part 2",
-  "MCQ Practice - Bootstrap 1": "Introduction to Bootstrap Part 1",
-  "MCQ Practice - Bootstrap 2": "Introduction to Bootstrap Part 2",
-  "MCQ Practice - Layout 1": "Favourite Places Section",
-  "MCQ Practice - Layout 2": "Approach to Develop a Layout",
-  "MCQ Practice - Layout 3": "Favourite Place Detailed View Section",
-  "MCQ Practice - Website 1": "Website Integration Part 1",
-  "MCQ Practice - Website 2": "Website Integration Part 2",
-  "MCQ Practice - HTML Hyperlinks": "HTML Hyperlinks",
-  "MCQ Practice - OnDemand": "On-Demand Session",
-  "Static MCQ Assignment 1": "Static MCQ Assignment 1",
-  "Static MCQ Assignment 2": "Static MCQ Assignment 2",
-  "Static MCQ Assignment 3": "Static MCQ Assignment 3",
-  "Static MCQ Assignment 4": "Static MCQ Assignment 4",
 
   "MCQ Practice - Res_WD": "Introduction to Responsive Web Design",
   "MCQ Practice - B_GS_1": "Bootstrap Grid System Part 1",

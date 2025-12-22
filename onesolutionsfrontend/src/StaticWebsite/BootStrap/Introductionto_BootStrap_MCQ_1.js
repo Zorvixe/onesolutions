@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
   {
     question: (
       <div>
         <p>What will this button look like after Bootstrap is added?</p>
-        <pre>{`<!DOCTYPE html>
+        <CodeBlock
+          language="html"
+          code={`<!DOCTYPE html>
 <html>
 <head>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +18,8 @@ const questionsData = [
 <body>
   <button class="btn">Click Me</button>
 </body>
-</html>`}</pre>
+</html>`}
+        />
       </div>
     ),
     options: [
@@ -30,7 +34,10 @@ const questionsData = [
     question: (
       <div>
         <p>Which classes will be applied to this div?</p>
-        <pre>{`<div class="bg-primary text-white">Hello</div>`}</pre>
+        <CodeBlock
+          language="html"
+          code={`<div class="bg-primary text-white">Hello</div>`}
+        />
       </div>
     ),
     options: [
@@ -47,7 +54,10 @@ const questionsData = [
         <p>
           How should multiple class names be written in the class attribute?
         </p>
-        <pre>{`<button class="btn btn-outline-primary">Outline Button</button>`}</pre>
+        <CodeBlock
+          language="html"
+          code={`<button class="btn btn-outline-primary">Outline Button</button>`}
+        />
       </div>
     ),
     options: [
@@ -62,7 +72,10 @@ const questionsData = [
     question: (
       <div>
         <p>What does the btn-outline class do?</p>
-        <pre>{`<button class="btn btn-outline-success">Success</button>`}</pre>
+        <CodeBlock
+          language="html"
+          code={`<button class="btn btn-outline-success">Success</button>`}
+        />
       </div>
     ),
     options: [
@@ -77,7 +90,10 @@ const questionsData = [
     question: (
       <div>
         <p>What color will the text be?</p>
-        <pre>{`<p class="text-danger">Warning Text</p>`}</pre>
+        <CodeBlock
+          language="html"
+          code={`<p class="text-danger">Warning Text</p>`}
+        />
       </div>
     ),
     options: ["Blue", "Red", "Green", "Black"],
@@ -87,9 +103,12 @@ const questionsData = [
     question: (
       <div>
         <p>How is Bootstrap typically included in an HTML file?</p>
-        <pre>{`<head>
+        <CodeBlock
+          language="html"
+          code={`<head>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>`}</pre>
+</head>`}
+        />
       </div>
     ),
     options: [
@@ -104,7 +123,10 @@ const questionsData = [
     question: (
       <div>
         <p>Which class transforms text to uppercase?</p>
-        <pre>{`<p class="text-uppercase">hello world</p>`}</pre>
+        <CodeBlock
+          language="html"
+          code={`<p class="text-uppercase">hello world</p>`}
+        />
       </div>
     ),
     options: [
@@ -144,15 +166,15 @@ const Introductionto_BootStrap_MCQ_1 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -165,19 +187,6 @@ const Introductionto_BootStrap_MCQ_1 = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -187,23 +196,15 @@ const Introductionto_BootStrap_MCQ_1 = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        if (onComplete) onComplete();
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="Introduction to Bootstrap - MCQs"
