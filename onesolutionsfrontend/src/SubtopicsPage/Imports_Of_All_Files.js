@@ -540,6 +540,21 @@ import Static_MCQ_Assignment1 from "../StaticWebsite/Assignments/Static_MCQ_Assi
 import Static_MCQ_Assignment2 from "../StaticWebsite/Assignments/Static_MCQ_Assignment2.js";
 import Static_MCQ_Assignment3 from "../StaticWebsite/Assignments/Static_MCQ_Assignment3.js";
 import Static_MCQ_Assignment4 from "../StaticWebsite/Assignments/Static_MCQ_Assignment4.js";
+import Introductionto_Responsive_WD_MCQ from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_MCQ.js";
+import Bootstrap_Grid_Sys_MCQ_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_MCQ_1.js";
+import Bootstrap_Grid_Sys_MCQ_2 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_MCQ_2.js";
+import Bootstrap_Navbar_MCQ from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Navbar_MCQ.js";
+import Css_Selector_Inheritance_MCQ from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Selector_Inheritance_MCQ.js";
+import Css_Specificity_Cascade_MCQ from "../ResponsiveWebsite/CSS_Building_Blocks/Css_Specificity_Cascade_MCQ.js";
+import Banner_Section_MCQ from "../ResponsiveWebsite/Developing_Layouts1/Banner_Section_MCQ.js";
+import Why_Chooseus_Section_MCQ from "../ResponsiveWebsite/Developing_Layouts1/Why_Chooseus_Section_MCQ.js";
+import Explore_Menu_Section_MCQ from "../ResponsiveWebsite/Developing_Layouts1/Explore_Menu_Section_MCQ.js";
+import Healthy_Delivary_Payments_MCQ from "../ResponsiveWebsite/Developing_Layouts1/Healthy_Delivary_Payments_MCQ.js";
+import Followus_More_Styles_MCQ from "../ResponsiveWebsite/Developing_Layouts2/Followus_More_Styles_MCQ.js";
+import CSS_Gradience_MCQ from "../ResponsiveWebsite/Developing_Layouts2/CSS_Gradience_MCQ.js";
+import Responsive_MCQ_Assignments_1 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_1.js";
+import Responsive_MCQ_Assignments_2 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_2.js";
+import Responsive_MCQ_Assignments_3 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_3.js";
 
 export const subtopicComponents = {
   //SQL Database
@@ -694,18 +709,33 @@ export const subtopicComponents = {
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
+  "MCQ Practice - Res_WD": Introductionto_Responsive_WD_MCQ,
   "BootStrap Grid System Part 1": Bootstrap_Grid_Sys_1,
+  "MCQ Practice - B_GS_1": Bootstrap_Grid_Sys_MCQ_1,
   "BootStrap Grid System Part 2": Bootstrap_Grid_Sys_2,
+  "MCQ Practice - B_GS_2": Bootstrap_Grid_Sys_MCQ_2,
   "BootStrap Navbar": Bootstrap_Navbar_1,
+  "MCQ Practice - B_Nav": Bootstrap_Navbar_MCQ,
   "CSS Selectors & Inheritance": Css_Selector_Inheritance_1,
+  "MCQ Practice - CSS Selectors & Inheritance": Css_Selector_Inheritance_MCQ,
   "CSS Specificity & Cascade": Css_Specificity_Cascade_1,
+  "MCQ Practice - CSS Specificity & Cascade": Css_Specificity_Cascade_MCQ,
   "Banner Section": Banner_Section_1,
+  "MCQ Practice - Banner Section": Banner_Section_MCQ,
   "Why Choose Us? Section": Why_Chooseus_Section_1,
+  "MCQ Practice - Why Choose Us Section": Why_Chooseus_Section_MCQ,
   "Explore New Section": Explore_Menu_Section_1,
+  "MCQ Practice - Explore Menu Section": Explore_Menu_Section_MCQ,
   "Healthy Food, Delivery and Payment, Thanking Customers Section":
     Healthy_Delivary_Payments_1,
+  "MCQ Practice - Healthy Delivery & Payments": Healthy_Delivary_Payments_MCQ,
   "Follow Us Section & More Styling": Followus_More_Styles_1,
+  "MCQ Practice - Follow_us": Followus_More_Styles_MCQ,
   "CSS Gradients & More BootStrap Components": Css_Gradience_1,
+  "MCQ Practice - CSS_Gradients": CSS_Gradience_MCQ,
+  "Responsive MCQ Assignment 1": Responsive_MCQ_Assignments_1,
+  "Responsive MCQ Assignment 2": Responsive_MCQ_Assignments_2,
+  "Responsive MCQ Assignment 3": Responsive_MCQ_Assignments_3,
   "Responsive Coding Practice 1": Responsive_Coding_Pratice_1,
   "Responsive Coding Practice 2": Responsive_Coding_Pratice_2,
   "Responsive Coding Practice 3": Responsive_Coding_Pratice_3,
@@ -791,7 +821,6 @@ export const subtopicComponents = {
     Static_Course_Exam_Instruction,
   "Build Your Own Static Website Course Exam": Static_Course_Exam,
 
-  //Static Website Cheat Sheet Start
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
   "MCQ Practice - HTML": Introductionto_HTML_MCQ,
   "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,

@@ -9821,18 +9821,29 @@ export const codingPracticesData = {
           sampleOutput: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
           testCases: [
             { input: "1", output: "1 ", visible: true },
-             { input: "2", output: "  1 \n2 2 \n  1 ", visible: true },
-             { input: "3", output: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ", visible: false },
+            {
+                  input: "2",
+                   output: "  1 \n2 2 \n  1 ",
+                  visible: true
+               },
+
              {
+                  input: "3",
+                  output: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
+                  visible: false
+               },
+
+              {
                  input: "4",
-                  output: "      1 \n    2 2 \n  3   3\n4     4\n  3   3\n    2 2 \n      1 ",
+                   output: "      1 \n    2 2 \n  3   3\n4     4\n  3   3 \n    2 2 \n      1 ",
                     visible: false
+               },
+
+               {
+                 input: "5",
+                output: "        1 \n      2 2 \n    3   3\n  4     4\n5       5\n  4     4 \n    3   3 \n      2 2 \n        1 ",
+                 visible: false
                 },
-                  {
-                         input: "5",
-                         output: "        1 \n      2 2 \n    3   3\n  4     4\n5       5\n  4     4\n    3   3\n      2 2 \n        1 ",
-                      visible: false
-                 },
           ],
           defaultCode: ``,
           score: 35,
@@ -9880,8 +9891,8 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print a Hollow Butterfly of 2*N rows using stars(*).\nNote:There is a space after every star(*).",
-          sampleInput: "2",
-          sampleOutput: "*     * \n* * * * \n* * * * \n*     * ",
+          sampleInput: "3",
+          sampleOutput: "*        * \n* *     * * \n*   *   *   * \n*   *   *   * \n* *     * * \n*        * ",
           testCases: [
             {
               input: "1",
@@ -9895,12 +9906,12 @@ export const codingPracticesData = {
             },
             {
               input: "3",
-              output: "*         * \n* *     * * \n*   *   *   * \n*   *   *   * \n* *     * * \n*         * ",
+              output: "*        * \n* *     * * \n*   *   *   * \n*   *   *   * \n* *     * * \n*        * ",
               visible: false
             },
             {
               input: "4",
-              output: "*             * \n* *         * * \n*   *     *   * \n*     * *     * \n*     * *     * \n*   *     *   * \n* *         * * \n*             * ",
+              output: "*            * \n* *        * * \n*   *    *   * \n*     *  *     * \n*     *  *     * \n*   *    *   * \n* *        * * \n*            * ",
               visible: false
             },
           ],
