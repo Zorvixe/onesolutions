@@ -184,7 +184,7 @@ const questionsData = [
   },
 ];
 
-const JS_MCQ_Assignment_1 = ({
+const JS_MCQ_Assignment_4 = ({
   subtopicId,
   goalName,
   courseName,
@@ -263,4 +263,4 @@ const JS_MCQ_Assignment_1 = ({
   );
 };
 
-export default JS_MCQ_Assignment_1;
+export default JS_MCQ_Assignment_4;

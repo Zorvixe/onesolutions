@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
-import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 
 const questionsData = [
   {
@@ -221,13 +221,14 @@ const questionsData = [
     answer: "A list inside another list",
   },
 ];
-const Dictionaries_MCQ = ({
+const NestedList_Stringformating_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -256,7 +257,7 @@ const Dictionaries_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -299,4 +300,4 @@ const Dictionaries_MCQ = ({
   );
 };
 
-export default Dictionaries_MCQ;
+export default NestedList_Stringformating_MCQ;

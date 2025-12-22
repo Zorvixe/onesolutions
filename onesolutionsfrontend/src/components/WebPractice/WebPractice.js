@@ -123,11 +123,11 @@ const WebPractice = () => {
         setIsLoading(true);
         setError(null);
 
-        const practice = staticCodingPracticesData.static.find(
-          (p) => p.id === practiceId
-        ) ||  responsiveCodingPracticesData.responsive.find(
-          (p) => p.id === practiceId
-        );
+        const practice =
+          staticCodingPracticesData.static.find((p) => p.id === practiceId) ||
+          responsiveCodingPracticesData.responsive.find(
+            (p) => p.id === practiceId
+          );
         if (!practice) {
           setError(`Practice with ID "${practiceId}" not found.`);
           return;
@@ -887,22 +887,10 @@ const WebPractice = () => {
                   >
                     <div className="test-header">
                       <span className="test-status">
-                        {test.passed ? "✓" : "✗"} Test {index + 1}
-                        <span className="test-type-badge">
-                          {test.type} - {test.input || "unknown"}
-                        </span>
-                      </span>
-                      <span className="test-visibility">
-                        {test.visible ? "Visible" : "Hidden"}
+                        {test.passed ? "✓" : "✗"}
+                        <p className="test-description">{test.description}</p>
                       </span>
                     </div>
-                    <p className="test-description">{test.description}</p>
-                    {!test.passed && (
-                      <div className="test-details">
-                        <span>Expected: {test.output || "Test to pass"}</span>
-                        <span>Actual: {test.actual}</span>
-                      </div>
-                    )}
                   </div>
                 ))}
                 {testResults.length === 0 && (

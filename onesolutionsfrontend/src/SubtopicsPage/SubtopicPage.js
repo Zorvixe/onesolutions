@@ -6,6 +6,7 @@ import { goalsData } from "../data/goalsData";
 
 import { subtopicComponents } from "../SubtopicsPage/Imports_Of_All_Files.js";
 
+
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
   const { completedContent } = useAuth();

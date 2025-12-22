@@ -9638,12 +9638,12 @@ export const codingPracticesData = {
             {
               input: "2",
               output: "1\n2 2\n1",
-              visible: false
+              visible: false,
             },
             {
               input: "2",
               output: "1\n2 2\n1",
-              visible: false
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -9663,16 +9663,16 @@ export const codingPracticesData = {
             { input: "1", output: "* \n* ", visible: true },
             { input: "2", output: "* * \n* ", visible: true },
             { input: "3", output: "* * * \n* * \n* ", visible: false },
-              {
-                input: "4",
-                 output: "* * * * \n*   * \n* * \n* ",
-                  visible: false
-               },
-                {
-                   input: "5",
-                 output: "* * * * * \n*     * \n*   * \n* * \n* ",
-                 visible: false
-                    },
+            {
+              input: "4",
+              output: "* * * * \n*   * \n* * \n* ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "* * * * * \n*     * \n*   * \n* * \n* ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -9716,22 +9716,27 @@ export const codingPracticesData = {
           sampleInput: "3",
           sampleOutput: "* * * \n  * * \n    * ",
           testCases: [
-            { input: "4", output: "* * * * \n  *   * \n    * * \n      * ", visible: true },
-
-            { input: "2", output: "* * \n  * ", visible: true },
-          
-            { input: "3", output: "* * * \n  * * \n    * ", visible: false },
-          
             {
               input: "4",
               output: "* * * * \n  *   * \n    * * \n      * ",
-              visible: false
+              visible: true,
             },
-          
+
+            { input: "2", output: "* * \n  * ", visible: true },
+
+            { input: "3", output: "* * * \n  * * \n    * ", visible: false },
+
+            {
+              input: "4",
+              output: "* * * * \n  *   * \n    * * \n      * ",
+              visible: false,
+            },
+
             {
               input: "5",
-              output: "* * * * * \n  *     * \n    *   * \n      * * \n        * ",
-              visible: false
+              output:
+                "* * * * * \n  *     * \n    *   * \n      * * \n        * ",
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -9751,19 +9756,19 @@ export const codingPracticesData = {
             { input: "1", output: "* ", visible: true },
 
             { input: "2", output: "* * \n * ", visible: true },
-          
+
             { input: "3", output: "* * * \n * * \n  * ", visible: false },
-          
+
             {
               input: "4",
               output: "* * * * \n *   * \n  * * \n   * ",
-              visible: false
+              visible: false,
             },
-          
+
             {
               input: "5",
               output: "* * * * * \n *     * \n  *   * \n   * * \n    * ",
-              visible: false
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -9822,28 +9827,30 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "1 ", visible: true },
             {
-                  input: "2",
-                   output: "  1 \n2 2 \n  1 ",
-                  visible: true
-               },
+              input: "2",
+              output: "  1 \n2 2 \n  1 ",
+              visible: true,
+            },
 
-             {
-                  input: "3",
-                  output: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
-                  visible: false
-               },
+            {
+              input: "3",
+              output: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
+              visible: false,
+            },
 
-              {
-                 input: "4",
-                   output: "      1 \n    2 2 \n  3   3\n4     4\n  3   3 \n    2 2 \n      1 ",
-                    visible: false
-               },
+            {
+              input: "4",
+              output:
+                "      1 \n    2 2 \n  3   3\n4     4\n  3   3 \n    2 2 \n      1 ",
+              visible: false,
+            },
 
-               {
-                 input: "5",
-                output: "        1 \n      2 2 \n    3   3\n  4     4\n5       5\n  4     4 \n    3   3 \n      2 2 \n        1 ",
-                 visible: false
-                },
+            {
+              input: "5",
+              output:
+                "        1 \n      2 2 \n    3   3\n  4     4\n5       5\n  4     4 \n    3   3 \n      2 2 \n        1 ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -9862,22 +9869,23 @@ export const codingPracticesData = {
             {
               input: "1",
               output: "* * ",
-              visible: true
+              visible: true,
             },
             {
               input: "2",
               output: "*     * \n* * * * ",
-              visible: true
+              visible: true,
             },
             {
               input: "3",
               output: "*         * \n* *     * * \n* * * * * * ",
-              visible: false
+              visible: false,
             },
             {
               input: "4",
-              output: "*             * \n* *         * * \n*   *     *   * \n* * * * * * * * ",
-              visible: false
+              output:
+                "*             * \n* *         * * \n*   *     *   * \n* * * * * * * * ",
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -9892,27 +9900,30 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a Hollow Butterfly of 2*N rows using stars(*).\nNote:There is a space after every star(*).",
           sampleInput: "3",
-          sampleOutput: "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
+          sampleOutput:
+            "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
           testCases: [
             {
               input: "1",
               output: "* * \n* * ",
-              visible: true
+              visible: true,
             },
             {
               input: "2",
               output: "*     * \n* * * * \n* * * * \n*     * ",
-              visible: true
+              visible: true,
             },
             {
               input: "3",
-              output: "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
-              visible: false
+              output:
+                "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
+              visible: false,
             },
             {
               input: "4",
-              output: "*             * \n* *         * * \n*   *     *   * \n*     * *     * \n*     * *     * \n*   *     *   * \n* *         * * \n*             * ",
-              visible: false
+              output:
+                "*             * \n* *         * * \n*   *     *   * \n*     * *     * \n*     * *     * \n*   *     *   * \n* *         * * \n*             * ",
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -9952,27 +9963,28 @@ export const codingPracticesData = {
             {
               input: "1",
               output: "* ",
-              visible: true
+              visible: true,
             },
             {
               input: "2",
               output: " * \n* * \n *",
-              visible: true
+              visible: true,
             },
             {
               input: "3",
               output: "  * \n * * \n* * * \n * *\n  *",
-              visible: false
+              visible: false,
             },
             {
               input: "4",
               output: "   * \n  * * \n * * * \n* * * * \n *   *\n  * *\n   *",
-              visible: false
+              visible: false,
             },
             {
               input: "5",
-              output: "    * \n   * * \n  * * * \n * * * * \n* * * * * \n *     *\n  *   *\n   * *\n    *",
-              visible: false
+              output:
+                "    * \n   * * \n  * * * \n * * * * \n* * * * * \n *     *\n  *   *\n   * *\n    *",
+              visible: false,
             },
           ],
           defaultCode: ``,
@@ -9992,14 +10004,583 @@ export const codingPracticesData = {
             { input: "1", output: "* ", visible: true },
             { input: "2", output: "  * \n* * ", visible: true },
             { input: "3", output: "    * \n  * * \n* * * ", visible: false },
-            { input: "4", output: "      * \n    * * \n  * * * \n* * * * ", visible: false },
-            { input: "5", output: "        * \n      * * \n    * * * \n  * * * * \n* * * * * ", visible: false },
+            {
+              input: "4",
+              output: "      * \n    * * \n  * * * \n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "        * \n      * * \n    * * * \n  * * * * \n* * * * * ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
           status: "unsolved",
           attempts: [],
         },
+      ],
+    },
+    {
+      id: "Codingpractice-python-11A",
+      title: "Codingpractice-11A",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Codingpractice-11A-001",
+          title: "Print Word",
+          difficulty: "Easy",
+          description:
+            "Given a string,write a program to print only the alphabets in the given string.\nNote:In the given string there are two special characters before and two special characters after each letter.Ex:##P##Y##T##H##O##N##",
+          sampleInput: "--c--a--r--",
+          sampleOutput: "car",
+          testCases: [
+            { input: "--p--y--t--h--o--n--", output: "python", visible: true },
+            {
+              input: "@@d##o##g##",
+              output: "dog",
+              visible: true,
+            },
+
+            {
+              input: "--a--n--t--",
+              output: "ant",
+              visible: false,
+            },
+
+            {
+              input: "--c--a--t--",
+              output: "cat",
+              visible: false,
+            },
+
+            {
+              input: "--m--o--u--s--e--",
+              output: "mouse",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-002",
+          title: "pin number",
+          difficulty: "Easy",
+          description:
+            "Given a string,write a program that checks if all the characters in the string are digits.Print True if all the characters in the string are digits.Otherwise,print False.",
+          sampleInput: "5gnetwork",
+          sampleOutput: "False",
+          testCases: [
+            { input: "1234", output: "True", visible: true },
+            {
+              input: "apple",
+              output: "False",
+              visible: true,
+            },
+
+            {
+              input: "1256",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "123",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "cat",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-003",
+          title: "Strip Spaces",
+          difficulty: "Easy",
+          description:
+            "Given a string S,Write a program that prints the modified string by removing the leading and trailing spaces from the string S.",
+          sampleInput: "   network",
+          sampleOutput: "network",
+          testCases: [
+            { input: "     gani", output: "gani", visible: true },
+            {
+              input: "    apple",
+              output: "apple",
+              visible: true,
+            },
+
+            {
+              input: "    kite",
+              output: "kite",
+              visible: false,
+            },
+
+            {
+              input: "  mic",
+              output: "mic",
+              visible: false,
+            },
+
+            {
+              input: "       cat",
+              output: "cat",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-004",
+          title: "Strip Stars",
+          difficulty: "Easy",
+          description:
+            "Given a string S,Write a program that prints the modified string by removing the leading and trailing stars(*) from the string S.",
+          sampleInput: "***network***",
+          sampleOutput: "network",
+          testCases: [
+            { input: "****gani**", output: "gani", visible: true },
+            {
+              input: "*****apple**",
+              output: "apple",
+              visible: true,
+            },
+
+            {
+              input: "***kite*",
+              output: "kite",
+              visible: false,
+            },
+
+            {
+              input: "*****mic**",
+              output: "mic",
+              visible: false,
+            },
+
+            {
+              input: "**cat**",
+              output: "cat",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-005",
+          title: "Lower Case",
+          difficulty: "Easy",
+          description:
+            "Given a string S,Write a program to print the string by converting all the characters in the string to lowercase.",
+          sampleInput: "NOVEMBER",
+          sampleOutput: "november",
+          testCases: [
+            { input: "GANI", output: "gani", visible: true },
+            {
+              input: "APPLE",
+              output: "apple",
+              visible: true,
+            },
+
+            {
+              input: "KITE",
+              output: "kite",
+              visible: false,
+            },
+
+            {
+              input: "MIC",
+              output: "mic",
+              visible: false,
+            },
+
+            {
+              input: "CAT",
+              output: "cat",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-006",
+          title: "Upper Case",
+          difficulty: "Easy",
+          description:
+            "Given a string S,Write a program to check if all the characters in the string are in uppercase.\nPrint True if the string contains all uppercase characters,otherwise print False.",
+          sampleInput: "NOVEMBER",
+          sampleOutput: "True",
+          testCases: [
+            { input: "GANI", output: "True", visible: true },
+            {
+              input: "APPle",
+              output: "False",
+              visible: true,
+            },
+
+            {
+              input: "KITE",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "MIC",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "CAT",
+              output: "True",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-007",
+          title: "Date Format",
+          difficulty: "Easy",
+          description:
+            "Given a string in the format dd-mm-yy S,Write a program to convert the string from dd-mm-yy format to dd/mm/yy format.",
+          sampleInput: "01-11-2025",
+          sampleOutput: "01/11/2025",
+          testCases: [
+            { input: "21-01-2025", output: "21/01/2025", visible: true },
+            {
+              input: "20-05-2025",
+              output: "20/05/2025",
+              visible: true,
+            },
+
+            {
+              input: "11-02-2024",
+              output: "11/02/2024",
+              visible: false,
+            },
+
+            {
+              input: "11-01-2016",
+              output: "11/01/2016",
+              visible: false,
+            },
+
+            {
+              input: "12-02-2030",
+              output: "12/02/2030",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-008",
+          title: "Lowercase and Uppercase",
+          difficulty: "Easy",
+          description:
+            "Given a string S,write a program that prints the given string after converting all the characters to lowercase and uppercase.",
+          sampleInput: "one",
+          sampleOutput: "one\nONE",
+          testCases: [
+            { input: "heaven", output: "heaven\nHEAVEN", visible: true },
+            {
+              input: "some",
+              output: "some\nSOME",
+              visible: true,
+            },
+
+            {
+              input: "letter",
+              output: "letter\nLETTER",
+              visible: false,
+            },
+
+            {
+              input: "ant",
+              output: "ant\nANT",
+              visible: false,
+            },
+
+            {
+              input: "flower",
+              output: "flower\nFLOWER",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11A-009",
+          title: "Upper Case Letters",
+          difficulty: "Easy",
+          description:
+            "Given a string,write a program that prints all the uppercase letters of the given string.",
+          sampleInput: "onetoMany",
+          sampleOutput: "ONETOMANY",
+          testCases: [
+            { input: "heaven", output: "HEAVEN", visible: true },
+            {
+              input: "someWHERE",
+              output: "SOMEWHERE",
+              visible: true,
+            },
+
+            {
+              input: "letter",
+              output: "LETTER",
+              visible: false,
+            },
+
+            {
+              input: "ant",
+              output: "ANT",
+              visible: false,
+            },
+
+            {
+              input: "flower",
+              output: "FLOWER",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-11B",
+      title: "Codingpractice-11B",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Codingpractice-11B-001",
+          title: "Secured URL",
+          difficulty: "Easy",
+          description:
+            "Given an URL,write a program that checks if the given URL is a secured URL.\nPrint True if the given URL is a secured URL.Otherwise,print False.\nThe url that starts with https:// is a secured url.",
+          sampleInput: "https://docs.google.com",
+          sampleOutput: "True",
+          testCases: [
+            { input: "learning.ccbp.in", output: "False", visible: true },
+            {
+              input: "https://onesolutions.com",
+              output: "True",
+              visible: true,
+            },
+
+            {
+              input: "amazon.in",
+              output: "False",
+              visible: false,
+            },
+
+            {
+              input: "https://gani.com",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "mic.com",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11B-002",
+          title: "Python File",
+          difficulty: "Easy",
+          description:
+            "Given a file name with the file extension,write a program that checks if the given file is a python file.\nPrint True if the file is a python file.Otherwise,print False.\nA file extension is added to the end of a file name to identify the file's format.\nA python file has the extension `.py`.",
+          sampleInput: "add_num.py",
+          sampleOutput: "True",
+          testCases: [
+            { input: "learning.html", output: "False", visible: true },
+            {
+              input: "https://onesolutions.py",
+              output: "True",
+              visible: true,
+            },
+
+            {
+              input: "amazon.html",
+              output: "False",
+              visible: false,
+            },
+
+            {
+              input: "https://gani.py",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "mic.com.html",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11B-003",
+          title: "Palindrome",
+          difficulty: "Easy",
+          description:
+            "Given a string,check if the given string is a palindrome.\nA palindrome is a sequence of characters that can be read the same way whether you start from the beginning or the end.\nNote:Consider uppercase characters and lowercase characters as different.",
+          sampleInput: "madam",
+          sampleOutput: "True",
+          testCases: [
+            { input: "Noon", output: "False", visible: true },
+            {
+              input: "batsman",
+              output: "False",
+              visible: true,
+            },
+
+            {
+              input: "hello",
+              output: "False",
+              visible: false,
+            },
+
+            {
+              input: "madam",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "bhumi",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11B-004",
+          title: "Palindrome - 2",
+          difficulty: "Easy",
+          description:
+            "You are given a string,write a program to find whether the string is palindrome or not.\nNote:Treat uppercase letters and lowercase letters as same when comparing letters.",
+          sampleInput: "Madam",
+          sampleOutput: "True",
+          testCases: [
+            { input: "Noon", output: "False", visible: true },
+            {
+              input: "Madam",
+              output: "True",
+              visible: true,
+            },
+
+            {
+              input: "hello",
+              output: "False",
+              visible: false,
+            },
+
+            {
+              input: "Madam",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "bhumi",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-11B-005",
+          title: "Valid Password",
+          difficulty: "Easy",
+          description:
+            "Given a password S,check if S is a valid password.\nThe password is valid only if it contains at least one digit.\nPrint Valid Password if S is a valid password.Otherwise,print Invalid Password.",
+          sampleInput: "Madam23",
+          sampleOutput: "valid password",
+          testCases: [
+            { input: "Noon12", output: "valid password", visible: true },
+            {
+              input: "Madam",
+              output: "Invalid password",
+              visible: true,
+            },
+
+            {
+              input: "hello",
+              output: "Invalid password",
+              visible: false,
+            },
+
+            {
+              input: "Madam",
+              output: "Invalid password",
+              visible: false,
+            },
+
+            {
+              input: "bhumi",
+              output: "Invalid password",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },      
       ],
     },
   ],

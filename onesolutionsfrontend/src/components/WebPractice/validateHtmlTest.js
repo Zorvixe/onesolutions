@@ -848,6 +848,281 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      // ========== RESPONSIVE ZORFOOD NAVBAR VALIDATIONS ==========
+
+      case "check-navbar-dark": {
+        const navElements = iframeDoc.querySelectorAll("nav.navbar-dark");
+        const passed = navElements.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found nav element with class navbar-dark"
+            : "Missing nav element with class navbar-dark",
+        };
+      }
+
+      case "check-navbar-bg-dark": {
+        const navElements = iframeDoc.querySelectorAll("nav.bg-dark");
+        const passed = navElements.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found nav element with class bg-dark"
+            : "Missing nav element with class bg-dark",
+        };
+      }
+
+      case "check-ml-auto-or-margin-left-auto": {
+        const elements = iframeDoc.querySelectorAll("*");
+        let passed = false;
+
+        elements.forEach((el) => {
+          if (el.classList.contains("ml-auto")) {
+            passed = true;
+          }
+
+          const style = iframeDoc.defaultView.getComputedStyle(el);
+          if (style.marginLeft === "auto") {
+            passed = true;
+          }
+        });
+
+        return {
+          passed,
+          actual: passed
+            ? "Found ml-auto class or margin-left: auto"
+            : "Missing ml-auto class or margin-left: auto",
+        };
+      }
+
+      case "check-zorfood-logo-src": {
+        const logoUrl =
+          "https://res.cloudinary.com/djhuqjvrl/image/upload/v1766383242/zorfood_logo_dgixy7.png";
+
+        const imgElements = iframeDoc.querySelectorAll("img");
+        let passed = false;
+
+        imgElements.forEach((img) => {
+          if (img.getAttribute("src") === logoUrl) {
+            passed = true;
+          }
+        });
+
+        return {
+          passed,
+          actual: passed
+            ? "Found image with ZORFOOD logo URL"
+            : "Missing image with ZORFOOD logo URL",
+        };
+      }
+
+      // ========== SPECIFICITY PRACTICE VALIDATIONS ==========
+
+      case "check-designation-details-container": {
+        const elements = iframeDoc.querySelectorAll(
+          ".designation-details-container"
+        );
+        const passed = elements.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found element with class designation-details-container"
+            : "Missing element with class designation-details-container",
+        };
+      }
+
+      case "check-designation-details-paragraph": {
+        const elements = iframeDoc.querySelectorAll("p.designation-details");
+        const passed = elements.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found paragraph with class designation-details"
+            : "Missing paragraph with class designation-details",
+        };
+      }
+
+      case "check-contact-info-paragraph": {
+        const elements = iframeDoc.querySelectorAll("p.contact-info");
+        const passed = elements.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found paragraph with class contact-info"
+            : "Missing paragraph with class contact-info",
+        };
+      }
+
+      // ========== SPECIFICITY PRACTICE-2 VALIDATIONS ==========
+
+      case "check-unordered-list": {
+        const ulElements = iframeDoc.querySelectorAll("ul");
+        const passed = ulElements.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found unordered list element"
+            : "Missing unordered list element",
+        };
+      }
+
+      case "check-today-heading-id": {
+        const heading = iframeDoc.querySelector("#todayHeading");
+        const passed =
+          heading !== null && heading.tagName.toLowerCase() === "h1";
+
+        return {
+          passed,
+          actual: passed
+            ? "Found single h1 element with id todayHeading"
+            : "Missing h1 element with id todayHeading",
+        };
+      }
+
+      case "check-completed-list-items": {
+        const completedItems = iframeDoc.querySelectorAll("li.completed");
+        const passed = completedItems.length === 2;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found exactly two list items with class completed"
+            : `Expected 2 list items with class completed, found ${completedItems.length}`,
+        };
+      }
+
+      // ========== CUSTOM NAVBAR VALIDATIONS ==========
+
+
+
+case "check-navbar-bg-info": {
+  const nav = iframeDoc.querySelector("nav.bg-info");
+  const passed = !!nav;
+
+  return {
+    passed,
+    actual: passed
+      ? "Found nav element with class bg-info"
+      : "Missing nav element with class bg-info",
+  };
+}
+
+
+
+case "check-m-auto-or-margin-auto": {
+  const elements = iframeDoc.querySelectorAll("*");
+  let passed = false;
+
+  elements.forEach((el) => {
+    if (el.classList.contains("m-auto")) {
+      passed = true;
+    }
+
+    const style = iframeDoc.defaultView.getComputedStyle(el);
+    if (style.margin === "auto" || style.marginLeft === "auto") {
+      passed = true;
+    }
+  });
+
+  return {
+    passed,
+    actual: passed
+      ? "Found m-auto class or margin: auto"
+      : "Missing m-auto class or margin: auto",
+  };
+}
+
+case "check-anchor-border-style": {
+  const anchors = iframeDoc.querySelectorAll("a");
+  let passed = false;
+
+  anchors.forEach((a) => {
+    const style = iframeDoc.defaultView.getComputedStyle(a);
+    if (style.borderStyle && style.borderStyle !== "none") {
+      passed = true;
+    }
+  });
+
+  return {
+    passed,
+    actual: passed
+      ? "Found anchor element with border-style applied"
+      : "Missing anchor element with border-style",
+  };
+}
+
+
+      // ========== SPECIFICITY PRACTICE-3 VALIDATIONS ==========
+
+case "check-two-blue-bg-paragraphs": {
+  const paragraphs = iframeDoc.querySelectorAll("p.blue-bg");
+  const passed = paragraphs.length === 2;
+
+  return {
+    passed,
+    actual: passed
+      ? "Found exactly two paragraphs with class blue-bg"
+      : `Expected 2 paragraphs with class blue-bg, found ${paragraphs.length}`,
+  };
+}
+
+case "check-dodgerblue-bg": {
+  const paragraphs = iframeDoc.querySelectorAll("p.blue-bg");
+  let passed = false;
+
+  paragraphs.forEach((p) => {
+    const style = iframeDoc.defaultView.getComputedStyle(p);
+    if (style.backgroundColor === "rgb(30, 144, 255)") {
+      passed = true;
+    }
+  });
+
+  return {
+    passed,
+    actual: passed
+      ? "Found paragraph with background-color dodgerblue"
+      : "Missing paragraph with background-color dodgerblue",
+  };
+}
+
+case "check-orange-bg-class": {
+  const paragraph = iframeDoc.querySelector("p.orange-bg");
+  const passed = !!paragraph;
+
+  return {
+    passed,
+    actual: passed
+      ? "Found paragraph with class orange-bg"
+      : "Missing paragraph with class orange-bg",
+  };
+}
+
+case "check-orange-bg-color": {
+  const paragraph = iframeDoc.querySelector("p.orange-bg");
+  let passed = false;
+
+  if (paragraph) {
+    const style = iframeDoc.defaultView.getComputedStyle(paragraph);
+    if (style.backgroundColor === "rgb(255, 165, 0)") {
+      passed = true;
+    }
+  }
+
+  return {
+    passed,
+    actual: passed
+      ? "Found paragraph with background-color orange"
+      : "Missing paragraph with background-color orange",
+  };
+}
+
+
       default:
         return {
           passed: false,

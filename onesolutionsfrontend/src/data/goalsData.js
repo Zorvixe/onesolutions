@@ -693,7 +693,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m1_H g1_7B c3_D2E",
-                name: "MCQ Practice",
+                name: "MCQ Practice - Prog with Python",
               },
               {
                 id: "QW9_s4_A0 m1_H g1_7B c3_D2E",
@@ -713,7 +713,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m1_H g1_7B c3_D2E",
-                name: "MCQ Practice - 1",
+                name: "MCQ Practice - Var & Data Types",
               },
               {
                 id: "QW9_s9_A0 m1_H g1_7B c3_D2E",
@@ -729,7 +729,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m1_H g1_7B c3_D2E",
-                name: "MCQ Practice - 2",
+                name: "MCQ Practice - Sequ of Instructions",
               },
               {
                 id: "QW9_s13_A0 m1_H g1_7B c3_D2E",
@@ -1117,10 +1117,7 @@ export const goalsData = [
                 id: "QW9_s1_A0 m6_H g1_7B c3_D2E",
                 name: "Problem Solving and Debugging Part 3",
               },
-              {
-                id: "QW9_s2_A0 m6_H g1_7B c3_D2E",
-                name: "MCQ Practice - Problem_Sol",
-              },
+
               {
                 id: "QW9_s3_A0 m6_H g1_7B c3_D2E",
                 name: "Coding Practice 12",
@@ -2309,7 +2306,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m11_H g2_7B c1_D2E",
-                name: "MCQ Test 1",
+                name: "JS MCQ Test 1",
               },
               {
                 id: "QW9_s7_A0 m11_H g2_7B c1_D2E",
@@ -2317,7 +2314,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m11_H g2_7B c1_D2E",
-                name: "MCQ Test 2",
+                name: "JS MCQ Test 2",
               },
             ],
           },

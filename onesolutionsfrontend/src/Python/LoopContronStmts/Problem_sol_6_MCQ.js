@@ -324,7 +324,7 @@ const Problem_sol_6_MCQ = ({
   };
   return (
     <MCQLogic
-      title="End Keyword - MCQs"
+      title="Problem Solving | Part 6 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

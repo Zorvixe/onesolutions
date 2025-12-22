@@ -555,6 +555,74 @@ import CSS_Gradience_MCQ from "../ResponsiveWebsite/Developing_Layouts2/CSS_Grad
 import Responsive_MCQ_Assignments_1 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_1.js";
 import Responsive_MCQ_Assignments_2 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_2.js";
 import Responsive_MCQ_Assignments_3 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_3.js";
+import Pro_W_P_MCQ from "../Python/IntroductiontoPython/Pro_W_P_MCQ.js";
+import Variables_DT_MCQ from "../Python/IntroductiontoPython/Variables_DT_MCQ.js";
+import Seq_OF_Instruction_MCQ from "../Python/IntroductiontoPython/Seq_OF_Instruction_MCQ.js";
+import Inp_Oup_Basics_MCQ from "../Python/Inp_Oup_Basiscs/Inp_Oup_Basics_MCQ.js";
+import Type_Con_MCQ from "../Python/Inp_Oup_Basiscs/Type_Con_MCQ.js";
+import RelationOperator_MCQ from "../Python/Operators&ConditionalStmts/RelationOperator_MCQ.js";
+import LogicalOperators_MCQ from "../Python/Operators&ConditionalStmts/LogicalOperators_MCQ.js";
+import ConditionalStmts_MCQ from "../Python/Operators&ConditionalStmts/ConditionalStmts_MCQ.js";
+import ProblemSol_Debugging_MCQ from "../Python/NestedConditions/ProblemSol_Debugging_MCQ.js";
+import Nested_con_MCQ from "../Python/NestedConditions/Nested_con_MCQ.js";
+import Loops_MCQ from "../Python/Loops/Loops_MCQ.js";
+import ForLoop_MCQ from "../Python/Loops/ForLoop_MCQ.js";
+import String_Methods_MCQ from "../Python/Loops/String_Methods_MCQ.js";
+import Problem_sol_6_MCQ from "../Python/LoopContronStmts/Problem_sol_6_MCQ.js";
+import Problem_sol_7_MCQ from "../Python/LoopContronStmts/Problem_sol_7_MCQ.js";
+import LoopControlStmts_MCQ from "../Python/LoopContronStmts/LoopControlStmts_MCQ.js";
+import ComparingStrAndNamingVar_MCQ from "../Python/ComparingStr&NamingVar/ComparingStrAndNamingVar_MCQ.js";
+import List_MCQ from "../Python/Lists/List_MCQ.js";
+import Workingwith_Lists_MCQ from "../Python/Lists/Workingwith_Lists_MCQ.js";
+import Lists_String_MCQ from "../Python/Functions/Lists_String_MCQ.js";
+import Functions_MCQ from "../Python/Functions/Functions_MCQ.js";
+import Functions_Argu_MCQ from "../Python/Functions/Functions_Argu_MCQ.js";
+import FunCallStack_Recursion_MCQ from "../Python/Recursion/FunCallStack_Recursion_MCQ.js";
+import Built_in_Fun_MCQ from "../Python/Recursion/Built_in_Fun_MCQ.js";
+import ListMethods_MCQ from "../Python/Recursion/ListMethods_MCQ.js";
+import Tuples_Sequences_MCQ from "../Python/Tuples&Sets/Tuples_Sequences_MCQ.js";
+import Sets_MCQ from "../Python/Tuples&Sets/Sets_MCQ.js";
+import Set_Operations_MCQ from "../Python/Tuples&Sets/Set_Operations_MCQ.js";
+import NestedList_Stringformating_MCQ from "../Python/Dictionaries/NestedList_StringFormating_MCQ.js";
+import Dictionaries_MCQ from "../Python/Dictionaries/Dictionaries_MCQ.js";
+import Working_With_Dictionaries_MCQ from "../Python/Dictionaries/Working_With_Dictionaries_MCQ.js";
+import NestedLoops_MCQ from "../Python/LoopContronStmts/NestedLoops_MCQ.js";
+import Introductionto_OOP1_MCQ from "../Python/IntroductiontoOOP/Introductionto_OPP1_MCQ.js";
+import Introduction_Opp_MCQ2 from "../Python/IntroductiontoOOP/Introduction_Opp_MCQ2.js";
+import Classes_Object_MCQ from "../Python/IntroductiontoOOP/Classes_Object_MCQ.js";
+import Attributes_Methods_MCQ from "../Python/IntroductiontoOOP/Attributes_Methods_MCQ.js";
+import Inheritance_Part1_MCQ from "../Python/IntroductiontoOOP/Inheritance_Part1_MCQ.js";
+import Inheritance_Part2_MCQ from "../Python/IntroductiontoOOP/Inheritance_Part2_MCQ.js";
+import Python_Standard_Library_MCQ from "../Python/Miscellaneous/Python_Standard_Library_MCQ.js";
+import Scope_Namespaces_MCQ from "../Python/Miscellaneous/Scope_Namespaces__MCQ.js";
+import Errors_Exceptions_MCQ from "../Python/Miscellaneous/Errors_Exceptions_MCQ";
+import Dates_Time_MCQ from "../Python/Miscellaneous/Dates_Time_MCQ";
+import Workingwith_Date_Time_MCQ from "../Python/Miscellaneous/Workingwith_Date_Time_MCQ";
+import Introductionto_Dynamic_Application_MCQ from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_MCQ";
+import Dom_Event_Fundamentals_MCQ from "../JavaScript/Introductionto_Js_Variables/Dom_Event_Fundamentals_MCQ";
+import PrimitiveTypes_Conditionals_MCQ from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_MCQ";
+import Arrays_Dom_Manipulations_MCQ from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_MCQ";
+import Objects_MCQ from "../JavaScript/Arrays_Objects/Objects_MCQ";
+import Todos_Applications_MCQ from "../JavaScript/Todos_Application/Todos_Applications_MCQ";
+import On_Demand_Session_MCQ from "../JavaScript/Todos_Application/On_Demand_Session_MCQ";
+import Todos_Application_MCQ_2 from "../JavaScript/Todos_Application/Todos_Application_MCQ_2";
+import Todos_Application_MCQ_3 from "../JavaScript/Todos_Application_2/Todos_Application_MCQ_3";
+import Todos_Application_MCQ_4 from "../JavaScript/Todos_Application_2/Todos_Application_MCQ_4";
+import Todos_Application_MCQ_5 from "../JavaScript/Todos_Application_3/Todos_Application_MCQ_5";
+import Todos_Application_MCQ_6 from "../JavaScript/Todos_Application_4/Todos_Application_MCQ_6";
+import Callbacks_Schedulers_MCQ from "../JavaScript/Fetch_Callbacks/Callbacks_Schedulers_MCQ";
+import Event_Listners_More_Events_MCQ from "../JavaScript/Fetch_Callbacks/Event_Listners_More_Events_MCQ";
+import Hypertext_Transer_Protocal_MCQ from "../JavaScript/Fetch_Callbacks/Hypertext_Transer_Protocal_MCQ";
+import HTTP_Request_Using_JS_MCQ from "../JavaScript/Fetch_Callbacks_2/HTTP_Request_Using_JS_MCQ";
+import Wikipedia_Search_MCQ from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_MCQ";
+import Forms_MCQ_1 from "../JavaScript/Forms/Forms_MCQ_1";
+import Forms_MCQ_2 from "../JavaScript/Forms/Forms_MCQ_2";
+import JS_MCQ_Assignment_1 from "../JavaScript/Assignment/JS_MCQ_Assignment_1";
+import JS_MCQ_Assignment_2 from "../JavaScript/Assignment/JS_MCQ_Assignment_2";
+import JS_MCQ_Assignment_3 from "../JavaScript/Assignment/JS_MCQ_Assignment_3";
+import JS_MCQ_Assignment_4 from "../JavaScript/Assignment/JS_MCQ_Assignment_4";
+import JS_MCQ_Test_1 from "../JavaScript/Mock_Test/JS_MCQ_Test_1.js";
+import JS_MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 
 export const subtopicComponents = {
   //SQL Database
@@ -820,7 +888,6 @@ export const subtopicComponents = {
   "Build Your Own Static Website Course Exam | Instructions":
     Static_Course_Exam_Instruction,
   "Build Your Own Static Website Course Exam": Static_Course_Exam,
-
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
   "MCQ Practice - HTML": Introductionto_HTML_MCQ,
   "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
@@ -1070,55 +1137,98 @@ export const subtopicComponents = {
     Problem_sol_Debugging_4_CS,
   "Problem Solving and Debugging Part 5 | Cheat Sheet":
     Problem_sol_Debugging_5_CS,
-
+  "MCQ Practice - Prog with Python": Pro_W_P_MCQ,
   "Variables and Data Types | Cheat Sheet": Variables_DT_CS_2,
+  "MCQ Practice - Var & Data Types": Variables_DT_MCQ,
   "Programming with Python | Cheat Sheet": Pro_W_P_CS_1,
   "Sequence of Instructions | Cheat Sheet": Seq_OF_Instruction_CS_3,
+  "MCQ Practice - Sequ of Instructions": Seq_OF_Instruction_MCQ,
   "Type Conversion | Cheat Sheet": Type_Con_CS_2,
+  "MCQ Practice - Type Con": Type_Con_MCQ,
   "Input and Output Basics | Cheat Sheet": Inp_Oup_Basics_CS_1,
+  "MCQ Practice - I/O": Inp_Oup_Basics_MCQ,
   "Relational Operators | Cheat Sheet": RelationOperator_CS_1,
+  "MCQ Practice - Rel Ope": RelationOperator_MCQ,
   "Logical Operators | Cheat Sheet": LogicalOperators_CS_2,
+  "MCQ Practice - Log Ope": LogicalOperators_MCQ,
   "Conditional Statements | Cheat Sheet": ConditionalStmts_CS_3,
+  "MCQ Practice - Con stmts": ConditionalStmts_MCQ,
+  "MCQ Practice - Problem Solv Debug": ProblemSol_Debugging_MCQ,
   "Loops | Cheat Sheet": Loops_CS_2,
+  "MCQ Practice - Loops": Loops_MCQ,
   "For Loop | Cheat Sheet": ForLoop_CS_2,
+  "MCQ Practice - For Loops": ForLoop_MCQ,
   "Approach for Hollow Pattern | Cheat Sheet": Approachto_HollowPattern_CS,
   "String Methods | Cheat Sheets": String_Methods_CS,
+  "MCQ Practice - String Methods": String_Methods_MCQ,
   "Nested Conditional Statements | Cheat Sheet": Nested_con_CS_1,
   "Nested Loops | Cheat Sheet": NestedLoops_CS_1,
+  "MCQ Practice - Nested Loops": NestedLoops_MCQ,
+  "MCQ Practice - Nested Con": Nested_con_MCQ,
+  "MCQ Practice - Prob_Sol": Problem_sol_6_MCQ,
+  "MCQ Practice - Prob_Sol7": Problem_sol_7_MCQ,
   "String Methods | Additional Reading Material":
     String_Methods_Additional_Material_CS,
+  "MCQ Practice - String Methods": String_Methods_MCQ,
   "Loop Control Statements | Cheat Sheet": LoopControlStmts_CS_2,
+  "MCQ Practice - Loop Con Stmts": LoopControlStmts_MCQ,
   "Comparing Strings & Naming Variables | Cheat Sheet":
     ComparingStrAndNamingVar_CS_1,
+  "MCQ Practice - ComStr_NamVar": ComparingStrAndNamingVar_MCQ,
   "Lists | Cheat Sheet": List_CS_1,
+  "MCQ Practice - Lists": List_MCQ,
   "List & Strings | Cheat Sheet": Lists_Strings_CS_1,
+  "MCQ Practice - List_Str": Lists_String_MCQ,
   "Functions | Cheat Sheet": Functions_CS_2,
+  "MCQ Practice - Functions": Functions_MCQ,
   "Function Arguments | Cheat Sheet": Function_Argu_CS_3,
+  "MCQ Practice - Fun_Arg": Functions_Argu_MCQ,
   "Built-in Functions | Cheat Sheet": Built_in_Fun_CS_1,
+  "MCQ Practice - Builtin_Fun": Built_in_Fun_MCQ,
   "Function Call Stack & Recursion | Cheat Sheet": FunCallStackRecursion,
+  "MCQ Practice - FunCallStack_Recursion": FunCallStack_Recursion_MCQ,
   "List Methods | Cheat Sheet": ListMethods,
+  "MCQ Practice - List Methods": ListMethods_MCQ,
   "Working with Lists | Cheat Sheet": Workingwith_Data_Time_CS,
+  "MCQ Practice - Working_Lists": Workingwith_Lists_MCQ,
   "Tuples & Sequences | Cheat Sheet": Tuples_Sequences_CS_1,
+  "MCQ Practice - Tuples_Seq": Tuples_Sequences_MCQ,
   "Sets | Cheat Sheet": Sets_CS_2,
+  "MCQ Practice - Sets": Sets_MCQ,
   "Set Operations | Cheat Sheet": Set_Operations_CS_3,
+  "MCQ Practice - Set_Ope": Set_Operations_MCQ,
   "Nested Lists & String Formatting | Cheat Sheet":
     NestedList_StringFormatting_CS_1,
+  "MCQ Practice - NestedList_StrFormat": NestedList_Stringformating_MCQ,
   "Dictionaries | Cheat Sheet": Dictionaries_CS_2,
+  "MCQ Practice - Dictionaries": Dictionaries_MCQ,
   "Buil-in Functions | Additional Reading Material":
     Builtin_Fun_Additional_Material_CS,
   "Working with Dictionaries | Cheat Sheet": Working_With_Dictionaries_CS_3,
+  "MCQ Practice - Working_Dictionaries": Working_With_Dictionaries_MCQ,
   "Introduction to Object Oriented Programming | Cheat Sheet":
     Introductionto_OOP_CS_1,
+  "MCQ Practice - Intro_OOP": Introductionto_OOP1_MCQ,
   "Object Oriented Programming | Cheat Sheet": Introductionto_OOP_CS_2,
+  "MCQ Practice - OOP": Introduction_Opp_MCQ2,
   "Classes & Objects | Cheat Sheet": Classes_Object_CS_3,
+  "MCQ Practice - Classes_Obj": Classes_Object_MCQ,
   "Attribute Methods | Cheat Sheet": Attributes_Methods_CS_4,
+  "MCQ Practice - Att_Meth": Attributes_Methods_MCQ,
   "Inheritance Part1 | Cheat Sheet": Inheritance_Part1_CS_5,
+  "MCQ Practice - Inheritance1": Inheritance_Part1_MCQ,
   "Inheritance Part2 | Cheat Sheet": Inheritance_Part2_CS_2,
+  "MCQ Practice - Inheritance2": Inheritance_Part2_MCQ,
   "Python Standard Library | Cheat Sheet": Python_Standard_Library_CS_1,
+  "MCQ Practice - PythonLibrary": Python_Standard_Library_MCQ,
   "Scope & Namespaces | Cheat Sheet": Scope_Namespaces_CS_2,
+  "MCQ Practice - Scope_Namespaces": Scope_Namespaces_MCQ,
   "Errors & Exceptions | Cheat Sheet": Errors_Exceptions_CS_3,
+  "MCQ Practice - Errors_Excep": Errors_Exceptions_MCQ,
   "Dates & Time | Cheat Sheet": Dates_Time_CS_4,
+  "MCQ Practice - Dates_Time": Dates_Time_MCQ,
   "Working with Dates & Times | Cheat Sheet": Workingwith_Date_Time_CS,
+  "MCQ Practice - Working with Dates & Times": Workingwith_Date_Time_MCQ,
   "Python Summary Cheat Sheet - 1": Python_Summary_CS_1,
   "Python Summary Cheat Sheet - 2": Python_Summary_CS_2,
   "Python Summary Cheat Sheet - 3": Python_Summary_CS_3,
@@ -1130,30 +1240,55 @@ export const subtopicComponents = {
   //Python End
 
   //JavaScript Start
-
   "Introduction to Dynamic Web Applications | Cheat Sheet":
     Introductionto_Dynamic_Application_CS,
+    "MCQ Practice - Intro_Dynamic Web App": Introductionto_Dynamic_Application_MCQ,
   "DOM and Event Fundamentals | Cheat Sheet": DOM_Event_Fundamentals_CS,
+  "MCQ Practice - DOM Event Fund": Dom_Event_Fundamentals_MCQ,
   "Primitive Types & Conditionals | Cheat Sheet":
     Primitive_Types_Conditionals_CS,
+    "MCQ Practice - Primitive Types": PrimitiveTypes_Conditionals_MCQ,
   "Input Element and Math Functions | Cheat Sheet": InputEle_MathFunctions_CS,
+  "MCQ Practice - Input Elements": Inp_Oup_Basics_MCQ,
   "Arrays & More DOM Manipulations | Cheat Sheet": Arrays_Dom_Manipulations_CS,
+  "MCQ Practice - Array & DOM": Arrays_Dom_Manipulations_MCQ,
   "Objects | Cheat Sheet": Objects_CS,
+  "MCQ Practice - Objects": Objects_MCQ,
   "Todos Application | Cheat Sheet": Todos_Applications_CS,
+  "MCQ Practice - Todos App": Todos_Applications_MCQ,
   "On-Demand Session | Cheat Sheet": On_Demand_Session_CS,
+  "MCQ Practice - On Demand Session": On_Demand_Session_MCQ,
   "Todos Application | Part 2 | Cheat Sheet": Todos_Application_CS_2,
+  "MCQ Practice - Todos App 2": Todos_Application_MCQ_2,
   "Todos Application | Part 3 | Cheat Sheet": Todos_Application_CS_3,
+  "MCQ Practice - Todos App 3": Todos_Application_MCQ_3,
   "Todos Application | Part 4 | Cheat Sheet": Todos_Application_CS_4,
+  "MCQ Practice - Todos App 4": Todos_Application_MCQ_4,
   "Todos Application | Part 5 | Cheat Sheet": Todos_Application_CS_5,
+  "MCQ Practice - Todos App 5": Todos_Application_MCQ_5,
   "Todos Application | Part 6 | Cheat Sheet": Todos_Application_CS_6,
+  "MCQ Practice - Todos App 6": Todos_Application_MCQ_6,
   "Callbacks & Schedulers | Cheat Sheet": Callbacks_Schedulers_CS,
+  "MCQ Practice - Callbacks & Schedulers": Callbacks_Schedulers_MCQ,
   "Event Listeners & More Events | Cheat Sheet": Event_Listners_More_Events_CS,
+  "MCQ Practice - Event Listeners": Event_Listners_More_Events_MCQ,
   "Hypertext Transfer Protocal (HTTP) | Cheat Sheet":
     Hypertext_Transfer_Protocal_CS,
+    "MCQ Practice - HTTP": Hypertext_Transer_Protocal_MCQ,
   "Wikipedia Search Application | Cheat Sheet": Wikipedia_Search_CS,
   "HTTP Requests using JS | Cheat Sheet": HTTP_Request_Using_JS_CS,
+  "MCQ Practice - HTTP Requests using JS": HTTP_Request_Using_JS_MCQ,
+  "MCQ Practice - Wikipedia Application": Wikipedia_Search_MCQ,
   "Forms | Cheat sheet": Forms_CS,
+  "MCQ Practice - Forms": Forms_MCQ_1,
   "Forms | Part - 2 | Cheat sheet": Forms_CS_2,
+  "MCQ Practice - Forms Part 2": Forms_MCQ_2,
+  "MCQ Assignment 1": JS_MCQ_Assignment_1,
+  "MCQ Assignment 2": JS_MCQ_Assignment_2,
+  "MCQ Assignment 3": JS_MCQ_Assignment_3,
+  "MCQ Assignment 4": JS_MCQ_Assignment_4,
+  "JS MCQ Test 1": JS_MCQ_Test_1,
+  "JS MCQ Test 2": JS_MCQ_Test_2,
 };
 
 export const mcqMapping = {
