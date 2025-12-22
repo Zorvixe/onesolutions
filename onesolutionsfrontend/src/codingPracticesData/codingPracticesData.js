@@ -9892,7 +9892,7 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a Hollow Butterfly of 2*N rows using stars(*).\nNote:There is a space after every star(*).",
           sampleInput: "3",
-          sampleOutput: "*        * \n* *     * * \n*   *   *   * \n*   *   *   * \n* *     * * \n*        * ",
+          sampleOutput: "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
           testCases: [
             {
               input: "1",
@@ -9906,12 +9906,12 @@ export const codingPracticesData = {
             },
             {
               input: "3",
-              output: "*        * \n* *     * * \n*   *   *   * \n*   *   *   * \n* *     * * \n*        * ",
+              output: "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
               visible: false
             },
             {
               input: "4",
-              output: "*            * \n* *        * * \n*   *    *   * \n*     *  *     * \n*     *  *     * \n*   *    *   * \n* *        * * \n*            * ",
+              output: "*             * \n* *         * * \n*   *     *   * \n*     * *     * \n*     * *     * \n*   *     *   * \n* *         * * \n*             * ",
               visible: false
             },
           ],
@@ -9926,14 +9926,14 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "You are given two numbers,A and B where 1<=A<=B,Write a program to find the number of perfect squares in the range A to B(including A and B).",
-          sampleInput: "5\n25",
-          sampleOutput: "4",
+          sampleInput: "9\n100",
+          sampleOutput: "8",
           testCases: [
             { input: "1\n1", output: "1", visible: true },
             { input: "1\n10", output: "3", visible: true },
-            { input: "5\n25", output: "4", visible: false },
-            { input: "10\n100", output: "7", visible: false },
-            { input: "50\n200", output: "6", visible: false },
+            { input: "625\n1444", output: "14", visible: false },
+            { input: "1\n1", output: "1", visible: false },
+            { input: "1\n10", output: "3", visible: false },
           ],
           defaultCode: ``,
           score: 35,
