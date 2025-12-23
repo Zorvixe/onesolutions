@@ -240,10 +240,7 @@ export const goalsData = [
                 id: "QW9_s10_A0 m5_H g1_7B c1_D2E",
                 name: "Website: Behind the Scenes",
               },
-              {
-                id: "QW9_s11_A0 m5_H g1_7B c1_D2E",
-                name: "MCQ Practice - Behind the Scenes",
-              },
+
               {
                 id: "QW9_s12_A0 m5_H g1_7B c1_D2E",
                 name: "HTML Hyperlinks",

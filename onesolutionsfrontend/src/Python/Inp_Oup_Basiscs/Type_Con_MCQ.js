@@ -9,7 +9,10 @@ const questionsData = [
     question: (
       <div>
         <p>What is the output?</p>
-        <CodeBlock language="python" code={`text = "Welcome"\nprint(text[1:4])`} />
+        <CodeBlock
+          language="python"
+          code={`text = "Welcome"\nprint(text[1:4])`}
+        />
       </div>
     ),
     options: ["Wel", "elc", "lco", "come"],
@@ -19,7 +22,10 @@ const questionsData = [
     question: (
       <div>
         <p>What will be printed?</p>
-        <CodeBlock language="python" code={`word = "Python"\nprint(word[2:])`} />
+        <CodeBlock
+          language="python"
+          code={`word = "Python"\nprint(word[2:])`}
+        />
       </div>
     ),
     options: ["Py", "tho", "thon", "Python"],
@@ -29,7 +35,10 @@ const questionsData = [
     question: (
       <div>
         <p>What is the result?</p>
-        <CodeBlock language="python" code={`msg = "HelloWorld"\nprint(msg[:5])`} />
+        <CodeBlock
+          language="python"
+          code={`msg = "HelloWorld"\nprint(msg[:5])`}
+        />
       </div>
     ),
     options: ["Hello", "elloW", "World", "Hell"],
@@ -38,7 +47,11 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User enters: <code>25</code> and <code>30</code><br/>What is the output?</p>
+        <p>
+          User enters: <b>25</b> and <b>30</b>
+          <br />
+          What is the output?
+        </p>
         <CodeBlock
           language="python"
           code={`num1 = int(input())\nnum2 = int(input())\nprint(num1 + num2)`}
@@ -52,7 +65,10 @@ const questionsData = [
     question: (
       <div>
         <p>What is the output?</p>
-        <CodeBlock language="python" code={`age = 18\nprint("Age is " + str(age))`} />
+        <CodeBlock
+          language="python"
+          code={`age = 18\nprint("Age is " + str(age))`}
+        />
       </div>
     ),
     options: ["Age is 18", "Age is age", "Error", "18"],
@@ -62,7 +78,10 @@ const questionsData = [
     question: (
       <div>
         <p>What will this print?</p>
-        <CodeBlock language="python" code={`value = int("786")\nprint(value + 14)`} />
+        <CodeBlock
+          language="python"
+          code={`value = int("786")\nprint(value + 14)`}
+        />
       </div>
     ),
     options: ["78614", "800", "786 + 14", "Error"],
@@ -75,14 +94,22 @@ const questionsData = [
         <CodeBlock language="python" code={`x = int("100")\nprint(type(x))`} />
       </div>
     ),
-    options: ["<class 'str'>", "<class 'int'>", "<class 'float'>", "<class 'bool'>"],
+    options: [
+      "<class 'str'>",
+      "<class 'int'>",
+      "<class 'float'>",
+      "<class 'bool'>",
+    ],
     answer: "<class 'int'>",
   },
   {
     question: (
       <div>
         <p>What slice gives the middle part?</p>
-        <CodeBlock language="python" code={`name = "Alexander"\nprint(name[2:7])`} />
+        <CodeBlock
+          language="python"
+          code={`name = "Alexander"\nprint(name[2:7])`}
+        />
       </div>
     ),
     options: ["Alex", "exand", "ander", "lexan"],
@@ -91,7 +118,9 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>User enters: <code>50</code><br/>What is printed?</p>
+        <p>
+          User enters: <b>50</b>What is printed?
+        </p>
         <CodeBlock
           language="python"
           code={`marks = int(input())\nprint("You got " + str(marks) + " marks")`}
@@ -105,7 +134,10 @@ const questionsData = [
     question: (
       <div>
         <p>What will be the output?</p>
-        <CodeBlock language="python" code={`city = "Mumbai"\nprint(city[:3])`} />
+        <CodeBlock
+          language="python"
+          code={`city = "Mumbai"\nprint(city[:3])`}
+        />
       </div>
     ),
     options: ["Mum", "bai", "Mumba", "umbai"],
@@ -124,8 +156,14 @@ const questionsData = [
     answer: "str()",
   },
   {
-    question: "What is it called when we take a part of a string using indices?",
-    options: ["String cutting", "String slicing", "String copying", "String splitting"],
+    question:
+      "What is it called when we take a part of a string using indices?",
+    options: [
+      "String cutting",
+      "String slicing",
+      "String copying",
+      "String splitting",
+    ],
     answer: "String slicing",
   },
   {
@@ -145,13 +183,9 @@ const questionsData = [
   },
 ];
 
-const Type_Con_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Type_Con_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -180,7 +214,7 @@ const Type_Con_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

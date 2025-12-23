@@ -5,8 +5,7 @@ import "./SubtopicPage.css";
 import { goalsData } from "../data/goalsData";
 
 import { subtopicComponents } from "../SubtopicsPage/Imports_Of_All_Files.js";
-
-
+import {MCQWrapper} from "../SubtopicsPage/MCQWrapper.js"
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
   const { completedContent } = useAuth();

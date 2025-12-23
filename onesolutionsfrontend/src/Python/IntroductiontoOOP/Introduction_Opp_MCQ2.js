@@ -184,7 +184,7 @@ print(p1.name, p2.name)`}
     question: (
       <div>
         <p>
-          What is the type of <code>p1</code>?
+          What is the type of <b>p1</b>?
         </p>
         <CodeBlock
           language="python"

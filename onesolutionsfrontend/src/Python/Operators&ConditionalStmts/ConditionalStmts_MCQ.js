@@ -9,9 +9,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>22</code>
-          <br />
-          What will be printed?
+          User enters: <b>22</b> What will be printed?
         </p>
         <CodeBlock
           language="python"
@@ -26,9 +24,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>16</code>
-          <br />
-          What is the output?
+          User enters: <b>16</b> What is the output?
         </p>
         <CodeBlock
           language="python"
@@ -97,9 +93,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>44</code>
-          <br />
-          What is output?
+          User enters: <b>44</b> What is output?
         </p>
         <CodeBlock
           language="python"
@@ -150,9 +144,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>100</code>
-          <br />
-          What is printed?
+          User enters: <b>100</b> What is printed?
         </p>
         <CodeBlock
           language="python"
@@ -225,9 +217,10 @@ const ConditionalStmts_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -256,7 +249,7 @@ const ConditionalStmts_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

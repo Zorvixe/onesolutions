@@ -243,10 +243,7 @@ const goalsData = [
                 id: "QW9_s10_A0 m5_H g1_7B c1_D2E",
                 name: "Website: Behind the Scenes",
               },
-              {
-                id: "QW9_s11_A0 m5_H g1_7B c1_D2E",
-                name: "MCQ Practice - Behind the Scenes",
-              },
+
               {
                 id: "QW9_s12_A0 m5_H g1_7B c1_D2E",
                 name: "HTML Hyperlinks",
@@ -319,10 +316,6 @@ const goalsData = [
                 id: "QW9_s7_A0 m7_H g1_7B c1_D2E",
                 name: "Static Coding Assignment 3",
               },
-              {
-                id: "QW9_s8_A0 m7_H g1_7B c1_D2E",
-                name: "Coding Assignment 4",
-              },
             ],
           },
           {
@@ -343,20 +336,20 @@ const goalsData = [
               },
             ],
           },
-          {
-            id: "QW9_m9_A0 g1_H c1_7B",
-            name: "Build Your Own Static Website Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m9_H g1_7B c1_D2E",
-                name: "Build Your Own Static Website Course Exam | Instructions",
-              },
-              {
-                id: "QW9_s2_A0 m9_H g1_7B c1_D2E",
-                name: "Build Your Own Static Website Course Exam",
-              },
-            ],
-          },
+          // {
+          //   id: "QW9_m9_A0 g1_H c1_7B",
+          //   name: "Build Your Own Static Website Course Exam",
+          //   topic: [
+          //     {
+          //       id: "QW9_s1_A0 m9_H g1_7B c1_D2E",
+          //       name: "Build Your Own Static Website Course Exam | Instructions",
+          //     },
+          //     {
+          //       id: "QW9_s2_A0 m9_H g1_7B c1_D2E",
+          //       name: "Build Your Own Static Website Course Exam",
+          //     },
+          //   ],
+          // },
         ],
       },
       {
@@ -700,7 +693,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m1_H g1_7B c3_D2E",
-                name: "MCQ Practice",
+                name: "MCQ Practice - Prog with Python",
               },
               {
                 id: "QW9_s4_A0 m1_H g1_7B c3_D2E",
@@ -720,7 +713,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m1_H g1_7B c3_D2E",
-                name: "MCQ Practice - 1",
+                name: "MCQ Practice - Var & Data Types",
               },
               {
                 id: "QW9_s9_A0 m1_H g1_7B c3_D2E",
@@ -736,7 +729,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m1_H g1_7B c3_D2E",
-                name: "MCQ Practice - 2",
+                name: "MCQ Practice - Sequ of Instructions",
               },
               {
                 id: "QW9_s13_A0 m1_H g1_7B c3_D2E",
@@ -1124,10 +1117,7 @@ const goalsData = [
                 id: "QW9_s1_A0 m6_H g1_7B c3_D2E",
                 name: "Problem Solving and Debugging Part 3",
               },
-              {
-                id: "QW9_s2_A0 m6_H g1_7B c3_D2E",
-                name: "MCQ Practice - Problem_Sol",
-              },
+
               {
                 id: "QW9_s3_A0 m6_H g1_7B c3_D2E",
                 name: "Coding Practice 12",
@@ -2316,7 +2306,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m11_H g2_7B c1_D2E",
-                name: "MCQ Test 1",
+                name: "JS MCQ Test 1",
               },
               {
                 id: "QW9_s7_A0 m11_H g2_7B c1_D2E",
@@ -2324,7 +2314,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m11_H g2_7B c1_D2E",
-                name: "MCQ Test 2",
+                name: "JS MCQ Test 2",
               },
             ],
           },
@@ -2628,7 +2618,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m7_H g2_7B c2_D2E",
-                name: "MCQ Practice   Modelling Database | Part 1",
+                name: "MCQ Practice Modelling Database | Part 1",
               },
               {
                 id: "QW9_s6_A0 m7_H g2_7B c2_D2E",
@@ -2640,11 +2630,11 @@ const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m7_H g2_7B c2_D2E",
-                name: "MCQ Practice   Modelling Database | Part 2",
+                name: "MCQ Practice Modelling Database | Part 2",
               },
               {
                 id: "QW9_s9_A0 m7_H g2_7B c2_D2E",
-                name: "Coding Practice",
+                name: "Coding Practice 6",
               },
             ],
           },
@@ -2662,11 +2652,11 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m8_H g2_7B c2_D2E",
-                name: "MCQ Practice   Joins",
+                name: "MCQ Practice Joins",
               },
               {
                 id: "QW9_s4_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   1",
+                name: "Coding Practice - 7",
               },
               {
                 id: "QW9_s5_A0 m8_H g2_7B c2_D2E",
@@ -2678,11 +2668,11 @@ const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m8_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with Joins | Part 2",
+                name: "MCQ Practice Querying with Joins | Part 2",
               },
               {
                 id: "QW9_s8_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   2",
+                name: "Coding Practice - 8",
               },
               {
                 id: "QW9_s9_A0 m8_H g2_7B c2_D2E",
@@ -2694,15 +2684,15 @@ const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m8_H g2_7B c2_D2E",
-                name: "MCQ Practice   Querying with Joins | Part 3",
+                name: "MCQ Practice Querying with Joins | Part 3",
               },
               {
                 id: "QW9_s12_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   3",
+                name: "Coding Practice - 9",
               },
               {
                 id: "QW9_s13_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice   4",
+                name: "Coding Practice - 10",
               },
             ],
           },
@@ -2724,11 +2714,11 @@ const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m9_H g2_7B c2_D2E",
-                name: "MCQ Practice   Views and Subqueries",
+                name: "MCQ Practice Views and Subqueries",
               },
               {
                 id: "QW9_s5_A0 m9_H g2_7B c2_D2E",
-                name: "Coding Practice",
+                name: "Coding Practice - 11",
               },
             ],
           },
@@ -2746,7 +2736,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m10_H g2_7B c2_D2E",
-                name: "MCQ Practice   Transaction and Indexes",
+                name: "MCQ Practice Transaction and Indexes",
               },
             ],
           },
@@ -2766,11 +2756,11 @@ const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m12_H g2_7B c2_D2E",
-                name: "Assignment   3",
+                name: "Assignment 3",
               },
               {
                 id: "QW9_s2_A0 m12_H g2_7B c2_D2E",
-                name: "MCQ   Exam   1",
+                name: "MCQ Exam 1",
               },
             ],
           },

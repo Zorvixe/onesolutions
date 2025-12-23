@@ -16,10 +16,8 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-import "./CodePlayground.css";
-
-// Import SQL.js
 import initSqlJs from "sql.js";
+import "./CodePlayground.css";
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -41,6 +39,11 @@ export default function CodePlayground({
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
   const [showSnippetsModal, setShowSnippetsModal] = useState(false);
+
+  // Add state for settings modal and preview width
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [previewWidth, setPreviewWidth] = useState("100%");
+  const [deviceSize, setDeviceSize] = useState("full");
 
   // Add these states for update functionality
   const [currentSnippetId, setCurrentSnippetId] = useState(null);
@@ -80,9 +83,7 @@ export default function CodePlayground({
   <title>My Page</title>
 </head>
 <body>
-  <h1>Welcome to Code Playground</h1>
-  <p>Start coding and see the results!</p>
-  <div id="output"></div>
+  Welcome to Code Playground
 </body>
 </html>`,
       css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');`,
@@ -106,24 +107,53 @@ export default function CodePlayground({
     sql: initialCode?.sql ?? defaultCode.sql,
   }));
 
-  // Add this useEffect to handle iframe links
-useEffect(() => {
-  const handleIframeMessage = (event) => {
-    if (event.data.type === 'NAVIGATE_TO_HASH') {
-      // Handle navigation
-      console.log('Navigating to:', event.data.hash);
-      // You can implement your own navigation logic here
+  // Device size configurations
+  const deviceSizes = {
+    "extra-small": { width: 320, label: "Extra Small (<576px)" },
+    small: { width: 576, label: "Small (≥576px)" },
+    medium: { width: 768, label: "Medium (≥768px)" },
+    large: { width: 992, label: "Large (≥992px)" },
+    "extra-large": { width: 1200, label: "Extra Large (≥1200px)" },
+    full: { width: "100%", label: "Full Width" },
+  };
+
+  // Function to handle device size selection
+  const handleDeviceSizeSelect = (size) => {
+    setDeviceSize(size);
+    if (size === "full") {
+      setPreviewWidth("100%");
+    } else {
+      setPreviewWidth(`${deviceSizes[size].width}px`);
     }
   };
 
-  window.addEventListener('message', handleIframeMessage);
-  
-  return () => {
-    window.removeEventListener('message', handleIframeMessage);
+  // Function to handle custom width change
+  const handleCustomWidthChange = (e) => {
+    const value = e.target.value;
+    setDeviceSize("custom");
+    if (value) {
+      setPreviewWidth(`${value}px`);
+    } else {
+      setPreviewWidth("100%");
+    }
   };
-}, []);
 
-  // Combine HTML, CSS, JS for preview - MOVED THIS UP
+  // Add this useEffect to handle iframe links
+  useEffect(() => {
+    const handleIframeMessage = (event) => {
+      if (event.data.type === "NAVIGATE_TO_HASH") {
+        console.log("Navigating to:", event.data.hash);
+      }
+    };
+
+    window.addEventListener("message", handleIframeMessage);
+
+    return () => {
+      window.removeEventListener("message", handleIframeMessage);
+    };
+  }, []);
+
+  // Combine HTML, CSS, JS for preview
   const combineWebSrcDoc = useMemo(() => {
     return `<!DOCTYPE html>
 <html>
@@ -142,7 +172,6 @@ useEffect(() => {
     if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
       e.preventDefault();
       const hash = e.target.getAttribute('href').substring(1);
-      // Scroll to section within iframe
       const element = document.getElementById(hash);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -151,7 +180,6 @@ useEffect(() => {
   });
   
   ${code.javascript}
-    // Enhanced error handling
     window.onerror = function(msg, url, lineNo, columnNo, error) {
       const errorDiv = document.createElement('div');
       errorDiv.className = 'js-error';
@@ -176,21 +204,17 @@ useEffect(() => {
   // ADD THIS useEffect to load snippets from navigation state
   useEffect(() => {
     const loadSnippetFromState = () => {
-      // Check if we're coming from SavedSnippets with a snippet to load
       if (location.state?.loadSnippet && location.state?.snippetData) {
         const snippet = location.state.snippetData;
 
         console.log("Loading snippet from state:", snippet);
 
-        // Set snippet info
         setCurrentSnippetId(snippet.id);
         setSnippetName(snippet.name);
         setOriginalSnippetName(snippet.name);
 
-        // Set the language based on the snippet
         setLanguage(snippet.language);
 
-        // Set the code based on the snippet language
         const newCode = { ...defaultCode };
 
         if (snippet.language === "web") {
@@ -210,7 +234,6 @@ useEffect(() => {
         setCode(newCode);
         setOriginalCode({ ...newCode });
 
-        // Clear the state to prevent re-loading on refresh
         navigate(location.pathname, { replace: true, state: {} });
       }
     };
@@ -222,12 +245,9 @@ useEffect(() => {
   const isSnippetModified = useMemo(() => {
     if (!currentSnippetId) return false;
 
-    // Check if name changed
     if (snippetName !== originalSnippetName) return true;
 
-    // Check if code changed based on current language
     if (language === "web") {
-      // Check all web languages
       return (
         code.html !== originalCode.html ||
         code.css !== originalCode.css ||
@@ -294,9 +314,7 @@ useEffect(() => {
 
       if (result.success) {
         setOriginalSnippetName(snippetName);
-        // Update original code to current code since we just saved
         setOriginalCode({ ...code });
-        // Refresh snippets list
         fetchMySnippets();
         setShowSaveModal(false);
       } else {
@@ -317,7 +335,6 @@ useEffect(() => {
       return;
     }
 
-    // Original save logic for new snippets
     if (!snippetName.trim()) {
       alert("Please enter a name for your snippet");
       return;
@@ -356,13 +373,11 @@ useEffect(() => {
         alert("Snippet saved successfully!");
         setShowSaveModal(false);
         setSnippetName("");
-        // Set snippet ID for edit mode
         if (result.data && result.data.snippet) {
           setCurrentSnippetId(result.data.snippet.id);
           setOriginalSnippetName(snippetData.snippetName);
           setOriginalCode({ ...code });
         }
-        // Refresh snippets list
         fetchMySnippets();
       } else {
         alert(`Failed to save: ${result.message}`);
@@ -375,13 +390,12 @@ useEffect(() => {
     }
   };
 
-  // Load Pyodide for Python - FIXED VERSION
+  // Load Pyodide for Python
   useEffect(() => {
     let mounted = true;
 
     const initializePyodide = async () => {
       try {
-        // Load Pyodide if not already loaded
         if (!window.loadPyodide) {
           await new Promise((resolve, reject) => {
             const script = document.createElement("script");
@@ -401,7 +415,6 @@ useEffect(() => {
 
         if (!mounted) return;
 
-        // Set up Python environment with proper output capture
         await pyodide.runPythonAsync(`
 import sys
 import io
@@ -431,7 +444,6 @@ sys.stderr = OutputCapture()
       }
     };
 
-    // Set up output capture function
     window.captureOutput = (text) => {
       setOutput((prev) => prev + text);
     };
@@ -474,7 +486,6 @@ sys.stderr = OutputCapture()
     setIsRunning(true);
     setOutput("");
     try {
-      // Capture console.log output
       const logs = [];
       const originalLog = console.log;
       console.log = (...args) => {
@@ -488,7 +499,6 @@ sys.stderr = OutputCapture()
       };
 
       try {
-        // Use Function constructor to execute the code
         const func = new Function(code.javascript_standalone);
         func();
       } catch (err) {
@@ -507,7 +517,6 @@ sys.stderr = OutputCapture()
     }
   }, [code.javascript_standalone]);
 
-  // FIXED Python execution - NO INPUT ECHO
   const runPython = useCallback(async () => {
     setIsRunning(true);
     setOutput("");
@@ -521,16 +530,13 @@ sys.stderr = OutputCapture()
 
       const pyodide = pyodideRef.current;
 
-      // Set up input handling
       const inputLines = inputValue
         .split("\n")
         .filter((line) => line.trim() !== "");
       let inputIndex = 0;
 
-      // Clear previous output
       setOutput("");
 
-      // Set up custom input function - DO NOT CAPTURE INPUT VALUES
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
           return inputLines[inputIndex++];
@@ -538,7 +544,6 @@ sys.stderr = OutputCapture()
         return "";
       });
 
-      // Inject input function replacement - DON'T WRITE INPUT VALUES TO OUTPUT
       await pyodide.runPythonAsync(`
 import sys
 import io
@@ -556,29 +561,23 @@ class OutputCapture(io.StringIO):
     def get_value(self):
         return self.contents
 
-# Capture both stdout and stderr
 output_capture = OutputCapture()
 sys.stdout = output_capture
 sys.stderr = output_capture
 
-# Override input function - DO NOT CAPTURE INPUT VALUES
 _original_input = builtins.input
 
 def custom_input(prompt=""):
-    # Don't write prompt or input value to output capture
     result = __python_input__()
     return result
 
 builtins.input = custom_input
 `);
 
-      // Execute the Python code
       await pyodide.runPythonAsync(code.python);
 
-      // Get the captured output (only print statements, no input values)
       const output = await pyodide.runPythonAsync("output_capture.get_value()");
 
-      // Clean the output - remove any trailing whitespace
       const cleanOutput =
         output.trim() || "Python code executed successfully (no output)";
       setOutput(cleanOutput);
@@ -589,7 +588,6 @@ builtins.input = custom_input
     }
   }, [code.python, inputValue]);
 
-  // FIXED Java execution with proper simulation
   const runJava = useCallback(async () => {
     setIsRunning(true);
     setOutput("");
@@ -605,21 +603,17 @@ builtins.input = custom_input
           setOutput(`Java Execution Error: ${err.message}`);
         }
       } else {
-        // Enhanced Java code analysis and execution simulation
         const javaCode = code.java;
         const outputLines = [];
 
-        // Input simulation
         const inputLines = inputValue
           .split("\n")
           .filter((line) => line.trim() !== "");
         let inputIndex = 0;
 
-        // Simple Java code interpreter for common patterns
         const interpretJavaCode = (code) => {
           const lines = code.split("\n");
 
-          // Look for main method
           const mainMethodIndex = lines.findIndex((line) =>
             line.includes("public static void main")
           );
@@ -627,24 +621,19 @@ builtins.input = custom_input
             return ["Error: No main method found"];
           }
 
-          // Process each line in main method scope
           for (let i = mainMethodIndex; i < lines.length; i++) {
             const line = lines[i].trim();
 
-            // Handle System.out.println
             if (line.includes("System.out.println")) {
               const match = line.match(/System\.out\.println\((.*)\)/);
               if (match) {
                 let content = match[1];
 
-                // Handle string concatenation
                 if (content.includes("+")) {
-                  // Simple string concatenation
                   content = content
                     .split("+")
                     .map((part) => {
                       part = part.trim().replace(/["';]/g, "");
-                      // Handle variable substitution for common patterns
                       if (part === "i") return "i";
                       if (part === "num") return "num";
                       return part;
@@ -652,15 +641,12 @@ builtins.input = custom_input
                     .join(" ");
                 }
 
-                // Handle loop simulations
                 if (content === "i") {
-                  // This is likely inside a loop - simulate loop output
                   for (let i = 1; i < 10; i++) {
                     outputLines.push(i.toString());
                   }
                   break;
                 } else if (content.includes("discount")) {
-                  // Handle discount calculation
                   if (inputLines.length >= 2) {
                     const comparePrice = parseInt(inputLines[0]);
                     const price = parseInt(inputLines[1]);
@@ -669,7 +655,6 @@ builtins.input = custom_input
                     outputLines.push(discount.toFixed(2));
                   }
                 } else {
-                  // Remove quotes and add to output
                   content = content.replace(/["';]/g, "");
                   if (content && content !== '""') {
                     outputLines.push(content);
@@ -678,7 +663,6 @@ builtins.input = custom_input
               }
             }
 
-            // Handle for loops with variable i
             if (
               line.includes("for (int i =") &&
               line.includes("i <") &&
@@ -696,9 +680,8 @@ builtins.input = custom_input
               }
             }
 
-            // Handle Scanner input patterns
             if (line.includes("nextInt()") && inputIndex < inputLines.length) {
-              inputIndex++; // Consume input
+              inputIndex++;
             }
           }
         };
@@ -799,7 +782,6 @@ remoteRunners={{
                 const columns = result[0].columns;
                 const values = result[0].values;
 
-                // Calculate column widths
                 const colWidths = columns.map((col, index) => {
                   const maxDataWidth = Math.max(
                     ...values.map((row) => String(row[index] || "").length)
@@ -807,7 +789,6 @@ remoteRunners={{
                   return Math.max(col.length, maxDataWidth, 3);
                 });
 
-                // Create header
                 const header = columns
                   .map((col, i) =>
                     col.padEnd(colWidths[i] + 1).padStart(colWidths[i] + 2)
@@ -825,7 +806,6 @@ remoteRunners={{
                 outputText += "│" + header + "│\n";
                 outputText += "├" + separator + "┤\n";
 
-                // Add rows
                 values.forEach((row) => {
                   const rowStr =
                     "│" +
@@ -895,7 +875,6 @@ remoteRunners={{
     [language, currentWebLanguage]
   );
 
-  // Enhanced resize logic
   const startResize = useCallback(
     (e) => {
       isResizing.current = true;
@@ -944,13 +923,12 @@ remoteRunners={{
     setInputValue("");
     inputIndexRef.current = 0;
     if (iframeRef.current && language === "web") {
-      iframeRef.current.srcdoc = ""; // Clear the iframe
+      iframeRef.current.srcdoc = "";
     }
     if (sqlJs && language === "sql") {
       const newDb = new sqlJs.Database();
       setDb(newDb);
     }
-    // Exit edit mode when resetting
     setCurrentSnippetId(null);
     setSnippetName("");
     setOriginalSnippetName("");
@@ -1011,7 +989,6 @@ remoteRunners={{
     return icons[lang] || "📝";
   };
 
-  // Get current code for editor
   const getCurrentCode = () => {
     if (language === "web") {
       return code[currentWebLanguage];
@@ -1019,7 +996,6 @@ remoteRunners={{
     return code[language];
   };
 
-  // Get current mode for AceEditor
   const getCurrentMode = () => {
     if (language === "web") {
       return currentWebLanguage;
@@ -1027,20 +1003,16 @@ remoteRunners={{
     return language === "javascript_standalone" ? "javascript" : language;
   };
 
-  // Check if input section should be shown
   const showInputSection = ["python", "java"].includes(language);
 
-  // ADD THIS useEffect after your other useEffects:
   useEffect(() => {
     onCodeChange(code);
   }, [code, onCodeChange]);
 
-  // Add this useEffect to load snippets when component mounts
   useEffect(() => {
     fetchMySnippets();
   }, []);
 
-  // Update the fetchMySnippets function
   const fetchMySnippets = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -1098,20 +1070,12 @@ remoteRunners={{
               </h3>
             )}
 
-            <div className="editor-info-codep">
-              Lines: {getCurrentCode()?.split("\n").length || 0} | Length:{" "}
-              {getCurrentCode()?.length || 0}
-              {currentSnippetId && isSnippetModified && (
-                <span className="modified-indicator"> (Modified)</span>
-              )}
-            </div>
-
             <select
               className="language-select-codep"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
             >
-              <option value="web">Web (HTML/CSS/JS)</option>
+              <option value="web">Web</option>
               <option value="javascript_standalone">JavaScript</option>
               <option value="python">Python</option>
               <option value="java">Java</option>
@@ -1201,23 +1165,43 @@ remoteRunners={{
                 <button
                   className="btn-codep btn-secondary-codep"
                   onClick={() => setShowSaveModal(true)}
+                  title="Save"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
                     height="16"
                     fill="currentColor"
+                    class="bi bi-floppy"
                     viewBox="0 0 16 16"
                   >
-                    <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z" />
+                    <path d="M11 2H9v3h2z" />
+                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
                   </svg>
-                  Save Snippet
                 </button>
               )}
+
+              {/* Settings Button */}
+              <button
+                className="btn-codep btn-secondary-codep"
+                onClick={() => setShowSettingsModal(true)}
+                title="Preview Settings"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+                </svg>
+              </button>
 
               <button
                 className="btn-codep btn-secondary-codep"
                 onClick={resetToDefault}
+                title="Reset"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -1233,7 +1217,6 @@ remoteRunners={{
                   />
                   <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
                 </svg>
-                Reset
               </button>
 
               <button
@@ -1259,7 +1242,7 @@ remoteRunners={{
                     >
                       <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
                     </svg>
-                    {currentSnippetId ? "Run & Update" : "Run Code"}
+                    {currentSnippetId ? "Run Code" : "Run Code"}
                   </div>
                 )}
               </button>
@@ -1293,24 +1276,107 @@ remoteRunners={{
           <div className="output-section-codep">
             <div className="output-container-codep">
               {language === "web" ? (
-                <iframe
-                  ref={iframeRef}
-                  className="preview-frame-codep"
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
-                  srcDoc={combineWebSrcDoc}
-                />
+                <div
+                  className="preview-wrapper-codep"
+                  style={{ width: previewWidth }}
+                >
+                  <iframe
+                    ref={iframeRef}
+                    className="preview-frame-codep"
+                    style={{ width: "100%" }}
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
+                    srcDoc={combineWebSrcDoc}
+                  />
+                </div>
               ) : (
-                <pre className="code-output-codep">
-                  {output ||
-                    `Click "Run Code" to execute your ${getLanguageDisplayName(
-                      language
-                    )} code and see the output here.`}
-                </pre>
+                <div
+                  className="preview-wrapper-codep"
+                  style={{ width: previewWidth }}
+                >
+                  <pre className="code-output-codep">
+                    {output ||
+                      `Click "Run Code" to execute your ${getLanguageDisplayName(
+                        language
+                      )} code and see the output here.`}
+                  </pre>
+                </div>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {/* Settings Modal */}
+      {showSettingsModal && (
+        <div className="modal-overlay-codep">
+          <div className="modal-codep">
+            <div className="modal-header-codep">
+              <h3>Preview Settings</h3>
+              <button onClick={() => setShowSettingsModal(false)}>×</button>
+            </div>
+            <div className="modal-body-codep">
+              <div className="form-group-codep">
+                <label>Select a device size</label>
+                <div className="device-size-buttons-codep">
+                  {Object.entries(deviceSizes).map(([key, { label }]) => (
+                    <button
+                      key={key}
+                      className={`device-size-btn-codep ${
+                        deviceSize === key ? "active" : ""
+                      }`}
+                      onClick={() => handleDeviceSizeSelect(key)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="form-group-codep">
+                <label>Custom Width (px)</label>
+                <div className="custom-width-controls-codep">
+                  <input
+                    type="number"
+                    className="custom-width-input-codep"
+                    placeholder="Enter custom width"
+                    onChange={handleCustomWidthChange}
+                  />
+                  <button
+                    className="btn-codep btn-secondary-codep"
+                    onClick={() => handleDeviceSizeSelect("full")}
+                  >
+                    Reset to Full Width
+                  </button>
+                </div>
+              </div>
+
+              <div className="current-preview-info-codep">
+                <p>
+                  <strong>Current Preview Width:</strong> {previewWidth}
+                </p>
+                <p className="note-text-codep">
+                  <small>
+                    Note: The preview width will not exceed the available space
+                    in the output panel.
+                  </small>
+                </p>
+                <p className="note-text-codep">
+                  <small>Keep zoom at 100% for correct output</small>
+                </p>
+              </div>
+            </div>
+            <div className="modal-footer-codep">
+              <button
+                className="btn-codep btn-primary-codep"
+                onClick={() => setShowSettingsModal(false)}
+              >
+                Apply & Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Save/Update Snippet Modal */}
       {showSaveModal && (
         <div className="modal-overlay-codep">

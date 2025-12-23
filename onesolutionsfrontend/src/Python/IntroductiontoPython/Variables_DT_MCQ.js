@@ -26,7 +26,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What data type is <code>age</code>?
+          What data type is <b>age</b>?
         </p>
         <CodeBlock language="python" code={`age = 21\nprint(type(age))`} />
       </div>
@@ -43,7 +43,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the type of <code>price</code>?
+          What is the type of <b>price</b>?
         </p>
         <CodeBlock
           language="python"
@@ -81,7 +81,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          Identify the data types of <code>a</code> and <code>b</code>:
+          Identify the data types of <b>a</b> and <b>b</b>:
         </p>
         <CodeBlock
           language="python"
@@ -101,7 +101,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What are the types of <code>x</code> and <code>y</code>?
+          What are the types of <b>x</b> and <b>y</b>?
         </p>
         <CodeBlock
           language="python"
@@ -165,7 +165,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the data type of <code>quantity</code>?
+          What is the data type of <b>quantity</b>?
         </p>
         <CodeBlock
           language="python"

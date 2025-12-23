@@ -102,7 +102,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the role of <code>self</code> in this method?
+          What is the role of <b>self</b> in this method?
         </p>
         <CodeBlock
           language="python"

@@ -10580,7 +10580,967 @@ export const codingPracticesData = {
           score: 25,
           status: "unsolved",
           attempts: [],
-        },      
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-11",
+      title: "Assignment-11",
+      description: "Loops",
+      questions: [
+        {
+          id: "q-python-Assignment-11-001",
+          title: "Palindrome - 3",
+          difficulty: "Easy",
+          description:
+            "Given a string, write a program that checks if the given string is a palindrome.\nPrint palindrome if the given string is a palindrome.Otherwise,print not a palindrome.",
+          sampleInput: "madam",
+          sampleOutput: "palindrome",
+          testCases: [
+            { input: "heaven", output: "not a palindrome", visible: true },
+            {
+              input: "gadag",
+              output: "palindrome",
+              visible: true,
+            },
+
+            {
+              input: "amazon",
+              output: "not a palindrome",
+              visible: false,
+            },
+
+            {
+              input: "bag",
+              output: "not a palindrome",
+              visible: false,
+            },
+
+            {
+              input: "com",
+              output: "not a palindrome",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-11-002",
+          title: "Remove Vowels in a sentence",
+          difficulty: "Easy",
+          description:
+            "Given a sentence S.Write a program to remove all the vowels in the given sentence.\nNote:Vowels are A,E,I,O,U,a,e,i,o,u consider both uppercase and lowecase vowels.",
+          sampleInput: "hello onesolutions",
+          sampleOutput: "hll nsltns",
+          testCases: [
+            {
+              input: "hello onesolutions",
+              output: "hll nsltns",
+              visible: true,
+            },
+            {
+              input: "123 Hello World!",
+              output: "123 Hll Wrld!",
+              visible: true,
+            },
+            { input: "Programming", output: "Prgrmmng", visible: false },
+            {
+              input: "123 Hello World!",
+              output: "123 Hll Wrld!",
+              visible: false,
+            },
+            { input: "BCDFG", output: "BCDFG", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-11-003",
+          title: "First Part or Last Part",
+          difficulty: "Easy",
+          description:
+            "Given two strings S1 and S2,write a program that checks if S2 is at the beginning or ending of S1.\nPrint True if S2 is at the beginning or ending of S1.Otherwise,print False.",
+          sampleInput: "onesolutions\none",
+          sampleOutput: "True",
+          testCases: [
+            {
+              input: "onesolutions\none",
+              output: "True",
+              visible: true,
+            },
+            {
+              input: "cammel\nmme",
+              output: "False",
+              visible: true,
+            },
+            {
+              input: "Programming\npro",
+              output: "False",
+              visible: false,
+            },
+            {
+              input: "HelloWorld\nHello",
+              output: "True",
+              visible: false,
+            },
+            {
+              input: "BCDFG\nDF",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-11-004",
+          title: "Letter,Digit or Special Character",
+          difficulty: "Medium",
+          description:
+            "Given a character C,write a program to check if the C is a Lowercase Letter or Uppercase Letter or Digit or a Special Character.",
+          sampleInput: "8",
+          sampleOutput: "digit",
+          testCases: [
+            {
+              input: "A",
+              output: "uppercase letter",
+              visible: true,
+            },
+            { input: "!", output: "special character", visible: true },
+            { input: "a", output: "lowercase letter", visible: false },
+            {
+              input: "@",
+              output: "special character",
+              visible: false,
+            },
+            { input: "B", output: "uppercase letter", visible: false },
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-12",
+      title: "Codingpractice-12",
+      description: "Loop control Statements",
+      questions: [
+        {
+          id: "q-python-Codingpractice-12-001",
+          title: "Print Characters",
+          difficulty: "Easy",
+          description:
+            "Given a string and N indices,where N is the length of the string.Write a program to print the character of the string present at each index of the given N indices.",
+          sampleInput: "tarc\n3\n1\n2\n0",
+          sampleOutput: "cart",
+          testCases: [
+            {
+              input: "tarc\n3\n1\n2\n0",
+              output: "cart",
+              visible: true,
+            },
+            {
+              input: "nohtyp\n6\n5\n4\n3\n2\n1",
+              output: "python",
+              visible: true,
+            },
+            {
+              input: "cba\n2\n2\n1",
+              output: "abc",
+              visible: false,
+            },
+            {
+              input: "edoc\n4\n3\n2\n1\n0",
+              output: "code",
+              visible: false,
+            },
+            {
+              input: "olleh\n5\n4\n3\n2\n1\n0",
+              output: "hello",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-12-002",
+          title: "Word Triangle",
+          difficulty: "Easy",
+          description:
+            "Given a word,write a program that prints the letters of the word on N lines as shown in the sample output,where N is the length of the word.",
+          sampleInput: "ganesh",
+          sampleOutput: "g\nga\ngan\ngane\nganes\nganesh",
+          testCases: [
+            { input: "a", output: "a", visible: true },
+
+            { input: "hi", output: "h\nhi", visible: true },
+
+            { input: "code", output: "c\nco\ncod\ncode", visible: false },
+
+            {
+              input: "python",
+              output: "p\npy\npyt\npyth\npytho\npython",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 15,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-12-003",
+          title: "Count of Zeroes",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to find the count of 0's in N.\nPrint Count of zeroes is greater than three if there are more than 0's in the given number.otherwise,print count of zeroes is not greater than three.",
+          sampleInput: "1030800",
+          sampleOutput: "count of zeroes is greater  than three",
+          testCases: [
+            {
+              input: "1030800",
+              output: "count of zeroes is greater than three",
+              visible: true,
+            },
+
+            {
+              input: "101",
+              output: "count of zeroes is not greater than three",
+              visible: true,
+            },
+
+            {
+              input: "100020",
+              output: "count of zeroes is greater than three",
+              visible: false,
+            },
+
+            {
+              input: "1002",
+              output: "count of zeroes is not greater than three",
+              visible: false,
+            },
+
+            {
+              input: "90909",
+              output: "count of zeroes is not greater than three",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-12-004",
+          title: "Prime number",
+          difficulty: "Easy",
+          description:
+            "Write a program to check whether the given number is a prime number or not.\nNote:A prime number is a number that has  only two factors.The two factors of a prime number are 1 and itself.",
+          sampleInput: "5",
+          sampleOutput: "prime number",
+          testCases: [
+            {
+              input: "7",
+              output: "prime number",
+              visible: true,
+            },
+
+            {
+              input: "6",
+              output: "not a prime number",
+              visible: true,
+            },
+
+            {
+              input: "4",
+              output: "not a prime number",
+              visible: false,
+            },
+
+            {
+              input: "7",
+              output: "prime number",
+              visible: false,
+            },
+
+            {
+              input: "9",
+              output: "not a prime number",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-12-005",
+          title: "Numbers in square pattern - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program to print numbers from 1 to N in each column forming a square pattern of N rows and N columns.",
+          sampleInput: "4",
+          sampleOutput: "1 1 1 1\n2 2 2 2\n3 3 3 3\n4 4 4 4",
+          testCases: [
+            { input: "1", output: "1", visible: true },
+
+            { input: "2", output: "1 1\n2 2", visible: true },
+
+            { input: "3", output: "1 1 1\n2 2 2\n3 3 3", visible: false },
+
+            {
+              input: "5",
+              output: "1 1 1 1 1\n2 2 2 2 2\n3 3 3 3 3\n4 4 4 4 4\n5 5 5 5 5",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-12-006",
+          title: "Case Conversion",
+          difficulty: "Easy",
+          description:
+            "Given a title case string,write a program to modify the string as given below.\nAdd a hyphen(-)before each uppercase character excluding the first uppercase character.\nConvert all uppercase characters into lowecase characters.\nNote:Title case is a writing style where the first letter of every word in a sentence is capitalized,except for certain words like articles and prepositions.",
+          sampleInput: "TitleCase",
+          sampleOutput: "title-case",
+          testCases: [
+            { input: "TitleCase", output: "title-case", visible: true },
+
+            { input: "HelloWorld", output: "hello-world", visible: true },
+
+            { input: "JavaScript", output: "java-script", visible: false },
+
+            { input: "HTMLParser", output: "h-t-m-l-parser", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-12",
+      title: "Assignment-12",
+      description: "Loop control Statements",
+      questions: [
+        {
+          id: "q-python-Assignment-12-001",
+          title: "word triangle - 2",
+          difficulty: "Easy",
+          description:
+            "Given a word W,write a program that prints the letters of the word in N rows as an Inverted Right Angled Triangle as shown in the sample output,where N is the length of the word W.",
+          sampleInput: "game",
+          sampleOutput: "game\ngam\nga\ng",
+          testCases: [
+            { input: "game", output: "game\ngam\nga\ng", visible: true },
+
+            { input: "a", output: "a", visible: true },
+
+            { input: "hi", output: "hi\nh", visible: false },
+
+            { input: "code", output: "code\ncod\nco\nc", visible: false },
+
+            {
+              input: "python",
+              output: "python\npytho\npyth\npyt\npy\np",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-12-002",
+          title: "Inverted Right Angled Triangle - 8",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print an Inverted right angled triangle of N rows using stars(*).",
+          sampleInput: "2",
+          sampleOutput: "* * * \n    * ",
+          testCases: [
+            {
+              input: "1",
+              output: "* ",
+              visible: true,
+            },
+
+            {
+              input: "2",
+              output: "* * * \n    * ",
+              visible: true,
+            },
+
+            {
+              input: "3",
+              output: "* * * * * \n    * * * \n        * ",
+              visible: true,
+            },
+
+            {
+              input: "4",
+              output:
+                "* * * * * * * \n    * * * * * \n        * * * \n            * ",
+              visible: false,
+            },
+
+            {
+              input: "5",
+              output:
+                "* * * * * * * * * \n    * * * * * * * \n        * * * * * \n            * * * \n                * ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-12-003",
+          title: "Shuffle String - 2",
+          difficulty: "Easy",
+          description:
+            "Given two strings S1 and S2 of equal length,write a program that prints a new string by appending characters from S1 first and then from S2 alternately.",
+          sampleInput: "bring\ncamel",
+          sampleOutput: "baieg",
+          testCases: [
+            {
+              input: "APPRECIATE\nBACKPACKER",
+              output: "AAPKEAIKTR",
+              visible: true,
+            },
+
+            {
+              input: "hello\nworld",
+              output: "hlrld",
+              visible: true,
+            },
+            {
+              input: "ABCDE\nabcde",
+              output: "AbCdE",
+              visible: false,
+            },
+            {
+              input: "12345\n67890",
+              output: "17395",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-12-004",
+          title: "Hollow Rectangle - 2",
+          difficulty: "Medium",
+          description:
+            "Given two numbers M and N,write a program to print a hollow rectangle of M+2 rows and N+2 columns using pluses(+),hyphens(-) and pipes(|).",
+          sampleInput: "2\n3",
+          sampleOutput: "+---+\n|   |\n|   |\n+---+",
+          testCases: [
+            {
+              input: "1\n1",
+              output: "+-+\n| |\n+-+",
+              visible: true,
+            },
+            {
+              input: "2\n3",
+              output: "+---+\n|   |\n|   |\n+---+",
+              visible: true,
+            },
+            {
+              input: "3\n4",
+              output: "+----+\n|    |\n|    |\n|    |\n+----+",
+              visible: true,
+            },
+            {
+              input: "1\n5",
+              output: "+-----+\n|     |\n+-----+",
+              visible: false,
+            },
+            {
+              input: "4\n2",
+              output: "+--+\n|  |\n|  |\n|  |\n|  |\n+--+",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-13A",
+      title: "Codingpractice-13A",
+      description: "Loop control Statements",
+      questions: [
+        {
+          id: "q-python-Codingpractice-13A-001",
+          title: "Numbers in Square",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a square of N rows using numbers starting from 1.\nNote:There is a space after every number.",
+          sampleInput: "5",
+          sampleOutput: "1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5",
+          testCases: [
+            { input: "3", output: "1 2 3\n1 2 3\n1 2 3", visible: true },
+
+            { input: "2", output: "1 2\n1 2", visible: true },
+
+            { input: "3", output: "1 2 3\n1 2 3\n1 2 3", visible: false },
+
+            { input: "2", output: "1 2\n1 2", visible: false },
+
+            {
+              input: "4",
+              output: "1 2 3 4\n1 2 3 4\n1 2 3 4\n1 2 3 4",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13A-002",
+          title: "Numbers in Right Angled Triangle",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a Right Angled Triangle of N rows using numbers starting from 1.",
+          sampleInput: "3",
+          sampleOutput: "1 \n1 2 \n1 2 3 ",
+          testCases: [
+            {
+              input: "1",
+              output: "1 ",
+              visible: true,
+            },
+            {
+              input: "2",
+              output: "1 \n1 2 ",
+              visible: true,
+            },
+            {
+              input: "3",
+              output: "1 \n1 2 \n1 2 3 ",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "1 \n1 2 \n1 2 3 \n1 2 3 4 ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "1 \n1 2 \n1 2 3 \n1 2 3 4 \n1 2 3 4 5 ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13A-003",
+          title: "Numbers in Pyramid",
+          difficulty: "Easy",
+          description:
+            "Given two numbers S and N,write a program to print a Pyramid of N rows using numbers starting from S.",
+          sampleInput: "3\n3",
+          sampleOutput: "  3   \n 3 4  \n3 4 5 ",
+          testCases: [
+            {
+              input: "1\n1",
+              output: "1 ",
+              visible: true,
+            },
+            {
+              input: "1\n2",
+              output: " 1  \n1 2 ",
+              visible: true,
+            },
+            {
+              input: "3\n3",
+              output: "  3   \n 3 4  \n3 4 5 ",
+              visible: false,
+            },
+            {
+              input: "5\n4",
+              output: "   5    \n 5 6   \n 5 6 7  \n5 6 7 8 ",
+              visible: false,
+            },
+            {
+              input: "10\n2",
+              output: " 10  \n10 11 ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13A-004",
+          title: "Armstrong Numbers from 1 to N",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print Armstrong numbers from 1 to N each on a new line.",
+          sampleInput: "200",
+          sampleOutput: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153",
+          testCases: [
+            {
+              input: "200",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153",
+              visible: true,
+            },
+            {
+              input: "10",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9",
+              visible: true,
+            },
+            {
+              input: "1",
+              output: "1",
+              visible: false,
+            },
+            {
+              input: "400",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153\n370\n371",
+              visible: false,
+            },
+            {
+              input: "1000",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153\n370\n371\n407",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13A-005",
+          title: "Prime Numbers from M to N",
+          difficulty: "Easy",
+          description:
+            "Given two numbers M and N.Write a program to print all the Prime numbers in the range from M to N.If no prime Numbers present in the given range print No Prime Numbers Found.",
+          sampleInput: "3\n15",
+          sampleOutput: "3 5 7 11 13",
+          testCases: [
+            {
+              input: "3\n15",
+              output: "3 5 7 11 13",
+              visible: true,
+            },
+            {
+              input: "1\n10",
+              output: "2 3 5 7",
+              visible: true,
+            },
+            {
+              input: "14\n16",
+              output: "No Prime Numbers Found",
+              visible: true,
+            },
+            {
+              input: "2\n2",
+              output: "2",
+              visible: false,
+            },
+            {
+              input: "20\n30",
+              output: "23 29",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13A-006",
+          title: "Numbers in Rectangle",
+          difficulty: "Easy",
+          description:
+            "Given two numbers M and N,write a program to print a rectangle of M rows and N columns using numbers starting from 7.\n7 8 9 10\n7 8 9 10\n7 8 9 10\nNote:There is a space after every number.",
+          sampleInput: "2\n3",
+          sampleOutput: "7 8 9\n7 8 9",
+          testCases: [
+            {
+              input: "5\n4",
+              output: "7 8 9 10\n7 8 9 10\n7 8 9 10\n7 8 9 10\n7 8 9 10",
+              visible: true,
+            },
+            {
+              input: "2\n2",
+              output: "7 8\n7 8",
+              visible: true,
+            },
+            {
+              input: "2\n3",
+              output: "7 8 9\n7 8 9",
+              visible: true,
+            },
+            {
+              input: "2\n2",
+              output: "7 8\n7 8",
+              visible: false,
+            },
+            {
+              input: "2\n1",
+              output: "7\n7",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-13B",
+      title: "Codingpractice-13B",
+      description: "Loop control Statements",
+      questions: [
+        {
+          id: "q-python-Codingpractice-13B-001",
+          title: "Numbers in Square - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a square of N rows using numbers starting from 1.\nNote:There is a space after every number.",
+          sampleInput: "3",
+          sampleOutput: "1 2 3\n4 5 6\n7 8 9",
+          testCases: [
+            {
+              input: "3",
+              output: "1 2 3\n4 5 6\n7 8 9",
+              visible: true,
+            },
+            {
+              input: "1",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "2",
+              output: "1 2\n3 4",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "1 2 3 4 5\n6 7 8 9 10\n11 12 13 14 15\n16 17 18 19 20\n21 22 23 24 25",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13B-002",
+          title: "Numbers in Right Angled Triangle - 3",
+          difficulty: "Medium",
+          description:
+            "Given two numbers S and N,write a program to print a Right Angled Triangle of N rows using numbers starting from S.",
+          sampleInput: "5\n4",
+          sampleOutput: "5 \n6 7 \n8 9 10 \n11 12 13 14 ",
+          testCases: [
+            {
+              input: "1\n1",
+              output: "1 ",
+              visible: true,
+            },
+            {
+              input: "1\n2",
+              output: "1 \n2 3 ",
+              visible: true,
+            },
+            {
+              input: "3\n3",
+              output: "3 \n4 5 \n6 7 8 ",
+              visible: false,
+            },
+            {
+              input: "5\n4",
+              output: "5 \n6 7 \n8 9 10 \n11 12 13 14 ",
+              visible: false,
+            },
+            {
+              input: "10\n5",
+              output: "10 \n11 12 \n13 14 15 \n16 17 18 19 \n20 21 22 23 24 ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13B-003",
+          title: "Pair of Numbers",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print the count of pairs containing numbers A,B from 1 to N such that the sum of the numbers is equal to N, where A<B.\nA is the first number,B is the second number in a pair.",
+          sampleInput: "7",
+          sampleOutput: "3",
+          testCases: [
+            {
+              input: "3",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "2",
+              output: "0",
+              visible: true,
+            },
+            {
+              input: "3",
+              output: "1",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "1",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "2",
+              visible: false,
+            },
+            {
+              input: "10",
+              output: "4",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13B-004",
+          title: "Triplets of Numbers",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print the count of triplets containing numbers A,B and C from 1 to N such that the sum of the numbers is equal to N,Where A<B<C.\nA is the first number,B is the second number,and C is the third number in a triplet.",
+          sampleInput: "10",
+          sampleOutput: "4",
+          testCases: [
+            {
+              input: "8",
+              output: "2",
+              visible: true,
+            },
+            {
+              input: "6",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "8",
+              output: "2",
+              visible: false,
+            },
+            {
+              input: "10",
+              output: "4",
+              visible: false,
+            },
+            {
+              input: "12",
+              output: "7",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-13B-005",
+          title: "Identify the mistake-Inverted Half Pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print an Inverted Right Angled Triangle of N rows using numbers.\nNote:There is no space after every number.",
+          sampleInput: "3",
+          sampleOutput: "321\n21\n1",
+          testCases: [
+            {
+              input: "1",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "2",
+              output: "21\n1",
+              visible: true,
+            },
+            {
+              input: "3",
+              output: "321\n21\n1",
+              visible: false,
+            },
+            {
+              input: "4",
+              output: "4321\n321\n21\n1",
+              visible: false,
+            },
+            {
+              input: "5",
+              output: "54321\n4321\n321\n21\n1",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
       ],
     },
   ],

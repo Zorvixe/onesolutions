@@ -63,7 +63,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User types: <code>Alice</code>
+          User types: <b>Alice</b>
           <br />
           What is printed?
         </p>
@@ -80,7 +80,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>10</code>
+          User enters: <b>10</b>
           <br />
           What is the output?
         </p>
@@ -107,7 +107,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User types: <code>Bob</code>
+          User types: <b>Bob</b>
           <br />
           What is printed?
         </p>
@@ -166,9 +166,10 @@ const Inp_Oup_Basics_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -197,7 +198,7 @@ const Inp_Oup_Basics_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

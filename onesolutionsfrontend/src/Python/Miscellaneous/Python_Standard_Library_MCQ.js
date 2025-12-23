@@ -41,7 +41,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          How do you import only <code>sqrt</code> from math?
+          How do you import only <b>sqrt</b> from math?
         </p>
         <CodeBlock language="python" code={`from math import _____`} />
       </div>
@@ -175,7 +175,7 @@ const questionsData = [
   },
 
   {
-    question: "What does <code>map()</code> do?",
+    question: "What does <b>map()</b> do?",
     options: [
       "Filters items",
       "Applies a function to every item in a sequence",
@@ -192,7 +192,7 @@ const questionsData = [
   },
 
   {
-    question: "To use <code>reduce()</code>, you must import it from:",
+    question: "To use <b>reduce()</b>, you must import it from:",
     options: ["math", "random", "functools", "collections"],
     answer: "functools",
   },
@@ -202,9 +202,10 @@ const Python_Standard_Library_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -233,7 +234,7 @@ const Python_Standard_Library_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

@@ -36,7 +36,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          Which namespace does <code>x</code> belong to?
+          Which namespace does <b>x</b> belong to?
         </p>
         <CodeBlock
           language="python"
@@ -52,7 +52,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What happens if you try to print <code>x</code> here?
+          What happens if you try to print <b>x</b> here?
         </p>
         <CodeBlock
           language="python"
@@ -73,7 +73,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          How to modify global <code>count</code> inside function?
+          How to modify global <b>count</b> inside function?
         </p>
         <CodeBlock
           language="python"
@@ -131,7 +131,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          Which namespace contains <code>print()</code> and <code>len()</code>?
+          Which namespace contains <b>print()</b> and <b>len()</b>?
         </p>
         <CodeBlock language="python" code={`print("Hello")\nlen([1,2,3])`} />
       </div>
@@ -246,9 +246,10 @@ const Scope_Namespaces_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -277,7 +278,7 @@ const Scope_Namespaces_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

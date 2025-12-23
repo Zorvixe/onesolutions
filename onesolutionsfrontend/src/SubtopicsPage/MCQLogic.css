@@ -21,6 +21,7 @@
 .mcq-question {
   font-size: 18px;
   margin-bottom: 20px;
+  font-weight: normal !important;
 }
 
 .mcq-options {

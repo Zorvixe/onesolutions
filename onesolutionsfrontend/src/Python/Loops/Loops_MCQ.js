@@ -8,7 +8,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>3</code>
+          User enters: <b>3</b>
           <br />
           What will be printed?
         </p>

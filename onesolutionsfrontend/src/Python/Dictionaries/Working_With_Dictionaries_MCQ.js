@@ -28,7 +28,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What happens when you modify <code>d2</code>?
+          What happens when you modify <b>d2</b>?
         </p>
         <CodeBlock
           language="python"
@@ -44,7 +44,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What does <code>.copy()</code> create?
+          What does <b>.copy()</b> create?
         </p>
         <CodeBlock
           language="python"
@@ -84,7 +84,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What does <code>clear()</code> do?
+          What does <b>clear()</b> do?
         </p>
         <CodeBlock
           language="python"

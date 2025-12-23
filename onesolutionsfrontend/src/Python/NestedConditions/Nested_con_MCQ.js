@@ -9,7 +9,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>12</code> and <code>25</code>
+          User enters: <b>12</b> and <b>25</b>
           <br />
           What is the output?
         </p>
@@ -26,7 +26,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <code>8</code> and <code>30</code>
+          User enters: <b>8</b> and <b>30</b>
           <br />
           What is printed?
         </p>
