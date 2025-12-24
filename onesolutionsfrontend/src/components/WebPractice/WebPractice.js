@@ -828,13 +828,15 @@ const WebPractice = () => {
   return (
     <div className="web-practice-container">
       <CelebrationModal />
-      <div className="web-practice-header">
-        <button className="back-button" onClick={handleBackToPractice}>
-          ← {selectedPractice.title}
+      <div className="full-question-header-prac">
+        <button className="back-button-prac" onClick={handleBackToPractice}>
+          ← <span className="practice-name-prac">{selectedPractice.title}</span>
         </button>
-        <div className="question-info">
-          <div className="question-meta">
-            <span className={`status ${currentStatus}`}>
+        <div className="full-question-title-prac">
+          <div className="full-question-meta-prac">
+            <span
+              className={`status-indicator-prac ${currentStatus} large-prac`}
+            >
               {currentStatus === "solved"
                 ? "✓ Solved"
                 : currentStatus === "attempted"
@@ -842,19 +844,16 @@ const WebPractice = () => {
                 : "○ Unsolved"}
             </span>
             <span
-              className={`difficulty ${
-                selectedQuestion.difficulty?.toLowerCase() || "medium"
-              }`}
+              className={`difficulty-badge-prac large-prac ${selectedQuestion.difficulty.toLowerCase()}`}
             >
-              {selectedQuestion.difficulty || "Medium"}
+              {selectedQuestion.difficulty}
             </span>
-            <span className="score-head">
-              {selectedQuestion.score || 0} points
+            <span className="score-badge-prac">
+              {selectedQuestion.score} points
             </span>
           </div>
         </div>
       </div>
-
       <div className="web-practice-content">
         <div className="left-panel">
           <div className="question-description">

@@ -298,7 +298,7 @@ const Quering_SQL_MCQ_3 = ({
 
   return (
     <MCQLogic
-      title="IN, BETWEEN, ORDER BY, DISTINCT & Pagination | MCQs"
+      title="Quering SQL | Part 3 | MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

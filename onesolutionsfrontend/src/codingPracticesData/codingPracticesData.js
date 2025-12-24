@@ -10749,22 +10749,22 @@ export const codingPracticesData = {
               visible: true,
             },
             {
-              input: "nohtyp\n6\n5\n4\n3\n2\n1",
+              input: "nohtyp\n5\n4\n3\n2\n1\n0",
               output: "python",
               visible: true,
             },
             {
-              input: "cba\n2\n2\n1",
+              input: "cba\n2\n1\n0",
               output: "abc",
               visible: false,
             },
             {
-              input: "edoc\n4\n3\n2\n1\n0",
+              input: "edoc\n3\n2\n1\n0",
               output: "code",
               visible: false,
             },
             {
-              input: "olleh\n5\n4\n3\n2\n1\n0",
+              input: "olleh\n4\n3\n2\n1\n0",
               output: "hello",
               visible: false,
             },
@@ -10895,17 +10895,18 @@ export const codingPracticesData = {
           description:
             "Write a program to print numbers from 1 to N in each column forming a square pattern of N rows and N columns.",
           sampleInput: "4",
-          sampleOutput: "1 1 1 1\n2 2 2 2\n3 3 3 3\n4 4 4 4",
+          sampleOutput: "1 1 1 1 \n2 2 2 2 \n3 3 3 3 \n4 4 4 4 ",
           testCases: [
-            { input: "1", output: "1", visible: true },
+            { input: "1", output: "1 ", visible: true },
 
-            { input: "2", output: "1 1\n2 2", visible: true },
+            { input: "2", output: "1 1 \n2 2 ", visible: true },
 
-            { input: "3", output: "1 1 1\n2 2 2\n3 3 3", visible: false },
+            { input: "3", output: "1 1 1 \n2 2 2 \n3 3 3 ", visible: false },
 
             {
               input: "5",
-              output: "1 1 1 1 1\n2 2 2 2 2\n3 3 3 3 3\n4 4 4 4 4\n5 5 5 5 5",
+              output:
+                "1 1 1 1 1 \n2 2 2 2 2 \n3 3 3 3 3 \n4 4 4 4 4 \n5 5 5 5 5 ",
               visible: false,
             },
           ],
@@ -11034,7 +11035,7 @@ export const codingPracticesData = {
 
             {
               input: "hello\nworld",
-              output: "hlrld",
+              output: "hollo",
               visible: true,
             },
             {
@@ -11538,6 +11539,421 @@ export const codingPracticesData = {
           ],
           defaultCode: ``,
           score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-13",
+      title: "Assignment-13",
+      description: "Loop control Statements",
+      questions: [
+        {
+          id: "q-python-Assignment-13-001",
+          title: "Pythagoras Triplets",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print the count of Pythagorean Triplets containing numbers A,B and C from 1 to N such that the sum of squares of the numbers A and B is equal to the square of C,where A<B<C.\nA is the first number,B is the second number,and C is the third number in a triplet.\nNote:A pythagorean triplet is a set of three integers A,B,and C such that A^2+B^2=C^2.",
+          sampleInput: "5",
+          sampleOutput: "1",
+          testCases: [
+            {
+              input: "20",
+              output: "6",
+              visible: true,
+            },
+            {
+              input: "5",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "20",
+              output: "6",
+              visible: false,
+            },
+            {
+              input: "20",
+              output: "6",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "1",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-13-002",
+          title: "Numbers in Inverted Right Angled Triangle - 3",
+          difficulty: "Easy",
+          description:
+            "Given two numbers S and N,write a program to print an Inverted Right Angled Triangle of N rows using numbers starting from K+S-1 and ending with S.K is the count of numbers that can be printed in N rows of an Inverted Right Angled Triangle.",
+          sampleInput: "5\n2",
+          sampleOutput: "7 6 \n5 ",
+          testCases: [
+            { input: "1\n3", output: "6 5 4 \n3 2 \n1 ", visible: true },
+            { input: "2\n3", output: "7 6 5 \n4 3 \n2 ", visible: true },
+            { input: "5\n2", output: "7 6 \n5 ",    visible: false },
+            { input: "1\n1", output: "1 ",      visible: false },
+            { input: "3\n4", output: "12 11 10 9 \n8 7 6 \n5 4 \n3 ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-13-003",
+          title: "Numbers in Inverted Pyramid",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print an Inverted Pyramid of N rows using numbers starting from 1.",
+          sampleInput: "4",
+          sampleOutput: "1 2 3 4 \n 1 2 3 \n  1 2 \n   1 ",
+          testCases: [
+            {
+              input: "3",
+              output: "1 2 3 \n 1 2 \n  1 ",
+              visible: true
+            },
+            {
+              input: "4",
+              output: "1 2 3 4 \n 1 2 3 \n  1 2 \n   1 ",
+              visible: true
+            },
+            {
+              input: "1",
+              output: "1 ",
+              visible: false
+            },
+            {
+              input: "2",
+              output: "1 2 \n 1 ",
+              visible: false
+            },
+            {
+              input: "5",
+              output: "1 2 3 4 5 \n 1 2 3 4 \n  1 2 3 \n   1 2 \n    1 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-13-004",
+          title: "Number Diamond",
+          difficulty: "Medium",
+          description:
+            "Given a number N,write a program to print a Diamond of 2*N-1 rows using numbers starting from 1.",
+          sampleInput: "3",
+          sampleOutput: "  1 \n 1 2 \n1 2 3 \n 1 2 \n  1 ",
+          testCases: [
+            {
+              input: "1",
+              output: "1 ",
+              visible: true
+            },
+            {
+              input: "2",
+              output: " 1 \n1 2 \n 1 ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "  1 \n 1 2 \n1 2 3 \n 1 2 \n  1 ",
+              visible: true
+            },
+            {
+              input: "4",
+              output: "   1 \n  1 2 \n 1 2 3 \n1 2 3 4 \n 1 2 3 \n  1 2 \n   1 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-13-005",
+          title: "Armstrong numbers between two intervals",
+          difficulty: "Medium",
+          description:
+            "Given two numbers M and N,write a program to print all the Armstrong Numbers starting from M to N.If there are no Armstrong numbers,print -1.",
+          sampleInput: "1\n100",
+          sampleOutput: "1 2 3 4 5 6 7 8 9 ",
+          testCases: [
+            {
+              input: "1\n100",
+              output: "1 2 3 4 5 6 7 8 9 ",
+              visible: true
+            },
+            {
+              input: "100\n500",
+              output: "153 370 371 407 ",
+              visible: true
+            },
+            {
+              input: "10\n99",
+              output: "-1",
+              visible: true
+            },
+            {
+              input: "370\n371",
+              output: "370 371 ",
+              visible: false
+            },
+            {
+              input: "1\n1",
+              output: "1 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-14A",
+      title: "Codingpractice-14A",
+      description: "Loop control Statements",
+      questions: [
+        {
+          id: "q-python-Codingpractice-14A-001",
+          title: "Numbers in Hollow Square",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a Hollow Square of N rows and N columns using numbers starting from 1.\nNote:There is a space after every number.",
+          sampleInput: "4",
+          sampleOutput: "1 2 3 4 \n1     4\n1     4\n1     4\n1 2 3 4 ",
+          testCases: [
+            {
+              input: "1",
+              output: "1",
+              visible: true
+            },
+            {
+              input: "2",
+              output: "1 2 \n1 2 ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "1 2 3 \n1   3\n1   3\n1 2 3 ",
+              visible: true
+            },
+            {
+              input: "4",
+              output: "1 2 3 4 \n1     4\n1     4\n1     4\n1 2 3 4 ",
+              visible: false
+            },
+            {
+              input: "5",
+              output: "1 2 3 4 5 \n1       5\n1       5\n1       5\n1       5\n1 2 3 4 5 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-14A-002",
+          title: "Numbers in Hollow Right Angled Triangle",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a Hollow Right Angled Triangle of N rows using numbers starting from 1.",
+          sampleInput: "3",
+          sampleOutput: "1 \n1 2 \n1 2 3 ",
+          testCases: [
+            {
+              input: "1",
+              output: "1 ",
+              visible: true
+            },
+            {
+              input: "2",
+              output: "1 \n1 2 ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "1 \n1 2 \n1 2 3 ",
+              visible: true
+            },
+            {
+              input: "4",
+              output: "1 \n1 2 \n1   3 \n1 2 3 4 ",
+              visible: false
+            },
+            {
+              input: "5",
+              output: "1 \n1 2 \n1   3 \n1     4 \n1 2 3 4 5 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-14A-003",
+          title: "Numbers in Hollow Rectangle",
+          difficulty: "Easy",
+          description:
+            "Given two numbers M and N,write a program to print a Hollow Rectangle of M rows and N columns using numbers starting from 7.",
+          sampleInput: "4\n4",
+          sampleOutput: "7 8 9 10 \n7     10\n7     10\n7 8 9 10 ",
+          testCases: [
+            {
+              input: "2\n1",
+              output: "7",
+              visible: true
+            },
+            {
+              input: "2\n2",
+              output: "7 8 \n7 8 ",
+              visible: true
+            },
+            {
+              input: "3\n3",
+              output: "7 8 9 \n7   9\n7 8 9 ",
+              visible: true
+            },
+            {
+              input: "4\n4",
+              output: "7 8 9 10 \n7     10\n7     10\n7 8 9 10 ",
+              visible: false
+            },
+            {
+              input: "5\n5",
+              output: "7 8 9 10 11 \n7       11\n7       11\n7       11\n7 8 9 10 11 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-14A-004",
+          title: "hollow Full Pyramid - 1",
+          difficulty: "Easy",
+          description:
+            "Given the number of rows N,write a program to print the hallow full pyramid pattern similar to the pattern shown below.",
+          sampleInput: "4",
+          sampleOutput: "   *\n  * *\n *   *\n* * * * ",
+          testCases: [
+            {
+              input: "2",
+              output: " *\n* * ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "  *\n * *\n* * * ",
+              visible: true
+            },
+            {
+              input: "4",
+              output: "   *\n  * *\n *   *\n* * * * ",
+              visible: false
+            },
+            {
+              input: "5",
+              output: "    *\n   * *\n  *   *\n *     *\n* * * * * ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-14A-005",
+          title: "hollow Full Pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given the number of rows N,write a program to print the hallow full pyramid pattern similar to the pattern shown below.",
+          sampleInput: "4",
+          sampleOutput: "   1 \n  1 2 \n 1   3 \n1 2 3 4 ",
+          testCases: [
+            {
+              input: "2",
+              output: " 1 \n1 2 ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "  1 \n 1 2 \n1 2 3 ",
+              visible: true
+            },
+            {
+              input: "4",
+              output: "   1 \n  1 2 \n 1   3 \n1 2 3 4 ",
+              visible: false
+            },
+            {
+              input: "5",
+              output: "    1 \n   1 2 \n  1   3 \n 1     4 \n1 2 3 4 5 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-14A-006",
+          title: "Full Pyramid - 2",
+          difficulty: "Easy",
+          description:
+            "Given the number of rows N,write a program to print the full pyramid pattern similar to the pattern shown below.",
+          sampleInput: "4",
+          sampleOutput: "   1 \n  1 2 \n 1 2 3 \n1 2 3 4 ",
+          testCases: [
+            {
+              input: "2",
+              output: " 1 \n1 2 ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "  1 \n 1 2 \n1 2 3 ",
+              visible: true
+            },
+            {
+              input: "3",
+              output: "  1 \n 1 2 \n1 2 3 ",
+              visible: false
+            },
+            {
+              input: "3",
+              output: "  1 \n 1 2 \n1 2 3 ",
+              visible: false
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
           status: "unsolved",
           attempts: [],
         },

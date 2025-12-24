@@ -284,7 +284,7 @@ const Quering_SQL_MCQ_1 = ({
 
   return (
     <MCQLogic
-      title="Comparison & String Operations | MCQs"
+      title= "Quering SQL | Part 1 | MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

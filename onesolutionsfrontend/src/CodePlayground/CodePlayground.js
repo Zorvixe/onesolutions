@@ -107,14 +107,91 @@ export default function CodePlayground({
     sql: initialCode?.sql ?? defaultCode.sql,
   }));
 
-  // Device size configurations
+  const MobileIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="#64748B"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M12 17.5h.01M8.2 22h7.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C19 20.48 19 19.92 19 18.8V5.2c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C17.48 2 16.92 2 15.8 2H8.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C5 3.52 5 4.08 5 5.2v13.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C6.52 22 7.08 22 8.2 22Z"
+      />
+    </svg>
+  );
+
+  const DesktopIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="#64748B"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M3 16V7.2c0-1.12 0-1.68.218-2.108a2 2 0 0 1 .874-.874C4.52 4 5.08 4 6.2 4h11.6c1.12 0 1.68 0 2.108.218a2 2 0 0 1 .874.874C21 5.52 21 6.08 21 7.2V16h-5.337c-.245 0-.367 0-.482.028a.998.998 0 0 0-.29.12c-.1.061-.187.148-.36.32l-.062.063c-.173.173-.26.26-.36.322a.998.998 0 0 1-.29.12c-.115.027-.237.027-.482.027h-2.674c-.245 0-.367 0-.482-.028a.998.998 0 0 1-.29-.12c-.1-.061-.187-.148-.36-.32l-.062-.063c-.173-.173-.26-.26-.36-.322a.998.998 0 0 0-.29-.12C8.704 16 8.582 16 8.337 16H3Zm0 0a1 1 0 0 0-1 1v.333c0 .62 0 .93.068 1.185a2 2 0 0 0 1.414 1.414c.255.068.565.068 1.185.068h14.666c.62 0 .93 0 1.185-.068a2 2 0 0 0 1.414-1.414c.068-.255.068-.565.068-1.185 0-.31 0-.465-.034-.592a1 1 0 0 0-.707-.707C21.132 16 20.977 16 20.667 16H20"
+      ></path>
+    </svg>
+  );
+  const LargeIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="#64748B"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M17.5 12v-.01M22 16.8V7.2c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C20.48 4 19.92 4 18.8 4H5.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C2 5.52 2 6.08 2 7.2v9.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C3.52 20 4.08 20 5.2 20h13.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C22 18.48 22 17.92 22 16.8Zm-4.5-5.3a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1Z"
+      ></path>
+    </svg>
+  );
+  const MediumIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke="#64748B"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 17.5h.01M7.2 22h9.6c1.12 0 1.68 0 2.108-.218a2 2 0 0 0 .874-.874C20 20.48 20 19.92 20 18.8V5.2c0-1.12 0-1.68-.218-2.108a2 2 0 0 0-.874-.874C18.48 2 17.92 2 16.8 2H7.2c-1.12 0-1.68 0-2.108.218a2 2 0 0 0-.874.874C4 3.52 4 4.08 4 5.2v13.6c0 1.12 0 1.68.218 2.108a2 2 0 0 0 .874.874C5.52 22 6.08 22 7.2 22Zm5.3-4.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"
+      ></path>
+    </svg>
+  );
+
   const deviceSizes = {
-    "extra-small": { width: 320, label: "Extra Small (<576px)" },
-    small: { width: 576, label: "Small (≥576px)" },
-    medium: { width: 768, label: "Medium (≥768px)" },
-    large: { width: 992, label: "Large (≥992px)" },
-    "extra-large": { width: 1200, label: "Extra Large (≥1200px)" },
-    full: { width: "100%", label: "Full Width" },
+    "extra-small": {
+      width: 320,
+      icon: MobileIcon,
+      label: "Extra Small (<576px)",
+    },
+    small: { width: 576, icon: MobileIcon, label: "Small (≥576px)" },
+    medium: { width: 768, icon: MediumIcon, label: "Medium (≥768px)" },
+    large: { width: 992, icon: LargeIcon, label: "Large (≥992px)" },
+    "extra-large": {
+      width: 1200,
+      icon: DesktopIcon,
+      label: "Extra Large (≥1200px)",
+    },
+    full: { width: "100%", icon: DesktopIcon, label: "Full Width" },
   };
 
   // Function to handle device size selection
@@ -1051,13 +1128,32 @@ remoteRunners={{
                     }`}
                     onClick={() => setCurrentWebLanguage(lang)}
                   >
-                    {getLanguageIcon(lang)} {getLanguageDisplayName(lang)}
+                    {getLanguageIcon(lang)}
+                    {/* Show language name only when editor is reasonably wide */}
+                    {editorWidth > 25 && (
+                      <p className="code-tabs-lang-names">
+                        {
+                          editorWidth > 40
+                            ? getLanguageDisplayName(lang) // Full name when very wide
+                            : getLanguageDisplayName(lang).substring(0, 3) // Abbreviation when moderately wide
+                        }
+                      </p>
+                    )}
                   </button>
                 ))}
               </div>
             ) : (
               <h3 className="lang-header-codep">
-                {getLanguageIcon(language)} {getLanguageDisplayName(language)}
+                {getLanguageIcon(language)}{" "}
+                {editorWidth > 25 && (
+                  <p className="code-tabs-lang-names">
+                    {
+                      editorWidth > 40
+                        ? getLanguageDisplayName(language) // Full name when very wide
+                        : getLanguageDisplayName(language).substring(0, 3) // Abbreviation when moderately wide
+                    }
+                  </p>
+                )}
                 {currentSnippetId && (
                   <span className="edit-mode-indicator"> (Editing)</span>
                 )}
@@ -1131,26 +1227,30 @@ remoteRunners={{
                   <button
                     className="btn-codep btn-secondary-codep"
                     onClick={() => setShowSaveModal(true)}
+                    title="Update Snippet"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
+                      width="18"
+                      height="18"
                       fill="currentColor"
+                      class="bi bi-floppy"
                       viewBox="0 0 16 16"
                     >
-                      <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1z" />
+                      <path d="M11 2H9v3h2z" />
+                      <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
                     </svg>
-                    Update Snippet
+                    Update
                   </button>
                   <button
                     className="btn-codep btn-secondary-codep"
                     onClick={resetToDefault}
+                    title="New Snippet"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
+                      width="18"
+                      height="18"
                       fill="currentColor"
                       className="bi bi-plus-circle"
                       viewBox="0 0 16 16"
@@ -1158,19 +1258,19 @@ remoteRunners={{
                       <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
                       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                     </svg>
-                    New Snippet
+                    New
                   </button>
                 </>
               ) : (
                 <button
                   className="btn-codep btn-secondary-codep"
                   onClick={() => setShowSaveModal(true)}
-                  title="Save"
+                  title="Save Snippet"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
+                    width="18"
+                    height="18"
                     fill="currentColor"
                     class="bi bi-floppy"
                     viewBox="0 0 16 16"
@@ -1189,8 +1289,8 @@ remoteRunners={{
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
+                  width="18"
+                  height="18"
                   fill="currentColor"
                   viewBox="0 0 16 16"
                 >
@@ -1205,8 +1305,8 @@ remoteRunners={{
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
+                  width="18"
+                  height="18"
                   fill="currentColor"
                   className="bi bi-arrow-clockwise"
                   viewBox="0 0 16 16"
@@ -1234,8 +1334,8 @@ remoteRunners={{
                   <div className="run-code-btn-codep">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="22"
-                      height="22"
+                      width="18"
+                      height="18"
                       fill="currentColor"
                       className="bi bi-play-fill"
                       viewBox="0 0 16 16"
@@ -1265,9 +1365,6 @@ remoteRunners={{
                 className="input-textarea-codep"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder={`Enter input for ${getLanguageDisplayName(
-                  language
-                )} code here...`}
                 rows={4}
               />
             </div>
@@ -1293,12 +1390,15 @@ remoteRunners={{
                   className="preview-wrapper-codep"
                   style={{ width: previewWidth }}
                 >
-                  <pre className="code-output-codep">
-                    {output ||
-                      `Click "Run Code" to execute your ${getLanguageDisplayName(
-                        language
-                      )} code and see the output here.`}
-                  </pre>
+                  <div className="section-header-codep">
+                    <h3>output</h3>
+                  </div>
+                  <textarea
+                    className="output-textarea-codep"
+                    style={{ width: previewWidth }}
+                    value={output}
+                    readOnly
+                  />
                 </div>
               )}
             </div>
@@ -1317,8 +1417,9 @@ remoteRunners={{
             <div className="modal-body-codep">
               <div className="form-group-codep">
                 <label>Select a device size</label>
+
                 <div className="device-size-buttons-codep">
-                  {Object.entries(deviceSizes).map(([key, { label }]) => (
+                  {Object.entries(deviceSizes).map(([key, { icon, label }]) => (
                     <button
                       key={key}
                       className={`device-size-btn-codep ${
@@ -1326,7 +1427,8 @@ remoteRunners={{
                       }`}
                       onClick={() => handleDeviceSizeSelect(key)}
                     >
-                      {label}
+                      <span className="device-icon-codep">{icon}</span>
+                      <span className="device-label-codep">{label}</span>
                     </button>
                   ))}
                 </div>
@@ -1351,18 +1453,27 @@ remoteRunners={{
               </div>
 
               <div className="current-preview-info-codep">
-                <p>
-                  <strong>Current Preview Width:</strong> {previewWidth}
-                </p>
-                <p className="note-text-codep">
-                  <small>
-                    Note: The preview width will not exceed the available space
-                    in the output panel.
-                  </small>
-                </p>
-                <p className="note-text-codep">
-                  <small>Keep zoom at 100% for correct output</small>
-                </p>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25ZM12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25Z"
+                    fill="#1d4ed8"
+                  ></path>
+                  <path
+                    d="M12 10.25C12.41 10.25 12.75 10.59 12.75 11L12.75 16C12.75 16.41 12.41 16.75 12 16.75C11.59 16.75 11.25 16.41 11.25 16L11.25 11C11.25 10.59 11.59 10.25 12 10.25Z"
+                    fill="#1d4ed8"
+                  ></path>
+                  <path
+                    d="M12 6.99914C12.13 6.99914 12.26 7.02914 12.38 7.07914C12.5 7.12914 12.61 7.19914 12.71 7.28914C12.8 7.38914 12.87 7.48914 12.92 7.61914C12.97 7.73914 13 7.86914 13 7.99914C13 8.12914 12.97 8.25914 12.92 8.37914C12.87 8.49914 12.8 8.60914 12.71 8.70914C12.61 8.79914 12.5 8.86914 12.38 8.91914C12.14 9.01914 11.86 9.01914 11.62 8.91914C11.5 8.86914 11.39 8.79914 11.29 8.70914C11.2 8.60914 11.13 8.49914 11.08 8.37914C11.03 8.25914 11 8.12914 11 7.99914C11 7.86914 11.03 7.73914 11.08 7.61914C11.13 7.48914 11.2 7.38914 11.29 7.28914C11.39 7.19914 11.5 7.12914 11.62 7.07914C11.74 7.02914 11.87 6.99914 12 6.99914Z"
+                    fill="#1d4ed8"
+                  ></path>
+                </svg>
+                <p>Keep zoom at 100% for correct output</p>
               </div>
             </div>
             <div className="modal-footer-codep">
@@ -1382,7 +1493,7 @@ remoteRunners={{
         <div className="modal-overlay-codep">
           <div className="modal-codep">
             <div className="modal-header-codep">
-              <h3>{currentSnippetId ? "Update Snippet" : "Save Snippet"}</h3>
+              <h3>{currentSnippetId ? "Update" : "Save"}</h3>
               <button onClick={() => setShowSaveModal(false)}>×</button>
             </div>
             <div className="modal-body-codep">

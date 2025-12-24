@@ -477,6 +477,7 @@ import Aggregations_MCQ from "../SQL_Database/Aggregations/Aggregations_MCQ.js";
 import Group_By from "../SQL_Database/Aggregations/Group_By.js";
 import Group_By_Having from "../SQL_Database/Aggregations/Group_By_Having.js";
 import Group_By_Having_CS from "../SQL_Database/Aggregations/Group_By_Having_CS.js";
+import Groupby_Having_MCQ from "../SQL_Database/Aggregations/Groupby_Having_MCQ.js"
 import Common_Concepts_Class from "../SQL_Database/Common_Concepts/Common_Concepts_Class.js";
 import Common_Concepte_MCQ from "../SQL_Database/Common_Concepts/Common_Concepte_MCQ.js";
 import SQL_Expression_Cs from "../SQL_Database/Common_Concepts/SQL_Expression_CS.js";
@@ -647,21 +648,24 @@ export const subtopicComponents = {
   "Logical Operators Cheat sheet": Logical_Operators_CS,
   "MCQ Practice - Common Mistakes | Reading Material": Common_Mistakes_RM_MCQ,
   "Querying with SQL | Part 1": Quering_SQL_1,
+  "MCQ Practice Querying with SQL | Part 1": Quering_SQL_MCQ_1,
   "Querying with SQL | Part 2": Quering_SQL_2,
+  "MCQ Practice Querying with SQL | Part 2": Quering_SQL_MCQ_2,
   "Querying with SQL | Part 3": Quering_SQL_3,
   "Querying with Joins | Part 3 | Cheat Sheet": Quering_with_Joins_CS_Part_3,
-
+  "MCQ Practice Querying with SQL | Part 3": Quering_SQL_MCQ_3,
   "In and Between Operators Cheat Sheet": In_Between_Operators_CS,
   "Order By Distinct Cheat Sheet": Order_By_Distinct_CS,
   "Pagination Cheat Sheet": Pagination_CS,
   Aggregations: Aggregations,
   "Aggregations | Cheat Sheet": Aggregations_CS,
-  "MCQ Practice Aggregations": Aggregations_MCQ,
+  "MCQ Practice - Aggregations": Aggregations_MCQ,
   "Group By": Group_By,
   "Group By with Having": Group_By_Having,
   "Group By with Having | Cheat Sheet": Group_By_Having_CS,
+  "MCQ Pratice - Group By with Having": Groupby_Having_MCQ,
   "Common Concepts": Common_Concepts_Class,
-
+  "MCQ Practice Common Concepts": Common_Concepte_MCQ,
   "SQL Expression | Cheat Sheet": SQL_Expression_Cs,
   "SQL Functions | Cheat Sheet": SQL_Functions_CS,
   "Cast Functions | Cheat Sheet": Cast_Functions_CS,
@@ -670,7 +674,7 @@ export const subtopicComponents = {
   "SQL Set Operations | Cheat Sheet": SQL_Set_Operations_CS,
   // "Coding Practice 5": Coding_Pratice_5,
   "MileStone | Cheat Sheet": Milestone_CS,
-  "MCQ Practice MileStone": Milestone_MCQ,
+  // "MCQ Practice MileStone": MileStone_MCQ,
   "Assignment 1": SQL_Assignment_1,
   "Assignment 2": SQL_Assignment_2,
   "Modelling Database | Part 1": Modelling_Database_Class_1,

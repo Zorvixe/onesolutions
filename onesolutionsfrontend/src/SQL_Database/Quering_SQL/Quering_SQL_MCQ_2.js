@@ -322,7 +322,7 @@ const Quering_SQL_MCQ_2 = ({
 
   return (
     <MCQLogic
-      title="Logical Operators | MCQs"
+      title="Quering SQL | Part 2 | MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

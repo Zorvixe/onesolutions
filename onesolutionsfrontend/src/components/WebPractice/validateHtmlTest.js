@@ -999,129 +999,197 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
 
       // ========== CUSTOM NAVBAR VALIDATIONS ==========
 
+      case "check-navbar-bg-info": {
+        const nav = iframeDoc.querySelector("nav.bg-info");
+        const passed = !!nav;
 
+        return {
+          passed,
+          actual: passed
+            ? "Found nav element with class bg-info"
+            : "Missing nav element with class bg-info",
+        };
+      }
 
-case "check-navbar-bg-info": {
-  const nav = iframeDoc.querySelector("nav.bg-info");
-  const passed = !!nav;
+      case "check-m-auto-or-margin-auto": {
+        const elements = iframeDoc.querySelectorAll("*");
+        let passed = false;
 
-  return {
-    passed,
-    actual: passed
-      ? "Found nav element with class bg-info"
-      : "Missing nav element with class bg-info",
-  };
-}
+        elements.forEach((el) => {
+          if (el.classList.contains("m-auto")) {
+            passed = true;
+          }
 
+          const style = iframeDoc.defaultView.getComputedStyle(el);
+          if (style.margin === "auto" || style.marginLeft === "auto") {
+            passed = true;
+          }
+        });
 
+        return {
+          passed,
+          actual: passed
+            ? "Found m-auto class or margin: auto"
+            : "Missing m-auto class or margin: auto",
+        };
+      }
 
-case "check-m-auto-or-margin-auto": {
-  const elements = iframeDoc.querySelectorAll("*");
-  let passed = false;
+      case "check-anchor-border-style": {
+        const anchors = iframeDoc.querySelectorAll("a");
+        let passed = false;
 
-  elements.forEach((el) => {
-    if (el.classList.contains("m-auto")) {
-      passed = true;
-    }
+        anchors.forEach((a) => {
+          const style = iframeDoc.defaultView.getComputedStyle(a);
+          if (style.borderStyle && style.borderStyle !== "none") {
+            passed = true;
+          }
+        });
 
-    const style = iframeDoc.defaultView.getComputedStyle(el);
-    if (style.margin === "auto" || style.marginLeft === "auto") {
-      passed = true;
-    }
-  });
-
-  return {
-    passed,
-    actual: passed
-      ? "Found m-auto class or margin: auto"
-      : "Missing m-auto class or margin: auto",
-  };
-}
-
-case "check-anchor-border-style": {
-  const anchors = iframeDoc.querySelectorAll("a");
-  let passed = false;
-
-  anchors.forEach((a) => {
-    const style = iframeDoc.defaultView.getComputedStyle(a);
-    if (style.borderStyle && style.borderStyle !== "none") {
-      passed = true;
-    }
-  });
-
-  return {
-    passed,
-    actual: passed
-      ? "Found anchor element with border-style applied"
-      : "Missing anchor element with border-style",
-  };
-}
-
+        return {
+          passed,
+          actual: passed
+            ? "Found anchor element with border-style applied"
+            : "Missing anchor element with border-style",
+        };
+      }
 
       // ========== SPECIFICITY PRACTICE-3 VALIDATIONS ==========
 
-case "check-two-blue-bg-paragraphs": {
-  const paragraphs = iframeDoc.querySelectorAll("p.blue-bg");
-  const passed = paragraphs.length === 2;
+      case "check-two-blue-bg-paragraphs": {
+        const paragraphs = iframeDoc.querySelectorAll("p.blue-bg");
+        const passed = paragraphs.length === 2;
 
-  return {
-    passed,
-    actual: passed
-      ? "Found exactly two paragraphs with class blue-bg"
-      : `Expected 2 paragraphs with class blue-bg, found ${paragraphs.length}`,
-  };
-}
+        return {
+          passed,
+          actual: passed
+            ? "Found exactly two paragraphs with class blue-bg"
+            : `Expected 2 paragraphs with class blue-bg, found ${paragraphs.length}`,
+        };
+      }
 
-case "check-dodgerblue-bg": {
-  const paragraphs = iframeDoc.querySelectorAll("p.blue-bg");
-  let passed = false;
+      case "check-dodgerblue-bg": {
+        const paragraphs = iframeDoc.querySelectorAll("p.blue-bg");
+        let passed = false;
 
-  paragraphs.forEach((p) => {
-    const style = iframeDoc.defaultView.getComputedStyle(p);
-    if (style.backgroundColor === "rgb(30, 144, 255)") {
-      passed = true;
-    }
-  });
+        paragraphs.forEach((p) => {
+          const style = iframeDoc.defaultView.getComputedStyle(p);
+          if (style.backgroundColor === "rgb(30, 144, 255)") {
+            passed = true;
+          }
+        });
 
-  return {
-    passed,
-    actual: passed
-      ? "Found paragraph with background-color dodgerblue"
-      : "Missing paragraph with background-color dodgerblue",
-  };
-}
+        return {
+          passed,
+          actual: passed
+            ? "Found paragraph with background-color dodgerblue"
+            : "Missing paragraph with background-color dodgerblue",
+        };
+      }
 
-case "check-orange-bg-class": {
-  const paragraph = iframeDoc.querySelector("p.orange-bg");
-  const passed = !!paragraph;
+      case "check-orange-bg-class": {
+        const paragraph = iframeDoc.querySelector("p.orange-bg");
+        const passed = !!paragraph;
 
-  return {
-    passed,
-    actual: passed
-      ? "Found paragraph with class orange-bg"
-      : "Missing paragraph with class orange-bg",
-  };
-}
+        return {
+          passed,
+          actual: passed
+            ? "Found paragraph with class orange-bg"
+            : "Missing paragraph with class orange-bg",
+        };
+      }
 
-case "check-orange-bg-color": {
-  const paragraph = iframeDoc.querySelector("p.orange-bg");
-  let passed = false;
+      case "check-orange-bg-color": {
+        const paragraph = iframeDoc.querySelector("p.orange-bg");
+        let passed = false;
 
-  if (paragraph) {
-    const style = iframeDoc.defaultView.getComputedStyle(paragraph);
-    if (style.backgroundColor === "rgb(255, 165, 0)") {
-      passed = true;
-    }
-  }
+        if (paragraph) {
+          const style = iframeDoc.defaultView.getComputedStyle(paragraph);
+          if (style.backgroundColor === "rgb(255, 165, 0)") {
+            passed = true;
+          }
+        }
 
-  return {
-    passed,
-    actual: passed
-      ? "Found paragraph with background-color orange"
-      : "Missing paragraph with background-color orange",
-  };
-}
+        return {
+          passed,
+          actual: passed
+            ? "Found paragraph with background-color orange"
+            : "Missing paragraph with background-color orange",
+        };
+      }
 
+      case "check-col-md-class": {
+        const allElements = iframeDoc.querySelectorAll("*");
+
+        const colMdElements = Array.from(allElements).filter((el) =>
+          Array.from(el.classList).some((className) =>
+            className.startsWith("col-md-")
+          )
+        );
+
+        const hasColMdClass = colMdElements.length > 0;
+
+        return {
+          passed: hasColMdClass,
+          actual: hasColMdClass
+            ? `Found ${colMdElements.length} element(s) with col-md-* class`
+            : "No element found with col-md-* class",
+        };
+      }
+
+      case "check-d-md-class": {
+        const allElements = iframeDoc.querySelectorAll("*");
+      
+        const dMdElements = Array.from(allElements).filter((el) =>
+          Array.from(el.classList).some((cls) => cls.startsWith("d-md-"))
+        );
+      
+        const hasDMdClass = dMdElements.length > 0;
+      
+        return {
+          passed: hasDMdClass,
+          actual: hasDMdClass
+            ? `Found ${dMdElements.length} element(s) with d-md-* class`
+            : "No element found with d-md-* class",
+        };
+      }
+      case "check-d-none-class": {
+        const dNoneElements = iframeDoc.querySelectorAll(".d-none");
+        const hasDNoneClass = dNoneElements.length > 0;
+      
+        return {
+          passed: hasDNoneClass,
+          actual: hasDNoneClass
+            ? `Found ${dNoneElements.length} element(s) with d-none class`
+            : "No element found with d-none class",
+        };
+      }
+
+      case "check-anchor-element": {
+        const anchors = iframeDoc.querySelectorAll("a");
+        const hasAnchor = anchors.length > 0;
+      
+        return {
+          passed: hasAnchor,
+          actual: hasAnchor
+            ? `Found ${anchors.length} anchor element(s)`
+            : "No anchor element found",
+        };
+      }
+      case "check-shadow-class": {
+        const shadowElements = iframeDoc.querySelectorAll(
+          ".shadow, .shadow-sm, .shadow-lg"
+        );
+        const hasShadow = shadowElements.length > 0;
+      
+        return {
+          passed: hasShadow,
+          actual: hasShadow
+            ? `Found ${shadowElements.length} element(s) with shadow class`
+            : "No element found with shadow class",
+        };
+      }
+            
+            
 
       default:
         return {
