@@ -497,27 +497,33 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #e0e0e0;
 }
 
-.test-result-prac {
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  text-align: center;
+.output-section {
+  display: flex;
+  gap: 16px;
+  width: 100%;
 }
 
-.test-result-prac.passed-prac {
-  background-color: #c8e6c9;
-  color: #2e7d32;
+/* 🔹 Initial state: Expected Output full width */
+.output-section.only-expected .expected-output {
+  width: 100%;
 }
 
-.test-result-prac.failed-prac {
-  background-color: #ffcdd2;
-  color: #c62828;
+/* 🔹 After execution: split layout */
+.output-section.with-result .expected-output {
+  width: 50%;
+}
+
+.output-section.with-result .test-execution-result-prac {
+  width: 50%;
+}
+
+/* Optional: make blocks stretch nicely */
+.expected-output,
+.test-execution-result-prac {
+  display: flex;
+  flex-direction: column;
 }
 
 .output-comparison-prac {
@@ -559,7 +565,7 @@
 }
 
 .editor-header-prac {
-  padding: 15px 20px;
+  padding: 10px 15px;
   border-bottom: 1px solid #e0e0e0;
   display: flex;
   justify-content: space-between;
@@ -573,7 +579,7 @@
 }
 
 .editor-info-prac {
-  font-size: 12px;
+  font-size: 15px;
   color: #666;
 }
 
@@ -584,7 +590,10 @@
 
 .editor-controls-prac {
   display: flex;
+  justify-content: flex-end;
   gap: 10px;
+  padding: 5px;
+  padding-right: 20px;
 }
 
 .editor-actions-prac {
@@ -1152,4 +1161,246 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
+}
+
+/* Add these styles to your existing Practice.css file */
+
+/* Save Snippet Button */
+.save-snippet-button-prac {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background: none;
+}
+
+/* Resizer */
+.resizer-prac {
+  width: 3px;
+  background: var(--border-color);
+  cursor: ew-resize;
+  transition: background-color 0.2s ease;
+  position: relative;
+  z-index: 10;
+}
+
+.resizer-prac:hover {
+  background: var(--accent-color);
+}
+
+.resizer-prac::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 40px;
+  background: var(--secondary-text);
+  border-radius: 1px;
+  opacity: 0.6;
+}
+
+.resizer-prac:hover::before {
+  background: white;
+}
+
+/* Modal Overlay */
+.modal-overlay-prac {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-prac {
+  background-color: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header-prac {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header-prac h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.modal-header-prac button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.modal-header-prac button:hover {
+  color: #374151;
+}
+
+.modal-body-prac {
+  padding: 24px;
+}
+
+.form-group-prac {
+  margin-bottom: 20px;
+}
+
+.form-group-prac label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}
+
+.form-group-prac input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-group-prac input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.language-display-prac {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+.language-name-prac {
+  font-weight: 500;
+  color: #374151;
+}
+
+.code-preview-prac label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}
+
+.code-preview-content-prac {
+  padding: 12px;
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-radius: 6px;
+  font-family: "Fira Code", "Monaco", "Consolas", monospace;
+  font-size: 13px;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.code-preview-content-prac pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.modal-footer-prac {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 20px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-secondary-prac {
+  padding: 10px 20px;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary-prac:hover {
+  background-color: #e5e7eb;
+}
+
+.btn-primary-prac {
+  padding: 10px 20px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-primary-prac:hover {
+  background-color: #2563eb;
+}
+
+.btn-primary-prac:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.editor-actions-header-prac {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Full question content layout */
+.full-question-content-prac {
+  display: flex;
+  height: calc(100vh - 150px);
+  position: relative;
+}
+
+.full-question-detail-prac {
+  overflow-y: auto;
+  padding-right: 16px;
+  height: 100%;
+  transition: width 0.2s;
+}
+
+.full-code-editor-section-prac {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s;
 }

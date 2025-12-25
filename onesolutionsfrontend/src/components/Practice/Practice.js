@@ -43,6 +43,19 @@ const Practice = () => {
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
 
+  // Add state for save snippet modal
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [snippetName, setSnippetName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [mySnippets, setMySnippets] = useState([]);
+  const [showSnippetsModal, setShowSnippetsModal] = useState(false);
+
+  // Add state for resize functionality
+  const [editorWidth, setEditorWidth] = useState(50);
+  const isResizing = useRef(false);
+  const startX = useRef(0);
+  const startWidth = useRef(50);
+
   const pyodideRef = useRef(null);
   const [pyodideReady, setPyodideReady] = useState(false);
 
@@ -50,6 +63,110 @@ const Practice = () => {
   const topicId = location.state?.topicId;
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
+
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
+  // Resize functionality
+  const startResize = useCallback(
+    (e) => {
+      isResizing.current = true;
+      startX.current = e.clientX;
+      startWidth.current = editorWidth;
+      document.body.style.cursor = "ew-resize";
+      document.body.style.userSelect = "none";
+    },
+    [editorWidth]
+  );
+
+  const stopResize = useCallback(() => {
+    isResizing.current = false;
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+  }, []);
+
+  const handleResize = useCallback((e) => {
+    if (!isResizing.current) return;
+    const deltaX = e.clientX - startX.current;
+    const containerWidth =
+      document.querySelector(".full-question-content-prac")?.offsetWidth ||
+      window.innerWidth;
+    const deltaPercent = (deltaX / containerWidth) * 100;
+    let newWidth = startWidth.current + deltaPercent;
+    newWidth = Math.max(30, Math.min(70, newWidth));
+    setEditorWidth(newWidth);
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousemove", handleResize);
+    document.addEventListener("mouseup", stopResize);
+    return () => {
+      document.removeEventListener("mousemove", handleResize);
+      document.removeEventListener("mouseup", stopResize);
+    };
+  }, [handleResize, stopResize]);
+
+  // Load snippets
+  const fetchMySnippets = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(`${API_URL}/api/code-snippets/my-snippets`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setMySnippets(result.data.snippets || []);
+      }
+    } catch (error) {
+      console.error("Fetch snippets error:", error);
+    }
+  };
+
+  // Handle save snippet
+  const handleSaveSnippet = async () => {
+    if (!snippetName.trim()) {
+      alert("Please enter a name for your snippet");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const snippetData = {
+        snippetName: snippetName.trim(),
+        language: selectedLanguage,
+        javascriptCode: code,
+      };
+
+      const response = await fetch(`${API_URL}/api/code-snippets/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(snippetData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Snippet saved successfully!");
+        setShowSaveModal(false);
+        setSnippetName("");
+        fetchMySnippets();
+      } else {
+        alert(`Failed to save: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      alert("Failed to save snippet");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   useEffect(() => {
     const loadProgress = async () => {
@@ -77,6 +194,7 @@ const Practice = () => {
     };
 
     loadProgress();
+    fetchMySnippets();
   }, []);
 
   const checkPracticeCompletion = useCallback(async () => {
@@ -510,16 +628,10 @@ builtins.input = custom_input
     }
   };
 
-  // Replace your playCoinSound function with this:
-
   const playSuccessSound = () => {
     try {
-      // Create a new Audio object and play it
-      const audio = new Audio("/sounds/success-sound.mp3"); // Update path if needed
-      audio.volume = 0.2; // Control volume (0.0 to 1.0)
-
-      // Optional: Play sound even if user hasn't interacted yet
-      // This is handled by the user's click on "Submit"
+      const audio = new Audio("/sounds/success-sound.mp3");
+      audio.volume = 0.2;
       audio.play().catch((e) => {
         console.log(
           "Audio play failed, likely due to browser autoplay policy:",
@@ -531,9 +643,8 @@ builtins.input = custom_input
     }
   };
 
-  // Also update the celebrateSuccess function to use the new sound:
   const celebrateSuccess = () => {
-    playSuccessSound(); // 🔊 Play the new, better sound
+    playSuccessSound();
 
     const duration = 1800;
     const end = Date.now() + duration;
@@ -615,7 +726,6 @@ builtins.input = custom_input
         setOutput(successMessage);
         celebrateSuccess();
 
-        // Set toast message with correct values
         setToastMessage(
           `✅ Hurrah! ${passedCount}/${selectedQuestion.testCases.length} Test Cases Passed`
         );
@@ -677,8 +787,8 @@ builtins.input = custom_input
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -729,7 +839,10 @@ builtins.input = custom_input
         </div>
 
         <div className="full-question-content-prac">
-          <div className="full-question-detail-prac">
+          <div
+            className="full-question-detail-prac"
+            style={{ width: `${100 - editorWidth}%` }}
+          >
             <div className="question-description-section-prac">
               <div className="desc-progre">
                 <h3>Description</h3>
@@ -792,10 +905,42 @@ builtins.input = custom_input
                       <div key={visibleIndex} className="test-case-prac">
                         <div className="test-case-header-prac">
                           <span className="test-case-number-prac">
-                            Test Case {visibleIndex + 1}
+                            Case {visibleIndex + 1}
                           </span>
-                          <span className="test-case-visibility-prac visible-prac">
-                            Visible
+                          <span className="">
+                            {testResult && (
+                              <div
+                                className={`test-result-prac ${
+                                  testResult.passed
+                                    ? "passed-prac"
+                                    : "failed-prac"
+                                }`}
+                              >
+                                {testResult.passed ? (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    fill="green"
+                                    className="bi bi-check-circle-fill"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                  </svg>
+                                ) : (
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="18"
+                                    height="18"
+                                    fill="red"
+                                    className="bi bi-x-circle-fill"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                                  </svg>
+                                )}
+                              </div>
+                            )}
                           </span>
                         </div>
                         <div className="test-case-content-prac">
@@ -805,60 +950,48 @@ builtins.input = custom_input
                               <pre>{testCase.input || "No input"}</pre>
                             </div>
                           </div>
-                          <div className="test-output-prac">
-                            <label>Expected Output:</label>
-                            <div className="code-block-prac small-prac">
-                              <pre>{testCase.output}</pre>
+                          <div>
+                            <div
+                              className={`output-section ${
+                                testResult ? "with-result" : "only-expected"
+                              }`}
+                            >
+                              <div className="expected-output">
+                                <span className="output-label-prac">
+                                  Expected Output:
+                                </span>
+                                <div
+                                  className="code-block-prac small-prac"
+                                  style={{ marginTop: "5px" }}
+                                >
+                                  <pre>{testCase.output}</pre>
+                                </div>
+                              </div>
+                              {testResult && (
+                                <div className="test-execution-result-prac">
+                                  <div className="output-comparison-prac">
+                                    <div className="output-row-prac">
+                                      <span className="output-label-prac">
+                                        Your Output:
+                                      </span>
+                                      <div
+                                        className={`code-block-prac small-prac ${
+                                          testResult.passed
+                                            ? "success-prac"
+                                            : "error-prac"
+                                        }`}
+                                      >
+                                        <pre>
+                                          {testResult.actualOutput || "(empty)"}
+                                        </pre>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
-                        {testResult && (
-                          <div className="test-execution-result-prac">
-                            <div
-                              className={`test-result-prac ${
-                                testResult.passed
-                                  ? "passed-prac"
-                                  : "failed-prac"
-                              }`}
-                            >
-                              {testResult.passed ? "✓ Passed" : "✗ Failed"}
-                            </div>
-                            {!testResult.passed && (
-                              <div className="output-comparison-prac">
-                                <div className="output-row-prac">
-                                  <span className="output-label-prac">
-                                    Your Output:
-                                  </span>
-                                  <div className="code-block-prac small-prac error-prac">
-                                    <pre>
-                                      {testResult.actualOutput || "(empty)"}
-                                    </pre>
-                                  </div>
-                                </div>
-                                <div className="output-row-prac">
-                                  <span className="output-label-prac">
-                                    Expected Output:
-                                  </span>
-                                  <div className="code-block-prac small-prac success-prac">
-                                    <pre>{testResult.expectedOutput}</pre>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                            {testResult.passed && (
-                              <div className="output-comparison-prac">
-                                <div className="output-row-prac">
-                                  <span className="output-label-prac">
-                                    Your Output:
-                                  </span>
-                                  <div className="code-block-prac small-prac success-prac">
-                                    <pre>{testResult.actualOutput}</pre>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        )}
                       </div>
                     );
                   })}
@@ -866,7 +999,13 @@ builtins.input = custom_input
             </div>
           </div>
 
-          <div className="full-code-editor-section-prac">
+          {/* Resizer */}
+          <div className="resizer-prac" onMouseDown={startResize} />
+
+          <div
+            className="full-code-editor-section-prac"
+            style={{ width: `${editorWidth}%` }}
+          >
             <div className="editor-header-prac">
               <div className="editor-title-prac">
                 <div className="editor-info-prac">
@@ -875,33 +1014,41 @@ builtins.input = custom_input
                     : selectedLanguage === "javascript"
                     ? "JavaScript"
                     : "Other"}{" "}
-                  | Lines: {code.split("\n").length} | Length: {code.length}
-                  {isEmptyCode(code) && (
-                    <span className="empty-warning-prac"> • Empty code!</span>
-                  )}
                 </div>
               </div>
-              <div className="editor-controls-prac">
-                <div className="editor-actions-prac">
-                  <button
-                    className="run-button-prac"
-                    onClick={handleRunCode}
-                    disabled={
-                      isRunning ||
-                      (selectedLanguage === "python" && !pyodideReady)
-                    }
-                  >
-                    {isRunning ? <span className="loader-prac"></span> : "Run"}
-                  </button>
-                  <button
-                    className="submit-button-prac"
-                    onClick={handleSubmitCode}
-                    disabled={isRunning || isEmptyCode(code)}
-                  >
-                    Submit
-                  </button>
-                </div>
-              </div>
+              <button
+                className="save-snippet-button-prac"
+                onClick={() => setShowSaveModal(true)}
+                title="Save Snippet"
+              >
+                <svg
+                  width="20px"
+                  height="20px"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  color="#64748b"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M3.8 3.2C3.64087 3.2 3.48826 3.26321 3.37574 3.37574C3.26321 3.48826 3.2 3.64087 3.2 3.8V12.2C3.2 12.3591 3.26321 12.5117 3.37574 12.6243C3.48826 12.7368 3.64087 12.8 3.8 12.8H12.2C12.3591 12.8 12.5117 12.7368 12.6243 12.6243C12.7368 12.5117 12.8 12.3591 12.8 12.2V5.84853L10.1515 3.2H3.8ZM2.52721 2.52721C2.86477 2.18964 3.32261 2 3.8 2H10.4C10.5591 2 10.7117 2.06321 10.8243 2.17574L13.8243 5.17574C13.9368 5.28826 14 5.44087 14 5.6V12.2C14 12.6774 13.8104 13.1352 13.4728 13.4728C13.1352 13.8104 12.6774 14 12.2 14H3.8C3.32261 14 2.86477 13.8104 2.52721 13.4728C2.18964 13.1352 2 12.6774 2 12.2V3.8C2 3.32261 2.18964 2.86477 2.52721 2.52721Z"
+                    fill="#64748b"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M5.33325 9.20033C5.33325 8.90577 5.55711 8.66699 5.83325 8.66699H10.8333C11.1094 8.66699 11.3333 8.90577 11.3333 9.20033V13.467C11.3333 13.7615 11.1094 14.0003 10.8333 14.0003C10.5571 14.0003 10.3333 13.7615 10.3333 13.467V9.73366H6.33325V13.467C6.33325 13.7615 6.10939 14.0003 5.83325 14.0003C5.55711 14.0003 5.33325 13.7615 5.33325 13.467V9.20033Z"
+                    fill="#64748b"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M5.86659 2C6.16114 2 6.39992 2.2132 6.39992 2.47619V4.38095H10.1333C10.4278 4.38095 10.6666 4.59415 10.6666 4.85714C10.6666 5.12014 10.4278 5.33333 10.1333 5.33333H5.86659C5.57203 5.33333 5.33325 5.12014 5.33325 4.85714V2.47619C5.33325 2.2132 5.57203 2 5.86659 2Z"
+                    fill="#64748b"
+                  ></path>
+                </svg>
+              </button>
             </div>
 
             <div className="code-editor-container-prac">
@@ -940,30 +1087,127 @@ builtins.input = custom_input
               />
             </div>
 
-            <div className="output-section-prac">
-              <div className="output-header-prac">
-                <h4>Execution Result</h4>
-                {output && (
-                  <span
-                    className={`output-status-prac ${
-                      output.includes("✅")
-                        ? "success-prac"
-                        : output.includes("❌")
-                        ? "error-prac"
-                        : "info-prac"
-                    }`}
-                  >
-                    {output.includes("✅")
-                      ? "Success"
-                      : output.includes("❌")
-                      ? "Failed"
-                      : "Running"}
-                  </span>
-                )}
+            <div className="editor-controls-prac">
+              <div className="editor-actions-prac">
+                <button
+                  className="run-button-prac"
+                  onClick={handleRunCode}
+                  disabled={
+                    isRunning ||
+                    (selectedLanguage === "python" && !pyodideReady)
+                  }
+                >
+                  {isRunning ? <span className="loader-prac"></span> : "Run"}
+                </button>
+                <button
+                  className="submit-button-prac"
+                  onClick={handleSubmitCode}
+                  disabled={isRunning || isEmptyCode(code)}
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Save Snippet Modal */}
+        {showSaveModal && (
+          <div className="modal-overlay-prac">
+            <div className="modal-prac">
+              <div className="modal-header-prac">
+                <h3>Save Code Snippet</h3>
+                <button onClick={() => setShowSaveModal(false)}>×</button>
+              </div>
+              <div className="modal-body-prac">
+                <div className="form-group-prac">
+                  <label htmlFor="snippetName">Snippet Name</label>
+                  <input
+                    type="text"
+                    id="snippetName"
+                    value={snippetName}
+                    onChange={(e) => setSnippetName(e.target.value)}
+                    placeholder="Enter snippet name"
+                    autoFocus
+                  />
+                </div>
+                <div className="form-group-prac">
+                  <label>Language</label>
+                  <div className="language-display-prac">
+                    {selectedLanguage === "python" && (
+                      <img
+                        src="/assets/python_logo.png"
+                        alt="Python"
+                        width="24"
+                        height="24"
+                      />
+                    )}
+                    {selectedLanguage === "javascript" && (
+                      <img
+                        src="/assets/javascript_logo.png"
+                        alt="JavaScript"
+                        width="24"
+                        height="24"
+                      />
+                    )}
+                    {selectedLanguage === "java" && (
+                      <img
+                        src="/assets/java_logo.png"
+                        alt="Java"
+                        width="24"
+                        height="24"
+                      />
+                    )}
+                    {selectedLanguage === "sql" && (
+                      <img
+                        src="/assets/sql_logo.png"
+                        alt="SQL"
+                        width="24"
+                        height="24"
+                      />
+                    )}
+                    <span className="language-name-prac">
+                      {selectedLanguage === "python"
+                        ? "Python"
+                        : selectedLanguage === "javascript"
+                        ? "JavaScript"
+                        : selectedLanguage === "java"
+                        ? "Java"
+                        : selectedLanguage === "sql"
+                        ? "SQL"
+                        : selectedLanguage}
+                    </span>
+                  </div>
+                </div>
+                <div className="code-preview-prac">
+                  <label>Code Preview</label>
+                  <div className="code-preview-content-prac">
+                    <pre>
+                      {code.substring(0, 200)}
+                      {code.length > 200 ? "..." : ""}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer-prac">
+                <button
+                  className="btn-secondary-prac"
+                  onClick={() => setShowSaveModal(false)}
+                  disabled={saving}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn-primary-prac"
+                  onClick={handleSaveSnippet}
+                  disabled={saving || !snippetName.trim()}
+                >
+                  {saving ? "Saving..." : "Save Snippet"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -1027,6 +1271,7 @@ builtins.input = custom_input
                     <tr>
                       <th>Status</th>
                       <th>Question</th>
+                      <th>Test Cases</th>
                       <th>Difficulty</th>
                       <th>Score</th>
                       <th>Last Attempt</th>
@@ -1066,10 +1311,13 @@ builtins.input = custom_input
                             <div className="question-title-main-prac">
                               {question.title}
                             </div>
-                            <div className="question-description-prac">
-                              {question.description}
-                            </div>
                           </td>
+                          <td className="difficulty-cell-prac">
+                            <span className="difficulty-badge-prac">
+                              {question.testCases.length}
+                            </span>
+                          </td>
+
                           <td className="difficulty-cell-prac">
                             <span
                               className={`difficulty-badge-prac ${question.difficulty.toLowerCase()}`}

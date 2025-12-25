@@ -979,7 +979,7 @@ remoteRunners={{
     const deltaPercent = (deltaX / containerWidth) * 100;
 
     let newWidth = startWidth.current + deltaPercent;
-    newWidth = Math.max(20, Math.min(80, newWidth));
+    newWidth = Math.max(15, Math.min(85, newWidth));
 
     setEditorWidth(newWidth);
   }, []);
