@@ -2800,5 +2800,238 @@ export const responsiveCodingPracticesData = {
         },
       ],
     },
+    {
+      id: "responsive-coding-practice-16",
+      title: "Responsive Coding Practice 16",
+      description:
+        "",
+      questions: [
+        {
+          id: "ba97e159-e385eec23d-b9c16a80969b",
+          title: "Ecommerce Website Explore Section",
+          description:
+            "In this assignment, let's build a Ecommerce Website Explore Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 35,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774463/ecommerce-explore-section-xs-v1_mfdguw.png" />
+               
+                  <p class="">Medium (Size >= 768px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774462/ecommerce-explore-section-md-v1_t03xv2.png" class="desc-que-img" />
+               
+                  <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774462/ecommerce-explore-section-lg-v1_p2bn00.png" class="desc-que-img" />
+               
+                   <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                     
+                    </ul>
+                  </p>
+                </div>
+                
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+               
+                <ul>
+                    <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774672/ecommerce-explore-mamba-watch-img_k5plaw.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774672/ecommerce-explore-mamba-watch-img_k5plaw.png</a></p></li>
+                    <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774673/ecommerce-explore-camera-img_r4lqup.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774673/ecommerce-explore-camera-img_r4lqup.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774705/ecommerce-explore-sport-and-fitness-img_bgd2dn.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774705/ecommerce-explore-sport-and-fitness-img_bgd2dn.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774715/ecommerce-explore-ear-phones-pink-img_zluafk.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774715/ecommerce-explore-ear-phones-pink-img_zluafk.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774719/ecommerce-explore-tv-img_ivr7bf.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774719/ecommerce-explore-tv-img_ivr7bf.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774720/ecommerce-explore-joy-stick-img_ipeq8o.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774720/ecommerce-explore-joy-stick-img_ipeq8o.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774735/ecommerce-explore-speakers-big-img_t01rf4.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774735/ecommerce-explore-speakers-big-img_t01rf4.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774798/ecommerce-explore-vr-set-img_vyk6uw.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774798/ecommerce-explore-vr-set-img_vyk6uw.png</a></p>
+</li>
+<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774800/ecommerce-explore-tablet-device-img_zlv3dp.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774800/ecommerce-explore-tablet-device-img_zlv3dp.png</a></p>
+</li>
+                </ul>
+                <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors cf5f7fa">#f5f7fa</div>
+                <div  class="desc-colors c183b56">#183b56</div>
+                <div  class="desc-colors c1f2933">#1f2933</div>
+                <div  class="desc-colors cff9f00">#ff9f00</div>
+
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+           
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+           
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+              {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-row",
+              type: "html-validation",
+              input: "check-flex-row",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name shadow",
+              type: "html-validation",
+              input: "check-shadow-class",
+              output: "true",
+              visible: true,
+            },
+
+          ],
+        },
+        {
+          id: "5c26526a-4b533162a-45c93270b340",
+          title: "Ecommerce Website Contact Us Section",
+          description:
+            "In this assignment, let's build a Ecommerce Website Contact Us Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 25,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766775914/ecommerce-contact-us-section-v1_qxan3z.png" class="desc-que-img" />
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                   <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors cf5f7fa">#f5f7fa</div>
+                <div  class="desc-colors cff9f00">#ff9f00</div>
+                <div  class="desc-colors c183b56">#183b56</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+          {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              },
+              {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            }
+          ],
+        },
+      ],
+    },
   ],
 };
