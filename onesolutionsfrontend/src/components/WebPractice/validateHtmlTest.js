@@ -1189,7 +1189,62 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
         };
       }
             
-            
+      case "check-hr-element": {
+        const hrElements = iframeDoc.querySelectorAll("hr");
+        const hasHr = hrElements.length > 0;
+      
+        return {
+          passed: hasHr,
+          actual: hasHr
+            ? `Found ${hrElements.length} hr element(s)`
+            : "No hr element found",
+        };
+      }
+
+      case "check-span-element": {
+        const spanElements = iframeDoc.querySelectorAll("span");
+        const hasSpan = spanElements.length > 0;
+      
+        return {
+          passed: hasSpan,
+          actual: hasSpan
+            ? `Found ${spanElements.length} span element(s)`
+            : "No span element found",
+        };
+      }
+      
+      case "check-order-md-class": {
+        const allElements = iframeDoc.querySelectorAll("*");
+      
+        const hasOrderMdClass = Array.from(allElements).some((el) =>
+          Array.from(el.classList).some((cls) => cls.startsWith("order-md-"))
+        );
+      
+        return {
+          passed: hasOrderMdClass,
+          actual: hasOrderMdClass
+            ? "Found bootstrap order-md-* class"
+            : "No bootstrap order-md-* class found",
+        };
+      }
+      case "check-bootstrap-arrow-icon": {
+        const iconElements = iframeDoc.querySelectorAll("i");
+      
+        const hasArrowIcon = Array.from(iconElements).some((icon) =>
+          Array.from(icon.classList).some(
+            (cls) => cls.startsWith("bi-arrow") || cls.includes("arrow")
+          )
+        );
+      
+        return {
+          passed: hasArrowIcon,
+          actual: hasArrowIcon
+            ? "Found bootstrap arrow icon"
+            : "No bootstrap arrow icon found",
+        };
+      }
+      
+      
 
       default:
         return {

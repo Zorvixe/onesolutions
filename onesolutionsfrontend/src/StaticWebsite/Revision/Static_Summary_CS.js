@@ -187,19 +187,19 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         />
         
         <h3>8. Line Break Element</h3>
-<p>The HTML "br" element helps to break the text and continue it in the next line.</p>
-<CodeBlock
-  language="html"
-  code={`<p>
-  Twinkle, twinkle, little star, <br />
-  How I wonder what you are!
+        <p>The HTML "br" element helps to break the text and continue it in the next line.</p>
+        <CodeBlock
+          language="html"
+          code={`<p>
+Twinkle, twinkle, little star, <br />
+How I wonder what you are!
 </p>`}
 />
-<h3>9. Horizontal Rule Element</h3>
-<p>The HTML "hr" element inserts a horizontal line and helps to separate the content.</p>
-<CodeBlock
-  language="html"
-  code={`<h1 class="heading">
+        <h3>9. Horizontal Rule Element</h3>
+        <p>The HTML "hr" element inserts a horizontal line and helps to separate the content.</p>
+        <CodeBlock
+          language="html"
+          code={`<h1 class="heading">
   Twinkle Twinkle Little Star
 </h1>
 <hr />
@@ -208,289 +208,289 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 </p>
 <hr />`}
 />
-<h3>10. HTML Lists</h3>
-<p>
-  The List is a way to group related pieces of information so that they are easy to read and understand.
-</p>
-<p>
-  For example, Shopping list, Todo list, etc.
-</p>
-<p>There are mainly two types of Lists available in HTML.</p>
-<ul>
-  <li>Unordered List</li>
-  <li>Ordered List</li>
-</ul>
-<h3>11. Unordered List</h3>
-<p>
-  It is a collection of related items that have no special order or sequence.
-</p>
-<p>For example, List of Hobbies</p>
-<ul>
-  <li>Painting</li>
-  <li>Reading Books</li>
-  <li>Playing the Guitar</li>
-</ul>
+        <h3>10. HTML Lists</h3>
+        <p>
+          The List is a way to group related pieces of information so that they are easy to read and understand.
+        </p>
+        <p>
+          For example, Shopping list, Todo list, etc.
+        </p>
+        <p>There are mainly two types of Lists available in HTML.</p>
+        <ul>
+          <li>Unordered List</li>
+          <li>Ordered List</li>
+        </ul>
+        <h3>11. Unordered List</h3>
+        <p>
+          It is a collection of related items that have no special order or sequence.
+        </p>
+        <p>For example, List of Hobbies</p>
+        <ul>
+          <li>Painting</li>
+          <li>Reading Books</li>
+          <li>Playing the Guitar</li>
+        </ul>
 
-<p>
-  The Unordered List starts with "<b>ul</b>" tag. It wraps around all the list items and each list item starts with the "<b>li</b>" tag.
-</p>
+        <p>
+          The Unordered List starts with "<b>ul</b>" tag. It wraps around all the list items and each list item starts with the "<b>li</b>" tag.
+        </p>
 
-<CodeBlock
-  language="html"
-  code={`<ul>
-  <li>Painting</li>
-  <li>Reading Books</li>
+        <CodeBlock
+          language="html"
+          code={`<ul>
+<li>Painting</li>
+<li>Reading Books</li>
 </ul>`}
 />
 
-<p>
-  By default, list items in the Unordered List are marked with bullets.
-</p>
-<h3>11.1. Styling Unordered List</h3>
-<p>
-  The CSS "list-style-type" property is used to style the List.
-</p>
+        <p>
+          By default, list items in the Unordered List are marked with bullets.
+        </p>
+        <h3>11.1. Styling Unordered List</h3>
+        <p>
+          The CSS "list-style-type" property is used to style the List.
+        </p>
 
-<CodeBlock
-  language="css"
-  code={`.unordered-square-list {
+        <CodeBlock
+          language="css"
+          code={`.unordered-square-list {
   list-style-type: square;
 }`}
 />
 
-<p>
-  You can use one of the below values of the CSS "list-style-type" property to style the Unordered List.
-</p>
-<code>
-  Values: square, circle, disc, none
-</code>
-<h3>12. Ordered List</h3>
-<p>
-  It is a collection of related items that follow some order or have a sequence.
-</p>
-<p>For example, Web Technologies</p>
-<ul>
-  <li>HTML</li>
-  <li>CSS</li>
-  <li>JavaScript</li>
-</ul>
+        <p>
+          You can use one of the below values of the CSS "list-style-type" property to style the Unordered List.
+        </p>
+        <code>
+          Values: square, circle, disc, none
+        </code>
+        <h3>12. Ordered List</h3>
+        <p>
+          It is a collection of related items that follow some order or have a sequence.
+        </p>
+        <p>For example, Web Technologies</p>
+        <ul>
+          <li>HTML</li>
+          <li>CSS</li>
+          <li>JavaScript</li>
+        </ul>
 
-<p>
-  The Ordered List starts with "<b>ol</b>" tag. It wraps around all the list items and each list item starts with the "<b>li</b>" tag.
-</p>
+        <p>
+          The Ordered List starts with "<b>ol</b>" tag. It wraps around all the list items and each list item starts with the "<b>li</b>" tag.
+        </p>
 
-<CodeBlock
-  language="html"
-  code={`<ol>
-  <li>Go through the HTML elements and CSS properties</li>
-  <li>Complete the Todolist Coding Practice</li>
-  <li>Go through the Bootstrap Concepts</li>
+        <CodeBlock
+          language="html"
+          code={`<ol>
+<li>Go through the HTML elements and CSS properties</li>
+<li>Complete the Todolist Coding Practice</li>
+<li>Go through the Bootstrap Concepts</li>
 </ol>`}
 />
 
-<p>
-  By default, list items in the Ordered List are marked with numbers.
-</p>
-<h3>12.1. Styling Ordered List</h3>
-<p>
-  The CSS "list-style-type" property is used to style the List.
-</p>
+        <p>
+          By default, list items in the Ordered List are marked with numbers.
+        </p>
+        <h3>12.1. Styling Ordered List</h3>
+        <p>
+          The CSS "list-style-type" property is used to style the List.
+        </p>
 
-<CodeBlock
-  language="css"
-  code={`.ordered-lower-roman-list {
+        <CodeBlock
+          language="css"
+          code={`.ordered-lower-roman-list {
   list-style-type: lower-roman;
 }`}
 />
 
-<p>
-  You can use one of the below values of the CSS "list-style-type" property to style the Ordered List.
-</p>
-<code>
-  Values: upper-alpha, lower-alpha, upper-roman, lower-roman, decimal, none
-</code>
+        <p>
+          You can use one of the below values of the CSS "list-style-type" property to style the Ordered List.
+        </p>
+        <code>
+          Values: upper-alpha, lower-alpha, upper-roman, lower-roman, decimal, none
+        </code>
 
-       
-      </section>
+              
+              </section>
 
-      {/* HTML Attributes */}
-      <section
-  style={{
-    marginBottom: "4rem",
-    background: "white",
-    padding: "2rem",
-    borderRadius: "12px",
-    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-  }}
->
-  <h2
-    style={{
-      color: "#2980b9",
-      borderBottom: "4px solid #9b59b6",
-      paddingBottom: "0.5rem",
-    }}
-  >
-    HTML Attributes
-  </h2>
+              {/* HTML Attributes */}
+              <section
+          style={{
+            marginBottom: "4rem",
+            background: "white",
+            padding: "2rem",
+            borderRadius: "12px",
+            boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h2
+            style={{
+              color: "#2980b9",
+              borderBottom: "4px solid #9b59b6",
+              paddingBottom: "0.5rem",
+            }}
+          >
+            HTML Attributes
+          </h2>
 
-  <h3>1. HTML "id" Attribute</h3>
-  <p>
-    The HTML "id" attribute specifies a unique id for an HTML element. The value
-    of the "id" attribute must be unique within the HTML document.
-  </p>
+          <h3>1. HTML "id" Attribute</h3>
+          <p>
+            The HTML "id" attribute specifies a unique id for an HTML element. The value
+            of the "id" attribute must be unique within the HTML document.
+          </p>
 
-  <CodeBlock
-    language="html"
-    code={`<div id="section1">Section 1</div>`}
-  />
+          <CodeBlock
+            language="html"
+            code={`<div id="section1">Section 1</div>`}
+          />
 
-<div className="Warning-container">
-          <div>
-            <h5>
-              <i class="bi bi-exclamation-triangle"></i>Warning
-            </h5>
-          </div>
-          <ul>
-    <li>
-      The CCBP UI kit works only if the value of the HTML <b>id</b> attribute
-      of the container section has the prefix as <b>section</b>.
-    </li>
-    <li>
-      So, the id which we specify for any section should always contain its prefix
-      as <b>section</b> if you are using CCBP UI Kit.
-    </li>
-  </ul>
-        </div>
- 
+        <div className="Warning-container">
+                  <div>
+                    <h5>
+                      <i class="bi bi-exclamation-triangle"></i>Warning
+                    </h5>
+                  </div>
+                  <ul>
+            <li>
+              The CCBP UI kit works only if the value of the HTML <b>id</b> attribute
+              of the container section has the prefix as <b>section</b>.
+            </li>
+            <li>
+              So, the id which we specify for any section should always contain its prefix
+              as <b>section</b> if you are using CCBP UI Kit.
+            </li>
+          </ul>
+                </div>
+        
 
-  <h3>2. HTML "onclick" Attribute</h3>
-  <p>
-    The "onclick" event occurs when the user clicks on an HTML Element.
-  </p>
+          <h3>2. HTML "onclick" Attribute</h3>
+          <p>
+            The "onclick" event occurs when the user clicks on an HTML Element.
+          </p>
 
-  <CodeBlock
-    language="html"
-    code={`<button class="btn btn-primary" onclick="display('section3')">
+          <CodeBlock
+            language="html"
+            code={`<button class="btn btn-primary" onclick="display('section3')">
   Go to Section 3
 </button>`}
   />
 
-  <p>
-    The value of an HTML "onclick" attribute should be enclosed in double-quotes
-    and the value inside the brackets of "display()" should be enclosed in single
-    quotes.
-  </p>
+          <p>
+            The value of an HTML "onclick" attribute should be enclosed in double-quotes
+            and the value inside the brackets of "display()" should be enclosed in single
+            quotes.
+          </p>
 
-  <h3>3. The "src" Attribute</h3>
-  <p>
-    The HTML Attribute "src" specifies the path (URL) of the Image.
-  </p>
+          <h3>3. The "src" Attribute</h3>
+          <p>
+            The HTML Attribute "src" specifies the path (URL) of the Image.
+          </p>
 
-  <CodeBlock
-    language="html"
-    code={`<img
+          <CodeBlock
+            language="html"
+            code={`<img
   src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"
 />`}
   />
 
-  <h3>4. HTML "href" Attribute</h3>
-  <p>
-    The HTML "href" Attribute specifies the URL/ path of the page where the link
-    goes to.
-  </p>
+          <h3>4. HTML "href" Attribute</h3>
+          <p>
+            The HTML "href" Attribute specifies the URL/ path of the page where the link
+            goes to.
+          </p>
 
-  <CodeBlock
-    language="html"
-    code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
-  />
+          <CodeBlock
+            language="html"
+            code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
+          />
 
-  <h3>5. HTML "target" Attribute</h3>
-  <p>
-    The HTML "target" Attribute specifies where to open the linked web resource.
-  </p>
+          <h3>5. HTML "target" Attribute</h3>
+          <p>
+            The HTML "target" Attribute specifies where to open the linked web resource.
+          </p>
 
-  <CodeBlock
-    language="html"
-    code={`<a href="https://www.ccbp.in/" target="_blank">
+          <CodeBlock
+            language="html"
+            code={`<a href="https://www.ccbp.in/" target="_blank">
   Explore CCBP 4.0 Certification Programs
 </a>`}
   />
-</section>
+        </section>
 
-<section
-  style={{
-    marginBottom: "4rem",
-    background: "white",
-    padding: "2rem",
-    borderRadius: "12px",
-    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-  }}
->
-  <h2
-    style={{
-      color: "#2980b9",
-      borderBottom: "4px solid #e74c3c",
-      paddingBottom: "0.5rem",
-    }}
-  >
-    CSS Syntax
-  </h2>
+        <section
+          style={{
+            marginBottom: "4rem",
+            background: "white",
+            padding: "2rem",
+            borderRadius: "12px",
+            boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h2
+            style={{
+              color: "#2980b9",
+              borderBottom: "4px solid #e74c3c",
+              paddingBottom: "0.5rem",
+            }}
+          >
+            CSS Syntax
+          </h2>
 
-  <CodeBlock
-    language="css"
-    code={`selector {
+          <CodeBlock
+            language="css"
+            code={`selector {
   property1: value1;
   property2: value2;
 }`}
   />
-</section>
+        </section>
 
 
-<section
-  style={{
-    marginBottom: "4rem",
-    background: "white",
-    padding: "2rem",
-    borderRadius: "12px",
-    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-  }}
->
-  <h2
-    style={{
-      color: "#2980b9",
-      borderBottom: "4px solid #e74c3c",
-      paddingBottom: "0.5rem",
-    }}
-  >
-    CSS Text Properties
-  </h2>
+        <section
+          style={{
+            marginBottom: "4rem",
+            background: "white",
+            padding: "2rem",
+            borderRadius: "12px",
+            boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+          }}
+        >
+          <h2
+            style={{
+              color: "#2980b9",
+              borderBottom: "4px solid #e74c3c",
+              paddingBottom: "0.5rem",
+            }}
+          >
+            CSS Text Properties
+          </h2>
 
-  <h3>1. Text Align</h3>
-  <p>
-    The CSS "text-align" property specifies the horizontal alignment of the text
-    in an HTML element.
-  </p>
+          <h3>1. Text Align</h3>
+          <p>
+            The CSS "text-align" property specifies the horizontal alignment of the text
+            in an HTML element.
+          </p>
 
-  <CodeBlock
-    language="css"
-    code={`.h-center {
+          <CodeBlock
+            language="css"
+            code={`.h-center {
   text-align: center;
 }`}
   />
 
-  <p><b>Value</b> &nbsp;&nbsp; <b>Description</b></p>
-  <ul>
-    <li>center &nbsp;&nbsp; Aligns the text to the center</li>
-    <li>left &nbsp;&nbsp; Aligns the text to the left</li>
-    <li>right &nbsp;&nbsp; Aligns the text to the right</li>
-  </ul>
+          <p><b>Value</b> &nbsp;&nbsp; <b>Description</b></p>
+          <ul>
+            <li>center &nbsp;&nbsp; Aligns the text to the center</li>
+            <li>left &nbsp;&nbsp; Aligns the text to the left</li>
+            <li>right &nbsp;&nbsp; Aligns the text to the right</li>
+          </ul>
 
-  <h3>2. Color</h3>
-  <p>The CSS "color" property specifies the color of the text.</p>
+          <h3>2. Color</h3>
+          <p>The CSS "color" property specifies the color of the text.</p>
 
-  <CodeBlock
-    language="css"
-    code={`.main-heading {
+          <CodeBlock
+            language="css"
+            code={`.main-heading {
   color: blue;
 }
 .paragraph {
@@ -498,64 +498,67 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
   />
 
-  <h3>2.1. Sample Colors</h3>
-  <p>Values: blue, grey, lightblue, orange, red, green</p>
+          <h3>2.1. Sample Colors</h3>
+          <p>Values: blue, grey, lightblue, orange, red, green</p>
 
-  <h3>2.2. Hex Code</h3>
-  <p>CSS Colors can be represented in multiple ways:</p>
-  <ul>
-    <li>Color names</li>
-    <li>Hex Code</li>
-    <li>HSL</li>
-    <li>RGB and many more...</li>
-  </ul>
+          <h3>2.2. Hex Code</h3>
+          <p>CSS Colors can be represented in multiple ways:</p>
+          <ul>
+            <li>Color names</li>
+            <li>Hex Code</li>
+            <li>HSL</li>
+            <li>RGB and many more...</li>
+          </ul>
 
-  <p>
-    Since few colors have the Color names, Hex Codes make a good alternative to
-    pick a wide variety of colors.
-  </p>
+          <p>
+            Since few colors have the Color names, Hex Codes make a good alternative to
+            pick a wide variety of colors.
+          </p>
 
-  <p>Some of the Color names and their Hex Codes are:</p>
+          <p>Some of the Color names and their Hex Codes are:</p>
 
-  <ul>
-    <li>orange &nbsp;&nbsp; #ffa500</li>
-    <li>red &nbsp;&nbsp; #ff0000</li>
-    <li>blue &nbsp;&nbsp; #0000ff</li>
-    <li>green &nbsp;&nbsp; #008000</li>
-    <li>- &nbsp;&nbsp; #012d36</li>
-    <li>- &nbsp;&nbsp; #432711</li>
-    <li>- &nbsp;&nbsp; #25b1cc</li>
-  </ul>
+          <ul>
+            <li>orange &nbsp;&nbsp; #ffa500</li>
+            <li>red &nbsp;&nbsp; #ff0000</li>
+            <li>blue &nbsp;&nbsp; #0000ff</li>
+            <li>green &nbsp;&nbsp; #008000</li>
+            <li>- &nbsp;&nbsp; #012d36</li>
+            <li>- &nbsp;&nbsp; #432711</li>
+            <li>- &nbsp;&nbsp; #25b1cc</li>
+          </ul>
 
-  <CodeBlock
-    language="css"
-    code={`.button {
+          <CodeBlock
+            language="css"
+            code={`.button {
   background-color: #25b1cc;
 }`}
   />
 
-  <h3>2.2.1 How to pick a color using Hex Code</h3>
-  <p>
-    The color picker lets you pick a color among the approximately 16,777,216
-    colors available.
-  </p>
-  <p>One of the simplest ways to access a color picker is:</p>
-  <ul>
-    <li>Type color picker in the Google Search bar and search it.</li>
-  </ul>
+          <h3>2.2.1 How to pick a color using Hex Code</h3>
+          <p>
+            The color picker lets you pick a color among the approximately 16,777,216
+            colors available.
+          </p>
+          <p>One of the simplest ways to access a color picker is:</p>
+          <ul>
+            <li>Type color picker in the Google Search bar and search it.</li>
+          </ul>
 
-  <p>color-picker</p>
+          <p>color-picker</p>
+          <img
+          src="/assets/img/color_picker.png"
+          alt="Color Picker"
+          style={{ width: "90%", height: "350px" }}
+        />
+          <h3>3. Font Family</h3>
+          <p>
+            The CSS "font-family" property specifies the font for an element.
+          </p>
 
-  <h3>3. Font Family</h3>
-  <p>
-    The CSS "font-family" property specifies the font for an element.
-  </p>
-
-  <CodeBlock
-    language="css"
-    code={`@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
-
-.main-heading {
+          <CodeBlock
+            language="css"
+            code={`@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+ .main-heading {
   font-family: "Roboto";
 }
 .paragraph {
@@ -563,23 +566,23 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
   />
 
-  <p>You can use one of the below values of the "font-family" property,</p>
-  <p>Value</p>
-  <p>font-families-and-appearance</p>
+          <p>You can use one of the below values of the "font-family" property,</p>
+          <p>Value</p>
+          <p>font-families-and-appearance</p>
 
-  <p><b>Note:</b></p>
-  <ol>
-    <li>To use font families, you need to import their style sheets into your CSS file.</li>
-    <li>There shouldn't be any spelling mistakes in the values of the <code>font-family</code> property.</li>
-    <li>There must be quotations around the value of the <code>font-family</code> property.</li>
-  </ol>
+          <p><b>Note:</b></p>
+          <ol>
+            <li>To use font families, you need to import their style sheets into your CSS file.</li>
+            <li>There shouldn't be any spelling mistakes in the values of the <code>font-family</code> property.</li>
+            <li>There must be quotations around the value of the <code>font-family</code> property.</li>
+          </ol>
 
-  <h3>4. Font Size</h3>
-  <p>The CSS "font-size" property specifies the size of the font.</p>
+          <h3>4. Font Size</h3>
+          <p>The CSS "font-size" property specifies the size of the font.</p>
 
-  <CodeBlock
-    language="css"
-    code={`.main-heading {
+          <CodeBlock
+            language="css"
+            code={`.main-heading {
   font-size: 36px;
 }
 .paragraph {
@@ -587,21 +590,21 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
   />
 
-  <p><b>Note:</b></p>
-  <ol>
-    <li>You must add <code>px</code> after the number in the value of the <code>font-size</code> property.</li>
-    <li>There shouldn't be any space between the number and <code>px</code>.</li>
-    <li>There shouldn't be any quotations around the value of the <code>font-size</code> property.</li>
-  </ol>
+          <p><b>Note:</b></p>
+          <ol>
+            <li>You must add <code>px</code> after the number in the value of the <code>font-size</code> property.</li>
+            <li>There shouldn't be any space between the number and <code>px</code>.</li>
+            <li>There shouldn't be any quotations around the value of the <code>font-size</code> property.</li>
+          </ol>
 
-  <h3>5. Font Style</h3>
-  <p>The CSS "font-style" property specifies the font style for a text.</p>
-  <p>You can use one of the below values of the "font-style" property,</p>
-  <p>Value: normal,italic,oblique</p>
+          <h3>5. Font Style</h3>
+          <p>The CSS "font-style" property specifies the font style for a text.</p>
+          <p>You can use one of the below values of the "font-style" property,</p>
+          <p>Value: normal,italic,oblique</p>
 
-  <CodeBlock
-    language="css"
-    code={`.main-heading {
+          <CodeBlock
+            language="css"
+            code={`.main-heading {
   font-style: italic;
 }
 .paragraph {
@@ -609,21 +612,21 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
   />
 
-  <p><b>Note:</b></p>
-  <ol>
-    <li>There shouldn't be any spelling mistakes in the values of the <code>font-style</code> property.</li>
-    <li>There shouldn't be any quotations around the value of the <code>font-style</code> property.</li>
-  </ol>
+          <p><b>Note:</b></p>
+          <ol>
+            <li>There shouldn't be any spelling mistakes in the values of the <code>font-style</code> property.</li>
+            <li>There shouldn't be any quotations around the value of the <code>font-style</code> property.</li>
+          </ol>
 
-  <h3>6. Font Weight</h3>
-  <p>
-    The CSS "font-weight" property specifies how thick or thin characters in text
-    should be displayed.
-  </p>
+          <h3>6. Font Weight</h3>
+          <p>
+            The CSS "font-weight" property specifies how thick or thin characters in text
+            should be displayed.
+          </p>
 
-  <CodeBlock
-    language="css"
-    code={`.main-heading {
+          <CodeBlock
+            language="css"
+            code={`.main-heading {
   font-weight: bold;
 }
 .paragraph {
@@ -631,31 +634,31 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
   />
 
-  <p>You can use one of the below values of the "font-weight" property,</p>
-  <p>
-    Values: normal, bold, bolder, lighter, 100, 200, 300, 400, 500, 600, 700, 800,
-    900
-  </p>
+          <p>You can use one of the below values of the "font-weight" property,</p>
+          <p>
+            Values: normal, bold, bolder, lighter, 100, 200, 300, 400, 500, 600, 700, 800,
+            900
+          </p>
 
-  <p><b>Note:</b></p>
-  <ol>
-    <li>There shouldn't be any spelling mistakes in the values of the <code>font-weight</code> property.</li>
-    <li>There shouldn't be any quotations around the value of the <code>font-weight</code> property.</li>
-    <li>
-      The numerical values given to the <code>font-weight</code> property must be
-      in the range from <code>100</code> to <code>900</code> and should be the
-      multiples of <code>100</code>.
-    </li>
-  </ol>
+          <p><b>Note:</b></p>
+          <ol>
+            <li>There shouldn't be any spelling mistakes in the values of the <code>font-weight</code> property.</li>
+            <li>There shouldn't be any quotations around the value of the <code>font-weight</code> property.</li>
+            <li>
+              The numerical values given to the <code>font-weight</code> property must be
+              in the range from <code>100</code> to <code>900</code> and should be the
+              multiples of <code>100</code>.
+            </li>
+          </ol>
 
-  <h3>7. Text Decoration</h3>
-  <p>
-    The CSS "text-decoration" property specifies the decoration added to the text.
-  </p>
+          <h3>7. Text Decoration</h3>
+          <p>
+            The CSS "text-decoration" property specifies the decoration added to the text.
+          </p>
 
-  <CodeBlock
-    language="css"
-    code={`.main-heading {
+          <CodeBlock
+            language="css"
+            code={`.main-heading {
   text-decoration: underline;
 }
 .paragraph {
@@ -663,22 +666,21 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 }`}
   />
 
-  <p>You can use one of the below values of the "text-decoration" property,</p>
-  <p><b>Value</b> &nbsp;&nbsp; <b>Description</b></p>
-  <ul>
-    <li>underline &nbsp;&nbsp; Underline the text</li>
-    <li>line-through &nbsp;&nbsp; Strike through the text</li>
-    <li>overline &nbsp;&nbsp; Overline the text</li>
-  </ul>
+          <p>You can use one of the below values of the "text-decoration" property,</p>
+          <p><b>Value</b> &nbsp;&nbsp; <b>Description</b></p>
+          <ul>
+            <li>underline &nbsp;&nbsp; Underline the text</li>
+            <li>line-through &nbsp;&nbsp; Strike through the text</li>
+            <li>overline &nbsp;&nbsp; Overline the text</li>
+          </ul>
 
-  <p><b>Note:</b></p>
-  <ol>
-    <li>There shouldn't be any spelling mistakes in the values of the <code>text-decoration</code> property.</li>
-    <li>There shouldn't be any quotations around the value of the <code>text-decoration</code> property.</li>
-    <li>Ensure that <code>text-decoration</code> and <code>line-through</code> are hyphenated.</li>
-  </ol>
-</section>
-
+          <p><b>Note:</b></p>
+          <ol>
+            <li>There shouldn't be any spelling mistakes in the values of the <code>text-decoration</code> property.</li>
+            <li>There shouldn't be any quotations around the value of the <code>text-decoration</code> property.</li>
+            <li>Ensure that <code>text-decoration</code> and <code>line-through</code> are hyphenated.</li>
+          </ol>
+        </section>
 
       {/* CSS Syntax & Text Properties */}
       <section

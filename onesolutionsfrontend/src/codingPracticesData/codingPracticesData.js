@@ -12386,7 +12386,7 @@ export const codingPracticesData = {
           title: "Digit 9",
           difficulty: "Easy",
           description:
-            "Given a number N,write a program to print the digit 9 in 2*N-1 rows using stars(*).",
+            "Given a number N,write a program to print the digit 9 in <strong>2*N-1</strong> rows using stars(*).",
           sampleInput: "3",
           sampleOutput: "* * * \n*   *\n* * * \n    *\n* * * ",
           testCases: [

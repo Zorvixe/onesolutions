@@ -1272,5 +1272,1237 @@ export const responsiveCodingPracticesData = {
         },
       ],
     },
+    {
+      id: "responsive-coding-practice-10",
+      title: "Responsive Coding Practice 10",
+      description:
+        "",
+      questions: [
+        {
+          id: "0fbaa001-03d5693f72-91249df802f9",
+          title: "VR Website Footer Section",
+          description:
+            "In this assignment, let's build a VR Website Footer Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 45,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px), Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766758343/vr-footer-section-xs-v1_srx2r8.png" class="desc-que-img" />
+                   <p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766758343/vr-footer-section-xs-v1_srx2r8.png" class="desc-que-img" />
+                
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      <li>Use the Bootstrap class name text-md-left to align the text from the Medium devices (Size >= 768px).Try to achieve the design as close as possible.
+                      </li>
+                      <li>Use the Bootstrap class name justify-content-md-start to align the flex items at the start of the Flexbox Container from the Medium devices (Size >= 768px).
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766554636/vr-logo-img_q3kglt.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766554636/vr-logo-img_q3kglt.png</a></p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors c5a7184">#5a7184</div>
+                <div  class="desc-colors c959ead">#959ead</div>
+                <div  class="desc-colors c19232d">#19232d</div>
+                <div  class="desc-colors c202b36">#202b36</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-center",
+              type: "html-validation",
+              input: "check-justify-content-center",
+              output: "true",
+              visible: true,
+            },
+           {
+              id: 6,
+              description:
+                "Page should consist of an HTML horizontal rule (hr) element",
+              type: "html-validation",
+              input: "check-hr-element",
+              output: "true",
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "cd33ae6a-a3b9bb8ce-d677b1e0895d",
+          title: "Portfolio Website Navbar & Banner Section",
+          description:
+            "In this assignment, let's build a Portfolio Website Navbar & Banner Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 55,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px), Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766759172/porfolio-nav-and-banner-xs-v1_bs8ldv.png" class="desc-que-img" />
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766759171/porfolio-nav-and-banner-expand-xs-v1_ekgska.png" class="desc-que-img" />
+                   <p class="">Medium (Size >= 768px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766759173/porfolio-nav-and-banner-md-v1_z6vpwb.png" class="desc-que-img" />
+                
+                   <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766759172/porfolio-nav-and-banner-lg-v1_duqyib.png" class="desc-que-img" />
+                
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      <li>The logo in the Navbar is the text. You can customise it by adding your favourite or initial letters.
+                      </li>
+                      <li>You can use your own image in the Banner Section.
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766759351/portfolio-banner-img_vyrxyf.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766759351/portfolio-banner-img_vyrxyf.png</a></p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors c4b6cc1">#4b6cc1</div>
+                <div  class="desc-colors c191a1d">#191a1d</div>
+                <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML button element in an HTML container element",
+              type: "html-validation",
+              input: "check-button-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name ml-auto or the CSS property margin-left with the value auto",
+              type: "html-validation",
+              input: "check-ml-auto-or-margin-left-auto",
+              output: "true",
+              visible: true,
+            },
+           {
+              id: 7,
+              description: "Page should consist of an HTML span element",
+              type: "html-validation",
+              input: "check-span-element",
+              output: "true",
+              visible: true,
+            },
+           {
+                  id: 8,
+                  description:
+                    "Page should consist of an HTML container element with the bootstrap order class name in medium devices that starts with order-md-",
+                  type: "html-validation",
+                  input: "check-order-md-class",
+                  output: "true",
+                  visible: true,
+                }
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-practice-11",
+      title: "Responsive Coding Practice 11",
+      description:
+        "",
+      questions: [
+        {
+          id: "a44c926d-8022e1c5b3-d3628b8d30e3",
+          title: "Portfolio Website About Me & Skills Sections",
+          description:
+            "In this assignment, let's build a Portfolio Website About Me & Skills Sections by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px), Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760025/porfolio-about-me-and-skills-xs-v1_qrlks6.png" class="desc-que-img" />
+                   <p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760025/porfolio-about-me-and-skills-md-v1_uin9vx.png" class="desc-que-img" />
+                
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                     
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760238/portfolio-about-me-img_udisjj.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760238/portfolio-about-me-img_udisjj.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-html-img_nbdtjf.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-html-img_nbdtjf.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-css-img_axhvn7.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-css-img_axhvn7.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-bootstrap-img_jgspab.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-bootstrap-img_jgspab.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-js-img_my5a6u.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760236/portfolio-skills-js-img_my5a6u.png</a></p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors ccced00">#cced00</div>
+                <div  class="desc-colors c1f2933">#1f2933</div>
+                <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+                <div  class="desc-colors c323f4b">#323f4b</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+            {
+                  id: 5,
+                  description:
+                    "Page should consist of an HTML container element with the bootstrap order class name in medium devices that starts with order-md-",
+                  type: "html-validation",
+                  input: "check-order-md-class",
+                  output: "true",
+                  visible: true,
+                },
+           {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the bootstrap display class name d-none",
+              type: "html-validation",
+              input: "check-d-none-class",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 7,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name shadow",
+              type: "html-validation",
+              input: "check-shadow-class",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 8,
+              description:
+                "Page should consist of an HTML container element with the bootstrap display class name that starts with d-md-",
+              type: "html-validation",
+              input: "check-d-md-class",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "206d694d-6403cbd88a-8b858685ff4c",
+          title: "Portfolio Website Projects Section",
+          description:
+            "In this assignment, let's build a Portfolio Website Projects Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 30,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px), Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760818/portfolio-projects-section-xs-v1_ngstwo.png" class="desc-que-img" />
+                   <p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760818/portfolio-projects-section-md-v1_fofnk7.png" class="desc-que-img" />
+                
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      <li>The Icons used in this section are the Bootstrap Icons.
+                      </li>
+                      
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760932/portfolio-project-1-img_y0mv68.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760932/portfolio-project-1-img_y0mv68.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760932/portfolio-project-2-img_ok4og9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760932/portfolio-project-2-img_ok4og9.png</a></p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors ccced00">#cced00</div>
+                <div  class="desc-colors c3e4c59">#3e4c59</div>
+                <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+                <div  class="desc-colors c323f4b">#323f4b</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Page should consist of an HTML anchor element",
+              type: "html-validation",
+              input: "check-anchor-element",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+           {
+                  id: 6,
+                  description: "Page should consist of an arrow bootstrap icon",
+                  type: "html-validation",
+                  input: "check-bootstrap-arrow-icon",
+                  output: "true",
+                  visible: true,
+                }
+
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-practice-12",
+      title: "Responsive Coding Practice 12",
+      description:
+        "",
+      questions: [
+        {
+          id: "d634c6ac-c692ca0c-8abeb351cfe1",
+          title: "Portfolio Website Services Section",
+          description:
+            "In this assignment, let's build a Portfolio Website Services Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 25,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px), Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766761883/portfolio-services-section-xs-v1_giqnbm.png" class="desc-que-img" />
+                   <p class="">Medium (Size >= 768px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766761884/portfolio-services-section-md-v1_an2pow.png" class="desc-que-img" />
+                
+                   <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766761883/portfolio-services-section-lg-v1_ggwwto.png" class="desc-que-img" />
+                
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                     
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762081/portfolio-web-design-img_gdaxgx.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762081/portfolio-web-design-img_gdaxgx.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762080/portfolio-customize-img_oagdp8.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762080/portfolio-customize-img_oagdp8.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762080/portfolio-web-development-img_yukkeh.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762080/portfolio-web-development-img_yukkeh.png</a></p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors ccced00">#cced00</div>
+                <div  class="desc-colors c52606d">#52606d</div>
+                <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+                <div  class="desc-colors c323f4b">#323f4b</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+          
+             {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name shadow",
+              type: "html-validation",
+              input: "check-shadow-class",
+              output: "true",
+              visible: true,
+            },
+             
+          ],
+        },
+        {
+          id: "5eb03919-ae848522b63b1f3e43283",
+          title: "Portfolio Website Work Done Section",
+          description:
+            "In this assignment, let's build a Portfolio Website Work Done Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762340/portfolio-work-done-section-v1_kf3mju.png" class="desc-que-img" />
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      <li>The Icons used in this section are the Bootstrap Icons.
+                      </li>
+                      
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762411/portfolio-work-done-bg_y30skr.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766762411/portfolio-work-done-bg_y30skr.png</a></p>
+              
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            
+           {
+                  id: 1,
+                  description: "Page should consist of an arrow bootstrap icon",
+                  type: "html-validation",
+                  input: "check-bootstrap-arrow-icon",
+                  output: "true",
+                  visible: true,
+                },
+                {
+              id: 2,
+              description:
+                "Page should consist of an HTML horizontal rule (hr) element",
+              type: "html-validation",
+              input: "check-hr-element",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the CSS property background image",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+            
+            {
+              id: 7,
+              description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name that starts with col-",
+              type: "html-validation",
+              input: "check-col-classes",
+              output: "true",
+              visible: true,
+            }
+
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-practice-13",
+      title: "Responsive Coding Practice 13",
+      description:
+        "",
+      questions: [
+        {
+          id: "4f3e7a16-4f1ec7daf9-5847d34430ce",
+          title: "Portfolio Website Testimonials Section",
+          description:
+            "In this assignment, let's build a Portfolio Website Testimonials Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 25,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766293/portfolio-testimnonials-section-v1_hv6tro.gif" class="desc-que-img" />
+                <p class="desc-que-blue">Design Files.</p>
+                  <p class="">Portfolio Website Testimonials Sections</p>
+
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766292/Testimonials_2_uki5xp_q0cvz1.png" class="desc-que-img" />
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766292/Testimonials_3_uk7kdq_s3ruf4.png" class="desc-que-img" />
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766291/Testimonials_1_qznbwn_gtogis.png" class="desc-que-img" />
+                
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                     
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <ul>
+                    <li>
+                         <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766480/portfolio-testimonials-1-img_pq6sjd.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766480/portfolio-testimonials-1-img_pq6sjd.png</a></p>
+                      </li>
+                      <li>
+                             <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766483/portfolio-testimonials-2-img_qgfpyb.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766483/portfolio-testimonials-2-img_qgfpyb.png</a></p>
+                      </li>
+                      <li>
+                            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766479/portfolio-testimonials-3-img_qyfzur.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766766479/portfolio-testimonials-3-img_qyfzur.png</a></p>
+                      </li>
+                </ul>
+                <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors ccced00">#cced00</div>
+                <div  class="desc-colors c1f2933">#1f2933</div>
+                <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+                <div  class="desc-colors c323f4b">#323f4b</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+           
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name that starts with col-",
+              type: "html-validation",
+              input: "check-col-classes",
+              output: "true",
+              visible: true,
+            },
+            
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name carousel",
+              type: "html-validation",
+              input: "check-carousel-container",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
+              type: "css-validation",
+              input: "check-text-align-center",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "5eb03919-ae848522b63b1-f3e43283",
+          title: "Portfolio Website Footer Section",
+          description:
+            "In this assignment, let's build a Portfolio Website Footer Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 30,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766767058/portfolio-footer-section-xs-v1_kp7xhp.png" class="desc-que-img" />
+                  <p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766767057/portfolio-footer-section-md-v1_eytruv.png" class="desc-que-img" />
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      <li>The Icons used in this section are Font Awesome Icons.
+                      </li>
+                      
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760238/portfolio-about-me-img_udisjj.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766760238/portfolio-about-me-img_udisjj.png</a></p>
+              <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors c001c32">#001c32</div>
+                <div  class="desc-colors ccced00">#cced00</div>
+                <div  class="desc-colors c0d2436">#0d2436</div>
+                <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+                <div  class="desc-colors c5a7184">#5a7184</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+          {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-row",
+              type: "html-validation",
+              input: "check-flex-row", // ✔ Updated
+              output: "true",
+              visible: true,
+            },
+
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-practice-14",
+      title: "Responsive Coding Practice 14",
+      description:
+        "",
+      questions: [
+        {
+          id: "f5eabaab-41995df7b8-fb450aaaea57",
+          title: "Ecommerce Website Navbar & Banner Section",
+          description:
+            "In this assignment, let's build a Ecommerce Website Navbar & Banner Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 20,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768060/ecommerce-nav-and-banner-xs-v1_v6efns.gif" class="desc-que-img" />
+               
+                  <p class="">Medium (Size >= 768px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768279/ecommerce-nav-and-banner-lg-v1_tlhe6e.gif" class="desc-que-img" />
+               
+                  <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768279/ecommerce-nav-and-banner-lg-v1_tlhe6e.gif" class="desc-que-img" />
+               
+                   <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      <li>
+                        Fix the height of the Bootstrap Carousel to 100vh to occupy the Bootstrap Carousel only to the Viewport height.
+                      </li>
+                     
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p class="">Ecommerce Logo:</p>
+                <ul>
+                    <li>
+                         <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768682/ecommerce-website-logo-img_efzxzl.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768682/ecommerce-website-logo-img_efzxzl.png</a></p>
+                      </li>
+                     
+                </ul>
+                <p class="">For Extra Small and Small devices:</p>
+                <ul>
+                    <li>
+                         <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768837/ecommerce-carousel-1-sm-img_osanvl.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768837/ecommerce-carousel-1-sm-img_osanvl.png</a></p>
+                      </li>
+                      <li>
+                             <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768883/ecommerce-carousel-2-sm-img_sgfpht.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768883/ecommerce-carousel-2-sm-img_sgfpht.png</a></p>
+                      </li>
+                      <li>
+                            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768916/ecommerce-carousel-3-sm-img_toqiqr.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766768916/ecommerce-carousel-3-sm-img_toqiqr.png</a></p>
+                      </li>
+                </ul>
+                <p class="">For Medium, Large, and Extra Large devices:</p>
+                <ul>
+                    <li>
+                         <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769088/ecommerce-carousel-1-img_us6kui.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769088/ecommerce-carousel-1-img_us6kui.png</a></p>
+                      </li>
+                      <li>
+                             <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769146/ecommerce-carousel-2-img_l60dqi.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769146/ecommerce-carousel-2-img_l60dqi.png</a></p>
+                      </li>
+                      <li>
+                            <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769199/ecommerce-carousel-1-img_xokifs.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769199/ecommerce-carousel-1-img_xokifs.png</a></p>
+                      </li>
+                </ul>
+               
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name ml-auto or the CSS property margin-left with the value auto",
+              type: "html-validation",
+              input: "check-ml-auto-or-margin-left-auto",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name carousel",
+              type: "html-validation",
+              input: "check-carousel-container",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap display class name that starts with d-md-",
+              type: "html-validation",
+              input: "check-d-md-class",
+              output: "true",
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "859f0ec2-489f1da6885-e6ee7ae24",
+          title: "Ecommerce Website Services Section",
+          description:
+            "In this assignment, let's build a Ecommerce Website Services Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 25,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769664/ecommerce-services-section-xs-v1_maotvl.png" class="desc-que-img" />
+                  <p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769664/ecommerce-services-section-md-v1_dus0ac.png" class="desc-que-img" />
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                      
+                    </ul>
+                  </p>
+                </div>
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769784/ecommerce-services-delivery-img_ezdamz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769784/ecommerce-services-delivery-img_ezdamz.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769786/ecommerce-services-money-back-img_uei70s.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769786/ecommerce-services-money-back-img_uei70s.png</a></p>
+                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769783/ecommerce-services-24-by-7-support-img_ixmj4o.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766769783/ecommerce-services-24-by-7-support-img_ixmj4o.png</a></p>
+              <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors c183b56">#183b56</div>
+                <div  class="desc-colors c616c7c">#616c7c</div>
+                <div  class="desc-colors c1f2933">#1f2933</div>
+                <div  class="desc-colors c7b8794">#7b8794</div>
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+          {
+              id: 1,
+              description: "Page should consist of an HTML image element",
+              type: "html-validation",
+              input: "check-image-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
+              type: "html-validation",
+              input: "check-col-md-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+             
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name shadow",
+              type: "html-validation",
+              input: "check-shadow-class",
+              output: "true",
+              visible: true,
+            },
+
+          ],
+        },
+      ],
+    },
   ],
 };
