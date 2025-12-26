@@ -56,6 +56,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         >
           HTML Basic Structure
         </h2>
+        <p>The basic structure of any HTML document is as follows:</p>
         <CodeBlock
           language="html"
           code={`<!DOCTYPE html>
@@ -88,179 +89,596 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           HTML Elements
         </h2>
 
-        <h3>1. Heading, Paragraph, Button, Div</h3>
+        <h3>1. Heading</h3>
+        <p>The HTML "h1" element defines a main heading.</p>
         <CodeBlock
           language="html"
-          code={`<h1>Expolre Paradise</h1>
-<p>Forgetable Memories wherever you want to go</p>
-<button>Explore Places</button>
-<div>
-  <h1>Expolre Paradise</h1>
-  <p>Forgetable Memories</p>
-  <button>Explore Places</button>
+          code={`<h1>Tourism</h1>`}
+        />
+        <h3>2. Paragraph Element</h3>
+        <p>The HTML "p" element defines a paragraph.</p>
+        <CodeBlock
+          language="html"
+          code={`<p>Plan your trip wherever you want to go</p>`}
+        />
+          <h3>3. Button Element</h3>
+        <p>The HTML "button" element defines a button.</p>
+        <CodeBlock
+          language="html"
+          code={`<button>Get Started</button>`}
+        />
+        <h3>4. Container Element</h3>
+        <p>The HTML "div" element defines a container.</p>
+        <CodeBlock
+          language="html"
+          code={`<div>
+<h1>Tourism</h1>
+<p>Plan your trip wherever you want to go</p>
+<button>Get Started</button>
 </div>`}
         />
-
-        <h3>2. Image Element</h3>
+        <h3>5. Image Element</h3>
+        <p>The HTML "img" element defines an Image.</p>
+        <b>Syntax: </b>
         <CodeBlock
           language="html"
-          code={`<img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1765392869/paris_1_zckrjw.avif" />`}
+          code={`<img src="IMAGE_URL"/>`}
         />
-        <p>
-          <strong>src</strong> → Image URL
-        </p>
-
-        <h3>3. Anchor Element</h3>
+        <h3>5.1 The "src" Attribute</h3>
+        <p>The HTML Attribute "src" specifies the <b>path (URL)</b> of the Image.</p>
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/">Explore Places</a>`}
+          code={`<img  src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"/>`}
         />
+        <h3>6. Anchor Element</h3>
+        <p>The HTML "a" element defines a <b>Hyperlinks</b>.</p>
+        <p>We use <b>Hyperlinks</b> to navigate to other web resources or a specific element within the HTML document. They are also called links.</p>
+        <b>Syntax: </b>
         <CodeBlock
           language="html"
-          code={`<a href="#section1">Go to Section 1</a>
-<div id="section1">Section 1</div>`}
+          code={`<a href="URL">Content</a>`}
         />
+        <h3>6.1 HTML "href" Attribute</h3>
+        <p>The HTML "href" Attribute specifies the URL/ path of the page where the link goes to.</p>
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/" target="_blank">Open in new tab</a>`}
+          code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
+        /> 
+        <h3>6.2. Different ways to use the "Anchor" Element</h3>
+        <h3>6.2.1 Navigate within the same HTML document</h3>
+        <ul>
+          <li>The HTML anchor "a" element can also be used to navigate to different sections within the same HTML document.</li>
+          <li>Add an HTML "id" attribute to the section that you want to navigate to. Provide the hash symbol "#", and the value of the "id" attribute of that section as a value to the link's HTML "href" attribute.</li>
+        </ul>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+          While navigating to a particular section within the same HTML document, the content of that section doesn't start from the starting of a page when
+          </p>
+         <ul>
+          <li>It has less content to fill the Viewport height and there are no sections after it.</li>
+          <li>The content of that section and the content of the sections after it has less content to fill the Viewport height.</li>
+         </ul>
+        </div>
+      
+        <h3>6.2.2 HTML Image Element as Link</h3>
+        <CodeBlock
+          language="html"
+          code={` <a href="https://www.ccbp.in/">
+  <img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/learn-technologies-img.png" />
+</a>`}
         />
-
-        <h3>4. Void Elements</h3>
+ <h3>7. Void Elements</h3>
+        <p>The HTML elements that only have a start tag and do not contain content or end tag are called as <b>Void Elements</b>.</p>
+        
+        <b>Syntax: </b>
         <CodeBlock
           language="html"
-          code={`<img src="..." />
-<br />
+          code={`<tag />`}
+        />
+        <p>For example, the HTML "img" element.</p>
+        <CodeBlock
+          language="html"
+          code={`<img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"/>`}
+        />
+        
+        <h3>8. Line Break Element</h3>
+<p>The HTML "br" element helps to break the text and continue it in the next line.</p>
+<CodeBlock
+  language="html"
+  code={`<p>
+  Twinkle, twinkle, little star, <br />
+  How I wonder what you are!
+</p>`}
+/>
+<h3>9. Horizontal Rule Element</h3>
+<p>The HTML "hr" element inserts a horizontal line and helps to separate the content.</p>
+<CodeBlock
+  language="html"
+  code={`<h1 class="heading">
+  Twinkle Twinkle Little Star
+</h1>
+<hr />
+<p>
+  Twinkle, twinkle, little star.
+</p>
 <hr />`}
-        />
+/>
+<h3>10. HTML Lists</h3>
+<p>
+  The List is a way to group related pieces of information so that they are easy to read and understand.
+</p>
+<p>
+  For example, Shopping list, Todo list, etc.
+</p>
+<p>There are mainly two types of Lists available in HTML.</p>
+<ul>
+  <li>Unordered List</li>
+  <li>Ordered List</li>
+</ul>
+<h3>11. Unordered List</h3>
+<p>
+  It is a collection of related items that have no special order or sequence.
+</p>
+<p>For example, List of Hobbies</p>
+<ul>
+  <li>Painting</li>
+  <li>Reading Books</li>
+  <li>Playing the Guitar</li>
+</ul>
 
-        <h3>5. Lists</h3>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "1rem",
-          }}
-        >
-          <div>
-            <h4>Unordered List</h4>
-            <CodeBlock
-              language="html"
-              code={`<ul>
+<p>
+  The Unordered List starts with "<b>ul</b>" tag. It wraps around all the list items and each list item starts with the "<b>li</b>" tag.
+</p>
+
+<CodeBlock
+  language="html"
+  code={`<ul>
   <li>Painting</li>
   <li>Reading Books</li>
 </ul>`}
-            />
-            <p
-              style={{
-                background: "#f8f9fa",
-                padding: "1rem",
-                borderRadius: "8px",
-              }}
-            >
-              Painting
-              <br />
-              Reading Books
-            </p>
-          </div>
-          <div>
-            <h4>Ordered List</h4>
-            <CodeBlock
-              language="html"
-              code={`<ol>
+/>
+
+<p>
+  By default, list items in the Unordered List are marked with bullets.
+</p>
+<h3>11.1. Styling Unordered List</h3>
+<p>
+  The CSS "list-style-type" property is used to style the List.
+</p>
+
+<CodeBlock
+  language="css"
+  code={`.unordered-square-list {
+  list-style-type: square;
+}`}
+/>
+
+<p>
+  You can use one of the below values of the CSS "list-style-type" property to style the Unordered List.
+</p>
+<code>
+  Values: square, circle, disc, none
+</code>
+<h3>12. Ordered List</h3>
+<p>
+  It is a collection of related items that follow some order or have a sequence.
+</p>
+<p>For example, Web Technologies</p>
+<ul>
   <li>HTML</li>
   <li>CSS</li>
   <li>JavaScript</li>
+</ul>
+
+<p>
+  The Ordered List starts with "<b>ol</b>" tag. It wraps around all the list items and each list item starts with the "<b>li</b>" tag.
+</p>
+
+<CodeBlock
+  language="html"
+  code={`<ol>
+  <li>Go through the HTML elements and CSS properties</li>
+  <li>Complete the Todolist Coding Practice</li>
+  <li>Go through the Bootstrap Concepts</li>
 </ol>`}
-            />
-            <p
-              style={{
-                background: "#f8f9fa",
-                padding: "1rem",
-                borderRadius: "8px",
-              }}
-            >
-              1. HTML
-              <br />
-              2. CSS
-              <br />
-              3. JavaScript
-            </p>
-          </div>
-        </div>
-        <CodeBlock
-          language="css"
-          code={`.unordered-square-list { list-style-type: square; }
-.ordered-lower-roman-list { list-style-type: lower-roman; }`}
-        />
+/>
+
+<p>
+  By default, list items in the Ordered List are marked with numbers.
+</p>
+<h3>12.1. Styling Ordered List</h3>
+<p>
+  The CSS "list-style-type" property is used to style the List.
+</p>
+
+<CodeBlock
+  language="css"
+  code={`.ordered-lower-roman-list {
+  list-style-type: lower-roman;
+}`}
+/>
+
+<p>
+  You can use one of the below values of the CSS "list-style-type" property to style the Ordered List.
+</p>
+<code>
+  Values: upper-alpha, lower-alpha, upper-roman, lower-roman, decimal, none
+</code>
+
+       
       </section>
 
       {/* HTML Attributes */}
       <section
-        style={{
-          marginBottom: "4rem",
-          background: "white",
-          padding: "2rem",
-          borderRadius: "12px",
-          boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h2
-          style={{
-            color: "#2980b9",
-            borderBottom: "4px solid #9b59b6",
-            paddingBottom: "0.5rem",
-          }}
-        >
-          HTML Attributes
-        </h2>
-        <ul style={{ fontSize: "1.1rem" }}>
-          <li>
-            <b
-              style={{
-                textAlign: "center",
-                color: "#ffffff",
-                backgroundColor: "#25b1cc",
-                fontFamily: "Roboto",
-                fontSize: "16px",
-                borderRadius: "10px",
-                fontWeight: "bold",
-                padding: "6px",
-              }}
-            >
-              Home Page
-            </b>{" "}
-            <strong>id:</strong> Unique →{" "}
-            <code>&lt;div id="section-1" data-section data-default&gt;</code>{" "}
-            (One Solutions UI Kit needs <code>section</code> prefix)
-          </li>
-          <li>
-            <b
-              style={{
-                textAlign: "center",
-                color: "#ffffff",
-                backgroundColor: "#25b1cc",
-                fontFamily: "Roboto",
-                fontSize: "16px",
-                borderRadius: "5px",
-                fontWeight: "bold",
-                padding: "6px",
-              }}
-            >
-              {" "}
-              Other Pages
-            </b>{" "}
-            <strong>id:</strong> Unique →{" "}
-            <code>&lt;div id="section-1" data-section&gt;</code> (One Solutions
-            UI Kit needs <code>section</code> prefix)
-          </li>
-          <li>
-            <strong>onclick:</strong> <code>onclick="display('section-3')"</code>
-          </li>
-          <li>
-            <strong>src, href, target="_blank"</strong>
-          </li>
-        </ul>
-      </section>
+  style={{
+    marginBottom: "4rem",
+    background: "white",
+    padding: "2rem",
+    borderRadius: "12px",
+    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+  }}
+>
+  <h2
+    style={{
+      color: "#2980b9",
+      borderBottom: "4px solid #9b59b6",
+      paddingBottom: "0.5rem",
+    }}
+  >
+    HTML Attributes
+  </h2>
+
+  <h3>1. HTML "id" Attribute</h3>
+  <p>
+    The HTML "id" attribute specifies a unique id for an HTML element. The value
+    of the "id" attribute must be unique within the HTML document.
+  </p>
+
+  <CodeBlock
+    language="html"
+    code={`<div id="section1">Section 1</div>`}
+  />
+
+<div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <ul>
+    <li>
+      The CCBP UI kit works only if the value of the HTML <b>id</b> attribute
+      of the container section has the prefix as <b>section</b>.
+    </li>
+    <li>
+      So, the id which we specify for any section should always contain its prefix
+      as <b>section</b> if you are using CCBP UI Kit.
+    </li>
+  </ul>
+        </div>
+ 
+
+  <h3>2. HTML "onclick" Attribute</h3>
+  <p>
+    The "onclick" event occurs when the user clicks on an HTML Element.
+  </p>
+
+  <CodeBlock
+    language="html"
+    code={`<button class="btn btn-primary" onclick="display('section3')">
+  Go to Section 3
+</button>`}
+  />
+
+  <p>
+    The value of an HTML "onclick" attribute should be enclosed in double-quotes
+    and the value inside the brackets of "display()" should be enclosed in single
+    quotes.
+  </p>
+
+  <h3>3. The "src" Attribute</h3>
+  <p>
+    The HTML Attribute "src" specifies the path (URL) of the Image.
+  </p>
+
+  <CodeBlock
+    language="html"
+    code={`<img
+  src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"
+/>`}
+  />
+
+  <h3>4. HTML "href" Attribute</h3>
+  <p>
+    The HTML "href" Attribute specifies the URL/ path of the page where the link
+    goes to.
+  </p>
+
+  <CodeBlock
+    language="html"
+    code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
+  />
+
+  <h3>5. HTML "target" Attribute</h3>
+  <p>
+    The HTML "target" Attribute specifies where to open the linked web resource.
+  </p>
+
+  <CodeBlock
+    language="html"
+    code={`<a href="https://www.ccbp.in/" target="_blank">
+  Explore CCBP 4.0 Certification Programs
+</a>`}
+  />
+</section>
+
+<section
+  style={{
+    marginBottom: "4rem",
+    background: "white",
+    padding: "2rem",
+    borderRadius: "12px",
+    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+  }}
+>
+  <h2
+    style={{
+      color: "#2980b9",
+      borderBottom: "4px solid #e74c3c",
+      paddingBottom: "0.5rem",
+    }}
+  >
+    CSS Syntax
+  </h2>
+
+  <CodeBlock
+    language="css"
+    code={`selector {
+  property1: value1;
+  property2: value2;
+}`}
+  />
+</section>
+
+
+<section
+  style={{
+    marginBottom: "4rem",
+    background: "white",
+    padding: "2rem",
+    borderRadius: "12px",
+    boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+  }}
+>
+  <h2
+    style={{
+      color: "#2980b9",
+      borderBottom: "4px solid #e74c3c",
+      paddingBottom: "0.5rem",
+    }}
+  >
+    CSS Text Properties
+  </h2>
+
+  <h3>1. Text Align</h3>
+  <p>
+    The CSS "text-align" property specifies the horizontal alignment of the text
+    in an HTML element.
+  </p>
+
+  <CodeBlock
+    language="css"
+    code={`.h-center {
+  text-align: center;
+}`}
+  />
+
+  <p><b>Value</b> &nbsp;&nbsp; <b>Description</b></p>
+  <ul>
+    <li>center &nbsp;&nbsp; Aligns the text to the center</li>
+    <li>left &nbsp;&nbsp; Aligns the text to the left</li>
+    <li>right &nbsp;&nbsp; Aligns the text to the right</li>
+  </ul>
+
+  <h3>2. Color</h3>
+  <p>The CSS "color" property specifies the color of the text.</p>
+
+  <CodeBlock
+    language="css"
+    code={`.main-heading {
+  color: blue;
+}
+.paragraph {
+  color: grey;
+}`}
+  />
+
+  <h3>2.1. Sample Colors</h3>
+  <p>Values: blue, grey, lightblue, orange, red, green</p>
+
+  <h3>2.2. Hex Code</h3>
+  <p>CSS Colors can be represented in multiple ways:</p>
+  <ul>
+    <li>Color names</li>
+    <li>Hex Code</li>
+    <li>HSL</li>
+    <li>RGB and many more...</li>
+  </ul>
+
+  <p>
+    Since few colors have the Color names, Hex Codes make a good alternative to
+    pick a wide variety of colors.
+  </p>
+
+  <p>Some of the Color names and their Hex Codes are:</p>
+
+  <ul>
+    <li>orange &nbsp;&nbsp; #ffa500</li>
+    <li>red &nbsp;&nbsp; #ff0000</li>
+    <li>blue &nbsp;&nbsp; #0000ff</li>
+    <li>green &nbsp;&nbsp; #008000</li>
+    <li>- &nbsp;&nbsp; #012d36</li>
+    <li>- &nbsp;&nbsp; #432711</li>
+    <li>- &nbsp;&nbsp; #25b1cc</li>
+  </ul>
+
+  <CodeBlock
+    language="css"
+    code={`.button {
+  background-color: #25b1cc;
+}`}
+  />
+
+  <h3>2.2.1 How to pick a color using Hex Code</h3>
+  <p>
+    The color picker lets you pick a color among the approximately 16,777,216
+    colors available.
+  </p>
+  <p>One of the simplest ways to access a color picker is:</p>
+  <ul>
+    <li>Type color picker in the Google Search bar and search it.</li>
+  </ul>
+
+  <p>color-picker</p>
+
+  <h3>3. Font Family</h3>
+  <p>
+    The CSS "font-family" property specifies the font for an element.
+  </p>
+
+  <CodeBlock
+    language="css"
+    code={`@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+.main-heading {
+  font-family: "Roboto";
+}
+.paragraph {
+  font-family: "Roboto";
+}`}
+  />
+
+  <p>You can use one of the below values of the "font-family" property,</p>
+  <p>Value</p>
+  <p>font-families-and-appearance</p>
+
+  <p><b>Note:</b></p>
+  <ol>
+    <li>To use font families, you need to import their style sheets into your CSS file.</li>
+    <li>There shouldn't be any spelling mistakes in the values of the <code>font-family</code> property.</li>
+    <li>There must be quotations around the value of the <code>font-family</code> property.</li>
+  </ol>
+
+  <h3>4. Font Size</h3>
+  <p>The CSS "font-size" property specifies the size of the font.</p>
+
+  <CodeBlock
+    language="css"
+    code={`.main-heading {
+  font-size: 36px;
+}
+.paragraph {
+  font-size: 28px;
+}`}
+  />
+
+  <p><b>Note:</b></p>
+  <ol>
+    <li>You must add <code>px</code> after the number in the value of the <code>font-size</code> property.</li>
+    <li>There shouldn't be any space between the number and <code>px</code>.</li>
+    <li>There shouldn't be any quotations around the value of the <code>font-size</code> property.</li>
+  </ol>
+
+  <h3>5. Font Style</h3>
+  <p>The CSS "font-style" property specifies the font style for a text.</p>
+  <p>You can use one of the below values of the "font-style" property,</p>
+  <p>Value: normal,italic,oblique</p>
+
+  <CodeBlock
+    language="css"
+    code={`.main-heading {
+  font-style: italic;
+}
+.paragraph {
+  font-style: normal;
+}`}
+  />
+
+  <p><b>Note:</b></p>
+  <ol>
+    <li>There shouldn't be any spelling mistakes in the values of the <code>font-style</code> property.</li>
+    <li>There shouldn't be any quotations around the value of the <code>font-style</code> property.</li>
+  </ol>
+
+  <h3>6. Font Weight</h3>
+  <p>
+    The CSS "font-weight" property specifies how thick or thin characters in text
+    should be displayed.
+  </p>
+
+  <CodeBlock
+    language="css"
+    code={`.main-heading {
+  font-weight: bold;
+}
+.paragraph {
+  font-weight: 200;
+}`}
+  />
+
+  <p>You can use one of the below values of the "font-weight" property,</p>
+  <p>
+    Values: normal, bold, bolder, lighter, 100, 200, 300, 400, 500, 600, 700, 800,
+    900
+  </p>
+
+  <p><b>Note:</b></p>
+  <ol>
+    <li>There shouldn't be any spelling mistakes in the values of the <code>font-weight</code> property.</li>
+    <li>There shouldn't be any quotations around the value of the <code>font-weight</code> property.</li>
+    <li>
+      The numerical values given to the <code>font-weight</code> property must be
+      in the range from <code>100</code> to <code>900</code> and should be the
+      multiples of <code>100</code>.
+    </li>
+  </ol>
+
+  <h3>7. Text Decoration</h3>
+  <p>
+    The CSS "text-decoration" property specifies the decoration added to the text.
+  </p>
+
+  <CodeBlock
+    language="css"
+    code={`.main-heading {
+  text-decoration: underline;
+}
+.paragraph {
+  text-decoration: overline;
+}`}
+  />
+
+  <p>You can use one of the below values of the "text-decoration" property,</p>
+  <p><b>Value</b> &nbsp;&nbsp; <b>Description</b></p>
+  <ul>
+    <li>underline &nbsp;&nbsp; Underline the text</li>
+    <li>line-through &nbsp;&nbsp; Strike through the text</li>
+    <li>overline &nbsp;&nbsp; Overline the text</li>
+  </ul>
+
+  <p><b>Note:</b></p>
+  <ol>
+    <li>There shouldn't be any spelling mistakes in the values of the <code>text-decoration</code> property.</li>
+    <li>There shouldn't be any quotations around the value of the <code>text-decoration</code> property.</li>
+    <li>Ensure that <code>text-decoration</code> and <code>line-through</code> are hyphenated.</li>
+  </ol>
+</section>
+
 
       {/* CSS Syntax & Text Properties */}
       <section
@@ -293,6 +711,8 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   text-decoration: underline;
 }`}
         />
+        
+ 
 
         <h3>Colors</h3>
         <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
