@@ -51,7 +51,6 @@
 }
 
 .question-info h2 {
-  margin: 0 0 5px 0;
   color: #333;
   font-size: 1.5rem;
 }
@@ -123,9 +122,8 @@
 
 .web-practice-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
-  gap: 20px;
   padding-top: 80px; /* adjust depending on header height */
 }
 
@@ -133,18 +131,16 @@
   display: flex;
   flex-direction: row;
   gap: 10px;
-  width: 100%;
+  width: 27%;
   padding: 0;
   box-sizing: border-box;
-  margin: 0px 20px;
-  max-height: 500px; /* Updated to 500px */
+  margin: 0px 0px 10px 10px;
+  border-radius: 20px;
 }
 
 .right-panel {
-  width: 100%;
-  padding: 0;
-  box-sizing: border-box;
   margin-top: -80px;
+  width: 100%;
 }
 
 .question-description,
@@ -154,19 +150,20 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   box-sizing: border-box;
-  border-radius: 0;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
-  max-height: 500px; /* Set max-height for containers */
+  max-height: calc(100vh - 150px); /* Updated to 500px */
   overflow: hidden; /* Prevent container overflow */
 }
 .test-cases {
-  margin-right: 40px;
+  margin: 0px;
+  width: 40%;
 }
 
 /* Fixed header styles for question description */
 .question-description-header {
-  padding: 5px 20px;
+  padding: 0px 20px;
   border-bottom: 1px solid #e9ecef;
   background: white;
   z-index: 10;
@@ -174,19 +171,19 @@
 }
 
 .question-description-header h3 {
-  margin-top: 0;
   color: #333;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 10px;
-  margin-bottom: 15px;
 }
 
 /* Scrollable content area for question description */
 .question-description-content {
-  padding: 0 20px 20px 20px;
+  padding: 0px 20px 20px 20px;
   overflow-y: auto; /* Enable vertical scrolling */
   flex: 1; /* Take remaining space */
   height: calc(100% - 80px); /* Calculate height minus header */
+}
+
+.question-description-content h2 {
+  margin-top: -2px;
 }
 
 /* Fixed header styles for test cases */
@@ -196,6 +193,11 @@
   background: white;
   z-index: 10;
   flex-shrink: 0; /* Prevent header from shrinking */
+}
+.test-cases-head-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .test-cases-header h3 {
@@ -208,7 +210,7 @@
 
 /* Scrollable content area for test cases */
 .test-cases-content {
-  padding: 0 20px;
+  padding: 0 10px;
   overflow-y: auto; /* Enable vertical scrolling */
   flex: 1; /* Take remaining space */
   height: calc(100% - 150px); /* Calculate height minus header and actions */
@@ -216,23 +218,10 @@
   flex-direction: column;
 }
 
-.output-section {
-  margin: 20px 0;
-  width: 100%;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
 .question-description-content p {
   line-height: 1.6;
   color: #555;
   margin: 0;
-}
-
-.test-results {
-  flex: 1; /* Take available space */
-  overflow-y: auto; /* Enable scrolling for test results */
-  margin-bottom: 15px;
 }
 
 .test-case {
@@ -314,25 +303,6 @@
   cursor: not-allowed;
 }
 
-.output-container {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
-  padding: 15px;
-  min-height: 80px;
-  max-height: 150px;
-  overflow-y: auto;
-  font-family: "Courier New", monospace;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.output-container pre {
-  margin: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
 /* CodePlayground integration styles */
 .code-playground-integration {
   height: 100%;
@@ -343,16 +313,8 @@
 
 /* Responsive design */
 @media (max-width: 1200px) {
-  .web-practice-content {
-    flex-direction: column;
-  }
-
   .left-panel {
     max-width: none;
-    min-width: auto;
-  }
-
-  .right-panel {
     min-width: auto;
   }
 }
@@ -487,35 +449,14 @@
   cursor: not-allowed;
 }
 
-/* Ensure the output section is visible */
-.output-container {
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 15px;
-  border-radius: 4px;
-  min-height: 100px;
-  max-height: 200px;
-  overflow-y: auto;
-  font-family: "Consolas", "Monaco", "Courier New", monospace;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-top: 10px;
-}
-
-.output-container pre {
-  margin: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
 /* Fix for test results scrolling */
 .test-results {
-  max-height: 300px;
+  max-height: calc(100vh - 150px);
   overflow-y: auto;
-  margin-bottom: 15px;
-  border: 1px solid #e9ecef;
+  margin-bottom: 5px;
   border-radius: 4px;
-  padding: 10px;
+  margin-top: 2px;
+  flex: 1; /* Take available space */
 }
 
 .test-case {
@@ -856,4 +797,38 @@
 .warnings-counter {
   color: #285381;
   font-size: 15px;
+}
+
+/* Add these styles to handle layout when test cases are hidden */
+
+/* Animation for test cases container */
+.test-cases {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optional: Add a button to hide test cases if needed */
+.hide-test-btn {
+  background: transparent;
+  color: #5a6268;
+  border: none;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: auto;
+}
+
+.hide-test-btn:hover {
+  color: #008bf5;
 }

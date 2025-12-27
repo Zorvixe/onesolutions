@@ -4,7 +4,7 @@
 }
 
 .desc-que-img {
-  width: 50%;
+  width: 100%;
 }
 
 .desc-question-details {
@@ -16,7 +16,7 @@
 .desc-colors {
   padding: 10px 50px;
   color: #fff;
-  width: 30%;
+  width: 50%;
 }
 .ordered-unordered-lists {
   margin: 0px 20px;

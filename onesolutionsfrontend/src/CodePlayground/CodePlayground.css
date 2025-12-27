@@ -20,10 +20,9 @@
   overflow: hidden;
   font-family: "Segoe UI", system-ui, sans-serif;
   display: flex;
-  flex-direction: column;
   margin: 0px 6px;
   margin-top: 80px;
-  min-height: 86vh;
+  min-height: calc(90vh - 80px);
 }
 
 /* Header Styles */

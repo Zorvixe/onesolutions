@@ -1767,14 +1767,6 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            {
-              id: 6,
-              description: "Page should consist of an arrow bootstrap icon",
-              type: "html-validation",
-              input: "check-bootstrap-arrow-icon",
-              output: "true",
-              visible: true,
-            },
           ],
         },
       ],
@@ -1944,14 +1936,6 @@ export const responsiveCodingPracticesData = {
           testCases: [
             {
               id: 1,
-              description: "Page should consist of an arrow bootstrap icon",
-              type: "html-validation",
-              input: "check-bootstrap-arrow-icon",
-              output: "true",
-              visible: true,
-            },
-            {
-              id: 2,
               description:
                 "Page should consist of an HTML horizontal rule (hr) element",
               type: "html-validation",
@@ -1960,7 +1944,7 @@ export const responsiveCodingPracticesData = {
               visible: true,
             },
             {
-              id: 3,
+              id: 2,
               description:
                 "Page should consist of an HTML container element with the bootstrap class name container",
               type: "html-validation",
@@ -1969,7 +1953,7 @@ export const responsiveCodingPracticesData = {
               visible: true,
             },
             {
-              id: 4,
+              id: 3,
               description:
                 "Page should consist of an HTML container element with the bootstrap class name row",
               type: "html-validation",
@@ -1978,7 +1962,7 @@ export const responsiveCodingPracticesData = {
               visible: true,
             },
             {
-              id: 5,
+              id: 4,
               description:
                 "Page should consist of an HTML container element with the CSS property background image",
               type: "css-validation",
@@ -1987,7 +1971,7 @@ export const responsiveCodingPracticesData = {
               visible: true,
             },
             {
-              id: 6,
+              id: 5,
               description:
                 "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
               type: "css-validation",
@@ -1997,7 +1981,7 @@ export const responsiveCodingPracticesData = {
             },
 
             {
-              id: 7,
+              id: 6,
               description: `Page should consist of an HTML container element with CSS property background-size and value cover`,
               type: "css-validation",
               input: "check-background-size",
@@ -2005,7 +1989,7 @@ export const responsiveCodingPracticesData = {
               visible: true,
             },
             {
-              id: 8,
+              id: 7,
               description:
                 "Page should consist of an HTML container element with the bootstrap grid column class name that starts with col-",
               type: "html-validation",
@@ -2371,7 +2355,7 @@ export const responsiveCodingPracticesData = {
               description:
                 "Page should consist of an HTML container element with the bootstrap class name carousel",
               type: "html-validation",
-              input: "check-carousel-container",
+              input: "check-carousel-container-indicators",
               output: "true",
               visible: true,
             },
@@ -2854,21 +2838,21 @@ export const responsiveCodingPracticesData = {
                 <ul>
                     <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774672/ecommerce-explore-mamba-watch-img_k5plaw.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774672/ecommerce-explore-mamba-watch-img_k5plaw.png</a></p></li>
                     <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774673/ecommerce-explore-camera-img_r4lqup.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774673/ecommerce-explore-camera-img_r4lqup.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774705/ecommerce-explore-sport-and-fitness-img_bgd2dn.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774705/ecommerce-explore-sport-and-fitness-img_bgd2dn.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774715/ecommerce-explore-ear-phones-pink-img_zluafk.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774715/ecommerce-explore-ear-phones-pink-img_zluafk.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774719/ecommerce-explore-tv-img_ivr7bf.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774719/ecommerce-explore-tv-img_ivr7bf.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774720/ecommerce-explore-joy-stick-img_ipeq8o.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774720/ecommerce-explore-joy-stick-img_ipeq8o.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774735/ecommerce-explore-speakers-big-img_t01rf4.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774735/ecommerce-explore-speakers-big-img_t01rf4.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774798/ecommerce-explore-vr-set-img_vyk6uw.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774798/ecommerce-explore-vr-set-img_vyk6uw.png</a></p>
-</li>
-<li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774800/ecommerce-explore-tablet-device-img_zlv3dp.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774800/ecommerce-explore-tablet-device-img_zlv3dp.png</a></p>
-</li>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774705/ecommerce-explore-sport-and-fitness-img_bgd2dn.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774705/ecommerce-explore-sport-and-fitness-img_bgd2dn.png</a></p>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774715/ecommerce-explore-ear-phones-pink-img_zluafk.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774715/ecommerce-explore-ear-phones-pink-img_zluafk.png</a></p>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774719/ecommerce-explore-tv-img_ivr7bf.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774719/ecommerce-explore-tv-img_ivr7bf.png</a></p>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774720/ecommerce-explore-joy-stick-img_ipeq8o.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774720/ecommerce-explore-joy-stick-img_ipeq8o.png</a></p>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774735/ecommerce-explore-speakers-big-img_t01rf4.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774735/ecommerce-explore-speakers-big-img_t01rf4.png</a></p>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774798/ecommerce-explore-vr-set-img_vyk6uw.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774798/ecommerce-explore-vr-set-img_vyk6uw.png</a></p>
+                  </li>
+                  <li>                <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774800/ecommerce-explore-tablet-device-img_zlv3dp.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766774800/ecommerce-explore-tablet-device-img_zlv3dp.png</a></p>
+                  </li>
                 </ul>
                 <p class="desc-que-blue">CSS Colors used:</p>
                 <div  class="desc-colors cf5f7fa">#f5f7fa</div>
@@ -3042,64 +3026,12 @@ export const responsiveCodingPracticesData = {
           score: 70,
           type: "web",
           defaultCode: {
-            html: ``,
-            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
             javascript: "",
           },
-          // FIX: Use proper string formatting for descriptionDetails
-          descriptionDetails: `
-                <div class="desc-question-details">
-                <p class="desc-que-blue">Refer to the below images.</p>
-                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
-                  <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
-                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-sm-output-1-img-v2_j1zpln.png" class="desc-que-img" />
-                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817960/landing-section-sm-output-2-img-v2_bz0pfx.png" class="desc-que-img" />
-               
-                  <p class="">Medium (Size >= 768px):</p>
-                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-md-output-img-v2_vw8ntd.png" class="desc-que-img" />
-               
-                  <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
-                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-lg-output-img-v2_tgfijf.png" class="desc-que-img" />
-               
-                   <div class="Note-container">
-                  <div class="icon-note">
-                    <h6>
-                      <i class="bi bi-journal-text"></i>Note
-                    </h6>
-                  </div>
-                  <p>
-                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-                     
-                      <li>
-                        Try to achieve the design as close as possible.
-                      </li>
-                     
-                    </ul>
-                  </p>
-                </div>
-                
-                 <hr>
-                  <p class="desc-que-blue">Resources</p>
-                <p class="">Use the image URLs given below.</p>
-                <p class="">Design Tool Logo:</p>
-                <ul>
-                    <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png</a></p></li>
-                </ul>
-                <p class="">Background Image:</p>
-                <ul>
-                    <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-bg_bxjmmq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-bg_bxjmmq.png</a></p></li>
-                </ul>
-                <p class="desc-que-blue">CSS Colors used:</p>
-                <div  class="desc-colors c0C0521">#0C0521</div>
-                <div  class="desc-colors cFFDDA9">#FFDDA9</div>
-              
-                <hr>
-              <p class="desc-que-blue">Concepts Review</p>
-              <p class="">Want to quickly review some of the concepts you've been learning?</p>
-              <p class="">Take a look at the Cheat Sheets.</p>
-                 
-                </div>
-              `,
+          descriptionDetails:
+            '<div class="desc-question-details"><p class="desc-que-blue">Refer to the below images.</p><p class="">The following images illustrate all device sizes, from extra small to extra large.</p><p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-sm-output-1-img-v2_j1zpln.png" class="desc-que-img" /><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817960/landing-section-sm-output-2-img-v2_bz0pfx.png" class="desc-que-img" /><p class="">Medium (Size >= 768px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-md-output-img-v2_vw8ntd.png" class="desc-que-img" /><p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-lg-output-img-v2_tgfijf.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><p class="">Design Tool Logo:</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png</a></p></li></ul><p class="">Background Image:</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-bg_bxjmmq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-bg_bxjmmq.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><div class="desc-colors c0C0521">#0C0521</div><div class="desc-colors cFFDDA9">#FFDDA9</div><hr><p class="desc-que-blue">Concepts Review</p><p class="">Want to quickly review some of the concepts you\'ve been learning?</p><p class="">Take a look at the Cheat Sheets.</p></div>',
           testCases: [
             {
               id: 1,
@@ -3115,7 +3047,7 @@ export const responsiveCodingPracticesData = {
               description:
                 "Page should consist of an HTML main heading element in an HTML container element",
               type: "html-validation",
-              input: "check-heading-containe",
+              input: "check-heading-container",
               output: "true",
               visible: true,
             },
@@ -3205,6 +3137,204 @@ export const responsiveCodingPracticesData = {
                 "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
               type: "css-validation",
               input: "check-text-center",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "edd4ab38-b422bc9bjdb363-e3537b38bdd2",
+          title: "Tools Section",
+          description:
+            "In this assignment, let's build a Tools Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 75,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails:
+            '<div class="desc-question-details"><p class="desc-que-blue">Refer to the below images.</p><p class="">The following images illustrate all device sizes, from extra small to extra large.</p><p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766822275/features-sm-output-img_wzxyri.png" class="desc-que-img" /><p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766822276/features-md-output-img_dzzhns.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766822373/features-1-img_mewl9z.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766822373/features-1-img_mewl9z.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766822374/features-2-img_lri6ln.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766822374/features-2-img_lri6ln.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><p class="">Background color Hex Code values:</p><div class="desc-colors cffffff">#ffffff</div><p class="">Text color Hex Code values:</p><div class="desc-colors c323f4b">#323f4b</div><div class="desc-colors c7b8794">#7b8794</div><p class="desc-que-blue">CSS Font families used:</p><ul><li>Roboto</li></ul><hr><p class="desc-que-blue">Concepts Review</p><p class="">Want to quickly review some of the concepts you\'ve been learning?</p><p class="">Take a look at the Cheat Sheets.</p></div>',
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row inside the container element",
+              type: "html-validation",
+              input: "check-row-inside-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of at least four HTML container elements with bootstrap column classes col-12 or col-sm-12",
+              type: "html-validation",
+              input: "check-min-four-mobile-columns",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of at least four HTML container elements with the bootstrap class name col-md-6 inside the row element",
+              type: "html-validation",
+              input: "check-min-four-col-md-6",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of at least two HTML container elements with bootstrap order utility classes starting with order-",
+              type: "html-validation",
+              input: "check-order-classes",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of at least two HTML image elements with the given image URLs",
+              type: "html-validation",
+              input: "check-image-src",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of at least two HTML image elements with the bootstrap class name w-100",
+              type: "html-validation",
+              input: "check-image-w-100",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of at least two HTML main heading elements inside the row element",
+              type: "html-validation",
+              input: "check-heading-elements",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of at least two HTML paragraph elements inside the row element",
+              type: "html-validation",
+              input: "check-paragraph-elements",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of at least two HTML container elements with bootstrap order utility classes starting with order-md-",
+              type: "html-validation",
+              input: "check-order-md-classes",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "5b9b822e-b004c5465c-23c19fbab4e0",
+          title: "Features Section",
+          description:
+            "In this assignment, let's build a Features Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 65,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails:
+            '<div class="desc-question-details"><p class="desc-que-blue">Refer to the below images.</p><p class="">The following images illustrate all device sizes, from extra small to extra large.</p><p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837388/awsome-features-output-sm-img-v2_fkkih9.png" class="desc-que-img" /><p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837332/awsome-features-output-md-img_zogwjo.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><p class="">Text color Hex Code values:</p><div class="desc-colors c323f4b">#323f4b</div><div class="desc-colors c7b8794">#7b8794</div><div class="desc-colors c9aa5b1">#9aa5b1</div><p class="desc-que-blue">CSS Font families used:</p><ul><li>Roboto</li></ul><hr><p class="desc-que-blue">Concepts Review</p><p class="">Want to quickly review some of the concepts you\'ve been learning?</p><p class="">Take a look at the Cheat Sheets.</p></div>',
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML element with the bootstrap class name row inside the container element",
+              type: "html-validation",
+              input: "check-row-inside-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML main heading element inside the row element",
+              type: "html-validation",
+              input: "check-h1-inside-row",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of at least seven HTML paragraph elements inside the row element",
+              type: "html-validation",
+              input: "check-min-seven-paragraphs",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of at least six HTML container elements with the bootstrap class name col-md-6 inside the row element",
+              type: "html-validation",
+              input: "check-min-six-col-md-6",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of at least six HTML elements with the bootstrap class name d-flex inside the row element",
+              type: "html-validation",
+              input: "check-min-six-d-flex",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of at least six HTML elements with the bootstrap class name flex-row inside the row element",
+              type: "html-validation",
+              input: "check-min-six-flex-row",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of at least six HTML image elements inside the row element",
+              type: "html-validation",
+              input: "check-min-six-images",
               output: "true",
               visible: true,
             },

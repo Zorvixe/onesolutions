@@ -633,6 +633,21 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
       }
 
       case "check-carousel-container": {
+        const carousel = iframeDoc.getElementById("carouselExampleSlidesOnly");
+
+        const passed =
+          carousel &&
+          carousel.classList.contains("carousel") &&
+          carousel.classList.contains("slide");
+
+        return {
+          passed,
+          actual: passed
+            ? "Found carousel container with id carouselExampleSlidesOnly and required classes"
+            : "Carousel container with id carouselExampleSlidesOnly and classes carousel slide not found",
+        };
+      }
+      case "check-carousel-container-indicators": {
         const carousel = iframeDoc.getElementById("carouselExampleIndicators");
 
         const passed =
@@ -1326,6 +1341,180 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
           actual: passed
             ? "Found image with correct logo src"
             : "Missing image with correct logo src",
+        };
+      }
+
+      // 1️⃣ EXACTLY ONE container
+      case "check-container-class": {
+        const containers = iframeDoc.querySelectorAll(".container");
+        return {
+          passed: containers.length === 1,
+          actual: `Found ${containers.length} container element(s)`,
+        };
+      }
+
+      // 2️⃣ EXACTLY ONE row inside container
+      case "check-row-inside-container": {
+        const rows = iframeDoc.querySelectorAll(".container .row");
+        return {
+          passed: rows.length === 1,
+          actual: `Found ${rows.length} row(s) inside container`,
+        };
+      }
+
+      // 3️⃣ EXACTLY FOUR col-12 OR col-sm-12
+      case "check-min-four-mobile-columns": {
+        const columns = iframeDoc.querySelectorAll(".col-12, .col-sm-12");
+        return {
+          passed: columns.length === 4,
+          actual: `Found ${columns.length} mobile columns`,
+        };
+      }
+
+      // 4️⃣ EXACTLY FOUR col-md-6 inside row
+      case "check-min-four-col-md-6": {
+        const columns = iframeDoc.querySelectorAll(".row .col-md-6");
+        return {
+          passed: columns.length === 4,
+          actual: `Found ${columns.length} col-md-6 elements`,
+        };
+      }
+
+      // 5️⃣ EXACTLY TWO order-* utility classes
+      case "check-order-classes": {
+        const elements = Array.from(iframeDoc.querySelectorAll("*")).filter(
+          (el) =>
+            Array.from(el.classList).some(
+              (cls) => cls.startsWith("order-") && !cls.startsWith("order-md-")
+            )
+        );
+
+        return {
+          passed: elements.length === 2,
+          actual: `Found ${elements.length} order utility elements`,
+        };
+      }
+
+      // 6️⃣ EXACTLY TWO images with src
+      case "check-image-src": {
+        const images = iframeDoc.querySelectorAll("img[src]");
+        return {
+          passed: images.length === 2,
+          actual: `Found ${images.length} image elements`,
+        };
+      }
+
+      // 7️⃣ EXACTLY TWO images with w-100
+      case "check-image-w-100": {
+        const images = iframeDoc.querySelectorAll("img.w-100");
+        return {
+          passed: images.length === 2,
+          actual: `Found ${images.length} images with w-100`,
+        };
+      }
+
+      // 8️⃣ EXACTLY TWO headings inside row
+      case "check-heading-elements": {
+        const headings = iframeDoc.querySelectorAll(
+          ".row h1, .row h2, .row h3, .row h4, .row h5, .row h6"
+        );
+        return {
+          passed: headings.length === 2,
+          actual: `Found ${headings.length} heading elements`,
+        };
+      }
+
+      // 9️⃣ EXACTLY TWO paragraphs inside row
+      case "check-paragraph-elements": {
+        const paragraphs = iframeDoc.querySelectorAll(".row p");
+        return {
+          passed: paragraphs.length === 2,
+          actual: `Found ${paragraphs.length} paragraph elements`,
+        };
+      }
+
+      // 🔟 EXACTLY TWO order-md-* utility classes
+      case "check-order-md-classes": {
+        const elements = Array.from(iframeDoc.querySelectorAll("*")).filter(
+          (el) =>
+            Array.from(el.classList).some((cls) => cls.startsWith("order-md-"))
+        );
+
+        return {
+          passed: elements.length === 2,
+          actual: `Found ${elements.length} order-md utility elements`,
+        };
+      }
+
+      // 1️⃣ container
+      case "check-container-class": {
+        const containers = iframeDoc.querySelectorAll(".container");
+        return {
+          passed: containers.length >= 1,
+          actual: `Found ${containers.length} container(s)`,
+        };
+      }
+
+      // 2️⃣ row inside container
+      case "check-row-inside-container": {
+        const rows = iframeDoc.querySelectorAll(".container .row");
+        return {
+          passed: rows.length >= 1,
+          actual: `Found ${rows.length} row(s) inside container`,
+        };
+      }
+
+      // 3️⃣ h1 inside row
+      case "check-h1-inside-row": {
+        const headings = iframeDoc.querySelectorAll(".row h1");
+        return {
+          passed: headings.length >= 1,
+          actual: `Found ${headings.length} h1 element(s) inside row`,
+        };
+      }
+
+      // 4️⃣ at least 7 paragraphs inside row
+      case "check-min-seven-paragraphs": {
+        const paragraphs = iframeDoc.querySelectorAll(".row p");
+        return {
+          passed: paragraphs.length >= 7,
+          actual: `Found ${paragraphs.length} paragraph(s)`,
+        };
+      }
+
+      // 5️⃣ at least 6 col-md-6 inside row
+      case "check-min-six-col-md-6": {
+        const columns = iframeDoc.querySelectorAll(".row .col-md-6");
+        return {
+          passed: columns.length >= 6,
+          actual: `Found ${columns.length} col-md-6 element(s)`,
+        };
+      }
+
+      // 6️⃣ at least 6 d-flex inside row
+      case "check-min-six-d-flex": {
+        const elements = iframeDoc.querySelectorAll(".row .d-flex");
+        return {
+          passed: elements.length >= 6,
+          actual: `Found ${elements.length} d-flex element(s)`,
+        };
+      }
+
+      // 7️⃣ at least 6 flex-row inside row
+      case "check-min-six-flex-row": {
+        const elements = iframeDoc.querySelectorAll(".row .flex-row");
+        return {
+          passed: elements.length >= 6,
+          actual: `Found ${elements.length} flex-row element(s)`,
+        };
+      }
+
+      // 8️⃣ at least 6 images inside row
+      case "check-min-six-images": {
+        const images = iframeDoc.querySelectorAll(".row img");
+        return {
+          passed: images.length >= 6,
+          actual: `Found ${images.length} image(s)`,
         };
       }
 

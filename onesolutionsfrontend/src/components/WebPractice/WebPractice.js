@@ -42,6 +42,7 @@ const WebPractice = () => {
   const autoSaveTimeoutRef = useRef(null);
   const [isJustSolved, setIsJustSolved] = useState(false);
   const [audio, setAudio] = useState(null); // NEW: Audio state
+  const [showTestCases, setShowTestCases] = useState(false);
 
   const subtopicId = location.state?.subtopicId;
   const topicId = location.state?.topicId;
@@ -316,6 +317,17 @@ const WebPractice = () => {
     setSubmitMessage("");
     setDebugInfo("");
 
+    // Add this check
+    if (
+      !selectedQuestion.testCases ||
+      !Array.isArray(selectedQuestion.testCases)
+    ) {
+      setOutput("No test cases available for this question.");
+      setIsRunning(false);
+      setShowTestCases(false); // Hide test cases container if no tests
+      return;
+    }
+
     const iframe = iframeRef.current;
     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
     const results = [];
@@ -387,6 +399,7 @@ const WebPractice = () => {
 
   const handleRunTests = (iframeRef) => {
     console.log("Running tests...");
+    setShowTestCases(true); // Add this line
     updatePreview(iframeRef);
     setTimeout(() => {
       runTests(iframeRef);
@@ -859,23 +872,50 @@ const WebPractice = () => {
           <div className="question-description">
             <div className="question-description-header">
               <h3>Description</h3>
-              <h2>{selectedQuestion.title}</h2>
-              <p>{selectedQuestion.description}</p>
             </div>
             <div className="question-description-content">
+              <h2>{selectedQuestion.title}</h2>
+              <p>{selectedQuestion.description}</p>
               <div className="desc-question-full-view">
                 {renderDescriptionDetails()}
               </div>
             </div>
           </div>
+        </div>
 
+        <div className="right-panel">
+          <CodePlayground
+            initialLanguage="web"
+            initialCode={currentCode}
+            autoRun={false}
+            onCodeChange={handleCodeChange}
+            iframeRef={iframeRef}
+            customRunHandler={() => handleRunTests(iframeRef)}
+            runButtonText="Run Tests"
+          />
+        </div>
+
+        {showTestCases && (
           <div className="test-cases">
             <div className="test-cases-header">
-              <h3>Test Cases</h3>
-              <span className="tests-count">
-                {testResults.filter((t) => t.passed).length}/
-                {testResults.length} Passed
-              </span>
+              <div className="test-cases-head-row">
+                <h3>Test Cases</h3>
+                <button
+                  className="hide-test-btn"
+                  onClick={() => setShowTestCases(false)}
+                  title="Hide test cases"
+                >
+                  ✕
+                </button>
+              </div>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
+                <span className="tests-count">
+                  {testResults.filter((t) => t.passed).length}/
+                  {testResults.length} Passed
+                </span>
+              </div>
             </div>
             <div className="test-cases-content">
               <div className="test-results">
@@ -910,25 +950,7 @@ const WebPractice = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        <div className="right-panel">
-          <CodePlayground
-            initialLanguage="web"
-            initialCode={currentCode}
-            autoRun={false}
-            onCodeChange={handleCodeChange}
-            iframeRef={iframeRef}
-            customRunHandler={() => handleRunTests(iframeRef)}
-            runButtonText="Run Tests"
-          />
-          <div className="output-section">
-            <h3>Test Output</h3>
-            <div className="output-container">
-              <pre>{output || "Test results will appear here..."}</pre>
-            </div>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
