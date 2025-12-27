@@ -2495,8 +2495,7 @@ export const responsiveCodingPracticesData = {
     {
       id: "responsive-coding-practice-15",
       title: "Responsive Coding Practice 15",
-      description:
-        "",
+      description: "",
       questions: [
         {
           id: "f5eabaab-419957b8-fb450aaaea57",
@@ -2517,7 +2516,7 @@ export const responsiveCodingPracticesData = {
                 <p class="desc-que-blue">Refer to the below images.</p>
                   <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
                   <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
-                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766771226/ecommerce-products-section-xs-v1_fxdj4u.gif" />
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766771226/ecommerce-products-section-xs-v1_fxdj4u.gif" class="desc-que-img" />
                
                   <p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
                   <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766771227/ecommerce-products-section-md-v1_nakibp.gif" class="desc-que-img" />
@@ -2632,7 +2631,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 5,
               description:
                 "Page should consist of an HTML container element with the CSS property background image",
@@ -2742,7 +2741,7 @@ export const responsiveCodingPracticesData = {
                 </div>
               `,
           testCases: [
-          {
+            {
               id: 1,
               description: "Page should consist of an HTML image element",
               type: "html-validation",
@@ -2776,7 +2775,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 5,
               description:
                 "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
@@ -2785,7 +2784,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             
+
             {
               id: 6,
               description:
@@ -2795,7 +2794,6 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-
           ],
         },
       ],
@@ -2803,8 +2801,7 @@ export const responsiveCodingPracticesData = {
     {
       id: "responsive-coding-practice-16",
       title: "Responsive Coding Practice 16",
-      description:
-        "",
+      description: "",
       questions: [
         {
           id: "ba97e159-e385eec23d-b9c16a80969b",
@@ -2887,7 +2884,6 @@ export const responsiveCodingPracticesData = {
                 </div>
               `,
           testCases: [
-           
             {
               id: 1,
               description: "Page should consist of an HTML image element",
@@ -2896,7 +2892,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-           
+
             {
               id: 2,
               description:
@@ -2915,7 +2911,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 4,
               description:
                 "Page should consist of an HTML container element with the bootstrap grid column class name in medium devices that starts with col-md-",
@@ -2924,7 +2920,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-              {
+            {
               id: 5,
               description:
                 "Page should consist of an HTML container element with the bootstrap class name d-flex",
@@ -2951,7 +2947,6 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-
           ],
         },
         {
@@ -3003,7 +2998,7 @@ export const responsiveCodingPracticesData = {
                 </div>
               `,
           testCases: [
-          {
+            {
               id: 1,
               description:
                 "Page should consist of an HTML main heading element in an HTML container element",
@@ -3019,8 +3014,8 @@ export const responsiveCodingPracticesData = {
               type: "html-validation",
               input: "check-button-container",
               output: "true",
-              },
-              {
+            },
+            {
               id: 3,
               description:
                 "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
@@ -3028,7 +3023,191 @@ export const responsiveCodingPracticesData = {
               input: "check-text-align-center",
               output: "true",
               visible: true,
-            }
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-assignment-1",
+      title: "Coding Assignment 1",
+      description: "",
+      questions: [
+        {
+          id: "b3200569-f2a183f-ed8fd5c624fe",
+          title: "Navbar & Banner Section",
+          description:
+            "In this assignment, let's build a Navbar & Banner Section by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 70,
+          type: "web",
+          defaultCode: {
+            html: ``,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: "",
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                <div class="desc-question-details">
+                <p class="desc-que-blue">Refer to the below images.</p>
+                  <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+                  <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-sm-output-1-img-v2_j1zpln.png" class="desc-que-img" />
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817960/landing-section-sm-output-2-img-v2_bz0pfx.png" class="desc-que-img" />
+               
+                  <p class="">Medium (Size >= 768px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-md-output-img-v2_vw8ntd.png" class="desc-que-img" />
+               
+                  <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+                  <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766817961/landing-section-lg-output-img-v2_tgfijf.png" class="desc-que-img" />
+               
+                   <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Try to achieve the design as close as possible.
+                      </li>
+                     
+                    </ul>
+                  </p>
+                </div>
+                
+                 <hr>
+                  <p class="desc-que-blue">Resources</p>
+                <p class="">Use the image URLs given below.</p>
+                <p class="">Design Tool Logo:</p>
+                <ul>
+                    <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png</a></p></li>
+                </ul>
+                <p class="">Background Image:</p>
+                <ul>
+                    <li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-bg_bxjmmq.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-bg_bxjmmq.png</a></p></li>
+                </ul>
+                <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors c0C0521">#0C0521</div>
+                <div  class="desc-colors cFFDDA9">#FFDDA9</div>
+              
+                <hr>
+              <p class="desc-que-blue">Concepts Review</p>
+              <p class="">Want to quickly review some of the concepts you've been learning?</p>
+              <p class="">Take a look at the Cheat Sheets.</p>
+                 
+                </div>
+              `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML image element, with the given src attribute",
+              type: "html-validation",
+              input: "check-logo-image-src",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-containe",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML span element in the HTML main heading element",
+              type: "html-validation",
+              input: "check-span-inside-heading",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Page should consist of two HTML button elements",
+              type: "html-validation",
+              input: "check-two-buttons",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of a nav element with the bootstrap class name navbar",
+              type: "html-validation",
+              input: "check-navbar-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of an HTML nav element with the CSS property background-color and its value as #0c0521",
+              type: "css-validation",
+              input: "check-navbar-bg-color",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML container element with class navbar-collapse in the nav element with class navbar",
+              type: "html-validation",
+              input: "check-navbar-collapse",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of a container element with class ml-auto or the CSS property margin-left with value auto in the element with class navbar",
+              type: "html-validation",
+              input: "check-ml-auto-in-navbar",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of an HTML container element with the CSS property background-image and its value should be given",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 11,
+              description:
+                "Page should consist of an HTML container element with CSS property background-size and value cover",
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 12,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
+              type: "css-validation",
+              input: "check-text-center",
+              output: "true",
+              visible: true,
+            },
           ],
         },
       ],

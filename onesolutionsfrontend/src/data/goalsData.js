@@ -623,14 +623,14 @@ export const goalsData = [
                 id: "QW9_s4_A0 m7_H g1_7B c2_D2E",
                 name: "Responsive Coding Assignment 1",
               },
-              {
-                id: "QW9_s5_A0 m7_H g1_7B c2_D2E",
-                name: "Responsive Coding Assignment 2",
-              },
-              {
-                id: "QW9_s6_A0 m7_H g1_7B c2_D2E",
-                name: "Responsive Coding Assignment 3",
-              },
+              // {
+              //   id: "QW9_s5_A0 m7_H g1_7B c2_D2E",
+              //   name: "Responsive Coding Assignment 2",
+              // },
+              // {
+              //   id: "QW9_s6_A0 m7_H g1_7B c2_D2E",
+              //   name: "Responsive Coding Assignment 3",
+              // },
             ],
           },
           {
@@ -655,20 +655,20 @@ export const goalsData = [
               },
             ],
           },
-          {
-            id: "QW9_m9_A0 g1_H c2_7B",
-            name: "Build Your Own Responsive Website Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m9_H g1_7B c2_D2E",
-                name: "Build Your Own Responsive Website Course Exam | Instructions",
-              },
-              {
-                id: "QW9_s2_A0 m9_H g1_7B c2_D2E",
-                name: "Build Your Own Responsive Website Course Exam",
-              },
-            ],
-          },
+          // {
+          //   id: "QW9_m9_A0 g1_H c2_7B",
+          //   name: "Build Your Own Responsive Website Course Exam",
+          //   topic: [
+          //     {
+          //       id: "QW9_s1_A0 m9_H g1_7B c2_D2E",
+          //       name: "Build Your Own Responsive Website Course Exam | Instructions",
+          //     },
+          //     {
+          //       id: "QW9_s2_A0 m9_H g1_7B c2_D2E",
+          //       name: "Build Your Own Responsive Website Course Exam",
+          //     },
+          //   ],
+          // },
         ],
       },
       {

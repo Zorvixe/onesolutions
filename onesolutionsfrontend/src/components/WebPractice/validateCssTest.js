@@ -9,7 +9,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBackgroundImage = false;
         let elementWithBackground = null;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.backgroundImage && style.backgroundImage !== "none") {
@@ -17,11 +17,13 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             elementWithBackground = el.tagName;
           }
         });
-        
+
         return {
           passed: hasBackgroundImage,
           actual: hasBackgroundImage
-            ? `Found background image (on ${elementWithBackground || 'element'})`
+            ? `Found background image (on ${
+                elementWithBackground || "element"
+              })`
             : "No background image found",
         };
       }
@@ -30,21 +32,23 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBackgroundColor = false;
         let elementWithColor = null;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.backgroundColor && 
-              style.backgroundColor !== "rgba(0, 0, 0, 0)" && 
-              style.backgroundColor !== "transparent") {
+          if (
+            style.backgroundColor &&
+            style.backgroundColor !== "rgba(0, 0, 0, 0)" &&
+            style.backgroundColor !== "transparent"
+          ) {
             hasBackgroundColor = true;
             elementWithColor = el.tagName;
           }
         });
-        
+
         return {
           passed: hasBackgroundColor,
           actual: hasBackgroundColor
-            ? `Found background color (on ${elementWithColor || 'element'})`
+            ? `Found background color (on ${elementWithColor || "element"})`
             : "No background color found (other than transparent/default)",
         };
       }
@@ -54,26 +58,40 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         let hasBackgroundSizeCover = false;
         let hasBackgroundSizeContain = false;
         let hasBackgroundSizeCustom = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const bgSize = style.backgroundSize;
-          
+
           if (bgSize === "cover") {
             hasBackgroundSizeCover = true;
           } else if (bgSize === "contain") {
             hasBackgroundSizeContain = true;
-          } else if (bgSize && bgSize !== "auto" && bgSize !== "initial" && bgSize !== "inherit") {
+          } else if (
+            bgSize &&
+            bgSize !== "auto" &&
+            bgSize !== "initial" &&
+            bgSize !== "inherit"
+          ) {
             hasBackgroundSizeCustom = true;
           }
         });
-        
-        const hasAnyBackgroundSize = hasBackgroundSizeCover || hasBackgroundSizeContain || hasBackgroundSizeCustom;
-        
+
+        const hasAnyBackgroundSize =
+          hasBackgroundSizeCover ||
+          hasBackgroundSizeContain ||
+          hasBackgroundSizeCustom;
+
         return {
           passed: hasAnyBackgroundSize,
           actual: hasAnyBackgroundSize
-            ? `Found background-size: ${hasBackgroundSizeCover ? 'cover' : hasBackgroundSizeContain ? 'contain' : 'custom value'}`
+            ? `Found background-size: ${
+                hasBackgroundSizeCover
+                  ? "cover"
+                  : hasBackgroundSizeContain
+                  ? "contain"
+                  : "custom value"
+              }`
             : "No custom background-size found",
         };
       }
@@ -81,19 +99,21 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-background-position": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomBackgroundPosition = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const bgPosition = style.backgroundPosition;
-          
-          if (bgPosition && 
-              !bgPosition.includes("0%") && 
-              bgPosition !== "initial" && 
-              bgPosition !== "inherit") {
+
+          if (
+            bgPosition &&
+            !bgPosition.includes("0%") &&
+            bgPosition !== "initial" &&
+            bgPosition !== "inherit"
+          ) {
             hasCustomBackgroundPosition = true;
           }
         });
-        
+
         return {
           passed: hasCustomBackgroundPosition,
           actual: hasCustomBackgroundPosition
@@ -107,7 +127,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasTextAlignCenter = false;
         let centerElements = [];
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.textAlign === "center") {
@@ -115,11 +135,13 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             centerElements.push(el.tagName.toLowerCase());
           }
         });
-        
+
         return {
           passed: hasTextAlignCenter,
           actual: hasTextAlignCenter
-            ? `Found text-align: center (${centerElements.slice(0, 3).join(', ')}${centerElements.length > 3 ? '...' : ''})`
+            ? `Found text-align: center (${centerElements
+                .slice(0, 3)
+                .join(", ")}${centerElements.length > 3 ? "..." : ""})`
             : "No text-align: center found",
         };
       }
@@ -127,14 +149,14 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-text-align-right": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasTextAlignRight = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.textAlign === "right") {
             hasTextAlignRight = true;
           }
         });
-        
+
         return {
           passed: hasTextAlignRight,
           actual: hasTextAlignRight
@@ -146,14 +168,14 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-text-align-left": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasTextAlignLeft = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.textAlign === "left") {
             hasTextAlignLeft = true;
           }
         });
-        
+
         return {
           passed: hasTextAlignLeft,
           actual: hasTextAlignLeft
@@ -166,26 +188,29 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasTextDecoration = false;
         let decorTypes = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const decoration = style.textDecoration;
-          
-          if (decoration && 
-              decoration !== "none" && 
-              decoration !== "initial" && 
-              decoration !== "inherit") {
+
+          if (
+            decoration &&
+            decoration !== "none" &&
+            decoration !== "initial" &&
+            decoration !== "inherit"
+          ) {
             hasTextDecoration = true;
             if (decoration.includes("underline")) decorTypes.add("underline");
             if (decoration.includes("overline")) decorTypes.add("overline");
-            if (decoration.includes("line-through")) decorTypes.add("line-through");
+            if (decoration.includes("line-through"))
+              decorTypes.add("line-through");
           }
         });
-        
+
         return {
           passed: hasTextDecoration,
           actual: hasTextDecoration
-            ? `Found text-decoration: ${Array.from(decorTypes).join(', ')}`
+            ? `Found text-decoration: ${Array.from(decorTypes).join(", ")}`
             : "No text-decoration found (other than none)",
         };
       }
@@ -194,28 +219,33 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBoldText = false;
         let hasCustomWeight = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const weight = style.fontWeight;
-          
+
           if (weight === "bold" || weight === "700" || weight === "bolder") {
             hasBoldText = true;
           }
-          
-          if (weight && weight !== "normal" && weight !== "400" && 
-              weight !== "initial" && weight !== "inherit") {
+
+          if (
+            weight &&
+            weight !== "normal" &&
+            weight !== "400" &&
+            weight !== "initial" &&
+            weight !== "inherit"
+          ) {
             hasCustomWeight = true;
           }
         });
-        
+
         return {
           passed: hasBoldText || hasCustomWeight,
           actual: hasBoldText
             ? "Found bold text (font-weight: bold or 700+)"
             : hasCustomWeight
-              ? "Found custom font-weight"
-              : "No bold or custom font-weight found",
+            ? "Found custom font-weight"
+            : "No bold or custom font-weight found",
         };
       }
 
@@ -223,25 +253,29 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomFontSize = false;
         let fontSizeValues = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const fontSize = style.fontSize;
-          
+
           // Check if it's not the default browser size (usually 16px for body)
-          if (fontSize && 
-              fontSize !== "16px" && 
-              fontSize !== "medium" && 
-              !fontSize.includes("inherit")) {
+          if (
+            fontSize &&
+            fontSize !== "16px" &&
+            fontSize !== "medium" &&
+            !fontSize.includes("inherit")
+          ) {
             hasCustomFontSize = true;
             fontSizeValues.add(fontSize);
           }
         });
-        
+
         return {
           passed: hasCustomFontSize,
           actual: hasCustomFontSize
-            ? `Found custom font sizes: ${Array.from(fontSizeValues).slice(0, 5).join(', ')}${fontSizeValues.size > 5 ? '...' : ''}`
+            ? `Found custom font sizes: ${Array.from(fontSizeValues)
+                .slice(0, 5)
+                .join(", ")}${fontSizeValues.size > 5 ? "..." : ""}`
             : "No custom font sizes found (using defaults)",
         };
       }
@@ -250,28 +284,37 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomColor = false;
         let colorValues = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const color = style.color;
-          
+
           // Common default colors
           const defaultColors = [
-            "rgb(0, 0, 0)", "rgba(0, 0, 0, 1)", "#000000", "#000",
-            "rgb(255, 255, 255)", "rgba(255, 255, 255, 1)", "#ffffff", "#fff",
-            "initial", "inherit"
+            "rgb(0, 0, 0)",
+            "rgba(0, 0, 0, 1)",
+            "#000000",
+            "#000",
+            "rgb(255, 255, 255)",
+            "rgba(255, 255, 255, 1)",
+            "#ffffff",
+            "#fff",
+            "initial",
+            "inherit",
           ];
-          
+
           if (color && !defaultColors.includes(color.toLowerCase())) {
             hasCustomColor = true;
             colorValues.add(color);
           }
         });
-        
+
         return {
           passed: hasCustomColor,
           actual: hasCustomColor
-            ? `Found custom text colors: ${Array.from(colorValues).slice(0, 3).join(', ')}${colorValues.size > 3 ? '...' : ''}`
+            ? `Found custom text colors: ${Array.from(colorValues)
+                .slice(0, 3)
+                .join(", ")}${colorValues.size > 3 ? "..." : ""}`
             : "No custom text colors found (using defaults)",
         };
       }
@@ -281,25 +324,29 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBorderRadius = false;
         let borderRadiusValues = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const radius = style.borderRadius;
-          
-          if (radius && 
-              radius !== "0px" && 
-              !radius.includes("0%") && 
-              radius !== "initial" && 
-              radius !== "inherit") {
+
+          if (
+            radius &&
+            radius !== "0px" &&
+            !radius.includes("0%") &&
+            radius !== "initial" &&
+            radius !== "inherit"
+          ) {
             hasBorderRadius = true;
             borderRadiusValues.add(radius);
           }
         });
-        
+
         return {
           passed: hasBorderRadius,
           actual: hasBorderRadius
-            ? `Found border-radius: ${Array.from(borderRadiusValues).join(', ')}`
+            ? `Found border-radius: ${Array.from(borderRadiusValues).join(
+                ", "
+              )}`
             : "No border-radius found",
         };
       }
@@ -307,16 +354,18 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-border-top-left-radius": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBorderRadius = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.borderTopLeftRadius && 
-              style.borderTopLeftRadius !== "0px" && 
-              !style.borderTopLeftRadius.includes("0%")) {
+          if (
+            style.borderTopLeftRadius &&
+            style.borderTopLeftRadius !== "0px" &&
+            !style.borderTopLeftRadius.includes("0%")
+          ) {
             hasBorderRadius = true;
           }
         });
-        
+
         return {
           passed: hasBorderRadius,
           actual: hasBorderRadius
@@ -328,16 +377,18 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-border-top-right-radius": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBorderRadius = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.borderTopRightRadius && 
-              style.borderTopRightRadius !== "0px" && 
-              !style.borderTopRightRadius.includes("0%")) {
+          if (
+            style.borderTopRightRadius &&
+            style.borderTopRightRadius !== "0px" &&
+            !style.borderTopRightRadius.includes("0%")
+          ) {
             hasBorderRadius = true;
           }
         });
-        
+
         return {
           passed: hasBorderRadius,
           actual: hasBorderRadius
@@ -350,23 +401,25 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBorderStyle = false;
         let borderStyles = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.borderStyle && 
-              style.borderStyle !== "none" && 
-              style.borderStyle !== "hidden" &&
-              style.borderStyle !== "initial" &&
-              style.borderStyle !== "inherit") {
+          if (
+            style.borderStyle &&
+            style.borderStyle !== "none" &&
+            style.borderStyle !== "hidden" &&
+            style.borderStyle !== "initial" &&
+            style.borderStyle !== "inherit"
+          ) {
             hasBorderStyle = true;
             borderStyles.add(style.borderStyle);
           }
         });
-        
+
         return {
           passed: hasBorderStyle,
           actual: hasBorderStyle
-            ? `Found border styles: ${Array.from(borderStyles).join(', ')}`
+            ? `Found border styles: ${Array.from(borderStyles).join(", ")}`
             : "No border styles found (other than none/hidden)",
         };
       }
@@ -374,7 +427,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-border-width": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBorderWidth = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const borderTop = parseFloat(style.borderTopWidth);
@@ -383,12 +436,17 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
           const borderLeft = parseFloat(style.borderLeftWidth);
           const borderWidth = parseFloat(style.borderWidth);
 
-          if (borderTop > 0 || borderRight > 0 || 
-              borderBottom > 0 || borderLeft > 0 || borderWidth > 0) {
+          if (
+            borderTop > 0 ||
+            borderRight > 0 ||
+            borderBottom > 0 ||
+            borderLeft > 0 ||
+            borderWidth > 0
+          ) {
             hasBorderWidth = true;
           }
         });
-        
+
         return {
           passed: hasBorderWidth,
           actual: hasBorderWidth
@@ -400,21 +458,23 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-border-color": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBorderColor = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const borderColor = style.borderTopColor;
-          
+
           // Check if border color is not default/transparent
-          if (borderColor && 
-              borderColor !== "rgba(0, 0, 0, 0)" && 
-              borderColor !== "transparent" &&
-              borderColor !== "initial" &&
-              borderColor !== "inherit") {
+          if (
+            borderColor &&
+            borderColor !== "rgba(0, 0, 0, 0)" &&
+            borderColor !== "transparent" &&
+            borderColor !== "initial" &&
+            borderColor !== "inherit"
+          ) {
             hasBorderColor = true;
           }
         });
-        
+
         return {
           passed: hasBorderColor,
           actual: hasBorderColor
@@ -428,25 +488,31 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasPadding = false;
         let elementsWithPadding = [];
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const paddingTop = parseFloat(style.paddingTop);
           const paddingRight = parseFloat(style.paddingRight);
           const paddingBottom = parseFloat(style.paddingBottom);
           const paddingLeft = parseFloat(style.paddingLeft);
-          
-          if (paddingTop > 0 || paddingRight > 0 || 
-              paddingBottom > 0 || paddingLeft > 0) {
+
+          if (
+            paddingTop > 0 ||
+            paddingRight > 0 ||
+            paddingBottom > 0 ||
+            paddingLeft > 0
+          ) {
             hasPadding = true;
             elementsWithPadding.push(el.tagName.toLowerCase());
           }
         });
-        
+
         return {
           passed: hasPadding,
           actual: hasPadding
-            ? `Found padding > 0 (${elementsWithPadding.slice(0, 3).join(', ')}${elementsWithPadding.length > 3 ? '...' : ''})`
+            ? `Found padding > 0 (${elementsWithPadding
+                .slice(0, 3)
+                .join(", ")}${elementsWithPadding.length > 3 ? "..." : ""})`
             : "No padding found",
         };
       }
@@ -454,32 +520,34 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-margin": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMargin = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const marginTop = parseFloat(style.marginTop);
           const marginRight = parseFloat(style.marginRight);
           const marginBottom = parseFloat(style.marginBottom);
           const marginLeft = parseFloat(style.marginLeft);
-          
-          if (marginTop > 0 || marginRight > 0 || 
-              marginBottom > 0 || marginLeft > 0) {
+
+          if (
+            marginTop > 0 ||
+            marginRight > 0 ||
+            marginBottom > 0 ||
+            marginLeft > 0
+          ) {
             hasMargin = true;
           }
         });
-        
+
         return {
           passed: hasMargin,
-          actual: hasMargin
-            ? "Found margin > 0"
-            : "No margin found",
+          actual: hasMargin ? "Found margin > 0" : "No margin found",
         };
       }
 
       case "check-margin-right": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMarginRight = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const marginRight = parseFloat(style.marginRight);
@@ -487,7 +555,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             hasMarginRight = true;
           }
         });
-        
+
         return {
           passed: hasMarginRight,
           actual: hasMarginRight
@@ -499,7 +567,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-margin-left": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMarginLeft = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const marginLeft = parseFloat(style.marginLeft);
@@ -507,7 +575,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             hasMarginLeft = true;
           }
         });
-        
+
         return {
           passed: hasMarginLeft,
           actual: hasMarginLeft
@@ -519,7 +587,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-margin-top": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMarginTop = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const marginTop = parseFloat(style.marginTop);
@@ -527,7 +595,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             hasMarginTop = true;
           }
         });
-        
+
         return {
           passed: hasMarginTop,
           actual: hasMarginTop
@@ -539,7 +607,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-margin-bottom": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMarginBottom = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const marginBottom = parseFloat(style.marginBottom);
@@ -547,7 +615,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             hasMarginBottom = true;
           }
         });
-        
+
         return {
           passed: hasMarginBottom,
           actual: hasMarginBottom
@@ -561,7 +629,7 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasDisplayFlex = false;
         let flexElements = [];
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.display === "flex") {
@@ -569,11 +637,13 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             flexElements.push(el.tagName.toLowerCase());
           }
         });
-        
+
         return {
           passed: hasDisplayFlex,
           actual: hasDisplayFlex
-            ? `Found display: flex (${flexElements.slice(0, 3).join(', ')}${flexElements.length > 3 ? '...' : ''})`
+            ? `Found display: flex (${flexElements.slice(0, 3).join(", ")}${
+                flexElements.length > 3 ? "..." : ""
+              })`
             : "No display: flex found",
         };
       }
@@ -581,14 +651,14 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-display-grid": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasDisplayGrid = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.display === "grid") {
             hasDisplayGrid = true;
           }
         });
-        
+
         return {
           passed: hasDisplayGrid,
           actual: hasDisplayGrid
@@ -600,14 +670,14 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-display-block": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasDisplayBlock = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.display === "block") {
             hasDisplayBlock = true;
           }
         });
-        
+
         return {
           passed: hasDisplayBlock,
           actual: hasDisplayBlock
@@ -619,14 +689,14 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-display-inline-block": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasDisplayInlineBlock = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.display === "inline-block") {
             hasDisplayInlineBlock = true;
           }
         });
-        
+
         return {
           passed: hasDisplayInlineBlock,
           actual: hasDisplayInlineBlock
@@ -639,24 +709,26 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasPosition = false;
         let positionTypes = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const position = style.position;
-          
-          if (position && 
-              position !== "static" && 
-              position !== "initial" && 
-              position !== "inherit") {
+
+          if (
+            position &&
+            position !== "static" &&
+            position !== "initial" &&
+            position !== "inherit"
+          ) {
             hasPosition = true;
             positionTypes.add(position);
           }
         });
-        
+
         return {
           passed: hasPosition,
           actual: hasPosition
-            ? `Found position: ${Array.from(positionTypes).join(', ')}`
+            ? `Found position: ${Array.from(positionTypes).join(", ")}`
             : "No non-static positioning found",
         };
       }
@@ -665,19 +737,21 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-width": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomWidth = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const width = style.width;
-          
-          if (width && 
-              width !== "auto" && 
-              !width.includes("inherit") && 
-              !width.includes("initial")) {
+
+          if (
+            width &&
+            width !== "auto" &&
+            !width.includes("inherit") &&
+            !width.includes("initial")
+          ) {
             hasCustomWidth = true;
           }
         });
-        
+
         return {
           passed: hasCustomWidth,
           actual: hasCustomWidth
@@ -689,19 +763,21 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-height": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomHeight = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const height = style.height;
-          
-          if (height && 
-              height !== "auto" && 
-              !height.includes("inherit") && 
-              !height.includes("initial")) {
+
+          if (
+            height &&
+            height !== "auto" &&
+            !height.includes("inherit") &&
+            !height.includes("initial")
+          ) {
             hasCustomHeight = true;
           }
         });
-        
+
         return {
           passed: hasCustomHeight,
           actual: hasCustomHeight
@@ -713,17 +789,19 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-max-width": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMaxWidth = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.maxWidth && 
-              style.maxWidth !== "none" && 
-              !style.maxWidth.includes("inherit") && 
-              !style.maxWidth.includes("initial")) {
+          if (
+            style.maxWidth &&
+            style.maxWidth !== "none" &&
+            !style.maxWidth.includes("inherit") &&
+            !style.maxWidth.includes("initial")
+          ) {
             hasMaxWidth = true;
           }
         });
-        
+
         return {
           passed: hasMaxWidth,
           actual: hasMaxWidth
@@ -735,17 +813,19 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-min-height": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasMinHeight = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.minHeight && 
-              style.minHeight !== "0px" && 
-              !style.minHeight.includes("inherit") && 
-              !style.minHeight.includes("initial")) {
+          if (
+            style.minHeight &&
+            style.minHeight !== "0px" &&
+            !style.minHeight.includes("inherit") &&
+            !style.minHeight.includes("initial")
+          ) {
             hasMinHeight = true;
           }
         });
-        
+
         return {
           passed: hasMinHeight,
           actual: hasMinHeight
@@ -759,24 +839,28 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasFlexDirection = false;
         let flexDirections = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const flexDir = style.flexDirection;
-          
-          if (flexDir && 
-              flexDir !== "row" && // row is default
-              flexDir !== "initial" && 
-              flexDir !== "inherit") {
+
+          if (
+            flexDir &&
+            flexDir !== "row" && // row is default
+            flexDir !== "initial" &&
+            flexDir !== "inherit"
+          ) {
             hasFlexDirection = true;
             flexDirections.add(flexDir);
           }
         });
-        
+
         return {
           passed: hasFlexDirection,
           actual: hasFlexDirection
-            ? `Found custom flex-direction: ${Array.from(flexDirections).join(', ')}`
+            ? `Found custom flex-direction: ${Array.from(flexDirections).join(
+                ", "
+              )}`
             : "No custom flex-direction found (using default: row)",
         };
       }
@@ -785,24 +869,26 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasJustifyContent = false;
         let justifyValues = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const justify = style.justifyContent;
-          
-          if (justify && 
-              justify !== "normal" && 
-              justify !== "initial" && 
-              justify !== "inherit") {
+
+          if (
+            justify &&
+            justify !== "normal" &&
+            justify !== "initial" &&
+            justify !== "inherit"
+          ) {
             hasJustifyContent = true;
             justifyValues.add(justify);
           }
         });
-        
+
         return {
           passed: hasJustifyContent,
           actual: hasJustifyContent
-            ? `Found justify-content: ${Array.from(justifyValues).join(', ')}`
+            ? `Found justify-content: ${Array.from(justifyValues).join(", ")}`
             : "No justify-content found (using default)",
         };
       }
@@ -811,25 +897,27 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasAlignItems = false;
         let alignValues = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const align = style.alignItems;
-          
-          if (align && 
-              align !== "normal" && 
-              align !== "stretch" && // stretch is default
-              align !== "initial" && 
-              align !== "inherit") {
+
+          if (
+            align &&
+            align !== "normal" &&
+            align !== "stretch" && // stretch is default
+            align !== "initial" &&
+            align !== "inherit"
+          ) {
             hasAlignItems = true;
             alignValues.add(align);
           }
         });
-        
+
         return {
           passed: hasAlignItems,
           actual: hasAlignItems
-            ? `Found align-items: ${Array.from(alignValues).join(', ')}`
+            ? `Found align-items: ${Array.from(alignValues).join(", ")}`
             : "No custom align-items found (using default: stretch)",
         };
       }
@@ -838,38 +926,38 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-box-shadow": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasBoxShadow = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.boxShadow && 
-              style.boxShadow !== "none" && 
-              style.boxShadow !== "initial" && 
-              style.boxShadow !== "inherit") {
+          if (
+            style.boxShadow &&
+            style.boxShadow !== "none" &&
+            style.boxShadow !== "initial" &&
+            style.boxShadow !== "inherit"
+          ) {
             hasBoxShadow = true;
           }
         });
-        
+
         return {
           passed: hasBoxShadow,
-          actual: hasBoxShadow
-            ? "Found box-shadow"
-            : "No box-shadow found",
+          actual: hasBoxShadow ? "Found box-shadow" : "No box-shadow found",
         };
       }
 
       case "check-opacity": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomOpacity = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const opacity = parseFloat(style.opacity);
-          
+
           if (opacity < 1 && opacity >= 0) {
             hasCustomOpacity = true;
           }
         });
-        
+
         return {
           passed: hasCustomOpacity,
           actual: hasCustomOpacity
@@ -881,18 +969,20 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-transition": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasTransition = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.transition && 
-              style.transition !== "none" && 
-              style.transition !== "all 0s ease 0s" && 
-              style.transition !== "initial" && 
-              style.transition !== "inherit") {
+          if (
+            style.transition &&
+            style.transition !== "none" &&
+            style.transition !== "all 0s ease 0s" &&
+            style.transition !== "initial" &&
+            style.transition !== "inherit"
+          ) {
             hasTransition = true;
           }
         });
-        
+
         return {
           passed: hasTransition,
           actual: hasTransition
@@ -904,17 +994,19 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-transform": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasTransform = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.transform && 
-              style.transform !== "none" && 
-              style.transform !== "initial" && 
-              style.transform !== "inherit") {
+          if (
+            style.transform &&
+            style.transform !== "none" &&
+            style.transform !== "initial" &&
+            style.transform !== "inherit"
+          ) {
             hasTransform = true;
           }
         });
-        
+
         return {
           passed: hasTransform,
           actual: hasTransform
@@ -926,22 +1018,22 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-filter": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasFilter = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
-          if (style.filter && 
-              style.filter !== "none" && 
-              style.filter !== "initial" && 
-              style.filter !== "inherit") {
+          if (
+            style.filter &&
+            style.filter !== "none" &&
+            style.filter !== "initial" &&
+            style.filter !== "inherit"
+          ) {
             hasFilter = true;
           }
         });
-        
+
         return {
           passed: hasFilter,
-          actual: hasFilter
-            ? "Found CSS filters"
-            : "No CSS filters found",
+          actual: hasFilter ? "Found CSS filters" : "No CSS filters found",
         };
       }
 
@@ -950,26 +1042,29 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const selector = testCase.selector || "*";
         const property = testCase.property;
         const expectedValue = testCase.expectedValue;
-        
+
         if (!property) {
           return {
             passed: false,
-            actual: "No CSS property specified for validation"
+            actual: "No CSS property specified for validation",
           };
         }
-        
+
         const elements = iframeDoc.querySelectorAll(selector);
         let hasProperty = false;
         let matchingElements = [];
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const value = style[property];
-          
+
           if (value && value !== "initial" && value !== "inherit") {
             if (expectedValue) {
-              if (value === expectedValue || 
-                  (typeof expectedValue === 'string' && value.includes(expectedValue))) {
+              if (
+                value === expectedValue ||
+                (typeof expectedValue === "string" &&
+                  value.includes(expectedValue))
+              ) {
                 hasProperty = true;
                 matchingElements.push(el.tagName.toLowerCase());
               }
@@ -979,35 +1074,41 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             }
           }
         });
-        
+
         return {
           passed: hasProperty,
           actual: hasProperty
             ? expectedValue
-              ? `Found ${property}: ${expectedValue} (${matchingElements.slice(0, 3).join(', ')}${matchingElements.length > 3 ? '...' : ''})`
-              : `Found ${property} property (${matchingElements.slice(0, 3).join(', ')}${matchingElements.length > 3 ? '...' : ''})`
+              ? `Found ${property}: ${expectedValue} (${matchingElements
+                  .slice(0, 3)
+                  .join(", ")}${matchingElements.length > 3 ? "..." : ""})`
+              : `Found ${property} property (${matchingElements
+                  .slice(0, 3)
+                  .join(", ")}${matchingElements.length > 3 ? "..." : ""})`
             : expectedValue
-              ? `No ${property}: ${expectedValue} found`
-              : `No ${property} property found`,
+            ? `No ${property}: ${expectedValue} found`
+            : `No ${property} property found`,
         };
       }
 
       case "check-z-index": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasZIndex = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const zIndex = style.zIndex;
-          
-          if (zIndex && 
-              zIndex !== "auto" && 
-              zIndex !== "initial" && 
-              zIndex !== "inherit") {
+
+          if (
+            zIndex &&
+            zIndex !== "auto" &&
+            zIndex !== "initial" &&
+            zIndex !== "inherit"
+          ) {
             hasZIndex = true;
           }
         });
-        
+
         return {
           passed: hasZIndex,
           actual: hasZIndex
@@ -1020,24 +1121,26 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasOverflow = false;
         let overflowTypes = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const overflow = style.overflow;
-          
-          if (overflow && 
-              overflow !== "visible" && // visible is default
-              overflow !== "initial" && 
-              overflow !== "inherit") {
+
+          if (
+            overflow &&
+            overflow !== "visible" && // visible is default
+            overflow !== "initial" &&
+            overflow !== "inherit"
+          ) {
             hasOverflow = true;
             overflowTypes.add(overflow);
           }
         });
-        
+
         return {
           passed: hasOverflow,
           actual: hasOverflow
-            ? `Found overflow: ${Array.from(overflowTypes).join(', ')}`
+            ? `Found overflow: ${Array.from(overflowTypes).join(", ")}`
             : "No custom overflow found (using default: visible)",
         };
       }
@@ -1046,24 +1149,26 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomCursor = false;
         let cursorTypes = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const cursor = style.cursor;
-          
-          if (cursor && 
-              cursor !== "auto" && // auto is default
-              cursor !== "initial" && 
-              cursor !== "inherit") {
+
+          if (
+            cursor &&
+            cursor !== "auto" && // auto is default
+            cursor !== "initial" &&
+            cursor !== "inherit"
+          ) {
             hasCustomCursor = true;
             cursorTypes.add(cursor);
           }
         });
-        
+
         return {
           passed: hasCustomCursor,
           actual: hasCustomCursor
-            ? `Found custom cursor: ${Array.from(cursorTypes).join(', ')}`
+            ? `Found custom cursor: ${Array.from(cursorTypes).join(", ")}`
             : "No custom cursor found (using default: auto)",
         };
       }
@@ -1071,24 +1176,27 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-line-height": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomLineHeight = false;
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const lineHeight = style.lineHeight;
-          
+
           // Check if it's not the default (usually "normal" or around 1.2)
-          if (lineHeight && 
-              lineHeight !== "normal" && 
-              !lineHeight.includes("initial") && 
-              !lineHeight.includes("inherit")) {
+          if (
+            lineHeight &&
+            lineHeight !== "normal" &&
+            !lineHeight.includes("initial") &&
+            !lineHeight.includes("inherit")
+          ) {
             // Try to parse as number to check if it's different from default
             const parsed = parseFloat(lineHeight);
-            if (parsed && parsed !== 1.2) { // 1.2 is typical default
+            if (parsed && parsed !== 1.2) {
+              // 1.2 is typical default
               hasCustomLineHeight = true;
             }
           }
         });
-        
+
         return {
           passed: hasCustomLineHeight,
           actual: hasCustomLineHeight
@@ -1101,35 +1209,52 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const elements = iframeDoc.querySelectorAll("*");
         let hasCustomFontFamily = false;
         let fontFamilies = new Set();
-        
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           const fontFamily = style.fontFamily;
-          
+
           // Common default/system fonts to ignore
           const defaultFonts = [
-            "serif", "sans-serif", "monospace", "cursive", "fantasy",
-            "initial", "inherit", "Arial", "Helvetica", "Times New Roman",
-            "Georgia", "Courier New", "Verdana"
+            "serif",
+            "sans-serif",
+            "monospace",
+            "cursive",
+            "fantasy",
+            "initial",
+            "inherit",
+            "Arial",
+            "Helvetica",
+            "Times New Roman",
+            "Georgia",
+            "Courier New",
+            "Verdana",
           ];
-          
+
           if (fontFamily) {
             // Check if it contains any non-default font
-            const hasCustom = !defaultFonts.some(defaultFont => 
+            const hasCustom = !defaultFonts.some((defaultFont) =>
               fontFamily.toLowerCase().includes(defaultFont.toLowerCase())
             );
-            
-            if (hasCustom && fontFamily.trim() && !fontFamily.includes("initial") && !fontFamily.includes("inherit")) {
+
+            if (
+              hasCustom &&
+              fontFamily.trim() &&
+              !fontFamily.includes("initial") &&
+              !fontFamily.includes("inherit")
+            ) {
               hasCustomFontFamily = true;
-              fontFamilies.add(fontFamily.split(',')[0].trim()); // Take first font
+              fontFamilies.add(fontFamily.split(",")[0].trim()); // Take first font
             }
           }
         });
-        
+
         return {
           passed: hasCustomFontFamily,
           actual: hasCustomFontFamily
-            ? `Found custom font families: ${Array.from(fontFamilies).slice(0, 3).join(', ')}${fontFamilies.size > 3 ? '...' : ''}`
+            ? `Found custom font families: ${Array.from(fontFamilies)
+                .slice(0, 3)
+                .join(", ")}${fontFamilies.size > 3 ? "..." : ""}`
             : "No custom font families found (using system defaults)",
         };
       }
@@ -1138,16 +1263,16 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const images = iframeDoc.querySelectorAll(
           "#carouselExampleIndicators .carousel-item img"
         );
-      
+
         let hasFullWidthImage = false;
-      
+
         images.forEach((img) => {
           const style = win.getComputedStyle(img);
           if (style.width === "100%" || style.maxWidth === "100%") {
             hasFullWidthImage = true;
           }
         });
-      
+
         return {
           passed: hasFullWidthImage,
           actual: hasFullWidthImage
@@ -1163,13 +1288,13 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             actual: "Carousel container not found",
           };
         }
-      
+
         const style = win.getComputedStyle(carousel);
         const height = style.height;
-      
+
         const passed =
           height && height !== "auto" && !height.includes("initial");
-      
+
         return {
           passed,
           actual: passed
@@ -1181,14 +1306,14 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
       case "check-roboto-font": {
         const elements = iframeDoc.querySelectorAll("*");
         let hasRoboto = false;
-      
+
         elements.forEach((el) => {
           const style = win.getComputedStyle(el);
           if (style.fontFamily.toLowerCase().includes("roboto")) {
             hasRoboto = true;
           }
         });
-      
+
         return {
           passed: hasRoboto,
           actual: hasRoboto
@@ -1201,17 +1326,17 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         const iframe = iframeDoc.querySelector(
           ".embed-responsive iframe, .ratio iframe"
         );
-      
+
         if (!iframe) {
           return {
             passed: false,
             actual: "Iframe not found",
           };
         }
-      
+
         const style = win.getComputedStyle(iframe);
         const passed = style.width === "100%" || style.maxWidth === "100%";
-      
+
         return {
           passed,
           actual: passed
@@ -1219,13 +1344,50 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
             : "Iframe width is not responsive",
         };
       }
-      
-      
+
+      case "check-text-center": {
+        const elements = iframeDoc.querySelectorAll("*");
+        let passed = false;
+
+        elements.forEach((el) => {
+          if (el.classList.contains("text-center")) {
+            passed = true;
+          }
+          const style = iframeDoc.defaultView.getComputedStyle(el);
+          if (style.textAlign === "center") {
+            passed = true;
+          }
+        });
+
+        return {
+          passed,
+          actual: passed
+            ? "Found text-center or text-align: center"
+            : "Missing text-center or text-align: center",
+        };
+      }
+
+      case "check-navbar-bg-color": {
+        const nav = iframeDoc.querySelector("nav");
+        let passed = false;
+
+        if (nav) {
+          const style = iframeDoc.defaultView.getComputedStyle(nav);
+          passed = style.backgroundColor === "rgb(12, 5, 33)";
+        }
+
+        return {
+          passed,
+          actual: passed
+            ? "Navbar has background-color #0c0521"
+            : "Navbar background-color is missing or incorrect",
+        };
+      }
 
       default:
-        return { 
-          passed: false, 
-          actual: `Unknown CSS test type: ${validationType}` 
+        return {
+          passed: false,
+          actual: `Unknown CSS test type: ${validationType}`,
         };
     }
   } catch (error) {

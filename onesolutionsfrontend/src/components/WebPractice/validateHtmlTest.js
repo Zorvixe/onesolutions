@@ -1138,13 +1138,13 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
 
       case "check-d-md-class": {
         const allElements = iframeDoc.querySelectorAll("*");
-      
+
         const dMdElements = Array.from(allElements).filter((el) =>
           Array.from(el.classList).some((cls) => cls.startsWith("d-md-"))
         );
-      
+
         const hasDMdClass = dMdElements.length > 0;
-      
+
         return {
           passed: hasDMdClass,
           actual: hasDMdClass
@@ -1155,7 +1155,7 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
       case "check-d-none-class": {
         const dNoneElements = iframeDoc.querySelectorAll(".d-none");
         const hasDNoneClass = dNoneElements.length > 0;
-      
+
         return {
           passed: hasDNoneClass,
           actual: hasDNoneClass
@@ -1167,7 +1167,7 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
       case "check-anchor-element": {
         const anchors = iframeDoc.querySelectorAll("a");
         const hasAnchor = anchors.length > 0;
-      
+
         return {
           passed: hasAnchor,
           actual: hasAnchor
@@ -1180,7 +1180,7 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
           ".shadow, .shadow-sm, .shadow-lg"
         );
         const hasShadow = shadowElements.length > 0;
-      
+
         return {
           passed: hasShadow,
           actual: hasShadow
@@ -1188,11 +1188,11 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
             : "No element found with shadow class",
         };
       }
-            
+
       case "check-hr-element": {
         const hrElements = iframeDoc.querySelectorAll("hr");
         const hasHr = hrElements.length > 0;
-      
+
         return {
           passed: hasHr,
           actual: hasHr
@@ -1204,7 +1204,7 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
       case "check-span-element": {
         const spanElements = iframeDoc.querySelectorAll("span");
         const hasSpan = spanElements.length > 0;
-      
+
         return {
           passed: hasSpan,
           actual: hasSpan
@@ -1212,14 +1212,14 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
             : "No span element found",
         };
       }
-      
+
       case "check-order-md-class": {
         const allElements = iframeDoc.querySelectorAll("*");
-      
+
         const hasOrderMdClass = Array.from(allElements).some((el) =>
           Array.from(el.classList).some((cls) => cls.startsWith("order-md-"))
         );
-      
+
         return {
           passed: hasOrderMdClass,
           actual: hasOrderMdClass
@@ -1229,13 +1229,13 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
       }
       case "check-bootstrap-arrow-icon": {
         const iconElements = iframeDoc.querySelectorAll("i");
-      
+
         const hasArrowIcon = Array.from(iconElements).some((icon) =>
           Array.from(icon.classList).some(
             (cls) => cls.startsWith("bi-arrow") || cls.includes("arrow")
           )
         );
-      
+
         return {
           passed: hasArrowIcon,
           actual: hasArrowIcon
@@ -1243,8 +1243,91 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
             : "No bootstrap arrow icon found",
         };
       }
-      
-      
+
+      case "check-ml-auto-in-navbar": {
+        const elements = iframeDoc.querySelectorAll("nav *");
+        let passed = false;
+
+        elements.forEach((el) => {
+          if (el.classList.contains("ml-auto")) {
+            passed = true;
+          }
+          const style = iframeDoc.defaultView.getComputedStyle(el);
+          if (style.marginLeft === "auto") {
+            passed = true;
+          }
+        });
+
+        return {
+          passed,
+          actual: passed
+            ? "Found ml-auto or margin-left: auto inside navbar"
+            : "Missing ml-auto or margin-left: auto inside navbar",
+        };
+      }
+
+      case "check-navbar-collapse": {
+        const collapse = iframeDoc.querySelector("nav .navbar-collapse");
+        const passed = !!collapse;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found navbar-collapse inside navbar"
+            : "Missing navbar-collapse inside navbar",
+        };
+      }
+
+      case "check-navbar-class": {
+        const nav = iframeDoc.querySelector("nav.navbar");
+        const passed = !!nav;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found nav element with class navbar"
+            : "Missing nav element with class navbar",
+        };
+      }
+      case "check-two-buttons": {
+        const buttons = iframeDoc.querySelectorAll("button");
+        const passed = buttons.length === 2;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found exactly two buttons"
+            : `Expected 2 buttons, found ${buttons.length}`,
+        };
+      }
+
+      case "check-span-inside-heading": {
+        const span = iframeDoc.querySelector("h1 span");
+        const passed = !!span;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found span inside heading"
+            : "Missing span inside heading",
+        };
+      }
+
+      case "check-logo-image-src": {
+        const logoUrl =
+          "https://res.cloudinary.com/djhuqjvrl/image/upload/v1766818254/landing-section-design-logo-img_kz2kyz.png";
+        const images = iframeDoc.querySelectorAll("img");
+        const passed = Array.from(images).some(
+          (img) => img.getAttribute("src") === logoUrl
+        );
+
+        return {
+          passed,
+          actual: passed
+            ? "Found image with correct logo src"
+            : "Missing image with correct logo src",
+        };
+      }
 
       default:
         return {
