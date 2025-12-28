@@ -18,6 +18,9 @@
   color: #fff;
   width: 50%;
 }
+.italic {
+  font-family: italic;
+}
 .ordered-unordered-lists {
   margin: 0px 20px;
 }
@@ -235,4 +238,26 @@
 .cf5f7fa {
   background-color: #f5f7fa;
   color: #000;
+}
+.cfff8db {
+  background-color: #fff8db;
+  color: #000;
+}
+.cfae38c {
+  background-color: #fae38c;
+  color: #000;
+}
+.cfaf7e8 {
+  background-color: #faf7e8;
+  color: #000;
+}
+.cfaf7e8 {
+  background-color: #faf7e8;
+}
+.ce5eaf4 {
+  background-color: #e5eaf4;
+  color: #000;
+}
+.cd0b200 {
+  background-color: #d0b200;
 }

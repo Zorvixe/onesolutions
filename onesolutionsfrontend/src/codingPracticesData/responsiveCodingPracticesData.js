@@ -3264,7 +3264,13 @@ export const responsiveCodingPracticesData = {
             javascript: "",
           },
           descriptionDetails:
-            '<div class="desc-question-details"><p class="desc-que-blue">Refer to the below images.</p><p class="">The following images illustrate all device sizes, from extra small to extra large.</p><p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837388/awsome-features-output-sm-img-v2_fkkih9.png" class="desc-que-img" /><p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837332/awsome-features-output-md-img_zogwjo.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><p class="">Text color Hex Code values:</p><div class="desc-colors c323f4b">#323f4b</div><div class="desc-colors c7b8794">#7b8794</div><div class="desc-colors c9aa5b1">#9aa5b1</div><p class="desc-que-blue">CSS Font families used:</p><ul><li>Roboto</li></ul><hr><p class="desc-que-blue">Concepts Review</p><p class="">Want to quickly review some of the concepts you\'ve been learning?</p><p class="">Take a look at the Cheat Sheets.</p></div>',
+            `<div class="desc-question-details">
+            <p class="desc-que-blue">Refer to the below images.</p>
+            <p class="">The following images illustrate all device sizes, from extra small to extra large.</p><p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+            <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837388/awsome-features-output-sm-img-v2_fkkih9.png" class="desc-que-img" /><p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837332/awsome-features-output-md-img_zogwjo.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><p class="">Text color Hex Code values:</p><div class="desc-colors c323f4b">#323f4b</div><div class="desc-colors c7b8794">#7b8794</div><div class="desc-colors c9aa5b1">#9aa5b1</div>
+            <p class="desc-que-blue">CSS Font families used:</p>
+            <ul><li>Roboto</li></ul><hr>
+            <p class="desc-que-blue">Concepts Review</p><p class="">Want to quickly review some of the concepts you\'ve been learning?</p><p class="">Take a look at the Cheat Sheets.</p></div>`,
           testCases: [
             {
               id: 1,
@@ -3341,6 +3347,313 @@ export const responsiveCodingPracticesData = {
           ],
         },
       ],
+    },
+    {
+      id: "responsive-website-project",
+      title: "Responsive Website Project",
+      description: "",
+      questions: [
+        {
+          id: "b3200569-ed8fd-ed8fd5c624fe",
+          title: "Responsive Website Project",
+          description:
+            "In this assignment, let's build a Responsive Website Project by applying the concepts we learned till now.",
+          difficulty: "Hard",
+          score: 200,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails:
+            `<div class="desc-question-details">
+              <p class="desc-que-blue">Refer to the below images.</p>
+              <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
+              <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766939691/responsive_project_sm_e1wshv.gif" class="desc-que-img" />
+              <p class="">Medium (Size >= 768px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766939690/responsive_project_md_ujizzi.gif" class="desc-que-img" />
+              <p class="">Large (Size >= 992px) and Extra Large (Size >= 1200px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766939699/responsive_project_lg_hoq1sc.gif" class="desc-que-img" />
+              <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Try to achieve the design as close as possible.</li>
+                </ul>
+              </p>
+              </div>
+              <hr>
+              <p class="desc-que-blue">Resources</p>
+              <p class="">Use the image URLs given below.</p>
+              <p class="">Logo:</p>
+              <ul>
+                <li>
+                  <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918793/zor_food_logo_arfc7m.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918793/zor_food_logo_arfc7m.png</a></p>
+                </li>
+                </ul>
+              <p class="">Background Image:</p>
+              <ul>
+                <li>
+                  <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766824653/responsive_lg_bg.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766824653/responsive_lg_bg.png</a></p>
+                </li>
+                </ul>
+                <p class="">Images:</p>
+                <ul>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766838168/non-veg-2_lmigfi.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766838168/non-veg-2_lmigfi.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766833023/d69a3aa9-8637-427c-9d84-9836d1dc3bb9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766833023/d69a3aa9-8637-427c-9d84-9836d1dc3bb9.png</a></p>
+                  </li>
+                  
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766840137/soup-1_tc8z6m.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766840137/soup-1_tc8z6m.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766842194/fish_hwsfqz.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766842194/fish_hwsfqz.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852157/main_food_course_agaoqt.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852157/main_food_course_agaoqt.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852296/noodles_wohofp.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852296/noodles_wohofp.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852518/salads_umjhbg.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852518/salads_umjhbg.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852750/deserts_fccwzn.avif" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766852750/deserts_fccwzn.avif</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918481/healthy_food_image_oauvzg.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918481/healthy_food_image_oauvzg.png</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766853834/payment_sectoin_frnfni.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766853834/payment_sectoin_frnfni.png</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766854017/gift-section.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766854017/3bc65811-a36d-4963-87af-df92e6755545.png</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918724/paypal-card-img_dp91oo.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918724/paypal-card-img_dp91oo.png</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918725/master-card-img_xjd4yu.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918725/master-card-img_xjd4yu.png</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918725/visa-card-img_gcy48x.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918725/visa-card-img_gcy48x.png</a></p>
+                  </li>
+                  <li>
+                    <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918725/american-express-img_amskfk.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766918725/american-express-img_amskfk.png</a></p>
+                  </li>
+                </ul>
+                <p class="desc-que-blue">CSS Colors used:</p>
+                <p class="">background Colors</p>
+                <div class="desc-colors cf9fbfe">#f9fbfe</div>
+                <div class="desc-colors cffffff">#ffffff</div>
+                <div class="desc-colors cfff8db">#fff8db</div>
+                <div class="desc-colors cfae38c">#fae38c</div>
+                <div class="desc-colors cfaf7e8">#faf7e8</div>
+                <div class="desc-colors c0d2436">#0d2436</div>
+                 <p class="">Text & Border Colors</p>
+                <div class="desc-colors c323f4b">#323f4b</div>
+                <div class="desc-colors cf5f7fa">#f5f7fa</div>
+                <div class="desc-colors cd0b200">#d0b200</div>
+                <div class="desc-colors c183b56">#183b56</div>
+                <div class="desc-colors c5a7184">#5a7184</div>
+                <div class="desc-colors ce5eaf4">#e5eaf4</div>
+                <div class="desc-colors c7b8794">#7b8794</div>
+                <div class="desc-colors c959ead">#959ead</div>
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                <li class="italic">Italic</li>
+                </ul>
+                <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you\'ve been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                </div>`,
+          testCases: [
+            
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+           
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+           
+            {
+              id: 4,
+              description:
+                "Page should consist of a nav element with the bootstrap class name navbar",
+              type: "html-validation",
+              input: "check-navbar-class",
+              output: "true",
+              visible: true,
+            },
+            
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with class navbar-collapse in the nav element with class navbar",
+              type: "html-validation",
+              input: "check-navbar-collapse",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of a container element with class ml-auto or the CSS property margin-left with value auto in the element with class navbar",
+              type: "html-validation",
+              input: "check-ml-auto-in-navbar",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of an HTML container element with the CSS property background-image and its value should be given",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML container element with CSS property background-size and value cover",
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
+              type: "css-validation",
+              input: "check-text-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of an HTML container element with the bootstrap display class name d-none",
+              type: "html-validation",
+              input: "check-d-none-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 11,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 12,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 13,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 14,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 15,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-center",
+              type: "html-validation",
+              input: "check-justify-content-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 16,
+              description:
+                "Page should consist of at least an HTML element with the CSS property background-color",
+              type: "css-validation",
+              input: "check-background-color",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 17,
+              description:
+                "Page should consist of at least an HTML element with the CSS property color",
+              type: "css-validation",
+              input: "check-color",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 18,
+              description: `Page should consist of "margin-right"`,
+              type: "css-validation",
+              input: "check-margin-right",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 19,
+              description: "Page should consist of widths.",
+              type: "css-validation",
+              input: "check-width",
+              output: "true",
+              visible: true,
+            },
+             {
+              id: 20,
+              description: "Page should consist of font-family.",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ]
     },
   ],
 };

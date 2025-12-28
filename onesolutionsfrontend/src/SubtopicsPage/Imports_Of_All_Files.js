@@ -477,7 +477,7 @@ import Aggregations_MCQ from "../SQL_Database/Aggregations/Aggregations_MCQ.js";
 import Group_By from "../SQL_Database/Aggregations/Group_By.js";
 import Group_By_Having from "../SQL_Database/Aggregations/Group_By_Having.js";
 import Group_By_Having_CS from "../SQL_Database/Aggregations/Group_By_Having_CS.js";
-import Groupby_Having_MCQ from "../SQL_Database/Aggregations/Groupby_Having_MCQ.js"
+import Groupby_Having_MCQ from "../SQL_Database/Aggregations/Groupby_Having_MCQ.js";
 import Common_Concepts_Class from "../SQL_Database/Common_Concepts/Common_Concepts_Class.js";
 import Common_Concepte_MCQ from "../SQL_Database/Common_Concepts/Common_Concepte_MCQ.js";
 import SQL_Expression_Cs from "../SQL_Database/Common_Concepts/SQL_Expression_CS.js";
@@ -823,7 +823,7 @@ export const subtopicComponents = {
   "Responsive Coding Practice 15": Responsive_Coding_Pratice_15,
   "Responsive Coding Practice 16": Responsive_Coding_Pratice_16,
   "Responsive Coding Assignment 1": Responsive_Coding_Assignment_1,
-  "Responsive Coding Assignment 2": Responsive_Coding_Assignment_2,
+  "Responsive Website Project": Responsive_Coding_Assignment_2,
   "Responsive Coding Assignment 3": Responsive_Coding_Assignment_3,
   "Reponsive Coding Test 1": Responsive_Coding_Test_1,
   "Responsive Coding Test 2": Responsive_Coding_Test_2,

@@ -623,10 +623,10 @@ export const goalsData = [
                 id: "QW9_s4_A0 m7_H g1_7B c2_D2E",
                 name: "Responsive Coding Assignment 1",
               },
-              // {
-              //   id: "QW9_s5_A0 m7_H g1_7B c2_D2E",
-              //   name: "Responsive Coding Assignment 2",
-              // },
+              {
+                id: "QW9_s5_A0 m7_H g1_7B c2_D2E",
+                name: "Responsive Website Project",
+              },
               // {
               //   id: "QW9_s6_A0 m7_H g1_7B c2_D2E",
               //   name: "Responsive Coding Assignment 3",
