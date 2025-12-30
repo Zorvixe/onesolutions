@@ -91,7 +91,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
 
         <h3>1. Heading</h3>
         <p>The HTML "h1" element defines a main heading.</p>
-        <CodeBlock language="html" code={`<h1>Tourism</h1>`} />
+        <CodeBlock language="html" code={`<h1>Explore Paradise</h1>`} />
         <h3>2. Paragraph Element</h3>
         <p>The HTML "p" element defines a paragraph.</p>
         <CodeBlock
@@ -100,15 +100,15 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         />
         <h3>3. Button Element</h3>
         <p>The HTML "button" element defines a button.</p>
-        <CodeBlock language="html" code={`<button>Get Started</button>`} />
+        <CodeBlock language="html" code={`<button>Explore Places</button>`} />
         <h3>4. Container Element</h3>
         <p>The HTML "div" element defines a container.</p>
         <CodeBlock
           language="html"
           code={`<div>
-<h1>Tourism</h1>
+<h1>Explore Paradise</h1>
 <p>Plan your trip wherever you want to go</p>
-<button>Get Started</button>
+<button>Explore Places</button>
 </div>`}
         />
         <h3>5. Image Element</h3>
@@ -121,7 +121,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         </p>
         <CodeBlock
           language="html"
-          code={`<img  src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"/>`}
+          code={`<img  src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/tajmahal-img.png"/>`}
         />
         <h3>6. Anchor Element</h3>
         <p>
@@ -140,7 +140,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         </p>
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
+          code={`<a href="https://www.onesolutions.in/">Explore onesolutions 4.0 Certification Programs</a>`}
         />
         <h3>6.2. Different ways to use the "Anchor" Element</h3>
         <h3>6.2.1 Navigate within the same HTML document</h3>
@@ -181,8 +181,8 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <h3>6.2.2 HTML Image Element as Link</h3>
         <CodeBlock
           language="html"
-          code={` <a href="https://www.ccbp.in/">
-  <img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/learn-technologies-img.png" />
+          code={` <a href="https://www.onesolutions.in/">
+  <img src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/learn-technologies-img.png" />
 </a>`}
         />
         <h3>7. Void Elements</h3>
@@ -196,7 +196,7 @@ const Static_Summary_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <p>For example, the HTML "img" element.</p>
         <CodeBlock
           language="html"
-          code={`<img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"/>`}
+          code={`<img src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/tajmahal-img.png"/>`}
         />
 
         <h3>8. Line Break Element</h3>
@@ -369,13 +369,13 @@ How I wonder what you are!
           </div>
           <ul>
             <li>
-              The CCBP UI kit works only if the value of the HTML <b>id</b>{" "}
-              attribute of the container section has the prefix as{" "}
+              The ONESOLUTIONS UI kit works only if the value of the HTML{" "}
+              <b>id</b> attribute of the container section has the prefix as{" "}
               <b>section</b>.
             </li>
             <li>
               So, the id which we specify for any section should always contain
-              its prefix as <b>section</b> if you are using CCBP UI Kit.
+              its prefix as <b>section</b> if you are using ONESOLUTIONS UI Kit.
             </li>
           </ul>
         </div>
@@ -404,7 +404,7 @@ How I wonder what you are!
         <CodeBlock
           language="html"
           code={`<img
-  src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/tajmahal-img.png"
+  src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/tajmahal-img.png"
 />`}
         />
 
@@ -416,7 +416,7 @@ How I wonder what you are!
 
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/">Explore CCBP 4.0 Certification Programs</a>`}
+          code={`<a href="https://www.onesolutions.in/">Explore ONESOLUTIONS 4.0 Certification Programs</a>`}
         />
 
         <h3>5. HTML "target" Attribute</h3>
@@ -427,8 +427,8 @@ How I wonder what you are!
 
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/" target="_blank">
-  Explore CCBP 4.0 Certification Programs
+          code={`<a href="https://www.onesolutions.in/" target="_blank">
+  Explore ONESOLUTIONS 4.0 Certification Programs
 </a>`}
         />
       </section>
@@ -883,7 +883,7 @@ How I wonder what you are!
         <CodeBlock
           language="css"
           code={`.card {
-  background-image: url("https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/ocean.jpg");
+  background-image: url("https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/ocean.jpg");
 }`}
         />
 
@@ -1283,7 +1283,7 @@ How I wonder what you are!
 
         <CodeBlock
           language="html"
-          code={`<button class="button">Get Started</button>
+          code={`<button class="button">Explore Places</button>
 <button class="button">Visit Now</button>`}
         />
 
@@ -1320,7 +1320,7 @@ How I wonder what you are!
 
         <CodeBlock
           language="html"
-          code={`<button class="button button-green">Get Started</button>`}
+          code={`<button class="button button-green">Explore Places</button>`}
         />
       </section>
 
@@ -1372,7 +1372,7 @@ How I wonder what you are!
         />
       </section>
 
-      {/* Flexbox */}
+      {/* Flexbox Properties */}
       <section
         style={{
           marginBottom: "4rem",
@@ -1389,8 +1389,259 @@ How I wonder what you are!
             paddingBottom: "0.5rem",
           }}
         >
-          Bootstrap Flexbox
+          Flexbox Properties
         </h2>
+
+        <h3>1. Flexbox Container</h3>
+        <p>
+          The Bootstrap class name <b>d-flex</b> defines a Flexbox Container.
+          The direct HTML elements in the Flexbox Container are called{" "}
+          <b>flex items</b>.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
+
+        <p>
+          The HTML container element with the class=<b>"d-flex"</b> is a Flexbox
+          Container.
+        </p>
+        <p>
+          The HTML container element <b>div</b> in Flexbox Container is a flex
+          item. Because it is directly inside the Flexbox Container.
+        </p>
+        <p>
+          The HTML main heading, paragraph, and button elements are not flex
+          items. Because these elements are not directly inside the Flexbox
+          Container.
+        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Wrapping HTML elements in the Flexbox Container is mandatory to
+            apply other flex properties.
+          </p>
+        </div>
+
+        <h3>2. Flex Direction</h3>
+        <p>
+          The Flex Direction specifies the direction of the flex items in the
+          Flexbox Container.
+        </p>
+
+        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+          <thead>
+            <tr>
+              <th>Class Name</th>
+              <th>Direction of the flex items in a Flexbox Container</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Horizontal</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Vertical</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>2.1. flex-row</h3>
+        <p>
+          The Bootstrap class name <b>"flex-row"</b> is used to move the flex
+          items <b>horizontally</b> in the Flexbox Container.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-row">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
+
+        <h3>2.2. flex-column</h3>
+        <p>
+          The Bootstrap class name <b>"flex-column"</b> is used to move the flex
+          items <b>vertically</b> in the Flexbox Container.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The Bootstrap class name <b>flex-row</b> is the default Flex
+            Direction for the Flexbox Container. So, once <b>d-flex</b> is
+            specified, all the flex items in the Flexbox Container display
+            horizontally.
+          </p>
+        </div>
+
+        <h3>3. Justify Content</h3>
+        <p>
+          The Justify Content specifies the alignment of flex items along the
+          Flex Direction in a Flexbox Container.
+        </p>
+
+        <h3>3.1. justify-content-start</h3>
+        <p>
+          The Bootstrap class name <b>"justify-content-start"</b> is used to
+          align the flex items at the start of the Flexbox Container either
+          horizontally or vertically based on the Flex Direction.
+        </p>
+
+        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+          <thead>
+            <tr>
+              <th>Flex Direction</th>
+              <th>Alignment of flex items in a Flexbox Container</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Align flex items horizontally to the left</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Align flex items vertically to the top</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-start">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
+
+        <h3>3.2. justify-content-center</h3>
+        <p>
+          The Bootstrap class name <b>"justify-content-center"</b> is used to
+          align the flex items at the center of the Flexbox Container either
+          horizontally or vertically based on the Flex Direction.
+        </p>
+
+        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+          <thead>
+            <tr>
+              <th>Flex Direction</th>
+              <th>Alignment of flex items in a Flexbox Container</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Align flex items horizontally to the center</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Align flex items vertically to the center</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-center">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
+
+        <h3>3.3. justify-content-end</h3>
+        <p>
+          The Bootstrap class name <b>"justify-content-end"</b> is used to align
+          the flex items at the end of the Flexbox Container either horizontally
+          or vertically based on the Flex Direction.
+        </p>
+
+        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+          <thead>
+            <tr>
+              <th>Flex Direction</th>
+              <th>Alignment of flex items in a Flexbox Container</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>flex-row</td>
+              <td>Align flex items horizontally to the right</td>
+            </tr>
+            <tr>
+              <td>flex-column</td>
+              <td>Align flex items vertically to the bottom</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-end">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
+
+        <h3>3.4. justify-content-between</h3>
+        <p>
+          The Bootstrap class name <b>"justify-content-between"</b> is used to
+          get equal space between the HTML elements.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex flex-column justify-content-between">
+  <div>
+    <h1>Explore Paradise</h1>
+    <p>Discover the world's most beautiful destinations and create unforgettable memories<</p>
+    <button>Explore Places</button>
+  </div>
+</div>`}
+        />
         <CodeBlock
           language="html"
           code={`<div class="d-flex flex-column justify-content-center">
@@ -1438,8 +1689,7 @@ How I wonder what you are!
           </tbody>
         </table>
       </section>
-
-      {/* Carousel & Embed */}
+      {/* Predefined Styles in Bootstrap */}
       <section
         style={{
           marginBottom: "4rem",
@@ -1452,31 +1702,304 @@ How I wonder what you are!
         <h2
           style={{
             color: "#2980b9",
-            borderBottom: "4px solid #c0392b",
+            borderBottom: "4px solid #e74c3c",
             paddingBottom: "0.5rem",
           }}
         >
-          Bootstrap Carousel & YouTube Embed
+          Predefined Styles in Bootstrap
         </h2>
-        <p>Change image src and video ID</p>
+
+        <h3>1. Button</h3>
+        <p>
+          The Bootstrap class <b>"btn"</b> is used to style the HTML{" "}
+          <b>"button"</b> element.
+        </p>
+
         <CodeBlock
           language="html"
-          code={`<div class="carousel slide" data-ride="carousel" id="carouselExample">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img class="d-block w-100" src="tajmahal-c1-img.png" />
-    </div>
-  </div>
+          code={`<button class="btn">Submit</button>`}
+        />
+
+        <p>
+          To apply different background colors to the HTML <b>"button"</b>{" "}
+          element, you can use the below bootstrap classes.
+        </p>
+
+        <b>
+          class names: btn-primary, btn-secondary, btn-success, btn-danger,
+          btn-info, btn-dark, btn-warning, btn-light
+        </b>
+
+        <p>
+          Bootstrap provides us different types of buttons. One of them is{" "}
+          <b>Outline buttons</b>, that don't have a background color.
+        </p>
+
+        <p>
+          To add the outline buttons in our HTML document, just replace{" "}
+          <b>"btn"</b> in the above classes with the <b>"btn-outline"</b>.
+        </p>
+
+        <p>
+          <b>for example,</b>
+        </p>
+
+        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+          <thead>
+            <tr>
+              <th>button Class name</th>
+              <th>outline button class name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>btn-primary</td>
+              <td>btn-outline-primary</td>
+            </tr>
+            <tr>
+              <td>btn-secondary</td>
+              <td>btn-outline-secondary</td>
+            </tr>
+            <tr>
+              <td>btn-success</td>
+              <td>btn-outline-success</td>
+            </tr>
+            <tr>
+              <td>btn-danger</td>
+              <td>btn-outline-danger</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <CodeBlock
+          language="html"
+          code={`<button class="btn btn-primary">Explore Places</button>
+<button class="btn btn-outline-primary">Explore Places</button>`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            By default, Bootstrap class name <b>btn</b> has no background color.
+          </p>
+        </div>
+
+        <h3>2. Text colors</h3>
+        <p>
+          To apply different colors to the text, you can use the below bootstrap
+          classes.
+        </p>
+
+        <b>
+          class names: text-primary, text-warning, text-secondary, text-success,
+          text-danger, text-dark, text-white
+        </b>
+
+        <CodeBlock
+          language="html"
+          code={`<h1 class="text-primary">Explore Paradise</h1>`}
+        />
+
+        <h3>3. Text transform</h3>
+        <p>
+          To apply different cases like upper case, lower case etc to the text,
+          you can use the below bootstrap classes.
+        </p>
+
+        <p>
+          <b>class names:</b> text-lowercase, text-uppercase, text-capitalize
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<p class="text-lowercase">
+  PLAN your TRIP wherever YoU wAnT to GO.
+</p>`}
+        />
+
+        <h3>4. Background colors</h3>
+        <p>
+          To apply different background colors to an HTML element, you can use
+          the below bootstrap classes.
+        </p>
+
+        <p>
+          <b>class names:</b> bg-primary, bg-warning, bg-secondary, bg-success,
+          bg-danger, bg-info, bg-dark, bg-white
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<div class="bg-warning">
+  <h1>Explore Paradise</h1>
 </div>`}
         />
 
-        <h3>YouTube Embed</h3>
+        <p>
+          Bootstrap provides us with many predefined class names. Some of them
+          are:
+        </p>
+
+        <p>
+          <b>class names:</b> card, carousel, alert, alert-success, alert-link,
+          bg-danger, card-body and many more...
+        </p>
+
+        <p>
+          You can find the list of class names provided by the bootstrap here
+        </p>
+
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            Using predefined bootstrap class names as a selector in our CSS
+            Ruleset may give unexpected results.
+          </p>
+        </div>
+      </section>
+
+      <section
+        style={{
+          marginBottom: "4rem",
+          background: "white",
+          padding: "2rem",
+          borderRadius: "12px",
+          boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2
+          style={{
+            color: "#2980b9",
+            borderBottom: "4px solid #e74c3c",
+            paddingBottom: "0.5rem",
+          }}
+        >
+          Bootstrap Components
+        </h2>
+
+        <h3>Carousel</h3>
+
+        <p>
+          The Carousel is a slideshow for cycling through images, text, etc.
+          Slides will change every few seconds.
+        </p>
+
+        <p>
+          To add the Carousel to our Favourite Place Detailed View Section Page,
+          we used the Bootstrap Carousel Component with Indicators.
+        </p>
+
+        <p>
+          You can add different images in the Carousel by changing the image URL
+          in the value of the HTML <b>src</b> attribute.
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<img
+  class="d-block w-100"
+  src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/tajmahal-c1-img.png"
+  alt="..."
+/>`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
+          <ul>
+            <li>
+              To use multiple Carousels in the same HTML document, we must
+              provide a<b> unique id</b> to each Carousel.
+            </li>
+            <li>
+              While adding a new Carousel, change the Carousel id. Otherwise,
+              the Carousel controls will not work.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section
+        style={{
+          marginBottom: "4rem",
+          background: "white",
+          padding: "2rem",
+          borderRadius: "12px",
+          boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2
+          style={{
+            color: "#2980b9",
+            borderBottom: "4px solid #e74c3c",
+            paddingBottom: "0.5rem",
+          }}
+        >
+          Bootstrap Utilities
+        </h2>
+
+        <h3>Embed</h3>
+
+        <p>
+          The given code snippet is the <b>YouTube embed code</b> provided by
+          Bootstrap. You can add different YouTube videos by changing the{" "}
+          <b>Video ID</b> in the value of the HTML <b>src</b> attribute.
+        </p>
+
+        <p>
+          The Video ID is present in between{" "}
+          <b>https://www.youtube.com/embed/</b> and <b>?rel=0</b>.
+        </p>
+
         <CodeBlock
           language="html"
           code={`<div class="embed-responsive embed-responsive-16by9">
-  <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/49HTIoCccDY?rel=0"></iframe>
+  <iframe
+    class="embed-responsive-item"
+    src="https://www.youtube.com/embed/49HTIoCccDY?rel=0"
+    allowfullscreen
+  ></iframe>
 </div>`}
         />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
+          <ul>
+            <li>
+              Be careful while pasting the Video ID. It must be placed between{" "}
+              <b>https://www.youtube.com/embed/</b> and <b>?rel=0</b>. If any
+              character is missed, the video will not be displayed.
+            </li>
+            <li>
+              To embed YouTube videos in a smaller size, replace the class name{" "}
+              <b>embed-responsive-16by9</b> with <b>embed-responsive-1by1</b>.
+              You can find the reference{" "}
+              <a
+                href="https://getbootstrap.com/docs/4.5/utilities/embed/#aspect-ratios"
+                target="_blank"
+                rel="noreferrer"
+              >
+                here
+              </a>
+              .
+            </li>
+          </ul>
+        </div>
       </section>
 
       {/* One Solutions UI Kit */}
@@ -1509,6 +2032,164 @@ How I wonder what you are!
         <p>
           Uses <code>display('sectionId')</code> function
         </p>
+      </section>
+
+      <section
+        style={{
+          marginBottom: "4rem",
+          background: "white",
+          padding: "2rem",
+          borderRadius: "12px",
+          boxShadow: "0 6px 15px rgba(0,0,0,0.1)",
+        }}
+      >
+        <h2
+          style={{
+            color: "#2980b9",
+            borderBottom: "4px solid #e74c3c",
+            paddingBottom: "0.5rem",
+          }}
+        >
+          More Details
+        </h2>
+
+        {/* 1. Getting URLs for Your Images */}
+        <h3>1. Getting URLs for Your Images</h3>
+        <p>
+          You can get URLs for your images using <b>Cloudinary</b>. Cloudinary
+          allows you to upload images easily and provides image URLs that can be
+          used in your website.
+        </p>
+
+        <p>
+          <b>Cloudinary Website URL:</b>{" "}
+          <a href="https://cloudinary.com/" target="_blank" rel="noreferrer">
+            https://cloudinary.com/
+          </a>
+        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
+          <p>
+            To sign up, copy the Cloudinary website URL and open it in a new
+            tab.
+          </p>
+        </div>
+
+        {/* 2. Install Visual Studio Code */}
+        <h3>2. Install Visual Studio Code</h3>
+        <p>
+          You can install Visual Studio Code based on your operating system:
+        </p>
+
+        <ul>
+          <li>Windows Operating System</li>
+          <li>Ubuntu / Linux Operating System (Watch only for 2 minutes)</li>
+          <li>Mac Operating System (Watch only for 2 minutes 30 seconds)</li>
+        </ul>
+
+        {/* 3. Linking HTML and CSS Files */}
+        <h3>3. Linking HTML and CSS Files</h3>
+        <p>
+          We use the HTML <b>link</b> element to connect the HTML file with the
+          CSS file. It is a <b>void element</b>.
+        </p>
+
+        <p>
+          <b>Syntax:</b>
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<link rel="stylesheet" href="Explore Paradise.css">`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
+          <p>
+            The HTML <b>link</b> element must be placed inside the HTML{" "}
+            <b>head</b> element.
+          </p>
+        </div>
+
+        {/* 4. HTML Image vs CSS Background Image */}
+        <h3>4. HTML Image vs CSS Background Image</h3>
+        <p>There are two main ways to add images to a website:</p>
+
+        <ul>
+          <li>HTML Image</li>
+          <li>CSS Background Image</li>
+        </ul>
+
+        <p>
+          <b>When to use HTML Image:</b>
+        </p>
+        <ul>
+          <li>When there are no content or HTML elements over the image</li>
+          <li>When the image is a part of the content on the page</li>
+        </ul>
+
+        <p>
+          <b>When to use CSS Background Image:</b>
+        </p>
+        <ul>
+          <li>When the image is not a part of the content</li>
+          <li>When there are content or HTML elements over the image</li>
+        </ul>
+
+        {/* 5. CSS Margin vs CSS Padding */}
+        <h3>5. CSS Margin vs CSS Padding</h3>
+        <img
+          src="/assets/img/CSS_box_model.png"
+          alt="CSS Box Model Diagram - Content → Padding → Border → Margin"
+          style={{
+            maxWidth: "400px",
+            width: "100%",
+            display: "block",
+            margin: "20px auto",
+            borderRadius: "8px",
+          }}
+        />
+        <p>
+          <b>When to use CSS Padding:</b>
+        </p>
+        <ul>
+          <li>To add space around the content of an HTML element</li>
+          <li>To add space between the content and the border</li>
+        </ul>
+
+        <p>
+          <b>When to use CSS Margin:</b>
+        </p>
+        <ul>
+          <li>To add space around an HTML element</li>
+          <li>To add space between multiple HTML elements</li>
+        </ul>
+
+        <p>
+          <b>Example:</b>
+        </p>
+
+        <CodeBlock
+          language="html"
+          code={`<button class="button">View More</button>`}
+        />
+
+        <CodeBlock
+          language="css"
+          code={`.button {
+  padding: 20px;
+  margin: 15px;
+}`}
+        />
       </section>
 
       {/* Tips & Best Practices */}

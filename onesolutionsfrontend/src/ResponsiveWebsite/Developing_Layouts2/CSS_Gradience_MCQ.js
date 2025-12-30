@@ -257,9 +257,10 @@ const CSS_Gradience_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -288,7 +289,7 @@ const CSS_Gradience_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -320,7 +321,7 @@ const CSS_Gradience_MCQ = ({
 
   return (
     <MCQLogic
-      title="CSS Gradients - Linear, Radial & Food Munch Examples MCQs"
+      title="CSS Gradients - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

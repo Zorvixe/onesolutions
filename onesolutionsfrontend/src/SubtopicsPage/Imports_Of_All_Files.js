@@ -498,6 +498,7 @@ import ER_Model_Relational_DB from "../SQL_Database/Modelling_Databases/ER_Model
 import Modelling_Database_Class_1 from "../SQL_Database/Modelling_Databases/Modelling_Database_Class_1.js";
 import Modelling_Database_Class_2 from "../SQL_Database/Modelling_Databases/Modelling_Database_Class_2.js";
 import Modelling_Database_MCQ from "../SQL_Database/Modelling_Databases/Modelling_Database_MCQ.js";
+import Creating_Relational_DB_MCQ from "../SQL_Database/Modelling_Databases/Creating_Relational_DB_MCQ.js";
 import Joins_Class_Part_1 from "../SQL_Database/Joins/Joins_Class_Part_1.js";
 import Joins_Part_1_Cs from "../SQL_Database/Joins/Joins_Part_1_CS.js";
 import Joins_MCQ from "../SQL_Database/Joins/Joins_MCQ.js";
@@ -674,7 +675,7 @@ export const subtopicComponents = {
   "SQL Set Operations | Cheat Sheet": SQL_Set_Operations_CS,
   // "Coding Practice 5": Coding_Pratice_5,
   "MileStone | Cheat Sheet": Milestone_CS,
-  // "MCQ Practice MileStone": MileStone_MCQ,
+  "MCQ Practice MileStone": Milestone_MCQ,
   "Assignment 1": SQL_Assignment_1,
   "Assignment 2": SQL_Assignment_2,
   "Modelling Database | Part 1": Modelling_Database_Class_1,
@@ -683,7 +684,9 @@ export const subtopicComponents = {
   "ER Model to Relational Database | Cheat Sheets": ER_Model_Relational_DB,
   "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
   "Modelling Database | Part 2": Modelling_Database_Class_2,
+  "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
   "Createing a Relational Database | Cheat Sheets": Creating_Relation_DB_CS,
+  "MCQ Practice Modelling Database | Part 2": Creating_Relational_DB_MCQ,
   "Joins | Part 1": Joins_Class_Part_1,
   "Joins | Part 1 | Cheat Sheet": Joins_Part_1_Cs,
   "MCQ Practice Joins": Joins_MCQ,

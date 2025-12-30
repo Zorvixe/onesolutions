@@ -4,7 +4,6 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ========== 10 Code Block Questions ==========
   {
     question: (
       <div>
@@ -56,7 +55,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          Why use <code>container-fluid</code> in this hero section?
+          Why use <b>container-fluid</b> in this hero section?
         </p>
         <CodeBlock
           language="html"
@@ -124,10 +123,9 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What max-width does <code>container</code> have on Medium devices (
-          &gt;=768px )?
+          What max-width does <b>container</b> have on Medium devices
+          (&gt;=768px)?
         </p>
-
         <CodeBlock language="html" code={`<!-- Medium: 720px max-width -->`} />
       </div>
     ),
@@ -160,7 +158,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What happens when using <code>bg-transparent</code> on a section?
+          What happens when using <b>bg-transparent</b> on a section?
         </p>
         <CodeBlock
           language="html"
@@ -199,10 +197,9 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the max-width of <code>container</code> on Extra large devices
-          ( &gt;=1200px )?
+          What is the max-width of <b>container</b> on Extra large devices
+          (&gt;=1200px)?
         </p>
-
         <CodeBlock language="html" code={`<!-- XL: 1140px -->`} />
       </div>
     ),
@@ -210,7 +207,6 @@ const questionsData = [
     answer: "1140px",
   },
 
-  // ========== 5 Normal (Non-CodeBlock) Questions ==========
   {
     question: "What is the purpose of the Bootstrap `container` class?",
     options: [
@@ -264,15 +260,15 @@ const Banner_Section_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -285,18 +281,10 @@ const Banner_Section_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
       if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
         alert("Error: Subtopic ID is missing");
         return;
       }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
 
       const result = await markSubtopicComplete(
         subtopicId,
@@ -307,18 +295,11 @@ const Banner_Section_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        alert(result.message);
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
+    } catch {
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
@@ -327,7 +308,7 @@ const Banner_Section_MCQ = ({
 
   return (
     <MCQLogic
-      title="Banner Section - Navbar, Containers & Transparent Background MCQs"
+      title="Banner Section -  MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

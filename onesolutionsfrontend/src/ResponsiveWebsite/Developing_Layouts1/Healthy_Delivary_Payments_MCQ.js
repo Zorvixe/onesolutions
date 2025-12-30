@@ -230,7 +230,8 @@ const questionsData = [
     answer: "d-none d-lg-block",
   },
   {
-    question: "Which class displays an element as a flex container only on small screens?",
+    question:
+      "Which class displays an element as a flex container only on small screens?",
     options: ["d-flex-sm", "d-sm-flex", "flex-sm", "d-flex d-sm-none"],
     answer: "d-sm-flex",
   },
@@ -244,9 +245,10 @@ const Healthy_Delivary_Payments_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -275,7 +277,7 @@ const Healthy_Delivary_Payments_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -306,7 +308,7 @@ const Healthy_Delivary_Payments_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Healthy, Delivery & Payment Sections - Flex Order & Display Utilities MCQs"
+      title="Healthy, Delivery & Payment Sections - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

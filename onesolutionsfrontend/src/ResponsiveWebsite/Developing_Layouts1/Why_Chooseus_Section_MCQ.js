@@ -9,7 +9,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          How much padding does <code>pt-3</code> add?
+          How much padding does <b>pt-3</b> add?
         </p>
         <CodeBlock
           language="html"
@@ -215,9 +215,10 @@ const Why_Chooseus_Section_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -246,7 +247,7 @@ const Why_Chooseus_Section_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -277,7 +278,7 @@ const Why_Chooseus_Section_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Why Choose Us Section - Padding & Span Element MCQs"
+      title="Why Choose Us Section - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

@@ -7,158 +7,213 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What will this button look like after Bootstrap is added?</p>
+        <p>What happens when the Bootstrap CDN is added?</p>
         <CodeBlock
           language="html"
-          code={`<!DOCTYPE html>
-<html>
-<head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-  <button class="btn">Click Me</button>
-</body>
-</html>`}
+          code={`<button class="btn">Click Me</button>`}
         />
       </div>
     ),
     options: [
-      "Default browser button",
-      "Styled Bootstrap button",
-      "Red button",
-      "No change",
+      "Button remains unchanged",
+      "Button gets Bootstrap styling",
+      "Button becomes red",
+      "Button disappears",
     ],
-    answer: "Styled Bootstrap button",
+    answer: "Button gets Bootstrap styling",
   },
+
   {
     question: (
       <div>
-        <p>Which classes will be applied to this div?</p>
+        <p>Which styles are applied to this element?</p>
         <CodeBlock
           language="html"
-          code={`<div class="bg-primary text-white">Hello</div>`}
+          code={`<div class="bg-danger text-white">Alert</div>`}
         />
       </div>
     ),
     options: [
-      "Only bg-primary",
-      "Only text-white",
-      "Both bg-primary and text-white",
-      "None",
+      "Only background color",
+      "Only text color",
+      "Both background and text color",
+      "No styles applied",
     ],
-    answer: "Both bg-primary and text-white",
+    answer: "Both background and text color",
   },
+
   {
     question: (
       <div>
-        <p>
-          How should multiple class names be written in the class attribute?
-        </p>
+        <p>Which button type is shown here?</p>
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-outline-primary">Outline Button</button>`}
+          code={`<button class="btn btn-outline-primary">Submit</button>`}
         />
       </div>
     ),
     options: [
-      "btn,btn-outline-primary",
-      "btn;btn-outline-primary",
-      "btn btn-outline-primary",
-      "btn|btn-outline-primary",
+      "Filled button",
+      "Outline button",
+      "Disabled button",
+      "Link button",
     ],
-    answer: "btn btn-outline-primary",
+    answer: "Outline button",
   },
+
   {
     question: (
       <div>
-        <p>What does the btn-outline class do?</p>
+        <p>What will be the text case?</p>
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-outline-success">Success</button>`}
+          code={`<p class="text-uppercase">hello</p>`}
         />
       </div>
     ),
-    options: [
-      "Solid filled button",
-      "Outline button with border",
-      "No background or border",
-      "Text-only button",
-    ],
-    answer: "Outline button with border",
+    options: ["hello", "Hello", "HELLO", "hELLO"],
+    answer: "HELLO",
   },
+
   {
     question: (
       <div>
-        <p>What color will the text be?</p>
+        <p>Which color is applied to the text?</p>
         <CodeBlock
           language="html"
-          code={`<p class="text-danger">Warning Text</p>`}
+          code={`<span class="text-success">Success</span>`}
         />
       </div>
     ),
-    options: ["Blue", "Red", "Green", "Black"],
-    answer: "Red",
+    options: ["Red", "Blue", "Green", "Black"],
+    answer: "Green",
   },
+
   {
     question: (
       <div>
-        <p>How is Bootstrap typically included in an HTML file?</p>
+        <p>Where should Bootstrap CDN be placed?</p>
         <CodeBlock
           language="html"
           code={`<head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="bootstrap.css" rel="stylesheet">
 </head>`}
         />
       </div>
     ),
     options: [
-      "In the body tag",
-      "Using a script tag",
-      "Inside the head with a link tag",
-      "No need to include",
+      "Inside body",
+      "Inside footer",
+      "Inside head",
+      "Inside script tag",
     ],
-    answer: "Inside the head with a link tag",
+    answer: "Inside head",
   },
+
   {
     question: (
       <div>
-        <p>Which class transforms text to uppercase?</p>
+        <p>Which classes are applied here?</p>
         <CodeBlock
           language="html"
-          code={`<p class="text-uppercase">hello world</p>`}
+          code={`<div class="card card-body">Content</div>`}
         />
       </div>
     ),
     options: [
-      "text-capitalize",
-      "text-lowercase",
-      "text-uppercase",
-      "text-bold",
+      "Only card",
+      "Only card-body",
+      "Both card and card-body",
+      "No Bootstrap classes",
     ],
-    answer: "text-uppercase",
+    answer: "Both card and card-body",
   },
+
   {
-    question:
-      "Can we write the CSS Ruleset once and use it for multiple HTML elements?",
+    question: (
+      <div>
+        <p>What does this class do?</p>
+        <CodeBlock
+          language="html"
+          code={`<p class="text-lowercase">HELLO</p>`}
+        />
+      </div>
+    ),
+    options: [
+      "Converts text to uppercase",
+      "Converts text to lowercase",
+      "Capitalizes text",
+      "Adds bold style",
+    ],
+    answer: "Converts text to lowercase",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which background color is applied?</p>
+        <CodeBlock
+          language="html"
+          code={`<div class="bg-warning">Note</div>`}
+        />
+      </div>
+    ),
+    options: ["Red", "Yellow", "Green", "Blue"],
+    answer: "Yellow",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which is the correct way to apply multiple classes?</p>
+        <CodeBlock
+          language="html"
+          code={`<div class="bg-primary text-white">Text</div>`}
+        />
+      </div>
+    ),
+    options: [
+      "Classes separated by comma",
+      "Classes separated by space",
+      "Classes separated by semicolon",
+      "Only one class allowed",
+    ],
+    answer: "Classes separated by space",
+  },
+
+  {
+    question: "Can a single CSS ruleset be reused for multiple HTML elements?",
     options: ["Yes", "No"],
     answer: "Yes",
   },
+
   {
-    question:
-      "What is the correct syntax to provide multiple class names as a value to the HTML class attribute?",
-    options: [
-      '<div class="name1,name2,name3">Content</div>',
-      '<div class="name1;name2;name3">Content</div>',
-      '<div class="name1 name2 name3">Content</div>',
-      '<div class="name1|name2|name3">Content</div>',
-    ],
-    answer: '<div class="name1 name2 name3">Content</div>',
+    question: "Which language is NOT used to build Bootstrap?",
+    options: ["HTML", "CSS", "JavaScript", "Python"],
+    answer: "Python",
   },
+
   {
-    question:
-      "Which Bootstrap class name is used to style the HTML button element?",
-    options: ["button", "btn", "class", "style"],
+    question: "Which Bootstrap class styles a button?",
+    options: ["button", "btn", "btn-style", "bootstrap-btn"],
     answer: "btn",
+  },
+
+  {
+    question: "Which symbol separates multiple class names in HTML?",
+    options: ["Comma (,)", "Space ( )", "Semicolon (;)", "Pipe (|)"],
+    answer: "Space ( )",
+  },
+
+  {
+    question: "Using Bootstrap class names inside custom CSS may cause?",
+    options: [
+      "Better performance",
+      "No effect",
+      "Unexpected conflicts",
+      "Automatic fixes",
+    ],
+    answer: "Unexpected conflicts",
   },
 ];
 

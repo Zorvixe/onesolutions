@@ -1,3 +1,11 @@
+.Instructions-Page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+
 .practice-container {
   max-width: 600px;
   margin: 40px auto;

@@ -27,7 +27,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the purpose of the <code>container</code> class?
+          What is the purpose of the <b>container</b> class?
         </p>
       </div>
     ),
@@ -220,9 +220,10 @@ const Introductionto_Responsive_WD_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -251,7 +252,7 @@ const Introductionto_Responsive_WD_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -283,7 +284,7 @@ const Introductionto_Responsive_WD_MCQ = ({
 
   return (
     <MCQLogic
-      title="Introduction to Responsive Web Design - Bootstrap Grid MCQs"
+      title="Introduction to Responsive Web Design - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

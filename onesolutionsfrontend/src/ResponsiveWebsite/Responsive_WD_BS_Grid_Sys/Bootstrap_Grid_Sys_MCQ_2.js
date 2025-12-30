@@ -249,7 +249,7 @@ const Bootstrap_Grid_Sys_MCQ_2 = ({
 
   return (
     <MCQLogic
-      title="Bootstrap Spacing, Padding & Background Utilities - MCQs"
+      title= "Bootstrap Grid System - Part 2 | MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

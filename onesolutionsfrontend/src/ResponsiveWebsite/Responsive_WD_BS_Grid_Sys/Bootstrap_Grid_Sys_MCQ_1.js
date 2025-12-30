@@ -301,7 +301,7 @@ const Bootstrap_Grid_Sys_MCQ_1 = ({
 
   return (
     <MCQLogic
-      title="Bootstrap Grid System - Wrapping & Breakpoints MCQs"
+      title="Bootstrap Grid System - Part 1 | MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

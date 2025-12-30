@@ -5,7 +5,8 @@ import "./SubtopicPage.css";
 import { goalsData } from "../data/goalsData";
 
 import { subtopicComponents } from "../SubtopicsPage/Imports_Of_All_Files.js";
-import {MCQWrapper} from "../SubtopicsPage/MCQWrapper.js"
+import MCQWrapper from "../SubtopicsPage/MCQWrapper.js";
+
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
   const { completedContent } = useAuth();
@@ -101,29 +102,41 @@ const SubtopicPage = () => {
     });
   };
 
-  // ✅ Universal renderer (MCQ / Cheat Sheet / Topic)
+  // ✅ ONLY PLACE WE CHANGE LOGIC
   const renderSubtopicContentSub = (subtopic) => {
     if (!subtopic) return <p>No subtopic selected</p>;
 
     const ComponentSub = subtopicComponents[subtopic.name];
 
-    return ComponentSub ? (
+    if (!ComponentSub) {
+      return (
+        <div>
+          <h3>{subtopic.name}</h3>
+          <p>Content for this subtopic is coming soon...</p>
+        </div>
+      );
+    }
+
+    // ✅ MCQ → use MCQWrapper (instructions handled there)
+    if (ComponentSub.name?.includes("MCQ")) {
+      return (
+        <MCQWrapper
+          subtopic={subtopic.name}
+          subtopicId={subtopic.id}
+          goalName={selectedGoalSub?.title}
+          courseName={selectedCourseSub?.title}
+        />
+      );
+    }
+
+    // ✅ Cheat Sheet / Topic
+    return (
       <ComponentSub
         subtopicId={subtopic.id}
         goalName={selectedGoalSub?.title}
         courseName={selectedCourseSub?.title}
         subtopic={subtopic.name}
       />
-    ) : (
-      <div>
-        <h3>{subtopic.name}</h3>
-        <p>Content for this subtopic is coming soon...</p>
-        {completedContent.includes(subtopic.id) && (
-          <p style={{ color: "green", marginTop: "10px" }}>
-            ✓ This subtopic has been completed
-          </p>
-        )}
-      </div>
     );
   };
 
@@ -189,6 +202,7 @@ const SubtopicPage = () => {
         )}
       </div>
 
+      {/* 🔒 RIGHT PANEL — 100% UNCHANGED */}
       <div className="subtopic-page-sub__right-panel-sub">
         {selectedSubtopicSub ? (
           isContentInCurrentContext(selectedSubtopicSub) ? (

@@ -13034,12 +13034,974 @@ export const codingPracticesData = {
           testCases: [
             { input: "abc123", output: "True", visible: true },
             { input: "Hello2025", output: "True", visible: true },
-            { input: "ABCdef", output: "True", visible: false },     
+            { input: "ABCdef", output: "True", visible: false },
             { input: "abc_123", output: "False", visible: false },
             { input: "hello world", output: "False", visible: false },
           ],
           defaultCode: ``,
           score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-17",
+      title: "Assignment-17",
+      description: "Comparing Strings and Naming Variables",
+      questions: [
+        {
+          id: "q-python-Assignment-17-001",
+          title: "Print characters - 4",
+          difficulty: "Easy",
+          description:
+            "Given a string S and two numbers M and N,write a program to print the characters of S that have Unicode values from M to N separated by a space.\nNote:Unicode values are unique numbers that are given to every character,symbol and digit.",
+          sampleInput: "@A9z#\n35\n90",
+          sampleOutput: "@ A 9 ",
+          testCases: [
+            { input: "abc\n97\n99", output: "a b c ", visible: true },
+            { input: "abcXYZ\n65\n90", output: "X Y Z ", visible: true },
+            { input: "a1b2c3\n48\n57", output: "1 2 3 ", visible: false },
+            { input: "@A9z#\n35\n90", output: "@ A 9 ", visible: false },
+            { input: "hello\n65\n70", output: "", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-17-002",
+          title: "Unicode Value of First Digit",
+          difficulty: "Easy",
+          description:
+            "Given a string S,Write a program to print the unicode value of the first digit in the given string.",
+          sampleInput: "ab3c7",
+          sampleOutput: "51",
+          testCases: [
+            { input: "abc5d9", output: "53", visible: true },
+
+            { input: "1abc", output: "49", visible: true },
+
+            { input: "ab3c7", output: "51", visible: false },
+
+            { input: "hello", output: "", visible: false },
+
+            { input: "99bottles", output: "57", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-17-003",
+          title: "Replacing Characters of Sentence",
+          difficulty: "Medium",
+          description:
+            "You are given a string S.Write a program to replace each letter of the string with the next letter that comes in the english alphabet.\nNote:Ensure that while replacing the letters,uppercase should be replaced with uppercase letters,and lowercase should be replaced with lowercase letters.",
+          sampleInput: "Hello World",
+          sampleOutput: "Ifmmp Xpsme",
+          testCases: [
+            { input: "abc", output: "bcd", visible: true },
+
+            { input: "a z", output: "b {", visible: true },
+
+            { input: "XYZ", output: "YZ[", visible: false },
+
+            { input: "Hello World", output: "Ifmmp Xpsme", visible: false },
+
+            { input: "123", output: "234", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-17-004",
+          title: "Print Characters in Dictionary Order",
+          difficulty: "Easy",
+          description:
+            "Given a string S ,Write a program that prints the character with the least unicode value and the character with the highest unicode value separated by a space.",
+          sampleInput: "Zebra",
+          sampleOutput: "Z r",
+          testCases: [
+            { input: "abc", output: "a c", visible: true },
+
+            { input: "cba", output: "a c", visible: true },
+
+            { input: "Zebra", output: "Z r", visible: false },
+
+            { input: "Hello", output: "H o", visible: false },
+
+            { input: "a1B@", output: "1 a", visible: false },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-18",
+      title: "Codingpractice-18",
+      description: "Comparing Strings and Naming Variables",
+      questions: [
+        {
+          id: "q-python-Codingpractice-18-001",
+          title: "Rounding Inputs",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program that reads N numbers and prints each of the given N numbers by rounding upto 2 decimals on a new line.",
+          sampleInput: "2\n1.234\n5.6789",
+          sampleOutput: "1.23\n5.68",
+          testCases: [
+            {
+              input: "3\n3.14159\n2.5\n9.999",
+              output: "3.14\n2.5\n10.0",
+              visible: true,
+            },
+
+            { input: "1\n7.126", output: "7.13", visible: true },
+
+            { input: "2\n1.234\n5.6789", output: "1.23\n5.68", visible: false },
+
+            {
+              input: "4\n0.1\n0.105\n2.555\n-3.456",
+              output: "0.1\n0.1\n2.56\n-3.46",
+              visible: false,
+            },
+
+            {
+              input: "2\n100.999\n200.001",
+              output: "101.0\n200.0",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-18-002",
+          title: "Average of Numbers from M to N",
+          difficulty: "Easy",
+          description:
+            "Given two numbers M and N,write a program to print the sum and average of the numbers from M to N each on a new line.",
+          sampleInput: "10\n10",
+          sampleOutput: "10\n10.0",
+          testCases: [
+            { input: "1\n5", output: "15\n3.0", visible: true },
+
+            { input: "3\n7", output: "25\n5.0", visible: true },
+
+            { input: "10\n10", output: "10\n10.0", visible: false },
+
+            { input: "-2\n2", output: "0\n0.0", visible: false },
+
+            { input: "5\n9", output: "35\n7.0", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-18-003",
+          title: "Sum of N Inputs",
+          difficulty: "Easy",
+          description:
+            "Given two numbers N and S,write a program to find the sum of the given N numbers and round it up to 3 decimals.Check whether the sum that is rounded up to 3 decimals is equal to S or not.\nPrint True if the sum of N inputs rounded up to 3 decimals is equal to S.Otherwise,Print False.",
+          sampleInput: "3\n6.001\n1.0\n2.0\n3.0",
+          sampleOutput: "False",
+          testCases: [
+            { input: "3\n6.000\n1.0\n2.0\n3.0", output: "True", visible: true },
+
+            { input: "2\n5.500\n2.25\n3.25", output: "True", visible: true },
+
+            {
+              input: "4\n10.123\n2.5\n2.5\n2.5\n2.623",
+              output: "True",
+              visible: false,
+            },
+
+            {
+              input: "3\n6.001\n1.0\n2.0\n3.0",
+              output: "False",
+              visible: false,
+            },
+
+            {
+              input: "2\n4.000\n1.999\n2.000",
+              output: "False",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-18-004",
+          title: "Time Conversion",
+          difficulty: "Easy",
+          description:
+            "Given a time T in either Minutes(M) or Seconds (S). Example:220M,3S.\nIf the last character in the T is M,it is Minutes.\nIf the last character in the T is S,it is Seconds.\nWrite a program to convert the given time T in Minutes(M) or Seconds(S)into Hours (H) rounded up to 2 decimals.\nThe last character of the output should be H representing time in Hours.",
+          sampleInput: "180M",
+          sampleOutput: "3.0H",
+          testCases: [
+            { input: "3600S", output: "1.0H", visible: true },
+
+            { input: "7200S", output: "2.0H", visible: true },
+
+            { input: "180M", output: "3.0H", visible: false },
+
+            { input: "90M", output: "1.5H", visible: false },
+
+            { input: "4500S", output: "1.25H", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-18-005",
+          title: "Diamond - 3",
+          difficulty: "Medium",
+          description:
+            "Given an integer value N,write a program to print a number diamond of `2*N-1` rows as shown below.",
+          sampleInput: "3",
+          sampleOutput:
+            ". . 0 . . \n. 0 0 0 . \n0 0 0 0 0 \n. 0 0 0 . \n. . 0 . . ",
+          testCases: [
+            {
+              input: "1",
+              output: "0 ",
+              visible: true,
+            },
+
+            {
+              input: "2",
+              output: ". 0 . \n0 0 0 \n. 0 . ",
+              visible: true,
+            },
+
+            {
+              input: "3",
+              output:
+                ". . 0 . . \n. 0 0 0 . \n0 0 0 0 0 \n. 0 0 0 . \n. . 0 . . ",
+              visible: true,
+            },
+
+            {
+              input: "4",
+              output:
+                ". . . 0 . . . \n. . 0 0 0 . . \n. 0 0 0 0 0 . \n0 0 0 0 0 0 0 \n. 0 0 0 0 0 . \n. . 0 0 0 . . \n. . . 0 . . . ",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-18",
+      title: "Assignment-18",
+      description: "Comparing Strings and Naming Variables",
+      questions: [
+        {
+          id: "q-python-Assignment-18-001",
+          title: "Alphabets in Hollow Diamond",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print hollow Diamond of 2*N-1 rows using letters.",
+          sampleInput: "3",
+          sampleOutput: "  A\n B C\nD   E\n B C\n  A",
+          testCases: [
+            {
+              input: "1",
+              output: "A",
+              visible: true,
+            },
+
+            {
+              input: "2",
+              output: " A\nB C\n A",
+              visible: true,
+            },
+
+            {
+              input: "3",
+              output: "  A\n B C\nD   E\n B C\n  A",
+              visible: true,
+            },
+
+            {
+              input: "4",
+              output: "   A\n  B C\n D   E\nF     G\n D   E\n  B C\n   A",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-18-002",
+          title: "temperature Conversion",
+          difficulty: "Medium",
+          description:
+            "You are given the temperature T of an object in one of Celsius,Fahrenheit,and Kelvin scales.\nWrite a program to print T in all scales viz Celsius,Fahrenheit,and Kelvin.\nFormula to convert from Fahrenheit F to Celsius C is :C=(F - 32) * 5/9.\nFormula to convert from Kelvin K to Celsius C is : C=K - 273.\nHere `C`,`F`,`K` represent that the temperature scale is  in Celsius,Fahrenheit and Kelvin scales respectively.\nThe input contains the temperature ( a number) and the unit of the temperature scale (C,F,K) without any space.\nThe output contains temperature in Celsius,Fahrenheit and Kelvin scales in each line in the format similar to input and the value of the temperature is rounded to 2 decimal places.",
+          sampleInput: "273K",
+          sampleOutput: "0.0C\n32.0F\n273.0K",
+          testCases: [
+            {
+              input: "32F",
+              output: "0.0C\n32.0F\n273.0K",
+              visible: true,
+            },
+
+            {
+              input: "100C",
+              output: "100.0C\n212.0F\n373.0K",
+              visible: true,
+            },
+
+            {
+              input: "273K",
+              output: "0.0C\n32.0F\n273.0K",
+              visible: false,
+            },
+
+            {
+              input: "0C",
+              output: "0.0C\n32.0F\n273.0K",
+              visible: false,
+            },
+
+            {
+              input: "212F",
+              output: "100.0C\n212.0F\n373.0K",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-18-003",
+          title: "Sum of N terms in Harmonic series",
+          difficulty: "Easy",
+          description:
+            "Given integer N as input,write a program to display the sum of the first N terms in Harmonic series.\nThe series is:1+1/2+1/3+1/4.....1/N(N terms).",
+          sampleInput: "5",
+          sampleOutput: "2.28",
+          testCases: [
+            { input: "1", output: "1.0", visible: true },
+
+            { input: "2", output: "1.5", visible: true },
+
+            { input: "3", output: "1.83", visible: false },
+
+            { input: "5", output: "2.28", visible: false },
+
+            { input: "10", output: "2.93", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-18-004",
+          title: "Roots of a quadratic equation",
+          difficulty: "Easy",
+          description:
+            "You are given coefficients a , b and c of a quadratic equation ax^2+bx+c=0.Find the roots r1,r2 of the equation.\nNote:r1 and r2 should be rounded upto 2 decimal places.",
+          sampleInput: "1\n-5\n6",
+          sampleOutput: "3.0\n2.0",
+          testCases: [
+            { input: "0\n2\n-4", output: "2.0", visible: true },
+
+            { input: "1\n-2\n1", output: "1.0", visible: true },
+
+            { input: "1\n1\n1", output: "no roots", visible: false },
+
+            { input: "1\n-5\n6", output: "3.0\n2.0", visible: false },
+
+            { input: "2\n-7\n3", output: "3.0\n0.5", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-19",
+      title: "Codingpractice-19",
+      description: "Comparing Strings and Naming Variables",
+      questions: [
+        {
+          id: "q-python-Codingpractice-19-001",
+          title: "Division with 17",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program that reads N inputs and prints the number without decimals of the quotient of N inputs when each input is divided by 17,each on a new line.",
+          sampleInput: "4\n0\n16\n18\n170",
+          sampleOutput: "0\n0\n1\n10",
+          testCases: [
+            { input: "3\n34\n17\n5", output: "2\n1\n0", visible: true },
+
+            { input: "1\n17", output: "1", visible: true },
+
+            {
+              input: "4\n0\n16\n18\n170",
+              output: "0\n0\n1\n10",
+              visible: false,
+            },
+
+            { input: "2\n-34\n34", output: "-2\n2", visible: false },
+
+            { input: "3\n100\n255\n289", output: "5\n15\n17", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-19-002",
+          title: "Double Char",
+          difficulty: "Easy",
+          description:
+            "Given a String,write a program to double all the characters in the given string.",
+          sampleInput: "Hello",
+          sampleOutput: "HHeelllloo",
+          testCases: [
+            { input: "abc", output: "aabbcc", visible: true },
+
+            { input: "a1$", output: "aa11$$", visible: true },
+
+            { input: "Hello", output: "HHeelllloo", visible: false },
+
+            { input: " ", output: "  ", visible: false },
+
+            { input: "Py3", output: "PPyy33", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-19-003",
+          title: "separate Characters with Comma",
+          difficulty: "Easy",
+          description:
+            "Given a String S,write a program that prints a string obtained by adding a comma(,) between the characters of the given string S.",
+          sampleInput: "hello",
+          sampleOutput: "h,e,l,l,o",
+          testCases: [
+            { input: "abc", output: "a,b,c", visible: true },
+
+            { input: "A1$", output: "A,1,$", visible: true },
+
+            { input: "hello", output: "h,e,l,l,o", visible: false },
+
+            { input: "x", output: "x", visible: false },
+
+            { input: "123", output: "1,2,3", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-19-004",
+          title: "cumulative Sum",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to read N numbers and print the cumulative sum after each input,each on a new line.\nNote:cumulative sum is the sum of all the Previous inputs and the current input.",
+          sampleInput: "4\n10\n-5\n2\n3",
+          sampleOutput: "10\n5\n7\n10",
+          testCases: [
+            { input: "3\n1\n2\n3", output: "1\n3\n6", visible: true },
+
+            { input: "1\n5", output: "5", visible: true },
+
+            {
+              input: "4\n10\n-5\n2\n3",
+              output: "10\n5\n7\n10",
+              visible: false,
+            },
+
+            { input: "2\n0\n0", output: "0\n0", visible: false },
+
+            { input: "3\n-1\n-2\n-3", output: "-1\n-3\n-6", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-19-005",
+          title: "Hollow Pyramid - 3",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program to print a Hollow Pyramid of 2*N rows using pipes(|),backward slashes(),and forward slashes(/).",
+          sampleInput: "3",
+          sampleOutput: "|\n| \\\n|  \\\n|  /\n| /\n|",
+          testCases: [
+            {
+              input: "1",
+              output: "|\n|",
+              visible: true,
+            },
+
+            {
+              input: "2",
+              output: "|\n| \\\n| /\n|",
+              visible: true,
+            },
+
+            {
+              input: "3",
+              output: "|\n| \\\n|  \\\n|  /\n| /\n|",
+              visible: false,
+            },
+
+            {
+              input: "4",
+              output: "|\n| \\\n|  \\\n|   \\\n|   /\n|  /\n| /\n|",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-19",
+      title: "Assignment-19",
+      description: "Comparing Strings and Naming Variables",
+      questions: [
+        {
+          id: "q-python-Assignment-19-001",
+          title: "Hyphenate Letters",
+          difficulty: "Easy",
+          description:
+            "You are given a word W as input.Print W by adding a hyphen (-) between each letter in the word.",
+          sampleInput: "python",
+          sampleOutput: "p-y-t-h-o-n",
+          testCases: [
+            { input: "abc", output: "a-b-c", visible: true },
+
+            { input: "A1$", output: "A-1-$", visible: true },
+
+            { input: "hello", output: "h-e-l-l-o", visible: false },
+
+            { input: "x", output: "x", visible: false },
+
+            { input: "12 3", output: "1-2- -3", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-19-002",
+          title: "Maximum",
+          difficulty: "Easy",
+          description:
+            "You are given N number of inputs.Print the Maximum of them after each input.",
+          sampleInput: "4\n-1\n-5\n0\n-2",
+          sampleOutput: "-1\n-1\n0\n0",
+          testCases: [
+            { input: "3\n1\n5\n2", output: "1\n5\n5", visible: true },
+
+            { input: "1\n10", output: "10", visible: true },
+
+            {
+              input: "4\n-1\n-5\n0\n-2",
+              output: "-1\n-1\n0\n0",
+              visible: false,
+            },
+
+            {
+              input: "5\n3\n3\n3\n3\n3",
+              output: "3\n3\n3\n3\n3",
+              visible: false,
+            },
+
+            {
+              input: "3\n100\n50\n200",
+              output: "100\n100\n200",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-19-003",
+          title: "Diamond Crystal",
+          difficulty: "Easy",
+          description:
+            "Given an integer value N,write a program to print a diamond pattern of 2*N rows as shown below.",
+          sampleInput: "3",
+          sampleOutput: "  /\\\n /  \\\n/    \\\n\\    /\n \\  /\n  \\/",
+          testCases: [
+            {
+              input: "1",
+              output: "/\\\n\\/",
+              visible: true,
+            },
+
+            {
+              input: "2",
+              output: " /\\\n/  \\\n\\  /\n \\/",
+              visible: true,
+            },
+
+            {
+              input: "3",
+              output: "  /\\\n /  \\\n/    \\\n\\    /\n \\  /\n  \\/",
+              visible: false,
+            },
+
+            {
+              input: "4",
+              output:
+                "   /\\\n  /  \\\n /    \\\n/      \\\n\\      /\n \\    /\n  \\  /\n   \\/",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-20",
+      title: "Codingpractice-20",
+      description: "Lists",
+      questions: [
+        {
+          id: "q-python-Codingpractice-20-001",
+          title: "Create and Print List",
+          difficulty: "Easy",
+          description:
+            "Write a program to print a list with the given elements `ROSE`,183,148,123.64,False.",
+          sampleInput: "",
+          sampleOutput: "['Rose', 183, 148, 123.64, False]",
+          testCases: [
+            {
+              input: "",
+              output: "['Rose', 183, 148, 123.64, False]",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 10,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-002",
+          title: "List Indexing",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a list.Write a program to print the element at the given index location.",
+          sampleInput: "3",
+          sampleOutput: "Pink",
+          testCases: [
+            { input: "0", output: "Red", visible: true },
+            { input: "3", output: "Pink", visible: true },
+            { input: "5", output: "Blue", visible: false },
+            { input: "8", output: "White", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-003",
+          title: "List Indexing - 2",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a list.You need to write a program to read N integers,and print the elements at the index locations represented by those integers.",
+          sampleInput: "4\n5\n7\n9\n11",
+          sampleOutput: "Go\nJavaScript\nPHP\nPerl",
+          testCases: [
+            {
+              input: "3\n0\n1\n2",
+              output: "Python\nJava\nRuby",
+              visible: true,
+            },
+            { input: "2\n3\n4", output: "C\nC++", visible: true },
+            {
+              input: "4\n5\n7\n9\n11",
+              output: "Go\nJavaScript\nPHP\nPerl",
+              visible: false,
+            },
+            { input: "1\n10", output: "Kotlin", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-004",
+          title: "Find Element in List",
+          difficulty: "Easy",
+          description:
+            "A list L is given in the prefilled code.\nWrite a program that reads a string S and checks if S is in the given list L.Print True if S is present in L else,Print False.\nL=[`5`,`eat`,`9.80`,`water`,`python`,`-678`,`7685.26`,`-2.5`,`sing`]",
+          sampleInput: "Water",
+          sampleOutput: "True",
+          testCases: [
+            { input: "eat", output: "True", visible: true },
+            { input: "python", output: "True", visible: true },
+            { input: "Water", output: "True", visible: false },
+            { input: "hello", output: "False", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-005",
+          title: "List Concatenation",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a list.You need to concatenate the given number to the list.The first list should have the number concatenated at the beginning.The second list should have the number concatenated at the end.",
+          sampleInput: "250",
+          sampleOutput: "[250, 10, 20, 40, 100]\n[10, 20, 40, 100, 250]",
+          testCases: [
+            { input: "5", output: "[5, 10, 20, 40, 100]\n[10, 20, 40, 100, 5]", visible: true },
+            { input: "0", output: "[0, 10, 20, 40, 100]\n[10, 20, 40, 100, 0]", visible: true },
+            { input: "-3", output: "[-3, 10, 20, 40, 100]\n[10, 20, 40, 100, -3]", visible: false },
+            { input: "250", output: "[250, 10, 20, 40, 100]\n[10, 20, 40, 100, 250]", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-006",
+          title: "Create and Print List - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program to print a list with the given N inputs.",
+          sampleInput: "2\nHello\nWorld",
+          sampleOutput: "['Hello', 'World']",
+          testCases: [
+            { input: "3\napple\nbanana\ncherry", output: "['apple', 'banana', 'cherry']", visible: true },
+            { input: "1\npython", output: "['python']", visible: true },
+            { input: "4\n10\n20\n30\n40", output: "['10', '20', '30', '40']", visible: false },
+            { input: "2\nHello\nWorld", output: "['Hello', 'World']", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-007",
+          title: "List Repetition",
+          difficulty: "Easy",
+          description:
+            "A list L is given in the prefilled code.\nGiven a number N,write a program that prints the list by repeating the prefilled list N times.\nL=[1,`two`,`3`,4.0]",
+          sampleInput: "3",
+          sampleOutput: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0, 1, 'two', '3', 4.0]",
+          testCases: [
+            { input: "1", output: "[1, 'two', '3', 4.0]", visible: true },
+            { input: "2", output: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0]", visible: true },
+            { input: "0", output: "[]", visible: false },
+            { input: "3", output: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0, 1, 'two', '3', 4.0]", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-20-008",
+          title: "Reverse Order",
+          difficulty: "Easy",
+          description:
+            "Given an integer N,Write a program to print the given N inputs in the reverse order.",
+          sampleInput: "2\nHello\nWorld",
+          sampleOutput: "World\nHello",
+          testCases: [
+            { input: "3\napple\nbanana\ncherry", output: "cherry\nbanana\napple", visible: true },
+            { input: "1\npython", output: "python", visible: true },
+            { input: "4\n10\n20\n30\n40", output: "40\n30\n20\n10", visible: false },
+            { input: "2\nHello\nWorld", output: "World\nHello", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-20",
+      title: "Assignment-20",
+      description: "Lists",
+      questions: [
+        {
+          id: "q-python-Assignment-20-001",
+          title: "Swap Elements in List",
+          difficulty: "Easy",
+          description:
+            "A list L is given in the prefilled code.Write a program that reads the two indices L1 and L2.\n* Replace the element in the L1 th index with the element in L2 th index.\n* Replace the element in the L2 th index with the element in L1 th index.\nL=[1,`two`,9,5.09,`three`,-558,`four`,-93.7,`six`]",
+          sampleInput: "3\n8",
+          sampleOutput: "[1, 'two', 9, 'six', 'Three', -558, 'four', -93.7, 5.09]",
+          testCases: [
+            { input: "0\n1", output: "['two', 1, 9, 5.09, 'Three', -558, 'four', -93.7, 'six']", visible: true },
+            { input: "2\n4", output: "[1, 'two', 'Three', 5.09, 9, -558, 'four', -93.7, 'six']", visible: true },
+            { input: "5\n7", output: "[1, 'two', 9, 5.09, 'Three', -93.7, 'four', -558, 'six']", visible: false },
+            { input: "3\n8", output: "[1, 'two', 9, 'six', 'Three', -558, 'four', -93.7, 5.09]", visible: false },
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-20-002",
+          title: "List Indexing - 3",
+          difficulty: "Easy",
+          description:
+            "Given N numbers,and an index, write a program to store the numbers in a list and print the number at the given index.For this problem,each input will contain T test cases.Each test case will give an index Ki as input,which should be considered to print the number.",
+          sampleInput: "4\n1\n100\n200\n300\n400\n3",
+          sampleOutput: "400",
+          testCases: [
+            { input: "5\n3\n10\n20\n30\n40\n50\n0\n2\n4", output: "10\n30\n50", visible: true },
+            { input: "3\n2\n7\n8\n9\n1\n0", output: "8\n7", visible: true },
+            { input: "4\n1\n100\n200\n300\n400\n3", output: "400", visible: false },
+            { input: "6\n4\n5\n15\n25\n35\n45\n55\n5\n3\n1\n0", output: "55\n35\n15\n5", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-20-003",
+          title: "First and last elements of list",
+          difficulty: "Easy",
+          description:
+            "You are given an integer N as input.Write a program to read N integers and print a list containing the first and last two inputs.",
+          sampleInput: "3\n7\n8\n9",
+          sampleOutput: "[7, 8, 8, 9]",
+          testCases: [
+            { input: "5\n10\n20\n30\n40\n50", output: "[10, 20, 40, 50]", visible: true },
+            { input: "4\n1\n2\n3\n4", output: "[1, 2, 3, 4]", visible: true },
+            { input: "6\n5\n15\n25\n35\n45\n55", output: "[5, 15, 45, 55]", visible: false },
+            { input: "3\n7\n8\n9", output: "[7, 8, 8, 9]", visible: false }, 
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-20-004",
+          title: "Divisible by 5",
+          difficulty: "Easy",
+          description:
+            "Given a number N,write a program that reads N numbers and prints a list of numbers that are divisible by 5.",
+          sampleInput: "4\n-5\n-10\n6\n11",
+          sampleOutput: "[-5, -10]",
+          testCases: [
+            { input: "5\n10\n12\n25\n33\n40", output: "[10, 25, 40]", visible: true },
+            { input: "3\n1\n2\n3", output: "[]", visible: true },
+            { input: "6\n5\n15\n20\n22\n7\n30", output: "[5, 15, 20, 30]", visible: false },
+            { input: "4\n-5\n-10\n6\n11", output: "[-5, -10]", visible: false },      
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-21A",
+      title: "Codingpractice-21A",
+      description: "Lists",
+      questions: [
+        {
+          id: "q-python-Codingpractice-21A-001",
+          title: "Split the sentence",
+          difficulty: "Easy",
+          description:
+            "Given a sentence S.The words in the sentence S are separated by a space.Write a program that prints a list containing the words in the sentence.",
+          sampleInput: "Python is easy",
+          sampleOutput: "['Python', 'is', 'easy']",
+          testCases: [
+            { input: "Hello World", output: "['Hello', 'World']", visible: true },
+            { input: "Python is easy", output: "['Python', 'is', 'easy']", visible: true },
+            { input: "Split   by   spaces", output: "['Split', 'by', 'spaces']", visible: false },
+            { input: "one", output: "['one']", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 15,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-21A-002",
+          title: "Split the sentence - 2",
+          difficulty: "Easy",
+          description:
+            "Given a list of N words,write a program to print each word in a line.",
+          sampleInput: "Python is easy",
+          sampleOutput: "['Python', 'is', 'easy']",
+          testCases: [
+            { input: "Hello World", output: "['Hello', 'World']", visible: true },
+            { input: "Python is easy", output: "['Python', 'is', 'easy']", visible: true },
+            { input: "Split   by   spaces", output: "['Split', 'by', 'spaces']", visible: false },
+            { input: "one", output: "['one']", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 20,
           status: "unsolved",
           attempts: [],
         },

@@ -251,9 +251,10 @@ const Explore_Menu_Section_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -282,7 +283,7 @@ const Explore_Menu_Section_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -314,7 +315,7 @@ const Explore_Menu_Section_MCQ = ({
 
   return (
     <MCQLogic
-      title="Explore Menu Section - Bootstrap Icons MCQs"
+      title="Explore Menu Section - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

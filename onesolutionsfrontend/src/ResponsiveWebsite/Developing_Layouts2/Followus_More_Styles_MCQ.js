@@ -42,12 +42,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      "Use href=\"#follow-us\" and id=\"follow-us\"",
-      "Use name=\"follow-us\"",
+      'Use href="#follow-us" and id="follow-us"',
+      'Use name="follow-us"',
       "Use data-target",
       "Not possible with HTML only",
     ],
-    answer: "Use href=\"#follow-us\" and id=\"follow-us\"",
+    answer: 'Use href="#follow-us" and id="follow-us"',
   },
   {
     question: (
@@ -57,12 +57,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      "<i class=\"fa fa-instagram\">",
-      "<i class=\"fab fa-instagram\">",
-      "<i class=\"bi bi-instagram\">",
+      '<i class="fa fa-instagram">',
+      '<i class="fab fa-instagram">',
+      '<i class="bi bi-instagram">',
       "<svg instagram>",
     ],
-    answer: "<i class=\"fab fa-instagram\">",
+    answer: '<i class="fab fa-instagram">',
   },
   {
     question: (
@@ -192,7 +192,9 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What does <code>fixed-top</code> do to page content?</p>
+        <p>
+          What does <code>fixed-top</code> do to page content?
+        </p>
         <CodeBlock
           language="html"
           code={`<nav class="navbar fixed-top">...</nav>
@@ -212,7 +214,8 @@ const questionsData = [
 
   // ========== 5 Normal (Non-CodeBlock) Questions ==========
   {
-    question: "Why do we use Font Awesome instead of Bootstrap Icons in the Follow Us section?",
+    question:
+      "Why do we use Font Awesome instead of Bootstrap Icons in the Follow Us section?",
     options: [
       "Bootstrap Icons are paid",
       "Bootstrap doesn't have social media icons we need",
@@ -235,7 +238,7 @@ const questionsData = [
     question: "How do you make a social icon perfectly circular?",
     options: [
       "Use border-radius: 50% and equal width/height",
-      "Use class=\"rounded\"",
+      'Use class="rounded"',
       "Add circle class",
       "Use shape-outside",
     ],
@@ -243,18 +246,24 @@ const questionsData = [
   },
   {
     question: "Which class pins an element to the bottom of the viewport?",
-    options: ["sticky-bottom", "fixed-bottom", "bottom-fixed", "position-bottom"],
+    options: [
+      "sticky-bottom",
+      "fixed-bottom",
+      "bottom-fixed",
+      "position-bottom",
+    ],
     answer: "fixed-bottom",
   },
   {
-    question: "What is required to use Font Awesome brand icons like Facebook, Twitter?",
+    question:
+      "What is required to use Font Awesome brand icons like Facebook, Twitter?",
     options: [
-      "Only <i class=\"fa fa-facebook\">",
-      "<i class=\"fab fa-facebook\"> (fab prefix)",
-      "<i class=\"fas fa-facebook\">",
+      'Only <i class="fa fa-facebook">',
+      '<i class="fab fa-facebook"> (fab prefix)',
+      '<i class="fas fa-facebook">',
       "SVG code only",
     ],
-    answer: "<i class=\"fab fa-facebook\"> (fab prefix)",
+    answer: '<i class="fab fa-facebook"> (fab prefix)',
   },
 ];
 
@@ -262,9 +271,10 @@ const Followus_More_Styles_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -293,7 +303,7 @@ const Followus_More_Styles_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -324,7 +334,7 @@ const Followus_More_Styles_MCQ = ({
   };
   return (
     <MCQLogic
-      title="Follow Us Section & More Styling - Font Awesome, Links, Fixed Position MCQs"
+      title="Follow Us Section & More Styling - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

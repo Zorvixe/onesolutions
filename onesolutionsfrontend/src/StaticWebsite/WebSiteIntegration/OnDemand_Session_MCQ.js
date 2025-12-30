@@ -137,7 +137,9 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What does the <code>rel</code> attribute specify in this tag?</p>
+        <p>
+          What does the <code>rel</code> attribute specify in this tag?
+        </p>
         <CodeBlock
           language="html"
           code={`<link rel="stylesheet" href="styles.css">`}
@@ -175,12 +177,7 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "Same tab",
-      "New tab",
-      "Incognito mode",
-      "No need to open",
-    ],
+    options: ["Same tab", "New tab", "Incognito mode", "No need to open"],
     answer: "New tab",
   },
 
@@ -202,7 +199,8 @@ const questionsData = [
     answer: "2 minutes 30 seconds",
   },
   {
-    question: "What is the correct value for <code>rel</code> when linking CSS?",
+    question:
+      "What is the correct value for <code>rel</code> when linking CSS?",
     options: ["script", "stylesheet", "icon", "preload"],
     answer: "stylesheet",
   },
@@ -223,9 +221,10 @@ const OnDemand_Session_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -254,7 +253,7 @@ const OnDemand_Session_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -285,7 +284,7 @@ const OnDemand_Session_MCQ = ({
   };
   return (
     <MCQLogic
-      title="On-Demand Session - Setup & Linking - MCQs"
+      title="On-Demand Session - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}
