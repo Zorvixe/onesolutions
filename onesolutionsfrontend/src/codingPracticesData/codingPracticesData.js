@@ -13803,11 +13803,26 @@ export const codingPracticesData = {
           sampleInput: "250",
           sampleOutput: "[250, 10, 20, 40, 100]\n[10, 20, 40, 100, 250]",
           testCases: [
-            { input: "5", output: "[5, 10, 20, 40, 100]\n[10, 20, 40, 100, 5]", visible: true },
-            { input: "0", output: "[0, 10, 20, 40, 100]\n[10, 20, 40, 100, 0]", visible: true },
-            { input: "-3", output: "[-3, 10, 20, 40, 100]\n[10, 20, 40, 100, -3]", visible: false },
-            { input: "250", output: "[250, 10, 20, 40, 100]\n[10, 20, 40, 100, 250]", visible: false },
-            
+            {
+              input: "5",
+              output: "[5, 10, 20, 40, 100]\n[10, 20, 40, 100, 5]",
+              visible: true,
+            },
+            {
+              input: "0",
+              output: "[0, 10, 20, 40, 100]\n[10, 20, 40, 100, 0]",
+              visible: true,
+            },
+            {
+              input: "-3",
+              output: "[-3, 10, 20, 40, 100]\n[10, 20, 40, 100, -3]",
+              visible: false,
+            },
+            {
+              input: "250",
+              output: "[250, 10, 20, 40, 100]\n[10, 20, 40, 100, 250]",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 20,
@@ -13823,11 +13838,22 @@ export const codingPracticesData = {
           sampleInput: "2\nHello\nWorld",
           sampleOutput: "['Hello', 'World']",
           testCases: [
-            { input: "3\napple\nbanana\ncherry", output: "['apple', 'banana', 'cherry']", visible: true },
+            {
+              input: "3\napple\nbanana\ncherry",
+              output: "['apple', 'banana', 'cherry']",
+              visible: true,
+            },
             { input: "1\npython", output: "['python']", visible: true },
-            { input: "4\n10\n20\n30\n40", output: "['10', '20', '30', '40']", visible: false },
-            { input: "2\nHello\nWorld", output: "['Hello', 'World']", visible: false },
-            
+            {
+              input: "4\n10\n20\n30\n40",
+              output: "['10', '20', '30', '40']",
+              visible: false,
+            },
+            {
+              input: "2\nHello\nWorld",
+              output: "['Hello', 'World']",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -13841,13 +13867,22 @@ export const codingPracticesData = {
           description:
             "A list L is given in the prefilled code.\nGiven a number N,write a program that prints the list by repeating the prefilled list N times.\nL=[1,`two`,`3`,4.0]",
           sampleInput: "3",
-          sampleOutput: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0, 1, 'two', '3', 4.0]",
+          sampleOutput:
+            "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0, 1, 'two', '3', 4.0]",
           testCases: [
             { input: "1", output: "[1, 'two', '3', 4.0]", visible: true },
-            { input: "2", output: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0]", visible: true },
+            {
+              input: "2",
+              output: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0]",
+              visible: true,
+            },
             { input: "0", output: "[]", visible: false },
-            { input: "3", output: "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0, 1, 'two', '3', 4.0]", visible: false },
-            
+            {
+              input: "3",
+              output:
+                "[1, 'two', '3', 4.0, 1, 'two', '3', 4.0, 1, 'two', '3', 4.0]",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -13863,11 +13898,22 @@ export const codingPracticesData = {
           sampleInput: "2\nHello\nWorld",
           sampleOutput: "World\nHello",
           testCases: [
-            { input: "3\napple\nbanana\ncherry", output: "cherry\nbanana\napple", visible: true },
+            {
+              input: "3\napple\nbanana\ncherry",
+              output: "cherry\nbanana\napple",
+              visible: true,
+            },
             { input: "1\npython", output: "python", visible: true },
-            { input: "4\n10\n20\n30\n40", output: "40\n30\n20\n10", visible: false },
-            { input: "2\nHello\nWorld", output: "World\nHello", visible: false },
-            
+            {
+              input: "4\n10\n20\n30\n40",
+              output: "40\n30\n20\n10",
+              visible: false,
+            },
+            {
+              input: "2\nHello\nWorld",
+              output: "World\nHello",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -13888,12 +13934,33 @@ export const codingPracticesData = {
           description:
             "A list L is given in the prefilled code.Write a program that reads the two indices L1 and L2.\n* Replace the element in the L1 th index with the element in L2 th index.\n* Replace the element in the L2 th index with the element in L1 th index.\nL=[1,`two`,9,5.09,`three`,-558,`four`,-93.7,`six`]",
           sampleInput: "3\n8",
-          sampleOutput: "[1, 'two', 9, 'six', 'Three', -558, 'four', -93.7, 5.09]",
+          sampleOutput:
+            "[1, 'two', 9, 'six', 'Three', -558, 'four', -93.7, 5.09]",
           testCases: [
-            { input: "0\n1", output: "['two', 1, 9, 5.09, 'Three', -558, 'four', -93.7, 'six']", visible: true },
-            { input: "2\n4", output: "[1, 'two', 'Three', 5.09, 9, -558, 'four', -93.7, 'six']", visible: true },
-            { input: "5\n7", output: "[1, 'two', 9, 5.09, 'Three', -93.7, 'four', -558, 'six']", visible: false },
-            { input: "3\n8", output: "[1, 'two', 9, 'six', 'Three', -558, 'four', -93.7, 5.09]", visible: false },
+            {
+              input: "0\n1",
+              output:
+                "['two', 1, 9, 5.09, 'Three', -558, 'four', -93.7, 'six']",
+              visible: true,
+            },
+            {
+              input: "2\n4",
+              output:
+                "[1, 'two', 'Three', 5.09, 9, -558, 'four', -93.7, 'six']",
+              visible: true,
+            },
+            {
+              input: "5\n7",
+              output:
+                "[1, 'two', 9, 5.09, 'Three', -93.7, 'four', -558, 'six']",
+              visible: false,
+            },
+            {
+              input: "3\n8",
+              output:
+                "[1, 'two', 9, 'six', 'Three', -558, 'four', -93.7, 5.09]",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -13909,11 +13976,22 @@ export const codingPracticesData = {
           sampleInput: "4\n1\n100\n200\n300\n400\n3",
           sampleOutput: "400",
           testCases: [
-            { input: "5\n3\n10\n20\n30\n40\n50\n0\n2\n4", output: "10\n30\n50", visible: true },
+            {
+              input: "5\n3\n10\n20\n30\n40\n50\n0\n2\n4",
+              output: "10\n30\n50",
+              visible: true,
+            },
             { input: "3\n2\n7\n8\n9\n1\n0", output: "8\n7", visible: true },
-            { input: "4\n1\n100\n200\n300\n400\n3", output: "400", visible: false },
-            { input: "6\n4\n5\n15\n25\n35\n45\n55\n5\n3\n1\n0", output: "55\n35\n15\n5", visible: false },
-            
+            {
+              input: "4\n1\n100\n200\n300\n400\n3",
+              output: "400",
+              visible: false,
+            },
+            {
+              input: "6\n4\n5\n15\n25\n35\n45\n55\n5\n3\n1\n0",
+              output: "55\n35\n15\n5",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -13929,10 +14007,18 @@ export const codingPracticesData = {
           sampleInput: "3\n7\n8\n9",
           sampleOutput: "[7, 8, 8, 9]",
           testCases: [
-            { input: "5\n10\n20\n30\n40\n50", output: "[10, 20, 40, 50]", visible: true },
+            {
+              input: "5\n10\n20\n30\n40\n50",
+              output: "[10, 20, 40, 50]",
+              visible: true,
+            },
             { input: "4\n1\n2\n3\n4", output: "[1, 2, 3, 4]", visible: true },
-            { input: "6\n5\n15\n25\n35\n45\n55", output: "[5, 15, 45, 55]", visible: false },
-            { input: "3\n7\n8\n9", output: "[7, 8, 8, 9]", visible: false }, 
+            {
+              input: "6\n5\n15\n25\n35\n45\n55",
+              output: "[5, 15, 45, 55]",
+              visible: false,
+            },
+            { input: "3\n7\n8\n9", output: "[7, 8, 8, 9]", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -13948,10 +14034,18 @@ export const codingPracticesData = {
           sampleInput: "4\n-5\n-10\n6\n11",
           sampleOutput: "[-5, -10]",
           testCases: [
-            { input: "5\n10\n12\n25\n33\n40", output: "[10, 25, 40]", visible: true },
+            {
+              input: "5\n10\n12\n25\n33\n40",
+              output: "[10, 25, 40]",
+              visible: true,
+            },
             { input: "3\n1\n2\n3", output: "[]", visible: true },
-            { input: "6\n5\n15\n20\n22\n7\n30", output: "[5, 15, 20, 30]", visible: false },
-            { input: "4\n-5\n-10\n6\n11", output: "[-5, -10]", visible: false },      
+            {
+              input: "6\n5\n15\n20\n22\n7\n30",
+              output: "[5, 15, 20, 30]",
+              visible: false,
+            },
+            { input: "4\n-5\n-10\n6\n11", output: "[-5, -10]", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -13974,11 +14068,22 @@ export const codingPracticesData = {
           sampleInput: "Python is easy",
           sampleOutput: "['Python', 'is', 'easy']",
           testCases: [
-            { input: "Hello World", output: "['Hello', 'World']", visible: true },
-            { input: "Python is easy", output: "['Python', 'is', 'easy']", visible: true },
-            { input: "Split   by   spaces", output: "['Split', 'by', 'spaces']", visible: false },
+            {
+              input: "Hello World",
+              output: "['Hello', 'World']",
+              visible: true,
+            },
+            {
+              input: "Python is easy",
+              output: "['Python', 'is', 'easy']",
+              visible: true,
+            },
+            {
+              input: "Split   by   spaces",
+              output: "['Split', 'by', 'spaces']",
+              visible: false,
+            },
             { input: "one", output: "['one']", visible: false },
-            
           ],
           defaultCode: ``,
           score: 15,
@@ -13994,11 +14099,22 @@ export const codingPracticesData = {
           sampleInput: "Split   by   spaces",
           sampleOutput: "Split\nby\nspaces",
           testCases: [
-            { input: "Hello World", output: "['Hello', 'World']", visible: true },
-            { input: "Python is easy", output: "['Python', 'is', 'easy']", visible: true },
-            { input: "Split   by   spaces", output: "['Split', 'by', 'spaces']", visible: false },
+            {
+              input: "Hello World",
+              output: "['Hello', 'World']",
+              visible: true,
+            },
+            {
+              input: "Python is easy",
+              output: "['Python', 'is', 'easy']",
+              visible: true,
+            },
+            {
+              input: "Split   by   spaces",
+              output: "['Split', 'by', 'spaces']",
+              visible: false,
+            },
             { input: "one", output: "['one']", visible: false },
-            
           ],
           defaultCode: ``,
           score: 20,
@@ -14015,9 +14131,13 @@ export const codingPracticesData = {
           sampleOutput: "[-5, -10, 15]",
           testCases: [
             { input: "1 2 3 4 5", output: "[1, 2, 3, 4, 5]", visible: true },
-            { input: "10 20 -30 40", output: "[10, 20, -30, 40]", visible: true },
+            {
+              input: "10 20 -30 40",
+              output: "[10, 20, -30, 40]",
+              visible: true,
+            },
             { input: "0", output: "[0]", visible: false },
-            { input: "-5 -10 15", output: "[-5, -10, 15]", visible: false },  
+            { input: "-5 -10 15", output: "[-5, -10, 15]", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -14036,7 +14156,7 @@ export const codingPracticesData = {
             { input: "1 2 3 4", output: "10", visible: true },
             { input: "10 20 -5", output: "25", visible: true },
             { input: "0", output: "0", visible: false },
-            { input: "-1 -2 -3", output: "-6", visible: false },             
+            { input: "-1 -2 -3", output: "-6", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -14056,7 +14176,6 @@ export const codingPracticesData = {
             { input: "1 2 4 5", output: "[]", visible: true },
             { input: "0 12 -3 8", output: "[0, 12, -3]", visible: false },
             { input: "-6 -5 -4 15", output: "[-6, 15]", visible: false },
-                       
           ],
           defaultCode: ``,
           score: 25,
@@ -14075,7 +14194,7 @@ export const codingPracticesData = {
             { input: "5 3 8 2 9", output: "2", visible: true },
             { input: "10 20 30", output: "10", visible: true },
             { input: "-1 -5 0 4", output: "-5", visible: false },
-            { input: "7", output: "7", visible: false },                                
+            { input: "7", output: "7", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -14098,10 +14217,18 @@ export const codingPracticesData = {
           sampleInput: "Madam Racecar apple",
           sampleOutput: "True\nTrue\nFalse",
           testCases: [
-            { input: "Anna civic level", output: "True\nTrue\nTrue", visible: true },
+            {
+              input: "Anna civic level",
+              output: "True\nTrue\nTrue",
+              visible: true,
+            },
             { input: "Hello World", output: "False\nFalse", visible: true },
-            { input: "Madam Racecar apple", output: "True\nTrue\nFalse", visible: false },
-            { input: "a bb cdc", output: "True\nTrue\nTrue", visible: false },                  
+            {
+              input: "Madam Racecar apple",
+              output: "True\nTrue\nFalse",
+              visible: false,
+            },
+            { input: "a bb cdc", output: "True\nTrue\nTrue", visible: false },
           ],
           defaultCode: ``,
           score: 20,
@@ -14120,7 +14247,7 @@ export const codingPracticesData = {
             { input: "hello", output: "olleh", visible: true },
             { input: "Python", output: "nohtyP", visible: true },
             { input: "12345", output: "54321", visible: false },
-            { input: "hello world", output: "dlrow olleh", visible: false },                             
+            { input: "hello world", output: "dlrow olleh", visible: false },
           ],
           defaultCode: ``,
           score: 20,
@@ -14136,11 +14263,22 @@ export const codingPracticesData = {
           sampleInput: "one two three four",
           sampleOutput: "['four', 'three', 'two', 'one']",
           testCases: [
-            { input: "hello world", output: "['world', 'hello']", visible: true },
-            { input: "Python is fun", output: "['fun', 'is', 'Python']", visible: true },
-            { input: "one two three four", output: "['four', 'three', 'two', 'one']", visible: false },
+            {
+              input: "hello world",
+              output: "['world', 'hello']",
+              visible: true,
+            },
+            {
+              input: "Python is fun",
+              output: "['fun', 'is', 'Python']",
+              visible: true,
+            },
+            {
+              input: "one two three four",
+              output: "['four', 'three', 'two', 'one']",
+              visible: false,
+            },
             { input: "single", output: "['single']", visible: false },
-                                        
           ],
           defaultCode: ``,
           score: 25,
@@ -14156,10 +14294,18 @@ export const codingPracticesData = {
           sampleInput: "single",
           sampleOutput: "['single']",
           testCases: [
-            { input: "one two three four", output: "['one', 'two']", visible: true },
-            { input: "apple banana cherry", output: "['apple', 'banana']", visible: true },
+            {
+              input: "one two three four",
+              output: "['one', 'two']",
+              visible: true,
+            },
+            {
+              input: "apple banana cherry",
+              output: "['apple', 'banana']",
+              visible: true,
+            },
             { input: "a b c d e f", output: "['a', 'b', 'c']", visible: false },
-            { input: "single", output: "['single']", visible: false },                                              
+            { input: "single", output: "['single']", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -14178,7 +14324,7 @@ export const codingPracticesData = {
             { input: "1 2 3 4", output: "[1, 2]", visible: true },
             { input: "10 20 30", output: "[10, 20]", visible: true },
             { input: "5 6 7 8 9 10", output: "[5, 6, 7]", visible: false },
-            { input: "42", output: "[42]", visible: false },                                                     
+            { input: "42", output: "[42]", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -14203,8 +14349,12 @@ export const codingPracticesData = {
           testCases: [
             { input: "hello world", output: "world hello", visible: true },
             { input: "Python is fun", output: "fun is Python", visible: true },
-            { input: "one two three four", output: "four three two one", visible: false },
-            { input: "single", output: "single", visible: false },                   
+            {
+              input: "one two three four",
+              output: "four three two one",
+              visible: false,
+            },
+            { input: "single", output: "single", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -14222,8 +14372,12 @@ export const codingPracticesData = {
           testCases: [
             { input: "5\n1 2 3 4 5", output: "[4, 5]", visible: true },
             { input: "4\n10 20 30 40", output: "[30, 40]", visible: true },
-            { input: "7\n5 10 15 20 25 30 35", output: "[20, 25, 30, 35]", visible: false },
-            { input: "1\n99", output: "[]", visible: false },                            
+            {
+              input: "7\n5 10 15 20 25 30 35",
+              output: "[20, 25, 30, 35]",
+              visible: false,
+            },
+            { input: "1\n99", output: "[]", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -14242,7 +14396,7 @@ export const codingPracticesData = {
             { input: "10 20 30", output: "20.0", visible: true },
             { input: "1 2", output: "1.5", visible: true },
             { input: "5 10 15 20", output: "12.5", visible: false },
-            { input: "3 3 4", output: "3.33", visible: false },                                       
+            { input: "3 3 4", output: "3.33", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -14260,8 +14414,12 @@ export const codingPracticesData = {
           testCases: [
             { input: "Hello World", output: "H.W", visible: true },
             { input: "Python is easy", output: "P.i.e", visible: true },
-            { input: "United States of America", output: "U.S.o.A", visible: false },
-            { input: "single", output: "s", visible: false },                                                 
+            {
+              input: "United States of America",
+              output: "U.S.o.A",
+              visible: false,
+            },
+            { input: "single", output: "s", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -14285,9 +14443,13 @@ export const codingPracticesData = {
           sampleOutput: "Hello World!",
           testCases: [
             { input: "Hello", output: "Hello", visible: true },
-            { input: "Python Programming", output: "Python Programming", visible: true },
+            {
+              input: "Python Programming",
+              output: "Python Programming",
+              visible: true,
+            },
             { input: "12345", output: "12345", visible: false },
-            { input: "Hello World!", output: "Hello World!", visible: false },                             
+            { input: "Hello World!", output: "Hello World!", visible: false },
           ],
           defaultCode: ``,
           score: 20,
@@ -14307,7 +14469,6 @@ export const codingPracticesData = {
             { input: "Alice", output: "Welcome Alice", visible: true },
             { input: "John Doe", output: "Welcome John Doe", visible: false },
             { input: "123", output: "Welcome 123", visible: false },
-                                         
           ],
           defaultCode: ``,
           score: 20,
@@ -14326,7 +14487,7 @@ export const codingPracticesData = {
             { input: "5", output: "15", visible: true },
             { input: "0", output: "0", visible: true },
             { input: "-4", output: "-12", visible: false },
-            { input: "10", output: "30", visible: false },                                         
+            { input: "10", output: "30", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -14345,7 +14506,7 @@ export const codingPracticesData = {
             { input: "14", output: "True", visible: true },
             { input: "7", output: "True", visible: true },
             { input: "10", output: "False", visible: false },
-            { input: "-21", output: "True", visible: false },                                                    
+            { input: "-21", output: "True", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -14361,11 +14522,465 @@ export const codingPracticesData = {
           sampleInput: "1",
           sampleOutput: "0 EVEN\n1 ODD",
           testCases: [
-            { input: "3", output: "0 EVEN\n1 ODD\n2 EVEN\n3 ODD", visible: true },
+            {
+              input: "3",
+              output: "0 EVEN\n1 ODD\n2 EVEN\n3 ODD",
+              visible: true,
+            },
             { input: "0", output: "0 EVEN", visible: true },
-            { input: "5", output: "0 EVEN\n1 ODD\n2 EVEN\n3 ODD\n4 EVEN\n5 ODD", visible: false },
+            {
+              input: "5",
+              output: "0 EVEN\n1 ODD\n2 EVEN\n3 ODD\n4 EVEN\n5 ODD",
+              visible: false,
+            },
             { input: "1", output: "0 EVEN\n1 ODD", visible: false },
-                                                              
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-22B",
+      title: "Codingpractice-22B",
+      description: "Functions",
+      questions: [
+        {
+          id: "q-python-Codingpractice-22B-001",
+          title: "Return the given Argument",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.write a program to return the value passed to the function.",
+          sampleInput: "42",
+          sampleOutput: "42",
+          testCases: [
+            { input: "5", output: "5", visible: true },
+            { input: "0", output: "0", visible: true },
+            { input: "-10", output: "-10", visible: false },
+            { input: "42", output: "42", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-22B-002",
+          title: "Perimeter of Square",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.Write a program that the given function will return the perimeter of the square.\nThe sum of lengths of the four sides of a square is the perimeter of the square.",
+          sampleInput: "10",
+          sampleOutput: "40",
+          testCases: [
+            { input: "5", output: "20", visible: true },
+            { input: "1", output: "4", visible: true },
+            { input: "0", output: "0", visible: false },
+            { input: "10", output: "40", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-22B-003",
+          title: "Second character in the word",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.Write a program that the given function will return the second character in the word passed to the function.",
+          sampleInput: "open",
+          sampleOutput: "p",
+          testCases: [
+            { input: "Python", output: "y", visible: true },
+            { input: "Hello", output: "e", visible: true },
+            { input: "AB", output: "B", visible: false },
+            { input: "OpenAI", output: "p", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-22B-004",
+          title: "Percentage - 4",
+          difficulty: "Easy",
+          description:
+            "A function is given in prefilled code that takes a number N as an argument.\nWrite a program that checks if N is less than 1000.\nReturn 5% of the N if N is less than 1000.Otherwise,return 10% of the N.",
+          sampleInput: "2500",
+          sampleOutput: "250.0",
+          testCases: [
+            { input: "500", output: "25.0", visible: true },
+            { input: "999", output: "49.95", visible: true },
+            { input: "1000", output: "100.0", visible: false },
+            { input: "2500", output: "250.0", visible: false },
+          ],
+          defaultCode: ``,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-22B-005",
+          title: "Count the upper case letters",
+          difficulty: "Easy",
+          description:
+            "A function is given in prefilled code that takes a string S as an argument.Write a program that prints the count of uppercase letters in the- given string S.",
+          sampleInput: "Hello",
+          sampleOutput: "1",
+          testCases: [
+            { input: "HelloWorld", output: "2", visible: true },
+            { input: "PYTHON", output: "6", visible: true },
+            { input: "python", output: "0", visible: false },
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-22",
+      title: "Assignment-22",
+      description: "Functions",
+      questions: [
+        {
+          id: "q-python-Assignment-22-001",
+          title: "ATM PIN Code Validation",
+          difficulty: "Easy",
+          description:
+            "Write a function with the name Validate_atm_pin_code that takes a word as an argument.ATM PIN is considered valid only if the given word contains,\nExactly 4 or 6 characters\nAll the characters should be digits",
+          sampleInput: "12345",
+          sampleOutput: "Invalid PIN Code",
+          testCases: [
+            { input: "1234", output: "Valid PIN Code", visible: true },
+            { input: "987654", output: "Valid PIN Code", visible: true },
+            { input: "12a4", output: "Invalid PIN Code", visible: false },
+            { input: "12345", output: "Invalid PIN Code", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-22-002",
+          title: "Calculate Bill",
+          difficulty: "Easy",
+          description:
+            "Write a function with the name calculate_bill that takes the bill amount as an argument.\nIf the bill amount is less than 500,the discount should be 5%.\nIf the bill amount is greater than or equal to 500 and less than 2500,the discount should be 10%.\nIf the bill amount is greater than or equal to 2500,the discount should be 20%.\n Calculate the bill amount with the appropriate discount and print it.",
+          sampleInput: "3000",
+          sampleOutput: "2400.0",
+          testCases: [
+            { input: "400", output: "380.0", visible: true },
+            { input: "500", output: "450.0", visible: true },
+            { input: "2000", output: "1800.0", visible: false },
+            { input: "3000", output: "2400.0", visible: false },            
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-22-003",
+          title: "Fizz Buzz",
+          difficulty: "Easy",
+          description:
+            "Write a function with the name fizz_buzz that takes a number as an argument.\nIf the number is divisible by 3,it should return `Fizz`.\nIf it is divisible by 5,it should return `Buzz`.\nIf it is divisible by both 3 and 5,it should return `FizzBuzz`.\nOtherwise,it should return the same number.",
+          sampleInput: "3000",
+          sampleOutput: "2400.0",
+          testCases: [
+            { input: "15", output: "FizzBuzz", visible: true },
+            { input: "9", output: "Fizz", visible: true },
+            { input: "10", output: "Buzz", visible: false },
+            { input: "7", output: "7", visible: false },                                
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-22-004",
+          title: "Count of Lowercase and Uppercase letters",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.write a program to count the number of uppercase and lowercase letters in the given word.",
+          sampleInput: "3000",
+          sampleOutput: "2400.0",
+          testCases: [
+            { input: "HelloWorld", output: "2\n8", visible: true },
+            { input: "PYTHON", output: "6\n0", visible: true },
+            { input: "python", output: "0\n6", visible: false },
+            { input: "OpenAI", output: "3\n3", visible: false },                                            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-23A",
+      title: "Codingpractice-23A",
+      description: "Functions",
+      questions: [
+        {
+          id: "q-python-Codingpractice-23A-001",
+          title: "Sum of two numbers - 3",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.write a program that the given function will return the sum of the values passed to the function.",
+          sampleInput: "100\n200",
+          sampleOutput: "300",
+          testCases: [
+            { input: "5\n7", output: "12", visible: true },
+            { input: "0\n0", output: "0", visible: true },
+            { input: "-3\n10", output: "7", visible: false },
+            { input: "100\n200", output: "300", visible: false },            
+            
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        }, 
+        {
+          id: "q-python-Codingpractice-23A-002",
+          title: "Printing Message",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.write a function with two arguments that prints the message as expected.\nUday is 24 years old.",
+          sampleInput: "Sam\n1",
+          sampleOutput: "Sam is 1 years old.",
+          testCases: [
+            { input: "Ganesh\n22", output: "Ganesh is 22 years old.", visible: true },
+            { input: "Alice\n30", output: "Alice is 30 years old.", visible: true },
+            { input: "John Doe\n45", output: "John Doe is 45 years old.", visible: false },
+            { input: "Sam\n0", output: "Sam is 0 years old.", visible: false },                        
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-23A-003",
+          title: "Indexing - 2",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a function.write a program that the given function will return the character present at the index N in the word W.",
+          sampleInput: "ABCDE\n2",
+          sampleOutput: "C",
+          testCases: [
+            { input: "Python\n0", output: "P", visible: true },
+            { input: "Hello\n1", output: "e", visible: true },
+            { input: "World\n4", output: "d", visible: false },
+            { input: "ABCDE\n2", output: "C", visible: false },                                  
+            
+          ],
+          defaultCode: ``,
+          score: 20,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-23A-004",
+          title: "Divisible by Nine",
+          difficulty: "Easy",
+          description:
+            "A function is given in the prefilled code that takes three numbers N1,N2, and N3 as arguments.\nWrite a program that returns True if atleast one of the given numbers N1,N2,and N3 is divisible by 9.Otherwise,return False.",
+          sampleInput: "-27\n2\n3",
+          sampleOutput: "True",
+          testCases: [
+            { input: "9\n5\n7", output: "True", visible: true },
+            { input: "10\n18\n25", output: "True", visible: true },
+            { input: "4\n8\n14", output: "False", visible: false },
+            { input: "-27\n2\n3", output: "True", visible: false },                                             
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-23B",
+      title: "Codingpractice-23B",
+      description: "Functions",
+      questions: [
+        {
+          id: "q-python-Codingpractice-23B-001",
+          title: "Factors of a Number - 3",
+          difficulty: "Easy",
+          description:
+            "A function is given in the prefilled code that takes a number N as an argument.\nWrite a program that returns the factors of the given number N separated by a space as shown in the sample output.",
+          sampleInput: "13",
+          sampleOutput: "1 13",
+          testCases: [
+            { input: "6", output: "1 2 3 6", visible: true },
+            { input: "10", output: "1 2 5 10", visible: true },
+            { input: "13", output: "1 13", visible: false },
+            { input: "1", output: "1", visible: false },                       
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        }, 
+        {
+          id: "q-python-Codingpractice-23B-002",
+          title: "Prime number - 3",
+          difficulty: "Easy",
+          description:
+            "A function is given in the prefilled code that takes a number N as an arument.\nWrite a program to check if the given number N is prime or not.\nPrint Prime number if the number is prime.Otherwise,print not a prime number.",
+          sampleInput: "13",
+          sampleOutput: "Prime Number",
+          testCases: [
+            { input: "7", output: "Prime Number", visible: true },
+            { input: "10", output: "Not a Prime Number", visible: true },
+            { input: "1", output: "Not a Prime Number", visible: false },
+            { input: "13", output: "Prime Number", visible: false },
+                                        
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-23B-003",
+          title: "Count of even numbers",
+          difficulty: "Easy",
+          description:
+            "A function is given in the prefilled code that takes N space-separated integers as an argument.\nWrite a program to return the count of even numbers among the given N space-separated numbers.",
+          sampleInput: "0 -2 4 9",
+          sampleOutput: "3",
+          testCases: [
+            { input: "1 2 3 4 5 6", output: "3", visible: true },
+            { input: "10 20 30", output: "3", visible: true },
+            { input: "1 3 5 7", output: "0", visible: false },
+            { input: "0 -2 4 9", output: "3", visible: false },
+                                            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-23B-004",
+          title: "First Uppercase letter - 2",
+          difficulty: "Easy",
+          description:
+            "A function is given in the prefilled code that takes a string S as an argument.\nWrite a program to return the first uppercase letter in the given string S.",
+          sampleInput: "Hello",
+          sampleOutput: "H",
+          testCases: [
+            { input: "helloWorld", output: "W", visible: true },
+            { input: "Python", output: "P", visible: true },
+            { input: "openAI", output: "A", visible: false },
+            { input: "TestCase", output: "T", visible: false },       
+                                            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-23",
+      title: "Assignment-23",
+      description: "Functions",
+      questions: [
+        {
+          id: "q-python-Assignment-23-001",
+          title: "Team Points",
+          difficulty: "Easy",
+          description:
+            "Write a function with the name calculate_league_points that takes the number of wins,draws,and losses and calculates the number of points a football team has obtained so far.\nEach win is equal to 4 points.\nEach draw is equal to 2 points.\nEach loss is equal to -1 point.",
+          sampleInput: "1,1,3",
+          sampleOutput: "3",
+          testCases: [
+            { input: "3,2,1", output: "15", visible: true },
+            { input: "0,5,0", output: "10", visible: true },
+            { input: "4,0,2", output: "14", visible: false },
+            { input: "1,1,3", output: "3", visible: false },                                 
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-23-002",
+          title: "Sum of Cubes from M to N",
+          difficulty: "Easy",
+          description:
+            "Write a function with name sum_of_cubes_m_to_n that takes two integers(M and N)and sum the cubes from M to N.",
+          sampleInput: "0\n2",
+          sampleOutput: "9",
+          testCases: [
+            { input: "1\n3", output: "36", visible: true },
+            { input: "2\n4", output: "99", visible: true },
+            { input: "1\n1", output: "1", visible: false },
+            { input: "0\n2", output: "9", visible: false },                                            
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-23-003",
+          title: "Prime Numbers from M to N - 2",
+          difficulty: "Easy",
+          description:
+            "A function is given in the prefilled code that takes two numbers M and N as arguments.\nWrite a program that returns all the prime numbers from M to N separated by a space.",
+          sampleInput: "10\n20",
+          sampleOutput: "11 13 17 19 ",
+          testCases: [
+            { input: "1\n10", output: "2 3 5 7 ", visible: true },
+            { input: "-3\n5", output: "-3 -2 -1 2 3 5 ", visible: true },
+            { input: "10\n20", output: "11 13 17 19 ", visible: false },
+            { input: "0\n3", output: "2 3 ", visible: false },                                                       
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        }, 
+        {
+          id: "q-python-Assignment-23-004",
+          title: "Four Passengers and a Driver",
+          difficulty: "Easy",
+          description:
+            "A Typical car can hold four Passengers and one driver,allowing five people to travel around.\nWrite a function with the name number_of_cars_needed that takes a number of people (N) and return how many cars are needed to seat everyone comfortably.",
+          sampleInput: "20",
+          sampleOutput: "4",
+          testCases: [
+            { input: "5", output: "1", visible: true },
+            { input: "12", output: "3", visible: true },
+            { input: "1", output: "1", visible: false },
+            { input: "20", output: "4", visible: false },                                                                 
+            
           ],
           defaultCode: ``,
           score: 35,
