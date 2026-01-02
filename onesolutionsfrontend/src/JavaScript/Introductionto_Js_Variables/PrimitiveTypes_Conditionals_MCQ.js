@@ -4,6 +4,50 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ========= 5 Normal Questions =========
+  {
+    question: "In JavaScript, values are divided into which two categories?",
+    options: [
+      "Static and Dynamic",
+      "Primitive Types and Reference Types",
+      "Simple and Complex",
+      "Variables and Functions",
+    ],
+    answer: "Primitive Types and Reference Types",
+  },
+  {
+    question: "Which of the following is a primitive type in JavaScript?",
+    options: ["Array", "Object", "String", "Function"],
+    answer: "String",
+  },
+  {
+    question: "Which primitive type represents true or false values?",
+    options: ["Number", "String", "Boolean", "Undefined"],
+    answer: "Boolean",
+  },
+  {
+    question:
+      "What happens when a variable is declared but not assigned a value?",
+    options: [
+      "It becomes null",
+      "It throws an error",
+      "It takes undefined as its value",
+      "It becomes 0",
+    ],
+    answer: "It takes undefined as its value",
+  },
+  {
+    question: "Why are conditional statements used in JavaScript?",
+    options: [
+      "To declare variables",
+      "To convert data types",
+      "To execute code based on a condition",
+      "To style HTML elements",
+    ],
+    answer: "To execute code based on a condition",
+  },
+
+  // ========= 10 CodeBlock Questions =========
   {
     question: (
       <div>
@@ -27,13 +71,13 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["'undefined'", "'null'", "'object'", "'string'"],
+    options: ["'null'", "'undefined'", "'object'", "'string'"],
     answer: "'undefined'",
   },
   {
     question: (
       <div>
-        <p>What will this code print?</p>
+        <p>What will be printed in the console?</p>
         <CodeBlock
           language="javascript"
           code={`let isHappy = true;\nconsole.log(typeof isHappy);`}
@@ -46,20 +90,20 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is the output of the following code?</p>
+        <p>What is the output of this code?</p>
         <CodeBlock
           language="javascript"
           code={`let name = "Rahul";\nconsole.log(typeof name);`}
         />
       </div>
     ),
-    options: ["'object'", "'string'", "'symbol'", "'number'"],
+    options: ["'object'", "'string'", "'number'", "'symbol'"],
     answer: "'string'",
   },
   {
     question: (
       <div>
-        <p>What will this code log in the console?</p>
+        <p>What will this code log?</p>
         <CodeBlock
           language="javascript"
           code={`let value = null;\nconsole.log(typeof value);`}
@@ -68,6 +112,32 @@ const questionsData = [
     ),
     options: ["'null'", "'undefined'", "'object'", "'boolean'"],
     answer: "'object'",
+  },
+  {
+    question: (
+      <div>
+        <p>What does this code output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let x = "5" + 2;\nconsole.log(x);`}
+        />
+      </div>
+    ),
+    options: ["7", "'7'", "'52'", "Error"],
+    answer: "'52'",
+  },
+  {
+    question: (
+      <div>
+        <p>What is the output after using parseInt?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let num = parseInt("25");\nconsole.log(num);`}
+        />
+      </div>
+    ),
+    options: ["'25'", "25", "NaN", "undefined"],
+    answer: "25",
   },
   {
     question: (
@@ -85,36 +155,28 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is the result of this code snippet?</p>
+        <p>What will be printed in the console?</p>
         <CodeBlock
           language="javascript"
-          code={`let y = "10";\nif (y == 10) {\n  console.log("Loose Equality");\n} else {\n  console.log("No Match");\n}`}
+          code={`let y = "10";\nif (y == 10) {\n  console.log("Matched");\n} else {\n  console.log("Not Matched");\n}`}
         />
       </div>
     ),
-    options: ["Loose Equality", "No Match", "Error", "undefined"],
-    answer: "Loose Equality",
+    options: ["Matched", "Not Matched", "Error", "undefined"],
+    answer: "Matched",
   },
   {
-    question: "Which of the following is a primitive data type in JavaScript?",
-    options: ["Object", "Array", "String", "Function"],
-    answer: "String",
-  },
-  {
-    question: "What does parseInt('25') return in JavaScript?",
-    options: ["'25'", "25", "NaN", "undefined"],
-    answer: "25",
-  },
-  {
-    question:
-      "In an if...else statement, what happens when the condition evaluates to false?",
-    options: [
-      "Only the if block executes",
-      "The else block executes",
-      "The program stops execution",
-      "It throws an error",
-    ],
-    answer: "The else block executes",
+    question: (
+      <div>
+        <p>Which operator is used below?</p>
+        <CodeBlock
+          language="javascript"
+          code={`console.log(typeof "Hello");`}
+        />
+      </div>
+    ),
+    options: ["parseInt()", "typeof()", "Number()", "String()"],
+    answer: "typeof()",
   },
 ];
 
@@ -122,9 +184,10 @@ const PrimitiveTypes_Conditionals_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -153,7 +216,7 @@ const PrimitiveTypes_Conditionals_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

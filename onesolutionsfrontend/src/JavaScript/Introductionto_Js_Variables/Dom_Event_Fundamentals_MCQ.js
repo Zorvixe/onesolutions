@@ -4,11 +4,59 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ========= 5 Normal Questions =========
+  {
+    question: "What are JavaScript variables?",
+    options: [
+      "Functions that handle events",
+      "Containers used to store values",
+      "HTML elements",
+      "CSS properties",
+    ],
+    answer: "Containers used to store values",
+  },
+  {
+    question: "Which keyword is used to declare a variable in JavaScript?",
+    options: ["var", "let", "define", "value"],
+    answer: "let",
+  },
+  {
+    question: "What does DOM stand for?",
+    options: [
+      "Document Object Model",
+      "Data Object Method",
+      "Dynamic Output Model",
+      "Document Order Map",
+    ],
+    answer: "Document Object Model",
+  },
+  {
+    question: "What is the document object?",
+    options: [
+      "A CSS selector",
+      "The entry point of the DOM",
+      "A JavaScript variable",
+      "An HTML tag",
+    ],
+    answer: "The entry point of the DOM",
+  },
+  {
+    question: "What are JavaScript events?",
+    options: [
+      "CSS animations",
+      "User or browser actions on HTML elements",
+      "HTML attributes only",
+      "Database triggers",
+    ],
+    answer: "User or browser actions on HTML elements",
+  },
+
+  // ========= 10 CodeBlock Questions =========
   {
     question: (
       <div>
-        <p>Which keyword is used to declare a variable in JavaScript?</p>
-        <CodeBlock language="javascript" code={`let message;`} />
+        <p>Which keyword is used to declare a variable?</p>
+        <CodeBlock language="javascript" code={`let count;`} />
       </div>
     ),
     options: ["var", "let", "const", "int"],
@@ -17,151 +65,145 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What will be the output of the following code?</p>
+        <p>What will be the output of this code?</p>
         <CodeBlock
           language="javascript"
           code={`let message;\nconsole.log(message);`}
         />
       </div>
     ),
-    options: ["null", "undefined", "error", "0"],
+    options: ["null", "undefined", "0", "error"],
     answer: "undefined",
   },
   {
     question: (
       <div>
-        <p>Which method is used to select an element with a specific ID?</p>
+        <p>Which object should be accessed first to work with the DOM?</p>
         <CodeBlock
           language="javascript"
-          code={`const heading = document.getElementById("headingElement");`}
+          code={`document.getElementById("box");`}
         />
       </div>
     ),
-    options: [
-      "document.querySelectorAll()",
-      "document.getElementsByClassName()",
-      "document.getElementById()",
-      "document.selectById()",
-    ],
-    answer: "document.getElementById()",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          Which property is used to modify the text content of an element?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`document.getElementById("headingElement").textContent = "New Heading";`}
-        />
-      </div>
-    ),
-    options: ["innerValue", "textValue", "textContent", "contentText"],
-    answer: "textContent",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          Which style property will change the background color of an element?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`document.getElementById("headingElement").style.backgroundColor = "blue";`}
-        />
-      </div>
-    ),
-    options: [
-      "backgroundcolor",
-      "background_color",
-      "backgroundColor",
-      "bgColor",
-    ],
-    answer: "backgroundColor",
-  },
-  {
-    question: (
-      <div>
-        <p>Which event occurs when the user clicks on an HTML element?</p>
-        <CodeBlock
-          language="html"
-          code={`<button onclick="changeHeading()">Click Me</button>`}
-        />
-      </div>
-    ),
-    options: ["onmouseover", "onclick", "onpress", "onhover"],
-    answer: "onclick",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          Which of the following code correctly changes the heading color when
-          the button is clicked?
-        </p>
-        <CodeBlock
-          language="html"
-          code={`<h1 id="headingElement">Web Tech</h1>\n<button onclick="changeHeading()">Change</button>`}
-        />
-        <CodeBlock
-          language="javascript"
-          code={`function changeHeading() {\n  document.getElementById("headingElement").style.color = "red";\n}`}
-        />
-      </div>
-    ),
-    options: [
-      "Uses document.querySelectorAll()",
-      "Uses document.getElementById() correctly",
-      "Missing style property",
-      "Invalid function syntax",
-    ],
-    answer: "Uses document.getElementById() correctly",
-  },
-  {
-    question: (
-      <div>
-        <p>What does the DOM represent in a browser?</p>
-      </div>
-    ),
-    options: [
-      "A static text version of the HTML",
-      "A tree structure representing HTML elements as objects",
-      "A server-side database",
-      "A CSS style manager",
-    ],
-    answer: "A tree structure representing HTML elements as objects",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          Which of the following is the correct way to access the document
-          object?
-        </p>
-      </div>
-    ),
-    options: ["window.html", "browser.document", "document", "HTML.document"],
+    options: ["window", "html", "document", "body"],
     answer: "document",
   },
   {
     question: (
       <div>
-        <p>What is true about JavaScript Events?</p>
+        <p>Which method selects an element using its ID?</p>
+        <CodeBlock
+          language="javascript"
+          code={`document.getElementById("title");`}
+        />
       </div>
     ),
     options: [
-      "They are used to style HTML elements only",
-      "They occur when users or the browser interact with elements",
-      "They are used to define variables in JavaScript",
-      "They cannot trigger functions",
+      "getElementsByClassName()",
+      "querySelectorAll()",
+      "getElementById()",
+      "selectById()",
     ],
-    answer: "They occur when users or the browser interact with elements",
+    answer: "getElementById()",
+  },
+  {
+    question: (
+      <div>
+        <p>Which property is used to change text inside an element?</p>
+        <CodeBlock
+          language="javascript"
+          code={`element.textContent = "Hello";`}
+        />
+      </div>
+    ),
+    options: ["innerTextValue", "textContent", "contentText", "innerValue"],
+    answer: "textContent",
+  },
+  {
+    question: (
+      <div>
+        <p>Which style property changes text color?</p>
+        <CodeBlock
+          language="javascript"
+          code={`element.style.color = "red";`}
+        />
+      </div>
+    ),
+    options: ["text-color", "fontColor", "color", "textColor"],
+    answer: "color",
+  },
+  {
+    question: (
+      <div>
+        <p>Which naming convention is used for style properties?</p>
+        <CodeBlock
+          language="javascript"
+          code={`element.style.backgroundColor = "blue";`}
+        />
+      </div>
+    ),
+    options: ["snake_case", "kebab-case", "camelCase", "PascalCase"],
+    answer: "camelCase",
+  },
+  {
+    question: (
+      <div>
+        <p>Which event is triggered when the button is clicked?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="show()">Click</button>`}
+        />
+      </div>
+    ),
+    options: ["onmouseover", "onclick", "onload", "onchange"],
+    answer: "onclick",
+  },
+  {
+    question: (
+      <div>
+        <p>What does this function do?</p>
+        <CodeBlock
+          language="javascript"
+          code={`function changeText() {\n  document.getElementById("msg").textContent = "Updated";\n}`}
+        />
+      </div>
+    ),
+    options: [
+      "Deletes the element",
+      "Changes the element text",
+      "Adds a new element",
+      "Reloads the page",
+    ],
+    answer: "Changes the element text",
+  },
+  {
+    question: (
+      <div>
+        <p>Which concept is demonstrated below?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="changeColor()">Change Color</button>`}
+        />
+      </div>
+    ),
+    options: [
+      "Variable declaration",
+      "DOM tree creation",
+      "Event handling",
+      "CSS animation",
+    ],
+    answer: "Event handling",
   },
 ];
 
-const Dom_Event_Fundamentals_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Dom_Event_Fundamentals_MCQ = ({
+  subtopicId,
+  goalName,
+  courseName,
+  onComplete,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -190,7 +232,7 @@ const Dom_Event_Fundamentals_MCQ = ({ subtopicId, goalName, courseName, onComple
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -221,8 +263,8 @@ const Dom_Event_Fundamentals_MCQ = ({ subtopicId, goalName, courseName, onComple
   };
 
   return (
-    <MCQLogic 
-      title="Dom Event Fundamentals - MCQs" 
+    <MCQLogic
+      title="Dom Event Fundamentals - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}

@@ -163,11 +163,6 @@ const PrimitiveTypes_Conditionals_CS = ({
           language="javascript"
           code={`if (conditionA) {\n  Block1;\n} else if (conditionB) {\n  Block2;\n} else {\n  Block3;\n}`}
         />
-
-        <p>
-          Try out changing the conditions or values in the below Code Playground
-          and check the output.
-        </p>
       </section>
 
       {/* Continue Button */}

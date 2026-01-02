@@ -14989,5 +14989,180 @@ export const codingPracticesData = {
         },
       ],
     },
+    {
+      id: "Codingpractice-python-24",
+      title: "Codingpractice-24",
+      description: "Recursion",
+      questions: [
+        {
+          id: "q-python-Codingpractice-24-001",
+          title: "Sum of Numbers in the List",
+          difficulty: "Easy",
+          description:
+            "Given space-separated numbers,write a program to print the sum of the given numbers.",
+          sampleInput: "-5 5 10",
+          sampleOutput: "10",
+          testCases: [
+            { input: "1 2 3 4", output: "10", visible: true },
+            { input: "10 20 30", output: "60", visible: true },
+            { input: "0 0 0", output: "0", visible: false },
+            { input: "-5 5 10", output: "10", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 15,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-24-002",
+          title: "Largest number in the List - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program to print the largest number in the list.",
+          sampleInput: "-5 5 10",
+          sampleOutput: "10",
+          testCases: [
+            { input: "1,2,3,4,5", output: "5", visible: true },
+            { input: "10,25,7,3", output: "25", visible: true },
+            { input: "-5,-10,-3", output: "-3", visible: false },
+            { input: "100", output: "100", visible: false },
+            
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-24-003",
+          title: "Smallest number in the List - 2",
+          difficulty: "Easy",
+          description:
+            "Write a program to print the smallest number in the list.",
+          sampleInput: "-5 5 10",
+          sampleOutput: "-5",
+          testCases: [
+            { input: "1,2,3,4,5", output: "1", visible: true },
+            { input: "10,25,7,3", output: "3", visible: true },
+            { input: "-5,-10,-3", output: "-10", visible: false },
+            { input: "100", output: "100", visible: false },            
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-24-004",
+          title: "Sort Numbers in the List",
+          difficulty: "Easy",
+          description:
+            "Given comma-separated numbers,write a program to print a list containing the given numbers in Ascending order.",
+          sampleInput: "-1,-5,3,0",
+          sampleOutput: "[-5, -1, 0, 3]",
+          testCases: [
+            { input: "3,1,4,2", output: "[1, 2, 3, 4]", visible: true },
+            { input: "10,5,20", output: "[5, 10, 20]", visible: true },
+            { input: "-1,-5,3,0", output: "[-5, -1, 0, 3]", visible: false },
+            { input: "7", output: "[7]", visible: false },                       
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-24-005",
+          title: "Extract Digits",
+          difficulty: "Easy",
+          description:
+            "Write a program to Extract the numbers in a given string and print the sum,minimum and Maximum of those numbers.",
+          sampleInput: "abc5def0g2",
+          sampleOutput: "7\n0\n5",
+          testCases: [
+            { input: "a1b2c3", output: "6\n1\n3", visible: true },
+            { input: "9x8y7", output: "24\n7\n9", visible: true },
+            { input: "abc5def0g2", output: "7\n0\n5", visible: false },
+            { input: "1a2b3c4d5", output: "15\n1\n5", visible: false },                                  
+            
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-Assignment-24",
+      title: "Assignment-24",
+      description: "Recursion",
+      questions: [
+        {
+          id: "q-python-Assignment-24-001",
+          title: "Find Mean",
+          difficulty: "Easy",
+          description:
+            "Given comma-separated numbers,write a program to print the Mean of the given numbers.",
+          sampleInput: "-5 5 10",
+          sampleOutput: "3.3333333333333335",
+          testCases: [
+            { input: "1,2,3,4", output: "2.5", visible: true },
+            { input: "10,20,30", output: "20.0", visible: true },
+            { input: "5", output: "5.0", visible: false },
+            { input: "-5,5,10", output: "3.3333333333333335", visible: false },            
+            
+          ],
+          defaultCode: ``,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-24-002",
+          title: "Median of Numbers in the List",
+          difficulty: "Easy",
+          description:
+            "Given comma-separated numbers,write a program to print the Median of the given numbers.",
+          sampleInput: "10,20",
+          sampleOutput: "15.0",
+          testCases: [
+            { input: "1,3,2", output: "2", visible: true },
+            { input: "4,1,3,2", output: "2.5", visible: true },
+            { input: "7,9,5,3,1", output: "5", visible: false },
+            { input: "10,20", output: "15.0", visible: false },                       
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Assignment-24-003",
+          title: "Median of Numbers in the List",
+          difficulty: "Easy",
+          description:
+            "Given comma-separated numbers,write a program to print the Median of the given numbers.",
+          sampleInput: "10,20",
+          sampleOutput: "15.0",
+          testCases: [
+            { input: "1,3,2", output: "2", visible: true },
+            { input: "4,1,3,2", output: "2.5", visible: true },
+            { input: "7,9,5,3,1", output: "5", visible: false },
+            { input: "10,20", output: "15.0", visible: false },                       
+            
+          ],
+          defaultCode: ``,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
   ],
 };

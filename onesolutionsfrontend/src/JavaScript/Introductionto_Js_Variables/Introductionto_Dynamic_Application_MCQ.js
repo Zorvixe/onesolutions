@@ -4,140 +4,239 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ======== 5 Normal Questions ========
   {
-    question: "What is the main purpose of a dynamic web page?",
+    question: "What are dynamic applications?",
     options: [
-      "To display the same content for every user",
-      "To allow content to change based on user interaction",
-      "To prevent any user interaction",
-      "To make pages load slower",
+      "Web pages that never change",
+      "Applications that reload the page for every action",
+      "Web pages that interact with users and update content dynamically",
+      "Pages created using only HTML",
     ],
-    answer: "To allow content to change based on user interaction",
+    answer: "Web pages that interact with users and update content dynamically",
   },
   {
-    question:
-      "Which language is primarily responsible for making web pages dynamic and interactive?",
-    options: ["HTML", "CSS", "JavaScript", "Python"],
+    question: "Which technology makes static web pages dynamic?",
+    options: ["HTML", "CSS", "JavaScript", "Bootstrap"],
     answer: "JavaScript",
   },
   {
-    question: "What is the benefit of using dynamic web pages?",
+    question: "What is a key feature of a dynamic web page?",
     options: [
-      "They automatically reload every few seconds",
-      "They improve interactivity without reloading the page",
-      "They cannot handle user inputs",
-      "They disable event handling",
+      "Requires page reload for every update",
+      "Does not respond to user input",
+      "Updates content without refreshing the page",
+      "Contains only fixed content",
     ],
-    answer: "They improve interactivity without reloading the page",
+    answer: "Updates content without refreshing the page",
   },
   {
-    question:
-      "Which of the following is an example of a dynamic behavior on a webpage?",
+    question: "Why are dynamic applications important?",
     options: [
-      "Static text displayed on the screen",
-      "An image that changes when you hover over it",
-      "A fixed layout with no user interaction",
-      "Plain text displayed using HTML only",
+      "They reduce user interaction",
+      "They improve user experience and interactivity",
+      "They prevent DOM usage",
+      "They disable events",
     ],
-    answer: "An image that changes when you hover over it",
+    answer: "They improve user experience and interactivity",
   },
   {
-    question:
-      "Which of the following JavaScript events is triggered when a button is clicked?",
-    options: ["onload", "onclick", "onhover", "onscroll"],
+    question: "Which of the following improves interactivity in web pages?",
+    options: [
+      "Static HTML content",
+      "JavaScript event handling",
+      "Only CSS styling",
+      "Fixed layouts",
+    ],
+    answer: "JavaScript event handling",
+  },
+
+  // ======== 10 CodeBlock Questions ========
+  {
+    question: (
+      <div>
+        <p>What happens when this button is clicked?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="alert('Hi')">Click</button>`}
+        />
+      </div>
+    ),
+    options: [
+      "Displays Hi in an alert box",
+      "Displays Hi on the page",
+      "Reloads the page",
+      "Does nothing",
+    ],
+    answer: "Displays Hi in an alert box",
+  },
+  {
+    question: (
+      <div>
+        <p>Which event is used in the following code?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="myFunction()">Submit</button>`}
+        />
+      </div>
+    ),
+    options: ["onload", "onclick", "onchange", "onmouseover"],
     answer: "onclick",
   },
   {
-    question: "What does DOM stand for in JavaScript?",
-    options: [
-      "Document Object Model",
-      "Data Object Manager",
-      "Dynamic Output Mechanism",
-      "Document Order Mapping",
-    ],
-    answer: "Document Object Model",
-  },
-  {
     question: (
       <div>
-        <p>What will happen when this code runs?</p>
-        <CodeBlock
-          language="html"
-          code={`<button onclick="alert('Hello!')">Click Me</button>`}
-        />
-      </div>
-    ),
-    options: [
-      "Displays 'Hello!' in an alert box when clicked",
-      "Shows 'Hello!' on the page",
-      "Does nothing",
-      "Throws an error",
-    ],
-    answer: "Displays 'Hello!' in an alert box when clicked",
-  },
-  {
-    question: (
-      <div>
-        <p>What will this JavaScript code do when executed?</p>
+        <p>What does this JavaScript code do?</p>
         <CodeBlock
           language="javascript"
-          code={`document.getElementById("demo").innerHTML = "Welcome!";`}
+          code={`document.getElementById("msg").innerHTML = "Hello";`}
         />
       </div>
     ),
     options: [
-      "Deletes the element with ID 'demo'",
-      "Adds a new element to the DOM",
-      "Changes the content of the element with ID 'demo' to 'Welcome!'",
-      "Shows an alert box with 'Welcome!'",
+      "Deletes the element",
+      "Changes the content of the element",
+      "Adds a new element",
+      "Shows an alert",
     ],
-    answer: "Changes the content of the element with ID 'demo' to 'Welcome!'",
+    answer: "Changes the content of the element",
   },
   {
     question: (
       <div>
-        <p>What happens when the user types something in this input box?</p>
+        <p>What will trigger this alert?</p>
         <CodeBlock
           language="html"
-          code={`<input type="text" onchange="alert('Input changed!')">`}
+          code={`<input type="text" onchange="alert('Changed')">`}
         />
       </div>
     ),
     options: [
-      "Shows an alert as soon as user types",
-      "Shows an alert when user presses a key",
-      "Shows an alert when input value changes and loses focus",
-      "Does nothing",
+      "When the page loads",
+      "When typing starts",
+      "When input value changes and loses focus",
+      "When mouse moves",
     ],
-    answer: "Shows an alert when input value changes and loses focus",
+    answer: "When input value changes and loses focus",
   },
   {
     question: (
       <div>
-        <p>What will this JavaScript code do?</p>
+        <p>What is the purpose of this code?</p>
         <CodeBlock
           language="javascript"
-          code={`const heading = document.querySelector("h1");\nheading.style.color = "blue";`}
+          code={`document.querySelector("p").style.color = "red";`}
         />
       </div>
     ),
     options: [
-      "Deletes the h1 element",
-      "Changes the text of the h1 element",
-      "Changes the color of the h1 text to blue",
-      "Creates a new h1 element",
+      "Deletes the paragraph",
+      "Changes paragraph text",
+      "Changes paragraph color",
+      "Creates a new paragraph",
     ],
-    answer: "Changes the color of the h1 text to blue",
+    answer: "Changes paragraph color",
+  },
+  {
+    question: (
+      <div>
+        <p>Which concept is demonstrated below?</p>
+        <CodeBlock
+          language="html"
+          code={`<div onmouseover="alert('Hovered')">Box</div>`}
+        />
+      </div>
+    ),
+    options: [
+      "DOM creation",
+      "Event handling",
+      "CSS styling",
+      "Static content",
+    ],
+    answer: "Event handling",
+  },
+  {
+    question: (
+      <div>
+        <p>What does the DOM allow developers to do?</p>
+        <CodeBlock
+          language="javascript"
+          code={`document.getElementById("title")`}
+        />
+      </div>
+    ),
+    options: [
+      "Design CSS layouts",
+      "Access and modify HTML elements",
+      "Create databases",
+      "Load external libraries",
+    ],
+    answer: "Access and modify HTML elements",
+  },
+  {
+    question: (
+      <div>
+        <p>Which dynamic behavior is shown below?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="this.innerHTML='Done'">Click</button>`}
+        />
+      </div>
+    ),
+    options: [
+      "Page reload",
+      "Content update on click",
+      "Static content",
+      "CSS animation",
+    ],
+    answer: "Content update on click",
+  },
+  {
+    question: (
+      <div>
+        <p>What happens when this code runs?</p>
+        <CodeBlock
+          language="javascript"
+          code={`document.body.style.backgroundColor = "yellow";`}
+        />
+      </div>
+    ),
+    options: [
+      "Deletes body content",
+      "Changes background color",
+      "Reloads page",
+      "Adds new body element",
+    ],
+    answer: "Changes background color",
+  },
+  {
+    question: (
+      <div>
+        <p>Which feature of dynamic applications is shown?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="alert('Clicked')">Click</button>`}
+        />
+      </div>
+    ),
+    options: [
+      "Static design",
+      "Real-time interactivity",
+      "Fixed layout",
+      "Server-side rendering",
+    ],
+    answer: "Real-time interactivity",
   },
 ];
 
-const Introductionto_Dynamic_Application_MCQ =  ({
+const Introductionto_Dynamic_Application_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -166,7 +265,7 @@ const Introductionto_Dynamic_Application_MCQ =  ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -195,12 +294,17 @@ const Introductionto_Dynamic_Application_MCQ =  ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="Introduction to Dynamic Application - MCQs" questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="Introduction to Dynamic Application - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 export default Introductionto_Dynamic_Application_MCQ;

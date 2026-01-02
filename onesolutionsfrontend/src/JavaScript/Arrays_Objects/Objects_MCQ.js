@@ -1,101 +1,145 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
   {
     question: (
       <div>
-        <p>What will this code log in the console?</p>
+        <p>What will this code log?</p>
         <CodeBlock
           language="javascript"
-          code={`const book = {
-  title: "Atomic Habits",
-  author: "James Clear"
+          code={`const person = {
+  name: "Ravi",
+  age: 25
 };
-console.log(book.title);`}
+console.log(person.name);`}
         />
       </div>
     ),
-    options: ["Atomic Habits", "James Clear", "undefined", "Error"],
-    answer: "Atomic Habits",
+    options: ["Ravi", "25", "undefined", "Error"],
+    answer: "Ravi",
   },
   {
     question: (
       <div>
-        <p>What is the output of this code?</p>
+        <p>What is the output?</p>
         <CodeBlock
           language="javascript"
-          code={`const mobile = {
-  brand: "Samsung",
-  model: "S24"
+          code={`const user = {
+  city: "Hyderabad"
 };
-console.log(mobile["brand"]);`}
+console.log(user["city"]);`}
         />
       </div>
     ),
-    options: ["Samsung", "S24", "undefined", "Error"],
-    answer: "Samsung",
+    options: ["Hyderabad", "undefined", "Error", "city"],
+    answer: "Hyderabad",
   },
   {
     question: (
       <div>
-        <p>What will be the output?</p>
+        <p>What will be printed?</p>
         <CodeBlock
           language="javascript"
-          code={`const employee = { name: "Anu" };
-console.log(employee.salary);`}
+          code={`const data = { name: "Asha" };
+console.log(data.age);`}
         />
       </div>
     ),
-    options: ["Error", "undefined", "null", "0"],
+    options: ["Error", "null", "undefined", "0"],
     answer: "undefined",
   },
   {
     question: (
       <div>
-        <p>What does this code print?</p>
+        <p>Which notation is used here?</p>
         <CodeBlock
           language="javascript"
-          code={`const key = "country";
-const info = { name: "Ravi", country: "India" };
-console.log(info[key]);`}
+          code={`const obj = { color: "Red" };
+console.log(obj.color);`}
         />
       </div>
     ),
-    options: ["country", "India", "undefined", "Error"],
-    answer: "India",
+    options: ["Dot Notation", "Bracket Notation", "Both", "None"],
+    answer: "Dot Notation",
   },
   {
     question: (
       <div>
-        <p>What will this code display?</p>
+        <p>Which notation is required to access this property?</p>
         <CodeBlock
           language="javascript"
-          code={`const profile = { name: "Sai", age: 22 };
-profile.age = 26;
-console.log(profile.age);`}
+          code={`const car = { "car model": "Swift" };
+console.log(car["car model"]);`}
         />
       </div>
     ),
-    options: ["22", "26", "undefined", "Error"],
-    answer: "26",
+    options: ["Dot Notation", "Bracket Notation", "Both", "None"],
+    answer: "Bracket Notation",
   },
   {
     question: (
       <div>
-        <p>What will the console log?</p>
+        <p>What will this code output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const key = "language";
+const details = { language: "JavaScript" };
+console.log(details[key]);`}
+        />
+      </div>
+    ),
+    options: ["key", "language", "JavaScript", "undefined"],
+    answer: "JavaScript",
+  },
+  {
+    question: (
+      <div>
+        <p>What happens here?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const student = { marks: 80 };
+student.marks = 90;
+console.log(student.marks);`}
+        />
+      </div>
+    ),
+    options: ["80", "90", "undefined", "Error"],
+    answer: "90",
+  },
+  {
+    question: (
+      <div>
+        <p>What will be logged?</p>
         <CodeBlock
           language="javascript"
           code={`const item = {};
-item.name = "Pen";
-item["price"] = 10;
+item.type = "Book";
 console.log(item);`}
         />
       </div>
     ),
-    options: [`{ name: "Pen", price: 10 }`, `{}`, `{ name: "Pen" }`, "Error"],
-    answer: `{ name: "Pen", price: 10 }`,
+    options: [`{ type: "Book" }`, `{}`, "undefined", "Error"],
+    answer: `{ type: "Book" }`,
+  },
+  {
+    question: (
+      <div>
+        <p>What is the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const profile = {
+  name: "Meena",
+  skills: ["HTML", "CSS"]
+};
+console.log(profile.skills[0]);`}
+        />
+      </div>
+    ),
+    options: ["HTML", "CSS", "undefined", "Error"],
+    answer: "HTML",
   },
   {
     question: (
@@ -103,44 +147,82 @@ console.log(item);`}
         <p>What will this print?</p>
         <CodeBlock
           language="javascript"
-          code={`const computer = {
-  brand: "Dell",
-  specs: { cpu: "i5", ram: "16GB" }
+          code={`const app = {
+  version: "1.0",
+  info: { platform: "Web" }
 };
-console.log(computer.specs.cpu);`}
+console.log(app.info.platform);`}
         />
       </div>
     ),
-    options: ["Dell", "i5", "16GB", "undefined"],
-    answer: "i5",
+    options: ["1.0", "Web", "undefined", "Error"],
+    answer: "Web",
   },
   {
-    question:
-      "Which notation is required to access a property with spaces in its name?",
+    question: (
+      <div>
+        <p>What is object destructuring used for?</p>
+      </div>
+    ),
+    options: [
+      "To delete object properties",
+      "To extract properties into variables",
+      "To merge objects",
+      "To loop through objects",
+    ],
+    answer: "To extract properties into variables",
+  },
+  {
+    question: (
+      <div>
+        <p>Which of the following is a valid object?</p>
+      </div>
+    ),
+    options: [
+      `{ name = "Ram" }`,
+      `{ name: "Ram" }`,
+      `{ "name" = "Ram" }`,
+      `[ name: "Ram" ]`,
+    ],
+    answer: `{ name: "Ram" }`,
+  },
+  {
+    question: (
+      <div>
+        <p>What is a method in JavaScript?</p>
+      </div>
+    ),
+    options: [
+      "A variable inside an object",
+      "An object inside a function",
+      "A function stored as an object property",
+      "A loop inside an object",
+    ],
+    answer: "A function stored as an object property",
+  },
+  {
+    question: (
+      <div>
+        <p>Which value type can an object property NOT have?</p>
+      </div>
+    ),
+    options: ["Function", "Array", "Object", "None of the above"],
+    answer: "None of the above",
+  },
+  {
+    question: (
+      <div>
+        <p>Which notation allows using variables as keys?</p>
+      </div>
+    ),
     options: ["Dot Notation", "Bracket Notation", "Both", "Neither"],
     answer: "Bracket Notation",
   },
-  {
-    question:
-      "When a property value in an object is a function, what is it called?",
-    options: ["Object Method", "Function Property", "Action", "Callable Value"],
-    answer: "Object Method",
-  },
-  {
-    question:
-      "Which syntax feature is used to extract multiple properties from an object?",
-    options: ["Destructuring", "Extracting", "Splitting", "Mapping"],
-    answer: "Destructuring",
-  },
 ];
 
-const Objects_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Objects_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -169,7 +251,7 @@ const Objects_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -198,12 +280,17 @@ const Objects_MCQ = ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="Objects - MCQs" questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="Objects - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 export default Objects_MCQ;
