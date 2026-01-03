@@ -1,4 +1,3 @@
-
 // Import required modules
 const express = require("express");
 const { Pool } = require("pg");
@@ -12,12 +11,12 @@ const bcrypt = require("bcrypt");
 const WebSocket = require("ws"); // Add WebSocket support
 require("dotenv").config(); // Load environment variables
 // Add these missing imports at the top
-const multer = require('multer');
-const pdfParse = require('pdf-parse');
-const mammoth = require('mammoth');
-const { OpenAI } = require('openai');
-const passport = require("passport")
-const GoogleStrategy = require("passport-google-oauth20").Strategy
+const multer = require("multer");
+const pdfParse = require("pdf-parse");
+const mammoth = require("mammoth");
+const { OpenAI } = require("openai");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const crypto = require("crypto");
 
 // Initialize OpenAI client
@@ -42,20 +41,19 @@ const generateNonce = (req, res, next) => {
   next();
 };
 
-
 // Initialize Express app
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(generateNonce)
+app.use(generateNonce);
 
 // Create WebSocket server
 const wss = new WebSocket.Server({ noServer: true });
 
 // Backend WebSocket handling
-wss.on('connection', (ws, req) => {
+wss.on("connection", (ws, req) => {
   console.log("New WebSocket connection");
-  const token = req.headers.authorization?.split(' ')[1];
+  const token = req.headers.authorization?.split(" ")[1];
 
   if (token) {
     jwt.verify(token, JWT_SECRET, (err, user) => {
@@ -65,20 +63,18 @@ wss.on('connection', (ws, req) => {
     });
   }
 
-  ws.on('message', (message) => {
+  ws.on("message", (message) => {
     const data = JSON.parse(message);
     switch (data.type) {
-      case 'register_phone':
+      case "register_phone":
         ws.userPhone = data.phone;
         break;
-      case 'direct_message':
+      case "direct_message":
         handleDirectMessage(data);
         break;
     }
   });
 });
-
-
 
 // Middleware
 app.use(express.json());
@@ -91,15 +87,14 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
 const getClientIp = (req) => {
   const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
   return ip.split(",")[0].trim(); // Handles proxies and IPv6
 };
 
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) return res.status(401).json({ error: "Token required" });
 
@@ -116,8 +111,6 @@ const authorizeAdmin = (req, res, next) => {
   next();
 };
 
-
-
 // Configure passport with Google strategy
 passport.use(
   new GoogleStrategy(
@@ -129,12 +122,18 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         // Check if user exists in database
-        const existingUser = await pool.query("SELECT * FROM users WHERE google_id = $1", [profile.id])
+        const existingUser = await pool.query(
+          "SELECT * FROM users WHERE google_id = $1",
+          [profile.id]
+        );
 
         if (existingUser.rows.length) {
           // User exists, update last login
-          await pool.query("UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE google_id = $1", [profile.id])
-          return done(null, existingUser.rows[0])
+          await pool.query(
+            "UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE google_id = $1",
+            [profile.id]
+          );
+          return done(null, existingUser.rows[0]);
         }
 
         // Create new user
@@ -147,34 +146,38 @@ passport.use(
           created_at, 
           last_login
         ) VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) RETURNING *`,
-          [profile.id, profile.displayName, profile.emails[0].value, profile.photos[0].value],
-        )
+          [
+            profile.id,
+            profile.displayName,
+            profile.emails[0].value,
+            profile.photos[0].value,
+          ]
+        );
 
-        return done(null, newUser.rows[0])
+        return done(null, newUser.rows[0]);
       } catch (error) {
-        return done(error, null)
+        return done(error, null);
       }
-    },
-  ),
-)
+    }
+  )
+);
 
 // Serialize and deserialize user
 passport.serializeUser((user, done) => {
-  done(null, user.id)
-})
+  done(null, user.id);
+});
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id])
-    done(null, user.rows[0])
+    const user = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
+    done(null, user.rows[0]);
   } catch (error) {
-    done(error, null)
+    done(error, null);
   }
-})
+});
 
 // Initialize passport middleware
-app.use(passport.initialize())
-
+app.use(passport.initialize());
 
 // Modified admin registration route
 app.post(
@@ -188,14 +191,15 @@ app.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const { adminname, username, password, phone, admin_image_link } = req.body;
 
     try {
       // Check if any admin exists
       const adminCount = await pool.query("SELECT COUNT(*) FROM admin;");
-      const isFirstAdmin = adminCount.rows[0].count === '0'; // Check if it's the first admin
+      const isFirstAdmin = adminCount.rows[0].count === "0"; // Check if it's the first admin
 
       // Check if username or phone exists
       const existingAdmin = await pool.query(
@@ -203,7 +207,9 @@ app.post(
         [username, phone]
       );
       if (existingAdmin.rows.length) {
-        return res.status(400).json({ error: "Username or phone already exists" });
+        return res
+          .status(400)
+          .json({ error: "Username or phone already exists" });
       }
 
       // Hash password
@@ -228,7 +234,7 @@ app.post(
         admin_image_link || null,
         status,
         isApproved,
-        createdBy
+        createdBy,
       ]);
 
       const responseData = {
@@ -237,7 +243,7 @@ app.post(
           : "Registration submitted for approval",
         adminId: newAdmin.rows[0].id,
         status: newAdmin.rows[0].status,
-        is_approved: newAdmin.rows[0].is_approved
+        is_approved: newAdmin.rows[0].is_approved,
       };
 
       res.status(201).json(responseData);
@@ -247,7 +253,6 @@ app.post(
     }
   }
 );
-
 
 // Modified admin login route
 // Update the login route to include phone in JWT
@@ -260,13 +265,15 @@ app.post("/api/admin/login", async (req, res) => {
     );
 
     if (!adminResult.rows.length) {
-      return res.status(401).json({ error: "Invalid credentials or Please Register" });
+      return res
+        .status(401)
+        .json({ error: "Invalid credentials or Please Register" });
     }
 
     const admin = adminResult.rows[0];
     const isFirstAdmin = admin.created_by === null && admin.is_approved;
 
-    if (admin.status !== 'approved') {
+    if (admin.status !== "approved") {
       return res.status(403).json({ error: "Account pending approval" });
     }
 
@@ -280,8 +287,8 @@ app.post("/api/admin/login", async (req, res) => {
       {
         id: admin.id,
         username: admin.username,
-        phone: admin.phone,  // Add this line
-        role: "admin"
+        phone: admin.phone, // Add this line
+        role: "admin",
       },
       JWT_SECRET,
       { expiresIn: "1h" }
@@ -296,8 +303,8 @@ app.post("/api/admin/login", async (req, res) => {
         phone: admin.phone,
         admin_image_link: admin.admin_image_link,
         status: admin.status,
-        isFirstAdmin
-      }
+        isFirstAdmin,
+      },
     });
   } catch (error) {
     console.error(`Login error: ${error.message}`);
@@ -306,75 +313,91 @@ app.post("/api/admin/login", async (req, res) => {
 });
 
 // New route to get pending admins (admin access only)
-app.get("/api/admin/pending", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const pendingAdmins = await pool.query(
-      "SELECT id, adminname, username, phone, admin_image_link, createdat FROM admin WHERE status = 'pending';"
-    );
-    res.json(pendingAdmins.rows);
-  } catch (error) {
-    console.error(`Error fetching pending admins: ${error.message}`);
-    res.status(500).json({ error: "Failed to retrieve pending admins" });
+app.get(
+  "/api/admin/pending",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const pendingAdmins = await pool.query(
+        "SELECT id, adminname, username, phone, admin_image_link, createdat FROM admin WHERE status = 'pending';"
+      );
+      res.json(pendingAdmins.rows);
+    } catch (error) {
+      console.error(`Error fetching pending admins: ${error.message}`);
+      res.status(500).json({ error: "Failed to retrieve pending admins" });
+    }
   }
-});
+);
 
 // New route to approve admins (admin access only)
-app.put("/api/admin/approve/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
+app.put(
+  "/api/admin/approve/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
 
-  // Validate ID (Ensure it's a positive number)
-  if (isNaN(id) || id <= 0) {
-    return res.status(400).json({ error: "Invalid admin ID" });
-  }
-
-  try {
-    // Check if the admin exists and is still pending approval
-    const checkAdmin = await pool.query(
-      "SELECT * FROM admin WHERE id = $1 AND status = 'pending';",
-      [id]
-    );
-
-    if (checkAdmin.rows.length === 0) {
-      return res.status(404).json({ error: "Admin not found or already approved" });
+    // Validate ID (Ensure it's a positive number)
+    if (isNaN(id) || id <= 0) {
+      return res.status(400).json({ error: "Invalid admin ID" });
     }
 
-    // Approve admin and set created_by (who approved them)
-    const result = await pool.query(
-      "UPDATE admin SET status = 'approved', is_approved = TRUE, created_by = $1 WHERE id = $2 RETURNING *;",
-      [req.user.id, id]
-    );
+    try {
+      // Check if the admin exists and is still pending approval
+      const checkAdmin = await pool.query(
+        "SELECT * FROM admin WHERE id = $1 AND status = 'pending';",
+        [id]
+      );
 
-    res.json({
-      message: "Admin approved successfully",
-      admin: result.rows[0],
-    });
-  } catch (error) {
-    console.error(`Approval error: ${error.message}`);
-    res.status(500).json({ error: "Approval failed" });
+      if (checkAdmin.rows.length === 0) {
+        return res
+          .status(404)
+          .json({ error: "Admin not found or already approved" });
+      }
+
+      // Approve admin and set created_by (who approved them)
+      const result = await pool.query(
+        "UPDATE admin SET status = 'approved', is_approved = TRUE, created_by = $1 WHERE id = $2 RETURNING *;",
+        [req.user.id, id]
+      );
+
+      res.json({
+        message: "Admin approved successfully",
+        admin: result.rows[0],
+      });
+    } catch (error) {
+      console.error(`Approval error: ${error.message}`);
+      res.status(500).json({ error: "Approval failed" });
+    }
   }
-});
-
+);
 
 // New route to reject admins (admin access only)
-app.put("/api/admin/reject/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
+app.put(
+  "/api/admin/reject/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const result = await pool.query(
-      "DELETE FROM admin WHERE id = $1 RETURNING *;",
-      [id]
-    );
+    try {
+      const result = await pool.query(
+        "DELETE FROM admin WHERE id = $1 RETURNING *;",
+        [id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Admin not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Admin not found" });
+      }
+
+      res.json({ message: "Admin rejected and removed from the system" });
+    } catch (error) {
+      console.error(`Rejection error: ${error.message}`);
+      res.status(500).json({ error: "Rejection failed" });
     }
-
-    res.json({ message: "Admin rejected and removed from the system" });
-  } catch (error) {
-    console.error(`Rejection error: ${error.message}`);
-    res.status(500).json({ error: "Rejection failed" });
   }
-});
+);
 
 // ... (rest of the code remains the same)
 
@@ -418,7 +441,7 @@ const initializeDbAndServer = async () => {
         advanced_data TEXT,
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
-    `)
+    `);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS job_viewers (
@@ -550,9 +573,7 @@ const initializeDbAndServer = async () => {
   );
 `);
 
-
-
-await pool.query(`
+    await pool.query(`
 CREATE TABLE IF NOT EXISTS enrollments (
   id SERIAL PRIMARY KEY,
   first_name TEXT NOT NULL,
@@ -573,8 +594,8 @@ CREATE TABLE IF NOT EXISTS enrollments (
 );
 `);
 
-// Create contacts table
-await pool.query(`
+    // Create contacts table
+    await pool.query(`
 CREATE TABLE IF NOT EXISTS contacts (
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
@@ -589,9 +610,8 @@ CREATE TABLE IF NOT EXISTS contacts (
 );
 `);
 
-
-try {
-  await pool.query(`
+    try {
+      await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
       google_id TEXT UNIQUE NOT NULL,
@@ -601,15 +621,15 @@ try {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       last_login TIMESTAMP
     );
-  `)
-  console.log("Users table initialized")
-} catch (error) {
-  console.error("Error initializing users table:", error.message)
-}
+  `);
+      console.log("Users table initialized");
+    } catch (error) {
+      console.error("Error initializing users table:", error.message);
+    }
 
-// Add this after your existing table creations in initializeDbAndServer
-// Add this after your existing table creations in initializeDbAndServer
-await pool.query(`
+    // Add this after your existing table creations in initializeDbAndServer
+    // Add this after your existing table creations in initializeDbAndServer
+    await pool.query(`
   CREATE TABLE IF NOT EXISTS live_classes (
     id SERIAL PRIMARY KEY,
     class_name TEXT NOT NULL,
@@ -628,8 +648,8 @@ await pool.query(`
   );
 `);
 
-// Create placement_achievements table
-await pool.query(`
+    // Create placement_achievements table
+    await pool.query(`
   CREATE TABLE IF NOT EXISTS placement_achievements (
     id SERIAL PRIMARY KEY,
     student_name TEXT NOT NULL,
@@ -647,8 +667,9 @@ await pool.query(`
   );
 `);
 
-
-    const popUpCountResult = await pool.query("SELECT COUNT(*) as count FROM popup_content");
+    const popUpCountResult = await pool.query(
+      "SELECT COUNT(*) as count FROM popup_content"
+    );
     const popupCount = popUpCountResult.rows[0].count;
 
     if (popupCount == 0) {
@@ -679,7 +700,9 @@ await pool.query(`
       }
     }
     // Insert jobs if table is empty
-    const jobsCountResult = await pool.query("SELECT COUNT(*) as count FROM job;");
+    const jobsCountResult = await pool.query(
+      "SELECT COUNT(*) as count FROM job;"
+    );
     const jobsCount = jobsCountResult.rows[0].count;
 
     if (jobsCount == 0) {
@@ -710,9 +733,10 @@ await pool.query(`
       console.log("Job data has been imported successfully.");
     }
 
-
     // Check if there are any admins in the table
-    const adminCountResult = await pool.query("SELECT COUNT(*) as count FROM admin;");
+    const adminCountResult = await pool.query(
+      "SELECT COUNT(*) as count FROM admin;"
+    );
     const adminCount = adminCountResult.rows[0].count;
     if (adminCount == 0) {
       const data = await fs.readFile("admin.json", "utf8");
@@ -734,7 +758,6 @@ await pool.query(`
       console.log("Admin data has been imported successfully.");
     }
 
-
     // Start server
     const server = app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}/`);
@@ -746,8 +769,6 @@ await pool.query(`
         wss.emit("connection", ws, request);
       });
     });
-
-
   } catch (error) {
     console.error(`Error initializing the database: ${error.message}`);
     process.exit(1);
@@ -773,12 +794,16 @@ app.post(
   "/api/comments",
   [
     body("user_name").trim().notEmpty().withMessage("Name is required"),
-    body("comment_text").trim().notEmpty().withMessage("Comment cannot be empty"),
-    body("job_id").isInt().withMessage("Invalid job ID")
+    body("comment_text")
+      .trim()
+      .notEmpty()
+      .withMessage("Comment cannot be empty"),
+    body("job_id").isInt().withMessage("Invalid job ID"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const { job_id, user_name, comment_text } = req.body;
 
@@ -819,7 +844,7 @@ app.post("/api/jobs/:id/click", async (req, res) => {
 
     res.status(200).json({
       message: "Click recorded successfully",
-      click_count: result.rows[0].click_count
+      click_count: result.rows[0].click_count,
     });
   } catch (error) {
     console.error(`Error recording job click: ${error.message}`);
@@ -827,7 +852,7 @@ app.post("/api/jobs/:id/click", async (req, res) => {
   }
 });
 // Add this route to get session status
-app.get('/api/session/status', authenticateToken, async (req, res) => {
+app.get("/api/session/status", authenticateToken, async (req, res) => {
   try {
     const adminId = req.user.id;
 
@@ -852,20 +877,22 @@ app.get('/api/session/status', authenticateToken, async (req, res) => {
     res.json({
       isOnline: activeSession.rows.length > 0,
       todayTotal: todayResult.rows[0].total || 0,
-      currentSessionStart: activeSession.rows[0]?.start_time
+      currentSessionStart: activeSession.rows[0]?.start_time,
     });
   } catch (error) {
-    console.error('Error fetching session status:', error);
-    res.status(500).json({ error: 'Failed to get session status' });
+    console.error("Error fetching session status:", error);
+    res.status(500).json({ error: "Failed to get session status" });
   }
 });
 
-
 // Session endpoints
 // Add this route in your backend code
-app.get("/api/admins/status/individual", authenticateToken, async (req, res) => {
-  try {
-    const result = await pool.query(`
+app.get(
+  "/api/admins/status/individual",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
       SELECT a.id, 
              EXISTS (
                SELECT 1 FROM admin_sessions 
@@ -874,48 +901,49 @@ app.get("/api/admins/status/individual", authenticateToken, async (req, res) => 
       FROM admin a
       WHERE a.is_approved = TRUE;
     `);
-    res.json(result.rows);
-  } catch (error) {
-    console.error(`Error fetching admin statuses: ${error.message}`);
-    res.status(500).json({ error: "Failed to retrieve admin statuses" });
+      res.json(result.rows);
+    } catch (error) {
+      console.error(`Error fetching admin statuses: ${error.message}`);
+      res.status(500).json({ error: "Failed to retrieve admin statuses" });
+    }
   }
-});
+);
 
-app.post('/api/session/start', authenticateToken, async (req, res) => {
+app.post("/api/session/start", authenticateToken, async (req, res) => {
   try {
     const adminId = req.user.id;
     const existingSession = await pool.query(
-      'SELECT * FROM admin_sessions WHERE admin_id = $1 AND end_time IS NULL',
+      "SELECT * FROM admin_sessions WHERE admin_id = $1 AND end_time IS NULL",
       [adminId]
     );
 
     if (existingSession.rows.length > 0) {
-      return res.status(400).json({ error: 'Session already active' });
+      return res.status(400).json({ error: "Session already active" });
     }
 
     const startTime = new Date();
     await pool.query(
-      'INSERT INTO admin_sessions (admin_id, start_time) VALUES ($1, $2)',
+      "INSERT INTO admin_sessions (admin_id, start_time) VALUES ($1, $2)",
       [adminId, startTime]
     );
 
-    res.json({ message: 'Session started', startTime });
+    res.json({ message: "Session started", startTime });
   } catch (error) {
-    console.error('Error starting session:', error);
-    res.status(500).json({ error: 'Failed to start session' });
+    console.error("Error starting session:", error);
+    res.status(500).json({ error: "Failed to start session" });
   }
 });
 
-app.post('/api/session/end', authenticateToken, async (req, res) => {
+app.post("/api/session/end", authenticateToken, async (req, res) => {
   try {
     const adminId = req.user.id;
     const activeSession = await pool.query(
-      'SELECT * FROM admin_sessions WHERE admin_id = $1 AND end_time IS NULL',
+      "SELECT * FROM admin_sessions WHERE admin_id = $1 AND end_time IS NULL",
       [adminId]
     );
 
     if (activeSession.rows.length === 0) {
-      return res.status(400).json({ error: 'No active session' });
+      return res.status(400).json({ error: "No active session" });
     }
 
     const endTime = new Date();
@@ -929,14 +957,14 @@ app.post('/api/session/end', authenticateToken, async (req, res) => {
       [endTime, duration, activeSession.rows[0].id]
     );
 
-    res.json({ message: 'Session ended', duration });
+    res.json({ message: "Session ended", duration });
   } catch (error) {
-    console.error('Error ending session:', error);
-    res.status(500).json({ error: 'Failed to end session' });
+    console.error("Error ending session:", error);
+    res.status(500).json({ error: "Failed to end session" });
   }
 });
 
-app.post('/api/session/update', authenticateToken, async (req, res) => {
+app.post("/api/session/update", authenticateToken, async (req, res) => {
   try {
     const adminId = req.user.id;
     const { duration } = req.body;
@@ -950,14 +978,14 @@ app.post('/api/session/update', authenticateToken, async (req, res) => {
 
     res.json({ success: true });
   } catch (error) {
-    console.error('Error updating session:', error);
-    res.status(500).json({ error: 'Failed to update session' });
+    console.error("Error updating session:", error);
+    res.status(500).json({ error: "Failed to update session" });
   }
 });
 // Monthly report job
-const schedule = require('node-schedule');
+const schedule = require("node-schedule");
 // Monthly report generation (runs last day of month at 23:59)
-schedule.scheduleJob('59 23 L * *', async () => {
+schedule.scheduleJob("59 23 L * *", async () => {
   try {
     const now = new Date();
     const month = now.getMonth() + 1;
@@ -977,85 +1005,100 @@ schedule.scheduleJob('59 23 L * *', async () => {
       [month, year]
     );
   } catch (error) {
-    console.error('Error generating monthly report:', error);
+    console.error("Error generating monthly report:", error);
   }
 });
 
 // Edit group chat room (Admin only)
-app.put("/api/chat/rooms/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
-  const { room_name } = req.body;
+app.put(
+  "/api/chat/rooms/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    const { room_name } = req.body;
 
-  try {
-    // Check for existing room with same name
-    const existingRoom = await pool.query(
-      "SELECT * FROM chat_rooms WHERE room_name = $1 AND id != $2",
-      [room_name, id]
-    );
+    try {
+      // Check for existing room with same name
+      const existingRoom = await pool.query(
+        "SELECT * FROM chat_rooms WHERE room_name = $1 AND id != $2",
+        [room_name, id]
+      );
 
-    if (existingRoom.rows.length > 0) {
-      return res.status(400).json({ error: "Room name already exists" });
-    }
+      if (existingRoom.rows.length > 0) {
+        return res.status(400).json({ error: "Room name already exists" });
+      }
 
-    const updateQuery = `
+      const updateQuery = `
       UPDATE chat_rooms 
       SET room_name = $1 
       WHERE id = $2 
       RETURNING *;
     `;
 
-    const result = await pool.query(updateQuery, [room_name, id]);
+      const result = await pool.query(updateQuery, [room_name, id]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Room not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Room not found" });
+      }
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error(`Error updating room: ${error.message}`);
+      res.status(500).json({ error: "Failed to update room" });
     }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error(`Error updating room: ${error.message}`);
-    res.status(500).json({ error: "Failed to update room" });
   }
-});
+);
 
 // Delete group chat room (Admin only)
-app.delete("/api/chat/rooms/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
+app.delete(
+  "/api/chat/rooms/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    // Delete related messages first
-    await pool.query("DELETE FROM chat_messages WHERE room_id = $1", [id]);
+    try {
+      // Delete related messages first
+      await pool.query("DELETE FROM chat_messages WHERE room_id = $1", [id]);
 
-    const deleteQuery = "DELETE FROM chat_rooms WHERE id = $1 RETURNING *";
-    const result = await pool.query(deleteQuery, [id]);
+      const deleteQuery = "DELETE FROM chat_rooms WHERE id = $1 RETURNING *";
+      const result = await pool.query(deleteQuery, [id]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Room not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Room not found" });
+      }
+
+      res.json({ message: "Room deleted successfully" });
+    } catch (error) {
+      console.error(`Error deleting room: ${error.message}`);
+      res.status(500).json({ error: "Failed to delete room" });
     }
-
-    res.json({ message: "Room deleted successfully" });
-  } catch (error) {
-    console.error(`Error deleting room: ${error.message}`);
-    res.status(500).json({ error: "Failed to delete room" });
   }
-});
+);
 
 // Chat Routes
-app.post("/api/chat/rooms", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { room_name } = req.body;
+app.post(
+  "/api/chat/rooms",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { room_name } = req.body;
 
-  try {
-    const insertRoomQuery = `
+    try {
+      const insertRoomQuery = `
       INSERT INTO chat_rooms (room_name)
       VALUES ($1)
       RETURNING *;
     `;
-    const newRoom = await pool.query(insertRoomQuery, [room_name]);
-    res.status(201).json(newRoom.rows[0]);
-  } catch (error) {
-    console.error(`Error creating chat room: ${error.message}`);
-    res.status(500).json({ error: "Failed to create chat room" });
+      const newRoom = await pool.query(insertRoomQuery, [room_name]);
+      res.status(201).json(newRoom.rows[0]);
+    } catch (error) {
+      console.error(`Error creating chat room: ${error.message}`);
+      res.status(500).json({ error: "Failed to create chat room" });
+    }
   }
-});
+);
 
 app.get("/api/chat/rooms", authenticateToken, async (req, res) => {
   try {
@@ -1078,7 +1121,11 @@ app.post("/api/chat/messages", authenticateToken, async (req, res) => {
       VALUES ($1, $2, $3)
       RETURNING *;
     `;
-    const newMessage = await pool.query(insertMessageQuery, [room_id, sender_id, message]);
+    const newMessage = await pool.query(insertMessageQuery, [
+      room_id,
+      sender_id,
+      message,
+    ]);
     res.status(201).json(newMessage.rows[0]);
   } catch (error) {
     console.error(`Error sending message: ${error.message}`);
@@ -1104,7 +1151,7 @@ app.get("/api/chat/messages/:room_id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch messages" });
   }
 });
-// GET direct messages endpoint 
+// GET direct messages endpoint
 // In your backend routes (replace ID-based with phone-based)
 // Get direct messages between two users
 app.get(
@@ -1122,7 +1169,10 @@ app.get(
            OR (dm.sender_phone = $2 AND dm.recipient_phone = $1)
         ORDER BY dm.created_at ASC;
       `;
-      const result = await pool.query(messagesQuery, [senderPhone, recipientPhone]);
+      const result = await pool.query(messagesQuery, [
+        senderPhone,
+        recipientPhone,
+      ]);
       res.json(result.rows);
     } catch (error) {
       console.error("Error fetching direct messages:", error.message);
@@ -1143,10 +1193,9 @@ app.post("/api/chat/direct-messages", authenticateToken, async (req, res) => {
 
   if (!message?.trim() || message.length > 500) {
     return res.status(400).json({
-      error: "Message must be between 1-500 characters"
+      error: "Message must be between 1-500 characters",
     });
   }
-
 
   try {
     // Check if recipient exists
@@ -1168,7 +1217,7 @@ app.post("/api/chat/direct-messages", authenticateToken, async (req, res) => {
     const result = await pool.query(insertQuery, [
       sender_phone,
       recipient_phone,
-      message
+      message,
     ]);
 
     // Get sender details for real-time update
@@ -1180,17 +1229,22 @@ app.post("/api/chat/direct-messages", authenticateToken, async (req, res) => {
     const messageWithDetails = {
       ...result.rows[0],
       adminname: senderResult.rows[0].adminname,
-      admin_image_link: senderResult.rows[0].admin_image_link
+      admin_image_link: senderResult.rows[0].admin_image_link,
     };
 
     // Broadcast to both sender and recipient
-    wss.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN &&
-        (client.userPhone === sender_phone || client.userPhone === recipient_phone)) {
-        client.send(JSON.stringify({
-          type: 'direct_message',
-          message: messageWithDetails
-        }));
+    wss.clients.forEach((client) => {
+      if (
+        client.readyState === WebSocket.OPEN &&
+        (client.userPhone === sender_phone ||
+          client.userPhone === recipient_phone)
+      ) {
+        client.send(
+          JSON.stringify({
+            type: "direct_message",
+            message: messageWithDetails,
+          })
+        );
       }
     });
 
@@ -1199,7 +1253,7 @@ app.post("/api/chat/direct-messages", authenticateToken, async (req, res) => {
     console.error("Error sending direct message:", error.message);
     res.status(500).json({
       error: "Failed to send direct message",
-      details: error.message
+      details: error.message,
     });
   }
 });
@@ -1220,7 +1274,9 @@ app.put("/api/chat/messages/:id", authenticateToken, async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(403).json({ error: "Not authorized or message not found" });
+      return res
+        .status(403)
+        .json({ error: "Not authorized or message not found" });
     }
 
     res.json(result.rows[0]);
@@ -1244,7 +1300,9 @@ app.delete("/api/chat/messages/:id", authenticateToken, async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(403).json({ error: "Not authorized or message not found" });
+      return res
+        .status(403)
+        .json({ error: "Not authorized or message not found" });
     }
 
     res.json({ message: "Message deleted successfully" });
@@ -1255,59 +1313,75 @@ app.delete("/api/chat/messages/:id", authenticateToken, async (req, res) => {
 });
 
 // Edit direct message
-app.put("/api/chat/direct-messages/:id", authenticateToken, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { message } = req.body;
-    const senderPhone = req.user.phone;
+app.put(
+  "/api/chat/direct-messages/:id",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { message } = req.body;
+      const senderPhone = req.user.phone;
 
-    const result = await pool.query(
-      `UPDATE direct_messages 
+      const result = await pool.query(
+        `UPDATE direct_messages 
        SET message = $1 
        WHERE id = $2 AND sender_phone = $3
        RETURNING *`,
-      [message, id, senderPhone]
-    );
+        [message, id, senderPhone]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(403).json({ error: "Not authorized or message not found" });
+      if (result.rows.length === 0) {
+        return res
+          .status(403)
+          .json({ error: "Not authorized or message not found" });
+      }
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error("Error updating direct message:", error);
+      res.status(500).json({ error: "Failed to update message" });
     }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error updating direct message:", error);
-    res.status(500).json({ error: "Failed to update message" });
   }
-});
+);
 
 // Delete direct message
-app.delete("/api/chat/direct-messages/:id", authenticateToken, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const senderPhone = req.user.phone;
+app.delete(
+  "/api/chat/direct-messages/:id",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const senderPhone = req.user.phone;
 
-    const result = await pool.query(
-      `DELETE FROM direct_messages 
+      const result = await pool.query(
+        `DELETE FROM direct_messages 
        WHERE id = $1 AND sender_phone = $2
        RETURNING *`,
-      [id, senderPhone]
-    );
+        [id, senderPhone]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(403).json({ error: "Not authorized or message not found" });
+      if (result.rows.length === 0) {
+        return res
+          .status(403)
+          .json({ error: "Not authorized or message not found" });
+      }
+
+      res.json({ message: "Message deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting direct message:", error);
+      res.status(500).json({ error: "Failed to delete message" });
     }
-
-    res.json({ message: "Message deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting direct message:", error);
-    res.status(500).json({ error: "Failed to delete message" });
   }
-});
+);
 
 // Route to get all admins approved only (admin access only)
-app.get("/api/admins/approved", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const adminsQuery = `
+app.get(
+  "/api/admins/approved",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const adminsQuery = `
       SELECT 
         id, 
         adminname, 
@@ -1319,14 +1393,14 @@ app.get("/api/admins/approved", authenticateToken, authorizeAdmin, async (req, r
       WHERE is_approved = TRUE
       ORDER BY createdat DESC;
     `;
-    const result = await pool.query(adminsQuery);
-    res.json(result.rows);
-  } catch (error) {
-    console.error(`Error fetching admins: ${error.message}`);
-    res.status(500).json({ error: "Failed to retrieve admins" });
+      const result = await pool.query(adminsQuery);
+      res.json(result.rows);
+    } catch (error) {
+      console.error(`Error fetching admins: ${error.message}`);
+      res.status(500).json({ error: "Failed to retrieve admins" });
+    }
   }
-});
-
+);
 
 // Route to get all admins (admin access only)
 app.get("/api/admins", authenticateToken, authorizeAdmin, async (req, res) => {
@@ -1388,7 +1462,8 @@ app.put(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const { adminname, username, phone, admin_image_link, password } = req.body;
     const adminId = req.user.id; // Get admin ID from the token
@@ -1402,7 +1477,9 @@ app.put(
         );
 
         if (existingAdmin.rows.length) {
-          return res.status(400).json({ error: "Username or phone already in use by another admin" });
+          return res.status(400).json({
+            error: "Username or phone already in use by another admin",
+          });
         }
       }
 
@@ -1454,18 +1531,21 @@ app.put(
   }
 );
 
-
 // Route to reset password
 app.post("/api/admin/forgot-password", async (req, res) => {
   const { username, newPassword } = req.body;
 
   // Validate input
   if (!username || !newPassword) {
-    return res.status(400).json({ error: "Username and new password are required" });
+    return res
+      .status(400)
+      .json({ error: "Username and new password are required" });
   }
 
   if (newPassword.length < 6) {
-    return res.status(400).json({ error: "Password must be at least 6 characters long" });
+    return res
+      .status(400)
+      .json({ error: "Password must be at least 6 characters long" });
   }
 
   try {
@@ -1504,7 +1584,9 @@ app.get("/api/jobs", async (req, res) => {
   try {
     const offset = (page - 1) * parseInt(limit);
     const currentTime = new Date();
-    const sevenDaysAgo = new Date(currentTime.setDate(currentTime.getDate() - 7));
+    const sevenDaysAgo = new Date(
+      currentTime.setDate(currentTime.getDate() - 7)
+    );
 
     const getAllJobsQuery = `
       SELECT *, 
@@ -1517,7 +1599,11 @@ app.get("/api/jobs", async (req, res) => {
       LIMIT $2 OFFSET $3;
     `;
 
-    const jobs = await pool.query(getAllJobsQuery, [sevenDaysAgo.toISOString(), limit, offset]);
+    const jobs = await pool.query(getAllJobsQuery, [
+      sevenDaysAgo.toISOString(),
+      limit,
+      offset,
+    ]);
 
     if (jobs.rows.length > 0) {
       res.json(jobs.rows);
@@ -1532,12 +1618,16 @@ app.get("/api/jobs", async (req, res) => {
 
 // Admin Panel: Get all jobs (admin access only)
 // Modified GET /api/jobs/adminpanel
-app.get("/api/jobs/adminpanel", authenticateToken, authorizeAdmin, async (req, res) => {
-  const viewAll = req.query.view === 'all';
-  const adminId = req.user.id;
+app.get(
+  "/api/jobs/adminpanel",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const viewAll = req.query.view === "all";
+    const adminId = req.user.id;
 
-  try {
-    let query = `
+    try {
+      let query = `
       SELECT j.*, 
         creator.admin_image_link as creator_admin_image,
         creator.adminname as creator_name,
@@ -1547,45 +1637,56 @@ app.get("/api/jobs/adminpanel", authenticateToken, authorizeAdmin, async (req, r
       LEFT JOIN admin approver ON j.approved_by = approver.id
     `;
 
-    if (!viewAll) {
-      query += ` WHERE j.created_by = $1`;
-    }
+      if (!viewAll) {
+        query += ` WHERE j.created_by = $1`;
+      }
 
-    const result = await pool.query(query, viewAll ? [] : [adminId]);
-    res.json(result.rows);
-  } catch (error) {
-    console.error("Error retrieving jobs:", error);
-    res.status(500).send("An error occurred while retrieving jobs.");
+      const result = await pool.query(query, viewAll ? [] : [adminId]);
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error retrieving jobs:", error);
+      res.status(500).send("An error occurred while retrieving jobs.");
+    }
   }
-});
+);
 
 // Add these routes after your existing job routes
 
 // Create approval request
 // Modify the DELETE /api/jobs/:id route
-app.delete("/api/jobs/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
+app.delete(
+  "/api/jobs/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    // Delete related approval requests first
-    await pool.query("DELETE FROM job_approval_requests WHERE job_id = $1", [id]);
+    try {
+      // Delete related approval requests first
+      await pool.query("DELETE FROM job_approval_requests WHERE job_id = $1", [
+        id,
+      ]);
 
-    // Delete related viewers
-    await pool.query("DELETE FROM job_viewers WHERE job_id = $1", [id]);
+      // Delete related viewers
+      await pool.query("DELETE FROM job_viewers WHERE job_id = $1", [id]);
 
-    // Then delete the job
-    const result = await pool.query("DELETE FROM job WHERE id = $1 RETURNING *", [id]);
+      // Then delete the job
+      const result = await pool.query(
+        "DELETE FROM job WHERE id = $1 RETURNING *",
+        [id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Job not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Job not found" });
+      }
+
+      res.json({ message: "Job deleted successfully" });
+    } catch (error) {
+      console.error(`Error deleting job: ${error.message}`);
+      res.status(500).json({ error: "Failed to delete job" });
     }
-
-    res.json({ message: "Job deleted successfully" });
-  } catch (error) {
-    console.error(`Error deleting job: ${error.message}`);
-    res.status(500).json({ error: "Failed to delete job" });
   }
-});
+);
 
 const isFirstAdmin = async (adminId) => {
   const result = await pool.query(
@@ -1594,7 +1695,6 @@ const isFirstAdmin = async (adminId) => {
   );
   return result.rows[0].created_by === null && result.rows[0].is_approved;
 };
-
 
 // Route to add a new job (admin access only, with validation)
 app.post(
@@ -1615,8 +1715,9 @@ app.post(
     body("batch").notEmpty(),
   ],
   async (req, res) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     // Replace this in the route:
     // const { companyname, title, description, apply_link, image_link, url, salary, location, job_type, experience, batch } = req.body;
@@ -1633,19 +1734,19 @@ app.post(
       experience,
       batch,
       advanced_data,
-    } = req.body
-    const adminId = req.user.id // Get admin ID from the token
+    } = req.body;
+    const adminId = req.user.id; // Get admin ID from the token
 
     try {
       // Fetch admin's full name from the database
-      const adminQuery = `SELECT adminname FROM admin WHERE id = $1`
-      const adminResult = await pool.query(adminQuery, [adminId])
+      const adminQuery = `SELECT adminname FROM admin WHERE id = $1`;
+      const adminResult = await pool.query(adminQuery, [adminId]);
 
       if (adminResult.rows.length === 0) {
-        return res.status(404).json({ error: "Admin not found" })
+        return res.status(404).json({ error: "Admin not found" });
       }
 
-      const adminName = adminResult.rows[0].adminname // Get admin's full name
+      const adminName = adminResult.rows[0].adminname; // Get admin's full name
 
       // Replace this query:
       // const insertJobQuery = `
@@ -1659,7 +1760,7 @@ app.post(
       const insertJobQuery = `
         INSERT INTO job (companyname, title, description, apply_link, image_link, url, salary, location, job_type, experience, batch, job_uploader, created_by, advanced_data)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);
-      `
+      `;
 
       await pool.query(insertJobQuery, [
         companyname,
@@ -1676,92 +1777,47 @@ app.post(
         adminName,
         adminId,
         advanced_data || null,
-      ])
+      ]);
 
-      res.status(201).json({ message: "Job added successfully" })
+      res.status(201).json({ message: "Job added successfully" });
     } catch (error) {
-      console.error(`Error adding job: ${error.message}`)
-      res.status(500).json({ error: "Failed to add job" })
+      console.error(`Error adding job: ${error.message}`);
+      res.status(500).json({ error: "Failed to add job" });
     }
-  },
-)
-
-
+  }
+);
 
 //jobs Modify Approval
-app.put("/api/jobs/:id/approve", authenticateToken, authorizeAdmin, async (req, res) => {
-  const jobId = req.params.id;
-  const approverId = req.user.id;
+app.put(
+  "/api/jobs/:id/approve",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const jobId = req.params.id;
+    const approverId = req.user.id;
 
-  await pool.query(`
+    await pool.query(
+      `
     UPDATE job SET 
       status = 'approved',
       approved_by = $1
     WHERE id = $2
-  `, [approverId, jobId]);
-});
+  `,
+      [approverId, jobId]
+    );
+  }
+);
 
 // Route to update a job (admin access only)
-app.put("/api/jobs/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params
-  // Replace this in the route:
-  // const { companyname, title, description, apply_link, image_link, url, salary, location, job_type, experience, batch } = req.body;
-  const {
-    companyname,
-    title,
-    description,
-    apply_link,
-    image_link,
-    url,
-    salary,
-    location,
-    job_type,
-    experience,
-    batch,
-    advanced_data,
-  } = req.body
-
-  try {
-    const existingJob = await pool.query("SELECT * FROM job WHERE id = $1;", [id])
-
-    if (!existingJob.rows.length) {
-      return res.status(404).json({ error: "Job not found" })
-    }
-
-    const job = existingJob.rows[0]
-    const adminIsFirst = await isFirstAdmin(req.user.id)
-
-    if (!adminIsFirst && job.created_by !== req.user.id) {
-      return res.status(403).json({ error: "Not authorized" })
-    }
-
-    // Fetch admin details to get adminname
-    const adminId = req.user.id // Get admin ID from the token
-    const adminQuery = "SELECT adminname FROM admin WHERE id = $1;"
-    const adminResult = await pool.query(adminQuery, [adminId])
-    const admin = adminResult.rows[0]
-
-    if (!admin) {
-      return res.status(404).json({ error: "Admin not found" })
-    }
-
-    const jobUploader = admin.adminname // Use adminname as job uploader
-
-    // Replace this query:
-    // const updateJobQuery = `
-    //   UPDATE job
-    //   SET companyname = $1, title = $2, description = $3, apply_link = $4, image_link = $5, url = $6, salary = $7, location = $8, job_type = $9, experience = $10, batch = $11, job_uploader = $12
-    //   WHERE id = $13;
-    // `;
-    // await pool.query(updateJobQuery, [companyname, title, description, apply_link, image_link, url, salary, location, job_type, experience, batch, jobUploader, id]);
-
-    // With this:
-    const updateJobQuery = `
-      UPDATE job
-      SET companyname = $1, title = $2, description = $3, apply_link = $4, image_link = $5, url = $6, salary = $7, location = $8, job_type = $9, experience = $10, batch = $11, job_uploader = $12, advanced_data = $13
-      WHERE id = $14;
-    `
-    await pool.query(updateJobQuery, [
+app.put(
+  "/api/jobs/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    // Replace this in the route:
+    // const { companyname, title, description, apply_link, image_link, url, salary, location, job_type, experience, batch } = req.body;
+    const {
       companyname,
       title,
       description,
@@ -1773,19 +1829,77 @@ app.put("/api/jobs/:id", authenticateToken, authorizeAdmin, async (req, res) => 
       job_type,
       experience,
       batch,
-      jobUploader,
-      advanced_data || null,
-      id,
-    ])
-    res.json({ message: "Job updated successfully" })
-  } catch (error) {
-    console.error(`Error updating job: ${error.message}`)
-    res.status(500).json({ error: "Failed to update job" })
+      advanced_data,
+    } = req.body;
+
+    try {
+      const existingJob = await pool.query("SELECT * FROM job WHERE id = $1;", [
+        id,
+      ]);
+
+      if (!existingJob.rows.length) {
+        return res.status(404).json({ error: "Job not found" });
+      }
+
+      const job = existingJob.rows[0];
+      const adminIsFirst = await isFirstAdmin(req.user.id);
+
+      if (!adminIsFirst && job.created_by !== req.user.id) {
+        return res.status(403).json({ error: "Not authorized" });
+      }
+
+      // Fetch admin details to get adminname
+      const adminId = req.user.id; // Get admin ID from the token
+      const adminQuery = "SELECT adminname FROM admin WHERE id = $1;";
+      const adminResult = await pool.query(adminQuery, [adminId]);
+      const admin = adminResult.rows[0];
+
+      if (!admin) {
+        return res.status(404).json({ error: "Admin not found" });
+      }
+
+      const jobUploader = admin.adminname; // Use adminname as job uploader
+
+      // Replace this query:
+      // const updateJobQuery = `
+      //   UPDATE job
+      //   SET companyname = $1, title = $2, description = $3, apply_link = $4, image_link = $5, url = $6, salary = $7, location = $8, job_type = $9, experience = $10, batch = $11, job_uploader = $12
+      //   WHERE id = $13;
+      // `;
+      // await pool.query(updateJobQuery, [companyname, title, description, apply_link, image_link, url, salary, location, job_type, experience, batch, jobUploader, id]);
+
+      // With this:
+      const updateJobQuery = `
+      UPDATE job
+      SET companyname = $1, title = $2, description = $3, apply_link = $4, image_link = $5, url = $6, salary = $7, location = $8, job_type = $9, experience = $10, batch = $11, job_uploader = $12, advanced_data = $13
+      WHERE id = $14;
+    `;
+      await pool.query(updateJobQuery, [
+        companyname,
+        title,
+        description,
+        apply_link,
+        image_link,
+        url,
+        salary,
+        location,
+        job_type,
+        experience,
+        batch,
+        jobUploader,
+        advanced_data || null,
+        id,
+      ]);
+      res.json({ message: "Job updated successfully" });
+    } catch (error) {
+      console.error(`Error updating job: ${error.message}`);
+      res.status(500).json({ error: "Failed to update job" });
+    }
   }
-})
+);
 
 // Fetch job by company name and job URL
-app.get('/api/jobs/company/:companyname/:url', async (req, res) => {
+app.get("/api/jobs/company/:companyname/:url", async (req, res) => {
   const { companyname, url } = req.params;
 
   const getJobByCompanyNameQuery = `
@@ -1806,12 +1920,12 @@ app.get('/api/jobs/company/:companyname/:url', async (req, res) => {
       res.status(404).json({ error: "Job not found" });
     }
   } catch (error) {
-    console.error(`Error fetching job by company name and URL: ${error.message}`);
+    console.error(
+      `Error fetching job by company name and URL: ${error.message}`
+    );
     res.status(500).json({ error: "Failed to fetch job" });
   }
 });
-
-
 
 app.post("/api/jobs/:id/view", async (req, res) => {
   const { id } = req.params;
@@ -1851,7 +1965,9 @@ app.get("/api/jobs/:id/viewers", async (req, res) => {
 // Fetch the latest popup content
 app.get("/api/popup", async (req, res) => {
   try {
-    const popupResult = await pool.query("SELECT * FROM popup_content ORDER BY created_at DESC LIMIT 1;");
+    const popupResult = await pool.query(
+      "SELECT * FROM popup_content ORDER BY created_at DESC LIMIT 1;"
+    );
     const popup = popupResult.rows[0];
     if (popup) {
       res.json({ popup });
@@ -1864,19 +1980,27 @@ app.get("/api/popup", async (req, res) => {
   }
 });
 // Admin Panel: Get all popup content
-app.get("/api/popup/adminpanel", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const popupResult = await pool.query("SELECT * FROM popup_content ORDER BY created_at DESC;");
-    res.json(popupResult.rows);
-  } catch (error) {
-    console.error(`Error fetching all popup content: ${error.message}`);
-    res.status(500).json({ error: "Failed to retrieve popup content" });
+app.get(
+  "/api/popup/adminpanel",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const popupResult = await pool.query(
+        "SELECT * FROM popup_content ORDER BY created_at DESC;"
+      );
+      res.json(popupResult.rows);
+    } catch (error) {
+      console.error(`Error fetching all popup content: ${error.message}`);
+      res.status(500).json({ error: "Failed to retrieve popup content" });
+    }
   }
-});
+);
 
 app.post(
   "/api/popup/adminpanel",
-  authenticateToken, authorizeAdmin,
+  authenticateToken,
+  authorizeAdmin,
   [
     body("popup_heading").notEmpty(),
     body("popup_text").notEmpty(),
@@ -1886,34 +2010,60 @@ app.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-    const { popup_heading, popup_text, popup_link, popup_routing_link, popup_belowtext } = req.body;
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+    const {
+      popup_heading,
+      popup_text,
+      popup_link,
+      popup_routing_link,
+      popup_belowtext,
+    } = req.body;
     try {
       const insertPopQuery = `
       INSERT INTO popup_content (popup_heading, popup_text, popup_link, popup_belowtext, popup_routing_link)
       VALUES ($1, $2, $3, $4, $5);
-    `; await pool.query(insertPopQuery, [popup_heading, popup_text, popup_link, popup_belowtext, popup_routing_link]);
+    `;
+      await pool.query(insertPopQuery, [
+        popup_heading,
+        popup_text,
+        popup_link,
+        popup_belowtext,
+        popup_routing_link,
+      ]);
       res.status(201).json({ message: "Pop added successfully" });
     } catch (error) {
       console.error(`Error adding Pop: ${error.message}`);
       res.status(500).json({ error: "Failed to add Pop" });
     }
-
   }
-)
+);
 // Admin Panel: Update specific popup content
-app.put("/api/popup/adminpanel/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
-  const { popup_heading, popup_text, popup_link, popup_routing_link, popup_belowtext } = req.body;
+app.put(
+  "/api/popup/adminpanel/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
+    const {
+      popup_heading,
+      popup_text,
+      popup_link,
+      popup_routing_link,
+      popup_belowtext,
+    } = req.body;
 
-  try {
-    const existingPopup = await pool.query("SELECT * FROM popup_content WHERE id = $1;", [id]);
+    try {
+      const existingPopup = await pool.query(
+        "SELECT * FROM popup_content WHERE id = $1;",
+        [id]
+      );
 
-    if (!existingPopup.rows.length) {
-      return res.status(404).json({ error: "Popup not found" });
-    }
+      if (!existingPopup.rows.length) {
+        return res.status(404).json({ error: "Popup not found" });
+      }
 
-    const updatePopupQuery = `
+      const updatePopupQuery = `
       UPDATE popup_content
       SET popup_heading = $1,
           popup_text = $2,
@@ -1922,41 +2072,58 @@ app.put("/api/popup/adminpanel/:id", authenticateToken, authorizeAdmin, async (r
           popup_belowtext = $5
       WHERE id = $6;
     `;
-    await pool.query(updatePopupQuery, [popup_heading, popup_text, popup_link, popup_routing_link, popup_belowtext, id]);
-    res.json({ message: "Popup content updated successfully" });
-  } catch (error) {
-    console.error(`Error updating popup content: ${error.message}`);
-    res.status(500).json({ error: "Failed to update popup content" });
+      await pool.query(updatePopupQuery, [
+        popup_heading,
+        popup_text,
+        popup_link,
+        popup_routing_link,
+        popup_belowtext,
+        id,
+      ]);
+      res.json({ message: "Popup content updated successfully" });
+    } catch (error) {
+      console.error(`Error updating popup content: ${error.message}`);
+      res.status(500).json({ error: "Failed to update popup content" });
+    }
   }
-});
+);
 
 // Admin Panel: Delete specific popup content by ID
-app.delete("/api/popup/adminpanel/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  const { id } = req.params;
+app.delete(
+  "/api/popup/adminpanel/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const existingPopup = await pool.query("SELECT * FROM popup_content WHERE id = $1;", [id]);
+    try {
+      const existingPopup = await pool.query(
+        "SELECT * FROM popup_content WHERE id = $1;",
+        [id]
+      );
 
-    if (!existingPopup.rows.length) {
-      return res.status(404).json({ error: "Popup not found" });
+      if (!existingPopup.rows.length) {
+        return res.status(404).json({ error: "Popup not found" });
+      }
+
+      const deletePopupQuery = `DELETE FROM popup_content WHERE id = $1;`;
+      await pool.query(deletePopupQuery, [id]);
+      res.json({ message: "Popup content deleted successfully" });
+    } catch (error) {
+      console.error(`Error deleting popup content: ${error.message}`);
+      res.status(500).json({ error: "Failed to delete popup content" });
     }
-
-    const deletePopupQuery = `DELETE FROM popup_content WHERE id = $1;`;
-    await pool.query(deletePopupQuery, [id]);
-    res.json({ message: "Popup content deleted successfully" });
-  } catch (error) {
-    console.error(`Error deleting popup content: ${error.message}`);
-    res.status(500).json({ error: "Failed to delete popup content" });
   }
-});
+);
 app.use((req, res, next) => {
-  res.set('Cache-Control', 'no-store');
+  res.set("Cache-Control", "no-store");
   next();
 });
 
-pool.connect()
-  .then(() => console.log('Connected to PostgreSQL database'))
-  .catch((err) => console.error('Database connection error:', err.stack));
+pool
+  .connect()
+  .then(() => console.log("Connected to PostgreSQL database"))
+  .catch((err) => console.error("Database connection error:", err.stack));
 
 // Root route
 app.get("/", (req, res) => {
@@ -1969,29 +2136,27 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Something went wrong!" });
 });
 
-
-
 // Configure storage for resumes
 const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
   fileFilter: (req, file, cb) => {
-    if (file.mimetype === 'application/pdf' ||
-      file.mimetype === 'application/msword' ||
-      file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+    if (
+      file.mimetype === "application/pdf" ||
+      file.mimetype === "application/msword" ||
+      file.mimetype ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type'), false);
+      cb(new Error("Invalid file type"), false);
     }
-  }
+  },
 });
 
-
-
-
 // Get Resumes Public Endpoint
-app.get('/api/public/resumes', async (req, res) => {
+app.get("/api/public/resumes", async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT r.*, 
@@ -2004,67 +2169,80 @@ app.get('/api/public/resumes', async (req, res) => {
     `);
     res.json(result.rows);
   } catch (error) {
-    console.error('Error fetching resumes:', error);
-    res.status(500).json({ error: 'Failed to fetch resumes' });
+    console.error("Error fetching resumes:", error);
+    res.status(500).json({ error: "Failed to fetch resumes" });
   }
 });
 
 // Add this after your existing resume endpoints
-app.get('/api/public/resumes/:id/download', async (req, res) => {
+app.get("/api/public/resumes/:id/download", async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM resumes WHERE id = $1 AND job_id IS NOT NULL',
+      "SELECT * FROM resumes WHERE id = $1 AND job_id IS NOT NULL",
       [req.params.id]
     );
-    
-    if (!result.rows.length) return res.status(404).send('Resume not found');
+
+    if (!result.rows.length) return res.status(404).send("Resume not found");
 
     const resume = result.rows[0];
     res.set({
-      'Content-Type': resume.file_type,
-      'Content-Disposition': `attachment; filename="${resume.name}_resume.${resume.file_type.split('/')[1]}"`
+      "Content-Type": resume.file_type,
+      "Content-Disposition": `attachment; filename="${resume.name}_resume.${
+        resume.file_type.split("/")[1]
+      }"`,
     });
     res.send(resume.resume_file);
   } catch (error) {
-    console.error('Public resume download error:', error);
-    res.status(500).send('Download failed');
+    console.error("Public resume download error:", error);
+    res.status(500).send("Download failed");
   }
 });
 // Download Resume Endpoint
-app.get('/api/resumes/:id/download', async (req, res) => {
+app.get("/api/resumes/:id/download", async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM resumes WHERE id = $1', [req.params.id]);
-    if (!result.rows.length) return res.status(404).send('Resume not found');
+    const result = await pool.query("SELECT * FROM resumes WHERE id = $1", [
+      req.params.id,
+    ]);
+    if (!result.rows.length) return res.status(404).send("Resume not found");
 
     const resume = result.rows[0];
     res.set({
-      'Content-Type': resume.file_type,
-      'Content-Disposition': `attachment; filename="${resume.name}_resume.${resume.file_type.split('/')[1]}"`
+      "Content-Type": resume.file_type,
+      "Content-Disposition": `attachment; filename="${resume.name}_resume.${
+        resume.file_type.split("/")[1]
+      }"`,
     });
     res.send(resume.resume_file);
   } catch (error) {
-    console.error('Download error:', error);
-    res.status(500).send('Download failed');
+    console.error("Download error:", error);
+    res.status(500).send("Download failed");
   }
 });
 
 // Enhanced resume analysis function
 function analyzeResume(resumeText, jobDescription) {
   // Extract job requirements
-  const requirements = extractRequirements(jobDescription)
+  const requirements = extractRequirements(jobDescription);
 
   // Extract skills from resume
-  const skills = extractSkills(resumeText)
+  const skills = extractSkills(resumeText);
 
   // Compare requirements and skills
-  const { pros, cons, summary } = compareRequirementsAndSkills(requirements, skills, resumeText)
+  const { pros, cons, summary } = compareRequirementsAndSkills(
+    requirements,
+    skills,
+    resumeText
+  );
 
   // Calculate match percentage based on matched requirements
   const matchedRequirements = requirements.filter((req) =>
-    skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase())),
-  )
+    skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase()))
+  );
 
-  const matchPercentage = requirements.length > 0 ? (matchedRequirements.length / requirements.length) * 100 : 50 // Default to 50% if no requirements found
+  const matchPercentage =
+    requirements.length > 0
+      ? (matchedRequirements.length / requirements.length) * 100
+      : 50; // Default to 50% if no requirements found
 
   return {
     matchPercentage,
@@ -2073,30 +2251,40 @@ function analyzeResume(resumeText, jobDescription) {
     pros,
     cons,
     summary,
-  }
+  };
 }
 
 // Extract requirements from job description
 function extractRequirements(description) {
-  if (!description) return []
+  if (!description) return [];
 
   // Split by lines and bullet points
   const lines = description
     .split(/[\n•\-*]/)
     .map((line) => line.trim())
-    .filter((line) => line.length > 0)
+    .filter((line) => line.length > 0);
 
   // Filter for likely requirement lines (containing keywords like "experience", "knowledge", "skill", etc.)
-  const requirementKeywords = ["experience", "knowledge", "skill", "proficiency", "ability", "familiar", "understand"]
+  const requirementKeywords = [
+    "experience",
+    "knowledge",
+    "skill",
+    "proficiency",
+    "ability",
+    "familiar",
+    "understand",
+  ];
 
   const requirements = lines.filter(
     (line) =>
-      requirementKeywords.some((keyword) => line.toLowerCase().includes(keyword)) ||
+      requirementKeywords.some((keyword) =>
+        line.toLowerCase().includes(keyword)
+      ) ||
       line.toLowerCase().includes("years") ||
-      /^[A-Z]/.test(line), // Lines starting with capital letters (likely bullet points)
-  )
+      /^[A-Z]/.test(line) // Lines starting with capital letters (likely bullet points)
+  );
 
-  return requirements.length > 0 ? requirements : lines.slice(0, 5) // Fallback to first 5 lines if no requirements found
+  return requirements.length > 0 ? requirements : lines.slice(0, 5); // Fallback to first 5 lines if no requirements found
 }
 
 // Enhanced skill extraction
@@ -2203,7 +2391,7 @@ function extractSkills(text) {
     "SAP",
     "ERP",
     "CRM",
-  ]
+  ];
 
   // Soft skills
   const softSkills = [
@@ -2235,168 +2423,194 @@ function extractSkills(text) {
     "Self-Motivation",
     "Initiative",
     "Persistence",
-  ]
+  ];
 
-  const allSkills = [...technicalSkills, ...softSkills]
+  const allSkills = [...technicalSkills, ...softSkills];
 
   // Find skills in resume text
   const foundSkills = allSkills.filter((skill) => {
     // Escape special regex characters in skill name
-    const escapedSkill = skill.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-    return new RegExp(`\\b${escapedSkill}\\b`, "i").test(text)
-  })
+    const escapedSkill = skill.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(`\\b${escapedSkill}\\b`, "i").test(text);
+  });
 
   // Extract years of experience for skills
   const skillsWithExperience = foundSkills.map((skill) => {
     // Escape special regex characters in skill name
-    const escapedSkill = skill.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+    const escapedSkill = skill.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const expMatch = text.match(
-      new RegExp(`(\\d+)\\s*(?:years?|yrs?)\\s*(?:of)?\\s*(?:experience)?\\s*(?:with|in)\\s*${escapedSkill}`, "i"),
-    )
+      new RegExp(
+        `(\\d+)\\s*(?:years?|yrs?)\\s*(?:of)?\\s*(?:experience)?\\s*(?:with|in)\\s*${escapedSkill}`,
+        "i"
+      )
+    );
 
     if (expMatch) {
-      return `${skill} (${expMatch[1]} years)`
+      return `${skill} (${expMatch[1]} years)`;
     }
-    return skill
-  })
+    return skill;
+  });
 
-  return skillsWithExperience.length > 0 ? skillsWithExperience : foundSkills
+  return skillsWithExperience.length > 0 ? skillsWithExperience : foundSkills;
 }
 
 // Extract experience information
 function extractExperience(text) {
   // Look for overall experience
-  const expMatch = text.match(/(\d+)\+?\s*years?(?:\s*of)?\s*experience/i)
+  const expMatch = text.match(/(\d+)\+?\s*years?(?:\s*of)?\s*experience/i);
   if (expMatch) {
-    return expMatch[0]
+    return expMatch[0];
   }
 
   // Look for job titles with dates
   const jobTitleMatch = text.match(
-    /(?:senior|junior|lead|principal|staff)?\s*(?:software|web|frontend|backend|fullstack|mobile)?\s*(?:engineer|developer|architect|designer)/i,
-  )
+    /(?:senior|junior|lead|principal|staff)?\s*(?:software|web|frontend|backend|fullstack|mobile)?\s*(?:engineer|developer|architect|designer)/i
+  );
   if (jobTitleMatch) {
-    return `${jobTitleMatch[0]} experience`
+    return `${jobTitleMatch[0]} experience`;
   }
 
-  return "Experience level not specified"
+  return "Experience level not specified";
 }
 
 // Compare requirements and skills to generate pros and cons
 function compareRequirementsAndSkills(requirements, skills, resumeText) {
-  const pros = []
-  const cons = []
+  const pros = [];
+  const cons = [];
 
   // Convert skills to lowercase for case-insensitive matching
-  const lowerCaseSkills = skills.map((skill) => skill.toLowerCase())
-  const lowerCaseResumeText = resumeText.toLowerCase()
+  const lowerCaseSkills = skills.map((skill) => skill.toLowerCase());
+  const lowerCaseResumeText = resumeText.toLowerCase();
 
   // Check each requirement against skills and resume text
   requirements.forEach((req) => {
-    const lowerReq = req.toLowerCase()
+    const lowerReq = req.toLowerCase();
 
     // Check if any skill matches this requirement or if requirement is mentioned in resume
     const hasMatch =
       lowerCaseSkills.some(
         (skill) =>
           lowerReq.includes(skill.replace(/\s*$$\d+\s*years$$$/, "")) ||
-          skill.replace(/\s*$$\d+\s*years$$$/, "").includes(lowerReq.substring(0, Math.min(lowerReq.length, 10))),
-      ) || lowerCaseResumeText.includes(lowerReq)
+          skill
+            .replace(/\s*$$\d+\s*years$$$/, "")
+            .includes(lowerReq.substring(0, Math.min(lowerReq.length, 10)))
+      ) || lowerCaseResumeText.includes(lowerReq);
 
     if (hasMatch) {
-      pros.push(`Candidate has experience with ${req}`)
+      pros.push(`Candidate has experience with ${req}`);
     } else {
-      cons.push(`Candidate lacks experience with ${req}`)
+      cons.push(`Candidate lacks experience with ${req}`);
     }
-  })
+  });
 
   // Generate additional pros based on skills not mentioned in requirements
   skills.forEach((skill) => {
-    const cleanSkill = skill.replace(/\s*$$\d+\s*years$$$/, "")
-    const lowerSkill = cleanSkill.toLowerCase()
-    const isExtraSkill = !requirements.some((req) => req.toLowerCase().includes(lowerSkill))
+    const cleanSkill = skill.replace(/\s*$$\d+\s*years$$$/, "");
+    const lowerSkill = cleanSkill.toLowerCase();
+    const isExtraSkill = !requirements.some((req) =>
+      req.toLowerCase().includes(lowerSkill)
+    );
 
     if (isExtraSkill) {
-      pros.push(`Candidate has additional skill: ${skill}`)
+      pros.push(`Candidate has additional skill: ${skill}`);
     }
-  })
+  });
 
   // Generate summary
-  let summary = ""
+  let summary = "";
   if (pros.length > cons.length) {
-    summary = `The candidate matches ${pros.length} out of ${pros.length + cons.length} job requirements. The candidate has the relevant skills for this position but may need training in some specific areas.`
+    summary = `The candidate matches ${pros.length} out of ${
+      pros.length + cons.length
+    } job requirements. The candidate has the relevant skills for this position but may need training in some specific areas.`;
   } else if (pros.length < cons.length) {
-    summary = `The candidate matches ${pros.length} out of ${pros.length + cons.length} job requirements. While the candidate has some relevant skills, there are significant gaps in meeting the job requirements.`
+    summary = `The candidate matches ${pros.length} out of ${
+      pros.length + cons.length
+    } job requirements. While the candidate has some relevant skills, there are significant gaps in meeting the job requirements.`;
   } else {
-    summary = `The candidate matches ${pros.length} out of ${pros.length + cons.length} job requirements. The candidate has a balanced profile with both strengths and areas for improvement relative to this position.`
+    summary = `The candidate matches ${pros.length} out of ${
+      pros.length + cons.length
+    } job requirements. The candidate has a balanced profile with both strengths and areas for improvement relative to this position.`;
   }
 
   return {
     pros: pros.slice(0, 5), // Limit to top 5 pros
     cons: cons.slice(0, 5), // Limit to top 5 cons
     summary,
-  }
+  };
 }
 
 // Update your resume upload endpoint to use the enhanced analysis
-app.post("/api/jobs/:id/upload-resume", upload.single("resume"), async (req, res) => {
-  try {
-    const jobId = req.params.id
-    const { name, email, phone } = req.body
-    const file = req.file
+app.post(
+  "/api/jobs/:id/upload-resume",
+  upload.single("resume"),
+  async (req, res) => {
+    try {
+      const jobId = req.params.id;
+      const { name, email, phone } = req.body;
+      const file = req.file;
 
-    // Parse resume content
-    let text = ""
-    if (file.mimetype === "application/pdf") {
-      const pdfData = await pdfParse(file.buffer)
-      text = pdfData.text
-    } else {
-      // DOC/DOCX
-      const result = await mammoth.extractRawText({ buffer: file.buffer })
-      text = result.value
-    }
+      // Parse resume content
+      let text = "";
+      if (file.mimetype === "application/pdf") {
+        const pdfData = await pdfParse(file.buffer);
+        text = pdfData.text;
+      } else {
+        // DOC/DOCX
+        const result = await mammoth.extractRawText({ buffer: file.buffer });
+        text = result.value;
+      }
 
-    // Get job requirements
-    const job = await pool.query("SELECT * FROM job WHERE id = $1", [jobId])
+      // Get job requirements
+      const job = await pool.query("SELECT * FROM job WHERE id = $1", [jobId]);
 
-    // Use enhanced analysis
-    const analysisResult = analyzeResume(text, job.rows[0].description)
+      // Use enhanced analysis
+      const analysisResult = analyzeResume(text, job.rows[0].description);
 
-    // Add filename to result
-    analysisResult.resumeFileName = file.originalname
+      // Add filename to result
+      analysisResult.resumeFileName = file.originalname;
 
-    // Store in database
-    await pool.query(
-    `INSERT INTO resumes (job_id, name, email, phone, resume_file, file_type, skills, experience, match_percentage)
+      // Store in database
+      await pool.query(
+        `INSERT INTO resumes (job_id, name, email, phone, resume_file, file_type, skills, experience, match_percentage)
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-    [jobId, name, email, phone, file.buffer, file.mimetype, 
-     analysisResult.skills, analysisResult.experience, analysisResult.matchPercentage]
-  );
+        [
+          jobId,
+          name,
+          email,
+          phone,
+          file.buffer,
+          file.mimetype,
+          analysisResult.skills,
+          analysisResult.experience,
+          analysisResult.matchPercentage,
+        ]
+      );
 
-    res.json(analysisResult)
-  } catch (error) {
-    console.error("Resume upload error:", error)
-    res.status(500).json({ error: "Resume processing failed" })
+      res.json(analysisResult);
+    } catch (error) {
+      console.error("Resume upload error:", error);
+      res.status(500).json({ error: "Resume processing failed" });
+    }
   }
-})
-
+);
 
 // Enhanced Resume Analysis Function for Multiple Jobs
 const analyzeResumeForAllJobs = (resumeText, jobs) => {
   // Extract skills and experience from resume once
   const skills = extractSkills(resumeText);
   const experience = extractExperience(resumeText);
-  
+
   // Analyze against each job
-  const jobAnalyses = jobs.map(job => {
+  const jobAnalyses = jobs.map((job) => {
     const requirements = extractRequirements(job.description);
-    const matchedRequirements = requirements.filter(req =>
-      skills.some(skill => req.toLowerCase().includes(skill.toLowerCase()))
+    const matchedRequirements = requirements.filter((req) =>
+      skills.some((skill) => req.toLowerCase().includes(skill.toLowerCase()))
     );
-    
-    const matchPercentage = requirements.length > 0 
-      ? (matchedRequirements.length / requirements.length) * 100
-      : 50;
+
+    const matchPercentage =
+      requirements.length > 0
+        ? (matchedRequirements.length / requirements.length) * 100
+        : 50;
 
     return {
       jobId: job.id,
@@ -2405,15 +2619,18 @@ const analyzeResumeForAllJobs = (resumeText, jobs) => {
       matchPercentage,
       requirements: {
         total: requirements.length,
-        matched: matchedRequirements.length
-      }
+        matched: matchedRequirements.length,
+      },
     };
   });
 
   // Calculate overall statistics
-  const totalMatch = jobAnalyses.reduce((sum, analysis) => sum + analysis.matchPercentage, 0);
+  const totalMatch = jobAnalyses.reduce(
+    (sum, analysis) => sum + analysis.matchPercentage,
+    0
+  );
   const averageMatch = totalMatch / jobAnalyses.length;
-  
+
   // Get top 3 matches
   const topMatches = [...jobAnalyses]
     .sort((a, b) => b.matchPercentage - a.matchPercentage)
@@ -2424,23 +2641,24 @@ const analyzeResumeForAllJobs = (resumeText, jobs) => {
     topMatches,
     skills,
     experience,
-    totalJobsAnalyzed: jobs.length
+    totalJobsAnalyzed: jobs.length,
   };
 };
 
 // Enhanced Resume Analysis Endpoint
 // Store analyzed resume in database (add to existing /api/analyze-resume route)
-app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
+app.post("/api/analyze-resume", upload.single("resume"), async (req, res) => {
   try {
     const file = req.file;
     const { name, email, phone } = req.body; // Get user details from request
 
-    if (!file) return res.status(400).json({ error: 'No file uploaded' });
-    if (!name || !email) return res.status(400).json({ error: 'Name and email are required' });
+    if (!file) return res.status(400).json({ error: "No file uploaded" });
+    if (!name || !email)
+      return res.status(400).json({ error: "Name and email are required" });
 
     // Existing analysis logic
-    let text = '';
-    if (file.mimetype === 'application/pdf') {
+    let text = "";
+    if (file.mimetype === "application/pdf") {
       const pdfData = await pdfParse(file.buffer);
       text = pdfData.text;
     } else {
@@ -2448,16 +2666,26 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
       text = result.value;
     }
 
-    const { rows: jobs } = await pool.query('SELECT id, companyname, title, description FROM job');
+    const { rows: jobs } = await pool.query(
+      "SELECT id, companyname, title, description FROM job"
+    );
     const analysisResult = analyzeResumeForAllJobs(text, jobs);
 
     // Store in database with NULL job_id
-   await pool.query(
-    `INSERT INTO resumes (name, email, phone, resume_file, file_type, skills, experience, match_percentage)
+    await pool.query(
+      `INSERT INTO resumes (name, email, phone, resume_file, file_type, skills, experience, match_percentage)
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-    [name, email, phone || null, file.buffer, file.mimetype, 
-     analysisResult.skills, analysisResult.experience, analysisResult.averageMatch]
-  );
+      [
+        name,
+        email,
+        phone || null,
+        file.buffer,
+        file.mimetype,
+        analysisResult.skills,
+        analysisResult.experience,
+        analysisResult.averageMatch,
+      ]
+    );
 
     res.json({
       success: true,
@@ -2466,21 +2694,20 @@ app.post('/api/analyze-resume', upload.single('resume'), async (req, res) => {
       skills: analysisResult.skills,
       experience: analysisResult.experience,
       topMatches: analysisResult.topMatches,
-      totalJobsAnalyzed: analysisResult.totalJobsAnalyzed
+      totalJobsAnalyzed: analysisResult.totalJobsAnalyzed,
     });
-
   } catch (error) {
-    console.error('Resume analysis error:', error);
-    res.status(500).json({ 
+    console.error("Resume analysis error:", error);
+    res.status(500).json({
       success: false,
-      error: 'Failed to analyze resume',
-      details: error.message
+      error: "Failed to analyze resume",
+      details: error.message,
     });
   }
 });
 
 // Get all analyzed resumes (general analysis)
-app.get('/api/analyzed-resumes', async (req, res) => {
+app.get("/api/analyzed-resumes", async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT id, name, email, phone, skills, experience, 
@@ -2491,45 +2718,51 @@ app.get('/api/analyzed-resumes', async (req, res) => {
     `);
     res.json(result.rows);
   } catch (error) {
-    console.error('Error fetching analyzed resumes:', error);
-    res.status(500).json({ error: 'Failed to fetch resumes' });
+    console.error("Error fetching analyzed resumes:", error);
+    res.status(500).json({ error: "Failed to fetch resumes" });
   }
 });
 
 // Download analyzed resume
-app.get('/api/analyzed-resumes/:id/download', async (req, res) => {
+app.get("/api/analyzed-resumes/:id/download", async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM resumes WHERE id = $1 AND job_id IS NULL',
+      "SELECT * FROM resumes WHERE id = $1 AND job_id IS NULL",
       [req.params.id]
     );
-    
-    if (!result.rows.length) return res.status(404).send('Resume not found');
+
+    if (!result.rows.length) return res.status(404).send("Resume not found");
 
     const resume = result.rows[0];
     res.set({
-      'Content-Type': resume.file_type,
-      'Content-Disposition': `attachment; filename="${resume.name}_resume.${resume.file_type.split('/')[1]}"`
+      "Content-Type": resume.file_type,
+      "Content-Disposition": `attachment; filename="${resume.name}_resume.${
+        resume.file_type.split("/")[1]
+      }"`,
     });
     res.send(resume.resume_file);
   } catch (error) {
-    console.error('Download error:', error);
-    res.status(500).send('Download failed');
+    console.error("Download error:", error);
+    res.status(500).send("Download failed");
   }
 });
 // Enhanced AI Career Chatbot Endpoint
-app.post('/api/chatbot', async (req, res) => {
+app.post("/api/chatbot", async (req, res) => {
   try {
     const { message } = req.body;
-    if (!message || typeof message !== 'string' || message.trim().length === 0) {
-      return res.status(400).json({ error: 'Invalid message content' });
+    if (
+      !message ||
+      typeof message !== "string" ||
+      message.trim().length === 0
+    ) {
+      return res.status(400).json({ error: "Invalid message content" });
     }
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       messages: [
         {
-          role: 'system',
+          role: "system",
           content: `You are CareerGPT, an AI career assistant specializing in:
           - Job search strategies
           - Resume optimization tips
@@ -2538,64 +2771,69 @@ app.post('/api/chatbot', async (req, res) => {
           - Salary negotiation advice
           - Tech industry insights
           Provide concise, actionable advice. Format responses with clear headings,
-          bullet points when listing items, and emojis for visual organization.`
+          bullet points when listing items, and emojis for visual organization.`,
         },
-        { 
-          role: 'user', 
-          content: message.trim() 
-        }
+        {
+          role: "user",
+          content: message.trim(),
+        },
       ],
       max_tokens: 500,
-      temperature: 0.7
+      temperature: 0.7,
     });
 
     const response = completion.choices[0].message.content;
-    
+
     // Store conversation in database (optional)
     await pool.query(
-      'INSERT INTO chat_history (query, response) VALUES ($1, $2)',
+      "INSERT INTO chat_history (query, response) VALUES ($1, $2)",
       [message, response]
     );
 
     res.json({
       success: true,
-      reply: response
+      reply: response,
     });
   } catch (error) {
-    console.error('Chat error:', error);
+    console.error("Chat error:", error);
     res.status(500).json({
       success: false,
-      error: 'Failed to process message',
-      system: 'Our career assistant is currently unavailable. Please try again later.'
+      error: "Failed to process message",
+      system:
+        "Our career assistant is currently unavailable. Please try again later.",
     });
   }
 });
 
-
 // Google OAuth routes
-app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }))
-
+app.get(
+  "/api/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 // Google OAuth callback route
-app.get("/api/auth/google/callback", passport.authenticate("google", { session: false }), (req, res) => {
-  // Create JWT token
-  const token = jwt.sign(
-    {
-      id: req.user.id,
-      googleId: req.user.google_id,
-      displayName: req.user.display_name,
-      email: req.user.email,
-      photoURL: req.user.photo_url,
-    },
-    JWT_SECRET,
-    { expiresIn: "7d" },
-  )
+app.get(
+  "/api/auth/google/callback",
+  passport.authenticate("google", { session: false }),
+  (req, res) => {
+    // Create JWT token
+    const token = jwt.sign(
+      {
+        id: req.user.id,
+        googleId: req.user.google_id,
+        displayName: req.user.display_name,
+        email: req.user.email,
+        photoURL: req.user.photo_url,
+      },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
 
-  // Get the nonce from res.locals
-  const nonce = res.locals.nonce || ""
+    // Get the nonce from res.locals
+    const nonce = res.locals.nonce || "";
 
-  // Send token and user data to client via postMessage with nonce
-  res.send(`
+    // Send token and user data to client via postMessage with nonce
+    res.send(`
       <html>
         <body>
           <script nonce="${nonce}">
@@ -2616,18 +2854,20 @@ app.get("/api/auth/google/callback", passport.authenticate("google", { session: 
           </script>
         </body>
       </html>
-    `)
-})
+    `);
+  }
+);
 
 // Get current user
 app.get("/api/auth/me", authenticateToken, async (req, res) => {
   try {
-    const user = await pool.query("SELECT id, google_id, display_name, email, photo_url FROM users WHERE id = $1", [
-      req.user.id,
-    ])
+    const user = await pool.query(
+      "SELECT id, google_id, display_name, email, photo_url FROM users WHERE id = $1",
+      [req.user.id]
+    );
 
     if (!user.rows.length) {
-      return res.status(404).json({ error: "User not found" })
+      return res.status(404).json({ error: "User not found" });
     }
 
     res.json({
@@ -2636,17 +2876,17 @@ app.get("/api/auth/me", authenticateToken, async (req, res) => {
       displayName: user.rows[0].display_name,
       email: user.rows[0].email,
       photoURL: user.rows[0].photo_url,
-    })
+    });
   } catch (error) {
-    console.error("Error fetching user:", error)
-    res.status(500).json({ error: "Failed to fetch user data" })
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Failed to fetch user data" });
   }
-})
+});
 
 // Logout route
 app.post("/api/auth/logout", (req, res) => {
-  res.json({ message: "Logged out successfully" })
-})
+  res.json({ message: "Logged out successfully" });
+});
 
 // Generate nonce for CSP
 app.use((req, res, next) => {
@@ -2676,24 +2916,21 @@ app.use(
   })
 );
 
-
-
-module.exports = { generateNonce }
-
+module.exports = { generateNonce };
 
 // Increment job view count
-app.post('/:id/view', async (req, res) => {
+app.post("/:id/view", async (req, res) => {
   const { id } = req.params;
   const client = await pool.connect();
   try {
-    await client.query('BEGIN');
+    await client.query("BEGIN");
     const { rows } = await client.query(
-      'SELECT viewer_count FROM jobs WHERE id = $1',
+      "SELECT viewer_count FROM jobs WHERE id = $1",
       [id]
     );
     if (!rows.length) {
-      await client.query('ROLLBACK');
-      return res.status(404).json({ error: 'Job not found' });
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "Job not found" });
     }
     const count = (rows[0].viewer_count || 0) + 1;
     const { rows: updated } = await client.query(
@@ -2703,155 +2940,179 @@ app.post('/:id/view', async (req, res) => {
        RETURNING id, viewer_count`,
       [count, id]
     );
-    await client.query('COMMIT');
-    res.json({ success: true, message: 'Job view count incremented', data: updated[0] });
+    await client.query("COMMIT");
+    res.json({
+      success: true,
+      message: "Job view count incremented",
+      data: updated[0],
+    });
   } catch (err) {
-    await client.query('ROLLBACK');
-    console.error('Error incrementing job view count:', err);
-    res.status(500).json({ error: 'Failed to increment job view count', details: err.message });
+    await client.query("ROLLBACK");
+    console.error("Error incrementing job view count:", err);
+    res.status(500).json({
+      error: "Failed to increment job view count",
+      details: err.message,
+    });
   } finally {
     client.release();
   }
 });
 
 // Update resume status
-app.put('/:id/resumes/status', async (req, res) => {
+app.put("/:id/resumes/status", async (req, res) => {
   const { id } = req.params;
   const { resumeId, status } = req.body;
-  const valid = ['pending', 'reviewed', 'shortlisted', 'rejected', 'hired'];
+  const valid = ["pending", "reviewed", "shortlisted", "rejected", "hired"];
   if (!resumeId || !status) {
-    return res.status(400).json({ error: 'Resume ID and status are required' });
+    return res.status(400).json({ error: "Resume ID and status are required" });
   }
   if (!valid.includes(status)) {
-    return res
-      .status(400)
-      .json({ error: 'Invalid status', message: `Status must be one of: ${valid.join(', ')}` });
+    return res.status(400).json({
+      error: "Invalid status",
+      message: `Status must be one of: ${valid.join(", ")}`,
+    });
   }
 
   const client = await pool.connect();
   try {
-    await client.query('BEGIN');
-    const job = await client.query('SELECT id FROM jobs WHERE id = $1', [id]);
+    await client.query("BEGIN");
+    const job = await client.query("SELECT id FROM jobs WHERE id = $1", [id]);
     if (!job.rows.length) {
-      await client.query('ROLLBACK');
-      return res.status(404).json({ error: 'Job not found' });
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "Job not found" });
     }
-    const resume = await client.query('SELECT id FROM resumes WHERE id = $1', [resumeId]);
+    const resume = await client.query("SELECT id FROM resumes WHERE id = $1", [
+      resumeId,
+    ]);
     if (!resume.rows.length) {
-      await client.query('ROLLBACK');
-      return res.status(404).json({ error: 'Resume not found' });
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "Resume not found" });
     }
 
     const rel = await client.query(
-      'SELECT 1 FROM job_resumes WHERE job_id = $1 AND resume_id = $2',
+      "SELECT 1 FROM job_resumes WHERE job_id = $1 AND resume_id = $2",
       [id, resumeId]
     );
     if (rel.rows.length) {
       await client.query(
-        'UPDATE job_resumes SET status = $1, updated_at = NOW() WHERE job_id = $2 AND resume_id = $3',
+        "UPDATE job_resumes SET status = $1, updated_at = NOW() WHERE job_id = $2 AND resume_id = $3",
         [status, id, resumeId]
       );
     } else {
       await client.query(
-        'INSERT INTO job_resumes (job_id, resume_id, status, created_at, updated_at) VALUES ($1,$2,$3,NOW(),NOW())',
+        "INSERT INTO job_resumes (job_id, resume_id, status, created_at, updated_at) VALUES ($1,$2,$3,NOW(),NOW())",
         [id, resumeId, status]
       );
     }
 
-    await client.query('COMMIT');
+    await client.query("COMMIT");
     res.json({
       success: true,
-      message: 'Resume status updated',
-      data: { jobId: id, resumeId, status, updated_at: new Date().toISOString() }
+      message: "Resume status updated",
+      data: {
+        jobId: id,
+        resumeId,
+        status,
+        updated_at: new Date().toISOString(),
+      },
     });
   } catch (err) {
-    await client.query('ROLLBACK');
-    console.error('Error updating resume status:', err);
-    res.status(500).json({ error: 'Failed to update resume status', details: err.message });
+    await client.query("ROLLBACK");
+    console.error("Error updating resume status:", err);
+    res
+      .status(500)
+      .json({ error: "Failed to update resume status", details: err.message });
   } finally {
     client.release();
   }
 });
 
-app.get('/api/public/resumes/:id/download', async (req, res) => {
+app.get("/api/public/resumes/:id/download", async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT * FROM resumes WHERE id = $1 AND job_id IS NULL',
+      "SELECT * FROM resumes WHERE id = $1 AND job_id IS NULL",
       [req.params.id]
     );
-    
+
     if (!result.rows.length) {
-      return res.status(404).send('Public resume not found');
+      return res.status(404).send("Public resume not found");
     }
 
     const resume = result.rows[0];
     res.set({
-      'Content-Type': resume.file_type,
-      'Content-Disposition': `attachment; filename="${resume.name}_resume.${resume.file_type.split('/')[1]}"`
+      "Content-Type": resume.file_type,
+      "Content-Disposition": `attachment; filename="${resume.name}_resume.${
+        resume.file_type.split("/")[1]
+      }"`,
     });
     res.send(resume.resume_file);
   } catch (error) {
-    console.error('Public download error:', error);
-    res.status(500).send('Download failed');
+    console.error("Public download error:", error);
+    res.status(500).send("Download failed");
   }
 });
 
 // Download resume
-app.get('/:id/download', async (req, res) => {
+app.get("/:id/download", async (req, res) => {
   const { id } = req.params;
   const client = await pool.connect();
 
   try {
     const { rows } = await client.query(
-      'SELECT file_path, original_filename FROM resumes WHERE id = $1',
+      "SELECT file_path, original_filename FROM resumes WHERE id = $1",
       [id]
     );
     if (!rows.length) {
-      return res.status(404).json({ error: 'Resume not found' });
+      return res.status(404).json({ error: "Resume not found" });
     }
 
     const { file_path, original_filename } = rows[0];
     if (!file_path || !fs.existsSync(file_path)) {
-      return res.status(404).json({ error: 'Resume file not found on disk' });
+      return res.status(404).json({ error: "Resume file not found on disk" });
     }
 
     const ext = path.extname(file_path).toLowerCase();
-    let contentType = 'application/octet-stream';
-    if (ext === '.pdf') contentType = 'application/pdf';
-    else if (ext === '.doc') contentType = 'application/msword';
-    else if (ext === '.docx') contentType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    else if (ext === '.txt') contentType = 'text/plain';
+    let contentType = "application/octet-stream";
+    if (ext === ".pdf") contentType = "application/pdf";
+    else if (ext === ".doc") contentType = "application/msword";
+    else if (ext === ".docx")
+      contentType =
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    else if (ext === ".txt") contentType = "text/plain";
 
-    res.setHeader('Content-Type', contentType);
+    res.setHeader("Content-Type", contentType);
     res.setHeader(
-      'Content-Disposition',
+      "Content-Disposition",
       `attachment; filename="${original_filename || `resume_${id}${ext}`}"`
     );
 
     const stream = fs.createReadStream(file_path);
-    stream.on('error', err => {
-      console.error('Error streaming file:', err);
+    stream.on("error", (err) => {
+      console.error("Error streaming file:", err);
       if (!res.headersSent) {
-        res.status(500).json({ error: 'Failed to stream file', details: err.message });
+        res
+          .status(500)
+          .json({ error: "Failed to stream file", details: err.message });
       }
     });
     stream.pipe(res);
   } catch (err) {
-    console.error('Error downloading resume:', err);
+    console.error("Error downloading resume:", err);
     if (!res.headersSent) {
-      res.status(500).json({ error: 'Failed to download resume', details: err.message });
+      res
+        .status(500)
+        .json({ error: "Failed to download resume", details: err.message });
     }
   } finally {
     client.release();
   }
 });
 
-
 // Admin panel listing
-app.get('/adminpanel', async (req, res) => {
+app.get("/adminpanel", async (req, res) => {
   const client = await pool.connect();
   try {
-    const view = req.query.view || 'all';
+    const view = req.query.view || "all";
     const userId = req.user?.id;
     let sql = `
       SELECT j.*, a.name AS creator_name, a.profile_image AS creator_admin_image
@@ -2859,24 +3120,26 @@ app.get('/adminpanel', async (req, res) => {
       LEFT JOIN admins a ON j.creator_id = a.id
     `;
     const params = [];
-    if (view === 'my' && userId) {
-      sql += ' WHERE j.creator_id = $1';
+    if (view === "my" && userId) {
+      sql += " WHERE j.creator_id = $1";
       params.push(userId);
     }
-    sql += ' ORDER BY j.created_at DESC';
+    sql += " ORDER BY j.created_at DESC";
 
     const { rows } = await client.query(sql, params);
     res.json(rows);
   } catch (err) {
-    console.error('Error fetching jobs:', err);
-    res.status(500).json({ error: 'Failed to fetch jobs', details: err.message });
+    console.error("Error fetching jobs:", err);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch jobs", details: err.message });
   } finally {
     client.release();
   }
 });
 
 // Edit job
-app.put('/:id/edit', async (req, res) => {
+app.put("/:id/edit", async (req, res) => {
   const { id } = req.params;
   const {
     title,
@@ -2890,12 +3153,12 @@ app.put('/:id/edit', async (req, res) => {
     job_type,
     experience,
     batch,
-    status
+    status,
   } = req.body;
   const client = await pool.connect();
 
   try {
-    await client.query('BEGIN');
+    await client.query("BEGIN");
     const values = [
       title,
       companyname,
@@ -2909,7 +3172,7 @@ app.put('/:id/edit', async (req, res) => {
       experience,
       batch,
       status,
-      id
+      id,
     ];
     const { rows } = await client.query(
       `UPDATE jobs
@@ -2930,21 +3193,26 @@ app.put('/:id/edit', async (req, res) => {
        RETURNING *`,
       values
     );
-    await client.query('COMMIT');
+    await client.query("COMMIT");
 
     if (!rows.length) {
-      return res.status(404).json({ error: 'Job not found' });
+      return res.status(404).json({ error: "Job not found" });
     }
-    res.json({ success: true, message: 'Job updated successfully', data: rows[0] });
+    res.json({
+      success: true,
+      message: "Job updated successfully",
+      data: rows[0],
+    });
   } catch (err) {
-    await client.query('ROLLBACK');
-    console.error('Error updating job:', err);
-    res.status(500).json({ error: 'Failed to update job', details: err.message });
+    await client.query("ROLLBACK");
+    console.error("Error updating job:", err);
+    res
+      .status(500)
+      .json({ error: "Failed to update job", details: err.message });
   } finally {
     client.release();
   }
 });
-
 
 //  Live Classes Routes
 
@@ -2956,17 +3224,37 @@ app.post(
     body("start_time").isISO8601().withMessage("Valid start time is required"),
     body("end_time").isISO8601().withMessage("Valid end time is required"),
     body("description").optional(),
-    body("zoom_link").optional().isURL().withMessage("Zoom link must be a valid URL"),
+    body("zoom_link")
+      .optional()
+      .isURL()
+      .withMessage("Zoom link must be a valid URL"),
     body("batch_month").optional(),
     body("batch_year").optional(),
-    body("status").optional().isIn(['upcoming', 'live', 'completed']).withMessage("Status must be upcoming, live, or completed"),
-    body("progress").optional().isFloat({ min: 0, max: 100 }).withMessage("Progress must be between 0 and 100")
+    body("status")
+      .optional()
+      .isIn(["upcoming", "live", "completed"])
+      .withMessage("Status must be upcoming, live, or completed"),
+    body("progress")
+      .optional()
+      .isFloat({ min: 0, max: 100 })
+      .withMessage("Progress must be between 0 and 100"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
-    const { class_name, start_time, end_time, description, zoom_link, batch_month, batch_year, status, progress } = req.body;
+    const {
+      class_name,
+      start_time,
+      end_time,
+      description,
+      zoom_link,
+      batch_month,
+      batch_year,
+      status,
+      progress,
+    } = req.body;
     const mentor_id = req.user.id;
 
     try {
@@ -2996,8 +3284,8 @@ app.post(
       );
 
       if (conflictCheck.rows.length > 0) {
-        return res.status(400).json({ 
-          error: "Schedule conflict: Another class exists in this time slot" 
+        return res.status(400).json({
+          error: "Schedule conflict: Another class exists in this time slot",
         });
       }
 
@@ -3017,13 +3305,13 @@ app.post(
         zoom_link || null, // Add zoom_link here
         batch_month || null,
         batch_year || null,
-        status || 'upcoming',
-        progress || 0
+        status || "upcoming",
+        progress || 0,
       ]);
 
       res.status(201).json({
         message: "Live class created successfully",
-        class: result.rows[0]
+        class: result.rows[0],
       });
     } catch (error) {
       console.error(`Error creating live class: ${error.message}`);
@@ -3044,15 +3332,26 @@ app.put(
     body("zoom_link").optional().isURL(),
     body("batch_month").optional(),
     body("batch_year").optional(),
-    body("status").optional().isIn(['upcoming', 'live', 'completed']),
-    body("progress").optional().isFloat({ min: 0, max: 100 })
+    body("status").optional().isIn(["upcoming", "live", "completed"]),
+    body("progress").optional().isFloat({ min: 0, max: 100 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const { id } = req.params;
-    const { class_name, start_time, end_time, description, zoom_link, batch_month, batch_year, status, progress } = req.body;
+    const {
+      class_name,
+      start_time,
+      end_time,
+      description,
+      zoom_link,
+      batch_month,
+      batch_year,
+      status,
+      progress,
+    } = req.body;
     const mentor_id = req.user.id;
 
     try {
@@ -3067,10 +3366,12 @@ app.put(
       }
 
       const liveClass = classCheck.rows[0];
-      
+
       // Allow update only if user is the creator or an admin
-      if (liveClass.mentor_id !== mentor_id && req.user.role !== 'admin') {
-        return res.status(403).json({ error: "Not authorized to update this class" });
+      if (liveClass.mentor_id !== mentor_id && req.user.role !== "admin") {
+        return res
+          .status(403)
+          .json({ error: "Not authorized to update this class" });
       }
 
       // Build dynamic update query
@@ -3131,7 +3432,7 @@ app.put(
 
       res.json({
         message: "Live class updated successfully",
-        class: result.rows[0]
+        class: result.rows[0],
       });
     } catch (error) {
       console.error(`Error updating live class: ${error.message}`);
@@ -3144,7 +3445,7 @@ app.put(
 app.get("/api/live-classes", async (req, res) => {
   try {
     const { batch_month, batch_year } = req.query;
-    
+
     let query = `
       SELECT lc.*, 
              a.adminname as mentor_display_name,
@@ -3152,9 +3453,9 @@ app.get("/api/live-classes", async (req, res) => {
       FROM live_classes lc
       LEFT JOIN admin a ON lc.mentor_id = a.id
     `;
-    
+
     let queryParams = [];
-    
+
     // If batch_month and batch_year are provided, filter by them
     if (batch_month && batch_year) {
       query += ` WHERE (lc.batch_month = $1 AND lc.batch_year = $2) OR lc.batch_month IS NULL`;
@@ -3163,27 +3464,27 @@ app.get("/api/live-classes", async (req, res) => {
       // If no batch specified, show classes with no specific batch (general classes)
       query += ` WHERE lc.batch_month IS NULL`;
     }
-    
+
     query += ` ORDER BY lc.start_time ASC;`;
-    
+
     const result = await pool.query(query, queryParams);
-    
+
     // Format the response to match frontend structure
-    const formattedClasses = result.rows.map(cls => ({
+    const formattedClasses = result.rows.map((cls) => ({
       id: cls.id,
       letter: cls.class_name.charAt(0).toUpperCase(),
       name: cls.class_name,
       mentor: cls.mentor_display_name,
       status: cls.status,
       progress: `${Math.min(100, Math.max(0, Math.round(cls.progress)))}%`,
-      time: `${new Date(cls.start_time).toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: true 
-      })} - ${new Date(cls.end_time).toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: true 
+      time: `${new Date(cls.start_time).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })} - ${new Date(cls.end_time).toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
       })}`,
       start_time: cls.start_time,
       end_time: cls.end_time,
@@ -3191,7 +3492,7 @@ app.get("/api/live-classes", async (req, res) => {
       zoom_link: cls.zoom_link, // Add zoom_link here
       mentor_image: cls.mentor_image,
       batch_month: cls.batch_month,
-      batch_year: cls.batch_year
+      batch_year: cls.batch_year,
     }));
 
     res.json(formattedClasses);
@@ -3218,10 +3519,12 @@ app.delete("/api/live-classes/:id", authenticateToken, async (req, res) => {
     }
 
     const liveClass = classCheck.rows[0];
-    
+
     // Allow delete only if user is the creator or an admin
-    if (liveClass.mentor_id !== mentor_id && req.user.role !== 'admin') {
-      return res.status(403).json({ error: "Not authorized to delete this class" });
+    if (liveClass.mentor_id !== mentor_id && req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to delete this class" });
     }
 
     await pool.query("DELETE FROM live_classes WHERE id = $1", [id]);
@@ -3245,7 +3548,7 @@ app.get("/api/admin/live-classes", authenticateToken, async (req, res) => {
       LEFT JOIN admin a ON lc.mentor_id = a.id
       ORDER BY lc.start_time ASC;
     `;
-    
+
     const result = await pool.query(query);
     res.json(result.rows);
   } catch (error) {
@@ -3253,8 +3556,6 @@ app.get("/api/admin/live-classes", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to fetch live classes" });
   }
 });
-
-
 
 // Placement Achievements Routes
 
@@ -3271,7 +3572,7 @@ app.get("/api/placement-achievements", async (req, res) => {
       ORDER BY pa.created_at DESC
       LIMIT 10;
     `;
-    
+
     const result = await pool.query(query);
     res.json(result.rows);
   } catch (error) {
@@ -3280,11 +3581,13 @@ app.get("/api/placement-achievements", async (req, res) => {
   }
 });
 
-
 // Get all placement achievements for admin panel
-app.get("/api/admin/placement-achievements", authenticateToken, async (req, res) => {
-  try {
-    const query = `
+app.get(
+  "/api/admin/placement-achievements",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const query = `
       SELECT pa.*, 
              creator.adminname as created_by_name,
              approver.adminname as approved_by_name
@@ -3293,13 +3596,14 @@ app.get("/api/admin/placement-achievements", authenticateToken, async (req, res)
       LEFT JOIN admin approver ON pa.approved_by = approver.id
     `;
 
-    const result = await pool.query(query);
-    res.json(result.rows);
-  } catch (error) {
-    console.error(`Error fetching placement achievements: ${error.message}`);
-    res.status(500).json({ error: "Failed to fetch placement achievements" });
+      const result = await pool.query(query);
+      res.json(result.rows);
+    } catch (error) {
+      console.error(`Error fetching placement achievements: ${error.message}`);
+      res.status(500).json({ error: "Failed to fetch placement achievements" });
+    }
   }
-});
+);
 
 // Create new placement achievement
 app.post(
@@ -3313,11 +3617,12 @@ app.post(
     body("company").notEmpty().withMessage("Company is required"),
     body("package").notEmpty().withMessage("Package is required"),
     body("feedback").notEmpty().withMessage("Feedback is required"),
-    body("image_url").optional().isURL().withMessage("Image URL must be valid")
+    body("image_url").optional().isURL().withMessage("Image URL must be valid"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const {
       student_name,
@@ -3327,7 +3632,7 @@ app.post(
       company,
       package: pkg,
       feedback,
-      image_url
+      image_url,
     } = req.body;
 
     const created_by = req.user.id;
@@ -3350,12 +3655,12 @@ app.post(
         pkg,
         feedback,
         image_url || null, // Store as null if not provided
-        created_by
+        created_by,
       ]);
 
       res.status(201).json({
         message: "Placement achievement added successfully",
-        achievement: result.rows[0]
+        achievement: result.rows[0],
       });
     } catch (error) {
       console.error(`Error creating placement achievement: ${error.message}`);
@@ -3377,11 +3682,12 @@ app.put(
     body("package").optional().notEmpty(),
     body("feedback").optional().notEmpty(),
     body("image_url").optional().isURL(),
-    body("status").optional().isIn(['pending', 'approved', 'rejected'])
+    body("status").optional().isIn(["pending", "approved", "rejected"]),
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
     const { id } = req.params;
     const updates = req.body;
@@ -3395,11 +3701,13 @@ app.put(
       );
 
       if (!existingAchievement.rows.length) {
-        return res.status(404).json({ error: "Placement achievement not found" });
+        return res
+          .status(404)
+          .json({ error: "Placement achievement not found" });
       }
 
       // Handle empty image_url - set to null if empty string
-      if (updates.image_url === '') {
+      if (updates.image_url === "") {
         updates.image_url = null;
       }
 
@@ -3408,7 +3716,7 @@ app.put(
       const values = [];
       let paramCount = 1;
 
-      Object.keys(updates).forEach(key => {
+      Object.keys(updates).forEach((key) => {
         if (updates[key] !== undefined) {
           updateFields.push(`${key} = $${paramCount}`);
           values.push(updates[key]);
@@ -3417,7 +3725,7 @@ app.put(
       });
 
       // If status is being updated to approved, set approved_by
-      if (updates.status === 'approved') {
+      if (updates.status === "approved") {
         updateFields.push(`approved_by = $${paramCount}`);
         values.push(adminId);
         paramCount++;
@@ -3436,7 +3744,7 @@ app.put(
 
       res.json({
         message: "Placement achievement updated successfully",
-        achievement: result.rows[0]
+        achievement: result.rows[0],
       });
     } catch (error) {
       console.error(`Error updating placement achievement: ${error.message}`);
@@ -3446,118 +3754,144 @@ app.put(
 );
 
 // Delete placement achievement
-app.delete("/api/placement-achievements/:id", authenticateToken, async (req, res) => {
-  const { id } = req.params;
+app.delete(
+  "/api/placement-achievements/:id",
+  authenticateToken,
+  async (req, res) => {
+    const { id } = req.params;
 
-  try {
-    const result = await pool.query(
-      "DELETE FROM placement_achievements WHERE id = $1 RETURNING *",
-      [id]
-    );
+    try {
+      const result = await pool.query(
+        "DELETE FROM placement_achievements WHERE id = $1 RETURNING *",
+        [id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Placement achievement not found" });
+      if (result.rows.length === 0) {
+        return res
+          .status(404)
+          .json({ error: "Placement achievement not found" });
+      }
+
+      res.json({ message: "Placement achievement deleted successfully" });
+    } catch (error) {
+      console.error(`Error deleting placement achievement: ${error.message}`);
+      res.status(500).json({ error: "Failed to delete placement achievement" });
     }
-
-    res.json({ message: "Placement achievement deleted successfully" });
-  } catch (error) {
-    console.error(`Error deleting placement achievement: ${error.message}`);
-    res.status(500).json({ error: "Failed to delete placement achievement" });
   }
-});
+);
 
-const studentBackendService = require('./services/studentBackendService');
+const studentBackendService = require("./services/studentBackendService");
 
 // ==========================================
 // 🔹 ADMIN DISCUSSION ROUTES
 // ==========================================
 
 // Get all threads for admin panel
-app.get("/api/admin/discussions/threads", authenticateToken, async (req, res) => {
-  try {
-    const { status, page, limit, search } = req.query;
-    
-    const result = await studentBackendService.getThreads({
-      status,
-      page,
-      limit,
-      search
-    });
+app.get(
+  "/api/admin/discussions/threads",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { status, page, limit, search } = req.query;
 
-    res.json(result);
-  } catch (error) {
-    console.error("Admin threads fetch error:", error);
-    res.status(500).json({ 
-      success: false,
-      error: error.message 
-    });
-  }
-});
+      const result = await studentBackendService.getThreads({
+        status,
+        page,
+        limit,
+        search,
+      });
 
-// Get thread detail for admin
-app.get("/api/admin/discussions/threads/:threadId", authenticateToken, async (req, res) => {
-  try {
-    const { threadId } = req.params;
-    
-    const result = await studentBackendService.getThreadDetail(threadId);
-    res.json(result);
-  } catch (error) {
-    console.error("Admin thread detail error:", error);
-    res.status(500).json({ 
-      success: false,
-      error: error.message 
-    });
-  }
-});
-
-// Admin posts a reply
-app.post("/api/admin/discussions/replies", authenticateToken, async (req, res) => {
-  try {
-    const { threadId, content } = req.body;
-    const adminData = {
-      id: req.user.id,
-      adminname: req.user.adminname,
-      admin_image_link: req.user.admin_image_link
-    };
-
-    if (!threadId || !content) {
-      return res.status(400).json({ 
+      res.json(result);
+    } catch (error) {
+      console.error("Admin threads fetch error:", error);
+      res.status(500).json({
         success: false,
-        error: "Thread ID and content are required" 
+        error: error.message,
       });
     }
-
-    const result = await studentBackendService.postAdminReply(threadId, content, adminData);
-    res.json(result);
-  } catch (error) {
-    console.error("Admin reply error:", error);
-    res.status(500).json({ 
-      success: false,
-      error: error.message 
-    });
   }
-});
+);
+
+// Get thread detail for admin
+app.get(
+  "/api/admin/discussions/threads/:threadId",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { threadId } = req.params;
+
+      const result = await studentBackendService.getThreadDetail(threadId);
+      res.json(result);
+    } catch (error) {
+      console.error("Admin thread detail error:", error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+);
+
+// Admin posts a reply
+app.post(
+  "/api/admin/discussions/replies",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { threadId, content } = req.body;
+      const adminData = {
+        id: req.user.id,
+        adminname: req.user.adminname,
+        admin_image_link: req.user.admin_image_link,
+      };
+
+      if (!threadId || !content) {
+        return res.status(400).json({
+          success: false,
+          error: "Thread ID and content are required",
+        });
+      }
+
+      const result = await studentBackendService.postAdminReply(
+        threadId,
+        content,
+        adminData
+      );
+      res.json(result);
+    } catch (error) {
+      console.error("Admin reply error:", error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
+  }
+);
 
 // Update thread status
-app.put("/api/admin/discussions/threads/:threadId/status", authenticateToken, async (req, res) => {
-  try {
-    const { threadId } = req.params;
-    const { status, is_important } = req.body;
+app.put(
+  "/api/admin/discussions/threads/:threadId/status",
+  authenticateToken,
+  async (req, res) => {
+    try {
+      const { threadId } = req.params;
+      const { status, is_important } = req.body;
 
-    const result = await studentBackendService.updateThreadStatus(threadId, {
-      status,
-      is_important
-    });
+      const result = await studentBackendService.updateThreadStatus(threadId, {
+        status,
+        is_important,
+      });
 
-    res.json(result);
-  } catch (error) {
-    console.error("Thread status update error:", error);
-    res.status(500).json({ 
-      success: false,
-      error: error.message 
-    });
+      res.json(result);
+    } catch (error) {
+      console.error("Thread status update error:", error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
   }
-});
+);
 
 // Add these new routes after the existing routes (before the export statement)
 
@@ -3565,10 +3899,16 @@ app.put("/api/admin/discussions/threads/:threadId/status", authenticateToken, as
 // 🔹 ENROLLMENT FORM ROUTES
 // ==========================================
 
+// Backend Routes (app.js or your routes file)
+
 // Create enrollments table
-app.post("/api/create-enrollments-table", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    await pool.query(`
+app.post(
+  "/api/create-enrollments-table",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      await pool.query(`
       CREATE TABLE IF NOT EXISTS enrollments (
         id SERIAL PRIMARY KEY,
         first_name TEXT NOT NULL,
@@ -3583,15 +3923,41 @@ app.post("/api/create-enrollments-table", authenticateToken, authorizeAdmin, asy
         agreed_to_terms BOOLEAN DEFAULT FALSE,
         subscribe_to_newsletter BOOLEAN DEFAULT FALSE,
         submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        status VARCHAR(20) DEFAULT 'pending'
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status VARCHAR(20) DEFAULT 'pending',
+        admin_notes TEXT
       );
     `);
-    res.json({ message: "Enrollments table created successfully" });
-  } catch (error) {
-    console.error("Error creating enrollments table:", error);
-    res.status(500).json({ error: "Failed to create table" });
+
+      // Add updated_at trigger function
+      await pool.query(`
+      CREATE OR REPLACE FUNCTION update_updated_at_column()
+      RETURNS TRIGGER AS $$
+      BEGIN
+        NEW.updated_at = CURRENT_TIMESTAMP;
+        RETURN NEW;
+      END;
+      $$ language 'plpgsql';
+    `);
+
+      await pool.query(`
+      DROP TRIGGER IF EXISTS update_enrollments_updated_at ON enrollments;
+    `);
+
+      await pool.query(`
+      CREATE TRIGGER update_enrollments_updated_at
+      BEFORE UPDATE ON enrollments
+      FOR EACH ROW
+      EXECUTE FUNCTION update_updated_at_column();
+    `);
+
+      res.json({ message: "Enrollments table created successfully" });
+    } catch (error) {
+      console.error("Error creating enrollments table:", error);
+      res.status(500).json({ error: "Failed to create table" });
+    }
   }
-});
+);
 
 // Submit enrollment form
 app.post(
@@ -3607,7 +3973,7 @@ app.post(
     body("motivation").optional(),
     body("schedule").optional(),
     body("terms").isBoolean().withMessage("Terms agreement is required"),
-    body("newsletter").optional().isBoolean()
+    body("newsletter").optional().isBoolean(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -3626,7 +3992,7 @@ app.post(
       motivation,
       schedule,
       terms,
-      newsletter
+      newsletter,
     } = req.body;
 
     try {
@@ -3650,7 +4016,7 @@ app.post(
         motivation || null,
         schedule || null,
         terms,
-        newsletter || false
+        newsletter || false,
       ]);
 
       // Send email notification (optional)
@@ -3663,127 +4029,194 @@ app.post(
           id: result.rows[0].id,
           name: `${firstName} ${lastName}`,
           email: email,
-          course: course
-        }
+          course: course,
+        },
       });
     } catch (error) {
       console.error("Enrollment submission error:", error);
-      
+
       // Check for duplicate email for same course
-      if (error.code === '23505') { // Unique violation
+      if (error.code === "23505") {
+        // Unique violation
         return res.status(400).json({
           success: false,
-          error: "You have already enrolled for this course"
+          error: "You have already enrolled for this course",
         });
       }
 
       res.status(500).json({
         success: false,
-        error: "Failed to submit enrollment. Please try again."
+        error: "Failed to submit enrollment. Please try again.",
       });
     }
   }
 );
 
 // Get all enrollments (Admin only)
-app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { user } = req;
-    console.log('User accessing enrollments:', user.email);
-    
-    const { 
-      page = 1, 
-      limit = 10, 
-      status, 
-      course, 
-      search,
-      sortBy = 'submitted_at',
-      sortOrder = 'DESC'
-    } = req.query;
+app.get(
+  "/api/admin/enrollments",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const {
+        page = 1,
+        limit = 10,
+        status,
+        course,
+        search,
+        sortBy = "submitted_at",
+        sortOrder = "DESC",
+      } = req.query;
 
-    const offset = (page - 1) * limit;
+      const offset = (page - 1) * limit;
 
-    // Validate sortBy to prevent SQL injection
-    const validSortColumns = ['id', 'first_name', 'last_name', 'email', 'course', 'submitted_at', 'status', 'updated_at'];
-    const safeSortBy = validSortColumns.includes(sortBy) ? sortBy : 'submitted_at';
-    const safeSortOrder = sortOrder.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
+      // Validate sortBy to prevent SQL injection
+      const validSortColumns = [
+        "id",
+        "first_name",
+        "last_name",
+        "email",
+        "course",
+        "submitted_at",
+        "status",
+        "updated_at",
+      ];
+      const safeSortBy = validSortColumns.includes(sortBy)
+        ? sortBy
+        : "submitted_at";
+      const safeSortOrder = sortOrder.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
-    let query = `
+      let query = `
       SELECT *, 
       CONCAT(first_name, ' ', last_name) as full_name,
       TO_CHAR(submitted_at, 'YYYY-MM-DD HH24:MI') as formatted_date
       FROM enrollments
       WHERE 1=1
     `;
-    
-    const queryParams = [];
-    let paramCount = 1;
 
-    if (status && status !== 'all') {
-      query += ` AND status = $${paramCount}`;
-      queryParams.push(status);
-      paramCount++;
-    }
+      const queryParams = [];
+      let paramCount = 1;
 
-    if (course && course !== 'all') {
-      query += ` AND course = $${paramCount}`;
-      queryParams.push(course);
-      paramCount++;
-    }
+      if (status && status !== "all") {
+        query += ` AND status = $${paramCount}`;
+        queryParams.push(status);
+        paramCount++;
+      }
 
-    if (search) {
-      query += ` AND (
+      if (course && course !== "all") {
+        query += ` AND course = $${paramCount}`;
+        queryParams.push(course);
+        paramCount++;
+      }
+
+      if (search) {
+        query += ` AND (
         first_name ILIKE $${paramCount} OR 
         last_name ILIKE $${paramCount} OR 
         email ILIKE $${paramCount} OR
         phone ILIKE $${paramCount} OR
         CONCAT(first_name, ' ', last_name) ILIKE $${paramCount}
       )`;
-      queryParams.push(`%${search}%`);
-      paramCount++;
-    }
-
-    // Count total records
-    const countQuery = query.replace(
-      'SELECT *, CONCAT(first_name, \' \', last_name) as full_name, TO_CHAR(submitted_at, \'YYYY-MM-DD HH24:MI\') as formatted_date',
-      'SELECT COUNT(*) as total'
-    );
-    
-    const countResult = await pool.query(countQuery, queryParams);
-    const total = parseInt(countResult.rows[0].total);
-
-    // Add sorting and pagination
-    query += ` ORDER BY ${safeSortBy} ${safeSortOrder}`;
-    query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
-    queryParams.push(parseInt(limit), parseInt(offset));
-
-    console.log('Executing query with params:', { queryParams, query });
-    const result = await pool.query(query, queryParams);
-
-    res.json({
-      success: true,
-      enrollments: result.rows,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        totalPages: Math.ceil(total / limit)
+        queryParams.push(`%${search}%`);
+        paramCount++;
       }
-    });
-  } catch (error) {
-    console.error("Error fetching enrollments:", error);
-    res.status(500).json({ 
-      success: false,
-      error: "Failed to fetch enrollments",
-      details: error.message 
-    });
-  }
-});
 
-// Export enrollments as CSV
-app.get("/api/admin/enrollments/export", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(`
+      // Count total records
+      const countQuery = query.replace(
+        "SELECT *, CONCAT(first_name, ' ', last_name) as full_name, TO_CHAR(submitted_at, 'YYYY-MM-DD HH24:MI') as formatted_date",
+        "SELECT COUNT(*) as total"
+      );
+
+      const countResult = await pool.query(countQuery, queryParams);
+      const total = parseInt(countResult.rows[0].total);
+
+      // Add sorting and pagination
+      query += ` ORDER BY ${safeSortBy} ${safeSortOrder}`;
+      query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+      queryParams.push(parseInt(limit), parseInt(offset));
+
+      const result = await pool.query(query, queryParams);
+
+      res.json({
+        success: true,
+        enrollments: result.rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching enrollments:", error);
+      res.status(500).json({
+        success: false,
+        error: "Failed to fetch enrollments",
+        details: error.message,
+      });
+    }
+  }
+);
+
+// Get enrollment statistics (Admin only) - MUST come BEFORE the :id route!
+app.get(
+  "/api/admin/enrollments/stats",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const stats = await pool.query(`
+      SELECT 
+        COUNT(*) as total,
+        COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending,
+        COUNT(CASE WHEN status = 'contacted' THEN 1 END) as contacted,
+        COUNT(CASE WHEN status = 'enrolled' THEN 1 END) as enrolled,
+        COUNT(CASE WHEN status = 'rejected' THEN 1 END) as rejected,
+        COUNT(CASE WHEN DATE(submitted_at) = CURRENT_DATE THEN 1 END) as today,
+        COUNT(CASE WHEN EXTRACT(WEEK FROM submitted_at) = EXTRACT(WEEK FROM CURRENT_DATE) 
+          AND EXTRACT(YEAR FROM submitted_at) = EXTRACT(YEAR FROM CURRENT_DATE) 
+          THEN 1 END) as this_week
+      FROM enrollments;
+    `);
+
+      const courseStats = await pool.query(`
+      SELECT course, COUNT(*) as count
+      FROM enrollments
+      GROUP BY course
+      ORDER BY count DESC;
+    `);
+
+      const monthlyStats = await pool.query(`
+      SELECT 
+        TO_CHAR(submitted_at, 'YYYY-MM') as month,
+        COUNT(*) as count
+      FROM enrollments
+      WHERE submitted_at >= CURRENT_DATE - INTERVAL '6 months'
+      GROUP BY TO_CHAR(submitted_at, 'YYYY-MM')
+      ORDER BY month DESC;
+    `);
+
+      res.json({
+        overall: stats.rows[0],
+        byCourse: courseStats.rows,
+        monthly: monthlyStats.rows,
+      });
+    } catch (error) {
+      console.error("Error fetching enrollment stats:", error);
+      res.status(500).json({ error: "Failed to fetch statistics" });
+    }
+  }
+);
+
+// Export enrollments as CSV (Admin only)
+app.get(
+  "/api/admin/enrollments/export",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
       SELECT 
         id,
         first_name as "First Name",
@@ -3801,155 +4234,153 @@ app.get("/api/admin/enrollments/export", authenticateToken, authorizeAdmin, asyn
       ORDER BY submitted_at DESC
     `);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "No enrollments to export" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "No enrollments to export" });
+      }
+
+      // Convert to CSV
+      const { Parser } = require("json2csv");
+      const json2csvParser = new Parser();
+      const csv = json2csvParser.parse(result.rows);
+
+      // Set headers for file download
+      res.header("Content-Type", "text/csv");
+      res.attachment(
+        `enrollments_${new Date().toISOString().split("T")[0]}.csv`
+      );
+      res.send(csv);
+    } catch (error) {
+      console.error("Export error:", error);
+      res.status(500).json({ error: "Failed to export data" });
     }
-
-    // Convert to CSV
-    const json2csv = require('json2csv').parse;
-    const csv = json2csv(result.rows);
-
-    // Set headers for file download
-    res.header('Content-Type', 'text/csv');
-    res.attachment(`enrollments_${new Date().toISOString().split('T')[0]}.csv`);
-    res.send(csv);
-  } catch (error) {
-    console.error("Export error:", error);
-    res.status(500).json({ error: "Failed to export data" });
   }
-});
+);
 
-// Get single enrollment (Admin only)
-app.get("/api/admin/enrollments/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const result = await pool.query(
-      `SELECT *, CONCAT(first_name, ' ', last_name) as full_name
+// Get single enrollment (Admin only) - This MUST come AFTER the /stats route!
+app.get(
+  "/api/admin/enrollments/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Validate that id is a number
+      if (isNaN(parseInt(id))) {
+        return res.status(400).json({ error: "Invalid enrollment ID" });
+      }
+
+      const result = await pool.query(
+        `SELECT *, 
+       CONCAT(first_name, ' ', last_name) as full_name,
+       TO_CHAR(submitted_at, 'YYYY-MM-DD HH24:MI:SS') as formatted_date
        FROM enrollments WHERE id = $1`,
-      [id]
-    );
+        [id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Enrollment not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Enrollment not found" });
+      }
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error("Error fetching enrollment:", error);
+      res.status(500).json({ error: "Failed to fetch enrollment" });
     }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error fetching enrollment:", error);
-    res.status(500).json({ error: "Failed to fetch enrollment" });
   }
-});
+);
 
 // Update enrollment status (Admin only)
-app.put("/api/admin/enrollments/:id/status", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status, notes } = req.body;
+app.put(
+  "/api/admin/enrollments/:id/status",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, notes } = req.body;
 
-    if (!status || !['pending', 'contacted', 'enrolled', 'rejected', 'followup'].includes(status)) {
-      return res.status(400).json({ error: "Invalid status value" });
-    }
+      // Validate that id is a number
+      if (isNaN(parseInt(id))) {
+        return res.status(400).json({ error: "Invalid enrollment ID" });
+      }
 
-    const updateQuery = `
+      if (
+        !status ||
+        !["pending", "contacted", "enrolled", "rejected", "followup"].includes(
+          status
+        )
+      ) {
+        return res.status(400).json({ error: "Invalid status value" });
+      }
+
+      const updateQuery = `
       UPDATE enrollments 
       SET status = $1, 
-          updated_at = CURRENT_TIMESTAMP,
           admin_notes = $2
       WHERE id = $3
       RETURNING *;
     `;
 
-    const result = await pool.query(updateQuery, [status, notes || null, id]);
+      const result = await pool.query(updateQuery, [status, notes || null, id]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Enrollment not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Enrollment not found" });
+      }
+
+      res.json({
+        message: "Enrollment status updated successfully",
+        enrollment: result.rows[0],
+      });
+    } catch (error) {
+      console.error("Error updating enrollment status:", error);
+      res.status(500).json({ error: "Failed to update enrollment status" });
     }
-
-    res.json({
-      message: "Enrollment status updated successfully",
-      enrollment: result.rows[0]
-    });
-  } catch (error) {
-    console.error("Error updating enrollment status:", error);
-    res.status(500).json({ error: "Failed to update enrollment status" });
   }
-});
+);
 
 // Delete enrollment (Admin only)
-app.delete("/api/admin/enrollments/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
+app.delete(
+  "/api/admin/enrollments/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    const result = await pool.query(
-      "DELETE FROM enrollments WHERE id = $1 RETURNING *",
-      [id]
-    );
+      // Validate that id is a number
+      if (isNaN(parseInt(id))) {
+        return res.status(400).json({ error: "Invalid enrollment ID" });
+      }
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Enrollment not found" });
+      const result = await pool.query(
+        "DELETE FROM enrollments WHERE id = $1 RETURNING *",
+        [id]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Enrollment not found" });
+      }
+
+      res.json({ message: "Enrollment deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting enrollment:", error);
+      res.status(500).json({ error: "Failed to delete enrollment" });
     }
-
-    res.json({ message: "Enrollment deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting enrollment:", error);
-    res.status(500).json({ error: "Failed to delete enrollment" });
   }
-});
-
-// Get enrollment statistics (Admin only)
-app.get("/api/admin/enrollments/stats", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const stats = await pool.query(`
-      SELECT 
-        COUNT(*) as total,
-        COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending,
-        COUNT(CASE WHEN status = 'contacted' THEN 1 END) as contacted,
-        COUNT(CASE WHEN status = 'enrolled' THEN 1 END) as enrolled,
-        COUNT(CASE WHEN status = 'rejected' THEN 1 END) as rejected,
-        COUNT(CASE WHEN DATE(submitted_at) = CURRENT_DATE THEN 1 END) as today,
-        COUNT(CASE WHEN EXTRACT(WEEK FROM submitted_at) = EXTRACT(WEEK FROM CURRENT_DATE) 
-          AND EXTRACT(YEAR FROM submitted_at) = EXTRACT(YEAR FROM CURRENT_DATE) 
-          THEN 1 END) as this_week
-      FROM enrollments;
-    `);
-
-    const courseStats = await pool.query(`
-      SELECT course, COUNT(*) as count
-      FROM enrollments
-      GROUP BY course
-      ORDER BY count DESC;
-    `);
-
-    const monthlyStats = await pool.query(`
-      SELECT 
-        TO_CHAR(submitted_at, 'YYYY-MM') as month,
-        COUNT(*) as count
-      FROM enrollments
-      WHERE submitted_at >= CURRENT_DATE - INTERVAL '6 months'
-      GROUP BY TO_CHAR(submitted_at, 'YYYY-MM')
-      ORDER BY month DESC;
-    `);
-
-    res.json({
-      overall: stats.rows[0],
-      byCourse: courseStats.rows,
-      monthly: monthlyStats.rows
-    });
-  } catch (error) {
-    console.error("Error fetching enrollment stats:", error);
-    res.status(500).json({ error: "Failed to fetch statistics" });
-  }
-});
-
+);
 // ==========================================
 // 🔹 CONTACT FORM ROUTES
 // ==========================================
 
 // Create contacts table
-app.post("/api/create-contacts-table", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    await pool.query(`
+app.post(
+  "/api/create-contacts-table",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      await pool.query(`
       CREATE TABLE IF NOT EXISTS contacts (
         id SERIAL PRIMARY KEY,
         name TEXT NOT NULL,
@@ -3963,12 +4394,13 @@ app.post("/api/create-contacts-table", authenticateToken, authorizeAdmin, async 
         response TEXT
       );
     `);
-    res.json({ message: "Contacts table created successfully" });
-  } catch (error) {
-    console.error("Error creating contacts table:", error);
-    res.status(500).json({ error: "Failed to create table" });
+      res.json({ message: "Contacts table created successfully" });
+    } catch (error) {
+      console.error("Error creating contacts table:", error);
+      res.status(500).json({ error: "Failed to create table" });
+    }
   }
-});
+);
 
 // Submit contact form
 app.post(
@@ -3977,7 +4409,7 @@ app.post(
     body("name").notEmpty().withMessage("Name is required"),
     body("email").isEmail().withMessage("Valid email is required"),
     body("subject").notEmpty().withMessage("Subject is required"),
-    body("message").notEmpty().withMessage("Message is required")
+    body("message").notEmpty().withMessage("Message is required"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -3998,7 +4430,7 @@ app.post(
         name,
         email,
         subject,
-        message
+        message,
       ]);
 
       // Send notification email (optional)
@@ -4010,122 +4442,134 @@ app.post(
         contact: {
           id: result.rows[0].id,
           name: name,
-          email: email
-        }
+          email: email,
+        },
       });
     } catch (error) {
       console.error("Contact submission error:", error);
       res.status(500).json({
         success: false,
-        error: "Failed to submit contact form. Please try again."
+        error: "Failed to submit contact form. Please try again.",
       });
     }
   }
 );
 
 // Get all contacts (Admin only)
-app.get("/api/admin/contacts", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      status, 
-      search,
-      sortBy = 'submitted_at',
-      sortOrder = 'DESC'
-    } = req.query;
+app.get(
+  "/api/admin/contacts",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const {
+        page = 1,
+        limit = 10,
+        status,
+        search,
+        sortBy = "submitted_at",
+        sortOrder = "DESC",
+      } = req.query;
 
-    const offset = (page - 1) * limit;
+      const offset = (page - 1) * limit;
 
-    let query = `
+      let query = `
       SELECT * FROM contacts
       WHERE 1=1
     `;
-    
-    const queryParams = [];
-    let paramCount = 1;
 
-    if (status) {
-      query += ` AND status = $${paramCount}`;
-      queryParams.push(status);
-      paramCount++;
-    }
+      const queryParams = [];
+      let paramCount = 1;
 
-    if (search) {
-      query += ` AND (
+      if (status) {
+        query += ` AND status = $${paramCount}`;
+        queryParams.push(status);
+        paramCount++;
+      }
+
+      if (search) {
+        query += ` AND (
         name ILIKE $${paramCount} OR 
         email ILIKE $${paramCount} OR 
         subject ILIKE $${paramCount} OR
         message ILIKE $${paramCount}
       )`;
-      queryParams.push(`%${search}%`);
-      paramCount++;
-    }
-
-    // Count total records
-    const countQuery = query.replace('SELECT *', 'SELECT COUNT(*) as total');
-    const countResult = await pool.query(countQuery, queryParams);
-    const total = parseInt(countResult.rows[0].total);
-
-    // Add sorting and pagination
-    query += ` ORDER BY ${sortBy} ${sortOrder}`;
-    query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
-    queryParams.push(limit, offset);
-
-    const result = await pool.query(query, queryParams);
-
-    res.json({
-      contacts: result.rows,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        totalPages: Math.ceil(total / limit)
+        queryParams.push(`%${search}%`);
+        paramCount++;
       }
-    });
-  } catch (error) {
-    console.error("Error fetching contacts:", error);
-    res.status(500).json({ error: "Failed to fetch contacts" });
+
+      // Count total records
+      const countQuery = query.replace("SELECT *", "SELECT COUNT(*) as total");
+      const countResult = await pool.query(countQuery, queryParams);
+      const total = parseInt(countResult.rows[0].total);
+
+      // Add sorting and pagination
+      query += ` ORDER BY ${sortBy} ${sortOrder}`;
+      query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+      queryParams.push(limit, offset);
+
+      const result = await pool.query(query, queryParams);
+
+      res.json({
+        contacts: result.rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total,
+          totalPages: Math.ceil(total / limit),
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      res.status(500).json({ error: "Failed to fetch contacts" });
+    }
   }
-});
+);
 
 // Get single contact (Admin only)
-app.get("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    const result = await pool.query(
-      "SELECT * FROM contacts WHERE id = $1",
-      [id]
-    );
+app.get(
+  "/api/admin/contacts/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Contact not found" });
+      const result = await pool.query("SELECT * FROM contacts WHERE id = $1", [
+        id,
+      ]);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      // Mark as read when fetching
+      if (result.rows[0].status === "unread") {
+        await pool.query("UPDATE contacts SET status = 'read' WHERE id = $1", [
+          id,
+        ]);
+        result.rows[0].status = "read";
+      }
+
+      res.json(result.rows[0]);
+    } catch (error) {
+      console.error("Error fetching contact:", error);
+      res.status(500).json({ error: "Failed to fetch contact" });
     }
-
-    // Mark as read when fetching
-    if (result.rows[0].status === 'unread') {
-      await pool.query(
-        "UPDATE contacts SET status = 'read' WHERE id = $1",
-        [id]
-      );
-      result.rows[0].status = 'read';
-    }
-
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("Error fetching contact:", error);
-    res.status(500).json({ error: "Failed to fetch contact" });
   }
-});
+);
 
 // Update contact status/response (Admin only)
-app.put("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status, notes, response } = req.body;
+app.put(
+  "/api/admin/contacts/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status, notes, response } = req.body;
 
-    const updateQuery = `
+      const updateQuery = `
       UPDATE contacts 
       SET status = COALESCE($1, status),
           admin_notes = COALESCE($2, admin_notes),
@@ -4135,52 +4579,62 @@ app.put("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req
       RETURNING *;
     `;
 
-    const result = await pool.query(updateQuery, [
-      status || null,
-      notes || null,
-      response || null,
-      id
-    ]);
+      const result = await pool.query(updateQuery, [
+        status || null,
+        notes || null,
+        response || null,
+        id,
+      ]);
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Contact not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      res.json({
+        message: "Contact updated successfully",
+        contact: result.rows[0],
+      });
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      res.status(500).json({ error: "Failed to update contact" });
     }
-
-    res.json({
-      message: "Contact updated successfully",
-      contact: result.rows[0]
-    });
-  } catch (error) {
-    console.error("Error updating contact:", error);
-    res.status(500).json({ error: "Failed to update contact" });
   }
-});
+);
 
 // Delete contact (Admin only)
-app.delete("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const { id } = req.params;
+app.delete(
+  "/api/admin/contacts/:id",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
 
-    const result = await pool.query(
-      "DELETE FROM contacts WHERE id = $1 RETURNING *",
-      [id]
-    );
+      const result = await pool.query(
+        "DELETE FROM contacts WHERE id = $1 RETURNING *",
+        [id]
+      );
 
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: "Contact not found" });
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Contact not found" });
+      }
+
+      res.json({ message: "Contact deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+      res.status(500).json({ error: "Failed to delete contact" });
     }
-
-    res.json({ message: "Contact deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting contact:", error);
-    res.status(500).json({ error: "Failed to delete contact" });
   }
-});
+);
 
 // Get contact statistics (Admin only)
-app.get("/api/admin/contacts/stats", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const stats = await pool.query(`
+app.get(
+  "/api/admin/contacts/stats",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const stats = await pool.query(`
       SELECT 
         COUNT(*) as total,
         COUNT(CASE WHEN status = 'unread' THEN 1 END) as unread,
@@ -4193,7 +4647,7 @@ app.get("/api/admin/contacts/stats", authenticateToken, authorizeAdmin, async (r
       FROM contacts;
     `);
 
-    const dailyStats = await pool.query(`
+      const dailyStats = await pool.query(`
       SELECT 
         DATE(submitted_at) as date,
         COUNT(*) as count
@@ -4203,20 +4657,25 @@ app.get("/api/admin/contacts/stats", authenticateToken, authorizeAdmin, async (r
       ORDER BY date DESC;
     `);
 
-    res.json({
-      overall: stats.rows[0],
-      daily: dailyStats.rows
-    });
-  } catch (error) {
-    console.error("Error fetching contact stats:", error);
-    res.status(500).json({ error: "Failed to fetch statistics" });
+      res.json({
+        overall: stats.rows[0],
+        daily: dailyStats.rows,
+      });
+    } catch (error) {
+      console.error("Error fetching contact stats:", error);
+      res.status(500).json({ error: "Failed to fetch statistics" });
+    }
   }
-});
+);
 
 // Export contacts to CSV (Admin only)
-app.get("/api/admin/contacts/export", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(`
+app.get(
+  "/api/admin/contacts/export",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
       SELECT 
         id,
         name,
@@ -4231,42 +4690,64 @@ app.get("/api/admin/contacts/export", authenticateToken, authorizeAdmin, async (
       ORDER BY submitted_at DESC
     `);
 
-    // Convert to CSV
-    const csvRows = [];
-    
-    // Add headers
-    csvRows.push(['ID', 'Name', 'Email', 'Subject', 'Message', 'Status', 'Submitted At', 'Responded At', 'Notes'].join(','));
-    
-    // Add data rows
-    result.rows.forEach(row => {
-      csvRows.push([
-        row.id,
-        `"${row.name.replace(/"/g, '""')}"`,
-        row.email,
-        `"${row.subject.replace(/"/g, '""')}"`,
-        `"${row.message.replace(/"/g, '""')}"`,
-        row.status,
-        new Date(row.submitted_at).toISOString(),
-        row.responded_at ? new Date(row.responded_at).toISOString() : '',
-        row.admin_notes ? `"${row.admin_notes.replace(/"/g, '""')}"` : ''
-      ].join(','));
-    });
+      // Convert to CSV
+      const csvRows = [];
 
-    const csv = csvRows.join('\n');
-    
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename=contacts_export.csv');
-    res.send(csv);
-  } catch (error) {
-    console.error("Error exporting contacts:", error);
-    res.status(500).json({ error: "Failed to export contacts" });
+      // Add headers
+      csvRows.push(
+        [
+          "ID",
+          "Name",
+          "Email",
+          "Subject",
+          "Message",
+          "Status",
+          "Submitted At",
+          "Responded At",
+          "Notes",
+        ].join(",")
+      );
+
+      // Add data rows
+      result.rows.forEach((row) => {
+        csvRows.push(
+          [
+            row.id,
+            `"${row.name.replace(/"/g, '""')}"`,
+            row.email,
+            `"${row.subject.replace(/"/g, '""')}"`,
+            `"${row.message.replace(/"/g, '""')}"`,
+            row.status,
+            new Date(row.submitted_at).toISOString(),
+            row.responded_at ? new Date(row.responded_at).toISOString() : "",
+            row.admin_notes ? `"${row.admin_notes.replace(/"/g, '""')}"` : "",
+          ].join(",")
+        );
+      });
+
+      const csv = csvRows.join("\n");
+
+      res.setHeader("Content-Type", "text/csv");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=contacts_export.csv"
+      );
+      res.send(csv);
+    } catch (error) {
+      console.error("Error exporting contacts:", error);
+      res.status(500).json({ error: "Failed to export contacts" });
+    }
   }
-});
+);
 
 // Export enrollments to CSV (Admin only)
-app.get("/api/admin/enrollments/export", authenticateToken, authorizeAdmin, async (req, res) => {
-  try {
-    const result = await pool.query(`
+app.get(
+  "/api/admin/enrollments/export",
+  authenticateToken,
+  authorizeAdmin,
+  async (req, res) => {
+    try {
+      const result = await pool.query(`
       SELECT 
         id,
         first_name,
@@ -4286,45 +4767,70 @@ app.get("/api/admin/enrollments/export", authenticateToken, authorizeAdmin, asyn
       ORDER BY submitted_at DESC
     `);
 
-    // Convert to CSV
-    const csvRows = [];
-    
-    // Add headers
-    csvRows.push(['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Course', 'Education Level', 'Experience Level', 'Motivation', 'Schedule Preference', 'Status', 'Submitted At', 'Agreed to Terms', 'Subscribed to Newsletter'].join(','));
-    
-    // Add data rows
-    result.rows.forEach(row => {
-      csvRows.push([
-        row.id,
-        `"${row.first_name.replace(/"/g, '""')}"`,
-        `"${row.last_name.replace(/"/g, '""')}"`,
-        row.email,
-        row.phone || '',
-        `"${row.course.replace(/"/g, '""')}"`,
-        row.education_level ? `"${row.education_level.replace(/"/g, '""')}"` : '',
-        row.experience_level ? `"${row.experience_level.replace(/"/g, '""')}"` : '',
-        row.motivation ? `"${row.motivation.replace(/"/g, '""')}"` : '',
-        row.schedule_preference || '',
-        row.status,
-        new Date(row.submitted_at).toISOString(),
-        row.agreed_to_terms ? 'Yes' : 'No',
-        row.subscribe_to_newsletter ? 'Yes' : 'No'
-      ].join(','));
-    });
+      // Convert to CSV
+      const csvRows = [];
 
-    const csv = csvRows.join('\n');
-    
-    res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', 'attachment; filename=enrollments_export.csv');
-    res.send(csv);
-  } catch (error) {
-    console.error("Error exporting enrollments:", error);
-    res.status(500).json({ error: "Failed to export enrollments" });
+      // Add headers
+      csvRows.push(
+        [
+          "ID",
+          "First Name",
+          "Last Name",
+          "Email",
+          "Phone",
+          "Course",
+          "Education Level",
+          "Experience Level",
+          "Motivation",
+          "Schedule Preference",
+          "Status",
+          "Submitted At",
+          "Agreed to Terms",
+          "Subscribed to Newsletter",
+        ].join(",")
+      );
+
+      // Add data rows
+      result.rows.forEach((row) => {
+        csvRows.push(
+          [
+            row.id,
+            `"${row.first_name.replace(/"/g, '""')}"`,
+            `"${row.last_name.replace(/"/g, '""')}"`,
+            row.email,
+            row.phone || "",
+            `"${row.course.replace(/"/g, '""')}"`,
+            row.education_level
+              ? `"${row.education_level.replace(/"/g, '""')}"`
+              : "",
+            row.experience_level
+              ? `"${row.experience_level.replace(/"/g, '""')}"`
+              : "",
+            row.motivation ? `"${row.motivation.replace(/"/g, '""')}"` : "",
+            row.schedule_preference || "",
+            row.status,
+            new Date(row.submitted_at).toISOString(),
+            row.agreed_to_terms ? "Yes" : "No",
+            row.subscribe_to_newsletter ? "Yes" : "No",
+          ].join(",")
+        );
+      });
+
+      const csv = csvRows.join("\n");
+
+      res.setHeader("Content-Type", "text/csv");
+      res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=enrollments_export.csv"
+      );
+      res.send(csv);
+    } catch (error) {
+      console.error("Error exporting enrollments:", error);
+      res.status(500).json({ error: "Failed to export enrollments" });
+    }
   }
-});
-
-
+);
 
 module.exports = app;
 
-initializeDbAndServer()
+initializeDbAndServer();

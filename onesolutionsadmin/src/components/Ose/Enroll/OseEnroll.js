@@ -182,6 +182,15 @@ const OseEnroll = () => {
   const fetchStats = async () => {
     try {
       setStatsLoading(true);
+
+      // Check if token exists
+      const token = getToken();
+      if (!token) {
+        console.warn("No token found, skipping stats fetch");
+        setStatsLoading(false);
+        return;
+      }
+
       const response = await axios.get(
         "https://ose.onesolutionsekam.in/api/admin/enrollments/stats",
         {
@@ -191,32 +200,49 @@ const OseEnroll = () => {
           timeout: 5000,
         }
       );
-      setStats(response.data);
+
+      if (response.data) {
+        setStats(response.data);
+      } else {
+        console.warn("Stats response empty");
+        setStats({
+          overall: {
+            total: 0,
+            pending: 0,
+            contacted: 0,
+            enrolled: 0,
+            today: 0,
+            this_week: 0,
+          },
+          byCourse: [],
+          monthly: [],
+        });
+      }
     } catch (error) {
       console.error("Error fetching stats:", error);
 
-      if (error.response) {
-        if (error.response.status === 401 || error.response.status === 403) {
-          // Don't show error for stats, just log it
-          console.warn("Unauthorized access to stats");
-        } else if (error.response.status === 500) {
-          console.warn(
-            "Stats endpoint returned 500. Server may be experiencing issues."
-          );
-          setStats({
-            overall: {
-              total: 0,
-              pending: 0,
-              contacted: 0,
-              enrolled: 0,
-              today: 0,
-              this_week: 0,
-            },
-            byCourse: [],
-            monthly: [],
-          });
-        }
+      // Don't show error toast for stats - it's not critical
+      if (error.response?.status === 403) {
+        console.warn("Access denied to stats endpoint");
+      } else if (error.response?.status === 404) {
+        console.warn("Stats endpoint not found");
+      } else if (error.response?.status === 500) {
+        console.warn("Server error fetching stats");
       }
+
+      // Set default stats
+      setStats({
+        overall: {
+          total: 0,
+          pending: 0,
+          contacted: 0,
+          enrolled: 0,
+          today: 0,
+          this_week: 0,
+        },
+        byCourse: [],
+        monthly: [],
+      });
     } finally {
       setStatsLoading(false);
     }
