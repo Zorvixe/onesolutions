@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { format } from "date-fns";
+import "./enroll.css";
 
 const OseEnroll = () => {
   const [enrollments, setEnrollments] = useState([]);
@@ -25,13 +26,12 @@ const OseEnroll = () => {
     status: "",
     notes: "",
   });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // Get token with fallback
   const getToken = () => {
     return localStorage.getItem("token") || sessionStorage.getItem("token");
   };
 
-  // Clear tokens and redirect to login
   const handleLogout = () => {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
@@ -40,7 +40,6 @@ const OseEnroll = () => {
     window.location.href = "/login";
   };
 
-  // Refresh token function
   const refreshToken = async () => {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
@@ -64,9 +63,7 @@ const OseEnroll = () => {
     return null;
   };
 
-  // Axios interceptor for handling token refresh
   useEffect(() => {
-    // Request interceptor to add token
     const requestInterceptor = axios.interceptors.request.use(
       (config) => {
         const token = getToken();
@@ -80,20 +77,17 @@ const OseEnroll = () => {
       }
     );
 
-    // Response interceptor to handle 403 errors
     const responseInterceptor = axios.interceptors.response.use(
       (response) => response,
       async (error) => {
         const originalRequest = error.config;
 
-        // If error is 403 and we haven't tried to refresh yet
         if (error.response?.status === 403 && !originalRequest._retry) {
           originalRequest._retry = true;
 
           try {
             const newToken = await refreshToken();
             if (newToken) {
-              // Retry the original request with new token
               originalRequest.headers.Authorization = `Bearer ${newToken}`;
               return axios(originalRequest);
             }
@@ -103,7 +97,6 @@ const OseEnroll = () => {
           }
         }
 
-        // For other errors
         if (error.response?.status === 401 || error.response?.status === 403) {
           handleLogout();
         }
@@ -127,7 +120,6 @@ const OseEnroll = () => {
     try {
       setLoading(true);
 
-      // Check if token exists
       const token = getToken();
       if (!token) {
         toast.error("Please login to access enrollments");
@@ -135,7 +127,6 @@ const OseEnroll = () => {
         return;
       }
 
-      // Remove empty filter values
       const cleanFilters = Object.fromEntries(
         Object.entries(filters).filter(([_, value]) => value !== "")
       );
@@ -183,7 +174,6 @@ const OseEnroll = () => {
     try {
       setStatsLoading(true);
 
-      // Check if token exists
       const token = getToken();
       if (!token) {
         console.warn("No token found, skipping stats fetch");
@@ -221,7 +211,6 @@ const OseEnroll = () => {
     } catch (error) {
       console.error("Error fetching stats:", error);
 
-      // Don't show error toast for stats - it's not critical
       if (error.response?.status === 403) {
         console.warn("Access denied to stats endpoint");
       } else if (error.response?.status === 404) {
@@ -230,7 +219,6 @@ const OseEnroll = () => {
         console.warn("Server error fetching stats");
       }
 
-      // Set default stats
       setStats({
         overall: {
           total: 0,
@@ -308,22 +296,22 @@ const OseEnroll = () => {
 
   const getStatusBadge = (status) => {
     const badges = {
-      pending: "bg-warning",
-      contacted: "bg-info",
-      enrolled: "bg-success",
-      rejected: "bg-danger",
-      followup: "bg-primary",
+      pending: "badge-pendingenroll",
+      contacted: "badge-contactedenroll",
+      enrolled: "badge-enrolledenroll",
+      rejected: "badge-rejectedenroll",
+      followup: "badge-followupenroll",
     };
-    return badges[status] || "bg-secondary";
+    return badges[status] || "badge-defaultenroll";
   };
 
   const getCourseColor = (course) => {
     const colors = {
-      "web-development": "primary",
-      "digital-marketing": "success",
-      "data-analyst": "info",
+      "web-development": "course-webenroll",
+      "digital-marketing": "course-marketingenroll",
+      "data-analyst": "course-dataenroll",
     };
-    return colors[course] || "secondary";
+    return colors[course] || "course-defaultenroll";
   };
 
   const handleDelete = async (id) => {
@@ -349,342 +337,480 @@ const OseEnroll = () => {
     }
   };
 
+  const resetFilters = () => {
+    setFilters({
+      page: 1,
+      limit: 10,
+      status: "",
+      course: "",
+      search: "",
+      sortBy: "submitted_at",
+      sortOrder: "DESC",
+    });
+  };
+
   return (
-    <div className="container-fluid py-4">
-      <div className="row">
-        <div className="col-12">
-          <div className="card mb-4">
-            <div className="card-header pb-0">
-              <div className="d-flex justify-content-between align-items-center">
-                <h5>Enrollment Management</h5>
-                <div>
-                  <button
-                    className="btn btn-sm btn-outline-secondary me-2"
-                    onClick={handleLogout}
-                    title="Logout"
-                  >
-                    <i className="bi bi-box-arrow-right me-1"></i> Logout
-                  </button>
-                  <button
-                    className="btn btn-sm btn-primary me-2"
-                    onClick={handleExport}
-                    disabled={loading}
-                  >
-                    <i className="bi bi-download me-1"></i> Export CSV
-                  </button>
-                  <button
-                    className="btn btn-sm btn-success"
-                    onClick={() => {
-                      fetchEnrollments();
-                      fetchStats();
-                    }}
-                    disabled={loading}
-                  >
-                    <i className="bi bi-arrow-clockwise me-1"></i> Refresh
-                  </button>
+    <div className="dashboard-enroll">
+      {/* Sidebar */}
+      <div className={`sidebar-enroll ${sidebarOpen ? "activeenroll" : ""}`}>
+        <div className="sidebar-headerenroll">
+          <h3>Filters</h3>
+          <button
+            className="close-sidebarenroll"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <i className="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div className="sidebar-contentenroll">
+          <div className="filter-groupenroll">
+            <label className="filter-labelenroll">Search</label>
+            <div className="input-groupenroll">
+              <span className="input-iconenroll">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-search"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+              </span>
+              <input
+                type="text"
+                className="form-controlenroll"
+                placeholder="Name, email, phone..."
+                value={filters.search}
+                onChange={(e) => handleFilterChange("search", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="filter-groupenroll">
+            <label className="filter-labelenroll">Status</label>
+            <select
+              className="form-selectenroll"
+              value={filters.status}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+            >
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="contacted">Contacted</option>
+              <option value="enrolled">Enrolled</option>
+              <option value="rejected">Rejected</option>
+              <option value="followup">Follow-up</option>
+            </select>
+          </div>
+
+          <div className="filter-groupenroll">
+            <label className="filter-labelenroll">Course</label>
+            <select
+              className="form-selectenroll"
+              value={filters.course}
+              onChange={(e) => handleFilterChange("course", e.target.value)}
+            >
+              <option value="">All Courses</option>
+              <option value="web-development">Web Development</option>
+              <option value="digital-marketing">Digital Marketing</option>
+              <option value="data-analyst">Data Analyst</option>
+            </select>
+          </div>
+
+          <div className="filter-groupenroll">
+            <label className="filter-labelenroll">Sort By</label>
+            <select
+              className="form-selectenroll"
+              value={filters.sortBy}
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <option value="submitted_at">Submission Date</option>
+              <option value="first_name">First Name</option>
+              <option value="email">Email</option>
+              <option value="course">Course</option>
+              <option value="status">Status</option>
+            </select>
+          </div>
+
+          <div className="filter-groupenroll">
+            <label className="filter-labelenroll">Sort Order</label>
+            <select
+              className="form-selectenroll"
+              value={filters.sortOrder}
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <option value="DESC">Newest First</option>
+              <option value="ASC">Oldest First</option>
+            </select>
+          </div>
+
+          <div className="filter-groupenroll">
+            <label className="filter-labelenroll">Items per page</label>
+            <select
+              className="form-selectenroll"
+              value={filters.limit}
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
+            >
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+
+          <div className="filter-button-groupenroll">
+            <button className="btn-resetenroll" onClick={resetFilters}>
+              <i className="bi bi-arrow-clockwise"></i> Reset Filters
+            </button>
+            <button
+              className="btn-applyenroll"
+              onClick={() => setSidebarOpen(false)}
+            >
+              Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay for mobile sidebar */}
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlayenroll"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+
+      {/* Main Content */}
+      <div className="main-contentenroll">
+        {/* Header */}
+        <header className="header-enroll">
+          <div className="header-leftenroll">
+            <button
+              className="sidebar-toggleenroll"
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+            >
+              <i className="bi bi-list"></i>
+            </button>
+            <h1 className="page-titleenroll">Enrollment Management</h1>
+          </div>
+
+          <div className="header-actionenroll">
+            <div className="user-infoenroll">
+              <div className="user-avatarenroll">
+                <i className="bi bi-person-circle"></i>
+              </div>
+              <span className="user-nameenroll">Admin</span>
+            </div>
+
+            <div className="action-button-groupenroll">
+              <button
+                className="btn-actionenroll btn-exportenroll"
+                onClick={handleExport}
+                disabled={loading}
+                title="Export CSV"
+              >
+                <i className="bi bi-download"></i>
+              </button>
+              <button
+                className="btn-actionenroll btn-refreshenroll"
+                onClick={() => {
+                  fetchEnrollments();
+                  fetchStats();
+                }}
+                disabled={loading}
+                title="Refresh"
+              >
+                <i className="bi bi-arrow-clockwise"></i>
+              </button>
+              <button
+                className="btn-actionenroll btn-logoutenroll"
+                onClick={handleLogout}
+                title="Logout"
+              >
+                <i className="bi bi-box-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Stats Cards */}
+        <div className="stats-sectionenroll">
+          <h2 className="section-titleenroll">Overview</h2>
+
+          {statsLoading ? (
+            <div className="stats-loadingenroll">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="stat-card-skeletonenroll">
+                  <div className="skeleton-statvalenroll"></div>
+                  <div className="skeleton-statlabelenroll"></div>
+                </div>
+              ))}
+            </div>
+          ) : stats ? (
+            <div className="stats-gridenroll">
+              <div className="stat-cardenroll stat-totalenroll">
+                <div className="stat-iconenroll">
+                  <i className="bi bi-people-fill"></i>
+                </div>
+                <div className="stat-contentenroll">
+                  <h3 className="stat-valueenroll">
+                    {stats.overall?.total || 0}
+                  </h3>
+                  <p className="stat-labelenroll">Total Enrollments</p>
+                </div>
+              </div>
+
+              <div className="stat-cardenroll stat-pendingenroll">
+                <div className="stat-iconenroll">
+                  <i className="bi bi-clock-history"></i>
+                </div>
+                <div className="stat-contentenroll">
+                  <h3 className="stat-valueenroll">
+                    {stats.overall?.pending || 0}
+                  </h3>
+                  <p className="stat-labelenroll">Pending</p>
+                </div>
+              </div>
+
+              <div className="stat-cardenroll stat-contactedenroll">
+                <div className="stat-iconenroll">
+                  <i className="bi bi-telephone-outbound-fill"></i>
+                </div>
+                <div className="stat-contentenroll">
+                  <h3 className="stat-valueenroll">
+                    {stats.overall?.contacted || 0}
+                  </h3>
+                  <p className="stat-labelenroll">Contacted</p>
+                </div>
+              </div>
+
+              <div className="stat-cardenroll stat-enrolledenroll">
+                <div className="stat-iconenroll">
+                  <i className="bi bi-check-circle-fill"></i>
+                </div>
+                <div className="stat-contentenroll">
+                  <h3 className="stat-valueenroll">
+                    {stats.overall?.enrolled || 0}
+                  </h3>
+                  <p className="stat-labelenroll">Enrolled</p>
+                </div>
+              </div>
+
+              <div className="stat-cardenroll stat-todayenroll">
+                <div className="stat-iconenroll">
+                  <i className="bi bi-calendar-day-fill"></i>
+                </div>
+                <div className="stat-contentenroll">
+                  <h3 className="stat-valueenroll">
+                    {stats.overall?.today || 0}
+                  </h3>
+                  <p className="stat-labelenroll">Today</p>
+                </div>
+              </div>
+
+              <div className="stat-cardenroll stat-weekenroll">
+                <div className="stat-iconenroll">
+                  <i className="bi bi-calendar-week-fill"></i>
+                </div>
+                <div className="stat-contentenroll">
+                  <h3 className="stat-valueenroll">
+                    {stats.overall?.this_week || 0}
+                  </h3>
+                  <p className="stat-labelenroll">This Week</p>
                 </div>
               </div>
             </div>
+          ) : (
+            <div className="stats-error-enroll">
+              <i className="bi bi-exclamation-triangle"></i>
+              <p>Unable to load statistics</p>
+              <button className="btn-retryenroll" onClick={fetchStats}>
+                Retry
+              </button>
+            </div>
+          )}
+        </div>
 
-            {/* Stats Section */}
-            <div className="card-body pt-0">
-              {statsLoading ? (
-                <div className="row g-3 mb-4">
-                  {[...Array(6)].map((_, i) => (
-                    <div key={i} className="col-6 col-md-2">
-                      <div className="card border-0 bg-gradient-secondary shadow">
-                        <div className="card-body p-3">
-                          <div className="text-white text-center">
-                            <div
-                              className="spinner-border spinner-border-sm"
-                              role="status"
-                            >
-                              <span className="visually-hidden">
-                                Loading...
-                              </span>
-                            </div>
-                            <small className="d-block mt-2">Loading...</small>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+        {/* Quick Filters Bar */}
+        <div className="quick-filtersenroll">
+          <div className="quick-filter-groupenroll">
+            <span
+              className="filter-tagenroll activeenroll"
+              onClick={() => handleFilterChange("status", "")}
+            >
+              All
+            </span>
+            <span
+              className="filter-tagenroll filter-pendingenroll"
+              onClick={() => handleFilterChange("status", "pending")}
+            >
+              Pending
+            </span>
+            <span
+              className="filter-tagenroll filter-contactedenroll"
+              onClick={() => handleFilterChange("status", "contacted")}
+            >
+              Contacted
+            </span>
+            <span
+              className="filter-tagenroll filter-enrolledenroll"
+              onClick={() => handleFilterChange("status", "enrolled")}
+            >
+              Enrolled
+            </span>
+            <span
+              className="filter-tagenroll filter-followupenroll"
+              onClick={() => handleFilterChange("status", "followup")}
+            >
+              Follow-up
+            </span>
+          </div>
+
+          <div className="results-infoenroll">
+            <span className="results-countenroll">
+              Showing {enrollments.length} of {pagination.total || 0}{" "}
+              enrollments
+            </span>
+          </div>
+        </div>
+
+        {/* Enrollments Table */}
+        <div className="table-containerenroll">
+          <div className="table-headerenroll">
+            <h2 className="table-titleenroll">Enrollments</h2>
+            <div className="table-actionenroll">
+              <button
+                className="btn-mobile-filterenroll"
+                onClick={() => setSidebarOpen(true)}
+              >
+                <i className="bi bi-funnel-fill"></i> Filters
+              </button>
+            </div>
+          </div>
+
+          {loading ? (
+            <div className="table-loadingenroll">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="row-skeletonenroll">
+                  <div className="skeleton-cellenroll"></div>
+                  <div className="skeleton-cellenroll"></div>
+                  <div className="skeleton-cellenroll"></div>
+                  <div className="skeleton-cellenroll"></div>
+                  <div className="skeleton-cellenroll"></div>
                 </div>
-              ) : stats ? (
-                <div className="row g-3 mb-4">
-                  <div className="col-6 col-md-2">
-                    <div className="card border-0 bg-gradient-primary shadow">
-                      <div className="card-body p-3">
-                        <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall?.total || 0}</h5>
-                          <small>Total</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-2">
-                    <div className="card border-0 bg-gradient-warning shadow">
-                      <div className="card-body p-3">
-                        <div className="text-white text-center">
-                          <h5 className="mb-0">
-                            {stats.overall?.pending || 0}
-                          </h5>
-                          <small>Pending</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-2">
-                    <div className="card border-0 bg-gradient-info shadow">
-                      <div className="card-body p-3">
-                        <div className="text-white text-center">
-                          <h5 className="mb-0">
-                            {stats.overall?.contacted || 0}
-                          </h5>
-                          <small>Contacted</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-2">
-                    <div className="card border-0 bg-gradient-success shadow">
-                      <div className="card-body p-3">
-                        <div className="text-white text-center">
-                          <h5 className="mb-0">
-                            {stats.overall?.enrolled || 0}
-                          </h5>
-                          <small>Enrolled</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-2">
-                    <div className="card border-0 bg-gradient-danger shadow">
-                      <div className="card-body p-3">
-                        <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall?.today || 0}</h5>
-                          <small>Today</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-2">
-                    <div className="card border-0 bg-gradient-secondary shadow">
-                      <div className="card-body p-3">
-                        <div className="text-white text-center">
-                          <h5 className="mb-0">
-                            {stats.overall?.this_week || 0}
-                          </h5>
-                          <small>This Week</small>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="alert alert-warning mb-4">
-                  <i className="bi bi-exclamation-triangle me-2"></i>
-                  Unable to load statistics.
-                  <button
-                    className="btn btn-sm btn-outline-warning ms-2"
-                    onClick={fetchStats}
-                  >
-                    Retry
-                  </button>
-                </div>
+              ))}
+            </div>
+          ) : enrollments.length === 0 ? (
+            <div className="empty-stateenroll">
+              <div className="empty-iconenroll">
+                <i className="bi bi-inboxes-fill"></i>
+              </div>
+              <h3 className="empty-titleenroll">No enrollments found</h3>
+              <p className="empty-messageenroll">
+                {filters.search || filters.status || filters.course
+                  ? "Try adjusting your filters"
+                  : "No enrollments have been submitted yet"}
+              </p>
+              {(filters.search || filters.status || filters.course) && (
+                <button
+                  className="btn-clear-filterenroll"
+                  onClick={resetFilters}
+                >
+                  Clear Filters
+                </button>
               )}
             </div>
-          </div>
-
-          {/* Filters */}
-          <div className="card mb-4">
-            <div className="card-body">
-              <div className="row g-3">
-                <div className="col-md-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Search by name, email, phone..."
-                    value={filters.search}
-                    onChange={(e) =>
-                      handleFilterChange("search", e.target.value)
-                    }
-                  />
-                </div>
-                <div className="col-md-2">
-                  <select
-                    className="form-select"
-                    value={filters.status}
-                    onChange={(e) =>
-                      handleFilterChange("status", e.target.value)
-                    }
-                  >
-                    <option value="">All Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="contacted">Contacted</option>
-                    <option value="enrolled">Enrolled</option>
-                    <option value="rejected">Rejected</option>
-                    <option value="followup">Follow-up</option>
-                  </select>
-                </div>
-                <div className="col-md-2">
-                  <select
-                    className="form-select"
-                    value={filters.course}
-                    onChange={(e) =>
-                      handleFilterChange("course", e.target.value)
-                    }
-                  >
-                    <option value="">All Courses</option>
-                    <option value="web-development">Web Development</option>
-                    <option value="digital-marketing">Digital Marketing</option>
-                    <option value="data-analyst">Data Analyst</option>
-                  </select>
-                </div>
-                <div className="col-md-2">
-                  <select
-                    className="form-select"
-                    value={filters.sortBy}
-                    onChange={(e) =>
-                      handleFilterChange("sortBy", e.target.value)
-                    }
-                  >
-                    <option value="submitted_at">Submission Date</option>
-                    <option value="first_name">First Name</option>
-                    <option value="email">Email</option>
-                    <option value="course">Course</option>
-                    <option value="status">Status</option>
-                  </select>
-                </div>
-                <div className="col-md-2">
-                  <select
-                    className="form-select"
-                    value={filters.sortOrder}
-                    onChange={(e) =>
-                      handleFilterChange("sortOrder", e.target.value)
-                    }
-                  >
-                    <option value="DESC">Newest First</option>
-                    <option value="ASC">Oldest First</option>
-                  </select>
-                </div>
-                <div className="col-md-1">
-                  <select
-                    className="form-select"
-                    value={filters.limit}
-                    onChange={(e) =>
-                      handleFilterChange("limit", e.target.value)
-                    }
-                  >
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Enrollments Table */}
-          <div className="card">
-            <div className="card-body p-0">
-              {loading ? (
-                <div className="text-center py-5">
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
-              ) : enrollments.length === 0 ? (
-                <div className="text-center py-5">
-                  <i className="bi bi-inbox display-4 text-muted"></i>
-                  <p className="mt-3">No enrollments found</p>
-                </div>
-              ) : (
-                <div className="table-responsive">
-                  <table className="table table-hover align-items-center mb-0">
-                    <thead>
-                      <tr>
-                        <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Enrollment
-                        </th>
-                        <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                          Course
-                        </th>
-                        <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Contact
-                        </th>
-                        <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Status
-                        </th>
-                        <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Submitted
-                        </th>
-                        <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {enrollments.map((enrollment) => (
-                        <tr key={enrollment.id}>
-                          <td>
-                            <div className="d-flex px-2 py-1">
-                              <div>
-                                <i className="bi bi-person-circle me-2"></i>
-                              </div>
-                              <div className="d-flex flex-column justify-content-center">
-                                <h6 className="mb-0 text-sm">
-                                  {enrollment.full_name}
-                                </h6>
-                                <p className="text-xs text-secondary mb-0">
-                                  {enrollment.education_level ||
-                                    "Not specified"}
-                                </p>
-                              </div>
+          ) : (
+            <>
+              <div className="table-responsiveenroll">
+                <table className="table-enroll">
+                  <thead>
+                    <tr>
+                      <th className="th-nameenroll">Student</th>
+                      <th className="th-courseenroll">Course</th>
+                      <th className="th-contactenroll">Contact</th>
+                      <th className="th-statusenroll">Status</th>
+                      <th className="th-dateenroll">Submitted</th>
+                      <th className="th-actionenroll">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {enrollments.map((enrollment) => (
+                      <tr key={enrollment.id} className="table-rowenroll">
+                        <td className="td-studentenroll">
+                          <div className="student-infoenroll">
+                            <div className="student-avatarenroll">
+                              <i className="bi bi-person-fill"></i>
                             </div>
-                          </td>
-                          <td>
-                            <span
-                              className={`badge bg-${getCourseColor(
-                                enrollment.course
-                              )}`}
+                            <div>
+                              <h4 className="student-nameenroll">
+                                {enrollment.full_name}
+                              </h4>
+                              <p className="student-educationenroll">
+                                {enrollment.education_level ||
+                                  "Education not specified"}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="td-courseenroll">
+                          <span
+                            className={`course-badgenroll ${getCourseColor(
+                              enrollment.course
+                            )}`}
+                          >
+                            {enrollment.course.replace("-", " ").toUpperCase()}
+                          </span>
+                        </td>
+                        <td className="td-contactenroll">
+                          <div className="contact-infoenroll">
+                            <a
+                              href={`mailto:${enrollment.email}`}
+                              className="contact-emailenroll"
                             >
-                              {enrollment.course
-                                .replace("-", " ")
-                                .toUpperCase()}
-                            </span>
-                          </td>
-                          <td>
-                            <p className="text-xs font-weight-bold mb-0">
+                              <i className="bi bi-envelope-fill"></i>{" "}
                               {enrollment.email}
-                            </p>
-                            <p className="text-xs text-secondary mb-0">
-                              {enrollment.phone || "No phone"}
-                            </p>
-                          </td>
-                          <td className="align-middle">
-                            <span
-                              className={`badge ${getStatusBadge(
-                                enrollment.status
-                              )}`}
-                            >
-                              {enrollment.status.toUpperCase()}
-                            </span>
-                          </td>
-                          <td className="align-middle">
-                            <span className="text-secondary text-xs font-weight-bold">
-                              {enrollment.formatted_date
-                                ? enrollment.formatted_date
-                                : format(
-                                    new Date(enrollment.submitted_at),
-                                    "dd MMM yyyy HH:mm"
-                                  )}
-                            </span>
-                          </td>
-                          <td className="align-middle">
+                            </a>
+                            {enrollment.phone && (
+                              <div className="contact-phonenroll">
+                                <i className="bi bi-telephone-fill"></i>{" "}
+                                {enrollment.phone}
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="td-statusenroll">
+                          <span
+                            className={`status-badgenroll ${getStatusBadge(
+                              enrollment.status
+                            )}`}
+                          >
+                            {enrollment.status.charAt(0).toUpperCase() +
+                              enrollment.status.slice(1)}
+                          </span>
+                        </td>
+                        <td className="td-dateenroll">
+                          <div className="date-infoenroll">
+                            <div className="date-daysenroll">
+                              {format(
+                                new Date(enrollment.submitted_at),
+                                "dd MMM"
+                              )}
+                            </div>
+                            <div className="date-timeenroll">
+                              {format(
+                                new Date(enrollment.submitted_at),
+                                "HH:mm"
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="td-actionenroll">
+                          <div className="action-button-groupenroll">
                             <button
-                              className="btn btn-sm btn-outline-info me-1"
+                              className="btn-actionenroll btn-viewenroll"
                               onClick={() => {
                                 setSelectedEnrollment(enrollment);
                                 setUpdateStatus({
@@ -695,10 +821,10 @@ const OseEnroll = () => {
                               }}
                               title="View Details"
                             >
-                              <i className="bi bi-eye"></i>
+                              <i className="bi bi-eye-fill"></i>
                             </button>
                             <button
-                              className="btn btn-sm btn-outline-success me-1"
+                              className="btn-actionenroll btn-contactenroll"
                               onClick={() => {
                                 setSelectedEnrollment(enrollment);
                                 setUpdateStatus({
@@ -709,72 +835,105 @@ const OseEnroll = () => {
                               }}
                               title="Mark as Contacted"
                             >
-                              <i className="bi bi-telephone"></i>
+                              <i className="bi bi-telephone-fill"></i>
                             </button>
                             <button
-                              className="btn btn-sm btn-outline-danger"
+                              className="btn-actionenroll btn-deleteenroll"
                               onClick={() => handleDelete(enrollment.id)}
                               title="Delete"
                             >
-                              <i className="bi bi-trash"></i>
+                              <i className="bi bi-trash-fill"></i>
                             </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination */}
+              {pagination.totalPages > 1 && (
+                <div className="pagination-enroll">
+                  <div className="pagination-infoenroll">
+                    Page {filters.page} of {pagination.totalPages}
+                  </div>
+                  <div className="pagination-controlsenroll">
+                    <button
+                      className="pagination-btnenroll"
+                      onClick={() =>
+                        handleFilterChange("page", filters.page - 1)
+                      }
+                      disabled={filters.page === 1}
+                    >
+                      <i className="bi bi-chevron-left"></i> Previous
+                    </button>
+
+                    <div className="pagination-numberenroll">
+                      {[...Array(Math.min(5, pagination.totalPages))].map(
+                        (_, i) => {
+                          let pageNum;
+                          if (pagination.totalPages <= 5) {
+                            pageNum = i + 1;
+                          } else if (filters.page <= 3) {
+                            pageNum = i + 1;
+                          } else if (
+                            filters.page >=
+                            pagination.totalPages - 2
+                          ) {
+                            pageNum = pagination.totalPages - 4 + i;
+                          } else {
+                            pageNum = filters.page - 2 + i;
+                          }
+
+                          return (
+                            <button
+                              key={pageNum}
+                              className={`pagination-number-btnenroll ${
+                                filters.page === pageNum ? "activeenroll" : ""
+                              }`}
+                              onClick={() =>
+                                handleFilterChange("page", pageNum)
+                              }
+                            >
+                              {pageNum}
+                            </button>
+                          );
+                        }
+                      )}
+
+                      {pagination.totalPages > 5 &&
+                        filters.page < pagination.totalPages - 2 && (
+                          <>
+                            <span className="pagination-dotsenroll">...</span>
+                            <button
+                              className="pagination-number-btnenroll"
+                              onClick={() =>
+                                handleFilterChange(
+                                  "page",
+                                  pagination.totalPages
+                                )
+                              }
+                            >
+                              {pagination.totalPages}
+                            </button>
+                          </>
+                        )}
+                    </div>
+
+                    <button
+                      className="pagination-btnenroll"
+                      onClick={() =>
+                        handleFilterChange("page", filters.page + 1)
+                      }
+                      disabled={filters.page === pagination.totalPages}
+                    >
+                      Next <i className="bi bi-chevron-right"></i>
+                    </button>
+                  </div>
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Pagination */}
-          {pagination.totalPages > 1 && (
-            <nav className="mt-4">
-              <ul className="pagination justify-content-center">
-                <li
-                  className={`page-item ${
-                    filters.page === 1 ? "disabled" : ""
-                  }`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => handleFilterChange("page", filters.page - 1)}
-                    disabled={filters.page === 1}
-                  >
-                    Previous
-                  </button>
-                </li>
-                {[...Array(pagination.totalPages)].map((_, i) => (
-                  <li
-                    key={i}
-                    className={`page-item ${
-                      filters.page === i + 1 ? "active" : ""
-                    }`}
-                  >
-                    <button
-                      className="page-link"
-                      onClick={() => handleFilterChange("page", i + 1)}
-                    >
-                      {i + 1}
-                    </button>
-                  </li>
-                ))}
-                <li
-                  className={`page-item ${
-                    filters.page === pagination.totalPages ? "disabled" : ""
-                  }`}
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => handleFilterChange("page", filters.page + 1)}
-                    disabled={filters.page === pagination.totalPages}
-                  >
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
+            </>
           )}
         </div>
       </div>
@@ -782,142 +941,191 @@ const OseEnroll = () => {
       {/* Details Modal */}
       {showDetails && selectedEnrollment && (
         <div
-          className="modal show d-block"
-          tabIndex="-1"
-          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          className="modal-overlayenroll"
+          onClick={() => {
+            setShowDetails(false);
+            setSelectedEnrollment(null);
+          }}
         >
-          <div className="modal-dialog modal-lg">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Enrollment Details</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  onClick={() => {
-                    setShowDetails(false);
-                    setSelectedEnrollment(null);
-                  }}
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="row">
-                  <div className="col-md-6">
-                    <h6>Personal Information</h6>
-                    <p>
-                      <strong>Name:</strong> {selectedEnrollment.full_name}
-                    </p>
-                    <p>
-                      <strong>Email:</strong> {selectedEnrollment.email}
-                    </p>
-                    <p>
-                      <strong>Phone:</strong>{" "}
-                      {selectedEnrollment.phone || "Not provided"}
-                    </p>
-                    <p>
-                      <strong>Education:</strong>{" "}
-                      {selectedEnrollment.education_level || "Not specified"}
-                    </p>
-                    <p>
-                      <strong>Experience:</strong>{" "}
-                      {selectedEnrollment.experience_level || "Not specified"}
-                    </p>
+          <div
+            className="modal-contentenroll"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-headerenroll">
+              <h2 className="modal-titleenroll">Enrollment Details</h2>
+              <button
+                className="modal-closeenroll"
+                onClick={() => {
+                  setShowDetails(false);
+                  setSelectedEnrollment(null);
+                }}
+              >
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+            <div className="modal-bodyenroll">
+              <div className="detail-sectionenroll">
+                <h3 className="detail-section-titleenroll">
+                  <i className="bi bi-person-badge-fill"></i> Personal
+                  Information
+                </h3>
+                <div className="detail-gridenroll">
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Full Name</span>
+                    <span className="detail-valueenroll">
+                      {selectedEnrollment.full_name}
+                    </span>
                   </div>
-                  <div className="col-md-6">
-                    <h6>Course Information</h6>
-                    <p>
-                      <strong>Course:</strong> {selectedEnrollment.course}
-                    </p>
-                    <p>
-                      <strong>Schedule:</strong>{" "}
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Email</span>
+                    <a
+                      href={`mailto:${selectedEnrollment.email}`}
+                      className="detail-valueenroll"
+                    >
+                      {selectedEnrollment.email}
+                    </a>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Phone</span>
+                    <span className="detail-valueenroll">
+                      {selectedEnrollment.phone || "Not provided"}
+                    </span>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Education Level</span>
+                    <span className="detail-valueenroll">
+                      {selectedEnrollment.education_level || "Not specified"}
+                    </span>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Experience</span>
+                    <span className="detail-valueenroll">
+                      {selectedEnrollment.experience_level || "Not specified"}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="detail-sectionenroll">
+                <h3 className="detail-section-titleenroll">
+                  <i className="bi bi-book-fill"></i> Course Information
+                </h3>
+                <div className="detail-gridenroll">
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Course</span>
+                    <span className="detail-valueenroll">
+                      {selectedEnrollment.course
+                        .replace("-", " ")
+                        .toUpperCase()}
+                    </span>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">
+                      Schedule Preference
+                    </span>
+                    <span className="detail-valueenroll">
                       {selectedEnrollment.schedule_preference || "Flexible"}
-                    </p>
-                    <p>
-                      <strong>Submitted:</strong>{" "}
-                      {selectedEnrollment.formatted_date ||
-                        format(
-                          new Date(selectedEnrollment.submitted_at),
-                          "PPP p"
-                        )}
-                    </p>
-                    <p>
-                      <strong>Agreed to Terms:</strong>{" "}
+                    </span>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Submitted Date</span>
+                    <span className="detail-valueenroll">
+                      {format(
+                        new Date(selectedEnrollment.submitted_at),
+                        "PPpp"
+                      )}
+                    </span>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Agreed to Terms</span>
+                    <span className="detail-valueenroll">
                       {selectedEnrollment.agreed_to_terms ? "Yes" : "No"}
-                    </p>
-                    <p>
-                      <strong>Newsletter:</strong>{" "}
+                    </span>
+                  </div>
+                  <div className="detail-itemenroll">
+                    <span className="detail-labelenroll">Newsletter</span>
+                    <span className="detail-valueenroll">
                       {selectedEnrollment.subscribe_to_newsletter
                         ? "Subscribed"
                         : "Not subscribed"}
-                    </p>
-                  </div>
-                </div>
-
-                {selectedEnrollment.motivation && (
-                  <div className="mt-3">
-                    <h6>Motivation</h6>
-                    <p className="border p-3 rounded bg-light">
-                      {selectedEnrollment.motivation}
-                    </p>
-                  </div>
-                )}
-
-                <div className="mt-4">
-                  <h6>Update Status</h6>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <select
-                        className="form-select mb-3"
-                        value={updateStatus.status}
-                        onChange={(e) =>
-                          setUpdateStatus((prev) => ({
-                            ...prev,
-                            status: e.target.value,
-                          }))
-                        }
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="contacted">Contacted</option>
-                        <option value="enrolled">Enrolled</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="followup">Follow-up</option>
-                      </select>
-                    </div>
-                    <div className="col-md-12">
-                      <textarea
-                        className="form-control"
-                        rows="3"
-                        placeholder="Add notes..."
-                        value={updateStatus.notes}
-                        onChange={(e) =>
-                          setUpdateStatus((prev) => ({
-                            ...prev,
-                            notes: e.target.value,
-                          }))
-                        }
-                      />
-                    </div>
+                    </span>
                   </div>
                 </div>
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => {
-                    setShowDetails(false);
-                    setSelectedEnrollment(null);
-                  }}
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => handleStatusUpdate(selectedEnrollment.id)}
-                >
-                  Update Status
-                </button>
+
+              {selectedEnrollment.motivation && (
+                <div className="detail-sectionenroll">
+                  <h3 className="detail-section-titleenroll">
+                    <i className="bi bi-chat-left-text-fill"></i> Motivation
+                    Statement
+                  </h3>
+                  <div className="motivation-boxenroll">
+                    {selectedEnrollment.motivation}
+                  </div>
+                </div>
+              )}
+
+              <div className="detail-sectionenroll">
+                <h3 className="detail-section-titleenroll">
+                  <i className="bi bi-pencil-square"></i> Update Status
+                </h3>
+                <div className="update-statusenroll">
+                  <div className="status-select-groupenroll">
+                    <label className="status-labelenroll">Status</label>
+                    <select
+                      className="status-selectenroll"
+                      value={updateStatus.status}
+                      onChange={(e) =>
+                        setUpdateStatus((prev) => ({
+                          ...prev,
+                          status: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="contacted">Contacted</option>
+                      <option value="enrolled">Enrolled</option>
+                      <option value="rejected">Rejected</option>
+                      <option value="followup">Follow-up</option>
+                    </select>
+                  </div>
+
+                  <div className="notes-groupenroll">
+                    <label className="notes-labelenroll">Admin Notes</label>
+                    <textarea
+                      className="notes-textareaenroll"
+                      rows="4"
+                      placeholder="Add notes about this enrollment..."
+                      value={updateStatus.notes}
+                      onChange={(e) =>
+                        setUpdateStatus((prev) => ({
+                          ...prev,
+                          notes: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                </div>
               </div>
+            </div>
+
+            <div className="modal-footerenroll">
+              <button
+                className="btn-modal btn-cancelenroll"
+                onClick={() => {
+                  setShowDetails(false);
+                  setSelectedEnrollment(null);
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-modal btn-updateenroll"
+                onClick={() => handleStatusUpdate(selectedEnrollment.id)}
+              >
+                <i className="bi bi-check-circle-fill"></i> Update Status
+              </button>
             </div>
           </div>
         </div>
