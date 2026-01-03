@@ -58,3 +58,184 @@ code {
     width: calc(100% - 70px);
   }
 }
+
+
+/* Admin Dashboard Styles */
+.admin-dashboard {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card Styles */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid #e3e6f0;
+  padding: 0.75rem 1.25rem;
+}
+
+/* Table Styles */
+.table {
+  margin-bottom: 0;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  border-top: none;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* Badge Styles */
+.badge {
+  font-weight: 500;
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+}
+
+/* Modal Styles */
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  border: none;
+  border-radius: 0.5rem;
+}
+
+.modal-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Button Styles */
+.btn {
+  border-radius: 0.35rem;
+  font-weight: 500;
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: #fff;
+  box-shadow: 0 0 2rem 0 rgba(58, 59, 69, 0.15);
+}
+
+.sidebar .nav-link {
+  color: #6e707e;
+  padding: 0.75rem 1rem;
+  border-left: 0.25rem solid transparent;
+}
+
+.sidebar .nav-link:hover {
+  color: #4e73df;
+  background-color: #f8f9fc;
+}
+
+.sidebar .nav-link.active {
+  color: #4e73df;
+  background-color: #f8f9fc;
+  border-left-color: #4e73df;
+}
+
+/* Navbar Styles */
+.navbar-dark {
+  background-color: #4e73df !important;
+  background-image: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+}
+
+/* Statistics Cards */
+.card-stat {
+  border-left: 0.25rem solid;
+}
+
+.card-stat.border-left-primary {
+  border-left-color: #4e73df !important;
+}
+
+.card-stat.border-left-success {
+  border-left-color: #1cc88a !important;
+}
+
+.card-stat.border-left-info {
+  border-left-color: #36b9cc !important;
+}
+
+.card-stat.border-left-warning {
+  border-left-color: #f6c23e !important;
+}
+
+/* Form Styles */
+.form-control:focus,
+.form-select:focus {
+  border-color: #bac8f3;
+  box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+}
+
+/* Loading Spinner */
+.spinner-container {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    position: static;
+    height: auto;
+  }
+  
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+}
+
+/* Animation for new submissions */
+@keyframes highlight {
+  0% { background-color: #fff3cd; }
+  100% { background-color: transparent; }
+}
+
+.highlight-new {
+  animation: highlight 2s ease-out;
+}
+
+/* Export Button */
+.btn-export {
+  background-color: #1cc88a;
+  border-color: #1cc88a;
+  color: white;
+}
+
+.btn-export:hover {
+  background-color: #17a673;
+  border-color: #17a673;
+  color: white;
+}
+
+/* Status Colors */
+.status-pending { color: #f6c23e; }
+-status-contacted { color: #36b9cc; }
+.status-enrolled { color: #1cc88a; }
+.status-rejected { color: #e74a3b; }
+.status-followup { color: #4e73df; }

@@ -1,74 +1,69 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ======== CodeBlock Questions (10) ========
   {
     question: (
       <div>
-        <p>Which HTML element is used to create a checkbox?</p>
+        <p>Which HTML element creates a checkbox?</p>
         <CodeBlock language="html" code={`<input type="checkbox" />`} />
       </div>
     ),
     options: [
-      "<input type='button'>",
+      "<input type='text'>",
       "<input type='checkbox'>",
       "<checkbox>",
-      "<input checkbox>",
+      "<check>",
     ],
     answer: "<input type='checkbox'>",
   },
   {
     question: (
       <div>
-        <p>
-          Which HTML element is used to define a label for an input element?
-        </p>
-        <CodeBlock
-          language="html"
-          code={`<label for="username">Username</label>`}
-        />
+        <p>Which element defines a label for an input?</p>
+        <CodeBlock language="html" code={`<label for="todo">Todo</label>`} />
       </div>
     ),
-    options: ["<p>", "<div>", "<label>", "<span>"],
+    options: ["<div>", "<p>", "<label>", "<span>"],
     answer: "<label>",
   },
   {
     question: (
       <div>
         <p>
-          What is the purpose of the <code>for</code> attribute in the label
-          tag?
+          What does the <b>for</b> attribute do?
         </p>
         <CodeBlock
           language="html"
-          code={`<label for="email">Email</label>
-<input type="text" id="email" />`}
+          code={`<label for="task"></label>
+<input id="task" />`}
         />
       </div>
     ),
     options: [
-      "To style the label",
-      "To link the label to an input element",
-      "To add a tooltip",
-      "To create a loop",
+      "Styles the label",
+      "Links label with input",
+      "Creates a checkbox",
+      "Adds value to input",
     ],
-    answer: "To link the label to an input element",
+    answer: "Links label with input",
   },
   {
     question: (
       <div>
         <p>
-          Which JavaScript property is used to set the <code>for</code>{" "}
-          attribute of a label?
+          Which property sets the <b>for</b> attribute using JavaScript?
         </p>
         <CodeBlock
           language="javascript"
-          code={`document.getElementById("myLabel").htmlFor = "username";`}
+          code={`label.htmlFor = "todoInput";`}
         />
       </div>
     ),
-    options: ["forValue", "setFor", "htmlFor", "forAttr"],
+    options: ["forAttr", "htmlFor", "setFor", "labelFor"],
     answer: "htmlFor",
   },
   {
@@ -77,93 +72,117 @@ const questionsData = [
         <p>What will this code do?</p>
         <CodeBlock
           language="javascript"
-          code={`const input = document.querySelector("input");
-input.setAttribute("placeholder", "Enter name");`}
+          code={`input.setAttribute("type", "checkbox");`}
         />
       </div>
     ),
     options: [
-      "Removes placeholder attribute",
-      "Sets the placeholder text to 'Enter name'",
-      "Creates a new input element",
-      "Throws an error",
+      "Removes input",
+      "Changes input type to checkbox",
+      "Adds label",
+      "Throws error",
     ],
-    answer: "Sets the placeholder text to 'Enter name'",
+    answer: "Changes input type to checkbox",
   },
   {
     question: (
       <div>
-        <p>
-          Which of the following loops is used to iterate over iterable objects
-          like arrays or strings?
-        </p>
+        <p>Which loop is used here?</p>
         <CodeBlock
           language="javascript"
-          code={`for (let value of ["a", "b", "c"]) {
-  console.log(value);
+          code={`for (let item of todos) {
+  console.log(item);
 }`}
         />
       </div>
     ),
-    options: ["for...in", "for...of", "while", "do...while"],
+    options: ["for loop", "for...in", "for...of", "while"],
     answer: "for...of",
   },
   {
     question: (
       <div>
-        <p>
-          Which CSS property combines border-width, border-style, and
-          border-color?
-        </p>
-        <CodeBlock language="css" code={`border: 2px solid red;`} />
+        <p>Which CSS property is this?</p>
+        <CodeBlock language="css" code={`border: 2px solid black;`} />
       </div>
     ),
-    options: ["border-all", "border", "border-style", "border-width"],
+    options: ["border-width", "border-style", "border", "outline"],
     answer: "border",
   },
   {
     question: (
       <div>
-        <p>Which property removes the top border of an element?</p>
+        <p>What does this CSS remove?</p>
         <CodeBlock language="css" code={`border-top: none;`} />
       </div>
     ),
-    options: [
-      "border-remove",
-      "border-style: none;",
-      "border-top: none;",
-      "border-clear: top;",
-    ],
-    answer: "border-top: none;",
+    options: ["All borders", "Bottom border", "Top border", "Left border"],
+    answer: "Top border",
   },
   {
     question: (
       <div>
-        <p>
-          If we want a red dashed border of 3px on an element, which CSS code is
-          correct?
-        </p>
-        <CodeBlock language="css" code={`border: 3px dashed red;`} />
+        <p>Which border will this apply?</p>
+        <CodeBlock language="css" code={`border-left: 1px solid gray;`} />
+      </div>
+    ),
+    options: ["Top", "Right", "Bottom", "Left"],
+    answer: "Left",
+  },
+  {
+    question: (
+      <div>
+        <p>What happens if attribute already exists?</p>
+        <CodeBlock
+          language="javascript"
+          code={`element.setAttribute("id", "todo1");`}
+        />
       </div>
     ),
     options: [
-      "border: red dashed 3px;",
-      "border: 3px dashed red;",
-      "border-color: red dashed;",
-      "border-width: 3px red dashed;",
+      "Deletes attribute",
+      "Creates duplicate",
+      "Updates value",
+      "Throws error",
     ],
-    answer: "border: 3px dashed red;",
+    answer: "Updates value",
+  },
+
+  // ======== Normal Questions (5) ========
+  {
+    question: "Which HTML input type is used for Todos selection?",
+    options: ["text", "radio", "checkbox", "button"],
+    answer: "checkbox",
   },
   {
-    question:
-      "What happens if you use setAttribute() on an attribute that already exists?",
+    question: "Which loop is best suited to iterate over arrays?",
+    options: ["for...in", "for...of", "while", "do...while"],
+    answer: "for...of",
+  },
+  {
+    question: "Which CSS border property is mandatory?",
+    options: ["border-width", "border-color", "border-style", "border-radius"],
+    answer: "border-style",
+  },
+  {
+    question: "What does htmlFor connect?",
     options: [
-      "It deletes the attribute",
-      "It ignores the call",
-      "It updates the attribute's value",
-      "It throws an error",
+      "CSS to HTML",
+      "Label to input",
+      "Input to form",
+      "JavaScript to HTML",
     ],
-    answer: "It updates the attribute's value",
+    answer: "Label to input",
+  },
+  {
+    question: "Which method sets or updates HTML attributes?",
+    options: [
+      "addAttribute()",
+      "changeAttribute()",
+      "setAttribute()",
+      "updateAttribute()",
+    ],
+    answer: "setAttribute()",
   },
 ];
 
@@ -171,9 +190,10 @@ const Todos_Applications_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -202,7 +222,7 @@ const Todos_Applications_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -232,13 +252,16 @@ const Todos_Applications_MCQ = ({
     }
   };
   return (
-    <MCQLogic title="Todos Applications - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Todos Applications - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

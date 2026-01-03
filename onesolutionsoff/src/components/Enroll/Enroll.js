@@ -1,9 +1,101 @@
-import React, {useEffect} from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Enroll = () => {
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    course: "",
+    education: "",
+    experience: "",
+    motivation: "",
+    schedule: "flexible",
+    terms: false,
+    newsletter: false,
+  });
+
   useEffect(() => {
-      document.title = "Enroll | One Solutions";
-    }, []);
+    document.title = "Enroll | One Solutions";
+  }, []);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!formData.terms) {
+      toast.error("You must agree to the Terms of Service");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        "https://ose.onesolutionsekam.in/api/enroll",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        toast.success(response.data.message);
+
+        // Reset form
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          course: "",
+          education: "",
+          experience: "",
+          motivation: "",
+          schedule: "flexible",
+          terms: false,
+          newsletter: false,
+        });
+
+        // Show success modal
+        document.getElementById("successModal").style.display = "block";
+      }
+    } catch (error) {
+      console.error("Enrollment error:", error);
+
+      if (error.response) {
+        if (error.response.data.errors) {
+          error.response.data.errors.forEach((err) => {
+            toast.error(err.msg);
+          });
+        } else if (error.response.data.error) {
+          toast.error(error.response.data.error);
+        }
+      } else {
+        toast.error("Failed to submit enrollment. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const closeModal = () => {
+    document.getElementById("successModal").style.display = "none";
+  };
+
   return (
     <div>
       {/* Page Title */}
@@ -12,13 +104,14 @@ const Enroll = () => {
           <h1 className="mb-2 mb-lg-0">Enrollment</h1>
           <nav className="breadcrumbs">
             <ol>
-              <li><a href="/">Home</a></li>
+              <li>
+                <a href="/">Home</a>
+              </li>
               <li className="current">Enroll</li>
             </ol>
           </nav>
         </div>
       </div>
-      {/* End Page Title */}
 
       {/* Enroll Section */}
       <section id="enroll" className="enroll section">
@@ -44,6 +137,7 @@ const Enroll = () => {
                   className="enrollment-form"
                   data-aos="fade-up"
                   data-aos-delay="300"
+                  onSubmit={handleSubmit}
                 >
                   {/* First/Last Name */}
                   <div className="row mb-4">
@@ -59,6 +153,9 @@ const Enroll = () => {
                           className="form-control"
                           required
                           autoComplete="given-name"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          disabled={loading}
                         />
                       </div>
                     </div>
@@ -74,6 +171,9 @@ const Enroll = () => {
                           className="form-control"
                           required
                           autoComplete="family-name"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          disabled={loading}
                         />
                       </div>
                     </div>
@@ -93,6 +193,9 @@ const Enroll = () => {
                           className="form-control"
                           required
                           autoComplete="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          disabled={loading}
                         />
                       </div>
                     </div>
@@ -107,6 +210,9 @@ const Enroll = () => {
                           name="phone"
                           className="form-control"
                           autoComplete="tel"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          disabled={loading}
                         />
                       </div>
                     </div>
@@ -124,26 +230,18 @@ const Enroll = () => {
                           name="course"
                           className="form-select"
                           required
+                          value={formData.course}
+                          onChange={handleChange}
+                          disabled={loading}
                         >
                           <option value="">Choose a course...</option>
                           <option value="web-development">
                             Full Stack Web Development
                           </option>
-                          <option value="data-science">
-                            Data Science &amp; Analytics
-                          </option>
                           <option value="digital-marketing">
                             Digital Marketing Mastery
                           </option>
-                          <option value="ui-ux-design">
-                            UI/UX Design Fundamentals
-                          </option>
-                          <option value="cybersecurity">
-                            Cybersecurity Essentials
-                          </option>
-                          <option value="mobile-development">
-                            Mobile App Development
-                          </option>
+                          <option value="data-analyst">Data Analyst</option>
                         </select>
                       </div>
                     </div>
@@ -160,11 +258,18 @@ const Enroll = () => {
                           id="education"
                           name="education"
                           className="form-select"
+                          value={formData.education}
+                          onChange={handleChange}
+                          disabled={loading}
                         >
-                          <option value="">Select your education level...</option>
+                          <option value="">
+                            Select your education level...
+                          </option>
                           <option value="high-school">High School</option>
                           <option value="associate">Associate Degree</option>
-                          <option value="bachelor">Bachelor&apos;s Degree</option>
+                          <option value="bachelor">
+                            Bachelor&apos;s Degree
+                          </option>
                           <option value="master">Master&apos;s Degree</option>
                           <option value="doctorate">Doctorate</option>
                           <option value="other">Other</option>
@@ -180,6 +285,9 @@ const Enroll = () => {
                           id="experience"
                           name="experience"
                           className="form-select"
+                          value={formData.experience}
+                          onChange={handleChange}
+                          disabled={loading}
                         >
                           <option value="">Select your experience...</option>
                           <option value="beginner">Beginner</option>
@@ -204,6 +312,9 @@ const Enroll = () => {
                           className="form-control"
                           rows="4"
                           placeholder="Share your goals and what you hope to achieve..."
+                          value={formData.motivation}
+                          onChange={handleChange}
+                          disabled={loading}
                         ></textarea>
                       </div>
                     </div>
@@ -224,6 +335,9 @@ const Enroll = () => {
                               name="schedule"
                               id="weekdays"
                               value="weekdays"
+                              checked={formData.schedule === "weekdays"}
+                              onChange={handleChange}
+                              disabled={loading}
                             />
                             <label
                               className="form-check-label"
@@ -239,6 +353,9 @@ const Enroll = () => {
                               name="schedule"
                               id="weekends"
                               value="weekends"
+                              checked={formData.schedule === "weekends"}
+                              onChange={handleChange}
+                              disabled={loading}
                             />
                             <label
                               className="form-check-label"
@@ -254,7 +371,9 @@ const Enroll = () => {
                               name="schedule"
                               id="flexible"
                               value="flexible"
-                              defaultChecked
+                              checked={formData.schedule === "flexible"}
+                              onChange={handleChange}
+                              disabled={loading}
                             />
                             <label
                               className="form-check-label"
@@ -280,14 +399,13 @@ const Enroll = () => {
                               id="terms"
                               name="terms"
                               required
+                              checked={formData.terms}
+                              onChange={handleChange}
+                              disabled={loading}
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="terms"
-                            >
-                              I agree to the{" "}
-                              <a href="#">Terms of Service</a> and{" "}
-                              <a href="#">Privacy Policy</a> *
+                            <label className="form-check-label" htmlFor="terms">
+                              I agree to the <a href="#">Terms of Service</a>{" "}
+                              and <a href="#">Privacy Policy</a> *
                             </label>
                           </div>
                           <div className="form-check">
@@ -296,6 +414,9 @@ const Enroll = () => {
                               type="checkbox"
                               id="newsletter"
                               name="newsletter"
+                              checked={formData.newsletter}
+                              onChange={handleChange}
+                              disabled={loading}
                             />
                             <label
                               className="form-check-label"
@@ -313,20 +434,36 @@ const Enroll = () => {
                   {/* Submit */}
                   <div className="row">
                     <div className="col-12 text-center">
-                      <button type="submit" className="btn btn-enroll">
-                        <i className="bi bi-check-circle me-2"></i>
-                        Enroll Now
+                      <button
+                        type="submit"
+                        className="btn btn-enroll"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <>
+                            <span
+                              className="spinner-border spinner-border-sm me-2"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            <i className="bi bi-check-circle me-2"></i>
+                            Enroll Now
+                          </>
+                        )}
                       </button>
                       <p className="enrollment-note mt-3">
-                        <i className="bi bi-shield-check"></i> Your information is
-                        secure and will never be shared with third parties
+                        <i className="bi bi-shield-check"></i> Your information
+                        is secure and will never be shared with third parties
                       </p>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
-            {/* End Form Column */}
 
             {/* Benefits Column */}
             <div className="col-lg-4 d-none d-lg-block">
@@ -355,7 +492,10 @@ const Enroll = () => {
                   </div>
                   <div className="benefit-content">
                     <h4>Flexible Learning</h4>
-                    <p>Study at your own pace with 24/7 access to course materials</p>
+                    <p>
+                      Study at your own pace with 24/7 access to course
+                      materials
+                    </p>
                   </div>
                 </div>
 
@@ -366,7 +506,8 @@ const Enroll = () => {
                   <div className="benefit-content">
                     <h4>Certification</h4>
                     <p>
-                      Earn industry-recognized certificates upon course completion
+                      Earn industry-recognized certificates upon course
+                      completion
                     </p>
                   </div>
                 </div>
@@ -399,11 +540,70 @@ const Enroll = () => {
                 </div>
               </div>
             </div>
-            {/* End Benefits Column */}
           </div>
         </div>
       </section>
-      {/* /Enroll Section */}
+
+      <ToastContainer position="top-right" autoClose={5000} />
+
+      {/* Success Modal */}
+      <div id="successModal" className="modal" style={{ display: "none" }}>
+        <div className="modal-content">
+          <span className="close" onClick={closeModal}>
+            &times;
+          </span>
+          <div className="success-icon">
+            <i className="bi bi-check-circle"></i>
+          </div>
+          <h3>Enrollment Successful!</h3>
+          <p>
+            Thank you for your interest in our course. Our team will contact you
+            within 24 hours.
+          </p>
+          <button className="btn btn-primary" onClick={closeModal}>
+            OK
+          </button>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .modal {
+          display: none;
+          position: fixed;
+          z-index: 9999;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+        .modal-content {
+          background-color: white;
+          margin: 15% auto;
+          padding: 30px;
+          border-radius: 10px;
+          width: 90%;
+          max-width: 500px;
+          text-align: center;
+          position: relative;
+        }
+        .close {
+          position: absolute;
+          right: 20px;
+          top: 15px;
+          font-size: 28px;
+          cursor: pointer;
+        }
+        .success-icon {
+          font-size: 60px;
+          color: #28a745;
+          margin-bottom: 20px;
+        }
+        .btn-enroll:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      `}</style>
     </div>
   );
 };

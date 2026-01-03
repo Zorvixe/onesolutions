@@ -255,7 +255,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s15_A0 m5_H g1_7B c1_D2E",
-                name: "On Demand Session",
+                name: "OnDemand Session",
               },
               {
                 id: "QW9_s16_A0 m5_H g1_7B c1_D2E",

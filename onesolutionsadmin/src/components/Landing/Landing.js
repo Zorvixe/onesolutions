@@ -362,6 +362,8 @@ function Landing() {
                   <a href="/discussions">Discussions</a>
                   <a href="/feedbacks">Feedbacks</a>
                   <a href="/student_list">Student List</a>
+                  <a href="/enrollments">enrollments</a>
+                  <a href="/contacts">contacts</a>
                 </div>
               </div>
             </div>

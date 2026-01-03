@@ -120,6 +120,11 @@ WHERE instructor.full_name = "Alex";`}
             </tr>
           </tbody>
         </table>
+        <img
+          src="/assets/img/natural_join.gif"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "400px" }}
+        />
       </section>
 
       <section>
@@ -327,6 +332,11 @@ WHERE review.course_id = 15;`}
             </tr>
           </tbody>
         </table>
+        <img
+          src="/assets/img/inner_join.gif"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "400px" }}
+        />
       </section>
 
       <section>
@@ -455,6 +465,11 @@ WHERE student_course.id IS NULL;`}
             </tr>
           </tbody>
         </table>
+        <img
+          src="/assets/img/left_join.gif"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "400px" }}
+        />
       </section>
 
       <section>

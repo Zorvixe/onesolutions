@@ -34,6 +34,9 @@ import DiscussionManagement from "./components/Ose/pages/DiscussionManagement/Di
 import DiscussionThreadDetail from "./components/Ose/pages/ThreadDetail/DiscussionThreadDetail";
 import FeedbackManagement from "./components/Ose/pages/FeedbackManagement/FeedbackManagement";
 
+import Enroll from "./components/Ose/Enroll/OseEnroll";
+import Contacts from "./components/Ose/Contacts/OseContacts";
+
 import "./App.css";
 
 const ProtectedLayout = () => {
@@ -98,6 +101,9 @@ function App() {
                 path="/ojb/admin/jobs/details/:id"
                 element={<OJBAdminJobDetail />}
               />
+
+              <Route path="/enrollments" element={<Enroll />} />
+              <Route path="/contacts" element={<Contacts />} />
             </Route>
 
             {/* Default redirect */}

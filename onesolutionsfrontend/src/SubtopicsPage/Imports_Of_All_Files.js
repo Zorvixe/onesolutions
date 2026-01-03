@@ -60,28 +60,6 @@ import Coding_Practice_1 from "../Python/IntroductiontoPython/coding_Practice_1.
 import Coding_Practice_2 from "../Python/IntroductiontoPython/coding_Practice_2.js";
 import Coding_Practice_3 from "../Python/IntroductiontoPython/coding_Practice_3.js";
 
-//Dynamic Web Application
-import Introductionto_Dynamic_Application_CS from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_CS.js";
-import DOM_Event_Fundamentals_CS from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_CS.js";
-import Primitive_Types_Conditionals_CS from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_CS.js";
-import InputEle_MathFunctions_CS from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_CS.js";
-import Arrays_Dom_Manipulations_CS from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_CS.js";
-import Objects_CS from "../JavaScript/Arrays_Objects/Objects_CS.js";
-import Todos_Applications_CS from "../JavaScript/Todos_Application/Todos_Applications_CS.js";
-import On_Demand_Session_CS from "../JavaScript/Todos_Application/On_Demand_Session_CS.js";
-import Todos_Application_CS_2 from "../JavaScript/Todos_Application/Todos_Application_CS_2.js";
-import Todos_Application_CS_3 from "../JavaScript/Todos_Application_2/Todos_Application_CS_3.js";
-import Todos_Application_CS_4 from "../JavaScript/Todos_Application_2/Todos_Application_CS_4.js";
-import Todos_Application_CS_5 from "../JavaScript/Todos_Application_3/Todos_Application_CS_5.js";
-import Todos_Application_CS_6 from "../JavaScript/Todos_Application_4/Todos_Application_CS_6.js";
-import Callbacks_Schedulers_CS from "../JavaScript/Fetch_Callbacks/Callbacks_Schedulers_CS.js";
-import Event_Listners_More_Events_CS from "../JavaScript/Fetch_Callbacks/Event_Listners_More_Events_CS.js";
-import HTTP_Request_Using_JS_CS from "../JavaScript/Fetch_Callbacks_2/HTTP_Request_Using_JS_CS.js";
-import Hypertext_Transfer_Protocal_CS from "../JavaScript/Fetch_Callbacks/Hypertext_Transfer_Protocal_CS.js";
-import Wikipedia_Search_CS from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_CS.js";
-import Forms_CS from "../JavaScript/Forms/Forms_CS.js";
-import Forms_CS_2 from "../JavaScript/Forms/Forms_CS_2.js";
-
 //JavaScript Essentials
 
 import More_Modern_JS_Concepts_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS.js";
@@ -374,9 +352,8 @@ import Coding_Pratice_34 from "../Python/Miscellaneous/Coding_Pratice_34.js";
 import Grand_Assignment_5 from "../Python/Miscellaneous/Grand_Assignment_5.js";
 import Programmig_Foundations_Course_Exam_Instructions_Class from "../Python/Programmig_Foundations_Course_Exam/Programmig_Foundations_Course_Exam_Instructions_Class.js";
 import Programmig_Foundations_Course_Exam from "../Python/Programmig_Foundations_Course_Exam/Programmig_Foundations_Course_Exam.js";
-// Map subtopics to their components
 
-//Dynamic Website Classes
+//JavaScript Classes
 import Dom_Event_Fundamentals_Class from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_Class.js";
 import Introductionto_Dynamic_Application_Class from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_Class.js";
 import PrimitiveTypes_Conditionals_Class from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_Class.js";
@@ -398,7 +375,7 @@ import JS_Coding_Pratic_3 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_3.
 import JS_Coding_Pratic_4 from "../JavaScript/Arrays_Objects/JS_Coding_Pratic_4.js";
 import Todos_Application_Part_1_Class from "../JavaScript/Todos_Application/Todos_Application_Part_1_Class.js";
 import Todos_Application_Part_2_Class from "../JavaScript/Todos_Application/Todos_Application_Part_2_Class.js";
-import On_Demand_Session_Class from "../JavaScript/Todos_Application/On_Demand_Session_Class.js";
+import JavaScript_On_Demand_Session_Class from "../JavaScript/Todos_Application/JavaScript_On_Demand_Session_Class.js";
 import Todos_Application_Part_3_Class from "../JavaScript/Todos_Application_2/Todos_Application_Part_3_Class.js";
 import Todos_Application_Part_4_Class from "../JavaScript/Todos_Application_2/Todos_Application_Part_4_Class.js";
 import Coding_Pratice_9 from "../JavaScript/Todos_Application_2/Coding_Pratice_9.js";
@@ -440,6 +417,28 @@ import MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 import Dynamic_Course_Exam_Instructions_Class from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam_Instructions_Class.js";
 import Dynamic_Course_Exam from "../JavaScript/Dynamic_Course_Exam/Dynamic_Course_Exam.js";
 import Comments from "../JavaScript/Arrays_Objects/Comments.js";
+
+//JavaSript Cheat Sheet
+import Introductionto_Dynamic_Application_CS from "../JavaScript/Introductionto_Js_Variables/Introductionto_Dynamic_Application_CS.js";
+import DOM_Event_Fundamentals_CS from "../JavaScript/Introductionto_Js_Variables/DOM_Event_Fundamentals_CS.js";
+import Primitive_Types_Conditionals_CS from "../JavaScript/Introductionto_Js_Variables/PrimitiveTypes_Conditionals_CS.js";
+import InputEle_MathFunctions_CS from "../JavaScript/Introductionto_Js_Variables/InputEle_MathFunctions_CS.js";
+import Arrays_Dom_Manipulations_CS from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_CS.js";
+import Objects_CS from "../JavaScript/Arrays_Objects/Objects_CS.js";
+import Todos_Applications_CS from "../JavaScript/Todos_Application/Todos_Applications_CS.js";
+import JavaScript_On_Demand_Session_CS from "../JavaScript/Todos_Application/JavaScript_On_Demand_Session_CS.js";
+import Todos_Application_CS_2 from "../JavaScript/Todos_Application/Todos_Application_CS_2.js";
+import Todos_Application_CS_3 from "../JavaScript/Todos_Application_2/Todos_Application_CS_3.js";
+import Todos_Application_CS_4 from "../JavaScript/Todos_Application_2/Todos_Application_CS_4.js";
+import Todos_Application_CS_5 from "../JavaScript/Todos_Application_3/Todos_Application_CS_5.js";
+import Todos_Application_CS_6 from "../JavaScript/Todos_Application_4/Todos_Application_CS_6.js";
+import Callbacks_Schedulers_CS from "../JavaScript/Fetch_Callbacks/Callbacks_Schedulers_CS.js";
+import Event_Listners_More_Events_CS from "../JavaScript/Fetch_Callbacks/Event_Listners_More_Events_CS.js";
+import HTTP_Request_Using_JS_CS from "../JavaScript/Fetch_Callbacks_2/HTTP_Request_Using_JS_CS.js";
+import Hypertext_Transfer_Protocal_CS from "../JavaScript/Fetch_Callbacks/Hypertext_Transfer_Protocal_CS.js";
+import Wikipedia_Search_CS from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_CS.js";
+import Forms_CS from "../JavaScript/Forms/Forms_CS.js";
+import Forms_CS_2 from "../JavaScript/Forms/Forms_CS_2.js";
 
 // SQL DataBase
 import Introductionto_Database_1 from "../SQL_Database/Introduction/Introductionto_Database_1.js";
@@ -523,6 +522,8 @@ import Transaction_Indexes_MCQ from "../SQL_Database/Transaction_Indexes/Transac
 import SQL_Syntax_Differences from "../SQL_Database/SQL_Syntax_Differences/SQL_Syntax_Differences.js";
 import SQL_Assignment_3 from "../SQL_Database/MileStone_2/SQL_Assignment_3.js";
 import MCQ_Exam_1 from "../SQL_Database/MileStone_2/MCQ_Exam_1.js";
+
+//Static Website MCQs
 import Introductionto_HTML_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_MCQ.js";
 import Introductionto_Css_BoxModel_MCQ_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_1.js";
 import Introductionto_Css_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
@@ -557,6 +558,8 @@ import CSS_Gradience_MCQ from "../ResponsiveWebsite/Developing_Layouts2/CSS_Grad
 import Responsive_MCQ_Assignments_1 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_1.js";
 import Responsive_MCQ_Assignments_2 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_2.js";
 import Responsive_MCQ_Assignments_3 from "../ResponsiveWebsite/Assignments/Responsive_MCQ_Assignments_3.js";
+
+//Python MCQs
 import Pro_W_P_MCQ from "../Python/IntroductiontoPython/Pro_W_P_MCQ.js";
 import Variables_DT_MCQ from "../Python/IntroductiontoPython/Variables_DT_MCQ.js";
 import Seq_OF_Instruction_MCQ from "../Python/IntroductiontoPython/Seq_OF_Instruction_MCQ.js";
@@ -606,7 +609,7 @@ import PrimitiveTypes_Conditionals_MCQ from "../JavaScript/Introductionto_Js_Var
 import Arrays_Dom_Manipulations_MCQ from "../JavaScript/Arrays_Objects/Arrays_Dom_Manipulations_MCQ";
 import Objects_MCQ from "../JavaScript/Arrays_Objects/Objects_MCQ";
 import Todos_Applications_MCQ from "../JavaScript/Todos_Application/Todos_Applications_MCQ";
-import On_Demand_Session_MCQ from "../JavaScript/Todos_Application/On_Demand_Session_MCQ";
+import On_Demand_Session_MCQ from "../JavaScript/Todos_Application/JavaScript_On_Demand_Session_MCQ.js";
 import Todos_Application_MCQ_2 from "../JavaScript/Todos_Application/Todos_Application_MCQ_2";
 import Todos_Application_MCQ_3 from "../JavaScript/Todos_Application_2/Todos_Application_MCQ_3";
 import Todos_Application_MCQ_4 from "../JavaScript/Todos_Application_2/Todos_Application_MCQ_4";
@@ -712,73 +715,6 @@ export const subtopicComponents = {
 
   "Assignment 3": SQL_Assignment_3,
   "MCQ Exam 1": MCQ_Exam_1,
-
-  //Dynamic Website
-  "Introduction to Dynamic Web Applications":
-    Introductionto_Dynamic_Application_Class,
-  "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
-  "Primitive Types & Conditionals": PrimitiveTypes_Conditionals_Class,
-  "Input Element and Math Functions": InputEle_Mathfunctions_Class,
-  "Coding Practice 1": Coding_Pratice_1,
-  "Coding Practice 2": Coding_Pratice_2,
-  "Coding Practice 3": Coding_Pratice_3,
-  "Arrays & More DOM Manipulations": Arrays_Dom_Manipulations_Class,
-  "JS Coding Platform Walk through": JS_Coding_Pratice_Walkthrough,
-  Objects: Objects_Class,
-  "A Note On Software Compatibility": A_Note_ON_Software_Capability,
-  "JS Coding Practice 1": JS_Coding_Pratic_1,
-  "JS Coding Practice 2": JS_Coding_Pratic_2,
-  "JS Coding Practice 3": JS_Coding_Pratic_3,
-  "JS Coding Practice 4": JS_Coding_Pratic_4,
-  "Coding Practice 4": Coding_Pratice_4,
-  "Coding Practice 6": Coding_Pratice_6,
-  "Coding Practice 7": Coding_Pratice_7,
-  "Coding Practice 8": Coding_Pratice_8,
-  "Todos Application Introduction": Todos_Application_Part_1_Class,
-  "On Demand Session": On_Demand_Session_Class,
-  "Todos Application | Part 2": Todos_Application_Part_2_Class,
-  "Todos Application | Part 3": Todos_Application_Part_3_Class,
-  "Todos Application | Part 4": Todos_Application_Part_4_Class,
-  "Coding Practice 9": Coding_Pratice_9,
-  "Coding Practice 10": Coding_Pratice_10,
-  "Coding Practice 11": Coding_Pratice_11,
-  "JS Coding Practice 6": JS_Coding_Pratice_6,
-  "JS Coding Practice 7": JS_Coding_Pratice_7,
-  "Todos Application | Part 5": Todos_Application_Part_5_Class,
-  "Array Methods | Practice 1": Array_Methods_Pratice_1,
-  "Array Methods | Practice 2": Array_Methods_Pratice_2,
-  "Array Methods | Practice 3": Array_Methods_Pratice_3,
-  "Coding Practice 13": Coding_Pratice_13,
-  "Todos Application | Part 6": Todos_Application_Part_6_Class,
-  "Callbacks & Schedulers": Callbacks_Schedulers_Class,
-  "Event Listeners & More Events": Event_Listners_More_Events_Class,
-  "Hypertext Transfer Protocol (HTTP)": Hypertext_Transfer_Protocal_Class,
-  "Coding Practice 14": Coding_Pratice_14,
-  "Coding Practice 15": Coding_Pratice_15,
-  "Coding Assignment 1": Coding_Assignment_1,
-  "HTTP Requests using JS": HTTP_Request_Using_Class,
-  "Wikipedia Search Application": Wikipedia_Search_Class,
-  "Coding Practice 17": Coding_Pratice_17,
-  "Coding Practice 16 js": Coding_Pratice_JS_16,
-  // "Coding Practice 18": Coding_Pratice_18,
-  // "Coding Practice 19": Coding_Pratice_19,
-  // "Coding Practice 20": Coding_Pratice_20,
-  Forms: Forms_Part_1_Class,
-  "Forms | Part 2": Forms_Part_2_Class,
-  "Coding Assignment 2": JS_Coding_Assignment_2,
-  "Coding Assignment 3": JS_Coding_Assignment_3,
-  "Coding Test 1": Coding_Test_1,
-  "Coding Test 2": Coding_Test_2,
-  "Coding Test 3": Coding_Test_3,
-  "Coding Test 4": Coding_Test_4,
-  "JS Coding Test 1": JS_Coding_Test_1,
-  "JS Coding Test 2": JS_Coding_Test_2,
-  "MCQ Test 1": MCQ_Test_1,
-  "MCQ Test 2": MCQ_Test_2,
-  Objects: Comments,
-  "Build Your Own Dynamic Web Application Course Exam | Instructions":
-    Dynamic_Course_Exam_Instructions_Class,
-  "Build Your Own Dynamic Web Application Course Exam": Dynamic_Course_Exam,
 
   //Responsive Website
   "Introduction to Responsive Web Design": Introductionto_Responsive_WD_1,
@@ -1244,6 +1180,72 @@ export const subtopicComponents = {
 
   //Python End
 
+  //JavaScript Class
+  "Introduction to Dynamic Web Applications":
+    Introductionto_Dynamic_Application_Class,
+  "DOM and Event Fundamentals": Dom_Event_Fundamentals_Class,
+  "Primitive Types & Conditionals": PrimitiveTypes_Conditionals_Class,
+  "Input Element and Math Functions": InputEle_Mathfunctions_Class,
+  "Coding Practice 1": Coding_Pratice_1,
+  "Coding Practice 2": Coding_Pratice_2,
+  "Coding Practice 3": Coding_Pratice_3,
+  "Arrays & More DOM Manipulations": Arrays_Dom_Manipulations_Class,
+  "JS Coding Platform Walk through": JS_Coding_Pratice_Walkthrough,
+  Objects: Objects_Class,
+  "A Note On Software Compatibility": A_Note_ON_Software_Capability,
+  "JS Coding Practice 1": JS_Coding_Pratic_1,
+  "JS Coding Practice 2": JS_Coding_Pratic_2,
+  "JS Coding Practice 3": JS_Coding_Pratic_3,
+  "JS Coding Practice 4": JS_Coding_Pratic_4,
+  "Coding Practice 4": Coding_Pratice_4,
+  "Coding Practice 6": Coding_Pratice_6,
+  "Coding Practice 7": Coding_Pratice_7,
+  "Coding Practice 8": Coding_Pratice_8,
+  "Todos Application Introduction": Todos_Application_Part_1_Class,
+  "On Demand Session": JavaScript_On_Demand_Session_Class,
+  "Todos Application | Part 2": Todos_Application_Part_2_Class,
+  "Todos Application | Part 3": Todos_Application_Part_3_Class,
+  "Todos Application | Part 4": Todos_Application_Part_4_Class,
+  "Coding Practice 9": Coding_Pratice_9,
+  "Coding Practice 10": Coding_Pratice_10,
+  "Coding Practice 11": Coding_Pratice_11,
+  "JS Coding Practice 6": JS_Coding_Pratice_6,
+  "JS Coding Practice 7": JS_Coding_Pratice_7,
+  "Todos Application | Part 5": Todos_Application_Part_5_Class,
+  "Array Methods | Practice 1": Array_Methods_Pratice_1,
+  "Array Methods | Practice 2": Array_Methods_Pratice_2,
+  "Array Methods | Practice 3": Array_Methods_Pratice_3,
+  "Coding Practice 13": Coding_Pratice_13,
+  "Todos Application | Part 6": Todos_Application_Part_6_Class,
+  "Callbacks & Schedulers": Callbacks_Schedulers_Class,
+  "Event Listeners & More Events": Event_Listners_More_Events_Class,
+  "Hypertext Transfer Protocol (HTTP)": Hypertext_Transfer_Protocal_Class,
+  "Coding Practice 14": Coding_Pratice_14,
+  "Coding Practice 15": Coding_Pratice_15,
+  "Coding Assignment 1": Coding_Assignment_1,
+  "HTTP Requests using JS": HTTP_Request_Using_Class,
+  "Wikipedia Search Application": Wikipedia_Search_Class,
+  "Coding Practice 17": Coding_Pratice_17,
+  "Coding Practice 16 js": Coding_Pratice_JS_16,
+  // "Coding Practice 18": Coding_Pratice_18,
+  // "Coding Practice 19": Coding_Pratice_19,
+  // "Coding Practice 20": Coding_Pratice_20,
+  Forms: Forms_Part_1_Class,
+  "Forms | Part 2": Forms_Part_2_Class,
+  "Coding Assignment 2": JS_Coding_Assignment_2,
+  "Coding Assignment 3": JS_Coding_Assignment_3,
+  "Coding Test 1": Coding_Test_1,
+  "Coding Test 2": Coding_Test_2,
+  "Coding Test 3": Coding_Test_3,
+  "Coding Test 4": Coding_Test_4,
+  "JS Coding Test 1": JS_Coding_Test_1,
+  "JS Coding Test 2": JS_Coding_Test_2,
+  "MCQ Test 1": MCQ_Test_1,
+  "MCQ Test 2": MCQ_Test_2,
+  Objects: Comments,
+  "Build Your Own Dynamic Web Application Course Exam | Instructions":
+    Dynamic_Course_Exam_Instructions_Class,
+  "Build Your Own Dynamic Web Application Course Exam": Dynamic_Course_Exam,
   //JavaScript Start
   "Introduction to Dynamic Web Applications | Cheat Sheet":
     Introductionto_Dynamic_Application_CS,
@@ -1262,7 +1264,7 @@ export const subtopicComponents = {
   "MCQ Practice - Objects": Objects_MCQ,
   "Todos Application | Cheat Sheet": Todos_Applications_CS,
   "MCQ Practice - Todos App": Todos_Applications_MCQ,
-  "On-Demand Session | Cheat Sheet": On_Demand_Session_CS,
+  "On Demand Session | Cheat Sheet": JavaScript_On_Demand_Session_CS,
   "MCQ Practice - On Demand Session": On_Demand_Session_MCQ,
   "Todos Application | Part 2 | Cheat Sheet": Todos_Application_CS_2,
   "MCQ Practice - Todos App 2": Todos_Application_MCQ_2,

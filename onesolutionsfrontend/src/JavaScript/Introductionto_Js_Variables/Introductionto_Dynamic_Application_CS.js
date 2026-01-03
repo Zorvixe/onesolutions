@@ -68,12 +68,15 @@ const Introductionto_Dynamic_Application = ({
           content instantly, and respond to events without reloading the page.
           This is achieved using <strong>JavaScript</strong>.
         </p>
-        <p className="note">
-          <b>Note:</b>{" "}
-          <code>
-            JavaScript makes your static pages interactive and dynamic.
-          </code>
-        </p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>JavaScript makes your static pages interactive and dynamic.</p>
+        </div>
       </section>
 
       {/* Dynamic Web Page */}

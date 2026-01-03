@@ -137,14 +137,23 @@ const InputEle_MathFunctions_CS = ({
           language="html"
           code={`<input type="text" placeholder="Enter text"/>`}
         />
-        <p className="note">Default type for the input element is text.</p>
 
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Default type for the HTML <b>input</b> element is <b>text</b>.
+          </p>
+        </div>
         <h4>2.1.2 Password Input</h4>
+        <p>It provides a way for the user to enter a password securely.</p>
         <CodeBlock
           language="html"
           code={`<input type="password" placeholder="Enter password"/>`}
         />
-        <p>Provides secure entry for passwords.</p>
       </section>
 
       {/* 3. DOM Properties */}

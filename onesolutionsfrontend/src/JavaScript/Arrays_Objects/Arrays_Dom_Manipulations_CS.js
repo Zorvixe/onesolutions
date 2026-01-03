@@ -84,7 +84,7 @@ const Arrays_Dom_Manipulations_CS = ({
       {/* Creating an Array */}
       <section>
         <h3>2.1 Creating an Array</h3>
-        <h3>Code</h3>
+
         <CodeBlock
           language="javascript"
           code={`let numbers = [1, 2, 3, 4];\nconsole.log(numbers);`}
@@ -96,7 +96,7 @@ const Arrays_Dom_Manipulations_CS = ({
       {/* Accessing an Array Item */}
       <section>
         <h3>2.2 Accessing an Array Item</h3>
-        <h3>Code</h3>
+
         <CodeBlock
           language="javascript"
           code={`let numbers = [1, 2, 3, 4];
@@ -109,7 +109,7 @@ console.log(numbers[0]);// 1\nconsole.log(numbers[3]);  // 4`}
       {/* Modifying an Array Item */}
       <section>
         <h3>2.3 Modifying an Array Item</h3>
-        <h3>Code</h3>
+
         <CodeBlock
           language="javascript"
           code={`let numbers = [1, 2, 3, 4]; 
@@ -126,7 +126,7 @@ numbers[1] = 20;\nconsole.log(numbers);`}
           The <code>array.length</code> is used to find the number of items in
           the array.
         </p>
-        <h3>Code</h3>
+
         <CodeBlock
           language="javascript"
           code={`let numbers = [1, 2, 3, 4];

@@ -111,26 +111,24 @@ const DOM_Event_Fundamentals_CS = ({
         </p>
         <CodeBlock
           language="javascript"
+          code={`let message = "Hello World!";`}
+        />
+        <CodeBlock
+          language="javascript"
           code={`let message = "Hello World!";
 console.log(message);`}
         />
 
-        <p className="note">
-          <b>Note:</b> Printing a variable without assigning a value gives{" "}
-          <code>undefined</code>.
-        </p>
-
-        <CodeBlock
-          language="html"
-          code={`<button onclick="runCode()">Run Code</button>
-<script>
-  function runCode() {
-    let x = 10;
-    let y = 20;
-    console.log("Sum =", x + y);
-  }
-</script>`}
-        />
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Printing a variable without assigning a value gives <b>undefined</b>
+          </p>
+        </div>
       </section>
 
       {/* 2. DOM Section */}
@@ -170,7 +168,7 @@ console.log(message);`}
           <img
             src="/assets/img/dom_tree_img.png"
             alt="DOM Tree"
-            style={{ width: "400px", height: "400px" }}
+            style={{ width: "450px", height: "400px" }}
           />
         </div>
 

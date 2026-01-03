@@ -550,6 +550,46 @@ const initializeDbAndServer = async () => {
   );
 `);
 
+
+
+await pool.query(`
+CREATE TABLE IF NOT EXISTS enrollments (
+  id SERIAL PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  course TEXT NOT NULL,
+  education_level TEXT,
+  experience_level TEXT,
+  motivation TEXT,
+  schedule_preference TEXT,
+  agreed_to_terms BOOLEAN DEFAULT FALSE,
+  subscribe_to_newsletter BOOLEAN DEFAULT FALSE,
+  submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status VARCHAR(20) DEFAULT 'pending',
+  admin_notes TEXT,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`);
+
+// Create contacts table
+await pool.query(`
+CREATE TABLE IF NOT EXISTS contacts (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  subject TEXT NOT NULL,
+  message TEXT NOT NULL,
+  submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status VARCHAR(20) DEFAULT 'unread',
+  admin_notes TEXT,
+  responded_at TIMESTAMP,
+  response TEXT
+);
+`);
+
+
 try {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS users (
@@ -3518,6 +3558,713 @@ app.put("/api/admin/discussions/threads/:threadId/status", authenticateToken, as
     });
   }
 });
+
+// Add these new routes after the existing routes (before the export statement)
+
+// ==========================================
+// 🔹 ENROLLMENT FORM ROUTES
+// ==========================================
+
+// Create enrollments table
+app.post("/api/create-enrollments-table", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS enrollments (
+        id SERIAL PRIMARY KEY,
+        first_name TEXT NOT NULL,
+        last_name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        phone TEXT,
+        course TEXT NOT NULL,
+        education_level TEXT,
+        experience_level TEXT,
+        motivation TEXT,
+        schedule_preference TEXT,
+        agreed_to_terms BOOLEAN DEFAULT FALSE,
+        subscribe_to_newsletter BOOLEAN DEFAULT FALSE,
+        submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status VARCHAR(20) DEFAULT 'pending'
+      );
+    `);
+    res.json({ message: "Enrollments table created successfully" });
+  } catch (error) {
+    console.error("Error creating enrollments table:", error);
+    res.status(500).json({ error: "Failed to create table" });
+  }
+});
+
+// Submit enrollment form
+app.post(
+  "/api/enroll",
+  [
+    body("firstName").notEmpty().withMessage("First name is required"),
+    body("lastName").notEmpty().withMessage("Last name is required"),
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("phone").optional(),
+    body("course").notEmpty().withMessage("Course selection is required"),
+    body("education").optional(),
+    body("experience").optional(),
+    body("motivation").optional(),
+    body("schedule").optional(),
+    body("terms").isBoolean().withMessage("Terms agreement is required"),
+    body("newsletter").optional().isBoolean()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      course,
+      education,
+      experience,
+      motivation,
+      schedule,
+      terms,
+      newsletter
+    } = req.body;
+
+    try {
+      const insertQuery = `
+        INSERT INTO enrollments (
+          first_name, last_name, email, phone, course, education_level,
+          experience_level, motivation, schedule_preference,
+          agreed_to_terms, subscribe_to_newsletter
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        RETURNING *;
+      `;
+
+      const result = await pool.query(insertQuery, [
+        firstName,
+        lastName,
+        email,
+        phone || null,
+        course,
+        education || null,
+        experience || null,
+        motivation || null,
+        schedule || null,
+        terms,
+        newsletter || false
+      ]);
+
+      // Send email notification (optional)
+      // await sendEnrollmentEmail(email, firstName, course);
+
+      res.status(201).json({
+        success: true,
+        message: "Enrollment submitted successfully! We'll contact you soon.",
+        enrollment: {
+          id: result.rows[0].id,
+          name: `${firstName} ${lastName}`,
+          email: email,
+          course: course
+        }
+      });
+    } catch (error) {
+      console.error("Enrollment submission error:", error);
+      
+      // Check for duplicate email for same course
+      if (error.code === '23505') { // Unique violation
+        return res.status(400).json({
+          success: false,
+          error: "You have already enrolled for this course"
+        });
+      }
+
+      res.status(500).json({
+        success: false,
+        error: "Failed to submit enrollment. Please try again."
+      });
+    }
+  }
+);
+
+// Get all enrollments (Admin only)
+app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { 
+      page = 1, 
+      limit = 10, 
+      status, 
+      course, 
+      search,
+      sortBy = 'submitted_at',
+      sortOrder = 'DESC'
+    } = req.query;
+
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT *, 
+      CONCAT(first_name, ' ', last_name) as full_name
+      FROM enrollments
+      WHERE 1=1
+    `;
+    
+    const queryParams = [];
+    let paramCount = 1;
+
+    if (status) {
+      query += ` AND status = $${paramCount}`;
+      queryParams.push(status);
+      paramCount++;
+    }
+
+    if (course) {
+      query += ` AND course = $${paramCount}`;
+      queryParams.push(course);
+      paramCount++;
+    }
+
+    if (search) {
+      query += ` AND (
+        first_name ILIKE $${paramCount} OR 
+        last_name ILIKE $${paramCount} OR 
+        email ILIKE $${paramCount} OR
+        phone ILIKE $${paramCount}
+      )`;
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+
+    // Count total records
+    const countQuery = query.replace('SELECT *,', 'SELECT COUNT(*) as total');
+    const countResult = await pool.query(countQuery, queryParams);
+    const total = parseInt(countResult.rows[0].total);
+
+    // Add sorting and pagination
+    query += ` ORDER BY ${sortBy} ${sortOrder}`;
+    query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    queryParams.push(limit, offset);
+
+    const result = await pool.query(query, queryParams);
+
+    res.json({
+      enrollments: result.rows,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching enrollments:", error);
+    res.status(500).json({ error: "Failed to fetch enrollments" });
+  }
+});
+
+// Get single enrollment (Admin only)
+app.get("/api/admin/enrollments/:id", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const result = await pool.query(
+      `SELECT *, CONCAT(first_name, ' ', last_name) as full_name
+       FROM enrollments WHERE id = $1`,
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Enrollment not found" });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error fetching enrollment:", error);
+    res.status(500).json({ error: "Failed to fetch enrollment" });
+  }
+});
+
+// Update enrollment status (Admin only)
+app.put("/api/admin/enrollments/:id/status", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, notes } = req.body;
+
+    if (!status || !['pending', 'contacted', 'enrolled', 'rejected', 'followup'].includes(status)) {
+      return res.status(400).json({ error: "Invalid status value" });
+    }
+
+    const updateQuery = `
+      UPDATE enrollments 
+      SET status = $1, 
+          updated_at = CURRENT_TIMESTAMP,
+          admin_notes = $2
+      WHERE id = $3
+      RETURNING *;
+    `;
+
+    const result = await pool.query(updateQuery, [status, notes || null, id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Enrollment not found" });
+    }
+
+    res.json({
+      message: "Enrollment status updated successfully",
+      enrollment: result.rows[0]
+    });
+  } catch (error) {
+    console.error("Error updating enrollment status:", error);
+    res.status(500).json({ error: "Failed to update enrollment status" });
+  }
+});
+
+// Delete enrollment (Admin only)
+app.delete("/api/admin/enrollments/:id", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await pool.query(
+      "DELETE FROM enrollments WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Enrollment not found" });
+    }
+
+    res.json({ message: "Enrollment deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting enrollment:", error);
+    res.status(500).json({ error: "Failed to delete enrollment" });
+  }
+});
+
+// Get enrollment statistics (Admin only)
+app.get("/api/admin/enrollments/stats", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const stats = await pool.query(`
+      SELECT 
+        COUNT(*) as total,
+        COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending,
+        COUNT(CASE WHEN status = 'contacted' THEN 1 END) as contacted,
+        COUNT(CASE WHEN status = 'enrolled' THEN 1 END) as enrolled,
+        COUNT(CASE WHEN status = 'rejected' THEN 1 END) as rejected,
+        COUNT(CASE WHEN DATE(submitted_at) = CURRENT_DATE THEN 1 END) as today,
+        COUNT(CASE WHEN EXTRACT(WEEK FROM submitted_at) = EXTRACT(WEEK FROM CURRENT_DATE) 
+          AND EXTRACT(YEAR FROM submitted_at) = EXTRACT(YEAR FROM CURRENT_DATE) 
+          THEN 1 END) as this_week
+      FROM enrollments;
+    `);
+
+    const courseStats = await pool.query(`
+      SELECT course, COUNT(*) as count
+      FROM enrollments
+      GROUP BY course
+      ORDER BY count DESC;
+    `);
+
+    const monthlyStats = await pool.query(`
+      SELECT 
+        TO_CHAR(submitted_at, 'YYYY-MM') as month,
+        COUNT(*) as count
+      FROM enrollments
+      WHERE submitted_at >= CURRENT_DATE - INTERVAL '6 months'
+      GROUP BY TO_CHAR(submitted_at, 'YYYY-MM')
+      ORDER BY month DESC;
+    `);
+
+    res.json({
+      overall: stats.rows[0],
+      byCourse: courseStats.rows,
+      monthly: monthlyStats.rows
+    });
+  } catch (error) {
+    console.error("Error fetching enrollment stats:", error);
+    res.status(500).json({ error: "Failed to fetch statistics" });
+  }
+});
+
+// ==========================================
+// 🔹 CONTACT FORM ROUTES
+// ==========================================
+
+// Create contacts table
+app.post("/api/create-contacts-table", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS contacts (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT NOT NULL,
+        subject TEXT NOT NULL,
+        message TEXT NOT NULL,
+        submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        status VARCHAR(20) DEFAULT 'unread',
+        admin_notes TEXT,
+        responded_at TIMESTAMP,
+        response TEXT
+      );
+    `);
+    res.json({ message: "Contacts table created successfully" });
+  } catch (error) {
+    console.error("Error creating contacts table:", error);
+    res.status(500).json({ error: "Failed to create table" });
+  }
+});
+
+// Submit contact form
+app.post(
+  "/api/contact",
+  [
+    body("name").notEmpty().withMessage("Name is required"),
+    body("email").isEmail().withMessage("Valid email is required"),
+    body("subject").notEmpty().withMessage("Subject is required"),
+    body("message").notEmpty().withMessage("Message is required")
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { name, email, subject, message } = req.body;
+
+    try {
+      const insertQuery = `
+        INSERT INTO contacts (name, email, subject, message)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *;
+      `;
+
+      const result = await pool.query(insertQuery, [
+        name,
+        email,
+        subject,
+        message
+      ]);
+
+      // Send notification email (optional)
+      // await sendContactNotification(email, name, subject);
+
+      res.status(201).json({
+        success: true,
+        message: "Thank you for contacting us! We'll get back to you soon.",
+        contact: {
+          id: result.rows[0].id,
+          name: name,
+          email: email
+        }
+      });
+    } catch (error) {
+      console.error("Contact submission error:", error);
+      res.status(500).json({
+        success: false,
+        error: "Failed to submit contact form. Please try again."
+      });
+    }
+  }
+);
+
+// Get all contacts (Admin only)
+app.get("/api/admin/contacts", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { 
+      page = 1, 
+      limit = 10, 
+      status, 
+      search,
+      sortBy = 'submitted_at',
+      sortOrder = 'DESC'
+    } = req.query;
+
+    const offset = (page - 1) * limit;
+
+    let query = `
+      SELECT * FROM contacts
+      WHERE 1=1
+    `;
+    
+    const queryParams = [];
+    let paramCount = 1;
+
+    if (status) {
+      query += ` AND status = $${paramCount}`;
+      queryParams.push(status);
+      paramCount++;
+    }
+
+    if (search) {
+      query += ` AND (
+        name ILIKE $${paramCount} OR 
+        email ILIKE $${paramCount} OR 
+        subject ILIKE $${paramCount} OR
+        message ILIKE $${paramCount}
+      )`;
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+
+    // Count total records
+    const countQuery = query.replace('SELECT *', 'SELECT COUNT(*) as total');
+    const countResult = await pool.query(countQuery, queryParams);
+    const total = parseInt(countResult.rows[0].total);
+
+    // Add sorting and pagination
+    query += ` ORDER BY ${sortBy} ${sortOrder}`;
+    query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    queryParams.push(limit, offset);
+
+    const result = await pool.query(query, queryParams);
+
+    res.json({
+      contacts: result.rows,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching contacts:", error);
+    res.status(500).json({ error: "Failed to fetch contacts" });
+  }
+});
+
+// Get single contact (Admin only)
+app.get("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const result = await pool.query(
+      "SELECT * FROM contacts WHERE id = $1",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Contact not found" });
+    }
+
+    // Mark as read when fetching
+    if (result.rows[0].status === 'unread') {
+      await pool.query(
+        "UPDATE contacts SET status = 'read' WHERE id = $1",
+        [id]
+      );
+      result.rows[0].status = 'read';
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("Error fetching contact:", error);
+    res.status(500).json({ error: "Failed to fetch contact" });
+  }
+});
+
+// Update contact status/response (Admin only)
+app.put("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, notes, response } = req.body;
+
+    const updateQuery = `
+      UPDATE contacts 
+      SET status = COALESCE($1, status),
+          admin_notes = COALESCE($2, admin_notes),
+          response = COALESCE($3, response),
+          responded_at = CASE WHEN $3 IS NOT NULL THEN CURRENT_TIMESTAMP ELSE responded_at END
+      WHERE id = $4
+      RETURNING *;
+    `;
+
+    const result = await pool.query(updateQuery, [
+      status || null,
+      notes || null,
+      response || null,
+      id
+    ]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Contact not found" });
+    }
+
+    res.json({
+      message: "Contact updated successfully",
+      contact: result.rows[0]
+    });
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    res.status(500).json({ error: "Failed to update contact" });
+  }
+});
+
+// Delete contact (Admin only)
+app.delete("/api/admin/contacts/:id", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await pool.query(
+      "DELETE FROM contacts WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Contact not found" });
+    }
+
+    res.json({ message: "Contact deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting contact:", error);
+    res.status(500).json({ error: "Failed to delete contact" });
+  }
+});
+
+// Get contact statistics (Admin only)
+app.get("/api/admin/contacts/stats", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const stats = await pool.query(`
+      SELECT 
+        COUNT(*) as total,
+        COUNT(CASE WHEN status = 'unread' THEN 1 END) as unread,
+        COUNT(CASE WHEN status = 'read' THEN 1 END) as read,
+        COUNT(CASE WHEN status = 'responded' THEN 1 END) as responded,
+        COUNT(CASE WHEN DATE(submitted_at) = CURRENT_DATE THEN 1 END) as today,
+        COUNT(CASE WHEN EXTRACT(WEEK FROM submitted_at) = EXTRACT(WEEK FROM CURRENT_DATE) 
+          AND EXTRACT(YEAR FROM submitted_at) = EXTRACT(YEAR FROM CURRENT_DATE) 
+          THEN 1 END) as this_week
+      FROM contacts;
+    `);
+
+    const dailyStats = await pool.query(`
+      SELECT 
+        DATE(submitted_at) as date,
+        COUNT(*) as count
+      FROM contacts
+      WHERE submitted_at >= CURRENT_DATE - INTERVAL '30 days'
+      GROUP BY DATE(submitted_at)
+      ORDER BY date DESC;
+    `);
+
+    res.json({
+      overall: stats.rows[0],
+      daily: dailyStats.rows
+    });
+  } catch (error) {
+    console.error("Error fetching contact stats:", error);
+    res.status(500).json({ error: "Failed to fetch statistics" });
+  }
+});
+
+// Export contacts to CSV (Admin only)
+app.get("/api/admin/contacts/export", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        id,
+        name,
+        email,
+        subject,
+        message,
+        status,
+        submitted_at,
+        responded_at,
+        admin_notes
+      FROM contacts
+      ORDER BY submitted_at DESC
+    `);
+
+    // Convert to CSV
+    const csvRows = [];
+    
+    // Add headers
+    csvRows.push(['ID', 'Name', 'Email', 'Subject', 'Message', 'Status', 'Submitted At', 'Responded At', 'Notes'].join(','));
+    
+    // Add data rows
+    result.rows.forEach(row => {
+      csvRows.push([
+        row.id,
+        `"${row.name.replace(/"/g, '""')}"`,
+        row.email,
+        `"${row.subject.replace(/"/g, '""')}"`,
+        `"${row.message.replace(/"/g, '""')}"`,
+        row.status,
+        new Date(row.submitted_at).toISOString(),
+        row.responded_at ? new Date(row.responded_at).toISOString() : '',
+        row.admin_notes ? `"${row.admin_notes.replace(/"/g, '""')}"` : ''
+      ].join(','));
+    });
+
+    const csv = csvRows.join('\n');
+    
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=contacts_export.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error("Error exporting contacts:", error);
+    res.status(500).json({ error: "Failed to export contacts" });
+  }
+});
+
+// Export enrollments to CSV (Admin only)
+app.get("/api/admin/enrollments/export", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        course,
+        education_level,
+        experience_level,
+        motivation,
+        schedule_preference,
+        status,
+        submitted_at,
+        agreed_to_terms,
+        subscribe_to_newsletter
+      FROM enrollments
+      ORDER BY submitted_at DESC
+    `);
+
+    // Convert to CSV
+    const csvRows = [];
+    
+    // Add headers
+    csvRows.push(['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Course', 'Education Level', 'Experience Level', 'Motivation', 'Schedule Preference', 'Status', 'Submitted At', 'Agreed to Terms', 'Subscribed to Newsletter'].join(','));
+    
+    // Add data rows
+    result.rows.forEach(row => {
+      csvRows.push([
+        row.id,
+        `"${row.first_name.replace(/"/g, '""')}"`,
+        `"${row.last_name.replace(/"/g, '""')}"`,
+        row.email,
+        row.phone || '',
+        `"${row.course.replace(/"/g, '""')}"`,
+        row.education_level ? `"${row.education_level.replace(/"/g, '""')}"` : '',
+        row.experience_level ? `"${row.experience_level.replace(/"/g, '""')}"` : '',
+        row.motivation ? `"${row.motivation.replace(/"/g, '""')}"` : '',
+        row.schedule_preference || '',
+        row.status,
+        new Date(row.submitted_at).toISOString(),
+        row.agreed_to_terms ? 'Yes' : 'No',
+        row.subscribe_to_newsletter ? 'Yes' : 'No'
+      ].join(','));
+    });
+
+    const csv = csvRows.join('\n');
+    
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=enrollments_export.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error("Error exporting enrollments:", error);
+    res.status(500).json({ error: "Failed to export enrollments" });
+  }
+});
+
+
 
 module.exports = app;
 
