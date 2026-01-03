@@ -4,153 +4,199 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ======== CodeBlock Questions (10) ========
   {
     question: (
       <div>
-        <p>Which HTML input element uses a placeholder to guide users?</p>
+        <p>What is the purpose of the placeholder attribute?</p>
         <CodeBlock
           language="html"
-          code={`<input type="email" placeholder="Enter your email address" />`}
+          code={`<input type="text" placeholder="Enter task" />`}
         />
       </div>
     ),
     options: [
       "Displays hint text when input is empty",
-      "Sets default text permanently",
-      "Changes text color inside the input",
-      "Hides input text",
+      "Sets permanent input value",
+      "Disables the input",
+      "Validates the input",
     ],
     answer: "Displays hint text when input is empty",
   },
   {
     question: (
       <div>
-        <p>What will the following JavaScript code do when executed?</p>
+        <p>What will this JavaScript code do?</p>
         <CodeBlock
           language="javascript"
-          code={`alert("New task has been added successfully!");`}
+          code={`alert("Todo added successfully");`}
         />
       </div>
     ),
     options: [
-      "Displays a popup alert message",
-      "Logs the message to console",
-      "Sends a notification to the server",
-      "Shows a confirmation dialog with Yes/No",
+      "Displays a popup alert",
+      "Logs message to console",
+      "Shows confirm dialog",
+      "Returns true",
     ],
-    answer: "Displays a popup alert message",
+    answer: "Displays a popup alert",
   },
   {
     question: (
       <div>
-        <p>What is logged to the console when the checkbox is checked?</p>
+        <p>What value will be logged if the checkbox is checked?</p>
         <CodeBlock
           language="javascript"
-          code={`let completed = document.getElementById("doneCheck").checked;\nconsole.log(completed);`}
+          code={`const isDone = document.getElementById("taskCheck").checked;
+console.log(isDone);`}
         />
       </div>
     ),
-    options: ["true", "false", "'checked'", "'true'"],
+    options: ["true", "false", "'true'", "undefined"],
     answer: "true",
   },
   {
     question: (
       <div>
-        <p>Which method removes a child node from the DOM?</p>
+        <p>Which method removes a child element?</p>
         <CodeBlock
           language="javascript"
-          code={`const ul = document.getElementById("taskList");\nconst li = document.getElementById("task1");\nul.removeChild(li);`}
+          code={`const list = document.getElementById("list");
+const item = document.getElementById("item1");
+list.removeChild(item);`}
         />
       </div>
     ),
-    options: [
-      "removeNode()",
-      "deleteChild()",
-      "removeChild()",
-      "clearElement()",
-    ],
+    options: ["deleteChild()", "removeNode()", "removeChild()", "clearChild()"],
     answer: "removeChild()",
   },
   {
     question: (
       <div>
-        <p>
-          What is the effect of using <code>classList.toggle()</code> on an
-          element?
-        </p>
+        <p>What is the effect of this code?</p>
         <CodeBlock
           language="javascript"
-          code={`document.getElementById("taskText").classList.toggle("highlighted");`}
+          code={`task.classList.toggle("completed");`}
         />
       </div>
     ),
     options: [
-      "Adds a class and never removes it",
-      "Toggles between adding and removing the class",
-      "Removes all classes from element",
-      "Creates a new CSS class",
+      "Always adds class",
+      "Always removes class",
+      "Adds or removes class based on state",
+      "Deletes the element",
     ],
-    answer: "Toggles between adding and removing the class",
+    answer: "Adds or removes class based on state",
   },
   {
     question: (
       <div>
-        <p>
-          Which of the following statements correctly replaces{" "}
-          <code>classList.add()</code> and <code>classList.remove()</code>?
-        </p>
+        <p>Which method can replace add() and remove()?</p>
         <CodeBlock
           language="javascript"
-          code={`// Instead of\nbox.classList.add("visible");\nbox.classList.remove("visible");\n\n// Use\nbox.classList.toggle("visible");`}
+          code={`box.classList.toggle("active");`}
         />
       </div>
     ),
     options: [
-      "classList.alternate()",
+      "classList.switch()",
       "classList.toggle()",
       "classList.replace()",
-      "classList.change()",
+      "classList.update()",
     ],
     answer: "classList.toggle()",
   },
   {
     question: (
       <div>
-        <p>Which HTML code shows a popup when clicked?</p>
+        <p>Which code shows an alert when button is clicked?</p>
         <CodeBlock
           language="html"
-          code={`<button onclick="alert('Task completed!')">Complete Task</button>`}
+          code={`<button onclick="alert('Task completed')">Done</button>`}
         />
       </div>
     ),
     options: [
-      "<button alert()>Complete Task</button>",
-      "<button onclick='alert(`Task completed!`)' >Complete Task</button>",
-      "<button message='Task completed!'></button>",
-      "<button onalert='Task completed!'>Complete</button>",
+      "<button alert()>Done</button>",
+      "<button onclick='alert(`Task completed`)'>Done</button>",
+      "<button message='Task completed'></button>",
+      "<button onClickAlert>Done</button>",
     ],
-    answer:
-      "<button onclick='alert(`Task completed!`)' >Complete Task</button>",
+    answer: "<button onclick='alert(`Task completed`)'>Done</button>",
   },
   {
-    question: "What does the alert() function return after the user clicks OK?",
-    options: ["true", "undefined", "null", "The message string itself"],
-    answer: "undefined",
+    question: (
+      <div>
+        <p>What does removeChild() return?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const removed = parent.removeChild(child);
+console.log(removed);`}
+        />
+      </div>
+    ),
+    options: ["The removed child element", "true", "undefined", "null"],
+    answer: "The removed child element",
   },
   {
-    question: "Which property checks if a checkbox input is selected?",
-    options: ["checked", "value", "selected", "status"],
+    question: (
+      <div>
+        <p>Which property changes checkbox state?</p>
+        <CodeBlock language="javascript" code={`checkbox.checked = false;`} />
+      </div>
+    ),
+    options: ["value", "status", "checked", "selected"],
     answer: "checked",
   },
   {
-    question: "Which DOM method removes a child element from its parent?",
+    question: (
+      <div>
+        <p>What happens when alert() is executed?</p>
+        <CodeBlock
+          language="javascript"
+          code={`alert("Please enter a task");`}
+        />
+      </div>
+    ),
     options: [
-      "removeChild()",
-      "deleteElement()",
-      "removeNode()",
-      "clearNode()",
+      "Popup with OK button appears",
+      "Message logs to console",
+      "Returns true",
+      "Page reloads",
     ],
+    answer: "Popup with OK button appears",
+  },
+
+  // ======== Normal Questions (5) ========
+  {
+    question: "Which attribute provides hint text inside an input?",
+    options: ["value", "name", "placeholder", "type"],
+    answer: "placeholder",
+  },
+  {
+    question: "What does alert() return in JavaScript?",
+    options: ["true", "false", "undefined", "null"],
+    answer: "undefined",
+  },
+  {
+    question: "Which property returns a boolean value for checkbox status?",
+    options: ["value", "checked", "selected", "state"],
+    answer: "checked",
+  },
+  {
+    question: "Which DOM method removes a child from its parent?",
+    options: ["removeChild()", "deleteNode()", "clearElement()", "remove()"],
     answer: "removeChild()",
+  },
+  {
+    question: "Why is classList.toggle() useful?",
+    options: [
+      "It creates CSS classes",
+      "It switches class on and off",
+      "It removes all classes",
+      "It styles elements directly",
+    ],
+    answer: "It switches class on and off",
   },
 ];
 
@@ -158,9 +204,10 @@ const Todos_Application_MCQ_2 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -189,7 +236,7 @@ const Todos_Application_MCQ_2 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -219,13 +266,16 @@ const Todos_Application_MCQ_2 = ({
     }
   };
   return (
-    <MCQLogic title="Todos Application 2 - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Todos Application 2 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

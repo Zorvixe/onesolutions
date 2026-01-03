@@ -126,9 +126,15 @@ const JavaScript_On_Demand_Session_CS = ({
 headingEl.textContent = "Items Needed";`}
         />
 
-        <p>To fix it, make sure the ID in HTML and JS are the same.</p>
+        <p>
+          So, While accessing an HTML element with{" "}
+          <b>
+            the ID using JS, the ID used in the HTML element and the document
+          </b>
+          .<code>getElementById</code> <b>method must be the same</b>.
+        </p>
 
-        <h5>Correct Code:</h5>
+        <h3>Correct Code:</h3>
 
         <CodeBlock
           language="html"
@@ -159,11 +165,15 @@ headingEl.textContent = "Items Needed";`}
         />
 
         <p>
-          There shouldn't be any extra spaces in the IDs used in both HTML and
-          JS.
+          The HTML element's text content doesn't change because there is an
+          extra space at the end of the ID in the HTML code.
+        </p>
+        <p>
+          So, there shouldn't be any extra spaces in the IDs used in both the
+          HTML and JS.
         </p>
 
-        <h5>Correct Code:</h5>
+        <h3>Correct Code:</h3>
 
         <CodeBlock
           language="html"
@@ -196,9 +206,12 @@ greet();`}
           error in the above code snippet.
         </p>
 
-        <p>To fix it, use the same function name as in the declaration.</p>
+        <p>
+          So, while calling a function, you must use the same function name used
+          in the function declaration.
+        </p>
 
-        <h5>Correct Code:</h5>
+        <h3>Correct Code:</h3>
         <CodeBlock
           language="javascript"
           code={`function greeting() {
@@ -207,8 +220,6 @@ greet();`}
 }
 greeting();`}
         />
-
-        <p>Try out the above code snippets in the Code Playground!</p>
       </section>
 
       {/* Continue Button */}

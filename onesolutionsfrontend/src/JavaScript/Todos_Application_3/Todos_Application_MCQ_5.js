@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
@@ -27,7 +28,7 @@ const questionsData = [
         <p>Which array method adds elements to the beginning of the array?</p>
         <CodeBlock
           language="javascript"
-          code={`let colors = ["blue", "green"];\ncolors.unshift("red");\nconsole.log(colors);`}
+          code={`let colors = ["blue", "green"];\ncolors.unshift("red");`}
         />
       </div>
     ),
@@ -50,7 +51,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What will the find() method return in this example?</p>
+        <p>What will the find() method return?</p>
         <CodeBlock
           language="javascript"
           code={`let nums = [2, 5, 8, 10];\nlet found = nums.find(num => num > 6);\nconsole.log(found);`}
@@ -81,7 +82,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What will be the output of the join() method here?</p>
+        <p>What will be the output of join()?</p>
         <CodeBlock
           language="javascript"
           code={`let words = ["Hello", "World"];\nconsole.log(words.join(" "));`}
@@ -99,30 +100,78 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What does the concat() method do in this example?</p>
+        <p>What does the concat() method return?</p>
         <CodeBlock
           language="javascript"
-          code={`let arr1 = [1, 2];\nlet arr2 = [3, 4];\nlet combined = arr1.concat(arr2);\nconsole.log(combined);`}
+          code={`let arr1 = [1, 2];\nlet arr2 = [3, 4];\nlet result = arr1.concat(arr2);\nconsole.log(result);`}
         />
       </div>
     ),
-    options: ["[1, 2]", "[3, 4]", "[1, 2, 3, 4]", "[[1, 2], [3, 4]]"],
+    options: ["[1, 2]", "[3, 4]", "[1, 2, 3, 4]", "[[1,2],[3,4]]"],
     answer: "[1, 2, 3, 4]",
   },
   {
-    question: "Which array method returns true if an item exists in the array?",
-    options: ["find()", "includes()", "indexOf()", "concat()"],
+    question: "Which method checks if an element exists in an array?",
+    options: ["find()", "includes()", "indexOf()", "splice()"],
     answer: "includes()",
   },
   {
-    question: "Which array method removes the first element of the array?",
+    question: "Which method removes the first element from an array?",
     options: ["pop()", "shift()", "splice()", "unshift()"],
     answer: "shift()",
   },
   {
-    question: "Which method sorts array items in ascending order by default?",
-    options: ["sort()", "order()", "arrange()", "indexOf()"],
+    question: "Which method returns the first index of an element?",
+    options: ["find()", "lastIndexOf()", "indexOf()", "includes()"],
+    answer: "indexOf()",
+  },
+  {
+    question: (
+      <div>
+        <p>What will be returned if the item is not found using findIndex()?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let nums = [1, 3, 5];\nconsole.log(nums.findIndex(num => num === 10));`}
+        />
+      </div>
+    ),
+    options: ["0", "undefined", "-1", "null"],
+    answer: "-1",
+  },
+  {
+    question: (
+      <div>
+        <p>What does shift() return?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let arr = [10, 20, 30];\nconsole.log(arr.shift());`}
+        />
+      </div>
+    ),
+    options: ["10", "[20, 30]", "30", "undefined"],
+    answer: "10",
+  },
+  {
+    question:
+      "Which method returns a new array without modifying the original?",
+    options: ["splice()", "slice()", "shift()", "unshift()"],
+    answer: "slice()",
+  },
+  {
+    question:
+      "Which method sorts array elements in ascending order by default?",
+    options: ["sort()", "order()", "arrange()", "join()"],
     answer: "sort()",
+  },
+  {
+    question: "Which splice() syntax is used to add new items?",
+    options: [
+      "arr.splice(start, deleteCount)",
+      "arr.splice(start, deleteCount, item1)",
+      "arr.splice(item1, item2)",
+      "arr.splice(deleteCount)",
+    ],
+    answer: "arr.splice(start, deleteCount, item1)",
   },
 ];
 
@@ -130,9 +179,10 @@ const Todos_Application_MCQ_5 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -161,7 +211,7 @@ const Todos_Application_MCQ_5 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -191,13 +241,16 @@ const Todos_Application_MCQ_5 = ({
     }
   };
   return (
-    <MCQLogic title="Todos Application 5 - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Todos Application 5 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

@@ -116,31 +116,17 @@ const Todos_Applications_CS_4 = ({
         <h3>1.3 JSON Methods</h3>
 
         <h4>1.3.1 JSON.stringify()</h4>
-        <p>
-          The <code className="highlight-code">JSON.stringify()</code> method
-          converts a JavaScript value or object into a JSON string.
-        </p>
+        <p>It converts the given value into JSON string.</p>
         <p>
           <b>Syntax:</b>{" "}
           <code className="highlight-code">JSON.stringify(value)</code>
         </p>
 
         <h4>1.3.2 JSON.parse()</h4>
-        <p>
-          The <code className="highlight-code">JSON.parse()</code> method parses
-          a JSON string and converts it into a JavaScript object.
-        </p>
+        <p>It parses a JSON string and returns a JS object.</p>
         <p>
           <b>Syntax:</b>{" "}
           <code className="highlight-code">JSON.parse(string)</code>
-        </p>
-      </section>
-
-      {/* Practice Note */}
-      <section>
-        <p>
-          Try out the JSON Methods in the below <b>Code Playground</b> to
-          practice converting between JS Objects and JSON strings.
         </p>
       </section>
 

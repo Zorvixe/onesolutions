@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
@@ -64,8 +65,100 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the correct syntax to remove a key named <b>"todoList"</b>{" "}
-          from Local Storage?
+          What type of argument must be passed to
+          <code> localStorage.removeItem() </code>?
+        </p>
+      </div>
+    ),
+    options: ["Number", "Boolean", "String", "Array"],
+    answer: "String",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          Which statement is correct regarding
+          <code> removeItem() </code>?
+        </p>
+      </div>
+    ),
+    options: [
+      "It removes all items from Local Storage",
+      "It removes only the specified key-value pair",
+      "It clears session storage",
+      "It returns the removed value",
+    ],
+    answer: "It removes only the specified key-value pair",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          What will be the value returned by
+          <code> localStorage.removeItem() </code>?
+        </p>
+      </div>
+    ),
+    options: ["true", "false", "null", "undefined"],
+    answer: "undefined",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          In a Todos application, when should
+          <code> removeItem() </code> be used?
+        </p>
+      </div>
+    ),
+    options: [
+      "When adding a new todo",
+      "When fetching todos",
+      "When deleting a todo permanently",
+      "When marking a todo as active",
+    ],
+    answer: "When deleting a todo permanently",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          What happens to other Local Storage data when
+          <code> removeItem("todo") </code> is executed?
+        </p>
+      </div>
+    ),
+    options: [
+      "All data is cleared",
+      "Only the specified key is removed",
+      "Browser storage is reset",
+      "Session storage is cleared",
+    ],
+    answer: "Only the specified key is removed",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          Which of the following best describes the purpose of removeItem() in a
+          Todos App?
+        </p>
+      </div>
+    ),
+    options: [
+      "To add new todos to local storage",
+      "To remove completed or deleted todos from local storage",
+      "To update todo status in local storage",
+      "To reload todos from the server",
+    ],
+    answer: "To remove completed or deleted todos from local storage",
+  },
+  {
+    question: (
+      <div>
+        <p>
+          What is the correct syntax to remove a key named
+          <b> "todoList" </b> from Local Storage?
         </p>
         <CodeBlock
           language="javascript"
@@ -120,27 +213,12 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>
-          Which of the following best describes the purpose of removeItem() in a
-          Todos App?
-        </p>
-      </div>
-    ),
-    options: [
-      "To add new todos to local storage",
-      "To remove completed or deleted todos from local storage",
-      "To update todo status in local storage",
-      "To reload todos from the server",
-    ],
-    answer: "To remove completed or deleted todos from local storage",
-  },
-  {
-    question: (
-      <div>
         <p>Identify the output when executing the code below:</p>
         <CodeBlock
           language="javascript"
-          code={`localStorage.setItem("task", "Read");\nlocalStorage.removeItem("task");\nconsole.log(localStorage.getItem("task"));`}
+          code={`localStorage.setItem("task", "Read");
+localStorage.removeItem("task");
+console.log(localStorage.getItem("task"));`}
         />
       </div>
     ),
@@ -155,7 +233,9 @@ const questionsData = [
         </p>
         <CodeBlock
           language="javascript"
-          code={`localStorage.setItem("task1", "Read");\nlocalStorage.setItem("task2", "Write");\nlocalStorage.removeItem("task1");`}
+          code={`localStorage.setItem("task1", "Read");
+localStorage.setItem("task2", "Write");
+localStorage.removeItem("task1");`}
         />
       </div>
     ),
@@ -173,9 +253,10 @@ const Todos_Application_MCQ_6 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -204,7 +285,7 @@ const Todos_Application_MCQ_6 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -234,13 +315,16 @@ const Todos_Application_MCQ_6 = ({
     }
   };
   return (
-    <MCQLogic title="Todos Application 6 - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Todos Application 6 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

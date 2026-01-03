@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
@@ -42,12 +43,10 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>
-          Which JSON method will convert a JavaScript array into a JSON string?
-        </p>
+        <p>Which JSON method converts a JavaScript array into a JSON string?</p>
         <CodeBlock
           language="javascript"
-          code={`let fruits = ["apple", "banana", "mango"];\nlet jsonData = JSON.stringify(fruits);\nconsole.log(jsonData);`}
+          code={`let fruits = ["apple", "banana", "mango"];\nJSON.stringify(fruits);`}
         />
       </div>
     ),
@@ -75,7 +74,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Identify the correct way to represent an object in JSON format.</p>
+        <p>Which of the following is a valid JSON object?</p>
         <CodeBlock
           language="json"
           code={`{\n  "id": 101,\n  "product": "Laptop",\n  "available": true\n}`}
@@ -93,7 +92,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What happens when you call JSON.stringify() on a number?</p>
+        <p>What happens when JSON.stringify() is called on a number?</p>
         <CodeBlock
           language="javascript"
           code={`let num = 50;\nconsole.log(JSON.stringify(num));`}
@@ -106,7 +105,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What will the following code output?</p>
+        <p>What will be the output of the following code?</p>
         <CodeBlock
           language="javascript"
           code={`let obj = { a: null, b: "hello" };\nconsole.log(JSON.stringify(obj));`}
@@ -122,12 +121,12 @@ const questionsData = [
     answer: `'{"a":null,"b":"hello"}'`,
   },
   {
-    question: "Which of the following types is NOT supported in JSON?",
+    question: "Which of the following data types is NOT supported by JSON?",
     options: ["String", "Number", "Function", "Boolean"],
     answer: "Function",
   },
   {
-    question: "In JSON, keys in objects must be enclosed with what?",
+    question: "In JSON, object keys must be enclosed using?",
     options: ["Single quotes", "Backticks", "Double quotes", "No quotes"],
     answer: "Double quotes",
   },
@@ -142,15 +141,51 @@ const questionsData = [
     ],
     answer: "JSON.parse()",
   },
+  {
+    question: "Which of the following is a supported JSON data type?",
+    options: ["Array", "Function", "Date", "Undefined"],
+    answer: "Array",
+  },
+  {
+    question: "Why is JSON commonly used in web applications?",
+    options: [
+      "For styling web pages",
+      "For storing and exchanging data",
+      "For executing JavaScript logic",
+      "For creating HTML elements",
+    ],
+    answer: "For storing and exchanging data",
+  },
+  {
+    question: "Which value is valid in JSON?",
+    options: ["undefined", "NaN", "null", "function() {}"],
+    answer: "null",
+  },
+  {
+    question: "What does JSON.stringify() return?",
+    options: ["A JavaScript object", "A JSON string", "An array", "A number"],
+    answer: "A JSON string",
+  },
+  {
+    question: "JSON is mainly used between which two layers?",
+    options: [
+      "HTML and CSS",
+      "Client and Server",
+      "Browser and OS",
+      "Database and UI",
+    ],
+    answer: "Client and Server",
+  },
 ];
 
 const Todos_Application_MCQ_4 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -179,7 +214,7 @@ const Todos_Application_MCQ_4 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -209,13 +244,16 @@ const Todos_Application_MCQ_4 = ({
     }
   };
   return (
-    <MCQLogic title="Todos Application 4 - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Todos Application 4 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

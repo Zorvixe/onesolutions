@@ -197,7 +197,7 @@ let last = numbers.pop();\nconsole.log(last);\nconsole.log(numbers);`}
         </p>
         <p>
           It can be anonymous and is <code>not hoisted</code>, so it can be
-          called only <b>after</b>
+          called only <b>after </b>
           it is defined.
         </p>
         <h3>Code</h3>

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
   {
     question: (
       <div>
-        <p>What happens to the Execution Context when a web page is reloaded?</p>
+        <p>
+          What happens to the Execution Context when a web page is reloaded?
+        </p>
         <CodeBlock
           language="javascript"
           code={`// Reloading the page\nlocation.reload();`}
@@ -68,10 +71,10 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Which code retrieves and displays a saved gender value from Local Storage?</p>
+        <p>Which code retrieves a value from Local Storage?</p>
         <CodeBlock
           language="javascript"
-          code={`let gender = localStorage.getItem("gender");\nconsole.log(gender);`}
+          code={`let gender = localStorage.getItem("gender");`}
         />
       </div>
     ),
@@ -86,20 +89,20 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is the result of clearing all stored data from Local Storage?</p>
+        <p>What is the result of clearing all data from Local Storage?</p>
         <CodeBlock
           language="javascript"
           code={`localStorage.clear();\nconsole.log(localStorage.length);`}
         />
       </div>
     ),
-    options: ["0", "undefined", "null", "All items remain unchanged"],
+    options: ["0", "undefined", "null", "Data remains unchanged"],
     answer: "0",
   },
   {
     question: (
       <div>
-        <p>How can you remove a specific key from Local Storage?</p>
+        <p>How can you remove a specific item from Local Storage?</p>
         <CodeBlock
           language="javascript"
           code={`localStorage.removeItem("fullName");`}
@@ -115,22 +118,22 @@ const questionsData = [
     answer: "localStorage.removeItem('fullName')",
   },
   {
-    question: "Which of the following correctly defines the Execution Context?",
+    question: "Which statement correctly defines Execution Context?",
     options: [
       "It is the environment where JavaScript code executes",
-      "It is a storage location for cookies",
-      "It is used to design web layouts",
-      "It stores user session data",
+      "It is used to store cookies",
+      "It controls HTML rendering",
+      "It stores form data",
     ],
     answer: "It is the environment where JavaScript code executes",
   },
   {
-    question: "When should you use the value null in JavaScript?",
+    question: "When should null be used in JavaScript?",
     options: [
-      "When you want to assign a temporary string",
+      "When a variable is automatically created",
       "When you intentionally want a variable with no value",
-      "When a variable type is undefined",
-      "When you want to clear Local Storage",
+      "When storing numbers in Local Storage",
+      "When removing an item from storage",
     ],
     answer: "When you intentionally want a variable with no value",
   },
@@ -139,15 +142,53 @@ const questionsData = [
     options: ["<input>", "<textarea>", "<text>", "<multiline>"],
     answer: "<textarea>",
   },
+  {
+    question:
+      "Which attribute specifies the number of visible text lines in a textarea?",
+    options: ["cols", "rows", "length", "size"],
+    answer: "rows",
+  },
+  {
+    question:
+      "Which attribute defines the number of characters per line in a textarea?",
+    options: ["rows", "width", "cols", "height"],
+    answer: "cols",
+  },
+  {
+    question: "Local Storage data is stored in which format?",
+    options: [
+      "Array format",
+      "Object format",
+      "Key-value pair format",
+      "JSON only",
+    ],
+    answer: "Key-value pair format",
+  },
+  {
+    question: "Client-side data storage means data is stored where?",
+    options: [
+      "On the server",
+      "In the database",
+      "On the client’s machine",
+      "In the backend API",
+    ],
+    answer: "On the client’s machine",
+  },
+  {
+    question: "Which of the following is a server-side storage option?",
+    options: ["Local Storage", "Session Storage", "Cookies", "Server Database"],
+    answer: "Server Database",
+  },
 ];
 
 const Todos_Application_MCQ_3 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -176,7 +217,7 @@ const Todos_Application_MCQ_3 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -206,13 +247,16 @@ const Todos_Application_MCQ_3 = ({
     }
   };
   return (
-    <MCQLogic title="Todos Application 3 - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Todos Application 3 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

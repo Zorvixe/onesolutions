@@ -90,8 +90,7 @@ const Todos_Applications_3_CS = ({
           <li>Local Storage</li>
           <li>Session Storage</li>
           <li>Cookies</li>
-          <li>IndexedDB</li>
-          <li>and many more.</li>
+          <li>IndexedDB and many more.</li>
         </ul>
 
         <h3>2.2 Server-Side Data Storage</h3>
@@ -108,12 +107,12 @@ const Todos_Applications_3_CS = ({
           browser.
         </p>
         <p>
-          It is a <b>Storage Object</b> where data is stored as{" "}
-          <b>key-value pairs</b>.
+          It is a <b>Storage Object</b> Data can be stored in the form of
+          key-value pairs.
         </p>
         <p>
-          Both <b>key</b> and <b>value</b> must be strings. If the type is
-          different, they will automatically be converted to strings.
+          Please note that both key and value must be strings. If their type is
+          other than a string, they get converted to strings automatically.
         </p>
 
         <table className="table table-bordered mt-3">
@@ -152,7 +151,8 @@ const Todos_Applications_3_CS = ({
 
         <h3>3.1 The setItem() Method</h3>
         <p>
-          The <b>setItem()</b> method is used to store data in Local Storage.
+          The <code>setItem()</code> method is used to store data in Local
+          Storage.
         </p>
         <p>
           <b>Syntax:</b> <code>localStorage.setItem("Key", "Value");</code>
@@ -160,7 +160,7 @@ const Todos_Applications_3_CS = ({
 
         <h3>3.2 The getItem() Method</h3>
         <p>
-          The <b>getItem()</b> method is used to retrieve data from Local
+          The <code>getItem()</code> method is used to retrieve data from Local
           Storage.
         </p>
         <p>
@@ -174,8 +174,8 @@ const Todos_Applications_3_CS = ({
 
         <h3>4.1 null</h3>
         <p>
-          We use <b>null</b> when we intentionally want a variable but don’t
-          need to assign it a value.
+          We use <code>null</code> in a situation where we intentionally want a
+          variable but don't need a value to it.
         </p>
 
         <CodeBlock
@@ -202,17 +202,13 @@ console.log(typeof(selectedColor));  // object`}
         />
         <ul>
           <li>
-            The HTML <b>rows</b> attribute specifies the number of lines.
+            The HTML <code>rows</code> attribute specifies the number of lines.
           </li>
           <li>
-            The HTML <b>cols</b> attribute specifies the number of characters
-            per each line.
+            The HTML <code>cols</code> attribute specifies the number of
+            characters per each line.
           </li>
         </ul>
-        <p>
-          Try out the HTML textarea element, setItem() and getItem() methods in
-          the below Code Playground.
-        </p>
       </section>
 
       {/* Continue Button */}

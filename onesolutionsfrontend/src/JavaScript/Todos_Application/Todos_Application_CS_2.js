@@ -141,15 +141,6 @@ const Todos_Applications_CS_2 = ({
         </p>
       </section>
 
-      {/* Practice Note */}
-      <section>
-        <p>
-          Try out adding the placeholder to the HTML input elements, deleting
-          the HTML child elements, adding alerts and toggling the class names in
-          the below Code Playground.
-        </p>
-      </section>
-
       {/* Continue Button */}
       <div className="view-continue">
         <button

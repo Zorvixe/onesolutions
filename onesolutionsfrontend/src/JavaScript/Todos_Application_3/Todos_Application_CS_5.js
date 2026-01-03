@@ -62,7 +62,7 @@ const Todos_Application_CS_5 = ({
       {/* 1. Array Methods */}
       <section>
         <h2>1. Array Methods</h2>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table border="1" style={{ borderCollapse: "collapse", width: "80%" }}>
           <thead>
             <tr>
               <th>Method</th>
@@ -139,6 +139,7 @@ console.log(deletedItems);  // [2, 8.2]`}
         </p>
 
         <h4>1.1.2 Adding new items</h4>
+
         <p>
           <b>Syntax:</b>{" "}
           <code>arr.splice(Start, Delete Count, Item1, Item2 ...)</code>
@@ -172,8 +173,8 @@ console.log(myArray);  // [5, "six", true, 8.2]`}
         <h3>1.2 findIndex()</h3>
         <p>
           The <code>findIndex()</code> method returns the first item's index
-          that satisfies the provided testing function. <b>returns -1</b> if not
-          found.
+          that satisfies the provided testing function. If no item is found, it
+          <b> returns -1</b>.
         </p>
         <p>
           <b>Syntax:</b> <code>arr.findIndex(Testing Function)</code>

@@ -78,15 +78,10 @@ const Todos_Application_CS_6 = ({
           <b>Key</b> - Name of the key to be removed
         </p>
 
-        <CodeBlock language="javascript" code={`localStorage.removeItem("todoList");`} />
-      </section>
-
-      {/* Practice Note */}
-      <section>
-        <p>
-          Try out persisting the todo checked status and removing a todo from
-          local storage in the below Code Playground.
-        </p>
+        <CodeBlock
+          language="javascript"
+          code={`localStorage.removeItem("todoList");`}
+        />
       </section>
 
       {/* Continue Button */}

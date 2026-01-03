@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
 
-const Objects_CS = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const Objects_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -104,7 +99,7 @@ const Objects_CS = ({
           We can add properties into <code>{`{}`}</code> as{" "}
           <code>key: value</code> pairs.
         </p>
-        <h3>Code</h3>
+
         <CodeBlock
           language="javascript"
           code={`let person = {
@@ -131,18 +126,31 @@ console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 
         <h3>Valid Identifiers</h3>
         <CodeBlock
           language="javascript"
-          code={`const name = "John";\nconst $price = 100;\nconst _id = 1;`}
+          code={`firstName;
+$firstName;
+_firstName;
+firstName12;`}
         />
 
         <h3>Invalid Identifiers</h3>
-        <CodeBlock
-          language="javascript"
-          code={`const 1name = "John";  // Error\nconst first-name = "John";  // Error`}
-        />
+        <div className="Error-message">
+          <p>
+            12firstName; <br />
+            firstName 12;
+          </p>
+        </div>
         <p>To use an invalid identifier as a key, specify it in quotes:</p>
         <CodeBlock
           language="javascript"
-          code={`const obj = {\n  "first-name": "John"\n};`}
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  "1": "value1",
+  "my choice": "value2",
+};
+
+console.log(person);  // Object {1: "value1", firstName: "Rahul", lastName: "Attuluri", age: 28, my choice: "value2"}`}
         />
       </section>
 
@@ -151,11 +159,7 @@ console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 
         <h2>2. Accessing Object Properties</h2>
 
         <h3>2.1 Dot Notation</h3>
-        <p>Use dot notation when key is a valid identifier.</p>
-        <CodeBlock
-          language="javascript"
-          code={`console.log(person.firstName);  // Rahul`}
-        />
+
         <CodeBlock
           language="javascript"
           code={`let person = {
@@ -168,11 +172,9 @@ console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 
 
 console.log(person.firstName);  // Rahul`}
         />
+        <p>Use Dot notation when the key is a valid Identifier.</p>
         <h3>2.2 Bracket Notation</h3>
-        <CodeBlock
-          language="javascript"
-          code={`console.log(person["lastName"]);  // Attuluri`}
-        />
+
         <CodeBlock
           language="javascript"
           code={`let person = {
@@ -187,10 +189,8 @@ console.log(person["firstName"]);  // Rahul`}
         />
 
         <h3>2.3 Accessing Non-existent Properties</h3>
-        <CodeBlock
-          language="javascript"
-          code={`console.log(person.gender);  // undefined`}
-        />
+        <p>Dot Notation:</p>
+
         <CodeBlock
           language="javascript"
           code={`let person = {
@@ -203,7 +203,19 @@ console.log(person["firstName"]);  // Rahul`}
 
 console.log(person.gender);  // undefined`}
         />
+        <p>Bracket Notation:</p>
+        <CodeBlock
+          language="javascript"
+          code={`let person = {
+  firstName: "Rahul",
+  lastName: "Attuluri",
+  age: 28,
+  "1": "value1",
+  "my choice": "value2",
+};
 
+console.log(person["gender"]);  // undefined`}
+        />
         <h3>2.4 Variable as a Key</h3>
         <CodeBlock
           language="javascript"
@@ -212,11 +224,8 @@ console.log(person.gender);  // undefined`}
   lastName: "Attuluri",
   age: 28,
   };
-
 let a = "firstName";
-
 console.log(person[a]);  // Rahul
-
 console.log(person.a);  // undefined`}
         />
 
@@ -234,9 +243,7 @@ console.log(person.a);  // undefined`}
   };
 
 let { gender, age } = person;
-
 console.log(gender);  // undefined
-
 console.log(age);  // 28`}
         />
       </section>
@@ -247,63 +254,57 @@ console.log(age);  // 28`}
 
         <h3>3.1 Modifying Object Property</h3>
         <p>Dot Notation:</p>
-        <CodeBlock language="javascript" code={`person.age = 30;`} />
+
         <CodeBlock
           language="javascript"
           code={`let person = {
   firstName: "Rahul",
   lastName: "Attuluri",
   age: 28,
-  };
+};
 
 person.firstName = "Abhi";
-
 console.log(person.firstName);  // Abhi`}
         />
         <p>Bracket Notation:</p>
-        <CodeBlock language="javascript" code={`person["city"] = "Mumbai";`} />
+
         <CodeBlock
           language="javascript"
           code={`let person = {
   firstName: "Rahul",
   lastName: "Attuluri",
   age: 28,
-  };
+};
 
 person["firstName"] = "Abhi";
-
 console.log(person["firstName"]);  // Abhi`}
         />
         <h3>3.2 Adding Object Property</h3>
         <p>Dot Notation:</p>
-        <CodeBlock language="javascript" code={`person.country = "India";`} />
+
         <CodeBlock
           language="javascript"
-          code={`et person = {
+          code={`let person = {
   firstName: "Rahul",
   lastName: "Attuluri",
   age: 28,
-  };
+};
 
 person.gender = "Male";
 
 console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 28, gender: "Male"}`}
         />
         <p>Bracket Notation:</p>
-        <CodeBlock
-          language="javascript"
-          code={`person["profession"] = "Engineer";`}
-        />
+
         <CodeBlock
           language="javascript"
           code={`let person = {
   firstName: "Rahul",
   lastName: "Attuluri",
   age: 28,
-  };
+};
 
 person["gender"] = "Male";
-
 console.log(person);  // Object {firstName: "Rahul", lastName: "Attuluri", age: 28, gender: "Male"}`}
         />
       </section>
