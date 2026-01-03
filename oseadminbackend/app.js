@@ -3688,6 +3688,9 @@ app.post(
 // Get all enrollments (Admin only)
 app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req, res) => {
   try {
+    const { user } = req;
+    console.log('User accessing enrollments:', user.email);
+    
     const { 
       page = 1, 
       limit = 10, 
@@ -3700,9 +3703,15 @@ app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req,
 
     const offset = (page - 1) * limit;
 
+    // Validate sortBy to prevent SQL injection
+    const validSortColumns = ['id', 'first_name', 'last_name', 'email', 'course', 'submitted_at', 'status', 'updated_at'];
+    const safeSortBy = validSortColumns.includes(sortBy) ? sortBy : 'submitted_at';
+    const safeSortOrder = sortOrder.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
+
     let query = `
       SELECT *, 
-      CONCAT(first_name, ' ', last_name) as full_name
+      CONCAT(first_name, ' ', last_name) as full_name,
+      TO_CHAR(submitted_at, 'YYYY-MM-DD HH24:MI') as formatted_date
       FROM enrollments
       WHERE 1=1
     `;
@@ -3710,13 +3719,13 @@ app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req,
     const queryParams = [];
     let paramCount = 1;
 
-    if (status) {
+    if (status && status !== 'all') {
       query += ` AND status = $${paramCount}`;
       queryParams.push(status);
       paramCount++;
     }
 
-    if (course) {
+    if (course && course !== 'all') {
       query += ` AND course = $${paramCount}`;
       queryParams.push(course);
       paramCount++;
@@ -3727,25 +3736,32 @@ app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req,
         first_name ILIKE $${paramCount} OR 
         last_name ILIKE $${paramCount} OR 
         email ILIKE $${paramCount} OR
-        phone ILIKE $${paramCount}
+        phone ILIKE $${paramCount} OR
+        CONCAT(first_name, ' ', last_name) ILIKE $${paramCount}
       )`;
       queryParams.push(`%${search}%`);
       paramCount++;
     }
 
     // Count total records
-    const countQuery = query.replace('SELECT *,', 'SELECT COUNT(*) as total');
+    const countQuery = query.replace(
+      'SELECT *, CONCAT(first_name, \' \', last_name) as full_name, TO_CHAR(submitted_at, \'YYYY-MM-DD HH24:MI\') as formatted_date',
+      'SELECT COUNT(*) as total'
+    );
+    
     const countResult = await pool.query(countQuery, queryParams);
     const total = parseInt(countResult.rows[0].total);
 
     // Add sorting and pagination
-    query += ` ORDER BY ${sortBy} ${sortOrder}`;
+    query += ` ORDER BY ${safeSortBy} ${safeSortOrder}`;
     query += ` LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
-    queryParams.push(limit, offset);
+    queryParams.push(parseInt(limit), parseInt(offset));
 
+    console.log('Executing query with params:', { queryParams, query });
     const result = await pool.query(query, queryParams);
 
     res.json({
+      success: true,
       enrollments: result.rows,
       pagination: {
         page: parseInt(page),
@@ -3756,7 +3772,50 @@ app.get("/api/admin/enrollments", authenticateToken, authorizeAdmin, async (req,
     });
   } catch (error) {
     console.error("Error fetching enrollments:", error);
-    res.status(500).json({ error: "Failed to fetch enrollments" });
+    res.status(500).json({ 
+      success: false,
+      error: "Failed to fetch enrollments",
+      details: error.message 
+    });
+  }
+});
+
+// Export enrollments as CSV
+app.get("/api/admin/enrollments/export", authenticateToken, authorizeAdmin, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        id,
+        first_name as "First Name",
+        last_name as "Last Name",
+        email as "Email",
+        phone as "Phone",
+        course as "Course",
+        education_level as "Education Level",
+        experience_level as "Experience Level",
+        schedule_preference as "Schedule Preference",
+        status as "Status",
+        TO_CHAR(submitted_at, 'YYYY-MM-DD HH24:MI:SS') as "Submitted At",
+        admin_notes as "Admin Notes"
+      FROM enrollments
+      ORDER BY submitted_at DESC
+    `);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "No enrollments to export" });
+    }
+
+    // Convert to CSV
+    const json2csv = require('json2csv').parse;
+    const csv = json2csv(result.rows);
+
+    // Set headers for file download
+    res.header('Content-Type', 'text/csv');
+    res.attachment(`enrollments_${new Date().toISOString().split('T')[0]}.csv`);
+    res.send(csv);
+  } catch (error) {
+    console.error("Export error:", error);
+    res.status(500).json({ error: "Failed to export data" });
   }
 });
 

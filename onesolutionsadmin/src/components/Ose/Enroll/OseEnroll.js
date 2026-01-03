@@ -7,6 +7,7 @@ import { format } from "date-fns";
 const OseEnroll = () => {
   const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [statsLoading, setStatsLoading] = useState(false);
   const [stats, setStats] = useState(null);
   const [filters, setFilters] = useState({
     page: 1,
@@ -25,7 +26,97 @@ const OseEnroll = () => {
     notes: "",
   });
 
-  const token = localStorage.getItem("token");
+  // Get token with fallback
+  const getToken = () => {
+    return localStorage.getItem("token") || sessionStorage.getItem("token");
+  };
+
+  // Clear tokens and redirect to login
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.removeItem("user");
+    window.location.href = "/login";
+  };
+
+  // Refresh token function
+  const refreshToken = async () => {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) {
+        throw new Error("No refresh token available");
+      }
+
+      const response = await axios.post(
+        "https://ose.onesolutionsekam.in/api/auth/refresh",
+        { refreshToken }
+      );
+
+      if (response.data.accessToken) {
+        localStorage.setItem("token", response.data.accessToken);
+        return response.data.accessToken;
+      }
+    } catch (error) {
+      console.error("Token refresh failed:", error);
+      handleLogout();
+    }
+    return null;
+  };
+
+  // Axios interceptor for handling token refresh
+  useEffect(() => {
+    // Request interceptor to add token
+    const requestInterceptor = axios.interceptors.request.use(
+      (config) => {
+        const token = getToken();
+        if (token) {
+          config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => {
+        return Promise.reject(error);
+      }
+    );
+
+    // Response interceptor to handle 403 errors
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => response,
+      async (error) => {
+        const originalRequest = error.config;
+
+        // If error is 403 and we haven't tried to refresh yet
+        if (error.response?.status === 403 && !originalRequest._retry) {
+          originalRequest._retry = true;
+
+          try {
+            const newToken = await refreshToken();
+            if (newToken) {
+              // Retry the original request with new token
+              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+              return axios(originalRequest);
+            }
+          } catch (refreshError) {
+            console.error("Token refresh failed:", refreshError);
+            handleLogout();
+          }
+        }
+
+        // For other errors
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          handleLogout();
+        }
+
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, []);
 
   useEffect(() => {
     fetchEnrollments();
@@ -35,18 +126,54 @@ const OseEnroll = () => {
   const fetchEnrollments = async () => {
     try {
       setLoading(true);
-      const params = new URLSearchParams(filters).toString();
+
+      // Check if token exists
+      const token = getToken();
+      if (!token) {
+        toast.error("Please login to access enrollments");
+        handleLogout();
+        return;
+      }
+
+      // Remove empty filter values
+      const cleanFilters = Object.fromEntries(
+        Object.entries(filters).filter(([_, value]) => value !== "")
+      );
+
+      const params = new URLSearchParams(cleanFilters).toString();
       const response = await axios.get(
         `https://ose.onesolutionsekam.in/api/admin/enrollments?${params}`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          timeout: 10000,
         }
       );
-      setEnrollments(response.data.enrollments);
-      setPagination(response.data.pagination);
+
+      if (response.data.success) {
+        setEnrollments(response.data.enrollments);
+        setPagination(response.data.pagination);
+      } else {
+        toast.error("Failed to load enrollments");
+      }
     } catch (error) {
       console.error("Error fetching enrollments:", error);
-      toast.error("Failed to load enrollments");
+
+      if (error.response) {
+        if (error.response.status === 401 || error.response.status === 403) {
+          toast.error("Session expired. Please login again.");
+          handleLogout();
+        } else if (error.response.status === 404) {
+          toast.error("Enrollments endpoint not found.");
+        } else {
+          toast.error(`Server error: ${error.response.status}`);
+        }
+      } else if (error.request) {
+        toast.error("No response from server. Please check your connection.");
+      } else {
+        toast.error("Failed to load enrollments.");
+      }
     } finally {
       setLoading(false);
     }
@@ -54,15 +181,44 @@ const OseEnroll = () => {
 
   const fetchStats = async () => {
     try {
+      setStatsLoading(true);
       const response = await axios.get(
         "https://ose.onesolutionsekam.in/api/admin/enrollments/stats",
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          timeout: 5000,
         }
       );
       setStats(response.data);
     } catch (error) {
       console.error("Error fetching stats:", error);
+
+      if (error.response) {
+        if (error.response.status === 401 || error.response.status === 403) {
+          // Don't show error for stats, just log it
+          console.warn("Unauthorized access to stats");
+        } else if (error.response.status === 500) {
+          console.warn(
+            "Stats endpoint returned 500. Server may be experiencing issues."
+          );
+          setStats({
+            overall: {
+              total: 0,
+              pending: 0,
+              contacted: 0,
+              enrolled: 0,
+              today: 0,
+              this_week: 0,
+            },
+            byCourse: [],
+            monthly: [],
+          });
+        }
+      }
+    } finally {
+      setStatsLoading(false);
     }
   };
 
@@ -76,11 +232,14 @@ const OseEnroll = () => {
         `https://ose.onesolutionsekam.in/api/admin/enrollments/${id}/status`,
         updateStatus,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
       toast.success("Status updated successfully");
       fetchEnrollments();
+      fetchStats();
       setShowDetails(false);
       setSelectedEnrollment(null);
     } catch (error) {
@@ -94,18 +253,27 @@ const OseEnroll = () => {
       const response = await axios.get(
         "https://ose.onesolutionsekam.in/api/admin/enrollments/export",
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            "Content-Type": "application/json",
+          },
           responseType: "blob",
+          timeout: 30000,
         }
       );
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "enrollments_export.csv");
+      link.setAttribute(
+        "download",
+        `enrollments_export_${new Date().toISOString().split("T")[0]}.csv`
+      );
       document.body.appendChild(link);
       link.click();
       link.remove();
+      window.URL.revokeObjectURL(url);
+
+      toast.success("Export started successfully");
     } catch (error) {
       console.error("Export error:", error);
       toast.error("Failed to export data");
@@ -132,6 +300,29 @@ const OseEnroll = () => {
     return colors[course] || "secondary";
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this enrollment?")) {
+      return;
+    }
+
+    try {
+      await axios.delete(
+        `https://ose.onesolutionsekam.in/api/admin/enrollments/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      toast.success("Enrollment deleted successfully");
+      fetchEnrollments();
+      fetchStats();
+    } catch (error) {
+      console.error("Error deleting enrollment:", error);
+      toast.error("Failed to delete enrollment");
+    }
+  };
+
   return (
     <div className="container-fluid py-4">
       <div className="row">
@@ -142,14 +333,26 @@ const OseEnroll = () => {
                 <h5>Enrollment Management</h5>
                 <div>
                   <button
+                    className="btn btn-sm btn-outline-secondary me-2"
+                    onClick={handleLogout}
+                    title="Logout"
+                  >
+                    <i className="bi bi-box-arrow-right me-1"></i> Logout
+                  </button>
+                  <button
                     className="btn btn-sm btn-primary me-2"
                     onClick={handleExport}
+                    disabled={loading}
                   >
                     <i className="bi bi-download me-1"></i> Export CSV
                   </button>
                   <button
                     className="btn btn-sm btn-success"
-                    onClick={fetchEnrollments}
+                    onClick={() => {
+                      fetchEnrollments();
+                      fetchStats();
+                    }}
+                    disabled={loading}
                   >
                     <i className="bi bi-arrow-clockwise me-1"></i> Refresh
                   </button>
@@ -157,14 +360,37 @@ const OseEnroll = () => {
               </div>
             </div>
 
-            {stats && (
-              <div className="card-body pt-0">
+            {/* Stats Section */}
+            <div className="card-body pt-0">
+              {statsLoading ? (
+                <div className="row g-3 mb-4">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="col-6 col-md-2">
+                      <div className="card border-0 bg-gradient-secondary shadow">
+                        <div className="card-body p-3">
+                          <div className="text-white text-center">
+                            <div
+                              className="spinner-border spinner-border-sm"
+                              role="status"
+                            >
+                              <span className="visually-hidden">
+                                Loading...
+                              </span>
+                            </div>
+                            <small className="d-block mt-2">Loading...</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : stats ? (
                 <div className="row g-3 mb-4">
                   <div className="col-6 col-md-2">
                     <div className="card border-0 bg-gradient-primary shadow">
                       <div className="card-body p-3">
                         <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall.total}</h5>
+                          <h5 className="mb-0">{stats.overall?.total || 0}</h5>
                           <small>Total</small>
                         </div>
                       </div>
@@ -174,7 +400,9 @@ const OseEnroll = () => {
                     <div className="card border-0 bg-gradient-warning shadow">
                       <div className="card-body p-3">
                         <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall.pending}</h5>
+                          <h5 className="mb-0">
+                            {stats.overall?.pending || 0}
+                          </h5>
                           <small>Pending</small>
                         </div>
                       </div>
@@ -184,7 +412,9 @@ const OseEnroll = () => {
                     <div className="card border-0 bg-gradient-info shadow">
                       <div className="card-body p-3">
                         <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall.contacted}</h5>
+                          <h5 className="mb-0">
+                            {stats.overall?.contacted || 0}
+                          </h5>
                           <small>Contacted</small>
                         </div>
                       </div>
@@ -194,7 +424,9 @@ const OseEnroll = () => {
                     <div className="card border-0 bg-gradient-success shadow">
                       <div className="card-body p-3">
                         <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall.enrolled}</h5>
+                          <h5 className="mb-0">
+                            {stats.overall?.enrolled || 0}
+                          </h5>
                           <small>Enrolled</small>
                         </div>
                       </div>
@@ -204,7 +436,7 @@ const OseEnroll = () => {
                     <div className="card border-0 bg-gradient-danger shadow">
                       <div className="card-body p-3">
                         <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall.today}</h5>
+                          <h5 className="mb-0">{stats.overall?.today || 0}</h5>
                           <small>Today</small>
                         </div>
                       </div>
@@ -214,15 +446,28 @@ const OseEnroll = () => {
                     <div className="card border-0 bg-gradient-secondary shadow">
                       <div className="card-body p-3">
                         <div className="text-white text-center">
-                          <h5 className="mb-0">{stats.overall.this_week}</h5>
+                          <h5 className="mb-0">
+                            {stats.overall?.this_week || 0}
+                          </h5>
                           <small>This Week</small>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className="alert alert-warning mb-4">
+                  <i className="bi bi-exclamation-triangle me-2"></i>
+                  Unable to load statistics.
+                  <button
+                    className="btn btn-sm btn-outline-warning ms-2"
+                    onClick={fetchStats}
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Filters */}
@@ -282,6 +527,7 @@ const OseEnroll = () => {
                     <option value="first_name">First Name</option>
                     <option value="email">Email</option>
                     <option value="course">Course</option>
+                    <option value="status">Status</option>
                   </select>
                 </div>
                 <div className="col-md-2">
@@ -322,6 +568,11 @@ const OseEnroll = () => {
                   <div className="spinner-border text-primary" role="status">
                     <span className="visually-hidden">Loading...</span>
                   </div>
+                </div>
+              ) : enrollments.length === 0 ? (
+                <div className="text-center py-5">
+                  <i className="bi bi-inbox display-4 text-muted"></i>
+                  <p className="mt-3">No enrollments found</p>
                 </div>
               ) : (
                 <div className="table-responsive">
@@ -397,10 +648,12 @@ const OseEnroll = () => {
                           </td>
                           <td className="align-middle">
                             <span className="text-secondary text-xs font-weight-bold">
-                              {format(
-                                new Date(enrollment.submitted_at),
-                                "dd MMM yyyy"
-                              )}
+                              {enrollment.formatted_date
+                                ? enrollment.formatted_date
+                                : format(
+                                    new Date(enrollment.submitted_at),
+                                    "dd MMM yyyy HH:mm"
+                                  )}
                             </span>
                           </td>
                           <td className="align-middle">
@@ -434,28 +687,7 @@ const OseEnroll = () => {
                             </button>
                             <button
                               className="btn btn-sm btn-outline-danger"
-                              onClick={async () => {
-                                if (
-                                  window.confirm(
-                                    "Are you sure you want to delete this enrollment?"
-                                  )
-                                ) {
-                                  try {
-                                    await axios.delete(
-                                      `https://ose.onesolutionsekam.in/api/admin/enrollments/${enrollment.id}`,
-                                      {
-                                        headers: {
-                                          Authorization: `Bearer ${token}`,
-                                        },
-                                      }
-                                    );
-                                    toast.success("Enrollment deleted");
-                                    fetchEnrollments();
-                                  } catch (error) {
-                                    toast.error("Failed to delete enrollment");
-                                  }
-                                }
-                              }}
+                              onClick={() => handleDelete(enrollment.id)}
                               title="Delete"
                             >
                               <i className="bi bi-trash"></i>
@@ -523,7 +755,11 @@ const OseEnroll = () => {
 
       {/* Details Modal */}
       {showDetails && selectedEnrollment && (
-        <div className="modal show d-block" tabIndex="-1">
+        <div
+          className="modal show d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog modal-lg">
             <div className="modal-content">
               <div className="modal-header">
@@ -571,10 +807,11 @@ const OseEnroll = () => {
                     </p>
                     <p>
                       <strong>Submitted:</strong>{" "}
-                      {format(
-                        new Date(selectedEnrollment.submitted_at),
-                        "PPP p"
-                      )}
+                      {selectedEnrollment.formatted_date ||
+                        format(
+                          new Date(selectedEnrollment.submitted_at),
+                          "PPP p"
+                        )}
                     </p>
                     <p>
                       <strong>Agreed to Terms:</strong>{" "}
@@ -592,7 +829,7 @@ const OseEnroll = () => {
                 {selectedEnrollment.motivation && (
                   <div className="mt-3">
                     <h6>Motivation</h6>
-                    <p className="border p-3 rounded">
+                    <p className="border p-3 rounded bg-light">
                       {selectedEnrollment.motivation}
                     </p>
                   </div>

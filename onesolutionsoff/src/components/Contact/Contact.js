@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +38,7 @@ const Contact = () => {
       );
 
       if (response.data.success) {
-        toast.success(response.data.message);
+        // toast.success(response.data.message);
 
         // Reset form
         setFormData({
@@ -59,13 +57,13 @@ const Contact = () => {
       if (error.response) {
         if (error.response.data.errors) {
           error.response.data.errors.forEach((err) => {
-            toast.error(err.msg);
+            // toast.error(err.msg);
           });
         } else if (error.response.data.error) {
-          toast.error(error.response.data.error);
+          // toast.error(error.response.data.error);
         }
       } else {
-        toast.error("Failed to submit contact form. Please try again.");
+        // toast.error("Failed to submit contact form. Please try again.");
       }
     } finally {
       setLoading(false);
@@ -261,8 +259,6 @@ const Contact = () => {
           </div>
         </div>
       </section>
-
-      <ToastContainer position="top-right" autoClose={5000} />
 
       {/* Success Modal */}
       <div
