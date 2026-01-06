@@ -1,143 +1,219 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ========= 10 CODE BLOCK QUESTIONS =========
+
   {
     question: (
       <div>
-        <p>Which of the following correctly adds an event listener using <code>addEventListener()</code>?</p>
+        <p>Which method is used to add an event listener in a modern way?</p>
         <CodeBlock
           language="javascript"
-          code={`const btn = document.querySelector("button");\nbtn.addEventListener("click", function() {\n  alert("Button clicked!");\n});`}
+          code={`const button = document.querySelector("button");
+
+button.addEventListener("click", function() {
+  console.log("Clicked");
+});`}
         />
       </div>
     ),
     options: [
-      'btn.on("click", function() {})',
-      'btn.addEventListener("click", function() {})',
-      'addEvent(btn, "click", function() {})',
-      'btn.listen("click", function() {})',
+      "button.onclick()",
+      "button.addListener()",
+      "button.addEventListener()",
+      "button.listen()",
     ],
-    answer: 'btn.addEventListener("click", function() {})',
+    answer: "button.addEventListener()",
   },
+
   {
     question: (
       <div>
-        <p>Which code snippet correctly uses an inline event listener?</p>
+        <p>Which type of event listener is used in the following code?</p>
         <CodeBlock
           language="html"
-          code={`<button onclick="sayHello()">Click Me</button>`}
+          code={`<button onclick="handleClick()">Click Me</button>`}
         />
       </div>
     ),
     options: [
-      `<button addEvent="sayHello()">Click</button>`,
-      `<button onClick="sayHello()">Click Me</button>`,
-      `<button onclick="sayHello()">Click Me</button>`,
-      `<button listen="sayHello()">Click</button>`,
+      "onevent listener",
+      "Inline event listener",
+      "addEventListener()",
+      "Keyboard event",
     ],
-    answer: `<button onclick="sayHello()">Click Me</button>`,
+    answer: "Inline event listener",
   },
+
   {
     question: (
       <div>
-        <p>Which statement about the <code>event.target</code> property is true?</p>
+        <p>Identify the event listener type used here.</p>
         <CodeBlock
           language="javascript"
-          code={`document.addEventListener("click", function(event) {\n  console.log(event.target.tagName);\n});`}
+          code={`const btn = document.querySelector("button");
+btn.onclick = function() {
+  alert("Clicked");
+};`}
         />
       </div>
     ),
-    options: [
-      "It refers to the element that triggered the event",
-      "It always refers to the document element",
-      "It shows only the event type",
-      "It stores the key pressed by the user",
-    ],
-    answer: "It refers to the element that triggered the event",
-  },
-  {
-    question: (
-      <div>
-        <p>What will the following code log when the 'Enter' key is pressed?</p>
-        <CodeBlock
-          language="javascript"
-          code={`document.addEventListener("keydown", function(e) {\n  console.log(e.key);\n});`}
-        />
-      </div>
-    ),
-    options: ["'enter'", "'Enter'", "'E'", "'ENTER'"],
-    answer: "'Enter'",
-  },
-  {
-    question: (
-      <div>
-        <p>Which operator will return true for both value and type equality?</p>
-        <CodeBlock
-          language="javascript"
-          code={`console.log(10 === "10");`}
-        />
-      </div>
-    ),
-    options: ["==", "===", "!=", "!=="],
-    answer: "===",
-  },
-  {
-    question: (
-      <div>
-        <p>What will the following code output?</p>
-        <CodeBlock
-          language="javascript"
-          code={`let a = 5, b = 10;\nconsole.log(a < b && b > 8);`}
-        />
-      </div>
-    ),
-    options: ["false", "true", "undefined", "null"],
-    answer: "true",
-  },
-  {
-    question: (
-      <div>
-        <p>What is the purpose of <code>clearInterval()</code> in JavaScript?</p>
-        <CodeBlock
-          language="javascript"
-          code={`let id = setInterval(() => console.log("Hi"), 1000);\nclearInterval(id);`}
-        />
-      </div>
-    ),
-    options: [
-      "It repeats a task forever",
-      "It clears the browser cache",
-      "It cancels a repeating function created by setInterval()",
-      "It pauses the execution for 1 second",
-    ],
-    answer: "It cancels a repeating function created by setInterval()",
-  },
-  {
-    question: "Which of the following is NOT a type of event listener in JavaScript?",
     options: [
       "Inline event listener",
       "addEventListener()",
-      "onEventListener()",
       "onevent listener",
+      "Keyboard event",
     ],
-    answer: "onEventListener()",
+    answer: "onevent listener",
   },
+
   {
-    question: "Which event occurs when a key is released on the keyboard?",
-    options: ["keydown", "keyup", "keypress", "keyrelease"],
+    question: (
+      <div>
+        <p>What does the following code log when any element is clicked?</p>
+        <CodeBlock
+          language="javascript"
+          code={`document.addEventListener("click", function(event) {
+  console.log(event.target);
+});`}
+        />
+      </div>
+    ),
+    options: [
+      "Type of event",
+      "HTML element that triggered the event",
+      "Key pressed by user",
+      "Time of event",
+    ],
+    answer: "HTML element that triggered the event",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which event is triggered when a key is pressed?</p>
+        <CodeBlock
+          language="javascript"
+          code={`document.addEventListener("keydown", function(event) {
+  console.log(event.type);
+});`}
+        />
+      </div>
+    ),
+    options: ["keyup", "keydown", "click", "keypress"],
+    answer: "keydown",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be logged when the "A" key is pressed?</p>
+        <CodeBlock
+          language="javascript"
+          code={`document.addEventListener("keydown", function(event) {
+  console.log(event.key);
+});`}
+        />
+      </div>
+    ),
+    options: ["a", "A", "Enter", "undefined"],
+    answer: "A",
+  },
+
+  {
+    question: (
+      <div>
+        <p>
+          What does the <b>event.type</b> property contain?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`document.addEventListener("click", function(event) {
+  console.log(event.type);
+});`}
+        />
+      </div>
+    ),
+    options: [
+      "Element clicked",
+      "Key pressed",
+      "Type of event occurred",
+      "Time of execution",
+    ],
+    answer: "Type of event occurred",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be the output of the following comparison?</p>
+        <CodeBlock language="javascript" code={`console.log(5 === "5");`} />
+      </div>
+    ),
+    options: ["true", "false", "undefined", "error"],
+    answer: "false",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What does the following logical expression return?</p>
+        <CodeBlock language="javascript" code={`console.log(true && false);`} />
+      </div>
+    ),
+    options: ["true", "false", "null", "undefined"],
+    answer: "false",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will this code output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let a = 10, b = 5;
+console.log(a > b || b > 20);`}
+        />
+      </div>
+    ),
+    options: ["true", "false", "undefined", "null"],
+    answer: "true",
+  },
+
+  // ========= 5 NORMAL QUESTIONS =========
+
+  {
+    question:
+      "How many ways are available to add event listeners in JavaScript?",
+    options: ["One", "Two", "Three", "Four"],
+    answer: "Three",
+  },
+
+  {
+    question: "Which operator checks both value and type equality?",
+    options: ["==", "===", "!=", "<="],
+    answer: "===",
+  },
+
+  {
+    question: "Which keyboard event occurs when a key is released?",
+    options: ["keydown", "keyup", "click", "keypress"],
     answer: "keyup",
   },
+
   {
-    question: "What does the '!' logical operator do in JavaScript?",
-    options: [
-      "Performs addition",
-      "Negates a boolean value",
-      "Compares two numbers",
-      "Converts string to number",
-    ],
-    answer: "Negates a boolean value",
+    question: "Which logical operator returns true if both values are true?",
+    options: ["||", "&&", "!", "=="],
+    answer: "&&",
+  },
+
+  {
+    question: "Which property gives the key pressed by the user?",
+    options: ["event.type", "event.target", "event.key", "event.timeStamp"],
+    answer: "event.key",
   },
 ];
 
@@ -145,9 +221,10 @@ const Event_Listners_More_Events_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -176,7 +253,7 @@ const Event_Listners_More_Events_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -214,7 +291,8 @@ const Event_Listners_More_Events_MCQ = ({
       onComplete={handleCompletion}
       subtopicId={subtopicId}
       goalName={goalName}
-      courseName={courseName}    />
+      courseName={courseName}
+    />
   );
 };
 

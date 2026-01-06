@@ -14,12 +14,14 @@
 }
 
 .desc-colors {
-  padding: 10px 50px;
   color: #fff;
   width: 50%;
+  text-align: left;
+  padding: 10px;
 }
+
 .italic {
-  font-family: italic;
+  font-style: italic;
 }
 .ordered-unordered-lists {
   margin: 0px 20px;
@@ -260,4 +262,85 @@
 }
 .cd0b200 {
   background-color: #d0b200;
+}
+.cffe0f0 {
+  background-color: #ffe0f0;
+  color: #000;
+}
+.cc42d78 {
+  background-color: #c42d78;
+}
+.c92fdf2 {
+  background-color: #92fdf2;
+  color: #000;
+}
+.cf2ebfe {
+  background-color: #f2ebfe;
+  color: #000;
+}
+.c261f41 {
+  background-color: #261f41;
+}
+.caa2bff {
+  background-color: #aa2bff;
+}
+.cffa740 {
+  background-color: #ffa740;
+}
+.c4cc8ef {
+  background-color: #4cc8ef;
+}
+.cdaa4ff {
+  background-color: #daa4ff;
+}
+.cff8c88 {
+  background-color: #ff8c88;
+}
+.cffc169 {
+  background-color: #ffc169;
+}
+.c9e82b4 {
+  background-color: #9e82b4;
+}
+.c8a2387 {
+  background-color: #8a2387;
+}
+.ce94057 {
+  background-color: #e94057;
+}
+.cf27121 {
+  background-color: #f27121;
+}
+.c7bbd36 {
+  background-color: #7bbd36;
+}
+.c49b407 {
+  background-color: #49b407;
+}
+.cff9c38 {
+  background-color: #ff9c38;
+}
+.cfc3535 {
+  background-color: #fc3535;
+}
+.c826b7a {
+  background-color: #826b7a;
+}
+.c87cdff {
+  background-color: #87cdff;
+}
+.c00c898 {
+  background-color: #00c898;
+}
+.c020203 {
+  background-color: #020203;
+}
+.cbb64ff {
+  background-color: #bb64ff;
+}
+.cfd8941 {
+  background-color: #fd8941;
+}
+.c8a2387 {
+  background-color: #8a2387;
 }

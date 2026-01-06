@@ -4,186 +4,256 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ---------- NORMAL QUESTIONS (5) ----------
+
   {
     question: (
       <div>
         <p>
-          1. In a Todos application, what is the main purpose of using{" "}
-          <code>map()</code> when rendering todos?
+          1. Why is <b>map()</b> commonly used while rendering todos in React?
         </p>
       </div>
     ),
     options: [
-      "To modify each todo object permanently",
-      "To loop through and return a new array of JSX elements",
-      "To delete completed todos",
-      "To add new todos to the list",
+      "To permanently update todos",
+      "To loop and return JSX elements",
+      "To remove todos",
+      "To sort todos",
     ],
-    answer: "To loop through and return a new array of JSX elements",
+    answer: "To loop and return JSX elements",
   },
   {
     question: (
       <div>
         <p>
-          2. Which event is typically used to trigger adding a new todo when the
-          user presses Enter in the input field?
+          2. Which event is used to detect Enter key press while adding a todo?
         </p>
       </div>
     ),
-    options: ["onClick", "onFocus", "onKeyDown", "onChange"],
+    options: ["onClick", "onChange", "onKeyDown", "onFocus"],
     answer: "onKeyDown",
   },
   {
     question: (
       <div>
-        <p>
-          3. What is the correct way to toggle a todo's completion status in
-          React?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`setTodos(prevTodos =>
-    prevTodos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    )
-  );`}
-        />
+        <p>3. Which property helps uniquely identify each todo item?</p>
       </div>
     ),
-    options: [
-      "By changing the state variable directly",
-      "By modifying the todo array directly",
-      "By using setTodos with map and updating the specific todo",
-      "By refreshing the page",
-    ],
-    answer: "By using setTodos with map and updating the specific todo",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          4. In Todos Application 3, what is the purpose of using the{" "}
-          <code>filter()</code> method?
-        </p>
-      </div>
-    ),
-    options: [
-      "To remove completed todos from the list",
-      "To find a todo by its ID",
-      "To reorder todos alphabetically",
-      "To fetch todos from the API",
-    ],
-    answer: "To remove completed todos from the list",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          5. Which property is used to uniquely identify each todo item in the
-          JSX rendering loop?
-        </p>
-      </div>
-    ),
-    options: ["name", "index", "id", "title"],
+    options: ["index", "title", "id", "name"],
     answer: "id",
   },
   {
     question: (
       <div>
-        <p>6. What does the below code do in a Todos app?</p>
+        <p>4. Why are controlled components preferred in React forms?</p>
+      </div>
+    ),
+    options: [
+      "They directly modify DOM",
+      "They allow React to control input state",
+      "They improve CSS styling",
+      "They prevent rerenders",
+    ],
+    answer: "They allow React to control input state",
+  },
+  {
+    question: (
+      <div>
+        <p>5. What is the main advantage of saving todos in localStorage?</p>
+      </div>
+    ),
+    options: [
+      "Todos are deleted on refresh",
+      "Todos persist after page reload",
+      "Todos sync across devices",
+      "Todos auto update UI",
+    ],
+    answer: "Todos persist after page reload",
+  },
+
+  // ---------- CODEBLOCK QUESTIONS (10) ----------
+
+  {
+    question: (
+      <div>
+        <p>6. What does the following code achieve?</p>
         <CodeBlock
           language="javascript"
-          code={`const updatedTodos = todos.filter(todo => todo.id !== id);
-  setTodos(updatedTodos);`}
+          code={`todos.map(todo => <li key={todo.id}>{todo.title}</li>);`}
         />
       </div>
     ),
     options: [
-      "Edits a todo title",
-      "Deletes a todo with a specific id",
-      "Marks a todo as completed",
+      "Deletes todos",
+      "Returns JSX list items",
+      "Updates todos",
+      "Filters todos",
+    ],
+    answer: "Returns JSX list items",
+  },
+  {
+    question: (
+      <div>
+        <p>7. What is the purpose of this code?</p>
+        <CodeBlock
+          language="javascript"
+          code={`setTodos(prev =>
+  prev.map(todo =>
+    todo.id === id ? { ...todo, completed: !todo.completed } : todo
+  )
+);`}
+        />
+      </div>
+    ),
+    options: [
+      "Deletes a todo",
+      "Toggles todo completion",
+      "Adds a todo",
       "Clears all todos",
     ],
-    answer: "Deletes a todo with a specific id",
+    answer: "Toggles todo completion",
   },
   {
     question: (
       <div>
-        <p>
-          7. In React, what is the correct way to mark an input as a controlled
-          component?
-        </p>
+        <p>8. What does this filter logic do?</p>
         <CodeBlock
           language="javascript"
-          code={`<input
-    type="text"
-    value={todoTitle}
-    onChange={e => setTodoTitle(e.target.value)}
-  />`}
+          code={`todos.filter(todo => todo.id !== id);`}
         />
       </div>
     ),
     options: [
-      "By omitting the value attribute",
-      "By using defaultValue instead of value",
-      "By using both value and onChange props",
-      "By directly modifying the DOM element",
+      "Edits a todo",
+      "Deletes a specific todo",
+      "Marks todo completed",
+      "Sorts todos",
     ],
-    answer: "By using both value and onChange props",
+    answer: "Deletes a specific todo",
   },
   {
     question: (
       <div>
         <p>
-          8. What is a common way to conditionally apply a CSS class for
-          completed todos?
+          9. Why is the <b>key</b> prop important here?
         </p>
         <CodeBlock
           language="javascript"
-          code={`<li className={todo.completed ? "completed" : ""}>{todo.title}</li>`}
+          code={`<li key={todo.id}>{todo.title}</li>`}
         />
       </div>
     ),
     options: [
-      "By using inline styles only",
-      "By using conditional className expressions",
-      "By modifying CSS file directly",
-      "By applying a hover effect",
+      "For styling",
+      "For unique identification during rendering",
+      "For event handling",
+      "For state update",
     ],
-    answer: "By using conditional className expressions",
+    answer: "For unique identification during rendering",
+  },
+  {
+    question: (
+      <div>
+        <p>10. What makes this input a controlled component?</p>
+        <CodeBlock
+          language="javascript"
+          code={`<input value={text} onChange={e => setText(e.target.value)} />`}
+        />
+      </div>
+    ),
+    options: [
+      "Using placeholder",
+      "Using ref",
+      "Using value and onChange",
+      "Using defaultValue",
+    ],
+    answer: "Using value and onChange",
+  },
+  {
+    question: (
+      <div>
+        <p>11. What does this conditional className do?</p>
+        <CodeBlock
+          language="javascript"
+          code={`<li className={todo.completed ? "done" : ""}>{todo.title}</li>`}
+        />
+      </div>
+    ),
+    options: [
+      "Deletes completed todos",
+      "Applies style conditionally",
+      "Filters todos",
+      "Updates title",
+    ],
+    answer: "Applies style conditionally",
+  },
+  {
+    question: (
+      <div>
+        <p>12. When does this effect run?</p>
+        <CodeBlock
+          language="javascript"
+          code={`useEffect(() => {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}, []);`}
+        />
+      </div>
+    ),
+    options: [
+      "On every render",
+      "Only once on mount",
+      "On todo update",
+      "On unmount",
+    ],
+    answer: "Only once on mount",
   },
   {
     question: (
       <div>
         <p>
-          9. Why do we use <code>useEffect()</code> in Todos Application 4?
+          13. Why is <b>filter()</b> preferred for deleting todos?
         </p>
+        <CodeBlock
+          language="javascript"
+          code={`setTodos(todos.filter(todo => !todo.completed));`}
+        />
       </div>
     ),
     options: [
-      "To fetch and store todos in localStorage when component mounts",
-      "To refresh the browser automatically",
-      "To reset the todos on every render",
-      "To prevent rerenders of the todo list",
+      "It mutates state",
+      "It returns a new array",
+      "It refreshes UI",
+      "It sorts todos",
     ],
-    answer: "To fetch and store todos in localStorage when component mounts",
+    answer: "It returns a new array",
   },
   {
     question: (
       <div>
-        <p>
-          10. In Todos Application 4, what is the main benefit of saving todos
-          in localStorage?
-        </p>
+        <p>14. Which event is suitable for Enter key handling?</p>
+        <CodeBlock language="javascript" code={`onKeyDown={handleKey}`} />
+      </div>
+    ),
+    options: ["onClick", "onKeyDown", "onChange", "onBlur"],
+    answer: "onKeyDown",
+  },
+  {
+    question: (
+      <div>
+        <p>15. Why is localStorage useful in Todos App?</p>
+        <CodeBlock
+          language="javascript"
+          code={`localStorage.getItem("todos");`}
+        />
       </div>
     ),
     options: [
-      "Todos remain even after the page is refreshed",
-      "Todos are shared with other users automatically",
-      "Todos are deleted when browser closes",
-      "Todos can only be accessed by admin",
+      "For styling",
+      "For permanent storage across reloads",
+      "For routing",
+      "For animations",
     ],
-    answer: "Todos remain even after the page is refreshed",
+    answer: "For permanent storage across reloads",
   },
 ];
 

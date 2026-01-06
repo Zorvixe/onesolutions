@@ -1,180 +1,270 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ---------- 1 (Normal) ----------
   {
     question: (
       <div>
         <p>
-          What is the purpose of the HTML <code>&lt;select&gt;</code> element?
+          What is the purpose of the HTML <b>&lt;select&gt;</b> element?
         </p>
-        <CodeBlock
-          language="html"
-          code={`<select>\n  <option>Option 1</option>\n  <option>Option 2</option>\n</select>`}
-        />
       </div>
     ),
     options: [
       "To create a drop-down list",
-      "To create a text input field",
-      "To display a checkbox group",
-      "To create a navigation bar",
+      "To create a text field",
+      "To select multiple files",
+      "To submit a form",
     ],
     answer: "To create a drop-down list",
   },
-  {
-    question: (
-      <div>
-        <p>Which HTML element defines a single option in a drop-down list?</p>
-        <CodeBlock
-          language="html"
-          code={`<select>\n  <option value="html">HTML</option>\n  <option value="css">CSS</option>\n</select>`}
-        />
-      </div>
-    ),
-    options: ["<input>", "<option>", "<list>", "<dropdown>"],
-    answer: "<option>",
-  },
+
+  // ---------- 2 (Normal) ----------
   {
     question: (
       <div>
         <p>
-          What is the purpose of the <code>value</code> attribute in the{" "}
-          <code>&lt;option&gt;</code> element?
+          Which HTML element is used to define options inside a drop-down list?
         </p>
+      </div>
+    ),
+    options: ["<select>", "<input>", "<option>", "<list>"],
+    answer: "<option>",
+  },
+
+  // ---------- 3 (Normal) ----------
+  {
+    question: (
+      <div>
+        <p>
+          Which input type allows selecting only one option from multiple
+          choices?
+        </p>
+      </div>
+    ),
+    options: ["checkbox", "radio", "text", "password"],
+    answer: "radio",
+  },
+
+  // ---------- 4 (Normal) ----------
+  {
+    question: (
+      <div>
+        <p>What is a radio group?</p>
+      </div>
+    ),
+    options: [
+      "A group of checkboxes",
+      "Radio buttons with different names",
+      "Radio buttons sharing the same name",
+      "A drop-down list",
+    ],
+    answer: "Radio buttons sharing the same name",
+  },
+
+  // ---------- 5 (Normal) ----------
+  {
+    question: (
+      <div>
+        <p>What does a Boolean attribute represent in HTML?</p>
+      </div>
+    ),
+    options: [
+      "True when value is provided",
+      "True when attribute is present",
+      "False when value is empty",
+      "Requires true or false value",
+    ],
+    answer: "True when attribute is present",
+  },
+
+  // ---------- 6 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which HTML element creates a drop-down menu?</p>
+        <CodeBlock
+          language="html"
+          code={`<select>
+  <option>HTML</option>
+  <option>CSS</option>
+</select>`}
+        />
+      </div>
+    ),
+    options: ["<dropdown>", "<list>", "<select>", "<menu>"],
+    answer: "<select>",
+  },
+
+  // ---------- 7 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which element defines each item in the drop-down list?</p>
         <CodeBlock
           language="html"
           code={`<option value="js">JavaScript</option>`}
         />
       </div>
     ),
-    options: [
-      "It displays the text label of the option",
-      "It specifies the value sent to the server when selected",
-      "It changes the color of the drop-down",
-      "It defines the option’s tooltip text",
-    ],
-    answer: "It specifies the value sent to the server when selected",
+    options: ["<input>", "<select>", "<option>", "<label>"],
+    answer: "<option>",
   },
+
+  // ---------- 8 (CodeBlock) ----------
   {
     question: (
       <div>
-        <p>Which input type allows selecting only one option from a group?</p>
+        <p>
+          What is the purpose of the <b>value</b> attribute here?
+        </p>
+        <CodeBlock language="html" code={`<option value="css">CSS</option>`} />
+      </div>
+    ),
+    options: [
+      "Displays option text",
+      "Specifies value sent on selection",
+      "Styles the option",
+      "Groups options",
+    ],
+    answer: "Specifies value sent on selection",
+  },
+
+  // ---------- 9 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which input type is used below?</p>
         <CodeBlock
           language="html"
-          code={`<input type="radio" name="gender" value="male" /> Male\n<input type="radio" name="gender" value="female" /> Female`}
+          code={`<input type="radio" name="gender" />`}
         />
       </div>
     ),
-    options: ["checkbox", "radio", "text", "select"],
+    options: ["checkbox", "radio", "select", "text"],
     answer: "radio",
   },
+
+  // ---------- 10 (CodeBlock) ----------
   {
     question: (
       <div>
         <p>
-          What is the use of the <code>name</code> attribute in an input
-          element?
+          What is the purpose of the <b>name</b> attribute here?
         </p>
         <CodeBlock
           language="html"
-          code={`<input type="radio" name="gender" value="male" />`}
+          code={`<input type="radio" name="payment" value="card" />
+<input type="radio" name="payment" value="upi" />`}
         />
       </div>
     ),
     options: [
-      "It defines the label of the radio button",
-      "It groups radio buttons together",
-      "It changes the color of the button",
-      "It displays placeholder text",
+      "To style radio buttons",
+      "To group radio buttons",
+      "To disable radio buttons",
+      "To validate input",
     ],
-    answer: "It groups radio buttons together",
+    answer: "To group radio buttons",
   },
+
+  // ---------- 11 (CodeBlock) ----------
   {
     question: (
       <div>
-        <p>
-          What happens when multiple radio buttons share the same name
-          attribute?
-        </p>
-      </div>
-    ),
-    options: [
-      "They work independently",
-      "All buttons can be selected together",
-      "They form a radio group where only one can be selected",
-      "It causes a validation error",
-    ],
-    answer: "They form a radio group where only one can be selected",
-  },
-  {
-    question: (
-      <div>
-        <p>What is a Boolean attribute in HTML?</p>
-      </div>
-    ),
-    options: [
-      "An attribute that accepts only numbers",
-      "An attribute whose presence means true and absence means false",
-      "An attribute that holds multiple values",
-      "An attribute used for loops",
-    ],
-    answer: "An attribute whose presence means true and absence means false",
-  },
-  {
-    question: (
-      <div>
-        <p>Which Boolean attribute pre-selects an option when a page loads?</p>
+        <p>What happens when both radio buttons have the same name?</p>
         <CodeBlock
           language="html"
-          code={`<option value="html" selected>HTML</option>`}
+          code={`<input type="radio" name="color" /> Red
+<input type="radio" name="color" /> Blue`}
         />
       </div>
     ),
-    options: ["checked", "default", "selected", "active"],
+    options: [
+      "Both can be selected",
+      "Only one can be selected",
+      "Selection causes error",
+      "Both are disabled",
+    ],
+    answer: "Only one can be selected",
+  },
+
+  // ---------- 12 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which option will be selected by default?</p>
+        <CodeBlock
+          language="html"
+          code={`<select>
+  <option value="html">HTML</option>
+  <option value="css" selected>CSS</option>
+</select>`}
+        />
+      </div>
+    ),
+    options: ["HTML", "CSS", "None", "Both"],
+    answer: "CSS",
+  },
+
+  // ---------- 13 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which Boolean attribute is used below?</p>
+        <CodeBlock
+          language="html"
+          code={`<option selected>JavaScript</option>`}
+        />
+      </div>
+    ),
+    options: ["checked", "selected", "value", "name"],
     answer: "selected",
   },
+
+  // ---------- 14 (CodeBlock) ----------
   {
     question: (
       <div>
         <p>
-          Which attribute pre-selects or checks an input element by default?
+          What does the <b>checked</b> attribute do?
         </p>
-        <CodeBlock
-          language="html"
-          code={`<input type="checkbox" checked /> Remember me`}
-        />
-      </div>
-    ),
-    options: ["active", "checked", "selected", "default"],
-    answer: "checked",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          What does the presence of the <code>checked</code> attribute indicate?
-        </p>
+        <CodeBlock language="html" code={`<input type="radio" checked />`} />
       </div>
     ),
     options: [
-      "The checkbox or radio button is checked by default",
-      "The form will reset automatically",
-      "The input is read-only",
-      "It changes the input type to checkbox",
+      "Disables input",
+      "Pre-selects the input",
+      "Groups inputs",
+      "Adds validation",
     ],
-    answer: "The checkbox or radio button is checked by default",
+    answer: "Pre-selects the input",
+  },
+
+  // ---------- 15 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which statement about Boolean attributes is correct?</p>
+        <CodeBlock language="html" code={`<input type="checkbox" checked />`} />
+      </div>
+    ),
+    options: [
+      "They require true or false values",
+      "Presence means true",
+      "They work only with radio buttons",
+      "They store text values",
+    ],
+    answer: "Presence means true",
   },
 ];
 
-const Forms_MCQ_2 = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Forms_MCQ_2 = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -203,7 +293,7 @@ const Forms_MCQ_2 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -232,13 +322,18 @@ const Forms_MCQ_2 = ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="Forms Part-2 - MCQs" questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="Forms Part-2 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 
 export default Forms_MCQ_2;

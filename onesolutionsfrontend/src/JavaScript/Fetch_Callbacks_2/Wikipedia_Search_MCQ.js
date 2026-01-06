@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
@@ -24,8 +25,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the purpose of the <code>&lt;input type='search'&gt;</code>{" "}
-          element?
+          What is the purpose of the <b>&lt;input type='search'&gt;</b> element?
         </p>
       </div>
     ),
@@ -110,8 +110,8 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What does the <code>role="status"</code> attribute in Bootstrap
-          spinner indicate?
+          What does the <b>role="status"</b> attribute in Bootstrap spinner
+          indicate?
         </p>
       </div>
     ),
@@ -183,15 +183,105 @@ const questionsData = [
     ],
     answer: "d-flex justify-content-center",
   },
+  // ---------- 11 ----------
+  {
+    question: (
+      <div>
+        <p>
+          Which HTML input type is specifically optimized for search
+          functionality?
+        </p>
+      </div>
+    ),
+    options: [
+      "<input type='text'>",
+      "<input type='search'>",
+      "<input type='email'>",
+      "<input type='url'>",
+    ],
+    answer: "<input type='search'>",
+  },
+
+  // ---------- 12 ----------
+  {
+    question: (
+      <div>
+        <p>
+          In a Wikipedia Search application, where is the search query entered
+          by the user?
+        </p>
+      </div>
+    ),
+    options: [
+      "Button element",
+      "Search input field",
+      "Spinner component",
+      "Heading tag",
+    ],
+    answer: "Search input field",
+  },
+
+  // ---------- 13 ----------
+  {
+    question: (
+      <div>
+        <p>
+          Which Bootstrap component improves user experience by indicating that
+          content is loading?
+        </p>
+      </div>
+    ),
+    options: ["Card", "Spinner", "Navbar", "Modal"],
+    answer: "Spinner",
+  },
+
+  // ---------- 14 ----------
+  {
+    question: (
+      <div>
+        <p>
+          Why are spinners commonly used in search-based applications like
+          Wikipedia Search?
+        </p>
+      </div>
+    ),
+    options: [
+      "To display search results",
+      "To show loading state while fetching data",
+      "To style the input field",
+      "To store search history",
+    ],
+    answer: "To show loading state while fetching data",
+  },
+
+  // ---------- 15 ----------
+  {
+    question: (
+      <div>
+        <p>
+          Which of the following best describes the role of a spinner in a web
+          application?
+        </p>
+      </div>
+    ),
+    options: [
+      "Collects user input",
+      "Displays fetched data",
+      "Indicates background processing",
+      "Triggers API calls",
+    ],
+    answer: "Indicates background processing",
+  },
 ];
 
 const Wikipedia_Search_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -220,7 +310,7 @@ const Wikipedia_Search_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -249,12 +339,17 @@ const Wikipedia_Search_MCQ = ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="Wikipedia Search - MCQs" questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="Wikipedia Search - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 export default Wikipedia_Search_MCQ;

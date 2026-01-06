@@ -3,48 +3,88 @@ import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ---------- 1 ----------
+  // ========= 10 CODE BLOCK QUESTIONS =========
+
   {
     question: (
       <div>
-        <p>Which of the following correctly defines a Web Resource?</p>
+        <p>Identify the Web Resource from the given example.</p>
+        <CodeBlock
+          language="text"
+          code={`http://www.flipkart.com/watches`}
+        />
       </div>
     ),
     options: [
-      "A database that stores user information",
-      "Any data that can be obtained via the internet",
-      "A protocol used for data encryption",
-      "A local file stored in the browser",
+      "Protocol",
+      "Web Resource",
+      "Local File",
+      "Database",
     ],
-    answer: "Any data that can be obtained via the internet",
+    answer: "Web Resource",
   },
 
-  // ---------- 2 ----------
   {
     question: (
       <div>
-        <p>What does the following URL component represent?</p>
+        <p>In the following URL, what does <b>http</b> represent?</p>
         <CodeBlock
           language="text"
-          code={`http://www.flipkart.com/watches?type=digital&rating=4`}
+          code={`http://www.flipkart.com`}
         />
-        <p>Here, <code>/watches</code> indicates the:</p>
+      </div>
+    ),
+    options: [
+      "Domain Name",
+      "Protocol",
+      "Path",
+      "Query Parameters",
+    ],
+    answer: "Protocol",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which part of the URL identifies the web server?</p>
+        <CodeBlock
+          language="text"
+          code={`http://www.flipkart.com/watches`}
+        />
       </div>
     ),
     options: [
       "Protocol",
       "Domain Name",
       "Path",
-      "Query Parameter",
+      "Query Parameters",
+    ],
+    answer: "Domain Name",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What does <b>/electronics/laptops/gaming</b> represent?</p>
+        <CodeBlock
+          language="text"
+          code={`http://www.flipkart.com/electronics/laptops/gaming`}
+        />
+      </div>
+    ),
+    options: [
+      "Protocol",
+      "Domain Name",
+      "Path",
+      "Query Parameters",
     ],
     answer: "Path",
   },
 
-  // ---------- 3 ----------
   {
     question: (
       <div>
-        <p>In the following URL, what are <code>type=digital&rating=4</code> called?</p>
+        <p>Identify the Query Parameters in the URL below.</p>
         <CodeBlock
           language="text"
           code={`http://www.flipkart.com/watches?type=digital&rating=4`}
@@ -52,119 +92,142 @@ const questionsData = [
       </div>
     ),
     options: [
-      "Query Parameters",
-      "Domain Extensions",
-      "Path Identifiers",
-      "Request Headers",
+      "/watches",
+      "www.flipkart.com",
+      "type=digital&rating=4",
+      "http",
     ],
-    answer: "Query Parameters",
+    answer: "type=digital&rating=4",
   },
 
-  // ---------- 4 ----------
   {
     question: (
       <div>
-        <p>Which HTTP method is used to delete a resource from the server?</p>
+        <p>Which HTTP method is used to read data from the server?</p>
+        <CodeBlock
+          language="text"
+          code={`GET /products HTTP/1.1`}
+        />
       </div>
     ),
     options: ["GET", "POST", "PUT", "DELETE"],
-    answer: "DELETE",
+    answer: "GET",
   },
 
-  // ---------- 5 ----------
   {
     question: (
       <div>
-        <p>Identify the correct syntax for specifying an HTTP request start line.</p>
+        <p>Which HTTP method is used to create a new resource?</p>
         <CodeBlock
           language="text"
-          code={`METHOD /path HTTP/version`}
+          code={`POST /users HTTP/1.1`}
+        />
+      </div>
+    ),
+    options: ["GET", "POST", "PUT", "DELETE"],
+    answer: "POST",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What does the following status line indicate?</p>
+        <CodeBlock
+          language="text"
+          code={`HTTP/1.1 201 Created`}
         />
       </div>
     ),
     options: [
-      "URL METHOD HTTP/version",
-      "METHOD /path HTTP/version",
-      "HTTP/version METHOD /path",
-      "METHOD HTTP/version /path",
+      "Request failed",
+      "Resource deleted",
+      "New resource created",
+      "Unauthorized access",
     ],
-    answer: "METHOD /path HTTP/version",
+    answer: "New resource created",
   },
 
-  // ---------- 6 ----------
   {
     question: (
       <div>
-        <p>Which HTTP status code indicates that the request was successful?</p>
+        <p>Which HTTP status code represents <b>Not Found</b>?</p>
+        <CodeBlock
+          language="text"
+          code={`HTTP/1.1 404 Not Found`}
+        />
       </div>
     ),
-    options: ["404", "200", "301", "500"],
-    answer: "200",
+    options: ["200", "301", "403", "404"],
+    answer: "404",
   },
 
-  // ---------- 7 ----------
   {
     question: (
       <div>
-        <p>Which of the following protocols provides secure data transfer by encryption?</p>
+        <p>Which part of an HTTP response contains metadata information?</p>
+        <CodeBlock
+          language="text"
+          code={`Content-Type: application/json`}
+        />
       </div>
     ),
+    options: [
+      "Status Line",
+      "Headers",
+      "Body",
+      "URL",
+    ],
+    answer: "Headers",
+  },
+
+  // ========= 5 NORMAL QUESTIONS =========
+
+  {
+    question: "What is a Web Resource?",
+    options: [
+      "Only HTML files",
+      "Any data obtained via the internet",
+      "Only server-side files",
+      "Only images",
+    ],
+    answer: "Any data obtained via the internet",
+  },
+
+  {
+    question: "Which protocol transfers data in encrypted format?",
     options: ["HTTP", "HTTPS", "FTP", "SMTP"],
     answer: "HTTPS",
   },
 
-  // ---------- 8 ----------
   {
-    question: (
-      <div>
-        <p>What does the 4XX series of HTTP status codes indicate?</p>
-      </div>
-    ),
+    question: "Which HTTP method is used to update an existing resource?",
+    options: ["GET", "POST", "PUT", "DELETE"],
+    answer: "PUT",
+  },
+
+  {
+    question: "What does the 2XX series of HTTP status codes indicate?",
     options: [
-      "Server Error",
       "Client Error",
-      "Redirection",
+      "Server Error",
       "Success",
+      "Redirection",
     ],
-    answer: "Client Error",
+    answer: "Success",
   },
 
-  // ---------- 9 ----------
   {
-    question: (
-      <div>
-        <p>Which of the following represents a correct HTTPS example?</p>
-        <CodeBlock
-          language="text"
-          code={`https://www.bankofindia.co.in/login`}
-        />
-      </div>
-    ),
-    options: [
-      "HTTP Request",
-      "Encrypted Communication",
-      "File Path Locator",
-      "FTP Session",
-    ],
-    answer: "Encrypted Communication",
-  },
-
-  // ---------- 10 ----------
-  {
-    question: (
-      <div>
-        <p>Which part of an HTTP response contains the requested resource data?</p>
-      </div>
-    ),
+    question: "Which part of an HTTP request carries form data?",
     options: [
       "Headers",
       "Body",
+      "Start Line",
       "Status Line",
-      "URL",
     ],
     answer: "Body",
   },
 ];
+
 const Hypertext_Transer_Protocal_MCQ = ({
   subtopicId,
   goalName,

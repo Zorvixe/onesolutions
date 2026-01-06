@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const Forms_CS = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const Forms_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -63,9 +58,7 @@ const Forms_CS = ({
       {/* 1. HTML Forms */}
       <section>
         <h2>1. HTML Forms</h2>
-        <p>
-          HTML Forms are used to collect data from the user.
-        </p>
+        <p>HTML Forms are used to collect data from the user.</p>
         <p>Forms can be of different kinds:</p>
         <ul>
           <li>Login / Sign in Form</li>
@@ -75,13 +68,24 @@ const Forms_CS = ({
 
         <h3>1.1 HTML Form Element</h3>
         <p>
-          The <code>&lt;form&gt;</code> element is a container for input elements like text fields, checkboxes, etc.
+          The HTML <code>form</code> element can be used to create HTML forms.
+          It is a container that can contain different types of Input elements
+          like Text Fields, Checkboxes, etc.
         </p>
-        <CodeBlock
-          language="html"
-          code={`<form></form>`}
-        />
-        <p><strong>Note:</strong> Whenever we click a button or press Enter while editing any input field in the form, the submit event is triggered.</p>
+        <CodeBlock language="html" code={`<form></form>`} />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Whenever we click a button or press <b>Enter</b> key while editing
+            any input field in the form, the <b>submit</b> event will be
+            triggered.
+          </p>
+        </div>
       </section>
 
       {/* 2. Event Object Methods */}
@@ -89,8 +93,12 @@ const Forms_CS = ({
         <h2>2. Event Object Methods</h2>
         <h3>2.1 preventDefault()</h3>
         <p>
-          The <code>preventDefault()</code> method prevents the default action.  
-          In a form, it prevents the default submit behavior.
+          The <code>preventDefault()</code> method prevents the occurrence of
+          default action.
+        </p>
+        <p>
+          Here in the form, it prevents the default behaviour of the{" "}
+          <code>submit</code> event.
         </p>
         <CodeBlock
           language="javascript"
@@ -104,7 +112,7 @@ myFormEl.addEventListener("submit", function(event) {
       {/* 3. Event Types */}
       <section>
         <h2>3. Event Types</h2>
-        <p>Different types of events:</p>
+        <p>There are different types of events.</p>
         <ul>
           <li>Keyboard Events</li>
           <li>Mouse Events</li>
@@ -113,7 +121,8 @@ myFormEl.addEventListener("submit", function(event) {
         </ul>
 
         <h3>3.1 Form Events</h3>
-        <p>A form event occurs within a form. Examples:</p>
+        <p>A Form Event is an event that can occur within a form.</p>
+        <p>Some of the form events are:</p>
         <ul>
           <li>blur</li>
           <li>focus</li>
@@ -122,7 +131,8 @@ myFormEl.addEventListener("submit", function(event) {
 
         <h3>3.1.1 Blur Event</h3>
         <p>
-          The blur event triggers when an HTML element loses focus.
+          The <code>blur</code> event happens when an HTML element has lost
+          focus.
         </p>
         <CodeBlock
           language="javascript"
@@ -131,7 +141,6 @@ nameEl.addEventListener("blur", function(event) {
   console.log("blur event triggered");
 });`}
         />
-        <p>Try out the <code>preventDefault()</code> method and blur event in your Code Playground.</p>
       </section>
 
       {/* Continue Button */}

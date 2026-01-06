@@ -72,18 +72,16 @@ const More_Modern_JS_Concepts_CS = ({
           language="javascript"
           code={`let arr1 = [2, 3];
 let arr2 = [1, ...arr1, 4];
-console.log(arr2);`}
+console.log(arr2); // "[1, 2, 3, 4]"`}
         />
-        <OutputBlock output={"[1, 2, 3, 4]"} />
 
         <h4>1.1.1 Creating a Copy</h4>
         <CodeBlock
           language="javascript"
           code={`let arr1 = [2, 3];
 let arr2 = [...arr1];
-console.log(arr2);`}
+console.log(arr2); // "[2, 3]"}`}
         />
-        <OutputBlock output={"[2, 3]"} />
 
         <h4>1.1.2 Concatenation</h4>
         <CodeBlock
@@ -91,27 +89,24 @@ console.log(arr2);`}
           code={`let arr1 = [2, 3];
 let arr2 = [4, 5];
 let arr3 = [...arr1, ...arr2];
-console.log(arr3);`}
+console.log(arr3); //"[2, 3, 4, 5]"`}
         />
-        <OutputBlock output={"[2, 3, 4, 5]"} />
 
         <h3>1.2 Spread Operator with Objects</h3>
         <CodeBlock
           language="javascript"
           code={`let person = { name: "Rahul", age: 27 };
 let personDetails = { ...person, city: "Hyderabad" };
-console.log(personDetails);`}
+console.log(personDetails); // Object {name: "Rahul", age: 27, city: "Hyderabad"}`}
         />
-        <OutputBlock output={`{name: "Rahul", age: 27, city: "Hyderabad"}`} />
 
         <h4>1.2.1 Creating a Copy</h4>
         <CodeBlock
           language="javascript"
           code={`let person = { name: "Rahul", age: 27 };
 let personDetails = { ...person };
-console.log(personDetails);`}
+console.log(personDetails); // Object {name: "Rahul", age: 27}`}
         />
-        <OutputBlock output={`{name: "Rahul", age: 27}`} />
 
         <h4>1.2.2 Concatenation</h4>
         <CodeBlock
@@ -119,10 +114,7 @@ console.log(personDetails);`}
           code={`let person = { name: "Rahul", age: 27 };
 let address = { city: "Hyderabad", pincode: 500001 };
 let personDetails = { ...person, ...address };
-console.log(personDetails);`}
-        />
-        <OutputBlock
-          output={`{name: "Rahul", age: 27, city: "Hyderabad", pincode: 500001}`}
+console.log(personDetails); // Object {name: "Rahul", age: 27, city: "Hyderabad", pincode: 500001}`}
         />
 
         <h3>1.3 Spread Operator with Function Calls</h3>
@@ -137,9 +129,8 @@ console.log(personDetails);`}
   return a + b + c;
 }
 let numbers = [1, 2, 3, 4, 5];
-console.log(add(...numbers));`}
+console.log(add(...numbers)); // 6`}
         />
-        <OutputBlock output={"6"} />
       </section>
 
       {/* 2. Rest Parameter */}
@@ -152,11 +143,10 @@ console.log(add(...numbers));`}
         <CodeBlock
           language="javascript"
           code={`function numbers(...args) {
-  console.log(args);
+  console.log(args); // [1, 2, 3]
 }
 numbers(1, 2, 3);`}
         />
-        <OutputBlock output={"[1, 2, 3]"} />
 
         <h3>2.1 Destructuring Arrays and Objects with Rest Parameter Syntax</h3>
 
@@ -164,11 +154,10 @@ numbers(1, 2, 3);`}
         <CodeBlock
           language="javascript"
           code={`let [a, b, ...rest] = [1, 2, 3, 4, 5];
-console.log(a);
-console.log(b);
-console.log(rest);`}
+console.log(a) // 1;
+console.log(b) //2;
+console.log(rest); // [3, 4, 5]`}
         />
-        <OutputBlock output={["1", "2", "[3, 4, 5]"]} />
 
         <h4>2.1.2 Objects</h4>
         <CodeBlock
@@ -178,26 +167,31 @@ console.log(rest);`}
   lastName: "Attuluri",
   age: 27
 };
-console.log(firstName);
-console.log(rest);`}
+console.log(firstName) // Rahul;
+console.log(rest); // Object {lastName: "Attuluri", age: 27}`}
         />
-        <OutputBlock output={["Rahul", "{lastName: 'Attuluri', age: 27}"]} />
 
-        <p>
-          <b>Note:</b> The Rest parameter should always be the last parameter in
-          a function definition.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            The Rest parameter should always be the last parameter in a function
+            definition.
+          </p>
+        </div>
 
         <CodeBlock
           language="javascript"
           code={`function numbers(a, b, ...rest) {
-  console.log(a);
-  console.log(b);
-  console.log(rest);
+  console.log(a) // 1;
+  console.log(b) // 2;
+  console.log(rest) // [3, 4, 5];
 }
 numbers(1, 2, 3, 4, 5);`}
         />
-        <OutputBlock output={["1", "2", "[3, 4, 5]"]} />
 
         <p>Invalid Example:</p>
         <CodeBlock
@@ -207,12 +201,7 @@ numbers(1, 2, 3, 4, 5);`}
   console.log(rest);
   console.log(b);
 }
-numbers(1, 2, 3, 4, 5);`}
-        />
-        <OutputBlock
-          output={
-            "Uncaught SyntaxError: Rest parameter must be last formal parameter"
-          }
+numbers(1, 2, 3, 4, 5); // Uncaught SyntaxError: Rest parameter must be last formal parameter`}
         />
       </section>
 
@@ -221,18 +210,17 @@ numbers(1, 2, 3, 4, 5);`}
         <h2>3. Functions</h2>
         <h3>3.1 Default Parameters</h3>
         <p>
-          The <b>Default Parameters</b> allow us to provide default values to
-          function parameters if no value is passed.
+          The Default Parameters allow us to give default values to function
+          parameters.
         </p>
         <CodeBlock
           language="javascript"
           code={`function numbers(a = 2, b = 5) {
-  console.log(a);
-  console.log(b);
+  console.log(a) // 3;
+  console.log(b) // 5;
 }
 numbers(3);`}
         />
-        <OutputBlock output={["3", "5"]} />
       </section>
 
       {/* 4. Template Literals */}
@@ -253,9 +241,8 @@ numbers(3);`}
         <CodeBlock
           language="javascript"
           code={`let firstName = "Rahul";
-console.log(\`Hello \${firstName}!\`);`}
+console.log(\`Hello \${firstName}!\`);  // Hello Rahul!`}
         />
-        <OutputBlock output={"Hello Rahul!"} />
       </section>
 
       {/* Continue Button */}

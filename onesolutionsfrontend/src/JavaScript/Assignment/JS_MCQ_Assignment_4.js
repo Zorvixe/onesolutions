@@ -4,185 +4,211 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ---------- NORMAL QUESTIONS (5) ----------
+
   {
-    question: (
-      <div>
-        <p>
-          1. What is the main purpose of the <code>fetch()</code> method in
-          JavaScript?
-        </p>
-      </div>
-    ),
+    question: "What is the main purpose of the fetch() method in JavaScript?",
     options: [
       "To execute SQL queries",
       "To fetch resources or data from a server",
       "To modify HTML elements dynamically",
-      "To run callback functions automatically",
+      "To create callback functions",
     ],
     answer: "To fetch resources or data from a server",
   },
   {
-    question: (
-      <div>
-        <p>
-          2. Which method is used to handle successful responses from a fetch
-          request?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`fetch("https://api.example.com/data")
-    .then(response => response.json())
-    .then(data => console.log(data));`}
-        />
-      </div>
-    ),
-    options: [
-      "response.catch()",
-      "response.handle()",
-      "then()",
-      "await.response()",
-    ],
+    question: "Which method is used to handle successful fetch responses?",
+    options: ["catch()", "then()", "error()", "reject()"],
     answer: "then()",
   },
   {
-    question: (
-      <div>
-        <p>
-          3. What is the correct syntax to handle errors in a fetch request?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`fetch("https://example.com")
-    .then(res => res.json())
-    .catch(error => console.log("Error:", error));`}
-        />
-      </div>
-    ),
-    options: [
-      "By using .finally()",
-      "By using .catch()",
-      "By using .error()",
-      "By using .reject()",
-    ],
-    answer: "By using .catch()",
+    question: "Which property defines the HTTP request type in fetch?",
+    options: ["headers", "method", "mode", "body"],
+    answer: "method",
   },
   {
-    question: (
-      <div>
-        <p>
-          4. In Fetch & Callbacks 2, what does the <code>method</code> property
-          define in fetch options?
-        </p>
-      </div>
-    ),
+    question: "What is a callback function?",
     options: [
-      "The type of HTTP request (GET, POST, PUT, DELETE)",
-      "The server domain name",
-      "The response type",
-      "The headers for authorization",
-    ],
-    answer: "The type of HTTP request (GET, POST, PUT, DELETE)",
-  },
-  {
-    question: (
-      <div>
-        <p>5. Which statement best describes a callback function?</p>
-      </div>
-    ),
-    options: [
-      "A function that executes immediately after definition",
+      "A function executed immediately",
       "A function passed as an argument to another function",
-      "A function that never returns a value",
-      "A function used only for loops",
+      "A function that never returns data",
+      "A function used only in loops",
     ],
     answer: "A function passed as an argument to another function",
   },
   {
-    question: (
-      <div>
-        <p>6. Which form event is triggered when a user submits a form?</p>
-      </div>
-    ),
-    options: ["onChange", "onClick", "onSubmit", "onBlur"],
+    question: "Which form event triggers when a form is submitted?",
+    options: ["onClick", "onChange", "onSubmit", "onBlur"],
     answer: "onSubmit",
   },
+
+  // ---------- CODEBLOCK QUESTIONS (10) ----------
+
   {
     question: (
       <div>
-        <p>
-          7. What is the main purpose of the <code>event.preventDefault()</code>{" "}
-          method in form handling?
-        </p>
-      </div>
-    ),
-    options: [
-      "It resets all form fields to default values",
-      "It prevents the default browser action like page reload on form submit",
-      "It clears all input fields",
-      "It validates the form data automatically",
-    ],
-    answer:
-      "It prevents the default browser action like page reload on form submit",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          8. Which input type is used for selecting one option from a list of
-          predefined choices?
-        </p>
+        <p>Which method converts fetch response to JSON?</p>
         <CodeBlock
-          language="html"
-          code={`<input type="radio" name="gender" value="male"> Male
-  <input type="radio" name="gender" value="female"> Female`}
+          language="javascript"
+          code={`fetch(url).then(response => response.json());`}
         />
       </div>
     ),
-    options: ["text", "checkbox", "radio", "select"],
+    options: ["response.text()", "response.json()", "JSON.parse()", "data.json()"],
+    answer: "response.json()",
+  },
+  {
+    question: (
+      <div>
+        <p>Which method is used to handle errors in fetch?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url)
+  .then(res => res.json())
+  .catch(error => console.log(error));`}
+        />
+      </div>
+    ),
+    options: ["then()", "error()", "catch()", "finally()"],
+    answer: "catch()",
+  },
+  {
+    question: (
+      <div>
+        <p>What does the method property specify in fetch?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url, { method: "POST" });`}
+        />
+      </div>
+    ),
+    options: [
+      "Response format",
+      "HTTP request type",
+      "Server address",
+      "Authorization token",
+    ],
+    answer: "HTTP request type",
+  },
+  {
+    question: (
+      <div>
+        <p>Which code correctly prevents form reload?</p>
+        <CodeBlock
+          language="javascript"
+          code={`form.addEventListener("submit", event => {
+  event.preventDefault();
+});`}
+        />
+      </div>
+    ),
+    options: [
+      "event.stop()",
+      "event.preventDefault()",
+      "event.reload(false)",
+      "event.cancel()",
+    ],
+    answer: "event.preventDefault()",
+  },
+  {
+    question: (
+      <div>
+        <p>Which input type allows selecting only one option?</p>
+        <CodeBlock
+          language="html"
+          code={`<input type="radio" name="gender" />`}
+        />
+      </div>
+    ),
+    options: ["checkbox", "text", "radio", "select"],
     answer: "radio",
   },
   {
     question: (
       <div>
-        <p>
-          9. Which of the following correctly represents a drop-down menu in
-          HTML?
-        </p>
+        <p>Which HTML elements create a dropdown menu?</p>
         <CodeBlock
           language="html"
-          code={`<select name="city">
-    <option value="hyd">Hyderabad</option>
-    <option value="delhi">Delhi</option>
-  </select>`}
+          code={`<select>
+  <option>Option 1</option>
+</select>`}
         />
       </div>
     ),
     options: [
-      "<input type='dropdown'>",
-      "<select> with <option> elements",
-      "<menu> with <item>",
-      "<ul> with <li>",
+      "<input> & <label>",
+      "<select> & <option>",
+      "<ul> & <li>",
+      "<menu> & <item>",
     ],
-    answer: "<select> with <option> elements",
+    answer: "<select> & <option>",
   },
   {
     question: (
       <div>
-        <p>
-          10. What does the <code>checked</code> attribute do in an HTML input
-          element?
-        </p>
+        <p>What does the checked attribute do?</p>
+        <CodeBlock
+          language="html"
+          code={`<input type="checkbox" checked />`}
+        />
       </div>
     ),
     options: [
-      "Specifies a default checked state for radio or checkbox input",
-      "Marks the input as invalid",
-      "Hides the input field",
-      "Clears all checked options",
+      "Disables the input",
+      "Pre-selects the input",
+      "Hides the input",
+      "Clears selection",
     ],
-    answer: "Specifies a default checked state for radio or checkbox input",
+    answer: "Pre-selects the input",
+  },
+  {
+    question: (
+      <div>
+        <p>Which event is triggered on form submission?</p>
+        <CodeBlock
+          language="javascript"
+          code={`form.addEventListener("submit", handleSubmit);`}
+        />
+      </div>
+    ),
+    options: ["click", "change", "submit", "blur"],
+    answer: "submit",
+  },
+  {
+    question: (
+      <div>
+        <p>Which example shows a callback function?</p>
+        <CodeBlock
+          language="javascript"
+          code={`setTimeout(() => {
+  console.log("Hello");
+}, 1000);`}
+        />
+      </div>
+    ),
+    options: [
+      "console.log()",
+      "Arrow function passed to setTimeout",
+      "Variable declaration",
+      "Fetch method",
+    ],
+    answer: "Arrow function passed to setTimeout",
+  },
+  {
+    question: (
+      <div>
+        <p>Which input attribute sets default selection?</p>
+        <CodeBlock
+          language="html"
+          code={`<input type="radio" checked />`}
+        />
+      </div>
+    ),
+    options: ["selected", "default", "checked", "active"],
+    answer: "checked",
   },
 ];
+
 
 const JS_MCQ_Assignment_4 = ({
   subtopicId,

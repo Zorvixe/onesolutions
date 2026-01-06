@@ -66,7 +66,7 @@ const questionsData = [
       <div>
         <p>
           What type of argument must be passed to
-          <code> localStorage.removeItem() </code>?
+          <b> localStorage.removeItem() </b>?
         </p>
       </div>
     ),
@@ -78,7 +78,7 @@ const questionsData = [
       <div>
         <p>
           Which statement is correct regarding
-          <code> removeItem() </code>?
+          <b> removeItem() </b>?
         </p>
       </div>
     ),
@@ -95,7 +95,7 @@ const questionsData = [
       <div>
         <p>
           What will be the value returned by
-          <code> localStorage.removeItem() </code>?
+          <b> localStorage.removeItem() </b>?
         </p>
       </div>
     ),
@@ -107,7 +107,7 @@ const questionsData = [
       <div>
         <p>
           In a Todos application, when should
-          <code> removeItem() </code> be used?
+          <b> removeItem() </b> be used?
         </p>
       </div>
     ),
@@ -124,7 +124,7 @@ const questionsData = [
       <div>
         <p>
           What happens to other Local Storage data when
-          <code> removeItem("todo") </code> is executed?
+          <b> removeItem("todo") </b> is executed?
         </p>
       </div>
     ),

@@ -83,6 +83,7 @@ import Introductionto_CSS_Flexbox_CS_3 from "../FlexBox/CSS_Flexbox/Introduction
 import Introductionto_Reactjs_CS from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_CS.js";
 import Components_Props_CS from "../Reactjs/Introductionto_Reactjs/Components_Props.CS.js";
 import Lists_Keys_CS from "../Reactjs/Introductionto_Reactjs/Lists_Keys_CS.js";
+import Class_Component_State1_CS from "../Reactjs/Class_Component_State1/Class_Component_State1_CS";
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
@@ -1038,6 +1039,7 @@ export const subtopicComponents = {
   "Introduction to React JS | Cheat Sheet": Introductionto_Reactjs_CS,
   "Components & Pros | Cheat Sheet": Components_Props_CS,
   "Lists & Keys | Cheat Sheet": Lists_Keys_CS,
+  "Class Component and State | Cheat Sheet":Class_Component_State1_CS,
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
     Sizing_Ele_Handling_Overflow_CS,

@@ -87,10 +87,14 @@ const HTTP_Request_Using_JS_CS = ({
           <li>Headers</li>
           <li>Body</li>
           <li>Credentials</li>
-          <li>Cache</li>
+          <li>Cache etc..</li>
         </ul>
+        <p>
+          We can configure a request by passing an options <code>object</code>{" "}
+          with required properties and their values.
+        </p>
 
-        <p>Example:</p>
+        <p>For example,</p>
         <CodeBlock
           language="javascript"
           code={`let options = {
@@ -107,11 +111,16 @@ const HTTP_Request_Using_JS_CS = ({
       <section>
         <h2>2. Making HTTP Requests using Fetch</h2>
         <p>
-          The <code>method</code> property in options can be GET, POST, PUT,
-          DELETE, etc. Default is GET.
+          The <code>method</code> property in <code>options</code> can be{" "}
+          <code>GET</code>, <code>POST</code>, <code>PUT</code>,
+          <code>DELETE</code>, etc. The default method is <code>GET</code>.
         </p>
 
         <h3>2.1 GET</h3>
+        <p>
+          The <code>GET</code> method can be used to retrieve (get) data from a
+          specified resource.
+        </p>
         <CodeBlock
           language="javascript"
           code={`let options = {
@@ -122,6 +131,9 @@ fetch("https://gorest.co.in/public-api/users", options);`}
         />
 
         <h3>2.2 POST</h3>
+        <p>
+          The <code>POST</code> method can be used to send data to the server.
+        </p>
         <CodeBlock
           language="javascript"
           code={`let data = {
@@ -151,6 +163,10 @@ fetch("https://gorest.co.in/public-api/users", options)
         />
 
         <h3>2.3 PUT</h3>
+        <p>
+          The <code>PUT</code> method can be used to update the existing
+          resource.
+        </p>
         <CodeBlock
           language="javascript"
           code={`let data = {
@@ -177,6 +193,10 @@ fetch("https://gorest.co.in/public-api/users/1359", options)
         />
 
         <h3>2.4 DELETE</h3>
+        <p>
+          The <code>DELETE</code> method can be used to delete the specified
+          resource.
+        </p>
         <CodeBlock
           language="javascript"
           code={`let options = {
@@ -201,7 +221,10 @@ fetch("https://gorest.co.in/public-api/users/1359", options)
       {/* 3. HTTP Response Object */}
       <section>
         <h2>3. HTTP Response Object Properties and Methods</h2>
-        <p>The response object provides information about the HTTP response.</p>
+        <p>
+          Response Object provides multiple properties to give more information
+          about the HTTP Response.
+        </p>
         <ul>
           <li>
             <strong>status</strong> (number) - HTTP status code
@@ -224,7 +247,7 @@ fetch("https://gorest.co.in/public-api/users/1359", options)
           </li>
         </ul>
 
-        <h3>Example</h3>
+        <p>For example,</p>
         <CodeBlock
           language="javascript"
           code={`let options = {
@@ -239,6 +262,10 @@ fetch("https://gorest.co.in/public-api/users", options)
   console.log(status);  // 200
 });`}
         />
+        <p>
+          In the above example, we can get the response status as{" "}
+          <code>200</code> when the request is <b>success</b>.
+        </p>
       </section>
 
       {/* Continue Button */}

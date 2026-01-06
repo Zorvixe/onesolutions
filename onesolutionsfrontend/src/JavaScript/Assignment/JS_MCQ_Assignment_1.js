@@ -3,156 +3,233 @@ import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // 1
+  // ---------- 1 (Normal) ----------
   {
-    question: "Which of the following best describes JavaScript?",
+    question: "What is JavaScript mainly used for?",
     options: [
-      "A markup language used for creating web pages",
-      "A server-side scripting language",
-      "A programming language used to make web pages interactive",
-      "A database management language",
+      "Styling web pages",
+      "Structuring web content",
+      "Making web pages interactive",
+      "Managing databases",
     ],
-    answer: "A programming language used to make web pages interactive",
+    answer: "Making web pages interactive",
   },
-  // 2
+
+  // ---------- 2 (Normal) ----------
   {
-    question: (
-      <div>
-        <p>
-          Which of the following correctly displays a message in the browser
-          console?
-        </p>
-        <CodeBlock language="javascript" code={`console.log("Hello World");`} />
-      </div>
-    ),
-    options: [
-      `print("Hello World");`,
-      `console.write("Hello World");`,
-      `echo("Hello World");`,
-      `console.log("Hello World");`,
-    ],
-    answer: `console.log("Hello World");`,
+    question: "Which keyword is used to declare a variable in JavaScript?",
+    options: ["int", "string", "let", "define"],
+    answer: "let",
   },
-  // 3
+
+  // ---------- 3 (Normal) ----------
   {
-    question: (
-      <div>
-        <p>What is the correct way to declare a variable in JavaScript?</p>
-      </div>
-    ),
-    options: [
-      "variable name = 'John';",
-      "v name = 'John';",
-      "let name = 'John';",
-      "string name = 'John';",
-    ],
-    answer: "let name = 'John';",
+    question: "Which symbol is used to assign a value to a variable?",
+    options: ["==", "===", "=", ":"],
+    answer: "=",
   },
-  // 4
+
+  // ---------- 4 (Normal) ----------
   {
-    question: (
-      <div>
-        <p>What will be the output of the following code?</p>
-        <CodeBlock
-          language="javascript"
-          code={`let a = 5;\nlet b = "5";\nconsole.log(a == b);\nconsole.log(a === b);`}
-        />
-      </div>
-    ),
-    options: ["true true", "false false", "true false", "false true"],
-    answer: "true false",
+    question: "Which data type is used to store multiple values in JavaScript?",
+    options: ["String", "Number", "Array", "Boolean"],
+    answer: "Array",
   },
-  // 5
+
+  // ---------- 5 (Normal) ----------
   {
-    question: (
-      <div>
-        <p>How can you create an array in JavaScript?</p>
-        <CodeBlock
-          language="javascript"
-          code={`let colors = ["red", "green", "blue"];`}
-        />
-      </div>
-    ),
-    options: [
-      `let colors = ("red", "green", "blue");`,
-      `let colors = ["red", "green", "blue"];`,
-      `let colors = {"red", "green", "blue"};`,
-      `let colors = <"red", "green", "blue">;`,
-    ],
-    answer: `let colors = ["red", "green", "blue"];`,
-  },
-  // 6
-  {
-    question: (
-      <div>
-        <p>What will be the output of the following code?</p>
-        <CodeBlock
-          language="javascript"
-          code={`let fruits = ["apple", "banana"];\nfruits.push("mango");\nconsole.log(fruits.length);`}
-        />
-      </div>
-    ),
-    options: ["2", "3", "4", "undefined"],
-    answer: "3",
-  },
-  // 7
-  {
-    question: (
-      <div>
-        <p>
-          How can you access the value of <code>age</code> in the following
-          object?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`let person = { name: "Rahul", age: 25 };\n// Access age`}
-        />
-      </div>
-    ),
-    options: ["person['age']", "person(age)", "person->age", "get.person.age"],
-    answer: "person['age']",
-  },
-  // 8
-  {
-    question: (
-      <div>
-        <p>What will be the output of this code snippet?</p>
-        <CodeBlock
-          language="javascript"
-          code={`let arr = [10, 20, 30];\narr.pop();\nconsole.log(arr);`}
-        />
-      </div>
-    ),
-    options: ["[10, 20]", "[20, 30]", "[10, 30]", "[30]"],
-    answer: "[10, 20]",
-  },
-  // 9
-  {
-    question:
-      "Which keyword allows reassigning the variable value in JavaScript?",
-    options: ["const", "var", "define", "final"],
+    question: "Which JavaScript keyword allows variable re-declaration?",
+    options: ["let", "const", "var", "static"],
     answer: "var",
   },
-  // 10
+
+  // ---------- 6 (CodeBlock) ----------
   {
     question: (
       <div>
-        <p>What is the correct way to define an object in JavaScript?</p>
+        <p>What will be displayed in the console?</p>
         <CodeBlock
           language="javascript"
-          code={`let student = {\n  name: "Anita",\n  roll: 24,\n  grade: "A"\n};`}
+          code={`console.log("Hello JavaScript");`}
         />
       </div>
     ),
     options: [
-      `let student = ["Anita", 24, "A"];`,
-      `let student = (name: "Anita", roll: 24, grade: "A");`,
-      `let student = { name: "Anita", roll: 24, grade: "A" };`,
-      `let student = <name: "Anita", roll: 24, grade: "A">;`,
+      "Hello",
+      "JavaScript",
+      "Hello JavaScript",
+      "Nothing",
     ],
-    answer: `let student = { name: "Anita", roll: 24, grade: "A" };`,
+    answer: "Hello JavaScript",
+  },
+
+  // ---------- 7 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What is the output of the following code?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let x = 10;
+let y = "10";
+console.log(x == y);`}
+        />
+      </div>
+    ),
+    options: ["true", "false", "undefined", "error"],
+    answer: "true",
+  },
+
+  // ---------- 8 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What is the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let x = 10;
+let y = "10";
+console.log(x === y);`}
+        />
+      </div>
+    ),
+    options: ["true", "false", "10", `"10"`],
+    answer: "false",
+  },
+
+  // ---------- 9 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>How many elements are there in the array?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let nums = [1, 2, 3, 4];
+console.log(nums.length);`}
+        />
+      </div>
+    ),
+    options: ["3", "4", "5", "undefined"],
+    answer: "4",
+  },
+
+  // ---------- 10 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What will be the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let arr = ["a", "b"];
+arr.push("c");
+console.log(arr);`}
+        />
+      </div>
+    ),
+    options: [
+      `["a", "b"]`,
+      `["a", "b", "c"]`,
+      `["c", "a", "b"]`,
+      `"a,b,c"`,
+    ],
+    answer: `["a", "b", "c"]`,
+  },
+
+  // ---------- 11 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What does the <p>pop()</p> method do?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let arr = [10, 20, 30];
+arr.pop();`}
+        />
+      </div>
+    ),
+    options: [
+      "Adds an element at the beginning",
+      "Removes the last element",
+      "Removes the first element",
+      "Adds an element at the end",
+    ],
+    answer: "Removes the last element",
+  },
+
+  // ---------- 12 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What will be printed?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let colors = ["red", "green", "blue"];
+console.log(colors[1]);`}
+        />
+      </div>
+    ),
+    options: ["red", "green", "blue", "undefined"],
+    answer: "green",
+  },
+
+  // ---------- 13 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>How do you access the <b>age</b> property?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let user = { name: "Ravi", age: 30 };`}
+        />
+      </div>
+    ),
+    options: [
+      "user(age)",
+      "user->age",
+      "user.age",
+      "get.user.age",
+    ],
+    answer: "user.age",
+  },
+
+  // ---------- 14 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What is the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let items = [1, 2, 3];
+items.pop();
+console.log(items.length);`}
+        />
+      </div>
+    ),
+    options: ["1", "2", "3", "0"],
+    answer: "2",
+  },
+
+  // ---------- 15 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which of the following correctly defines an object?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let car = { brand: "BMW", year: 2023 };`}
+        />
+      </div>
+    ),
+    options: [
+      `["BMW", 2023]`,
+      `{ brand: "BMW", year: 2023 }`,
+      `(brand: "BMW", year: 2023)`,
+      `<brand="BMW">`,
+    ],
+    answer: `{ brand: "BMW", year: 2023 }`,
   },
 ];
+
 
 const JS_MCQ_Assignment_1 = ({
   subtopicId,

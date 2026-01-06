@@ -56,7 +56,6 @@ const Sizing_Ele_Handling_Overflow_CS = ({
     }
   };
 
-
   return (
     <div className="intro-container">
       <h1>Sizing Elements and Handling Overflow | Cheat Sheet</h1>
@@ -132,15 +131,17 @@ const Sizing_Ele_Handling_Overflow_CS = ({
 
         <h3>2.2 overflow-x & overflow-y</h3>
         <p>
-          These are similar to the overflow property but handle one direction
-          only:
+          There are two other CSS properties similar to <code>overflow</code>,
+          which is used for handling in any one particular direction.
         </p>
         <ul>
           <li>
-            <b>overflow-x</b> – Handles overflow in the horizontal direction.
+            <code>overflow-x</code> – To handle overflow in the horizontal
+            direction.
           </li>
           <li>
-            <b>overflow-y</b> – Handles overflow in the vertical direction.
+            <code>overflow-y</code> – To handle overflow in the vertical
+            direction.
           </li>
         </ul>
       </section>
@@ -151,15 +152,28 @@ const Sizing_Ele_Handling_Overflow_CS = ({
 
         <h3>3.1 Min Size</h3>
         <p>
-          The <code>min-height</code> and <code>min-width</code> CSS properties
+          The <code>min-height</code> & <code>min-width</code> CSS properties
           can be used to define the minimum sizes of an element.
         </p>
+        <CodeBlock
+          language="css"
+          code={`.paragraph {
+    min-height: 150px;
+  }`}
+        />
 
         <h3>3.2 Max Size</h3>
         <p>
-          The <code>max-height</code> and <code>max-width</code> CSS properties
+          The <code>min-height</code> & <code>min-width</code> CSS properties
           can be used to restrict the sizes of an element.
         </p>
+        <CodeBlock
+          language="css"
+          code={`.paragraph {
+  min-height: 150px;
+  max-height: 180px;
+}`}
+        />
 
         <h3>3.3 Min & Max Sizes with Overflow</h3>
         <p>
@@ -178,21 +192,25 @@ const Sizing_Ele_Handling_Overflow_CS = ({
 
         <ul>
           <li>
-            <b>Name</b> – Specifies the type of meta element. The value{" "}
-            <b>viewport</b> tells the browser how to control the page’s
-            dimensions and scaling.
+            <b>Name</b> – specifies the type of meta element it is, what type of
+            information it contains. <code>viewport</code> gives instructions to
+            browsers on how to control the page's dimensions and scaling.
           </li>
           <li>
-            <b>Content</b> – Specifies the actual meta content.
+            <b>Content</b> – specifies the actual meta content.
           </li>
         </ul>
-        <p>
-          <b>Note:</b>{" "}
-          <code>
-            On mobile devices, including the viewport meta element is good
-            practice to ensure proper scaling.
-          </code>
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            In mobile devices, you may experience this issue, so it is a good
+            practice to include viewport <b>meta</b> element in the HTML.
+          </p>
+        </div>
       </section>
 
       <div className="view-continue">

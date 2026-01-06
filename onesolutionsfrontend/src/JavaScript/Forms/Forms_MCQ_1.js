@@ -1,166 +1,283 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  {
-    question: (
-      <div>
-        <p>What are HTML Forms mainly used for?</p>
-      </div>
-    ),
-    options: [
-      "To display animations on a webpage",
-      "To collect data from the user",
-      "To create navigation menus",
-      "To link CSS and JavaScript files",
-    ],
-    answer: "To collect data from the user",
-  },
-  {
-    question: (
-      <div>
-        <p>Which of the following is a common type of HTML form?</p>
-      </div>
-    ),
-    options: [
-      "Login / Sign in Form",
-      "Image Gallery",
-      "Video Player",
-      "Navigation Bar",
-    ],
-    answer: "Login / Sign in Form",
-  },
+  // ---------- 1 (Normal) ----------
   {
     question: (
       <div>
         <p>
-          Which HTML element acts as a container for input elements like text
-          fields and checkboxes?
+          What is the main purpose of the HTML <bdi>&lt;form&gt;</bdi> element?
         </p>
-        <CodeBlock
-          language="html"
-          code={`<form>\n  <input type="text" />\n  <input type="submit" />\n</form>`}
-        />
       </div>
     ),
-    options: ["<input>", "<form>", "<label>", "<fieldset>"],
-    answer: "<form>",
+    options: [
+      "To display images",
+      "To collect user input",
+      "To apply CSS styles",
+      "To play videos",
+    ],
+    answer: "To collect user input",
   },
+
+  // ---------- 2 (Normal) ----------
   {
     question: (
       <div>
-        <p>
-          What event is triggered when you press Enter or click a button inside
-          a form?
-        </p>
+        <p>Which event is triggered when a form is submitted?</p>
       </div>
     ),
-    options: ["click", "submit", "focus", "change"],
+    options: ["click", "submit", "change", "blur"],
     answer: "submit",
   },
+
+  // ---------- 3 (Normal) ----------
   {
     question: (
       <div>
         <p>
-          What does the <code>preventDefault()</code> method do in a form event?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`form.addEventListener("submit", function(event) {\n  event.preventDefault();\n  console.log("Form submission prevented!");\n});`}
-        />
-      </div>
-    ),
-    options: [
-      "Submits the form twice",
-      "Prevents the form’s default submit action",
-      "Resets all form inputs",
-      "Stops event propagation",
-    ],
-    answer: "Prevents the form’s default submit action",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          Which of the following is <b>not</b> an example of an event type?
-        </p>
-      </div>
-    ),
-    options: ["Keyboard Events", "Form Events", "Touch Events", "CSS Events"],
-    answer: "CSS Events",
-  },
-  {
-    question: (
-      <div>
-        <p>Which of the following are examples of Form Events?</p>
-      </div>
-    ),
-    options: [
-      "blur, focus, change",
-      "click, hover, drag",
-      "resize, scroll, load",
-      "copy, paste, cut",
-    ],
-    answer: "blur, focus, change",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          When does the <code>blur</code> event trigger?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`input.addEventListener("blur", function() {\n  console.log("Input lost focus");\n});`}
-        />
-      </div>
-    ),
-    options: [
-      "When an element gains focus",
-      "When an element loses focus",
-      "When the page loads",
-      "When the form is submitted",
-    ],
-    answer: "When an element loses focus",
-  },
-  {
-    question: (
-      <div>
-        <p>
-          Which JavaScript method would you use to stop a form from refreshing
-          the page after submission?
+          Which method is used to prevent the default behavior of a form
+          submission?
         </p>
       </div>
     ),
     options: [
-      "stopSubmit()",
-      "cancelForm()",
+      "stopForm()",
       "preventDefault()",
-      "blockSubmit()",
+      "cancelSubmit()",
+      "disableForm()",
     ],
     answer: "preventDefault()",
   },
+
+  // ---------- 4 (Normal) ----------
+  {
+    question: (
+      <div>
+        <p>Which of the following is a Form Event?</p>
+      </div>
+    ),
+    options: ["blur", "scroll", "resize", "load"],
+    answer: "blur",
+  },
+
+  // ---------- 5 (Normal) ----------
   {
     question: (
       <div>
         <p>
-          What type of event occurs within a form when the input field changes?
+          When does the <b>change</b> event occur in a form?
         </p>
       </div>
     ),
-    options: ["blur", "change", "submit", "reset"],
+    options: [
+      "When the page loads",
+      "When the input value changes",
+      "When the mouse moves",
+      "When the form resets",
+    ],
+    answer: "When the input value changes",
+  },
+
+  // ---------- 6 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which HTML element is used to wrap input fields?</p>
+        <CodeBlock
+          language="html"
+          code={`<form>
+  <input type="text" />
+  <button type="submit">Submit</button>
+</form>`}
+        />
+      </div>
+    ),
+    options: ["<input>", "<form>", "<button>", "<label>"],
+    answer: "<form>",
+  },
+
+  // ---------- 7 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What event will be triggered by the following code?</p>
+        <CodeBlock
+          language="javascript"
+          code={`form.addEventListener("submit", function(event) {
+  console.log("Form submitted");
+});`}
+        />
+      </div>
+    ),
+    options: ["click", "submit", "focus", "blur"],
+    answer: "submit",
+  },
+
+  // ---------- 8 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What does the following code do?</p>
+        <CodeBlock
+          language="javascript"
+          code={`form.addEventListener("submit", function(event) {
+  event.preventDefault();
+});`}
+        />
+      </div>
+    ),
+    options: [
+      "Submits the form normally",
+      "Reloads the page",
+      "Prevents default form submission",
+      "Clears all input fields",
+    ],
+    answer: "Prevents default form submission",
+  },
+
+  // ---------- 9 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which event is used when an input field loses focus?</p>
+        <CodeBlock
+          language="javascript"
+          code={`input.addEventListener("blur", function() {
+  console.log("Lost focus");
+});`}
+        />
+      </div>
+    ),
+    options: ["focus", "change", "blur", "submit"],
+    answer: "blur",
+  },
+
+  // ---------- 10 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What happens when you press Enter inside a form input?</p>
+        <CodeBlock
+          language="html"
+          code={`<form>
+  <input type="text" />
+</form>`}
+        />
+      </div>
+    ),
+    options: [
+      "blur event is triggered",
+      "submit event is triggered",
+      "change event is triggered",
+      "focus event is triggered",
+    ],
+    answer: "submit event is triggered",
+  },
+
+  // ---------- 11 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which event object method is shown below?</p>
+        <CodeBlock language="javascript" code={`event.preventDefault();`} />
+      </div>
+    ),
+    options: [
+      "stopPropagation()",
+      "preventDefault()",
+      "cancelEvent()",
+      "stopEvent()",
+    ],
+    answer: "preventDefault()",
+  },
+
+  // ---------- 12 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>Which type of event is being handled here?</p>
+        <CodeBlock
+          language="javascript"
+          code={`form.addEventListener("change", function() {
+  console.log("Value changed");
+});`}
+        />
+      </div>
+    ),
+    options: ["Keyboard Event", "Mouse Event", "Form Event", "Touch Event"],
+    answer: "Form Event",
+  },
+
+  // ---------- 13 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What does this code listen for?</p>
+        <CodeBlock
+          language="javascript"
+          code={`input.addEventListener("focus", function() {
+  console.log("Input focused");
+});`}
+        />
+      </div>
+    ),
+    options: [
+      "When input loses focus",
+      "When input gains focus",
+      "When form submits",
+      "When input changes",
+    ],
+    answer: "When input gains focus",
+  },
+
+  // ---------- 14 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>
+          Which event occurs after changing input value and leaving the field?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`input.addEventListener("change", function() {
+  console.log("Changed");
+});`}
+        />
+      </div>
+    ),
+    options: ["focus", "submit", "change", "blur"],
     answer: "change",
+  },
+
+  // ---------- 15 (CodeBlock) ----------
+  {
+    question: (
+      <div>
+        <p>What is the purpose of the event parameter in this function?</p>
+        <CodeBlock
+          language="javascript"
+          code={`function handleSubmit(event) {
+  event.preventDefault();
+}`}
+        />
+      </div>
+    ),
+    options: [
+      "To store form data",
+      "To access event-related methods",
+      "To submit the form",
+      "To reload the page",
+    ],
+    answer: "To access event-related methods",
   },
 ];
 
-const Forms_MCQ_1 = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Forms_MCQ_1 = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -189,7 +306,7 @@ const Forms_MCQ_1 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -218,13 +335,18 @@ const Forms_MCQ_1 = ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="Forms - MCQs" questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="Forms - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 
 export default Forms_MCQ_1;

@@ -88,16 +88,17 @@ const Hypertext_Transfer_Protocal_CS = ({
         </p>
         <ul>
           <li>
-            <code>http</code> is a Protocol
+            <code>http</code> is a <b>Protocol</b>
           </li>
           <li>
-            <code>www.flipkart.com</code> is a Domain Name
+            <code>www.flipkart.com</code> is a <b>Domain Name</b>
           </li>
           <li>
             <code>/watches</code> is a Path
           </li>
           <li>
-            <code>type=digital&amp;rating=4</code> is the Query Parameters
+            <code>type=digital&amp;rating=4</code> is the{" "}
+            <b>Query Parameters</b>
           </li>
         </ul>
       </section>
@@ -190,6 +191,10 @@ const Hypertext_Transfer_Protocal_CS = ({
         </ul>
 
         <h4>HTTP Methods</h4>
+        <p>
+          The HTTP Request methods indicate the desired action to be performed
+          for a given resource.
+        </p>
         <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead>
             <tr>
@@ -258,23 +263,58 @@ const Hypertext_Transfer_Protocal_CS = ({
 
         <h4>3.1.2 Headers</h4>
         <p>
-          HTTP Headers let the client and server pass additional information
+          HTTP Headers let the client and server pass{" "}
+          <b>additional information</b>
           with a request or response.
         </p>
 
         <h4>3.1.3 Body</h4>
         <p>
-          We place the data in the Request body when we want to send data to the
-          server (e.g., form details).
+          We place the data in the Request body when we want to <b>send data</b>{" "}
+          to the server (e.g., form details).
         </p>
+        <p>For example, form details filled by the user.</p>
+        <p>HTTP Requests</p>
+        <ul>
+          <li>Start Line</li>
+          <ul>
+            <li>URL</li>
+            <ul>
+              <li>Protocol</li>
+              <ul>
+                <li>HTTP</li>
+                <li>HTTPS</li>
+              </ul>
+              <li>Domain Name</li>
+              <li>Path</li>
+              <li>Query Parameters</li>
+            </ul>
+            <li>HTTP Method</li>
+            <ul>
+              <li>GET (Read)</li>
+              <li>POST (Create)</li>
+              <li>PUT (Update)</li>
+              <li>DELETE (Delete)</li>
+            </ul>
+            <li>HTTP Version</li>
+          </ul>
+          <li>Headers</li>
+          <li>Body</li>
+        </ul>
       </section>
 
       <section>
         <h3>3.2 HTTP Responses</h3>
         <p>
-          HTTP responses are messages sent by the server as an answer to the
-          client’s request.
+          HTTP responses are <b>messages</b> sent by the server as an{" "}
+          <b>answer</b> to the <b>client’s request</b>.
         </p>
+        <p>HTTP Response includes</p>
+        <ul>
+          <li>Status Line</li>
+          <li>Headers</li>
+          <li>Body</li>
+        </ul>
 
         <h4>3.2.1 Status Line</h4>
         <p>A Status line specifies:</p>
@@ -284,7 +324,11 @@ const Hypertext_Transfer_Protocal_CS = ({
           <li>Status text</li>
         </ul>
 
-        <h4>Status Code Series</h4>
+        <h4>Status Code </h4>
+        <p>
+          Status codes Indicate whether an HTTP request has been successfully
+          completed or not.
+        </p>
         <table border="1" style={{ borderCollapse: "collapse", width: "40%" }}>
           <thead>
             <tr>
@@ -315,8 +359,15 @@ const Hypertext_Transfer_Protocal_CS = ({
             </tr>
           </tbody>
         </table>
+        <ul>
+          <li>200 ( Success ) - Indicates that the request has succeeded</li>
+          <li>
+            201 ( Created ) - The request has succeeded and a new resource has
+            been created as a result
+          </li>
+        </ul>
 
-        <h4>Status text examples</h4>
+        <h4>Status text </h4>
         <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
           <thead>
             <tr>
@@ -354,13 +405,23 @@ const Hypertext_Transfer_Protocal_CS = ({
 
         <h4>3.2.2 Body</h4>
         <p>Response Body contains the resource data requested by the client.</p>
+        <p>HTTP Responses</p>
 
-        <h4>HTTP Responses Summary</h4>
         <ul>
           <li>Status Line</li>
-          <li>HTTP version</li>
-          <li>Status code: 1XX, 2XX, 3XX, 4XX, 5XX</li>
-          <li>Status text</li>
+          <ul>
+            <li>HTTP version</li>
+            <li>Status code</li>
+            <ul>
+              <li>1XX</li>
+              <li>2XX</li>
+              <li>3XX</li>
+              <li>4XX</li>
+              <li>5XX</li>
+            </ul>
+            <li>Status text</li>
+          </ul>
+
           <li>Headers</li>
           <li>Body</li>
         </ul>

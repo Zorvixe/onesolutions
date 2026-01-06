@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // 1
+  // ---------- NORMAL QUESTIONS (5) ----------
+
   {
     question: "What is the primary purpose of a Todos Application?",
     options: [
@@ -14,118 +16,107 @@ const questionsData = [
     ],
     answer: "To manage and track tasks to be completed",
   },
-  // 2
+  {
+    question: "Which event is used when the user clicks the Add Todo button?",
+    options: ["keypress", "submit", "click", "change"],
+    answer: "click",
+  },
+  {
+    question:
+      "Which method is used to update content dynamically on a webpage?",
+    options: ["document.write()", "innerHTML", "alert()", "prompt()"],
+    answer: "innerHTML",
+  },
+  {
+    question: "Which method prevents a form from refreshing the page?",
+    options: [
+      "stopPropagation()",
+      "preventDefault()",
+      "stopImmediatePropagation()",
+      "return true",
+    ],
+    answer: "preventDefault()",
+  },
+  {
+    question: "Which property is used to read user input from an input field?",
+    options: [".data", ".content", ".value", ".text"],
+    answer: ".value",
+  },
+
+  // ---------- CODEBLOCK QUESTIONS (10) ----------
+
   {
     question: (
       <div>
-        <p>
-          Which HTML element is typically used to take input for a new todo
-          item?
-        </p>
-        <CodeBlock
-          language="html"
-          code={`<input type="text" id="todoInput" />`}
-        />
+        <p>Which HTML element is used to take input for a new todo?</p>
+        <CodeBlock language="html" code={`<input type="text" />`} />
       </div>
     ),
-    options: ["<button>", "<input>", "<textarea>", "<label>"],
+    options: ["<button>", "<input>", "<label>", "<div>"],
     answer: "<input>",
   },
-  // 3
   {
     question: (
       <div>
-        <p>
-          Which JavaScript method is commonly used to add a new todo to an
-          array?
-        </p>
+        <p>Which method adds a new todo to the array?</p>
         <CodeBlock language="javascript" code={`todos.push(newTodo);`} />
       </div>
     ),
     options: ["push()", "pop()", "shift()", "splice()"],
     answer: "push()",
   },
-  // 4
   {
     question: (
       <div>
-        <p>What will be the output of the following code?</p>
+        <p>What will be the output?</p>
         <CodeBlock
           language="javascript"
-          code={`let todos = ["Buy milk", "Study JS"];\ntodos.pop();\nconsole.log(todos);`}
+          code={`let todos = ["Buy milk", "Study JS"];
+todos.pop();
+console.log(todos);`}
         />
       </div>
     ),
     options: [`["Buy milk", "Study JS"]`, `["Study JS"]`, `["Buy milk"]`, `[]`],
     answer: `["Buy milk"]`,
   },
-  // 5
   {
     question: (
       <div>
-        <p>
-          What event should be used to detect when the user clicks the "Add
-          Todo" button?
-        </p>
-      </div>
-    ),
-    options: ["keypress", "submit", "click", "change"],
-    answer: "click",
-  },
-  // 6
-  {
-    question: (
-      <div>
-        <p>What will be displayed in the console?</p>
+        <p>What does this code do?</p>
         <CodeBlock
           language="javascript"
-          code={`let todos = ["Task1", "Task2", "Task3"];\ntodos.splice(1, 1);\nconsole.log(todos);`}
+          code={`let todos = ["Task1", "Task2", "Task3"];
+todos.splice(1, 1);`}
         />
       </div>
     ),
     options: [
-      `["Task1", "Task2", "Task3"]`,
-      `["Task1", "Task3"]`,
-      `["Task2", "Task3"]`,
-      `["Task1", "Task2"]`,
+      "Adds a task",
+      "Removes one task from index 1",
+      "Clears all tasks",
+      "Duplicates tasks",
     ],
-    answer: `["Task1", "Task3"]`,
+    answer: "Removes one task from index 1",
   },
-  // 7
   {
     question: (
       <div>
-        <p>
-          Which of the following methods is used to update the UI dynamically
-          when a new todo is added?
-        </p>
-      </div>
-    ),
-    options: ["document.write()", "innerHTML", "alert()", "prompt()"],
-    answer: "innerHTML",
-  },
-  // 8
-  {
-    question: (
-      <div>
-        <p>What will this code log in the console?</p>
+        <p>What will be logged in the console?</p>
         <CodeBlock
           language="javascript"
-          code={`let todos = ["Eat", "Code", "Sleep"];\nlet result = todos.includes("Code");\nconsole.log(result);`}
+          code={`let todos = ["Eat", "Code", "Sleep"];
+console.log(todos.includes("Code"));`}
         />
       </div>
     ),
     options: ["true", "false", "undefined", "Error"],
     answer: "true",
   },
-  // 9
   {
     question: (
       <div>
-        <p>
-          Which event method is used to prevent a form from refreshing the page
-          when a todo is submitted?
-        </p>
+        <p>Which event method stops form refresh?</p>
         <CodeBlock language="javascript" code={`event.preventDefault();`} />
       </div>
     ),
@@ -137,22 +128,48 @@ const questionsData = [
     ],
     answer: "preventDefault()",
   },
-  // 10
   {
     question: (
       <div>
-        <p>
-          Which JavaScript property is used to access the value entered by the
-          user in an input field?
-        </p>
+        <p>Which property reads the input value?</p>
         <CodeBlock
           language="javascript"
-          code={`let inputValue = document.getElementById("todoInput").value;`}
+          code={`document.getElementById("todoInput").value`}
         />
       </div>
     ),
-    options: [".data", ".content", ".value", ".text"],
+    options: [".text", ".content", ".value", ".data"],
     answer: ".value",
+  },
+  {
+    question: (
+      <div>
+        <p>Which method removes the last todo?</p>
+        <CodeBlock language="javascript" code={`todos.pop();`} />
+      </div>
+    ),
+    options: ["push()", "pop()", "splice()", "includes()"],
+    answer: "pop()",
+  },
+  {
+    question: (
+      <div>
+        <p>Which method checks if a todo exists?</p>
+        <CodeBlock language="javascript" code={`todos.includes("Task");`} />
+      </div>
+    ),
+    options: ["find()", "check()", "includes()", "search()"],
+    answer: "includes()",
+  },
+  {
+    question: (
+      <div>
+        <p>Which method removes a todo using index?</p>
+        <CodeBlock language="javascript" code={`todos.splice(index, 1);`} />
+      </div>
+    ),
+    options: ["pop()", "push()", "splice()", "includes()"],
+    answer: "splice()",
   },
 ];
 
@@ -160,9 +177,10 @@ const JS_MCQ_Assignment_2 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -191,7 +209,7 @@ const JS_MCQ_Assignment_2 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -220,13 +238,18 @@ const JS_MCQ_Assignment_2 = ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="JS Assignment 2 - MCQs"questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="JS Assignment 2 - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 
 export default JS_MCQ_Assignment_2;

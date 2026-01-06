@@ -648,11 +648,11 @@ export const goalsData = [
               {
                 id: "QW9_s3_A0 m8_H g1_7B c2_D2E",
                 name: "Responsive Coding Test 3",
-              },
-              {
-                id: "QW9_s4_A0 m8_H g1_7B c2_D2E",
-                name: "Build Your Own Responsive Project",
-              },
+              }
+              // {
+              //   id: "QW9_s4_A0 m8_H g1_7B c2_D2E",
+              //   name: "Build Your Own Responsive Project",
+              // },
             ],
           },
           // {
@@ -1072,10 +1072,10 @@ export const goalsData = [
                 id: "QW9_s27_A0 m5_H g1_7B c3_D2E",
                 name: "Assignment 10B",
               },
-              {
-                id: "QW9_s28_A0 m5_H g1_7B c3_D2E",
-                name: "Foundations Exam 1",
-              },
+              // {
+              //   id: "QW9_s28_A0 m5_H g1_7B c3_D2E",
+              //   name: "Foundations Exam 1",
+              // },
               {
                 id: "QW9_s29_A0 m5_H g1_7B c3_D2E",
                 name: "String Methods",
@@ -1396,11 +1396,11 @@ export const goalsData = [
               {
                 id: "QW9_s18_A0 m9_H g1_7B c3_D2E",
                 name: "Assignment 23",
-              },
-              {
-                id: "QW9_s19_A0 m9_H g1_7B c3_D2E",
-                name: "Foundations Exam 2",
-              },
+              }
+              // {
+              //   id: "QW9_s19_A0 m9_H g1_7B c3_D2E",
+              //   name: "Foundations Exam 2",
+              // },
             ],
           },
           {
@@ -1590,11 +1590,11 @@ export const goalsData = [
               {
                 id: "QW9_s18_A0 m12_H g1_7B c3_D2E",
                 name: "Grand Assignment 4",
-              },
-              {
-                id: "QW9_s19_A0 m12_H g1_7B c3_D2E",
-                name: "Foundations Exam 3",
-              },
+              }
+              // {
+              //   id: "QW9_s19_A0 m12_H g1_7B c3_D2E",
+              //   name: "Foundations Exam 3",
+              // },
             ],
           },
           {
@@ -2069,18 +2069,18 @@ export const goalsData = [
                 id: "QW9_s5_A0 m5_H g2_7B c1_D2E",
                 name: "JS Coding Practice 7",
               },
-              {
-                id: "QW9_s6_A0 m5_H g2_7B c1_D2E",
-                name: "Array Methods | Practice 1",
-              },
-              {
-                id: "QW9_s7_A0 m5_H g2_7B c1_D2E",
-                name: "Array Methods | Practice 2",
-              },
-              {
-                id: "QW9_s8_A0 m5_H g2_7B c1_D2E",
-                name: "Array Methods | Practice 3",
-              },
+              // {
+              //   id: "QW9_s6_A0 m5_H g2_7B c1_D2E",
+              //   name: "Array Methods | Practice 1",
+              // },
+              // {
+              //   id: "QW9_s7_A0 m5_H g2_7B c1_D2E",
+              //   name: "Array Methods | Practice 2",
+              // },
+              // {
+              //   id: "QW9_s8_A0 m5_H g2_7B c1_D2E",
+              //   name: "Array Methods | Practice 3",
+              // },
               {
                 id: "QW9_s9_A0 m5_H g2_7B c1_D2E",
                 name: "Coding Practice 11",

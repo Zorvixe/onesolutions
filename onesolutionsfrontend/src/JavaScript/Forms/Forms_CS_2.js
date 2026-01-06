@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const Forms_CS_2 = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const Forms_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -62,14 +57,21 @@ const Forms_CS_2 = ({
       {/* 1. HTML Select Element */}
       <section>
         <h2>1. HTML Select Element</h2>
-        <p>The HTML <code>select</code> element is used to create a drop-down list.</p>
-        <CodeBlock
-          language="html"
-          code={`<select></select>`}
-        />
+        <p>
+          The HTML <code>select</code> element is used to create a drop-down
+          list.
+        </p>
+        <CodeBlock language="html" code={`<select></select>`} />
 
         <h3>1.1 HTML Option Element</h3>
-        <p>The <code>option</code> element creates a menu option for the drop-down list. Its text content is used as a label.</p>
+        <p>
+          The HTML <code>option</code> element is used to create the menu option
+          of a drop-down list.
+        </p>
+        <p>
+          The text content of the HTML <code>option</code> element is used as a
+          label.
+        </p>
         <CodeBlock
           language="html"
           code={`<select>
@@ -78,7 +80,10 @@ const Forms_CS_2 = ({
         />
 
         <h4>1.1.1 The value Attribute</h4>
-        <p>Every <code>option</code> element should contain the <code>value</code> attribute.</p>
+        <p>
+          Every HTML <code>option</code> element should contain the HTML{" "}
+          <code>value</code> attribute.
+        </p>
         <CodeBlock
           language="html"
           code={`<option value="Active">Active</option>`}
@@ -90,7 +95,10 @@ const Forms_CS_2 = ({
         <h2>2. HTML Input Element</h2>
 
         <h3>2.1 Radio</h3>
-        <p>The <code>input type="radio"</code> element is used to select one option among a list.</p>
+        <p>
+          The <code>input type="radio"</code> element is used to select one
+          option among a list of given options..
+        </p>
         <CodeBlock
           language="html"
           code={`<input type="radio" id="genderMale" value="Male" />
@@ -98,14 +106,21 @@ const Forms_CS_2 = ({
         />
 
         <h4>2.1.1 HTML name attribute</h4>
-        <p>The <code>name</code> attribute specifies the name for an input element.</p>
+        <p>
+          The HTML <code>name</code> attribute specifies the name for an input
+          element.
+        </p>
         <CodeBlock
           language="html"
           code={`<input type="radio" value="Male" name="gender" />`}
         />
 
         <h4>2.1.2 Radio Group</h4>
-        <p>All radio buttons with the same <code>name</code> form a radio group. Only one button can be selected in the group.</p>
+        <p>
+          All the radio buttons with same name collectively called as a radio
+          group.
+        </p>
+        <p>We can select only one radio button within a radio group.</p>
         <CodeBlock
           language="html"
           code={`<input type="radio" value="Male" name="gender" />
@@ -116,23 +131,34 @@ const Forms_CS_2 = ({
       {/* 3. Boolean Attributes */}
       <section>
         <h2>3. Boolean Attributes</h2>
-        <p>For boolean attributes, presence represents <code>true</code> and absence represents <code>false</code>.</p>
+        <p>
+          For the HTML Boolean attributes, we only specify the name of the HTML
+          attribute.
+        </p>
+        <p>
+          The presence of a boolean attribute represents the <code>true</code>{" "}
+          value, and the absence represents the <code>false</code> value.
+        </p>
 
         <h3>3.1 HTML selected attribute</h3>
-        <p>The <code>selected</code> attribute pre-selects an option when the page loads.</p>
+        <p>
+          The <code>selected</code> attribute specifies that an option should be
+          pre-selected when the page loads.
+        </p>
         <CodeBlock
           language="html"
           code={`<option value="Active" selected>Active</option>`}
         />
 
         <h3>3.2 HTML checked attribute</h3>
-        <p>The <code>checked</code> attribute pre-selects (checks) an input element when the page loads.</p>
+        <p>
+          The <code>checked</code> attribute specifies that an input element
+          should be pre-selected (checked) when the page loads.
+        </p>
         <CodeBlock
           language="html"
           code={`<input type="radio" id="genderMale" value="Male" name="gender" checked />`}
         />
-
-        <p>Try out the HTML select element, input radio element, and boolean attributes in your Code Playground.</p>
       </section>
 
       {/* Continue Button */}

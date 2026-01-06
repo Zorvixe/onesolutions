@@ -327,6 +327,14 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      case "check-five-paragraphs": {
+        const paragraphs = iframeDoc.querySelectorAll("p");
+        return {
+          passed: paragraphs.length === 5,
+          actual: `Found ${paragraphs.length} paragraph(s)`,
+        };
+      }
+
       // ========== HTML STRUCTURE VALIDATIONS ==========
       case "check-html-structure": {
         const html = iframeDoc.querySelector("html");
@@ -1515,6 +1523,294 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
         return {
           passed: images.length >= 6,
           actual: `Found ${images.length} image(s)`,
+        };
+      }
+
+      case "check-id-selector": {
+        const idElement = iframeDoc.querySelector("h1[id]");
+        return {
+          passed: !!idElement,
+          actual: idElement
+            ? `Found h1 with id="${idElement.id}"`
+            : "No h1 element with id found",
+        };
+      }
+
+      case "check-class-selector": {
+        const classElements = iframeDoc.querySelectorAll("h1[class]");
+        return {
+          passed: classElements.length >= 1,
+          actual: `Found ${classElements.length} h1 element(s) with class`,
+        };
+      }
+
+      case "check-two-rows": {
+        const rows = iframeDoc.querySelectorAll(".row");
+        return {
+          passed: rows.length === 2,
+          actual: `Found ${rows.length} row element(s)`,
+        };
+      }
+      case "check-two-headings-in-containers": {
+        const headings = iframeDoc.querySelectorAll(
+          ".container h1, .container-fluid h1"
+        );
+        return {
+          passed: headings.length === 2,
+          actual: `Found ${headings.length} heading(s)`,
+        };
+      }
+
+      case "check-two-paragraphs-in-containers": {
+        const paragraphs = iframeDoc.querySelectorAll(
+          ".container p, .container-fluid p"
+        );
+        return {
+          passed: paragraphs.length === 2,
+          actual: `Found ${paragraphs.length} paragraph(s)`,
+        };
+      }
+
+      case "check-span-count": {
+        const spans = iframeDoc.querySelectorAll("h1 span");
+        return {
+          passed: spans.length === 4,
+          actual: `Found ${spans.length} span element(s) inside h1`,
+        };
+      }
+      case "check-paragraph-count": {
+        const paragraphs = iframeDoc.querySelectorAll("p");
+        const passed = paragraphs.length === 4;
+
+        return {
+          passed,
+          actual: `Found ${paragraphs.length} paragraph(s)`,
+        };
+      }
+
+      case "check-width-25": {
+        const elements = iframeDoc.querySelectorAll("p.width-25");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-25 found"
+            : `Found ${elements.length} elements with class width-25`,
+        };
+      }
+
+      case "check-width-50": {
+        const elements = iframeDoc.querySelectorAll("p.width-50");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-50 found"
+            : `Found ${elements.length} elements with class width-50`,
+        };
+      }
+
+      case "check-width-75": {
+        const elements = iframeDoc.querySelectorAll("p.width-75");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-75 found"
+            : `Found ${elements.length} elements with class width-75`,
+        };
+      }
+
+      case "check-width-100": {
+        const elements = iframeDoc.querySelectorAll("p.width-100");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-100 found"
+            : `Found ${elements.length} elements with class width-100`,
+        };
+      }
+      case "check-w-25": {
+        const elements = iframeDoc.querySelectorAll("p.w-25");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-25 found"
+            : `Found ${elements.length} elements with class width-25`,
+        };
+      }
+
+      case "check-w-50": {
+        const elements = iframeDoc.querySelectorAll("p.w-50");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-50 found"
+            : `Found ${elements.length} elements with class width-50`,
+        };
+      }
+
+      case "check-w-75": {
+        const elements = iframeDoc.querySelectorAll("p.w-75");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-75 found"
+            : `Found ${elements.length} elements with class width-75`,
+        };
+      }
+
+      case "check-w-100": {
+        const elements = iframeDoc.querySelectorAll("p.w-100");
+        const passed = elements.length === 1;
+
+        return {
+          passed,
+          actual: passed
+            ? "Exactly one paragraph with class width-100 found"
+            : `Found ${elements.length} elements with class width-100`,
+        };
+      }
+
+      case "check-bg-utilities-p": {
+        const paragraphs = iframeDoc.querySelectorAll("p");
+        const bgClasses = [
+          "bg-primary",
+          "bg-secondary",
+          "bg-success",
+          "bg-info",
+          "bg-warning",
+          "bg-danger",
+          "bg-dark",
+        ];
+
+        const passed = [...paragraphs].every((p) =>
+          bgClasses.some((cls) => p.classList.contains(cls))
+        );
+
+        return {
+          passed,
+          actual: passed
+            ? "All paragraphs have bootstrap background utilities"
+            : "One or more paragraphs are missing background utilities",
+        };
+      }
+
+      case "check-bg-utilities-div": {
+        const items = iframeDoc.querySelectorAll(".d-flex > div");
+        const bgClasses = [
+          "bg-primary",
+          "bg-secondary",
+          "bg-success",
+          "bg-info",
+          "bg-warning",
+          "bg-dark",
+        ];
+
+        const passed = [...items].every((item) =>
+          bgClasses.some((bg) => item.classList.contains(bg))
+        );
+
+        return {
+          passed,
+          actual: passed
+            ? "All items have background utilities"
+            : "Missing background utility in one or more items",
+        };
+      }
+
+      case "check-text-white": {
+        const paragraphs = iframeDoc.querySelectorAll("p");
+        const passed = [...paragraphs].every((p) =>
+          p.classList.contains("text-white")
+        );
+
+        return {
+          passed,
+          actual: passed
+            ? "All paragraphs have text-white class"
+            : "One or more paragraphs are missing text-white class",
+        };
+      }
+      case "check-text-white-div": {
+        const items = iframeDoc.querySelectorAll(".d-flex > div");
+        const passed = [...items].every((div) =>
+          div.classList.contains("text-white")
+        );
+
+        return {
+          passed,
+          actual: passed
+            ? "All Container have text-white class"
+            : "One or more Container are missing text-white class",
+        };
+      }
+
+      case "check-flex-item-count": {
+        const items = iframeDoc.querySelectorAll(".d-flex > div");
+        const passed = items.length === 13;
+
+        return {
+          passed,
+          actual: `Found ${items.length} flex item(s)`,
+        };
+      }
+      case "check-order-classes-div": {
+        const items = iframeDoc.querySelectorAll(".d-flex > div");
+        const orderRegex = /^order-\d+$/;
+
+        const passed = [...items].every((item) =>
+          [...item.classList].some((cls) => orderRegex.test(cls))
+        );
+
+        return {
+          passed,
+          actual: passed
+            ? "All items have order utilities"
+            : "One or more items are missing order utilities",
+        };
+      }
+      case "check-container-count": {
+        const containers = iframeDoc.querySelectorAll("body > div");
+        const passed = containers.length === 5;
+
+        return {
+          passed,
+          actual: `Found ${containers.length} container(s)`,
+        };
+      }
+
+      case "check-container-count-2": {
+        const containers = iframeDoc.querySelectorAll("body > div");
+        const passed = containers.length === 2;
+
+        return {
+          passed,
+          actual: `Found ${containers.length} container(s)`,
+        };
+      }
+      case "check-fixed-bottom": {
+        const secondBox = iframeDoc.querySelector(".box-2");
+
+        const passed =
+          secondBox && secondBox.classList.contains("fixed-bottom");
+
+        return {
+          passed,
+          actual: passed
+            ? "fixed-bottom class found on second container"
+            : "fixed-bottom class missing on second container",
         };
       }
 

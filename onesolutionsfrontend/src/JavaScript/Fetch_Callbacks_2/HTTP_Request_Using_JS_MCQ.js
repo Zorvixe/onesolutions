@@ -1,178 +1,222 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ---------- 1 ----------
   {
     question: (
       <div>
         <p>
-          Which JavaScript method is used to fetch resources from the Internet?
+          Which JavaScript method is used to fetch resources across the
+          Internet?
         </p>
       </div>
     ),
-    options: ["getResource()", "fetch()", "httpRequest()", "getData()"],
+    options: ["getRequest()", "fetch()", "http()", "requestData()"],
     answer: "fetch()",
   },
 
-  // ---------- 2 ----------
-  {
-    question: (
-      <div>
-        <p>Which of the following is the correct syntax for a fetch request?</p>
-        <CodeBlock
-          language="javascript"
-          code={`fetch("https://api.example.com/data", { method: "GET" });`}
-        />
-      </div>
-    ),
-    options: [
-      `fetch("https://api.example.com/data")`,
-      `get("https://api.example.com/data")`,
-      `fetch("https://api.example.com/data", { method: "GET" });`,
-      `http.get("https://api.example.com/data")`,
-    ],
-    answer: `fetch("https://api.example.com/data", { method: "GET" });`,
-  },
-
-  // ---------- 3 ----------
   {
     question: (
       <div>
         <p>
-          By default, what is the HTTP method used in the fetch() request if no
-          method is specified?
+          What is the default HTTP method used by fetch() if no method is
+          specified?
         </p>
       </div>
     ),
-    options: ["POST", "GET", "PUT", "DELETE"],
+    options: ["POST", "PUT", "GET", "DELETE"],
     answer: "GET",
   },
 
-  // ---------- 4 ----------
   {
     question: (
       <div>
-        <p>
-          Which of the following correctly sends data using a POST request with
-          fetch?
-        </p>
+        <p>Which option is used to configure request headers in fetch?</p>
+      </div>
+    ),
+    options: ["method", "body", "headers", "cache"],
+    answer: "headers",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which HTTP method is used to update an existing resource?</p>
+      </div>
+    ),
+    options: ["GET", "POST", "PUT", "DELETE"],
+    answer: "PUT",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which HTTP method is used to delete a resource from the server?</p>
+      </div>
+    ),
+    options: ["POST", "PUT", "DELETE", "GET"],
+    answer: "DELETE",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which of the following shows a basic GET request using fetch?</p>
         <CodeBlock
           language="javascript"
-          code={`fetch("https://api.example.com/data", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ name: "Prathibha" })
+          code={`fetch("https://api.example.com/data");`}
+        />
+      </div>
+    ),
+    options: ["GET request", "POST request", "PUT request", "DELETE request"],
+    answer: "GET request",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What does the following fetch request demonstrate?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch("https://api.example.com/user", {
+  method: "POST"
 });`}
         />
       </div>
     ),
     options: [
-      "Using method 'GET'",
-      "Using method 'POST' with headers and body",
-      "Using method 'PUT'",
-      "Using fetch() without any options",
+      "Fetching data",
+      "Sending data to server",
+      "Deleting data",
+      "Updating data",
     ],
-    answer: "Using method 'POST' with headers and body",
+    answer: "Sending data to server",
   },
 
-  // ---------- 5 ----------
   {
     question: (
       <div>
-        <p>What does the following fetch example demonstrate?</p>
+        <p>Which HTTP method is used in the following code?</p>
         <CodeBlock
           language="javascript"
-          code={`fetch("https://api.example.com/user/1", { method: "DELETE" });`}
+          code={`fetch("https://api.example.com/user/1", {
+  method: "PUT"
+});`}
         />
       </div>
     ),
-    options: [
-      "Fetching user details",
-      "Creating a new user",
-      "Updating user details",
-      "Deleting user details",
-    ],
-    answer: "Deleting user details",
+    options: ["GET", "POST", "PUT", "DELETE"],
+    answer: "PUT",
   },
 
-  // ---------- 6 ----------
   {
     question: (
       <div>
-        <p>
-          Which property of the response object contains the HTTP status code?
-        </p>
+        <p>What operation does the following fetch request perform?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch("https://api.example.com/user/1", {
+  method: "DELETE"
+});`}
+        />
+      </div>
+    ),
+    options: ["Create user", "Fetch user", "Update user", "Delete user"],
+    answer: "Delete user",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which property gives the HTTP status code of the response?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url)
+  .then(response => console.log(response.status));`}
+        />
       </div>
     ),
     options: ["statusText", "headers", "status", "url"],
     answer: "status",
   },
 
-  // ---------- 7 ----------
   {
     question: (
       <div>
-        <p>
-          Which method of the response object parses the response body as JSON?
-        </p>
+        <p>Which response method converts the response into JSON?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url)
+  .then(response => response.json());`}
+        />
       </div>
     ),
-    options: ["parseJSON()", "toJSON()", "json()", "stringify()"],
+    options: ["text()", "parse()", "json()", "stringify()"],
     answer: "json()",
   },
 
-  // ---------- 8 ----------
   {
     question: (
       <div>
-        <p>What will the following code log if the response status is 404?</p>
+        <p>What will the following code return?</p>
         <CodeBlock
           language="javascript"
-          code={`fetch("https://api.example.com/data")
-  .then(response => console.log(response.status));`}
+          code={`fetch(url)
+  .then(response => response.text());`}
         />
       </div>
     ),
-    options: ["200", "404", "500", "403"],
-    answer: "404",
+    options: ["JSON data", "Plain text", "Headers", "Status code"],
+    answer: "Plain text",
   },
 
-  // ---------- 9 ----------
   {
     question: (
       <div>
-        <p>Which property of the response object contains the requested URL?</p>
+        <p>Which option is used to send data in a fetch request?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url, {
+  method: "POST",
+  body: JSON.stringify({ name: "User" })
+});`}
+        />
       </div>
     ),
-    options: ["body", "url", "headers", "statusText"],
+    options: ["headers", "params", "body", "cache"],
+    answer: "body",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which property contains the status message like "Unauthorized"?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url)
+  .then(response => console.log(response.statusText));`}
+        />
+      </div>
+    ),
+    options: ["status", "statusText", "headers", "url"],
+    answer: "statusText",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which response property contains the requested URL?</p>
+        <CodeBlock
+          language="javascript"
+          code={`fetch(url)
+  .then(response => console.log(response.url));`}
+        />
+      </div>
+    ),
+    options: ["headers", "body", "url", "status"],
     answer: "url",
-  },
-
-  // ---------- 10 ----------
-  {
-    question: (
-      <div>
-        <p>
-          Which of the following fetch examples retrieves plain text content
-          from a response?
-        </p>
-        <CodeBlock
-          language="javascript"
-          code={`fetch("https://example.com/text")
-  .then(response => response.text())
-  .then(data => console.log(data));`}
-        />
-      </div>
-    ),
-    options: [
-      "Using response.text()",
-      "Using response.json()",
-      "Using response.data()",
-      "Using response.body()",
-    ],
-    answer: "Using response.text()",
   },
 ];
 
@@ -180,9 +224,10 @@ const HTTP_Request_Using_JS_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -211,7 +256,7 @@ const HTTP_Request_Using_JS_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -249,7 +294,8 @@ const HTTP_Request_Using_JS_MCQ = ({
       onComplete={handleCompletion}
       subtopicId={subtopicId}
       goalName={goalName}
-      courseName={courseName}    />
+      courseName={courseName}
+    />
   );
 };
 export default HTTP_Request_Using_JS_MCQ;

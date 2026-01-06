@@ -1384,6 +1384,159 @@ const validateCssTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      case "check-bootstrap-columns": {
+        const columns = Array.from(
+          iframeDoc.querySelectorAll("[class*='col-']")
+        ).filter((el) =>
+          el.className.split(" ").some((cls) => cls.startsWith("col-"))
+        );
+
+        return {
+          passed: columns.length >= 6,
+          actual: `Found ${columns.length} bootstrap column element(s)`,
+        };
+      }
+
+      case "check-inline-styles": {
+        const inlineStyled = Array.from(iframeDoc.querySelectorAll("h1")).some(
+          (el) => el.hasAttribute("style")
+        );
+
+        return {
+          passed: inlineStyled,
+          actual: inlineStyled
+            ? "Inline styles found on h1 element"
+            : "No inline styles found",
+        };
+      }
+
+      case "check-bootstrap-background-utilities": {
+        const bgElements = iframeDoc.querySelectorAll("[class*='bg-']");
+        return {
+          passed: bgElements.length >= 2,
+          actual: `Found ${bgElements.length} element(s) with bg-* classes`,
+        };
+      }
+
+      case "check-margin-utilities": {
+        const marginEls = iframeDoc.querySelectorAll(
+          "[class*='m-'], [class*='mt-'], [class*='mb-'], [class*='ml-'], [class*='mr-']"
+        );
+        return {
+          passed: marginEls.length >= 3,
+          actual: `Found ${marginEls.length} element(s) with margin utilities`,
+        };
+      }
+
+      case "check-padding-utilities": {
+        const paddingEls = iframeDoc.querySelectorAll(
+          "[class*='p-'], [class*='pt-'], [class*='pb-'], [class*='pl-'], [class*='pr-']"
+        );
+        return {
+          passed: paddingEls.length >= 3,
+          actual: `Found ${paddingEls.length} element(s) with padding utilities`,
+        };
+      }
+
+      case "check-background-utilities": {
+        const bgEls = iframeDoc.querySelectorAll("[class*='bg-']");
+        return {
+          passed: bgEls.length >= 5,
+          actual: `Found ${bgEls.length} element(s) with bg-* classes`,
+        };
+      }
+      case "check-text-utilities": {
+        const textEls = iframeDoc.querySelectorAll(".text-white, .text-right");
+        return {
+          passed: textEls.length >= 2,
+          actual: `Found ${textEls.length} element(s) with text utilities`,
+        };
+      }
+
+      case "check-span-text-colors": {
+        const validClasses = [
+          "text-info",
+          "text-success",
+          "text-warning",
+          "text-dark",
+        ];
+
+        const spans = Array.from(iframeDoc.querySelectorAll("span"));
+        const matched = spans.filter((span) =>
+          validClasses.some((cls) => span.classList.contains(cls))
+        );
+
+        return {
+          passed: matched.length === 4,
+          actual: `Found ${matched.length} span(s) with text color utilities`,
+        };
+      }
+
+      case "check-linear-gradient": {
+        const containers = iframeDoc.querySelectorAll("body > div");
+
+        const passed = [...containers].every((div) => {
+          const bgImage = getComputedStyle(div).backgroundImage;
+          return bgImage && bgImage.includes("linear-gradient");
+        });
+
+        return {
+          passed,
+          actual: passed
+            ? "Linear gradient applied to all containers"
+            : "Missing linear gradient in one or more containers",
+        };
+      }
+
+      case "check-gradient-directions": {
+        const containers = [...iframeDoc.querySelectorAll("body > div")];
+      
+        const directions = containers.map(div =>
+          getComputedStyle(div).backgroundImage
+        );
+      
+        const uniqueDirections = new Set(
+          directions.filter(bg => bg && bg !== "none")
+        );
+      
+        return {
+          passed: uniqueDirections.size > 1,
+          actual: `Found ${uniqueDirections.size} unique gradient styles`
+        };
+      }
+      
+
+      case "check-radial-gradient": {
+        const containers = [...iframeDoc.querySelectorAll("body > div")];
+      
+        const passed = containers.every(div => {
+          const bgImage = getComputedStyle(div).backgroundImage;
+          return bgImage && bgImage.includes("radial-gradient");
+        });
+      
+        return {
+          passed,
+          actual: passed
+            ? "Radial gradient applied to all containers"
+            : "Missing radial gradient in one or more containers"
+        };
+      }
+      
+
+      case "check-fixed-bottom": {
+        const secondBox = iframeDoc.querySelector(".box-2");
+
+        const passed =
+          secondBox && secondBox.classList.contains("fixed-bottom");
+
+        return {
+          passed,
+          actual: passed
+            ? "fixed-bottom class found on second container"
+            : "fixed-bottom class missing on second container",
+        };
+      }
+
       default:
         return {
           passed: false,

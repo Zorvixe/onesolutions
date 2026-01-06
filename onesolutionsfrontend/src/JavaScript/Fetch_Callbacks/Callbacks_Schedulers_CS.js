@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock } from "../../CodeOutputBlocks"; // adjust import path
+import { CodeBlock } from "../../CodeOutputBlocks";
 
 const Callbacks_Schedulers_CS = ({
   subtopicId,
@@ -191,7 +191,7 @@ clearInterval(uniqueId);`}
           specified time.
         </p>
         <p>
-          <b>Syntax:</b> setTimeout(function, delay);
+          <b>Syntax:</b> <code>setTimeout(function, delay);</code>
         </p>
         <p>
           <b>function</b> - a callback function that is called after the
@@ -213,14 +213,14 @@ setTimeout(function() {
         <h3>2.4 clearTimeout()</h3>
         <p>
           We can cancel the <code>setTimeout()</code> before it executes the
-          callback function using <code>clearTimeout()</code>.
+          callback function using <code>clearTimeout()</code> method.
         </p>
         <p>
           To execute <code>clearTimeout()</code>, we need to pass the uniqueId
           returned by <code>setTimeout()</code> as an argument.
         </p>
         <p>
-          <b>Syntax:</b> clearTimeout(uniqueId);
+          <b>Syntax:</b> <code>clearTimeout(uniqueId);</code>
         </p>
 
         <CodeBlock
@@ -235,8 +235,7 @@ clearTimeout(uniqueId);`}
 
         <p>
           Try out the <code>setInterval()</code>, <code>clearInterval()</code>,{" "}
-          <code>setTimeout()</code>, and <code>clearTimeout()</code> methods in
-          the below Code Playground console.
+          <code>setTimeout()</code>, and <code>clearTimeout()</code> methods.
         </p>
       </section>
 

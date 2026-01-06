@@ -15331,13 +15331,33 @@ export const codingPracticesData = {
           description:
             "For this problem,the prefilled code will contain a list.Write a  program to add the given word at the end of the list.",
           sampleInput: "Kabaddi",
-          sampleOutput: "['Cricket', 'Hockey', 'Football', 'Badminton', 'Kabaddi']",
+          sampleOutput:
+            "['Cricket', 'Hockey', 'Football', 'Badminton', 'Kabaddi']",
           testCases: [
-            { input: "Tennis", output: "['Cricket', 'Hockey', 'Football', 'Badminton', 'Tennis']", visible: true },
-            { input: "Basketball", output: "['Cricket', 'Hockey', 'Football', 'Badminton', 'Basketball']", visible: true },
-            { input: "Volleyball", output: "['Cricket', 'Hockey', 'Football', 'Badminton', 'Volleyball']", visible: false },
-            { input: "Kabaddi", output: "['Cricket', 'Hockey', 'Football', 'Badminton', 'Kabaddi']", visible: false },
-            
+            {
+              input: "Tennis",
+              output:
+                "['Cricket', 'Hockey', 'Football', 'Badminton', 'Tennis']",
+              visible: true,
+            },
+            {
+              input: "Basketball",
+              output:
+                "['Cricket', 'Hockey', 'Football', 'Badminton', 'Basketball']",
+              visible: true,
+            },
+            {
+              input: "Volleyball",
+              output:
+                "['Cricket', 'Hockey', 'Football', 'Badminton', 'Volleyball']",
+              visible: false,
+            },
+            {
+              input: "Kabaddi",
+              output:
+                "['Cricket', 'Hockey', 'Football', 'Badminton', 'Kabaddi']",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -15351,13 +15371,31 @@ export const codingPracticesData = {
           description:
             "A list L is given in the prefilled code.\nWrite a program that reads space-separated strings and prints a list obtained by adding given space-separated strings to the end of the list L.\nL=[`5`,`7`,`rohit`,`virat`,`dhoni`]",
           sampleInput: "Shubman Gill Iyer",
-          sampleOutput: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'Shubman', 'Gill', 'Iyer']",
+          sampleOutput:
+            "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'Shubman', 'Gill', 'Iyer']",
           testCases: [
-            { input: "Hardik Rahul", output: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'Hardik', 'Rahul']", visible: true },
-            { input: "MS ABD", output: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'MS', 'ABD']", visible: true },
-            { input: "KL", output: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'KL']", visible: false },
-            { input: "Shubman Gill Iyer", output: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'Shubman', 'Gill', 'Iyer']", visible: false },            
-            
+            {
+              input: "Hardik Rahul",
+              output:
+                "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'Hardik', 'Rahul']",
+              visible: true,
+            },
+            {
+              input: "MS ABD",
+              output: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'MS', 'ABD']",
+              visible: true,
+            },
+            {
+              input: "KL",
+              output: "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'KL']",
+              visible: false,
+            },
+            {
+              input: "Shubman Gill Iyer",
+              output:
+                "['5', '7', 'Rohit', 'Virat', 'Dhoni', 'Shubman', 'Gill', 'Iyer']",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -15373,11 +15411,22 @@ export const codingPracticesData = {
           sampleInput: "70\n5",
           sampleOutput: "[10, 20, 40, 50, 60, 70]",
           testCases: [
-            { input: "30\n2", output: "[10, 20, 30, 40, 50, 60]", visible: true },
+            {
+              input: "30\n2",
+              output: "[10, 20, 30, 40, 50, 60]",
+              visible: true,
+            },
             { input: "5\n0", output: "[5, 10, 20, 40, 50, 60]", visible: true },
-            { input: "70\n5", output: "[10, 20, 40, 50, 60, 70]", visible: false },
-            { input: "25\n1", output: "[10, 25, 20, 40, 50, 60]", visible: false },           
-            
+            {
+              input: "70\n5",
+              output: "[10, 20, 40, 50, 60, 70]",
+              visible: false,
+            },
+            {
+              input: "25\n1",
+              output: "[10, 25, 20, 40, 50, 60]",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -15391,13 +15440,33 @@ export const codingPracticesData = {
           description:
             "For this problem,the prefilled code will contain a list.Write a program to remove the last N items in the list.\nL=[`python`,`c`,`java`,`ruby`,`c++`,`CSS`,`HTML`,`Bash`,`perl`,`R`,`Swift`]",
           sampleInput: "5",
-          sampleOutput: "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl']",
+          sampleOutput:
+            "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl']",
           testCases: [
-            { input: "1", output: "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl', 'R', 'Swift', 'SQL', 'PHP']", visible: true },
-            { input: "3", output: "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl', 'R', 'Swift']", visible: true },
-            { input: "0", output: "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl', 'R', 'Swift', 'SQL', 'PHP', 'JavaScript']", visible: false },
-            { input: "5", output: "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl']", visible: false },                
-            
+            {
+              input: "1",
+              output:
+                "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl', 'R', 'Swift', 'SQL', 'PHP']",
+              visible: true,
+            },
+            {
+              input: "3",
+              output:
+                "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl', 'R', 'Swift']",
+              visible: true,
+            },
+            {
+              input: "0",
+              output:
+                "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl', 'R', 'Swift', 'SQL', 'PHP', 'JavaScript']",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "['Python', 'C', 'Java', 'Ruby', 'C++', 'CSS', 'HTML', 'Bash', 'Perl']",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -15420,11 +15489,18 @@ export const codingPracticesData = {
           sampleInput: "10 7 8 3 2",
           sampleOutput: "[2, 8, 10]\n[3, 7]",
           testCases: [
-            { input: "1 2 3 4 5 6", output: "[2, 4, 6]\n[1, 3, 5]", visible: true },
-            { input: "10 7 8 3 2", output: "[2, 8, 10]\n[3, 7]", visible: true },
+            {
+              input: "1 2 3 4 5 6",
+              output: "[2, 4, 6]\n[1, 3, 5]",
+              visible: true,
+            },
+            {
+              input: "10 7 8 3 2",
+              output: "[2, 8, 10]\n[3, 7]",
+              visible: true,
+            },
             { input: "1 3 5 7", output: "[]\n[1, 3, 5, 7]", visible: false },
-            { input: "4 2 8 6", output: "[2, 4, 6, 8]\n[]", visible: false },            
-            
+            { input: "4 2 8 6", output: "[2, 4, 6, 8]\n[]", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -15440,11 +15516,26 @@ export const codingPracticesData = {
           sampleInput: "4\na b\nc d\ne f\ng h",
           sampleOutput: "['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']",
           testCases: [
-            { input: "2\nhello world\npython code", output: "['code', 'hello', 'python', 'world']", visible: true },
-            { input: "3\napple banana\ncat\nzebra dog", output: "['apple', 'banana', 'cat', 'dog', 'zebra']", visible: true },
-            { input: "1\nsingle line", output: "['line', 'single']", visible: false },
-            { input: "4\na b\nc d\ne f\ng h", output: "['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']", visible: false },                       
-            
+            {
+              input: "2\nhello world\npython code",
+              output: "['code', 'hello', 'python', 'world']",
+              visible: true,
+            },
+            {
+              input: "3\napple banana\ncat\nzebra dog",
+              output: "['apple', 'banana', 'cat', 'dog', 'zebra']",
+              visible: true,
+            },
+            {
+              input: "1\nsingle line",
+              output: "['line', 'single']",
+              visible: false,
+            },
+            {
+              input: "4\na b\nc d\ne f\ng h",
+              output: "['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -15460,11 +15551,26 @@ export const codingPracticesData = {
           sampleInput: "one two\nalpha beta",
           sampleOutput: "['one', 'alpha', 'two', 'beta']",
           testCases: [
-            { input: "a b c\n1 2 3", output: "['a', '1', 'b', '2', 'c', '3']", visible: true },
-            { input: "apple banana\nred yellow", output: "['apple', 'red', 'banana', 'yellow']", visible: true },
-            { input: "x y z\n10 20 30", output: "['x', '10', 'y', '20', 'z', '30']", visible: false },
-            { input: "one two\nalpha beta", output: "['one', 'alpha', 'two', 'beta']", visible: false },                                
-            
+            {
+              input: "a b c\n1 2 3",
+              output: "['a', '1', 'b', '2', 'c', '3']",
+              visible: true,
+            },
+            {
+              input: "apple banana\nred yellow",
+              output: "['apple', 'red', 'banana', 'yellow']",
+              visible: true,
+            },
+            {
+              input: "x y z\n10 20 30",
+              output: "['x', '10', 'y', '20', 'z', '30']",
+              visible: false,
+            },
+            {
+              input: "one two\nalpha beta",
+              output: "['one', 'alpha', 'two', 'beta']",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -15480,11 +15586,22 @@ export const codingPracticesData = {
           sampleInput: "alpha beta gamma",
           sampleOutput: "['beta', 'gamma']",
           testCases: [
-            { input: "apple ball cat", output: "['ball', 'cat']", visible: true },
-            { input: "ant dog elephant", output: "['dog', 'elephant']", visible: true },
-            { input: "alpha beta gamma", output: "['beta', 'gamma']", visible: false },
-            { input: "apple ant", output: "[]", visible: false },                                          
-            
+            {
+              input: "apple ball cat",
+              output: "['ball', 'cat']",
+              visible: true,
+            },
+            {
+              input: "ant dog elephant",
+              output: "['dog', 'elephant']",
+              visible: true,
+            },
+            {
+              input: "alpha beta gamma",
+              output: "['beta', 'gamma']",
+              visible: false,
+            },
+            { input: "apple ant", output: "[]", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -15507,11 +15624,26 @@ export const codingPracticesData = {
           sampleInput: "100",
           sampleOutput: "[(10, 20, 100), (1, 100), (5, 10, 15, 100)]",
           testCases: [
-            { input: "99", output: "[(10, 20, 99), (1, 99), (5, 10, 15, 99)]", visible: true },
-            { input: "0", output: "[(10, 20, 0), (1, 0), (5, 10, 15, 0)]", visible: true },
-            { input: "-5", output: "[(10, 20, -5), (1, -5), (5, 10, 15, -5)]", visible: false },
-            { input: "100", output: "[(10, 20, 100), (1, 100), (5, 10, 15, 100)]", visible: false },                   
-            
+            {
+              input: "99",
+              output: "[(10, 20, 99), (1, 99), (5, 10, 15, 99)]",
+              visible: true,
+            },
+            {
+              input: "0",
+              output: "[(10, 20, 0), (1, 0), (5, 10, 15, 0)]",
+              visible: true,
+            },
+            {
+              input: "-5",
+              output: "[(10, 20, -5), (1, -5), (5, 10, 15, -5)]",
+              visible: false,
+            },
+            {
+              input: "100",
+              output: "[(10, 20, 100), (1, 100), (5, 10, 15, 100)]",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -15530,8 +15662,7 @@ export const codingPracticesData = {
             { input: "1 2 3 2 1", output: "[1, 2, 3]", visible: true },
             { input: "5 5 5 5", output: "[5]", visible: true },
             { input: "10 3 10 2 3", output: "[2, 3, 10]", visible: false },
-            { input: "-1 -2 -1 0", output: "[-2, -1, 0]", visible: false },                               
-            
+            { input: "-1 -2 -1 0", output: "[-2, -1, 0]", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -15547,11 +15678,26 @@ export const codingPracticesData = {
           sampleInput: "15 25",
           sampleOutput: "[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]",
           testCases: [
-            { input: "10 20", output: "[30, 40, 50, 60, 70, 80, 90, 100]", visible: true },
-            { input: "50 100 30", output: "[10, 20, 40, 60, 70, 80, 90]", visible: true },
-            { input: "15 25", output: "[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]", visible: false },
-            { input: "10 20 30 40 50 60 70 80 90 100", output: "[]", visible: false },                                          
-            
+            {
+              input: "10 20",
+              output: "[30, 40, 50, 60, 70, 80, 90, 100]",
+              visible: true,
+            },
+            {
+              input: "50 100 30",
+              output: "[10, 20, 40, 60, 70, 80, 90]",
+              visible: true,
+            },
+            {
+              input: "15 25",
+              output: "[10, 20, 30, 40, 50, 60, 70, 80, 90, 100]",
+              visible: false,
+            },
+            {
+              input: "10 20 30 40 50 60 70 80 90 100",
+              output: "[]",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -15570,8 +15716,468 @@ export const codingPracticesData = {
             { input: "1,2,3,4\n3,4,5,6", output: "[3, 4]", visible: true },
             { input: "10,20,30\n30,40,50", output: "[30]", visible: true },
             { input: "5,6,7\n1,2,3", output: "[]", visible: false },
-            { input: "1,2,2,3\n2,2,4", output: "[2]", visible: false },                                                     
-            
+            { input: "1,2,2,3\n2,2,4", output: "[2]", visible: false },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-28",
+      title: "Codingpractice-28",
+      description: "Dictionaries",
+      questions: [
+        {
+          id: "q-python-Codingpractice-28-001",
+          title: "same elements",
+          difficulty: "Easy",
+          description:
+            "Write a program to check if all the elements in a given list are same.",
+          sampleInput: "7 7 7 7 7",
+          sampleOutput: "True",
+          testCases: [
+            { input: "5 5 5", output: "True", visible: true },
+            { input: "1 2 3", output: "[1, 2, 3]", visible: true },
+            { input: "7 7 7 7 7", output: "True", visible: false },
+            { input: "4 2 4 3 2", output: "[2, 3, 4]", visible: false },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-28-002",
+          title: "Extract Numbers",
+          difficulty: "Easy",
+          description:
+            "Write a program to remove the elements other than numbers in the list.",
+          sampleInput: "a,b,c",
+          sampleOutput: "[]",
+          testCases: [
+            { input: "1,2,three,4", output: "[1, 2, 4]", visible: true },
+            { input: "10,abc,20,30", output: "[10, 20, 30]", visible: true },
+            { input: "a,b,c", output: "[]", visible: false },
+            { input: "5,6.7,8,9", output: "[5, 8, 9]", visible: false },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-28-003",
+          title: "missing numbers",
+          difficulty: "Easy",
+          description:
+            "Write a program to find the missing numbers from 1 to the maximum number in the list.",
+          sampleInput: "1 3 5",
+          sampleOutput: "[2, 4]",
+          testCases: [
+            { input: "1 2 4 6", output: "[3, 5]", visible: true },
+            { input: "1 3 5", output: "[2, 4]", visible: true },
+            { input: "1 2 3 4 5", output: "[]", visible: false },
+            { input: "2 4 6 8", output: "[1, 3, 5, 7]", visible: false },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-28-004",
+          title: "set relation",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a set.Write a program to check the following relations with the given set.\n1.Superset\n2.Subset\n3.Disjoint Set",
+          sampleInput: "10 11 12",
+          sampleOutput: "Disjoint Set",
+          testCases: [
+            { input: "1 2 3", output: "Superset", visible: true },
+            { input: "1 2 3 4 5 6 7 8 9 10", output: "Subset", visible: true },
+            { input: "10 11 12", output: "Disjoint Set", visible: false },
+            { input: "5 6 7 8 9", output: "Superset", visible: false },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-29",
+      title: "Codingpractice-29",
+      description: "Dictionaries",
+      questions: [
+        {
+          id: "q-python-Codingpractice-29-001",
+          title: "Nested List",
+          difficulty: "Easy",
+          description:
+            "Write a program to read N lines of inputs and create a nested list with each line as a list.",
+          sampleInput: "4\n1\n2\n3\n4",
+          sampleOutput: "[[1], [2], [3], [4]]",
+          testCases: [
+            {
+              input: "2\n1 2 3\n4 5",
+              output: "[[1, 2, 3], [4, 5]]",
+              visible: true,
+            },
+            {
+              input: "3\n10\n20 30\n40 50 60",
+              output: "[[10], [20, 30], [40, 50, 60]]",
+              visible: true,
+            },
+            { input: "1\n7 8 9", output: "[[7, 8, 9]]", visible: false },
+            {
+              input: "4\n1\n2\n3\n4",
+              output: "[[1], [2], [3], [4]]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-29-002",
+          title: "List of maximum values",
+          difficulty: "Easy",
+          description:
+            "Write a program to create a list with maximum values in each list.",
+          sampleInput: "4\n1\n2 3\n4 5 6\n7 0",
+          sampleOutput: "[1, 3, 6, 7]",
+          testCases: [
+            { input: "2\n1 2 3\n4 5 6", output: "[3, 6]", visible: true },
+            {
+              input: "3\n10\n20 30\n5 15 25",
+              output: "[10, 30, 25]",
+              visible: true,
+            },
+            { input: "1\n7 8 9", output: "[9]", visible: false },
+            {
+              input: "4\n1\n2 3\n4 5 6\n7 0",
+              output: "[1, 3, 6, 7]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-29-003",
+          title: "List of lists to list of tuples",
+          difficulty: "Easy",
+          description:
+            "Write a program to convert the list of lists to a list of tuples.",
+          sampleInput: "1\n7 8 9",
+          sampleOutput: "[(7, 8, 9)]",
+          testCases: [
+            {
+              input: "2\n1 2 3\n4 5",
+              output: "[(1, 2, 3), (4, 5)]",
+              visible: true,
+            },
+            {
+              input: "3\n10\n20 30\n40 50 60",
+              output: "[(10,), (20, 30), (40, 50, 60)]",
+              visible: true,
+            },
+            { input: "1\n7 8 9", output: "[(7, 8, 9)]", visible: false },
+            {
+              input: "4\n1\n2\n3\n4",
+              output: "[(1,), (2,), (3,), (4,)]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-29-004",
+          title: "List of Unique Tuples",
+          difficulty: "Easy",
+          description:
+            "Write a program to print the lists which contain the unique elements in the given list of lists.",
+          sampleInput: "4\n1 2\n2 2\n3 4 5\n5 5 6",
+          sampleOutput: "[[1, 2], [3, 4, 5]]",
+          testCases: [
+            {
+              input: "3\n1 2 3\n4 4 5\n6 7 8",
+              output: "[[1, 2, 3], [6, 7, 8]]",
+              visible: true,
+            },
+            {
+              input: "2\n10 20 30\n1 1 1",
+              output: "[[10, 20, 30]]",
+              visible: true,
+            },
+            {
+              input: "4\n1 2\n2 2\n3 4 5\n5 5 6",
+              output: "[[1, 2], [3, 4, 5]]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-30",
+      title: "Codingpractice-30",
+      description: "Dictionaries",
+      questions: [
+        {
+          id: "q-python-Codingpractice-30-001",
+          title: "Maximum,Minimum and Sum of Matrix",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain an M x N matrix.Write a program to print the maximum,minimum and sum of all elements in the matrix.",
+          sampleInput: "2 2\n-1 -2\n3 4",
+          sampleOutput: "4\n-2\n4",
+          testCases: [
+            { input: "2 3\n1 2 3\n4 5 6", output: "6\n1\n21", visible: true },
+            {
+              input: "3 2\n10 20\n5 15\n0 25",
+              output: "25\n0\n75",
+              visible: true,
+            },
+            { input: "1 4\n7 8 9 10", output: "10\n7\n34", visible: false },
+            { input: "2 2\n-1 -2\n3 4", output: "4\n-2\n4", visible: false },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-30-002",
+          title: "Row and Column with Maximum",
+          difficulty: "Easy",
+          description:
+            "An M*N matrix is given in the prefilled code.\nWrite a program that finds the maximum element in the matrix and prints all the elements of the corresponding row and the column that has the maximum element.",
+          sampleInput: "3 3\n1 9 3\n4 5 6\n7 8 2",
+          sampleOutput: "[1, 9, 3]\n[9, 5, 8]",
+          testCases: [
+            {
+              input: "2 3\n1 2 3\n4 5 6",
+              output: "[4, 5, 6]\n[3, 6]",
+              visible: true,
+            },
+            {
+              input: "3 2\n10 20\n5 15\n30 25",
+              output: "[30, 25]\n[20, 15, 25]",
+              visible: true,
+            },
+            {
+              input: "1 4\n7 8 9 10",
+              output: "[7, 8, 9, 10]\n[10]",
+              visible: false,
+            },
+            {
+              input: "3 3\n1 9 3\n4 5 6\n7 8 2",
+              output: "[1, 9, 3]\n[9, 5, 8]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 60,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-30-003",
+          title: "Transpose Matrix",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain an MxN matrix.Write a program to print the transpose of the matrix.\nTranspose of a matrix is obtained by changing rows to columns and columns to rows.",
+          sampleInput: "2 2\n1 2\n3 4",
+          sampleOutput: "[1, 3]\n[2, 4]",
+          testCases: [
+            {
+              input: "2 3\n1 2 3\n4 5 6",
+              output: "[1, 4]\n[2, 5]\n[3, 6]",
+              visible: true,
+            },
+            {
+              input: "3 2\n10 20\n30 40\n50 60",
+              output: "[10, 30, 50]\n[20, 40, 60]",
+              visible: true,
+            },
+            {
+              input: "1 4\n7 8 9 10",
+              output: "[7]\n[8]\n[9]\n[10]",
+              visible: false,
+            },
+            {
+              input: "2 2\n1 2\n3 4",
+              output: "[1, 3]\n[2, 4]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 65,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-30-004",
+          title: "Add two matrices",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain two MxN matrices.Write a program to add the given two matrices.\nTo add two matrices,just add the corresponding entries,and place this sum in the corresponding position in the result matrix.",
+          sampleInput: "2 2\n-1 -2\n3 4\n1 2\n-3 -4",
+          sampleOutput: "[0, 0]\n[0, 0]",
+          testCases: [
+            {
+              input: "2 3\n1 2 3\n4 5 6\n6 5 4\n3 2 1",
+              output: "[7, 7, 7]\n[7, 7, 7]",
+              visible: true,
+            },
+            {
+              input: "3 2\n1 2\n3 4\n5 6\n6 5\n4 3\n2 1",
+              output: "[7, 7]\n[7, 7]\n[7, 7]",
+              visible: true,
+            },
+            {
+              input: "1 4\n7 8 9 10\n1 2 3 4",
+              output: "[8, 10, 12, 14]",
+              visible: false,
+            },
+            {
+              input: "2 2\n-1 -2\n3 4\n1 2\n-3 -4",
+              output: "[0, 0]\n[0, 0]",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 65,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Python-Grand-Assignment-4",
+      title: "Grand-Assignment-4",
+      description: "Dictionaries",
+      questions: [
+        {
+          id: "q-python-Grand-Assignment-4-001",
+          title: "String Rotation",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two words S1 and S2 and checks if S2 is a rotation of S1.\nPrint the number of times S1 rotates to match S2,if S2 is a rotation of S1.Otherwise,print No Match.",
+          sampleInput: "hello\nworld",
+          sampleOutput: "No Match",
+          testCases: [
+            { input: "abc\nxbc", output: "1", visible: true },
+            { input: "dog\ngod", output: "2", visible: true },
+            { input: "cat\ncats", output: "No Match", visible: false },
+            { input: "hello\nworld", output: "No Match", visible: false },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-4-002",
+          title: "Ordered Matrix",
+          difficulty: "Easy",
+          description:
+            "Given a MxN matrix,write a program to print the matrix after ordering all the elements of the matrix in increasing order.",
+          sampleInput: "2 2\n-1 4\n3 0",
+          sampleOutput: "-1 0 \n3 4 ",
+          testCases: [
+            {
+              input: "2 3\n3 1 2\n6 5 4",
+              output: "1 2 3 \n4 5 6 ",
+              visible: true,
+            },
+            {
+              input: "3 2\n9 8\n7 6\n5 4",
+              output: "4 5 \n6 7 \n8 9 ",
+              visible: true,
+            },
+            { input: "1 4\n10 3 7 1", output: "1 3 7 10 ", visible: false },
+            { input: "2 2\n-1 4\n3 0", output: "-1 0 \n3 4 ", visible: false },
+          ],
+          defaultCode: ``,
+          score: 60,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-4-003",
+          title: "First Perfect Square",
+          difficulty: "Easy",
+          description:
+            "Given two integers (M and N),write a program to print the first perfect square in a given range.",
+          sampleInput: "16\n25",
+          sampleOutput: "16",
+          testCases: [
+            { input: "1\n10", output: "1", visible: true },
+            { input: "5\n20", output: "9", visible: true },
+            { input: "10\n15", output: "No Perfect Square", visible: true },
+            { input: "16\n25", output: "16", visible: false },
+          ],
+          defaultCode: ``,
+          score: 60,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-4-004",
+          title: "Numbers in String -1",
+          difficulty: "Easy",
+          description:
+            "Given a string,write a program to return the sum and average of the digits of all numbers that appear in the string,ignoring all other characters.",
+          sampleInput: "1a2b3c4d5",
+          sampleOutput: "15\n3.0",
+          testCases: [
+            { input: "a1b2c3", output: "6\n2.0", visible: true },
+            { input: "9x8y7", output: "24\n8.0", visible: true },
+            { input: "abc5def0g2", output: "7\n2.33", visible: false },
+            { input: "1a2b3c4d5", output: "15\n3.0", visible: false },
+          ],
+          defaultCode: ``,
+          score: 70,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-32",
+      title: "Codingpractice-32",
+      description: "Introduction to Object Oriented Programming",
+      questions: [
+        {
+          id: "q-python-Codingpractice-32-001",
+          title: "String Rotation",
+          difficulty: "Easy",
+          description:
+            "Write a program that reads two words S1 and S2 and checks if S2 is a rotation of S1.\nPrint the number of times S1 rotates to match S2,if S2 is a rotation of S1.Otherwise,print No Match.",
+          sampleInput: "hello\nworld",
+          sampleOutput: "No Match",
+          testCases: [
+            { input: "abc\nxbc", output: "1", visible: true },
+            { input: "dog\ngod", output: "2", visible: true },
+            { input: "cat\ncats", output: "No Match", visible: false },
+            { input: "hello\nworld", output: "No Match", visible: false },
           ],
           defaultCode: ``,
           score: 50,

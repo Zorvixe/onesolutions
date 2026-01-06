@@ -1,6 +1,5 @@
 export const responsiveCodingPracticesData = {
   responsive: [
-    //Coding Practice - 1
     {
       id: "responsive-coding-practice-1",
       title: "Responsive Coding Practice 1",
@@ -3263,8 +3262,7 @@ export const responsiveCodingPracticesData = {
             css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
             javascript: "",
           },
-          descriptionDetails:
-            `<div class="desc-question-details">
+          descriptionDetails: `<div class="desc-question-details">
             <p class="desc-que-blue">Refer to the below images.</p>
             <p class="">The following images illustrate all device sizes, from extra small to extra large.</p><p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
             <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837388/awsome-features-output-sm-img-v2_fkkih9.png" class="desc-que-img" /><p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837332/awsome-features-output-md-img_zogwjo.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><p class="">Text color Hex Code values:</p><div class="desc-colors c323f4b">#323f4b</div><div class="desc-colors c7b8794">#7b8794</div><div class="desc-colors c9aa5b1">#9aa5b1</div>
@@ -3366,8 +3364,7 @@ export const responsiveCodingPracticesData = {
             css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
             javascript: "",
           },
-          descriptionDetails:
-            `<div class="desc-question-details">
+          descriptionDetails: `<div class="desc-question-details">
               <p class="desc-que-blue">Refer to the below images.</p>
               <p class="">The following images illustrate all device sizes, from extra small to extra large.</p>
               <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
@@ -3479,7 +3476,6 @@ export const responsiveCodingPracticesData = {
                 <p class="">Take a look at the Cheat Sheets.</p>
                 </div>`,
           testCases: [
-            
             {
               id: 1,
               description:
@@ -3489,7 +3485,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-           
+
             {
               id: 2,
               description:
@@ -3499,7 +3495,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-           
+
             {
               id: 4,
               description:
@@ -3509,7 +3505,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
+
             {
               id: 5,
               description:
@@ -3618,7 +3614,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 17,
               description:
                 "Page should consist of at least an HTML element with the CSS property color",
@@ -3635,7 +3631,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 19,
               description: "Page should consist of widths.",
               type: "css-validation",
@@ -3643,7 +3639,7 @@ export const responsiveCodingPracticesData = {
               output: "true",
               visible: true,
             },
-             {
+            {
               id: 20,
               description: "Page should consist of font-family.",
               type: "css-validation",
@@ -3653,7 +3649,1304 @@ export const responsiveCodingPracticesData = {
             },
           ],
         },
-      ]
+      ],
+    },
+    {
+      id: "responsive-coding-test-1",
+      title: "Responsive Coding Test 1",
+      description: "",
+      questions: [
+        {
+          id: "675074cd-0e92eb7de-bbdf14822f00",
+          title: "Multiple Column Layouts",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the Bootstrap Grid System.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767591894/ce-1-multiple-column-layouts-op_qyxwgj.png" class="desc-que-img" />
+              <p class="">Achieve the design by using a bootstrap grid system and the background color utilities.</p>
+             
+              <hr>
+              <p class="desc-que-blue">Resources</p>
+            
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element in an HTML container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Page should consist of font-family.",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "675074c-e9c2e67de-bbdf14822f00",
+          title: "Multiple Column Layouts across devices",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the Bootstrap Grid System and Background color utilities.",
+          difficulty: "Easy",
+          score: 120,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference images that illustrate all device sizes, from extra small to extra large.</p>
+            <p class="">Extra Small (Size < 576px) and Small (Size >= 576px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767592595/ce-1-3-2-multiple-column-layouts-across-devices-sm-op_qgiptt.png" class="desc-que-img" />
+             
+            <p class="">Medium (Size >= 768px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767592595/ce-1-3-2-multiple-column-layouts-across-devices-md-op_oisjid.png" class="desc-que-img" />
+             
+            <p class="">Large (Size >= 992px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767592595/ce-1-3-2-multiple-column-layouts-across-devices-lg-op_leytii.png" class="desc-que-img" />
+             
+            <p class="">Extra Large (Size >= 1200px):</p>
+              <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767592595/ce-1-3-2-multiple-column-layouts-across-devices-xl-op_ks9tmx.png" class="desc-que-img" />
+             
+              <p class="">Achieve the design by using a bootstrap grid system and the background color utilities.</p>
+             
+              <hr>
+              <p class="desc-que-blue">Resources</p>
+            
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element inside the container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of at least one HTML paragraph element inside the container element",
+              type: "html-validation",
+              input: "check-paragraph-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row inside the container",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of at least six HTML elements with bootstrap grid column class names starting with col-",
+              type: "css-validation",
+              input: "check-bootstrap-columns",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Page should consist of the CSS font-family Roboto",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "675074cd-09c2e67de-bbdf14822f00",
+          title: "CSS Specificity",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the CSS Specificity.",
+          difficulty: "Easy",
+          score: 70,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+            @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            h1 {
+              background-color: #ffe0f0;
+              color: #c42d78;
+              font-family: "Roboto";
+              padding: 5px;
+            }
+
+            #second {
+              background-color: #92fdf2;
+            }
+
+            .third {
+              background-color: #f2ebfe;
+              color: #261f41;
+            }`,
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+             <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767593345/ce-2-2-2-css-specificity-1-op_qnieit.png" class="desc-que-img" />
+             
+              <p class="">Achieve the design by using a bootstrap grid system and the background color utilities.</p>
+              
+               <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                        Use only the HTML main heading elements to achieve the design.
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+                <div className="Warning-container">
+                <div>
+                  <h5>
+                    <i class="bi bi-exclamation-triangle"></i>Warning
+                  </h5>
+                </div>
+                <ul style={{ marginLeft: "1.5rem" }}>
+                
+                  <li>Do not edit the prefilled CSS code.</li>
+                </ul>
+              </div>
+             
+              <hr>
+              <p class="desc-que-blue">Resources</p>
+             <p class="desc-que-blue">CSS Colors used:</p> 
+             <div class="desc-colors cffe0f0">#ffe0f0</div>
+                <div class="desc-colors cc42d78">#c42d78</div>
+                <div class="desc-colors c92fdf2">#92fdf2</div>
+                <div class="desc-colors cf2ebfe">#f2ebfe</div>
+                <div class="desc-colors c261f41">#261f41</div>
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of at least four HTML main heading (h1) elements",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML main heading element with an id selector",
+              type: "html-validation",
+              input: "check-id-selector",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of HTML main heading elements with a class selector",
+              type: "html-validation",
+              input: "check-class-selector",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of inline styles applied to an HTML main heading element",
+              type: "css-validation",
+              input: "check-inline-styles",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of font-family Roboto applied to the HTML main heading elements",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "675074cd-0e9c2e7de-bbdf14822f00",
+          title: "Bootstrap Navbar",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Bootstrap Navbar.",
+          difficulty: "Easy",
+          score: 35,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+            <p class="">Below Large (Size < 992px)</p>
+             <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767594139/bootstrap-navbar-op_zlzskb.gif" class="desc-que-img" />
+             
+            <p class="">Large and above Large (Size >= 992px)</p>
+             <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767594139/bootstrap-navbar-large-op_tboqj6.png" class="desc-que-img" />
+             
+               <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                     
+                      <li>
+                       Bootstrap documentation can be used to get navbar code - <a href="https://getbootstrap.com/docs/5.0/components/navbar/" target="_blank">Click Here</a>
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+              
+              <hr>
+            <p class="">Use the image URLs given below.</p>
+              <ul>
+                <li>
+                  <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767594359/bootstrap-navbar-whatsapp-img_rjii87.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767594359/bootstrap-navbar-whatsapp-img_rjii87.png</a></p>
+                </li>
+                </ul>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center",
+              type: "css-validation",
+              input: "check-text-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of a nav element with the bootstrap class name navbar",
+              type: "html-validation",
+              input: "check-navbar-class",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with class navbar-collapse in the nav element with class navbar",
+              type: "html-validation",
+              input: "check-navbar-collapse",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of a container element with class ml-auto or the CSS property margin-left with value auto in the element with class navbar",
+              type: "html-validation",
+              input: "check-ml-auto-in-navbar",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Page should consist of font-family.",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-test-2",
+      title: "Responsive Coding Test 2",
+      description: "",
+      questions: [
+        {
+          id: "f5cff103-7d5968eb9-9bcb9b2fe25c",
+          title: "CSS Colors - Transparent",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with CSS Colors - Transparent and Bootstrap Grid System.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767610673/css-colors-trasparent-op_mxuomo.png" class="desc-que-img" />
+              <hr>
+              <p class="desc-que-blue">Resources</p>
+              <p class="">Use the image URLs given below.</p>
+              <ul>
+                <li>
+                  <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767610709/social-media-bg_px9fm2.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767610709/social-media-bg_px9fm2.png</a></p>
+                </li>
+                </ul>
+             
+                <p class="desc-que-blue">CSS Colors used:</p>
+                <p class="">Background color Hex Code values:</p>
+                <div class="desc-colors cd0b200">#d0b200</div>
+                
+                 <p class="">Text color Hex Code values:</p>
+              
+                <div class="desc-colors cffffff">#ffffff</div>
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+              
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element in an HTML container element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the CSS property background-image and its value should be given",
+              type: "css-validation",
+              input: "check-background-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML container element with CSS property background-size and value cover",
+              type: "css-validation",
+              input: "check-background-size",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center or the CSS property text-align with the value center",
+              type: "css-validation",
+              input: "check-text-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "Page should consist of an HTML container element with bootstrap class name justify-content-center",
+              type: "html-validation",
+              input: "check-justify-content-center",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "Page should consist of at least an HTML element with the CSS property background-color",
+              type: "css-validation",
+              input: "check-background-color",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "f5cff103-5968eb9-cb9b2fe25c",
+          title: "Bootstrap Containers",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Bootstrap Containers.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="">Use the below reference images that illustrate all device sizes, from extra small to extra large.</p>
+              <p class="">Extra Small (Size < 576px):</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767612044/bootstrap-containers-mobile-op_mx1hza.png" class="desc-que-img" />
+              <p class="">Small and above Small (Size >=576px):</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767612045/bootstrap-containers-medium-device-op_ccfmx8.png" class="desc-que-img" />
+              <hr>
+               <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use Bootstrap background color and text color utilities.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+              
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of  HTML element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of  HTML element with the bootstrap class name container-fluid",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of exactly two HTML elements with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-two-rows",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of exactly two HTML main heading elements inside bootstrap containers",
+              type: "html-validation",
+              input: "check-two-headings-in-containers",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of exactly two HTML paragraph elements inside bootstrap containers",
+              type: "html-validation",
+              input: "check-two-paragraphs-in-containers",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should use bootstrap background color utility classes",
+              type: "css-validation",
+              input: "check-bootstrap-background-utilities",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "f5cff103-a7d96eb9-9bcb9b2fe25c",
+          title: "Combination of Padding and Margin",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with a Combination of Bootstrap Spacing Utilities - Padding and Margin.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767678296/combination-of-padding-margin-op_a0n9pi.png" class="desc-que-img" />
+              <hr>
+               <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use Bootstrap padding, margin, background color and text color utilities.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+              
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of exactly one HTML element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of exactly one HTML element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-single-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of exactly five HTML paragraph elements",
+              type: "html-validation",
+              input: "check-five-paragraphs",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Page should use bootstrap padding utility classes",
+              type: "css-validation",
+              input: "check-padding-utilities",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Page should use bootstrap margin utility classes",
+              type: "css-validation",
+              input: "check-margin-utilities",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Page should use bootstrap background color utility classes",
+              type: "css-validation",
+              input: "check-background-utilities",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Page should use bootstrap text utility classes",
+              type: "css-validation",
+              input: "check-text-utilities",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "f5cff103-ad968eb9-9bcb9b2fe25c",
+          title: "HTML Span Elemen",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with HTML Span Element.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767624479/span-element-2-op_ro1eq6.png" class="desc-que-img" />
+              <hr>
+               <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use Bootstrap text color utilities.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+              
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of exactly one HTML main heading (h1) element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of exactly one HTML container element with the bootstrap class name container",
+              type: "html-validation",
+              input: "check-container-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of exactly one HTML element with the bootstrap class name row",
+              type: "html-validation",
+              input: "check-single-row-class",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of exactly four HTML span elements inside the main heading",
+              type: "html-validation",
+              input: "check-span-count",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should use bootstrap text color utility classes on span elements",
+              type: "css-validation",
+              input: "check-span-text-colors",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "f5cff103-adlkvhveb9-9bcb9b2fe25c",
+          title: "CSS Units - Percentage",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with CSS Units - Percentage.",
+          difficulty: "Easy",
+          score: 70,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767627485/css-units-percentage-op_li3oz8.png" class="desc-que-img" />
+                 <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li>Create HTML paragraph elements</li>
+                        <li><span>First paragraph element should have the class name <strong>width-25</strong>. </span></li>
+                        <li><span>Second paragraph element should have the class name <strong>width-50 </strong>. </span></li>
+                        <li><span>Third paragraph element should have the class name <strong>width-75 </strong>. </span></li>
+                      </ol>
+              <hr>
+              
+               <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use Bootstrap background color and text color utilities.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+              
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of exactly four HTML paragraph elements",
+              type: "html-validation",
+              input: "check-paragraph-count",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "First paragraph element should have the class name width-25",
+              type: "html-validation",
+              input: "check-width-25",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Second paragraph element should have the class name width-50",
+              type: "html-validation",
+              input: "check-width-50",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Third paragraph element should have the class name width-75",
+              type: "html-validation",
+              input: "check-width-75",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Fourth paragraph element should have the class name width-100",
+              type: "html-validation",
+              input: "check-width-100",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "responsive-coding-test-3",
+      title: "Responsive Coding Test 3",
+      description: "",
+      questions: [
+        {
+          id: "7b69e9c7-0c4b684b-44d7a01b0fb1",
+          title: "Bootstrap Sizing Utility - Percentage",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Bootstrap Sizing Utility - Percentage.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767628308/bootstrap-sizing-utility-percentage-op_gw5h8c.png" class="desc-que-img" />
+              <hr>
+                <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use Bootstrap class names to specify the width of an HTML element in percentage.</li>
+                  <li>Use Bootstrap background color and text color utilities.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+             
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+              
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of exactly four HTML paragraph elements",
+              type: "html-validation",
+              input: "check-paragraph-count",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element with the bootstrap class name w-25",
+              type: "html-validation",
+              input: "check-w-25",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the bootstrap class name w-50",
+              type: "html-validation",
+              input: "check-w-50",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element with the bootstrap class name w-75",
+              type: "html-validation",
+              input: "check-w-75",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML paragraph element with the bootstrap class name w-100",
+              type: "html-validation",
+              input: "check-w-100",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Each paragraph element should have a bootstrap background color utility",
+              type: "html-validation",
+              input: "check-bg-utilities-p",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "7b69e9c7-04b6984b-44d7a01b0fb1",
+          title: "Bootstrap Flex Utilities - Order",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the Bootstrap Order class names.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767629368/ce-3-4-1-css-order-op_yuu9ic.png" class="desc-que-img" />
+              <hr>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML element with the bootstrap class name d-flex",
+              type: "html-validation",
+              input: "check-d-flex-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML element with the bootstrap class name flex-column",
+              type: "html-validation",
+              input: "check-flex-column",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Page should consist of exactly 13 flex items",
+              type: "html-validation",
+              input: "check-flex-item-count",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Each flex item should have a bootstrap order utility class",
+              type: "html-validation",
+              input: "check-order-classes-div",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Each flex item should have a bootstrap background color utility",
+              type: "html-validation",
+              input: "check-bg-utilities-div",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Each flex item should have the bootstrap class name text-white",
+              type: "html-validation",
+              input: "check-text-white-div",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "7b69e9c7-0c4b6984b-44d7a01b0fb1",
+          title: "CSS Linear Gradients",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the CSS Linear Gradients.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767630904/CSS_Linear_Gradients-1_btdi0t.png" class="desc-que-img" />
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767630904/CSS_Linear_Gradients-2_criby6.png" class="desc-que-img" />
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767630904/CSS_Linear_Gradients-3_g7e7fz.png" class="desc-que-img" />
+              <hr>
+              <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use the HTML main heading elements for the text.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors caa2bff">#aa2bff</div>
+                <div  class="desc-colors cffa740">#ffa740</div>
+                <div  class="desc-colors c4cc8ef">#4cc8ef</div>
+                <div  class="desc-colors cdaa4ff">#daa4ff</div>
+                <div  class="desc-colors cff8c88">#ff8c88</div>
+                <div  class="desc-colors cffc169">#ffc169</div>
+                <div  class="desc-colors c9e82b4">#9e82b4</div>
+                <div  class="desc-colors c8a2387">#8a2387</div>
+                <div  class="desc-colors ce94057">#e94057</div>
+                <div  class="desc-colors cf27121">#f27121</div>
+                <div  class="desc-colors c7bbd36">#7bbd36</div>
+                <div  class="desc-colors c49b407">#49b407</div>
+                <div  class="desc-colors cff9c38">#ff9c38</div>
+                <div  class="desc-colors cfc3535">#fc3535</div>
+                <div  class="desc-colors c826b7a">#826b7a</div>
+                <div  class="desc-colors c87cdff">#87cdff</div>
+               
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of exactly five HTML container elements",
+              type: "html-validation",
+              input: "check-container-count",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Each HTML container element should contain an HTML main heading element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Each container element should have the CSS property background-image with linear-gradient",
+              type: "css-validation",
+              input: "check-linear-gradient",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of linear gradients with different directions",
+              type: "css-validation",
+              input: "check-gradient-directions",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Each main heading element should use the Roboto font family",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "7b69e9c7-04hfgnnb-44d7a01b0fb1",
+          title: "CSS Radial Gradients",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the CSS Radial Gradients and Bootstrap Position Utilities.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: "",
+            css: '@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");',
+            javascript: "",
+          },
+          descriptionDetails: `<div class="desc-question-details">
+              <p class="desc-que-blue">Use the below reference image.</p>
+                <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767681098/ce-4-2-3-radial-gradient-op_etgm8r.png" class="desc-que-img" />
+              <hr>
+              <div class="Note-container">
+              <div class="icon-note">
+              <h6><i class="bi bi-journal-text"></i>Note</h6>
+              </div>
+              <p>
+                <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
+                  <li>Use the HTML main heading elements for the text.</li>
+                </ul>
+              </p>
+              </div>
+              <p class="desc-que-blue">Resources</p>
+               <p class="desc-que-blue">CSS Colors used:</p>
+                <div  class="desc-colors c00c898">#00c898</div>
+                <div  class="desc-colors c020203">#020203</div>
+                <div  class="desc-colors cbb64ff">#bb64ff</div>
+                <div  class="desc-colors cfd8941">#fd8941</div>
+                <div  class="desc-colors c8a2387">#8a2387</div>
+                <div  class="desc-colors cff697e">#ff697e</div>
+               
+                <hr>
+                <p class="desc-que-blue">CSS Font families used:</p>
+                 <ul>
+                <li>Roboto</li>
+                </ul>
+                </div>`,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of exactly two HTML container elements",
+              type: "html-validation",
+              input: "check-container-count-2",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Each container element should consist of an HTML main heading element",
+              type: "html-validation",
+              input: "check-heading-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Each container element should have the CSS property background-image with radial-gradient",
+              type: "css-validation",
+              input: "check-radial-gradient",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Second container element should have the bootstrap position utility class fixed-bottom",
+              type: "html-validation",
+              input: "check-fixed-bottom",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Each main heading element should use the Roboto font family",
+              type: "css-validation",
+              input: "check-font-family",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
     },
   ],
 };

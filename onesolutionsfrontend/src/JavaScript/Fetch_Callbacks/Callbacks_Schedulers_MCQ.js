@@ -1,162 +1,292 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";import MCQLogic from "../../SubtopicsPage/MCQLogic";
+import { useAuth } from "../../context/AuthContext";
+import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ========= 10 CODE BLOCK QUESTIONS =========
+
   {
     question: (
       <div>
-        <p>What is a callback function in JavaScript?</p>
+        <p>What is happening in the following code?</p>
+        <CodeBlock
+          language="javascript"
+          code={`function greet(name) {
+  console.log("Hello " + name);
+}
+
+function callFunction(callback) {
+  callback("Rahul");
+}
+
+callFunction(greet);`}
+        />
       </div>
     ),
     options: [
-      "A function that returns another function",
-      "A function passed as an argument to another function",
-      "A function that executes immediately after declaration",
-      "A function used only in loops",
+      "A function is returned",
+      "A function is passed as an argument",
+      "A function is stored in a variable",
+      "A function is executed immediately",
     ],
-    answer: "A function passed as an argument to another function",
+    answer: "A function is passed as an argument",
   },
+
+  {
+    question: (
+      <div>
+        <p>What will this code demonstrate?</p>
+        <CodeBlock
+          language="javascript"
+          code={`function display() {
+  console.log("Hello");
+}
+
+setTimeout(display, 2000);`}
+        />
+      </div>
+    ),
+    options: [
+      "Repeated execution",
+      "Immediate execution",
+      "Execution after specified delay",
+      "Infinite loop",
+    ],
+    answer: "Execution after specified delay",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be the output behavior of this code?</p>
+        <CodeBlock
+          language="javascript"
+          code={`setInterval(() => {
+  console.log("Running...");
+}, 1000);`}
+        />
+      </div>
+    ),
+    options: [
+      "Logs once after 1 second",
+      "Logs repeatedly every 1 second",
+      "Throws an error",
+      "Stops automatically",
+    ],
+    answer: "Logs repeatedly every 1 second",
+  },
+
+  {
+    question: (
+      <div>
+        <p>How does the following code stop execution?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let intervalId = setInterval(() => {
+  console.log("Working");
+}, 1000);
+
+clearInterval(intervalId);`}
+        />
+      </div>
+    ),
+    options: [
+      "By stopping the browser",
+      "By clearing interval using its ID",
+      "By clearing timeout",
+      "By returning false",
+    ],
+    answer: "By clearing interval using its ID",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will this code do?</p>
+        <CodeBlock
+          language="javascript"
+          code={`setTimeout(() => {
+  console.log("Done");
+}, 3000);`}
+        />
+      </div>
+    ),
+    options: [
+      "Executes repeatedly",
+      "Executes immediately",
+      "Executes once after 3 seconds",
+      "Never executes",
+    ],
+    answer: "Executes once after 3 seconds",
+  },
+
   {
     question: (
       <div>
         <p>
-          Which of the following demonstrates passing a function as an argument?
+          What is the purpose of the variable <b>timerId</b>?
         </p>
         <CodeBlock
           language="javascript"
-          code={`function greet(name) {\n  console.log("Hello " + name);\n}\n\nfunction user(callback) {\n  callback("Rahul");\n}\n\nuser(greet);`}
+          code={`let timerId = setTimeout(() => {
+  console.log("Hello");
+}, 5000);`}
         />
       </div>
     ),
     options: [
-      "Passing variable as argument",
-      "Passing function as argument",
-      "Returning function value",
-      "Nested function declaration",
+      "Stores the callback function",
+      "Stores delay value",
+      "Stores unique timeout ID",
+      "Stores execution result",
     ],
-    answer: "Passing function as argument",
+    answer: "Stores unique timeout ID",
   },
+
   {
     question: (
       <div>
-        <p>What will happen in the code below?</p>
+        <p>What does this code ensure?</p>
         <CodeBlock
           language="javascript"
-          code={`setInterval(() => {\n  console.log("Running...");\n}, 2000);`}
+          code={`let timer = setTimeout(() => {
+  console.log("Will not run");
+}, 4000);
+
+clearTimeout(timer);`}
         />
       </div>
     ),
     options: [
-      "Logs 'Running...' once after 2 seconds",
-      "Logs 'Running...' repeatedly every 2 seconds",
-      "Throws an error due to missing clearInterval",
-      "Runs infinitely without delay",
+      "Callback executes twice",
+      "Callback executes once",
+      "Callback is cancelled",
+      "Callback runs immediately",
     ],
-    answer: "Logs 'Running...' repeatedly every 2 seconds",
+    answer: "Callback is cancelled",
   },
+
   {
     question: (
       <div>
-        <p>How can you stop the repeated execution started by setInterval()?</p>
+        <p>What does this function call show?</p>
         <CodeBlock
           language="javascript"
-          code={`let id = setInterval(() => {\n  console.log("Running...");\n}, 1000);\n\nclearInterval(id);`}
+          code={`function execute(callback) {
+  callback();
+}
+
+execute(() => console.log("Callback executed"));`}
         />
       </div>
     ),
     options: [
-      "Using stopInterval()",
-      "Using cancelInterval()",
-      "Using clearInterval(id)",
-      "Using clearTimeout(id)",
+      "Returning a function",
+      "Passing function expression as argument",
+      "Calling function without arguments",
+      "Loop execution",
     ],
-    answer: "Using clearInterval(id)",
+    answer: "Passing function expression as argument",
   },
+
   {
     question: (
       <div>
-        <p>What will the following code output after 3 seconds?</p>
+        <p>What happens in the following code?</p>
         <CodeBlock
           language="javascript"
-          code={`setTimeout(() => {\n  console.log("Executed after delay");\n}, 3000);`}
+          code={`function first(callback) {
+  console.log("Start");
+  callback();
+}
+
+first(() => console.log("Callback"));`}
         />
       </div>
     ),
     options: [
-      "Immediately prints message",
-      "Prints message after 3 seconds",
-      "Throws timeout error",
-      "Never executes",
+      "Callback executes before function",
+      "Callback executes inside another function",
+      "Callback is ignored",
+      "Syntax error occurs",
     ],
-    answer: "Prints message after 3 seconds",
+    answer: "Callback executes inside another function",
   },
+
   {
     question: (
       <div>
-        <p>Which method can cancel a setTimeout() before it executes?</p>
+        <p>What does this code demonstrate?</p>
         <CodeBlock
           language="javascript"
-          code={`let timer = setTimeout(() => {\n  console.log("This won't run");\n}, 5000);\n\nclearTimeout(timer);`}
+          code={`let id = setInterval(() => {
+  console.log("Hello");
+}, 2000);
+
+clearInterval(id);`}
         />
       </div>
     ),
     options: [
-      "cancelTimeout(timer)",
-      "stopTimeout(timer)",
-      "clearTimeout(timer)",
-      "resetTimeout(timer)",
+      "Delayed execution",
+      "Repeated execution without stop",
+      "Cancelling scheduled interval",
+      "Recursive function",
     ],
-    answer: "clearTimeout(timer)",
+    answer: "Cancelling scheduled interval",
   },
+
+  // ========= 5 NORMAL QUESTIONS =========
+
   {
-    question: (
-      <div>
-        <p>What does the following code do?</p>
-        <CodeBlock
-          language="javascript"
-          code={`function display(callback) {\n  console.log("Before callback");\n  callback();\n  console.log("After callback");\n}\n\ndisplay(() => console.log("Inside callback"));`}
-        />
-      </div>
-    ),
+    question: "What is a callback function?",
     options: [
-      "Runs callback before main function",
-      "Runs callback inside another function",
-      "Ignores callback execution",
-      "Throws syntax error",
+      "A function that executes immediately",
+      "A function passed as an argument to another function",
+      "A function that runs only once",
+      "A function inside a loop",
     ],
-    answer: "Runs callback inside another function",
+    answer: "A function passed as an argument to another function",
   },
+
   {
-    question: "What does the setInterval() method return when called?",
+    question: "Which method is used to execute a function repeatedly?",
     options: [
-      "A boolean value",
-      "A function reference",
+      "setTimeout()",
+      "clearTimeout()",
+      "setInterval()",
+      "clearInterval()",
+    ],
+    answer: "setInterval()",
+  },
+
+  {
+    question: "What does setInterval() return?",
+    options: [
+      "A callback function",
       "A unique interval ID",
-      "Nothing",
+      "Execution result",
+      "Delay time",
     ],
     answer: "A unique interval ID",
   },
+
   {
-    question: "What happens if clearTimeout() is called with an invalid ID?",
+    question: "Which method is used to cancel setTimeout()?",
     options: [
-      "Throws an error",
-      "Does nothing",
-      "Restarts the timeout",
-      "Removes all scheduled tasks",
-    ],
-    answer: "Does nothing",
-  },
-  {
-    question:
-      "Which scheduler method repeatedly executes a callback at a fixed interval?",
-    options: [
-      "setTimeout()",
-      "setInterval()",
+      "clearInterval()",
+      "stopTimeout()",
       "clearTimeout()",
-      "cancelInterval()",
+      "cancelTimeout()",
     ],
-    answer: "setInterval()",
+    answer: "clearTimeout()",
+  },
+
+  {
+    question: "In schedulers, delay time is measured in:",
+    options: ["Seconds", "Minutes", "Milliseconds", "Hours"],
+    answer: "Milliseconds",
   },
 ];
 
@@ -164,9 +294,10 @@ const Callbacks_Schedulers_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -195,7 +326,7 @@ const Callbacks_Schedulers_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -225,13 +356,16 @@ const Callbacks_Schedulers_MCQ = ({
     }
   };
   return (
-    <MCQLogic title="Callbacks & Schedulers - MCQs" questions={randomQuestions}
-    isCompleted={isCompleted}
-    isLoading={isLoading}
-    onComplete={handleCompletion}
-    subtopicId={subtopicId}
-    goalName={goalName}
-    courseName={courseName} />
+    <MCQLogic
+      title="Callbacks & Schedulers - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
   );
 };
 

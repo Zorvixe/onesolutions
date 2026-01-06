@@ -149,50 +149,63 @@ greetBtn.addEventListener("click", function() {
             <tr>
               <td>Equal ( == )</td>
               <td>a == b</td>
-              <td>returns true if both a and b values are equal.</td>
+              <td>
+                returns true if both <b>a</b> and <b>b</b> values are equal.
+              </td>
             </tr>
             <tr>
               <td>Not equal ( != )</td>
               <td>a != b</td>
-              <td>returns true if both a and b values are not equal.</td>
+              <td>
+                returns true if both <b>a</b> and <b>b</b> values are not equal.
+              </td>
             </tr>
             <tr>
               <td>Strict equal ( === )</td>
               <td>a === b</td>
               <td>
-                returns true if both a and b values are equal and of the same
-                type.
+                returns true if both <b>a</b> and <b>b</b> values are equal and
+                of the same type.
               </td>
             </tr>
             <tr>
               <td>Strict not equal ( !== )</td>
               <td>a !== b</td>
               <td>
-                returns true if either a and b values are not equal or of a
-                different type.
+                returns true if either <b>a</b> and <b>b</b> values are not
+                equal or of a different type.
               </td>
             </tr>
             <tr>
               <td>Greater than ( &gt; )</td>
               <td>a &gt; b</td>
-              <td>returns true if a value is greater than b value.</td>
+              <td>
+                returns true if <b>a</b> value is greater than <b>b</b> value.
+              </td>
             </tr>
             <tr>
               <td>Greater than or equal ( &gt;= )</td>
               <td>a &gt;= b</td>
               <td>
-                returns true if a value is greater than or equal to b value.
+                returns true if <b>a</b> value is greater than or equal to{" "}
+                <b>b</b>
+                value.
               </td>
             </tr>
             <tr>
               <td>Less than ( &lt; )</td>
               <td>a &lt; b</td>
-              <td>returns true if a value is less than b value.</td>
+              <td>
+                returns true if <b>a</b> value is less than <b>b</b> value.
+              </td>
             </tr>
             <tr>
               <td>Less than or equal ( &lt;= )</td>
               <td>a &lt;= b</td>
-              <td>returns true if a value is less than or equal to b value.</td>
+              <td>
+                returns true if <b>a</b> value is less than or equal to <b>b</b>{" "}
+                value.
+              </td>
             </tr>
           </tbody>
         </table>
@@ -210,17 +223,23 @@ greetBtn.addEventListener("click", function() {
             <tr>
               <td>AND ( && )</td>
               <td>a && b</td>
-              <td>returns true if both a and b values are true.</td>
+              <td>
+                returns true if both <b>a</b> and <b>b</b> values are true.
+              </td>
             </tr>
             <tr>
               <td>OR ( || )</td>
               <td>a || b</td>
-              <td>returns true if either a or b value is true.</td>
+              <td>
+                returns true if either <b>a</b> or <b>b</b> value is true.
+              </td>
             </tr>
             <tr>
               <td>NOT ( ! )</td>
               <td>!a</td>
-              <td>returns true if a value is not true.</td>
+              <td>
+                returns true if <b>a</b> value is not true.
+              </td>
             </tr>
           </tbody>
         </table>
@@ -246,8 +265,12 @@ greetBtn.addEventListener("click", function() {
         <p>Keyboard Event is the user interaction with the keyboard.</p>
         <p>The keyboard events are</p>
         <ul>
-          <li>keydown</li>
-          <li>keyup</li>
+          <li>
+            <code>keydown</code>
+          </li>
+          <li>
+            <code>keyup</code>
+          </li>
         </ul>
 
         <h4>3.1.1 Keydown event</h4>
@@ -271,7 +294,10 @@ document.body.appendChild(inputEl);`}
         />
 
         <h4>3.1.2 Keyup event</h4>
-        <p>The keyup event occurs when a key on the keyboard is released.</p>
+        <p>
+          The <code>keyup</code> event occurs when a key on the keyboard is
+          released.
+        </p>
         <p>
           <b>Syntax:</b>{" "}
           <code>element.addEventListener("keyup", function);</code>
@@ -288,11 +314,21 @@ document.body.appendChild(inputEl);`}
         <p>It consists of information about the event that has happened.</p>
         <p>It consists of many properties and methods.</p>
         <ul>
-          <li>type</li>
-          <li>target</li>
-          <li>key</li>
-          <li>timeStamp</li>
-          <li>stopPropagation, and many more.</li>
+          <li>
+            <code>type</code>
+          </li>
+          <li>
+            <code>target</code>
+          </li>
+          <li>
+            <code>key</code>
+          </li>
+          <li>
+            <code>timeStamp</code>
+          </li>
+          <li>
+            <code>stopPropagation</code>, and many more.
+          </li>
         </ul>
 
         <h4>3.2.1 Properties & Methods</h4>
@@ -307,7 +343,7 @@ document.body.appendChild(inputEl);`}
         <h4>event.type</h4>
         <p>
           The <code>event.type</code> property contains the type of event
-          occurred like click, keydown, etc.
+          occurred like <code>click</code>, <code>keydown</code>, etc.
         </p>
 
         <CodeBlock
@@ -387,11 +423,6 @@ document.body.appendChild(inputElement);`}
             </tr>
           </tbody>
         </table>
-
-        <p>
-          Try out the keyboard events and the event object in the below Code
-          Playground.
-        </p>
       </section>
 
       {/* Continue Button */}
