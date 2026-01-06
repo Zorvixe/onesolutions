@@ -84,53 +84,48 @@ const Factory_Constructor_Function_CS = ({
 let myObject = functionName(arg1, arg2, ...);`}
         />
 
-        <h3>Example</h3>
+        <b>Example: </b>
         <CodeBlock
           language="javascript"
           code={`function createCar(color, brand) {
-            return {
-              color: color,
-              brand: brand,
-              start: function() {
-                console.log("started");
-              }
-            };
-          }
-          
-          let car1 = createCar("blue", "Audi");
-          let car2 = createCar("red", "Tata");
-          let car3 = createCar("green", "BMW");
-          
-          console.log(car1);  
-          console.log(car2);  
-          console.log(car3); `}
-        />
-        <OutputBlock
-          output={`Object { color: "blue", brand: "Audi", start: ƒ() }
-Object { color: "red", brand: "Tata", start: ƒ() }
-Object { color: "green", brand: "BMW", start: ƒ() }`}
+    return {
+      color: color,
+      brand: brand,
+      start: function() {
+        console.log("started");
+      }
+    };
+  }
+  
+  let car1 = createCar("blue", "Audi");
+  let car2 = createCar("red", "Tata");
+  let car3 = createCar("green", "BMW");
+  
+  console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
+  console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
+  console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() } `}
         />
 
         <h4>1.1 Shorthand Notations</h4>
         <CodeBlock
           language="javascript"
           code={`function createCar(color, brand) {
-            return {
-              color,
-              brand,
-              start() {
-                console.log("started");
-              }
-            };
-          }
-          
-          let car1 = createCar("blue", "Audi");
-          let car2 = createCar("red", "Tata");
-          let car3 = createCar("green", "BMW");
-          
-          console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
-          console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
-          console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() }`}
+    return {
+      color,
+      brand,
+      start() {
+        console.log("started");
+      }
+    };
+  }
+  
+  let car1 = createCar("blue", "Audi");
+  let car2 = createCar("red", "Tata");
+  let car3 = createCar("green", "BMW");
+  
+  console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
+  console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
+  console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() }`}
         />
       </section>
 
@@ -175,14 +170,15 @@ let myObject = new FunctionName(arg1, arg2, ...);`}
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-  this.color = color;
-  this.brand = brand;
-  this.start = function() {
-    console.log("started");
-  };
-}
-let car1 = new Car("blue", "Audi");
-console.log(car1);  // Car { color: "blue", brand: "Audi", start: ƒ() }`}
+    this.color = color;
+    this.brand = brand;
+    this.start = function() {
+      console.log("started");
+    };
+  }
+  
+  let car1 = new Car("blue", "Audi");
+  console.log(car1);  // Car { }`}
         />
 
         <p>
@@ -216,11 +212,6 @@ console.log(car1);  // Car { color: "blue", brand: "Audi", start: ƒ() }`}
             </tr>
           </tbody>
         </table>
-
-        <p>
-          Try out the Factory and Constructor Functions in the JavaScript Code
-          Playground.
-        </p>
       </section>
 
       {/* 3. JS Functions */}
@@ -301,8 +292,8 @@ console.log(typeof(Car));  // function`}
           Every object in JavaScript has a <b>constructor</b> property.
         </p>
         <p>
-          This property refers to the constructor function that is used to
-          create the object.
+          The constructor property refers to the constructor function that is
+          used to create the object.
         </p>
         <CodeBlock
           language="javascript"
@@ -354,19 +345,41 @@ console.log(car1.constructor);  // f Car(color, brand) {}`}
 
         <h4>5.1.1 new Date()</h4>
         <p>
-          You can create a date object without passing any arguments to the new{" "}
-          <code>Date()</code> constructor function.
+          You can create a date object without passing any arguments to the{" "}
+          <code>new Date()</code> constructor function.
         </p>
+        <p>For example,</p>
         <CodeBlock
           language="javascript"
           code={`let now = new Date();
-console.log(now);  // Current date and time
+
+console.log(now);  // Tue Feb 02 2021 19:10:29 GMT+0530 (India Standard Time) { }
 console.log(typeof(now));  // object`}
         />
         <p>
+          <p>
+            Here, <code>new Date()</code> creates a new date object with the
+            current date and local time.
+          </p>
           <b>Note:</b> Coordinated Universal Time (UTC) is the global standard.
           Local time is provided by the user's device.
         </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+            <li>
+              Coordinated Universal Time (UTC) - It is the global standard time
+              defined by the World Time Standard. (This time is historically
+              known as Greenwich Mean Time, as UTC lies along the meridian that
+              includes London and nearby Greenwich in the United Kingdom.)
+            </li>
+            <li>Local Time - The user's device provides the local time.</li>
+          </ul>
+        </div>
 
         <h4>5.1.2 new Date(milliseconds)</h4>
         <p>

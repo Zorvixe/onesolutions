@@ -16308,22 +16308,130 @@ export const codingPracticesData = {
           attempts: [],
         },
         {
-          id: "q-python-Codingpractice-34-002",
-          title: "Formatting Datetime",
+          id: "q-python-Codingpractice-34-003",
+          title: "Print Dates",
           difficulty: "Easy",
           description:
-            "Write a program to convert the date in string format to another string format.\nThe input date string format is like `jul 01 2014 02:43PM`\nThe output date string format should be like `DD/MM/YYYY HH:MM:SS`.",
-          sampleInput: "Feb 29 2024 01:05AM",
-          sampleOutput: "29/02/2024 01:05:00",
+            "Write a program to print the previous day of D,the current day D,and the next day of D.\nThe date in string format is like `8 Feb 2021`.",
+          sampleInput: "29 Feb 2024",
+          sampleOutput: "2024-02-28 00:00:00\n2024-02-29 00:00:00\n2024-03-01 00:00:00",
           testCases: [
-            { input: "Aug 15 2023 02:30PM", output: "15/08/2023 14:30:00", visible: true },
-            { input: "Jan 01 2020 12:00AM", output: "01/01/2020 00:00:00", visible: true },
-            { input: "Dec 31 1999 11:59PM", output: "31/12/1999 23:59:00", visible: false },
-            { input: "Feb 29 2024 01:05AM", output: "29/02/2024 01:05:00", visible: false },            
+            { input: "15 Aug 2023", output: "2023-08-14 00:00:00\n2023-08-15 00:00:00\n2023-08-16 00:00:00", visible: true },
+            { input: "01 Jan 2020", output: "2019-12-31 00:00:00\n2020-01-01 00:00:00\n2020-01-02 00:00:00", visible: true },
+            { input: "31 Dec 1999", output: "1999-12-30 00:00:00\n1999-12-31 00:00:00\n2000-01-01 00:00:00", visible: false },
+            { input: "29 Feb 2024", output: "2024-02-28 00:00:00\n2024-02-29 00:00:00\n2024-03-01 00:00:00", visible: false },                       
+            
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-34-004",
+          title: "Name of the Weekday",
+          difficulty: "Easy",
+          description:
+            "Write a program to print the name of the weekday of a given date.\nThe date in string format is like `8 Feb 2021`.",
+          sampleInput: "31 Dec 1999",
+          sampleOutput: "Friday",
+          testCases: [
+            { input: "15 Aug 2023", output: "Tuesday", visible: true },
+            { input: "01 Jan 2020", output: "Wednesday", visible: true },
+            { input: "31 Dec 1999", output: "Friday", visible: false },
+            { input: "29 Feb 2024", output: "Thursday", visible: false },                                   
+            
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-34-005",
+          title: "Count of Mondays",
+          difficulty: "Medium",
+          description:
+            "You are given two years A and B.\nWrite a program to count the number of mondays M,which is the 1st day of the month from year A to year B(including B).",
+          sampleInput: "2000 2000",
+          sampleOutput: "1",
+          testCases: [
+            { input: "2023 2023", output: "2", visible: true },
+            { input: "2020 2020", output: "2", visible: true },
+            { input: "2019 2021", output: "4", visible: false },
+            { input: "2000 2000", output: "1", visible: false },
+                                              
+            
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Python-Grand-Assignment-5",
+      title: "Grand-Assignment-5",
+      description: "Miscellaneous Topics",
+      questions: [
+        {
+          id: "q-python-Grand-Assignment-5-001",
+          title: "Weekends",
+          difficulty: "Easy",
+          description:
+            "Given two dates D1 and D2,write a program to count the number of saturdays and sundays from D1 to D2(including D1 and D2).\nThe date in string format is like `8 Feb 2021`.",
+          sampleInput: "29 Feb 2024\n29 Feb 2024",
+          sampleOutput: "Saturday: 0\nSunday: 0",
+          testCases: [
+            { input: "01 Jan 2023\n31 Jan 2023", output: "Saturday: 4\nSunday: 5", visible: true },
+            { input: "01 Aug 2023\n31 Aug 2023", output: "Saturday: 4\nSunday: 4", visible: true },
+            { input: "25 Dec 2023\n31 Dec 2023", output: "Saturday: 1\nSunday: 1", visible: false },
+            { input: "29 Feb 2024\n29 Feb 2024", output: "Saturday: 0\nSunday: 0", visible: false },            
             
           ],
           defaultCode: ``,
           score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-5-002",
+          title: "New Year countdown",
+          difficulty: "Easy",
+          description:
+            "Given date-time D,write a program to print the time left for the next new year.",
+          sampleInput: "Dec 31 2020 11:30 PM",
+          sampleOutput: "0 hours 30 minutes",
+          testCases: [
+            { input: "Dec 31 2023 11:00 PM", output: "1 hours 0 minutes", visible: true },
+            { input: "Jan 01 2023 12:00 AM", output: "8760 hours 0 minutes", visible: true },
+            { input: "Dec 31 2023 12:00 AM", output: "24 hours 0 minutes", visible: false },
+            { input: "Dec 31 2020 11:30 PM", output: "0 hours 30 minutes", visible: false },                       
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-5-003",
+          title: "smallest missing number",
+          difficulty: "Easy",
+          description:
+            "Given a list of numbers,write a program to print the smallest positive integer missing in the given numbers.",
+          sampleInput: "1 2 4 6",
+          sampleOutput: "3",
+          testCases: [
+        
+            { input: "2 3 4", output: "1", visible: true },
+            { input: "1 3 4 5", output: "2", visible: true },
+            { input: "1 2 4 6", output: "3", visible: false },                                  
+            
+          ],
+          defaultCode: ``,
+          score: 50,
           status: "unsolved",
           attempts: [],
         },
