@@ -295,7 +295,8 @@ const Static_MCQ_Assignment1 = ({
     }
   };
   return (
-    <MCQLogic title="Static MCQ Assignment 1"  questions={randomQuestions}
+    <MCQLogic title="Static MCQ Assignment 1"  
+    questions={randomQuestions}
     isCompleted={isCompleted}
     isLoading={isLoading}
     onComplete={handleCompletion}

@@ -12,11 +12,11 @@ const questionsData = [
         <CodeBlock
           language="html"
           code={`<div class="container">
-  <div class="row">
-    <div class="col-12 col-md-6">Left</div>
-    <div class="col-12 col-md-6">Right</div>
-  </div>
-</div>`}
+          <div class="row">
+            <div class="col-12 col-md-6">Left</div>
+            <div class="col-12 col-md-6">Right</div>
+          </div>
+        </div>`}
         />
       </div>
     ),
@@ -31,15 +31,17 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What does <code>ms-auto</code> do in this navbar?</p>
+        <p>
+          What does <b>ms-auto</b> do in this navbar?
+        </p>
         <CodeBlock
           language="html"
           code={`<nav class="navbar navbar-expand-lg bg-light">
-  <a class="navbar-brand" href="#">Logo</a>
-  <ul class="navbar-nav ms-auto">
-    <li class="nav-item"><a class="nav-link" href="#">Sign In</a></li>
-  </ul>
-</nav>`}
+          <a class="navbar-brand" href="#">Logo</a>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#">Sign In</a></li>
+          </ul>
+        </nav>`}
         />
       </div>
     ),
@@ -54,13 +56,15 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What spacing does <code>p-3</code> add?</p>
+        <p>
+          What spacing does <b>p-3</b> add?
+        </p>
         <CodeBlock
           language="html"
           code={`<div class="card p-3">
-  <h5>Card Title</h5>
-  <p>Content with 16px inner spacing</p>
-</div>`}
+          <h5>Card Title</h5>
+          <p>Content with 16px inner spacing</p>
+        </div>`}
         />
       </div>
     ),
@@ -95,25 +99,22 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "50% width",
-      "25% width",
-      "33.33% width",
-      "Full width",
-    ],
+    options: ["50% width", "25% width", "33.33% width", "Full width"],
     answer: "25% width",
   },
   {
     question: (
       <div>
-        <p>Why use <code>mx-auto</code> here?</p>
+        <p>
+          Why use <b>mx-auto</b> here?
+        </p>
         <CodeBlock
           language="html"
           code={`<div class="card mx-auto" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Centered Card</h5>
-  </div>
-</div>`}
+          <div class="card-body">
+            <h5 class="card-title">Centered Card</h5>
+          </div>
+        </div>`}
         />
       </div>
     ),
@@ -132,29 +133,26 @@ const questionsData = [
         <CodeBlock
           language="html"
           code={`<div class="d-flex flex-column flex-md-row">
-  <div class="order-2 order-md-1 p-2">First on Desktop</div>
-  <div class="order-1 order-md-2 p-2">First on Mobile</div>
-</div>`}
+          <div class="order-2 order-md-1 p-2">First on Desktop</div>
+          <div class="order-1 order-md-2 p-2">First on Mobile</div>
+        </div>`}
         />
       </div>
     ),
-    options: [
-      "Same order everywhere",
-      "Reversed on mobile",
-      "Random",
-      "Error",
-    ],
+    options: ["Same order everywhere", "Reversed on mobile", "Random", "Error"],
     answer: "Reversed on mobile",
   },
   {
     question: (
       <div>
-        <p>What does <code>d-none d-lg-block</code> do?</p>
+        <p>
+          What does <b>d-none d-lg-block</b> do?
+        </p>
         <CodeBlock
           language="html"
           code={`<div class="d-none d-lg-block">
-  Only visible on large screens
-</div>`}
+          Only visible on large screens
+        </div>`}
         />
       </div>
     ),
@@ -169,12 +167,14 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What width does <code>w-75</code> apply?</p>
+        <p>
+          What width does <b>w-75</b> apply?
+        </p>
         <CodeBlock
           language="html"
           code={`<div class="w-75 bg-primary text-white p-3">
-  75% Width Block
-</div>`}
+          75% Width Block
+        </div>`}
         />
       </div>
     ),
@@ -232,7 +232,7 @@ const Responsive_MCQ_Assignments_1 = ({
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5).slice(0, 30);
+  const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   // Check if subtopic is already completed
   useEffect(() => {
@@ -293,12 +293,12 @@ const Responsive_MCQ_Assignments_1 = ({
       showScore={true}
       allowReview={true}
       questions={randomQuestions}
-      isCompleted={isCompleted}
-      isLoading={isLoading}
-      onComplete={handleCompletion}
-      subtopicId={subtopicId}
-      goalName={goalName}
-    />
+    isCompleted={isCompleted}
+    isLoading={isLoading}
+    onComplete={handleCompletion}
+    subtopicId={subtopicId}
+    goalName={goalName}
+    courseName={courseName}/>
   );
 };
 

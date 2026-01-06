@@ -16167,20 +16167,49 @@ export const codingPracticesData = {
       questions: [
         {
           id: "q-python-Codingpractice-32-001",
-          title: "String Rotation",
+          title: "Car",
           difficulty: "Easy",
           description:
-            "Write a program that reads two words S1 and S2 and checks if S2 is a rotation of S1.\nPrint the number of times S1 rotates to match S2,if S2 is a rotation of S1.Otherwise,print No Match.",
-          sampleInput: "hello\nworld",
-          sampleOutput: "No Match",
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "Red\n250\n10\n3",
           testCases: [
-            { input: "abc\nxbc", output: "1", visible: true },
-            { input: "dog\ngod", output: "2", visible: true },
-            { input: "cat\ncats", output: "No Match", visible: false },
-            { input: "hello\nworld", output: "No Match", visible: false },
+            { input: "", output: "Red\n250\n10\n3", visible: true },
           ],
           defaultCode: ``,
-          score: 50,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-32-002",
+          title: "Car - 2",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "False\nTrue\nFalse",
+          testCases: [
+            { input: "", output: "False\nTrue\nFalse", visible: true },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-32-003",
+          title: "Car - 3",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\Ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "Car has not started yet\n0\n0\n10\n20\n50\n50",
+          testCases: [
+            { input: "", output: "Car has not started yet\n0\n0\n10\n20\n50\n50", visible: true },
+          ],
+          defaultCode: ``,
+          score: 40,
           status: "unsolved",
           attempts: [],
         },

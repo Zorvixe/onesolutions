@@ -258,7 +258,7 @@ const MCQLogic = ({
 
       <div className="mcq-scoreboard">
         <div className="score-item">
-          <strong>Score:</strong> {finalScore} / 100
+        <strong>Score:</strong> {Math.round(finalScore)} / 100
         </div>
         <div>
           <p className="mcq-title">{title}</p>
@@ -370,7 +370,7 @@ const MCQLogic = ({
 
           <div className="Mcq-result-gauge">
             <div className="Mcq-circular-progress">
-              <div className="progress-value">{finalScore}/100</div>
+              <div className="progress-value">{Math.round(finalScore)}/100</div>
               <svg>
                 <circle className="bg"></circle>
                 <circle
@@ -427,13 +427,11 @@ const MCQLogic = ({
             )}
 
             {markedComplete && (
-              <p
-                className="success-message"
-                style={{ color: "green", marginTop: "10px" }}
-              >
+              <p className="success-message">
                 ✅ Progress saved successfully! Redirecting...
               </p>
             )}
+
           </div>
         </div>
       )}

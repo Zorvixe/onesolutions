@@ -121,12 +121,7 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "Top-left",
-      "Center of container",
-      "Bottom-right",
-      "Stretched",
-    ],
+    options: ["Top-left", "Center of container", "Bottom-right", "Stretched"],
     answer: "Center of container",
   },
   {
@@ -162,12 +157,7 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "Top-left of parent",
-      "Top-right of parent",
-      "Center",
-      "Outside",
-    ],
+    options: ["Top-left of parent", "Top-right of parent", "Center", "Outside"],
     answer: "Top-right of parent",
     // absolute + relative parent
   },
@@ -227,13 +217,14 @@ const Responsive_MCQ_Assignments_2 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5).slice(0, 30);
+  const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   // Check if subtopic is already completed
   useEffect(() => {
@@ -258,7 +249,7 @@ const Responsive_MCQ_Assignments_2 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -287,7 +278,6 @@ const Responsive_MCQ_Assignments_2 = ({
       setIsLoading(false);
     }
   };
-  
 
   return (
     <MCQLogic

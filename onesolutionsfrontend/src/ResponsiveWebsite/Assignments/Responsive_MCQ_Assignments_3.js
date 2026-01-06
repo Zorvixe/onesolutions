@@ -268,7 +268,7 @@ const Responsive_MCQ_Assignments_3 = ({
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5).slice(0, 30);
+  const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
   // Check if subtopic is already completed
   useEffect(() => {
@@ -335,8 +335,7 @@ const Responsive_MCQ_Assignments_3 = ({
       onComplete={handleCompletion}
       subtopicId={subtopicId}
       goalName={goalName}
-      courseName={courseName}
-    />
+      courseName={courseName}/>
   );
 };
 

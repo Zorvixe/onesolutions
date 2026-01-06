@@ -49,9 +49,7 @@ const Pro_W_P_CS_1 = ({ subtopicId, goalName, courseName, subtopic }) => {
 
   return (
     <div className="intro-container">
-      <h1 className="pro-h1">
-        Introduction to Programming with Python | Cheat Sheet
-      </h1>
+      <h1>Introduction to Programming with Python | Cheat Sheet</h1>
 
       <section>
         <h2>Software</h2>
