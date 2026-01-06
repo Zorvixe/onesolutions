@@ -16215,5 +16215,119 @@ export const codingPracticesData = {
         },
       ],
     },
+    {
+      id: "Codingpractice-python-33",
+      title: "Codingpractice-33",
+      description: "Introduction to Object Oriented Programming",
+      questions: [
+        {
+          id: "q-python-Codingpractice-33-001",
+          title: "Truck",
+          difficulty: "Easy",
+          description:
+            "complete the given Car and truck classes by adding new features by following the given Instructions.\nA Truck is a Car but with additional behaviours.Inherit the Car class into Truck class and add new features.\nExisting car class.\nFeatures to be added to the truck class.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "False\n50\n25\n0\nCannot load cargo more than max limit: 100\nTrue\nCannot load cargo during motion\nCannot unload cargo during motion\nHonk Honk\nCar has not started yet",
+          testCases: [
+            {
+              input: "",
+              output: "False\n50\n25\n0\nCannot load cargo more than max limit: 100\nTrue\nCannot load cargo during motion\nCannot unload cargo during motion\nHonk Honk\nCar has not started yet",
+              visible: true
+            },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-33-002",
+          title: "Race Car",
+          difficulty: "Easy",
+          description:
+            "Now we need a Race Car in our cars world.\nYou are given two incomplete classes Car and RaceCar.\nA RaceCar is a Car but with the additional behaviours.\nInherit the Car class into RaceCar class and build the additional features.\nGo through the comments in the prefilled code to implement the car and RaceCar classes with the described attributes and methods.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "70\n3\n140\n2\n210\n1\n180\n1\n250\n0\nPeep Peep\nBeep Beep",
+          testCases: [
+            {
+              input: "",
+              output: "70\n3\n140\n2\n210\n1\n180\n1\n250\n0\nPeep Peep\nBeep Beep",
+              visible: true
+            },
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Codingpractice-python-34",
+      title: "Codingpractice-34",
+      description: "Miscellaneous Topics",
+      questions: [
+        {
+          id: "q-python-Codingpractice-34-001",
+          title: "Parsing Datetime",
+          difficulty: "Easy",
+          description:
+            "Write a program to convert the date in the given string format to a Datetime object.The date in string format is like `8 Feb 2021`.",
+          sampleInput: "29 Feb 2024",
+          sampleOutput: "2024-02-29 00:00:00",
+          testCases: [
+            { input: "15 Aug 2023", output: "2023-08-15 00:00:00", visible: true },
+            { input: "01 Jan 2020", output: "2020-01-01 00:00:00", visible: true },
+            { input: "31 Dec 1999", output: "1999-12-31 00:00:00", visible: false },
+            { input: "29 Feb 2024", output: "2024-02-29 00:00:00", visible: false },
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-34-002",
+          title: "Formatting Datetime",
+          difficulty: "Easy",
+          description:
+            "Write a program to convert the date in string format to another string format.\nThe input date string format is like `jul 01 2014 02:43PM`\nThe output date string format should be like `DD/MM/YYYY HH:MM:SS`.",
+          sampleInput: "Feb 29 2024 01:05AM",
+          sampleOutput: "29/02/2024 01:05:00",
+          testCases: [
+            { input: "Aug 15 2023 02:30PM", output: "15/08/2023 14:30:00", visible: true },
+            { input: "Jan 01 2020 12:00AM", output: "01/01/2020 00:00:00", visible: true },
+            { input: "Dec 31 1999 11:59PM", output: "31/12/1999 23:59:00", visible: false },
+            { input: "Feb 29 2024 01:05AM", output: "29/02/2024 01:05:00", visible: false },            
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-34-002",
+          title: "Formatting Datetime",
+          difficulty: "Easy",
+          description:
+            "Write a program to convert the date in string format to another string format.\nThe input date string format is like `jul 01 2014 02:43PM`\nThe output date string format should be like `DD/MM/YYYY HH:MM:SS`.",
+          sampleInput: "Feb 29 2024 01:05AM",
+          sampleOutput: "29/02/2024 01:05:00",
+          testCases: [
+            { input: "Aug 15 2023 02:30PM", output: "15/08/2023 14:30:00", visible: true },
+            { input: "Jan 01 2020 12:00AM", output: "01/01/2020 00:00:00", visible: true },
+            { input: "Dec 31 1999 11:59PM", output: "31/12/1999 23:59:00", visible: false },
+            { input: "Feb 29 2024 01:05AM", output: "29/02/2024 01:05:00", visible: false },            
+            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
   ],
 };

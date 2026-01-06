@@ -72,22 +72,16 @@ const More_Modern_JS_Concepts_CS_2 = ({
         </p>
 
         <p>
-          <b>Syntax:</b>
+          <b>Syntax: </b>
+          <code>condition ? expressionIfTrue : expressionIfFalse</code>
         </p>
-        <CodeBlock
-          language="javascript"
-          code={`condition ? expressionIfTrue : expressionIfFalse`}
-        />
 
-        <h3>Code</h3>
         <CodeBlock
           language="javascript"
           code={`let speed = 70;
 let message = speed >= 100 ? "Too Fast" : "OK";
 console.log(message);  // OK`}
         />
-        <h3>Output</h3>
-        <OutputBlock output={"OK"} />
       </section>
 
       {/* 2. Conditional Statements */}
@@ -108,85 +102,90 @@ console.log(message);  // OK`}
           language="javascript"
           code={`switch (expression) {
   case value1:
-    /* Statements executed when the result of expression matches value1 */
+    /*Statements executed when the
+    result of expression matches value1*/
     break;
   case value2:
-    /* Statements executed when the result of expression matches value2 */
+    /*Statements executed when the
+    result of expression matches value2*/
     break;
   ...
   case valueN:
-    /* Statements executed when the result of expression matches valueN */
+    /*Statements executed when the
+    result of expression matches valueN*/
+    break;
+  default:
+    /*Statements executed when none of
+    the values match the value of the expression*/
     break;
 }`}
         />
 
-        <h3>Example</h3>
+        <b>Example: </b>
         <CodeBlock
           language="javascript"
           code={`let day = 1;
-          switch (day) {
-            case 0:
-              console.log("Sunday");
-              break;
-            case 1:
-              console.log("Monday");  // Monday
-              break;
-            case 2:
-              console.log("Tuesday");
-              break;
-            case 3:
-              console.log("Wednesday");
-              break;
-            case 4:
-              console.log("Thursday");
-              break;
-            case 5:
-              console.log("Friday");
-              break;
-            case 6:
-              console.log("Saturday");
-              break;
-            default:
-              console.log("Invalid");
-              break;
-          }`}
+  switch (day) {
+    case 0:
+      console.log("Sunday");
+      break;
+    case 1:
+      console.log("Monday");  // Monday
+      break;
+    case 2:
+      console.log("Tuesday");
+      break;
+    case 3:
+      console.log("Wednesday");
+      break;
+    case 4:
+      console.log("Thursday");
+      break;
+    case 5:
+      console.log("Friday");
+      break;
+    case 6:
+      console.log("Saturday");
+      break;
+    default:
+      console.log("Invalid");
+      break;
+  }`}
         />
-        <h3>Output</h3>
-        <OutputBlock output={"Monday"} />
 
         {/* Missing break */}
         <h3>2.1.1 What happens if we forgot a break?</h3>
         <p>
           If there is no <code>break</code> statement, then the execution
-          continues with the next case until the break statement is met.
+          continues with the next case until the <code>break</code> statement is
+          met.
         </p>
 
-        <h3>Code</h3>
         <CodeBlock
           language="javascript"
           code={`let day = 4;
-          switch (day) {
-            case 0:
-              console.log("Sunday");
-              break;
-            case 1:
-              console.log("Monday");
-              break;
-            case 2:
-              console.log("Tuesday");
-              break;
-            case 3:
-              console.log("Wednesday");
-              break;
-            case 4:
-              console.log("Thursday");*
-            case 5:
-              console.log("Friday");
-            case 6:
-              console.log("Saturday");*
-            default:
-              console.log("Invalid");*
-          }`}
+switch (day) {
+  case 0:
+    console.log("Sunday");
+    break;
+  case 1:
+    console.log("Monday");
+    break;
+  case 2:
+    console.log("Tuesday");
+    break;
+  case 3:
+    console.log("Wednesday");
+    break;
+  case 4:
+    console.log("Thursday");*
+  case 5:
+    console.log("Friday");
+  case 6:
+    console.log("Saturday");*
+  default:
+    console.log("Invalid");*
+}`}
         />
       </section>
 
@@ -222,7 +221,7 @@ console.log(message);  // OK`}
 sum();`}
         />
 
-        <h3>Example</h3>
+        <b>Example: </b>
         <CodeBlock
           language="javascript"
           code={`let sum = (a, b) => {
@@ -231,8 +230,6 @@ sum();`}
 };
 console.log(sum(4, 3));`}
         />
-        <h3>Output</h3>
-        <OutputBlock output={7} />
 
         {/* Simple Expressions */}
         <h3>3.1.1 Simple Expressions</h3>
@@ -245,7 +242,6 @@ console.log(sum(4, 3));`}
           code={`let sum = (a, b) => a + b;
 console.log(sum(4, 3));  // 7`}
         />
-        <OutputBlock output={7} />
 
         {/* One parameter */}
         <h3>3.1.2 One parameter</h3>
@@ -257,7 +253,6 @@ console.log(sum(4, 3));  // 7`}
           code={`let greet = name => \`Hi \${name}!\`;
 console.log(greet("Rahul"));  // Hi Rahul!`}
         />
-        <OutputBlock output={"Hi Rahul!"} />
 
         {/* No parameters */}
         <h3>3.1.3 No parameters</h3>
@@ -270,7 +265,6 @@ console.log(greet("Rahul"));  // Hi Rahul!`}
           code={`let sayHi = () => "Hello!";
 console.log(sayHi());  // Hello!`}
         />
-        <OutputBlock output={"Hello!"} />
 
         {/* Returning Objects */}
         <h3>3.1.4 Returning Objects</h3>
@@ -283,7 +277,6 @@ console.log(sayHi());  // Hello!`}
 };
 console.log(createUser("Rahul"));  // Object {firstName: "Rahul"}`}
         />
-        <OutputBlock output={`Object {firstName: "Rahul"}`} />
 
         <h4>Simple Expression</h4>
         <CodeBlock
@@ -303,13 +296,7 @@ console.log(createUser());  // undefined`}
           code={`let createUser = name => ({ firstName: "Rahul" });
 console.log(createUser());  // Object {firstName: "Rahul"}`}
         />
-        <OutputBlock output={`Object {firstName: "Rahul"}`} />
       </section>
-
-      <p>
-        Try out the Ternary Operator, Switch Statements, and Arrow Functions in
-        the JavaScript Code Playground.
-      </p>
 
       {/* Continue Button */}
       <div className="view-continue">

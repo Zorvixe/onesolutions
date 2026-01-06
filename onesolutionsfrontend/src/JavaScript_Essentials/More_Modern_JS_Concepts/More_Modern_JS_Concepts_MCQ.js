@@ -154,13 +154,13 @@ const questionsData = [
         <p>What is printed to the console?</p>
         <CodeBlock
           language="javascript"
-          code={`const name = "Prathibha";
+          code={`const name = "onesolutions";
   console.log(\`Hello \${name}\`);`}
         />
       </div>
     ),
-    options: ["Hello name", "Hello ${name}", "Hello Prathibha", "Error"],
-    answer: "Hello Prathibha",
+    options: ["Hello name", "Hello ${name}", "Hello onesolutions", "Error"],
+    answer: "Hello onesolutions",
   },
 
   {

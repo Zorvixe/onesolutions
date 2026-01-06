@@ -4,6 +4,7 @@
   flex-direction: column;
   background-color: #f5f5f5;
   padding-top: 65px;
+  height: 100vh;
 }
 
 .practice-content-prac {
@@ -90,7 +91,7 @@
   padding: 20px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  height: 82vh;
+  height: calc(100vh - 110px);
 }
 
 .questions-section-prac {
@@ -119,7 +120,7 @@
 .questions-table-prac {
   width: 100%;
   border-collapse: collapse;
-  height: 66vh;
+  height: calc(100vh - 250px);
   overflow-y: auto;
 }
 
@@ -590,15 +591,21 @@
 
 .editor-controls-prac {
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  padding: 5px;
-  padding-right: 20px;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 20px 5px 5px;
+}
+
+.execution-summary-prac {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .editor-actions-prac {
   display: flex;
   gap: 8px;
+  margin-left: auto; /* 🔥 pushes buttons to the right */
 }
 
 .run-button-prac,
@@ -1200,7 +1207,7 @@
   transform: translate(-50%, -50%);
   width: 2px;
   height: 40px;
-  background: var(--secondary-text);
+  background: #000;
   border-radius: 1px;
   opacity: 0.6;
 }

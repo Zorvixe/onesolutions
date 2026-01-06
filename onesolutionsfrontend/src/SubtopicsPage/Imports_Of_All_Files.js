@@ -60,18 +60,6 @@ import Coding_Practice_1 from "../Python/IntroductiontoPython/coding_Practice_1.
 import Coding_Practice_2 from "../Python/IntroductiontoPython/coding_Practice_2.js";
 import Coding_Practice_3 from "../Python/IntroductiontoPython/coding_Practice_3.js";
 
-//JavaScript Essentials
-
-import More_Modern_JS_Concepts_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS.js";
-import More_Modern_JS_Concepts_CS_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_2.js";
-import Factory_Constructor_Function_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/Factory_Constructor_Function_CS.js";
-import More_Modern_JS_Concepts_CS_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_3.js";
-import Prototypal_Inheritance_CS from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance_CS.js";
-import JS_Classes_CS from "../JavaScript_Essentials/Prototypes_Classes/JS_Classes_CS.js";
-import JS_Promises_CS from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS.js";
-import JS_Promises_CS_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS_2.js";
-import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Conceptes_CS.js";
-
 //Flexbox
 import Sizing_Ele_Handling_Overflow_CS from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_CS.js";
 import Box_Sizing_CS from "../FlexBox/CSS_Flexbox/Box_Sizing_CS.js";
@@ -141,8 +129,8 @@ import Static_Coding_Pratice_5 from "../StaticWebsite/DevelopingLayouts/Static_C
 import Static_Coding_Pratice_6 from "../StaticWebsite/DevelopingLayouts/Static_Coding_Pratice_6.js";
 import Static_Coding_Pratice_7 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_7.js";
 import Static_Coding_Pratice_8 from "../StaticWebsite/WebSiteIntegration/Static_Coding_Pratice_8.js";
-//Responsive Website Cheat Sheets
 
+//Responsive Website Cheat Sheets
 import Introductionto_Responsive_WD_CS from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Introductionto_Responsive_WD_CS";
 import Bootstrap_Grid_Sys_CS_1 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_CS_1";
 import Bootstrap_Grid_Sys_CS_2 from "../ResponsiveWebsite/Responsive_WD_BS_Grid_Sys/Bootstrap_Grid_Sys_CS_2";
@@ -630,7 +618,36 @@ import JS_MCQ_Assignment_4 from "../JavaScript/Assignment/JS_MCQ_Assignment_4";
 import JS_MCQ_Test_1 from "../JavaScript/Mock_Test/JS_MCQ_Test_1.js";
 import JS_MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 
+//JavaScript Essentials
+
+import More_Modern_JS_Concepts_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS.js";
+import More_Modern_Js_Concepts_MCQ from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_MCQ.js";
+import More_Modern_JS_Concepts_CS_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_2.js";
+import More_Modern_JS_Concepts_MCQ_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_MCQ_2.js";
+import Factory_Constructor_Function_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/Factory_Constructor_Function_CS.js";
+import More_Modern_JS_Concepts_CS_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_3.js";
+import Prototypal_Inheritance_CS from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance_CS.js";
+import JS_Classes_CS from "../JavaScript_Essentials/Prototypes_Classes/JS_Classes_CS.js";
+import JS_Promises_CS from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS.js";
+import JS_Promises_CS_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS_2.js";
+import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Conceptes_CS.js";
 export const subtopicComponents = {
+  // JavaScript Essentials
+  "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
+  "MCQ Practice - More Modern JS Concepts": More_Modern_Js_Concepts_MCQ,
+  "More Modern JS Concepts | Part 2 | Cheat Sheet":
+    More_Modern_JS_Concepts_CS_2,
+  "MCQ Practice - More Modern JS Concepts | Part 2":
+    More_Modern_JS_Concepts_MCQ_2,
+  "Factory and Constructor Function | Cheat Sheet":
+    Factory_Constructor_Function_CS,
+  "More Modern JS Concepts | Part 3 | Cheat Sheet":
+    More_Modern_JS_Concepts_CS_3,
+  "Prototypal Inheritance | Cheat Sheet": Prototypal_Inheritance_CS,
+  "JS Classes | Cheat Sheet": JS_Classes_CS,
+  "JS Promises | Cheat Sheet": JS_Promises_CS,
+  "JS Promises | Part 2 | Cheat Sheet": JS_Promises_CS_2,
+  "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
   //SQL Database
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
@@ -1039,7 +1056,7 @@ export const subtopicComponents = {
   "Introduction to React JS | Cheat Sheet": Introductionto_Reactjs_CS,
   "Components & Pros | Cheat Sheet": Components_Props_CS,
   "Lists & Keys | Cheat Sheet": Lists_Keys_CS,
-  "Class Component and State | Cheat Sheet":Class_Component_State1_CS,
+  "Class Component and State | Cheat Sheet": Class_Component_State1_CS,
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
     Sizing_Ele_Handling_Overflow_CS,
@@ -1056,19 +1073,6 @@ export const subtopicComponents = {
   "Coding Practice - 3": Coding_Practice_3,
 
   //Python coding practices end
-
-  "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
-  "More Modern JS Concepts | Part 2 | Cheat Sheet":
-    More_Modern_JS_Concepts_CS_2,
-  "Factory and Constructor Function | Cheat Sheet":
-    Factory_Constructor_Function_CS,
-  "More Modern JS Concepts | Part 3 | Cheat Sheet":
-    More_Modern_JS_Concepts_CS_3,
-  "Prototypal Inheritance | Cheat Sheet": Prototypal_Inheritance_CS,
-  "JS Classes | Cheat Sheet": JS_Classes_CS,
-  "JS Promises | Cheat Sheet": JS_Promises_CS,
-  "JS Promises | Part 2 | Cheat Sheet": JS_Promises_CS_2,
-  "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
 
   // Python Cheat Sheet Start
 

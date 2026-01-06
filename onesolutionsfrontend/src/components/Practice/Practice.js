@@ -844,28 +844,10 @@ builtins.input = custom_input
             style={{ width: `${100 - editorWidth}%` }}
           >
             <div className="question-description-section-prac">
-              <div className="desc-progre">
+              <div className="description-name-header">
                 <h3>Description</h3>
-                {executionResult && (
-                  <div className="execution-summary-prac">
-                    <span className="summary-text-prac">
-                      {executionResult.passed}/{executionResult.total} test
-                      cases passed
-                    </span>
-                    <div className="progress-bar-prac">
-                      <div
-                        className="progress-fill-prac"
-                        style={{
-                          width: `${
-                            (executionResult.passed / executionResult.total) *
-                            100
-                          }%`,
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
               </div>
+
               <span className="practice-name-prac">
                 {selectedQuestion.title}
               </span>
@@ -1088,6 +1070,24 @@ builtins.input = custom_input
             </div>
 
             <div className="editor-controls-prac">
+              {executionResult && (
+                <div className="execution-summary-prac">
+                  <span className="summary-text-prac">
+                    {executionResult.passed}/{executionResult.total} test cases
+                    passed
+                  </span>
+                  <div className="progress-bar-prac">
+                    <div
+                      className="progress-fill-prac"
+                      style={{
+                        width: `${
+                          (executionResult.passed / executionResult.total) * 100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              )}
               <div className="editor-actions-prac">
                 <button
                   className="run-button-prac"

@@ -648,7 +648,7 @@ export const goalsData = [
               {
                 id: "QW9_s3_A0 m8_H g1_7B c2_D2E",
                 name: "Responsive Coding Test 3",
-              }
+              },
               // {
               //   id: "QW9_s4_A0 m8_H g1_7B c2_D2E",
               //   name: "Build Your Own Responsive Project",
@@ -1396,7 +1396,7 @@ export const goalsData = [
               {
                 id: "QW9_s18_A0 m9_H g1_7B c3_D2E",
                 name: "Assignment 23",
-              }
+              },
               // {
               //   id: "QW9_s19_A0 m9_H g1_7B c3_D2E",
               //   name: "Foundations Exam 2",
@@ -1590,7 +1590,7 @@ export const goalsData = [
               {
                 id: "QW9_s18_A0 m12_H g1_7B c3_D2E",
                 name: "Grand Assignment 4",
-              }
+              },
               // {
               //   id: "QW9_s19_A0 m12_H g1_7B c3_D2E",
               //   name: "Foundations Exam 3",
@@ -2797,7 +2797,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   More Modern JS Concepts",
+                name: "MCQ Practice - More Modern JS Concepts",
               },
               {
                 id: "QW9_s4_A0 m1_H g2_7B c3_D2E",
@@ -2809,7 +2809,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   More Modern JS Concepts | Part 2",
+                name: "MCQ Practice - More Modern JS Concepts | Part 2",
               },
               {
                 id: "QW9_s7_A0 m1_H g2_7B c3_D2E",
