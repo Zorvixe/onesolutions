@@ -618,6 +618,9 @@ import JS_MCQ_Assignment_4 from "../JavaScript/Assignment/JS_MCQ_Assignment_4";
 import JS_MCQ_Test_1 from "../JavaScript/Mock_Test/JS_MCQ_Test_1.js";
 import JS_MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 
+//React MCQ
+import Class_Component_State1_MCQ from "../Reactjs/Class_Component_State1/Class_Component_State1_MCQ.js";
+
 //JavaScript Essentials
 
 import More_Modern_JS_Concepts_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS.js";
@@ -1057,6 +1060,9 @@ export const subtopicComponents = {
   "Components & Pros | Cheat Sheet": Components_Props_CS,
   "Lists & Keys | Cheat Sheet": Lists_Keys_CS,
   "Class Component and State | Cheat Sheet": Class_Component_State1_CS,
+
+  //Reactjs MCQ
+  "MCQ Pratice - Class Component and State": Class_Component_State1_MCQ,
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
     Sizing_Ele_Handling_Overflow_CS,

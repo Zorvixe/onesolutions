@@ -885,6 +885,7 @@ const WebPractice = () => {
 
         <div className="right-panel">
           <CodePlayground
+            customHeight="calc(90vh - 90px)" // Your custom height for this page
             initialLanguage="web"
             initialCode={currentCode}
             autoRun={false}

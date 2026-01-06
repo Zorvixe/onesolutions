@@ -134,7 +134,7 @@
   width: 27%;
   padding: 0;
   box-sizing: border-box;
-  margin: 0px 0px 10px 10px;
+  margin-left: 5px;
   border-radius: 20px;
 }
 
@@ -150,7 +150,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   max-height: calc(100vh - 150px); /* Updated to 500px */

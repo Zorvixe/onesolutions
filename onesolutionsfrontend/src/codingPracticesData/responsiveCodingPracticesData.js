@@ -3268,7 +3268,10 @@ export const responsiveCodingPracticesData = {
             <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837388/awsome-features-output-sm-img-v2_fkkih9.png" class="desc-que-img" /><p class="">Medium (Size >= 768px), Large (Size >= 992px) and Extra Large (Size >= 1200px):</p><img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837332/awsome-features-output-md-img_zogwjo.png" class="desc-que-img" /><div class="Note-container"><div class="icon-note"><h6><i class="bi bi-journal-text"></i>Note</h6></div><p><ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;"><li>Try to achieve the design as close as possible.</li></ul></p></div><hr><p class="desc-que-blue">Resources</p><p class="">Use the image URLs given below.</p><ul><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-1-img_kjor9c.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837465/awsome-features-2-img_krode6.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-3-img_j0ite9.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-4-img_vtdofm.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-5-img_dzd9ay.png</a></p></li><li><p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1766837466/awsome-features-6-img_b4fnbm.png</a></p></li></ul><p class="desc-que-blue">CSS Colors used:</p><p class="">Text color Hex Code values:</p><div class="desc-colors c323f4b">#323f4b</div><div class="desc-colors c7b8794">#7b8794</div><div class="desc-colors c9aa5b1">#9aa5b1</div>
             <p class="desc-que-blue">CSS Font families used:</p>
             <ul><li>Roboto</li></ul><hr>
-            <p class="desc-que-blue">Concepts Review</p><p class="">Want to quickly review some of the concepts you\'ve been learning?</p><p class="">Take a look at the Cheat Sheets.</p></div>`,
+            <p class="desc-que-blue">Concepts Review</p>
+            <p class="">Want to quickly review some of the concepts you've been learning?</p>
+            <p class="">Take a look at the Cheat Sheets.</p>
+            </div>`,
           testCases: [
             {
               id: 1,
@@ -3467,12 +3470,12 @@ export const responsiveCodingPracticesData = {
                 <hr>
                 <p class="desc-que-blue">CSS Font families used:</p>
                  <ul>
-                <li>Roboto</li>
-                <li class="italic">Italic</li>
+                    <li>Roboto</li>
+                    <li class="italic">Italic</li>
                 </ul>
                 <hr>
                 <p class="desc-que-blue">Concepts Review</p>
-                <p class="">Want to quickly review some of the concepts you\'ve been learning?</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
                 <p class="">Take a look at the Cheat Sheets.</p>
                 </div>`,
           testCases: [
@@ -3877,18 +3880,19 @@ export const responsiveCodingPracticesData = {
                     </ul>
                   </p>
                 </div>
-                <div className="Warning-container">
-                <div>
-                  <h5>
-                    <i class="bi bi-exclamation-triangle"></i>Warning
-                  </h5>
-                </div>
-                <ul style={{ marginLeft: "1.5rem" }}>
-                
-                  <li>Do not edit the prefilled CSS code.</li>
-                </ul>
+              
+              <div className="Warning-container">
+              <div>
+                <h5>
+                  <i class="bi bi-exclamation-triangle"></i>Warning
+                </h5>
               </div>
-             
+              <ul style={{ marginLeft: "1.5rem" }}>
+                <li>
+                Do not edit the prefilled CSS code.
+                </li>
+              </ul>
+            </div>
               <hr>
               <p class="desc-que-blue">Resources</p>
              <p class="desc-que-blue">CSS Colors used:</p> 

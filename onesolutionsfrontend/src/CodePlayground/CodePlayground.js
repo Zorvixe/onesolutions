@@ -28,7 +28,7 @@ export default function CodePlayground({
   onCodeChange = () => {},
   iframeRef: externalIframeRef = null,
   customRunHandler = null,
-  runButtonText = "Run Code",
+  customHeight = "calc(90vh - 20px)", // Add this prop with default value
 }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -1111,7 +1111,10 @@ remoteRunners={{
   };
 
   return (
-    <section className="code-playground-codep">
+    <section
+      className="code-playground-codep"
+      style={{ minHeight: customHeight }}
+    >
       <div className="playground-content-codep">
         <div
           className="editor-panel-codep"

@@ -10,10 +10,8 @@ const Factory_Constructor_Function_CS = ({
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
-
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
 
   // Check if subtopic is already completed
   useEffect(() => {
@@ -21,10 +19,6 @@ const Factory_Constructor_Function_CS = ({
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
-
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
@@ -55,6 +49,7 @@ const Factory_Constructor_Function_CS = ({
       setIsLoading(false);
     }
   };
+
   return (
     <div className="intro-container">
       <h1>Factory and Constructor Functions | Cheat Sheet</h1>
@@ -75,57 +70,57 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function functionName(parameter1, parameter2, ...) {
-  return {
-    property1: parameter1,
-    property2: parameter2,
-    ...
-  };
-}
-let myObject = functionName(arg1, arg2, ...);`}
+      return {
+        property1: parameter1,
+        property2: parameter2,
+        ...
+      };
+    }
+    let myObject = functionName(arg1, arg2, ...);`}
         />
 
         <b>Example: </b>
         <CodeBlock
           language="javascript"
           code={`function createCar(color, brand) {
-    return {
-      color: color,
-      brand: brand,
-      start: function() {
-        console.log("started");
+        return {
+          color: color,
+          brand: brand,
+          start: function() {
+            console.log("started");
+          }
+        };
       }
-    };
-  }
-  
-  let car1 = createCar("blue", "Audi");
-  let car2 = createCar("red", "Tata");
-  let car3 = createCar("green", "BMW");
-  
-  console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
-  console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
-  console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() } `}
+      
+      let car1 = createCar("blue", "Audi");
+      let car2 = createCar("red", "Tata");
+      let car3 = createCar("green", "BMW");
+      
+      console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
+      console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
+      console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() } `}
         />
 
         <h4>1.1 Shorthand Notations</h4>
         <CodeBlock
           language="javascript"
           code={`function createCar(color, brand) {
-    return {
-      color,
-      brand,
-      start() {
-        console.log("started");
+        return {
+          color,
+          brand,
+          start() {
+            console.log("started");
+          }
+        };
       }
-    };
-  }
-  
-  let car1 = createCar("blue", "Audi");
-  let car2 = createCar("red", "Tata");
-  let car3 = createCar("green", "BMW");
-  
-  console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
-  console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
-  console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() }`}
+      
+      let car1 = createCar("blue", "Audi");
+      let car2 = createCar("red", "Tata");
+      let car3 = createCar("green", "BMW");
+      
+      console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
+      console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
+      console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() }`}
         />
       </section>
 
@@ -146,11 +141,11 @@ let myObject = functionName(arg1, arg2, ...);`}
         <CodeBlock
           language="javascript"
           code={`function FunctionName(parameter1, parameter2, ...) {
-  this.property1 = parameter1;
-  this.property2 = parameter2;
-  ...
-}
-let myObject = new FunctionName(arg1, arg2, ...);`}
+      this.property1 = parameter1;
+      this.property2 = parameter2;
+      ...
+    }
+    let myObject = new FunctionName(arg1, arg2, ...);`}
         />
 
         <h3>2.1 The new Operator</h3>
@@ -170,15 +165,15 @@ let myObject = new FunctionName(arg1, arg2, ...);`}
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-    this.color = color;
-    this.brand = brand;
-    this.start = function() {
-      console.log("started");
-    };
-  }
-  
-  let car1 = new Car("blue", "Audi");
-  console.log(car1);  // Car { }`}
+        this.color = color;
+        this.brand = brand;
+        this.start = function() {
+          console.log("started");
+        };
+      }
+      
+      let car1 = new Car("blue", "Audi");
+      console.log(car1);  // Car { }`}
         />
 
         <p>
@@ -244,13 +239,13 @@ let myObject = new FunctionName(arg1, arg2, ...);`}
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-  this.color = color;
-  this.brand = brand;
-  this.start = function() {
-    console.log("started");
-  };
-}
-console.log(Car.name);  // Car`}
+      this.color = color;
+      this.brand = brand;
+      this.start = function() {
+        console.log("started");
+      };
+    }
+    console.log(Car.name);  // Car`}
         />
 
         <h4>3.3.2 The length Property</h4>
@@ -260,13 +255,13 @@ console.log(Car.name);  // Car`}
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-  this.color = color;
-  this.brand = brand;
-  this.start = function() {
-    console.log("started");
-  };
-}
-console.log(Car.length);  // 2`}
+      this.color = color;
+      this.brand = brand;
+      this.start = function() {
+        console.log("started");
+      };
+    }
+    console.log(Car.length);  // 2`}
         />
 
         <h4>
@@ -275,13 +270,13 @@ console.log(Car.length);  // 2`}
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-  this.color = color;
-  this.brand = brand;
-  this.start = function() {
-    console.log("started");
-  };
-}
-console.log(typeof(Car));  // function`}
+      this.color = color;
+      this.brand = brand;
+      this.start = function() {
+        console.log("started");
+      };
+    }
+    console.log(typeof(Car));  // function`}
         />
       </section>
 
@@ -298,14 +293,14 @@ console.log(typeof(Car));  // function`}
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-  this.color = color;
-  this.brand = brand;
-  this.start = function() {
-    console.log("started");
-  };
-}
-let car1 = new Car("blue", "Audi");
-console.log(car1.constructor);  // f Car(color, brand) {}`}
+      this.color = color;
+      this.brand = brand;
+      this.start = function() {
+        console.log("started");
+      };
+    }
+    let car1 = new Car("blue", "Audi");
+    console.log(car1.constructor);  // f Car(color, brand) {}`}
         />
       </section>
 
@@ -353,17 +348,15 @@ console.log(car1.constructor);  // f Car(color, brand) {}`}
           language="javascript"
           code={`let now = new Date();
 
-console.log(now);  // Tue Feb 02 2021 19:10:29 GMT+0530 (India Standard Time) { }
-console.log(typeof(now));  // object`}
+    console.log(now);  // Tue Feb 02 2021 19:10:29 GMT+0530 (India Standard Time) { }
+    console.log(typeof(now));  // object`}
         />
+
         <p>
-          <p>
-            Here, <code>new Date()</code> creates a new date object with the
-            current date and local time.
-          </p>
-          <b>Note:</b> Coordinated Universal Time (UTC) is the global standard.
-          Local time is provided by the user's device.
+          Here, <code>new Date()</code> creates a new date object with the
+          current date and local time.
         </p>
+
         <div className="Note-container">
           <div className="icon-note">
             <h6>
@@ -383,27 +376,35 @@ console.log(typeof(now));  // object`}
 
         <h4>5.1.2 new Date(milliseconds)</h4>
         <p>
-          The Date object contains a number that represents milliseconds since 1
-          January 1970 UTC.
+          The <code>Date</code> object contains a number that represents
+          milliseconds since 1 January 1970 UTC.
         </p>
         <p>
-          The new Date(milliseconds) creates a new date object by adding the
-          milliseconds to zero time.
+          The <code>new Date(milliseconds)</code> creates a new date object by
+          adding the milliseconds to zero time.
         </p>
         <CodeBlock
           language="javascript"
           code={`let time1 = new Date(0);
-console.log(time1);  // Thu Jan 01 1970 05:30:00 GMT+0530 (India Standard Time)
+    console.log(time1);  // Thu Jan 01 1970 05:30:00 GMT+0530 (India Standard Time)
 
-let time2 = new Date(100000000000);
-console.log(time2);  // Sat Mar 03 1973 15:16:40 GMT+0530 (India Standard Time)`}
+    let time2 = new Date(100000000000);
+    console.log(time2);  // Sat Mar 03 1973 15:16:40 GMT+0530 (India Standard Time)`}
         />
-        <p>Note: 1000 milliseconds = 1 second</p>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>1000 milliseconds is equal to 1 second..</p>
+        </div>
 
         <h4>5.1.3 new Date(date string)</h4>
         <p>
-          The new Date(date string) creates a new date object from a date
-          string.
+          The <code>new Date(date string)</code> creates a new date object from
+          a date string.
         </p>
         <b>
           Syntax: <code>new Date(datestring);</code>
@@ -411,7 +412,7 @@ console.log(time2);  // Sat Mar 03 1973 15:16:40 GMT+0530 (India Standard Time)`
         <CodeBlock
           language="javascript"
           code={`let date = new Date("2021-01-28");
-console.log(date);  // Thu Jan 28 2021 05:30:00 GMT+0530 (India Standard Time)`}
+    console.log(date);  // Thu Jan 28 2021 05:30:00 GMT+0530 (India Standard Time)`}
         />
 
         <h4>
@@ -421,7 +422,7 @@ console.log(date);  // Thu Jan 28 2021 05:30:00 GMT+0530 (India Standard Time)`}
         <CodeBlock
           language="javascript"
           code={`let time1 = new Date(2021, 1, 20, 4, 12, 11, 0);
-console.log(time1);  // Sat Feb 20 2021 04:12:11 GMT+0530 (India Standard Time)`}
+    console.log(time1);  // Sat Feb 20 2021 04:12:11 GMT+0530 (India Standard Time)`}
         />
         <p>Note: Months are counted from 0-11. January = 0, December = 11.</p>
         <p>
@@ -433,7 +434,7 @@ console.log(time1);  // Sat Feb 20 2021 04:12:11 GMT+0530 (India Standard Time)`
         <CodeBlock
           language="javascript"
           code={`let date = new Date(2008, 0, 33); // Jan does not have 33 days
-console.log(date);  // Sat Feb 02 2008 00:00:00 GMT+0530 (India Standard Time)`}
+    console.log(date);  // Sat Feb 02 2008 00:00:00 GMT+0530 (India Standard Time)`}
         />
         <p>
           Explanation: 33 days are auto-corrected to 31 (Jan) + 2 days in Feb.
@@ -507,14 +508,14 @@ console.log(date);  // Sat Feb 02 2008 00:00:00 GMT+0530 (India Standard Time)`}
         <CodeBlock
           language="javascript"
           code={`let date1 = new Date(1947, 7, 15, 1, 3, 15, 0);
-console.log(date1.getFullYear());  // 1947
-console.log(date1.getMonth());     // 7
+    console.log(date1.getFullYear());  // 1947
+    console.log(date1.getMonth());     // 7
 
-// Setting Date Values
-let date2 = new Date(1947, 7, 15);
-date2.setYear(2021);
-date2.setDate(1);
-console.log(date2);  // Sun Aug 01 2021 00:00:00 GMT+0530 (India Standard Time)`}
+    // Setting Date Values
+    let date2 = new Date(1947, 7, 15);
+    date2.setYear(2021);
+    date2.setDate(1);
+    console.log(date2);  // Sun Aug 01 2021 00:00:00 GMT+0530 (India Standard Time)`}
         />
       </section>
 

@@ -16202,7 +16202,7 @@ export const codingPracticesData = {
           title: "Car - 3",
           difficulty: "Easy",
           description:
-            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\Ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
           sampleInput: "Checking default Tests",
           sampleOutput: "Car has not started yet\n0\n0\n10\n20\n50\n50",
           testCases: [

@@ -10,7 +10,7 @@
   --warning-color: #e0af68;
   --error-color: #f7768e;
   --border-color: #2a2b3d;
-  --border-radius: 20px;
+  --border-radius: 10px;
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 
   background: var(--primary-bg);
@@ -22,7 +22,6 @@
   display: flex;
   margin: 0px 6px;
   margin-top: 80px;
-  min-height: calc(90vh - 80px);
 }
 
 /* Header Styles */

@@ -43,11 +43,7 @@ p {
   flex-direction: column;
   gap: 10px;
 }
-/* .Note {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-} */
+
 .Quick-Tip-container {
   background-color: rgba(179, 242, 185, 0.442);
   border-radius: 8px;
@@ -89,6 +85,13 @@ p {
   flex-direction: row;
   justify-content: flex-start;
 }
+.icon-warning {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .Warning-container,
 .Note-container p {
   margin: 0;
