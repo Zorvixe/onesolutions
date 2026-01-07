@@ -1801,18 +1801,21 @@ const validateHtmlTest = (testCase, iframeDoc, iframe) => {
         };
       }
       case "check-fixed-bottom": {
-        const secondBox = iframeDoc.querySelector(".box-2");
-
+        const fixedBottomEl = iframeDoc.querySelector(".fixed-bottom");
+        const containers = [...iframeDoc.querySelectorAll("body > div")];
+      
         const passed =
-          secondBox && secondBox.classList.contains("fixed-bottom");
-
+          fixedBottomEl && containers.indexOf(fixedBottomEl) === 1;
+      
         return {
           passed,
           actual: passed
-            ? "fixed-bottom class found on second container"
-            : "fixed-bottom class missing on second container",
+            ? "fixed-bottom applied to second container"
+            : "fixed-bottom not applied to second container",
         };
       }
+      
+      
 
       default:
         return {
