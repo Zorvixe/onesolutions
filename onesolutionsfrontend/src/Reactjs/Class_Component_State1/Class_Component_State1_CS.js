@@ -145,7 +145,7 @@ class MyComponent extends Component {
           Handling events with React elements is very similar to handling events
           on DOM elements. There are some syntax differences:
         </p>
-        <ol>
+        <ul>
           <li>
             React events are named using <b>camelCase,</b>rather than{" "}
             <b>lowercase.</b>
@@ -154,7 +154,7 @@ class MyComponent extends Component {
             With JSX, you pass a <b>function</b> as the event handler instead of
             a <b>string.</b>
           </li>
-        </ol>
+        </ul>
 
         <table className="table-diff">
           <thead>

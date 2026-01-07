@@ -2821,7 +2821,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   Factory and Constructor Function",
+                name: "MCQ Practice - Factory and Constructor Function",
               },
               {
                 id: "QW9_s10_A0 m1_H g2_7B c3_D2E",
@@ -2845,7 +2845,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s15_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   More Modern JS Concepts | Part 3",
+                name: "MCQ Practice - More Modern JS Concepts | Part 3",
               },
               {
                 id: "QW9_s16_A0 m1_H g2_7B c3_D2E",
@@ -2867,7 +2867,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m2_H g2_7B c3_D2E",
-                name: "MCQ Practice   Prototypal Inheritance",
+                name: "MCQ Practice - Prototypal Inheritance",
               },
               {
                 id: "QW9_s4_A0 m2_H g2_7B c3_D2E",
@@ -2879,7 +2879,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m2_H g2_7B c3_D2E",
-                name: "MCQ Practice   JS Classes",
+                name: "MCQ Practice - JS Classes",
               },
               {
                 id: "QW9_s7_A0 m2_H g2_7B c3_D2E",
@@ -2909,7 +2909,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice   JS Promises",
+                name: "MCQ Practice - JS Promises",
               },
               {
                 id: "QW9_s4_A0 m3_H g2_7B c3_D2E",
@@ -2921,7 +2921,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice   JS Promises | Part 2",
+                name: "MCQ Practice - JS Promises | Part 2",
               },
               {
                 id: "QW9_s7_A0 m3_H g2_7B c3_D2E",

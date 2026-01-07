@@ -105,6 +105,31 @@ const Practice = () => {
     };
   }, [handleResize, stopResize]);
 
+  // Reset function
+  const resetToDefault = useCallback(() => {
+    if (selectedQuestion) {
+      // Reset to default code from the question
+      const savedCode = userProgress[selectedQuestion.id]?.code;
+      setCode(savedCode || selectedQuestion.defaultCode || "");
+    } else {
+      // If no question selected, clear the code
+      setCode("");
+    }
+    
+    // Clear all outputs and results
+    setOutput("");
+    setTestResults([]);
+    setExecutionResult(null);
+    
+    // Reset input related states if they exist
+    if (window.__python_input__) {
+      delete window.__python_input__;
+    }
+    
+    // Show a notification
+    setOutput("Code has been reset to default.");
+  }, [selectedQuestion, userProgress]);
+
   // Load snippets
   const fetchMySnippets = async () => {
     try {
@@ -1000,6 +1025,26 @@ builtins.input = custom_input
               </div>
               <button
                 className="save-snippet-button-prac"
+                onClick={resetToDefault}
+                title="Reset"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="#64748b"
+                  className="bi bi-arrow-clockwise"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                  />
+                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+                </svg>
+              </button>
+              <button
+                className="save-snippet-button-prac"
                 onClick={() => setShowSaveModal(true)}
                 title="Save Snippet"
               >
@@ -1012,20 +1057,20 @@ builtins.input = custom_input
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M3.8 3.2C3.64087 3.2 3.48826 3.26321 3.37574 3.37574C3.26321 3.48826 3.2 3.64087 3.2 3.8V12.2C3.2 12.3591 3.26321 12.5117 3.37574 12.6243C3.48826 12.7368 3.64087 12.8 3.8 12.8H12.2C12.3591 12.8 12.5117 12.7368 12.6243 12.6243C12.7368 12.5117 12.8 12.3591 12.8 12.2V5.84853L10.1515 3.2H3.8ZM2.52721 2.52721C2.86477 2.18964 3.32261 2 3.8 2H10.4C10.5591 2 10.7117 2.06321 10.8243 2.17574L13.8243 5.17574C13.9368 5.28826 14 5.44087 14 5.6V12.2C14 12.6774 13.8104 13.1352 13.4728 13.4728C13.1352 13.8104 12.6774 14 12.2 14H3.8C3.32261 14 2.86477 13.8104 2.52721 13.4728C2.18964 13.1352 2 12.6774 2 12.2V3.8C2 3.32261 2.18964 2.86477 2.52721 2.52721Z"
                     fill="#64748b"
                   ></path>
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M5.33325 9.20033C5.33325 8.90577 5.55711 8.66699 5.83325 8.66699H10.8333C11.1094 8.66699 11.3333 8.90577 11.3333 9.20033V13.467C11.3333 13.7615 11.1094 14.0003 10.8333 14.0003C10.5571 14.0003 10.3333 13.7615 10.3333 13.467V9.73366H6.33325V13.467C6.33325 13.7615 6.10939 14.0003 5.83325 14.0003C5.55711 14.0003 5.33325 13.7615 5.33325 13.467V9.20033Z"
                     fill="#64748b"
                   ></path>
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M5.86659 2C6.16114 2 6.39992 2.2132 6.39992 2.47619V4.38095H10.1333C10.4278 4.38095 10.6666 4.59415 10.6666 4.85714C10.6666 5.12014 10.4278 5.33333 10.1333 5.33333H5.86659C5.57203 5.33333 5.33325 5.12014 5.33325 4.85714V2.47619C5.33325 2.2132 5.57203 2 5.86659 2Z"
                     fill="#64748b"
                   ></path>

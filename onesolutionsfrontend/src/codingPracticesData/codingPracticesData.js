@@ -2527,10 +2527,10 @@ export const codingPracticesData = {
           sampleOutput: "True",
           testCases: [
             { input: "14\n80", output: "True", visible: true },
-            { input: "8\n-10", output: "False", visible: true },
-            { input: "18\n-10", output: "False", visible: false },
-            { input: "-28\n10", output: "False", visible: false },
-            { input: "-38\n-10", output: "True", visible: false },
+            { input: "8\n-10", output: "True", visible: true },
+            { input: "18\n-10", output: "True", visible: false },
+            { input: "-28\n10", output: "True", visible: false },
+            { input: "90\n100", output: "True", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -2550,7 +2550,7 @@ export const codingPracticesData = {
             { input: "230\n70", output: "False", visible: true },
             { input: "180\n110", output: "False", visible: false },
             { input: "230\n70", output: "False", visible: false },
-            { input: "238\n70", output: "True", visible: false },
+            { input: "238\n70", output: "False", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -2750,14 +2750,13 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Write a program that reads two numbers A and B and check if any one of the below conditions is satisfied.\nThe sum of A and B is less than 10.\nThe difference between A and B is less than 10.\nA is between 5 and 30.",
-          sampleInput: "10\n5",
+          sampleInput: "2\n70",
           sampleOutput: "True",
           testCases: [
             { input: "80\n10", output: "False", visible: true },
             { input: "2\n10", output: "True", visible: true },
-            { input: "2\n70", output: "False", visible: false },
-            { input: "1\n70", output: "False", visible: false },
-            { input: "2\n23", output: "False", visible: false },
+            { input: "2\n70", output: "True", visible: false },
+            { input: "1\n70", output: "True", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -3769,11 +3768,10 @@ export const codingPracticesData = {
           sampleInput: "10\n4",
           sampleOutput: "Lucky",
           testCases: [
-            { input: "2\n1", output: "Not Lucky", visible: true },
-            { input: "6\n3", output: "Lucky", visible: true },
-            { input: "2\n1", output: "Not Lucky", visible: false },
-            { input: "3\n1", output: "Not Lucky", visible: false },
-            { input: "2\n1", output: "Not Lucky", visible: false },
+            { input: "6\n1", output: "Not Lucky", visible: true },
+            { input: "10\n4", output: "Lucky", visible: true },
+            { input: "2\n8", output: "Lucky", visible: false },
+            { input: "1\n1", output: "Not Lucky", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -4128,11 +4126,10 @@ export const codingPracticesData = {
           sampleInput: "15",
           sampleOutput: "30",
           testCases: [
-            { input: "26", output: "26", visible: true },
-            { input: "18", output: "36", visible: true },
-            { input: "26", output: "26", visible: false },
-            { input: "26", output: "26", visible: false },
-            { input: "26", output: "26", visible: false },
+            { input: "15", output: "30", visible: true },
+            { input: "12", output: "24", visible: true },
+            { input: "24", output: "48", visible: false },
+            { input: "18", output: "18", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -16070,6 +16067,220 @@ export const codingPracticesData = {
       ],
     },
     {
+      id: "Codingpractice-python-31",
+      title: "Codingpractice-31",
+      description: "Dictionaries",
+      questions: [
+        {
+          id: "q-python-Codingpractice-31-001",
+          title: "Add a Key",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a dictionary.Write a program to add a Key-Value pair to the dictionary.",
+          sampleInput: "Amit Chess",
+          sampleOutput:
+            "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Amit': 'Chess'}",
+          testCases: [
+            {
+              input: "Sita Badminton",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Sita': 'Badminton'}",
+              visible: true,
+            },
+            {
+              input: "Ram Hockey",
+              output:
+                "{'Ram': 'Hockey', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket'}",
+              visible: true,
+            },
+            {
+              input: "Amit Chess",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Amit': 'Chess'}",
+              visible: false,
+            },
+            {
+              input: "Vani Volleyball",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Volleyball', 'Rahim': 'Cricket'}",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-31-002",
+          title: "Update Value of Key",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a dictionary.Write a program to update the value of a given key.",
+          sampleInput: "Deepak Wrestling",
+          sampleOutput:
+            "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Wrestling'}",
+          testCases: [
+            {
+              input: "Sita Badminton",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Boxing', 'Sita': 'Badminton'}",
+              visible: true,
+            },
+            {
+              input: "Ram Hockey",
+              output:
+                "{'Ram': 'Hockey', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Boxing'}",
+              visible: true,
+            },
+            {
+              input: "Amit Chess",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Boxing', 'Amit': 'Chess'}",
+              visible: false,
+            },
+            {
+              input: "Deepak Wrestling",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Wrestling'}",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-31-003",
+          title: "Remove a Key",
+          difficulty: "Easy",
+          description:
+            "For this problem,the prefilled code will contain a dictionary.Write a program to Remove a key.",
+          sampleInput: "Naresh",
+          sampleOutput:
+            "{'Ram': 'Cricket', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Boxing'}",
+          testCases: [
+            {
+              input: "Ram",
+              output:
+                "{'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Boxing'}",
+              visible: true,
+            },
+            {
+              input: "Deepak",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket'}",
+              visible: true,
+            },
+            {
+              input: "Vani",
+              output:
+                "{'Ram': 'Cricket', 'Naresh': 'Football', 'Rahim': 'Cricket', 'Deepak': 'Boxing'}",
+              visible: false,
+            },
+            {
+              input: "Naresh",
+              output:
+                "{'Ram': 'Cricket', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Boxing'}",
+              visible: false,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-31-004",
+          title: "Squares",
+          difficulty: "Easy",
+          description:
+            "Write a program to create a dictionary that contains keys as numbers from 1 to N and values are square of keys.",
+          sampleInput: "5",
+          sampleOutput:
+            "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}",
+          testCases: [
+            { input: "3", output: "{1: 1, 2: 4, 3: 9}", visible: true },
+            { input: "1", output: "{1: 1}", visible: true },
+            { input: "5", output: "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}", visible: false },
+            { input: "0", output: "{}", visible: false },            
+          ],
+          defaultCode: ``,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Python-Grand-Assignment-3",
+      title: "Grand-Assignment-3",
+      description: "Dictionaries",
+      questions: [
+        {
+          id: "q-python-Grand-Assignment-3-001",
+          title: "Remove Words",
+          difficulty: "Easy",
+          description:
+            "Given a string,write a program to remove all the words with K length.",
+          sampleInput: "hello world hi bye\n5",
+          sampleOutput:
+            "hi bye ",
+          testCases: [
+            { input: "this is a test sentence\n2", output: "this a test sentence ", visible: true },
+            { input: "python java c cpp\n1", output: "python java cpp ", visible: true },
+            { input: "one two three four\n3", output: "three four ", visible: false },
+            { input: "hello world hi bye\n5", output: "hi bye ", visible: false },            
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-3-002",
+          title: "Shift Numbers",
+          difficulty: "Easy",
+          description:
+            "Given a string,write a program to remove all the words with K length.",
+          sampleInput: "1a2b3c",
+          sampleOutput:
+            "abc123",
+          testCases: [
+            { input: "a1b2c3", output: "abc123", visible: true },
+            { input: "python123", output: "python123", visible: true },
+            { input: "1a2b3c", output: "abc123", visible: false },
+            { input: "12345", output: "12345", visible: false },                       
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Grand-Assignment-3-003",
+          title: "Tic-Tac-Toe game",
+          difficulty: "Easy",
+          description:
+            "Uday and Ekam are playing a game called Tic-Tac-Toe.The game is played on a square board with 3 rows and 3 columns.\nUday chooses the letter o and Ekam chooses the letter X.They take turns putting their letters in empty spaces on the board.\nThe first player to get three of their letters in a row,columnc,or diagonal wins the game.\nIf all spaces on the board are filled and no player has won,the game ends in a tie.",
+          sampleInput: "X O O\nO X X\nO X X",
+          sampleOutput:
+            "Ekam Wins",
+          testCases: [
+            { input: "X X X\nO O X\nO X O", output: "Ekam Wins", visible: true },
+            { input: "O X X\nO X X\nO O X", output: "Uday Wins", visible: true },
+            { input: "X O X\nO X O\nO X O", output: "Tie", visible: false },
+            { input: "X O O\nO X X\nO X X", output: "Ekam Wins", visible: false },                                  
+          ],
+          defaultCode: ``,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
       id: "Python-Grand-Assignment-4",
       title: "Grand-Assignment-4",
       description: "Dictionaries",
@@ -16173,9 +16384,7 @@ export const codingPracticesData = {
             "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
           sampleInput: "Checking default Tests",
           sampleOutput: "Red\n250\n10\n3",
-          testCases: [
-            { input: "", output: "Red\n250\n10\n3", visible: true },
-          ],
+          testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
           defaultCode: ``,
           score: 40,
           status: "unsolved",
@@ -16206,7 +16415,11 @@ export const codingPracticesData = {
           sampleInput: "Checking default Tests",
           sampleOutput: "Car has not started yet\n0\n0\n10\n20\n50\n50",
           testCases: [
-            { input: "", output: "Car has not started yet\n0\n0\n10\n20\n50\n50", visible: true },
+            {
+              input: "",
+              output: "Car has not started yet\n0\n0\n10\n20\n50\n50",
+              visible: true,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -16227,12 +16440,14 @@ export const codingPracticesData = {
           description:
             "complete the given Car and truck classes by adding new features by following the given Instructions.\nA Truck is a Car but with additional behaviours.Inherit the Car class into Truck class and add new features.\nExisting car class.\nFeatures to be added to the truck class.",
           sampleInput: "Checking default Tests",
-          sampleOutput: "False\n50\n25\n0\nCannot load cargo more than max limit: 100\nTrue\nCannot load cargo during motion\nCannot unload cargo during motion\nHonk Honk\nCar has not started yet",
+          sampleOutput:
+            "False\n50\n25\n0\nCannot load cargo more than max limit: 100\nTrue\nCannot load cargo during motion\nCannot unload cargo during motion\nHonk Honk\nCar has not started yet",
           testCases: [
             {
               input: "",
-              output: "False\n50\n25\n0\nCannot load cargo more than max limit: 100\nTrue\nCannot load cargo during motion\nCannot unload cargo during motion\nHonk Honk\nCar has not started yet",
-              visible: true
+              output:
+                "False\n50\n25\n0\nCannot load cargo more than max limit: 100\nTrue\nCannot load cargo during motion\nCannot unload cargo during motion\nHonk Honk\nCar has not started yet",
+              visible: true,
             },
           ],
           defaultCode: ``,
@@ -16247,12 +16462,14 @@ export const codingPracticesData = {
           description:
             "Now we need a Race Car in our cars world.\nYou are given two incomplete classes Car and RaceCar.\nA RaceCar is a Car but with the additional behaviours.\nInherit the Car class into RaceCar class and build the additional features.\nGo through the comments in the prefilled code to implement the car and RaceCar classes with the described attributes and methods.",
           sampleInput: "Checking default Tests",
-          sampleOutput: "70\n3\n140\n2\n210\n1\n180\n1\n250\n0\nPeep Peep\nBeep Beep",
+          sampleOutput:
+            "70\n3\n140\n2\n210\n1\n180\n1\n250\n0\nPeep Peep\nBeep Beep",
           testCases: [
             {
               input: "",
-              output: "70\n3\n140\n2\n210\n1\n180\n1\n250\n0\nPeep Peep\nBeep Beep",
-              visible: true
+              output:
+                "70\n3\n140\n2\n210\n1\n180\n1\n250\n0\nPeep Peep\nBeep Beep",
+              visible: true,
             },
           ],
           defaultCode: ``,
@@ -16276,11 +16493,26 @@ export const codingPracticesData = {
           sampleInput: "29 Feb 2024",
           sampleOutput: "2024-02-29 00:00:00",
           testCases: [
-            { input: "15 Aug 2023", output: "2023-08-15 00:00:00", visible: true },
-            { input: "01 Jan 2020", output: "2020-01-01 00:00:00", visible: true },
-            { input: "31 Dec 1999", output: "1999-12-31 00:00:00", visible: false },
-            { input: "29 Feb 2024", output: "2024-02-29 00:00:00", visible: false },
-            
+            {
+              input: "15 Aug 2023",
+              output: "2023-08-15 00:00:00",
+              visible: true,
+            },
+            {
+              input: "01 Jan 2020",
+              output: "2020-01-01 00:00:00",
+              visible: true,
+            },
+            {
+              input: "31 Dec 1999",
+              output: "1999-12-31 00:00:00",
+              visible: false,
+            },
+            {
+              input: "29 Feb 2024",
+              output: "2024-02-29 00:00:00",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -16296,11 +16528,26 @@ export const codingPracticesData = {
           sampleInput: "Feb 29 2024 01:05AM",
           sampleOutput: "29/02/2024 01:05:00",
           testCases: [
-            { input: "Aug 15 2023 02:30PM", output: "15/08/2023 14:30:00", visible: true },
-            { input: "Jan 01 2020 12:00AM", output: "01/01/2020 00:00:00", visible: true },
-            { input: "Dec 31 1999 11:59PM", output: "31/12/1999 23:59:00", visible: false },
-            { input: "Feb 29 2024 01:05AM", output: "29/02/2024 01:05:00", visible: false },            
-            
+            {
+              input: "Aug 15 2023 02:30PM",
+              output: "15/08/2023 14:30:00",
+              visible: true,
+            },
+            {
+              input: "Jan 01 2020 12:00AM",
+              output: "01/01/2020 00:00:00",
+              visible: true,
+            },
+            {
+              input: "Dec 31 1999 11:59PM",
+              output: "31/12/1999 23:59:00",
+              visible: false,
+            },
+            {
+              input: "Feb 29 2024 01:05AM",
+              output: "29/02/2024 01:05:00",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -16314,13 +16561,33 @@ export const codingPracticesData = {
           description:
             "Write a program to print the previous day of D,the current day D,and the next day of D.\nThe date in string format is like `8 Feb 2021`.",
           sampleInput: "29 Feb 2024",
-          sampleOutput: "2024-02-28 00:00:00\n2024-02-29 00:00:00\n2024-03-01 00:00:00",
+          sampleOutput:
+            "2024-02-28 00:00:00\n2024-02-29 00:00:00\n2024-03-01 00:00:00",
           testCases: [
-            { input: "15 Aug 2023", output: "2023-08-14 00:00:00\n2023-08-15 00:00:00\n2023-08-16 00:00:00", visible: true },
-            { input: "01 Jan 2020", output: "2019-12-31 00:00:00\n2020-01-01 00:00:00\n2020-01-02 00:00:00", visible: true },
-            { input: "31 Dec 1999", output: "1999-12-30 00:00:00\n1999-12-31 00:00:00\n2000-01-01 00:00:00", visible: false },
-            { input: "29 Feb 2024", output: "2024-02-28 00:00:00\n2024-02-29 00:00:00\n2024-03-01 00:00:00", visible: false },                       
-            
+            {
+              input: "15 Aug 2023",
+              output:
+                "2023-08-14 00:00:00\n2023-08-15 00:00:00\n2023-08-16 00:00:00",
+              visible: true,
+            },
+            {
+              input: "01 Jan 2020",
+              output:
+                "2019-12-31 00:00:00\n2020-01-01 00:00:00\n2020-01-02 00:00:00",
+              visible: true,
+            },
+            {
+              input: "31 Dec 1999",
+              output:
+                "1999-12-30 00:00:00\n1999-12-31 00:00:00\n2000-01-01 00:00:00",
+              visible: false,
+            },
+            {
+              input: "29 Feb 2024",
+              output:
+                "2024-02-28 00:00:00\n2024-02-29 00:00:00\n2024-03-01 00:00:00",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 45,
@@ -16339,8 +16606,7 @@ export const codingPracticesData = {
             { input: "15 Aug 2023", output: "Tuesday", visible: true },
             { input: "01 Jan 2020", output: "Wednesday", visible: true },
             { input: "31 Dec 1999", output: "Friday", visible: false },
-            { input: "29 Feb 2024", output: "Thursday", visible: false },                                   
-            
+            { input: "29 Feb 2024", output: "Thursday", visible: false },
           ],
           defaultCode: ``,
           score: 45,
@@ -16360,8 +16626,6 @@ export const codingPracticesData = {
             { input: "2020 2020", output: "2", visible: true },
             { input: "2019 2021", output: "4", visible: false },
             { input: "2000 2000", output: "1", visible: false },
-                                              
-            
           ],
           defaultCode: ``,
           score: 45,
@@ -16384,11 +16648,26 @@ export const codingPracticesData = {
           sampleInput: "29 Feb 2024\n29 Feb 2024",
           sampleOutput: "Saturday: 0\nSunday: 0",
           testCases: [
-            { input: "01 Jan 2023\n31 Jan 2023", output: "Saturday: 4\nSunday: 5", visible: true },
-            { input: "01 Aug 2023\n31 Aug 2023", output: "Saturday: 4\nSunday: 4", visible: true },
-            { input: "25 Dec 2023\n31 Dec 2023", output: "Saturday: 1\nSunday: 1", visible: false },
-            { input: "29 Feb 2024\n29 Feb 2024", output: "Saturday: 0\nSunday: 0", visible: false },            
-            
+            {
+              input: "01 Jan 2023\n31 Jan 2023",
+              output: "Saturday: 4\nSunday: 5",
+              visible: true,
+            },
+            {
+              input: "01 Aug 2023\n31 Aug 2023",
+              output: "Saturday: 4\nSunday: 4",
+              visible: true,
+            },
+            {
+              input: "25 Dec 2023\n31 Dec 2023",
+              output: "Saturday: 1\nSunday: 1",
+              visible: false,
+            },
+            {
+              input: "29 Feb 2024\n29 Feb 2024",
+              output: "Saturday: 0\nSunday: 0",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -16404,11 +16683,26 @@ export const codingPracticesData = {
           sampleInput: "Dec 31 2020 11:30 PM",
           sampleOutput: "0 hours 30 minutes",
           testCases: [
-            { input: "Dec 31 2023 11:00 PM", output: "1 hours 0 minutes", visible: true },
-            { input: "Jan 01 2023 12:00 AM", output: "8760 hours 0 minutes", visible: true },
-            { input: "Dec 31 2023 12:00 AM", output: "24 hours 0 minutes", visible: false },
-            { input: "Dec 31 2020 11:30 PM", output: "0 hours 30 minutes", visible: false },                       
-            
+            {
+              input: "Dec 31 2023 11:00 PM",
+              output: "1 hours 0 minutes",
+              visible: true,
+            },
+            {
+              input: "Jan 01 2023 12:00 AM",
+              output: "8760 hours 0 minutes",
+              visible: true,
+            },
+            {
+              input: "Dec 31 2023 12:00 AM",
+              output: "24 hours 0 minutes",
+              visible: false,
+            },
+            {
+              input: "Dec 31 2020 11:30 PM",
+              output: "0 hours 30 minutes",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -16424,11 +16718,9 @@ export const codingPracticesData = {
           sampleInput: "1 2 4 6",
           sampleOutput: "3",
           testCases: [
-        
             { input: "2 3 4", output: "1", visible: true },
             { input: "1 3 4 5", output: "2", visible: true },
-            { input: "1 2 4 6", output: "3", visible: false },                                  
-            
+            { input: "1 2 4 6", output: "3", visible: false },
           ],
           defaultCode: ``,
           score: 50,

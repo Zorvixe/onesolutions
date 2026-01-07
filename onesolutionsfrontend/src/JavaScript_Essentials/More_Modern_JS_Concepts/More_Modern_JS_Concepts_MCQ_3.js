@@ -3,6 +3,218 @@ import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
+const questionsData = [
+  // ===================== CODE BLOCK QUESTIONS (10) =====================
+
+  {
+    question: (
+      <div>
+        <p>
+          What does <b>this</b> refer to here?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`const car = {
+  brand: "BMW",
+  getBrand() {
+    return this.brand;
+  },
+};
+
+car.getBrand();`}
+        />
+      </div>
+    ),
+    options: ["window", "undefined", "car object", "global scope"],
+    answer: "car object",
+  },
+
+  {
+    question: (
+      <div>
+        <p>
+          What does <b>this</b> refer to in this function?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`function show() {
+  console.log(this);
+}
+
+show();`}
+        />
+      </div>
+    ),
+    options: ["function itself", "undefined", "window object", "local scope"],
+    answer: "window object",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will this arrow function log?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const user = {
+  name: "Alex",
+  greet: () => {
+    console.log(this.name);
+  },
+};
+
+user.greet();`}
+        />
+      </div>
+    ),
+    options: ["Alex", "undefined", "user", "Error"],
+    answer: "undefined",
+  },
+
+  {
+    question: (
+      <div>
+        <p>
+          What does <b>this</b> refer to here?
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`function Car(color) {
+  this.color = color;
+}
+
+const car1 = new Car("red");`}
+        />
+      </div>
+    ),
+    options: ["window", "Car function", "instance object", "prototype"],
+    answer: "instance object",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which value is immutable?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let x = "Hello";
+x[0] = "Y";`}
+        />
+      </div>
+    ),
+    options: ["String", "Array", "Object", "Function"],
+    answer: "String",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What happens here?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const obj = { a: 10 };
+obj.a = 20;
+console.log(obj.a);`}
+        />
+      </div>
+    ),
+    options: ["Error", "10", "20", "undefined"],
+    answer: "20",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What happens here?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const user = { name: "Sam" };
+user = { name: "Alex" };`}
+        />
+      </div>
+    ),
+    options: ["Works fine", "Outputs Alex", "Error", "undefined"],
+    answer: "Error",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which variable declaration allows reassignment?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let count = 5;
+count = 10;`}
+        />
+      </div>
+    ),
+    options: ["const", "let", "var only", "none"],
+    answer: "let",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What happens if const is declared without initialization?</p>
+        <CodeBlock language="javascript" code={`const x;`} />
+      </div>
+    ),
+    options: ["undefined", "null", "Error", "0"],
+    answer: "Error",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which value is mutable?</p>
+        <CodeBlock
+          language="javascript"
+          code={`const arr = [1, 2, 3];
+arr.push(4);`}
+        />
+      </div>
+    ),
+    options: ["Number", "String", "Array", "Boolean"],
+    answer: "Array",
+  },
+
+  // ===================== NORMAL QUESTIONS (5) =====================
+
+  {
+    question: "In object methods, what does this refer to?",
+    options: ["window", "function", "object itself", "undefined"],
+    answer: "object itself",
+  },
+
+  {
+    question: "In arrow functions, this is determined by?",
+    options: [
+      "function call",
+      "object reference",
+      "where the code is defined",
+      "new keyword",
+    ],
+    answer: "where the code is defined",
+  },
+
+  {
+    question: "Which of the following is immutable?",
+    options: ["Array", "Object", "Function", "String"],
+    answer: "String",
+  },
+
+  {
+    question: "Which keyword requires initialization at declaration?",
+    options: ["var", "let", "const", "all"],
+    answer: "const",
+  },
+
+  {
+    question: "Which values are mutable in JavaScript?",
+    options: ["Primitive values", "Only strings", "Objects", "Numbers"],
+    answer: "Objects",
+  },
+];
+
 const More_Modern_JS_Concepts_MCQ_3 = ({
   subtopicId,
   goalName,

@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const JS_Promises_CS_2 = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const JS_Promises_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -187,7 +182,7 @@ myPromise()
       {/* 3. Async/Await */}
       <section>
         <h2>3. Async/Await</h2>
-        <ol>
+        <ul>
           <li>
             The Async/Await is a <b>modern way</b> to consume promises.
           </li>
@@ -195,7 +190,7 @@ myPromise()
             The <b>Await</b> ensures processing completes before the next
             statement executes.
           </li>
-        </ol>
+        </ul>
 
         <p>
           <b>Syntax:</b>
@@ -222,6 +217,24 @@ myPromise();`}
             Should use <b>await</b> inside an <b>async</b> function only.
           </li>
         </ul>
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+
+          <ul>
+            <li>
+              Use <b>async</b> keyword before the function only if it is
+              performing async operations.
+            </li>
+            <li>
+              Should use <b>await</b> inside an <b>async</b> function only.
+            </li>
+          </ul>
+        </div>
       </section>
 
       {/* 3.1 Fetch with Async and Await */}
@@ -424,9 +437,10 @@ console.log(words); // ["He", "is", "a", "good", "boy"]`}
           <b>Syntax: </b> <code>string.replace(specifiedvalue, newvalue)</code>
         </p>
         <CodeBlock
-          code={`const str = "Football is a popular sport. Many countries play Football.";
+          code={`const str = "Football is a popular sport. Many countries play Football. Football tournaments are watched worldwide. Football fans are everywhere.";
 const words = str.replace("Football", "Soccer");
-console.log(words); // Soccer is a popular sport...`}
+
+console.log(words); // Soccer is a popular sport. Many countries play Football. Football tournaments are watched worldwide. Football fans are everywhere.`}
           language="javascript"
         />
 
@@ -560,13 +574,6 @@ console.log(str.length); // 34`}
           language="javascript"
         />
       </section>
-
-      <p>
-        <i>
-          Try out different string manipulations in the JavaScript Code
-          Playground.
-        </i>
-      </p>
 
       {/* Continue Button */}
       <div className="view-continue">

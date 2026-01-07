@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const JS_Classes_CS = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const JS_Classes_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -167,9 +162,14 @@ console.log(Person.prototype);  // Person {...}`}
 let person1 = new Person("Virat", "Kohli");
 console.log(Object.getPrototypeOf(person1));  // Person {...}`}
         />
-        <p>
-          <b>Note:</b> The Type of a class is a function
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>The Type of a class is a function</p>
+        </div>
       </section>
 
       {/* 2. Inheritance in JS Classes */}
@@ -188,7 +188,8 @@ console.log(Object.getPrototypeOf(person1));  // Person {...}`}
 
         <h3>2.2 Super</h3>
         <p>
-          Calling <code>super()</code> makes sure that SuperClass constructor()
+          Calling <code>super()</code> makes sure that{" "}
+          <b>SuperClass constructor() </b>
           gets called and initializes the instance.
         </p>
 
@@ -278,10 +279,6 @@ console.log(persianCat.knead());  // someCat is kneading
 console.log(persianCat.eat());  // someCat is eating
 console.log(persianCat.makeSound());  // someCat is shouting`}
         />
-        <p>
-          Try out creating superclass and subclass with multiple objects in the
-          JavaScript Code Playground.
-        </p>
       </section>
 
       {/* 3. this in classes */}

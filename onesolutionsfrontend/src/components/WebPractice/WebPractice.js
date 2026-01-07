@@ -3,11 +3,13 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { staticCodingPracticesData } from "../../codingPracticesData/staticCodingPracticesData";
 import { responsiveCodingPracticesData } from "../../codingPracticesData/responsiveCodingPracticesData";
+import { javascriptCodingPracticesData } from "../../codingPracticesData/javascriptCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 import CodePlayground from "../../CodePlayground/CodePlayground";
 import validateHtmlTest from "./validateHtmlTest";
 import validateCssTest from "./validateCssTest";
+import validateJsTest from "./validateJsTest";
 import "./WebPractice.css";
 import "../../codingPracticesData/codingpracticesweb.css";
 import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
@@ -127,6 +129,9 @@ const WebPractice = () => {
         const practice =
           staticCodingPracticesData.static.find((p) => p.id === practiceId) ||
           responsiveCodingPracticesData.responsive.find(
+            (p) => p.id === practiceId
+          ) ||
+          javascriptCodingPracticesData.javascript.find(
             (p) => p.id === practiceId
           );
         if (!practice) {
@@ -355,6 +360,10 @@ const WebPractice = () => {
             actual = result.actual;
           } else if (testType === "css-validation") {
             const result = validateCssTest(testCase, iframeDoc, iframe);
+            passed = result.passed;
+            actual = result.actual;
+          } else if (testType === "js-validation") {
+            const result = validateJsTest(testCase, iframeDoc, iframe);
             passed = result.passed;
             actual = result.actual;
           } else {

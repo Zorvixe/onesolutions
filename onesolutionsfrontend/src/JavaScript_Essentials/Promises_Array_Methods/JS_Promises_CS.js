@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const JS_Promises_CS = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const JS_Promises_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -134,12 +129,25 @@ console.log(responseObject); // Promise{ [[PromiseStatus]]:pending, [[PromiseVal
 console.log("fetching done"); // fetching done`}
         />
 
-        <OutputBlock
-          output={`Note: A promise will be in any one of the three states
-• Pending – Neither fulfilled nor rejected
-• Fulfilled – Operation completed successfully
-• Rejected – Operation failed`}
-        />
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>A promise will be in any one of the three states:</p>
+          <ul>
+            <li>
+              <b>Pending :</b> Neither fulfilled nor rejected
+            </li>
+            <li>
+              <b>Fulfilled :</b> Operation completed successfully
+            </li>
+            <li>
+              <b>Rejected :</b> Operation failed
+            </li>
+          </ul>
+        </div>
       </section>
 
       {/* 3.1 Resolved State */}

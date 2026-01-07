@@ -188,12 +188,6 @@ car1.start();`}
 let car1 = new Car("blue", "Audi");
 car1.start();`}
         />
-
-        <p>
-          Try out the <code>this</code> in different functions like Object
-          Methods, Arrow Functions, and Constructor Functions etc. in the
-          JavaScript Code Playground.
-        </p>
       </section>
 
       {/* 2. Immutable and Mutable Values */}
@@ -230,10 +224,16 @@ console.log(y);  // 10`}
           code={`let x = { value: 5 };
 let y = x;
 let z = { value: 20 };
+
 y.value = 10;
+
 console.log(x);  // Object { value: 10 }
 console.log(y);  // Object { value: 10 }
-y = z;`}
+
+y = z;
+
+console.log(x);  // Object { value: 10 }
+console.log(y);  // Object { value: 20 }`}
         />
       </section>
 
@@ -296,23 +296,26 @@ x = 9;  // TypeError {"Assignment to constant variable."}`}
         <h4>3.2.1 Mutating Object properties</h4>
         <CodeBlock
           language="javascript"
-          code={`const car = { color : "blue", brand : "Audi"};
+          code={`const car = {
+color : "blue",
+brand : "Audi"
+};
 car.color = "red";
+
 console.log(car.color);  // red`}
         />
 
         <p>But objects can't be reassigned.</p>
         <CodeBlock
           language="javascript"
-          code={`const car = { color : "blue", brand : "Audi"};
-car.color = "red";
-car = {};  // TypeError {"Assignment to constant variable."}`}
+          code={`const car = {
+  color : "blue",
+  brand : "Audi"
+  };
+  car.color = "red";
+  
+  car = {};  // TypeError {"Assignment to constant variable."}`}
         />
-
-        <p>
-          Try out the Mutable and Immutable values and declare the variables
-          using const in the JavaScript Code Playground.
-        </p>
       </section>
 
       {/* Continue Button */}

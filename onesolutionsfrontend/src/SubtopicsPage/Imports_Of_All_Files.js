@@ -72,6 +72,8 @@ import Introductionto_Reactjs_CS from "../Reactjs/Introductionto_Reactjs/Introdu
 import Components_Props_CS from "../Reactjs/Introductionto_Reactjs/Components_Props.CS.js";
 import Lists_Keys_CS from "../Reactjs/Introductionto_Reactjs/Lists_Keys_CS.js";
 import Class_Component_State1_CS from "../Reactjs/Class_Component_State1/Class_Component_State1_CS";
+import Conditional_Render_CS from "../Reactjs/Class_Component_State1/Conditional_Render_CS";
+import Class_Component_State2_CS from "../Reactjs/Class_Component_State2/Class_Component_State2_CS";
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
@@ -620,6 +622,8 @@ import JS_MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 
 //React MCQ
 import Class_Component_State1_MCQ from "../Reactjs/Class_Component_State1/Class_Component_State1_MCQ.js";
+import Conditional_Render_MCQ from "../Reactjs/Class_Component_State1/Conditional_Render_MCQ";
+import Class_Component_State2_MCQ from "../Reactjs/Class_Component_State2/Class_Component_State2_MCQ";
 
 //JavaScript Essentials
 
@@ -628,11 +632,17 @@ import More_Modern_Js_Concepts_MCQ from "../JavaScript_Essentials/More_Modern_JS
 import More_Modern_JS_Concepts_CS_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_2.js";
 import More_Modern_JS_Concepts_MCQ_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_MCQ_2.js";
 import Factory_Constructor_Function_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/Factory_Constructor_Function_CS.js";
+import Factory_Constructor_Function_MCQ from "../JavaScript_Essentials/More_Modern_JS_Concepts/Factory_Constructor_Function_MCQ.js";
 import More_Modern_JS_Concepts_CS_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS_3.js";
+import More_Modern_JS_Concepts_MCQ_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_MCQ_3.js";
 import Prototypal_Inheritance_CS from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance_CS.js";
+import Prototypal_Inheritance_MCQ from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance_MCQ.js";
 import JS_Classes_CS from "../JavaScript_Essentials/Prototypes_Classes/JS_Classes_CS.js";
+import JS_Classes_MCQ from "../JavaScript_Essentials/Prototypes_Classes/JS_Classes_MCQ.js";
+import JS_Promises_MCQ from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_MCQ.js";
 import JS_Promises_CS from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS.js";
 import JS_Promises_CS_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS_2.js";
+import JS_Promises_MCQ_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_MCQ_2.js";
 import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Conceptes_CS.js";
 export const subtopicComponents = {
   // JavaScript Essentials
@@ -644,12 +654,20 @@ export const subtopicComponents = {
     More_Modern_JS_Concepts_MCQ_2,
   "Factory and Constructor Function | Cheat Sheet":
     Factory_Constructor_Function_CS,
+  "MCQ Practice - Factory and Constructor Function":
+    Factory_Constructor_Function_MCQ,
   "More Modern JS Concepts | Part 3 | Cheat Sheet":
     More_Modern_JS_Concepts_CS_3,
+  "MCQ Practice - More Modern JS Concepts | Part 3":
+    More_Modern_JS_Concepts_MCQ_3,
   "Prototypal Inheritance | Cheat Sheet": Prototypal_Inheritance_CS,
+  "MCQ Practice - Prototypal Inheritance": Prototypal_Inheritance_MCQ,
   "JS Classes | Cheat Sheet": JS_Classes_CS,
+  "MCQ Practice - JS Classes": JS_Classes_MCQ,
   "JS Promises | Cheat Sheet": JS_Promises_CS,
+  "MCQ Practice - JS Promises": JS_Promises_MCQ,
   "JS Promises | Part 2 | Cheat Sheet": JS_Promises_CS_2,
+  "MCQ Practice - JS Promises | Part 2": JS_Promises_MCQ_2,
   "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
   //SQL Database
   "Introduction to Databases | Part 1": Introductionto_Database_1,
@@ -1060,9 +1078,15 @@ export const subtopicComponents = {
   "Components & Pros | Cheat Sheet": Components_Props_CS,
   "Lists & Keys | Cheat Sheet": Lists_Keys_CS,
   "Class Component and State | Cheat Sheet": Class_Component_State1_CS,
+  "Conditional Rendering | Cheat Sheet": Conditional_Render_CS,
+  "Class Component and State | Cheat Sheet | Part 2": Class_Component_State2_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Class Component and State": Class_Component_State1_MCQ,
+  "MCQ Pratice - Conditional Rendering": Conditional_Render_MCQ,
+  "MCQ Pratice - Class Component and State | Part 2":
+    Class_Component_State2_MCQ,
+
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
     Sizing_Ele_Handling_Overflow_CS,

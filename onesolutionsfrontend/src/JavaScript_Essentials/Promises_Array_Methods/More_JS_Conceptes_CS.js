@@ -100,15 +100,17 @@ console.log(x); // ReferenceError: x is not defined`}
       {/* 1.2 Global Scope */}
       <section>
         <h3>1.2 Global Scope</h3>
-        <p>
-          If a variable is declared outside all functions and curly braces ({}),
-          then it is said to be defined in the <b>Global Scope</b>.
-        </p>
-        <p>
-          When a variable declared with <code>let</code> or <code>const</code>{" "}
-          is accessed, Javascript searches for the variable in the block scopes
-          first followed by global scopes.
-        </p>
+        <ul>
+          <li>
+            If a variable is declared outside all functions and curly braces ({}
+            ), then it is said to be defined in the <b>Global Scope</b>.
+          </li>
+          <li>
+            When a variable declared with <code>let</code> or <code>const</code>{" "}
+            is accessed, Javascript searches for the variable in the block
+            scopes first followed by global scopes.
+          </li>
+        </ul>
         <CodeBlock
           language="javascript"
           code={`const x = 30;
@@ -150,7 +152,7 @@ function add(a, b) {
           code={`myFunction();
 let myFunction = function () {
   let x = 5;
-  console.log(x); // ReferenceError
+  console.log(x); // ReferenceError{"Cannot access 'myFunction' before initialization"}
 };`}
         />
 
@@ -163,7 +165,7 @@ let myFunction = function () {
           code={`myFunction();
 let myFunction = () => {
   let x = 5;
-  console.log(x); // ReferenceError
+  console.log(x); // ReferenceError{"Cannot access 'myFunction' before initialization"}
 };`}
         />
       </section>
@@ -181,7 +183,7 @@ let myFunction = () => {
       {/* 3.1 map() */}
       <section>
         <h3>3.1 Map()</h3>
-        <ol>
+        <ul>
           <li>
             The <code>map()</code> method creates a new array with the results
             of calling a function for every array element.{" "}
@@ -190,18 +192,12 @@ let myFunction = () => {
             The <code>map()</code> method calls the provided function once for
             each element in an array, in order.{" "}
           </li>
-        </ol>{" "}
+        </ul>{" "}
         <p>
           {" "}
           <b> Syntax:</b>{" "}
           <code>array.map(callback(currentValue, index, arr))</code>
         </p>
-        <CodeBlock
-          language="javascript"
-          code={`const numbers = [1, 2, 3, 4];
-const result = numbers.map((number) => number * number);
-console.log(result); // [1, 4, 9, 16]`}
-        />
         <ul>
           <li>
             Here the callback is a function that is called for every element of
@@ -213,19 +209,26 @@ console.log(result); // [1, 4, 9, 16]`}
             are optional arguments.
           </li>
         </ul>
+        <CodeBlock
+          language="javascript"
+          code={`const numbers = [1, 2, 3, 4];
+const result = numbers.map((number) => number * number);
+console.log(result); // [1, 4, 9, 16]`}
+        />
       </section>
 
       {/* 3.2 forEach() */}
       <section>
         <h3>3.2 forEach()</h3>
         <p>
-          Executes a provided function once for each array element. Always
-          returns undefined.{" "}
+          The <code>forEach()</code> method executes a provided function once
+          for each array element. It always returns undefined.
         </p>
         <p>
           <b> Syntax:</b>{" "}
           <code>array.forEach(callback(currentValue, index, arr))</code>
         </p>
+        <p>Here index and arr are optional arguments.</p>
         <p>
           <CodeBlock
             language="javascript"
@@ -238,14 +241,22 @@ fruits.forEach((fruit) => console.log(fruit));`}
       {/* 3.3 filter() */}
       <section>
         <h3>3.3 filter()</h3>
-        <p>
-          Creates a new array with elements that pass the test function. Returns
-          an empty array if no elements pass.
-        </p>
+        <ul>
+          <li>
+            The <code>filter()</code> method creates a new array filled with all
+            elements that pass the test (provided as a function).
+          </li>
+          <li>
+            A new array with the elements that pass the test will be returned.
+            If no elements pass the test, an empty array will be returned.
+          </li>
+        </ul>
+
         <p>
           <b> Syntax:</b>{" "}
           <code>array.filter(function(currentValue, index, arr))</code>
         </p>
+        <p>Here index and arr are optional arguments.</p>
         <CodeBlock
           language="javascript"
           code={`const numbers = [1, -2, 3, -4];
@@ -258,8 +269,9 @@ console.log(positiveNumbers); // [1, 3]`}
       <section>
         <h3>3.4 reduce()</h3>
         <p>
-          Executes a reducer function on each element resulting in a single
-          output value.
+          The <code>reduce()</code> method executes a reducer function (that you
+          provide) on each element of the array, resulting in single output
+          value.
         </p>
         <p>
           <b> Syntax:</b>
@@ -267,6 +279,11 @@ console.log(positiveNumbers); // [1, 3]`}
             array.reduce(function(accumulator, currentValue, index, arr),
             initialValue)
           </code>
+        </p>
+        <p>
+          Here <code>accumulator</code> is the initialValue or the previously
+          returned value of the function and <code>currentValue</code> is the
+          value of the current element, index and arr are optional arguments.
         </p>
         <CodeBlock
           language="javascript"
@@ -279,11 +296,17 @@ console.log(array1.reduce(reducer)); // 10`}
       {/* 3.5 every() */}
       <section>
         <h3>3.5 every()</h3>
-        <p>Tests whether all elements pass a test. Returns Boolean. </p>
+        <p>
+          The <code>every()</code> method tests whether all elements in the
+          array pass the test implemented by the provided function. It returns a
+          Boolean value.
+        </p>
+
         <p>
           <b> Syntax:</b>{" "}
           <code>array.every(function(currentValue, index, arr))</code>
         </p>
+        <p>Here index and arr are optional arguments.</p>
         <CodeBlock
           language="javascript"
           code={`let array1 = [32, 33, 16, 20];

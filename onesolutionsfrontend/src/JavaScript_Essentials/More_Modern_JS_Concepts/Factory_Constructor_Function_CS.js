@@ -70,57 +70,57 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function functionName(parameter1, parameter2, ...) {
-      return {
-        property1: parameter1,
-        property2: parameter2,
-        ...
-      };
-    }
-    let myObject = functionName(arg1, arg2, ...);`}
+  return {
+    property1: parameter1,
+    property2: parameter2,
+    ...
+  };
+}
+let myObject = functionName(arg1, arg2, ...);`}
         />
 
         <b>Example: </b>
         <CodeBlock
           language="javascript"
           code={`function createCar(color, brand) {
-        return {
-          color: color,
-          brand: brand,
-          start: function() {
-            console.log("started");
-          }
-        };
-      }
-      
-      let car1 = createCar("blue", "Audi");
-      let car2 = createCar("red", "Tata");
-      let car3 = createCar("green", "BMW");
-      
-      console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
-      console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
-      console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() } `}
+  return {
+    color: color,
+    brand: brand,
+    start: function() {
+      console.log("started");
+    }
+  };
+}
+
+let car1 = createCar("blue", "Audi");
+let car2 = createCar("red", "Tata");
+let car3 = createCar("green", "BMW");
+
+console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
+console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
+console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() } `}
         />
 
         <h4>1.1 Shorthand Notations</h4>
         <CodeBlock
           language="javascript"
           code={`function createCar(color, brand) {
-        return {
-          color,
-          brand,
-          start() {
-            console.log("started");
-          }
-        };
-      }
-      
-      let car1 = createCar("blue", "Audi");
-      let car2 = createCar("red", "Tata");
-      let car3 = createCar("green", "BMW");
-      
-      console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
-      console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
-      console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() }`}
+  return {
+    color,
+    brand,
+    start() {
+      console.log("started");
+    }
+  };
+}
+
+let car1 = createCar("blue", "Audi");
+let car2 = createCar("red", "Tata");
+let car3 = createCar("green", "BMW");
+
+console.log(car1);  // Object { color: "blue", brand: "Audi", start: ƒ() }
+console.log(car2);  // Object { color: "red", brand: "Tata", start: ƒ() }
+console.log(car3);  // Object { color: "green", brand: "BMW", start: ƒ() }`}
         />
       </section>
 
@@ -141,11 +141,11 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function FunctionName(parameter1, parameter2, ...) {
-      this.property1 = parameter1;
-      this.property2 = parameter2;
-      ...
-    }
-    let myObject = new FunctionName(arg1, arg2, ...);`}
+  this.property1 = parameter1;
+  this.property2 = parameter2;
+  ...
+}
+let myObject = new FunctionName(arg1, arg2, ...);`}
         />
 
         <h3>2.1 The new Operator</h3>
@@ -165,15 +165,15 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-        this.color = color;
-        this.brand = brand;
-        this.start = function() {
-          console.log("started");
-        };
-      }
-      
-      let car1 = new Car("blue", "Audi");
-      console.log(car1);  // Car { }`}
+  this.color = color;
+  this.brand = brand;
+  this.start = function() {
+    console.log("started");
+  };
+}
+
+let car1 = new Car("blue", "Audi");
+console.log(car1);  // Car { }`}
         />
 
         <p>
@@ -239,13 +239,13 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-      this.color = color;
-      this.brand = brand;
-      this.start = function() {
-        console.log("started");
-      };
-    }
-    console.log(Car.name);  // Car`}
+  this.color = color;
+  this.brand = brand;
+  this.start = function() {
+    console.log("started");
+  };
+}
+console.log(Car.name);  // Car`}
         />
 
         <h4>3.3.2 The length Property</h4>
@@ -255,13 +255,13 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-      this.color = color;
-      this.brand = brand;
-      this.start = function() {
-        console.log("started");
-      };
-    }
-    console.log(Car.length);  // 2`}
+  this.color = color;
+  this.brand = brand;
+  this.start = function() {
+    console.log("started");
+  };
+}
+console.log(Car.length);  // 2`}
         />
 
         <h4>
@@ -270,13 +270,13 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-      this.color = color;
-      this.brand = brand;
-      this.start = function() {
-        console.log("started");
-      };
-    }
-    console.log(typeof(Car));  // function`}
+  this.color = color;
+  this.brand = brand;
+  this.start = function() {
+    console.log("started");
+  };
+}
+console.log(typeof(Car));  // function`}
         />
       </section>
 
@@ -293,14 +293,14 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`function Car(color, brand) {
-      this.color = color;
-      this.brand = brand;
-      this.start = function() {
-        console.log("started");
-      };
-    }
-    let car1 = new Car("blue", "Audi");
-    console.log(car1.constructor);  // f Car(color, brand) {}`}
+  this.color = color;
+  this.brand = brand;
+  this.start = function() {
+    console.log("started");
+  };
+}
+let car1 = new Car("blue", "Audi");
+console.log(car1.constructor);  // f Car(color, brand) {}`}
         />
       </section>
 
@@ -348,8 +348,8 @@ const Factory_Constructor_Function_CS = ({
           language="javascript"
           code={`let now = new Date();
 
-    console.log(now);  // Tue Feb 02 2021 19:10:29 GMT+0530 (India Standard Time) { }
-    console.log(typeof(now));  // object`}
+console.log(now);  // Tue Feb 02 2021 19:10:29 GMT+0530 (India Standard Time) { }
+console.log(typeof(now));  // object`}
         />
 
         <p>
@@ -386,10 +386,10 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`let time1 = new Date(0);
-    console.log(time1);  // Thu Jan 01 1970 05:30:00 GMT+0530 (India Standard Time)
+console.log(time1);  // Thu Jan 01 1970 05:30:00 GMT+0530 (India Standard Time)
 
-    let time2 = new Date(100000000000);
-    console.log(time2);  // Sat Mar 03 1973 15:16:40 GMT+0530 (India Standard Time)`}
+let time2 = new Date(100000000000);
+console.log(time2);  // Sat Mar 03 1973 15:16:40 GMT+0530 (India Standard Time)`}
         />
 
         <div className="Note-container">
@@ -412,35 +412,133 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`let date = new Date("2021-01-28");
-    console.log(date);  // Thu Jan 28 2021 05:30:00 GMT+0530 (India Standard Time)`}
+console.log(date);  // Thu Jan 28 2021 05:30:00 GMT+0530 (India Standard Time)`}
+        />
+        <p>
+          You can also pass only the year and month or only the year. For
+          example,
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`let date = new Date("2020-08");
+console.log(date);  // Sat Aug 01 2020 05:30:00 GMT+0530 (India Standard Time) { }
+
+let date1 = new Date("2020");
+console.log(date1);  // Wed Jan 01 2020 05:30:00 GMT+0530 (India Standard Time) { }`}
+        />
+        <b>Short date format</b>
+        <CodeBlock
+          language="javascript"
+          code={`// short date format "MM/DD/YYYY"
+let date = new Date("03/25/2015");
+console.log(date);  // Wed Mar 25 2015 00:00:00 GMT+0530 (India Standard Time) { }`}
+        />
+
+        <b>Long date format</b>
+        <CodeBlock
+          language="javascript"
+          code={`// long date format "MMM DD YYYY"
+let date1 = new Date("Jul 1 2021");
+console.log(date1);  // Thu Jul 01 2021 00:00:00 GMT+0530 (India Standard Time) { }`}
+        />
+        <p>Month and Day can be in any order</p>
+        <CodeBlock
+          language="javascript"
+          code={`let date2 = new Date("1 Jul 2021");
+console.log(date2);  // Thu Jul 01 2021 00:00:00 GMT+0530 (India Standard Time) { }`}
+        />
+        <p>
+          The month can be full or abbreviated. Also, month names are case
+          insensitive.
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`let date3 = new Date("July 1 2021");
+console.log(date3);  // Thu Jul 01 2021 00:00:00 GMT+0530 (India Standard Time) { }
+
+// commas are ignored
+let date4 = new Date("JULY, 1, 2021");
+console.log(date4);  // Thu Jul 01 2021 00:00:00 GMT+0530 (India Standard Time) { }`}
         />
 
         <h4>
           5.1.4 new Date(year, month, day, hours, minutes, seconds,
           milliseconds)
         </h4>
+
+        <p>It creates a new date object by passing a specific date and time.</p>
+
+        <p>For example,</p>
+
         <CodeBlock
           language="javascript"
           code={`let time1 = new Date(2021, 1, 20, 4, 12, 11, 0);
-    console.log(time1);  // Sat Feb 20 2021 04:12:11 GMT+0530 (India Standard Time)`}
+console.log(time1);  // Sat Feb 20 2021 04:12:11 GMT+0530 (India Standard Time) { }`}
         />
-        <p>Note: Months are counted from 0-11. January = 0, December = 11.</p>
+
         <p>
-          Warning: Passing only 1 argument is treated as milliseconds. Pass at
-          least 2 arguments for year/month format.
+          Here, months are counted from 0 to 11. January is 0 and December is
+          11.
         </p>
 
-        <h4>5.2 AutoCorrection in Date Object</h4>
+        <p>The passed argument has a specific order.</p>
+
+        <p>
+          If four numbers are passed, it represents the year, month, day and
+          hours.
+        </p>
+
+        <p>For example,</p>
+
         <CodeBlock
           language="javascript"
-          code={`let date = new Date(2008, 0, 33); // Jan does not have 33 days
-    console.log(date);  // Sat Feb 02 2008 00:00:00 GMT+0530 (India Standard Time)`}
+          code={`let time1 = new Date(2021, 1, 20, 4);
+console.log(time1);  // Sat Feb 20 2021 04:00:00 GMT+0530 (India Standard Time) { }`}
         />
+
         <p>
-          Explanation: 33 days are auto-corrected to 31 (Jan) + 2 days in Feb.
+          Similarly, if two arguments are passed, it represents year and month.
         </p>
 
+        <p>For example,</p>
+
+        <CodeBlock
+          language="javascript"
+          code={`let time1 = new Date(2020, 1);
+console.log(time1);  // Sat Feb 20 2021 04:00:00 GMT+0530 (India Standard Time) { }`}
+        />
+
+        <div className="Warning-container">
+          <div>
+            <h5>
+              <i class="bi bi-exclamation-triangle"></i>Warning
+            </h5>
+          </div>
+          <p>
+            If you pass only one argument, it is treated as milliseconds. Hence,
+            you have to pass two arguments to use this date format.
+          </p>
+        </div>
+
+        <h4>5.2 AutoCorrection in Date Object</h4>
+        <p>
+          When you assign out of range values in the Date object, it
+          auto-corrects itself.
+        </p>
+        <p>For example,</p>
+        <CodeBlock
+          language="javascript"
+          code={`let date = new Date(2008, 0, 33);
+// Jan does not have 33 days
+console.log(date);  // Sat Feb 02 2008 00:00:00 GMT+0530 (India Standard Time) { }`}
+        />
+        <p>33 days are auto corrected to 31 (jan) + 2 days in feb.</p>
+
         <h4>5.3 Instance Methods</h4>
+        <p>
+          There are methods to access and set values like a year, month, etc. in
+          the Date Object.
+        </p>
         <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead>
             <tr>
@@ -508,14 +606,18 @@ const Factory_Constructor_Function_CS = ({
         <CodeBlock
           language="javascript"
           code={`let date1 = new Date(1947, 7, 15, 1, 3, 15, 0);
-    console.log(date1.getFullYear());  // 1947
-    console.log(date1.getMonth());     // 7
 
-    // Setting Date Values
-    let date2 = new Date(1947, 7, 15);
-    date2.setYear(2021);
-    date2.setDate(1);
-    console.log(date2);  // Sun Aug 01 2021 00:00:00 GMT+0530 (India Standard Time)`}
+console.log(date1.getFullYear());  // 1947
+console.log(date1.getMonth());  // 7`}
+        />
+        <h4>5.3.1 Setting Date Values</h4>
+        <CodeBlock
+          language="javascript"
+          code={`let date1 = new Date(1947, 7, 15);
+date1.setYear(2021);
+date1.setDate(1);
+
+console.log(date1);  // Sun Aug 01 2021 00:00:00 GMT+0530 (India Standard Time) { }`}
         />
       </section>
 
