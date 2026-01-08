@@ -974,3 +974,134 @@
 .btn-codep.btn-secondary-codep svg {
   margin-right: 2px;
 }
+
+/* NXT Wave Style Error Display */
+.error-details-codep {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.error-header-codep {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.error-type-codep {
+  color: #dc2626;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.error-message-codep {
+  color: #1f2937;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  padding-left: 28px;
+}
+
+.error-location-codep {
+  background: #f8fafc;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 12px;
+  font-family: "Monaco", "Consolas", monospace;
+}
+
+.error-file-codep {
+  color: #6b7280;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.error-code-line-codep {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #ffffff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border-left: 3px solid #ef4444;
+}
+
+.line-number-codep {
+  color: #9ca3af;
+  font-size: 13px;
+  min-width: 24px;
+}
+
+.code-snippet-codep {
+  color: #1f2937;
+  font-size: 13px;
+  font-family: "Monaco", "Consolas", monospace;
+  flex: 1;
+}
+
+.error-suggestions-codep {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.suggestions-header-codep {
+  color: #065f46;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.suggestions-list-codep {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestion-item-codep {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #047857;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.suggestion-item-codep:last-child {
+  margin-bottom: 0;
+}
+
+/* Error markers in gutter */
+.error-marker {
+  cursor: pointer;
+  font-size: 12px;
+  color: #ef4444;
+  position: absolute;
+  left: 0;
+}
+
+/* Ace Editor annotations */
+.ace_error {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><circle cx='8' cy='8' r='8' fill='%23ef4444' opacity='0.2'/></svg>")
+    repeat-x 0 50%;
+}
+
+/* Output textarea styling for errors */
+.output-textarea-codep {
+  font-family: "Monaco", "Consolas", "Courier New", monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* Style for Python traceback in output */
+.output-textarea-codep:contains("Traceback") {
+  color: #dc2626;
+}
