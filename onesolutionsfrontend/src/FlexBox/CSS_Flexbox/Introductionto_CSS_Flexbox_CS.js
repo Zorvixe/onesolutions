@@ -56,7 +56,6 @@ const Introductionto_CSS_Flexbox_CS = ({
     }
   };
 
-
   return (
     <div className="intro-container">
       <h1>Introduction to CSS Flexbox | Cheat Sheet</h1>
@@ -65,21 +64,23 @@ const Introductionto_CSS_Flexbox_CS = ({
       <section>
         <h2>1. Layout</h2>
         <p>
-          A <b>Layout</b> defines how elements are arranged and structured on a
-          webpage. It helps organize content for better readability and design.
+          A <b>Layout</b> is a pattern to structure the information and arrange
+          the elements on the website.
         </p>
       </section>
 
       {/* 1.1 Methods to Design a Layout */}
       <section>
         <h3>1.1 Methods to Design a Layout</h3>
-        <p>There are two major methods to design a webpage layout:</p>
+        <p>
+          Mainly, there are two methods that help design the webpage layout.
+        </p>
         <ul>
           <li>
             <b>Flexbox</b> (stable)
           </li>
           <li>
-            <b>CSS Grid</b> (advanced & fast-growing but not yet fully stable)
+            <b>CSS Grid</b> (Advanced & Fast growing but not stable)
           </li>
         </ul>
       </section>
@@ -88,9 +89,8 @@ const Introductionto_CSS_Flexbox_CS = ({
       <section>
         <h3>1.1.1 Flexbox</h3>
         <p>
-          <b>Flexbox</b> is a CSS layout method used to arrange elements in rows
-          or columns. It makes alignment, spacing, and distribution of elements
-          much easier and more flexible.
+          <b>Flexbox</b> is a layout method that helps to arrange the HTML
+          elements in rows (horizontally) or columns (vertically).
         </p>
       </section>
 
@@ -98,8 +98,8 @@ const Introductionto_CSS_Flexbox_CS = ({
       <section>
         <h2>2. Flexbox Layout with CSS Properties</h2>
         <p>
-          CSS provides several properties to achieve a Flexbox layout. Some of
-          the most important ones are:
+          To achieve flexbox layout CSS provides many properties, these are a
+          few among them.
         </p>
         <ul>
           <li>display</li>
@@ -113,7 +113,7 @@ const Introductionto_CSS_Flexbox_CS = ({
           <li>flex-grow</li>
           <li>flex-basis</li>
           <li>flex-shrink</li>
-          <li>order</li>
+          <li>order and many more...</li>
         </ul>
       </section>
 
@@ -121,20 +121,28 @@ const Introductionto_CSS_Flexbox_CS = ({
       <section>
         <h3>2.1 Display</h3>
         <p>
-          The <b>display</b> property defines how an element should be displayed
-          on the webpage.
+          To achieve different Layouts, we can use CSS property{" "}
+          <code>display</code>.
         </p>
-        <p>It can take the following values:</p>
+        <p>Display property can have the following values:</p>
         <ul>
-          <li>flex</li>
-          <li>inline-flex</li>
-          <li>grid</li>
-          <li>none</li>
+          <li>
+            <code>flex</code>
+          </li>
+          <li>
+            <code>inline-flex</code>
+          </li>
+          <li>
+            <code>grid</code>
+          </li>
+          <li>
+            <code>none</code> and many more...
+          </li>
         </ul>
         <p>
-          When <code>display: flex;</code> is applied to an element, it becomes
-          a <b>Flex Container</b>. All its direct children become{" "}
-          <b>Flex Items</b>.
+          Providing display property with the value <code>flex</code> converts
+          the element into a <b>Flex Container</b>. All HTML elements that are
+          direct children of Flex Container are called <b>Flex Items</b>.
         </p>
       </section>
 
@@ -142,27 +150,33 @@ const Introductionto_CSS_Flexbox_CS = ({
       <section>
         <h3>2.2 Flex Direction</h3>
         <p>
-          The <b>flex-direction</b> property defines the direction in which the
-          flex items are placed inside a flex container.
+          The <code>flex-direction</code> specifies the direction of the flex
+          items in the Flexbox Container.
         </p>
+
         <p>
-          When using Flexbox, think in terms of two axes:
-          <ul>
-            <li>
-              <b>Main Axis</b> – defined by <code>flex-direction</code>.
-            </li>
-            <li>
-              <b>Cross Axis</b> – perpendicular to the main axis.
-            </li>
-          </ul>
+          When working with Flexbox layout, we need to think in terms of two
+          axes.
         </p>
-        <p>The possible values are:</p>
+
         <ul>
           <li>
-            <b>row</b> – items are placed horizontally.
+            <b>Main Axis</b> – It is specified by the{" "}
+            <code>flex-direction</code> property.
           </li>
           <li>
-            <b>column</b> – items are placed vertically.
+            <b>Cross Axis</b> – It runs perpendicular to the main axis.
+          </li>
+        </ul>
+
+        <p>Flex Direction property can have the following values:</p>
+
+        <ul>
+          <li>
+            <code>row</code> – Direction of the flex items is horizontal.
+          </li>
+          <li>
+            <code>column</code> – Direction of the flex items is vertical.
           </li>
         </ul>
       </section>
@@ -171,52 +185,65 @@ const Introductionto_CSS_Flexbox_CS = ({
       <section>
         <h3>2.3 Justify Content</h3>
         <p>
-          The <b>justify-content</b> property aligns flex items along the{" "}
-          <code>main axis</code> of the container.
+          The <code>justify-content</code> property specifies the alignment of
+          flex items along the main axis.
         </p>
-        <p>It can take the following values:</p>
+
+        <p>Justify Content property can have the following values:</p>
+
         <ul>
           <li>
-            <b>flex-start</b> (default) – items align at the start.
+            <code>flex-start</code> (default) – All the elements will arrange to
+            the start of the container.
           </li>
           <li>
-            <b>center</b> – items align at the center.
+            <code>center</code> – All the elements will arrange to the center of
+            the container.
           </li>
           <li>
-            <b>flex-end</b> – items align at the end.
+            <code>flex-end</code> – All the elements will arrange to the end of
+            the container.
           </li>
           <li>
-            <b>space-between</b> – equal space between items.
+            <code>space-between</code> – Left over space will be arranged in
+            between the flex items.
           </li>
           <li>
-            <b>space-around</b> – equal space around each item.
+            <code>space-around</code> – Every flex item will get space around
+            them.
           </li>
         </ul>
       </section>
 
       {/* 2.4 Align Items */}
       <section>
-        <h3>2.4 Align Items</h3>
-        <p>
-          The <b>align-items</b> property aligns flex items along the{" "}
-          <code>cross axis</code> (perpendicular to the main axis).
-        </p>
-        <p>It can take the following values:</p>
-        <ul>
-          <li>
-            <b>stretch</b> (default) – items stretch to fill available height.
-          </li>
-          <li>
-            <b>flex-start</b> – items align to the start.
-          </li>
-          <li>
-            <b>center</b> – items align to the center.
-          </li>
-          <li>
-            <b>flex-end</b> – items align to the end.
-          </li>
-        </ul>
-      </section>
+  <h3>2.4 Align Items</h3>
+  <p>
+    The <code>align-items</code> property specifies the alignment of flex items
+    along the cross axis.
+  </p>
+
+  <p>
+    Align Items property can have the following values:
+  </p>
+
+  <ul>
+    <li>
+      <code>stretch</code> (default) – Will stretch its available height.
+    </li>
+    <li>
+      <code>flex-start</code> – Will be at the starting of the flex container.
+    </li>
+    <li>
+      <code>center</code> – Will be at the center of the available height.
+    </li>
+    <li>
+      <code>flex-end</code> – Will be at the ending point of the available
+      height.
+    </li>
+  </ul>
+</section>
+
 
       {/* Continue Button */}
       <div className="view-continue">

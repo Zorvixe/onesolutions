@@ -470,6 +470,8 @@ const Practice = () => {
       try {
         const logs = [];
         const originalLog = console.log;
+        const originalError = console.error;
+        
         console.log = (...args) => {
           const message = args
             .map((arg) =>
@@ -481,7 +483,19 @@ const Practice = () => {
           logs.push(message);
           originalLog.apply(console, args);
         };
-
+        
+        console.error = (...args) => {
+          const message = args
+            .map((arg) =>
+              typeof arg === "object"
+                ? JSON.stringify(arg, null, 2)
+                : String(arg)
+            )
+            .join(" ");
+          logs.push(`Error: ${message}`);
+          originalError.apply(console, args);
+        };
+  
         let inputIndex = 0;
         const mockInput = (prompt = "") => {
           if (inputIndex < inputLines.length) {
@@ -489,19 +503,61 @@ const Practice = () => {
           }
           return "";
         };
-
+  
         window.prompt = mockInput;
-
+  
         try {
+          // Check for syntax errors first
+          try {
+            new Function(userCode);
+          } catch (err) {
+            if (err instanceof SyntaxError) {
+              const errorMsg = err.message;
+              const lineMatch = errorMsg.match(/:(\\d+):(\\d+)/);
+              if (lineMatch) {
+                const lineNo = lineMatch[1];
+                const colNo = lineMatch[2];
+                const lines = userCode.split('\n');
+                const errorLine = lines[lineNo - 1] || '';
+                
+                logs.push(`SyntaxError: ${errorMsg}`);
+                logs.push(`    at main.js:${lineNo}:${colNo}`);
+                logs.push(`    ${errorLine}`);
+                logs.push(`    ${' '.repeat(parseInt(colNo) - 1)}^`);
+              } else {
+                logs.push(`SyntaxError: ${errorMsg}`);
+              }
+              result = logs.join("\n");
+              return result;
+            }
+          }
+  
+          // Execute the code
           const func = new Function(userCode);
           func();
         } catch (err) {
-          logs.push(`Error: ${err.message}`);
+          if (err instanceof ReferenceError) {
+            const errorMsg = err.message;
+            const varMatch = errorMsg.match(/'(.+?)' is not defined/);
+            if (varMatch) {
+              const varName = varMatch[1];
+              logs.push(`ReferenceError: ${varName} is not defined`);
+              logs.push(`    at main.js:1:1`);
+              logs.push(`    ${userCode.split('\n')[0] || ''}`);
+            } else {
+              logs.push(`ReferenceError: ${errorMsg}`);
+            }
+          } else if (err instanceof TypeError) {
+            logs.push(`TypeError: ${err.message}`);
+          } else {
+            logs.push(`${err.name}: ${err.message}`);
+          }
         } finally {
           console.log = originalLog;
+          console.error = originalError;
           delete window.prompt;
         }
-
+  
         result =
           logs.join("\n") || "Code executed successfully (no console output)";
         return result;
@@ -518,58 +574,112 @@ const Practice = () => {
   const runPython = useCallback(async (userCode, inputLines = []) => {
     setIsRunning(true);
     let result = "";
-
+  
     try {
       if (!pyodideRef.current) {
         result = "Python environment is still loading. Please wait...";
         return result;
       }
-
+  
       const pyodide = pyodideRef.current;
       let inputIndex = 0;
-
+  
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
           return inputLines[inputIndex++];
         }
         return "";
       });
-
+  
       await pyodide.runPythonAsync(`
-import sys
-import io
-import builtins
-
-class OutputCapture(io.StringIO):
-    def __init__(self):
-        super().__init__()
-        self.contents = ""
-    
-    def write(self, text):
-        self.contents += text
-        return len(text)
-    
-    def get_value(self):
-        return self.contents
-
-output_capture = OutputCapture()
-sys.stdout = output_capture
-sys.stderr = output_capture
-
-_original_input = builtins.input
-
-def custom_input(prompt=""):
-    result = __python_input__()
-    return result
-
-builtins.input = custom_input
-`);
-
-      await pyodide.runPythonAsync(userCode);
-      const output = await pyodide.runPythonAsync("output_capture.get_value()");
-      result = output.trim() || "Python code executed successfully (no output)";
+  import sys
+  import io
+  import builtins
+  import traceback
+  
+  class OutputCapture(io.StringIO):
+      def __init__(self):
+          super().__init__()
+          self.contents = ""
+      
+      def write(self, text):
+          self.contents += text
+          return len(text)
+      
+      def get_value(self):
+          return self.contents
+  
+  output_capture = OutputCapture()
+  sys.stdout = output_capture
+  sys.stderr = output_capture
+  
+  _original_input = builtins.input
+  
+  def custom_input(prompt=""):
+      result = __python_input__()
+      return result
+  
+  builtins.input = custom_input
+  
+  # Clear any previous state
+  python_error = None
+  python_error_type = None
+  `);
+  
+      try {
+        await pyodide.runPythonAsync(userCode);
+        const output = await pyodide.runPythonAsync("output_capture.get_value()");
+        result = output.trim() || "Python code executed successfully (no output)";
+      } catch (err) {
+        // Parse Python error for better formatting
+        const errorMsg = err.message;
+        
+        // Get the actual code line that caused the error
+        const codeLines = userCode.split('\n');
+        
+        if (errorMsg.includes("NameError")) {
+          const varMatch = errorMsg.match(/name '(.+?)' is not defined/);
+          if (varMatch) {
+            const varName = varMatch[1];
+            result = `Traceback (most recent call last):\n  File "<string>", line 1, in <module>\n    ${codeLines[0] || userCode}\nNameError: name '${varName}' is not defined`;
+          } else {
+            result = errorMsg;
+          }
+        } else if (errorMsg.includes("SyntaxError")) {
+          const lineMatch = errorMsg.match(/line (\\d+)/);
+          const lineNo = lineMatch ? lineMatch[1] : "1";
+          const errorLine = codeLines[parseInt(lineNo) - 1] || userCode;
+          
+          let formattedError = `File "<string>", line ${lineNo}\n    ${errorLine}\n`;
+          
+          if (errorMsg.includes("EOF while parsing")) {
+            formattedError += `SyntaxError: unexpected EOF while parsing`;
+          } else if (errorMsg.includes("invalid syntax")) {
+            formattedError += `SyntaxError: invalid syntax`;
+            
+            // Add arrow for invalid syntax
+            const indent = errorLine.match(/^\\s*/)[0];
+            formattedError += `\n${' '.repeat(4 + indent.length)}^`;
+          } else if (errorMsg.includes("Missing parentheses")) {
+            const funcMatch = errorMsg.match(/call to '(.+?)'/);
+            const funcName = funcMatch ? funcMatch[1] : 'print';
+            formattedError += `SyntaxError: Missing parentheses in call to '${funcName}'. Did you mean ${funcName}(...)?`;
+          } else {
+            formattedError += errorMsg;
+          }
+          
+          result = formattedError;
+        } else if (errorMsg.includes("IndentationError")) {
+          const lineMatch = errorMsg.match(/line (\\d+)/);
+          const lineNo = lineMatch ? lineMatch[1] : "1";
+          const errorLine = codeLines[parseInt(lineNo) - 1] || userCode;
+          result = `File "<string>", line ${lineNo}\n    ${errorLine}\n${errorMsg}`;
+        } else {
+          result = `Error: ${errorMsg}`;
+        }
+      }
     } catch (err) {
-      result = `Error: ${err.message}\n`;
+      result = `Python Environment Error: ${err.message}\n`;
     } finally {
       setIsRunning(false);
       return result;
@@ -597,61 +707,37 @@ builtins.input = custom_input
     return result;
   };
 
-  const handleRunCode = async () => {
-    if (!selectedQuestion) return;
+ const handleRunCode = async () => {
+  if (!selectedQuestion) return;
 
-    if (isEmptyCode(code)) {
-      setOutput("❌ No code to execute. Please write your solution.");
-      setIsRunning(false);
-      return;
-    }
+  if (isEmptyCode(code)) {
+    setOutput("❌ No code to execute. Please write your solution.");
+    setIsRunning(false);
+    return;
+  }
 
-    setIsRunning(true);
-    setOutput("Running code...");
-    setExecutionResult(null);
+  setIsRunning(true);
+  setOutput("Running code...");
+  setExecutionResult(null);
+  setTestResults([]);
+
+  try {
+    // For single test case execution (Run button), just run the code without checking test cases
+    const actualOutput = await executeCode(code, "");
+    
+    // Display the output directly
+    setOutput(actualOutput);
+    
+    // Don't show test results for Run button
     setTestResults([]);
-
-    try {
-      const results = [];
-      let passedCount = 0;
-
-      for (let i = 0; i < selectedQuestion.testCases.length; i++) {
-        const testCase = selectedQuestion.testCases[i];
-        const actualOutput = await executeCode(code, testCase.input);
-
-        const cleanActualOutput = actualOutput.trim();
-        const cleanExpectedOutput = testCase.output.trim();
-
-        const passed = cleanActualOutput === cleanExpectedOutput;
-
-        if (passed) passedCount++;
-
-        results.push({
-          ...testCase,
-          passed,
-          actualOutput: cleanActualOutput,
-          expectedOutput: cleanExpectedOutput,
-          id: i,
-        });
-      }
-
-      setTestResults(results);
-      const newExecutionResult = {
-        total: selectedQuestion.testCases.length,
-        passed: passedCount,
-        failed: selectedQuestion.testCases.length - passedCount,
-      };
-      setExecutionResult(newExecutionResult);
-
-      setOutput(
-        `Execution completed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed`
-      );
-    } catch (error) {
-      setOutput(`Error during execution: ${error.message}`);
-    } finally {
-      setIsRunning(false);
-    }
-  };
+    setExecutionResult(null);
+    
+  } catch (error) {
+    setOutput(`Error during execution: ${error.message}`);
+  } finally {
+    setIsRunning(false);
+  }
+};
 
   const playSuccessSound = () => {
     try {
@@ -693,112 +779,122 @@ builtins.input = custom_input
   };
 
   const handleSubmitCode = async () => {
-    if (!selectedQuestion) return;
+  if (!selectedQuestion) return;
 
-    if (isEmptyCode(code)) {
-      setOutput("❌ Cannot submit empty code. Please write your solution.");
-      setIsRunning(false);
-      return;
+  if (isEmptyCode(code)) {
+    setOutput("❌ Cannot submit empty code. Please write your solution.");
+    setIsRunning(false);
+    return;
+  }
+
+  setIsRunning(true);
+  setOutput("Submitting code...");
+  setTestResults([]);
+  setExecutionResult(null);
+
+  try {
+    const results = [];
+    let passedCount = 0;
+
+    for (let i = 0; i < selectedQuestion.testCases.length; i++) {
+      const testCase = selectedQuestion.testCases[i];
+      const actualOutput = await executeCode(code, testCase.input);
+
+      const cleanActualOutput = actualOutput.trim();
+      const cleanExpectedOutput = testCase.output.trim();
+
+      // Check if the output contains error messages
+      const isErrorOutput = 
+        actualOutput.includes("Error:") || 
+        actualOutput.includes("SyntaxError:") ||
+        actualOutput.includes("NameError:") ||
+        actualOutput.includes("Traceback:") ||
+        actualOutput.includes("ReferenceError:") ||
+        actualOutput.includes("TypeError:");
+      
+      const passed = !isErrorOutput && cleanActualOutput === cleanExpectedOutput;
+
+      if (passed) passedCount++;
+
+      results.push({
+        ...testCase,
+        passed,
+        actualOutput: cleanActualOutput,
+        expectedOutput: cleanExpectedOutput,
+        isError: isErrorOutput,
+        id: i,
+      });
     }
 
-    setIsRunning(true);
-    setOutput("Submitting code...");
-    setTestResults([]);
-    setExecutionResult(null);
+    const allPassed = passedCount === selectedQuestion.testCases.length;
 
-    try {
-      const results = [];
-      let passedCount = 0;
+    setTestResults(results);
+    const newExecutionResult = {
+      total: selectedQuestion.testCases.length,
+      passed: passedCount,
+      failed: selectedQuestion.testCases.length - passedCount,
+    };
+    setExecutionResult(newExecutionResult);
 
-      for (let i = 0; i < selectedQuestion.testCases.length; i++) {
-        const testCase = selectedQuestion.testCases[i];
-        const actualOutput = await executeCode(code, testCase.input);
+    await updateQuestionStatus(
+      selectedQuestion.id,
+      allPassed,
+      selectedQuestion.score
+    );
 
-        const cleanActualOutput = actualOutput.trim();
-        const cleanExpectedOutput = testCase.output.trim();
+    if (allPassed) {
+      const successMessage = `✅ All test cases passed! Submission successful.`;
+      setOutput(successMessage);
+      celebrateSuccess();
 
-        const passed = cleanActualOutput === cleanExpectedOutput;
+      setToastMessage(
+        `✅ Hurrah! ${passedCount}/${selectedQuestion.testCases.length} Test Cases Passed`
+      );
+      setShowSuccessToast(true);
 
-        if (passed) passedCount++;
+      setTimeout(() => {
+        setShowSuccessToast(false);
+      }, 2200);
 
-        results.push({
-          ...testCase,
-          passed,
-          actualOutput: cleanActualOutput,
-          expectedOutput: cleanExpectedOutput,
-          id: i,
-        });
-      }
-
-      const allPassed = passedCount === selectedQuestion.testCases.length;
-
-      setTestResults(results);
-      const newExecutionResult = {
-        total: selectedQuestion.testCases.length,
-        passed: passedCount,
-        failed: selectedQuestion.testCases.length - passedCount,
-      };
-      setExecutionResult(newExecutionResult);
-
-      await updateQuestionStatus(
-        selectedQuestion.id,
-        allPassed,
-        selectedQuestion.score
+      const allQuestionsSolved = selectedPractice.questions.every(
+        (question) => {
+          if (question.id === selectedQuestion.id) {
+            return true;
+          }
+          return userProgress[question.id]?.status === "solved";
+        }
       );
 
-      if (allPassed) {
-        const successMessage = `✅ All test cases passed! Submission successful.`;
-        setOutput(successMessage);
-        celebrateSuccess();
-
-        setToastMessage(
-          `✅ Hurrah! ${passedCount}/${selectedQuestion.testCases.length} Test Cases Passed`
-        );
-        setShowSuccessToast(true);
-
-        setTimeout(() => {
-          setShowSuccessToast(false);
-        }, 2200);
-
-        const allQuestionsSolved = selectedPractice.questions.every(
-          (question) => {
-            if (question.id === selectedQuestion.id) {
-              return true;
-            }
-            return userProgress[question.id]?.status === "solved";
-          }
-        );
-
-        if (allQuestionsSolved && practiceId && !isPracticeCompleted) {
-          setOutput(
-            "✅ All test cases passed! 🎉 All questions in this practice are now solved! Marking practice as complete..."
-          );
-
-          setIsMarkingComplete(true);
-          await CodingPracticeService.completePractice(
-            practiceId,
-            goalName,
-            courseName
-          );
-          await loadProgressSummary();
-          await checkPracticeCompletion();
-          setIsMarkingComplete(false);
-
-          setOutput(
-            "✅ All test cases passed! 🎉 Practice completed successfully!"
-          );
-        }
-      } else {
+      if (allQuestionsSolved && practiceId && !isPracticeCompleted) {
         setOutput(
-          `❌ Submission failed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed.`
+          "✅ All test cases passed! 🎉 All questions in this practice are now solved! Marking practice as complete..."
+        );
+
+        setIsMarkingComplete(true);
+        await CodingPracticeService.completePractice(
+          practiceId,
+          goalName,
+          courseName
+        );
+        await loadProgressSummary();
+        await checkPracticeCompletion();
+        setIsMarkingComplete(false);
+
+        setOutput(
+          "✅ All test cases passed! 🎉 Practice completed successfully!"
         );
       }
-    } catch (error) {
-      setOutput(`Error during submission: ${error.message}`);
-    } finally {
-      setIsRunning(false);
+    } else {
+      setOutput(
+        `❌ Submission failed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed.`
+      );
     }
-  };
+  } catch (error) {
+    setOutput(`Error during submission: ${error.message}`);
+  } finally {
+    setIsRunning(false);
+  }
+};
 
   const getQuestionStatus = (questionId) => {
     return userProgress[questionId]?.status || "unsolved";

@@ -75,7 +75,7 @@ const Class_Component_State1_CS = ({
           language="jsx"
           code={`const Welcome = () => <h1>Hello, User</h1>;
 
-                  export default Welcome;`}
+ export default Welcome;`}
         />
 
         <h3>1.2 Class Components</h3>

@@ -10,6 +10,8 @@ import Variables_DT_CS_2 from "../Python/IntroductiontoPython/Variables_DT_CS_2"
 import Pro_W_P_CS_1 from "../Python/IntroductiontoPython/Pro_W_P_CS_1";
 import Seq_OF_Instruction_CS_3 from "../Python/IntroductiontoPython/Seq_OF_Instruction_CS_3";
 import Inp_Oup_Basics_CS_1 from "../Python/Inp_Oup_Basiscs/Inp_Oup_Basics_CS_1";
+import How_to_Debug_Code from "../Python/Inp_Oup_Basiscs/How_to_Debug_Code";
+import Coding_Pratice_Walkthrough_2 from "../Python/Inp_Oup_Basiscs/Coding_Pratice_Walkthrough_2.js";
 import Type_Con_CS_2 from "../Python/Inp_Oup_Basiscs/Type_Con_CS_2";
 import ConditionalStmts_CS_3 from "../Python/Operators&ConditionalStmts/ConditionalStmts_CS_3";
 import LogicalOperators_CS_2 from "../Python/Operators&ConditionalStmts/LogicalOperators_CS_2";
@@ -71,9 +73,28 @@ import Introductionto_CSS_Flexbox_CS_3 from "../FlexBox/CSS_Flexbox/Introduction
 import Introductionto_Reactjs_CS from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_CS.js";
 import Components_Props_CS from "../Reactjs/Introductionto_Reactjs/Components_Props.CS.js";
 import Lists_Keys_CS from "../Reactjs/Introductionto_Reactjs/Lists_Keys_CS.js";
-import Class_Component_State1_CS from "../Reactjs/Class_Component_State1/Class_Component_State1_CS";
-import Conditional_Render_CS from "../Reactjs/Class_Component_State1/Conditional_Render_CS";
-import Class_Component_State2_CS from "../Reactjs/Class_Component_State2/Class_Component_State2_CS";
+import Class_Component_State1_CS from "../Reactjs/Class_Component_State1/Class_Component_State1_CS.js";
+import Conditional_Render_CS from "../Reactjs/Class_Component_State1/Conditional_Render_CS.js";
+import Class_Component_State2_CS from "../Reactjs/Class_Component_State2/Class_Component_State2_CS.js";
+import Common_Mistakes_CS from "../Reactjs/Common_Mistakes/Common_Mistakes_CS.js";
+import Debugging_Dev_Tool_CS from "../Reactjs/Debugging/Debugging_Dev_Tool_CS.js";
+import Ondemand1_Session_CS from "../Reactjs/Working_With_Lists/Ondemand1_Session_CS.js";
+import Ondemand2_Session_CS from "../Reactjs/Working_With_Lists/Ondemand2_Session_CS.js";
+import Component_Life_Cycle_CS from "../Reactjs/Component_Life_Cycle/Component_Life_Cycle_CS.js";
+import React_Router1_CS from "../Reactjs/React_Router/React_Router1_CS.js";
+import React_Router2_3_CS from "../Reactjs/React_Router/React_Router2_3_CS.js";
+
+//React MCQ
+import Class_Component_State1_MCQ from "../Reactjs/Class_Component_State1/Class_Component_State1_MCQ.js";
+import Conditional_Render_MCQ from "../Reactjs/Class_Component_State1/Conditional_Render_MCQ.js";
+import Class_Component_State2_MCQ from "../Reactjs/Class_Component_State2/Class_Component_State2_MCQ.js";
+import Common_Mistakes_MCQ from "../Reactjs/Common_Mistakes/Common_Mistakes_MCQ.js";
+import Debugging_Dev_Tool_MCQ from "../Reactjs/Debugging/Debugging_Dev_Tool_MCQ.js";
+import Ondemand1_Session_MCQ from "../Reactjs/Working_With_Lists/Ondemand1_Session_MCQ.js";
+import Ondemand2_Session_MCQ from "../Reactjs/Working_With_Lists/Ondemand2_Session_MCQ.js";
+import Component_Life_Cycle_MCQ from "../Reactjs/Component_Life_Cycle/Component_Life_Cycle_MCQ.js";
+import React_Router1_MCQ from "../Reactjs/React_Router/React_Router1_MCQ.js";
+
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
 
@@ -620,11 +641,6 @@ import JS_MCQ_Assignment_4 from "../JavaScript/Assignment/JS_MCQ_Assignment_4";
 import JS_MCQ_Test_1 from "../JavaScript/Mock_Test/JS_MCQ_Test_1.js";
 import JS_MCQ_Test_2 from "../JavaScript/Mock_Test/JS_MCQ_Test_2.js";
 
-//React MCQ
-import Class_Component_State1_MCQ from "../Reactjs/Class_Component_State1/Class_Component_State1_MCQ.js";
-import Conditional_Render_MCQ from "../Reactjs/Class_Component_State1/Conditional_Render_MCQ";
-import Class_Component_State2_MCQ from "../Reactjs/Class_Component_State2/Class_Component_State2_MCQ";
-
 //JavaScript Essentials
 
 import More_Modern_JS_Concepts_CS from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_CS.js";
@@ -644,6 +660,13 @@ import JS_Promises_CS from "../JavaScript_Essentials/Promises_Array_Methods/JS_P
 import JS_Promises_CS_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_CS_2.js";
 import JS_Promises_MCQ_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_MCQ_2.js";
 import More_JS_Conceptes_CS from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Conceptes_CS.js";
+import More_JS_Concepte_MCQ from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Concepte_MCQ.js";
+import JS_Essential_MCQ_Assignment_1 from "../JavaScript_Essentials/Assignments/JS_Essential_MCQ_Assignment_1.js";
+import JS_Essential_MCQ_Assignment_2 from "../JavaScript_Essentials/Assignments/JS_Essential_MCQ_Assignment_2.js";
+import JS_Essential_MCQ_Assignment_3 from "../JavaScript_Essentials/Assignments/JS_Essential_MCQ_Assignment_3.js";
+import JS_Essential_MCQ_Assignment_4 from "../JavaScript_Essentials/Assignments/JS_Essential_MCQ_Assignment_4.js";
+import JS_Essential_Mock_Tests_MCQ_1 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Tests_MCQ_1.js";
+import JS_Essential_Mock_Tests_MCQ_2 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Tests_MCQ_2.js";
 export const subtopicComponents = {
   // JavaScript Essentials
   "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
@@ -669,6 +692,13 @@ export const subtopicComponents = {
   "JS Promises | Part 2 | Cheat Sheet": JS_Promises_CS_2,
   "MCQ Practice - JS Promises | Part 2": JS_Promises_MCQ_2,
   "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
+  "MCQ Practice - More JS Concepts": More_JS_Concepte_MCQ,
+  "JS Essentials MCQ Assignment 1": JS_Essential_MCQ_Assignment_1,
+  "JS Essentials MCQ Assignment 2": JS_Essential_MCQ_Assignment_2,
+  "JS Essentials MCQ Assignment 3": JS_Essential_MCQ_Assignment_3,
+  "JS Essentials MCQ Assignment 4": JS_Essential_MCQ_Assignment_4,
+  "JS Essentials Mock Test 1": JS_Essential_Mock_Tests_MCQ_1,
+  "JS Essentials Mock Test 2": JS_Essential_Mock_Tests_MCQ_2,
   //SQL Database
   "Introduction to Databases | Part 1": Introductionto_Database_1,
   "Introduction to Databases | Part 2": Introductionto_Database_2,
@@ -1080,12 +1110,25 @@ export const subtopicComponents = {
   "Class Component and State | Cheat Sheet": Class_Component_State1_CS,
   "Conditional Rendering | Cheat Sheet": Conditional_Render_CS,
   "Class Component and State | Cheat Sheet | Part 2": Class_Component_State2_CS,
+  "Common Mistakes | Cheat Sheet": Common_Mistakes_CS,
+  "Debugging using Developer Tools | Cheat Sheet": Debugging_Dev_Tool_CS,
+  "On Demand Session1 | Cheat Sheet": Ondemand1_Session_CS,
+  "On Demand Session | Cheat Sheet | Part 2": Ondemand2_Session_CS,
+  "Component Life Cycle | Cheat Sheet": Component_Life_Cycle_CS,
+  "Routing using React Router | Cheat Sheet": React_Router1_CS,
+  "Routing using React Router | Part 2 & 3| Cheat Sheet": React_Router2_3_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Class Component and State": Class_Component_State1_MCQ,
   "MCQ Pratice - Conditional Rendering": Conditional_Render_MCQ,
   "MCQ Pratice - Class Component and State | Part 2":
     Class_Component_State2_MCQ,
+  "MCQ Pratice - Common Mistakes": Common_Mistakes_MCQ,
+  "MCQ Pratice - Debugging using Developer Tools": Debugging_Dev_Tool_MCQ,
+  "MCQ Pratice - On Demand Session1": Ondemand1_Session_MCQ,
+  "MCQ Pratice - On Demand Session | Part 2": Ondemand2_Session_MCQ,
+  "MCQ Pratice - Component Life Cycle": Component_Life_Cycle_MCQ,
+  "MCQ Pratice - Routing using React Router": React_Router1_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
@@ -1108,7 +1151,8 @@ export const subtopicComponents = {
 
   "Problem Solving Part 6 | Cheat Sheet": Problem_sol_6_CS,
   "Problem Solving Part 7 | Cheat Sheet": Problem_sol_7_CS,
-
+  "How to debug your code?": How_to_Debug_Code,
+  "Coding Practice Walkthrough | Part 2": Coding_Pratice_Walkthrough_2,
   "Problem Solving and Debugging | Cheat Sheet": ProblemSol_Debugging_CS,
   "Problem Solving and Debugging Part 4 | Cheat Sheet":
     Problem_sol_Debugging_4_CS,

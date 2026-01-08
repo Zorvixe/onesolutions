@@ -2941,7 +2941,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice   More JS Concepts",
+                name: "MCQ Practice - More JS Concepts",
               },
               {
                 id: "QW9_s12_A0 m3_H g2_7B c3_D2E",
@@ -2963,19 +2963,19 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 1",
+                name: "JS Essentials MCQ Assignment 1",
               },
               {
                 id: "QW9_s2_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 2",
+                name: "JS Essentials MCQ Assignment 2",
               },
               {
                 id: "QW9_s3_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 3",
+                name: "JS Essentials MCQ Assignment 3",
               },
               {
                 id: "QW9_s4_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 4",
+                name: "JS Essentials MCQ Assignment 4",
               },
               {
                 id: "QW9_s5_A0 m4_H g2_7B c3_D2E",
@@ -3001,7 +3001,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m5_H g2_7B c3_D2E",
-                name: "Mock Test 1",
+                name: "JS Essentials Mock Test 1",
               },
               {
                 id: "QW9_s2_A0 m5_H g2_7B c3_D2E",
@@ -3009,7 +3009,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m5_H g2_7B c3_D2E",
-                name: "Mock Test 2",
+                name: "JS Essentials Mock Test 2",
               },
               {
                 id: "QW9_s4_A0 m5_H g2_7B c3_D2E",
@@ -3506,11 +3506,11 @@ export const goalsData = [
               },
               {
                 id: "QW9_s2_A0 m6_H g3_7B c4_D2E",
-                name: "On Demand Session | Cheat Sheet",
+                name: "On Demand Session1 | Cheat Sheet",
               },
               {
                 id: "QW9_s3_A0 m6_H g3_7B c4_D2E",
-                name: "MCQ Pratice - On Demand Session",
+                name: "MCQ Pratice - On Demand Session1",
               },
               {
                 id: "QW9_s4_A0 m6_H g3_7B c4_D2E",
@@ -3568,7 +3568,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s2_A0 m7_H g3_7B c4_D2E",
-                name: "Component Life Cycle",
+                name: "Component Life Cycle | Cheat Sheet",
               },
               {
                 id: "QW9_s3_A0 m7_H g3_7B c4_D2E",

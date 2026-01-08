@@ -1862,7 +1862,6 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
           ],
         },
       ],
@@ -1932,7 +1931,7 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
+
             {
               id: 3,
               description:
@@ -1960,7 +1959,7 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
+
             {
               id: 6,
               description:
@@ -2753,11 +2752,11 @@ export const staticCodingPracticesData = {
               description:
                 "Page should consist of an HTML container element with id carouselExampleIndicators and classes carousel and slide",
               type: "html-validation",
-              input: "check-carousel-container",
+              input: "check-carousel-container-indicators",
               output: "true",
               visible: true,
             },
-            
+
             {
               id: 3,
               description:
@@ -2829,7 +2828,6 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
           ],
         },
         {
@@ -3287,7 +3285,6 @@ export const staticCodingPracticesData = {
               output: "true",
               visible: true,
             },
-            
           ],
         },
       ],

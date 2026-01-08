@@ -54,7 +54,6 @@ const Introductionto_CSS_Flexbox_CS_3 = ({
     }
   };
 
-
   return (
     <div className="intro-container">
       <h1>Introduction to CSS Flexbox | Part 3 | Cheat Sheet</h1>
@@ -70,25 +69,25 @@ const Introductionto_CSS_Flexbox_CS_3 = ({
         <p>Align Self property can have the following values:</p>
         <ul>
           <li>
-            <b>flex-start</b>
+            <code>flex-start</code>
           </li>
           <li>
-            <b>center</b>
+            <code>center</code>
           </li>
           <li>
-            <b>flex-end</b>
+            <code>flex-end</code>
           </li>
           <li>
-            <b>stretch</b>
+            <code>stretch</code>
           </li>
           <li>
-            <b>auto</b> (default)
+            <code>auto</code> (default) and more...
           </li>
         </ul>
 
         <p>
-          If the value of <b>align-self</b> is <b>auto</b>, then the{" "}
-          <b>align-items</b> value of its flex container gets inherited.
+          If the value of <code>align-self</code> is <code>auto</code>, then the{" "}
+          <code>align-items</code> value of its flex container gets inherited.
         </p>
       </section>
 
@@ -106,17 +105,24 @@ const Introductionto_CSS_Flexbox_CS_3 = ({
             <b>0</b> (default)
           </li>
           <li>
-            <b>+ve values</b>
+            <b>+ve </b> values
           </li>
           <li>
-            <b>-ve values</b>
+            <b>-ve </b> values
           </li>
         </ul>
 
-        <p>
-          <b>Note:</b> If two or more HTML elements have the same order, they
-          will be arranged based on their source code.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            If two or more HTML elements have the same order, then they will be
+            arranged based on their source code.
+          </p>
+        </div>
       </section>
 
       {/* Continue Button */}

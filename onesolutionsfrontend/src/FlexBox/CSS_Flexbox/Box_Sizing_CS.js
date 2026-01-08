@@ -2,12 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const Box_Sizing_CS = ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const Box_Sizing_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -56,7 +51,6 @@ const Box_Sizing_CS = ({
     }
   };
 
-
   return (
     <div className="intro-container">
       <h1>Box Sizing | Cheat Sheet</h1>
@@ -78,17 +72,17 @@ const Box_Sizing_CS = ({
       <section>
         <h2>2. The box-sizing Property</h2>
         <p>
-          The <b>box-sizing</b> CSS property defines how the total width and
-          height of an element are calculated.
+          The <code>box-sizing</code> CSS property defines how the total width
+          and height of an element are calculated.
         </p>
 
         <p>Box-sizing property can take the following values:</p>
         <ul>
           <li>
-            <b>content-box</b> (default)
+            <code>content-box</code> (default)
           </li>
           <li>
-            <b>border-box</b>
+            <code>border-box</code>
           </li>
         </ul>
       </section>
@@ -97,8 +91,9 @@ const Box_Sizing_CS = ({
       <section>
         <h3>2.1 Content Box</h3>
         <p>
-          In this model, the <b>width</b> and <b>height</b> properties include
-          only the <b>content</b> — not the padding, border, or margin.
+          In this model, the <code>width</code> and <code>height</code>{" "}
+          properties include the content, but they do not include the
+          <code>padding</code>, <code>border</code>, or <code>margin</code>.
         </p>
       </section>
 
@@ -106,25 +101,34 @@ const Box_Sizing_CS = ({
       <section>
         <h3>2.2 Border Box</h3>
         <p>
-          In this model, the <b>width</b> and <b>height</b> include{" "}
-          <b>content</b>, <b>padding</b>, and <b>border</b>, but do not include{" "}
-          <b>margin</b>.
+          The <code>width</code> and <code>height</code> properties include the
+          content, padding, and border, but they do not include the{" "}
+          <code>margin</code>.
         </p>
 
-        <p>
-          <b>Note:</b> Bootstrap uses <b>box-sizing: border-box;</b> for all
-          elements. It is considered best practice to use this setting when
-          developing layouts.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+            <li>
+              Bootstrap uses <b>box-sizing: border-box;</b> for all the HTML
+              Elements.
+            </li>
+            <li>
+              It's better to use <b>box-sizing: border-box;</b> while developing
+              layouts.
+            </li>
+          </ul>
+        </div>
       </section>
 
       {/* 3. Universal Selector */}
       <section>
         <h2>3. Universal Selector (*)</h2>
-        <p>
-          The <b>Universal Selector (*)</b> selects all the HTML elements within
-          the document.
-        </p>
+        <p>Selects all the HTML elements within the document.</p>
 
         <h3>Syntax:</h3>
         <CodeBlock
@@ -135,10 +139,17 @@ const Box_Sizing_CS = ({
 }`}
         />
 
-        <p>
-          <b>Note:</b> Styles applied using a universal selector will have the{" "}
-          <b>lowest specificity</b>.
-        </p>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Styles applied using a universal selector will have the lowest
+            specificity.
+          </p>
+        </div>
       </section>
 
       {/* Continue Button */}

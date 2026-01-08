@@ -319,12 +319,15 @@ console.log(result); // true`}
       <section>
         <h3>3.6 some()</h3>
         <p>
-          Tests whether at least one element passes a test. Returns Boolean.{" "}
+          The <code>some()</code> method tests whether at least one element in
+          the array passes the test implemented by the provided function. It
+          returns a Boolean value.
         </p>
         <p>
           <b> Syntax:</b>
           <code>array.some(function(currentValue, index, arr))</code>
         </p>
+        <p>Here index and arr are optional arguments.</p>
         <CodeBlock
           language="javascript"
           code={`const myAwesomeArray = ["a", "b", "c", "d", "e"];
@@ -337,8 +340,9 @@ console.log(result); // true`}
       <section>
         <h3>3.7 reverse()</h3>
         <p>
-          Reverses the order of elements in an array. First becomes last, last
-          becomes first.{" "}
+          The <code>reverse()</code> method reverses the order of the elements
+          in an array.The first array element becomes the last, and the last
+          array element becomes the first.
         </p>
         <p>
           <b> Syntax:</b> <code>array.reverse()</code>
@@ -355,8 +359,8 @@ console.log(reversedArray); // ["ProYuga", "CyberEye", "iBHubs"]`}
       <section>
         <h3>3.8 flat()</h3>
         <p>
-          Creates a new array with all sub-array elements concatenated
-          recursively up to a specified depth.
+          The <code>flat()</code> method creates a new array with all sub-array
+          elements concatenated into it recursively up to the specified depth.
         </p>
         <p>
           <b> Syntax:</b> <code>let newArray = arr.flat([depth])</code>
@@ -415,12 +419,6 @@ console.log(arr2.flat(2)); // [0, 1, 2, [3, 4]]`}
             </tr>
           </tbody>
         </table>
-        <p>
-          <i>
-            Try out Mutable and Immutable methods in the JavaScript Code
-            Playground.
-          </i>
-        </p>
       </section>
 
       {/* Continue Button */}

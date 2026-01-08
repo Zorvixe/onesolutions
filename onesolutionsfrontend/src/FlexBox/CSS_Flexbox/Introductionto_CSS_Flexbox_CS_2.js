@@ -63,20 +63,20 @@ const Introductionto_CSS_Flexbox_CS_2 = ({
       <section>
         <h2>1. Flex Wrap</h2>
         <p>
-          The <b>flex-wrap</b> property arranges the flex items in multiple
-          lines.
+          The <code>flex-wrap</code> property arranges the flex items in
+          multiple lines.
         </p>
 
         <p>Flex Wrap property can have the following values:</p>
         <ul>
           <li>
-            <b>nowrap</b> (default)
+            <code>nowrap</code> (default)
           </li>
           <li>
-            <b>wrap</b>
+            <code>wrap</code>
           </li>
           <li>
-            <b>wrap-reverse</b>
+            <code>wrap-reverse</code> and many more...
           </li>
         </ul>
       </section>
@@ -85,13 +85,11 @@ const Introductionto_CSS_Flexbox_CS_2 = ({
       <section>
         <h2>2. Frontend Developer Section Example</h2>
 
-        <p>
-          <b>Note:</b> A Flex Item can also be a Flex Container.
-        </p>
+        <p>A Flex Item can also be a Flex Container.</p>
         <p>
           The class name <code>bg-container</code> acts as a{" "}
           <b>flex container</b>, and <code>cards-container</code> acts as a{" "}
-          <b>flex item</b> to <b>bg-container</b>.
+          <b>flex item</b> to <code>bg-container</code>.
         </p>
         <img
           src="/assets/img/flex_container_1.png"

@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
-const Common_Mistakes_CS= ({
-  subtopicId,
-  goalName,
-  courseName,
-  subtopic,
-}) => {
+const Common_Mistakes_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -52,63 +47,69 @@ const Common_Mistakes_CS= ({
 
   return (
     <div className="intro-container">
-    <h1>Common Mistakes | Cheat Sheet</h1>
-    <section>
-      <h2>1. Missing Export Statement</h2>
-      <p><b>Mistake:</b></p>
+      <h1>Common Mistakes | Cheat Sheet</h1>
+      <section>
+        <h2>1. Missing Export Statement</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
 
-      <p><b>File:</b>src/App.js</p>
+        <p>
+          <b>File:</b>src/App.js
+        </p>
 
-      <CodeBlock
-  language="jsx"
-  code={`import Counter from "./components/Counter";
-
-const App = () => {
-  return <Counter />;
-};
-
+        <CodeBlock
+          language="jsx"
+          code={`import Counter from "./components/Counter";
+      const App = () => {
+        return <Counter />;
+      };
 export default App;`}
- />
+        />
 
- <p><b>File:</b>src/Components/Counter/index.js</p>
+        <p>
+          <b>File:</b>src/Components/Counter/index.js
+        </p>
 
-<CodeBlock
-  language="jsx"
-  code={`import { Component } from "react";
-import "./index.css";
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+      import "./index.css";
+      class Counter extends Component {
+        render() {
+          return (
+            <p className="counter">Counter</p>
+          );
+        }
+      }
+ export default Counter;`}
+        />
+      </section>
 
-class Counter extends Component {
-  render() {
-    return (
-      <p className="counter">Counter</p>
-    );
-  }
-}
+      <section>
+        <h2>2. Missing Import Statement</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <p>
+          <b>File:</b>src/App.js
+        </p>
 
-export default Counter;`}
- />
- </section>
-  
-    <section>
-      <h2>2. Missing Import Statement</h2>
-      <p><b>Mistake:</b></p>
-      <p><b>File:</b>src/App.js</p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`const App = () => {
+        <CodeBlock
+          language="jsx"
+          code={`const App = () => {
     return <Counter />;
   };
-  
-  export default App;`}
-      />
+export default App;`}
+        />
 
-       <p><b>File:</b>src/Components/Counter/index.js</p>
-                <CodeBlock
-            language="jsx"
-            code={`import { Component } from "react";
+        <p>
+          <b>File:</b>src/Components/Counter/index.js
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
             import "./index.css";
-
             class Counter extends Component {
             render() {
                 return (
@@ -116,30 +117,33 @@ export default Counter;`}
                 );
             }
             }
-            export default Counter;`}
-            />
-    </section>
-  
-    <section>
-      <h2>3. Missing Extending the React Component Class</h2>
-      <p><b>Mistake:</b></p>
-      <p><b>File:</b>src/App.js</p>
-                <CodeBlock
-            language="jsx"
-            code={`import Counter from "./components/Counter";
+export default Counter;`}
+        />
+      </section>
 
+      <section>
+        <h2>3. Missing Extending the React Component Class</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <p>
+          <b>File:</b>src/App.js
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import Counter from "./components/Counter";
             const App = () => {
             return <Counter />;
             };
-
-            export default App;`}
-            />
-    <p><b>File:</b>src/Components/Counter/index.js</p>
-            <CodeBlock
-        language="jsx"
-        code={`import { Component } from "react";
+export default App;`}
+        />
+        <p>
+          <b>File:</b>src/Components/Counter/index.js
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
         import "./index.css";
-
         class Counter extends Component {
         render() {
             return (
@@ -147,198 +151,441 @@ export default Counter;`}
             );
         }
         }
-
-        export default Counter;`}
+export default Counter;`}
         />
- </section>
-  
-    <section>
-      <h2>4. class vs className</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`<p class="counter">Counter</p>`}
-      />
-  
-      <p><b>Correct:</b></p>
-      <CodeBlock
-        language="jsx"
-        code={`<p className="counter">Counter</p>`}
-      />
-    </section>
-  
-    <section>
-      <h2>5. onclick vs onClick</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`<button onclick={this.onIncrement}>Increase</button>`}
-      />
-  
-      <p><b>Correct:</b></p>
-      <CodeBlock
-        language="jsx"
-        code={`<button onClick={this.onIncrement}>Increase</button>`}
-      />
-    </section>
-  
-    <section>
-      <h2>6. Event Listeners inside Class Component</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`onIncrement() {
-    const { count } = this.state;
-    console.log(count);
-  }`}
-      />
-  
-      <p><b>Solution:</b></p>
-      <CodeBlock
-        language="javascript"
-        code={`onIncrement = () => {
+      </section>
+
+      <section>
+        <h2>4. class vs className</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <p>
+          <b>File:</b>src/Components/Counter/index.js
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+      import "./index.css";
+      class Counter extends Component {
+        render() {
+          return (
+            <p className="counter">Counter</p>
+          );
+        }
+      }
+export default Counter;`}
+        />
+      </section>
+
+      <section>
+        <h2>5. onclick vs onClick</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <b>File:</b>src/Components/Counter/index.js
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+      import "./index.css";
+      class Counter extends Component {
+        onIncrement = () => {
+          console.log("on increment called");
+        };
+
+        render() {
+          return (
+            <div>
+              <p className="counter">Counter</p>
+              <button onClick={this.onIncrement}>Increase</button>
+            </div>
+          );
+        }
+      }
+export default Counter;`}
+        />
+      </section>
+
+      <section>
+        <h2>6. Event Listeners inside Class Component</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+        import "./index.css";
+        class Counter extends Component {
+          state = { count: 0 };
+
+          onIncrement = () => {
+            const { count } = this.state;
+            console.log(count);
+          };
+
+          render() {
+            return (
+              <div>
+                <p className="counter">Counter</p>
+                <button onClick={this.onIncrement}>Increase</button>
+              </div>
+            );
+          }
+        }
+export default Counter;`}
+        />
+
+        <p>
+          <b>Solution:</b>
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`onIncrement = () => {
     const { count } = this.state;
     console.log(count);
   };`}
-      />
-    </section>
-  
-    <section>
-      <h2>7. Passing Event Handler</h2>
-      <p><b>Correct Way:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`<button onClick={this.onIncrement}>Increase</button>`}
-      />
-    </section>
-  
-    <section>
-      <h2>8. Modifying the State Directly</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="javascript"
-        code={`this.state.count = this.state.count + 1;`}
-      />
-  
-      <p><b>Solution:</b></p>
-      <CodeBlock
-        language="javascript"
-        code={`this.setState(prevState => ({
-    count: prevState.count + 1
-  }));`}
-      />
-  
-      <h3>Updating Object</h3>
-      <CodeBlock
-        language="jsx"
-        code={`const newPerson = { ...person, age: 29 };
-  this.setState({ person: newPerson });`}
-      />
-  
-      <h3>Updating List</h3>
-      <CodeBlock
-        language="jsx"
-        code={`const updatedNumbers = [...numbers, 4];
-  this.setState({ numbers: updatedNumbers });`}
-      />
-    </section>
-  
-    <section>
-      <h2>9. Calling setState() from render()</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`render() {
-    this.setState({ count: 0 });
-    return <div />;
-  }`}
-      />
-  
-      <div className="Note-container">
-        <div className="icon-note">
-          <h6>
-            <i className="bi bi-journal-text"></i>Note
-          </h6>
-        </div>
+        />
+      </section>
+
+      <section>
+        <h2>7. Passing Event Handler</h2>
         <p>
-          Calling <code>setState()</code> inside render causes an infinite loop.
+          <b>Mistake:</b>
         </p>
-      </div>
-    </section>
-  
-    <section>
-      <h2>10. Invoking Event Handler</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`<button onClick={this.onIncrement()}>Increase</button>`}
-      />
-  
-      <p><b>Correct:</b></p>
-      <CodeBlock
-        language="jsx"
-        code={`<button onClick={this.onIncrement}>Increase</button>`}
-      />
-    </section>
-  
-    <section>
-      <h2>11. setState() is Asynchronous</h2>
-      <p>
-        <code>setState()</code> does not update the state immediately.
-      </p>
-    </section>
-  
-    <section>
-      <h2>12. React Component should return a single JSX element</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`const Welcome = () => (
+        <p>
+          <b>File:</b>src/Components/Counter/index.js
+        </p>
+
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+        import "./index.css";
+
+        class Counter extends Component {
+          state = { count: 0 };
+
+          onIncrement = () => {
+            this.setState(prevState => ({
+              count: prevState.count + 1,
+            }));
+          };
+          render() {
+            return (
+              <button onClick={this.onIncrement}>
+                Increase
+              </button>
+            );
+          }
+        }
+export default Counter;`}
+        />
+        <p>
+          <b>Solution:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`<button onClick={this.onIncrement}>Increase</button>`}
+        />
+      </section>
+
+      <section>
+        <h2>8. Modifying the State Directly</h2>
+        <p>
+          Modifying the state directly won't trigger the <code>render()</code>
+          method.
+        </p>
+        <p>
+          <b>Mistake:</b>
+        </p>
+
+        <CodeBlock
+          language="javascript"
+          code={`onIncrement = () =>{
+          this.state.count = this.state.count + 1;
+          };`}
+        />
+
+        <p>
+          <b>Solution:</b>
+        </p>
+        <CodeBlock
+          language="javascript"
+          code={`onIncrement = ()=>{
+              this.setState(prevState => ({
+        count: prevState.count + 1
+      }));
+    };`}
+        />
+
+        <h3>Updating Object</h3>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`state = {
+        person: { name: "Rahul", age: 30 }
+      };
+
+      onUpdateAge = () => {
+        const { person } = this.state;
+        person.age = 29;
+      };`}
+        />
+
+        <p>
+          <b>Solution:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`state = {
+        person: { name: "Rahul", age: 30 }
+      };
+
+      onUpdateAge = () => {
+        const { person } = this.state;
+        const newPerson = { ...person, age: 29 };
+        this.setState({ person: newPerson });
+      };`}
+        />
+
+        <h3>Updating List</h3>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`state = { numbers: [1, 2, 3] };
+
+    onUpdateNumbers = () => {
+      const { numbers } = this.state;
+      numbers.push(4);
+    };`}
+        />
+        <p>
+          <b>Solution:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`state = { numbers: [1, 2, 3] };
+
+      onUpdateNumbers = () => {
+        const { numbers } = this.state;
+        const updatedNumbers = [...numbers, 4];
+        this.setState({ numbers: updatedNumbers });
+      };`}
+        />
+      </section>
+
+      <section>
+        <h2>9. Calling setState() from render()</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+
+        <CodeBlock
+          language="jsx"
+          code={`render() {
+    this.setState({ count: 0 });
+    return 
+    <div />;
+  }`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
+            Calling <code>setState()</code> inside render causes an infinite
+            loop.
+          </p>
+        </div>
+      </section>
+
+      <section>
+        <h2>10. Invoking Event Handler</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+      import "./index.css";
+      class Counter extends Component {
+        state = { count: 0 };
+        onIncrement = () => {
+          this.setState(prevState => ({
+            count: prevState.count + 1,
+          }));
+        };
+
+        render() {
+          return (
+            <div>
+              <p className="counter">Counter</p>
+              <button onClick={this.onIncrement}>Increase</button>
+            </div>
+          );
+        }
+      }
+export default Counter;`}
+        />
+
+        <p>
+          <b>Solution:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+      import "./index.css";
+      class Counter extends Component {
+        state = { count: 0 };
+
+        onIncrement = () => {
+          this.setState(prevState => ({
+            count: prevState.count + 1,
+          }));
+        };
+
+        render() {
+          return (
+            <div>
+              <p className="counter">Counter</p>
+              <button onClick={this.onIncrement}>Increase</button>
+            </div>
+          );
+        }
+      }
+export default Counter;`}
+        />
+      </section>
+
+      <section>
+        <h2>11. setState() is Asynchronous</h2>
+        <p>
+          <code>setState()</code> does not update the state immediately.
+        </p>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import { Component } from "react";
+    import "./index.css";
+    class Counter extends Component {
+      state = { count: 0 };
+
+      onIncrement = () => {
+        const { count } = this.state;
+
+        this.setState(prevState => ({
+          count: prevState.count + 1,
+        }));
+        console.log(count);
+      };
+      render() {
+        return (
+          <div>
+            <p className="counter">Counter</p>
+            <button onClick={this.onIncrement}>Increase</button>
+          </div>
+        );
+      }
+    }
+export default Counter;`}
+        />
+      </section>
+
+      <section>
+        <h2>12. React Component should return a single JSX element</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+
+        <CodeBlock
+          language="jsx"
+          code={`const Welcome = () => (
     <h1>Hello</h1>
     <p>Learning React</p>
   );`}
-      />
-  
-      <h3>12.1 Fragments</h3>
-      <CodeBlock
-        language="jsx"
-        code={`const Welcome = () => (
-    <>
-      <h1>Hello</h1>
-      <p>Learning React</p>
-    </>
-  );`}
-      />
-    </section>
-  
-    <section>
-      <h2>13. Props are Read-only</h2>
-      <p><b>Mistake:</b></p>
-  
-      <CodeBlock
-        language="jsx"
-        code={`props.name = "Ramu";`}
-      />
-  
-      <div className="Note-container">
-        <div className="icon-note">
-          <h6>
-            <i className="bi bi-journal-text"></i>Note
-          </h6>
-        </div>
+        />
+
+        <h3>12.1 Fragments</h3>
         <p>
-          Props should never be modified directly. They are read-only.
+          The fragment is an alternate way to return a single JSX element. It
+          groups a list of children without adding extra nodes to the DOM.
         </p>
-      </div>
-    </section>
+        <CodeBlock
+          language="jsx"
+          code={`import { Fragment } from "react";
+
+      const Welcome = () => (
+        <Fragment>
+          <h1>Hello, User</h1>
+          <p>You are learning React</p>
+        </Fragment>
+      );
+export default Welcome;`}
+        />
+        <p>
+          <b>Short Syntax:</b>
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`const Welcome = () => (
+      <>
+        <h1>Hello, User</h1>
+        <p>You are learning React</p>
+      </>
+    );
+export default Welcome;`}
+        />
+      </section>
+
+      <section>
+        <h2>13. Props are Read-only</h2>
+        <p>
+          <b>Mistake:</b>
+        </p>
+        <p>
+          <b>File:</b> src/App.js
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`import Welcome from "./components/Welcome";
+    const App = () => <Welcome name="Rahul" />;
+    export default App;`}
+        />
+        <p>
+          <b> File:</b> src/components/Welcome/index.js
+        </p>
+        <CodeBlock
+          language="jsx"
+          code={`const Welcome = props => {
+      const { name } = props;
+      return (
+        <>
+          <h1>Hello, {name}</h1>
+          <p>You are learning React</p>
+        </>
+      );
+    };
+export default Welcome;`}
+        />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>Props should never be modified directly. They are read-only.</p>
+        </div>
+      </section>
 
       {/* Continue Button */}
       <div className="view-continue">
