@@ -565,8 +565,6 @@ sys.stderr = OutputCapture()
     try {
       const logs = [];
       const originalLog = console.log;
-      const originalError = console.error;
-      
       console.log = (...args) => {
         const message = args
           .map((arg) =>
@@ -576,76 +574,21 @@ sys.stderr = OutputCapture()
         logs.push(message);
         originalLog.apply(console, args);
       };
-      
-      console.error = (...args) => {
-        const message = args
-          .map((arg) =>
-            typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
-          )
-          .join(" ");
-        logs.push(`Error: ${message}`);
-        originalError.apply(console, args);
-      };
-  
+
       try {
-        // Wrap in try-catch to catch syntax errors
-        try {
-          const func = new Function(code.javascript_standalone);
-          func();
-        } catch (err) {
-          if (err instanceof SyntaxError) {
-            // Parse syntax error details
-            const errorMsg = err.message;
-            const lineMatch = errorMsg.match(/:(\\d+):(\\d+)/);
-            if (lineMatch) {
-              const lineNo = lineMatch[1];
-              const colNo = lineMatch[2];
-              const lines = code.javascript_standalone.split('\\n');
-              const errorLine = lines[lineNo - 1] || '';
-              
-              logs.push(`SyntaxError: ${errorMsg}`);
-              logs.push(`    at main.js:${lineNo}:${colNo}`);
-              logs.push(`    ${errorLine}`);
-              logs.push(`    ${' '.repeat(parseInt(colNo) - 1)}^`);
-            } else {
-              logs.push(`SyntaxError: ${errorMsg}`);
-            }
-          } else if (err instanceof ReferenceError) {
-            const errorMsg = err.message;
-            const varMatch = errorMsg.match(/'(.+?)' is not defined/);
-            if (varMatch) {
-              const varName = varMatch[1];
-              logs.push(`ReferenceError: ${varName} is not defined`);
-              logs.push(`    at main.js:1:1`);
-              logs.push(`    ${code.javascript_standalone.split('\\n')[0] || ''}`);
-            } else {
-              logs.push(`ReferenceError: ${errorMsg}`);
-            }
-          } else {
-            logs.push(`${err.name}: ${err.message}`);
-            if (err.stack) {
-              const stackLines = err.stack.split('\\n');
-              // Filter and format stack trace
-              const formattedStack = stackLines
-                .filter(line => line.includes('at'))
-                .map(line => `    ${line.trim()}`)
-                .join('\\n');
-              if (formattedStack) {
-                logs.push(formattedStack);
-              }
-            }
-          }
-        }
+        const func = new Function(code.javascript_standalone);
+        func();
+      } catch (err) {
+        logs.push(`Error: ${err.message}`);
       } finally {
         console.log = originalLog;
-        console.error = originalError;
       }
-  
+
       setOutput(
-        logs.join("\\n") || "Code executed successfully (no console output)"
+        logs.join("\n") || "Code executed successfully (no console output)"
       );
     } catch (err) {
-      setOutput(`JavaScript Error: ${err.message}`);
+      setOutput(`Error: ${err.message}`);
     } finally {
       setIsRunning(false);
     }
@@ -654,230 +597,69 @@ sys.stderr = OutputCapture()
   const runPython = useCallback(async () => {
     setIsRunning(true);
     setOutput("");
-  
+
     try {
       if (!pyodideRef.current) {
         setOutput("Python environment is still loading. Please wait...");
         setIsRunning(false);
         return;
       }
-  
+
       const pyodide = pyodideRef.current;
-  
+
       const inputLines = inputValue
         .split("\n")
         .filter((line) => line.trim() !== "");
       let inputIndex = 0;
-  
+
       setOutput("");
-  
+
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
           return inputLines[inputIndex++];
         }
         return "";
       });
-  
-      // Clear previous error state
+
       await pyodide.runPythonAsync(`
-  import sys
-  import io
-  import builtins
-  import traceback
-  
-  class OutputCapture(io.StringIO):
-      def __init__(self):
-          super().__init__()
-          self.contents = ""
-      
-      def write(self, text):
-          self.contents += text
-          return len(text)
-      
-      def get_value(self):
-          return self.contents
-  
-  # Create new output capture instances
-  stdout_capture = OutputCapture()
-  stderr_capture = OutputCapture()
-  
-  sys.stdout = stdout_capture
-  sys.stderr = stderr_capture
-  
-  _original_input = builtins.input
-  
-  def custom_input(prompt=""):
-      result = __python_input__()
-      return result
-  
-  builtins.input = custom_input
-  
-  # Global error variable to capture syntax errors
-  python_error = None
-  python_error_type = None
-  python_error_traceback = None
-  `);
-  
-      try {
-        // First check for syntax errors
-        await pyodide.runPythonAsync(`
-  try:
-      compile('''${code.python.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\n/g, '\\n')}''', '<string>', 'exec')
-      syntax_ok = True
-  except SyntaxError as e:
-      syntax_ok = False
-      python_error = str(e)
-      python_error_type = "SyntaxError"
-      python_error_traceback = traceback.format_exc()
-  except Exception as e:
-      syntax_ok = False
-      python_error = str(e)
-      python_error_type = type(e).__name__
-      python_error_traceback = traceback.format_exc()
-  `);
-  
-        // Check if syntax check passed
-        const syntaxOk = await pyodide.runPythonAsync("syntax_ok");
-        
-        if (!syntaxOk) {
-          // Get the error details
-          const errorType = await pyodide.runPythonAsync("python_error_type");
-          const errorMsg = await pyodide.runPythonAsync("python_error");
-          const errorTraceback = await pyodide.runPythonAsync("python_error_traceback");
-          
-          let formattedError = "";
-          
-          if (errorType === "SyntaxError") {
-            // Parse line number from error message
-            const lineMatch = errorMsg.match(/line (\\d+)/);
-            const lineNo = lineMatch ? lineMatch[1] : "unknown";
-            
-            formattedError = `File "main.py", line ${lineNo}\\n    ${code.python.split('\\n')[lineNo - 1] || ''}\\n${errorMsg}`;
-            
-            // Add arrow pointing to error position for common errors
-            if (errorMsg.includes("unmatched '") || errorMsg.includes("invalid syntax")) {
-              const errorLine = code.python.split('\\n')[lineNo - 1] || '';
-              let errorPos = errorLine.length;
-              
-              if (errorMsg.includes("EOF while parsing")) {
-                formattedError += `\\nSyntaxError: unexpected EOF while parsing`;
-              } else if (errorMsg.includes("invalid syntax")) {
-                formattedError += `\\nSyntaxError: invalid syntax`;
-                
-                // Try to point to the problematic token
-                const invalidTokenMatch = errorMsg.match(/'(.*?)'/);
-                if (invalidTokenMatch) {
-                  const token = invalidTokenMatch[1];
-                  const tokenPos = errorLine.indexOf(token);
-                  if (tokenPos !== -1) {
-                    errorPos = tokenPos;
-                  }
-                }
-              }
-              
-              // Add caret pointing to error position
-              const indent = errorLine.match(/^\\s*/)[0];
-              formattedError += `\\n${' '.repeat(4 + indent.length)}${'^'.repeat(Math.max(1, errorPos - indent.length))}`;
-            }
-          } else {
-            formattedError = `${errorType}: ${errorMsg}`;
-            if (errorTraceback && errorTraceback !== 'None') {
-              formattedError += `\\n\\nTraceback:\\n${errorTraceback}`;
-            }
-          }
-          
-          setOutput(formattedError);
-          setIsRunning(false);
-          return;
-        }
-  
-        // If syntax is OK, execute the code
-        await pyodide.runPythonAsync(code.python);
-  
-        // Get output
-        const stdout = await pyodide.runPythonAsync("stdout_capture.get_value()");
-        const stderr = await pyodide.runPythonAsync("stderr_capture.get_value()");
-  
-        let output = "";
-        
-        if (stderr && stderr.trim()) {
-          // Parse stderr to format it nicely
-          const errorLines = stderr.split('\\n');
-          let formattedError = "";
-          
-          for (const line of errorLines) {
-            if (line.includes("Traceback")) {
-              formattedError += line + "\\n";
-            } else if (line.includes("File") && line.includes("line")) {
-              // Extract line number
-              const lineMatch = line.match(/line (\\d+)/);
-              if (lineMatch) {
-                const lineNo = parseInt(lineMatch[1]);
-                const codeLine = code.python.split('\\n')[lineNo - 1] || '';
-                formattedError += `    File "main.py", line ${lineNo}\\n      ${codeLine}\\n`;
-              }
-            } else if (line.includes(":")) {
-              // Error type and message
-              const parts = line.split(':');
-              if (parts.length >= 2) {
-                const errorType = parts[0].trim();
-                const errorMsg = parts.slice(1).join(':').trim();
-                formattedError += `${errorType}: ${errorMsg}\\n`;
-              } else {
-                formattedError += line + "\\n";
-              }
-            } else if (line.trim()) {
-              formattedError += line + "\\n";
-            }
-          }
-          
-          output = formattedError.trim();
-        } else if (stdout && stdout.trim()) {
-          output = stdout.trim();
-        } else {
-          output = "Code executed successfully (no output)";
-        }
-  
-        setOutput(output);
-      } catch (err) {
-        // Handle execution errors
-        const errorMsg = err.message;
-        
-        // Try to parse Python-specific errors
-        if (errorMsg.includes("NameError")) {
-          const match = errorMsg.match(/name '(.+?)' is not defined/);
-          if (match) {
-            const varName = match[1];
-            setOutput(`Traceback (most recent call last):\\n  File "main.py", line 1, in <module>\\n    ${code.python}\\nNameError: name '${varName}' is not defined`);
-          } else {
-            setOutput(errorMsg);
-          }
-        } else if (errorMsg.includes("SyntaxError")) {
-          const lineMatch = errorMsg.match(/line (\\d+)/);
-          const lineNo = lineMatch ? lineMatch[1] : "1";
-          const errorLine = code.python.split('\\n')[lineNo - 1] || code.python;
-          
-          let formattedError = `File "main.py", line ${lineNo}\\n    ${errorLine}\\n`;
-          
-          if (errorMsg.includes("EOF while parsing")) {
-            formattedError += `SyntaxError: unexpected EOF while parsing`;
-          } else if (errorMsg.includes("invalid syntax")) {
-            formattedError += `SyntaxError: invalid syntax`;
-            
-            // Add arrow for invalid syntax
-            const indent = errorLine.match(/^\\s*/)[0];
-            formattedError += `\\n${' '.repeat(4 + indent.length)}^`;
-          } else {
-            formattedError += errorMsg;
-          }
-          
-          setOutput(formattedError);
-        } else {
-          setOutput(`Error: ${errorMsg}`);
-        }
-      }
+import sys
+import io
+import builtins
+
+class OutputCapture(io.StringIO):
+    def __init__(self):
+        super().__init__()
+        self.contents = ""
+    
+    def write(self, text):
+        self.contents += text
+        return len(text)
+    
+    def get_value(self):
+        return self.contents
+
+output_capture = OutputCapture()
+sys.stdout = output_capture
+sys.stderr = output_capture
+
+_original_input = builtins.input
+
+def custom_input(prompt=""):
+    result = __python_input__()
+    return result
+
+builtins.input = custom_input
+`);
+
+      await pyodide.runPythonAsync(code.python);
+
+      const output = await pyodide.runPythonAsync("output_capture.get_value()");
+
+      const cleanOutput =
+        output.trim() || "Python code executed successfully (no output)";
+      setOutput(cleanOutput);
     } catch (err) {
-      setOutput(`Python Environment Error: ${err.message}\\n`);
+      setOutput(`Error: ${err.message}\n`);
     } finally {
       setIsRunning(false);
     }
