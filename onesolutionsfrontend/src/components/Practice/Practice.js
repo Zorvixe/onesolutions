@@ -115,17 +115,17 @@ const Practice = () => {
       // If no question selected, clear the code
       setCode("");
     }
-    
+
     // Clear all outputs and results
     setOutput("");
     setTestResults([]);
     setExecutionResult(null);
-    
+
     // Reset input related states if they exist
     if (window.__python_input__) {
       delete window.__python_input__;
     }
-    
+
     // Show a notification
     setOutput("Code has been reset to default.");
   }, [selectedQuestion, userProgress]);
@@ -1149,7 +1149,7 @@ builtins.input = custom_input
                   onClick={handleSubmitCode}
                   disabled={isRunning || isEmptyCode(code)}
                 >
-                  Submit
+                  {isRunning ? <span className="loader-prac"></span> : "Submit"}
                 </button>
               </div>
             </div>
