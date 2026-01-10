@@ -1390,3 +1390,24 @@
   align-items: center;
   gap: 12px;
 }
+
+/* Full question content layout */
+.full-question-content-prac {
+  display: flex;
+  height: calc(100vh - 150px);
+  position: relative;
+}
+
+.full-question-detail-prac {
+  overflow-y: auto;
+  padding-right: 16px;
+  height: 100%;
+  transition: width 0.2s;
+}
+
+.full-code-editor-section-prac {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s;
+}
