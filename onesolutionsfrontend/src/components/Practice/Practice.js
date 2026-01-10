@@ -518,22 +518,22 @@ const Practice = () => {
   const runPython = useCallback(async (userCode, inputLines = []) => {
     setIsRunning(true);
     let result = "";
-  
+
     try {
       if (!pyodideRef.current) {
         return "⚠️ Python environment is still loading. Please wait...";
       }
-  
+
       const pyodide = pyodideRef.current;
       let inputIndex = 0;
-  
+
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
           return inputLines[inputIndex++];
         }
         throw new Error("Input expected but not provided.");
       });
-  
+
       /** 🧠 Setup Python execution environment */
       await pyodide.runPythonAsync(`
   import sys
@@ -571,57 +571,58 @@ const Practice = () => {
   
   builtins.input = custom_input
       `);
-  
+
       /** ⏱ Execution with timeout (infinite loop protection) */
       const EXECUTION_TIMEOUT = 4000;
-  
+
       const execution = pyodide.runPythonAsync(`
   try:
       exec(${JSON.stringify(userCode)})
   except Exception:
       traceback.print_exc()
       `);
-  
+
       await Promise.race([
         execution,
         new Promise((_, reject) =>
           setTimeout(
-            () => reject(new Error("Execution timed out (possible infinite loop).")),
+            () =>
+              reject(
+                new Error("Execution timed out (possible infinite loop).")
+              ),
             EXECUTION_TIMEOUT
           )
         ),
       ]);
-  
+
       /** 📤 Collect outputs */
       const stdout = await pyodide.runPythonAsync("stdout_capture.get()");
       const stderr = await pyodide.runPythonAsync("stderr_capture.get()");
-  
+
       /** 🧹 Restore environment */
       await pyodide.runPythonAsync(`
   sys.stdout = _original_stdout
   sys.stderr = _original_stderr
   builtins.input = _original_input
       `);
-  
+
       /** 🎯 Format final output */
       let finalOutput = "";
-  
+
       if (stdout.trim()) {
         finalOutput += `${stdout.trim()}\n`;
       }
-  
+
       if (stderr.trim()) {
         const cleanedError = stderr
           .split("\n")
-          .filter(line => !line.includes('File "<exec>"'))
-          .map(line =>
-            line.replace(/File "<string>"/g, 'File "main.py"')
-          )
+          .filter((line) => !line.includes('File "<exec>"'))
+          .map((line) => line.replace(/File "<string>"/g, 'File "main.py"'))
           .join("\n");
-      
+
         finalOutput += cleanedError;
       }
-  
+
       result =
         finalOutput.trim() ||
         "✅ Python code executed successfully (no output).";
@@ -632,7 +633,6 @@ const Practice = () => {
       return result;
     }
   }, []);
-  
 
   const executeCode = async (userCode, testCaseInput) => {
     const inputLines = testCaseInput
