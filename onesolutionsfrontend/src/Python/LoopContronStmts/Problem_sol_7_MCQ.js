@@ -59,26 +59,26 @@ const questionsData = [
         <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`result = ""\nfor i in range(3):\n    result += "7 "\nprint(result)`}
+          code={`for i in range(3):\n    print(7)`}
         />
       </div>
     ),
-    options: ["777", <span>7 7 7 </span>, "7", "Error"],
-    answer: <span>7 7 7 </span>,
+    options: ["7\n7\n7", "777", "7 7 7", "Error"],
+    answer: "7\n7\n7",
   },
 
   {
     question: (
       <div>
-        <p>How many times is "Hi" added?</p>
+        <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`s = ""\nfor i in range(4):\n    s += "Hi "\nprint(s)`}
+          code={`for i in range(4):\n    print("Hi")`}
         />
       </div>
     ),
-    options: ["Hi", <span>Hi Hi Hi Hi </span>, "HiHiHiHi", "4"],
-    answer: <span>Hi Hi Hi Hi </span>,
+    options: ["Hi\nHi\nHi\nHi", "HiHiHiHi", "Hi Hi Hi Hi", "4"],
+    answer: "Hi\nHi\nHi\nHi",
   },
 
   {
@@ -112,15 +112,15 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What string is built?</p>
+        <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`pattern = ""\nfor i in range(2):\n    pattern += "★"\nprint(pattern)`}
+          code={`for i in range(2):\n    print("★")`}
         />
       </div>
     ),
-    options: ["★", "★★", "★ ", "Error"],
-    answer: "★★",
+    options: ["★\n★", "★★", "★ ★", "Error"],
+    answer: "★\n★",
   },
 
   {
@@ -182,9 +182,9 @@ const Problem_sol_7_MCQ = ({
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -197,19 +197,6 @@ const Problem_sol_7_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName,
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -219,23 +206,17 @@ const Problem_sol_7_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        alert(result.message);
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+      alert("Failed to mark as complete");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="Problem Solving - Part 7 | MCQs"

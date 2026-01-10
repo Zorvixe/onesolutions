@@ -518,63 +518,121 @@ const Practice = () => {
   const runPython = useCallback(async (userCode, inputLines = []) => {
     setIsRunning(true);
     let result = "";
-
+  
     try {
       if (!pyodideRef.current) {
-        result = "Python environment is still loading. Please wait...";
-        return result;
+        return "⚠️ Python environment is still loading. Please wait...";
       }
-
+  
       const pyodide = pyodideRef.current;
       let inputIndex = 0;
-
+  
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
           return inputLines[inputIndex++];
         }
-        return "";
+        throw new Error("Input expected but not provided.");
       });
-
+  
+      /** 🧠 Setup Python execution environment */
       await pyodide.runPythonAsync(`
-import sys
-import io
-import builtins
-
-class OutputCapture(io.StringIO):
-    def __init__(self):
-        super().__init__()
-        self.contents = ""
-    
-    def write(self, text):
-        self.contents += text
-        return len(text)
-    
-    def get_value(self):
-        return self.contents
-
-output_capture = OutputCapture()
-sys.stdout = output_capture
-sys.stderr = output_capture
-
-_original_input = builtins.input
-
-def custom_input(prompt=""):
-    result = __python_input__()
-    return result
-
-builtins.input = custom_input
-`);
-
-      await pyodide.runPythonAsync(userCode);
-      const output = await pyodide.runPythonAsync("output_capture.get_value()");
-      result = output.trim() || "Python code executed successfully (no output)";
+  import sys
+  import io
+  import builtins
+  import traceback
+  
+  class StreamCapture(io.StringIO):
+      def __init__(self):
+          super().__init__()
+          self.data = ""
+  
+      def write(self, text):
+          self.data += text
+          return len(text)
+  
+      def get(self):
+          return self.data
+  
+  stdout_capture = StreamCapture()
+  stderr_capture = StreamCapture()
+  
+  _original_stdout = sys.stdout
+  _original_stderr = sys.stderr
+  _original_input = builtins.input
+  
+  sys.stdout = stdout_capture
+  sys.stderr = stderr_capture
+  
+  def custom_input(prompt=""):
+      try:
+          return __python_input__()
+      except Exception:
+          raise RuntimeError("Input expected but not provided.")
+  
+  builtins.input = custom_input
+      `);
+  
+      /** ⏱ Execution with timeout (infinite loop protection) */
+      const EXECUTION_TIMEOUT = 4000;
+  
+      const execution = pyodide.runPythonAsync(`
+  try:
+      exec(${JSON.stringify(userCode)})
+  except Exception:
+      traceback.print_exc()
+      `);
+  
+      await Promise.race([
+        execution,
+        new Promise((_, reject) =>
+          setTimeout(
+            () => reject(new Error("Execution timed out (possible infinite loop).")),
+            EXECUTION_TIMEOUT
+          )
+        ),
+      ]);
+  
+      /** 📤 Collect outputs */
+      const stdout = await pyodide.runPythonAsync("stdout_capture.get()");
+      const stderr = await pyodide.runPythonAsync("stderr_capture.get()");
+  
+      /** 🧹 Restore environment */
+      await pyodide.runPythonAsync(`
+  sys.stdout = _original_stdout
+  sys.stderr = _original_stderr
+  builtins.input = _original_input
+      `);
+  
+      /** 🎯 Format final output */
+      let finalOutput = "";
+  
+      if (stdout.trim()) {
+        finalOutput += `${stdout.trim()}\n`;
+      }
+  
+      if (stderr.trim()) {
+        const cleanedError = stderr
+          .split("\n")
+          .filter(line => !line.includes('File "<exec>"'))
+          .map(line =>
+            line.replace(/File "<string>"/g, 'File "main.py"')
+          )
+          .join("\n");
+      
+        finalOutput += cleanedError;
+      }
+  
+      result =
+        finalOutput.trim() ||
+        "✅ Python code executed successfully (no output).";
     } catch (err) {
-      result = `Error: ${err.message}\n`;
+      result = `🔥 Execution Failed\n\n${err.message}`;
     } finally {
       setIsRunning(false);
       return result;
     }
   }, []);
+  
 
   const executeCode = async (userCode, testCaseInput) => {
     const inputLines = testCaseInput

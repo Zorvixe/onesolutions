@@ -15,22 +15,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        0 0<br />0 1<br />1 0<br />1 1<br />2 0<br />2 1
-      </span>,
-      <span>
-        0 1<br />1 0<br />2 1
-      </span>,
-      <span>
-        0 0<br />1 1<br />2 2
-      </span>,
-      <span>Error</span>,
+      "0 0\n0 1\n1 0\n1 1\n2 0\n2 1",
+      "0 1\n1 0\n2 1",
+      "0 0\n1 1\n2 2",
+      "Error",
     ],
-    answer: (
-      <span>
-        0 0<br />0 1<br />1 0<br />1 1<br />2 0<br />2 1
-      </span>
-    ),
+    answer: "0 0\n0 1\n1 0\n1 1\n2 0\n2 1",
   },
 
   {
@@ -72,34 +62,18 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        i= 0 j= 0<br />
-        i= 0 j= 1<br />
-        i= 0 j= 2<br />
-        i= 1 j= 0<br />
-        i= 1 j= 1<br />
-        i= 1 j= 2
-      </span>,
-      <span>i= 0 only</span>,
-      <span>Infinite loop</span>,
-      <span>Error</span>,
+      "i= 0 j= 0\ni= 0 j= 1\ni= 0 j= 2\ni= 1 j= 0\ni= 1 j= 1\ni= 1 j= 2",
+      "i= 0 only",
+      "Infinite loop",
+      "Error",
     ],
-    answer: (
-      <span>
-        i= 0 j= 0<br />
-        i= 0 j= 1<br />
-        i= 0 j= 2<br />
-        i= 1 j= 0<br />
-        i= 1 j= 1<br />
-        i= 1 j= 2
-      </span>
-    ),
+    answer: "i= 0 j= 0\ni= 0 j= 1\ni= 0 j= 2\ni= 1 j= 0\ni= 1 j= 1\ni= 1 j= 2",
   },
 
   {
     question: (
       <div>
-        <p>How many times does "*" print?</p>
+        <p>How many times does \"*\" print?</p>
         <CodeBlock
           language="python"
           code={`for p in range(4):\n    for q in range(2):\n        print("*", end="")\n    print()`}
@@ -121,22 +95,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        0 0<br />0 1<br />1 0<br />1 1<br />2 0<br />2 1
-      </span>,
-      <span>
-        0 1<br />1 0<br />2 1
-      </span>,
-      <span>
-        0 0<br />1 1<br />2 2
-      </span>,
-      <span>Infinite</span>,
+      "0 0\n0 1\n1 0\n1 1\n2 0\n2 1",
+      "0 1\n1 0\n2 1",
+      "0 0\n1 1\n2 2",
+      "Infinite",
     ],
-    answer: (
-      <span>
-        0 0<br />0 1<br />1 0<br />1 1<br />2 0<br />2 1
-      </span>
-    ),
+    answer: "0 0\n0 1\n1 0\n1 1\n2 0\n2 1",
   },
 
   {
@@ -150,28 +114,13 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        i= 0 count= 0<br />
-        i= 0 count= 1<br />
-        i= 0 count= 2<br />
-        i= 1 count= 0<br />
-        i= 1 count= 1<br />
-        i= 1 count= 2
-      </span>,
-      <span>i= 0 only</span>,
-      <span>Infinite loop</span>,
-      <span>Error</span>,
+      "i= 0 count= 0\ni= 0 count= 1\ni= 0 count= 2\ni= 1 count= 0\ni= 1 count= 1\ni= 1 count= 2",
+      "i= 0 only",
+      "Infinite loop",
+      "Error",
     ],
-    answer: (
-      <span>
-        i= 0 count= 0<br />
-        i= 0 count= 1<br />
-        i= 0 count= 2<br />
-        i= 1 count= 0<br />
-        i= 1 count= 1<br />
-        i= 1 count= 2
-      </span>
-    ),
+    answer:
+      "i= 0 count= 0\ni= 0 count= 1\ni= 0 count= 2\ni= 1 count= 0\ni= 1 count= 1\ni= 1 count= 2",
   },
 
   {
@@ -199,28 +148,18 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        0 <br />0 1 <br />0 1 2{" "}
-      </span>,
-      <span>
-        0 1 2 <br />0 1 2 <br />0 1 2{" "}
-      </span>,
-      <span>
-        1 <br />1 2 <br />1 2 3{" "}
-      </span>,
-      <span>Nothing</span>,
+      "0\n0 1\n0 1 2",
+      "0 1 2\n0 1 2\n0 1 2",
+      "1\n1 2\n1 2 3",
+      "Nothing",
     ],
-    answer: (
-      <span>
-        0 <br />0 1 <br />0 1 2{" "}
-      </span>
-    ),
+    answer: "0\n0 1\n0 1 2",
   },
 
   {
     question: (
       <div>
-        <p>How many times "Run" prints?</p>
+        <p>How many times \"Run\" prints?</p>
         <CodeBlock
           language="python"
           code={`x = 0\nwhile x < 2:\n    y = 0\n    while y < 5:\n        print("Run")\n        y += 1\n    x += 1`}
@@ -284,19 +223,15 @@ const questionsData = [
   },
 ];
 
-const NestedLoops_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const NestedLoops_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -309,19 +244,6 @@ const NestedLoops_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -331,25 +253,13 @@ const NestedLoops_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        if (onComplete) onComplete();
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const shuffledQuestions = [...questionsData].sort(() => Math.random() - 0.5);
   return (
     <MCQLogic
       title="Nested Loops - MCQs"

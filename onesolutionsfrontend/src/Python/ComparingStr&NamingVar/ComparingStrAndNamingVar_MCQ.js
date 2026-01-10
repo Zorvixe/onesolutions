@@ -4,8 +4,6 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ==================== 10 CODE BLOCK QUESTIONS ====================
-
   {
     question: (
       <div>
@@ -93,8 +91,13 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["65 66 67 68 69 70", "A B C D E F", "a b c d e f", "Error"],
-    answer: "A B C D E F",
+    options: [
+      "65 66 67 68 69 70",
+      "A B C D E F ",
+      "a b c d e f",
+      "Error",
+    ],
+    answer: "A B C D E F ",
   },
 
   {
@@ -119,7 +122,7 @@ const questionsData = [
     answer: "True",
   },
 
-  // ==================== 5 NORMAL QUESTIONS (Naming Rules + Keywords) ====================
+  // ---------- NORMAL QUESTIONS ----------
 
   {
     question: "Which is a valid variable name in Python?",
@@ -157,19 +160,21 @@ const questionsData = [
   },
 ];
 
+
 const ComparingStrAndNamingVar_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -181,20 +186,6 @@ const ComparingStrAndNamingVar_MCQ = ({
 
     try {
       setIsLoading(true);
-
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -204,23 +195,17 @@ const ComparingStrAndNamingVar_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        alert(result.message);
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+    } catch {
+      alert("Failed to mark as complete");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="Comparing Strings & Naming Variables | MCQs"

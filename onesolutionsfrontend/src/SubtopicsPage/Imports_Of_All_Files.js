@@ -86,6 +86,7 @@ import React_Router2_3_CS from "../Reactjs/React_Router/React_Router2_3_CS.js";
 import Common_M_Part2_CS from "../Reactjs/React_Router/Common_M_Part2_CS.js";
 import Authentication_CS from "../Reactjs/Authentication/Authentication_CS.js";
 import Authentication_2_CS from "../Reactjs/Authentication/Authentication_2_CS.js";
+import Authentication_3_CS from "../Reactjs/Authentication/Authentication_3_CS.js";
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -104,6 +105,8 @@ import React_Router2_3_MCQ from "../Reactjs/React_Router/React_Router2_3_MCQ.js"
 import Common_M_Part2_MCQ from "../Reactjs/React_Router/Common_M_Part2_MCQ.js";
 import Authentication_MCQ from "../Reactjs/Authentication/Authentication_MCQ.js";
 import Authentication_2_MCQ from "../Reactjs/Authentication/Authentication_2_MCQ.js";
+import Authentication_3_MCQ from "../Reactjs/Authentication/Authentication_3_MCQ.js";
+
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -1130,6 +1133,7 @@ export const subtopicComponents = {
   "Common Mistakes | Cheat Sheet | Part 2": Common_M_Part2_CS,
   "Authentication & Authorization | Cheat Sheet": Authentication_CS,
   "Authentication & Authorization | Part 2 | Cheat Sheet": Authentication_2_CS,
+  "Authentication & Authorization | Part 3 | Cheat Sheet": Authentication_3_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
@@ -1149,6 +1153,7 @@ export const subtopicComponents = {
   "MCQ Pratice - Common Mistakes | Part 2": Common_M_Part2_MCQ,
   "MCQ Pratice - Authentication & Authorization": Authentication_MCQ,
   "MCQ Pratice - Authentication & Authorization | Part 2": Authentication_2_MCQ,
+  "MCQ Pratice - Authentication & Authorization | Part 3": Authentication_3_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":

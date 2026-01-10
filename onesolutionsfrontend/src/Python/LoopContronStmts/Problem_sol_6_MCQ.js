@@ -12,24 +12,10 @@ const questionsData = [
         <CodeBlock language="python" code={`print("Apple")\nprint("Banana")`} />
       </div>
     ),
-    options: [
-      <span>AppleBanana</span>,
-      <span>Apple Banana</span>,
-      <span>
-        Apple
-        <br />
-        Banana
-      </span>,
-      <span>Error</span>,
-    ],
-    answer: (
-      <span>
-        Apple
-        <br />
-        Banana
-      </span>
-    ),
+    options: ["AppleBanana", "Apple Banana", "Apple\nBanana", "Error"],
+    answer: "Apple\nBanana",
   },
+
   {
     question: (
       <div>
@@ -40,18 +26,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>Hi Python</span>,
-      <span>
-        Hi
-        <br />
-        Python
-      </span>,
-      <span>HiPython</span>,
-      <span>Error</span>,
-    ],
-    answer: <span>Hi Python</span>,
+    options: ["Hi Python", "Hi\nPython", "HiPython", "Error"],
+    answer: "Hi Python",
   },
+
   {
     question: (
       <div>
@@ -62,14 +40,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>★★★★</span>,
-      <span>★#★#★#★#</span>,
-      <span>★#★#★#★</span>,
-      <span>Error</span>,
-    ],
-    answer: <span>★#★#★#★#</span>,
+    options: ["★★★★", "★#★#★#★#", "★#★#★#★", "Error"],
+    answer: "★#★#★#★#",
   },
+
   {
     question: (
       <div>
@@ -81,18 +55,13 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        * * * * *<br />* * * * *<br />* * * * *
-      </span>,
-      <span>* * * * * * * * * * * * * * *</span>,
-      <span>Error</span>,
+      "* * * * *\n* * * * *\n* * * * *",
+      "* * * * * * * * * * * * * * *",
+      "Error",
     ],
-    answer: (
-      <span>
-        * * * * *<br />* * * * *<br />* * * * *
-      </span>
-    ),
+    answer: "* * * * *\n* * * * *\n* * * * *",
   },
+
   {
     question: (
       <div>
@@ -103,17 +72,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>A-B-C</span>,
-      <span>
-        A-B
-        <br />C
-      </span>,
-      <span>A B C</span>,
-      <span>Error</span>,
-    ],
-    answer: <span>A-B-C</span>,
+    options: ["A-B-C", "A-B\nC", "A B C", "Error"],
+    answer: "A-B-C",
   },
+
   {
     question: (
       <div>
@@ -129,6 +91,7 @@ const questionsData = [
     ],
     answer: "Prints X* and stays on the same line",
   },
+
   {
     question: (
       <div>
@@ -139,16 +102,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>012345</span>,
-      <span>0 1 2 3 4 5</span>,
-      <span>
-        0<br />1<br />2<br />3<br />4<br />5
-      </span>,
-      <span>Error</span>,
-    ],
-    answer: <span>012345</span>,
+    options: ["012345", "0 1 2 3 4 5", "0\n1\n2\n3\n4\n5", "Error"],
+    answer: "012345",
   },
+
   {
     question: (
       <div>
@@ -159,26 +116,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        ####
-        <br />
-        ####
-      </span>,
-      <span>########</span>,
-      <span>
-        # # # #<br /># # # #
-      </span>,
-      <span>Error</span>,
-    ],
-    answer: (
-      <span>
-        ####
-        <br />
-        ####
-      </span>
-    ),
+    options: ["####\n####", "########", "# # # #\n# # # #", "Error"],
+    answer: "####\n####",
   },
+
   {
     question: (
       <div>
@@ -189,18 +130,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>Yes!No</span>,
-      <span>
-        Yes!
-        <br />
-        No
-      </span>,
-      <span>Yes! No</span>,
-      <span>Error</span>,
-    ],
-    answer: <span>Yes!No</span>,
+    options: ["Yes!No", "Yes!\nNo", "Yes! No", "Error"],
+    answer: "Yes!No",
   },
+
   {
     question: (
       <div>
@@ -211,18 +144,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        * * *<br />* * *<br />* * *<br />* * *
-      </span>,
-      <span>* * * * * * * * * * * *</span>,
-      <span>Error</span>,
-    ],
-    answer: (
-      <span>
-        * * *<br />* * *<br />* * *<br />* * *
-      </span>
-    ),
+    options: ["* * *\n* * *\n* * *\n* * *", "* * * * * * * * * * * *", "Error"],
+    answer: "* * *\n* * *\n* * *\n* * *",
   },
 
   // 5 NORMAL QUESTIONS
@@ -231,21 +154,25 @@ const questionsData = [
     options: ["space", "nothing", "newline (\\n)", "comma"],
     answer: "newline (\\n)",
   },
+
   {
     question: "How do you print everything on the same line?",
     options: ['end="\\n"', 'end=""', "sep=", 'print(" ")'],
     answer: 'end=""',
   },
+
   {
     question: "In nested loops, how do you go to the next line after a row?",
     options: ['print(end=" ")', "print()", 'print("\\n")', 'print("next")'],
     answer: "print()",
   },
+
   {
     question: 'What does print("Cat", end="-") followed by print("Dog") print?',
-    options: ["Cat-Dog", "Cat<br/>Dog", "Cat- Dog", "CatDog"],
+    options: ["Cat-Dog", "Cat\nDog", "Cat- Dog", "CatDog"],
     answer: "Cat-Dog",
   },
+
   {
     question: "Which code prints 123 without spaces or newlines?",
     options: [
@@ -262,15 +189,16 @@ const Problem_sol_6_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -283,19 +211,6 @@ const Problem_sol_6_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -305,23 +220,13 @@ const Problem_sol_6_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        if (onComplete) onComplete();
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="Problem Solving | Part 6 - MCQs"

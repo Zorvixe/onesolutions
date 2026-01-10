@@ -14,13 +14,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>Rjs</span>,
-      <span>Raj</span>,
-      <span>Rae</span>,
-      <span>Rajesh</span>,
-    ],
-    answer: <span>Rjs</span>,
+    options: ["Rjs", "Raj", "Rae", "Rajesh"],
+    answer: "Rjs",
   },
 
   {
@@ -33,13 +28,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>Lenn</span>,
-      <span>Lrnn</span>,
-      <span>Leni</span>,
-      <span>Lnag</span>,
-    ],
-    answer: <span>Lrnn</span>,
+    options: ["Lenn", "Lrnn", "Leni", "Lnag"],
+    answer: "Lrnn",
   },
 
   {
@@ -52,13 +42,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>dlroW olleH</span>,
-      <span>Hello World</span>,
-      <span>Error</span>,
-      <span>World Hello</span>,
-    ],
-    answer: <span>dlroW olleH</span>,
+    options: ["dlroW olleH", "Hello World", "Error", "World Hello"],
+    answer: "dlroW olleH",
   },
 
   {
@@ -71,35 +56,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        True
-        <br />
-        True
-      </span>,
-      <span>
-        True
-        <br />
-        False
-      </span>,
-      <span>
-        False
-        <br />
-        True
-      </span>,
-      <span>
-        False
-        <br />
-        False
-      </span>,
-    ],
-    answer: (
-      <span>
-        True
-        <br />
-        False
-      </span>
-    ),
+    options: ["True\nTrue", "True\nFalse", "False\nTrue", "False\nFalse"],
+    answer: "True\nFalse",
   },
 
   {
@@ -113,12 +71,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span> Python Programming </span>,
-      <span>Python Programming</span>,
-      <span> Python Programming </span>,
-      <span>Error</span>,
+      " Python Programming ",
+      "Python Programming",
+      "   Python Programming   ",
+      "Error",
     ],
-    answer: <span>Python Programming</span>,
+    answer: "Python Programming",
   },
 
   {
@@ -127,17 +85,12 @@ const questionsData = [
         <p>What will be the cleaned string?</p>
         <CodeBlock
           language="python"
-          code={`msg = "!!!Hi there!!!")\nprint(msg.strip("!"))`}
+          code={`msg = "!!!Hi there!!!"\nprint(msg.strip("!"))`}
         />
       </div>
     ),
-    options: [
-      <span>Hi there</span>,
-      <span>!!!Hi there</span>,
-      <span>Hi there!!!</span>,
-      <span>Hi there!!!)</span>,
-    ],
-    answer: <span>Hi there</span>,
+    options: ["Hi there", "!!!Hi there", "Hi there!!!", "Hi there!!!)"],
+    answer: "Hi there",
   },
 
   {
@@ -150,13 +103,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>I love dogs</span>,
-      <span>I love cats</span>,
-      <span>I love cats and dogs</span>,
-      <span>Error</span>,
-    ],
-    answer: <span>I love dogs</span>,
+    options: ["I love dogs", "I love cats", "I love cats and dogs", "Error"],
+    answer: "I love dogs",
   },
 
   {
@@ -169,35 +117,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        True
-        <br />
-        True
-      </span>,
-      <span>
-        True
-        <br />
-        False
-      </span>,
-      <span>
-        False
-        <br />
-        True
-      </span>,
-      <span>
-        False
-        <br />
-        False
-      </span>,
-    ],
-    answer: (
-      <span>
-        True
-        <br />
-        True
-      </span>
-    ),
+    options: ["True\nTrue", "True\nFalse", "False\nTrue", "False\nFalse"],
+    answer: "True\nTrue",
   },
 
   {
@@ -211,30 +132,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        PYTHON123
-        <br />
-        python123
-      </span>,
-      <span>
-        PyThOn123
-        <br />
-        PyThOn123
-      </span>,
-      <span>
-        PYTHON
-        <br />
-        python
-      </span>,
-      <span>Error</span>,
+      "PYTHON123\npython123",
+      "PyThOn123\nPyThOn123",
+      "PYTHON\npython",
+      "Error",
     ],
-    answer: (
-      <span>
-        PYTHON123
-        <br />
-        python123
-      </span>
-    ),
+    answer: "PYTHON123\npython123",
   },
 
   {
@@ -247,15 +150,11 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>oderf</span>,
-      <span>ondef</span>,
-      <span>onder</span>,
-      <span>ndrfu</span>,
-    ],
-    answer: <span>ondef</span>,
+    options: ["oderf", "ondef", "onder", "ndrfu"],
+    answer: "ondef",
   },
 
+  // NORMAL MCQs
   {
     question: "Which method removes leading and trailing whitespace?",
     options: ["strip()", "trim()", "remove()", "clean()"],
@@ -304,9 +203,9 @@ const String_Methods_MCQ = ({
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -319,19 +218,6 @@ const String_Methods_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName,
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -341,23 +227,13 @@ const String_Methods_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        if (onComplete) onComplete();
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="String Methods - MCQs"

@@ -14,23 +14,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        0<br />1<br />2<br />3<br />4
-      </span>,
-      <span>
-        0<br />1<br />2<br />3
-      </span>,
-      <span>4</span>,
-      <span>
-        0<br />1<br />2<br />3<br />4<br />5
-      </span>,
-    ],
-    answer: (
-      <span>
-        0<br />1<br />2<br />3
-      </span>
-    ),
+    options: ["0\n1\n2\n3\n4", "0\n1\n2\n3", "4", "0\n1\n2\n3\n4\n5"],
+    answer: "0\n1\n2\n3",
   },
 
   {
@@ -43,21 +28,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        0<br />1<br />2
-      </span>,
-      <span>
-        0<br />1<br />2<br />3
-      </span>,
-      <span>3</span>,
-      <span>No output</span>,
-    ],
-    answer: (
-      <span>
-        0<br />1<br />2
-      </span>
-    ),
+    options: ["0\n1\n2", "0\n1\n2\n3", "3", "No output"],
+    answer: "0\n1\n2",
   },
 
   {
@@ -70,23 +42,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        0<br />1<br />3<br />4
-      </span>,
-      <span>
-        0<br />1<br />2<br />3<br />4
-      </span>,
-      <span>2</span>,
-      <span>
-        0<br />1<br />2
-      </span>,
-    ],
-    answer: (
-      <span>
-        0<br />1<br />3<br />4
-      </span>
-    ),
+    options: ["0\n1\n3\n4", "0\n1\n2\n3\n4", "2", "0\n1\n2"],
+    answer: "0\n1\n3\n4",
   },
 
   {
@@ -99,23 +56,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        1<br />3<br />5
-      </span>,
-      <span>
-        2<br />4
-      </span>,
-      <span>
-        1<br />2<br />3<br />4<br />5
-      </span>,
-      <span>No output</span>,
-    ],
-    answer: (
-      <span>
-        1<br />3<br />5
-      </span>
-    ),
+    options: ["1\n3\n5", "2\n4", "1\n2\n3\n4\n5", "No output"],
+    answer: "1\n3\n5",
   },
 
   {
@@ -129,30 +71,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        i=0 j=0
-        <br />
-        i=1 j=0
-        <br />
-        i=2 j=0
-      </span>,
-      <span>
-        i=0 j=0
-        <br />
-        i=0 j=1 only
-      </span>,
-      <span>All 9 pairs</span>,
-      <span>Error</span>,
+      "i= 0 j= 0\ni= 1 j= 0\ni= 2 j= 0",
+      "i= 0 j= 0\ni= 0 j= 1 only",
+      "All 9 pairs",
+      "Error",
     ],
-    answer: (
-      <span>
-        i=0 j=0
-        <br />
-        i=1 j=0
-        <br />
-        i=2 j=0
-      </span>
-    ),
+    answer: "i= 0 j= 0\ni= 1 j= 0\ni= 2 j= 0",
   },
 
   {
@@ -165,23 +89,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        0<br />1<br />3
-      </span>,
-      <span>
-        0<br />1<br />2<br />3
-      </span>,
-      <span>
-        0<br />1<br />3<br />2
-      </span>,
-      <span>No output</span>,
-    ],
-    answer: (
-      <span>
-        0<br />1<br />3
-      </span>
-    ),
+    options: ["0\n1\n3", "0\n1\n2\n3", "0\n1\n3\n2", "No output"],
+    answer: "0\n1\n3",
   },
 
   {
@@ -194,21 +103,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        1<br />3
-      </span>,
-      <span>
-        1<br />2<br />3
-      </span>,
-      <span>2</span>,
-      <span>Infinite loop</span>,
-    ],
-    answer: (
-      <span>
-        1<br />3
-      </span>
-    ),
+    options: ["1\n3", "1\n2\n3", "2", "Infinite loop"],
+    answer: "1\n3",
   },
 
   {
@@ -221,23 +117,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        1<br />3
-      </span>,
-      <span>
-        0<br />1<br />2<br />3<br />4
-      </span>,
-      <span>
-        1<br />3<br />5
-      </span>,
-      <span>No output</span>,
-    ],
-    answer: (
-      <span>
-        1<br />3
-      </span>
-    ),
+    options: ["1\n3", "0\n1\n2\n3\n4", "1\n3\n5", "No output"],
+    answer: "1\n3",
   },
 
   {
@@ -267,6 +148,8 @@ const questionsData = [
     options: ["100", "10", "11", "0"],
     answer: "10",
   },
+
+  // ================= NORMAL QUESTIONS =================
 
   {
     question: "What happens when break is executed inside a loop?",
@@ -323,15 +206,16 @@ const LoopControlStmts_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -343,20 +227,6 @@ const LoopControlStmts_MCQ = ({
 
     try {
       setIsLoading(true);
-
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -366,23 +236,17 @@ const LoopControlStmts_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        alert(result.message);
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+      alert("Failed to mark as complete");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="Loop Control Statements | MCQs"
