@@ -190,14 +190,14 @@ export default App;`}
     {
       uniqueNo: 1,
       imageUrl:
-        "https://assets.ccbp.in/frontend/react-js/esther-howard-img.png",
+        "https://assets.Onesolution.in/frontend/react-js/esther-howard-img.png",
       name: "Esther Howard",
       role: "Software Developer",
     },
     {
       uniqueNo: 2,
       imageUrl:
-        "https://assets.ccbp.in/frontend/react-js/floyd-miles-img.png",
+        "https://assets.Onesolution.in/frontend/react-js/floyd-miles-img.png",
       name: "Floyd Miles",
       role: "Product Manager",
     },

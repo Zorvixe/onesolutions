@@ -48,9 +48,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <b>25</b> and <b>30</b>
-          <br />
-          What is the output?
+          User enters: <b>25</b> and <b>30</b> What is the output?
         </p>
         <CodeBlock
           language="python"
@@ -119,7 +117,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          User enters: <b>50</b>What is printed?
+          User enters: <b>50</b> What is printed?
         </p>
         <CodeBlock
           language="python"

@@ -1,127 +1,288 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+
   {
     question: (
       <div>
-        <p>What is the purpose of <code>key</code> in React lists?</p>
+        <p>What is the main purpose of keys in React?</p>
       </div>
     ),
     options: [
       "To style list items",
-      "To help React identify which items changed, added, or removed",
+      "To uniquely identify elements in a list",
       "To pass data to child components",
-      "To improve CSS performance",
+      "To update state",
     ],
-    answer: "To help React identify which items changed, added, or removed",
+    answer: "To uniquely identify elements in a list",
+  },
+  {
+    question: (
+      <div>
+        <p>Why are keys important for performance?</p>
+      </div>
+    ),
+    options: [
+      "They reduce bundle size",
+      "They prevent unnecessary re-renders",
+      "They improve API speed",
+      "They cache components",
+    ],
+    answer: "They prevent unnecessary re-renders",
   },
   {
     question: (
       <div>
         <p>Which is the best choice for a key?</p>
+      </div>
+    ),
+    options: [
+      "Array index",
+      "Random number",
+      "Unique ID from data",
+      "Component name",
+    ],
+    answer: "Unique ID from data",
+  },
+  {
+    question: (
+      <div>
+        <p>Are keys accessible inside child components as props?</p>
+      </div>
+    ),
+    options: [
+      "Yes",
+      "No",
+      "Only in class components",
+      "Only in functional components",
+    ],
+    answer: "No",
+  },
+  {
+    question: (
+      <div>
+        <p>What can happen if keys are not provided?</p>
+      </div>
+    ),
+    options: [
+      "Compilation error",
+      "UI bugs and performance issues",
+      "App crashes immediately",
+      "State updates stop working",
+    ],
+    answer: "UI bugs and performance issues",
+  },
+
+
+  {
+    question: (
+      <div>
+        <p>Which key usage shown below is correct?</p>
         <CodeBlock
           language="jsx"
           code={`userDetailsList.map(user => (
-  <UserProfile key={user.id} userDetails={user} />
+  <UserProfile key={user.uniqueNo} userDetails={user} />
 ));`}
         />
       </div>
     ),
     options: [
-      "user.name",
-      "Math.random()",
-      "index from map()",
-      "user.id (unique identifier)",
+      "Correct usage of keys",
+      "Incorrect because key must be index",
+      "Incorrect because key must be name",
+      "Incorrect because key must be random",
     ],
-    answer: "user.id (unique identifier)",
+    answer: "Correct usage of keys",
   },
   {
     question: (
       <div>
-        <p>Can <code>key</code> be accessed inside the component as a prop?</p>
+        <p>Why does this log undefined?</p>
         <CodeBlock
           language="jsx"
-          code={`const Item = (props) => {
-  console.log(props.key); // ?
-  return <li>{props.name}</li>;
+          code={`const UserProfile = props => {
+  console.log(props.key);
+  return <li>User</li>;
 };`}
         />
       </div>
     ),
-    options: ["Yes", "No, key is reserved by React", "Only in class components", "Only if passed manually"],
-    answer: "No, key is reserved by React",
-  },
-  {
-    question: (
-      <div>
-        <p>How to pass the unique ID to the child if needed?</p>
-      </div>
-    ),
     options: [
-      "Use key={id} and read props.key",
-      "Pass it as a separate prop like id={user.id}",
-      "Use React.cloneElement",
-      "It's automatically available",
+      "Key is not passed correctly",
+      "Key is reserved and not available as prop",
+      "Props are empty",
+      "Component did not re-render",
     ],
-    answer: "Pass it as a separate prop like id={user.id}",
+    answer: "Key is reserved and not available as prop",
   },
   {
     question: (
       <div>
-        <p>What happens if you use array index as key and delete an item?</p>
-      </div>
-    ),
-    options: [
-      "No effect",
-      "React may re-render wrong components",
-      "App crashes",
-      "Performance improves",
-    ],
-    answer: "React may re-render wrong components",
-  },
-  {
-    question: (
-      <div>
-        <p>Which command fixes the "ENOSPC" file watcher error?</p>
+        <p>How can the ID be accessed inside the component?</p>
         <CodeBlock
-          language="bash"
-          code={`echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`}
+          language="jsx"
+          code={`<UserProfile
+  key={user.uniqueNo}
+  uniqueNo={user.uniqueNo}
+  name={user.name}
+/>`}
         />
       </div>
     ),
     options: [
-      "npm install --save watchers",
-      "The command increases the file watcher limit",
-      "sudo restart react",
-      "npm cache clean",
+      "Using props.key",
+      "Using props.id",
+      "Passing it explicitly as a prop",
+      "Using state",
     ],
-    answer: "The command increases the file watcher limit",
+    answer: "Passing it explicitly as a prop",
   },
   {
     question: (
       <div>
-        <p>Keys must be unique:</p>
+        <p>What is wrong with this approach?</p>
+        <CodeBlock
+          language="jsx"
+          code={`userDetailsList.map((user, index) => (
+  <UserProfile key={index} userDetails={user} />
+));`}
+        />
       </div>
     ),
     options: [
-      "Globally in the entire app",
-      "Among siblings only",
-      "In the parent component only",
-      "Across all components",
+      "Index cannot be used as key",
+      "Causes issues when list changes",
+      "Breaks JSX",
+      "Creates syntax error",
     ],
-    answer: "Among siblings only",
+    answer: "Causes issues when list changes",
+  },
+  {
+    question: (
+      <div>
+        <p>What happens if list items are reordered with index as key?</p>
+        <CodeBlock
+          language="jsx"
+          code={`key={index}`}
+        />
+      </div>
+    ),
+    options: [
+      "No effect",
+      "Incorrect component updates",
+      "App crashes",
+      "State resets correctly",
+    ],
+    answer: "Incorrect component updates",
+  },
+  {
+    question: (
+      <div>
+        <p>Which value is used as key here?</p>
+        <CodeBlock
+          language="jsx"
+          code={`<UserProfile key={user.uniqueNo} />`}
+        />
+      </div>
+    ),
+    options: [
+      "user.name",
+      "user.role",
+      "user.uniqueNo",
+      "user index",
+    ],
+    answer: "user.uniqueNo",
+  },
+  {
+    question: (
+      <div>
+        <p>Why is a unique string preferred as key?</p>
+        <CodeBlock
+          language="jsx"
+          code={`key={user.uniqueNo}`}
+        />
+      </div>
+    ),
+    options: [
+      "Strings render faster",
+      "Ensures stable identity across renders",
+      "Required by JSX",
+      "Avoids API calls",
+    ],
+    answer: "Ensures stable identity across renders",
+  },
+  {
+    question: (
+      <div>
+        <p>What does React use keys for internally?</p>
+        <CodeBlock
+          language="jsx"
+          code={`<li key={id}>Item</li>`}
+        />
+      </div>
+    ),
+    options: [
+      "Passing props",
+      "Tracking list item changes",
+      "Styling elements",
+      "Updating state",
+    ],
+    answer: "Tracking list item changes",
+  },
+  {
+    question: (
+      <div>
+        <p>Which component correctly renders a list?</p>
+        <CodeBlock
+          language="jsx"
+          code={`<ul>
+  {userDetailsList.map(user => (
+    <UserProfile key={user.uniqueNo} userDetails={user} />
+  ))}
+</ul>`}
+        />
+      </div>
+    ),
+    options: [
+      "Correct list rendering",
+      "Missing state",
+      "Missing props",
+      "Invalid JSX",
+    ],
+    answer: "Correct list rendering",
+  },
+  {
+    question: (
+      <div>
+        <p>What problem does this command fix?</p>
+        <CodeBlock
+          language="bash"
+          code={`fs.inotify.max_user_watches=524288`}
+        />
+      </div>
+    ),
+    options: [
+      "React rendering issue",
+      "ENOSPC file watcher error",
+      "Routing error",
+      "Build failure",
+    ],
+    answer: "ENOSPC file watcher error",
   },
 ];
 
-const Keys_MCQ = ({
+
+const Lists_Keys_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -150,7 +311,7 @@ const Keys_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -179,13 +340,18 @@ const Keys_MCQ = ({
       setIsLoading(false);
     }
   };
-  return <MCQLogic title="Keys - MCQs" questions={randomQuestions}
-  isCompleted={isCompleted}
-  isLoading={isLoading}
-  onComplete={handleCompletion}
-  subtopicId={subtopicId}
-  goalName={goalName}
-  courseName={courseName} />;
+  return (
+    <MCQLogic
+      title="Components and Props - MCQs"
+      questions={randomQuestions}
+      isCompleted={isCompleted}
+      isLoading={isLoading}
+      onComplete={handleCompletion}
+      subtopicId={subtopicId}
+      goalName={goalName}
+      courseName={courseName}
+    />
+  );
 };
 
 export default Lists_Keys_MCQ;

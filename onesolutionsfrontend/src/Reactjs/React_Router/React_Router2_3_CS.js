@@ -72,7 +72,7 @@ const React_Router2_3_CS = ({
   
       <CodeBlock
         language="javascript"
-        code={`fetch("https://apis.ccbp.in/blogs")
+        code={`fetch("https://apis.Onesolution.in/blogs")
     .then(response => response.json())
     .then(data => console.log(data));`}
       />
@@ -254,7 +254,7 @@ const React_Router2_3_CS = ({
       const { match } = this.props;
       const { id } = match.params;
   
-      const response = await fetch(\`https://apis.ccbp.in/blogs/\${id}\`);
+      const response = await fetch(\`https://apis.Onesolution.in/blogs/\${id}\`);
       const data = await response.json();
   
       this.setState({
@@ -290,7 +290,7 @@ const React_Router2_3_CS = ({
   const About = () => (
     <div className="about-container">
       <img
-        src="https://assets.ccbp.in/frontend/react-js/about-blog-img.png"
+        src="https://assets.Onesolution.in/frontend/react-js/about-blog-img.png"
         alt="about"
         className="about-img"
       />
@@ -312,7 +312,7 @@ const React_Router2_3_CS = ({
   const Contact = () => (
     <div className="contact-container">
       <img
-        src="https://assets.ccbp.in/frontend/react-js/contact-blog-img.png"
+        src="https://assets.Onesolution.in/frontend/react-js/contact-blog-img.png"
         alt="contact"
         className="contact-img"
       />
@@ -331,7 +331,7 @@ const React_Router2_3_CS = ({
   const NotFound = () => (
     <div className="not-found-container">
       <img
-        src="https://assets.ccbp.in/frontend/react-js/not-found-blog-img.png"
+        src="https://assets.Onesolution.in/frontend/react-js/not-found-blog-img.png"
         alt="not-found"
         className="not-found-img"
       />

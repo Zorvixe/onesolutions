@@ -83,8 +83,14 @@ import Ondemand2_Session_CS from "../Reactjs/Working_With_Lists/Ondemand2_Sessio
 import Component_Life_Cycle_CS from "../Reactjs/Component_Life_Cycle/Component_Life_Cycle_CS.js";
 import React_Router1_CS from "../Reactjs/React_Router/React_Router1_CS.js";
 import React_Router2_3_CS from "../Reactjs/React_Router/React_Router2_3_CS.js";
+import Common_M_Part2_CS from "../Reactjs/React_Router/Common_M_Part2_CS.js";
+import Authentication_CS from "../Reactjs/Authentication/Authentication_CS.js";
+import Authentication_2_CS from "../Reactjs/Authentication/Authentication_2_CS.js";
 
 //React MCQ
+import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
+import Components_Props_MCQ from "../Reactjs/Introductionto_Reactjs/Components_Props_MCQ.js";
+import Lists_Keys_MCQ from "../Reactjs/Introductionto_Reactjs/Lists_Keys_MCQ.js";
 import Class_Component_State1_MCQ from "../Reactjs/Class_Component_State1/Class_Component_State1_MCQ.js";
 import Conditional_Render_MCQ from "../Reactjs/Class_Component_State1/Conditional_Render_MCQ.js";
 import Class_Component_State2_MCQ from "../Reactjs/Class_Component_State2/Class_Component_State2_MCQ.js";
@@ -94,6 +100,10 @@ import Ondemand1_Session_MCQ from "../Reactjs/Working_With_Lists/Ondemand1_Sessi
 import Ondemand2_Session_MCQ from "../Reactjs/Working_With_Lists/Ondemand2_Session_MCQ.js";
 import Component_Life_Cycle_MCQ from "../Reactjs/Component_Life_Cycle/Component_Life_Cycle_MCQ.js";
 import React_Router1_MCQ from "../Reactjs/React_Router/React_Router1_MCQ.js";
+import React_Router2_3_MCQ from "../Reactjs/React_Router/React_Router2_3_MCQ.js";
+import Common_M_Part2_MCQ from "../Reactjs/React_Router/Common_M_Part2_MCQ.js";
+import Authentication_MCQ from "../Reactjs/Authentication/Authentication_MCQ.js";
+import Authentication_2_MCQ from "../Reactjs/Authentication/Authentication_2_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -1117,8 +1127,14 @@ export const subtopicComponents = {
   "Component Life Cycle | Cheat Sheet": Component_Life_Cycle_CS,
   "Routing using React Router | Cheat Sheet": React_Router1_CS,
   "Routing using React Router | Part 2 & 3| Cheat Sheet": React_Router2_3_CS,
+  "Common Mistakes | Cheat Sheet | Part 2": Common_M_Part2_CS,
+  "Authentication & Authorization | Cheat Sheet": Authentication_CS,
+  "Authentication & Authorization | Part 2 | Cheat Sheet": Authentication_2_CS,
 
   //Reactjs MCQ
+  "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
+  "MCQ Pratice - Components & Pros": Components_Props_MCQ,
+  "MCQ Pratice - Lists & Keys": Lists_Keys_MCQ,
   "MCQ Pratice - Class Component and State": Class_Component_State1_MCQ,
   "MCQ Pratice - Conditional Rendering": Conditional_Render_MCQ,
   "MCQ Pratice - Class Component and State | Part 2":
@@ -1129,6 +1145,10 @@ export const subtopicComponents = {
   "MCQ Pratice - On Demand Session | Part 2": Ondemand2_Session_MCQ,
   "MCQ Pratice - Component Life Cycle": Component_Life_Cycle_MCQ,
   "MCQ Pratice - Routing using React Router": React_Router1_MCQ,
+  "MCQ Pratice - Routing using React Router | Part 2 & 3": React_Router2_3_MCQ,
+  "MCQ Pratice - Common Mistakes | Part 2": Common_M_Part2_MCQ,
+  "MCQ Pratice - Authentication & Authorization": Authentication_MCQ,
+  "MCQ Pratice - Authentication & Authorization | Part 2": Authentication_2_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":

@@ -155,8 +155,7 @@ export const javascriptCodingPracticesData = {
                   <div  class="desc-colors c49a6e9">#49a6e9</div>
 
                   <p class="desc-que-blue">CSS Font families used:</p>
-                  <ul><li>Open Sans</li></ul><hr>
-
+                  <ul><li>Open Sans</li></ul>
                   <hr>
                 <p class="desc-que-blue">Concepts Review</p>
                 <p class="">Want to quickly review some of the concepts you've been learning?</p>
@@ -243,5 +242,191 @@ export const javascriptCodingPracticesData = {
       ],
     },
     //coding practice - 2
+    {
+      id: "javascript-coding-practice-2",
+      title: "Javascript Coding Practice 2",
+      description: "",
+      questions: [
+        {
+          id: "e195b822-ab24fafec88-050b8ddb",
+          title: "Seasons Switcher",
+          description:
+            "In this assignment, let's build a Seasons Switcher by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+                <html>
+                <head>
+                    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+                </head>
+                
+                <body>
+                    <div>
+                        <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767971064/seasons-switcher-four-seasons-xs-img_kybnsr.png" id="seasonSmallImage" class="season-image d-inline d-md-none" />
+                        <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767971063/seasons-switcher-four-seasons-md-img_exvdpn.png" id="seasonMediumImage" class="season-image d-none d-md-inline" />
+                        <div class="d-flex flex-row justify-content-center mt-4">
+                            <button class="button spring-button" id="springBtn" onclick="spring()">Spring</button>
+                            <button class="button summer-button" id="summerBtn" onclick="summer()">Summer</button>
+                            <button class="button autumn-button" id="autumnBtn" onclick="autumn()">Autumn</button>
+                            <button class="button winter-button" id="winterBtn" onclick="winter()">Winter</button>
+                        </div>
+                    </div>
+                </body>
+                
+                </html>`,
+            css: `
+                   @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+                .season-image {
+                    width: 100%;
+                    height: 85vh;
+                }
+                
+                .button {
+                    color: white;
+                    background-color: #cbd2d9;
+                    font-family: "Roboto";
+                    font-size: 14px;
+                    width: 80px;
+                    height: 32px;
+                    border-width: 0;
+                    border-radius: 8px;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
+                
+                .spring-button {
+                    background-color: #3a7333;
+                }
+                
+                .summer-button {
+                    background-color: #e0bb00;
+                }
+                
+                .autumn-button {
+                    background-color: #b04400;
+                }
+                
+                .winter-button {
+                    background-color: #0f7cb6;
+                }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967387/seasons-switcher-v1_vzxtml.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>The HTML <strong>img</strong> elements should have the ids seasonSmallImage, seasonMediumImage</span></li>
+                    </ol>
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not edit or remove the ids of the HTML button elements in the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li>When the HTML button element with the season id is clicked, the season images in both the small and medium devices should change respectively.</li>
+                </ul>
+
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                       
+                        <li>
+                          Try to achieve the design as close as possible.
+                        </li>
+                        <li>
+                        Apply the functionality to the given prefilled code.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+
+                  <hr>
+
+                  <p class="desc-que-blue">Resources</p>
+
+              <p class="">Use the image URLs given below.</p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967704/seasons-switcher-spring-xs-img_ymubbx.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967704/seasons-switcher-spring-xs-img_ymubbx.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967773/seasons-switcher-spring-md-img_phcjh8.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967773/seasons-switcher-spring-md-img_phcjh8.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967826/seasons-switcher-summer-xs-img_ljcy4k.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967826/seasons-switcher-summer-xs-img_ljcy4k.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967900/seasons-switcher-summer-md-img_m37nkm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767967900/seasons-switcher-summer-md-img_m37nkm.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970366/seasons-switcher-autumn-xs-img_npgz12.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970366/seasons-switcher-autumn-xs-img_npgz12.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970435/seasons-switcher-autumn-md-img_jhfrpm.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970435/seasons-switcher-autumn-md-img_jhfrpm.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970502/seasons-switcher-winter-xs-img_fzooxl.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970502/seasons-switcher-winter-xs-img_fzooxl.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970564/seasons-switcher-winter-md-img_q1ta4r.png" target="_blank">https://res.cloudinary.com/djhuqjvrl/image/upload/v1767970564/seasons-switcher-winter-md-img_q1ta4r.png</a></p>
+                
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                   
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "When the HTML button element with the id springBtn is clicked, the small and medium season images should update to Spring images",
+              type: "js-validation",
+              input: "check-spring-images",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "When the HTML button element with the id summerBtn is clicked, the small and medium season images should update to Summer images",
+              type: "js-validation",
+              input: "check-summer-images",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When the HTML button element with the id autumnBtn is clicked, the small and medium season images should update to Autumn images",
+              type: "js-validation",
+              input: "check-autumn-images",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id winterBtn is clicked, the small and medium season images should update to Winter images",
+              type: "js-validation",
+              input: "check-winter-images",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };

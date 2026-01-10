@@ -3660,7 +3660,71 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m9_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Authentication & Authorization",
+              },
+              {
+                id: "QW9_s2_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s4_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 27 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s5_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 2",
+              },
+              {
+                id: "QW9_s6_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 2 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s7_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization | Part 2",
+              },
+              {
+                id: "QW9_s8_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 28 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s9_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 3",
+              },
+              {
+                id: "QW9_s10_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 3 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s11_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization | Part 3",
+              },
+              {
+                id: "QW9_s12_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 29 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s13_A0 m9_H g3_7B c4_D2E",
+                name: "Common Mistakes | Part 3",
+              },
+              {
+                id: "QW9_s14_A0 m9_H g3_7B c4_D2E",
+                name: "Common Mistakes | Part 3 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s15_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Common Mistakes | Part 3",
+              },
+              {
+                id: "QW9_s16_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 30 - Common Mistakes | Part 3",
+              },
+              {
+                id: "QW9_s17_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 31 - Common Mistakes | Part 3",
               },
             ],
           },

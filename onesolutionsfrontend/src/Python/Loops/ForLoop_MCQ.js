@@ -1,11 +1,13 @@
-// src/Python/Loops/ForLoop_MCQ.js
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // =======================
+  // 1–10 : CODEBLOCK MCQs
+  // =======================
+
   {
     question: (
       <div>
@@ -16,23 +18,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        0<br />1<br />2<br />3<br />4
-      </span>,
-      <span>
-        0<br />1<br />2<br />3
-      </span>,
-      <span>
-        1<br />2<br />3<br />4
-      </span>,
-      <span>Nothing prints</span>,
-    ],
-    answer: (
-      <span>
-        0<br />1<br />2<br />3
-      </span>
-    ),
+    options: ["0\n1\n2\n3\n4", "0\n1\n2\n3", "1\n2\n3\n4", "Nothing prints"],
+    answer: "0\n1\n2\n3",
   },
 
   {
@@ -45,50 +32,22 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>CODE</span>,
-      <span>C O D E</span>,
-      <span>
-        C<br />O<br />D<br />E
-      </span>,
-      <span>Error</span>,
-    ],
-    answer: (
-      <span>
-        C<br />O<br />D<br />E
-      </span>
-    ),
+    options: ["CODE", "C O D E", "C\nO\nD\nE", "Error"],
+    answer: "C\nO\nD\nE",
   },
 
   {
     question: (
       <div>
-        <p>Predict the output carefully:</p>
+        <p>Predict the output:</p>
         <CodeBlock
           language="python"
           code={`for num in range(3, 7):\n    print(num)`}
         />
       </div>
     ),
-    options: [
-      <span>
-        3<br />4<br />5<br />6<br />7
-      </span>,
-      <span>
-        3<br />4<br />5<br />6
-      </span>,
-      <span>
-        4<br />5<br />6<br />7
-      </span>,
-      <span>
-        0<br />1<br />2<br />3
-      </span>,
-    ],
-    answer: (
-      <span>
-        3<br />4<br />5<br />6
-      </span>
-    ),
+    options: ["3\n4\n5\n6\n7", "3\n4\n5\n6", "4\n5\n6\n7", "0\n1\n2\n3"],
+    answer: "3\n4\n5\n6",
   },
 
   {
@@ -101,43 +60,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-      </span>,
-      <span>Hi Hi Hi Hi Hi</span>,
-      <span>
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-      </span>,
-      <span>5</span>,
-    ],
-    answer: (
-      <span>
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-        <br />
-        Hi
-      </span>
-    ),
+    options: ["Hi\nHi\nHi\nHi\nHi", "Hi Hi Hi Hi Hi", "Hi\nHi\nHi\nHi", "5"],
+    answer: "Hi\nHi\nHi\nHi\nHi",
   },
 
   {
@@ -150,57 +74,28 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        2<br />5<br />8
-      </span>,
-      <span>
-        2<br />5<br />8<br />
-        11
-      </span>,
-      <span>
-        3<br />6<br />9
-      </span>,
-      <span>
-        2<br />4<br />6<br />8
-      </span>,
-    ],
-    answer: (
-      <span>
-        2<br />5<br />8
-      </span>
-    ),
+    options: ["2\n5\n8", "2\n5\n8\n11", "3\n6\n9", "2\n4\n6\n8"],
+    answer: "2\n5\n8",
   },
 
   {
     question: (
       <div>
-        <p>Observe this string loop output:</p>
+        <p>Observe the output:</p>
         <CodeBlock
           language="python"
           code={`text = "HELLO"\nfor letter in text:\n    print(letter)`}
         />
       </div>
     ),
-    options: [
-      <span>HELLO</span>,
-      <span>H E L L O</span>,
-      <span>
-        H<br />E<br />L<br />L<br />O
-      </span>,
-      <span>Error</span>,
-    ],
-    answer: (
-      <span>
-        H<br />E<br />L<br />L<br />O
-      </span>
-    ),
+    options: ["HELLO", "H E L L O", "H\nE\nL\nL\nO", "Error"],
+    answer: "H\nE\nL\nL\nO",
   },
 
   {
     question: (
       <div>
-        <p>What is the exact output?</p>
+        <p>What is the output?</p>
         <CodeBlock
           language="python"
           code={`for i in range(1, 6):\n    print(i * 3)`}
@@ -208,38 +103,18 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        3<br />6<br />9<br />
-        12
-        <br />
-        15
-      </span>,
-      <span>
-        1<br />2<br />3<br />4<br />5
-      </span>,
-      <span>
-        0<br />3<br />6<br />9<br />
-        12
-      </span>,
-      <span>
-        3<br />6<br />9<br />
-        12
-      </span>,
+      "3\n6\n9\n12\n15",
+      "1\n2\n3\n4\n5",
+      "0\n3\n6\n9\n12",
+      "3\n6\n9\n12",
     ],
-    answer: (
-      <span>
-        3<br />6<br />9<br />
-        12
-        <br />
-        15
-      </span>
-    ),
+    answer: "3\n6\n9\n12\n15",
   },
 
   {
     question: (
       <div>
-        <p>How many numbers are generated by range(8)?</p>
+        <p>How many numbers are generated?</p>
         <CodeBlock
           language="python"
           code={`for n in range(8):\n    print(n)`}
@@ -247,12 +122,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>8 numbers (0 to 7)</span>,
-      <span>9 numbers (0 to 8)</span>,
-      <span>7 numbers (1 to 7)</span>,
-      <span>Infinite</span>,
+      "8 numbers (0 to 7)",
+      "9 numbers (0 to 8)",
+      "7 numbers (1 to 7)",
+      "Infinite",
     ],
-    answer: <span>8 numbers (0 to 7)</span>,
+    answer: "8 numbers (0 to 7)",
   },
 
   {
@@ -266,25 +141,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        10
-        <br />9<br />8<br />7<br />6
-      </span>,
-      <span>
-        10
-        <br />9<br />8<br />7<br />6<br />5
-      </span>,
-      <span>
-        9<br />8<br />7<br />6<br />5
-      </span>,
-      <span>Nothing</span>,
+      "10\n9\n8\n7\n6",
+      "10\n9\n8\n7\n6\n5",
+      "9\n8\n7\n6\n5",
+      "Nothing",
     ],
-    answer: (
-      <span>
-        10
-        <br />9<br />8<br />7<br />6
-      </span>
-    ),
+    answer: "10\n9\n8\n7\n6",
   },
 
   {
@@ -297,20 +159,13 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>PYTHON</span>,
-      <span>P Y T H O N</span>,
-      <span>
-        P<br />Y<br />T<br />H<br />O<br />N
-      </span>,
-      <span>Error</span>,
-    ],
-    answer: (
-      <span>
-        P<br />Y<br />T<br />H<br />O<br />N
-      </span>
-    ),
+    options: ["PYTHON", "P Y T H O N", "P\nY\nT\nH\nO\nN", "Error"],
+    answer: "P\nY\nT\nH\nO\nN",
   },
+
+  // =======================
+  // 11–15 : NORMAL MCQs
+  // =======================
 
   {
     question: "What does range(5) generate?",
@@ -352,7 +207,7 @@ const questionsData = [
   },
 
   {
-    question: "How do you loop through each character of the string 'ABC'?",
+    question: 'How do you loop through each character of the string "ABC"?',
     options: [
       'for i in "ABC":',
       'for i in range("ABC"):',
@@ -371,7 +226,6 @@ const ForLoop_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -384,18 +238,11 @@ const ForLoop_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
       if (!subtopicId) {
         console.error("❌ Subtopic ID is required");
         alert("Error: Subtopic ID is missing");
         return;
       }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName,
-      });
 
       const result = await markSubtopicComplete(
         subtopicId,
@@ -406,23 +253,18 @@ const ForLoop_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
         alert(`Failed to mark as complete: ${result.message}`);
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
+      console.error(error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="For Loop - MCQs"

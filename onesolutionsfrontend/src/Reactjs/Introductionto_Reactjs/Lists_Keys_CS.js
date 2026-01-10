@@ -58,7 +58,7 @@ const Lists_Keys_CS = ({
 
   return (
     <div className="intro-container">
-      <h1>Keys | Cheat Sheet</h1>
+      <h1>List & Keys | Cheat Sheet</h1>
 
       {/* 1. Keys */}
       <section>
@@ -144,13 +144,13 @@ const UserProfile = ({ uniqueNo, name }) => {
 const userDetailsList = [
   {
     uniqueNo: 1,
-    imageUrl: 'https://assets.ccbp.in/frontend/react-js/esther-howard-img.png',
+    imageUrl: 'https://assets.Onesolution.in/frontend/react-js/esther-howard-img.png',
     name: 'Esther Howard',
     role: 'Software Developer'
   },
   {
     uniqueNo: 2,
-    imageUrl: 'https://assets.ccbp.in/frontend/react-js/john-doe-img.png',
+    imageUrl: 'https://assets.Onesolution.in/frontend/react-js/john-doe-img.png',
     name: 'John Doe',
     role: 'UI Designer'
   }

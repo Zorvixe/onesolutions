@@ -392,8 +392,8 @@ import "./App.css";
     const { name, mobileNo, isFavorite, id } = contactDetails;
 
      const starImgUrl = isFavorite
-            ? "https://assets.ccbp.in/frontend/react-js/star-filled-img.png"
-            : "https://assets.ccbp.in/frontend/react-js/star-outline-img.png";
+            ? "https://assets.Onesolution.in/frontend/react-js/star-filled-img.png"
+            : "https://assets.Onesolution.in/frontend/react-js/star-outline-img.png";
 
         const onClickFavoriteIcon = () => {
             toggleIsFavorite(id);
