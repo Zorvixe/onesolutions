@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 
 import { useAuth } from "./context/AuthContext";
@@ -30,79 +31,91 @@ import WebPracticeExamQuestion from "./components/WebPractice/WebPracticeExamQue
 import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
 
-function App() {
+// Create a wrapper component to handle the loading state properly
+function AppWrapper() {
   const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
+  const [isAppReady, setIsAppReady] = useState(false);
 
-  const [isAppLoading, setIsAppLoading] = useState(true);
+  useEffect(() => {
+    // Small delay to ensure auth state is properly loaded
+    const timer = setTimeout(() => {
+      setIsAppReady(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
-  // -----------------------------
-  // 🔄 Full Screen Loader Before App Loads
-  // -----------------------------
-  if (isAuthenticated && loading) {
+  // Show loading spinner during initial auth check
+  if (!isAppReady || loading) {
     return (
-      <div className="global-loader">
+      <div className="loading-container">
         <div className="spinner"></div>
       </div>
     );
   }
 
+  return isAuthenticated ? (
+    <div className="app-container">
+      <Navbar />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/saved-snippets" element={<SavedSnippets />} />
+
+          <Route path="/practice" element={<Practice />} />
+          <Route path="/practice/:practiceId" element={<Practice />} />
+          <Route
+            path="/practice/:practiceId/:questionId"
+            element={<Practice />}
+          />
+
+          <Route
+            path="/web-practice/:practiceId/:questionId"
+            element={<WebPractice />}
+          />
+
+          <Route path="/placements" element={<Placements />} />
+
+          <Route
+            path="/topic/:topicId/subtopic/:subtopicId"
+            element={<SubtopicPage />}
+          />
+
+          <Route
+            path="/web-practice-exam/:practiceId"
+            element={<WebPracticeExam />}
+          />
+          <Route
+            path="/web-practice-exam/:practiceId/:questionId"
+            element={<WebPracticeExamQuestion />}
+          />
+
+          <Route path="/codeGround" element={<CodeGround />} />
+          <Route path="/thread/:threadId" element={<ThreadDetail />} />
+          {/* Don't redirect to home for unmatched routes when authenticated */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
+        </Routes>
+      </main>
+    </div>
+  ) : (
+    <div className="auth-wrapper">
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/forgotPassword" element={<ForgotPassword />} />
+        {/* Only redirect to login for unmatched routes when not authenticated */}
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </div>
+  );
+}
+
+function App() {
   return (
     <Router>
-      {isAuthenticated ? (
-        <div className="app-container">
-          <Navbar />
-
-          <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Navigate to="/home" replace />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/courses" element={<Courses />} />
-              <Route path="/saved-snippets" element={<SavedSnippets />} />
-
-              <Route path="/practice" element={<Practice />} />
-              <Route path="/practice/:practiceId" element={<Practice />} />
-              <Route
-                path="/practice/:practiceId/:questionId"
-                element={<Practice />}
-              />
-
-              <Route
-                path="/web-practice/:practiceId/:questionId"
-                element={<WebPractice />}
-              />
-
-              <Route path="/placements" element={<Placements />} />
-
-              <Route
-                path="/topic/:topicId/subtopic/:subtopicId"
-                element={<SubtopicPage />}
-              />
-
-              <Route
-                path="/web-practice-exam/:practiceId"
-                element={<WebPracticeExam />}
-              />
-              <Route
-                path="/web-practice-exam/:practiceId/:questionId"
-                element={<WebPracticeExamQuestion />}
-              />
-
-              <Route path="/codeGround" element={<CodeGround />} />
-              <Route path="/thread/:threadId" element={<ThreadDetail />} />
-              <Route path="*" element={<Navigate to="/home" replace />} />
-            </Routes>
-          </main>
-        </div>
-      ) : (
-        <div className="auth-wrapper">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgotPassword" element={<ForgotPassword />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </div>
-      )}
+      <AppWrapper />
     </Router>
   );
 }

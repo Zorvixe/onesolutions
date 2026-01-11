@@ -1237,7 +1237,6 @@ const CompleteProfileUpdate = () => {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading your profile...</p>
       </div>
     );
   }

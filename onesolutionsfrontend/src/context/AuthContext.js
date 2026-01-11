@@ -330,7 +330,10 @@ export const AuthProvider = ({ children }) => {
 
   // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
 
     const loadAllUserData = async () => {
       setLoading(true);

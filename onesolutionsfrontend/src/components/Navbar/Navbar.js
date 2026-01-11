@@ -88,26 +88,32 @@ const Navbar = () => {
       <ul className="nav-links">
         <li>
           <NavLink
-            to="/"
-            className={({ isActive }) => (isActive ? "active" : "")}
+            to="/home"
             end
+            className={({ isActive }) =>
+              isActive ? "nav-link active" : "nav-link"
+            }
           >
             Home
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/courses"
-            className={({ isActive }) => (isActive ? "active" : "")}
+            className={({ isActive }) =>
+              isActive ? "nav-link active" : "nav-link"
+            }
           >
             Courses
           </NavLink>
         </li>
+
         <li>
           <NavLink
             to="/practice"
             className={({ isActive }) =>
-              isActive ? "active practice" : "practice"
+              isActive ? "nav-link active practice" : "nav-link practice"
             }
           >
             Practice
@@ -132,32 +138,43 @@ const Navbar = () => {
           </div>
           <ul className="mobile-nav-links">
             <li>
-              <Link
-                to="/"
-                className="active"
+              <NavLink
+                to="/home"
+                end
+                className={({ isActive }) => (isActive ? "active" : "")}
                 onClick={() => setShowMobileMenu(false)}
               >
                 <i className="bi bi-house"></i> Home
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/courses" onClick={() => setShowMobileMenu(false)}>
+              <NavLink
+                to="/courses"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setShowMobileMenu(false)}
+              >
                 <i className="bi bi-journal-bookmark"></i> Courses
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link
+              <NavLink
                 to="/practice"
-                className="practice"
+                className={({ isActive }) =>
+                  isActive ? "active practice" : "practice"
+                }
                 onClick={() => setShowMobileMenu(false)}
               >
                 <i className="bi bi-pencil-square"></i> Practice
-              </Link>
+              </NavLink>
             </li>
             <li>
-              <Link to="/codeGround" onClick={() => setShowMobileMenu(false)}>
+              <NavLink
+                to="/codeGround"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setShowMobileMenu(false)}
+              >
                 <i className="bi bi-code-slash"></i> Code Playground
-              </Link>
+              </NavLink>
             </li>
             <li>
               <button
@@ -301,7 +318,7 @@ const Navbar = () => {
 
           <div className="footer-menu">
             <NavLink
-              to="/"
+              to="/home"
               className={({ isActive }) => (isActive ? "active" : "")}
               end
             >

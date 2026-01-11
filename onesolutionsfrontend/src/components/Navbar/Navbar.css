@@ -24,7 +24,7 @@ body {
   align-items: center;
   padding: 10px 15px;
   background-color: #fff;
-  border-bottom: 1px solid #ccc
+  border-bottom: 1px solid #ccc;
 }
 
 .logo img {
@@ -68,6 +68,37 @@ body {
   list-style: none;
 }
 
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  padding: 8px 0;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: red;
+}
+
+/* underline */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 3px;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+/* active underline */
+.nav-link.active::after {
+  width: 100%;
+}
+
 .nav-links li a {
   text-decoration: none;
   color: #333;
@@ -77,7 +108,32 @@ body {
 }
 
 .nav-links li a:hover {
-  color: black;
+  color: red;
+}
+
+.nav-links a {
+  position: relative;
+  padding: 8px 0;
+  text-decoration: none;
+  color: #333;
+}
+
+/* underline */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -29px;
+  width: 0;
+  height: 3px;
+  background-color: #2563eb;
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+/* active link */
+.nav-links a.active::after {
+  width: 100%;
 }
 
 .nav_right {
@@ -555,7 +611,6 @@ body {
   .nav-links {
     display: none !important;
   }
-
 }
 
 @media (max-width: 480px) {
@@ -636,7 +691,7 @@ body {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
   }
-  
+
   /* Make icons + text white */
   .footer-menu a,
   .footer-menu a span,
@@ -648,18 +703,18 @@ body {
     text-decoration: none;
     font-size: 15px;
   }
-  
+
   /* Active link style */
   .footer-menu a.active {
     background: rgba(255, 255, 255, 0.25);
     border-radius: 10px;
   }
-  
+
   .footer-menu a.active i,
   .footer-menu a.active span {
-    color: #ffea00 !important;  /* Yellow highlight for active */
+    color: #ffea00 !important; /* Yellow highlight for active */
   }
-  
+
   /* Layout for first 3 items */
   .footer-menu a:nth-child(1),
   .footer-menu a:nth-child(2),
@@ -674,13 +729,13 @@ body {
     flex: 1;
     text-align: center;
   }
-  
+
   /* Hide placements + community */
   .footer-menu a:nth-child(4),
   .footer-menu a:nth-child(5) {
     display: none;
   }
-}  
+}
 @media (max-width: 768px) {
   body {
     padding-top: 60px;

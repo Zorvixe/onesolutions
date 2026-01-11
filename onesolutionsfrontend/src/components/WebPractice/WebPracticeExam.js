@@ -283,9 +283,8 @@ const WebPracticeExam = () => {
 
   if (loading) {
     return (
-      <div className="exam-loading-container">
-        <div className="exam-spinner"></div>
-        <p>Loading exam...</p>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }
