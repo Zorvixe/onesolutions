@@ -1,4 +1,4 @@
-"use client";
+("use client");
 
 import {
   createContext,
@@ -35,18 +35,19 @@ export const AuthProvider = ({ children }) => {
   const [codingPracticeProgress, setCodingPracticeProgress] = useState({});
   const [token, setToken] = useState(localStorage.getItem("token"));
 
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token && token !== "null" && token !== "undefined") {
         const response = await authAPI.getProfile();
         setUser(response.data.data.student);
-        // Load additional data after auth check
-        loadUserData();
       } else {
         setUser(null);
         setCompleteProfile(null);
-        setLoading(false);
       }
     } catch (error) {
       console.error("[AUTH] Auth check failed:", error.message);
@@ -55,28 +56,10 @@ export const AuthProvider = ({ children }) => {
       }
       setUser(null);
       setCompleteProfile(null);
-      setLoading(false);
-    }
-  };
-
-  const loadUserData = async () => {
-    try {
-      await Promise.all([
-        loadCompleteProfile(),
-        loadUserProgress(),
-        loadProgressSummary(),
-        loadOverallProgress(),
-      ]);
-    } catch (err) {
-      console.error("[AUTH] Failed to load user data:", err);
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    checkAuthStatus();
-  }, []);
 
   // ✅ Enhanced Progress Functions
   const loadUserProgress = async () => {
@@ -345,6 +328,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
+  useEffect(() => {
+    if (!token) return;
+
+    const loadAllUserData = async () => {
+      setLoading(true);
+      try {
+        await Promise.all([
+          loadCompleteProfile(),
+          loadUserProgress(),
+          loadProgressSummary(),
+          loadOverallProgress(),
+        ]);
+      } catch (err) {
+        console.error("[AUTH] Failed to load user data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAllUserData();
+  }, [token]);
+
   // ✅ Forgot Password Flow
   const forgotPasswordRequestOtp = async (email) => {
     try {
@@ -571,9 +577,6 @@ export const AuthProvider = ({ children }) => {
         setUser(student);
         setOtpSent(false);
 
-        // Load additional user data
-        loadUserData();
-
         return { success: true, message: "Login successful" };
       } else {
         const errorMsg = response.data.message || "OTP verification failed";
@@ -620,8 +623,6 @@ export const AuthProvider = ({ children }) => {
           localStorage.setItem("token", token);
           setToken(token); // 🔥 REQUIRED
           setUser(student);
-          // Load additional user data
-          loadUserData();
           return { success: true, message: "Registration successful" };
         } else {
           const errorMsg = response.data.message || "Registration failed";

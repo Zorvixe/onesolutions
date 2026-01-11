@@ -38,7 +38,6 @@ export default function CodePlayground({
   const [snippetName, setSnippetName] = useState("");
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
-  const [showSnippetsModal, setShowSnippetsModal] = useState(false);
 
   // Add state for settings modal and preview width
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -597,29 +596,29 @@ sys.stderr = OutputCapture()
   const runPython = useCallback(async () => {
     setIsRunning(true);
     setOutput("");
-  
+
     try {
       if (!pyodideRef.current) {
         setOutput("⚠️ Python environment is still loading. Please wait...");
         return;
       }
-  
+
       const pyodide = pyodideRef.current;
-  
+
       const inputLines = inputValue
         .split("\n")
-        .map(line => line.trim())
+        .map((line) => line.trim())
         .filter(Boolean);
-  
+
       let inputIndex = 0;
-  
+
       pyodide.globals.set("__python_input__", () => {
         if (inputIndex < inputLines.length) {
           return inputLines[inputIndex++];
         }
         throw new Error("No more input values provided.");
       });
-  
+
       /** 🧠 Python execution wrapper */
       await pyodide.runPythonAsync(`
         import sys
@@ -657,70 +656,69 @@ sys.stderr = OutputCapture()
         
         builtins.input = custom_input
             `);
-  
+
       /** ⏱ Timeout protection */
       const EXECUTION_TIMEOUT = 4000;
-  
+
       const execution = pyodide.runPythonAsync(`
       try:
           exec(${JSON.stringify(code.python)})
       except Exception:
           traceback.print_exc()
           `);
-  
+
       await Promise.race([
         execution,
         new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Execution timed out (possible infinite loop).")), EXECUTION_TIMEOUT)
+          setTimeout(
+            () =>
+              reject(
+                new Error("Execution timed out (possible infinite loop).")
+              ),
+            EXECUTION_TIMEOUT
+          )
         ),
       ]);
-  
+
       /** 📤 Collect output */
       const stdout = await pyodide.runPythonAsync("stdout_capture.get()");
       const stderr = await pyodide.runPythonAsync("stderr_capture.get()");
-  
+
       /** 🧹 Restore environment */
       await pyodide.runPythonAsync(`
       sys.stdout = _original_stdout
       sys.stderr = _original_stderr
       builtins.input = _original_input
           `);
-  
+
       /** 🎯 Final output formatting */
       let finalOutput = "";
-  
+
       if (stdout.trim()) {
         finalOutput += `${stdout.trim()}\n`;
       }
-  
+
       if (stderr.trim()) {
         const cleanedError = stderr
           .split("\n")
-          .filter(line => !line.includes('File "<exec>"'))
-          .map(line =>
-            line.replace(/File "<string>"/g, 'File "main.py"')
-          )
+          .filter((line) => !line.includes('File "<exec>"'))
+          .map((line) => line.replace(/File "<string>"/g, 'File "main.py"'))
           .join("\n");
-      
+
         finalOutput += cleanedError;
       }
-      
-      
-  
+
       if (!finalOutput.trim()) {
         finalOutput = "✅ Python code executed successfully (no output).";
       }
-  
+
       setOutput(finalOutput);
     } catch (err) {
-      setOutput(
-        `🔥 Execution Failed\n\n${err.message}`
-      );
+      setOutput(`🔥 Execution Failed\n\n${err.message}`);
     } finally {
       setIsRunning(false);
     }
   }, [code.python, inputValue]);
-  
 
   const runJava = useCallback(async () => {
     setIsRunning(true);
