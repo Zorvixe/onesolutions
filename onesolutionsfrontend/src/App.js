@@ -28,25 +28,14 @@ import WebPractice from "./components/WebPractice/WebPractice";
 import WebPracticeExam from "./components/WebPractice/WebPracticeExam";
 import WebPracticeExamQuestion from "./components/WebPractice/WebPracticeExamQuestion";
 
-import { authAPI, progressAPI } from "./services/api";
 import "./App.css";
 
 // Create a wrapper component to handle the loading state properly
 function AppWrapper() {
   const { isAuthenticated, loading } = useAuth();
-  const location = useLocation();
-  const [isAppReady, setIsAppReady] = useState(false);
 
-  useEffect(() => {
-    // Small delay to ensure auth state is properly loaded
-    const timer = setTimeout(() => {
-      setIsAppReady(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Show loading spinner during initial auth check
-  if (!isAppReady || loading) {
+  // Show loading spinner only during initial auth check
+  if (loading) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
@@ -54,6 +43,7 @@ function AppWrapper() {
     );
   }
 
+  // Once loading is complete, render the appropriate content based on auth state
   return isAuthenticated ? (
     <div className="app-container">
       <Navbar />

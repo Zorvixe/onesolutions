@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>One Solutions | Empowering Tomorrow’s Workforce</title>
+    <title>One Solutions | Empowering Tomorrow's Workforce</title>
     <meta
       name="title"
       content="One Solutions is a leading software training & placement Institute."
@@ -200,6 +200,54 @@
 
   gtag('config', 'G-FTWLNC3T09');
 </script>
+
+<style>
+  #preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  
+  #preloader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  
+  #preloader-logo {
+    width: 28px;
+  height: 28px;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<script>
+  // Hide preloader when React app is ready
+  window.addEventListener('load', function() {
+    // Hide preloader after a small delay to ensure React is loaded
+    setTimeout(function() {
+      const preloader = document.getElementById('preloader');
+      if (preloader) {
+        preloader.classList.add('hidden');
+      }
+    }, 500); // Reduced delay to show React app faster
+  });
+</script>
+
   </head>
 
   <body>
@@ -207,17 +255,14 @@
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NJDV5L4L"
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
-    <div id="root">
-      <div style="text-align: center; padding: 20px">
-        <h1>
-          One Solutions: Best Software Training & Placement Institute in
-          Hyderabad and Banglore
-        </h1>
-        <p>
-          Job-ready courses in Full Stack Development, Digital Marketing, and
-          Data Analysis with placement support.
-        </p>
-      </div>
+    <div id="root"></div>
+
+    <div id="preloader">
+      <img
+        src="/assets/img/one.png"
+        alt="One Solutions Loading"
+        id="preloader-logo"
+      />
     </div>
 
     <a
@@ -228,14 +273,42 @@
       <i class="bi bi-arrow-up-short"></i>
     </a>
 
-    <div id="preloader">
-      <img
-        src="/assets/img/one.png"
-        alt="One Solutions Loading"
-        id="preloader-logo"
-      />
-    </div>
-
     <script src="assets/js/main.js"></script>
+    
+    <script>
+      // Additional script to ensure preloader hides on React mount
+      document.addEventListener('DOMContentLoaded', function() {
+        // Create an observer to watch for React app mounting
+        const observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+              const root = document.getElementById('root');
+              if (root && root.children.length > 0) {
+                // React app has mounted, hide preloader
+                const preloader = document.getElementById('preloader');
+                if (preloader) {
+                  preloader.classList.add('hidden');
+                }
+                observer.disconnect();
+              }
+            }
+          });
+        });
+        
+        // Start observing the root element
+        const root = document.getElementById('root');
+        if (root) {
+          observer.observe(root, { childList: true, subtree: true });
+        }
+        
+        // Safety timeout to hide preloader after 3 seconds max
+        setTimeout(function() {
+          const preloader = document.getElementById('preloader');
+          if (preloader) {
+            preloader.classList.add('hidden');
+          }
+        }, 3000);
+      });
+    </script>
   </body>
 </html>
