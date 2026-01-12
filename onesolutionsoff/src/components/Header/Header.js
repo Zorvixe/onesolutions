@@ -32,15 +32,26 @@ const Header = () => {
 
   return (
     <header id="header" className="header d-flex align-items-center sticky-top">
-      <div className="container-fluid container-xl position-relative d-flex align-items-center">
-        {/* Logo */}
+      <div className="container-fluid container-xl position-relative d-flex align-items-center header-container">
         <Link
           to="/"
-          className="logo d-flex align-items-center me-auto"
+          className="logo d-flex align-items-center me-auto d-none d-md-flex"
           onClick={() => setMobileNavOpen(false)}
         >
           <img
             src="/assets/img/onesolutions.png"
+            alt="logo"
+            style={{ borderRadius: "6px", objectFit: "contain" }}
+          />
+        </Link>
+
+        <Link
+          to="/"
+          className="logo d-flex align-items-center d-flex d-md-none"
+          onClick={() => setMobileNavOpen(false)}
+        >
+          <img
+            src="/assets/img/one-new-logo.png"
             alt="logo"
             style={{ borderRadius: "6px", objectFit: "contain" }}
           />
@@ -125,7 +136,7 @@ const Header = () => {
 
         {/* Enroll button */}
         {/* Vertical Line */}
-        <div
+        <div className="vertical-line-desktop"
           style={{
             width: "1px",
             height: "24px",

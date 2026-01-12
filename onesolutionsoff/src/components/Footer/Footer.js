@@ -11,7 +11,7 @@ const Footer = () => {
             <div className="col-lg-5 col-md-12 footer-about">
               <Link to="/" className="logo d-flex align-items-center me-auto">
                 <img
-                  src="/assets/img/ONE_SOLUTIONS_NEW_LOGO.png"
+                  src="/assets/img/onesolutions.png"
                   alt="logo"
                   style={{ borderRadius: "6px", objectFit: "contain" }}
                 />
@@ -66,22 +66,26 @@ const Footer = () => {
               <ul>
                 <li>
                   <Link to="/fullstackdevelopment">
-                    💻 Full Stack Development <span className="badge bg-primary">Featured</span>
+                    💻 Full Stack Development{" "}
+                    <span className="badge bg-primary">Featured</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/digital_marketing">
-                    📢 Digital Marketing <span className="badge bg-success">Popular</span>
+                    📢 Digital Marketing{" "}
+                    <span className="badge bg-success">Popular</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/data_analyst">
-                    📊 Data Analyst <span className="badge bg-warning">Certificate</span>
+                    📊 Data Analyst{" "}
+                    <span className="badge bg-warning">Certificate</span>
                   </Link>
                 </li>
               </ul>
               <p className="small mt-2">
-                Certified programs • Lifetime Access • Expert Instructors • Online Learning
+                Certified programs • Lifetime Access • Expert Instructors •
+                Online Learning
               </p>
             </div>
 
@@ -95,13 +99,16 @@ const Footer = () => {
                 </em>
               </p>
               <p>- Neha Verma, Data Analyst @ TCS</p>
-              <p className="mt-3">
-                ⭐ 4.8/5 Based on 500+ Student Reviews
-              </p>
+              <p className="mt-3">⭐ 4.8/5 Based on 500+ Student Reviews</p>
               <div className="review-links">
-                <a href="#" className="me-2">Google Reviews</a> | 
-                <a href="#" className="mx-2">LinkedIn</a> | 
-                <a href="#">Trustpilot</a>
+                <a href="#" className="me-2">
+                  Google Reviews
+                </a>{" "}
+                |
+                <a href="#" className="mx-2">
+                  LinkedIn
+                </a>{" "}
+                |<a href="#">Trustpilot</a>
               </div>
             </div>
           </div>
@@ -121,7 +128,8 @@ const Footer = () => {
             </a>
           </p>
           <p className="small">
-            50+ Expert Instructors • 100+ Active Students • 96% Career Growth Success
+            50+ Expert Instructors • 100+ Active Students • 96% Career Growth
+            Success
           </p>
         </div>
       </footer>

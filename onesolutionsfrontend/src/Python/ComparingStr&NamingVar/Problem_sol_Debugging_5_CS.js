@@ -13,7 +13,7 @@ const Problem_sol_Debugging_5_CS = ({
 
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
+
 
   // Check if subtopic is already completed
   useEffect(() => {
@@ -22,9 +22,7 @@ const Problem_sol_Debugging_5_CS = ({
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
+
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;

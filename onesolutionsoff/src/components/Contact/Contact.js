@@ -98,7 +98,7 @@ const Contact = () => {
             {/* Map */}
             <div className="map-wrapper">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30766863.45380839!2d60.963977322087494!3d19.72451447390969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x417ccb1ab4a05d77%3A0x3444361db5588762!2sOne%20Solutions%20Ekam!5e0!3m2!1sen!2sin!4v1758951890819!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3807.9545710297916!2d78.5193028751644!3d17.365918883517608!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTfCsDIxJzU3LjMiTiA3OMKwMzEnMTguOCJF!5e0!3m2!1sen!2sin!4v1768194917113!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -122,7 +122,7 @@ const Contact = () => {
                   </div>
                   <div className="contact-text">
                     <h4>Location</h4>
-                    <p>Hyderabad, Almasguda Telangana, India</p>
+                    <p>Hyderabad, Dilsukhnagar Telangana, India</p>
                   </div>
                 </div>
 

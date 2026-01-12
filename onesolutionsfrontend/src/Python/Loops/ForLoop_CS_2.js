@@ -17,10 +17,6 @@ const ForLoop_CS_2 = ({ subtopicId, goalName, courseName, subtopic }) => {
     }
   }, [completedContent, subtopicId]);
 
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
-
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
 

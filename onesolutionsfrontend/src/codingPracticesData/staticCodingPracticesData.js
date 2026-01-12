@@ -1831,7 +1831,7 @@ export const staticCodingPracticesData = {
               description:
                 "Page should consist of a Bootstrap carousel container with class names carousel and slide",
               type: "html-validation",
-              input: "check-carousel-container",
+              input: "check-carousel-container-indicators",
               output: "true",
               visible: true,
             },

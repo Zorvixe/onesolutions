@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // =======================
+  // CODE OUTPUT QUESTIONS
+  // =======================
+
   {
     question: (
       <div>
@@ -15,7 +18,12 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["<class 'tuple'>", "<class 'list'>", "<class 'str'>", "Error"],
+    options: [
+      "<class 'tuple'>",
+      "<class 'list'>",
+      "<class 'str'>",
+      "Error",
+    ],
     answer: "<class 'list'>",
   },
 
@@ -72,18 +80,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        A<br />B<br />C
-      </span>,
+      "A\nB\nC",
       "ABC",
       "[A, B, C]",
       "Error",
     ],
-    answer: (
-      <span>
-        A<br />B<br />C
-      </span>
-    ),
+    answer: "A\nB\nC",
   },
 
   {
@@ -96,7 +98,12 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["[1, 2, 3, 4]", "[1, 2][3, 4]", "[4, 3, 2, 1]", "Error"],
+    options: [
+      "[1, 2, 3, 4]",
+      "[1, 2][3, 4]",
+      "[4, 3, 2, 1]",
+      "Error",
+    ],
     answer: "[1, 2, 3, 4]",
   },
 
@@ -107,7 +114,12 @@ const questionsData = [
         <CodeBlock language="python" code={`print(["Hi"] * 4)`} />
       </div>
     ),
-    options: ["['Hi', 'Hi', 'Hi', 'Hi']", "Hi Hi Hi Hi", "['Hi', 4]", "Error"],
+    options: [
+      "['Hi', 'Hi', 'Hi', 'Hi']",
+      "Hi\nHi\nHi\nHi",
+      "['Hi', 4]",
+      "Error",
+    ],
     answer: "['Hi', 'Hi', 'Hi', 'Hi']",
   },
 
@@ -121,7 +133,12 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["[30, 40, 50]", "[20, 30, 40]", "[40, 50, 60]", "Error"],
+    options: [
+      "[30, 40, 50]",
+      "[20, 30, 40]",
+      "[40, 50, 60]",
+      "Error",
+    ],
     answer: "[30, 40, 50]",
   },
 
@@ -154,9 +171,18 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["[99, 2, 3]", "TypeError", "[1, 2, 3]", "Error"],
+    options: [
+      "[99, 2, 3]",
+      "TypeError",
+      "[1, 2, 3]",
+      "Error",
+    ],
     answer: "[99, 2, 3]",
   },
+
+  // =======================
+  // THEORY QUESTIONS
+  // =======================
 
   {
     question: "How do you convert a string into a list of characters?",
@@ -205,9 +231,9 @@ const List_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -219,20 +245,6 @@ const List_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
 
     try {
       setIsLoading(true);
-
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName,
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -242,23 +254,17 @@ const List_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        alert(result.message);
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+    } catch {
+      alert("Failed to mark as complete");
     } finally {
       setIsLoading(false);
     }
   };
+
   return (
     <MCQLogic
       title="List | MCQs"
