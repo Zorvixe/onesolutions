@@ -56,12 +56,6 @@ import Python_Summary_CS_2 from "../Python/Revision/Python_Summary_CS_2";
 import Python_Summary_CS_3 from "../Python/Revision/Python_Summary_CS_3";
 import Python_Summary_CS_4 from "../Python/Revision/Python_Summary_CS_4";
 
-//Python Coding Practices
-
-import Coding_Practice_1 from "../Python/IntroductiontoPython/coding_Practice_1.js";
-import Coding_Practice_2 from "../Python/IntroductiontoPython/coding_Practice_2.js";
-import Coding_Practice_3 from "../Python/IntroductiontoPython/coding_Practice_3.js";
-
 //Flexbox
 import Sizing_Ele_Handling_Overflow_CS from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_CS.js";
 import Box_Sizing_CS from "../FlexBox/CSS_Flexbox/Box_Sizing_CS.js";
@@ -87,6 +81,7 @@ import Common_M_Part2_CS from "../Reactjs/React_Router/Common_M_Part2_CS.js";
 import Authentication_CS from "../Reactjs/Authentication/Authentication_CS.js";
 import Authentication_2_CS from "../Reactjs/Authentication/Authentication_2_CS.js";
 import Authentication_3_CS from "../Reactjs/Authentication/Authentication_3_CS.js";
+import Common_Mistake_3_CS from "../Reactjs/Authentication/Common_Mistake_3_CS.js";
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -106,7 +101,6 @@ import Common_M_Part2_MCQ from "../Reactjs/React_Router/Common_M_Part2_MCQ.js";
 import Authentication_MCQ from "../Reactjs/Authentication/Authentication_MCQ.js";
 import Authentication_2_MCQ from "../Reactjs/Authentication/Authentication_2_MCQ.js";
 import Authentication_3_MCQ from "../Reactjs/Authentication/Authentication_3_MCQ.js";
-
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -227,6 +221,9 @@ import Type_Con_Class from "../Python/Inp_Oup_Basiscs/Type_Con_Class.js";
 import Pro_W_P_Class from "../Python/IntroductiontoPython/Pro_W_P_Class.js";
 import Seq_Of_Instruction_Class from "../Python/IntroductiontoPython/Seq_OF_Instruction_Class.js";
 import Variables_DT_Class from "../Python/IntroductiontoPython/Variables_DT_Class.js";
+import Coding_Practice_1 from "../Python/IntroductiontoPython/coding_Practice_1.js";
+import Coding_Practice_2 from "../Python/IntroductiontoPython/coding_Practice_2.js";
+import Coding_Practice_3 from "../Python/IntroductiontoPython/coding_Practice_3.js";
 import Coding_Pratice_1A from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1A.js";
 import Coding_Pratice_1B from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1B.js";
 import Coding_Pratice_1C from "../Python/Inp_Oup_Basiscs/Coding_Pratice_1C.js";
@@ -1134,6 +1131,7 @@ export const subtopicComponents = {
   "Authentication & Authorization | Cheat Sheet": Authentication_CS,
   "Authentication & Authorization | Part 2 | Cheat Sheet": Authentication_2_CS,
   "Authentication & Authorization | Part 3 | Cheat Sheet": Authentication_3_CS,
+  "Common Mistakes | Part 3 | Cheat Sheet": Common_Mistake_3_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,

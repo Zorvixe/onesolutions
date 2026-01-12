@@ -163,7 +163,8 @@
 
 /* Fixed header styles for question description */
 .question-description-header {
-  padding: 0px 20px;
+  padding: 10px 20px;
+  font-weight: bold;
   border-bottom: 1px solid #e9ecef;
   background: white;
   z-index: 10;

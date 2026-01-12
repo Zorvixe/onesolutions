@@ -233,16 +233,94 @@ const validateJsTest = (testCase, iframeDoc) => {
       };
     }
 
+    
 
+    case "check-billAmount": {
+      const element = iframeDoc.getElementById("billAmount");
+      const passed = element !== null;
+      return { passed };
+    }
+    
+    case "check-percentageTip": {
+      const element = iframeDoc.getElementById("percentageTip");
+      const passed = element !== null;
+      return { passed };
+    }
+    
+    case "check-tipAmount": {
+      const element = iframeDoc.getElementById("tipAmount");
+      const passed = element !== null;
+      return { passed };
+    }
+    
+    case "check-totalAmount": {
+      const element = iframeDoc.getElementById("totalAmount");
+      const passed = element !== null;
+      return { passed };
+    }
+    
+    case "check-errorMessage": {
+      const element = iframeDoc.getElementById("errorMessage");
+      const passed = element !== null;
+      return { passed };
+    }
+    
+    case "check-tip-calculation": {
+      iframeDoc.getElementById("billAmount").value = "100";
+      iframeDoc.getElementById("percentageTip").value = "10";
+      iframeDoc.getElementById("calculateButton").click();
+    
+      const tip = iframeDoc.getElementById("tipAmount").value;
+      const passed = tip == "10";
+      return { passed, actual: tip };
+    }
+    
+    case "check-total-calculation": {
+      iframeDoc.getElementById("billAmount").value = "100";
+      iframeDoc.getElementById("percentageTip").value = "10";
+      iframeDoc.getElementById("calculateButton").click();
+    
+      const total = iframeDoc.getElementById("totalAmount").value;
+      const passed = total == "110";
+      return { passed, actual: total };
+    }
+    
+    case "check-both-empty": {
+      iframeDoc.getElementById("billAmount").value = "";
+      iframeDoc.getElementById("percentageTip").value = "";
+      iframeDoc.getElementById("calculateButton").click();
+    
+      const error = iframeDoc.getElementById("errorMessage").textContent;
+      const passed = error.length > 0;
+      return { passed, actual: error };
+    }
+    
+    case "check-billAmount-empty": {
+      iframeDoc.getElementById("billAmount").value = "";
+      iframeDoc.getElementById("percentageTip").value = "10";
+      iframeDoc.getElementById("calculateButton").click();
+    
+      const error = iframeDoc.getElementById("errorMessage").textContent;
+      const passed = error.length > 0;
+      return { passed, actual: error };
+    }
+    
+    case "check-percentageTip-empty": {
+      iframeDoc.getElementById("billAmount").value = "100";
+      iframeDoc.getElementById("percentageTip").value = "";
+      iframeDoc.getElementById("calculateButton").click();
+    
+      const error = iframeDoc.getElementById("errorMessage").textContent;
+      const passed = error.length > 0;
+      return { passed, actual: error };
+    }
+    
     default:
       return {
         passed: false,
         actual: "Invalid test case input",
       };
   }
-
- 
-
     
 };
 

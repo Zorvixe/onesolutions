@@ -5,6 +5,7 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // ===== NORMAL QUESTIONS (5) =====
   {
     question:
       "What happens when you modify a list passed as an argument inside a function?",
@@ -44,6 +45,8 @@ const questionsData = [
     options: ["15", "10", "24", "Error"],
     answer: "15",
   },
+
+  // ===== CODEBLOCK QUESTIONS (10) =====
   {
     question: (
       <div>
@@ -61,30 +64,12 @@ print("Outside:", my_list)`}
       </div>
     ),
     options: [
-      <span>
-        Inside: [10, 20, 30, 99]
-        <br />
-        Outside: [10, 20, 30, 99]
-      </span>,
-      <span>
-        Inside: [10, 20, 30, 99]
-        <br />
-        Outside: [10, 20, 30]
-      </span>,
-      <span>
-        Inside: [10, 20, 30]
-        <br />
-        Outside: [10, 20, 30]
-      </span>,
+      "Inside: [10, 20, 30, 99]\nOutside: [10, 20, 30, 99]",
+      "Inside: [10, 20, 30, 99]\nOutside: [10, 20, 30]",
+      "Inside: [10, 20, 30]\nOutside: [10, 20, 30]",
       "Error",
     ],
-    answer: (
-      <span>
-        Inside: [10, 20, 30, 99]
-        <br />
-        Outside: [10, 20, 30, 99]
-      </span>
-    ),
+    answer: "Inside: [10, 20, 30, 99]\nOutside: [10, 20, 30, 99]",
   },
   {
     question: (
@@ -101,31 +86,8 @@ print(add_item(10))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        [5]
-        <br />
-        [10]
-      </span>,
-      <span>
-        [5]
-        <br />
-        [5, 10]
-      </span>,
-      <span>
-        [5, 10]
-        <br />
-        [5, 10]
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        [5]
-        <br />
-        [5, 10]
-      </span>
-    ),
+    options: ["[5]\n[10]", "[5]\n[5, 10]", "[5, 10]\n[5, 10]", "Error"],
+    answer: "[5]\n[5, 10]",
   },
   {
     question: (
@@ -192,7 +154,7 @@ print(sorted(nums))`}
   {
     question: (
       <div>
-        <p>What is the output?</p>
+        <p>What will be printed?</p>
         <CodeBlock
           language="python"
           code={`values = [3, 8, 1, 6]
@@ -200,26 +162,13 @@ print("\\n".join(map(str, sorted(values, reverse=True))))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        8<br />6<br />3<br />1
-      </span>,
-      <span>
-        1<br />3<br />6<br />8
-      </span>,
-      "[8, 6, 3, 1]",
-      "Error",
-    ],
-    answer: (
-      <span>
-        8<br />6<br />3<br />1
-      </span>
-    ),
+    options: ["8\n6\n3\n1", "1\n3\n6\n8", "[8, 6, 3, 1]", "Error"],
+    answer: "8\n6\n3\n1",
   },
   {
     question: (
       <div>
-        <p>What is the output?</p>
+        <p>What will be printed?</p>
         <CodeBlock
           language="python"
           code={`def change(lst):
@@ -233,30 +182,12 @@ print("Outside:", arr)`}
       </div>
     ),
     options: [
-      <span>
-        Inside: [4, 999, 6]
-        <br />
-        Outside: [4, 999, 6]
-      </span>,
-      <span>
-        Inside: [4, 999, 6]
-        <br />
-        Outside: [4, 5, 6]
-      </span>,
+      "Inside: [4, 999, 6]\nOutside: [4, 999, 6]",
+      "Inside: [4, 999, 6]\nOutside: [4, 5, 6]",
       "Error",
-      <span>
-        Inside: [4, 5, 6]
-        <br />
-        Outside: [4, 5, 6]
-      </span>,
+      "Inside: [4, 5, 6]\nOutside: [4, 5, 6]",
     ],
-    answer: (
-      <span>
-        Inside: [4, 999, 6]
-        <br />
-        Outside: [4, 999, 6]
-      </span>
-    ),
+    answer: "Inside: [4, 999, 6]\nOutside: [4, 999, 6]",
   },
   {
     question: (
@@ -273,19 +204,14 @@ print("Outside:", arr)`}
   },
 ];
 
-const Built_in_Fun_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Built_in_Fun_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -298,41 +224,21 @@ const Built_in_Fun_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
+      if (!subtopicId) return;
 
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
-        courseName || "Static Website: HTML CSS & Bootstrap"
+        courseName || "Python Basics"
       );
 
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        if (onComplete) onComplete();
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

@@ -16,12 +16,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>[10, [20, 30, 40], 50]</span>,
-      <span>[10, 20, 30, 40, 50]</span>,
-      <span>[[10, 20, 30], 50]</span>,
+      "[10, [20, 30, 40], 50]",
+      "[10, 20, 30, 40, 50]",
+      "[[10, 20, 30], 50]",
       "Error",
     ],
-    answer: <span>[10, [20, 30, 40], 50]</span>,
+    answer: "[10, [20, 30, 40], 50]",
   },
 
   {
@@ -34,13 +34,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>[2, 3, 4]</span>,
-      <span>3</span>,
-      <span>[1, 2, 3, 4, 5]</span>,
-      "Error",
-    ],
-    answer: <span>[2, 3, 4]</span>,
+    options: ["[2, 3, 4]", "3", "[1, 2, 3, 4, 5]", "Error"],
+    answer: "[2, 3, 4]",
   },
 
   {
@@ -68,12 +63,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>My name is Alice and I am 25.</span>,
-      <span>My name is name and I am age.</span>,
-      <span>Error</span>,
-      <span>%s %s</span>,
+      "My name is Alice and I am 25.",
+      "My name is name and I am age.",
+      "Error",
+      "%s %s",
     ],
-    answer: <span>My name is Alice and I am 25.</span>,
+    answer: "My name is Alice and I am 25.",
   },
 
   {
@@ -82,17 +77,12 @@ const questionsData = [
         <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`a = 15\nb = 25\nprint("%d + %d = %d" % (a, b, a+b))`}
+          code={`a = 15\nb = 25\nprint("%d + %d = %d" % (a, b, a + b))`}
         />
       </div>
     ),
-    options: [
-      <span>15 + 25 = 40</span>,
-      <span>a + b = a+b</span>,
-      <span>Error</span>,
-      <span>15 25 40</span>,
-    ],
-    answer: <span>15 + 25 = 40</span>,
+    options: ["15 + 25 = 40", "a + b = a+b", "Error", "15 25 40"],
+    answer: "15 + 25 = 40",
   },
 
   {
@@ -105,13 +95,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>Hello World</span>,
-      <span>World Hello</span>,
-      <span>%2$s %1$s</span>,
-      "Error",
-    ],
-    answer: <span>Hello World</span>,
+    options: ["Hello World", "World Hello", "%2$s %1$s", "Error"],
+    answer: "Hello World",
   },
 
   {
@@ -125,12 +110,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>Bob is 30 years old</span>,
-      <span>name is age years old</span>,
-      <span>Error</span>,
-      <span>%(name)s %(age)d</span>,
+      "Bob is 30 years old",
+      "name is age years old",
+      "Error",
+      "%(name)s %(age)d",
     ],
-    answer: <span>Bob is 30 years old</span>,
+    answer: "Bob is 30 years old",
   },
 
   {
@@ -158,12 +143,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>Today in Paris it is 22 degrees.</span>,
-      <span>Today in city it is temp degrees.</span>,
-      <span>Error</span>,
-      <span>%s %d</span>,
+      "Today in Paris it is 22 degrees.",
+      "Today in city it is temp degrees.",
+      "Error",
+      "%s %d",
     ],
-    answer: <span>Today in Paris it is 22 degrees.</span>,
+    answer: "Today in Paris it is 22 degrees.",
   },
 
   {
@@ -221,6 +206,7 @@ const questionsData = [
     answer: "A list inside another list",
   },
 ];
+
 const NestedList_Stringformating_MCQ = ({
   subtopicId,
   goalName,

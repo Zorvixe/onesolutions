@@ -1,17 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-html,
-body {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: Arial, sans-serif;
-  padding-top: 38px;
-}
 
 .container {
   position: fixed;
@@ -827,7 +814,6 @@ body {
 
 @media (max-width: 1440px) {
   .container {
-    max-width: 1380px;
     margin: 0 auto;
   }
 
@@ -848,7 +834,6 @@ body {
 
 @media (min-width: 1920px) {
   .container {
-    max-width: 1600px;
     margin: 0 auto;
   }
 

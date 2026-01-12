@@ -48,7 +48,7 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`t = (10, 20, 30, 40)
-  print(t[1])`}
+print(t[1])`}
         />
       </div>
     ),
@@ -62,7 +62,7 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`colors = ("red", "green", "blue")
-  print(len(colors))`}
+print(len(colors))`}
         />
       </div>
     ),
@@ -76,8 +76,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`t = (1, 2, 3)
-  a, b, c = t
-  print(b)`}
+a, b, c = t
+print(b)`}
         />
       </div>
     ),
@@ -91,24 +91,13 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`word = "hello"
-  t = tuple(word)
-  print("\\n".join(t))`}
+t = tuple(word)
+print("\\n".join(t))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        h<br />e<br />l<br />l<br />o
-      </span>,
-      "hello",
-      "[h, e, l, l, o]",
-      "Error",
-    ],
-    answer: (
-      <span>
-        h<br />e<br />l<br />l<br />o
-      </span>
-    ),
+    options: ["h\ne\nl\nl\no", "hello", "[h, e, l, l, o]", "Error"],
+    answer: "h\ne\nl\nl\no",
   },
   {
     question: (
@@ -117,8 +106,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`nums = [10, 20, 30]
-  t = tuple(nums)
-  print(t)`}
+t = tuple(nums)
+print(t)`}
         />
       </div>
     ),
@@ -132,7 +121,7 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`t = (5, 10, 15)
-  print(10 in t)`}
+print(10 in t)`}
         />
       </div>
     ),
@@ -146,9 +135,9 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`a = (1, 2)
-  b = (3, 4)
-  c = a + b
-  print(c)`}
+b = (3, 4)
+c = a + b
+print(c)`}
         />
       </div>
     ),
@@ -162,7 +151,7 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`t = ("Hi",)
-  print(t * 3)`}
+print(t * 3)`}
         />
       </div>
     ),
@@ -176,30 +165,15 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`def demo():
-      print("Hello")
-  
-  result = demo()
-  print(result)`}
+    print("Hello")
+
+result = demo()
+print(result)`}
         />
       </div>
     ),
-    options: [
-      <span>
-        Hello
-        <br />
-        None
-      </span>,
-      "Hello",
-      "None",
-      "Error",
-    ],
-    answer: (
-      <span>
-        Hello
-        <br />
-        None
-      </span>
-    ),
+    options: ["Hello\nNone", "Hello", "None", "Error"],
+    answer: "Hello\nNone",
   },
   {
     question: (

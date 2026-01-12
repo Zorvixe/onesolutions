@@ -5,6 +5,7 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
+  // Normal questions
   {
     question: "What does LIFO stand for in the context of a stack?",
     options: [
@@ -47,6 +48,8 @@ const questionsData = [
     ],
     answer: "A function calling itself",
   },
+
+  // Codeblock questions
   {
     question: (
       <div>
@@ -63,7 +66,7 @@ print(b())`}
         />
       </div>
     ),
-    options: ["10", "15", "5", "Error"],
+    options: ["15", "10", "5", "Error"],
     answer: "15",
   },
   {
@@ -83,27 +86,8 @@ countdown(3)`}
         />
       </div>
     ),
-    options: [
-      <span>
-        3<br />2<br />1<br />
-        Done
-      </span>,
-      <span>
-        Done
-        <br />3<br />2<br />1
-      </span>,
-      <span>
-        1<br />2<br />3<br />
-        Done
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        3<br />2<br />1<br />
-        Done
-      </span>
-    ),
+    options: ["3\n2\n1\nDone", "Done\n3\n2\n1", "1\n2\n3\nDone", "Error"],
+    answer: "3\n2\n1\nDone",
   },
   {
     question: (
@@ -258,9 +242,10 @@ const FunCallStack_Recursion_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -289,7 +274,7 @@ const FunCallStack_Recursion_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

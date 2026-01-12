@@ -428,5 +428,303 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
+    //coding practise - 3
+    {
+      id: "javascript-coding-practice-3",
+      title: "Javascript Coding Practice 3",
+      description: "",
+      questions: [
+        {
+          id: "e195b823-ab24fafddc88-050bccdb",
+          title: "Tip Calculator",
+          description:
+            "In this assignment, let's build a Tip Calculator by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 75,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="tip-calculator-container pb-5">
+                    <img class="tip-calculator-image" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/tip-calculator-img.png" />
+                    <h1 class="tip-calculator-heading text-center mt-4 mb-4">Tip Calculator</h1>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-md-6 mb-4">
+                                <p class="input-label mb-2">BILL AMOUNT</p>
+                                <input type="text" class="user-input" id="billAmount" />
+                            </div>
+                            <div class="col-12 col-md-6 mb-4">
+                                <p class="input-label mb-2">PERCENTAGE TIP</p>
+                                <input type="text" class="user-input" id="percentageTip" />
+                            </div>
+                            <div class="col-12 col-md-6 mb-4">
+                                <p class="input-label mb-2">TIP AMOUNT</p>
+                                <input type="text" class="user-input" id="tipAmount" />
+                            </div>
+                            <div class="col-12 col-md-6 mb-4">
+                                <p class="input-label mb-2">TOTAL</p>
+                                <input type="text" class="user-input" id="totalAmount" />
+                            </div>
+                            <div class="col-12 text-center mt-4">
+                                <button class="btn btn-info calculate-tip-button" id="calculateButton" onclick="calculateTip()">CALCULATE</button>
+                                <p class="error-message text-center" id="errorMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `
+            @import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .tip-calculator-container {
+                background-color: #f9fbfe;
+            }
+            
+            .tip-calculator-image {
+                width: 100%;
+            }
+            
+            .tip-calculator-heading {
+                color: #264fa2;
+                font-family: "Roboto";
+                font-size: 48px;
+                font-weight: 500;
+            }
+            
+            .input-label {
+                color: #7b8794;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: bold;
+            }
+            
+            .user-input {
+                height: 40px;
+                width: 100%;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #cbd2d9;
+                border-radius: 4px;
+                padding-left: 12px;
+            }
+            
+            .calculate-tip-button {
+                background-color: #264fa2;
+                color: white;
+                font-family: "Roboto";
+                font-size: 18px;
+                border-radius: 4px;
+            }
+            
+            .error-message {
+                color: #cf1124;
+                font-family: "Roboto";
+                font-size: 14px;
+                font-weight: 500;
+                margin-top: 10px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+                    <p class="desc-que-blue">Refer to the below image.</p>                  
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768213017/tip-calculator-v1_uy8kn1.gif" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>The HTML input elements should have the ids <strong>billAmount,</Strong> <strong>percentageTip,</strong>  <strong>tipAmount</strong> and totalAmount</span></li>
+                        <li><span>The HTML p element with the class name <strong>error-message </strong>should have the id <strong>errorMessage.</strong></span></li>
+                    </ol>
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Write the code without deleting the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                    <strong>When calculateButton is clicked:</strong>
+                    <ul>
+                      <li>
+                        The calculated tip should be displayed in the <strong>tipAmount</strong> input element.
+                      </li>
+                      <li>
+                        The calculated total should be displayed in the <strong>totalAmount</strong> input element.
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    <strong>Formulas:</strong>
+                    <ul>
+                      <li>
+                        <strong>calculatedTip</strong> = (percentageTip / 100) × billAmount
+                      </li>
+                      <li>
+                        <strong>totalAmount</strong> = billAmount + calculatedTip
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    <strong>Error Message Conditions:</strong>
+                    <ul>
+                      <li>
+                        Show error message if the HTML input element with id <strong>billAmount</strong> is empty.
+                      </li>
+                      <li>
+                        Show error message if the HTML input element with id <strong>percentageTip</strong> is empty.
+                      </li>
+                      <li>
+                        Show error message if <strong>both</strong> the HTML input elements with ids 
+                        <strong>billAmount</strong> and <strong>percentageTip</strong> are empty.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>                
+
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                       
+                        <li>
+                        Apply the functionality to the given prefilled code.
+                        </li>
+                        <li>
+                        Assume billAmount and percentageTip will always be given as integer inputs.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+
+                  <hr>
+
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you’ve been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                   
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML input element with the id billAmount",
+              type: "js-validation",
+              input: "check-billAmount",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id percentageTip",
+              type: "js-validation",
+              input: "check-percentageTip",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML input element with the id tipAmount",
+              type: "js-validation",
+              input: "check-tipAmount",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML input element with the id totalAmount",
+              type: "js-validation",
+              input: "check-totalAmount",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML paragraph element with the id errorMessage",
+              type: "js-validation",
+              input: "check-errorMessage",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML button element with the id calculateButton is clicked, the calculated tip should be displayed in the HTML input element with the id tipAmount",
+              type: "js-validation",
+              input: "check-tip-calculation",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "When the HTML button element with the id calculateButton is clicked, the calculated total should be displayed in the HTML input element with the id totalAmount",
+              type: "js-validation",
+              input: "check-total-calculation",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "When both the HTML input elements with the id billAmount and percentageTip are empty, the HTML element with the id errorMessage should have the error message text",
+              type: "js-validation",
+              input: "check-both-empty",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "When the HTML input element with the id billAmount is empty, the HTML element with the id errorMessage should have the error message text",
+              type: "js-validation",
+              input: "check-billAmount-empty",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 10,
+              description:
+                "When the HTML input element with the id percentageTip is empty, the HTML element with the id errorMessage should have the error message text",
+              type: "js-validation",
+              input: "check-percentageTip-empty",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
   ],
 };

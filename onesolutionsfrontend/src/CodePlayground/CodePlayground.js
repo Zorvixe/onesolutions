@@ -1531,7 +1531,7 @@ remoteRunners={{
                     fill="#1d4ed8"
                   ></path>
                 </svg>
-                <p>Keep zoom at 100% for correct output</p>
+                <p>Keep zoom at 80% to 90% for correct output for Large and Extra Large.</p>
               </div>
             </div>
             <div className="modal-footer-codep">

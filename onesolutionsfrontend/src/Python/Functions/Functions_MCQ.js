@@ -5,47 +5,7 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  {
-    question: "What is the correct way to define a function in Python?",
-    options: [
-      "function my_func():",
-      "def my_func():",
-      "define my_func():",
-      "func my_func():",
-    ],
-    answer: "def my_func():",
-  },
-  {
-    question: "When is the code inside a function executed?",
-    options: [
-      "When the function is defined",
-      "Only when the function is called",
-      "When Python starts",
-      "Never",
-    ],
-    answer: "Only when the function is called",
-  },
-  {
-    question: "What keyword is used to send a value back from a function?",
-    options: ["print", "give", "return", "output"],
-    answer: "return",
-  },
-  {
-    question:
-      "What happens to code written after a return statement inside a function?",
-    options: [
-      "It runs normally",
-      "It is never executed",
-      "It causes an error",
-      "It runs twice",
-    ],
-    answer: "It is never executed",
-  },
-  {
-    question: "Which of these is a built-in Python function?",
-    options: ["make()", "len()", "size()", "count()"],
-    answer: "len()",
-  },
+  // ======= CODEBLOCK QUESTIONS =======
   {
     question: (
       <div>
@@ -60,23 +20,8 @@ greet()`}
         />
       </div>
     ),
-    options: [
-      <span>
-        Welcome!
-        <br />
-        Welcome!
-      </span>,
-      "Welcome!",
-      "Error",
-      "None",
-    ],
-    answer: (
-      <span>
-        Welcome!
-        <br />
-        Welcome!
-      </span>
-    ),
+    options: ["Welcome!\nWelcome!", "Welcome!", "Error", "None"],
+    answer: "Welcome!\nWelcome!",
   },
   {
     question: (
@@ -126,26 +71,12 @@ print(x)`}
       </div>
     ),
     options: [
-      <span>
-        50
-        <br />
-        50
-      </span>,
-      <span>
-        50
-        <br />
-        NameError
-      </span>,
+      "50\nNameError",
+      "50\n50",
       "NameError on first print",
       "No output",
     ],
-    answer: (
-      <span>
-        50
-        <br />
-        NameError
-      </span>
-    ),
+    answer: "50\nNameError",
   },
   {
     question: (
@@ -162,14 +93,7 @@ test()`}
         />
       </div>
     ),
-    options: [
-      "A",
-      <span>
-        A<br />B
-      </span>,
-      "B",
-      "Nothing",
-    ],
+    options: ["A", "A\nB", "B", "Nothing"],
     answer: "A",
   },
   {
@@ -227,34 +151,12 @@ print(show())`}
       </div>
     ),
     options: [
-      <span>
-        First
-        <br />
-        Second
-        <br />
-        100
-      </span>,
-      <span>
-        First
-        <br />
-        Second
-        <br />
-        Third
-        <br />
-        100
-      </span>,
+      "First\nSecond\n100",
+      "First\nSecond\nThird\n100",
       "100",
       "Third",
     ],
-    answer: (
-      <span>
-        First
-        <br />
-        Second
-        <br />
-        100
-      </span>
-    ),
+    answer: "First\nSecond\n100",
   },
   {
     question: (
@@ -290,21 +192,59 @@ info("Emma", 25)`}
     options: ["Emma is 25 years old", "name age", "Error", "None"],
     answer: "Emma is 25 years old",
   },
+
+  // ======= NORMAL QUESTIONS =======
+  {
+    question: "What is the correct way to define a function in Python?",
+    options: [
+      "function my_func():",
+      "def my_func():",
+      "define my_func():",
+      "func my_func():",
+    ],
+    answer: "def my_func():",
+  },
+  {
+    question: "When is the code inside a function executed?",
+    options: [
+      "When the function is defined",
+      "Only when the function is called",
+      "When Python starts",
+      "Never",
+    ],
+    answer: "Only when the function is called",
+  },
+  {
+    question: "What keyword is used to send a value back from a function?",
+    options: ["print", "give", "return", "output"],
+    answer: "return",
+  },
+  {
+    question:
+      "What happens to code written after a return statement inside a function?",
+    options: [
+      "It runs normally",
+      "It is never executed",
+      "It causes an error",
+      "It runs twice",
+    ],
+    answer: "It is never executed",
+  },
+  {
+    question: "Which of these is a built-in Python function?",
+    options: ["make()", "len()", "size()", "count()"],
+    answer: "len()",
+  },
 ];
 
-const Functions_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Functions_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -317,7 +257,6 @@ const Functions_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
       if (!subtopicId) {
         console.error("❌ Subtopic ID is required");
         alert("Error: Subtopic ID is missing");
@@ -327,7 +266,7 @@ const Functions_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
@@ -341,7 +280,6 @@ const Functions_MCQ = ({
         setIsCompleted(true);
         console.log("✅ MCQ successfully marked as completed");
 
-        // Call the parent completion handler if provided
         if (onComplete) {
           onComplete();
         }

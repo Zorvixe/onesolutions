@@ -497,8 +497,8 @@ const WebPractice = () => {
           }
           100% {
             transform: translate(${Math.random() * 100 - 50}px, 100vh) rotate(${
-        Math.random() * 720
-      }deg);
+              Math.random() * 720
+            }deg);
             opacity: 0;
           }
         }
@@ -512,11 +512,14 @@ const WebPractice = () => {
       confettiRef.current.push(confetti);
 
       // Remove style element after animation
-      setTimeout(() => {
-        if (style.parentNode) {
-          style.parentNode.removeChild(style);
-        }
-      }, animationDuration * 1000 + 1000);
+      setTimeout(
+        () => {
+          if (style.parentNode) {
+            style.parentNode.removeChild(style);
+          }
+        },
+        animationDuration * 1000 + 1000
+      );
     }
   };
 
@@ -862,8 +865,8 @@ const WebPractice = () => {
               {currentStatus === "solved"
                 ? "✓ Solved"
                 : currentStatus === "attempted"
-                ? "● Attempted"
-                : "○ Unsolved"}
+                  ? "● Attempted"
+                  : "○ Unsolved"}
             </span>
             <span
               className={`difficulty-badge-prac large-prac ${selectedQuestion.difficulty.toLowerCase()}`}
@@ -879,9 +882,7 @@ const WebPractice = () => {
       <div className="web-practice-content">
         <div className="left-panel">
           <div className="question-description">
-            <div className="question-description-header">
-              <h3>Description</h3>
-            </div>
+            <div className="question-description-header">Description</div>
             <div className="question-description-content">
               <h2>{selectedQuestion.title}</h2>
               <p>{selectedQuestion.description}</p>

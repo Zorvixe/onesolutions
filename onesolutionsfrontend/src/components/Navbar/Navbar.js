@@ -70,7 +70,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="container nav-con">
+    <div className="container">
       {/* Hamburger Menu for Mobile */}
       <button
         className="hamburger-menu"

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ==================== 10 CODE BLOCK QUESTIONS ====================
-
   {
     question: (
       <div>
@@ -18,18 +15,18 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>{`{"name": "Te", "age": 15}`}</span>,
-      <span>["name", "age"]</span>,
-      <span>("Te", 15)</span>,
+      "{'name': 'Te', 'age': 15}",
+      "['name', 'age']",
+      "('Te', 15)",
       "Error",
     ],
-    answer: <span>{`{"name": "Te", "age": 15}`}</span>,
+    answer: "{'name': 'Te', 'age': 15}",
   },
 
   {
     question: (
       <div>
-        <p>How do you access the value of "city"?</p>
+        <p>How do you access the value of \"city\"?</p>
         <CodeBlock
           language="python"
           code={`info = {"name": "Raj", "city": "Delhi", "age": 12}\nprint(info["city"])`}
@@ -79,12 +76,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>{`{"name": "Anil", "grade": 10}`}</span>,
-      <span>{`{"name": "Anil"}`}</span>,
+      "{'name': 'Anil', 'grade': 10}",
+      "{'name': 'Anil'}",
       "Error",
-      <span>["grade", 10]</span>,
+      "['grade', 10]",
     ],
-    answer: <span>{`{"name": "Anil", "grade": 10}`}</span>,
+    answer: "{'name': 'Anil', 'grade': 10}",
   },
 
   {
@@ -112,32 +109,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        name
-        <br />
-        age
-        <br />
-        city
-      </span>,
-      <span>
-        Priya
-        <br />
-        14
-        <br />
-        Mumbai
-      </span>,
-      <span>{("name", "age", "city")}</span>,
+      "name\nage\ncity",
+      "Priya\n14\nMumbai",
+      "('name', 'age', 'city')",
       "Error",
     ],
-    answer: (
-      <span>
-        name
-        <br />
-        age
-        <br />
-        city
-      </span>
-    ),
+    answer: "name\nage\ncity",
   },
 
   {
@@ -150,25 +127,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        apple
-        <br />5
-      </span>,
-      <span>
-        fruit
-        <br />
-        count
-      </span>,
-      <span>("apple", 5)</span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        apple
-        <br />5
-      </span>
-    ),
+    options: ["apple\n5", "fruit\ncount", "('apple', 5)", "Error"],
+    answer: "apple\n5",
   },
 
   {
@@ -181,27 +141,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>
-        name : Sam
-        <br />
-        age : 16
-      </span>,
-      <span>
-        Sam
-        <br />
-        16
-      </span>,
-      "Error",
-      <span>("name", "Sam")</span>,
-    ],
-    answer: (
-      <span>
-        name : Sam
-        <br />
-        age : 16
-      </span>
-    ),
+    options: ["name : Sam\nage : 16", "Sam\n16", "Error", "('name', 'Sam')"],
+    answer: "name : Sam\nage : 16",
   },
 
   {
@@ -217,8 +158,6 @@ const questionsData = [
     options: ["TypeError (list is mutable)", "Works fine", "None", "[1, 2]"],
     answer: "TypeError (list is mutable)",
   },
-
-  // ==================== 5 NORMAL QUESTIONS ====================
 
   {
     question: "Which of these creates an empty dictionary?",
@@ -260,19 +199,16 @@ const questionsData = [
     answer: ".items()",
   },
 ];
-const Dictionaries_MCQ =({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+
+const Dictionaries_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -285,19 +221,6 @@ const Dictionaries_MCQ =({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -307,18 +230,9 @@ const Dictionaries_MCQ =({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        if (onComplete) onComplete();
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);

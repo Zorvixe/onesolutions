@@ -153,30 +153,8 @@ print("\\n".join(words[::-1]))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        Python
-        <br />
-        love
-        <br />I
-      </span>,
-      <span>
-        I<br />
-        love
-        <br />
-        Python
-      </span>,
-      "I love Python",
-      "Error",
-    ],
-    answer: (
-      <span>
-        Python
-        <br />
-        love
-        <br />I
-      </span>
-    ),
+    options: ["Python\nlove\nI", "I\nlove\nPython", "I love Python", "Error"],
+    answer: "Python\nlove\nI",
   },
   {
     question:
@@ -203,8 +181,8 @@ print("\\n".join(words[::-1]))`}
   {
     question: "What is the result of 'hello'.split()?",
     options: [
-      '["h", "e", "l", "l", "o"]',
       '["hello"]',
+      '["h", "e", "l", "l", "o"]',
       '["hello"]',
       '["hello"]',
     ],

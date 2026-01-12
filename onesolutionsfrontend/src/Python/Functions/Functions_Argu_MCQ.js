@@ -5,55 +5,7 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  {
-    question: "What are keyword arguments in Python?",
-    options: [
-      "Arguments passed in any order",
-      "Arguments passed using parameter names like name='value'",
-      "Arguments with default values",
-      "Arguments that change the function behavior",
-    ],
-    answer: "Arguments passed using parameter names like name='value'",
-  },
-  {
-    question:
-      "In a function definition, can a non-default argument come after a default argument?",
-    options: [
-      "Yes",
-      "No, it causes a SyntaxError",
-      "Only if using *args",
-      "Only in Python 2",
-    ],
-    answer: "No, it causes a SyntaxError",
-  },
-  {
-    question:
-      "When you pass an immutable object (like int or str) to a function and modify it inside, does the original variable outside change?",
-    options: ["Yes", "No", "Only if using return", "Only with global keyword"],
-    answer: "No",
-  },
-  {
-    question:
-      "What will happen if you call a function with a keyword argument that doesn't exist?",
-    options: [
-      "It uses the default value",
-      "TypeError: unexpected keyword argument",
-      "The argument is ignored",
-      "NameError",
-    ],
-    answer: "TypeError: unexpected keyword argument",
-  },
-  {
-    question:
-      "What is the correct way to call a function using keyword arguments?",
-    options: [
-      "func(10, 20)",
-      "func(a=10, b=20)",
-      "func(b=20, 10)",
-      "func(a:10, b:20)",
-    ],
-    answer: "func(a=10, b=20)",
-  },
+  // ======= CODEBLOCK QUESTIONS =======
   {
     question: (
       <div>
@@ -105,25 +57,8 @@ print(subtract(y=4, x=10))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        6<br />6
-      </span>,
-      <span>
-        6<br />
-        14
-      </span>,
-      <span>
-        14
-        <br />6
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        6<br />6
-      </span>
-    ),
+    options: ["6\n6", "6\n14", "14\n6", "Error"],
+    answer: "6\n6",
   },
   {
     question: (
@@ -161,26 +96,12 @@ greet("Mia")`}
       </div>
     ),
     options: [
-      <span>
-        Hello, friend!
-        <br />
-        Hello, Mia!
-      </span>,
-      <span>
-        Hello, Mia!
-        <br />
-        Hello, Mia!
-      </span>,
+      "Hello, friend!\nHello, Mia!",
+      "Hello, Mia!\nHello, Mia!",
       "Error",
       "Hello, friend!",
     ],
-    answer: (
-      <span>
-        Hello, friend!
-        <br />
-        Hello, Mia!
-      </span>
-    ),
+    answer: "Hello, friend!\nHello, Mia!",
   },
   {
     question: (
@@ -218,29 +139,12 @@ print("Outside:", value)`}
       </div>
     ),
     options: [
-      <span>
-        Inside: 16
-        <br />
-        Outside: 8
-      </span>,
-      <span>
-        Inside: 16
-        <br />
-        Outside: 16
-      </span>,
-      <span>
-        Inside: 8<br />
-        Outside: 8
-      </span>,
+      "Inside: 16\nOutside: 8",
+      "Inside: 16\nOutside: 16",
+      "Inside: 8\nOutside: 8",
       "Error",
     ],
-    answer: (
-      <span>
-        Inside: 16
-        <br />
-        Outside: 8
-      </span>
-    ),
+    answer: "Inside: 16\nOutside: 8",
   },
   {
     question: (
@@ -257,26 +161,12 @@ info("Sara", 22)`}
       </div>
     ),
     options: [
-      <span>
-        Tom is 18
-        <br />
-        Sara is 22
-      </span>,
-      <span>
-        Tom is 22
-        <br />
-        Sara is 22
-      </span>,
+      "Tom is 18\nSara is 22",
+      "Tom is 22\nSara is 22",
       "Error on first call",
       "Tom is Sara",
     ],
-    answer: (
-      <span>
-        Tom is 18
-        <br />
-        Sara is 22
-      </span>
-    ),
+    answer: "Tom is 18\nSara is 22",
   },
   {
     question: (
@@ -292,31 +182,8 @@ demo("Bye", 3)`}
         />
       </div>
     ),
-    options: [
-      <span>
-        Hi
-        <br />
-        ByeByeBye
-      </span>,
-      <span>
-        HiHi
-        <br />
-        ByeByeBye
-      </span>,
-      "Error",
-      <span>
-        Hi
-        <br />
-        Bye
-      </span>,
-    ],
-    answer: (
-      <span>
-        Hi
-        <br />
-        ByeByeBye
-      </span>
-    ),
+    options: ["Hi\nByeByeBye", "HiHi\nByeByeBye", "Error", "Hi\nBye"],
+    answer: "Hi\nByeByeBye",
   },
   {
     question: (
@@ -332,31 +199,59 @@ print(calculate(2, 3, 5))`}
         />
       </div>
     ),
+    options: ["32\n17", "15\n15", "32\n32", "Error"],
+    answer: "32\n17",
+  },
+
+  // ======= NORMAL QUESTIONS =======
+  {
+    question: "What are keyword arguments in Python?",
     options: [
-      <span>
-        32
-        <br />
-        17
-      </span>,
-      <span>
-        15
-        <br />
-        15
-      </span>,
-      <span>
-        32
-        <br />
-        32
-      </span>,
-      "Error",
+      "Arguments passed in any order",
+      "Arguments passed using parameter names like name='value'",
+      "Arguments with default values",
+      "Arguments that change the function behavior",
     ],
-    answer: (
-      <span>
-        32
-        <br />
-        17
-      </span>
-    ),
+    answer: "Arguments passed using parameter names like name='value'",
+  },
+  {
+    question:
+      "In a function definition, can a non-default argument come after a default argument?",
+    options: [
+      "Yes",
+      "No, it causes a SyntaxError",
+      "Only if using *args",
+      "Only in Python 2",
+    ],
+    answer: "No, it causes a SyntaxError",
+  },
+  {
+    question:
+      "When you pass an immutable object (like int or str) to a function and modify it inside, does the original variable outside change?",
+    options: ["Yes", "No", "Only if using return", "Only with global keyword"],
+    answer: "No",
+  },
+  {
+    question:
+      "What will happen if you call a function with a keyword argument that doesn't exist?",
+    options: [
+      "It uses the default value",
+      "TypeError: unexpected keyword argument",
+      "The argument is ignored",
+      "NameError",
+    ],
+    answer: "TypeError: unexpected keyword argument",
+  },
+  {
+    question:
+      "What is the correct way to call a function using keyword arguments?",
+    options: [
+      "func(10, 20)",
+      "func(a=10, b=20)",
+      "func(b=20, 10)",
+      "func(a:10, b:20)",
+    ],
+    answer: "func(a=10, b=20)",
   },
 ];
 
@@ -364,15 +259,15 @@ const Functions_Argu_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -385,18 +280,11 @@ const Functions_Argu_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
       if (!subtopicId) {
         console.error("❌ Subtopic ID is required");
         alert("Error: Subtopic ID is missing");
         return;
       }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName
-      });
 
       const result = await markSubtopicComplete(
         subtopicId,
@@ -407,18 +295,12 @@ const Functions_Argu_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
 
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
+        if (onComplete) onComplete();
       } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
         alert(`Failed to mark as complete: ${result.message}`);
       }
     } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);

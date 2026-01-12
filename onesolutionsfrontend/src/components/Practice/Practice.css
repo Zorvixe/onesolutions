@@ -7,6 +7,22 @@
   height: 100vh;
 }
 
+/* Sticky Description Header */
+.description-name-header-prac {
+  position: sticky;
+  top: 0; /* sticks inside left panel */
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 10px 0px 10px 10px;
+  font-weight: bold;
+}
+
+/* Ensure parent scrolls */
+.full-question-detail-prac {
+  overflow-y: auto;
+  position: relative; /* REQUIRED for sticky */
+}
+
 .practice-content-prac {
   display: flex;
   flex: 1;
@@ -297,7 +313,6 @@
 
 .full-question-detail-prac {
   background: white;
-  padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -323,12 +338,17 @@
   color: #333;
   font-size: 16px;
 }
+.desc-prac {
+  padding-left: 10px;
+  padding-right: 5px;
+}
 
 .description-content-prac p {
   margin: 0;
   color: #666;
   line-height: 1.6;
   white-space: pre-line;
+  padding: 5px 0px;
 }
 
 .question-title-main-prac {
@@ -672,7 +692,8 @@
 }
 
 .ace_editor {
-  font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  font-family:
+    "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
   line-height: 2 !important;
   background: #0f172a !important;
   border-right: 1px solid #7aa2f73d; /* Add this line for the vertical separator */
@@ -1400,7 +1421,6 @@
 
 .full-question-detail-prac {
   overflow-y: auto;
-  padding-right: 16px;
   height: 100%;
   transition: width 0.2s;
 }

@@ -11,11 +11,18 @@ const questionsData = [
         <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import date\ntoday = date.today()\nprint(today)`}
+          code={`from datetime import date
+today = date.today()
+print(today)`}
         />
       </div>
     ),
-    options: ["Current date in YYYY-MM-DD format", "Error", "00:00:00", "None"],
+    options: [
+      "Current date in YYYY-MM-DD format",
+      "Error",
+      "00:00:00",
+      "None",
+    ],
     answer: "Current date in YYYY-MM-DD format",
   },
 
@@ -25,11 +32,18 @@ const questionsData = [
         <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime\nnow = datetime.now()\nprint(now)`}
+          code={`from datetime import datetime
+now = datetime.now()
+print(now)`}
         />
       </div>
     ),
-    options: ["Current date and time", "Only time", "Only date", "Error"],
+    options: [
+      "Current date and time",
+      "Only time",
+      "Only date",
+      "Error",
+    ],
     answer: "Current date and time",
   },
 
@@ -39,7 +53,9 @@ const questionsData = [
         <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import date\nd = date(2025, 12, 25)\nprint(d.year)`}
+          code={`from datetime import date
+d = date(2025, 12, 25)
+print(d.year)`}
         />
       </div>
     ),
@@ -53,7 +69,9 @@ const questionsData = [
         <p>What does this print?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import time\nt = time(14, 30, 45)\nprint(t.hour)`}
+          code={`from datetime import time
+t = time(14, 30, 45)
+print(t.hour)`}
         />
       </div>
     ),
@@ -67,11 +85,18 @@ const questionsData = [
         <p>What is the formatted output?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime\nnow = datetime.now()\nprint(now.strftime("%d/%m/%Y"))`}
+          code={`from datetime import datetime
+now = datetime.now()
+print(now.strftime("%d/%m/%Y"))`}
         />
       </div>
     ),
-    options: ["DD/MM/YYYY format", "MM/DD/YYYY format", "Error", "YYYY-MM-DD"],
+    options: [
+      "DD/MM/YYYY format",
+      "MM/DD/YYYY format",
+      "Error",
+      "YYYY-MM-DD",
+    ],
     answer: "DD/MM/YYYY format",
   },
 
@@ -81,7 +106,9 @@ const questionsData = [
         <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime\nnow = datetime.now()\nprint(now.strftime("%B %d, %Y"))`}
+          code={`from datetime import datetime
+now = datetime.now()
+print(now.strftime("%B %d, %Y"))`}
         />
       </div>
     ),
@@ -100,11 +127,18 @@ const questionsData = [
         <p>What date object is created?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime\nd = datetime.strptime("2025-07-15", "%Y-%m-%d")\nprint(d.date())`}
+          code={`from datetime import datetime
+d = datetime.strptime("2025-07-15", "%Y-%m-%d")
+print(d.date())`}
         />
       </div>
     ),
-    options: ["2025-07-15", "15-07-2025", "Error", "None"],
+    options: [
+      "2025-07-15",
+      "15-07-2025",
+      "Error",
+      "None",
+    ],
     answer: "2025-07-15",
   },
 
@@ -114,7 +148,10 @@ const questionsData = [
         <p>How many days in the future?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import date, timedelta\ntoday = date.today()\nfuture = today + timedelta(days=10)\nprint(future)`}
+          code={`from datetime import date, timedelta
+today = date.today()
+future = today + timedelta(days=10)
+print(future)`}
         />
       </div>
     ),
@@ -133,7 +170,11 @@ const questionsData = [
         <p>What is the time difference?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime\nd1 = datetime(2025, 1, 1)\nd2 = datetime(2025, 12, 31)\ndiff = d2 - d1\nprint(diff.days)`}
+          code={`from datetime import datetime
+d1 = datetime(2025, 1, 1)
+d2 = datetime(2025, 12, 31)
+diff = d2 - d1
+print(diff.days)`}
         />
       </div>
     ),
@@ -147,7 +188,9 @@ const questionsData = [
         <p>What weekday is displayed?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime\nnow = datetime.now()\nprint(now.strftime("%A"))`}
+          code={`from datetime import datetime
+now = datetime.now()
+print(now.strftime("%A"))`}
         />
       </div>
     ),
@@ -162,7 +205,12 @@ const questionsData = [
 
   {
     question: "Which method is used to get the current date and time?",
-    options: ["datetime.now()", "date.today()", "time.now()", "current()"],
+    options: [
+      "datetime.now()",
+      "date.today()",
+      "time.now()",
+      "current()",
+    ],
     answer: "datetime.now()",
   },
 
@@ -196,6 +244,7 @@ const questionsData = [
     answer: "%B",
   },
 ];
+
 
 const Workingwith_Lists_MCQ = ({
   subtopicId,

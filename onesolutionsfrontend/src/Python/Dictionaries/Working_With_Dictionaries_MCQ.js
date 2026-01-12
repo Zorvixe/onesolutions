@@ -11,17 +11,14 @@ const questionsData = [
         <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`d1 = {"name": "Teja", "age": 15}\nd2 = d1\nprint(d1)`}
+          code={`d1 = {"name": "Teja", "age": 15}
+d2 = d1
+print(d1)`}
         />
       </div>
     ),
-    options: [
-      <span>{`{"name": "Teja", "age": 15}`}</span>,
-      <span>{`{}`}</span>,
-      "Error",
-      "None",
-    ],
-    answer: <span>{`{"name": "Teja", "age": 15}`}</span>,
+    options: [`{"name": "Teja", "age": 15}`, `{}`, "Error", "None"],
+    answer: `{"name": "Teja", "age": 15}`,
   },
 
   {
@@ -32,7 +29,10 @@ const questionsData = [
         </p>
         <CodeBlock
           language="python"
-          code={`d1 = {"a": 1}\nd2 = d1\nd2["a"] = 99\nprint(d1["a"])`}
+          code={`d1 = {"a": 1}
+d2 = d1
+d2["a"] = 99
+print(d1["a"])`}
         />
       </div>
     ),
@@ -48,17 +48,14 @@ const questionsData = [
         </p>
         <CodeBlock
           language="python"
-          code={`original = {"x": 10}\ncopy = original.copy()\nprint(copy)`}
+          code={`original = {"x": 10}
+copy = original.copy()
+print(copy)`}
         />
       </div>
     ),
-    options: [
-      <span>{`{"x": 10}`}</span>,
-      <span>{`{}`}</span>,
-      "Same object",
-      "Error",
-    ],
-    answer: <span>{`{"x": 10}`}</span>,
+    options: [`{"x": 10}`, `{}`, "Same object", "Error"],
+    answer: `{"x": 10}`,
   },
 
   {
@@ -67,17 +64,15 @@ const questionsData = [
         <p>Why does this affect the original?</p>
         <CodeBlock
           language="python"
-          code={`orig = {"list": [1, 2]}\ncp = orig.copy()\ncp["list"].append(3)\nprint(orig)`}
+          code={`orig = {"list": [1, 2]}
+cp = orig.copy()
+cp["list"].append(3)
+print(orig)`}
         />
       </div>
     ),
-    options: [
-      <span>{`{"list": [1, 2]}`}</span>,
-      <span>{`{"list": [1, 2, 3]}`}</span>,
-      "Error",
-      "Empty dict",
-    ],
-    answer: <span>{`{"list": [1, 2, 3]}`}</span>,
+    options: [`{"list": [1, 2]}`, `{"list": [1, 2, 3]}`, "Error", "Empty dict"],
+    answer: `{"list": [1, 2, 3]}`,
   },
 
   {
@@ -88,17 +83,14 @@ const questionsData = [
         </p>
         <CodeBlock
           language="python"
-          code={`d = {"a": 1, "b": 2}\nd.clear()\nprint(d)`}
+          code={`d = {"a": 1, "b": 2}
+d.clear()
+print(d)`}
         />
       </div>
     ),
-    options: [
-      <span>{`{}`}</span>,
-      <span>{`{"a": 1, "b": 2}`}</span>,
-      "Error",
-      "None",
-    ],
-    answer: <span>{`{}`}</span>,
+    options: [`{}`, `{"a": 1, "b": 2}`, "Error", "None"],
+    answer: `{}`, // ✅ FIXED (string)
   },
 
   {
@@ -107,7 +99,8 @@ const questionsData = [
         <p>What is the length?</p>
         <CodeBlock
           language="python"
-          code={`info = {"name": "Raj", "age": 12}\nprint(len(info))`}
+          code={`info = {"name": "Raj", "age": 12}
+print(len(info))`}
         />
       </div>
     ),
@@ -121,7 +114,10 @@ const questionsData = [
         <p>What is printed?</p>
         <CodeBlock
           language="python"
-          code={`def show(*args):\n    print(len(args))\nshow(1, 2, 3)`}
+          code={`def show(*args):
+    print(len(args))
+
+show(1, 2, 3)`}
         />
       </div>
     ),
@@ -135,17 +131,13 @@ const questionsData = [
         <p>How to unpack a list as arguments?</p>
         <CodeBlock
           language="python"
-          code={`nums = [10, 20, 30]\nprint(*nums)`}
+          code={`nums = [10, 20, 30]
+print(*nums)`}
         />
       </div>
     ),
-    options: [
-      <span>10 20 30</span>,
-      <span>[10, 20, 30]</span>,
-      "Error",
-      "10,20,30",
-    ],
-    answer: <span>10 20 30</span>,
+    options: ["10 20 30", "[10, 20, 30]", "Error", "10,20,30"],
+    answer: "10 20 30",
   },
 
   {
@@ -154,17 +146,20 @@ const questionsData = [
         <p>What is printed?</p>
         <CodeBlock
           language="python"
-          code={`def info(**kwargs):\n    print(kwargs)\ninfo(name="Teja", age=15)`}
+          code={`def info(**kwargs):
+    print(kwargs)
+
+info(name="Teja", age=15)`}
         />
       </div>
     ),
     options: [
-      <span>{`{"name": "Teja", "age": 15}`}</span>,
-      <span>("Teja", 15)</span>,
+      `{"name": "Teja", "age": 15}`,
+      "('Teja', 15)",
       "Teja 15",
       "Error",
     ],
-    answer: <span>{`{"name": "Teja", "age": 15}`}</span>,
+    answer: `{"name": "Teja", "age": 15}`,
   },
 
   {
@@ -173,17 +168,16 @@ const questionsData = [
         <p>How to unpack a dictionary as keyword arguments?</p>
         <CodeBlock
           language="python"
-          code={`def greet(name, age):\n    print(name, "is", age)\ndata = {"name": "Bob", "age": 20}\ngreet(**data)`}
+          code={`def greet(name, age):
+    print(name, "is", age)
+
+data = {"name": "Bob", "age": 20}
+greet(**data)`}
         />
       </div>
     ),
-    options: [
-      <span>Bob is 20</span>,
-      <span>{`{"name": "Bob", "age": 20}`}</span>,
-      "Error",
-      "name age",
-    ],
-    answer: <span>Bob is 20</span>,
+    options: ["Bob is 20", `{"name": "Bob", "age": 20}`, "Error", "name age"],
+    answer: "Bob is 20",
   },
 
   {
@@ -241,7 +235,6 @@ const Working_With_Dictionaries_MCQ = ({
   const [isLoading, setIsLoading] = useState(false);
   const randomQuestions = [...questionsData].sort(() => Math.random() - 0.5);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (subtopicId && completedContent.includes(subtopicId)) {
       setIsCompleted(true);
@@ -254,19 +247,6 @@ const Working_With_Dictionaries_MCQ = ({
     try {
       setIsLoading(true);
 
-      // Validate that we have the required parameters
-      if (!subtopicId) {
-        console.error("❌ Subtopic ID is required");
-        alert("Error: Subtopic ID is missing");
-        return;
-      }
-
-      console.log("🎯 Marking subtopic complete:", {
-        subtopicId,
-        goalName,
-        courseName,
-      });
-
       const result = await markSubtopicComplete(
         subtopicId,
         goalName || "Goal 1",
@@ -276,19 +256,8 @@ const Working_With_Dictionaries_MCQ = ({
       if (result.success) {
         await loadProgressSummary();
         setIsCompleted(true);
-        console.log("✅ MCQ successfully marked as completed");
-
-        // Call the parent completion handler if provided
-        if (onComplete) {
-          onComplete();
-        }
-      } else {
-        console.error("❌ Failed to mark MCQ complete:", result.message);
-        alert(`Failed to mark as complete: ${result.message}`);
+        onComplete?.();
       }
-    } catch (error) {
-      console.error("❌ Failed to mark MCQ complete:", error);
-      alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
     }

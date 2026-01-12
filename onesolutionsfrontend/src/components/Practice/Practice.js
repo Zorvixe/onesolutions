@@ -225,9 +225,8 @@ const Practice = () => {
   const checkPracticeCompletion = useCallback(async () => {
     if (!practiceId) return;
     try {
-      const response = await CodingPracticeService.getCompletionStatus(
-        practiceId
-      );
+      const response =
+        await CodingPracticeService.getCompletionStatus(practiceId);
       if (response.success) {
         setIsPracticeCompleted(response.data.isCompleted);
       }
@@ -906,8 +905,8 @@ const Practice = () => {
                 {currentStatus === "solved"
                   ? "✓ Solved"
                   : currentStatus === "attempted"
-                  ? "● Attempted"
-                  : "○ Unsolved"}
+                    ? "● Attempted"
+                    : "○ Unsolved"}
               </span>
               <span
                 className={`difficulty-badge-prac large-prac ${selectedQuestion.difficulty.toLowerCase()}`}
@@ -926,140 +925,141 @@ const Practice = () => {
             className="full-question-detail-prac"
             style={{ width: `${100 - editorWidth}%` }}
           >
-            <div className="question-description-section-prac">
-              <div className="description-name-header">
-                <h3>Description</h3>
-              </div>
+            <div className="description-name-header-prac">
+              Description
+            </div>
 
-              <span className="practice-name-prac">
-                {selectedQuestion.title}
-              </span>
+            <div className="desc-prac">
               <div className="description-content-prac">
+                <span className="practice-name-prac">
+                  {selectedQuestion.title}
+                </span>
                 <p>{selectedQuestion.description}</p>
               </div>
-            </div>
 
-            <div className="sample-io-section-prac">
-              <div className="sample-input-prac">
-                <h3>Sample Input</h3>
-                <div className="code-block-prac">
-                  <pre>
-                    {selectedQuestion.sampleInput || "No input provided"}
-                  </pre>
+              <div className="sample-io-section-prac">
+                <div className="sample-input-prac">
+                  <h3>Sample Input</h3>
+                  <div className="code-block-prac">
+                    <pre>
+                      {selectedQuestion.sampleInput || "No input provided"}
+                    </pre>
+                  </div>
+                </div>
+                <div className="sample-output-prac">
+                  <h3>Sample Output</h3>
+                  <div className="code-block-prac">
+                    <pre>{selectedQuestion.sampleOutput}</pre>
+                  </div>
                 </div>
               </div>
-              <div className="sample-output-prac">
-                <h3>Sample Output</h3>
-                <div className="code-block-prac">
-                  <pre>{selectedQuestion.sampleOutput}</pre>
+
+              <div className="test-cases-section-prac">
+                <div className="test-cases-header-prac">
+                  <h3>Test Cases</h3>
                 </div>
-              </div>
-            </div>
+                <div className="test-cases-grid-prac">
+                  {selectedQuestion.testCases
+                    .filter((testCase) => testCase.visible)
+                    .map((testCase, visibleIndex) => {
+                      const testResult = testResults[visibleIndex];
 
-            <div className="test-cases-section-prac">
-              <div className="test-cases-header-prac">
-                <h3>Test Cases</h3>
-              </div>
-              <div className="test-cases-grid-prac">
-                {selectedQuestion.testCases
-                  .filter((testCase) => testCase.visible)
-                  .map((testCase, visibleIndex) => {
-                    const testResult = testResults[visibleIndex];
-
-                    return (
-                      <div key={visibleIndex} className="test-case-prac">
-                        <div className="test-case-header-prac">
-                          <span className="test-case-number-prac">
-                            Case {visibleIndex + 1}
-                          </span>
-                          <span className="">
-                            {testResult && (
+                      return (
+                        <div key={visibleIndex} className="test-case-prac">
+                          <div className="test-case-header-prac">
+                            <span className="test-case-number-prac">
+                              Case {visibleIndex + 1}
+                            </span>
+                            <span className="">
+                              {testResult && (
+                                <div
+                                  className={`test-result-prac ${
+                                    testResult.passed
+                                      ? "passed-prac"
+                                      : "failed-prac"
+                                  }`}
+                                >
+                                  {testResult.passed ? (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="18"
+                                      height="18"
+                                      fill="green"
+                                      className="bi bi-check-circle-fill"
+                                      viewBox="0 0 16 16"
+                                    >
+                                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                                    </svg>
+                                  ) : (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="18"
+                                      height="18"
+                                      fill="red"
+                                      className="bi bi-x-circle-fill"
+                                      viewBox="0 0 16 16"
+                                    >
+                                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                                    </svg>
+                                  )}
+                                </div>
+                              )}
+                            </span>
+                          </div>
+                          <div className="test-case-content-prac">
+                            <div className="test-input-prac">
+                              <label>Input:</label>
+                              <div className="code-block-prac small-prac">
+                                <pre>{testCase.input || "No input"}</pre>
+                              </div>
+                            </div>
+                            <div>
                               <div
-                                className={`test-result-prac ${
-                                  testResult.passed
-                                    ? "passed-prac"
-                                    : "failed-prac"
+                                className={`output-section ${
+                                  testResult ? "with-result" : "only-expected"
                                 }`}
                               >
-                                {testResult.passed ? (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    fill="green"
-                                    className="bi bi-check-circle-fill"
-                                    viewBox="0 0 16 16"
+                                <div className="expected-output">
+                                  <span className="output-label-prac">
+                                    Expected Output:
+                                  </span>
+                                  <div
+                                    className="code-block-prac small-prac"
+                                    style={{ marginTop: "5px" }}
                                   >
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-                                  </svg>
-                                ) : (
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    fill="red"
-                                    className="bi bi-x-circle-fill"
-                                    viewBox="0 0 16 16"
-                                  >
-                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                                  </svg>
-                                )}
-                              </div>
-                            )}
-                          </span>
-                        </div>
-                        <div className="test-case-content-prac">
-                          <div className="test-input-prac">
-                            <label>Input:</label>
-                            <div className="code-block-prac small-prac">
-                              <pre>{testCase.input || "No input"}</pre>
-                            </div>
-                          </div>
-                          <div>
-                            <div
-                              className={`output-section ${
-                                testResult ? "with-result" : "only-expected"
-                              }`}
-                            >
-                              <div className="expected-output">
-                                <span className="output-label-prac">
-                                  Expected Output:
-                                </span>
-                                <div
-                                  className="code-block-prac small-prac"
-                                  style={{ marginTop: "5px" }}
-                                >
-                                  <pre>{testCase.output}</pre>
+                                    <pre>{testCase.output}</pre>
+                                  </div>
                                 </div>
-                              </div>
-                              {testResult && (
-                                <div className="test-execution-result-prac">
-                                  <div className="output-comparison-prac">
-                                    <div className="output-row-prac">
-                                      <span className="output-label-prac">
-                                        Your Output:
-                                      </span>
-                                      <div
-                                        className={`code-block-prac small-prac ${
-                                          testResult.passed
-                                            ? "success-prac"
-                                            : "error-prac"
-                                        }`}
-                                      >
-                                        <pre>
-                                          {testResult.actualOutput || "(empty)"}
-                                        </pre>
+                                {testResult && (
+                                  <div className="test-execution-result-prac">
+                                    <div className="output-comparison-prac">
+                                      <div className="output-row-prac">
+                                        <span className="output-label-prac">
+                                          Your Output:
+                                        </span>
+                                        <div
+                                          className={`code-block-prac small-prac ${
+                                            testResult.passed
+                                              ? "success-prac"
+                                              : "error-prac"
+                                          }`}
+                                        >
+                                          <pre>
+                                            {testResult.actualOutput ||
+                                              "(empty)"}
+                                          </pre>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              )}
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                </div>
               </div>
             </div>
           </div>
@@ -1077,8 +1077,8 @@ const Practice = () => {
                   {selectedLanguage === "python"
                     ? "Python 3.10"
                     : selectedLanguage === "javascript"
-                    ? "JavaScript"
-                    : "Other"}{" "}
+                      ? "JavaScript"
+                      : "Other"}{" "}
                 </div>
               </div>
               <button
@@ -1273,12 +1273,12 @@ const Practice = () => {
                       {selectedLanguage === "python"
                         ? "Python"
                         : selectedLanguage === "javascript"
-                        ? "JavaScript"
-                        : selectedLanguage === "java"
-                        ? "Java"
-                        : selectedLanguage === "sql"
-                        ? "SQL"
-                        : selectedLanguage}
+                          ? "JavaScript"
+                          : selectedLanguage === "java"
+                            ? "Java"
+                            : selectedLanguage === "sql"
+                              ? "SQL"
+                              : selectedLanguage}
                     </span>
                   </div>
                 </div>
@@ -1396,8 +1396,8 @@ const Practice = () => {
                             status === "solved"
                               ? "solved-prac"
                               : status === "attempted"
-                              ? "attempted-prac"
-                              : ""
+                                ? "attempted-prac"
+                                : ""
                           }`}
                           onClick={() => handleQuestionSelect(question)}
                         >
@@ -1406,8 +1406,8 @@ const Practice = () => {
                               {status === "solved"
                                 ? "✓"
                                 : status === "attempted"
-                                ? "●"
-                                : "○"}
+                                  ? "●"
+                                  : "○"}
                             </span>
                           </td>
                           <td className="question-title-cell-prac">

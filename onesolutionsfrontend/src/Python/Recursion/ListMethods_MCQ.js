@@ -53,30 +53,12 @@ print("\\n".join(fruits))`}
       </div>
     ),
     options: [
-      <span>
-        apple
-        <br />
-        banana
-        <br />
-        cherry
-      </span>,
-      <span>
-        apple
-        <br />
-        banana
-      </span>,
+      "apple\nbanana\ncherry",
+      "apple\nbanana",
       "Error",
       "[apple, banana, cherry]",
     ],
-    answer: (
-      <span>
-        apple
-        <br />
-        banana
-        <br />
-        cherry
-      </span>
-    ),
+    answer: "apple\nbanana\ncherry",
   },
   {
     question: (
@@ -91,25 +73,8 @@ print("\\n".join(map(str, a)))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        1<br />2<br />3<br />4<br />5
-      </span>,
-      <span>
-        [1, 2]
-        <br />
-        [3, 4, 5]
-      </span>,
-      <span>
-        3<br />4<br />5
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        1<br />2<br />3<br />4<br />5
-      </span>
-    ),
+    options: ["1\n2\n3\n4\n5", "[1, 2]\n[3, 4, 5]", "3\n4\n5", "Error"],
+    answer: "1\n2\n3\n4\n5",
   },
   {
     question: (
@@ -123,47 +88,8 @@ print("\\n".join(map(str, nums)))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        10
-        <br />
-        20
-        <br />
-        30
-        <br />
-        40
-      </span>,
-      <span>
-        20
-        <br />
-        10
-        <br />
-        30
-        <br />
-        40
-      </span>,
-      <span>
-        10
-        <br />
-        30
-        <br />
-        20
-        <br />
-        40
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        10
-        <br />
-        20
-        <br />
-        30
-        <br />
-        40
-      </span>
-    ),
+    options: ["10\n20\n30\n40", "20\n10\n30\n40", "10\n30\n20\n40", "Error"],
+    answer: "10\n20\n30\n40",
   },
   {
     question: (
@@ -178,46 +104,12 @@ print("\\n".join(map(str, values)))`}
       </div>
     ),
     options: [
-      <span>
-        400
-        <br />
-        100
-        <br />
-        200
-        <br />
-        300
-      </span>,
-      <span>
-        100
-        <br />
-        200
-        <br />
-        300
-        <br />
-        400
-      </span>,
-      <span>
-        300
-        <br />
-        100
-        <br />
-        200
-        <br />
-        400
-      </span>,
+      "400\n100\n200\n300",
+      "100\n200\n300\n400",
+      "300\n100\n200\n400",
       "Error",
     ],
-    answer: (
-      <span>
-        400
-        <br />
-        100
-        <br />
-        200
-        <br />
-        300
-      </span>
-    ),
+    answer: "400\n100\n200\n300",
   },
   {
     question: (
@@ -232,40 +124,12 @@ print("\\n".join(colors))`}
       </div>
     ),
     options: [
-      <span>
-        red
-        <br />
-        blue
-        <br />
-        green
-        <br />
-        blue
-      </span>,
-      <span>
-        red
-        <br />
-        green
-        <br />
-        blue
-      </span>,
-      <span>
-        red
-        <br />
-        blue
-        <br />
-        green
-      </span>,
+      "red\nblue\ngreen\nblue",
+      "red\ngreen\nblue",
+      "red\nblue\ngreen",
       "Error",
     ],
-    answer: (
-      <span>
-        red
-        <br />
-        green
-        <br />
-        blue
-      </span>
-    ),
+    answer: "red\ngreen\nblue",
   },
   {
     question: (
@@ -279,21 +143,8 @@ print("\\n".join(map(str, lst)))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        1<br />2<br />5<br />8
-      </span>,
-      <span>
-        8<br />5<br />2<br />1
-      </span>,
-      "[5, 2, 8, 1]",
-      "Error",
-    ],
-    answer: (
-      <span>
-        1<br />2<br />5<br />8
-      </span>
-    ),
+    options: ["1\n2\n5\n8", "8\n5\n2\n1", "[5, 2, 8, 1]", "Error"],
+    answer: "1\n2\n5\n8",
   },
   {
     question: (
@@ -339,30 +190,12 @@ print(sorted_nums)`}
       </div>
     ),
     options: [
-      <span>
-        [4, 2, 7, 1]
-        <br />
-        [1, 2, 4, 7]
-      </span>,
-      <span>
-        [1, 2, 4, 7]
-        <br />
-        [1, 2, 4, 7]
-      </span>,
-      <span>
-        [1, 2, 4, 7]
-        <br />
-        [4, 2, 7, 1]
-      </span>,
+      "[4, 2, 7, 1]\n[1, 2, 4, 7]",
+      "[1, 2, 4, 7]\n[1, 2, 4, 7]",
+      "[1, 2, 4, 7]\n[4, 2, 7, 1]",
       "Error",
     ],
-    answer: (
-      <span>
-        [4, 2, 7, 1]
-        <br />
-        [1, 2, 4, 7]
-      </span>
-    ),
+    answer: "[4, 2, 7, 1]\n[1, 2, 4, 7]",
   },
   {
     question: (

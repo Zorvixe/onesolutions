@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
+
 const questionsData = [
   {
     question: "Which of the following is true about sets in Python?",
@@ -46,37 +47,12 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`fruits = {"apple", "banana", "apple"}
-  print("\\n".join(sorted(fruits)))}`}
+print("\\n".join(sorted(fruits)))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        apple
-        <br />
-        banana
-        <br />
-        apple
-      </span>,
-      <span>
-        apple
-        <br />
-        banana
-      </span>,
-      <span>
-        banana
-        <br />
-        apple
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        apple
-        <br />
-        banana
-      </span>
-    ),
+    options: ["apple\nbanana", "banana\napple", "Error"],
+    answer: "apple\nbanana",
   },
   {
     question: (
@@ -85,27 +61,12 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`s = set("hello")
-  print("\\n".join(sorted(s)))}`}
+print("\\n".join(sorted(s)))`}
         />
       </div>
     ),
-    options: [
-      <span>
-        h<br />e<br />l<br />l<br />o
-      </span>,
-      <span>
-        e<br />h<br />l<br />o
-      </span>,
-      <span>
-        h<br />e<br />l<br />o
-      </span>,
-      "Error",
-    ],
-    answer: (
-      <span>
-        e<br />h<br />l<br />o
-      </span>
-    ),
+    options: ["e\nh\nl\no", "h\ne\nl\no", "Error"],
+    answer: "e\nh\nl\no",
   },
   {
     question: (
@@ -114,9 +75,9 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`my_set = {1, 2, 3}
-  my_set.add(4)
-  my_set.add(2)
-  print(my_set)`}
+my_set.add(4)
+my_set.add(2)
+print(my_set)`}
         />
       </div>
     ),
@@ -130,8 +91,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`nums = {10, 20, 30}
-  nums.update([20, 40, 50])
-  print(sorted(nums))`}
+nums.update([20, 40, 50])
+print(sorted(nums))`}
         />
       </div>
     ),
@@ -145,8 +106,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`data = {1, 2, 3}
-  data.remove(2)
-  print(data)`}
+data.remove(2)
+print(data)`}
         />
       </div>
     ),
@@ -160,7 +121,7 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`s = {1, 2, 3}
-  s.remove(99)`}
+s.remove(99)`}
         />
       </div>
     ),
@@ -179,9 +140,9 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`s = {1, 2, 3}
-  s.discard(2)
-  s.discard(99)
-  print(s)`}
+s.discard(2)
+s.discard(99)
+print(s)`}
         />
       </div>
     ),
@@ -195,8 +156,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`a = {1, 2, 3, 4}
-  b = {3, 4, 5, 6}
-  print(a | b)`}
+b = {3, 4, 5, 6}
+print(a | b)`}
         />
       </div>
     ),
@@ -210,8 +171,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`x = {1, 2, 3}
-  y = {2, 3, 4}
-  print(x & y)`}
+y = {2, 3, 4}
+print(x & y)`}
         />
       </div>
     ),
@@ -225,8 +186,8 @@ const questionsData = [
         <CodeBlock
           language="python"
           code={`p = {1, 2, 3}
-  q = {3, 4, 5}
-  print(p - q)`}
+q = {3, 4, 5}
+print(p - q)`}
         />
       </div>
     ),
@@ -234,13 +195,10 @@ const questionsData = [
     answer: "{1, 2}",
   },
 ];
-const Sets_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+
+const Sets_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -269,7 +227,7 @@ const Sets_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(
