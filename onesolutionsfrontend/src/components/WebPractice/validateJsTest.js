@@ -1,327 +1,499 @@
-const validateJsTest = (testCase, iframeDoc) => {
-  const normalizeColor = (color) => color.replace(/\s/g, "").toLowerCase();
-  // Helper function to get image filenames from URLs
-  const getImageFileName = (url) => {
-    if (!url) return '';
-    // Extract the last part of the URL after the last slash
-    const parts = url.split('/');
-    return parts[parts.length - 1];
-  };
+const validateJsTest = (testCase, iframeDoc, iframe) => {
+  try {
+    const validationType = testCase.input;
+    const win = iframe.contentWindow;
+    const doc = iframeDoc;
 
-  switch (testCase.input) {
-    case "check-button1-bg": {
-      iframeDoc.getElementById("button1").click();
+    switch (validationType) {
+      // ========== COLOR PICKER VALIDATIONS ==========
+      case "check-button1-bg": {
+        const button = doc.getElementById("button1");
+        if (!button) return { passed: false, actual: "Button1 not found" };
 
-      const bgColor = getComputedStyle(
-        iframeDoc.getElementById("colorPickerContainer")
-      ).backgroundColor;
+        button.click();
 
-      return {
-        passed: normalizeColor(bgColor) === "rgb(224,224,224)",
-        actual: bgColor,
-      };
+        const container = doc.getElementById("colorPickerContainer");
+        if (!container) return { passed: false, actual: "Container not found" };
+
+        const bgColor = win.getComputedStyle(container).backgroundColor;
+        const passed = bgColor === "rgb(224, 224, 224)";
+
+        return {
+          passed,
+          actual: passed
+            ? "Background color changed to #e0e0e0"
+            : "Background color not changed",
+        };
+      }
+
+      case "check-button1-text": {
+        const button = doc.getElementById("button1");
+        if (!button) return { passed: false, actual: "Button1 not found" };
+
+        button.click();
+
+        const hexCodeElement = doc.getElementById("selectedColorHexCode");
+        if (!hexCodeElement)
+          return { passed: false, actual: "Hex code element not found" };
+
+        const text = hexCodeElement.textContent.trim();
+        const passed = text === "#e0e0e0";
+
+        return {
+          passed,
+          actual: passed
+            ? "Hex code updated to #e0e0e0"
+            : "Hex code not updated",
+        };
+      }
+
+      case "check-button2-bg": {
+        const button = doc.getElementById("button2");
+        if (!button) return { passed: false, actual: "Button2 not found" };
+
+        button.click();
+
+        const container = doc.getElementById("colorPickerContainer");
+        if (!container) return { passed: false, actual: "Container not found" };
+
+        const bgColor = win.getComputedStyle(container).backgroundColor;
+        const passed = bgColor === "rgb(111, 207, 151)";
+
+        return {
+          passed,
+          actual: passed
+            ? "Background color changed to #6fcf97"
+            : "Background color not changed",
+        };
+      }
+
+      case "check-button2-text": {
+        const button = doc.getElementById("button2");
+        if (!button) return { passed: false, actual: "Button2 not found" };
+
+        button.click();
+
+        const hexCodeElement = doc.getElementById("selectedColorHexCode");
+        if (!hexCodeElement)
+          return { passed: false, actual: "Hex code element not found" };
+
+        const text = hexCodeElement.textContent.trim();
+        const passed = text === "#6fcf97";
+
+        return {
+          passed,
+          actual: passed
+            ? "Hex code updated to #6fcf97"
+            : "Hex code not updated",
+        };
+      }
+
+      case "check-button3-bg": {
+        const button = doc.getElementById("button3");
+        if (!button) return { passed: false, actual: "Button3 not found" };
+
+        button.click();
+
+        const container = doc.getElementById("colorPickerContainer");
+        if (!container) return { passed: false, actual: "Container not found" };
+
+        const bgColor = win.getComputedStyle(container).backgroundColor;
+        const passed = bgColor === "rgb(86, 204, 242)";
+
+        return {
+          passed,
+          actual: passed
+            ? "Background color changed to #56ccf2"
+            : "Background color not changed",
+        };
+      }
+
+      case "check-button3-text": {
+        const button = doc.getElementById("button3");
+        if (!button) return { passed: false, actual: "Button3 not found" };
+
+        button.click();
+
+        const hexCodeElement = doc.getElementById("selectedColorHexCode");
+        if (!hexCodeElement)
+          return { passed: false, actual: "Hex code element not found" };
+
+        const text = hexCodeElement.textContent.trim();
+        const passed = text === "#56ccf2";
+
+        return {
+          passed,
+          actual: passed
+            ? "Hex code updated to #56ccf2"
+            : "Hex code not updated",
+        };
+      }
+
+      case "check-button4-bg": {
+        const button = doc.getElementById("button4");
+        if (!button) return { passed: false, actual: "Button4 not found" };
+
+        button.click();
+
+        const container = doc.getElementById("colorPickerContainer");
+        if (!container) return { passed: false, actual: "Container not found" };
+
+        const bgColor = win.getComputedStyle(container).backgroundColor;
+        const passed = bgColor === "rgb(187, 107, 217)";
+
+        return {
+          passed,
+          actual: passed
+            ? "Background color changed to #bb6bd9"
+            : "Background color not changed",
+        };
+      }
+
+      case "check-button4-text": {
+        const button = doc.getElementById("button4");
+        if (!button) return { passed: false, actual: "Button4 not found" };
+
+        button.click();
+
+        const hexCodeElement = doc.getElementById("selectedColorHexCode");
+        if (!hexCodeElement)
+          return { passed: false, actual: "Hex code element not found" };
+
+        const text = hexCodeElement.textContent.trim();
+        const passed = text === "#bb6bd9";
+
+        return {
+          passed,
+          actual: passed
+            ? "Hex code updated to #bb6bd9"
+            : "Hex code not updated",
+        };
+      }
+      // ========== SEASON SWITCHER VALIDATIONS ==========
+      case "check-spring-images": {
+        const button = doc.getElementById("springBtn");
+        if (!button)
+          return { passed: false, actual: "Spring button not found" };
+
+        button.click();
+
+        const smallImg = doc.getElementById("seasonSmallImage");
+        const mediumImg = doc.getElementById("seasonMediumImage");
+
+        if (!smallImg || !mediumImg)
+          return { passed: false, actual: "Season images not found" };
+
+        const smallSrc = smallImg.src;
+        const mediumSrc = mediumImg.src;
+
+        const smallHasSpring = smallSrc.includes("spring");
+        const mediumHasSpring = mediumSrc.includes("spring");
+        const passed = smallHasSpring && mediumHasSpring;
+
+        return {
+          passed,
+          actual: passed
+            ? "Images updated to Spring"
+            : "Images not updated to Spring",
+        };
+      }
+
+      case "check-summer-images": {
+        const button = doc.getElementById("summerBtn");
+        if (!button)
+          return { passed: false, actual: "Summer button not found" };
+
+        button.click();
+
+        const smallImg = doc.getElementById("seasonSmallImage");
+        const mediumImg = doc.getElementById("seasonMediumImage");
+
+        if (!smallImg || !mediumImg)
+          return { passed: false, actual: "Season images not found" };
+
+        const smallSrc = smallImg.src;
+        const mediumSrc = mediumImg.src;
+
+        const smallHasSummer = smallSrc.includes("summer");
+        const mediumHasSummer = mediumSrc.includes("summer");
+        const passed = smallHasSummer && mediumHasSummer;
+
+        return {
+          passed,
+          actual: passed
+            ? "Images updated to Summer"
+            : "Images not updated to Summer",
+        };
+      }
+
+      case "check-autumn-images": {
+        const button = doc.getElementById("autumnBtn");
+        if (!button)
+          return { passed: false, actual: "Autumn button not found" };
+
+        button.click();
+
+        const smallImg = doc.getElementById("seasonSmallImage");
+        const mediumImg = doc.getElementById("seasonMediumImage");
+
+        if (!smallImg || !mediumImg)
+          return { passed: false, actual: "Season images not found" };
+
+        const smallSrc = smallImg.src;
+        const mediumSrc = mediumImg.src;
+
+        const smallHasAutumn = smallSrc.includes("autumn");
+        const mediumHasAutumn = mediumSrc.includes("autumn");
+        const passed = smallHasAutumn && mediumHasAutumn;
+
+        return {
+          passed,
+          actual: passed
+            ? "Images updated to Autumn"
+            : "Images not updated to Autumn",
+        };
+      }
+
+      case "check-winter-images": {
+        const button = doc.getElementById("winterBtn");
+        if (!button)
+          return { passed: false, actual: "Winter button not found" };
+
+        button.click();
+
+        const smallImg = doc.getElementById("seasonSmallImage");
+        const mediumImg = doc.getElementById("seasonMediumImage");
+
+        if (!smallImg || !mediumImg)
+          return { passed: false, actual: "Season images not found" };
+
+        const smallSrc = smallImg.src;
+        const mediumSrc = mediumImg.src;
+
+        const smallHasWinter = smallSrc.includes("winter");
+        const mediumHasWinter = mediumSrc.includes("winter");
+        const passed = smallHasWinter && mediumHasWinter;
+
+        return {
+          passed,
+          actual: passed
+            ? "Images updated to Winter"
+            : "Images not updated to Winter",
+        };
+      }
+
+      case "check-billAmount": {
+        const element = doc.getElementById("billAmount");
+        const passed = element !== null;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found billAmount element"
+            : "billAmount element not found",
+        };
+      }
+
+      case "check-percentageTip": {
+        const element = doc.getElementById("percentageTip");
+        const passed = element !== null;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found percentageTip element"
+            : "percentageTip element not found",
+        };
+      }
+
+      case "check-tipAmount": {
+        const element = doc.getElementById("tipAmount");
+        const passed = element !== null;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found tipAmount element"
+            : "tipAmount element not found",
+        };
+      }
+
+      case "check-totalAmount": {
+        const element = doc.getElementById("totalAmount");
+        const passed = element !== null;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found totalAmount element"
+            : "totalAmount element not found",
+        };
+      }
+
+      case "check-errorMessage": {
+        const element = doc.getElementById("errorMessage");
+        const passed = element !== null;
+
+        return {
+          passed,
+          actual: passed
+            ? "Found errorMessage element"
+            : "errorMessage element not found",
+        };
+      }
+
+      case "check-tip-calculation": {
+        const billAmount = doc.getElementById("billAmount");
+        const percentageTip = doc.getElementById("percentageTip");
+        const calculateButton = doc.getElementById("calculateButton");
+
+        if (!billAmount || !percentageTip || !calculateButton) {
+          return { passed: false, actual: "Required elements not found" };
+        }
+
+        billAmount.value = "100";
+        percentageTip.value = "10";
+        calculateButton.click();
+
+        const tipElement = doc.getElementById("tipAmount");
+        if (!tipElement)
+          return { passed: false, actual: "Tip amount element not found" };
+
+        const tip = parseFloat(tipElement.value);
+        const passed = tip === 10;
+
+        return {
+          passed,
+          actual: passed
+            ? "Tip calculated correctly"
+            : "Tip not calculated correctly",
+        };
+      }
+
+      case "check-total-calculation": {
+        const billAmount = doc.getElementById("billAmount");
+        const percentageTip = doc.getElementById("percentageTip");
+        const calculateButton = doc.getElementById("calculateButton");
+
+        if (!billAmount || !percentageTip || !calculateButton) {
+          return { passed: false, actual: "Required elements not found" };
+        }
+
+        billAmount.value = "100";
+        percentageTip.value = "10";
+        calculateButton.click();
+
+        const totalElement = doc.getElementById("totalAmount");
+        if (!totalElement)
+          return { passed: false, actual: "Total amount element not found" };
+
+        const total = parseFloat(totalElement.value);
+        const passed = total === 110;
+
+        return {
+          passed,
+          actual: passed
+            ? "Total calculated correctly"
+            : "Total not calculated correctly",
+        };
+      }
+
+      case "check-both-empty": {
+        const billAmount = doc.getElementById("billAmount");
+        const percentageTip = doc.getElementById("percentageTip");
+        const calculateButton = doc.getElementById("calculateButton");
+
+        if (!billAmount || !percentageTip || !calculateButton) {
+          return { passed: false, actual: "Required elements not found" };
+        }
+
+        billAmount.value = "";
+        percentageTip.value = "";
+        calculateButton.click();
+
+        const errorElement = doc.getElementById("errorMessage");
+        if (!errorElement)
+          return { passed: false, actual: "Error message element not found" };
+
+        const errorText = errorElement.textContent.trim();
+        const passed = errorText.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Error message shown for empty fields"
+            : "No error message shown",
+        };
+      }
+
+      case "check-billAmount-empty": {
+        const billAmount = doc.getElementById("billAmount");
+        const percentageTip = doc.getElementById("percentageTip");
+        const calculateButton = doc.getElementById("calculateButton");
+
+        if (!billAmount || !percentageTip || !calculateButton) {
+          return { passed: false, actual: "Required elements not found" };
+        }
+
+        billAmount.value = "";
+        percentageTip.value = "10";
+        calculateButton.click();
+
+        const errorElement = doc.getElementById("errorMessage");
+        if (!errorElement)
+          return { passed: false, actual: "Error message element not found" };
+
+        const errorText = errorElement.textContent.trim();
+        const passed = errorText.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Error message shown for empty bill amount"
+            : "No error message shown",
+        };
+      }
+
+      case "check-percentageTip-empty": {
+        const billAmount = doc.getElementById("billAmount");
+        const percentageTip = doc.getElementById("percentageTip");
+        const calculateButton = doc.getElementById("calculateButton");
+
+        if (!billAmount || !percentageTip || !calculateButton) {
+          return { passed: false, actual: "Required elements not found" };
+        }
+
+        billAmount.value = "100";
+        percentageTip.value = "";
+        calculateButton.click();
+
+        const errorElement = doc.getElementById("errorMessage");
+        if (!errorElement)
+          return { passed: false, actual: "Error message element not found" };
+
+        const errorText = errorElement.textContent.trim();
+        const passed = errorText.length > 0;
+
+        return {
+          passed,
+          actual: passed
+            ? "Error message shown for empty percentage tip"
+            : "No error message shown",
+        };
+      }
+      default:
+        return {
+          passed: false,
+          actual: `Unknown JS test type: ${validationType}`,
+        };
     }
-
-    case "check-button1-text": {
-      iframeDoc.getElementById("button1").click();
-
-      const text = iframeDoc.getElementById("selectedColorHexCode").textContent;
-
-      return {
-        passed: text.trim() === "#e0e0e0",
-        actual: text,
-      };
-    }
-
-    case "check-button2-bg": {
-      iframeDoc.getElementById("button2").click();
-
-      const bgColor = getComputedStyle(
-        iframeDoc.getElementById("colorPickerContainer")
-      ).backgroundColor;
-
-      return {
-        passed: normalizeColor(bgColor) === "rgb(111,207,151)",
-        actual: bgColor,
-      };
-    }
-
-    case "check-button2-text": {
-      iframeDoc.getElementById("button2").click();
-
-      const text = iframeDoc.getElementById("selectedColorHexCode").textContent;
-
-      return {
-        passed: text.trim() === "#6fcf97",
-        actual: text,
-      };
-    }
-
-    case "check-button3-bg": {
-      iframeDoc.getElementById("button3").click();
-
-      const bgColor = getComputedStyle(
-        iframeDoc.getElementById("colorPickerContainer")
-      ).backgroundColor;
-
-      return {
-        passed: normalizeColor(bgColor) === "rgb(86,204,242)",
-        actual: bgColor,
-      };
-    }
-
-    case "check-button3-text": {
-      iframeDoc.getElementById("button3").click();
-
-      const text = iframeDoc.getElementById("selectedColorHexCode").textContent;
-
-      return {
-        passed: text.trim() === "#56ccf2",
-        actual: text,
-      };
-    }
-
-    case "check-button4-bg": {
-      iframeDoc.getElementById("button4").click();
-
-      const bgColor = getComputedStyle(
-        iframeDoc.getElementById("colorPickerContainer")
-      ).backgroundColor;
-
-      return {
-        passed: normalizeColor(bgColor) === "rgb(187,107,217)",
-        actual: bgColor,
-      };
-    }
-
-    case "check-button4-text": {
-      iframeDoc.getElementById("button4").click();
-
-      const text = iframeDoc.getElementById("selectedColorHexCode").textContent;
-
-      return {
-        passed: text.trim() === "#bb6bd9",
-        actual: text,
-      };
-    }
-
-    
-
-    case "check-spring-images": {
-      // Click the spring button
-      iframeDoc.getElementById("springBtn").click();
-      
-      // Get the current image sources
-      const smallImg = iframeDoc.getElementById("seasonSmallImage").src;
-      const mediumImg = iframeDoc.getElementById("seasonMediumImage").src;
-      
-      // Get filenames for more accurate checking
-      const smallImgFile = getImageFileName(smallImg);
-      const mediumImgFile = getImageFileName(mediumImg);
-      
-      // Expected filenames for spring
-      const expectedSmallSpring = "seasons-switcher-spring-xs-img_ymubbx.png";
-      const expectedMediumSpring = "seasons-switcher-spring-md-img_phcjh8.png";
-      
-      // Check if images match
-      const passed = (
-        smallImgFile === expectedSmallSpring || 
-        smallImg.includes("spring-xs-img")
-      ) && (
-        mediumImgFile === expectedMediumSpring || 
-        mediumImg.includes("spring-md-img")
-      );
-      
-      return {
-        passed: passed,
-        actual: {
-          smallImg: smallImgFile,
-          mediumImg: mediumImgFile
-        },
-      };
-    }
-
-    case "check-summer-images": {
-      // First reset to default (optional, but good for isolated testing)
-      // Then click summer button
-      iframeDoc.getElementById("summerBtn").click();
-      
-      const smallImg = iframeDoc.getElementById("seasonSmallImage").src;
-      const mediumImg = iframeDoc.getElementById("seasonMediumImage").src;
-      
-      const smallImgFile = getImageFileName(smallImg);
-      const mediumImgFile = getImageFileName(mediumImg);
-      
-      // Expected filenames for summer
-      const expectedSmallSummer = "seasons-switcher-summer-xs-img_ljcy4k.png";
-      const expectedMediumSummer = "seasons-switcher-summer-md-img_m37nkm.png";
-      
-      const passed = (
-        smallImgFile === expectedSmallSummer || 
-        smallImg.includes("summer-xs-img")
-      ) && (
-        mediumImgFile === expectedMediumSummer || 
-        mediumImg.includes("summer-md-img")
-      );
-      
-      return {
-        passed: passed,
-        actual: {
-          smallImg: smallImgFile,
-          mediumImg: mediumImgFile
-        },
-      };
-    }
-
-    case "check-autumn-images": {
-      iframeDoc.getElementById("autumnBtn").click();
-      
-      const smallImg = iframeDoc.getElementById("seasonSmallImage").src;
-      const mediumImg = iframeDoc.getElementById("seasonMediumImage").src;
-      
-      const smallImgFile = getImageFileName(smallImg);
-      const mediumImgFile = getImageFileName(mediumImg);
-      
-      // Expected filenames for autumn
-      const expectedSmallAutumn = "seasons-switcher-autumn-xs-img_npgz12.png";
-      const expectedMediumAutumn = "seasons-switcher-autumn-md-img_jhfrpm.png";
-      
-      const passed = (
-        smallImgFile === expectedSmallAutumn || 
-        smallImg.includes("autumn-xs-img")
-      ) && (
-        mediumImgFile === expectedMediumAutumn || 
-        mediumImg.includes("autumn-md-img")
-      );
-      
-      return {
-        passed: passed,
-        actual: {
-          smallImg: smallImgFile,
-          mediumImg: mediumImgFile
-        },
-      };
-    }
-
-    case "check-winter-images": {
-      iframeDoc.getElementById("winterBtn").click();
-      
-      const smallImg = iframeDoc.getElementById("seasonSmallImage").src;
-      const mediumImg = iframeDoc.getElementById("seasonMediumImage").src;
-      
-      const smallImgFile = getImageFileName(smallImg);
-      const mediumImgFile = getImageFileName(mediumImg);
-      
-      // Expected filenames for winter
-      const expectedSmallWinter = "seasons-switcher-winter-xs-img_fzooxl.png";
-      const expectedMediumWinter = "seasons-switcher-winter-md-img_q1ta4r.png";
-      
-      const passed = (
-        smallImgFile === expectedSmallWinter || 
-        smallImg.includes("winter-xs-img")
-      ) && (
-        mediumImgFile === expectedMediumWinter || 
-        mediumImg.includes("winter-md-img")
-      );
-      
-      return {
-        passed: passed,
-        actual: {
-          smallImg: smallImgFile,
-          mediumImg: mediumImgFile
-        },
-      };
-    }
-
-    
-
-    case "check-billAmount": {
-      const element = iframeDoc.getElementById("billAmount");
-      const passed = element !== null;
-      return { passed };
-    }
-    
-    case "check-percentageTip": {
-      const element = iframeDoc.getElementById("percentageTip");
-      const passed = element !== null;
-      return { passed };
-    }
-    
-    case "check-tipAmount": {
-      const element = iframeDoc.getElementById("tipAmount");
-      const passed = element !== null;
-      return { passed };
-    }
-    
-    case "check-totalAmount": {
-      const element = iframeDoc.getElementById("totalAmount");
-      const passed = element !== null;
-      return { passed };
-    }
-    
-    case "check-errorMessage": {
-      const element = iframeDoc.getElementById("errorMessage");
-      const passed = element !== null;
-      return { passed };
-    }
-    
-    case "check-tip-calculation": {
-      iframeDoc.getElementById("billAmount").value = "100";
-      iframeDoc.getElementById("percentageTip").value = "10";
-      iframeDoc.getElementById("calculateButton").click();
-    
-      const tip = iframeDoc.getElementById("tipAmount").value;
-      const passed = tip == "10";
-      return { passed, actual: tip };
-    }
-    
-    case "check-total-calculation": {
-      iframeDoc.getElementById("billAmount").value = "100";
-      iframeDoc.getElementById("percentageTip").value = "10";
-      iframeDoc.getElementById("calculateButton").click();
-    
-      const total = iframeDoc.getElementById("totalAmount").value;
-      const passed = total == "110";
-      return { passed, actual: total };
-    }
-    
-    case "check-both-empty": {
-      iframeDoc.getElementById("billAmount").value = "";
-      iframeDoc.getElementById("percentageTip").value = "";
-      iframeDoc.getElementById("calculateButton").click();
-    
-      const error = iframeDoc.getElementById("errorMessage").textContent;
-      const passed = error.length > 0;
-      return { passed, actual: error };
-    }
-    
-    case "check-billAmount-empty": {
-      iframeDoc.getElementById("billAmount").value = "";
-      iframeDoc.getElementById("percentageTip").value = "10";
-      iframeDoc.getElementById("calculateButton").click();
-    
-      const error = iframeDoc.getElementById("errorMessage").textContent;
-      const passed = error.length > 0;
-      return { passed, actual: error };
-    }
-    
-    case "check-percentageTip-empty": {
-      iframeDoc.getElementById("billAmount").value = "100";
-      iframeDoc.getElementById("percentageTip").value = "";
-      iframeDoc.getElementById("calculateButton").click();
-    
-      const error = iframeDoc.getElementById("errorMessage").textContent;
-      const passed = error.length > 0;
-      return { passed, actual: error };
-    }
-    
-    default:
-      return {
-        passed: false,
-        actual: "Invalid test case input",
-      };
+  } catch (error) {
+    console.error("[JS Validation Error]:", error);
+    return {
+      passed: false,
+      actual: `Validation Error: ${error.message}`,
+    };
   }
-    
 };
 
 export default validateJsTest;
