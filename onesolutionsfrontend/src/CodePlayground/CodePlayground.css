@@ -211,7 +211,8 @@
 .editor-container-codep .ace_editor {
   background: transparent !important;
   color: #ffffff !important;
-  font-family: "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  font-family:
+    "Fira Code", "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
 }
 
 .editor-container-codep .ace_gutter {
@@ -698,7 +699,9 @@
   border: 1px solid #eaeaea;
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   display: flex;
   flex-direction: column;
 }
@@ -982,7 +985,11 @@
   border-radius: 8px;
   padding: 16px;
   margin-top: 16px;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
 .error-header-codep {
@@ -1104,4 +1111,145 @@
 /* Style for Python traceback in output */
 .output-textarea-codep:contains("Traceback") {
   color: #dc2626;
+}
+
+/* Console Tabs */
+.web-output-tabs-codep {
+  display: flex;
+  background: #1e1e1e;
+  border-bottom: 1px solid #333;
+}
+
+.output-tab-codep {
+  padding: 10px 20px;
+  background: transparent;
+  color: #888;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-bottom: 2px solid transparent;
+}
+
+.output-tab-codep.active {
+  color: #fff;
+  border-bottom-color: #007acc;
+  background: #252526;
+}
+
+/* Console Output */
+.console-output-codep {
+  transform: none;
+}
+
+.console-output-codep.auto-open {
+  transform: translateY(100%);
+  animation: slideUpConsole 0.3s ease forwards;
+}
+
+.console-content-codep {
+  flex: 1;
+  overflow-y: auto;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 13px;
+  padding: 10px;
+}
+
+.console-messages-codep {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.console-message {
+  padding: 4px 8px;
+  border-left: 3px solid #555;
+  background: #2d2d30;
+}
+
+.console-message.error {
+  border-left-color: #f14c4c;
+  color: #f14c4c;
+}
+
+.console-message.warn {
+  border-left-color: #cca700;
+  color: #cca700;
+}
+
+.console-message.log {
+  border-left-color: #888;
+  color: #d4d4d4;
+}
+
+.console-message.info {
+  border-left-color: #3794ff;
+  color: #3794ff;
+}
+
+.console-timestamp {
+  color: #888;
+  font-size: 11px;
+  margin-right: 10px;
+}
+
+.console-type {
+  color: #888;
+  margin-right: 10px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.no-console-output-codep {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding: 40px;
+}
+
+/* Clear console button */
+.console-header-codep {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #252526;
+  border-bottom: 1px solid #333;
+  color: #fff;
+  padding: 0px 10px;
+}
+
+.clear-console-btn-codep {
+  background: transparent;
+  border: 1px solid #555;
+  color: #888;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.clear-console-btn-codep:hover {
+  background: #333;
+  color: #fff;
+}
+
+.console-actions-codep {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.close-console-btn-codep {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+.close-console-btn-codep:hover {
+  color: #fff;
+  background: #333;
+  border-radius: 4px;
 }

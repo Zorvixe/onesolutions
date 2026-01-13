@@ -38,6 +38,9 @@ export default function CodePlayground({
   const [snippetName, setSnippetName] = useState("");
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
+  const [showConsole, setShowConsole] = useState(false);
+  const [consoleOutput, setConsoleOutput] = useState([]);
+  const [autoOpenedConsole, setAutoOpenedConsole] = useState(false);
 
   // Add state for settings modal and preview width
   const [showSettingsModal, setShowSettingsModal] = useState(false);
@@ -244,16 +247,48 @@ export default function CodePlayground({
     ${code.html}
   
     <script>
+      // Override console methods to send messages to parent
+      const originalConsole = {
+        log: console.log,
+        error: console.error,
+        warn: console.warn,
+        info: console.info,
+        debug: console.debug
+      };
+      
+      function sendToConsole(level, ...args) {
+        // Send to parent
+        if (window.parent) {
+          window.parent.postMessage({
+            type: 'CONSOLE_LOG',
+            level: level,
+            message: args.map(arg => 
+              typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+            ).join(' ')
+          }, '*');
+        }
+        
+        // Also log to original console
+        originalConsole[level].apply(console, args);
+      }
+      
+      // Override console methods
+      console.log = (...args) => sendToConsole('log', ...args);
+      console.error = (...args) => sendToConsole('error', ...args);
+      console.warn = (...args) => sendToConsole('warn', ...args);
+      console.info = (...args) => sendToConsole('info', ...args);
+      console.debug = (...args) => sendToConsole('debug', ...args);
+  
       // Global runtime error handler
       window.onerror = function(msg, url, lineNo, columnNo, error) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'js-error';
-        errorDiv.innerHTML =
-          '<strong>Runtime Error:</strong><br>' +
-          msg + '<br>Line: ' + lineNo;
-        document.body.appendChild(errorDiv);
-        return false;
+        console.error('Runtime Error:', msg, 'Line:', lineNo);
+        return true; // Prevent default error display
       };
+  
+      // Global unhandled promise rejection handler
+      window.addEventListener('unhandledrejection', function(event) {
+        console.error('Unhandled Promise Rejection:', event.reason);
+      });
   
       // Handle anchor clicks
       document.addEventListener('click', function(e) {
@@ -275,17 +310,56 @@ export default function CodePlayground({
       try {
         ${code.javascript}
       } catch (err) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'js-error';
-        errorDiv.innerHTML =
-          '<strong>JavaScript Error:</strong><br>' +
-          err.message + '<br><br>' + err.stack;
-        document.body.appendChild(errorDiv);
+        console.error('JavaScript Error:', err.message);
       }
+      
+      console.log('Code executed successfully');
     </script>
   </body>
   </html>`;
   }, [code.html, code.css, code.javascript]);
+
+  // Function to capture console logs from iframe
+  useEffect(() => {
+    const handleIframeMessage = (event) => {
+      if (event.data.type === "NAVIGATE_TO_HASH") {
+        console.log("Navigating to:", event.data.hash);
+      } else if (event.data.type === "CONSOLE_LOG") {
+        // Capture console logs from iframe
+        const timestamp = new Date().toLocaleTimeString();
+        setConsoleOutput((prev) => [
+          ...prev,
+          {
+            type: event.data.level || "log",
+            message: event.data.message,
+            timestamp,
+          },
+        ]);
+      }
+    };
+
+    window.addEventListener("message", handleIframeMessage);
+
+    return () => {
+      window.removeEventListener("message", handleIframeMessage);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (consoleOutput.length === 0) return;
+
+    const hasError = consoleOutput.some((log) => log.type === "error");
+
+    if (hasError && !showConsole) {
+      setShowConsole(true);
+      setAutoOpenedConsole(true);
+    }
+  }, [consoleOutput]);
+
+  // Function to clear console
+  const clearConsole = () => {
+    setConsoleOutput([]);
+  };
 
   // ADD THIS useEffect to load snippets from navigation state
   useEffect(() => {
@@ -1477,18 +1551,103 @@ remoteRunners={{
           <div className="output-section-codep">
             <div className="output-container-codep">
               {language === "web" ? (
-                <div
-                  className="preview-wrapper-codep"
-                  style={{ width: previewWidth }}
-                >
-                  <iframe
-                    ref={iframeRef}
-                    className="preview-frame-codep"
-                    style={{ width: "100%" }}
-                    sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
-                    srcDoc={combineWebSrcDoc}
-                  />
-                </div>
+                <>
+                  {showConsole ? (
+                    <div
+                      className={`console-output-codep ${
+                        autoOpenedConsole ? "auto-open" : ""
+                      }`}
+                    >
+                      <div className="console-header-codep">
+                        <p>Console</p>
+
+                        <div className="console-actions-codep">
+                          <button
+                            className="clear-console-btn-codep"
+                            onClick={clearConsole}
+                            disabled={consoleOutput.length === 0}
+                          >
+                            Clear Console
+                          </button>
+
+                          <button
+                            className="close-console-btn-codep"
+                            onClick={() => {
+                              setShowConsole(false);
+                              setAutoOpenedConsole(false);
+                            }}
+                            aria-label="Close Console"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="console-content-codep">
+                        {consoleOutput.length > 0 ? (
+                          <div className="console-messages-codep">
+                            {consoleOutput.map((log, index) => (
+                              <div
+                                key={index}
+                                className={`console-message ${log.type}`}
+                              >
+                                <span className="console-timestamp">
+                                  {log.timestamp}
+                                </span>
+                                <span className="console-type">
+                                  [{log.type}]
+                                </span>
+                                <span className="console-message-text">
+                                  {log.message}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="no-console-output-codep">
+                            No console output yet.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <div
+                      className="preview-wrapper-codep"
+                      style={{ width: previewWidth }}
+                    >
+                      <iframe
+                        ref={iframeRef}
+                        className="preview-frame-codep"
+                        style={{ width: "100%" }}
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
+                        srcDoc={combineWebSrcDoc}
+                      />
+                    </div>
+                  )}
+
+                  {/* Preview/Output Tabs */}
+                  <div className="web-output-tabs-codep">
+                    <button
+                      className={`output-tab-codep ${!showConsole ? "active" : ""}`}
+                      onClick={() => {
+                        setShowConsole(false);
+                        setAutoOpenedConsole(false);
+                      }}
+                    >
+                      Preview
+                    </button>
+
+                    <button
+                      className={`output-tab-codep ${showConsole ? "active" : ""}`}
+                      onClick={() => {
+                        setShowConsole(true);
+                        setAutoOpenedConsole(false);
+                      }}
+                    >
+                      Console
+                    </button>
+                  </div>
+                </>
               ) : (
                 <div
                   className="preview-wrapper-codep"

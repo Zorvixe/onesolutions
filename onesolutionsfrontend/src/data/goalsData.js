@@ -3734,7 +3734,39 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m10_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Authentication & Authorization | Part 4",
+              },
+              {
+                id: "QW9_s2_A0 m10_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 4 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m10_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization | Part 4",
+              },
+              {
+                id: "QW9_s4_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 32 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s5_A0 m10_H g3_7B c4_D2E",
+                name: "Sorting Products",
+              },
+              {
+                id: "QW9_s6_A0 m10_H g3_7B c4_D2E",
+                name: "Sorting Products | Cheat Sheet",
+              },
+              {
+                id: "QW9_s7_A0 m10_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Sorting Products",
+              },
+              {
+                id: "QW9_s8_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 33 - Sorting Products",
+              },
+              {
+                id: "QW9_s9_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 34 - Sorting Products",
               },
             ],
           },
