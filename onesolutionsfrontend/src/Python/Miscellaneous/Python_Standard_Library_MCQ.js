@@ -72,31 +72,26 @@ const questionsData = [
       </div>
     ),
     options: [
-      "random.choice(fruits) Correct",
+      "random.choice(fruits)",
       "random.randint(fruits)",
       "fruits.random()",
       "random.select(fruits)",
     ],
-    answer: "random.choice(fruits) Correct",
+    answer: "random.choice(fruits)",
   },
 
   {
     question: (
       <div>
-        <p>What does this code do?</p>
+        <p>What is the output?</p>
         <CodeBlock
           language="python"
           code={`numbers = [1, 2, 3, 4]\nsquared = list(map(lambda x: x*x, numbers))\nprint(squared)`}
         />
       </div>
     ),
-    options: [
-      <span>[1, 4, 9, 16]</span>,
-      <span>[1, 2, 3, 4]</span>,
-      "10",
-      "Error",
-    ],
-    answer: <span>[1, 4, 9, 16]</span>,
+    options: ["[1, 4, 9, 16]", "[1, 2, 3, 4]", "10", "Error"],
+    answer: "[1, 4, 9, 16]",
   },
 
   {
@@ -116,45 +111,35 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Which function filters even numbers?</p>
+        <p>Which list is produced?</p>
         <CodeBlock
           language="python"
           code={`list(filter(lambda x: x % 2 == 0, [1, 2, 3, 4, 5, 6]))`}
         />
       </div>
     ),
-    options: [
-      <span>[2, 4, 6]</span>,
-      <span>[1, 3, 5]</span>,
-      <span>[1, 2, 3, 4, 5, 6]</span>,
-      "Error",
-    ],
-    answer: <span>[2, 4, 6]</span>,
+    options: ["[2, 4, 6]", "[1, 3, 5]", "[1, 2, 3, 4, 5, 6]", "Error"],
+    answer: "[2, 4, 6]",
   },
 
   {
     question: (
       <div>
-        <p>Which of these is a built-in function?</p>
+        <p>Which of these are built-in functions?</p>
         <CodeBlock
           language="python"
           code={`len([1,2,3])\nmax(10, 20)\nsqrt(16)`}
         />
       </div>
     ),
-    options: [
-      "Only len() and max() Correct",
-      "All three",
-      "Only sqrt()",
-      "None",
-    ],
-    answer: "Only len() and max() Correct",
+    options: ["Only len() and max()", "All three", "Only sqrt()", "None"],
+    answer: "Only len() and max()",
   },
 
   {
     question: (
       <div>
-        <p>How to use math functions with short name?</p>
+        <p>How to use math functions with a short name?</p>
         <CodeBlock language="python" code={`import math as _____`} />
       </div>
     ),
@@ -163,7 +148,7 @@ const questionsData = [
   },
 
   {
-    question: "Which of these is part of Python Standard Library?",
+    question: "Which of these is part of the Python Standard Library?",
     options: ["numpy", "pandas", "random", "flask"],
     answer: "random",
   },
@@ -175,7 +160,7 @@ const questionsData = [
   },
 
   {
-    question: "What does <b>map()</b> do?",
+    question: "What does map() do?",
     options: [
       "Filters items",
       "Applies a function to every item in a sequence",
@@ -192,7 +177,7 @@ const questionsData = [
   },
 
   {
-    question: "To use <b>reduce()</b>, you must import it from:",
+    question: "To use reduce(), you must import it from:",
     options: ["math", "random", "functools", "collections"],
     answer: "functools",
   },

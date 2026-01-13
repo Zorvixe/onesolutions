@@ -833,3 +833,27 @@
 .hide-test-btn:hover {
   color: #008bf5;
 }
+
+.btn-loader {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-top: 1.5px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Optional: keep button height fixed */
+.submit-btn {
+  min-height: 42px;
+}

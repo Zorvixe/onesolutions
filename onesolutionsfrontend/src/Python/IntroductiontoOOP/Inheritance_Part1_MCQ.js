@@ -29,22 +29,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        Product: TV
-        <br />
-        Price: 45000
-      </span>,
+      "Product: TV\nPrice: 45000",
       "Error",
       "Nothing",
       "ElectronicItem: TV",
     ],
-    answer: (
-      <span>
-        Product: TV
-        <br />
-        Price: 45000
-      </span>
-    ),
+    answer: "Product: TV\nPrice: 45000",
   },
 
   {
@@ -53,7 +43,7 @@ const questionsData = [
         <p>How do you correctly define inheritance?</p>
         <CodeBlock
           language="python"
-          code={`class GroceryItem(_____) :\n    pass`}
+          code={`class GroceryItem(Product):\n    pass`}
         />
       </div>
     ),
@@ -71,13 +61,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      <span>You Saved: 250</span>,
-      "Error",
-      "Nothing",
-      "discount not found",
-    ],
-    answer: <span>You Saved: 250</span>,
+    options: ["You Saved: 250", "Error", "Nothing", "discount not found"],
+    answer: "You Saved: 250",
   },
 
   {
@@ -92,11 +77,11 @@ const questionsData = [
     ),
     options: [
       "Product.__init__(self, name, price)",
-      "super().__init__(name, price) Correct",
+      "super().__init__(name, price)",
       "self.__init__(name, price)",
       "base().__init__(name, price)",
     ],
-    answer: "super().__init__(name, price) Correct",
+    answer: "super().__init__(name, price)",
   },
 
   {
@@ -111,11 +96,11 @@ const questionsData = [
     ),
     options: [
       "Error",
-      <span>Product init called</span>,
+      "Product init called",
       "Nothing printed",
       "Laptop init called",
     ],
-    answer: <span>Product init called</span>,
+    answer: "Product init called",
   },
 
   {
@@ -143,26 +128,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        Product: TV
-        <br />
-        Price: 45000
-        <br />
-        Warranty 24 months
-      </span>,
+      "Product: TV\nPrice: 45000\nWarranty 24 months",
       "Warranty 24 months",
       "Error",
       "Only Product info",
     ],
-    answer: (
-      <span>
-        Product: TV
-        <br />
-        Price: 45000
-        <br />
-        Warranty 24 months
-      </span>
-    ),
+    answer: "Product: TV\nPrice: 45000\nWarranty 24 months",
   },
 
   {
@@ -177,17 +148,6 @@ const questionsData = [
     ),
     options: ["Yes", "No", "Only if redefined", "Error"],
     answer: "Yes",
-  },
-
-  {
-    question: (
-      <div>
-        <p>What is the correct syntax for inheritance?</p>
-        <CodeBlock language="python" code={`class Shoes(_____) :\n    pass`} />
-      </div>
-    ),
-    options: ["KidsWear", "Product", "ElectronicItem", "GroceryItem"],
-    answer: "Product",
   },
 
   {
@@ -228,26 +188,16 @@ const questionsData = [
     ],
     answer: "All attributes and methods from parent class",
   },
-
-  {
-    question: "Why do we use inheritance in e-commerce product modeling?",
-    options: [
-      "To repeat same code in every class",
-      "To share common features (name, price, discount) in one place",
-      "Because Python requires it",
-      "To make classes smaller",
-    ],
-    answer: "To share common features (name, price, discount) in one place",
-  },
 ];
 
 const Inheritance_Part1_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -276,7 +226,7 @@ const Inheritance_Part1_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

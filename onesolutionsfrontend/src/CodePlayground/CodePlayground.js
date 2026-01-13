@@ -232,49 +232,59 @@ export default function CodePlayground({
   // Combine HTML, CSS, JS for preview
   const combineWebSrcDoc = useMemo(() => {
     return `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    ${code.css}
-  </style>
-</head>
-<body>
-  ${code.html}
-  <script>
-  // Handle anchor clicks
-  document.addEventListener('click', function(e) {
-    if (e.target.tagName === 'A' && e.target.getAttribute('href').startsWith('#')) {
-      e.preventDefault();
-      const hash = e.target.getAttribute('href').substring(1);
-      const element = document.getElementById(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  });
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      ${code.css}
+    </style>
+  </head>
+  <body>
+    ${code.html}
   
-  ${code.javascript}
-    window.onerror = function(msg, url, lineNo, columnNo, error) {
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'js-error';
-      errorDiv.innerHTML = '<strong>Runtime Error:</strong><br>' + msg + '<br>Line: ' + lineNo;
-      document.body.appendChild(errorDiv);
-      return false;
-    };
-    
-    try {
-      ${code.javascript}
-    } catch (err) {
-      const errorDiv = document.createElement('div');
-      errorDiv.className = 'js-error';
-      errorDiv.innerHTML = '<strong>JavaScript Error:</strong><br>' + err.message + '<br><br>' + err.stack;
-      document.body.appendChild(errorDiv);
-    }
-  </script>
-</body>
-</html>`;
+    <script>
+      // Global runtime error handler
+      window.onerror = function(msg, url, lineNo, columnNo, error) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'js-error';
+        errorDiv.innerHTML =
+          '<strong>Runtime Error:</strong><br>' +
+          msg + '<br>Line: ' + lineNo;
+        document.body.appendChild(errorDiv);
+        return false;
+      };
+  
+      // Handle anchor clicks
+      document.addEventListener('click', function(e) {
+        if (
+          e.target.tagName === 'A' &&
+          e.target.getAttribute('href') &&
+          e.target.getAttribute('href').startsWith('#')
+        ) {
+          e.preventDefault();
+          const hash = e.target.getAttribute('href').substring(1);
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+  
+      // User JavaScript (executed once)
+      try {
+        ${code.javascript}
+      } catch (err) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'js-error';
+        errorDiv.innerHTML =
+          '<strong>JavaScript Error:</strong><br>' +
+          err.message + '<br><br>' + err.stack;
+        document.body.appendChild(errorDiv);
+      }
+    </script>
+  </body>
+  </html>`;
   }, [code.html, code.css, code.javascript]);
 
   // ADD THIS useEffect to load snippets from navigation state
@@ -552,9 +562,28 @@ sys.stderr = OutputCapture()
     loadSqlJs();
   }, []);
 
+  // Add this ref to track iframe updates
+  const iframeUpdateCountRef = useRef(0);
+
+  // Add this useEffect to force iframe refresh when code changes
+  useEffect(() => {
+    if (language === "web" && iframeRef.current) {
+      iframeUpdateCountRef.current++;
+      iframeRef.current.srcdoc = combineWebSrcDoc;
+    }
+  }, [combineWebSrcDoc, language]);
+
+  // Modify the runWeb function to be more reliable
   const runWeb = useCallback(() => {
     if (iframeRef.current) {
+      // Force a complete reload
       iframeRef.current.srcdoc = combineWebSrcDoc;
+
+      // Log for debugging
+      console.log(
+        "CodePlayground: Running web preview, update count:",
+        iframeUpdateCountRef.current
+      );
     }
   }, [combineWebSrcDoc]);
 
@@ -983,8 +1012,18 @@ remoteRunners={{
 
   const handleRun = useCallback(() => {
     setOutput("");
+    console.log("Running code, language:", language);
+
     if (language === "web") {
-      runWeb();
+      // Force iframe to reload with new content
+      if (iframeRef.current) {
+        // First set empty, then set the actual content after a small delay
+        iframeRef.current.srcdoc = "";
+        setTimeout(() => {
+          iframeRef.current.srcdoc = combineWebSrcDoc;
+          console.log("Web code executed in iframe");
+        }, 50);
+      }
     } else if (language === "javascript_standalone") {
       runJavaScriptStandalone();
     } else if (language === "python") {
@@ -994,7 +1033,14 @@ remoteRunners={{
     } else if (language === "sql") {
       runSQL();
     }
-  }, [language, runWeb, runJavaScriptStandalone, runPython, runJava, runSQL]);
+  }, [
+    language,
+    combineWebSrcDoc,
+    runJavaScriptStandalone,
+    runPython,
+    runJava,
+    runSQL,
+  ]);
 
   const onChangeCode = useCallback(
     (value) => {
@@ -1531,7 +1577,10 @@ remoteRunners={{
                     fill="#1d4ed8"
                   ></path>
                 </svg>
-                <p>Keep zoom at 80% to 90% for correct output for Large and Extra Large.</p>
+                <p>
+                  Keep zoom at 80% to 90% for correct output for Large and Extra
+                  Large.
+                </p>
               </div>
             </div>
             <div className="modal-footer-codep">
@@ -1599,8 +1648,8 @@ remoteRunners={{
                     ? "Updating..."
                     : "Saving..."
                   : currentSnippetId
-                  ? "Update Snippet"
-                  : "Save Snippet"}
+                    ? "Update Snippet"
+                    : "Save Snippet"}
               </button>
             </div>
           </div>

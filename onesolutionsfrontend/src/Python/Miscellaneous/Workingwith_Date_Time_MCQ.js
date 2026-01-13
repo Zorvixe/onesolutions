@@ -16,11 +16,11 @@ const questionsData = [
     ),
     options: [
       "datetime.now()",
-      "date.today() Correct",
+      "date.today()",
       "datetime.today()",
       "time.today()",
     ],
-    answer: "date.today() Correct",
+    answer: "date.today()",
   },
 
   {
@@ -33,8 +33,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["date", "datetime", "time Correct", "timedelta"],
-    answer: "time Correct",
+    options: ["date", "datetime", "time", "timedelta"],
+    answer: "time",
   },
 
   {
@@ -49,11 +49,11 @@ const questionsData = [
     ),
     options: [
       "Day number",
-      "Full weekday name (e.g., Monday) Correct",
-      "Short weekday (Mon)",
+      "Full weekday name (e.g., Monday)",
+      "Short weekday name (Mon)",
       "Error",
     ],
-    answer: "Full weekday name (e.g., Monday) Correct",
+    answer: "Full weekday name (e.g., Monday)",
   },
 
   {
@@ -85,8 +85,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["Current month", "Current year Correct", "Current day", "Error"],
-    answer: "Current year Correct",
+    options: ["Current month", "Current year", "Current day", "Error"],
+    answer: "Current year",
   },
 
   {
@@ -101,11 +101,11 @@ const questionsData = [
     ),
     options: [
       "strptime(..., '%d-%m-%Y')",
-      "strptime(..., '%Y-%m-%d') Correct",
+      "strptime(..., '%Y-%m-%d')",
       "strftime(..., '%Y-%m-%d')",
-      "parse_date(...) ",
+      "parse_date(...)",
     ],
-    answer: "strptime(..., '%Y-%m-%d') Correct",
+    answer: "strptime(..., '%Y-%m-%d')",
   },
 
   {
@@ -120,11 +120,11 @@ const questionsData = [
     ),
     options: [
       "date.today() + 15",
-      "date.today() + timedelta(days=15) Correct",
+      "date.today() + timedelta(days=15)",
       "datetime.now() + 15",
       "timedelta(days=15)",
     ],
-    answer: "date.today() + timedelta(days=15) Correct",
+    answer: "date.today() + timedelta(days=15)",
   },
 
   {
@@ -133,17 +133,12 @@ const questionsData = [
         <p>Which attribute gives the day of the month?</p>
         <CodeBlock
           language="python"
-          code={`today = date.today()\nprint(today.day)`}
+          code={`from datetime import date\ntoday = date.today()\nprint(today.day)`}
         />
       </div>
     ),
-    options: [
-      "today.month",
-      "today.year",
-      "today.day Correct",
-      "today.weekday()",
-    ],
-    answer: "today.day Correct",
+    options: ["today.month", "today.year", "today.day", "today.weekday()"],
+    answer: "today.day",
   },
 
   {
@@ -153,8 +148,8 @@ const questionsData = [
         <CodeBlock language="python" code={`dt.strftime("%B")`} />
       </div>
     ),
-    options: ["%m", "%b", "%B Correct", "%M"],
-    answer: "%B Correct",
+    options: ["%m", "%b", "%B", "%M"],
+    answer: "%B",
   },
 
   {
@@ -169,11 +164,11 @@ const questionsData = [
     ),
     options: [
       "Returns a string",
-      "Returns a timedelta object Correct",
+      "Returns a timedelta object",
       "Returns an integer",
       "Error",
     ],
-    answer: "Returns a timedelta object Correct",
+    answer: "Returns a timedelta object",
   },
 
   {
@@ -192,23 +187,23 @@ const questionsData = [
   {
     question: "What does strftime() do?",
     options: [
-      "Parses string → datetime",
-      "Formats datetime → string Correct",
+      "Parses string into datetime",
+      "Formats datetime into string",
       "Adds days",
       "Gets current time",
     ],
-    answer: "Formats datetime → string Correct",
+    answer: "Formats datetime into string",
   },
 
   {
     question: "What does strptime() do?",
     options: [
       "Formats date as string",
-      "Parses string into datetime object Correct",
+      "Parses string into datetime object",
       "Calculates difference",
       "Creates timedelta",
     ],
-    answer: "Parses string into datetime object Correct",
+    answer: "Parses string into datetime object",
   },
 
   {

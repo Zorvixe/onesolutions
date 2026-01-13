@@ -10,7 +10,13 @@ const questionsData = [
         <p>What is printed?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\np = Product("Shoes", 500)\nprint(p.name)`}
+          code={`class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+p = Product("Shoes", 500)
+print(p.name)`}
         />
       </div>
     ),
@@ -24,7 +30,13 @@ const questionsData = [
         <p>What will be the output?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\np = Product("Shoes", 500)\nprint(p.price)`}
+          code={`class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+
+p = Product("Shoes", 500)
+print(p.price)`}
         />
       </div>
     ),
@@ -38,7 +50,13 @@ const questionsData = [
         <p>What does this method do?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def apply_discount(self):\n        self.price = self.price - 50\n\np = Product("Bag", 500)\np.apply_discount()\nprint(p.price)`}
+          code={`class Product:
+    def apply_discount(self):
+        self.price = self.price - 50
+
+p = Product("Bag", 500)
+p.apply_discount()
+print(p.price)`}
         />
       </div>
     ),
@@ -52,17 +70,18 @@ const questionsData = [
         <p>How do you correctly call a method?</p>
         <CodeBlock
           language="python"
-          code={`p = Product("Watch", 1000)\np.apply_discount()`}
+          code={`p = Product("Watch", 1000)
+p.apply_discount()`}
         />
       </div>
     ),
     options: [
       "Product.apply_discount()",
-      "p.apply_discount() → Correct",
+      "p.apply_discount()",
       "apply_discount(p)",
       "self.apply_discount()",
     ],
-    answer: "p.apply_discount() → Correct",
+    answer: "p.apply_discount()",
   },
 
   {
@@ -71,12 +90,25 @@ const questionsData = [
         <p>What is printed?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def __init__(self, name):\n        self.name = name\n    \n    def show(self):\n        print("Product:", self.name)\n\np = Product("Shoes")\np.show()`}
+          code={`class Product:
+    def __init__(self, name):
+        self.name = name
+    
+    def show(self):
+        print("Product:", self.name)
+
+p = Product("Shoes")
+p.show()`}
         />
       </div>
     ),
-    options: [<span>Product: Shoes</span>, "Shoes", "self.name", "Error"],
-    answer: <div>Product: Shoes</div>,
+    options: [
+      "Product: Shoes",
+      "Shoes",
+      "self.name",
+      "Error",
+    ],
+    answer: "Product: Shoes",
   },
 
   {
@@ -85,38 +117,39 @@ const questionsData = [
         <p>Which line defines an attribute?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def __init__(self):\n        self.rating = 4.5`}
+          code={`class Product:
+    def __init__(self):
+        self.rating = 4.5`}
         />
       </div>
     ),
     options: [
       "def __init__(self):",
-      "self.rating = 4.5 → Correct",
+      "self.rating = 4.5",
       "class Product:",
       "print(rating)",
     ],
-    answer: "self.rating = 4.5 → Correct",
+    answer: "self.rating = 4.5",
   },
 
   {
     question: (
       <div>
-        <p>
-          What is the role of <b>self</b> in this method?
-        </p>
+        <p>What is the role of <b>self</b> in this method?</p>
         <CodeBlock
           language="python"
-          code={`def get_price(self):\n    return self.price`}
+          code={`def get_price(self):
+    return self.price`}
         />
       </div>
     ),
     options: [
       "Refers to the class",
-      "Refers to the current object → Correct",
+      "Refers to the current object",
       "Refers to all objects",
       "Not needed",
     ],
-    answer: "Refers to the current object → Correct",
+    answer: "Refers to the current object",
   },
 
   {
@@ -125,17 +158,27 @@ const questionsData = [
         <p>What will be printed?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def __init__(self, name, price, rating):\n        self.name = name\n        self.price = price\n        self.rating = rating\n    \n    def info(self):\n        print(f"Product: {self.name}, Price: {self.price}, Rating: {self.rating}")\n\np = Product("Shoes", 450, 4.5)\np.info()`}
+          code={`class Product:
+    def __init__(self, name, price, rating):
+        self.name = name
+        self.price = price
+        self.rating = rating
+    
+    def info(self):
+        print(f"Product: {self.name}, Price: {self.price}, Rating: {self.rating}")
+
+p = Product("Shoes", 450, 4.5)
+p.info()`}
         />
       </div>
     ),
     options: [
-      <span>Product: Shoes, Price: 450, Rating: 4.5</span>,
+      "Product: Shoes, Price: 450, Rating: 4.5",
       "Shoes 450 4.5",
       "Error",
       "None",
     ],
-    answer: <span>Product: Shoes, Price: 450, Rating: 4.5</span>,
+    answer: "Product: Shoes, Price: 450, Rating: 4.5",
   },
 
   {
@@ -144,12 +187,18 @@ const questionsData = [
         <p>Which of these is a method?</p>
         <CodeBlock
           language="python"
-          code={`def apply_discount(self):\n    self.price -= 50`}
+          code={`def apply_discount(self):
+    self.price -= 50`}
         />
       </div>
     ),
-    options: ["self.price", "apply_discount → Method", "class Product", "self"],
-    answer: "apply_discount → Method",
+    options: [
+      "self.price",
+      "apply_discount",
+      "class Product",
+      "self",
+    ],
+    answer: "apply_discount",
   },
 
   {
@@ -158,7 +207,13 @@ const questionsData = [
         <p>Can a method change an object's attribute?</p>
         <CodeBlock
           language="python"
-          code={`class Product:\n    def set_price(self, new_price):\n        self.price = new_price\n\np = Product("Book", 300)\np.set_price(250)\nprint(p.price)`}
+          code={`class Product:
+    def set_price(self, new_price):
+        self.price = new_price
+
+p = Product("Book", 300)
+p.set_price(250)
+print(p.price)`}
         />
       </div>
     ),
@@ -192,11 +247,11 @@ const questionsData = [
     question: "How do you define an instance attribute in __init__?",
     options: [
       "price = 500",
-      "self.price = 500 → Correct",
+      "self.price = 500",
       "Product.price = 500",
       "def price = 500",
     ],
-    answer: "self.price = 500 → Correct",
+    answer: "self.price = 500",
   },
 
   {
@@ -204,10 +259,10 @@ const questionsData = [
     options: [
       "Only data, no actions",
       "Only methods, no data",
-      "Data (attributes) + Behavior (methods) together → Encapsulation",
+      "Data (attributes) + Behavior (methods) together",
       "Separate functions and variables",
     ],
-    answer: "Data (attributes) + Behavior (methods) together → Encapsulation",
+    answer: "Data (attributes) + Behavior (methods) together",
   },
 
   {
@@ -218,9 +273,11 @@ const questionsData = [
       "To refer to the class",
       "To create new objects",
     ],
-    answer: "To refer to the current object and access its attributes/methods",
+    answer:
+      "To refer to the current object and access its attributes/methods",
   },
 ];
+
 
 const Attributes_Methods_MCQ = ({
   subtopicId,

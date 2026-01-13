@@ -428,7 +428,7 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
-    //coding practise - 3
+    //coding practice - 3
     {
       id: "javascript-coding-practice-3",
       title: "Javascript Coding Practice 3",
@@ -719,6 +719,267 @@ export const javascriptCodingPracticesData = {
                 "When the HTML input element with the id percentageTip is empty, the HTML element with the id errorMessage should have the error message text",
               type: "js-validation",
               input: "check-percentageTip-empty",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    //coding practice - 4
+    {
+      id: "javascript-coding-practice-4",
+      title: "Javascript Coding Practice 4",
+      description: "",
+      questions: [
+        {
+          id: "ed913af8-2fvjfssbnjfbvj46d9-0d95kkf8eb19",
+          title: "Addition Game",
+          description:
+            "In this assignment, let's build an Addition Game by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 70,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="text-center">
+                    <img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/sum-of-two-numbers-img.png" class="image" />
+                    <div class="bg-container pt-5 pb-5">
+                        <span class="number m-2" id="firstNumber"></span>
+                        <span class="operator m-1">+</span>
+                        <span class="number m-2" id="secondNumber"></span>
+                        <span class="operator m-1">=</span>
+                        <input class="user-input" type="text" id="userInput" />
+                        <div class="mt-4 mb-4">
+                            <button id="checkButton" class="btn btn-primary mr-3" onclick="checkButtonFunction()">
+                                Check
+                            </button>
+                            <button id="restartButton" class="btn btn-primary" onclick="restartButtonFunction()">
+                                Restart
+                            </button>
+                        </div>
+                        <p class="game-result" id="gameResult"></p>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .image {
+                width: 360px;
+                height: 280px;
+            }
+            
+            .bg-container {
+                background-color: #f5f7fa;
+            }
+            
+            .number {
+                color: #323f4b;
+                background-color: #cbd2d9;
+                font-family: "Roboto";
+                font-size: 30px;
+                font-weight: bold;
+                border-style: solid;
+                border-width: 8px;
+                border-color: #e4e7eb;
+                border-radius: 12px;
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+            
+            .operator {
+                color: #c4c4c4;
+                font-family: "Roboto";
+                font-size: 40px;
+            }
+            
+            .user-input {
+                text-align: center;
+                color: #323f4b;
+                background-color: #cbd2d9;
+                font-family: "Roboto";
+                font-size: 30px;
+                font-weight: bold;
+                width: 142px;
+                height: 60px;
+                border-style: solid;
+                border-width: 8px;
+                border-color: #e4e7eb;
+                border-radius: 12px;
+                margin: 20px;
+            }
+            
+            .game-result {
+                color: #ffffff;
+                background-color: #f5f7fa;
+                font-family: "Roboto";
+                font-size: 24px;
+                font-weight: 500;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768280507/addition-game-v1_gdukc8.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>The HTML <strong>span</strong> elements with the class name number should have the ids <strong>firstNumber</strong> and <strong>secondNumber</strong></span></li>
+                        <li><span>The HTML input element should have the id <strong>userInput</strong></span></li>
+                        <li><span>The HTML p element with the class name <strong>game-result</strong> should have the id <strong>gameResult</strong></span></li>
+                      </ol>
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                       Write the code without deleting the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                    <strong>When the HTML button element with the id <code>checkButton</code> is clicked:</strong>
+                    <ul>
+                      <li>
+                        If the given user input is correct, the HTML <code>p</code> element with the id 
+                        <strong><code>gameResult</code></strong> should display the <strong>success message</strong>.
+                      </li>
+                      <li>
+                        If the given user input is wrong, the HTML <code>p</code> element with the id 
+                        <strong><code>gameResult</code></strong> should display the <strong>failure message</strong>.
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    <strong>When the HTML button element with the id <code>restartButton</code> is clicked:</strong>
+                    <ul>
+                      <li>
+                        New random numbers should be assigned to <strong><code>firstNumber</code></strong> and 
+                        <strong><code>secondNumber</code></strong>.
+                      </li>
+                      <li>
+                        The <strong><code>gameResult</code></strong> should be <strong>empty</strong>.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                        <li>
+                        Apply the functionality to the given prefilled code.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+
+                  <hr>
+
+                  <p class="desc-que-blue">Resources</p>
+                  <p class="desc-que-blue">CSS Colors used:</p>
+
+                  <div  class="desc-colors c028a0f">#028a0f</div>
+                  <div  class="desc-colors c1e217c">#1e217c</div>
+                 
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML span element with the id firstNumber",
+              type: "js-validation",
+              input: "check-firstNumber",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML span element with the id secondNumber",
+              type: "js-validation",
+              input: "check-secondNumber",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML input element with the id userInput",
+              type: "js-validation",
+              input: "check-userInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element with the id gameResult",
+              type: "js-validation",
+              input: "check-gameResult",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the HTML button element with the id checkButton is clicked, if the user enters the right answer, the HTML paragraph element with the id gameResult should have the text",
+              type: "js-validation",
+              input: "check-correct-answer",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML button element with the id checkButton is clicked, if the user enters the wrong answer, the HTML paragraph element with the id gameResult should have the text",
+              type: "js-validation",
+              input: "check-wrong-answer",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "When the HTML button element with the id restartButton is clicked, the HTML paragraph element with the id gameResult should be empty",
+              type: "js-validation",
+              input: "check-restart",
               output: "true",
               visible: true,
             },

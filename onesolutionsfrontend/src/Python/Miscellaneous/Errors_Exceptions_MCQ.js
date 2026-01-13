@@ -41,11 +41,11 @@ const questionsData = [
     ),
     options: [
       "throw ValueError(...)",
-      "raise ValueError(...) Correct",
+      "raise ValueError(...)",
       "error ValueError(...)",
       "ValueError(...) alone",
     ],
-    answer: "raise ValueError(...) Correct",
+    answer: "raise ValueError(...)",
   },
 
   {
@@ -79,11 +79,11 @@ const questionsData = [
     ),
     options: [
       "except ValueError:",
-      "except ZeroDivisionError: Correct",
+      "except ZeroDivisionError:",
       "Both",
       "None",
     ],
-    answer: "except ZeroDivisionError: Correct",
+    answer: "except ZeroDivisionError:",
   },
 
   {
@@ -96,8 +96,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["No", "Yes Correct", "Only one allowed", "Only with else"],
-    answer: "Yes Correct",
+    options: ["No", "Yes", "Only one allowed", "Only with else"],
+    answer: "Yes",
   },
 
   {
@@ -131,17 +131,17 @@ const questionsData = [
     ),
     options: [
       "except Error:",
-      "except FileNotFoundError: Correct",
+      "except FileNotFoundError:",
       "except:",
       "catch FileError:",
     ],
-    answer: "except FileNotFoundError: Correct",
+    answer: "except FileNotFoundError:",
   },
 
   {
     question: (
       <div>
-        <p>Where should you RAISE exceptions?</p>
+        <p>Where should you raise exceptions?</p>
         <CodeBlock
           language="python"
           code={`def withdraw(amount):\n    if amount > balance:\n        raise ValueError("Insufficient funds")`}
@@ -150,17 +150,17 @@ const questionsData = [
     ),
     options: [
       "In end-user apps",
-      "In reusable library/module code Correct",
+      "In reusable library or module code",
       "Never raise",
       "Only in main()",
     ],
-    answer: "In reusable library/module code Correct",
+    answer: "In reusable library or module code",
   },
 
   {
     question: (
       <div>
-        <p>Where should you HANDLE exceptions?</p>
+        <p>Where should you handle exceptions?</p>
         <CodeBlock
           language="python"
           code={`try:\n    age = int(input("Age: "))\nexcept ValueError:\n    print("Please enter a number")`}
@@ -169,22 +169,22 @@ const questionsData = [
     ),
     options: [
       "In library functions",
-      "In end-user applications Correct",
+      "In end-user applications",
       "Never handle",
       "Only in classes",
     ],
-    answer: "In end-user applications Correct",
+    answer: "In end-user applications",
   },
 
   {
     question: "What is the difference between Syntax Error and Exception?",
     options: [
       "Both happen at runtime",
-      "Syntax Error: before running, Exception: during execution Correct",
+      "Syntax Error happens before execution, Exception during execution",
       "No difference",
       "Exceptions are warnings",
     ],
-    answer: "Syntax Error: before running, Exception: during execution Correct",
+    answer: "Syntax Error happens before execution, Exception during execution",
   },
 
   {
@@ -197,11 +197,11 @@ const questionsData = [
     question: "Why do we handle exceptions in applications?",
     options: [
       "To make code faster",
-      "To prevent program from crashing Correct",
+      "To prevent program from crashing",
       "To hide all errors",
       "Exceptions cannot be handled",
     ],
-    answer: "To prevent program from crashing Correct",
+    answer: "To prevent program from crashing",
   },
 
   {
@@ -219,11 +219,11 @@ const questionsData = [
     question: "Best practice: When writing a reusable function, you should:",
     options: [
       "Handle all exceptions inside",
-      "Raise exceptions for invalid input Correct",
+      "Raise exceptions for invalid input",
       "Use print() for errors",
       "Return None on error",
     ],
-    answer: "Raise exceptions for invalid input Correct",
+    answer: "Raise exceptions for invalid input",
   },
 ];
 
@@ -231,9 +231,10 @@ const Errors_Exceptions_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -262,7 +263,7 @@ const Errors_Exceptions_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

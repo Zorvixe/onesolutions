@@ -4768,8 +4768,9 @@ export const codingPracticesData = {
             { input: "1800", output: "False", visible: true },
             { input: "2024", output: "True", visible: true },
             { input: "1800", output: "False", visible: false },
-            { input: "1800", output: "False", visible: false },
-            { input: "1800", output: "False", visible: false },
+            { input: "2000", output: "True", visible: false },
+            { input: "1900", output: "False", visible: false },
+            { input: "2400", output: "True", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -4788,8 +4789,10 @@ export const codingPracticesData = {
             { input: "200", output: "780.0", visible: true },
             { input: "50", output: "120.0", visible: true },
             { input: "50", output: "120.0", visible: false },
-            { input: "50", output: "120.0", visible: false },
-            { input: "200", output: "780.0", visible: false },
+            { input: "0", output: "0.0", visible: false },
+            { input: "100", output: "300.0", visible: false },
+            { input: "250", output: "1080.0", visible: false },
+            { input: "300", output: "1560.0", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -4885,7 +4888,7 @@ export const codingPracticesData = {
           sampleInput: "9",
           sampleOutput: "Good Morning",
           testCases: [
-            { input: "16", output: "Good Afternoon", visible: true },
+            { input: "15", output: "Good Afternoon", visible: true },
             { input: "17", output: "Good Evening", visible: true },
             { input: "17", output: "Good Evening", visible: false },
             { input: "18", output: "Good Evening", visible: false },
@@ -5200,7 +5203,7 @@ export const codingPracticesData = {
           sampleOutput: "340",
           testCases: [
             { input: "6H", output: "600", visible: true },
-            { input: "70k", output: "70000", visible: true },
+            { input: "7K", output: "7000", visible: true },
             { input: "50T", output: "500", visible: false },
             { input: "50T", output: "500", visible: false },
             { input: "10H", output: "1000", visible: false },
@@ -5483,21 +5486,11 @@ export const codingPracticesData = {
               output: "Tuesday",
               visible: true,
             },
-            {
-              input: "Monday\n16",
-              output: "Tuesday",
-              visible: false,
-            },
-            {
-              input: "Monday\n16",
-              output: "Tuesday",
-              visible: false,
-            },
-            {
-              input: "Monday\n16",
-              output: "Tuesday",
-              visible: false,
-            },
+            { input: "Sunday\n1", output: "Sunday", visible: false },
+            { input: "Monday\n3", output: "Wednesday", visible: false },
+            { input: "Friday\n2", output: "Saturday", visible: false },
+            { input: "Saturday\n1", output: "Saturday", visible: false },
+            { input: "Wednesday\n7", output: "Tuesday", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -16198,13 +16191,16 @@ export const codingPracticesData = {
           description:
             "Write a program to create a dictionary that contains keys as numbers from 1 to N and values are square of keys.",
           sampleInput: "5",
-          sampleOutput:
-            "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}",
+          sampleOutput: "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}",
           testCases: [
             { input: "3", output: "{1: 1, 2: 4, 3: 9}", visible: true },
             { input: "1", output: "{1: 1}", visible: true },
-            { input: "5", output: "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}", visible: false },
-            { input: "0", output: "{}", visible: false },            
+            {
+              input: "5",
+              output: "{1: 1, 2: 4, 3: 9, 4: 16, 5: 25}",
+              visible: false,
+            },
+            { input: "0", output: "{}", visible: false },
           ],
           defaultCode: ``,
           score: 45,
@@ -16225,13 +16221,28 @@ export const codingPracticesData = {
           description:
             "Given a string,write a program to remove all the words with K length.",
           sampleInput: "hello world hi bye\n5",
-          sampleOutput:
-            "hi bye ",
+          sampleOutput: "hi bye ",
           testCases: [
-            { input: "this is a test sentence\n2", output: "this a test sentence ", visible: true },
-            { input: "python java c cpp\n1", output: "python java cpp ", visible: true },
-            { input: "one two three four\n3", output: "three four ", visible: false },
-            { input: "hello world hi bye\n5", output: "hi bye ", visible: false },            
+            {
+              input: "this is a test sentence\n2",
+              output: "this a test sentence ",
+              visible: true,
+            },
+            {
+              input: "python java c cpp\n1",
+              output: "python java cpp ",
+              visible: true,
+            },
+            {
+              input: "one two three four\n3",
+              output: "three four ",
+              visible: false,
+            },
+            {
+              input: "hello world hi bye\n5",
+              output: "hi bye ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -16245,13 +16256,12 @@ export const codingPracticesData = {
           description:
             "Given a string,write a program to remove all the words with K length.",
           sampleInput: "1a2b3c",
-          sampleOutput:
-            "abc123",
+          sampleOutput: "abc123",
           testCases: [
             { input: "a1b2c3", output: "abc123", visible: true },
             { input: "python123", output: "python123", visible: true },
             { input: "1a2b3c", output: "abc123", visible: false },
-            { input: "12345", output: "12345", visible: false },                       
+            { input: "12345", output: "12345", visible: false },
           ],
           defaultCode: ``,
           score: 50,
@@ -16265,13 +16275,24 @@ export const codingPracticesData = {
           description:
             "Uday and Ekam are playing a game called Tic-Tac-Toe.The game is played on a square board with 3 rows and 3 columns.\nUday chooses the letter o and Ekam chooses the letter X.They take turns putting their letters in empty spaces on the board.\nThe first player to get three of their letters in a row,columnc,or diagonal wins the game.\nIf all spaces on the board are filled and no player has won,the game ends in a tie.",
           sampleInput: "X O O\nO X X\nO X X",
-          sampleOutput:
-            "Ekam Wins",
+          sampleOutput: "Ekam Wins",
           testCases: [
-            { input: "X X X\nO O X\nO X O", output: "Ekam Wins", visible: true },
-            { input: "O X X\nO X X\nO O X", output: "Uday Wins", visible: true },
+            {
+              input: "X X X\nO O X\nO X O",
+              output: "Ekam Wins",
+              visible: true,
+            },
+            {
+              input: "O X X\nO X X\nO O X",
+              output: "Uday Wins",
+              visible: true,
+            },
             { input: "X O X\nO X O\nO X O", output: "Tie", visible: false },
-            { input: "X O O\nO X X\nO X X", output: "Ekam Wins", visible: false },                                  
+            {
+              input: "X O O\nO X X\nO X X",
+              output: "Ekam Wins",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 50,

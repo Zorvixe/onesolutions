@@ -10,7 +10,7 @@ const questionsData = [
         <p>What kind of relationship is this?</p>
         <CodeBlock
           language="python"
-          code={`class Order:\n    def __init__(self):\n        self.products = []  # list of Product objects`}
+          code={`class Order:\n    def __init__(self):\n        self.products = []`}
         />
       </div>
     ),
@@ -44,11 +44,11 @@ const questionsData = [
     ),
     options: [
       "Product.show(self)",
-      "super().show() Correct",
+      "super().show()",
       "self.show()",
       "parent().show()",
     ],
-    answer: "super().show() Correct",
+    answer: "super().show()",
   },
 
   {
@@ -82,11 +82,11 @@ const questionsData = [
     ),
     options: [
       "class GroceryItem(Product):",
-      "def display_details(self): Correct (same name as parent)",
-      "print statement",
+      "def display_details(self):",
+      'print("Fresh Vegetables")',
       "pass",
     ],
-    answer: "def display_details(self): Correct (same name as parent)",
+    answer: "def display_details(self):",
   },
 
   {
@@ -100,22 +100,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        Product Info
-        <br />
-        55 inch 4K
-      </span>,
+      "Product Info\n55 inch 4K",
       "55 inch 4K",
       "Product Info",
       "Error",
     ],
-    answer: (
-      <span>
-        Product Info
-        <br />
-        55 inch 4K
-      </span>
-    ),
+    answer: "Product Info\n55 inch 4K",
   },
 
   {
@@ -128,13 +118,8 @@ const questionsData = [
         />
       </div>
     ),
-    options: [
-      "Car IS-A Engine",
-      "Car HAS-A Engine Correct",
-      "Engine IS-A Car",
-      "Both",
-    ],
-    answer: "Car HAS-A Engine Correct",
+    options: ["Car IS-A Engine", "Car HAS-A Engine", "Engine IS-A Car", "Both"],
+    answer: "Car HAS-A Engine",
   },
 
   {
@@ -149,11 +134,11 @@ const questionsData = [
     ),
     options: [
       "Only SmartTV → TV",
-      "Product → ElectronicItem → TV → SmartTV Correct",
+      "Product → ElectronicItem → TV → SmartTV",
       "All are separate",
       "Multiple inheritance",
     ],
-    answer: "Product → ElectronicItem → TV → SmartTV Correct",
+    answer: "Product → ElectronicItem → TV → SmartTV",
   },
 
   {
@@ -231,11 +216,11 @@ const questionsData = [
     question: "What is the correct rule: IS-A vs HAS-A?",
     options: [
       "IS-A → Composition, HAS-A → Inheritance",
-      "IS-A → Inheritance, HAS-A → Composition Correct",
+      "IS-A → Inheritance, HAS-A → Composition",
       "Both mean the same",
       "Python doesn't care",
     ],
-    answer: "IS-A → Inheritance, HAS-A → Composition Correct",
+    answer: "IS-A → Inheritance, HAS-A → Composition",
   },
 
   {
@@ -249,9 +234,10 @@ const Inheritance_Part2_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -280,7 +266,7 @@ const Inheritance_Part2_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

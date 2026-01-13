@@ -10,7 +10,13 @@ const questionsData = [
         <p>What is printed?</p>
         <CodeBlock
           language="python"
-          code={`class Car:\n    def __init__(self, brand, model):\n        self.brand = brand\n        self.model = model\n\nmy_car = Car("Toyota", "Corolla")\nprint(my_car.brand)`}
+          code={`class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+
+my_car = Car("Toyota", "Corolla")
+print(my_car.brand)`}
         />
       </div>
     ),
@@ -24,7 +30,16 @@ const questionsData = [
         <p>What will be the output?</p>
         <CodeBlock
           language="python"
-          code={`class Car:\n    def __init__(self, brand, model):\n        self.brand = brand\n        self.model = model\n    \n    def full_name(self):\n        return f"{self.brand} {self.model}"\n\nc = Car("Tesla", "Model 3")\nprint(c.full_name())`}
+          code={`class Car:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+    
+    def full_name(self):
+        return f"{self.brand} {self.model}"
+
+c = Car("Tesla", "Model 3")
+print(c.full_name())`}
         />
       </div>
     ),
@@ -38,7 +53,12 @@ const questionsData = [
         <p>How do you correctly access the model?</p>
         <CodeBlock
           language="python"
-          code={`class Car:\n    def __init__(self):\n        self.model = "Civic"\n\ncar = Car()\nprint(car.model)`}
+          code={`class Car:
+    def __init__(self):
+        self.model = "Civic"
+
+car = Car()
+print(car.model)`}
         />
       </div>
     ),
@@ -52,7 +72,16 @@ const questionsData = [
         <p>What is the recommended way to update an attribute?</p>
         <CodeBlock
           language="python"
-          code={`class Car:\n    def __init__(self):\n        self.model = "Civic"\n    \n    def update_model(self, new_model):\n        self.model = new_model\n\nc = Car()\nc.update_model("City")\nprint(c.model)`}
+          code={`class Car:
+    def __init__(self):
+        self.model = "Civic"
+    
+    def update_model(self, new_model):
+        self.model = new_model
+
+c = Car()
+c.update_model("City")
+print(c.model)`}
         />
       </div>
     ),
@@ -63,17 +92,17 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Which line calls a method on the cart object?</p>
+        <p>Which line correctly calls a method on an object?</p>
         <CodeBlock language="python" code={`cart.add_item("Mouse", 500, 2)`} />
       </div>
     ),
     options: [
-      "Correct way to call method on object",
-      "Wrong — should use Cart.add_item()",
-      "Wrong — should use add_item(cart, ...)",
-      "Error",
+      "Calling a method using object.method()",
+      "Calling method using Class.method()",
+      "Passing object manually as argument",
+      "This causes an error",
     ],
-    answer: "Correct way to call method on object",
+    answer: "Calling a method using object.method()",
   },
 
   {
@@ -82,7 +111,11 @@ const questionsData = [
         <p>What is printed after updating quantity?</p>
         <CodeBlock
           language="python"
-          code={`# Assume cart has:\n# Laptop: 50000 × 1\n# Mouse: 500 × 2\ncart.update_quantity("Mouse", 1)\nprint(cart.total_price())`}
+          code={`# Assume cart has:
+# Laptop: 50000 × 1
+# Mouse: 500 × 2
+cart.update_quantity("Mouse", 1)
+print(cart.total_price())`}
         />
       </div>
     ),
@@ -96,7 +129,8 @@ const questionsData = [
         <p>How do you access attributes inside another method?</p>
         <CodeBlock
           language="python"
-          code={`def info(self):\n    print(self.brand)`}
+          code={`def info(self):
+    print(self.brand)`}
         />
       </div>
     ),
@@ -115,7 +149,8 @@ const questionsData = [
         <p>What does this method do?</p>
         <CodeBlock
           language="python"
-          code={`def show_items(self):\n    print(self.items)`}
+          code={`def show_items(self):
+    print(self.items)`}
         />
       </div>
     ),
@@ -134,7 +169,16 @@ const questionsData = [
         <p>What is the output?</p>
         <CodeBlock
           language="python"
-          code={`class Phone:\n    def __init__(self):\n        self.brand = "Samsung"\n    \n    def change_brand(self):\n        self.brand = "OnePlus"\n\np = Phone()\np.change_brand()\nprint(p.brand)`}
+          code={`class Phone:
+    def __init__(self):
+        self.brand = "Samsung"
+    
+    def change_brand(self):
+        self.brand = "OnePlus"
+
+p = Phone()
+p.change_brand()
+print(p.brand)`}
         />
       </div>
     ),
@@ -145,17 +189,17 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Which one is the correct way to remove an item?</p>
+        <p>Which is the correct way to remove an item?</p>
         <CodeBlock language="python" code={`cart.remove_item("Laptop")`} />
       </div>
     ),
     options: [
-      "Correct object-oriented way",
-      'Wrong — should be remove_item(cart, "Laptop")',
-      'Wrong — should be cart["Laptop"].remove()',
-      "Error",
+      "Using object.method()",
+      "Passing cart manually to function",
+      "Accessing item directly and removing",
+      "This causes an error",
     ],
-    answer: "Correct object-oriented way",
+    answer: "Using object.method()",
   },
 
   {
@@ -220,9 +264,10 @@ const Classes_Object_MCQ = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -251,7 +296,7 @@ const Classes_Object_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

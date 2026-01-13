@@ -259,12 +259,16 @@ const WebPractice = () => {
     };
   }, []);
 
+  // WebPractice.js
+
   const updatePreview = (iframeRef) => {
     if (!iframeRef.current) {
       return;
     }
 
     const iframe = iframeRef.current;
+
+    console.log("WebPractice: Updating preview with current code");
 
     try {
       const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
@@ -274,6 +278,7 @@ const WebPractice = () => {
         return;
       }
 
+      // IMPORTANT: Use the SAME structure as CodePlayground's combineWebSrcDoc
       const htmlContent = `<!DOCTYPE html>
 <html style="margin:0;padding:0;width:100%;height:100%;overflow:auto;">
 <head>
@@ -286,27 +291,64 @@ const WebPractice = () => {
 <body>
   ${currentCode.html || ""}
   <script>
-    (function() {
-      try {
-        ${currentCode.javascript || ""}
-      } catch (e) {
-        console.error('Script error:', e);
+    // Global runtime error handler
+    window.onerror = function(msg, url, lineNo, columnNo, error) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'js-error';
+      errorDiv.innerHTML =
+        '<strong>Runtime Error:</strong><br>' +
+        msg + '<br>Line: ' + lineNo;
+      document.body.appendChild(errorDiv);
+      return false;
+    };
+
+    // Handle anchor clicks
+    document.addEventListener('click', function(e) {
+      if (
+        e.target.tagName === 'A' &&
+        e.target.getAttribute('href') &&
+        e.target.getAttribute('href').startsWith('#')
+      ) {
+        e.preventDefault();
+        const hash = e.target.getAttribute('href').substring(1);
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
       }
-    })();
+    });
+
+    // User JavaScript (executed once)
+    try {
+      ${currentCode.javascript}
+    } catch (err) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'js-error';
+      errorDiv.innerHTML =
+        '<strong>JavaScript Error:</strong><br>' +
+        err.message + '<br><br>' + err.stack;
+      document.body.appendChild(errorDiv);
+    }
   </script>
 </body>
 </html>`;
 
+      // Clear the document first
       iframeDoc.open("text/html", "replace");
       iframeDoc.write(htmlContent);
       iframeDoc.close();
+
+      console.log("WebPractice: Preview updated successfully");
     } catch (error) {
       console.error("Error updating preview:", error);
       try {
         const iframeDoc =
           iframe.contentDocument || iframe.contentWindow.document;
         if (iframeDoc && iframeDoc.body) {
-          iframeDoc.body.innerHTML = `<div style="padding:20px;color:#d32f2f;font-family:Arial;"><p>Error rendering preview. Please check your HTML/CSS/JavaScript for syntax errors.</p><p style="font-size:12px;color:#999;margin-top:10px;">${error.message}</p></div>`;
+          iframeDoc.body.innerHTML = `<div style="padding:20px;color:#d32f2f;font-family:Arial;">
+          <p>Error rendering preview. Please check your HTML/CSS/JavaScript for syntax errors.</p>
+          <p style="font-size:12px;color:#999;margin-top:10px;">${error.message}</p>
+        </div>`;
         }
       } catch (fallbackError) {
         console.error("Fallback preview update also failed:", fallbackError);
@@ -314,6 +356,7 @@ const WebPractice = () => {
     }
   };
 
+  // Update the runTests function to be more reliable
   const runTests = async (iframeRef) => {
     if (!selectedQuestion || !iframeRef.current) return;
 
@@ -322,19 +365,38 @@ const WebPractice = () => {
     setSubmitMessage("");
     setDebugInfo("");
 
-    // Add this check
-    if (
-      !selectedQuestion.testCases ||
-      !Array.isArray(selectedQuestion.testCases)
-    ) {
-      setOutput("No test cases available for this question.");
-      setIsRunning(false);
-      setShowTestCases(false); // Hide test cases container if no tests
-      return;
-    }
+    // Add a delay to ensure iframe content is fully loaded
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
     const iframe = iframeRef.current;
+
+    console.log("Running tests, checking iframe:", iframe);
+
+    // Wait for iframe to load if needed
+    if (
+      iframe.contentDocument &&
+      iframe.contentDocument.readyState === "loading"
+    ) {
+      await new Promise((resolve) => {
+        iframe.onload = resolve;
+        // Fallback timeout
+        setTimeout(resolve, 500);
+      });
+    }
+
     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+    // Log for debugging
+    console.log("Iframe document readyState:", iframeDoc.readyState);
+    console.log(
+      "Iframe body content length:",
+      iframeDoc.body?.innerHTML?.length || 0
+    );
+    console.log(
+      "JavaScript in iframe:",
+      currentCode.javascript?.substring(0, 100) || "No JS"
+    );
+
     const results = [];
     let passedCount = 0;
 
@@ -353,6 +415,8 @@ const WebPractice = () => {
         let actual = "";
         const testType = testCase.type || "html-validation";
 
+        console.log(`Running test: ${testCase.id}, type: ${testType}`);
+
         try {
           if (testType === "html-validation") {
             const result = validateHtmlTest(testCase, iframeDoc, iframe);
@@ -366,6 +430,19 @@ const WebPractice = () => {
             const result = validateJsTest(testCase, iframeDoc, iframe);
             passed = result.passed;
             actual = result.actual;
+
+            // Debug JS test
+            if (!passed) {
+              console.log(
+                `JS test failed: ${testCase.input}, actual: ${actual}`
+              );
+              console.log(
+                "Available elements in iframe:",
+                Array.from(iframeDoc.querySelectorAll("*"))
+                  .map((el) => el.id || el.tagName)
+                  .slice(0, 10)
+              );
+            }
           } else {
             passed = false;
             actual = `Unknown test type: ${testType}`;
@@ -406,10 +483,15 @@ const WebPractice = () => {
     }
   };
 
+  // Update handleRunTests to ensure iframe is properly updated
   const handleRunTests = (iframeRef) => {
     console.log("Running tests...");
-    setShowTestCases(true); // Add this line
+    setShowTestCases(true);
+
+    // Update preview first
     updatePreview(iframeRef);
+
+    // Run tests with sufficient delay for iframe to render
     setTimeout(() => {
       runTests(iframeRef);
     }, 500);
@@ -956,7 +1038,11 @@ const WebPractice = () => {
                   className="submit-btn"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Submit Solution"}
+                  {isSubmitting ? (
+                    <span className="btn-loader"></span>
+                  ) : (
+                    "Submit"
+                  )}
                 </button>
               </div>
             </div>

@@ -73,7 +73,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          How to modify global <b>count</b> inside function?
+          How to modify global <b>count</b> inside a function?
         </p>
         <CodeBlock
           language="python"
@@ -83,11 +83,11 @@ const questionsData = [
     ),
     options: [
       "Just write count += 1",
-      "Use global count → Correct",
+      "Use global count",
       "Use self.count",
       "Cannot modify global",
     ],
-    answer: "Use global count → Correct",
+    answer: "Use global count",
   },
 
   {
@@ -101,30 +101,12 @@ const questionsData = [
       </div>
     ),
     options: [
-      <span>
-        Inside: 20
-        <br />
-        Outside: 20
-      </span>,
-      <span>
-        Inside: 20
-        <br />
-        Outside: 10
-      </span>,
+      "Inside: 20\nOutside: 20",
+      "Inside: 20\nOutside: 10",
       "Error",
-      <span>
-        Inside: 10
-        <br />
-        Outside: 10
-      </span>,
+      "Inside: 10\nOutside: 10",
     ],
-    answer: (
-      <span>
-        Inside: 20
-        <br />
-        Outside: 10
-      </span>
-    ),
+    answer: "Inside: 20\nOutside: 10",
   },
 
   {
@@ -144,19 +126,16 @@ const questionsData = [
     question: (
       <div>
         <p>In which order does Python look for a name?</p>
-        <CodeBlock
-          language="python"
-          code={`# When you write 'x' inside a function`}
-        />
+        <CodeBlock language="python" code={`# Name lookup inside a function`} />
       </div>
     ),
     options: [
       "Global → Local → Built-in",
       "Built-in → Global → Local",
-      "Local → Global → Built-in → Correct",
+      "Local → Global → Built-in",
       "Local → Built-in → Global",
     ],
-    answer: "Local → Global → Built-in → Correct",
+    answer: "Local → Global → Built-in",
   },
 
   {

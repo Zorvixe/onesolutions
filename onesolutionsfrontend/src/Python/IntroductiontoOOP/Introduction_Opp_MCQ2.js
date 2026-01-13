@@ -40,23 +40,8 @@ c2 = Car()`}
         />
       </div>
     ),
-    options: [
-      <span>
-        Car created!
-        <br />
-        Car created!
-      </span>,
-      "Car created!",
-      "Nothing",
-      "Error",
-    ],
-    answer: (
-      <span>
-        Car created!
-        <br />
-        Car created!
-      </span>
-    ),
+    options: ["Car created!\nCar created!", "Car created!", "Nothing", "Error"],
+    answer: "Car created!\nCar created!",
   },
 
   {
@@ -139,13 +124,8 @@ print(p1.name, p2.name)`}
         />
       </div>
     ),
-    options: [
-      <span>Amit Amit</span>,
-      <span>Neha Neha</span>,
-      <span>Amit Neha</span>,
-      "Error",
-    ],
-    answer: <span>Amit Neha</span>,
+    options: ["Amit Amit", "Neha Neha", "Amit Neha", "Error"],
+    answer: "Amit Neha",
   },
 
   {
@@ -167,7 +147,7 @@ print(p1.name, p2.name)`}
   {
     question: (
       <div>
-        <p>Which method runs automatically when object is created?</p>
+        <p>Which method runs automatically when an object is created?</p>
         <CodeBlock
           language="python"
           code={`class Cat:
@@ -284,9 +264,10 @@ const Introduction_Opp_MCQ2 = ({
   subtopicId,
   goalName,
   courseName,
-  onComplete
+  onComplete,
 }) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -315,7 +296,7 @@ const Introduction_Opp_MCQ2 = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

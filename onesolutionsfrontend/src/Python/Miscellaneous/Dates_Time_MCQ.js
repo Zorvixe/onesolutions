@@ -69,7 +69,7 @@ const questionsData = [
     options: [
       "Converts date to string",
       "Converts string to datetime object",
-      "Adds days",
+      "Adds days to date",
       "Prints the date",
     ],
     answer: "Converts string to datetime object",
@@ -89,7 +89,7 @@ const questionsData = [
       "datetime.now() + 1",
       "datetime.now() + timedelta(days=1)",
       "datetime.tomorrow()",
-      "datetime.now().add_day()",
+      "datetime.add_day(1)",
     ],
     answer: "datetime.now() + timedelta(days=1)",
   },
@@ -97,7 +97,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What format code gives full weekday name (e.g., Monday)?</p>
+        <p>What format code gives the full weekday name?</p>
         <CodeBlock language="python" code={`dt.strftime("%A")`} />
       </div>
     ),
@@ -111,14 +111,14 @@ const questionsData = [
         <p>What will this return?</p>
         <CodeBlock
           language="python"
-          code={`from datetime import datetime, timedelta\nnow = datetime.now()\none_week_later = now + timedelta(weeks=1)`}
+          code={`from datetime import datetime, timedelta\nnow = datetime.now()\nresult = now + timedelta(weeks=1)`}
         />
       </div>
     ),
     options: [
       "Same date",
       "Date 7 days from now",
-      "Date 1 month later",
+      "Date 30 days later",
       "Error",
     ],
     answer: "Date 7 days from now",
@@ -127,21 +127,21 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Which line correctly parses "2025-12-25" as a date?</p>
+        <p>Which format correctly parses the date string?</p>
         <CodeBlock
           language="python"
           code={`datetime.strptime("2025-12-25", "%Y-%m-%d")`}
         />
       </div>
     ),
-    options: ["%d-%m-%Y", "%Y-%m-%d", "%m-%d-%Y", "Wrong format"],
+    options: ["%d-%m-%Y", "%Y-%m-%d", "%m-%d-%Y", "%d/%m/%Y"],
     answer: "%Y-%m-%d",
   },
 
   {
     question: (
       <div>
-        <p>What format shows time in 12-hour clock with AM/PM?</p>
+        <p>Which format shows time in 12-hour format with AM/PM?</p>
         <CodeBlock language="python" code={`now.strftime("%I:%M %p")`} />
       </div>
     ),
@@ -152,7 +152,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>How to subtract 3 hours from current time?</p>
+        <p>How do you subtract 3 hours from the current time?</p>
         <CodeBlock
           language="python"
           code={`from datetime import datetime, timedelta\nthree_hours_ago = datetime.now() - timedelta(hours=3)`}
@@ -162,15 +162,14 @@ const questionsData = [
     options: [
       "datetime.now() - 3",
       "datetime.now() - timedelta(hours=3)",
-      "datetime.now().subtract(3)",
+      "datetime.subtract(3)",
       "timedelta(-3)",
     ],
     answer: "datetime.now() - timedelta(hours=3)",
   },
 
   {
-    question:
-      "Which module do you need to import to work with dates and times?",
+    question: "Which module is used to work with dates and times in Python?",
     options: ["time", "date", "datetime", "calendar"],
     answer: "datetime",
   },
@@ -180,7 +179,7 @@ const questionsData = [
     options: [
       "Parse string to date",
       "Format datetime object as string",
-      "Add days",
+      "Add days to date",
       "Get current time",
     ],
     answer: "Format datetime object as string",
@@ -192,31 +191,27 @@ const questionsData = [
       "Format date as string",
       "Parse string into datetime object",
       "Perform arithmetic",
-      "Get current date",
+      "Get system date",
     ],
     answer: "Parse string into datetime object",
   },
 
   {
-    question: "Which class allows adding/subtracting days, hours, minutes?",
+    question: "Which class is used for date and time differences?",
     options: ["date", "time", "timedelta", "datetime"],
     answer: "timedelta",
   },
 
   {
-    question: "Which format code shows full month name (e.g., October)?",
+    question: "Which format code displays the full month name?",
     options: ["%m", "%B", "%b", "%M"],
     answer: "%B",
   },
 ];
 
-const Dates_Time_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete
-}) => {
-  const { markSubtopicComplete, loadProgressSummary, completedContent } = useAuth();
+const Dates_Time_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
   const [isCompleted, setIsCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -245,7 +240,7 @@ const Dates_Time_MCQ = ({
       console.log("🎯 Marking subtopic complete:", {
         subtopicId,
         goalName,
-        courseName
+        courseName,
       });
 
       const result = await markSubtopicComplete(

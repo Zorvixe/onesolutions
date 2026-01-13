@@ -1,4 +1,16 @@
 const validateJsTest = (testCase, iframeDoc, iframe) => {
+  console.log(`JS Test: ${testCase.input}`);
+  console.log("Iframe document:", iframeDoc);
+  console.log("Document readyState:", iframeDoc.readyState);
+  console.log("Body exists:", !!iframeDoc.body);
+
+  // List all elements with IDs for debugging
+  const allElements = iframeDoc.querySelectorAll("[id]");
+  console.log(
+    "Elements with IDs:",
+    Array.from(allElements).map((el) => el.id)
+  );
+
   try {
     const validationType = testCase.input;
     const win = iframe.contentWindow;
@@ -169,6 +181,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
             : "Hex code not updated",
         };
       }
+
       // ========== SEASON SWITCHER VALIDATIONS ==========
       case "check-spring-images": {
         const button = doc.getElementById("springBtn");
@@ -282,6 +295,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      //Tip calculator validation
       case "check-billAmount": {
         const element = doc.getElementById("billAmount");
         const passed = element !== null;
@@ -481,6 +495,66 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
             : "No error message shown",
         };
       }
+
+      //=========Addition Game ======
+      case "check-firstNumber": {
+        const element = iframeDoc.getElementById("firstNumber");
+        return { passed: element !== null };
+      }
+
+      case "check-secondNumber": {
+        const element = iframeDoc.getElementById("secondNumber");
+        return { passed: element !== null };
+      }
+
+      case "check-userInput": {
+        const element = iframeDoc.getElementById("userInput");
+        return { passed: element !== null };
+      }
+
+      case "check-gameResult": {
+        const element = iframeDoc.getElementById("gameResult");
+        return { passed: element !== null };
+      }
+
+      case "check-correct-answer": {
+        const a = parseInt(iframeDoc.getElementById("firstNumber").textContent);
+        const b = parseInt(
+          iframeDoc.getElementById("secondNumber").textContent
+        );
+
+        iframeDoc.getElementById("userInput").value = a + b;
+        iframeDoc.getElementById("checkButton").click();
+
+        const resultText = iframeDoc
+          .getElementById("gameResult")
+          .textContent.trim();
+        const passed = resultText === "Congratulations! You got it right.";
+
+        return { passed, actual: resultText };
+      }
+
+      case "check-wrong-answer": {
+        iframeDoc.getElementById("userInput").value = 0;
+        iframeDoc.getElementById("checkButton").click();
+
+        const resultText = iframeDoc
+          .getElementById("gameResult")
+          .textContent.trim();
+        const passed = resultText === "Please Try Again!";
+
+        return { passed, actual: resultText };
+      }
+
+      case "check-restart": {
+        iframeDoc.getElementById("restartButton").click();
+
+        const resultText = iframeDoc.getElementById("gameResult").textContent;
+        const passed = resultText === "";
+
+        return { passed, actual: resultText };
+      }
+
       default:
         return {
           passed: false,
