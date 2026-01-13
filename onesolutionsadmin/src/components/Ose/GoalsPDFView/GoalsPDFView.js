@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Goals Data (moved from your original file)
-const goalsData = [
+ const goalsData = [
   {
     id: "goal 1",
     title: "Goal 1",
@@ -2800,7 +2800,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   More Modern JS Concepts",
+                name: "MCQ Practice - More Modern JS Concepts",
               },
               {
                 id: "QW9_s4_A0 m1_H g2_7B c3_D2E",
@@ -2812,7 +2812,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   More Modern JS Concepts | Part 2",
+                name: "MCQ Practice - More Modern JS Concepts | Part 2",
               },
               {
                 id: "QW9_s7_A0 m1_H g2_7B c3_D2E",
@@ -2824,7 +2824,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   Factory and Constructor Function",
+                name: "MCQ Practice - Factory and Constructor Function",
               },
               {
                 id: "QW9_s10_A0 m1_H g2_7B c3_D2E",
@@ -2848,7 +2848,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s15_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice   More Modern JS Concepts | Part 3",
+                name: "MCQ Practice - More Modern JS Concepts | Part 3",
               },
               {
                 id: "QW9_s16_A0 m1_H g2_7B c3_D2E",
@@ -2870,7 +2870,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m2_H g2_7B c3_D2E",
-                name: "MCQ Practice   Prototypal Inheritance",
+                name: "MCQ Practice - Prototypal Inheritance",
               },
               {
                 id: "QW9_s4_A0 m2_H g2_7B c3_D2E",
@@ -2882,7 +2882,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m2_H g2_7B c3_D2E",
-                name: "MCQ Practice   JS Classes",
+                name: "MCQ Practice - JS Classes",
               },
               {
                 id: "QW9_s7_A0 m2_H g2_7B c3_D2E",
@@ -2912,7 +2912,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice   JS Promises",
+                name: "MCQ Practice - JS Promises",
               },
               {
                 id: "QW9_s4_A0 m3_H g2_7B c3_D2E",
@@ -2924,7 +2924,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s6_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice   JS Promises | Part 2",
+                name: "MCQ Practice - JS Promises | Part 2",
               },
               {
                 id: "QW9_s7_A0 m3_H g2_7B c3_D2E",
@@ -2944,7 +2944,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice   More JS Concepts",
+                name: "MCQ Practice - More JS Concepts",
               },
               {
                 id: "QW9_s12_A0 m3_H g2_7B c3_D2E",
@@ -2966,19 +2966,19 @@ const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 1",
+                name: "JS Essentials MCQ Assignment 1",
               },
               {
                 id: "QW9_s2_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 2",
+                name: "JS Essentials MCQ Assignment 2",
               },
               {
                 id: "QW9_s3_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 3",
+                name: "JS Essentials MCQ Assignment 3",
               },
               {
                 id: "QW9_s4_A0 m4_H g2_7B c3_D2E",
-                name: "MCQ Assignment 4",
+                name: "JS Essentials MCQ Assignment 4",
               },
               {
                 id: "QW9_s5_A0 m4_H g2_7B c3_D2E",
@@ -3004,7 +3004,7 @@ const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m5_H g2_7B c3_D2E",
-                name: "Mock Test 1",
+                name: "JS Essentials Mock Test 1",
               },
               {
                 id: "QW9_s2_A0 m5_H g2_7B c3_D2E",
@@ -3012,7 +3012,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m5_H g2_7B c3_D2E",
-                name: "Mock Test 2",
+                name: "JS Essentials Mock Test 2",
               },
               {
                 id: "QW9_s4_A0 m5_H g2_7B c3_D2E",
@@ -3509,11 +3509,11 @@ const goalsData = [
               },
               {
                 id: "QW9_s2_A0 m6_H g3_7B c4_D2E",
-                name: "On Demand Session | Cheat Sheet",
+                name: "On Demand Session1 | Cheat Sheet",
               },
               {
                 id: "QW9_s3_A0 m6_H g3_7B c4_D2E",
-                name: "MCQ Pratice - On Demand Session",
+                name: "MCQ Pratice - On Demand Session1",
               },
               {
                 id: "QW9_s4_A0 m6_H g3_7B c4_D2E",
@@ -3571,7 +3571,7 @@ const goalsData = [
               },
               {
                 id: "QW9_s2_A0 m7_H g3_7B c4_D2E",
-                name: "Component Life Cycle",
+                name: "Component Life Cycle | Cheat Sheet",
               },
               {
                 id: "QW9_s3_A0 m7_H g3_7B c4_D2E",
@@ -3663,7 +3663,71 @@ const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m9_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Authentication & Authorization",
+              },
+              {
+                id: "QW9_s2_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s4_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 27 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s5_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 2",
+              },
+              {
+                id: "QW9_s6_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 2 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s7_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization | Part 2",
+              },
+              {
+                id: "QW9_s8_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 28 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s9_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 3",
+              },
+              {
+                id: "QW9_s10_A0 m9_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 3 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s11_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization | Part 3",
+              },
+              {
+                id: "QW9_s12_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 29 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s13_A0 m9_H g3_7B c4_D2E",
+                name: "Common Mistakes | Part 3",
+              },
+              {
+                id: "QW9_s14_A0 m9_H g3_7B c4_D2E",
+                name: "Common Mistakes | Part 3 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s15_A0 m9_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Common Mistakes | Part 3",
+              },
+              {
+                id: "QW9_s16_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 30 - Common Mistakes | Part 3",
+              },
+              {
+                id: "QW9_s17_A0 m9_H g3_7B c4_D2E",
+                name: "Coding Pratice 31 - Common Mistakes | Part 3",
               },
             ],
           },
@@ -3673,7 +3737,39 @@ const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m10_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Authentication & Authorization | Part 4",
+              },
+              {
+                id: "QW9_s2_A0 m10_H g3_7B c4_D2E",
+                name: "Authentication & Authorization | Part 4 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m10_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Authentication & Authorization | Part 4",
+              },
+              {
+                id: "QW9_s4_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 32 - Authentication & Authorization",
+              },
+              {
+                id: "QW9_s5_A0 m10_H g3_7B c4_D2E",
+                name: "Sorting Products",
+              },
+              {
+                id: "QW9_s6_A0 m10_H g3_7B c4_D2E",
+                name: "Sorting Products | Cheat Sheet",
+              },
+              {
+                id: "QW9_s7_A0 m10_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Sorting Products",
+              },
+              {
+                id: "QW9_s8_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 33 - Sorting Products",
+              },
+              {
+                id: "QW9_s9_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 34 - Sorting Products",
               },
             ],
           },

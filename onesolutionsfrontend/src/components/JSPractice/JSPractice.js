@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import "./Practice.css";
-import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
+import { javascriptCodingPracticesData } from "../../codingPracticesData/javascriptCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import AceEditor from "react-ace";
 import { useAuth } from "../../context/AuthContext";
@@ -20,13 +19,13 @@ import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/theme-twilight";
 import "ace-builds/src-noconflict/ext-language_tools";
 
-const Practice = () => {
+const JSPractice = () => {
   const { practiceId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const { loadProgressSummary } = useAuth();
 
-  const [selectedLanguage, setSelectedLanguage] = useState("python");
+  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
   const [selectedPractice, setSelectedPractice] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [code, setCode] = useState("");
@@ -48,16 +47,12 @@ const Practice = () => {
   const [snippetName, setSnippetName] = useState("");
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
-  const [showSnippetsModal, setShowSnippetsModal] = useState(false);
 
   // Add state for resize functionality
   const [editorWidth, setEditorWidth] = useState(50);
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(50);
-
-  const pyodideRef = useRef(null);
-  const [pyodideReady, setPyodideReady] = useState(false);
 
   const subtopicId = location.state?.subtopicId;
   const topicId = location.state?.topicId;
@@ -120,11 +115,6 @@ const Practice = () => {
     setOutput("");
     setTestResults([]);
     setExecutionResult(null);
-
-    // Reset input related states if they exist
-    if (window.__python_input__) {
-      delete window.__python_input__;
-    }
 
     // Show a notification
     setOutput("Code has been reset to default.");
@@ -269,7 +259,7 @@ const Practice = () => {
           await loadProgressSummary();
           await checkPracticeCompletion();
 
-          console.log("✅ Practice marked as completed!");
+          console.log("✅ JSPractice marked as completed!");
         } catch (error) {
           console.error("❌ Failed to mark practice complete:", error);
         } finally {
@@ -293,8 +283,8 @@ const Practice = () => {
   useEffect(() => {
     const findPractice = () => {
       if (practiceId) {
-        for (const language in codingPracticesData) {
-          const practice = codingPracticesData[language].find(
+        for (const language in javascriptCodingPracticesData) {
+          const practice = javascriptCodingPracticesData[language].find(
             (p) => p.id === practiceId
           );
           if (practice) {
@@ -305,13 +295,13 @@ const Practice = () => {
         }
       }
 
-      const firstLanguage = Object.keys(codingPracticesData)[0];
-      const firstPractice = codingPracticesData[firstLanguage][0];
+      const firstLanguage = Object.keys(javascriptCodingPracticesData)[0];
+      const firstPractice = javascriptCodingPracticesData[firstLanguage][0];
       if (firstPractice) {
         setSelectedPractice(firstPractice);
         setSelectedLanguage(firstLanguage);
         if (!practiceId) {
-          navigate(`/practice/${firstPractice.id}`, { replace: true });
+          navigate(`/js-practice/${firstPractice.id}`, { replace: true });
         }
       }
     };
@@ -340,71 +330,6 @@ const Practice = () => {
     setTestResults([]);
     setExecutionResult(null);
   }, [selectedPractice, questionId, userProgress]);
-
-  useEffect(() => {
-    let mounted = true;
-
-    const initializePyodide = async () => {
-      try {
-        if (!window.loadPyodide) {
-          await new Promise((resolve, reject) => {
-            const script = document.createElement("script");
-            script.src =
-              "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js";
-            script.onload = resolve;
-            script.onerror = reject;
-            document.head.appendChild(script);
-          });
-        }
-
-        if (!mounted) return;
-
-        const pyodide = await window.loadPyodide({
-          indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/",
-        });
-
-        if (!mounted) return;
-
-        pyodideRef.current = pyodide;
-        setPyodideReady(true);
-      } catch (error) {
-        console.error("Failed to load Pyodide:", error);
-      }
-    };
-
-    initializePyodide();
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  const handleLanguageChange = (e) => {
-    const newLanguage = e.target.value;
-    setSelectedLanguage(newLanguage);
-
-    const practices = codingPracticesData[newLanguage] || [];
-    if (practices.length > 0) {
-      const firstPractice = practices[0];
-      setSelectedPractice(firstPractice);
-      navigate(`/practice/${firstPractice.id}`);
-    }
-  };
-
-  const handlePracticeSelect = (practice) => {
-    setSelectedPractice(practice);
-    navigate(`/practice/${practice.id}`);
-  };
-
-  const handleQuestionSelect = (question) => {
-    navigate(`/practice/${practiceId}/${question.id}`, {
-      state: {
-        subtopicId,
-        goalName,
-        courseName,
-      },
-    });
-  };
 
   const handleBackToPractice = () => {
     if (topicId && subtopicId) {
@@ -469,20 +394,36 @@ const Practice = () => {
       try {
         const logs = [];
         const originalLog = console.log;
+
         console.log = (...args) => {
           const message = args
-            .map((arg) =>
-              typeof arg === "object"
-                ? JSON.stringify(arg, null, 2)
-                : String(arg)
-            )
+            .map((arg) => {
+              if (Array.isArray(arg)) {
+                return (
+                  "[" +
+                  arg
+                    .map((item) =>
+                      typeof item === "string" ? `'${item}'` : String(item)
+                    )
+                    .join(", ") +
+                  "]"
+                );
+              }
+
+              if (typeof arg === "object") {
+                return JSON.stringify(arg);
+              }
+
+              return String(arg);
+            })
             .join(" ");
+
           logs.push(message);
           originalLog.apply(console, args);
         };
 
         let inputIndex = 0;
-        const mockInput = (prompt = "") => {
+        const mockInput = () => {
           if (inputIndex < inputLines.length) {
             return inputLines[inputIndex++];
           }
@@ -490,6 +431,21 @@ const Practice = () => {
         };
 
         window.prompt = mockInput;
+
+        if (typeof window.readline === "undefined") {
+          window.readline = {
+            createInterface: () => ({
+              question: (prompt, callback) => {
+                if (inputIndex < inputLines.length) {
+                  setTimeout(() => callback(inputLines[inputIndex++]), 0);
+                } else {
+                  setTimeout(() => callback(""), 0);
+                }
+              },
+              close: () => {},
+            }),
+          };
+        }
 
         try {
           const func = new Function(userCode);
@@ -499,6 +455,7 @@ const Practice = () => {
         } finally {
           console.log = originalLog;
           delete window.prompt;
+          delete window.readline;
         }
 
         result =
@@ -514,125 +471,6 @@ const Practice = () => {
     []
   );
 
-  const runPython = useCallback(async (userCode, inputLines = []) => {
-    setIsRunning(true);
-    let result = "";
-
-    try {
-      if (!pyodideRef.current) {
-        return "⚠️ Python environment is still loading. Please wait...";
-      }
-
-      const pyodide = pyodideRef.current;
-      let inputIndex = 0;
-
-      pyodide.globals.set("__python_input__", () => {
-        if (inputIndex < inputLines.length) {
-          return inputLines[inputIndex++];
-        }
-        throw new Error("Input expected but not provided.");
-      });
-
-      /** 🧠 Setup Python execution environment */
-      await pyodide.runPythonAsync(`
-  import sys
-  import io
-  import builtins
-  import traceback
-  
-  class StreamCapture(io.StringIO):
-      def __init__(self):
-          super().__init__()
-          self.data = ""
-  
-      def write(self, text):
-          self.data += text
-          return len(text)
-  
-      def get(self):
-          return self.data
-  
-  stdout_capture = StreamCapture()
-  stderr_capture = StreamCapture()
-  
-  _original_stdout = sys.stdout
-  _original_stderr = sys.stderr
-  _original_input = builtins.input
-  
-  sys.stdout = stdout_capture
-  sys.stderr = stderr_capture
-  
-  def custom_input(prompt=""):
-      try:
-          return __python_input__()
-      except Exception:
-          raise RuntimeError("Input expected but not provided.")
-  
-  builtins.input = custom_input
-      `);
-
-      /** ⏱ Execution with timeout (infinite loop protection) */
-      const EXECUTION_TIMEOUT = 4000;
-
-      const execution = pyodide.runPythonAsync(`
-  try:
-      exec(${JSON.stringify(userCode)})
-  except Exception:
-      traceback.print_exc()
-      `);
-
-      await Promise.race([
-        execution,
-        new Promise((_, reject) =>
-          setTimeout(
-            () =>
-              reject(
-                new Error("Execution timed out (possible infinite loop).")
-              ),
-            EXECUTION_TIMEOUT
-          )
-        ),
-      ]);
-
-      /** 📤 Collect outputs */
-      const stdout = await pyodide.runPythonAsync("stdout_capture.get()");
-      const stderr = await pyodide.runPythonAsync("stderr_capture.get()");
-
-      /** 🧹 Restore environment */
-      await pyodide.runPythonAsync(`
-  sys.stdout = _original_stdout
-  sys.stderr = _original_stderr
-  builtins.input = _original_input
-      `);
-
-      /** 🎯 Format final output */
-      let finalOutput = "";
-
-      if (stdout.trim()) {
-        finalOutput += `${stdout.trim()}\n`;
-      }
-
-      if (stderr.trim()) {
-        const cleanedError = stderr
-          .split("\n")
-          .filter((line) => !line.includes('File "<exec>"'))
-          .map((line) => line.replace(/File "<string>"/g, 'File "main.py"'))
-          .join("\n");
-
-        finalOutput += cleanedError;
-      }
-
-      result =
-        finalOutput.trim() ||
-        "✅ Python code executed successfully (no output).";
-    } catch (err) {
-      result = `🔥 Execution Failed\n\n${err.message}`;
-    } finally {
-      setIsRunning(false);
-      return result;
-    }
-  }, []);
-
   const executeCode = async (userCode, testCaseInput) => {
     const inputLines = testCaseInput
       ? testCaseInput.split("\n").filter((line) => line.trim() !== "")
@@ -640,9 +478,7 @@ const Practice = () => {
 
     let result = "";
     try {
-      if (selectedLanguage === "python") {
-        result = await runPython(userCode, inputLines);
-      } else if (selectedLanguage === "javascript") {
+      if (selectedLanguage === "javascript") {
         result = await runJavaScriptStandalone(userCode, inputLines);
       } else {
         result = "Unsupported language";
@@ -842,7 +678,7 @@ const Practice = () => {
           setIsMarkingComplete(false);
 
           setOutput(
-            "✅ All test cases passed! 🎉 Practice completed successfully!"
+            "✅ All test cases passed! 🎉 JSPractice completed successfully!"
           );
         }
       } else {
@@ -861,11 +697,22 @@ const Practice = () => {
     return userProgress[questionId]?.status || "unsolved";
   };
 
-  const getQuestionAttempts = (questionId) => {
-    return userProgress[questionId]?.attempts || [];
-  };
+  const practices = javascriptCodingPracticesData[selectedLanguage] || [];
 
-  const practices = codingPracticesData[selectedLanguage] || [];
+  const renderDescriptionDetails = () => {
+    if (!selectedQuestion?.descriptionDetails) return null;
+    if (typeof selectedQuestion.descriptionDetails === "string") {
+      return (
+        <div
+          className="desc-question-details"
+          dangerouslySetInnerHTML={{
+            __html: selectedQuestion.descriptionDetails,
+          }}
+        />
+      );
+    }
+    return null;
+  };
 
   if (loading) {
     return (
@@ -878,7 +725,7 @@ const Practice = () => {
   if (!selectedPractice) {
     return (
       <div className="cod-loader">
-        <h3>Practice not found</h3>
+        <h3>JSPractice not found</h3>
       </div>
     );
   }
@@ -933,6 +780,9 @@ const Practice = () => {
                   {selectedQuestion.title}
                 </span>
                 <p>{selectedQuestion.description}</p>
+                <div className="desc-question-full-view">
+                  {renderDescriptionDetails()}
+                </div>
               </div>
 
               <hr />
@@ -1075,13 +925,7 @@ const Practice = () => {
           >
             <div className="editor-header-prac">
               <div className="editor-title-prac">
-                <div className="editor-info-prac">
-                  {selectedLanguage === "python"
-                    ? "Python 3.10"
-                    : selectedLanguage === "javascript"
-                      ? "JavaScript"
-                      : "Other"}{" "}
-                </div>
+                <div className="editor-info-prac">JavaScript</div>
               </div>
               <button
                 className="save-snippet-button-prac"
@@ -1140,7 +984,7 @@ const Practice = () => {
 
             <div className="code-editor-container-prac">
               <AceEditor
-                mode={selectedLanguage}
+                mode="javascript"
                 theme={theme}
                 value={code}
                 onChange={setCode}
@@ -1155,7 +999,7 @@ const Practice = () => {
                   enableLiveAutocompletion: true,
                   enableSnippets: true,
                   showLineNumbers: true,
-                  tabSize: 4,
+                  tabSize: 2,
                   useWorker: false,
                   fontFamily: "'Fira Code', 'Monaco', 'Consolas', monospace",
                   scrollPastEnd: 0.5,
@@ -1197,10 +1041,7 @@ const Practice = () => {
                 <button
                   className="run-button-prac"
                   onClick={handleRunCode}
-                  disabled={
-                    isRunning ||
-                    (selectedLanguage === "python" && !pyodideReady)
-                  }
+                  disabled={isRunning}
                 >
                   {isRunning ? <span className="loader-prac"></span> : "Run"}
                 </button>
@@ -1239,49 +1080,13 @@ const Practice = () => {
                 <div className="form-group-prac">
                   <label>Language</label>
                   <div className="language-display-prac">
-                    {selectedLanguage === "python" && (
-                      <img
-                        src="/assets/python_logo.png"
-                        alt="Python"
-                        width="24"
-                        height="24"
-                      />
-                    )}
-                    {selectedLanguage === "javascript" && (
-                      <img
-                        src="/assets/javascript_logo.png"
-                        alt="JavaScript"
-                        width="24"
-                        height="24"
-                      />
-                    )}
-                    {selectedLanguage === "java" && (
-                      <img
-                        src="/assets/java_logo.png"
-                        alt="Java"
-                        width="24"
-                        height="24"
-                      />
-                    )}
-                    {selectedLanguage === "sql" && (
-                      <img
-                        src="/assets/sql_logo.png"
-                        alt="SQL"
-                        width="24"
-                        height="24"
-                      />
-                    )}
-                    <span className="language-name-prac">
-                      {selectedLanguage === "python"
-                        ? "Python"
-                        : selectedLanguage === "javascript"
-                          ? "JavaScript"
-                          : selectedLanguage === "java"
-                            ? "Java"
-                            : selectedLanguage === "sql"
-                              ? "SQL"
-                              : selectedLanguage}
-                    </span>
+                    <img
+                      src="/assets/javascript_logo.png"
+                      alt="JavaScript"
+                      width="24"
+                      height="24"
+                    />
+                    <span className="language-name-prac">JavaScript</span>
                   </div>
                 </div>
                 <div className="code-preview-prac">
@@ -1316,156 +1121,6 @@ const Practice = () => {
       </div>
     );
   }
-
-  return (
-    <div className="practice-container-prac">
-      <div className="practice-content-prac">
-        <div className="practice-sidebar-prac">
-          <h3>Coding Practices</h3>
-          <div className="language-selector-prac">
-            <select value={selectedLanguage} onChange={handleLanguageChange}>
-              <option value="python">Python</option>
-              <option value="javascript">JavaScript</option>
-              <option value="java">Java</option>
-              <option value="sql">SQL</option>
-            </select>
-          </div>
-          <div className="practice-list-prac">
-            {practices.map((practice) => (
-              <div
-                key={practice.id}
-                className={`practice-item-prac ${
-                  selectedPractice?.id === practice.id ? "active-prac" : ""
-                }`}
-                onClick={() => handlePracticeSelect(practice)}
-              >
-                <div className="practice-title-prac">{practice.title}</div>
-                <div className="practice-description-prac">
-                  {practice.description}
-                </div>
-                <div className="practice-stats-prac">
-                  {
-                    practice.questions.filter(
-                      (q) => getQuestionStatus(q.id) === "solved"
-                    ).length
-                  }{" "}
-                  / {practice.questions.length} solved
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="main-content-coding-prac">
-          {selectedPractice && (
-            <div className="questions-section-prac">
-              <div className="questions-header-prac">
-                <div className="questions-title-section">
-                  <h3>Questions - {selectedPractice.title}</h3>
-                </div>
-                <div className="questions-stats-prac">
-                  {selectedPractice.questions.length} questions
-                  {areAllQuestionsSolved && (
-                    <span className="all-solved-indicator"> • All Solved!</span>
-                  )}
-                </div>
-              </div>
-              <div className="questions-table-prac">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Status</th>
-                      <th>Question</th>
-                      <th>Test Cases</th>
-                      <th>Difficulty</th>
-                      <th>Score</th>
-                      <th>Last Attempt</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedPractice.questions.map((question) => {
-                      const status = getQuestionStatus(question.id);
-                      const attempts = getQuestionAttempts(question.id);
-                      const lastAttempt =
-                        attempts.length > 0
-                          ? attempts[attempts.length - 1]
-                          : null;
-
-                      return (
-                        <tr
-                          key={question.id}
-                          className={`question-row-prac ${
-                            status === "solved"
-                              ? "solved-prac"
-                              : status === "attempted"
-                                ? "attempted-prac"
-                                : ""
-                          }`}
-                          onClick={() => handleQuestionSelect(question)}
-                        >
-                          <td className="status-cell-prac">
-                            <span className={`status-indicator-prac ${status}`}>
-                              {status === "solved"
-                                ? "✓"
-                                : status === "attempted"
-                                  ? "●"
-                                  : "○"}
-                            </span>
-                          </td>
-                          <td className="question-title-cell-prac">
-                            <div className="question-title-main-prac">
-                              {question.title}
-                            </div>
-                          </td>
-                          <td className="difficulty-cell-prac">
-                            <span className="difficulty-badge-prac">
-                              {question.testCases.length}
-                            </span>
-                          </td>
-
-                          <td className="difficulty-cell-prac">
-                            <span
-                              className={`difficulty-badge-prac ${question.difficulty.toLowerCase()}`}
-                            >
-                              {question.difficulty}
-                            </span>
-                          </td>
-                          <td className="score-cell-prac">
-                            {lastAttempt
-                              ? `${lastAttempt.score}/${question.score}`
-                              : `0/${question.score}`}{" "}
-                            pts
-                          </td>
-                          <td className="attempts-cell-prac">
-                            {lastAttempt ? (
-                              <div className="attempts-info-prac">
-                                <span className="attempts-count-prac">
-                                  {lastAttempt.passed ? "Passed" : "Failed"}
-                                </span>
-                                <span className="attempts-date-prac">
-                                  {new Date(
-                                    lastAttempt.timestamp
-                                  ).toLocaleDateString()}
-                                </span>
-                              </div>
-                            ) : (
-                              <span className="no-attempts-prac">
-                                Not attempted
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
 };
 
-export default Practice;
+export default JSPractice;

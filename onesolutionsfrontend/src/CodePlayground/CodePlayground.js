@@ -667,16 +667,34 @@ sys.stderr = OutputCapture()
     try {
       const logs = [];
       const originalLog = console.log;
+  
       console.log = (...args) => {
         const message = args
-          .map((arg) =>
-            typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)
-          )
+          .map((arg) => {
+            if (Array.isArray(arg)) {
+              return (
+                "[" +
+                arg
+                  .map((item) =>
+                    typeof item === "string" ? `'${item}'` : String(item)
+                  )
+                  .join(", ") +
+                "]"
+              );
+            }
+  
+            if (typeof arg === "object") {
+              return JSON.stringify(arg);
+            }
+  
+            return String(arg);
+          })
           .join(" ");
+  
         logs.push(message);
         originalLog.apply(console, args);
       };
-
+  
       try {
         const func = new Function(code.javascript_standalone);
         func();
@@ -685,7 +703,7 @@ sys.stderr = OutputCapture()
       } finally {
         console.log = originalLog;
       }
-
+  
       setOutput(
         logs.join("\n") || "Code executed successfully (no console output)"
       );
@@ -695,6 +713,7 @@ sys.stderr = OutputCapture()
       setIsRunning(false);
     }
   }, [code.javascript_standalone]);
+  
 
   const runPython = useCallback(async () => {
     setIsRunning(true);

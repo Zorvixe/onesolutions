@@ -987,5 +987,214 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
+    //JS coding practice - 1
+    {
+      id: "js-coding-practice-1",
+      title: "JS Coding Practice 1",
+      description: "",
+      questions: [
+        {
+          id: "27dd4411-447dd048-96d2e4dfd38f",
+          title: "Create & Log and Array",
+          description:
+            "Write a JS program to log an array with the given values.\n 'Orange', 25, 100, true, 33.58.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class="The Output should be a single line containing an array with the above values in the same order."></p>
+              </div>
+          </div>
+           `,
+          testCases: [
+            {
+              input: "",
+              output: "['Orange', 25, 100, true, 33.58]",
+              visible: true,
+            },
+          ],
+          defaultCode: `/*
+            * Write your code here and log the output.
+            */`,
+          score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "59db7b86-3de7-4cc18900-389d2c2115c2",
+          title: "Access the values of an array",
+          description:
+            "Given an array (myArray) in the prefilled code.\n Write a JS program to log the value located at the given index (index).",
+          difficulty: "Easy",
+
+          sampleInput: "0",
+          sampleOutput: "25",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                  <p class="desc-que-blue">Input</p>
+                  <p class="">The first line of input will contain a whole number (index).</p>
+              </div>
+                  <hr>
+                <div>
+                    <p class="desc-que-blue">output</p>
+                    <p class="">The ouput should be a single line containing the value located at the given index of the array.</p>
+                </div>
+          </div>
+         `,
+          testCases: [
+            {
+              input: "",
+              output: "['Orange', 25, 100, true, 33.58]",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "ba5f7b86-fc78-48078e65-a3395dc7cc36",
+          title: "Update the values of an array",
+          description:
+            "Given an array (myArray) in the prefilled code.\n Write a JS program to update the value located at the given index (index) of an array with the given value (val) and log the updated array.",
+          difficulty: "Easy",
+
+          sampleInput: "0/n5",
+          sampleOutput: "[5, 50, 'center', 75, 100]",
+          descriptionDetails: `
+          <div class="desc-question-details">
+
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p class="">The first line of input will contain a whole number (index). \n The Second line of input will contain an integer (val).</p>
+              </div>
+             <hr>
+            <div>
+                <p class="desc-que-blue">output</p>
+                <p class="">The ouput should be a single line containing the updated array.</p>
+            </div>
+             <hr>
+            <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class="">0 <= index < length of the given array. \n The value should be an integer.</p>
+            </div>
+
+          </div>
+         `,
+          testCases: [
+            {
+              input: "",
+              output: "['Orange', 25, 100, true, 33.58]",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "93b1de13-8027-4a759428-b8466cb75e9a",
+          title: "Find the length of the array",
+          description:
+            "Given an array (myArray).\n Write a JS program to find the length of the array and log the length.",
+          difficulty: "Easy",
+
+          sampleInput: "[12, 1, 2, 4, 1]",
+          sampleOutput: "5",
+          descriptionDetails: `
+          <div class="desc-question-details">
+             <p class="desc-que-blue">Input</p>
+             <p class="">The first line of input will contain an array (myArray).</p>
+             <hr>
+             <p class="desc-que-blue">output</p>
+             <p class="">The ouput should be a single line containing the length of the array.</p>
+          </div>
+          `,
+          testCases: [
+            {
+              input: "",
+              output: "['Orange', 25, 100, true, 33.58]",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "893940c6-748d-4e6682a6-15c67a3f4491",
+          title: "Add a value to the end of the array",
+          description:
+            "Given an array (myArray) and the value (val).\n Write a JS program to add a value to the end of the array using the array method push and log the updated array.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                  <p class="desc-que-blue">Input</p>
+                  <p class="">The first line of input will contain an array (myArray) and the second line of input will contain an integer (val).</p>
+              </div>
+             <hr>
+             <div>
+                  <p class="desc-que-blue">output</p>
+                  <p class="">The ouput should be a single line containing the updaed array.</p>
+             </div>
+          </div>
+         `,
+          sampleInput: "[1, 2, 4]",
+          sampleOutput: "[1, 2, 4, 2]",
+          testCases: [
+            {
+              input: "",
+              output: "['Orange', 25, 100, true, 33.58]",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "59db7b86-3de7-4cc18900-389d2c2115c2",
+          title: "Delete the last value of the array",
+          description:
+            "Given an array (myArray).\n Write a JS program to delete the last value of the array using the array method pop and log the deleted value and updated array.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+            <div>
+                <p class="desc-que-blue">Input</p>
+                <p class="">The first line of input will contain an array (myArray). </p>
+            </div>
+             <hr>
+            <div>
+                <p class="desc-que-blue">output</p>
+                <p class="">The first line of output should contain the deleted value. \n The second line of output should contain the updated array.</p>
+            </div>
+
+          </div>
+          `,
+          sampleInput: "[17, 2, 4, 9]",
+          sampleOutput: "9/n[17, 2, 4]",
+          testCases: [
+            {
+              input: "",
+              output: "['Orange', 25, 100, true, 33.58]",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
   ],
 };

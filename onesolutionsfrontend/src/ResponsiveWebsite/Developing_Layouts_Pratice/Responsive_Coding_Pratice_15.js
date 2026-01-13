@@ -226,8 +226,8 @@ const Responsive_Coding_Pratice_15 = () => {
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -293,8 +293,8 @@ const Responsive_Coding_Pratice_15 = () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >

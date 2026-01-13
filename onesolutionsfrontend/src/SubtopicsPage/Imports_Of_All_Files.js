@@ -83,6 +83,7 @@ import Authentication_2_CS from "../Reactjs/Authentication/Authentication_2_CS.j
 import Authentication_3_CS from "../Reactjs/Authentication/Authentication_3_CS.js";
 import Common_Mistake_3_CS from "../Reactjs/Authentication/Common_Mistake_3_CS.js";
 import Authentication_P4_CS from "../Reactjs/Authentication2/Authentication_P4_CS.js";
+import SortingProducts_CS from "../Reactjs/Authentication2/SortingProducts_CS.js";
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -103,6 +104,8 @@ import Authentication_MCQ from "../Reactjs/Authentication/Authentication_MCQ.js"
 import Authentication_2_MCQ from "../Reactjs/Authentication/Authentication_2_MCQ.js";
 import Authentication_3_MCQ from "../Reactjs/Authentication/Authentication_3_MCQ.js";
 import Common_Mistake_3_MCQ from "../Reactjs/Authentication/Common_Mistake_3_MCQ.js";
+import Authentication_P4_MCQ from "../Reactjs/Authentication2/Authentication_P4_MCQ.js";
+import SortingProducts_MCQ from "../Reactjs/Authentication2/SortingProducts_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -1135,6 +1138,7 @@ export const subtopicComponents = {
   "Authentication & Authorization | Part 3 | Cheat Sheet": Authentication_3_CS,
   "Common Mistakes | Part 3 | Cheat Sheet": Common_Mistake_3_CS,
   "Authentication & Authorization | Part 4 | Cheat Sheet": Authentication_P4_CS,
+  "Sorting Products | Cheat Sheet": SortingProducts_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
@@ -1156,6 +1160,9 @@ export const subtopicComponents = {
   "MCQ Pratice - Authentication & Authorization | Part 2": Authentication_2_MCQ,
   "MCQ Pratice - Authentication & Authorization | Part 3": Authentication_3_MCQ,
   "MCQ Pratice - Common Mistakes | Part 3": Common_Mistake_3_MCQ,
+  "MCQ Pratice - Authentication & Authorization | Part 4":
+    Authentication_P4_MCQ,
+    "MCQ Pratice - Sorting Products": SortingProducts_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":

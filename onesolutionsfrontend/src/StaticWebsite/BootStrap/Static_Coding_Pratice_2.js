@@ -226,8 +226,8 @@ const Static_Coding_Practice_2 = () => {
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -283,19 +283,19 @@ const Static_Coding_Practice_2 = () => {
                     const score = getQuestionScore(question.id);
                     const attempts = getQuestionAttempts(question.id);
                     const lastAttempt =
-                    attempts.length > 0
-                      ? attempts[attempts.length - 1]
-                      : null;
+                      attempts.length > 0
+                        ? attempts[attempts.length - 1]
+                        : null;
                     return (
                       <tr
                         key={question.id}
                         className={`question-row-cod ${
                           status === "solved"
-                          ? "solved-cod"
-                          : status === "attempted"
-                          ? "attempted-cod"
-                          : ""
-                      }`}
+                            ? "solved-cod"
+                            : status === "attempted"
+                              ? "attempted-cod"
+                              : ""
+                        }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
                         <td className="status-cell-cod">
@@ -326,7 +326,7 @@ const Static_Coding_Practice_2 = () => {
                             : `0/${question.score}`}{" "}
                           pts
                         </td>
-                       
+
                         <td className="progress-cell-cod">
                           {lastAttempt ? (
                             <div className="progress-info-cod">

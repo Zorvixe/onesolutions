@@ -219,8 +219,8 @@ const Static_Course_Exam = () => {
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -318,8 +318,8 @@ const Static_Course_Exam = () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                       >
                         <td className="status-cell-cod">
@@ -327,8 +327,8 @@ const Static_Course_Exam = () => {
                             {status === "solved"
                               ? "✓"
                               : status === "attempted"
-                              ? "●"
-                              : "○"}
+                                ? "●"
+                                : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
