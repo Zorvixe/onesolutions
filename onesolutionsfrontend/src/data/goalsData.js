@@ -1783,20 +1783,20 @@ export const goalsData = [
               },
             ],
           },
-          {
-            id: "QW9_m16_A0 g1_H c3_7B",
-            name: "Programming Foundations Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m16_H g1_7B c3_D2E",
-                name: "Programming Foundations Course Exam | Instructions",
-              },
-              {
-                id: "QW9_s2_A0 m16_H g1_7B c3_D2E",
-                name: "Programming Foundations Course Exam",
-              },
-            ],
-          },
+          // {
+          //   id: "QW9_m16_A0 g1_H c3_7B",
+          //   name: "Programming Foundations Course Exam",
+          //   topic: [
+          //     {
+          //       id: "QW9_s1_A0 m16_H g1_7B c3_D2E",
+          //       name: "Programming Foundations Course Exam | Instructions",
+          //     },
+          //     {
+          //       id: "QW9_s2_A0 m16_H g1_7B c3_D2E",
+          //       name: "Programming Foundations Course Exam",
+          //     },
+          //   ],
+          // },
         ],
       },
     ],

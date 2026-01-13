@@ -212,7 +212,9 @@
   font-size: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .submit-reply-btn:hover:not(:disabled) {
@@ -333,9 +335,9 @@
 }
 
 .loading-container .spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid #e5e7eb;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #e5e7eb;
   border-top-color: #667eea;
   border-radius: 50%;
   animation: spin 1s linear infinite;
