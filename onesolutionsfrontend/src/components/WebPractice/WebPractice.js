@@ -51,6 +51,15 @@ const WebPractice = () => {
   const goalName = location.state?.goalName;
   const courseName = location.state?.courseName;
 
+  // Add state for resize functionality
+  const [editorWidth, setEditorWidth] = useState(80);
+  const isResizing = useRef(false);
+  const startX = useRef(0);
+  const startWidth = useRef(50);
+
+  const MIN_LEFT_PANEL_PX = 50;
+  const MAX_RIGHT_PANEL_PERCENT = 95; // optional safety
+
   // REMOVED: Audio initialization on component mount
 
   const loadProgress = useCallback(async () => {
@@ -119,6 +128,53 @@ const WebPractice = () => {
     },
     [practiceId, selectedQuestion]
   );
+
+  // Resize functionality
+  const startResize = useCallback(
+    (e) => {
+      isResizing.current = true;
+      startX.current = e.clientX;
+      startWidth.current = editorWidth;
+      document.body.style.cursor = "ew-resize";
+      document.body.style.userSelect = "none";
+    },
+    [editorWidth]
+  );
+
+  const stopResize = useCallback(() => {
+    isResizing.current = false;
+    document.body.style.cursor = "";
+    document.body.style.userSelect = "";
+  }, []);
+
+  const handleResize = useCallback((e) => {
+    if (!isResizing.current) return;
+
+    // 👈 INVERTED HERE
+    const deltaX = startX.current - e.clientX;
+
+    const container = document.querySelector(".web-practice-content");
+    const containerWidth = container?.offsetWidth || window.innerWidth;
+
+    const deltaPercent = (deltaX / containerWidth) * 100;
+    let newEditorWidth = startWidth.current + deltaPercent;
+
+    const minLeftPercent = (MIN_LEFT_PANEL_PX / containerWidth) * 100;
+    const maxEditorWidth = 100 - minLeftPercent;
+
+    newEditorWidth = Math.max(0, Math.min(maxEditorWidth, newEditorWidth));
+
+    setEditorWidth(newEditorWidth);
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mousemove", handleResize);
+    document.addEventListener("mouseup", stopResize);
+    return () => {
+      document.removeEventListener("mousemove", handleResize);
+      document.removeEventListener("mouseup", stopResize);
+    };
+  }, [handleResize, stopResize]);
 
   useEffect(() => {
     const loadPracticeData = async () => {
@@ -962,7 +1018,10 @@ const WebPractice = () => {
         </div>
       </div>
       <div className="web-practice-content">
-        <div className="left-panel">
+        <div
+          className={`left-panel ${100 - editorWidth < 8 ? "collapsed" : ""}`}
+          style={{ width: `${100 - editorWidth}%` }}
+        >
           <div className="question-description">
             <div className="question-description-header">Description</div>
             <div className="question-description-content">
@@ -974,6 +1033,9 @@ const WebPractice = () => {
             </div>
           </div>
         </div>
+
+        {/* Resizer */}
+        <div className="resizer-prac" onMouseDown={startResize} />
 
         <div className="right-panel">
           <CodePlayground

@@ -135,7 +135,17 @@
   padding: 0;
   box-sizing: border-box;
   margin-left: 5px;
-  border-radius: 20px;
+  border-radius: 10px;
+  margin-right: 5px;
+}
+
+.left-panel {
+  overflow: hidden;
+  transition: width 0.05s linear;
+}
+
+.question-description-content {
+  min-width: 300px; /* prevents weird shrinking text */
 }
 
 .right-panel {

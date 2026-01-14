@@ -48,7 +48,6 @@ const Practice = () => {
   const [snippetName, setSnippetName] = useState("");
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
-  const [showSnippetsModal, setShowSnippetsModal] = useState(false);
 
   // Add state for resize functionality
   const [editorWidth, setEditorWidth] = useState(50);
@@ -86,7 +85,7 @@ const Practice = () => {
 
   const handleResize = useCallback((e) => {
     if (!isResizing.current) return;
-    const deltaX = e.clientX - startX.current;
+    const deltaX = startX.current - e.clientX;
     const containerWidth =
       document.querySelector(".full-question-content-prac")?.offsetWidth ||
       window.innerWidth;
