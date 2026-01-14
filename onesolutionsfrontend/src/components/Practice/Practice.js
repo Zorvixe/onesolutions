@@ -415,6 +415,34 @@ const Practice = () => {
     }
   };
 
+  const questions = selectedPractice?.questions || [];
+
+  const currentQuestionIndex = useMemo(() => {
+    if (!selectedQuestion) return -1;
+    return questions.findIndex((q) => q.id === selectedQuestion.id);
+  }, [questions, selectedQuestion]);
+
+  const hasPrevQuestion = currentQuestionIndex > 0;
+  const hasNextQuestion = currentQuestionIndex < questions.length - 1;
+
+  const handlePrevQuestion = () => {
+    if (!hasPrevQuestion) return;
+
+    const prevQuestion = questions[currentQuestionIndex - 1];
+    navigate(`/practice/${practiceId}/${prevQuestion.id}`, {
+      state: { subtopicId, goalName, courseName },
+    });
+  };
+
+  const handleNextQuestion = () => {
+    if (!hasNextQuestion) return;
+
+    const nextQuestion = questions[currentQuestionIndex + 1];
+    navigate(`/practice/${practiceId}/${nextQuestion.id}`, {
+      state: { subtopicId, goalName, courseName },
+    });
+  };
+
   const isEmptyCode = (userCode) => {
     if (!userCode) return true;
     const cleanCode = userCode
@@ -1212,6 +1240,22 @@ const Practice = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="prac-footer">
+          <div className="full-question-meta-prac">
+            {hasPrevQuestion && (
+              <button className="prac-back-btn" onClick={handlePrevQuestion}>
+                Back
+              </button>
+            )}
+
+            {hasNextQuestion && (
+              <button className="prac-next-btn" onClick={handleNextQuestion}>
+                Next
+              </button>
+            )}
           </div>
         </div>
 

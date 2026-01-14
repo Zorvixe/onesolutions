@@ -30,14 +30,14 @@ const Coding_Practice_1 = () => {
     goalName: stateGoalName,
     courseName: stateCourseName,
     subtopicId: codingPracticeSubtopicId,
+    topicId: codingPracticeTopicId, // ← ADD THIS LINE
   } = location.state || {};
 
   // Extract goal and course names from practice data
   const goalName = stateGoalName;
   const courseName = stateCourseName;
-
-  // Use provided subtopicId or fallback
   const finalSubtopicId = codingPracticeSubtopicId;
+  const finalTopicId = codingPracticeTopicId; // ← ADD THIS LINE
 
   // Load "Coding Practice - 1" from codingPracticesData
   useEffect(() => {
@@ -226,6 +226,7 @@ const Coding_Practice_1 = () => {
         subtopicId: finalSubtopicId,
         goalName,
         courseName,
+        topicId: finalTopicId, // ← ADD THIS LINE
       },
     });
   };
@@ -233,8 +234,8 @@ const Coding_Practice_1 = () => {
   if (loading) {
     return (
       <div className="loading-container">
-      <div className="spinner"></div>
-    </div>
+        <div className="spinner"></div>
+      </div>
     );
   }
 
@@ -305,8 +306,8 @@ const Coding_Practice_1 = () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
@@ -315,8 +316,8 @@ const Coding_Practice_1 = () => {
                             {status === "solved"
                               ? "✓"
                               : status === "attempted"
-                              ? "●"
-                              : "○"}
+                                ? "●"
+                                : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
@@ -329,7 +330,7 @@ const Coding_Practice_1 = () => {
                             )}
                           </div>
                           <div className="question-description-cod">
-                          {(question.description).slice(0,45)}...
+                            {question.description.slice(0, 45)}...
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">

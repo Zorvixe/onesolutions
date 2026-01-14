@@ -232,9 +232,9 @@ const Coding_Pratice_23A = () => {
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
-      </div>
+      <div className="loading-container">
+      <div className="spinner"></div>
+    </div>
     );
   }
 
@@ -329,7 +329,7 @@ const Coding_Pratice_23A = () => {
                             )}
                           </div>
                           <div className="question-description-cod">
-                            {question.description}
+                          {(question.description).slice(0,45)}...
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">

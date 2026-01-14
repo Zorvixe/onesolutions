@@ -7,7 +7,7 @@ import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
 const JS_Coding_Pratic_1 = () => {
-  const { questionId } = useParams();
+  const { topicId, subtopicId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -216,8 +216,8 @@ const JS_Coding_Pratic_1 = () => {
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }

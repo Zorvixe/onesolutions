@@ -232,8 +232,8 @@ const Coding_Pratice_7A = () => {
 
   if (loading) {
     return (
-      <div className="loader-container-cod">
-        <div className="cod-loader"></div>
+      <div className="loading-container">
+        <div className="spinner"></div>
       </div>
     );
   }
@@ -305,8 +305,8 @@ const Coding_Pratice_7A = () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
@@ -315,8 +315,8 @@ const Coding_Pratice_7A = () => {
                             {status === "solved"
                               ? "✓"
                               : status === "attempted"
-                              ? "●"
-                              : "○"}
+                                ? "●"
+                                : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
@@ -329,7 +329,7 @@ const Coding_Pratice_7A = () => {
                             )}
                           </div>
                           <div className="question-description-cod">
-                            {question.description}
+                            {question.description.slice(0, 45)}...
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">
