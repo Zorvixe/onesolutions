@@ -278,8 +278,8 @@ const Home = () => {
                     classItem.status === "live"
                       ? "#28a745"
                       : classItem.status === "completed"
-                      ? "#6c757d"
-                      : "#ffa500",
+                        ? "#6c757d"
+                        : "#ffa500",
                 }}
               ></div>
               <div className="information">

@@ -746,10 +746,10 @@ export const goalsData = [
                 id: "QW9_s2_A0 m2_H g1_7B c3_D2E",
                 name: "Input and Output Basics | Cheat Sheet",
               },
-              {
-                id: "QW9_s3_A0 m2_H g1_7B c3_D2E",
-                name: "Coding Practice Walkthrough | Part 2",
-              },
+              // {
+              //   id: "QW9_s3_A0 m2_H g1_7B c3_D2E",
+              //   name: "Coding Practice Walkthrough | Part 2",
+              // },
               {
                 id: "QW9_s4_A0 m2_H g1_7B c3_D2E",
                 name: "MCQ Practice - I/O",
@@ -770,10 +770,10 @@ export const goalsData = [
                 id: "QW9_s8_A0 m2_H g1_7B c3_D2E",
                 name: "Assignment 1A",
               },
-              {
-                id: "QW9_s9_A0 m2_H g1_7B c3_D2E",
-                name: "How to debug your code?",
-              },
+              // {
+              //   id: "QW9_s9_A0 m2_H g1_7B c3_D2E",
+              //   name: "How to debug your code?",
+              // },
               {
                 id: "QW9_s10_A0 m2_H g1_7B c3_D2E",
                 name: "Type Conversion",

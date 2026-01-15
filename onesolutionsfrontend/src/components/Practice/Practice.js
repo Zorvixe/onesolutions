@@ -69,12 +69,15 @@ const Practice = () => {
   // Merge JavaScript practices with existing data
   const allCodingPracticesData = useMemo(() => {
     const mergedData = { ...codingPracticesData };
-    
+
     // Add JavaScript practices if they exist
-    if (javascriptCodingPracticesData && javascriptCodingPracticesData.javascript) {
+    if (
+      javascriptCodingPracticesData &&
+      javascriptCodingPracticesData.javascript
+    ) {
       mergedData.javascript = javascriptCodingPracticesData.javascript;
     }
-    
+
     return mergedData;
   }, []);
 
@@ -82,13 +85,15 @@ const Practice = () => {
   const isWebBasedQuestion = useCallback((question) => {
     // Check if question has type property and it's "web"
     if (question.type === "web") return true;
-    
+
     // Check if defaultCode is an object with html/css/javascript properties
-    if (question.defaultCode && typeof question.defaultCode === 'object') {
-      return question.defaultCode.html !== undefined || 
-             question.defaultCode.css !== undefined;
+    if (question.defaultCode && typeof question.defaultCode === "object") {
+      return (
+        question.defaultCode.html !== undefined ||
+        question.defaultCode.css !== undefined
+      );
     }
-    
+
     return false;
   }, []);
 
@@ -138,7 +143,7 @@ const Practice = () => {
       const savedCode = userProgress[selectedQuestion.id]?.code;
       if (selectedQuestion.defaultCode) {
         // Handle web-based questions (HTML/CSS/JS)
-        if (typeof selectedQuestion.defaultCode === 'object') {
+        if (typeof selectedQuestion.defaultCode === "object") {
           setCode(selectedQuestion.defaultCode.javascript || "");
         } else {
           // Handle regular code-based questions
@@ -365,7 +370,7 @@ const Practice = () => {
         const savedCode = userProgress[question.id]?.code;
         if (question.defaultCode) {
           // Handle web-based questions (HTML/CSS/JS)
-          if (typeof question.defaultCode === 'object') {
+          if (typeof question.defaultCode === "object") {
             setCode(savedCode || question.defaultCode.javascript || "");
           } else {
             // Handle regular code-based questions
@@ -445,7 +450,7 @@ const Practice = () => {
   const handleQuestionSelect = (question) => {
     // Check if this is a web-based question
     const isWebQuestion = isWebBasedQuestion(question);
-    
+
     if (isWebQuestion) {
       // Route to web-practice for web-based questions
       navigate(`/web-practice/${selectedPractice.id}/${question.id}`, {
@@ -493,7 +498,7 @@ const Practice = () => {
 
     const prevQuestion = questions[currentQuestionIndex - 1];
     const isPrevWebQuestion = isWebBasedQuestion(prevQuestion);
-    
+
     if (isPrevWebQuestion) {
       navigate(`/web-practice/${practiceId}/${prevQuestion.id}`, {
         state: { subtopicId, goalName, courseName, topicId },
@@ -510,7 +515,7 @@ const Practice = () => {
 
     const nextQuestion = questions[currentQuestionIndex + 1];
     const isNextWebQuestion = isWebBasedQuestion(nextQuestion);
-    
+
     if (isNextWebQuestion) {
       navigate(`/web-practice/${practiceId}/${nextQuestion.id}`, {
         state: { subtopicId, goalName, courseName, topicId },
@@ -575,20 +580,36 @@ const Practice = () => {
       try {
         const logs = [];
         const originalLog = console.log;
+
         console.log = (...args) => {
           const message = args
-            .map((arg) =>
-              typeof arg === "object"
-                ? JSON.stringify(arg, null, 2)
-                : String(arg)
-            )
+            .map((arg) => {
+              if (Array.isArray(arg)) {
+                return (
+                  "[" +
+                  arg
+                    .map((item) =>
+                      typeof item === "string" ? `'${item}'` : String(item)
+                    )
+                    .join(", ") +
+                  "]"
+                );
+              }
+
+              if (typeof arg === "object") {
+                return JSON.stringify(arg);
+              }
+
+              return String(arg);
+            })
             .join(" ");
+
           logs.push(message);
           originalLog.apply(console, args);
         };
 
         let inputIndex = 0;
-        const mockInput = (prompt = "") => {
+        const mockInput = () => {
           if (inputIndex < inputLines.length) {
             return inputLines[inputIndex++];
           }
@@ -596,6 +617,21 @@ const Practice = () => {
         };
 
         window.prompt = mockInput;
+
+        if (typeof window.readline === "undefined") {
+          window.readline = {
+            createInterface: () => ({
+              question: (prompt, callback) => {
+                if (inputIndex < inputLines.length) {
+                  setTimeout(() => callback(inputLines[inputIndex++]), 0);
+                } else {
+                  setTimeout(() => callback(""), 0);
+                }
+              },
+              close: () => {},
+            }),
+          };
+        }
 
         try {
           const func = new Function(userCode);
@@ -605,6 +641,7 @@ const Practice = () => {
         } finally {
           console.log = originalLog;
           delete window.prompt;
+          delete window.readline;
         }
 
         result =
