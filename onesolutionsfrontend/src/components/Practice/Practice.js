@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./Practice.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
+import { javascriptCodingPracticesData } from "../../codingPracticesData/javascriptCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import AceEditor from "react-ace";
 import { useAuth } from "../../context/AuthContext";
@@ -65,6 +66,32 @@ const Practice = () => {
 
   const API_URL = process.env.REACT_APP_API_BASE_URL;
 
+  // Merge JavaScript practices with existing data
+  const allCodingPracticesData = useMemo(() => {
+    const mergedData = { ...codingPracticesData };
+    
+    // Add JavaScript practices if they exist
+    if (javascriptCodingPracticesData && javascriptCodingPracticesData.javascript) {
+      mergedData.javascript = javascriptCodingPracticesData.javascript;
+    }
+    
+    return mergedData;
+  }, []);
+
+  // Check if a question is web-based
+  const isWebBasedQuestion = useCallback((question) => {
+    // Check if question has type property and it's "web"
+    if (question.type === "web") return true;
+    
+    // Check if defaultCode is an object with html/css/javascript properties
+    if (question.defaultCode && typeof question.defaultCode === 'object') {
+      return question.defaultCode.html !== undefined || 
+             question.defaultCode.css !== undefined;
+    }
+    
+    return false;
+  }, []);
+
   // Resize functionality
   const startResize = useCallback(
     (e) => {
@@ -109,7 +136,17 @@ const Practice = () => {
     if (selectedQuestion) {
       // Reset to default code from the question
       const savedCode = userProgress[selectedQuestion.id]?.code;
-      setCode(savedCode || selectedQuestion.defaultCode || "");
+      if (selectedQuestion.defaultCode) {
+        // Handle web-based questions (HTML/CSS/JS)
+        if (typeof selectedQuestion.defaultCode === 'object') {
+          setCode(selectedQuestion.defaultCode.javascript || "");
+        } else {
+          // Handle regular code-based questions
+          setCode(savedCode || selectedQuestion.defaultCode || "");
+        }
+      } else {
+        setCode(savedCode || "");
+      }
     } else {
       // If no question selected, clear the code
       setCode("");
@@ -292,8 +329,8 @@ const Practice = () => {
   useEffect(() => {
     const findPractice = () => {
       if (practiceId) {
-        for (const language in codingPracticesData) {
-          const practice = codingPracticesData[language].find(
+        for (const language in allCodingPracticesData) {
+          const practice = allCodingPracticesData[language].find(
             (p) => p.id === practiceId
           );
           if (practice) {
@@ -304,8 +341,8 @@ const Practice = () => {
         }
       }
 
-      const firstLanguage = Object.keys(codingPracticesData)[0];
-      const firstPractice = codingPracticesData[firstLanguage][0];
+      const firstLanguage = Object.keys(allCodingPracticesData)[0];
+      const firstPractice = allCodingPracticesData[firstLanguage][0];
       if (firstPractice) {
         setSelectedPractice(firstPractice);
         setSelectedLanguage(firstLanguage);
@@ -316,7 +353,7 @@ const Practice = () => {
     };
 
     findPractice();
-  }, [practiceId, navigate]);
+  }, [practiceId, navigate, allCodingPracticesData]);
 
   useEffect(() => {
     if (selectedPractice && questionId) {
@@ -326,7 +363,17 @@ const Practice = () => {
       if (question) {
         setSelectedQuestion(question);
         const savedCode = userProgress[question.id]?.code;
-        setCode(savedCode || question.defaultCode || "");
+        if (question.defaultCode) {
+          // Handle web-based questions (HTML/CSS/JS)
+          if (typeof question.defaultCode === 'object') {
+            setCode(savedCode || question.defaultCode.javascript || "");
+          } else {
+            // Handle regular code-based questions
+            setCode(savedCode || question.defaultCode || "");
+          }
+        } else {
+          setCode(savedCode || "");
+        }
       } else {
         setSelectedQuestion(null);
         setCode("");
@@ -382,7 +429,7 @@ const Practice = () => {
     const newLanguage = e.target.value;
     setSelectedLanguage(newLanguage);
 
-    const practices = codingPracticesData[newLanguage] || [];
+    const practices = allCodingPracticesData[newLanguage] || [];
     if (practices.length > 0) {
       const firstPractice = practices[0];
       setSelectedPractice(firstPractice);
@@ -396,13 +443,29 @@ const Practice = () => {
   };
 
   const handleQuestionSelect = (question) => {
-    navigate(`/practice/${practiceId}/${question.id}`, {
-      state: {
-        subtopicId,
-        goalName,
-        courseName,
-      },
-    });
+    // Check if this is a web-based question
+    const isWebQuestion = isWebBasedQuestion(question);
+    
+    if (isWebQuestion) {
+      // Route to web-practice for web-based questions
+      navigate(`/web-practice/${selectedPractice.id}/${question.id}`, {
+        state: {
+          subtopicId,
+          goalName,
+          courseName,
+          topicId,
+        },
+      });
+    } else {
+      // Route to regular practice for code-based questions
+      navigate(`/practice/${practiceId}/${question.id}`, {
+        state: {
+          subtopicId,
+          goalName,
+          courseName,
+        },
+      });
+    }
   };
 
   const handleBackToPractice = () => {
@@ -429,18 +492,34 @@ const Practice = () => {
     if (!hasPrevQuestion) return;
 
     const prevQuestion = questions[currentQuestionIndex - 1];
-    navigate(`/practice/${practiceId}/${prevQuestion.id}`, {
-      state: { subtopicId, goalName, courseName },
-    });
+    const isPrevWebQuestion = isWebBasedQuestion(prevQuestion);
+    
+    if (isPrevWebQuestion) {
+      navigate(`/web-practice/${practiceId}/${prevQuestion.id}`, {
+        state: { subtopicId, goalName, courseName, topicId },
+      });
+    } else {
+      navigate(`/practice/${practiceId}/${prevQuestion.id}`, {
+        state: { subtopicId, goalName, courseName },
+      });
+    }
   };
 
   const handleNextQuestion = () => {
     if (!hasNextQuestion) return;
 
     const nextQuestion = questions[currentQuestionIndex + 1];
-    navigate(`/practice/${practiceId}/${nextQuestion.id}`, {
-      state: { subtopicId, goalName, courseName },
-    });
+    const isNextWebQuestion = isWebBasedQuestion(nextQuestion);
+    
+    if (isNextWebQuestion) {
+      navigate(`/web-practice/${practiceId}/${nextQuestion.id}`, {
+        state: { subtopicId, goalName, courseName, topicId },
+      });
+    } else {
+      navigate(`/practice/${practiceId}/${nextQuestion.id}`, {
+        state: { subtopicId, goalName, courseName },
+      });
+    }
   };
 
   const isEmptyCode = (userCode) => {
@@ -892,7 +971,22 @@ const Practice = () => {
     return userProgress[questionId]?.attempts || [];
   };
 
-  const practices = codingPracticesData[selectedLanguage] || [];
+  const practices = allCodingPracticesData[selectedLanguage] || [];
+
+  const renderDescriptionDetails = () => {
+    if (!selectedQuestion?.descriptionDetails) return null;
+    if (typeof selectedQuestion.descriptionDetails === "string") {
+      return (
+        <div
+          className="desc-question-details"
+          dangerouslySetInnerHTML={{
+            __html: selectedQuestion.descriptionDetails,
+          }}
+        />
+      );
+    }
+    return null;
+  };
 
   if (loading) {
     return (
@@ -960,6 +1054,9 @@ const Practice = () => {
                   {selectedQuestion.title}
                 </span>
                 <p>{selectedQuestion.description}</p>
+                <div className="desc-question-full-view">
+                  {renderDescriptionDetails()}
+                </div>
               </div>
 
               <hr />

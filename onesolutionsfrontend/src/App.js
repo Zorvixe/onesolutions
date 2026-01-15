@@ -61,12 +61,6 @@ function AppWrapper() {
             path="/practice/:practiceId/:questionId"
             element={<Practice />}
           />
-          <Route path="/js-practice" element={<JSPractice />} />
-          <Route path="/js-practice/:practiceId" element={<JSPractice />} />
-          <Route
-            path="/js-practice/:practiceId/:questionId"
-            element={<JSPractice />}
-          />
 
           <Route
             path="/web-practice/:practiceId/:questionId"

@@ -205,7 +205,7 @@ const JS_Coding_Pratic_3 = () => {
   ]);
 
   const handleQuestionSelect = (question) => {
-    navigate(`/js-practice/${selectedPractice.id}/${question.id}`, {
+    navigate(`/practice/${selectedPractice.id}/${question.id}`, {
       state: {
         subtopicId: finalSubtopicId,
         goalName,
