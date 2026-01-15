@@ -679,3 +679,8 @@ hr {
   object-fit: cover;
   margin-right: 15px;
 }
+
+.practice-container-header {
+  display: flex;
+  justify-content: space-between;
+}

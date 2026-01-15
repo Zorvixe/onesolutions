@@ -4,8 +4,8 @@ import "./Home.css";
 import Footer from "../Footer/Footer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
+import { javascriptCodingPracticesData } from "../../codingPracticesData/javascriptCodingPracticesData";
 import { useAuth } from "../../context/AuthContext";
-
 import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
 
 const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
@@ -17,6 +17,7 @@ const Home = () => {
   const [userProgress, setUserProgress] = useState({});
   const [placementAchievements, setPlacementAchievements] = useState([]);
   const [achievementsLoading, setAchievementsLoading] = useState(true);
+  const [selectedLanguage, setSelectedLanguage] = useState("python");
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -24,13 +25,11 @@ const Home = () => {
   // Fetch live classes from backend with batch filtering
   const fetchLiveClasses = async () => {
     try {
-      // Get user's batch information
       const batchMonth = user?.batchMonth;
       const batchYear = user?.batchYear;
 
       let url = `${API_OSE_URL}api/live-classes`;
 
-      // If user has batch information, filter classes by batch
       if (batchMonth && batchYear) {
         url += `?batch_month=${batchMonth}&batch_year=${batchYear}`;
       }
@@ -74,89 +73,171 @@ const Home = () => {
     }
   }, []);
 
-  // Process practice data from codingPracticesData - Group by difficulty
+  // Merge JavaScript practices with existing data
+  const allCodingPracticesData = React.useMemo(() => {
+    const mergedData = { ...codingPracticesData };
+
+    if (
+      javascriptCodingPracticesData &&
+      javascriptCodingPracticesData.javascript
+    ) {
+      mergedData.javascript = javascriptCodingPracticesData.javascript;
+    }
+
+    return mergedData;
+  }, []);
+
+  // Get language-specific title
+  const getLanguageSpecificTitle = (language, difficulty) => {
+    const languageNames = {
+      python: "Python",
+      javascript: "JavaScript",
+      java: "Java",
+      sql: "SQL",
+    };
+
+    const languageName = languageNames[language] || language;
+
+    const difficultyTitles = {
+      easy: {
+        python: "Python Fundamentals",
+        javascript: "JavaScript Essentials",
+        java: "Java Basics",
+        sql: "SQL Fundamentals",
+      },
+      medium: {
+        python: "Python Intermediate Challenges",
+        javascript: "JavaScript Intermediate Challenges",
+        java: "Java Intermediate Challenges",
+        sql: "SQL Intermediate Challenges",
+      },
+      hard: {
+        python: "Advanced Python Problems",
+        javascript: "Advanced JavaScript Problems",
+        java: "Advanced Java Problems",
+        sql: "Advanced SQL Problems",
+      },
+    };
+
+    return (
+      difficultyTitles[difficulty]?.[language] ||
+      `${languageName} ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Challenge`
+    );
+  };
+
+  // Get challenge description
+  const getChallengeDescription = (difficulty) => {
+    const descriptions = {
+      easy: "Beginner Challenge",
+      medium: "Intermediate Challenge",
+      hard: "Advanced Challenge",
+    };
+    return descriptions[difficulty] || `${difficulty} Challenge`;
+  };
+
+  // Get difficulty colors
+  const getDifficultyColors = (difficulty) => {
+    const colors = {
+      easy: {
+        backgroundColor: "#c0c9ee4a",
+        iconColor: "#7272fcff",
+        progressColor: "#7272fcff",
+      },
+      medium: {
+        backgroundColor: "#f5d0e458",
+        iconColor: "#d43b8cff",
+        progressColor: "#d43b8cff",
+      },
+      hard: {
+        backgroundColor: "#cdf9ed75",
+        iconColor: "#078866ff",
+        progressColor: "#078866ff",
+      },
+    };
+    return colors[difficulty] || colors.easy;
+  };
+
+  // Process practice data for selected language
   useEffect(() => {
     const processPracticeData = () => {
-      // Initialize difficulty groups
+      if (!allCodingPracticesData[selectedLanguage]) {
+        setPracticeData([]);
+        return;
+      }
+
       const difficultyGroups = {
         easy: {
-          title: "Path To Proficiency",
-          challenge: "Intermediate Challenge",
           questions: [],
-          color: "#c0c9ee4a",
-          iconColor: "#7272fcff",
         },
         medium: {
-          title: "One Solutions 75",
-          challenge: "Medium Challenge",
           questions: [],
-          color: "#f5d0e458",
-          iconColor: "#d43b8cff",
         },
         hard: {
-          title: "Advanced Problem Solving",
-          challenge: "Advanced Challenge",
           questions: [],
-          color: "#cdf9ed75",
-          iconColor: "#078866ff",
         },
       };
 
-      // Collect all questions from all practices and group by difficulty
-      Object.keys(codingPracticesData).forEach((language) => {
-        codingPracticesData[language].forEach((practice) => {
-          practice.questions.forEach((question) => {
-            const difficulty = question.difficulty.toLowerCase();
-            if (difficultyGroups[difficulty]) {
-              difficultyGroups[difficulty].questions.push({
-                ...question,
-                language: language,
-                practiceId: practice.id,
-              });
-            }
-          });
+      // Collect all questions from selected language practices and group by difficulty
+      allCodingPracticesData[selectedLanguage].forEach((practice) => {
+        practice.questions.forEach((question) => {
+          const difficulty = question.difficulty.toLowerCase();
+          if (difficultyGroups[difficulty]) {
+            difficultyGroups[difficulty].questions.push({
+              ...question,
+              language: selectedLanguage,
+              practiceId: practice.id,
+            });
+          }
         });
       });
 
       // Calculate progress for each difficulty group
-      const practiceCards = Object.keys(difficultyGroups).map((difficulty) => {
-        const group = difficultyGroups[difficulty];
-        const totalQuestions = group.questions.length;
-        const solvedQuestions = group.questions.filter(
-          (question) => userProgress[question.id]?.status === "solved"
-        ).length;
-        const progress =
-          totalQuestions > 0
-            ? Math.round((solvedQuestions / totalQuestions) * 100)
-            : 0;
+      const practiceCards = Object.keys(difficultyGroups)
+        .filter(
+          (difficulty) => difficultyGroups[difficulty].questions.length > 0
+        )
+        .map((difficulty) => {
+          const group = difficultyGroups[difficulty];
+          const totalQuestions = group.questions.length;
+          const solvedQuestions = group.questions.filter(
+            (question) => userProgress[question.id]?.status === "solved"
+          ).length;
+          const progress =
+            totalQuestions > 0
+              ? Math.round((solvedQuestions / totalQuestions) * 100)
+              : 0;
 
-        return {
-          id: `${difficulty}-challenge`,
-          title: group.title,
-          challenge: group.challenge,
-          progress: `${progress}%`,
-          problems: totalQuestions,
-          color: group.color,
-          iconColor: group.iconColor,
-          difficulty: difficulty,
-          questions: group.questions,
-        };
-      });
+          const colors = getDifficultyColors(difficulty);
+
+          return {
+            id: `${selectedLanguage}-${difficulty}-challenge`,
+            title: getLanguageSpecificTitle(selectedLanguage, difficulty),
+            challenge: getChallengeDescription(difficulty),
+            progress: `${progress}%`,
+            numericProgress: progress,
+            problems: totalQuestions,
+            backgroundColor: colors.backgroundColor,
+            iconColor: colors.iconColor,
+            progressColor: colors.progressColor,
+            difficulty: difficulty,
+            language: selectedLanguage,
+            questions: group.questions,
+          };
+        });
 
       setPracticeData(practiceCards);
     };
 
     processPracticeData();
-  }, [userProgress]);
+  }, [userProgress, selectedLanguage, allCodingPracticesData]);
 
   useEffect(() => {
     fetchLiveClasses();
     fetchPlacementAchievements();
 
-    // Refresh classes every minute to update progress and status
     const interval = setInterval(fetchLiveClasses, 60000);
     return () => clearInterval(interval);
-  }, [user]); // Add user as dependency to refetch when user changes
+  }, [user]);
 
   const homeData = {
     BroOne: {
@@ -193,26 +274,26 @@ const Home = () => {
     }
   };
 
+  const handleLanguageChange = (e) => {
+    setSelectedLanguage(e.target.value);
+  };
+
   const handlePracticeClick = (difficulty) => {
     const difficultyGroup = practiceData.find(
       (p) => p.difficulty === difficulty
     );
     if (difficultyGroup && difficultyGroup.questions.length > 0) {
+      // Find the first practice that has questions of this difficulty
       let targetPracticeId = null;
-      let targetLanguage = null;
 
-      Object.keys(codingPracticesData).forEach((language) => {
+      allCodingPracticesData[selectedLanguage].forEach((practice) => {
         if (targetPracticeId) return;
-        codingPracticesData[language].forEach((practice) => {
-          if (targetPracticeId) return;
-          const hasDifficultyQuestions = practice.questions.some(
-            (q) => q.difficulty.toLowerCase() === difficulty
-          );
-          if (hasDifficultyQuestions) {
-            targetPracticeId = practice.id;
-            targetLanguage = language;
-          }
-        });
+        const hasDifficultyQuestions = practice.questions.some(
+          (q) => q.difficulty.toLowerCase() === difficulty
+        );
+        if (hasDifficultyQuestions) {
+          targetPracticeId = practice.id;
+        }
       });
 
       if (targetPracticeId) {
@@ -223,7 +304,7 @@ const Home = () => {
 
   const handleViewProblems = (difficulty, e) => {
     e.stopPropagation();
-    navigate(`/practice?difficulty=${difficulty}`);
+    navigate(`/practice?language=${selectedLanguage}&difficulty=${difficulty}`);
   };
 
   const handleContinue = (difficulty, e) => {
@@ -245,6 +326,22 @@ const Home = () => {
         navigate(`/practice/${firstQuestion.practiceId}/${firstQuestion.id}`);
       }
     }
+  };
+
+  const handlePrevLanguage = () => {
+    const languages = Object.keys(allCodingPracticesData);
+    const currentIndex = languages.indexOf(selectedLanguage);
+    const prevIndex =
+      currentIndex > 0 ? currentIndex - 1 : languages.length - 1;
+    setSelectedLanguage(languages[prevIndex]);
+  };
+
+  const handleNextLanguage = () => {
+    const languages = Object.keys(allCodingPracticesData);
+    const currentIndex = languages.indexOf(selectedLanguage);
+    const nextIndex =
+      currentIndex < languages.length - 1 ? currentIndex + 1 : 0;
+    setSelectedLanguage(languages[nextIndex]);
   };
 
   if (loading) {
@@ -394,13 +491,64 @@ const Home = () => {
         )}
       </div>
 
-      <h1>
-        Practice
-        <i
-          className="bi bi-question-circle"
-          style={{ marginRight: "8px", padding: "10px" }}
-        ></i>
-      </h1>
+      {/* Language Selector */}
+      <div className="practice-container-header">
+        <h1>
+          Practice
+          <i
+            className="bi bi-question-circle"
+            style={{ marginRight: "8px", padding: "10px" }}
+          ></i>
+        </h1>
+        <div
+          className="practice-language-selector"
+          style={{
+            margin: "0px 8% -25px 0px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            maxWidth: "300px",
+          }}
+        >
+          {" "}
+          <button
+            onClick={handlePrevLanguage}
+            style={{
+              background: "#fff",
+              border: "1px solid #ddd",
+              borderRadius: "6px",
+              width: "36px",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              fontSize: "18px",
+            }}
+          >
+            <i class="bi bi-chevron-left"></i>
+          </button>{" "}
+          <button
+            onClick={handleNextLanguage}
+            style={{
+              background: "#fff",
+              border: "1px solid #ddd",
+              borderRadius: "6px",
+              width: "36px",
+              height: "36px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              fontSize: "18px",
+              marginLeft: "10px",
+            }}
+          >
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+
       <div className="live">
         {practiceData.length > 0 ? (
           practiceData.map((item) => (
@@ -413,20 +561,31 @@ const Home = () => {
               <div className="information">
                 <div
                   className="class-info"
-                  style={{ backgroundColor: item.color, minHeight: "80px" }}
+                  style={{
+                    backgroundColor: item.backgroundColor,
+                    minHeight: "80px",
+                  }}
                 >
-                  <i
-                    className="bi bi-trophy"
+                  <div
                     style={{
-                      backgroundColor: "white",
-                      fontSize: "15px",
-                      fontWeight: "900",
-                      color: item.iconColor,
-                      padding: "10px",
-                      borderRadius: "50%",
-                      display: "inline-block",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
                     }}
-                  ></i>
+                  >
+                    <i
+                      className="bi bi-trophy"
+                      style={{
+                        backgroundColor: "white",
+                        fontSize: "15px",
+                        fontWeight: "900",
+                        color: item.iconColor,
+                        padding: "10px",
+                        borderRadius: "50%",
+                        display: "inline-block",
+                      }}
+                    ></i>
+                  </div>
                   <div className="class-text">
                     <h3>{item.title}</h3>
                     <p style={{ color: item.iconColor }}>{item.challenge}</p>
@@ -453,7 +612,7 @@ const Home = () => {
                       className="progress-bar-fill"
                       style={{
                         width: item.progress,
-                        backgroundColor: item.iconColor,
+                        backgroundColor: item.progressColor,
                         height: "100%",
                         transition: "width 0.4s ease-in-out",
                       }}
@@ -468,7 +627,7 @@ const Home = () => {
                       padding: "10px 20px",
                       borderRadius: "5px",
                       display: "flex",
-                      border: "2px solid",
+                      border: "1px solid #ccc",
                       alignItems: "center",
                       cursor: "pointer",
                     }}
@@ -496,7 +655,7 @@ const Home = () => {
                       className="bi bi-arrow-right"
                       style={{ marginRight: "8px" }}
                     ></i>
-                    Continue
+                    {item.numericProgress > 0 ? "Continue" : "Start"}
                   </button>
                 </div>
               </div>
@@ -504,7 +663,7 @@ const Home = () => {
           ))
         ) : (
           <div className="no-classes">
-            <p>No practice challenges available at the moment.</p>
+            <p>No practice challenges available for {selectedLanguage}.</p>
           </div>
         )}
       </div>
