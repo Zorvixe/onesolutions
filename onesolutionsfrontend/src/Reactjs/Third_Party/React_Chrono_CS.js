@@ -194,17 +194,7 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           Model in the items prop.
         </p>
 
-        <div className="Warning-container">
-          <div className="icon-warning">
-            <h6>
-              <i className="bi bi-exclamation-triangle"></i> Warning
-            </h6>
-          </div>
-          <p>
-            If any property misses in the Timeline Item Model, the respective
-            value won't be displayed in the timeline item.
-          </p>
-        </div>
+    
 
         <div className="Note-container">
           <p>
@@ -212,6 +202,7 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
             width and height.
           </p>
         </div>
+
       </section>
 
       <section>

@@ -37,7 +37,38 @@ const Home = () => {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setLiveClasses(data);
+        
+        // Sort live classes: live first, then upcoming, then completed
+        // Within each status, sort by time (most recent first)
+        const sortedData = data.sort((a, b) => {
+          // Priority: live > upcoming > completed
+          const statusPriority = {
+            "live": 1,
+            "upcoming": 2,
+            "completed": 3
+          };
+          
+          if (statusPriority[a.status] !== statusPriority[b.status]) {
+            return statusPriority[a.status] - statusPriority[b.status];
+          }
+          
+          // If same status, sort by time (most recent first)
+          // Assuming time is in format "HH:MM AM/PM"
+          const convertTimeToMinutes = (timeStr) => {
+            if (!timeStr) return 0;
+            const [time, modifier] = timeStr.split(' ');
+            let [hours, minutes] = time.split(':').map(Number);
+            
+            if (modifier === 'PM' && hours < 12) hours += 12;
+            if (modifier === 'AM' && hours === 12) hours = 0;
+            
+            return hours * 60 + minutes;
+          };
+          
+          return convertTimeToMinutes(a.time) - convertTimeToMinutes(b.time);
+        });
+        
+        setLiveClasses(sortedData);
       } else {
         console.error("Failed to fetch live classes");
       }
@@ -54,7 +85,29 @@ const Home = () => {
       const response = await fetch(`${API_OSE_URL}api/placement-achievements`);
       if (response.ok) {
         const data = await response.json();
-        setPlacementAchievements(data);
+        
+        // Sort placement achievements by most recent first
+        // Assuming there's a date field like "created_at" or "placement_date"
+        const sortedData = data.sort((a, b) => {
+          // If there's a timestamp field
+          if (a.created_at && b.created_at) {
+            return new Date(b.created_at) - new Date(a.created_at);
+          }
+          
+          // If there's a date field
+          if (a.date && b.date) {
+            return new Date(b.date) - new Date(a.date);
+          }
+          
+          // If there's an id that indicates recency (higher id = more recent)
+          if (a.id && b.id) {
+            return b.id - a.id;
+          }
+          
+          return 0;
+        });
+        
+        setPlacementAchievements(sortedData);
       } else {
         console.error("Failed to fetch placement achievements");
       }
@@ -225,7 +278,20 @@ const Home = () => {
           };
         });
 
-      setPracticeData(practiceCards);
+      // Sort practice cards by progress (most progress first)
+      // If same progress, sort by difficulty: easy -> medium -> hard
+      const sortedPracticeCards = practiceCards.sort((a, b) => {
+        // First sort by progress (descending - higher progress first)
+        if (b.numericProgress !== a.numericProgress) {
+          return b.numericProgress - a.numericProgress;
+        }
+        
+        // Then sort by difficulty order: easy -> medium -> hard
+        const difficultyOrder = { easy: 1, medium: 2, hard: 3 };
+        return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
+      });
+      
+      setPracticeData(sortedPracticeCards);
     };
 
     processPracticeData();
@@ -526,7 +592,7 @@ const Home = () => {
               fontSize: "18px",
             }}
           >
-            <i class="bi bi-chevron-left"></i>
+            <i className="bi bi-chevron-left"></i>
           </button>{" "}
           <button
             onClick={handleNextLanguage}
@@ -544,7 +610,7 @@ const Home = () => {
               marginLeft: "10px",
             }}
           >
-            <i class="bi bi-chevron-right"></i>
+            <i className="bi bi-chevron-right"></i>
           </button>
         </div>
       </div>

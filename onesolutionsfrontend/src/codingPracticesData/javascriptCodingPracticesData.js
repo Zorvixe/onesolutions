@@ -1761,10 +1761,6 @@ function main() {
           defaultCode: `/*
  * Write your code here and return the output.
  */
-/*
- * Write your code here and return the output.
- */
-
 
 
 let nationalBird = getNationalBird();
@@ -1796,13 +1792,13 @@ console.log(nationalBird);
           sampleInput: "Bharath",
           sampleOutput: " Hi Bharath ",
 
-        testCases: [
-  {
-    input: "Bharath",
-    output: "Hi Bharath",
-    visible: true,
-  },
-],
+          testCases: [
+            {
+              input: "Bharath",
+              output: "Hi Bharath",
+              visible: true,
+            },
+          ],
 
           defaultCode: `"use strict";
 
