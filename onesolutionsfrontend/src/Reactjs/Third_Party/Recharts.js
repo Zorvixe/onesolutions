@@ -334,6 +334,11 @@ const Recharts = ({ subtopicId, goalName, courseName, subtopic }) => {
         </table>
 
         <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
           <p>
             The value of the <code>name</code> prop is used in tooltip and
             legend. If not provided, the <code>dataKey</code> will be used.
@@ -472,6 +477,11 @@ const Recharts = ({ subtopicId, goalName, courseName, subtopic }) => {
         </table>
 
         <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
           <p>
             If percentage is used for <code>innerRadius</code> or{" "}
             <code>outerRadius</code>, the value is calculated based on container

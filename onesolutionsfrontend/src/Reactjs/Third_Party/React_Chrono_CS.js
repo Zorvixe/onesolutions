@@ -63,7 +63,7 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <p>
           <b>Installation Command:</b>
         </p>
-        <CodeBlock code={`npm install react-chrono`} />
+        <CodeBlock language="bash" code={`npm install react-chrono`} />
 
         <h3>1.1 Advantages</h3>
         <ul>
@@ -193,13 +193,32 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           A single timeline item is created with the values of the Timeline Item
           Model in the items prop.
         </p>
-
-    
+        <img
+          src="/assets/img/chrono.png"
+          alt="project"
+          style={{ width: "100%", height: "500px" }}
+        />
+        <div className="Warning-container">
+          <div className="icon-warning">
+            <h6>
+              <i className="bi bi-exclamation-triangle"></i> Warning
+            </h6>
+          </div>
+          <p>
+            If any property misses in the Timeline Item Model, the respective value won't
+            be displayed in the timeline item.
+          </p>
+        </div>
 
         <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
           <p>
-            The Chrono Component should be wrapped in a container that has a
-            width and height.
+            The Chrono Component should be wrapped in a container that has a width and
+            height.
           </p>
         </div>
 
@@ -275,13 +294,66 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           Each HTML div element is automatically converted into a timeline item
           and inserted into the timeline card.
         </p>
+        <img
+          src="/assets/img/chrono2.png"
+          alt="project"
+          style={{ width: "90%", height: "500px" }}
+        />
+
 
         <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i> Note
+            </h6>
+          </div>
           <p>
-            The <code>items</code> prop is optional and custom rendering is
-            supported on all three modes.
+         The items prop is optional and custom rendering is supported on all three modes.
           </p>
         </div>
+        <p><b>Example:</b></p>
+        <CodeBlock
+          language="css"
+          code={`.chrono-container {
+            width: 400px;
+            height: 600px;
+          }
+          
+          .image {
+            width: 200px;
+            height: 200px;
+          }`}
+        />
+         <CodeBlock
+          language="jsx"
+          code={`import {Chrono} from 'react-chrono'
+
+          const items = [{title: '2018'}, {title: '2019'}]
+          
+          const App = () => (
+            <div className="chrono-container">
+              <Chrono mode="VERTICAL" items={items}>
+                <img
+                  src="https://assets.ccbp.in/frontend/react-js/csk-logo-img.png"
+                  className="image"
+                  alt="chennai-super-kings"
+                />
+                <div>
+                  <h1>Mumbai Indians</h1>
+                  <p>IPL Team winner for the year 2019 is Mumbai Indians.</p>
+                </div>
+              </Chrono>
+            </div>
+          )
+          
+          export default App`}
+        />
+        <p><b>Output:</b></p>
+        <img
+          src="/assets/img/chrono3.png"
+          alt="project"
+          style={{ width: "100%", height: "500px" }}
+        />
       </section>
 
       <section>
