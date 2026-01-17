@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Goals Data (moved from your original file)
- const goalsData = [
+const goalsData = [
   {
     id: "goal 1",
     title: "Goal 1",
@@ -749,10 +749,10 @@ import React, { useState } from "react";
                 id: "QW9_s2_A0 m2_H g1_7B c3_D2E",
                 name: "Input and Output Basics | Cheat Sheet",
               },
-              {
-                id: "QW9_s3_A0 m2_H g1_7B c3_D2E",
-                name: "Coding Practice Walkthrough | Part 2",
-              },
+              // {
+              //   id: "QW9_s3_A0 m2_H g1_7B c3_D2E",
+              //   name: "Coding Practice Walkthrough | Part 2",
+              // },
               {
                 id: "QW9_s4_A0 m2_H g1_7B c3_D2E",
                 name: "MCQ Practice - I/O",
@@ -773,10 +773,10 @@ import React, { useState } from "react";
                 id: "QW9_s8_A0 m2_H g1_7B c3_D2E",
                 name: "Assignment 1A",
               },
-              {
-                id: "QW9_s9_A0 m2_H g1_7B c3_D2E",
-                name: "How to debug your code?",
-              },
+              // {
+              //   id: "QW9_s9_A0 m2_H g1_7B c3_D2E",
+              //   name: "How to debug your code?",
+              // },
               {
                 id: "QW9_s10_A0 m2_H g1_7B c3_D2E",
                 name: "Type Conversion",
@@ -1786,20 +1786,20 @@ import React, { useState } from "react";
               },
             ],
           },
-          {
-            id: "QW9_m16_A0 g1_H c3_7B",
-            name: "Programming Foundations Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m16_H g1_7B c3_D2E",
-                name: "Programming Foundations Course Exam | Instructions",
-              },
-              {
-                id: "QW9_s2_A0 m16_H g1_7B c3_D2E",
-                name: "Programming Foundations Course Exam",
-              },
-            ],
-          },
+          // {
+          //   id: "QW9_m16_A0 g1_H c3_7B",
+          //   name: "Programming Foundations Course Exam",
+          //   topic: [
+          //     {
+          //       id: "QW9_s1_A0 m16_H g1_7B c3_D2E",
+          //       name: "Programming Foundations Course Exam | Instructions",
+          //     },
+          //     {
+          //       id: "QW9_s2_A0 m16_H g1_7B c3_D2E",
+          //       name: "Programming Foundations Course Exam",
+          //     },
+          //   ],
+          // },
         ],
       },
     ],
@@ -3771,6 +3771,10 @@ import React, { useState } from "react";
                 id: "QW9_s9_A0 m10_H g3_7B c4_D2E",
                 name: "Coding Pratice 34 - Sorting Products",
               },
+              {
+                id: "QW9_s10_A0 m10_H g3_7B c4_D2E",
+                name: "Coding Pratice 35 - Sorting Products",
+              },
             ],
           },
           {
@@ -3779,7 +3783,20 @@ import React, { useState } from "react";
             topic: [
               {
                 id: "QW9_s1_A0 m11_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "More React Concepts",
+              },
+              {
+                id: "QW9_s2_A0 m11_H g3_7B c4_D2E",
+                name: "More React Concepts | Cheat Sheet",
+              },
+            
+              {
+                id: "QW9_s3_A0 m11_H g3_7B c4_D2E",
+                name: "MCQ Pratice - More React Concepts",
+              },
+              {
+                id: "QW9_s4_A0 m11_H g3_7B c4_D2E",
+                name: "Coding Pratice 36 - More React Concepts",
               },
             ],
           },
@@ -3789,7 +3806,47 @@ import React, { useState } from "react";
             topic: [
               {
                 id: "QW9_s1_A0 m12_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Third Party Packages",
+              },
+              {
+                id: "QW9_s2_A0 m12_H g3_7B c4_D2E",
+                name: "Third Party Packages | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m12_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Third Party Packages",
+              },
+              {
+                id: "QW9_s4_A0 m12_H g3_7B c4_D2E",
+                name: "Recharts | Reading Material",
+              },
+              {
+                id: "QW9_s5_A0 m12_H g3_7B c4_D2E",
+                name: "Coding Pratice 37 - Reading Material",
+              },
+              {
+                id: "QW9_s6_A0 m12_H g3_7B c4_D2E",
+                name: "React Chrono | Reading Material",
+              },
+              {
+                id: "QW9_s7_A0 m12_H g3_7B c4_D2E",
+                name: "Coding Pratice 38 - React Chrono",
+              },
+              {
+                id: "QW9_s8_A0 m12_H g3_7B c4_D2E",
+                name: "React Slick | Reading Material",
+              },
+              {
+                id: "QW9_s9_A0 m12_H g3_7B c4_D2E",
+                name: "Coding Pratice 39 - React Slick",
+              },
+              {
+                id: "QW9_s10_A0 m12_H g3_7B c4_D2E",
+                name: "React Popup | Reading Material",
+              },
+              {
+                id: "QW9_s11_A0 m12_H g3_7B c4_D2E",
+                name: "Coding Pratice 40 - React Popup",
               },
             ],
           },

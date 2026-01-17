@@ -1842,7 +1842,193 @@ function main() {
 }
 
  `,
-          score: 5,
+          score: 8,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "d813742e-f8f5-41d992d3-1178dc1659ea",
+          title: "Creating a Function with Parameters",
+          description:
+            "Write a function to return the average of two integers and log the result. \n The formula to calculate the average of two integers is, average = (a+b) /2.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an integer (firstInteger).</p>
+                 <p class=""></p>The second line of input will contain an integer (secondInteger).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the average of the given two integers.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "4\n2",
+          sampleOutput: "3",
+
+          defaultCode: `"use strict";
+
+process.stdin.resume();
+process.stdin.setEncoding("utf-8");
+
+let inputString = "";
+let currentLine = 0;
+
+process.stdin.on("data", (inputStdin) => {
+  inputString += inputStdin;
+});
+
+process.stdin.on("end", (_) => {
+  inputString = inputString
+    .trim()
+    .split("\n")
+    .map((str) => str.trim());
+
+  main();
+});
+
+function readLine() {
+  return inputString[currentLine++];
+}
+
+function main() {
+  // firstInteger
+  let firstInteger = parseInt(readLine());
+  // secondInteger
+  let secondInteger = parseInt(readLine());
+
+  /*
+   * Write your code here and log the output.
+   */
+  
+
+}
+
+ `,
+          testCases: [
+            {
+              input: "4\n2",
+              output: "3",
+              visible: true,
+            },
+            {
+              input: "10\n20",
+              output: "15",
+              visible: true,
+            },
+            {
+              input: "0\n0",
+              output: "0",
+              visible: false,
+            },
+            {
+              input: "5\n7",
+              output: "6",
+              visible: false,
+            },
+            {
+              input: "-4\n4",
+              output: "0",
+              visible: false,
+            },
+          ],
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "d813742e-f8f5-41d992d3-1178dc1659ea",
+          title: "Creating a Function Expression",
+          description:
+            "Write a function expression 'convertMinutesToSeconds' to convert the given minutes (minutes) to seconds. \n The formula to convert minutes to seconds is, seconds = minutes * 60.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain a positive integer (minutes).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the positive integer (seconds) returned by the function.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "1",
+          sampleOutput: "60",
+
+          defaultCode: `"use strict";
+
+          process.stdin.resume();
+          process.stdin.setEncoding("utf-8");
+          
+          let inputString = "";
+          let currentLine = 0;
+          
+          process.stdin.on("data", (inputStdin) => {
+            inputString += inputStdin;
+          });
+          
+          process.stdin.on("end", (_) => {
+            inputString = inputString
+              .trim()
+              .split("\n")
+              .map((str) => str.trim());
+          
+            main();
+          });
+          
+          function readLine() {
+            return inputString[currentLine++];
+          }
+          
+          function main() {
+            // minutes
+            let minutes = parseInt(readLine());
+          
+            // Write your code here and return the output
+            function convertMinutesToSeconds(minutes){
+                return minutes * 60;
+                
+            }
+            
+            
+            let result = convertMinutesToSeconds(minutes);
+            console.log(result);
+          }
+          
+
+ `,
+          testCases: [
+            {
+              input: "1",
+              output: "60",
+              visible: true,
+            },
+            {
+              input: "5",
+              output: "300",
+              visible: true,
+            },
+            {
+              input: "0",
+              output: "0",
+              visible: false,
+            },
+            {
+              input: "10",
+              output: "600",
+              visible: false,
+            },
+            {
+              input: "2",
+              output: "120",
+              visible: false,
+            },
+          ],
+          score: 19,
           status: "unsolved",
           attempts: [],
         },
