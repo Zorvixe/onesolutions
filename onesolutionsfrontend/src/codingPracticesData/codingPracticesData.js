@@ -2335,8 +2335,8 @@ export const codingPracticesData = {
           title: "Check first part of a string",
           difficulty: "Easy",
           description:
-            "Write a program that reads two strings S1 and S2,and checks if S2 is the first part of S1\nNote:No of characters in the first part of S1 is equal to the number of characters in S2",
-          sampleInput: "rainbow|nrain",
+            "Write a program that reads two strings S1 and S2,and checks if S2 is the first part of S1\nInput:The first line of input contains a string representing S1.The second line of input contains a string representing S2.\nOutput:The output should be a single line containing a boolean.True should be printed if S2 is the first part of S1, Otherwise False should be Printed .\nNote:No of characters in the first part of S1 is equal to the number of characters in S2",
+          sampleInput: "rainbow\nrain",
           sampleOutput: "True",
           testCases: [
             {
@@ -2350,18 +2350,18 @@ export const codingPracticesData = {
               visible: true,
             },
             {
-              input: "heaven\nhea",
+              input: "computer\ncom",
               output: "True",
               visible: false,
             },
             {
-              input: "rainbow|nrain",
+              input: "apple\napp",
               output: "True",
               visible: false,
             },
             {
-              input: "rainbow|nrain",
-              output: "True",
+              input: "python\njava",
+              output: "False",
               visible: false,
             },
           ],

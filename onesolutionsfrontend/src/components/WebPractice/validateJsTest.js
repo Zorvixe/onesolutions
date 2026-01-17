@@ -555,6 +555,67 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed, actual: resultText };
       }
 
+      //Button Maker
+      case "check-bgColorInput": {
+        const button = iframeDoc.getElementById("customButton");
+        iframeDoc.getElementById("bgColorInput").value = "red";
+        iframeDoc.getElementById("applyButton").click();
+
+        const actual = button.style.backgroundColor;
+        const passed = actual === "red";
+        return { passed, actual };
+      }
+
+      case "check-fontColorInput": {
+        const button = iframeDoc.getElementById("customButton");
+        iframeDoc.getElementById("fontColorInput").value = "white";
+        iframeDoc.getElementById("applyButton").click();
+
+        const actual = button.style.color;
+        const passed = actual === "white";
+        return { passed, actual };
+      }
+
+      case "check-fontSizeInput": {
+        const button = iframeDoc.getElementById("customButton");
+        iframeDoc.getElementById("fontSizeInput").value = "20px";
+        iframeDoc.getElementById("applyButton").click();
+
+        const actual = button.style.fontSize;
+        const passed = actual === "20px";
+        return { passed, actual };
+      }
+
+      case "check-fontWeightInput": {
+        const button = iframeDoc.getElementById("customButton");
+        iframeDoc.getElementById("fontWeightInput").value = "700";
+        iframeDoc.getElementById("applyButton").click();
+
+        const actual = button.style.fontWeight;
+        const passed = actual === "700";
+        return { passed, actual };
+      }
+
+      case "check-paddingInput": {
+        const button = iframeDoc.getElementById("customButton");
+        iframeDoc.getElementById("paddingInput").value = "15px";
+        iframeDoc.getElementById("applyButton").click();
+
+        const actual = button.style.padding;
+        const passed = actual === "15px";
+        return { passed, actual };
+      }
+
+      case "check-borderRadiusInput": {
+        const button = iframeDoc.getElementById("customButton");
+        iframeDoc.getElementById("borderRadiusInput").value = "10px";
+        iframeDoc.getElementById("applyButton").click();
+
+        const actual = button.style.borderRadius;
+        const passed = actual === "10px";
+        return { passed, actual };
+      }
+
       default:
         return {
           passed: false,

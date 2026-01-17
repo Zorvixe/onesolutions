@@ -84,6 +84,10 @@ import Authentication_3_CS from "../Reactjs/Authentication/Authentication_3_CS.j
 import Common_Mistake_3_CS from "../Reactjs/Authentication/Common_Mistake_3_CS.js";
 import Authentication_P4_CS from "../Reactjs/Authentication2/Authentication_P4_CS.js";
 import SortingProducts_CS from "../Reactjs/Authentication2/SortingProducts_CS.js";
+import More_React_CS from "../Reactjs/More_React_Concepts/More_React_CS.js";
+import Third_Party_CS from "../Reactjs/Third_Party/Third_Party_CS.js";
+import Recharts from "../Reactjs/Third_Party/Recharts.js";
+import React_Chrono_CS from "../Reactjs/Third_Party/React_Chrono_CS.js";
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -106,6 +110,8 @@ import Authentication_3_MCQ from "../Reactjs/Authentication/Authentication_3_MCQ
 import Common_Mistake_3_MCQ from "../Reactjs/Authentication/Common_Mistake_3_MCQ.js";
 import Authentication_P4_MCQ from "../Reactjs/Authentication2/Authentication_P4_MCQ.js";
 import SortingProducts_MCQ from "../Reactjs/Authentication2/SortingProducts_MCQ.js";
+import More_React_MCQ from "../Reactjs/More_React_Concepts/More_React_MCQ.js";
+import Third_Party_MCQ from "../Reactjs/Third_Party/Third_Party_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -393,6 +399,7 @@ import JS_Coding_Pratice_Walkthrough from "../JavaScript/Arrays_Objects/JS_Codin
 import Objects_Class from "../JavaScript/Arrays_Objects/Objects_Class.js";
 import A_Note_ON_Software_Capability from "../JavaScript/Arrays_Objects/A_Note_ON_Software_Capability.js";
 import Coding_Pratice_4 from "../JavaScript/Arrays_Objects/Coding_Pratice_4.js";
+import Coding_Pratice_JS_5 from "../JavaScript/Arrays_Objects/Coding_Pratice_JS_5.js";
 import Coding_Pratice_6 from "../JavaScript/Todos_Application/Coding_Pratice_6.js";
 import Coding_Pratice_7 from "../JavaScript/Todos_Application/Coding_Pratice_7.js";
 import Coding_Pratice_8 from "../JavaScript/Todos_Application/Coding_Pratice_8.js";
@@ -682,6 +689,7 @@ import JS_Essential_MCQ_Assignment_3 from "../JavaScript_Essentials/Assignments/
 import JS_Essential_MCQ_Assignment_4 from "../JavaScript_Essentials/Assignments/JS_Essential_MCQ_Assignment_4.js";
 import JS_Essential_Mock_Tests_MCQ_1 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Tests_MCQ_1.js";
 import JS_Essential_Mock_Tests_MCQ_2 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Tests_MCQ_2.js";
+
 export const subtopicComponents = {
   // JavaScript Essentials
   "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
@@ -1139,6 +1147,10 @@ export const subtopicComponents = {
   "Common Mistakes | Part 3 | Cheat Sheet": Common_Mistake_3_CS,
   "Authentication & Authorization | Part 4 | Cheat Sheet": Authentication_P4_CS,
   "Sorting Products | Cheat Sheet": SortingProducts_CS,
+  "More React Concepts | Cheat Sheet": More_React_CS,
+  "Third Party Packages | Cheat Sheet": Third_Party_CS,
+  "Recharts | Reading Material": Recharts,
+  "React Chrono | Reading Material": React_Chrono_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
@@ -1162,7 +1174,9 @@ export const subtopicComponents = {
   "MCQ Pratice - Common Mistakes | Part 3": Common_Mistake_3_MCQ,
   "MCQ Pratice - Authentication & Authorization | Part 4":
     Authentication_P4_MCQ,
-    "MCQ Pratice - Sorting Products": SortingProducts_MCQ,
+  "MCQ Pratice - Sorting Products": SortingProducts_MCQ,
+  "MCQ Pratice - More React Concepts": More_React_MCQ,
+  "MCQ Pratice - Third Party Packages": Third_Party_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
@@ -1312,6 +1326,7 @@ export const subtopicComponents = {
   "JS Coding Practice 3": JS_Coding_Pratic_3,
   "JS Coding Practice 4": JS_Coding_Pratic_4,
   "Coding Practice 4": Coding_Pratice_4,
+  "Coding Practice 5": Coding_Pratice_JS_5,
   "Coding Practice 6": Coding_Pratice_6,
   "Coding Practice 7": Coding_Pratice_7,
   "Coding Practice 8": Coding_Pratice_8,

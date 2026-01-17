@@ -6,7 +6,7 @@ import { javascriptCodingPracticesData } from "../../codingPracticesData/javascr
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const JS_Coding_Pratic_2 = () => {
+const Coding_Pratice_JS_5 = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,12 +82,12 @@ const JS_Coding_Pratic_2 = () => {
 
   // Load practice
   useEffect(() => {
-    const practice6 = javascriptCodingPracticesData.javascript.find(
-      (p) => p.id === "js-coding-practice-2"
+    const practice5 = javascriptCodingPracticesData.javascript.find(
+      (p) => p.id === "javascript-coding-practice-5"
     );
-    if (practice6) {
-      setSelectedPractice(practice6);
-      console.log("✅ Loaded practice:", practice6.id);
+    if (practice5) {
+      setSelectedPractice(practice5);
+      console.log("✅ Loaded practice:", practice5.id);
     }
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
@@ -205,13 +205,23 @@ const JS_Coding_Pratic_2 = () => {
   ]);
 
   const handleQuestionSelect = (question) => {
-    navigate(`/practice/${selectedPractice.id}/${question.id}`, {
-      state: {
-        subtopicId: finalSubtopicId,
-        goalName,
-        courseName,
-      },
-    });
+    if (question.type === "web") {
+      navigate(`/web-practice/${selectedPractice.id}/${question.id}`, {
+        state: {
+          subtopicId: finalSubtopicId,
+          goalName,
+          courseName,
+        },
+      });
+    } else {
+      navigate(`/practice/${selectedPractice.id}/${question.id}`, {
+        state: {
+          subtopicId: finalSubtopicId,
+          goalName,
+          courseName,
+        },
+      });
+    }
   };
 
   if (loading) {
@@ -379,4 +389,4 @@ const JS_Coding_Pratic_2 = () => {
   );
 };
 
-export default JS_Coding_Pratic_2;
+export default Coding_Pratice_JS_5;

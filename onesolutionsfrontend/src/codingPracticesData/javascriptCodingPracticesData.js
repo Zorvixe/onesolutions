@@ -455,7 +455,7 @@ export const javascriptCodingPracticesData = {
             
             <body>
                 <div class="tip-calculator-container pb-5">
-                    <img class="tip-calculator-image" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/tip-calculator-img.png" />
+                    <img class="tip-calculator-image" src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768539237/calci_qvastf.png" />
                     <h1 class="tip-calculator-heading text-center mt-4 mb-4">Tip Calculator</h1>
                     <div class="container">
                         <div class="row">
@@ -753,7 +753,7 @@ export const javascriptCodingPracticesData = {
             
             <body>
                 <div class="text-center">
-                    <img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/sum-of-two-numbers-img.png" class="image" />
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768539398/addition_vgn3im.png" class="image" />
                     <div class="bg-container pt-5 pb-5">
                         <span class="number m-2" id="firstNumber"></span>
                         <span class="operator m-1">+</span>
@@ -987,6 +987,232 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
+    //coding_practice - 5
+    {
+      id: "javascript-coding-practice-5",
+      title: "Javascript Coding Practice 5",
+      description: "",
+      questions: [
+        {
+          id: "ed914af8-2fvjfssbnjfbvj446d9-0d105kkf8eb19",
+          title: "Button Maker",
+          description:
+            "In this assignment, let's build a Button Maker by applying the concepts we learned till now.",
+          difficulty: "Medium",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="button-maker-bg-container p-4">
+                    <h1 class="button-maker-heading text-center mb-4">Button Maker</h1>
+                    <div class="button-maker-container bg-light pt-4 pb-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-md-7">
+                                    <p class="input-label">BACKGROUND COLOR</p>
+                                    <input class="user-input" type="text" id="bgColorInput" />
+                                    <p class="input-label">FONT COLOR</p>
+                                    <input class="user-input" type="text" id="fontColorInput" />
+                                    <p class="input-label">FONT SIZE (in px)</p>
+                                    <input class="user-input" type="text" id="fontSizeInput" />
+                                    <p class="input-label">FONT WEIGHT</p>
+                                    <input class="user-input" type="text" id="fontWeightInput" />
+                                    <p class="input-label">PADDING (in px)</p>
+                                    <input class="user-input" type="text" id="paddingInput" />
+                                    <p class="input-label">BORDER RADIUS (in px)</p>
+                                    <input class="user-input" type="text" id="borderRadiusInput" />
+                                    <div class="text-right mt-4">
+                                        <button id="applyButton" class="btn btn-primary" onclick="applyClick()">
+                                            Apply
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-5 mt-4 text-center">
+                                    <button class="custom-button" id="customButton">Custom Button</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .button-maker-bg-container {
+                background-image: linear-gradient(to right, #09203f, #537895);
+            }
+            
+            .button-maker-heading {
+                color: #ffffff;
+                font-family: "Roboto";
+                font-size: 32px;
+                font-weight: 500;
+            }
+            
+            .button-maker-container {
+                border-radius: 10px;
+            }
+            
+            .input-label {
+                color: #7b8794;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: bold;
+                margin-top: 12px;
+                margin-bottom: 6px;
+            }
+            
+            .user-input {
+                width: 100%;
+                height: 40px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #cbd2d9;
+                border-radius: 4px;
+                padding-left: 12px;
+            }
+            
+            .custom-button {
+                font-family: "Roboto";
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768542690/button-maker-v1_ti5bb0.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>The HTML input elements should have the ids <code>bgColorInput,</code> <code>fontColorInput,</code> <code>fontSizeInput,</code> <code>fontWeightInput,</code> <code>paddingInput</code> and <code>borderRadiusInput</code> correspondingly</span></li>
+                        <li><span>The HTML <code>button</code> element that has the class name <code>custom-button</code> should have the id <code>customButton</code></span></li>
+                      </ol>
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                       Write the code without deleting the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                       <strong>When <code>applyButton</code> is clicked:</strong>
+                    <ul>
+                      <li>
+                      The CSS property values of bgColorInput, fontColorInput, fontSizeInput, fontWeightInput, paddingInput and borderRadiusInput should apply to the HTML button element with the id customButton.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                        <li>
+                        Apply the functionality to the given prefilled code.
+                        </li>
+                        <li>
+                        Please use the valid CSS property values.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+                 
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "When the applyButton is clicked, the value of the background color input element with the id bgColorInput should apply to the HTML button element with the id customButton",
+              type: "js-validation",
+              input: "check-bgColorInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "When the applyButton is clicked, the value of the font color input element with the id fontColorInput should apply to the HTML button element with the id customButton",
+              type: "js-validation",
+              input: "check-fontColorInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When the applyButton is clicked, the value of the font size input element with the id fontSizeInput should apply to the HTML button element with the id customButton",
+              type: "js-validation",
+              input: "check-fontSizeInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the applyButton is clicked, the value of the font weight input element with the id fontWeightInput should apply to the HTML button element with the id customButton",
+              type: "js-validation",
+              input: "check-fontWeightInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the applyButton is clicked, the value of the padding input element with the id paddingInput should apply to the HTML button element with the id customButton",
+              type: "js-validation",
+              input: "check-paddingInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the applyButton is clicked, the value of the border radius input element with the id borderRadiusInput should apply to the HTML button element with the id customButton",
+              type: "js-validation",
+              input: "check-borderRadiusInput",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
     //JS coding practice - 1
     {
       id: "js-coding-practice-1",
@@ -999,12 +1225,13 @@ export const javascriptCodingPracticesData = {
           description:
             "Write a JS program to log an array with the given values.\n 'Orange', 25, 100, true, 33.58.",
           difficulty: "Easy",
-
+          sampleInput: "",
+          sampleOutput: "[ 'Orange', 25, 100, true, 33.58 ]",
           descriptionDetails: `
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">output</p>
-                <p class="The Output should be a single line containing an array with the above values in the same order."></p>
+                <p class=""></p>The Output should be a single line containing an array with the above values in the same order.</p>
               </div>
           </div>
            `,
@@ -1023,48 +1250,14 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
-          id: "59db7b86-3de7-4cc18900-389d2c2115c2",
-          title: "Access the values of an array",
-          description:
-            "Given an array (myArray) in the prefilled code.\n Write a JS program to log the value located at the given index (index).",
-          difficulty: "Easy",
-
-          sampleInput: "0",
-          sampleOutput: "25",
-          descriptionDetails: `
-          <div class="desc-question-details">
-              <div>
-                  <p class="desc-que-blue">Input</p>
-                  <p class="">The first line of input will contain a whole number (index).</p>
-              </div>
-                  <hr>
-                <div>
-                    <p class="desc-que-blue">output</p>
-                    <p class="">The ouput should be a single line containing the value located at the given index of the array.</p>
-                </div>
-          </div>
-         `,
-          testCases: [
-            {
-              input: "",
-              output: "['Orange', 25, 100, true, 33.58]",
-              visible: true,
-            },
-          ],
-          defaultCode: ``,
-          score: 22,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "ba5f7b86-fc78-48078e65-a3395dc7cc36",
+          id: "ba5f7b86-fc8078e65-a3395dc7cc36",
           title: "Update the values of an array",
           description:
             "Given an array (myArray) in the prefilled code.\n Write a JS program to update the value located at the given index (index) of an array with the given value (val) and log the updated array.",
           difficulty: "Easy",
 
-          sampleInput: "0/n5",
-          sampleOutput: "[5, 50, 'center', 75, 100]",
+          sampleInput: "0\n5",
+          sampleOutput: "[ 5, 50, 'center', 75, 100 ]",
           descriptionDetails: `
           <div class="desc-question-details">
 
@@ -1087,18 +1280,54 @@ export const javascriptCodingPracticesData = {
          `,
           testCases: [
             {
-              input: "",
-              output: "['Orange', 25, 100, true, 33.58]",
+              input: "0\n5",
+              output: "[ 5, 50, 'center', 75, 100 ]",
               visible: true,
             },
+            {
+              input: "1\n200",
+              output: "[ 25, 200, 'center', 75, 100 ]",
+              visible: true,
+            },
+            {
+              input: "2\n99",
+              output: "[ 25, 50, 99, 75, 100 ]",
+              visible: false,
+            },
+            {
+              input: "3\n0",
+              output: "[ 25, 50, 'center', 0, 100 ]",
+              visible: false,
+            },
+            {
+              input: "4\n-10",
+              output: "[ 25, 50, 'center', 75, -10 ]",
+              visible: false,
+            },
           ],
-          defaultCode: ``,
+
+          defaultCode: `"use strict";
+
+          const fs = require("fs");
+          const input = fs.readFileSync(0, "utf-8").trim().split("\n");
+          
+          const index = parseInt(input[0]);
+          const val = parseInt(input[1]);
+          
+          const myArray = [25, 50, "center", 75, 100];
+          
+            /*
+             * Write your code here and log the output.
+             */
+                      
+          }
+          `,
           score: 22,
           status: "unsolved",
           attempts: [],
         },
         {
-          id: "93b1de13-8027-4a759428-b8466cb75e9a",
+          id: "93b1de13-80759428-b8466cb75e9a",
           title: "Find the length of the array",
           description:
             "Given an array (myArray).\n Write a JS program to find the length of the array and log the length.",
@@ -1117,18 +1346,74 @@ export const javascriptCodingPracticesData = {
           `,
           testCases: [
             {
-              input: "",
-              output: "['Orange', 25, 100, true, 33.58]",
+              input: "['Orange', 25, 100, true, 33.58]",
+              output: "5",
               visible: true,
             },
+            {
+              input: "[1, 2, 3]",
+              output: "3",
+              visible: true,
+            },
+            {
+              input: "[]",
+              output: "0",
+              visible: false,
+            },
+            {
+              input: "['A', 'B', 'C', 'D']",
+              output: "4",
+              visible: false,
+            },
+            {
+              input: "[true, false, true, false, true]",
+              output: "5",
+              visible: false,
+            },
           ],
-          defaultCode: ``,
+          defaultCode: `
+          "use strict";
+
+          process.stdin.resume();
+          process.stdin.setEncoding("utf-8");
+
+          let inputString = "";
+          let currentLine = 0;
+
+          process.stdin.on("data", (inputStdin) => {
+            inputString += inputStdin;
+          });
+
+          process.stdin.on("end", (_) => {
+            inputString = inputString
+              .trim()
+              .split("\n")
+              .map((str) => str.trim());
+
+            main();
+          });
+
+          function readLine() {
+            return inputString[currentLine++];
+          }
+
+          function main() {
+            let input = readLine().replace(/'/g, '"');
+            // myArray
+            let myArray = JSON.parse(input);
+
+            /*
+            *Write your code here and log the output.
+            */
+            
+          }
+          `,
           score: 22,
           status: "unsolved",
           attempts: [],
         },
         {
-          id: "893940c6-748d-4e6682a6-15c67a3f4491",
+          id: "893940c6-7486682a6-15c67a3f4491",
           title: "Add a value to the end of the array",
           description:
             "Given an array (myArray) and the value (val).\n Write a JS program to add a value to the end of the array using the array method push and log the updated array.",
@@ -1146,22 +1431,79 @@ export const javascriptCodingPracticesData = {
              </div>
           </div>
          `,
-          sampleInput: "[1, 2, 4]",
-          sampleOutput: "[1, 2, 4, 2]",
+          sampleInput: "[1, 2, 4] \n 2",
+          sampleOutput: "[ 1, 2, 4, 2 ]",
           testCases: [
             {
-              input: "",
-              output: "['Orange', 25, 100, true, 33.58]",
+              input: "['Orange', 25, 100, true, 33.58]\n10",
+              output: "[ 'Orange', 25, 100, true, 33.58, 10 ]",
               visible: true,
             },
+            {
+              input: "[1, 2, 3]\n4",
+              output: "[ 1, 2, 3, 4 ]",
+              visible: true,
+            },
+            {
+              input: "[]\n99",
+              output: "[ 99 ]",
+              visible: false,
+            },
+            {
+              input: "['A', 'B']\n5",
+              output: "[ 'A', 'B', 5 ]",
+              visible: false,
+            },
+            {
+              input: "[10, 20, 30]\n-15",
+              output: "[ 10, 20, 30, -15 ]",
+              visible: false,
+            },
           ],
-          defaultCode: ``,
+          defaultCode: `
+          "use strict";
+
+          process.stdin.resume();
+          process.stdin.setEncoding("utf-8");
+
+          let inputString = "";
+          let currentLine = 0;
+
+          process.stdin.on("data", (inputStdin) => {
+            inputString += inputStdin;
+          });
+
+          process.stdin.on("end", (_) => {
+            inputString = inputString
+              .trim()
+              .split("\n")
+              .map((str) => str.trim());
+
+            main();
+          });
+
+          function readLine() {
+            return inputString[currentLine++];
+          }
+
+          function main() {
+            let input = readLine().replace(/'/g, '"');
+            // myArray
+            let myArray = JSON.parse(input);
+            // val
+            let val = parseInt(readLine());
+
+            /*
+            * Write your code here and log the output.
+            */
+          }
+          `,
           score: 22,
           status: "unsolved",
           attempts: [],
         },
         {
-          id: "59db7b86-3de7-4cc18900-389d2c2115c2",
+          id: "59db7b86-3de18900-389d2c2115c2",
           title: "Delete the last value of the array",
           description:
             "Given an array (myArray).\n Write a JS program to delete the last value of the array using the array method pop and log the deleted value and updated array.",
@@ -1181,16 +1523,330 @@ export const javascriptCodingPracticesData = {
           </div>
           `,
           sampleInput: "[17, 2, 4, 9]",
-          sampleOutput: "9/n[17, 2, 4]",
+          sampleOutput: "9\n[ 17, 2, 4 ]",
+          testCases: [
+            {
+              input: "[17, 2, 4, 9]",
+              output: "9\n[ 17, 2, 4 ]",
+              visible: true,
+            },
+            {
+              input: "['Orange', 25, 100, true, 33.58]",
+              output: "33.58\n[ 'Orange', 25, 100, true ]",
+              visible: true,
+            },
+            {
+              input: "[1, 2, 3, 4]",
+              output: "4\n[ 1, 2, 3 ]",
+              visible: false,
+            },
+            {
+              input: "['A']",
+              output: "A\n[]",
+              visible: false,
+            },
+            {
+              input: "[]",
+              output: "undefined\n[]",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+          "use strict";
+
+          process.stdin.resume();
+          process.stdin.setEncoding("utf-8");
+
+          let inputString = "";
+          let currentLine = 0;
+
+          process.stdin.on("data", (inputStdin) => {
+            inputString += inputStdin;
+          });
+
+          process.stdin.on("end", (_) => {
+            inputString = inputString
+              .trim()
+              .split("\n")
+              .map((str) => str.trim());
+
+            main();
+          });
+
+          function readLine() {
+            return inputString[currentLine++];
+          }
+
+          function main() {
+            let input = readLine().replace(/'/g, '"');
+            // myArray
+            let myArray = JSON.parse(input);
+
+            /*
+            * Write your code here and log the output.
+            */
+            
+          }
+          `,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    //JS coding practice - 2
+    {
+      id: "js-coding-practice-2",
+      title: "JS Coding Practice 2",
+      description: "",
+      questions: [
+        {
+          id: "f9866fae-1271-4933b37f-b8d3319b8a5a",
+          title: "Call a Function",
+          description:
+            "Given a function (greet) in the prefilled code.\n Write a JS code to call the given function and log it.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the given greetings message.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "",
+          sampleOutput: " Hello! Have a nice day ",
           testCases: [
             {
               input: "",
-              output: "['Orange', 25, 100, true, 33.58]",
+              output: "Hello! Have a nice day",
               visible: true,
             },
           ],
-          defaultCode: ``,
-          score: 22,
+          defaultCode: `// function greet
+          function greet() {
+            return "Hello! Have a nice day";
+          }
+          
+          /*
+           * Write your code here and log the output.
+           */
+          
+          `,
+          score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "95c3f2f4-6d0e-4a888d5d-5ca5ee15b99c",
+          title: "Return a value in the function",
+          description:
+            "Given a function (getSumOfTwoIntegers) in the prefilled code.\n Return the sum of two integers passed as arguments to the function.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an integer (firstInteger).</p>
+                <p class=""></p>The second line of input will contain an integer (secondInteger).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the returned value of the function (sum of two integers).</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "2\n3",
+          sampleOutput: "5",
+
+          testCases: [
+            {
+              input: "2\n3",
+              output: "5",
+              visible: true,
+            },
+            {
+              input: "10\n20",
+              output: "30",
+              visible: true,
+            },
+            {
+              input: "0\n0",
+              output: "0",
+              visible: false,
+            },
+            {
+              input: "-5\n15",
+              output: "10",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `"use strict";
+
+process.stdin.resume();
+process.stdin.setEncoding("utf-8");
+
+let inputString = "";
+let currentLine = 0;
+
+process.stdin.on("data", (inputStdin) => {
+  inputString += inputStdin;
+});
+
+process.stdin.on("end", (_) => {
+  inputString = inputString
+    .trim()
+    .split("\n")
+    .map((str) => str.trim());
+
+  main();
+});
+
+function readLine() {
+  return inputString[currentLine++];
+}
+
+function main() {
+  // firstInteger
+  let firstInteger = parseInt(readLine());
+  // secondInteger
+  let secondInteger = parseInt(readLine());
+
+  // function getSumOfTwoIntegers
+  function getSumOfTwoIntegers(integer1, integer2) {
+    /*
+     * Write your code here and return the output.
+     */
+     let sum = firstInteger + secondInteger;
+     return sum;
+     
+  }
+
+
+  let sumOfTwoIntegers = getSumOfTwoIntegers(firstInteger, secondInteger);
+  console.log(sumOfTwoIntegers);
+}
+ `,
+          score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "5d28a093cbb3-4402b16d-29409791a240",
+          title: "Create a Function",
+          description:
+            "Write a function 'getNationalBird' to return the national bird of India. \n The national bird of India is the 'Peacock'.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+         
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the national bird of the India.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "",
+          sampleOutput: " Peacock ",
+
+          testCases: [
+            {
+              input: "",
+              output: "Peacock",
+              visible: true,
+            },
+          ],
+
+          defaultCode: `/*
+ * Write your code here and return the output.
+ */
+/*
+ * Write your code here and return the output.
+ */
+
+
+
+let nationalBird = getNationalBird();
+console.log(nationalBird);
+
+ `,
+          score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "8c4bad15-52fa4bf5943f-d25df3018003",
+          title: "Passing an Argument to the Function",
+          description:
+            "Given a function (greetWithName) in the prefilled code. \n Log the value returned by the function (greetWithName) by passing the given name (personName) as an argument to it.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain a string (personName).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the greeting message with name (personName).</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "Bharath",
+          sampleOutput: " Hi Bharath ",
+
+        testCases: [
+  {
+    input: "Bharath",
+    output: "Hi Bharath",
+    visible: true,
+  },
+],
+
+          defaultCode: `"use strict";
+
+process.stdin.resume();
+process.stdin.setEncoding("utf-8");
+
+let inputString = "";
+let currentLine = 0;
+
+process.stdin.on("data", (inputStdin) => {
+  inputString += inputStdin;
+});
+
+process.stdin.on("end", (_) => {
+  inputString = inputString
+    .trim()
+    .split("\n")
+    .map((str) => str.trim());
+
+  main();
+});
+
+function readLine() {
+  return inputString[currentLine++];
+}
+
+function main() {
+  // personName
+  let personName = readLine();
+
+  // function greetWithName
+  function greetWithName(personName) {
+    let greetings  = "Hi " + personName;
+    return greetings;
+  }
+
+  /*
+   * Write your code here and log the output.
+   */
+  
+}
+
+ `,
+          score: 5,
           status: "unsolved",
           attempts: [],
         },
