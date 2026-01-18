@@ -1688,9 +1688,8 @@ export const javascriptCodingPracticesData = {
                 return greetings;
               }
             
-              /*
-              * Write your code here and log the output.
-              */`,
+              // Call function and print result
+              `,
           score: 8,
           status: "unsolved",
           attempts: [],
