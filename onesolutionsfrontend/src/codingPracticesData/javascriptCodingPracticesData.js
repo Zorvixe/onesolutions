@@ -1257,7 +1257,7 @@ export const javascriptCodingPracticesData = {
           difficulty: "Easy",
 
           sampleInput: "0\n5",
-          sampleOutput: "[ 5, 50, 'center', 75, 100 ]",
+          sampleOutput: "[5, 50, 'center', 75, 100]",
           descriptionDetails: `
           <div class="desc-question-details">
 
@@ -1281,46 +1281,41 @@ export const javascriptCodingPracticesData = {
           testCases: [
             {
               input: "0\n5",
-              output: "[ 5, 50, 'center', 75, 100 ]",
+              output: "[5, 50, 'center', 75, 100]",
               visible: true,
             },
             {
               input: "1\n200",
-              output: "[ 25, 200, 'center', 75, 100 ]",
+              output: "[25, 200, 'center', 75, 100]",
               visible: true,
             },
             {
               input: "2\n99",
-              output: "[ 25, 50, 99, 75, 100 ]",
+              output: "[25, 50, 99, 75, 100]",
               visible: false,
             },
             {
               input: "3\n0",
-              output: "[ 25, 50, 'center', 0, 100 ]",
+              output: "[25, 50, 'center', 0, 100]",
               visible: false,
             },
             {
               input: "4\n-10",
-              output: "[ 25, 50, 'center', 75, -10 ]",
+              output: "[25, 50, 'center', 75, -10]",
               visible: false,
             },
           ],
 
-          defaultCode: `"use strict";
-
-          const fs = require("fs");
-          const input = fs.readFileSync(0, "utf-8").trim().split("\n");
+          defaultCode: `// Prefilled array
+          let myArray = [25, 50, 'center', 75, 100];
           
-          const index = parseInt(input[0]);
-          const val = parseInt(input[1]);
-          
-          const myArray = [25, 50, "center", 75, 100];
+          // Read inputs
+          let index = parseInt(prompt());
+          let val = parseInt(prompt());
           
             /*
              * Write your code here and log the output.
-             */
-                      
-          }
+             */ 
           `,
           score: 22,
           status: "unsolved",
@@ -1372,41 +1367,12 @@ export const javascriptCodingPracticesData = {
             },
           ],
           defaultCode: `
-          "use strict";
-
-          process.stdin.resume();
-          process.stdin.setEncoding("utf-8");
-
-          let inputString = "";
-          let currentLine = 0;
-
-          process.stdin.on("data", (inputStdin) => {
-            inputString += inputStdin;
-          });
-
-          process.stdin.on("end", (_) => {
-            inputString = inputString
-              .trim()
-              .split("\n")
-              .map((str) => str.trim());
-
-            main();
-          });
-
-          function readLine() {
-            return inputString[currentLine++];
-          }
-
-          function main() {
-            let input = readLine().replace(/'/g, '"');
-            // myArray
-            let myArray = JSON.parse(input);
+          // Read array input as string
+          let myArray = eval(prompt());
 
             /*
             *Write your code here and log the output.
             */
-            
-          }
           `,
           score: 22,
           status: "unsolved",
@@ -1432,71 +1398,43 @@ export const javascriptCodingPracticesData = {
           </div>
          `,
           sampleInput: "[1, 2, 4] \n 2",
-          sampleOutput: "[ 1, 2, 4, 2 ]",
+          sampleOutput: "[1, 2, 4, 2]",
           testCases: [
             {
               input: "['Orange', 25, 100, true, 33.58]\n10",
-              output: "[ 'Orange', 25, 100, true, 33.58, 10 ]",
+              output: "['Orange', 25, 100, true, 33.58, 10]",
               visible: true,
             },
             {
               input: "[1, 2, 3]\n4",
-              output: "[ 1, 2, 3, 4 ]",
+              output: "[1, 2, 3, 4]",
               visible: true,
             },
             {
               input: "[]\n99",
-              output: "[ 99 ]",
+              output: "[99]",
               visible: false,
             },
             {
               input: "['A', 'B']\n5",
-              output: "[ 'A', 'B', 5 ]",
+              output: "['A', 'B', 5]",
               visible: false,
             },
             {
               input: "[10, 20, 30]\n-15",
-              output: "[ 10, 20, 30, -15 ]",
+              output: "[10, 20, 30, -15]",
               visible: false,
             },
           ],
           defaultCode: `
-          "use strict";
+          // Read array input
+            let myArray = eval(prompt());
 
-          process.stdin.resume();
-          process.stdin.setEncoding("utf-8");
-
-          let inputString = "";
-          let currentLine = 0;
-
-          process.stdin.on("data", (inputStdin) => {
-            inputString += inputStdin;
-          });
-
-          process.stdin.on("end", (_) => {
-            inputString = inputString
-              .trim()
-              .split("\n")
-              .map((str) => str.trim());
-
-            main();
-          });
-
-          function readLine() {
-            return inputString[currentLine++];
-          }
-
-          function main() {
-            let input = readLine().replace(/'/g, '"');
-            // myArray
-            let myArray = JSON.parse(input);
-            // val
-            let val = parseInt(readLine());
-
+            // Read value to be added
+            let val = parseInt(prompt());
             /*
             * Write your code here and log the output.
             */
-          }
           `,
           score: 22,
           status: "unsolved",
@@ -1523,21 +1461,21 @@ export const javascriptCodingPracticesData = {
           </div>
           `,
           sampleInput: "[17, 2, 4, 9]",
-          sampleOutput: "9\n[ 17, 2, 4 ]",
+          sampleOutput: "9\n[17, 2, 4]",
           testCases: [
             {
               input: "[17, 2, 4, 9]",
-              output: "9\n[ 17, 2, 4 ]",
+              output: "9\n[17, 2, 4]",
               visible: true,
             },
             {
               input: "['Orange', 25, 100, true, 33.58]",
-              output: "33.58\n[ 'Orange', 25, 100, true ]",
+              output: "33.58\n['Orange', 25, 100, true]",
               visible: true,
             },
             {
               input: "[1, 2, 3, 4]",
-              output: "4\n[ 1, 2, 3 ]",
+              output: "4\n[1, 2, 3]",
               visible: false,
             },
             {
@@ -1552,41 +1490,12 @@ export const javascriptCodingPracticesData = {
             },
           ],
           defaultCode: `
-          "use strict";
-
-          process.stdin.resume();
-          process.stdin.setEncoding("utf-8");
-
-          let inputString = "";
-          let currentLine = 0;
-
-          process.stdin.on("data", (inputStdin) => {
-            inputString += inputStdin;
-          });
-
-          process.stdin.on("end", (_) => {
-            inputString = inputString
-              .trim()
-              .split("\n")
-              .map((str) => str.trim());
-
-            main();
-          });
-
-          function readLine() {
-            return inputString[currentLine++];
-          }
-
-          function main() {
-            let input = readLine().replace(/'/g, '"');
-            // myArray
-            let myArray = JSON.parse(input);
+          // Read array input
+          let myArray = eval(prompt());
 
             /*
             * Write your code here and log the output.
-            */
-            
-          }
+            */            
           `,
           score: 22,
           status: "unsolved",
@@ -1682,52 +1591,13 @@ export const javascriptCodingPracticesData = {
             },
           ],
 
-          defaultCode: `"use strict";
-
-process.stdin.resume();
-process.stdin.setEncoding("utf-8");
-
-let inputString = "";
-let currentLine = 0;
-
-process.stdin.on("data", (inputStdin) => {
-  inputString += inputStdin;
-});
-
-process.stdin.on("end", (_) => {
-  inputString = inputString
-    .trim()
-    .split("\n")
-    .map((str) => str.trim());
-
-  main();
-});
-
-function readLine() {
-  return inputString[currentLine++];
-}
-
-function main() {
-  // firstInteger
-  let firstInteger = parseInt(readLine());
-  // secondInteger
-  let secondInteger = parseInt(readLine());
-
-  // function getSumOfTwoIntegers
-  function getSumOfTwoIntegers(integer1, integer2) {
-    /*
-     * Write your code here and return the output.
-     */
-     let sum = firstInteger + secondInteger;
-     return sum;
-     
-  }
-
-
-  let sumOfTwoIntegers = getSumOfTwoIntegers(firstInteger, secondInteger);
-  console.log(sumOfTwoIntegers);
-}
- `,
+          defaultCode: `
+          function getSumOfTwoIntegers(firstInteger, secondInteger) {
+            /*
+            * Write your code here and return the output.
+            */
+          }
+            `,
           score: 12,
           status: "unsolved",
           attempts: [],
@@ -1759,14 +1629,14 @@ function main() {
           ],
 
           defaultCode: `/*
- * Write your code here and return the output.
- */
+          * Write your code here and return the output.
+          */
 
 
-let nationalBird = getNationalBird();
-console.log(nationalBird);
+          let nationalBird = getNationalBird();
+          console.log(nationalBird);
 
- `,
+          `,
           score: 5,
           status: "unsolved",
           attempts: [],
@@ -1800,48 +1670,18 @@ console.log(nationalBird);
             },
           ],
 
-          defaultCode: `"use strict";
-
-process.stdin.resume();
-process.stdin.setEncoding("utf-8");
-
-let inputString = "";
-let currentLine = 0;
-
-process.stdin.on("data", (inputStdin) => {
-  inputString += inputStdin;
-});
-
-process.stdin.on("end", (_) => {
-  inputString = inputString
-    .trim()
-    .split("\n")
-    .map((str) => str.trim());
-
-  main();
-});
-
-function readLine() {
-  return inputString[currentLine++];
-}
-
-function main() {
-  // personName
-  let personName = readLine();
-
-  // function greetWithName
-  function greetWithName(personName) {
-    let greetings  = "Hi " + personName;
-    return greetings;
-  }
-
-  /*
-   * Write your code here and log the output.
-   */
-  
-}
-
- `,
+          defaultCode: `
+          // personName
+          let personName = prompt();
+              // function greetWithName
+              function greetWithName(personName) {
+                let greetings  = "Hi " + personName;
+                return greetings;
+              }
+            
+              /*
+              * Write your code here and log the output.
+              */`,
           score: 8,
           status: "unsolved",
           attempts: [],
@@ -1868,45 +1708,21 @@ function main() {
           sampleInput: "4\n2",
           sampleOutput: "3",
 
-          defaultCode: `"use strict";
-
-process.stdin.resume();
-process.stdin.setEncoding("utf-8");
-
-let inputString = "";
-let currentLine = 0;
-
-process.stdin.on("data", (inputStdin) => {
-  inputString += inputStdin;
-});
-
-process.stdin.on("end", (_) => {
-  inputString = inputString
-    .trim()
-    .split("\n")
-    .map((str) => str.trim());
-
-  main();
-});
-
-function readLine() {
-  return inputString[currentLine++];
-}
-
-function main() {
-  // firstInteger
-  let firstInteger = parseInt(readLine());
-  // secondInteger
-  let secondInteger = parseInt(readLine());
-
-  /*
-   * Write your code here and log the output.
-   */
-  
-
-}
-
- `,
+          defaultCode: `
+          function getAverage(a, b) {
+            /*
+             * return your function here
+             */
+          }
+          
+          // Read inputs
+          let firstInteger = parseInt(prompt());
+          let secondInteger = parseInt(prompt());
+          
+          /*
+             * Write your code here and log the output.
+             */
+          `,
           testCases: [
             {
               input: "4\n2",
@@ -1939,7 +1755,7 @@ function main() {
           attempts: [],
         },
         {
-          id: "d813742e-f8f5-41d992d3-1178dc1659ea",
+          id: "d813742e-f8fnjuv4992d3-1178dc1659ea",
           title: "Creating a Function Expression",
           description:
             "Write a function expression 'convertMinutesToSeconds' to convert the given minutes (minutes) to seconds. \n The formula to convert minutes to seconds is, seconds = minutes * 60.",
@@ -1959,48 +1775,10 @@ function main() {
           sampleInput: "1",
           sampleOutput: "60",
 
-          defaultCode: `"use strict";
-
-          process.stdin.resume();
-          process.stdin.setEncoding("utf-8");
-          
-          let inputString = "";
-          let currentLine = 0;
-          
-          process.stdin.on("data", (inputStdin) => {
-            inputString += inputStdin;
-          });
-          
-          process.stdin.on("end", (_) => {
-            inputString = inputString
-              .trim()
-              .split("\n")
-              .map((str) => str.trim());
-          
-            main();
-          });
-          
-          function readLine() {
-            return inputString[currentLine++];
-          }
-          
-          function main() {
-            // minutes
-            let minutes = parseInt(readLine());
-          
-            // Write your code here and return the output
-            function convertMinutesToSeconds(minutes){
-                return minutes * 60;
-                
-            }
-            
-            
-            let result = convertMinutesToSeconds(minutes);
-            console.log(result);
-          }
-          
-
- `,
+          defaultCode: `
+          let minutes = parseInt(prompt());
+          // Write your code here and return the output
+          `,
           testCases: [
             {
               input: "1",
