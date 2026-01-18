@@ -1594,9 +1594,15 @@ export const javascriptCodingPracticesData = {
           defaultCode: `
           function getSumOfTwoIntegers(firstInteger, secondInteger) {
             /*
-            * Write your code here and return the output.
+            * return the output.
             */
           }
+
+            // Read inputs
+              let firstInteger = parseInt(prompt());
+              let secondInteger = parseInt(prompt());
+
+              // Call function and print result
             `,
           score: 12,
           status: "unsolved",
@@ -1628,13 +1634,16 @@ export const javascriptCodingPracticesData = {
             },
           ],
 
-          defaultCode: `/*
-          * Write your code here and return the output.
-          */
+          defaultCode: `
 
-
-          let nationalBird = getNationalBird();
-          console.log(nationalBird);
+          function getNationalBird() {
+            bird = "Peacock";
+            /*
+              * Write your code here and return the output.
+            */
+            }
+          
+            // Call function and print result
 
           `,
           score: 5,
