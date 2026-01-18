@@ -1727,9 +1727,8 @@ export const javascriptCodingPracticesData = {
           let firstInteger = parseInt(prompt());
           let secondInteger = parseInt(prompt());
           
-          /*
-             * Write your code here and log the output.
-             */
+          // Call function and print result
+
           `,
           testCases: [
             {
