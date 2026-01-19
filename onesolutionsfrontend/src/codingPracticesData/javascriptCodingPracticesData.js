@@ -987,7 +987,7 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
-    //coding_practice - 5
+    //coding practice - 5
     {
       id: "javascript-coding-practice-5",
       title: "Javascript Coding Practice 5",
@@ -1205,6 +1205,419 @@ export const javascriptCodingPracticesData = {
                 "When the applyButton is clicked, the value of the border radius input element with the id borderRadiusInput should apply to the HTML button element with the id customButton",
               type: "js-validation",
               input: "check-borderRadiusInput",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    //coding practice - 6
+    {
+      id: "javascript-coding-practice-6",
+      title: "Javascript Coding Practice 6",
+      description: "",
+      questions: [
+        {
+          id: "ed915af8-2fvjfssbnkfbvj446d9-0d115kkf8eb19",
+          title: "User Profile",
+          description:
+            "In this assignment, let's build a User Profile Page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="profile-container" id="profileContainer">
+                    <div id="imgContainer"></div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .profile-container {
+                color: white;
+                background-color: #b990ff;
+                height: 100vh;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768802333/user-profile-v1_bzbtjs.png" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                      <span>
+                        Use the values of the <code>profileDetails</code> object mentioned in the JS
+                        prefilled code to fill the text/image content of the given design
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        Dynamically create the HTML elements as children to the HTML container
+                        element with the id <code>profileContainer</code>
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        The text content of the HTML main heading element should be the value of the
+                        <code>name</code> key given in the <code>profileDetails</code>
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        The HTML <code>src</code> attribute of the HTML <code>img</code> element
+                        should have the value of the <code>imgSrc</code> key given in the
+                        <code>profileDetails</code>
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        The text content of the HTML paragraph element should be the value of the
+                        <code>age</code> key given in the <code>profileDetails</code>
+                      </span>
+                    </li>
+                  </ol>
+                
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                        <li>
+                        Write the code without deleting the prefilled code.
+                        </li>
+                        <li>
+                        Try to achieve the design as close as possible.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+                  <hr>
+                  <p class="desc-que-blue">Resources</p>
+                  <p class="desc-que-blue">CSS Font families used:</p>
+                  <ul>
+                  <li>Roboto</li>
+                  </ul>
+                 
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the id profileContainer",
+              type: "js-validation",
+              input: "check-profileContainer",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Page should consist of an HTML image element",
+              type: "js-validation",
+              input: "check-image",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML main heading element with the value of the name key given in the profileDetails object",
+              type: "js-validation",
+              input: "check-name",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element with the value of the age key given in the profileDetails object",
+              type: "js-validation",
+              input: "check-age",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "ed916af8-2fvjlssbnkfbvj466d9-0d115kkf8eb19",
+          title: "Todos Application",
+          description:
+            "In this assignment, let's build a Todos Application by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 60,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+                <script src="https://kit.fontawesome.com/5f59ca6ad3.js" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="todos-bg-container">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="todos-heading">Todos</h1>
+                                <h1 class="create-task-heading">
+                                    Create <span class="create-task-heading-subpart">Task</span>
+                                </h1>
+                                <input type="text" id="todoUserInput" class="todo-user-input" placeholder="What needs to be done?" />
+                                <button class="add-todo-button" id="addTodoButton">Add</button>
+                                <h1 class="todo-items-heading">
+                                    My <span class="todo-items-heading-subpart">Tasks</span>
+                                </h1>
+                                <ul class="todo-items-container" id="todoItemsContainer"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .todos-bg-container {
+                background-color: #f9fbfe;
+                height: 100vh;
+            }
+            
+            .todos-heading {
+                text-align: center;
+                font-family: "Roboto";
+                font-size: 46px;
+                font-weight: 500;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .create-task-heading {
+                font-family: "Roboto";
+                font-size: 32px;
+                font-weight: 700;
+            }
+            
+            .create-task-heading-subpart {
+                font-family: "Roboto";
+                font-size: 32px;
+                font-weight: 500;
+            }
+            
+            .todo-items-heading {
+                font-family: "Roboto";
+                font-size: 32px;
+                font-weight: 700;
+            }
+            
+            .todo-items-heading-subpart {
+                font-family: "Roboto";
+                font-size: 32px;
+                font-weight: 500;
+            }
+            
+            .todo-items-container {
+                margin: 0;
+                padding: 0;
+            }
+            
+            .todo-item-container {
+                margin-top: 15px;
+            }
+            
+            .todo-user-input {
+                background-color: white;
+                width: 100%;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #e4e7eb;
+                border-radius: 10px;
+                margin-top: 10px;
+                padding: 15px;
+            }
+            
+            .add-todo-button {
+                color: white;
+                background-color: #4c63b6;
+                font-family: "Roboto";
+                font-size: 18px;
+                border-width: 0;
+                border-radius: 4px;
+                margin-top: 20px;
+                margin-bottom: 50px;
+                padding-top: 5px;
+                padding-bottom: 5px;
+                padding-right: 20px;
+                padding-left: 20px;
+            }
+            
+            .label-container {
+                background-color: #e6f6ff;
+                width: 100%;
+                border-style: solid;
+                border-width: 5px;
+                border-color: #096f92;
+                border-right: none;
+                border-top: none;
+                border-bottom: none;
+                border-radius: 4px;
+            }
+            
+            .checkbox-input {
+                width: 20px;
+                height: 20px;
+                margin-top: 12px;
+                margin-right: 12px;
+            }
+            
+            .checkbox-label {
+                font-family: "Roboto";
+                font-size: 16px;
+                font-weight: 400;
+                width: 82%;
+                margin: 0;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-left: 20px;
+                padding-right: 20px;
+                border-radius: 5px;
+            }
+            
+            .delete-icon-container {
+                text-align: right;
+                width: 18%;
+            }
+            
+            .delete-icon {
+                padding: 15px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768809014/todo-application-part-1-v1_dpt7y6.png" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                      <span>
+                        The Todos Application is built and given in the prefilled code. Add the todo
+                        items to it using JavaScript.
+                      </span>
+                    </li>
+                    <li>
+                      <span>Practice adding a single todo item using JavaScript</span>
+                    </li>
+                    <li>
+                      <span>Practice adding a checkbox with the label using JavaScript</span>
+                    </li>
+                    <li>
+                      <span>Practice adding a delete icon using JavaScript</span>
+                    </li>
+                    <li>
+                      <span>
+                        Practice adding multiple todo items using JavaScript with the array of todo
+                        objects given in the prefilled code using <code>for...of</code> loop
+                      </span>
+                    </li>
+                  </ol>
+
+                  <div className="Warning-container">
+                  <div>
+                    <h5>
+                      <i class="bi bi-exclamation-triangle"></i>Warning
+                    </h5>
+                  </div>
+                  <ul style={{ marginLeft: "1.5rem" }}>
+                    <li>
+                    Do not delete the prefilled code.
+                    </li>
+                  </ul>
+                </div>
+                
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description: "Page should consist of an HTML input element",
+              type: "js-validation",
+              input: "check-input-element",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML unordered list element",
+              type: "js-validation",
+              input: "check-ul-element",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of at least an HTML list item element",
+              type: "js-validation",
+              input: "check-li-element",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML checkbox input element",
+              type: "js-validation",
+              input: "check-checkbox-element",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Page should consist of an HTML label element",
+              type: "js-validation",
+              input: "check-label-element",
               output: "true",
               visible: true,
             },
@@ -1524,11 +1937,11 @@ export const javascriptCodingPracticesData = {
           </div>
            `,
           sampleInput: "",
-          sampleOutput: " Hello! Have a nice day ",
+          sampleOutput: "Hello! Have a nice day",
           testCases: [
             {
               input: "",
-              output: "Hello! Have a nice day",
+              output: `Hello! Have a nice day`,
               visible: true,
             },
           ],
@@ -1814,6 +2227,360 @@ export const javascriptCodingPracticesData = {
             },
           ],
           score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    //JS coding practice - 3
+    {
+      id: "js-coding-practice-3",
+      title: "JS Coding Practice 3",
+      description: "",
+      questions: [
+        {
+          id: "30d963eb-44104de099d6-8fe9b46b37cc",
+          title: "Create & Log an Object",
+          description:
+            "Write a JS program to log a vehicle object with the given properties (key-value pairs).\n name - Mercedes Benz \n model - C-Class \n manufacturer - Daimler AG company \n length - 4686mm \n cargo capacity - 12.6 cubic feet",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing a vehicle object with the above properties.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "",
+
+          sampleOutput: `{
+  name: 'Mercedes Benz',
+  model: 'C-Class',
+  manufacturer: 'Daimler AG company',
+  length: '4686mm',
+  'cargo capacity': '12.6 cubic feet'
+  }`,
+
+          testCases: [
+            {
+              input: "",
+              output: `{
+  name: 'Mercedes Benz',
+  model: 'C-Class',
+  manufacturer: 'Daimler AG company',
+  length: '4686mm',
+  'cargo capacity': '12.6 cubic feet'
+}`,
+              visible: true,
+            },
+          ],
+
+          defaultCode: `
+          function carObject(){
+
+            //create and return your output
+
+          }
+
+          // Call function and print result
+   
+    `,
+
+          score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "1c11ae1d-4212485a99b6-5dc415ff027c",
+          title: "Create & Log an Object - 2",
+          description:
+            "Write a JS program to log a movie object with the given properties (key-value pairs).\n title - Baahubali \n director - Rajamouli \n producers - Sobhu, Raghavendra, Prasad \n lead actors with their roles - an object with the key-value pairs: prabhas - Baahubali, anushka - Devasena, rana - Bhallaladeva, tamannah - Avanthika",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing a movie object with the above properties.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "",
+
+          sampleOutput: `{
+  title: 'Baahubali',
+  director: 'Rajamouli',
+  producers: ['Sobhu', 'Raghavendra', 'Prasad'],
+  'lead actors with their roles': {
+  prabhas: 'Baahubali',
+  anushka: 'Devasena',
+  rana: 'Bhallaladeva',
+  tamannah: 'Avanthika'
+  }
+}`,
+
+          testCases: [
+            {
+              input: "",
+              output: `{
+  title: 'Baahubali',
+  director: 'Rajamouli',
+  producers: ['Sobhu', 'Raghavendra', 'Prasad'],
+  'lead actors with their roles': {
+  prabhas: 'Baahubali',
+  anushka: 'Devasena',
+  rana: 'Bhallaladeva',
+  tamannah: 'Avanthika'
+  }
+}`,
+              visible: true,
+            },
+          ],
+
+          defaultCode: `
+          function movieObject(){
+
+            //return the object
+
+          }
+          
+          // Call function and print result
+
+          `,
+
+          score: 5,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "b7c721a6-2b114fa78534-ba1de99e546b",
+          title: "Access the values of an object",
+          description:
+            "Given an object (person) in he prefilled code.\n Access the value of an object with the given key (objectKey) and log it.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The first line of input should contain a string (objectKey).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing a value of an object with the given key (objectKey).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class=""></p>The 'objectKey' should be wrapped with the quotes.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "name",
+          sampleOutput: "Sam",
+          testCases: [
+            {
+              input: "name",
+              output: "Sam",
+              visible: true,
+            },
+            {
+              input: "age",
+              output: "20",
+              visible: true,
+            },
+            {
+              input: "city",
+              output: "Delhi",
+              visible: false,
+            },
+            {
+              input: "isStudent",
+              output: "true",
+              visible: false,
+            },
+            {
+              input: "score",
+              output: "85",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          // Prefilled object
+const person = {
+  name: "Sam",
+  age: 20,
+  city: "Delhi",
+  isStudent: true,
+  score: 85
+};
+
+
+// Read the object key
+let objectKey = prompt();
+
+// Access and print the value using bracket notation
+
+          `,
+          score: 32,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "7c5c1c8d-6a3d4a7fbd68-d7e0f6172c26",
+          title: "Update the values of an object",
+          description:
+            "Given an object (cat) in he prefilled code.\n Update the value of an object with the given key (objectKey) and value (val) and log the updated object.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The first line of input will contain a string (objectKey).</p>
+                <p class=""></p>The second line of input will contain the value (val). The value might be a string, array or an object.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">output</p>
+                <p class=""></p>The Output should be a single line containing the updated object.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class=""></p>The 'objectKey' should be wrapped with the quotes.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "name\n'sassy'",
+          sampleOutput: `{"name":"sassy","age":18,"fur color":"grey","likes":["catnip","milk"],"birthday":{"month":7,"day":17,"year":1994}}`,
+          testCases: [
+            {
+              input: "name\n'sassy'",
+              output: `{"name":"sassy","age":18,"fur color":"grey","likes":["catnip","milk"],"birthday":{"month":7,"day":17,"year":1994}}`,
+              visible: true,
+            },
+            {
+              input: "age\n20",
+              output: `{"name":"lizzie","age":20,"fur color":"grey","likes":["catnip","milk"],"birthday":{"month":7,"day":17,"year":1994}}`,
+              visible: false,
+            },
+            {
+              input: "fur color\n'white'",
+              output: `{"name":"lizzie","age":18,"fur color":"white","likes":["catnip","milk"],"birthday":{"month":7,"day":17,"year":1994}}`,
+              visible: false,
+            },
+            {
+              input: "likes\n['fish','sleep']",
+              output: `{"name":"lizzie","age":18,"fur color":"grey","likes":["fish","sleep"],"birthday":{"month":7,"day":17,"year":1994}}`,
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          // Prefilled object
+let cat = {
+  name: 'lizzie',
+  age: 18,
+  'fur color': 'grey',
+  likes: ['catnip', 'milk'],
+  birthday: { month: 7, day: 17, year: 1994 }
+};
+
+// Read inputs
+let objectKey = prompt();
+let val = eval(prompt()); // value can be string, array, or object
+
+/*
+* Write your code here and log the output.
+*/
+
+// Update object value
+
+
+// Print updated object
+
+
+          `,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "ccf99d4e-8a2346e9b7e0-9fec95863684",
+          title: "Add a property to an object",
+          description:
+            "Given an object (meals) in the prefilled code.\n Add a new property to the object with the given key (objectKey) and value (val) and log the updated object.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain a string (objectKey).</p>
+                 <p>The second line of input will contain a value (val). The value might be a string, array or an object.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing a updated object.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>The 'objectKey' should be wrapped with the quotes.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "snack\n'Noodles'",
+
+          sampleOutput: `{
+  breakfast: 'Oatmeal',
+  lunch: 'Burrito',
+  dinner: 'Chapathi',
+  snack: 'Noodles'
+}`,
+
+          testCases: [
+            {
+              input: "snack\n'Noodles'",
+              output: `{"breakfast":"Oatmeal","lunch":"Burrito","dinner":"Chapathi","snack":"Noodles"}`,
+              visible: true,
+            },
+            {
+              input: "dessert\n'IceCream'",
+              output: `{"breakfast":"Oatmeal","lunch":"Burrito","dinner":"Chapathi","dessert":"IceCream"}`,
+              visible: true,
+            },
+            {
+              input: "drink\n'Coffee'",
+              output: `{"breakfast":"Oatmeal","lunch":"Burrito","dinner":"Chapathi","drink":"Coffee"}`,
+              visible: true,
+            },
+            {
+              input: "midnightSnack\n'Pizza'",
+              output: `{"breakfast":"Oatmeal","lunch":"Burrito","dinner":"Chapathi","midnightSnack":"Pizza"}`,
+              visible: true,
+            },
+          ],
+
+          defaultCode: `// Prefilled object
+          let meals = {
+            breakfast: 'Oatmeal',
+            lunch: 'Burrito',
+            dinner: 'Chapathi'
+          };
+          
+          // Read inputs
+          let objectKey = prompt();
+          let val = eval(prompt()); // value can be string, array, or object
+          
+          /*
+          * Write your code here and log the output.
+          */
+
+`,
+
+          score: 14,
           status: "unsolved",
           attempts: [],
         },

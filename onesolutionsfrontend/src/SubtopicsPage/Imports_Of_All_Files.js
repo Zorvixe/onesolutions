@@ -88,6 +88,9 @@ import More_React_CS from "../Reactjs/More_React_Concepts/More_React_CS.js";
 import Third_Party_CS from "../Reactjs/Third_Party/Third_Party_CS.js";
 import Recharts from "../Reactjs/Third_Party/Recharts.js";
 import React_Chrono_CS from "../Reactjs/Third_Party/React_Chrono_CS.js";
+import React_Slick from "../Reactjs/Third_Party/React_Slick.js";
+import React_Pop from "../Reactjs/Third_Party/React_Pop.js";
+
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -1151,6 +1154,8 @@ export const subtopicComponents = {
   "Third Party Packages | Cheat Sheet": Third_Party_CS,
   "Recharts | Reading Material": Recharts,
   "React Chrono | Reading Material": React_Chrono_CS,
+  "React Slick | Reading Material": React_Slick,
+  "React Popup | Reading Material": React_Pop,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,

@@ -1967,7 +1967,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m3_H g2_7B c1_D2E",
-                name: "Coding Practice 5",
+                name: "JS Coding Practice 5",
               },
               {
                 id: "QW9_s6_A0 m3_H g2_7B c1_D2E",

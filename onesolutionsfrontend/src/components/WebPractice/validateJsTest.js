@@ -616,6 +616,56 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed, actual };
       }
 
+      //user profile
+      case "check-profileContainer": {
+        const element = iframeDoc.getElementById("profileContainer");
+        return { passed: element !== null };
+      }
+      
+      case "check-image": {
+        const element = iframeDoc.querySelector("img");
+        return { passed: element !== null };
+      }
+      
+      case "check-name": {
+        const headingEl = iframeDoc.querySelector("h1");
+        const passed =
+          headingEl !== null && headingEl.textContent.trim() === "RAHUL ATTULURI";
+        return { passed, actual: headingEl ? headingEl.textContent.trim() : null };
+      }
+      
+      case "check-age": {
+        const paraEl = iframeDoc.querySelector("p");
+        const passed = paraEl !== null && paraEl.textContent.trim() === "Age: 25";
+        return { passed, actual: paraEl ? paraEl.textContent.trim() : null };
+      }
+      //Todos application
+      case "check-input-element": {
+        const element = iframeDoc.querySelector("input[type='text']");
+        return { passed: element !== null };
+      }
+      
+      case "check-ul-element": {
+        const element = iframeDoc.querySelector("ul");
+        return { passed: element !== null };
+      }
+      
+      case "check-li-element": {
+        const element = iframeDoc.querySelector("li");
+        return { passed: element !== null };
+      }
+      
+      case "check-checkbox-element": {
+        const element = iframeDoc.querySelector("input[type='checkbox']");
+        return { passed: element !== null };
+      }
+      
+      case "check-label-element": {
+        const element = iframeDoc.querySelector("label");
+        return { passed: element !== null };
+      }
+      
+
       default:
         return {
           passed: false,

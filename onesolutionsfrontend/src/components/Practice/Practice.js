@@ -201,11 +201,33 @@ const Practice = () => {
 
     setSaving(true);
     try {
+      // Build snippet data based on language
       const snippetData = {
         snippetName: snippetName.trim(),
-        language: selectedLanguage,
-        javascriptCode: code,
+        language: selectedLanguage, // This will be "python", "javascript", "java", or "sql"
       };
+
+      // Add the code based on language - code is a STRING
+      console.log("Current language for save:", selectedLanguage); // Debug log
+      console.log("Current code to save:", code); // Debug log
+
+      // Map Practice.js languages to correct field names
+      if (selectedLanguage === "javascript") {
+        snippetData.javascriptCode = code; // Save JavaScript code
+        snippetData.language = "javascript_standalone"; // Change to CodePlayground format
+      } else if (selectedLanguage === "python") {
+        snippetData.pythonCode = code;
+      } else if (selectedLanguage === "java") {
+        snippetData.javaCode = code;
+      } else if (selectedLanguage === "sql") {
+        snippetData.sqlCode = code;
+      } else {
+        // Default to javascript if unknown
+        snippetData.javascriptCode = code;
+        snippetData.language = "javascript_standalone";
+      }
+
+      console.log("Saving snippet data:", snippetData); // Debug log
 
       const response = await fetch(`${API_URL}/api/code-snippets/save`, {
         method: "POST",

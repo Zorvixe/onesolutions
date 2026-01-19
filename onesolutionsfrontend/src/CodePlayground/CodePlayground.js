@@ -368,29 +368,43 @@ export default function CodePlayground({
         const snippet = location.state.snippetData;
 
         console.log("Loading snippet from state:", snippet);
+        console.log("Available fields:", Object.keys(snippet)); // Debug log
 
         setCurrentSnippetId(snippet.id);
         setSnippetName(snippet.name);
         setOriginalSnippetName(snippet.name);
 
-        setLanguage(snippet.language);
+        // Handle language mapping
+        let loadedLanguage = snippet.language;
+
+        // If language is "javascript" from Practice.js, map to "javascript_standalone"
+        if (snippet.language === "javascript") {
+          loadedLanguage = "javascript_standalone";
+        }
+
+        setLanguage(loadedLanguage);
 
         const newCode = { ...defaultCode };
 
-        if (snippet.language === "web") {
-          newCode.html = snippet.html || "";
-          newCode.css = snippet.css || "";
-          newCode.javascript = snippet.javascript || "";
-        } else if (snippet.language === "javascript_standalone") {
-          newCode.javascript_standalone = snippet.javascript || "";
-        } else if (snippet.language === "python") {
-          newCode.python = snippet.python || "";
-        } else if (snippet.language === "java") {
-          newCode.java = snippet.java || "";
-        } else if (snippet.language === "sql") {
-          newCode.sql = snippet.sql || "";
+        // Handle the snippet data
+        if (loadedLanguage === "web") {
+          newCode.html = snippet.htmlCode || snippet.html || "";
+          newCode.css = snippet.cssCode || snippet.css || "";
+          newCode.javascript =
+            snippet.javascriptCode || snippet.javascript || "";
+        } else if (loadedLanguage === "javascript_standalone") {
+          newCode.javascript_standalone =
+            snippet.javascriptCode || snippet.code || snippet.javascript || "";
+        } else if (loadedLanguage === "python") {
+          newCode.python =
+            snippet.pythonCode || snippet.code || snippet.python || "";
+        } else if (loadedLanguage === "java") {
+          newCode.java = snippet.javaCode || snippet.code || snippet.java || "";
+        } else if (loadedLanguage === "sql") {
+          newCode.sql = snippet.sqlCode || snippet.code || snippet.sql || "";
         }
 
+        console.log("Loaded code for language", loadedLanguage, ":", newCode); // Debug log
         setCode(newCode);
         setOriginalCode({ ...newCode });
 
@@ -667,7 +681,7 @@ sys.stderr = OutputCapture()
     try {
       const logs = [];
       const originalLog = console.log;
-  
+
       console.log = (...args) => {
         const message = args
           .map((arg) => {
@@ -682,19 +696,19 @@ sys.stderr = OutputCapture()
                 "]"
               );
             }
-  
+
             if (typeof arg === "object") {
               return JSON.stringify(arg);
             }
-  
+
             return String(arg);
           })
           .join(" ");
-  
+
         logs.push(message);
         originalLog.apply(console, args);
       };
-  
+
       try {
         const func = new Function(code.javascript_standalone);
         func();
@@ -703,7 +717,7 @@ sys.stderr = OutputCapture()
       } finally {
         console.log = originalLog;
       }
-  
+
       setOutput(
         logs.join("\n") || "Code executed successfully (no console output)"
       );
@@ -713,7 +727,6 @@ sys.stderr = OutputCapture()
       setIsRunning(false);
     }
   }, [code.javascript_standalone]);
-  
 
   const runPython = useCallback(async () => {
     setIsRunning(true);

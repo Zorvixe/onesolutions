@@ -52,7 +52,7 @@ const WebPractice = () => {
   const courseName = location.state?.courseName;
 
   // Add state for resize functionality
-  const [editorWidth, setEditorWidth] = useState(80);
+  const [editorWidth, setEditorWidth] = useState(65);
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(50);
