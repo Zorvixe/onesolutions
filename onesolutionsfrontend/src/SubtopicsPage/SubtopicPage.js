@@ -16,6 +16,7 @@ const SubtopicPage = () => {
   const [selectedCourseSub, setSelectedCourseSub] = useState(null);
   const [selectedGoalSub, setSelectedGoalSub] = useState(null);
   const [expandedModuleSub, setExpandedModuleSub] = useState(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -110,10 +111,20 @@ const SubtopicPage = () => {
 
     if (!ComponentSub) {
       return (
-        <div>
-          <h3>{subtopic.name}</h3>
-          <p>Content for this subtopic is coming soon...</p>
-        </div>
+        <div className="not-found-con">
+      {!imageLoaded && (
+        <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+      )}
+
+      <img
+        src="/assets/img/locked_image.png"
+        className="locked_image"
+        onLoad={() => setImageLoaded(true)}
+        style={{ display: imageLoaded ? "block" : "none" }}
+      />
+    </div>
       );
     }
 

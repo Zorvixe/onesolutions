@@ -92,7 +92,8 @@ import React_Slick from "../Reactjs/Third_Party/React_Slick.js";
 import React_Pop from "../Reactjs/Third_Party/React_Pop.js";
 import React_Context_CS from "../Reactjs/React_Context/React_Context_CS.js";
 import React_Cpart2_CS from "../Reactjs/React_Context/React_Cpart2_CS.js";
-
+import React_Cpart3_CS from "../Reactjs/React_Context/React_Cpart3_CS.js";
+import React_Cpart4_CS from "../Reactjs/React_Context/React_Cpart4_CS.js";
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -119,6 +120,8 @@ import More_React_MCQ from "../Reactjs/More_React_Concepts/More_React_MCQ.js";
 import Third_Party_MCQ from "../Reactjs/Third_Party/Third_Party_MCQ.js";
 import React_Context_MCQ from "../Reactjs/React_Context/React_Context_MCQ.js";
 import React_Cpart2_MCQ from "../Reactjs/React_Context/React_Cpart2_MCQ.js";
+import React_Cpart3_MCQ from "../Reactjs/React_Context/React_Cpart3_MCQ.js";
+import React_Cpart4_MCQ from "../Reactjs/React_Context/React_Cpart4_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -1162,6 +1165,8 @@ export const subtopicComponents = {
   "React Popup | Reading Material": React_Pop,
   "React Context | Cheat Sheet": React_Context_CS,
   "React Context | Part 2 | Cheat Sheet": React_Cpart2_CS,
+  "React Context | Part 3 | Cheat Sheet": React_Cpart3_CS,
+  "React Context | Part 4 | Cheat Sheet": React_Cpart4_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
@@ -1189,7 +1194,9 @@ export const subtopicComponents = {
   "MCQ Pratice - More React Concepts": More_React_MCQ,
   "MCQ Pratice - Third Party Packages": Third_Party_MCQ,
   "MCQ Pratice - React Context": React_Context_MCQ,
-  "MCQ Pratice - React Context | Part 2":React_Cpart2_MCQ,
+  "MCQ Pratice - React Context | Part 2": React_Cpart2_MCQ,
+  "MCQ Pratice - React Context | Part 3": React_Cpart3_MCQ,
+  "MCQ Pratice - React Context | Part 4": React_Cpart4_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
