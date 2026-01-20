@@ -2737,16 +2737,16 @@ export const goalsData = [
               },
             ],
           },
-          {
-            id: "QW9_m11_A0 g2_H c2_7B",
-            name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
-            topic: [
-              {
-                id: "QW9_s1_A0 m11_H g2_7B c2_D2E",
-                name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
-              },
-            ],
-          },
+          // {
+          //   id: "QW9_m11_A0 g2_H c2_7B",
+          //   name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
+          //   topic: [
+          //     {
+          //       id: "QW9_s1_A0 m11_H g2_7B c2_D2E",
+          //       name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
+          //     },
+          //   ],
+          // },
           {
             id: "QW9_m12_A0 g2_H c2_7B",
             name: "MileStone 2",
@@ -2778,490 +2778,490 @@ export const goalsData = [
         ],
       },
 
-      {
-        id: "g2 c3",
-        title: "JavaScript Essentials: JAVASCRIPT",
-        progress: 0,
-        modules: [
-          {
-            id: "QW9_m1_A0 g2_H c3_7B",
-            name: "More Modern JS Concepts",
-            topic: [
-              {
-                id: "QW9_s1_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice - More Modern JS Concepts",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts | Part 2",
-              },
-              {
-                id: "QW9_s5_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts | Part 2 | Cheat Sheet",
-              },
-              {
-                id: "QW9_s6_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice - More Modern JS Concepts | Part 2",
-              },
-              {
-                id: "QW9_s7_A0 m1_H g2_7B c3_D2E",
-                name: "Factory and Constructor Function",
-              },
-              {
-                id: "QW9_s8_A0 m1_H g2_7B c3_D2E",
-                name: "Factory and Constructor Function | Cheat Sheet",
-              },
-              {
-                id: "QW9_s9_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice - Factory and Constructor Function",
-              },
-              {
-                id: "QW9_s10_A0 m1_H g2_7B c3_D2E",
-                name: "JS Coding Practice 1",
-              },
-              {
-                id: "QW9_s11_A0 m1_H g2_7B c3_D2E",
-                name: "JS Coding Practice 2",
-              },
-              {
-                id: "QW9_s12_A0 m1_H g2_7B c3_D2E",
-                name: "JS Coding Practice 3",
-              },
-              {
-                id: "QW9_s13_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts | Part 3",
-              },
-              {
-                id: "QW9_s14_A0 m1_H g2_7B c3_D2E",
-                name: "More Modern JS Concepts | Part 3 | Cheat Sheet",
-              },
-              {
-                id: "QW9_s15_A0 m1_H g2_7B c3_D2E",
-                name: "MCQ Practice - More Modern JS Concepts | Part 3",
-              },
-              {
-                id: "QW9_s16_A0 m1_H g2_7B c3_D2E",
-                name: "JS Coding Practice 4",
-              },
-            ],
-          },
-          {
-            id: "QW9_m2_A0 g2_H c3_7B",
-            name: "Prototypes and Classes",
-            topic: [
-              {
-                id: "QW9_s1_A0 m2_H g2_7B c3_D2E",
-                name: "Prototypal Inheritance",
-              },
-              {
-                id: "QW9_s2_A0 m2_H g2_7B c3_D2E",
-                name: "Prototypal Inheritance | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m2_H g2_7B c3_D2E",
-                name: "MCQ Practice - Prototypal Inheritance",
-              },
-              {
-                id: "QW9_s4_A0 m2_H g2_7B c3_D2E",
-                name: "JS Classes",
-              },
-              {
-                id: "QW9_s5_A0 m2_H g2_7B c3_D2E",
-                name: "JS Classes | Cheat Sheet",
-              },
-              {
-                id: "QW9_s6_A0 m2_H g2_7B c3_D2E",
-                name: "MCQ Practice - JS Classes",
-              },
-              {
-                id: "QW9_s7_A0 m2_H g2_7B c3_D2E",
-                name: "JS Coding Practice 5",
-              },
-              {
-                id: "QW9_s8_A0 m2_H g2_7B c3_D2E",
-                name: "JS Coding Practice 6",
-              },
-              {
-                id: "QW9_s9_A0 m2_H g2_7B c3_D2E",
-                name: "JS Coding Practice 7",
-              },
-            ],
-          },
-          {
-            id: "QW9_m3_A0 g2_H c3_7B",
-            name: "Promises and Array Methods",
-            topic: [
-              {
-                id: "QW9_s1_A0 m3_H g2_7B c3_D2E",
-                name: "JS Promises",
-              },
-              {
-                id: "QW9_s2_A0 m3_H g2_7B c3_D2E",
-                name: "JS Promises | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice - JS Promises",
-              },
-              {
-                id: "QW9_s4_A0 m3_H g2_7B c3_D2E",
-                name: "JS Promises 2",
-              },
-              {
-                id: "QW9_s5_A0 m3_H g2_7B c3_D2E",
-                name: "JS Promises | Part 2 | Cheat Sheet",
-              },
-              {
-                id: "QW9_s6_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice - JS Promises | Part 2",
-              },
-              {
-                id: "QW9_s7_A0 m3_H g2_7B c3_D2E",
-                name: "JS Coding Practice 8",
-              },
-              {
-                id: "QW9_s8_A0 m3_H g2_7B c3_D2E",
-                name: "JS Coding Practice 9",
-              },
-              {
-                id: "QW9_s9_A0 m3_H g2_7B c3_D2E",
-                name: "More JS Concepts",
-              },
-              {
-                id: "QW9_s10_A0 m3_H g2_7B c3_D2E",
-                name: "More JS Concepts | Cheat Sheet",
-              },
-              {
-                id: "QW9_s11_A0 m3_H g2_7B c3_D2E",
-                name: "MCQ Practice - More JS Concepts",
-              },
-              {
-                id: "QW9_s12_A0 m3_H g2_7B c3_D2E",
-                name: "Clean Code Guidelines",
-              },
-              {
-                id: "QW9_s13_A0 m3_H g2_7B c3_D2E",
-                name: "JS Coding Practice 10",
-              },
-              {
-                id: "QW9_s14_A0 m3_H g2_7B c3_D2E",
-                name: "JS Coding Practice 11",
-              },
-            ],
-          },
-          {
-            id: "QW9_m4_A0 g2_H c3_7B",
-            name: "Assignments",
-            topic: [
-              {
-                id: "QW9_s1_A0 m4_H g2_7B c3_D2E",
-                name: "JS Essentials MCQ Assignment 1",
-              },
-              {
-                id: "QW9_s2_A0 m4_H g2_7B c3_D2E",
-                name: "JS Essentials MCQ Assignment 2",
-              },
-              {
-                id: "QW9_s3_A0 m4_H g2_7B c3_D2E",
-                name: "JS Essentials MCQ Assignment 3",
-              },
-              {
-                id: "QW9_s4_A0 m4_H g2_7B c3_D2E",
-                name: "JS Essentials MCQ Assignment 4",
-              },
-              {
-                id: "QW9_s5_A0 m4_H g2_7B c3_D2E",
-                name: "JS Coding Assignment 1",
-              },
-              {
-                id: "QW9_s6_A0 m4_H g2_7B c3_D2E",
-                name: "JS Coding Assignment 2",
-              },
-              {
-                id: "QW9_s7_A0 m4_H g2_7B c3_D2E",
-                name: "JS Coding Assignment 3",
-              },
-              {
-                id: "QW9_s8_A0 m4_H g2_7B c3_D2E",
-                name: "JS Coding Assignment 4",
-              },
-            ],
-          },
-          {
-            id: "QW9_m5_A0 g2_H c3_7B",
-            name: "Mock Tests",
-            topic: [
-              {
-                id: "QW9_s1_A0 m5_H g2_7B c3_D2E",
-                name: "JS Essentials Mock Test 1",
-              },
-              {
-                id: "QW9_s2_A0 m5_H g2_7B c3_D2E",
-                name: "JS Coding Test 1",
-              },
-              {
-                id: "QW9_s3_A0 m5_H g2_7B c3_D2E",
-                name: "JS Essentials Mock Test 2",
-              },
-              {
-                id: "QW9_s4_A0 m5_H g2_7B c3_D2E",
-                name: "JS Coding Test 2",
-              },
-            ],
-          },
-          {
-            id: "QW9_m6_A0 g2_H c3_7B",
-            name: "JavaScript Essentials Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m6_H g2_7B c3_D2E",
-                name: "JavaScript Essentials Course Exam | Cheat Sheet",
-              },
-              {
-                id: "QW9_s2_A0 m6_H g2_7B c3_D2E",
-                name: "JavaScript Essentials Course Exam",
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: "g2 c4",
-        title: "Responsive Web Design using Flexbox: FLEXBOX",
-        progress: 0,
-        modules: [
-          {
-            id: "QW9_m1_A0 g2_H c4_7B",
-            name: "Flexbox",
-            topic: [
-              {
-                id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
-                name: "Sizing Elements and Handling Overflow",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "Sizing Elements and Handling Overflow | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - Sizing Elements and Handling Overflow",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice - 1 - Sizing Elements and Handling Overflow",
-              },
-              {
-                id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
-                name: "Box Sizing",
-              },
-              {
-                id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
-                name: "Box Sizing | Cheat Sheet",
-              },
-              {
-                id: "QW9_s7_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - Box Sizing",
-              },
-              {
-                id: "QW9_s8_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice - 2 - Box Sizing",
-              },
-              {
-                id: "QW9_s9_A0 m1_H g2_7B c4_D2E",
-                name: "Introduction to CSS Flexbox",
-              },
-              {
-                id: "QW9_s10_A0 m1_H g2_7B c4_D2E",
-                name: "Introduction to CSS Flexbox | Cheat Sheet",
-              },
-              {
-                id: "QW9_s11_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - CSS Flexbox 1",
-              },
-              {
-                id: "QW9_s12_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 3 - CSS Flexbox",
-              },
-              {
-                id: "QW9_s13_A0 m1_H g2_7B c4_D2E",
-                name: "Introduction to CSS Flexbox | Part 2",
-              },
-              {
-                id: "QW9_s14_A0 m1_H g2_7B c4_D2E",
-                name: "Introduction to CSS Flexbox | Part 2| Cheat Sheet",
-              },
-              {
-                id: "QW9_s15_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - CSS Flexbox 2",
-              },
-              {
-                id: "QW9_s16_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 4 - CSS Flexbox",
-              },
-              {
-                id: "QW9_s17_A0 m1_H g2_7B c4_D2E",
-                name: "Introduction to CSS Flexbox | Part 3",
-              },
-              {
-                id: "QW9_s18_A0 m1_H g2_7B c4_D2E",
-                name: "Introduction to CSS Flexbox | Part 3| Cheat Sheet",
-              },
-              {
-                id: "QW9_s19_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - CSS Flexbox 3",
-              },
-              {
-                id: "QW9_s20_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 5 - CSS Flexbox",
-              },
-            ],
-          },
-          {
-            id: "QW9_m2_A0 g2_H c4_7B",
-            name: "CSS Media Queries",
-            topic: [
-              {
-                id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
-                name: "CSS Media Queries",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "CSS Media Queries | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - CSS Media Queries",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 6 - CSS Media Queries",
-              },
-              {
-                id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 2 - CSS Media Queries",
-              },
-              {
-                id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
-                name: "Flexbox Sizing",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "Flexbox Sizing | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - Flexbox Sizing",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 7 - Flexbox Sizing",
-              },
-              {
-                id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
-                name: "On Demand Session",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "On Demand Session | Cheat Sheet",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Pratice - On Demand Session",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Pratice 8 - On Demand Session",
-              },
-            ],
-          },
-          {
-            id: "QW9_m3_A0 g2_H c4_7B",
-            name: "Assignments",
-            topic: [
-              {
-                id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Assignment 1",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Assignment 2",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Assignment 3",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Assignment 4",
-              },
-              {
-                id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Assignment 1",
-              },
-              {
-                id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Assignment 2",
-              },
-              {
-                id: "QW9_s7_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Assignment 3",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Assignment 4",
-              },
-            ],
-          },
-          {
-            id: "QW9_m4_A0 g2_H c4_7B",
-            name: "Mock Tests",
-            topic: [
-              {
-                id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Test 1",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Test 1",
-              },
-              {
-                id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
-                name: "MCQ Test 1",
-              },
-              {
-                id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Test 2",
-              },
-              {
-                id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
-                name: "Coding Test 3",
-              },
-            ],
-          },
-          {
-            id: "QW9_m5_A0 g2_H c4_7B",
-            name: "Responsive Web Design Using Flexbox Course Exam",
-            topic: [
-              {
-                id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
-                name: "Responsive Web Design Using Flexbox Course Exam | Instruction",
-              },
-              {
-                id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
-                name: "Responsive Web Design Using Flexbox Course Exam",
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   id: "g2 c3",
+      //   title: "JavaScript Essentials: JAVASCRIPT",
+      //   progress: 0,
+      //   modules: [
+      //     {
+      //       id: "QW9_m1_A0 g2_H c3_7B",
+      //       name: "More Modern JS Concepts",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m1_H g2_7B c3_D2E",
+      //           name: "More Modern JS Concepts",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c3_D2E",
+      //           name: "More Modern JS Concepts | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - More Modern JS Concepts",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c3_D2E",
+      //           name: "More Modern JS Concepts | Part 2",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m1_H g2_7B c3_D2E",
+      //           name: "More Modern JS Concepts | Part 2 | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m1_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - More Modern JS Concepts | Part 2",
+      //         },
+      //         {
+      //           id: "QW9_s7_A0 m1_H g2_7B c3_D2E",
+      //           name: "Factory and Constructor Function",
+      //         },
+      //         {
+      //           id: "QW9_s8_A0 m1_H g2_7B c3_D2E",
+      //           name: "Factory and Constructor Function | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s9_A0 m1_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - Factory and Constructor Function",
+      //         },
+      //         {
+      //           id: "QW9_s10_A0 m1_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 1",
+      //         },
+      //         {
+      //           id: "QW9_s11_A0 m1_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 2",
+      //         },
+      //         {
+      //           id: "QW9_s12_A0 m1_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 3",
+      //         },
+      //         {
+      //           id: "QW9_s13_A0 m1_H g2_7B c3_D2E",
+      //           name: "More Modern JS Concepts | Part 3",
+      //         },
+      //         {
+      //           id: "QW9_s14_A0 m1_H g2_7B c3_D2E",
+      //           name: "More Modern JS Concepts | Part 3 | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s15_A0 m1_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - More Modern JS Concepts | Part 3",
+      //         },
+      //         {
+      //           id: "QW9_s16_A0 m1_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 4",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m2_A0 g2_H c3_7B",
+      //       name: "Prototypes and Classes",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m2_H g2_7B c3_D2E",
+      //           name: "Prototypal Inheritance",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m2_H g2_7B c3_D2E",
+      //           name: "Prototypal Inheritance | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m2_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - Prototypal Inheritance",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m2_H g2_7B c3_D2E",
+      //           name: "JS Classes",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m2_H g2_7B c3_D2E",
+      //           name: "JS Classes | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m2_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - JS Classes",
+      //         },
+      //         {
+      //           id: "QW9_s7_A0 m2_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 5",
+      //         },
+      //         {
+      //           id: "QW9_s8_A0 m2_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 6",
+      //         },
+      //         {
+      //           id: "QW9_s9_A0 m2_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 7",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m3_A0 g2_H c3_7B",
+      //       name: "Promises and Array Methods",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Promises",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Promises | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m3_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - JS Promises",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Promises 2",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Promises | Part 2 | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m3_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - JS Promises | Part 2",
+      //         },
+      //         {
+      //           id: "QW9_s7_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 8",
+      //         },
+      //         {
+      //           id: "QW9_s8_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 9",
+      //         },
+      //         {
+      //           id: "QW9_s9_A0 m3_H g2_7B c3_D2E",
+      //           name: "More JS Concepts",
+      //         },
+      //         {
+      //           id: "QW9_s10_A0 m3_H g2_7B c3_D2E",
+      //           name: "More JS Concepts | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s11_A0 m3_H g2_7B c3_D2E",
+      //           name: "MCQ Practice - More JS Concepts",
+      //         },
+      //         {
+      //           id: "QW9_s12_A0 m3_H g2_7B c3_D2E",
+      //           name: "Clean Code Guidelines",
+      //         },
+      //         {
+      //           id: "QW9_s13_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 10",
+      //         },
+      //         {
+      //           id: "QW9_s14_A0 m3_H g2_7B c3_D2E",
+      //           name: "JS Coding Practice 11",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m4_A0 g2_H c3_7B",
+      //       name: "Assignments",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Essentials MCQ Assignment 1",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Essentials MCQ Assignment 2",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Essentials MCQ Assignment 3",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Essentials MCQ Assignment 4",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Coding Assignment 1",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Coding Assignment 2",
+      //         },
+      //         {
+      //           id: "QW9_s7_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Coding Assignment 3",
+      //         },
+      //         {
+      //           id: "QW9_s8_A0 m4_H g2_7B c3_D2E",
+      //           name: "JS Coding Assignment 4",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m5_A0 g2_H c3_7B",
+      //       name: "Mock Tests",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m5_H g2_7B c3_D2E",
+      //           name: "JS Essentials Mock Test 1",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m5_H g2_7B c3_D2E",
+      //           name: "JS Coding Test 1",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m5_H g2_7B c3_D2E",
+      //           name: "JS Essentials Mock Test 2",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m5_H g2_7B c3_D2E",
+      //           name: "JS Coding Test 2",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m6_A0 g2_H c3_7B",
+      //       name: "JavaScript Essentials Course Exam",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m6_H g2_7B c3_D2E",
+      //           name: "JavaScript Essentials Course Exam | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m6_H g2_7B c3_D2E",
+      //           name: "JavaScript Essentials Course Exam",
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
+      // {
+      //   id: "g2 c4",
+      //   title: "Responsive Web Design using Flexbox: FLEXBOX",
+      //   progress: 0,
+      //   modules: [
+      //     {
+      //       id: "QW9_m1_A0 g2_H c4_7B",
+      //       name: "Flexbox",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
+      //           name: "Sizing Elements and Handling Overflow",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "Sizing Elements and Handling Overflow | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - Sizing Elements and Handling Overflow",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice - 1 - Sizing Elements and Handling Overflow",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
+      //           name: "Box Sizing",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
+      //           name: "Box Sizing | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s7_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - Box Sizing",
+      //         },
+      //         {
+      //           id: "QW9_s8_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice - 2 - Box Sizing",
+      //         },
+      //         {
+      //           id: "QW9_s9_A0 m1_H g2_7B c4_D2E",
+      //           name: "Introduction to CSS Flexbox",
+      //         },
+      //         {
+      //           id: "QW9_s10_A0 m1_H g2_7B c4_D2E",
+      //           name: "Introduction to CSS Flexbox | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s11_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - CSS Flexbox 1",
+      //         },
+      //         {
+      //           id: "QW9_s12_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 3 - CSS Flexbox",
+      //         },
+      //         {
+      //           id: "QW9_s13_A0 m1_H g2_7B c4_D2E",
+      //           name: "Introduction to CSS Flexbox | Part 2",
+      //         },
+      //         {
+      //           id: "QW9_s14_A0 m1_H g2_7B c4_D2E",
+      //           name: "Introduction to CSS Flexbox | Part 2| Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s15_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - CSS Flexbox 2",
+      //         },
+      //         {
+      //           id: "QW9_s16_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 4 - CSS Flexbox",
+      //         },
+      //         {
+      //           id: "QW9_s17_A0 m1_H g2_7B c4_D2E",
+      //           name: "Introduction to CSS Flexbox | Part 3",
+      //         },
+      //         {
+      //           id: "QW9_s18_A0 m1_H g2_7B c4_D2E",
+      //           name: "Introduction to CSS Flexbox | Part 3| Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s19_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - CSS Flexbox 3",
+      //         },
+      //         {
+      //           id: "QW9_s20_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 5 - CSS Flexbox",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m2_A0 g2_H c4_7B",
+      //       name: "CSS Media Queries",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
+      //           name: "CSS Media Queries",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "CSS Media Queries | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - CSS Media Queries",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 6 - CSS Media Queries",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 2 - CSS Media Queries",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
+      //           name: "Flexbox Sizing",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "Flexbox Sizing | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - Flexbox Sizing",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 7 - Flexbox Sizing",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
+      //           name: "On Demand Session",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "On Demand Session | Cheat Sheet",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Pratice - On Demand Session",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Pratice 8 - On Demand Session",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m3_A0 g2_H c4_7B",
+      //       name: "Assignments",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Assignment 1",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Assignment 2",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Assignment 3",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Assignment 4",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Assignment 1",
+      //         },
+      //         {
+      //           id: "QW9_s6_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Assignment 2",
+      //         },
+      //         {
+      //           id: "QW9_s7_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Assignment 3",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Assignment 4",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m4_A0 g2_H c4_7B",
+      //       name: "Mock Tests",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Test 1",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Test 1",
+      //         },
+      //         {
+      //           id: "QW9_s3_A0 m1_H g2_7B c4_D2E",
+      //           name: "MCQ Test 1",
+      //         },
+      //         {
+      //           id: "QW9_s4_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Test 2",
+      //         },
+      //         {
+      //           id: "QW9_s5_A0 m1_H g2_7B c4_D2E",
+      //           name: "Coding Test 3",
+      //         },
+      //       ],
+      //     },
+      //     {
+      //       id: "QW9_m5_A0 g2_H c4_7B",
+      //       name: "Responsive Web Design Using Flexbox Course Exam",
+      //       topic: [
+      //         {
+      //           id: "QW9_s1_A0 m1_H g2_7B c4_D2E",
+      //           name: "Responsive Web Design Using Flexbox Course Exam | Instruction",
+      //         },
+      //         {
+      //           id: "QW9_s2_A0 m1_H g2_7B c4_D2E",
+      //           name: "Responsive Web Design Using Flexbox Course Exam",
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   },
   {
@@ -3273,7 +3273,7 @@ export const goalsData = [
     courses: [
       {
         id: "g3 c1",
-        title: " Developer Foundations: Git Commandline",
+        title: " Developer Foundations: Git, Commandline",
         progress: 0,
         modules: [
           {
@@ -3305,18 +3305,18 @@ export const goalsData = [
           },
         ],
       },
-      {
-        id: "g3 c3",
-        title: "Python Interview Kit",
-        progress: 0,
-        modules: [
-          {
-            id: "QW9_m1_A0 g3_H c3_7B",
-            name: "Python Interview Kit",
-            topic: [],
-          },
-        ],
-      },
+      // {
+      //   id: "g3 c3",
+      //   title: "Python Interview Kit",
+      //   progress: 0,
+      //   modules: [
+      //     {
+      //       id: "QW9_m1_A0 g3_H c3_7B",
+      //       name: "Python Interview Kit",
+      //       topic: [],
+      //     },
+      //   ],
+      // },
       {
         id: "g3 c4",
         title: "React JS Getting started: React JS",
@@ -4005,18 +4005,18 @@ export const goalsData = [
           },
         ],
       },
-      {
-        id: "g3 c5",
-        title: "Frontend Interview Kit",
-        progress: 0,
-        modules: [
-          {
-            id: "QW9_m1_A0 g3_H c5_7B",
-            name: "Frontend Interview Kit",
-            topic: [],
-          },
-        ],
-      },
+      // {
+      //   id: "g3 c5",
+      //   title: "Frontend Interview Kit",
+      //   progress: 0,
+      //   modules: [
+      //     {
+      //       id: "QW9_m1_A0 g3_H c5_7B",
+      //       name: "Frontend Interview Kit",
+      //       topic: [],
+      //     },
+      //   ],
+      // },
     ],
   },
 ];

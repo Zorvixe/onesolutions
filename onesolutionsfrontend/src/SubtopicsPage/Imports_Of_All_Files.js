@@ -94,6 +94,7 @@ import React_Context_CS from "../Reactjs/React_Context/React_Context_CS.js";
 import React_Cpart2_CS from "../Reactjs/React_Context/React_Cpart2_CS.js";
 import React_Cpart3_CS from "../Reactjs/React_Context/React_Cpart3_CS.js";
 import React_Cpart4_CS from "../Reactjs/React_Context/React_Cpart4_CS.js";
+import Styled_Compo_CS from "../Reactjs/Styled_Components/Styled_Compo_CS.js";
 
 //React MCQ
 import Introductionto_Reactjs_MCQ from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs_MCQ.js";
@@ -1167,6 +1168,7 @@ export const subtopicComponents = {
   "React Context | Part 2 | Cheat Sheet": React_Cpart2_CS,
   "React Context | Part 3 | Cheat Sheet": React_Cpart3_CS,
   "React Context | Part 4 | Cheat Sheet": React_Cpart4_CS,
+  "Styled Components | Cheat Sheet": Styled_Compo_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
