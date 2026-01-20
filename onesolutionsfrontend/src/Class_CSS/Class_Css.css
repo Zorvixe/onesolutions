@@ -1,5 +1,4 @@
 .subtopic-container-clss {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -716,7 +715,7 @@
 
 .secure-video-player-clss {
   background-color: #111827;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Additional security for touch devices */
@@ -736,7 +735,6 @@
   }
 }
 .subtopic-container-clss {
-  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

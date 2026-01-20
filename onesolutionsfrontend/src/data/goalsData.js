@@ -3390,26 +3390,30 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m2_H g3_7B c4_D2E",
-                name: "MCQ Pratice - Class Component and State",
+                name: "A Note on React Versions",
               },
               {
                 id: "QW9_s4_A0 m2_H g3_7B c4_D2E",
-                name: "Coding Pratice 4- Class Component and State",
+                name: "MCQ Pratice - Class Component and State",
               },
               {
                 id: "QW9_s5_A0 m2_H g3_7B c4_D2E",
-                name: "Conditional Rendering",
+                name: "Coding Pratice 4- Class Component and State",
               },
               {
                 id: "QW9_s6_A0 m2_H g3_7B c4_D2E",
-                name: "Conditional Rendering | Cheat Sheet",
+                name: "Conditional Rendering",
               },
               {
                 id: "QW9_s7_A0 m2_H g3_7B c4_D2E",
-                name: "MCQ Pratice - Conditional Rendering",
+                name: "Conditional Rendering | Cheat Sheet",
               },
               {
                 id: "QW9_s8_A0 m2_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Conditional Rendering",
+              },
+              {
+                id: "QW9_s9_A0 m2_H g3_7B c4_D2E",
                 name: "Coding Pratice 5 - Conditional Rendering",
               },
             ],
@@ -3586,6 +3590,14 @@ export const goalsData = [
                 id: "QW9_s6_A0 m7_H g3_7B c4_D2E",
                 name: "Coding Pratice 21 - Component Life Cycle",
               },
+              {
+                id: "QW9_s7_A0 m7_H g3_7B c4_D2E",
+                name: "Assignment 2",
+              },
+              {
+                id: "QW9_s8_A0 m7_H g3_7B c4_D2E",
+                name: "Assignment 3",
+              },
             ],
           },
           {
@@ -3634,22 +3646,26 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m8_H g3_7B c4_D2E",
-                name: "Common Mistakes | Part 2",
+                name: "Assignment 4",
               },
               {
                 id: "QW9_s12_A0 m8_H g3_7B c4_D2E",
-                name: "Common Mistakes | Cheat Sheet | Part 2",
+                name: "Common Mistakes | Part 2",
               },
               {
                 id: "QW9_s13_A0 m8_H g3_7B c4_D2E",
+                name: "Common Mistakes | Cheat Sheet | Part 2",
+              },
+              {
+                id: "QW9_s14_A0 m8_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Common Mistakes | Part 2",
               },
               {
-                id: "QW9_s14_A0 m8_H g3_7B c4_D2E",
+                id: "QW9_s15_A0 m8_H g3_7B c4_D2E",
                 name: "Coding Pratice 25 - Common Mistakes | Part 2",
               },
               {
-                id: "QW9_s14_A0 m8_H g3_7B c4_D2E",
+                id: "QW9_s16_A0 m8_H g3_7B c4_D2E",
                 name: "Coding Pratice 26 - Common Mistakes | Part 2",
               },
             ],
@@ -3786,7 +3802,7 @@ export const goalsData = [
                 id: "QW9_s2_A0 m11_H g3_7B c4_D2E",
                 name: "More React Concepts | Cheat Sheet",
               },
-            
+
               {
                 id: "QW9_s3_A0 m11_H g3_7B c4_D2E",
                 name: "MCQ Pratice - More React Concepts",
@@ -3853,7 +3869,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m13_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Assignment 5",
               },
             ],
           },
@@ -3863,7 +3879,63 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m14_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "React Context",
+              },
+              {
+                id: "QW9_s2_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m14_H g3_7B c4_D2E",
+                name: "MCQ Pratice - React Context",
+              },
+              {
+                id: "QW9_s4_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Part 2",
+              },
+              {
+                id: "QW9_s5_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Part 2 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s6_A0 m14_H g3_7B c4_D2E",
+                name: "MCQ Pratice - React Context | Part 2",
+              },
+              {
+                id: "QW9_s7_A0 m14_H g3_7B c4_D2E",
+                name: "Coding Pratice 41",
+              },
+              {
+                id: "QW9_s8_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Part 3",
+              },
+              {
+                id: "QW9_s9_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Part 3 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s10_A0 m14_H g3_7B c4_D2E",
+                name: "MCQ Pratice - React Context | Part 3",
+              },
+              {
+                id: "QW9_s11_A0 m14_H g3_7B c4_D2E",
+                name: "Coding Pratice 42",
+              },
+              {
+                id: "QW9_s12_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Part 4",
+              },
+              {
+                id: "QW9_s13_A0 m14_H g3_7B c4_D2E",
+                name: "React Context | Part 4 | Cheat Sheet",
+              },
+              {
+                id: "QW9_s13_A0 m14_H g3_7B c4_D2E",
+                name: "MCQ Pratice - React Context | Part 4",
+              },
+              {
+                id: "QW9_s13_A0 m14_H g3_7B c4_D2E",
+                name: "Coding Pratice 43",
               },
             ],
           },
@@ -3873,7 +3945,23 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m15_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Styled Components",
+              },
+              {
+                id: "QW9_s2_A0 m15_H g3_7B c4_D2E",
+                name: "Styled Components | Cheat Sheet",
+              },
+              {
+                id: "QW9_s3_A0 m15_H g3_7B c4_D2E",
+                name: "MCQ Pratice - Styled Components",
+              },
+              {
+                id: "QW9_s4_A0 m15_H g3_7B c4_D2E",
+                name: "Coding Pratice 44",
+              },
+              {
+                id: "QW9_s4_A0 m15_H g3_7B c4_D2E",
+                name: "Coding Pratice 45",
               },
             ],
           },
@@ -3883,7 +3971,11 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m16_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Assignments 6",
+              },
+              {
+                id: "QW9_s2_A0 m16_H g3_7B c4_D2E",
+                name: "Assignments 7",
               },
             ],
           },

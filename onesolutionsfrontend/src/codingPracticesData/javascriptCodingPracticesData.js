@@ -2563,24 +2563,252 @@ let val = eval(prompt()); // value can be string, array, or object
             },
           ],
 
-          defaultCode: `// Prefilled object
-          let meals = {
-            breakfast: 'Oatmeal',
-            lunch: 'Burrito',
-            dinner: 'Chapathi'
-          };
-          
-          // Read inputs
-          let objectKey = prompt();
-          let val = eval(prompt()); // value can be string, array, or object
-          
-          /*
-          * Write your code here and log the output.
-          */
+          defaultCode: `
+          // Prefilled object
+let meals = {
+  breakfast: "Oatmeal",
+  lunch: "Burrito",
+  dinner: "Chapathi"
+};
+
+// Read inputs
+let objectKey = prompt();
+let val = eval(prompt());
+
+/*
+ * Write your code here and log the output.
+ */
+
 
 `,
 
           score: 14,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    //Js Coding pratice - 4
+    {
+      id: "js-coding-practice-4",
+      title: "JS Coding Practice 4",
+      description: "",
+      questions: [
+        {
+          id: "4930a0fa-4c47421bbd4f-9404b803cb54",
+          title: "Make a Person Object",
+          description:
+            "Given a id, name and email.\n Write a function 'makePersonObject' to return an object containing an id, name, and email of a person passed as arguments to it.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The input consists of 3 lines. \n The first line will contain a positive number (id). \n The second line will contain a string (name). \n The third line will contain a string (email) of a person.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing an object with the properties id, name and email.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "1\nShiva\nshiva@gmail.com",
+
+          sampleOutput: `{ id: 1, name: 'Shiva', email: 'shiva@gmail.com' }`,
+
+          testCases: [
+            {
+              input: "1\nShiva\nshiva@gmail.com",
+              output: "{ id: 1, name: 'Shiva', email: 'shiva@gmail.com' }",
+              visible: true,
+            },
+            {
+              input: "2\nRavi\nravi@gmail.com",
+              output: "{ id: 2, name: 'Ravi', email: 'ravi@gmail.com' }",
+              visible: true,
+            },
+            {
+              input: "3\nAnjali\nanjali@yahoo.com",
+              output: "{ id: 3, name: 'Anjali', email: 'anjali@yahoo.com' }",
+              visible: false,
+            },
+            {
+              input: "4\nKiran\nkiran@outlook.com",
+              output: "{ id: 4, name: 'Kiran', email: 'kiran@outlook.com' }",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          // Read inputs
+let id = parseInt(prompt());
+let name = prompt();
+let email = prompt();
+
+function makePersonObject(id, name, email) {
+  /*
+ * Write your code here and log the output.
+ */
+}
+
+// Call function and log the output exactly as expected
+let person = makePersonObject(id, name, email);
+
+console.log(
+  "{ id: " +
+    person.id +
+    ", name: '" +
+    person.name +
+    "', email: '" +
+    person.email +
+    "' }"
+);
+    `,
+
+          score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "8104ba46-60b2-4e1a-967b-6b6713caff28",
+          title: "Calculate the Total Score of a Cricketer",
+          description:
+            "The score made by a cricketer in the last 3 matches is given as an array (arrayOfScores).\n Write a function 'calculateTotalScore' to return the total runs scored by the cricketer in the last 3 matches.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array of whole numbers (arrayOfScores).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the total runs scored by the cricketer in the last 3 matches.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>The array (arrayOfScores) should consists of only 3 values.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "[25, 55, 30]",
+
+          sampleOutput: "110",
+
+          testCases: [
+            {
+              input: "[25, 55, 30]",
+              output: "110",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30]",
+              output: "60",
+              visible: true,
+            },
+            {
+              input: "[50, 40, 35]",
+              output: "125",
+              visible: true,
+            },
+            {
+              input: "[0, 15, 25]",
+              output: "40",
+              visible: true,
+            },
+          ],
+
+          defaultCode: `
+// Read input
+let arrayOfScores = eval(prompt());
+function calculateTotalScore(scores) {
+  /*
+  * Write your code here and log the output.
+  */
+}
+
+console.log(calculateTotalScore(arrayOfScores));
+
+`,
+
+          score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "883b7ef2-60cd4b2ca2bb-ffe195444ccd",
+          title: "Make an Array",
+          description:
+            "Given three numbers (num1, num2, num3).\n Write a function that takes the num1, num2, num3 as arguments and return an array with them as values.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The input consists of 3 lines. \n The first, second and third line will contain the numbers num1, num2 and num3 respectively.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing an array created by the num1, num2 and num3.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>All the inputs should be the numbers.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "1\n2\n3",
+
+          sampleOutput: "[ 1, 2, 3 ]",
+
+          testCases: [
+            {
+              input: "1\n2\n3",
+              output: "[1, 2, 3]",
+              visible: true,
+            },
+            {
+              input: "10\n20\n30",
+              output: "[10, 20, 30]",
+              visible: true,
+            },
+            {
+              input: "5\n15\n25",
+              output: "[5, 15, 25]",
+              visible: true,
+            },
+            {
+              input: "0\n0\n0",
+              output: "[0, 0, 0]",
+              visible: true,
+            },
+          ],
+
+          defaultCode: `
+          // Read inputs
+let num1 = Number(prompt());
+let num2 = Number(prompt());
+let num3 = Number(prompt());
+
+/*
+ * Write your code here and log the output.
+ */
+function makeArray(a, b, c) {
+  // Student will write code here
+}
+
+console.log(makeArray(num1, num2, num3));
+
+   
+    `,
+
+          score: 12,
           status: "unsolved",
           attempts: [],
         },

@@ -90,6 +90,8 @@ import Recharts from "../Reactjs/Third_Party/Recharts.js";
 import React_Chrono_CS from "../Reactjs/Third_Party/React_Chrono_CS.js";
 import React_Slick from "../Reactjs/Third_Party/React_Slick.js";
 import React_Pop from "../Reactjs/Third_Party/React_Pop.js";
+import React_Context_CS from "../Reactjs/React_Context/React_Context_CS.js";
+import React_Cpart2_CS from "../Reactjs/React_Context/React_Cpart2_CS.js";
 
 
 //React MCQ
@@ -115,6 +117,7 @@ import Authentication_P4_MCQ from "../Reactjs/Authentication2/Authentication_P4_
 import SortingProducts_MCQ from "../Reactjs/Authentication2/SortingProducts_MCQ.js";
 import More_React_MCQ from "../Reactjs/More_React_Concepts/More_React_MCQ.js";
 import Third_Party_MCQ from "../Reactjs/Third_Party/Third_Party_MCQ.js";
+import React_Context_MCQ from "../Reactjs/React_Context/React_Context_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -1156,6 +1159,8 @@ export const subtopicComponents = {
   "React Chrono | Reading Material": React_Chrono_CS,
   "React Slick | Reading Material": React_Slick,
   "React Popup | Reading Material": React_Pop,
+  "React Context | Cheat Sheet": React_Context_CS,
+  "React Context | Part 2 | Cheat Sheet": React_Cpart2_CS,
 
   //Reactjs MCQ
   "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
@@ -1182,6 +1187,7 @@ export const subtopicComponents = {
   "MCQ Pratice - Sorting Products": SortingProducts_MCQ,
   "MCQ Pratice - More React Concepts": More_React_MCQ,
   "MCQ Pratice - Third Party Packages": Third_Party_MCQ,
+  "MCQ Pratice - React Context": React_Context_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":

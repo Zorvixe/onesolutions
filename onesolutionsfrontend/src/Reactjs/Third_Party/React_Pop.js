@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
-const Rect_Pop = ({ subtopicId, goalName, courseName, subtopic }) => {
+const React_Pop = ({ subtopicId, goalName, courseName, subtopic }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 
@@ -332,4 +332,4 @@ export default ReactPopUp`}
   );
 };
 
-export default Rect_Pop;
+export default React_Pop;

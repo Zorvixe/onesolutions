@@ -325,7 +325,6 @@ const Introductionto_Css1 = ({
       return (
         <div className="video-loading-clss">
           <div className="loading-spinner-clss"></div>
-          <p>Loading video...</p>
         </div>
       );
     }
@@ -463,8 +462,8 @@ const Introductionto_Css1 = ({
             {isCheckingFeedback
               ? "Checking..."
               : hasSubmittedFeedback
-              ? "✓ Feedback Submitted"
-              : "Submit Feedback"}
+                ? "✓ Feedback Submitted"
+                : "Submit Feedback"}
           </button>
           <button
             className={`complete-button-clss ${
@@ -476,8 +475,8 @@ const Introductionto_Css1 = ({
             {isLoading
               ? "Marking..."
               : isSubtopicCompleted
-              ? "✓ Completed"
-              : "Mark as Complete"}
+                ? "✓ Completed"
+                : "Mark as Complete"}
           </button>
         </div>
       </div>
