@@ -2713,12 +2713,12 @@ console.log(
             {
               input: "[50, 40, 35]",
               output: "125",
-              visible: true,
+              visible: false,
             },
             {
               input: "[0, 15, 25]",
               output: "40",
-              visible: true,
+              visible: false,
             },
           ],
 
@@ -2781,12 +2781,12 @@ console.log(calculateTotalScore(arrayOfScores));
             {
               input: "5\n15\n25",
               output: "[5, 15, 25]",
-              visible: true,
+              visible: false,
             },
             {
               input: "0\n0\n0",
               output: "[0, 0, 0]",
-              visible: true,
+              visible: false,
             },
           ],
 
@@ -2809,6 +2809,138 @@ console.log(makeArray(num1, num2, num3));
     `,
 
           score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "1dd93f45-6b8c4fecb697-832fca4cb321",
+          title: "Eligibility to play the next level of a game",
+          description:
+            "Given an object (person) with the properties 'name' and 'score'.\n The person is eligible to play the next level of a game when his score is greater than five.\nWrite a function that takes the person as an argument and returns the boolean value 'true' when the person is eligible else returns 'false'.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an object (person).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a boolean value containing either true or false.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>The keys of an object should be in quotes while giving the input.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "{'name':'preethi', 'score': 10}",
+
+          sampleOutput: "true",
+
+          testCases: [
+            {
+              input: '{"name":"preethi", "score": 10}',
+              output: "true",
+              visible: true,
+            },
+            {
+              input: '{"name":"raj", "score": 3}',
+              output: "false",
+              visible: false,
+            },
+            {
+              input: '{"name":"sita", "score": 5}',
+              output: "false",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          
+          // Read input as a string and convert to object
+          let person = JSON.parse(prompt()); 
+          
+          function isEligible(person) {
+            /*
+           * Write your code here and log the output.
+           */
+          }
+          
+          console.log(isEligible(person));
+          
+          
+    `,
+
+          score: 7,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "0c7a2439-d9554c0f863f-4c1f5d7aa851",
+          title: "Game Mode",
+          description:
+            "Given an array of friends (arrayOfFriends) to play the game.\nIf the number of friends is zero, the game mode is 'Solo'.\nIf the number of friends is one, the game mode is 'Dual'.\nIf the number of friends is other than zero and one, the game mode is 'Squad'.\nWrite a function 'getPreferredGameMode' that returns the preferred game mode based on the number of friends (length of arrayOfFriends).",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array of strings (arrayOfFriends).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the preferred game mode.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>The keys of an object should be in quotes while giving the input.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "['Anand']",
+
+          sampleOutput: "Dual",
+
+          testCases: [
+            {
+              input: "[]",
+              output: "Solo",
+              visible: true,
+            },
+            {
+              input: '["Anand"]',
+              output: "Dual",
+              visible: false,
+            },
+            {
+              input: '["Anand", "Sita"]',
+              output: "Squad",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          // Read input
+let arrayOfFriends = JSON.parse(prompt()); 
+
+/*
+ * Write your code here and log the output.
+ */
+function getPreferredGameMode(friends) {
+  // Student will write code here
+}
+
+console.log(getPreferredGameMode(arrayOfFriends));
+
+   
+    `,
+
+          score: 8,
           status: "unsolved",
           attempts: [],
         },

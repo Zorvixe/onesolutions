@@ -78,7 +78,7 @@ const React_Cpart2_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
   <section>
     <h2>2. Context Flow For Windows App</h2>
     <img
-          src="/assets/img/context-part-2.png"
+          src="/assets/img/context1.png"
           alt="project"
           style={{ width: "90%", height: "300px" }}
         />

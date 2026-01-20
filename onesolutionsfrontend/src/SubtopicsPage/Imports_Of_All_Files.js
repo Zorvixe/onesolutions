@@ -118,6 +118,7 @@ import SortingProducts_MCQ from "../Reactjs/Authentication2/SortingProducts_MCQ.
 import More_React_MCQ from "../Reactjs/More_React_Concepts/More_React_MCQ.js";
 import Third_Party_MCQ from "../Reactjs/Third_Party/Third_Party_MCQ.js";
 import React_Context_MCQ from "../Reactjs/React_Context/React_Context_MCQ.js";
+import React_Cpart2_MCQ from "../Reactjs/React_Context/React_Cpart2_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -1188,6 +1189,7 @@ export const subtopicComponents = {
   "MCQ Pratice - More React Concepts": More_React_MCQ,
   "MCQ Pratice - Third Party Packages": Third_Party_MCQ,
   "MCQ Pratice - React Context": React_Context_MCQ,
+  "MCQ Pratice - React Context | Part 2":React_Cpart2_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
