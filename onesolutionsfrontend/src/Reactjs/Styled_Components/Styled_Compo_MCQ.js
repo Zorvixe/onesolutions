@@ -7,215 +7,201 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is Prop Drilling in React?</p>
+        <p>Which of the following is a way to style React components?</p>
       </div>
     ),
-    options: [
-      "Passing props only to required component",
-      "Passing props through components that do not need it",
-      "Storing props in state",
-      "Updating props using setState",
-    ],
-    answer: "Passing props through components that do not need it",
+    options: ["Redux", "CSS", "Axios", "Context"],
+    answer: "CSS",
   },
   {
     question: (
       <div>
-        <p>What problem does React Context solve?</p>
+        <p>What is CSS-in-JS?</p>
       </div>
     ),
     options: [
-      "State mutation",
-      "Component reusability",
-      "Prop drilling",
-      "Routing issues",
+      "Writing CSS inside HTML",
+      "Writing CSS inside JavaScript",
+      "Using only external CSS",
+      "Using inline styles only",
     ],
-    answer: "Prop drilling",
+    answer: "Writing CSS inside JavaScript",
   },
   {
     question: (
       <div>
-        <p>Which method is used to create a Context?</p>
-        <CodeBlock language="jsx" code={`React.createContext(INITIAL_VALUE)`} />
+        <p>Which package is used for Styled Components?</p>
       </div>
     ),
-    options: [
-      "createContext()",
-      "useContext()",
-      "React.createContext()",
-      "Context.create()",
-    ],
-    answer: "React.createContext()",
+    options: ["react-icons", "styled-components", "axios", "react-router"],
+    answer: "styled-components",
   },
   {
     question: (
       <div>
-        <p>Which two properties does a Context object provide?</p>
+        <p>Which command installs styled-components?</p>
+        <CodeBlock language="bash" code={`npm install styled-components`} />
       </div>
     ),
     options: [
-      "state and props",
-      "Provider and Consumer",
-      "render and return",
-      "useState and useEffect",
+      "npm install react-icons",
+      "npm install sass",
+      "npm install styled-components",
+      "npm install redux",
     ],
-    answer: "Provider and Consumer",
+    answer: "npm install styled-components",
   },
   {
     question: (
       <div>
-        <p>Which component is used to read Context values?</p>
+        <p>Which syntax is correct for creating a styled component?</p>
         <CodeBlock
           language="jsx"
-          code={`<MyContext.Consumer>{value => <p>{value}</p>}</MyContext.Consumer>`}
+          code={`const Button = styled.button\`
+    color: red;
+  \``}
         />
       </div>
     ),
-    options: ["Provider", "Consumer", "Fragment", "Router"],
-    answer: "Consumer",
+    options: ["Correct", "Wrong"],
+    answer: "Correct",
   },
   {
     question: (
       <div>
-        <p>How do you access Consumer from a context object?</p>
-        <CodeBlock language="jsx" code={`MyContext.Consumer`} />
+        <p>Styled component names should start with?</p>
       </div>
     ),
-    options: [
-      "Using bracket notation",
-      "Using dot notation",
-      "Using import",
-      "Using hooks only",
-    ],
-    answer: "Using dot notation",
+    options: ["Small letter", "Capital letter", "Number", "Symbol"],
+    answer: "Capital letter",
   },
   {
     question: (
       <div>
-        <p>What does the Consumer component expect as its child?</p>
+        <p>How do you access props inside styled-components?</p>
+        <CodeBlock language="jsx" code={`color: \${props => props.color};`} />
+      </div>
+    ),
+    options: ["this.color", "state.color", "props.color", "event.color"],
+    answer: "props.color",
+  },
+  {
+    question: (
+      <div>
+        <p>Which operator is used for conditional styling?</p>
         <CodeBlock
           language="jsx"
-          code={`<Context.Consumer>{value => <Component />}</Context.Consumer>`}
+          code={`\${props => (props.outline ? "white" : "blue")}`}
         />
       </div>
     ),
-    options: [
-      "JSX element",
-      "Callback function",
-      "String",
-      "Another component",
-    ],
-    answer: "Callback function",
+    options: ["Logical AND", "Ternary", "Switch", "For loop"],
+    answer: "Ternary",
   },
   {
     question: (
       <div>
-        <p>What does the callback function in Consumer receive?</p>
-        <CodeBlock language="jsx" code={`{value => <p>{value}</p>}`} />
+        <p>Which prop changes a styled button into an anchor tag?</p>
+        <CodeBlock language="jsx" code={`<CustomButton as="a" />`} />
       </div>
     ),
-    options: ["Props", "State", "Context value", "Ref"],
-    answer: "Context value",
+    options: ["type", "href", "as", "tag"],
+    answer: "as",
   },
   {
     question: (
       <div>
-        <p>Which syntax correctly creates a Context?</p>
+        <p>What does createGlobalStyle do?</p>
         <CodeBlock
           language="jsx"
-          code={`const MyContext = React.createContext("dark")`}
+          code={`const GlobalStyle = createGlobalStyle\`
+    body { margin: 0; }
+  \``}
         />
       </div>
     ),
     options: [
-      "React.newContext()",
-      "createContext()",
-      "React.createContext()",
-      "Context.create()",
+      "Creates local styles",
+      "Creates global styles",
+      "Creates inline styles",
+      "Creates module styles",
     ],
-    answer: "React.createContext()",
+    answer: "Creates global styles",
   },
   {
     question: (
       <div>
-        <p>What will this render?</p>
+        <p>How do you extend a styled component?</p>
         <CodeBlock
           language="jsx"
-          code={`<ThemeContext.Consumer>
-    {value => <h1>{value}</h1>}
-  </ThemeContext.Consumer>`}
+          code={`const OutlineButton = styled(CustomButton)\`
+    background: white;
+  \``}
         />
       </div>
     ),
-    options: ["Theme name", "Component name", "Provider name", "Nothing"],
-    answer: "Theme name",
+    options: [
+      "Using spread",
+      "Using inherit",
+      "Using styled(Component)",
+      "Using class",
+    ],
+    answer: "Using styled(Component)",
   },
   {
     question: (
       <div>
-        <p>Which command downloads the initial Windows App code?</p>
-        <CodeBlock language="bash" code={`onesolutions start RJSIVWKZP2`} />
+        <p>What is the advantage of styled-components?</p>
       </div>
     ),
     options: [
-      "npm start",
-      "onesolutions start RJSIVWKZP2",
-      "git clone",
-      "npm install",
+      "Unique class names",
+      "Dead code elimination",
+      "Dynamic styling",
+      "All of the above",
     ],
-    answer: "onesolutions start RJSIVWKZP2",
+    answer: "All of the above",
   },
   {
     question: (
       <div>
-        <p>Which command downloads the final Windows App code?</p>
-        <CodeBlock language="bash" code={`onesolutions start RJSIVM06DJ`} />
+        <p>Boolean props work how?</p>
       </div>
     ),
     options: [
-      "onesolutions run final",
-      "npm build",
-      "onesolutions start RJSIVM06DJ",
-      "git pull",
+      "Must pass true or false",
+      "Presence means true",
+      "Always false",
+      "Only strings allowed",
     ],
-    answer: "onesolutions start RJSIVM06DJ",
+    answer: "Presence means true",
   },
   {
     question: (
       <div>
-        <p>Which of the following is an advantage of Context?</p>
+        <p>Which prop controls dynamic color in this code?</p>
+        <CodeBlock
+          language="jsx"
+          code={`color: \${props => (props.outline ? "#000" : "#fff")};`}
+        />
+      </div>
+    ),
+    options: ["type", "class", "outline", "id"],
+    answer: "outline",
+  },
+  {
+    question: (
+      <div>
+        <p>Which plugin improves debugging styled-components?</p>
       </div>
     ),
     options: [
-      "Avoids prop drilling",
-      "Improves CSS",
-      "Reduces JSX",
-      "Replaces Redux always",
+      "babel-plugin-styled-components",
+      "redux-devtools",
+      "react-devtools",
+      "eslint-plugin-react",
     ],
-    answer: "Avoids prop drilling",
-  },
-  {
-    question: (
-      <div>
-        <p>Context is mainly used to share data between?</p>
-      </div>
-    ),
-    options: [
-      "Sibling components only",
-      "Parent and child only",
-      "Unrelated components",
-      "Server and client",
-    ],
-    answer: "Unrelated components",
-  },
-  {
-    question: (
-      <div>
-        <p>Which example uses multiple languages in this cheat sheet?</p>
-      </div>
-    ),
-    options: ["Todo App", "Weather App", "Windows App", "Chat App"],
-    answer: "Windows App",
+    answer: "babel-plugin-styled-components",
   },
 ];
 

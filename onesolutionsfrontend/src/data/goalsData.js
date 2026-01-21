@@ -934,10 +934,10 @@ export const goalsData = [
                 id: "QW9_s11_A0 m4_H g1_7B c3_D2E",
                 name: "Problem Solving Part 1",
               },
-              {
-                id: "QW9_s12_A0 m4_H g1_7B c3_D2E",
-                name: "Coding Practice 5",
-              },
+              // {
+              //   id: "QW9_s12_A0 m4_H g1_7B c3_D2E",
+              //   name: "Coding Practice 5",
+              // },
               {
                 id: "QW9_s13_A0 m4_H g1_7B c3_D2E",
                 name: "Assignment 5",

@@ -621,22 +621,27 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         const element = iframeDoc.getElementById("profileContainer");
         return { passed: element !== null };
       }
-      
+
       case "check-image": {
         const element = iframeDoc.querySelector("img");
         return { passed: element !== null };
       }
-      
+
       case "check-name": {
         const headingEl = iframeDoc.querySelector("h1");
         const passed =
-          headingEl !== null && headingEl.textContent.trim() === "RAHUL ATTULURI";
-        return { passed, actual: headingEl ? headingEl.textContent.trim() : null };
+          headingEl !== null &&
+          headingEl.textContent.trim() === "RAHUL ATTULURI";
+        return {
+          passed,
+          actual: headingEl ? headingEl.textContent.trim() : null,
+        };
       }
-      
+
       case "check-age": {
         const paraEl = iframeDoc.querySelector("p");
-        const passed = paraEl !== null && paraEl.textContent.trim() === "Age: 25";
+        const passed =
+          paraEl !== null && paraEl.textContent.trim() === "Age: 25";
         return { passed, actual: paraEl ? paraEl.textContent.trim() : null };
       }
       //Todos application
@@ -644,27 +649,298 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         const element = iframeDoc.querySelector("input[type='text']");
         return { passed: element !== null };
       }
-      
+
       case "check-ul-element": {
         const element = iframeDoc.querySelector("ul");
         return { passed: element !== null };
       }
-      
+
       case "check-li-element": {
         const element = iframeDoc.querySelector("li");
         return { passed: element !== null };
       }
-      
+
       case "check-checkbox-element": {
         const element = iframeDoc.querySelector("input[type='checkbox']");
         return { passed: element !== null };
       }
-      
+
       case "check-label-element": {
         const element = iframeDoc.querySelector("label");
         return { passed: element !== null };
       }
-      
+
+      //Add to Cart
+      case "check-row-container": {
+        const element = iframeDoc.querySelector(".row");
+        return { passed: element !== null };
+      }
+
+      case "check-cart-input": {
+        const element = iframeDoc.getElementById("cartItemTextInput");
+        return { passed: element !== null };
+      }
+
+      case "check-add-button": {
+        const element = iframeDoc.getElementById("addBtn");
+        return { passed: element !== null };
+      }
+
+      case "check-add-item": {
+        const inputEl = iframeDoc.getElementById("cartItemTextInput");
+        const buttonEl = iframeDoc.getElementById("addBtn");
+        const listContainer = iframeDoc.getElementById("cartItemsContainer");
+
+        inputEl.value = "Apple";
+        buttonEl.click();
+
+        const lastItem = listContainer.lastElementChild;
+        const passed = lastItem !== null && lastItem.textContent === "Apple";
+
+        return { passed, actual: lastItem ? lastItem.textContent : null };
+      }
+
+      case "check-row-child": {
+        const rowEl = iframeDoc.querySelector(".row");
+        const passed = rowEl !== null && rowEl.children.length > 0;
+        return { passed };
+      }
+
+      //add strike
+      case "check-container": {
+        const element = iframeDoc.getElementById("checkBoxWithLabelContainer");
+        return { passed: element !== null };
+      }
+
+      case "check-checkbox": {
+        const element = iframeDoc.getElementById("checkbox");
+        return { passed: element !== null && element.type === "checkbox" };
+      }
+
+      case "check-label": {
+        const element = iframeDoc.getElementById("checkboxLabel");
+        return { passed: element !== null };
+      }
+
+      case "check-checkbox-strike": {
+        const checkbox = iframeDoc.getElementById("checkbox");
+        const label = iframeDoc.getElementById("checkboxLabel");
+
+        checkbox.checked = false;
+        label.classList.remove("strike");
+
+        checkbox.click(); // triggers onTodoStatusChange()
+
+        const passed = label.classList.contains("strike");
+        return { passed };
+      }
+
+      case "check-label-strike": {
+        const checkbox = iframeDoc.getElementById("checkbox");
+        const label = iframeDoc.getElementById("checkboxLabel");
+
+        checkbox.checked = false;
+        label.classList.remove("strike");
+
+        label.click();
+
+        const passed = label.classList.contains("strike");
+        return { passed };
+      }
+
+      //your order
+      case "check-ordered-container": {
+        const element = iframeDoc.getElementById("orderedItemsContainer");
+        return { passed: element !== null };
+      }
+
+      case "check-heading": {
+        const element = iframeDoc.querySelector("h1");
+        return { passed: element !== null };
+      }
+
+      case "check-ul": {
+        const element = iframeDoc.getElementById("itemsListContainer");
+        return { passed: element !== null && element.tagName === "UL" };
+      }
+
+      case "check-item2": {
+        const element = iframeDoc.getElementById("item2");
+        return { passed: element !== null && element.tagName === "LI" };
+      }
+
+      case "check-button3": {
+        const element = iframeDoc.getElementById("button3");
+        return { passed: element !== null && element.tagName === "BUTTON" };
+      }
+
+      //movie reviews
+      case "check-movie-container": {
+        const element = iframeDoc.getElementById("movieReviewsContainer");
+        return { passed: element !== null };
+      }
+
+      case "check-title-input": {
+        const element = iframeDoc.getElementById("titleInput");
+        return { passed: element !== null && element.tagName === "INPUT" };
+      }
+
+      case "check-review-textarea": {
+        const element = iframeDoc.getElementById("reviewTextarea");
+        return { passed: element !== null && element.tagName === "TEXTAREA" };
+      }
+
+      case "check-add-button": {
+        const element = iframeDoc.getElementById("addBtn");
+        return { passed: element !== null && element.tagName === "BUTTON" };
+      }
+
+      case "check-reviews-container": {
+        const element = iframeDoc.getElementById("reviewsContainer");
+        return { passed: element !== null };
+      }
+
+      case "check-add-review": {
+        const titleInput = iframeDoc.getElementById("titleInput");
+        const reviewInput = iframeDoc.getElementById("reviewTextarea");
+        const addBtn = iframeDoc.getElementById("addBtn");
+        const reviewsContainer = iframeDoc.getElementById("reviewsContainer");
+
+        titleInput.value = "Inception";
+        reviewInput.value = "Great movie!";
+        addBtn.click();
+
+        const text = reviewsContainer.textContent;
+        const passed =
+          text.includes("Movie Title: Inception") &&
+          text.includes("Review: Great movie!");
+
+        return { passed, actual: text };
+      }
+
+      //Greeting
+      case "check-greeting-container": {
+        const element = iframeDoc.querySelector(".greeting-card-container");
+        return { passed: element !== null };
+      }
+
+      case "check-greet-text": {
+        const container = iframeDoc.querySelector(".greeting-card-container");
+        const greetTextEl = iframeDoc.getElementById("greetText");
+        const passed =
+          container !== null &&
+          greetTextEl !== null &&
+          greetTextEl.textContent.trim() ===
+            "Wishing that the new year will bring joy, love, peace, and happiness to you.";
+        return {
+          passed,
+          actual: greetTextEl ? greetTextEl.textContent.trim() : null,
+        };
+      }
+
+      case "check-from-text": {
+        const container = iframeDoc.querySelector(".greeting-card-container");
+        const fromEl = iframeDoc.getElementById("greetFrom");
+        const passed =
+          container !== null &&
+          fromEl !== null &&
+          fromEl.textContent.trim() === "From: Rahul";
+        return { passed, actual: fromEl ? fromEl.textContent.trim() : null };
+      }
+
+      case "check-to-text": {
+        const container = iframeDoc.querySelector(".greeting-card-container");
+        const toEl = iframeDoc.getElementById("greetTo");
+        const passed =
+          container !== null &&
+          toEl !== null &&
+          toEl.textContent.trim() === "To: Varakumar";
+        return { passed, actual: toEl ? toEl.textContent.trim() : null };
+      }
+      //splice playground
+      case "check-start-index-input": {
+        const element = iframeDoc.getElementById("startIndexInput");
+        return { passed: element !== null };
+      }
+
+      case "check-delete-count-input": {
+        const element = iframeDoc.getElementById("deleteCountInput");
+        return { passed: element !== null };
+      }
+
+      case "check-item-to-add-input": {
+        const element = iframeDoc.getElementById("itemToAddInput");
+        return { passed: element !== null };
+      }
+
+      case "check-splice-button": {
+        const element = iframeDoc.getElementById("spliceBtn");
+        return { passed: element !== null };
+      }
+
+      case "check-updated-array": {
+        const element = iframeDoc.getElementById("updatedArray");
+        return { passed: element !== null };
+      }
+
+      case "check-splice-functionality": {
+        const startInput = iframeDoc.getElementById("startIndexInput");
+        const deleteInput = iframeDoc.getElementById("deleteCountInput");
+        const addInput = iframeDoc.getElementById("itemToAddInput");
+        const spliceBtn = iframeDoc.getElementById("spliceBtn");
+        const updatedArray = iframeDoc.getElementById("updatedArray");
+
+        startInput.value = "1";
+        deleteInput.value = "1";
+        addInput.value = "99";
+
+        spliceBtn.click();
+
+        const resultText = updatedArray.textContent;
+        const passed = resultText.includes("99");
+
+        return { passed, actual: resultText };
+      }
+
+      //Find the index of the numbers
+      case "check-user-input": {
+        const element = iframeDoc.getElementById("userInput");
+        return { passed: element !== null };
+      }
+
+      case "check-find-button": {
+        const element = iframeDoc.getElementById("findBtn");
+        return { passed: element !== null };
+      }
+
+      case "check-index-span": {
+        const element = iframeDoc.getElementById("indexOfNumber");
+        return { passed: element !== null };
+      }
+
+      case "check-index-present": {
+        const inputEl = iframeDoc.getElementById("userInput");
+        const buttonEl = iframeDoc.getElementById("findBtn");
+        const resultEl = iframeDoc.getElementById("indexOfNumber");
+
+        inputEl.value = "77"; // present in array [17,31,77,20,63]
+        buttonEl.click();
+
+        const passed = resultEl.textContent.trim() === "2";
+        return { passed, actual: resultEl.textContent.trim() };
+      }
+
+      case "check-index-not-present": {
+        const inputEl = iframeDoc.getElementById("userInput");
+        const buttonEl = iframeDoc.getElementById("findBtn");
+        const resultEl = iframeDoc.getElementById("indexOfNumber");
+
+        inputEl.value = "100"; // not in array
+        buttonEl.click();
+
+        const passed = resultEl.textContent.trim() === "-1";
+        return { passed, actual: resultEl.textContent.trim() };
+      }
 
       default:
         return {

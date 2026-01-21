@@ -7,7 +7,7 @@ import { codingPracticesData } from "../../codingPracticesData/codingPracticesDa
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const Coding_Pratice_5 = () => {
+const Python_Coding_Pratice_5 = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -233,8 +233,8 @@ const Coding_Pratice_5 = () => {
   if (loading) {
     return (
       <div className="loading-container">
-      <div className="spinner"></div>
-    </div>
+        <div className="spinner"></div>
+      </div>
     );
   }
 
@@ -305,8 +305,8 @@ const Coding_Pratice_5 = () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
@@ -315,8 +315,8 @@ const Coding_Pratice_5 = () => {
                             {status === "solved"
                               ? "✓"
                               : status === "attempted"
-                              ? "●"
-                              : "○"}
+                                ? "●"
+                                : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
@@ -329,7 +329,7 @@ const Coding_Pratice_5 = () => {
                             )}
                           </div>
                           <div className="question-description-cod">
-                            {(question.description).slice(0,45)}...
+                            {question.description.slice(0, 45)}...
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">
@@ -430,4 +430,4 @@ const Coding_Pratice_5 = () => {
     </div>
   );
 };
-export default Coding_Pratice_5;
+export default Python_Coding_Pratice_5;

@@ -1626,6 +1626,1378 @@ export const javascriptCodingPracticesData = {
       ],
     },
 
+    //coding practice - 7
+    {
+      id: "javascript-coding-practice-7",
+      title: "Javascript Coding Practice 7",
+      description: "",
+      questions: [
+        {
+          id: "ed918af8-2fvjfssbnkfbvj486d9-0d1095kkf8eb19",
+          title: "Add to Cart Page",
+          description:
+            "In this assignment, let's build an Add To Cart Page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container pt-4">
+                    <div class="row">
+                        <h1 class="col-12 heading">Add To Cart</h1>
+                        <div class="col-12 d-flex flex-row justify-content-center mt-4 mb-4">
+                            <input type="text" class="w-50" id="cartItemTextInput" />
+                            <button class="btn btn-primary ml-3" id="addBtn" onclick="onAddCartItem()">Add</button>
+                        </div>
+                        <h1 class="col-12 heading cart-items-heading">My Cart items</h1>
+                        <ul class="col-12 d-flex flex-column mt-4 cart-items-container" id="cartItemsContainer"></ul>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .heading {
+                font-family: "Roboto";
+                text-align: center;
+            }
+            
+            .cart-items-heading {
+                text-align: center;
+                font-size: 20px;
+            
+            }
+            
+            .cart-items-container {
+                text-align: center;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768970164/shopping-cart-v1_gwqsmk.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                    <span>
+                      Achieve the design with HTML and CSS and apply the functionality using JavaScript.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      Add the HTML elements in the HTML container element with the class name <code>row</code>.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      The HTML input element should have the id <code>cartItemTextInput</code>.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      The HTML button element should have the id <code>addBtn</code>.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      Cart items should be added as HTML <code>li</code> elements.
+                    </span>
+                  </li>
+                  </ol>
+                <hr>
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                       <strong>When <code>addBtn</code> is clicked</strong>
+                    <ul>
+                      <li>
+                      Create an HTML li element with the value entered in the HTML input element with the id cartItemTextInput.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                  <div className="Warning-container">
+                  <div>
+                    <h5>
+                      <i class="bi bi-exclamation-triangle"></i>Warning
+                    </h5>
+                  </div>
+                  <ul style={{ marginLeft: "1.5rem" }}>
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                  </ul>
+                </div>
+                 
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the class name row",
+              type: "js-validation",
+              input: "check-row-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id cartItemTextInput",
+              type: "js-validation",
+              input: "check-cart-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML button element with the id addBtn",
+              type: "js-validation",
+              input: "check-add-button",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id addBtn is clicked, the value of cartItemTextInput should be added as the list item",
+              type: "js-validation",
+              input: "check-add-item",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "The HTML container element with the class name row should have atleast an HTML child element",
+              type: "js-validation",
+              input: "check-row-child",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice - 8
+    {
+      id: "javascript-coding-practice-8",
+      title: "Javascript Coding Practice 8",
+      description: "",
+      questions: [
+        {
+          id: "ed919af8-2fvjfggbnkkbvj486d9-0d10325kkf8eb19",
+          title: "Toggle the Strike Through",
+          description:
+            "In this assignment, let's build a Toggle the Strike Through by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 35,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="p-5" id="checkBoxWithLabelContainer"></div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .strike {
+                text-decoration: line-through;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768974207/toggle-strike-through-v1_vqvb7t.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                    <span>
+                    Dynamically add the HTML checkbox input and the label elements in the HTML container element with the id checkBoxWithLabelContainer using JavaScript without writing the HTML Code.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    The HTML checkbox input element should have the id checkbox.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    The HTML label element should have the id checkboxLabel.
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    The id of the HTML checkbox input element and the value of the HTML label element's for attribute should be the same.
+                    </span>
+                  </li>
+                  </ol>
+                <hr>
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                       <strong>When the <code>checkbox</code> or <code>checkboxLabel</code> is clicked</strong>
+                    <ul>
+                      <li>
+                      The status of the HTML checkbox input element with the id checkbox should change.
+                      </li>
+                      <li>
+                      The text in the HTML label element with the id checkboxLabel is strike through if the checkbox is checked as shown in the image.
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                  <div className="Warning-container">
+                  <div>
+                    <h5>
+                      <i class="bi bi-exclamation-triangle"></i>Warning
+                    </h5>
+                  </div>
+                  <ul style={{ marginLeft: "1.5rem" }}>
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                  </ul>
+                </div>
+                 
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the id checkBoxWithLabelContainer",
+              type: "js-validation",
+              input: "check-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML checkbox input element with the id checkbox",
+              type: "js-validation",
+              input: "check-checkbox",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML label element with the id checkboxLabel",
+              type: "js-validation",
+              input: "check-label",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML checkbox input element with the id checkbox is clicked, the text in the HTML label element is strike through if the checkbox is checked",
+              type: "js-validation",
+              input: "check-checkbox-strike",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the HTML label element with the id checkboxLabel is clicked, the text in the HTML label element is strike through if the checkbox is checked",
+              type: "js-validation",
+              input: "check-label-strike",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "ed922af8-2fvjfgbnkkbvj486d9-0d12325kkf8eb19",
+          title: "Your Ordered Items",
+          description:
+            "In this assignment, let's build Your Ordered Items Page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div id="orderedItemsContainer">
+                    <h1 class="heading">Your Order Items</h1>
+                    <ul id="itemsListContainer"></ul>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .heading {
+                font-family: "Roboto";
+                font-size: 25px;
+                font-weight: 500;
+                text-align: center;
+                padding-top: 50px;
+            }
+            
+            .items-list-container {
+                margin: 0;
+                padding: 4;
+                list-style-type: none;
+            }
+            
+            .ordered-item {
+                font-family: "Roboto";
+                font-size: 15px;
+                padding: 10px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768975768/your-ordered-items-v1_jcszek.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                      <span>
+                        Add the HTML main heading and the unordered list elements in the HTML
+                        container element with the id <code>orderedItemsContainer</code> using HTML.
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        Dynamically add the ordered items as HTML <code>li</code> elements in the
+                        HTML <code>ul</code> element.
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        Each ordered item and the button should have a unique id.
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        The id for the ordered item should be in the format
+                        <code>item</code> + <code>uniqueNo</code> (Example: item1, item2, item3, etc.).
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        The id for the button should be in the format
+                        <code>button</code> + <code>uniqueNo</code> (Example: button1, button2, button3, etc.).
+                      </span>
+                    </li>
+                  </ol>
+                
+                  <div className="Warning-container">
+                  <div>
+                    <h5>
+                      <i class="bi bi-exclamation-triangle"></i>Warning
+                    </h5>
+                  </div>
+                  <ul style={{ marginLeft: "1.5rem" }}>
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                  </ul>
+                </div>
+                <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                       When the Cancel button is clicked, remove the respective ordered item as shown in the image.
+                  </li>
+                </ul>
+
+                <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   
+                    <li>
+                    Use the <code>removeChild()</code> method to delete the ordered items.
+                    </li>
+                </p>
+              </div>
+  
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the id orderedItemsContainer",
+              type: "js-validation",
+              input: "check-ordered-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML main heading element",
+              type: "js-validation",
+              input: "check-heading",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML unordered list element",
+              type: "js-validation",
+              input: "check-ul",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML list item element with the id item2",
+              type: "js-validation",
+              input: "check-item2",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML button element with the id button3",
+              type: "js-validation",
+              input: "check-button3",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice - 9
+    {
+      id: "javascript-coding-practice-9",
+      title: "Javascript Coding Practice 9",
+      description: "",
+      questions: [
+        {
+          id: "ed913af8-2fkfssbnkfbvj486d9-0d1795kkf8eb19",
+          title: "Movie Reviews",
+          description:
+            "In this assignment, let's build a Movie Reviews page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container pt-4" id="movieReviewsContainer">
+                    <div class="row">
+                        <h1 class="col-12 text-center reviews-heading">Movie Reviews</h1>
+                        <div class="col-12 mb-4">
+                            <label for="titleInput" class="input-label">MOVIE TITLE</label>
+                            <input type="text" class="w-100 title-input" id="titleInput" placeholder="Enter a movie title" />
+                            <label for="reviewTextarea" class="input-label">YOUR REVIEW</label>
+                            <textarea class="w-100 p-2 review-textarea" id="reviewTextarea" rows="5" placeholder="Enter your review"></textarea>
+                            <div class="d-flex flex-row justify-content-end mt-3">
+                                <button class="btn btn-primary" id="addBtn" onclick="onAddReview()">Add</button>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4" id="reviewsContainer"></div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .reviews-heading {
+                color: #2d3a35;
+                font-family: "Roboto";
+                font-size: 36px;
+                font-weight: 700;
+            }
+            
+            .input-label {
+                color: #7b8794;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: bold;
+                margin-top: 16px;
+                margin-bottom: 6px;
+            }
+            
+            .title-input {
+                font-family: "Roboto";
+                height: 40px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #cbd2d9;
+                border-radius: 4px;
+                padding-left: 12px;
+            }
+            
+            .review-textarea {
+                color: #2d3a35;
+                font-family: "Roboto";
+                border-style: solid;
+                border-width: 1px;
+                border-color: #cbd2d9;
+                border-radius: 4px;
+            }
+            
+            .movie-title {
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 16px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768984192/movie-reviews-v1_go6tcu.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                    <span>
+                    Add the HTML elements in the HTML container element with id movieReviewsContainer using HTML
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    The HTML input element should have the id titleInput
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    The HTML textarea element should have the id reviewTextarea
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    The HTML button element should have the id addBtn
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Dynamically add the movie reviews in the HTML div container element with the id reviewsContainer
+                    </span>
+                  </li>
+                  </ol>
+               
+                  <div className="Warning-container">
+                  <div>
+                    <h5>
+                      <i class="bi bi-exclamation-triangle"></i>Warning
+                    </h5>
+                  </div>
+                  <ul style={{ marginLeft: "1.5rem" }}>
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                  </ul>
+                </div>
+                <hr>
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                       <strong>When <code>addBtn</code> is clicked</strong>
+                    <ul>
+                      <li>
+                      If the value of the HTML input element with the id titleInput is empty, show an alert to enter the movie title.
+                      </li>
+                      <li>
+                      If the value of the HTML input element with the id titleInput is not empty
+                      <ul>
+                      <li>
+                      Add the text entered in titleInput and reviewTextarea to the reviewsContainer.
+                      </li>
+                      <li>Make the values of titleInput and reviewTextarea empty.</li>
+                      </ul>
+                      </li>
+
+                    </ul>
+                  </li>
+                </ul>
+
+                <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   
+                    <li>
+                      Try to achieve the design as close as possible.
+                    </li>
+                    <li>
+                    Achieve the design with HTML, CSS, and functionality with JS.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
+              <p class="desc-que-blue">Resources</p>
+
+              <p class="desc-que-blue">CSS Colors used:</p>
+              <div  class="desc-colors c2d3a35">#2d3a35</div>
+              <div  class="desc-colors c7b8794">#7b8794</div>
+              <div  class="desc-colors ccbd2d9">#cbd2d9</div>
+              
+              <p class="desc-que-blue">CSS Font families used:</p>
+              <ul><li>Roboto</li></ul>
+                     
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the id movieReviewsContainer",
+              type: "js-validation",
+              input: "check-movie-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id titleInput",
+              type: "js-validation",
+              input: "check-title-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML textarea element with the id reviewTextarea",
+              type: "js-validation",
+              input: "check-review-textarea",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML button element with the id addBtn",
+              type: "js-validation",
+              input: "check-add-button",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML div container element with the id reviewsContainer",
+              type: "js-validation",
+              input: "check-reviews-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML button element with the id addBtn is clicked, the text entered in the titleInput and reviewTextarea elements should be added to the reviewsContainer",
+              type: "js-validation",
+              input: "check-add-review",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice - 10
+    {
+      id: "javascript-coding-practice-10",
+      title: "Javascript Coding Practice 10",
+      description: "",
+      questions: [
+        {
+          id: "ed955af8-2fkfsccnkfbvj486d9-0d19795kkf8eb19",
+          title: "Greeting Card",
+          description:
+            "In this assignment, let's build a Greeting Card by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 35,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="greeting-card-container">
+                    <div class="text-right">
+                        <p class="greet" id="greetFrom"></p>
+                        <p class="greet" id="greetTo"></p>
+                    </div>
+                    <div class="greet-text-container d-flex flex-column justify-content-center">
+                        <h1 class="heading">Happy <br /><span class="new-year">New Year</span></h1>
+                        <p class="greet-text mt-4" id="greetText"></p>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .greeting-card-container {
+                background-image: url("https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768992371/greet_gp2app.jpg");
+                background-size: cover;
+                height: 100vh;
+                padding: 20px;
+            }
+            
+            .greet {
+                color: #1f2933;
+                font-family: "DM Sans";
+                font-weight: bold;
+            }
+            
+            .heading {
+                color: #1f2933;
+                font-family: "Playfair Display";
+                font-size: 50px;
+                font-weight: 500;
+            }
+            
+            .new-year {
+                font-size: 75px;
+            }
+            
+            .greet-text-container {
+                text-align: center;
+                height: 80vh;
+            }
+            
+            .greet-text {
+                color: #323f4b;
+                font-family: "Roboto";
+                font-size: 24px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768986026/greeting-card-v1_z3ntte.png" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                    <span>
+                    Parse the JSON string greeting given in the JS prefilled code
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Fill the text content of the HTML paragraph elements with the class name greet with the values of the from and to keys given in the greeting string respectively using JavaScript
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Fill the text content of the HTML paragraph element with the class name greet-text with the value of the greetText key given in the greeting string using JavaScript
+                    </span>
+                  </li>
+                  </ol>
+              
+                <hr>
+
+                <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                    <li>
+                    Use the JSON method JSON.parse to parse the JSON string.
+                    </li>
+                  </ul>
+                </p>
+              </div>
+                     
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the class name greeting-card-container",
+              type: "js-validation",
+              input: "check-greeting-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "The HTML container element with the class name greeting-card-container should have the value of the 'greetText' key of greeting object",
+              type: "js-validation",
+              input: "check-greet-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "The HTML container element with the class name greeting-card-container should have the value of the 'from' key of greeting object",
+              type: "js-validation",
+              input: "check-from-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "The HTML container element with the class name greeting-card-container should have the value of the 'to' key of greeting object",
+              type: "js-validation",
+              input: "check-to-text",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practices - 11
+    {
+      id: "javascript-coding-practice-11",
+      title: "Javascript Coding Practice 11",
+      description: "",
+      questions: [
+        {
+          id: "ed988af8-2fkfsgbnkfbvj486d9-0d19685kkf8eb19",
+          title: "Splice Playground",
+          description:
+            "In this assignment, let's build a Splice Playground by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container pt-5">
+                    <div class="row">
+                        <h1 class="playground-heading col-12 text-center">Splice Playground</h1>
+                        <div class="col-4 mt-4 mb-4">
+                            <label class="input-label">START INDEX</label>
+                            <input type="text" class="user-input" placeholder="1" id="startIndexInput" />
+                        </div>
+                        <div class="col-4 mt-4 mb-4">
+                            <label class="input-label">DELETE COUNT</label>
+                            <input type="text" class="user-input" placeholder="0" id="deleteCountInput" />
+                        </div>
+                        <div class="col-4 mt-4 mb-4">
+                            <label class="input-label">ITEM TO ADD</label>
+                            <input type="text" class="user-input" placeholder="2" id="itemToAddInput" />
+                        </div>
+                        <div class="col-12 text-center mb-4">
+                            <button class="btn btn-primary" id="spliceBtn">Splice</button>
+                        </div>
+                        <h1 class="col-12 updated-array-heading">Updated Array</h1>
+                        <div class="col-12 updated-array-container">
+                            <span class="updated-array" id="updatedArray"></span>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .playground-heading {
+                color: #2d3a35;
+                font-family: "Roboto";
+                font-size: 36px;
+                font-weight: 700;
+            }
+            
+            .input-label {
+                text-align: center;
+                color: #7b8794;
+                font-family: "Roboto";
+                font-size: 12px;
+                font-weight: bold;
+            }
+            
+            .user-input {
+                text-align: center;
+                height: 40px;
+                width: 100%;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #cbd2d9;
+                border-radius: 4px;
+            }
+            
+            .updated-array-heading {
+                font-family: "Roboto";
+                font-weight: 600;
+                font-size: 18px;
+            }
+            
+            .updated-array-container {
+                background-color: #f3f3f3;
+                padding: 20px;
+            }
+            
+            .updated-array {
+                font-family: "Bree Serif";
+                font-size: 16px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768993108/splice-playground-v1_kagp69.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                    <span>
+                    Add the ids <code>startIndexInput,</code> <code>deleteCountInput,</code> and <code>itemToAddInput</code> to the HTML input elements correspondingly
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Add an id <code>spliceBtn</code> to the HTML button element
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Add an id <code>updatedArray</code> to the HTML span element with the class name updatedArray
+                    </span>
+                  </li>
+                  </ol>
+                  <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li>Stringify the array given in the JS prefilled code using the <code>JSON.stringify</code> method</li>
+                      <li>Fill the text content of the HTML span element with the id updatedArray with the stringified array</li>
+                      <li><strong>When spliceBtn is clicked,</strong>
+                      <ul>
+                      <li>If the value of the startIndexInput is empty, show an alert message to enter the start index</li>
+                      <li>If the value of the startIndexInput is not empty, update the array using splice() method by passing the startIndexInput, deleteCountInput and itemToAddInput values</li>
+                      <li>Stringify the updated array and update the text content of the HTML span element with the id updatedArray</li>
+
+                      </ul>
+                      </li>
+                  </ul>
+              
+                
+
+                <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                    <li>
+                    You can use the JSON <code>JSON.stringify</code> method to convert the array into a string.
+                    </li>
+                    <li>If the value of the <code>deleteCountInput</code> is empty, assign the delete count to 0.
+                    </li>
+
+                  </ul>
+                </p>
+              </div>
+                     
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML input element with the id startIndexInput",
+              type: "js-validation",
+              input: "check-start-index-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id deleteCountInput",
+              type: "js-validation",
+              input: "check-delete-count-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML input element with the id itemToAddInput",
+              type: "js-validation",
+              input: "check-item-to-add-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML button element with the id spliceBtn",
+              type: "js-validation",
+              input: "check-splice-button",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML span element with the id updatedArray",
+              type: "js-validation",
+              input: "check-updated-array",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML button element with the id spliceBtn is clicked, the updated array should be displayed if the startIndexInput is not empty",
+              type: "js-validation",
+              input: "check-splice-functionality",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "ed944af8-2fkfsgbnUUbvj486d9-0d19685kkf8eb19",
+          title: "Find the Index of the Numbers",
+          description:
+            "In this assignment, let's find the index of the numbers by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container pt-5">
+                    <div class="row">
+                        <h1 class="playground-heading col-12 text-center">Find the Index of the Numbers</h1>
+                        <div class="col-12 mt-4 mb-4">
+                            <p class="default-array text-center">[ 17, 31, 77, 20, 63 ]</p>
+                        </div>
+                        <div class="col-12 d-flex flex-row justify-content-center mb-5">
+                            <input type="text" class="user-input w-50 pl-2" placeholder="Enter a number" id="userInput" />
+                            <button class="btn btn-primary ml-3" onclick="findIndexOfNumber()" id="findBtn">Find</button>
+                        </div>
+                        <h1 class="index-of-number-heading">Index of number:</h1>
+                        <div class="col-12 index-of-number-container text-center">
+                            <span class="index-of-number" id="indexOfNumber"></span>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .playground-heading {
+                color: #2d3a35;
+                font-family: "Roboto";
+                font-size: 36px;
+                font-weight: 700;
+            }
+            
+            .default-array {
+                color: #2d3a35;
+                font-family: "Bree Serif";
+                font-size: 24px;
+            }
+            
+            .user-input {
+                height: 40px;
+                width: 100%;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #cbd2d9;
+                border-radius: 4px;
+            }
+            
+            .index-of-number-heading {
+                font-family: "Roboto";
+                font-size: 22px;
+                font-weight: 600;
+            }
+            
+            .index-of-number-container {
+                color: #795e26;
+                background-color: #f3f3f3;
+                padding: 20px;
+                margin-top: 10px;
+            }
+            
+            .index-of-number {
+                color: #795e26;
+                font-family: "Bree Serif";
+                font-size: 36px;
+                font-weight: 800;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1768995612/find-index-of-number-v1_tjr59l.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                    <li>
+                    <span>
+                    Add an id userInput to the HTML input element
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Add an id findBtn to the HTML button element
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                    Add an id indexOfNumber to the HTML span element with the class name index-of-number
+                    </span>
+                  </li>
+                  </ol>
+                  <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li><strong>When spliceBtn is clicked,</strong>
+                      <ul>
+                      <li>Find the index of the value entered in the HTML input element with the id <code>userInput</code> using <code>findIndex</code> method</li>
+                      <li>Fill the text content of the HTML span element with the id <code>indexOfNumber</code> with the index found using <code>findIndex</code> method</li>
+                      </ul>
+                      </li>
+                  </ul>
+              
+                <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   <ul>
+                    <li>
+                    Write the code without deleting the prefilled code.
+                    </li>
+                    <li>
+                    Use the findIndex method to find the index of the numbers in an array
+                     </li>
+
+                  </ul>
+                </p>
+              </div>
+                     
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML input element with the id userInput",
+              type: "js-validation",
+              input: "check-user-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML button element with the id findBtn",
+              type: "js-validation",
+              input: "check-find-button",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML span element with the id indexOfNumber",
+              type: "js-validation",
+              input: "check-index-span",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id findBtn is clicked, the index of the userInput value should be displayed in indexOfNumber element if it is present in the array",
+              type: "js-validation",
+              input: "check-index-present",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the HTML button element with the id findBtn is clicked, -1 should be displayed in the indexOfNumber element if the userInput value is not present in the array",
+              type: "js-validation",
+              input: "check-index-not-present",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
     //JS coding practice - 1
     {
       id: "js-coding-practice-1",

@@ -123,6 +123,7 @@ import React_Context_MCQ from "../Reactjs/React_Context/React_Context_MCQ.js";
 import React_Cpart2_MCQ from "../Reactjs/React_Context/React_Cpart2_MCQ.js";
 import React_Cpart3_MCQ from "../Reactjs/React_Context/React_Cpart3_MCQ.js";
 import React_Cpart4_MCQ from "../Reactjs/React_Context/React_Cpart4_MCQ.js";
+import Styled_Compo_MCQ from "../Reactjs/Styled_Components/Styled_Compo_MCQ.js";
 
 // MCQ Wrapper
 import MCQWrapper from "../SubtopicsPage/MCQWrapper";
@@ -273,7 +274,7 @@ import Nested_con_Class from "../Python/NestedConditions/Nested_con_Class.js";
 import Coding_Pratice_4A from "../Python/NestedConditions/Coding_Pratice_4A.js";
 import Coding_Pratice_4B from "../Python/NestedConditions/Coding_Pratice_4B.js";
 import Assignment_4 from "../Python/NestedConditions/Assignment_4.js";
-import Coding_Pratice_5 from "../Python/NestedConditions/Coding_Pratice_5.js";
+// import Python_Coding_Pratice_5 from "../Python/NestedConditions/Python_Coding_Pratice_5.js";
 import Assignment_5 from "../Python/NestedConditions/Assignment_5.js";
 import Coding_Pratice_6A from "../Python/NestedConditions/Coding_Pratice_6A.js";
 import Coding_Pratice_6B from "../Python/NestedConditions/Coding_Pratice_6B.js";
@@ -1011,7 +1012,7 @@ export const subtopicComponents = {
   "Coding Practice 4A": Coding_Pratice_4A,
   "Coding Practice 4B": Coding_Pratice_4B,
   "Assignment 4": Assignment_4,
-  "Coding Practice 5": Coding_Pratice_5,
+  // "Coding Practice 5": Python_Coding_Pratice_5,
   "Assignment 5": Assignment_5,
   "Coding Practice 6A": Coding_Pratice_6A,
   "Coding Practice 6B": Coding_Pratice_6B,
@@ -1199,6 +1200,7 @@ export const subtopicComponents = {
   "MCQ Pratice - React Context | Part 2": React_Cpart2_MCQ,
   "MCQ Pratice - React Context | Part 3": React_Cpart3_MCQ,
   "MCQ Pratice - React Context | Part 4": React_Cpart4_MCQ,
+  "MCQ Pratice - Styled Components": Styled_Compo_MCQ,
 
   //Flexbox Cheat Sheet
   "Sizing Elements and Handling Overflow | Cheat Sheet":
