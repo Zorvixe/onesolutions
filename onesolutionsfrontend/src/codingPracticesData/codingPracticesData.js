@@ -6358,7 +6358,7 @@ export const codingPracticesData = {
           sampleInput: "3\n2",
           sampleOutput: "1 1 \n2 2 \n3 3 ",
           testCases: [
-            { input: "2\n3", output: "1 1 1 \n2 2 2 \n3 3 3 ", visible: true },
+            { input: "3\n3", output: "1 1 1 \n2 2 2 \n3 3 3 ", visible: true },
             { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: true },
             { input: "3\n2", output: "1 1 \n2 2 \n3 3 ", visible: false },
             { input: "3\n2", output: "1 1 \n2 2 \n3 3 ", visible: false },
