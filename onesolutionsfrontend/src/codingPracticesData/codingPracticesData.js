@@ -7043,7 +7043,7 @@ export const codingPracticesData = {
           sampleInput: "2\n3",
           sampleOutput: "1 1 1 \n2 2 2 ",
           testCases: [
-            { input: "3\n2", output: "1 1 \n2 2 \n 3 3 ", visible: true },
+            { input: "3\n2", output: "1 1\n2 2\n3 3 ", visible: true },
             { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: true },
             { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: false },
             { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: false },
