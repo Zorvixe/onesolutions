@@ -3356,6 +3356,135 @@ export const javascriptCodingPracticesData = {
       ],
     },
 
+    //coding practice - 14
+    {
+      id: "javascript-coding-practice-14",
+      title: "Javascript Coding Practice 14",
+      description: "",
+      questions: [
+        {
+          id: "ed951af8-2fxxsgnnkfbvj486d9-0dm56795kkeb19",
+          title: "Clear the Counter Timer",
+          description:
+            "In this assignment, let's Clear the Counter Timer by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="text-center pt-5">
+                    <h1 class="heading text-center">Clear the counter timer</h1>
+                    <p class="counter-value" id="counterValue"></p>
+                    <button class="btn btn-danger" id="clearBtn">Clear</button>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .heading {
+                font-family: "Roboto";
+                font-size: 24px;
+            }
+            
+            .counter-value {
+                font-size: 36px;
+                font-weight: bold;
+            }`,
+            javascript: `let clearBtnEl = document.getElementById("clearBtn");
+            let counterValue = document.getElementById("counterValue");
+            
+            let counter = 0;
+            
+            let counterTimer = function() {
+                counter = counter + 1;
+                counterValue.textContent = counter;
+            };
+            
+            let intervalId = setInterval(counterTimer, 1000);
+            
+            // Write your code here`,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769070659/clear-the-counter-timer-v1_rinixv.gif" class="desc-que-img" />
+                      
+                    <p class="">Achieve the given functionality to the given prefilled code.</p>
+                    <ul>
+                        <li>When the HTML button element with the id clearBtn is clicked,
+                        <ul>
+                        <li>Clear the counter timer using the clearInterval method.</li>
+                        </ul>
+                        </li>
+                    </ul>
+                 
+                    <div className="Warning-container">
+                    <div>
+                      <h5>
+                        <i class="bi bi-exclamation-triangle"></i>Warning
+                      </h5>
+                    </div>
+                    <ul style={{ marginLeft: "1.5rem" }}>
+                      <li>
+                      Do not delete the prefilled code.
+                      </li>
+                    </ul>
+                  </div>
+                  <hr>
+            
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the bootstrap class name text-center",
+              type: "js-validation",
+              input: "check-text-center-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element with the id counterValue",
+              type: "js-validation",
+              input: "check-counter-value",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML button element with the id clearBtn",
+              type: "js-validation",
+              input: "check-clear-button",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
     //JS coding practice - 1
     {
       id: "js-coding-practice-1",

@@ -1020,6 +1020,22 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed, actual: chatContainer.textContent };
       }
 
+      //clear the counter timer
+      case "check-text-center-container": {
+        const element = iframeDoc.querySelector(".text-center");
+        return { passed: element !== null };
+      }
+
+      case "check-counter-value": {
+        const element = iframeDoc.getElementById("counterValue");
+        return { passed: element !== null && element.tagName === "P" };
+      }
+
+      case "check-clear-button": {
+        const element = iframeDoc.getElementById("clearBtn");
+        return { passed: element !== null && element.tagName === "BUTTON" };
+      }
+
       default:
         return {
           passed: false,

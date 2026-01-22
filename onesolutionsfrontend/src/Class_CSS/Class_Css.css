@@ -1453,3 +1453,226 @@
 .form-group.full-width {
   grid-column: 1 / -1;
 }
+
+/* Video Tracker Header */
+.video-tracker-header-clss {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px 8px 0 0;
+  margin-bottom: 10px;
+}
+
+.tracker-info-clss {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progress-display-clss {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-label-clss {
+  font-weight: 500;
+  font-size: 14px;
+  min-width: 70px;
+}
+
+.progress-bar-container-clss {
+  flex: 1;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-bar-fill-clss {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #34d399);
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.progress-percentage-clss {
+  font-weight: 600;
+  font-size: 16px;
+  min-width: 45px;
+  text-align: right;
+}
+
+.time-display-clss {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.time-label-clss {
+  opacity: 0.9;
+}
+
+.time-value-clss {
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.requirements-clss {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  background: rgba(245, 158, 11, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #f59e0b;
+}
+
+.requirements-clss svg {
+  flex-shrink: 0;
+}
+
+.requirements-met-clss {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #10b981;
+}
+
+.requirements-met-clss svg {
+  flex-shrink: 0;
+}
+
+/* Completion Buttons */
+.completion-buttons-clss {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.complete-button-clss.disabled-clss {
+  background: #9ca3af !important;
+  color: #6b7280 !important;
+  cursor: not-allowed !important;
+  opacity: 0.7;
+}
+
+.complete-button-clss.disabled-clss:hover {
+  background: #9ca3af !important;
+  transform: none !important;
+}
+
+/* Progress Status Messages */
+.progress-status-message-clss {
+  background: #fef3c7;
+  border: 1px solid #fbbf24;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.progress-status-message-clss p {
+  margin: 0;
+  color: #92400e;
+}
+
+.progress-status-message-clss .highlight-clss {
+  background: #fbbf24;
+  color: #92400e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.progress-status-message-clss .current-stats-clss {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.progress-status-message-clss .current-stats-clss strong {
+  color: #92400e;
+}
+
+.ready-to-complete-clss {
+  background: #d1fae5;
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.ready-to-complete-clss p {
+  margin: 0;
+  color: #065f46;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ready-to-complete-clss svg {
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .video-tracker-header-clss {
+    padding: 12px 15px;
+  }
+  
+  .progress-display-clss {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .progress-bar-container-clss {
+    width: 100%;
+  }
+  
+  .completion-buttons-clss {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .feedback-button-clss,
+  .complete-button-clss {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .progress-status-message-clss,
+  .ready-to-complete-clss {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-tracker-header-clss {
+    padding: 10px 12px;
+  }
+  
+  .progress-label-clss,
+  .time-label-clss {
+    font-size: 12px;
+  }
+  
+  .progress-percentage-clss,
+  .time-value-clss {
+    font-size: 14px;
+  }
+}
