@@ -434,6 +434,7 @@ import Array_Methods_Pratice_1 from "../JavaScript/Todos_Application_3/Array_Met
 import Array_Methods_Pratice_2 from "../JavaScript/Todos_Application_3/Array_Methods_Pratice_2.js";
 import Array_Methods_Pratice_3 from "../JavaScript/Todos_Application_3/Array_Methods_Pratice_3.js";
 import Todos_Application_Part_6_Class from "../JavaScript/Todos_Application_4/Todos_Application_Part_6_Class.js";
+import Coding_Pratice_JS_12 from "../JavaScript/Todos_Application_4/Coding_Pratice_JS_12.js";
 import Coding_Pratice_13 from "../JavaScript/Todos_Application_4/Coding_Pratice_13.js";
 import Callbacks_Schedulers_Class from "../JavaScript/Fetch_Callbacks/Callbacks_Schedulers_Class.js";
 import Event_Listners_More_Events_Class from "../JavaScript/Fetch_Callbacks/Event_Listners_More_Events_Class.js";
@@ -1368,6 +1369,7 @@ export const subtopicComponents = {
   "Array Methods | Practice 1": Array_Methods_Pratice_1,
   "Array Methods | Practice 2": Array_Methods_Pratice_2,
   "Array Methods | Practice 3": Array_Methods_Pratice_3,
+  "Coding Practice 12": Coding_Pratice_JS_12,
   "Coding Practice 13": Coding_Pratice_13,
   "Todos Application | Part 6": Todos_Application_Part_6_Class,
   "Callbacks & Schedulers": Callbacks_Schedulers_Class,

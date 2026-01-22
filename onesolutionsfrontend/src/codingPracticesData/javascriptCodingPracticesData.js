@@ -2998,6 +2998,364 @@ export const javascriptCodingPracticesData = {
       ],
     },
 
+    //coding practice - 12
+    {
+      id: "javascript-coding-practice-12",
+      title: "Javascript Coding Practice 12",
+      description: "",
+      questions: [
+        {
+          id: "ed951af8-2fzzsccnkfbvj486d9-0d19795kkeb19",
+          title: "Remove Item in Local Storage Practice",
+          description:
+            "In this assignment, let's practice Remove Item in Local Storage by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 30,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="p-5">
+                    <div class="mt-3 mb-3 text-center">
+                        <input type="text" id="input" />
+                        <button class="btn btn-primary" id="saveBtn">Save</button>
+                        <button class="btn btn-primary" id="clearBtn">Clear</button>
+                    </div>
+                    <h1 class="heading text-center">Click on clear to remove the text in the HTML input element.</h1>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .heading {
+                font-family: "Roboto";
+                font-size: 24px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769059132/clear-the-input-v1_nblldl.gif" class="desc-que-img" />
+
+                    <p class="">Achieve the given functionality to the given prefilled code.</p>
+                    <ul>
+                        <li>When the HTML button element with the id clearBtn is clicked
+                        <ul>
+                        <li>Make the value of the HTML input element empty.</li>
+                        <li>Remove the key userInput in the local storage using the removeItem method.</li>
+                        </ul>
+                        </li>
+                    </ul>
+
+                    <div className="Warning-container">
+                    <div>
+                      <h5>
+                        <i class="bi bi-exclamation-triangle"></i>Warning
+                      </h5>
+                    </div>
+                    <ul style={{ marginLeft: "1.5rem" }}>
+                      <li>
+                      Do not delete the prefilled code.
+                      </li>
+                    </ul>
+                  </div>
+             
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML button element with the id clearBtn",
+              type: "js-validation",
+              input: "check-clear-button",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the HTML id attribute value as input and HTML type attribute value as text",
+              type: "js-validation",
+              input: "check-input-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When the HTML button element with the id clearBtn is clicked, the HTML input element should be empty",
+              type: "js-validation",
+              input: "check-clear-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id clearBtn is clicked, the key 'userInput' in the local storage should be removed",
+              type: "js-validation",
+              input: "check-clear-localstorage",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice - 13
+    {
+      id: "javascript-coding-practice-13",
+      title: "Javascript Coding Practice 13",
+      description: "",
+      questions: [
+        {
+          id: "ed951af8-2fxxsccnkfbvj486d9-0dm9795kkeb19",
+          title: "Chatbot",
+          description:
+            "In this assignment, let's build a Chatbot by applying the concepts we learned till now.",
+          difficulty: "Medium",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+                <script src="https://kit.fontawesome.com/5f59ca6ad3.js" crossorigin="anonymous"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            </head>
+            
+            <body>
+                <div class="p-2">
+                    <h1 class="text-center chatbot-heading">Meet our Chatbot</h1>
+                    <img class="image" src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769065282/bot1_zc5sr6.png" />
+                    <div class="chat-container" id="chatContainer"></div>
+                    <div class="d-flex flex-row justify-content-end">
+                        <img class="image" src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769065411/bot2_sikly9.png" />
+                    </div>
+                    <div class="d-flex flex-row justify-content-center fixed-bottom">
+                        <input class="user-input" id="userInput" />
+                        <button class="send-msg-btn" id="sendMsgBtn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .chatbot-heading {
+                color: #323f4b;
+                font-family: "Roboto";
+                font-size: 30px;
+            }
+            
+            .image {
+                width: 150px;
+            }
+            
+            .chat-container {
+                padding: 10px;
+            }
+            
+            .msg-to-chatbot-container {
+                text-align: right;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .msg-to-chatbot {
+                background-color: #cbd2d9;
+                font-family: "Roboto";
+                font-weight: 900;
+                border-radius: 16px;
+                padding: 10px;
+            }
+            
+            .msg-from-chatbot-container {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .msg-from-chatbot {
+                color: white;
+                background-color: #e57742;
+                font-family: "Roboto";
+                font-weight: 900;
+                border-radius: 16px;
+                padding: 10px;
+            }
+            
+            .user-input {
+                background-color: #cbd2d9;
+                font-family: "Roboto";
+                font-weight: 900;
+                height: 52px;
+                border-width: 0;
+                border-radius: 5px;
+                margin: 8px;
+                padding: 15px;
+            }
+            
+            .send-msg-btn {
+                background-color: #cbd2d9;
+                font-family: "Roboto";
+                height: 52px;
+                border-width: 0;
+                border-radius: 10px;
+                margin: 8px;
+                padding-left: 25px;
+                padding-right: 25px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769061589/chatbot-v1_mycazl.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                       <li><span>The HTML container element with the class name chat-container should have the id chatContainer</span></li>
+                       <li><span>The HTML input element with the class name user-input should have the id userInput</span></li>
+                     </ol>
+
+                    <div className="Warning-container">
+                    <div>
+                      <h5>
+                        <i class="bi bi-exclamation-triangle"></i>Warning
+                      </h5>
+                    </div>
+                    <ul style={{ marginLeft: "1.5rem" }}>
+                      <li>
+                      Do not delete the prefilled code.
+                      </li>
+                    </ul>
+                  </div>
+                  <hr>
+
+                    <p class="">By following the above instructions, achieve the given functionality.</p>
+                    <ul>
+                        <li>When the HTML <code>button</code> element with the id sendMsgBtn is clicked,
+                        <ul>
+                        <li>The text entered in the userInput should display in the chatContainer.</li>
+                        <li>The userInput should be empty.</li>
+                        <li>Reply from the chatbot also should display in the chatContainer.</li>
+                        </ul>
+                        </li>
+                        <li>You can use the below class names that are listed in the CSS to create a message dynamically.
+                        <ul>
+                        <li>msg-to-chatbot-container</li>
+                        <li>msg-to-chatbot</li>
+                        <li>msg-from-chatbot-container</li>
+                        <li>msg-from-chatbot</li>
+                        </ul>
+                        </li>
+                    </ul>
+                  
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                       
+                        <li>
+                        Apply the functionality to the given prefilled code.
+                        </li>
+                      </ul>
+                    </p>
+                  </div>
+            
+                  <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML Container Element with the id chatContainer",
+              type: "js-validation",
+              input: "check-chat-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id userInput",
+              type: "js-validation",
+              input: "check-user-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When the sendMsgBtn is clicked, the text entered in the userInput should display in the chatContainer",
+              type: "js-validation",
+              input: "check-user-message-display",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the sendMsgBtn is clicked, the text entered in the userInput should display in the chatContainer and the userInput should be empty",
+              type: "js-validation",
+              input: "check-user-input-clear",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the sendMsgBtn is clicked, the chatbot should reply to the text entered in the userInput",
+              type: "js-validation",
+              input: "check-bot-reply",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
     //JS coding practice - 1
     {
       id: "js-coding-practice-1",

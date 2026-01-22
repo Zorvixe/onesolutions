@@ -930,10 +930,10 @@ export const goalsData = [
                 id: "QW9_s10_A0 m4_H g1_7B c3_D2E",
                 name: "MCQ Practice - Nested Con",
               },
-              {
-                id: "QW9_s11_A0 m4_H g1_7B c3_D2E",
-                name: "Problem Solving Part 1",
-              },
+              // {
+              //   id: "QW9_s11_A0 m4_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 1",
+              // },
               // {
               //   id: "QW9_s12_A0 m4_H g1_7B c3_D2E",
               //   name: "Coding Practice 5",
@@ -1004,10 +1004,10 @@ export const goalsData = [
                 id: "QW9_s10_A0 m5_H g1_7B c3_D2E",
                 name: "Coding Practice 8A",
               },
-              {
-                id: "QW9_s11_A0 m5_H g1_7B c3_D2E",
-                name: "Problem Solving Part 2",
-              },
+              // {
+              //   id: "QW9_s11_A0 m5_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 2",
+              // },
               {
                 id: "QW9_s12_A0 m5_H g1_7B c3_D2E",
                 name: "Coding Practice 8B",
@@ -1036,10 +1036,10 @@ export const goalsData = [
                 id: "QW9_s18_A0 m5_H g1_7B c3_D2E",
                 name: "Coding Practice 10B",
               },
-              {
-                id: "QW9_s19_A0 m5_H g1_7B c3_D2E",
-                name: "Problem Solving Part 3",
-              },
+              // {
+              //   id: "QW9_s19_A0 m5_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 3",
+              // },
               {
                 id: "QW9_s20_A0 m5_H g1_7B c3_D2E",
                 name: "Coding Practice 10C",
@@ -1052,10 +1052,10 @@ export const goalsData = [
                 id: "QW9_s22_A0 m5_H g1_7B c3_D2E",
                 name: "Assignment 10A",
               },
-              {
-                id: "QW9_s23_A0 m5_H g1_7B c3_D2E",
-                name: "Problem Solving Part 4",
-              },
+              // {
+              //   id: "QW9_s23_A0 m5_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 4",
+              // },
               {
                 id: "QW9_s24_A0 m5_H g1_7B c3_D2E",
                 name: "Approach for Hollow Pattern | Cheat Sheet",
@@ -1135,14 +1135,14 @@ export const goalsData = [
                 id: "QW9_s7_A0 m6_H g1_7B c3_D2E",
                 name: "MCQ Practice - Nested Loops",
               },
-              {
-                id: "QW9_s8_A0 m6_H g1_7B c3_D2E",
-                name: "Problem Solving Part 5",
-              },
-              {
-                id: "QW9_s9_A0 m6_H g1_7B c3_D2E",
-                name: "Problem Solving Part 6",
-              },
+              // {
+              //   id: "QW9_s8_A0 m6_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 5",
+              // },
+              // {
+              //   id: "QW9_s9_A0 m6_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 6",
+              // },
               {
                 id: "QW9_s10_A0 m6_H g1_7B c3_D2E",
                 name: "Problem Solving Part 6 | Cheat Sheet",
@@ -1163,10 +1163,10 @@ export const goalsData = [
                 id: "QW9_s14_A0 m6_H g1_7B c3_D2E",
                 name: "Assignment 13",
               },
-              {
-                id: "QW9_s15_A0 m6_H g1_7B c3_D2E",
-                name: "Problem Solving Part 7",
-              },
+              // {
+              //   id: "QW9_s15_A0 m6_H g1_7B c3_D2E",
+              //   name: "Problem Solving Part 7",
+              // },
               {
                 id: "QW9_s16_A0 m6_H g1_7B c3_D2E",
                 name: "Problem Solving Part 7 | Cheat Sheet",

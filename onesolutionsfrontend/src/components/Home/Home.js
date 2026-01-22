@@ -7,6 +7,7 @@ import { codingPracticesData } from "../../codingPracticesData/codingPracticesDa
 import { javascriptCodingPracticesData } from "../../codingPracticesData/javascriptCodingPracticesData";
 import { useAuth } from "../../context/AuthContext";
 import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
+import CodingPracticeService from "../../services/codingPracticeService";
 
 const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
 
@@ -18,6 +19,8 @@ const Home = () => {
   const [placementAchievements, setPlacementAchievements] = useState([]);
   const [achievementsLoading, setAchievementsLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("python");
+  const [progressLoading, setProgressLoading] = useState(false);
+  const [lastProgressUpdate, setLastProgressUpdate] = useState(null);
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -37,37 +40,37 @@ const Home = () => {
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        
+
         // Sort live classes: live first, then upcoming, then completed
         // Within each status, sort by time (most recent first)
         const sortedData = data.sort((a, b) => {
           // Priority: live > upcoming > completed
           const statusPriority = {
-            "live": 1,
-            "upcoming": 2,
-            "completed": 3
+            live: 1,
+            upcoming: 2,
+            completed: 3,
           };
-          
+
           if (statusPriority[a.status] !== statusPriority[b.status]) {
             return statusPriority[a.status] - statusPriority[b.status];
           }
-          
+
           // If same status, sort by time (most recent first)
           // Assuming time is in format "HH:MM AM/PM"
           const convertTimeToMinutes = (timeStr) => {
             if (!timeStr) return 0;
-            const [time, modifier] = timeStr.split(' ');
-            let [hours, minutes] = time.split(':').map(Number);
-            
-            if (modifier === 'PM' && hours < 12) hours += 12;
-            if (modifier === 'AM' && hours === 12) hours = 0;
-            
+            const [time, modifier] = timeStr.split(" ");
+            let [hours, minutes] = time.split(":").map(Number);
+
+            if (modifier === "PM" && hours < 12) hours += 12;
+            if (modifier === "AM" && hours === 12) hours = 0;
+
             return hours * 60 + minutes;
           };
-          
+
           return convertTimeToMinutes(a.time) - convertTimeToMinutes(b.time);
         });
-        
+
         setLiveClasses(sortedData);
       } else {
         console.error("Failed to fetch live classes");
@@ -85,7 +88,7 @@ const Home = () => {
       const response = await fetch(`${API_OSE_URL}api/placement-achievements`);
       if (response.ok) {
         const data = await response.json();
-        
+
         // Sort placement achievements by most recent first
         // Assuming there's a date field like "created_at" or "placement_date"
         const sortedData = data.sort((a, b) => {
@@ -93,20 +96,20 @@ const Home = () => {
           if (a.created_at && b.created_at) {
             return new Date(b.created_at) - new Date(a.created_at);
           }
-          
+
           // If there's a date field
           if (a.date && b.date) {
             return new Date(b.date) - new Date(a.date);
           }
-          
+
           // If there's an id that indicates recency (higher id = more recent)
           if (a.id && b.id) {
             return b.id - a.id;
           }
-          
+
           return 0;
         });
-        
+
         setPlacementAchievements(sortedData);
       } else {
         console.error("Failed to fetch placement achievements");
@@ -118,13 +121,52 @@ const Home = () => {
     }
   };
 
-  // Load user progress from localStorage
-  useEffect(() => {
-    const savedProgress = localStorage.getItem("codingPracticeProgress");
-    if (savedProgress) {
-      setUserProgress(JSON.parse(savedProgress));
+  // Load user progress from backend API (same as Practice component)
+  const fetchUserProgress = async () => {
+    // Don't fetch if already loading
+    if (progressLoading) return;
+
+    try {
+      setProgressLoading(true);
+      const response = await CodingPracticeService.getAllProgress();
+      if (response.success) {
+        const progressMap = {};
+        response.data.progress.forEach((prog) => {
+          progressMap[prog.question_id] = {
+            status: prog.status,
+            code: prog.code,
+            score: prog.score,
+            attempts: prog.attempts || [],
+            lastAttempt: prog.last_attempt,
+          };
+        });
+        setUserProgress(progressMap);
+        setLastProgressUpdate(Date.now());
+
+        // Also update localStorage for consistency
+        localStorage.setItem(
+          "codingPracticeProgress",
+          JSON.stringify(progressMap)
+        );
+      } else {
+        console.error("Failed to fetch progress from backend");
+        // Fallback to localStorage if backend fails
+        const savedProgress = localStorage.getItem("codingPracticeProgress");
+        if (savedProgress) {
+          setUserProgress(JSON.parse(savedProgress));
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching progress:", error);
+      // Fallback to localStorage if backend fails
+      const savedProgress = localStorage.getItem("codingPracticeProgress");
+      if (savedProgress) {
+        setUserProgress(JSON.parse(savedProgress));
+      }
+    } finally {
+      setProgressLoading(false);
     }
-  }, []);
+  };
 
   // Merge JavaScript practices with existing data
   const allCodingPracticesData = React.useMemo(() => {
@@ -285,25 +327,95 @@ const Home = () => {
         if (b.numericProgress !== a.numericProgress) {
           return b.numericProgress - a.numericProgress;
         }
-        
+
         // Then sort by difficulty order: easy -> medium -> hard
         const difficultyOrder = { easy: 1, medium: 2, hard: 3 };
         return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
       });
-      
+
       setPracticeData(sortedPracticeCards);
     };
 
     processPracticeData();
   }, [userProgress, selectedLanguage, allCodingPracticesData]);
 
+  // Initial data fetch
   useEffect(() => {
     fetchLiveClasses();
     fetchPlacementAchievements();
+    fetchUserProgress(); // Fetch progress on initial load
 
-    const interval = setInterval(fetchLiveClasses, 60000);
-    return () => clearInterval(interval);
+    // Only poll live classes, not progress
+    const liveClassesInterval = setInterval(fetchLiveClasses, 60000);
+
+    return () => {
+      clearInterval(liveClassesInterval);
+    };
   }, [user]);
+
+  // Listen for storage events to update progress when Practice component updates localStorage
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "codingPracticeProgress") {
+        try {
+          const newProgress = JSON.parse(e.newValue || "{}");
+          setUserProgress(newProgress);
+          setLastProgressUpdate(Date.now());
+        } catch (error) {
+          console.error("Error parsing progress from storage:", error);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  // Listen for custom event when practice is completed in Practice component
+  useEffect(() => {
+    const handlePracticeCompleted = () => {
+      // Fetch updated progress after a short delay to allow backend to update
+      setTimeout(() => {
+        fetchUserProgress();
+      }, 1000);
+    };
+
+    window.addEventListener("practiceCompleted", handlePracticeCompleted);
+
+    return () => {
+      window.removeEventListener("practiceCompleted", handlePracticeCompleted);
+    };
+  }, []);
+
+  // Poll for progress updates less frequently (every 60 seconds instead of 10)
+  useEffect(() => {
+    const progressInterval = setInterval(() => {
+      // Only fetch if it's been at least 30 seconds since last update
+      if (lastProgressUpdate && Date.now() - lastProgressUpdate > 30000) {
+        fetchUserProgress();
+      }
+    }, 60000); // Check every 60 seconds
+
+    return () => clearInterval(progressInterval);
+  }, [lastProgressUpdate]);
+
+  // Only fetch progress on focus if it's been a while
+  useEffect(() => {
+    const handleFocus = () => {
+      // Only fetch if it's been more than 30 seconds since last update
+      if (!lastProgressUpdate || Date.now() - lastProgressUpdate > 30000) {
+        fetchUserProgress();
+      }
+    };
+
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [lastProgressUpdate]);
 
   const homeData = {
     BroOne: {
@@ -616,7 +728,11 @@ const Home = () => {
       </div>
 
       <div className="live">
-        {practiceData.length > 0 ? (
+        {progressLoading ? (
+          <div className="no-classes">
+            <p>Loading practice progress...</p>
+          </div>
+        ) : practiceData.length > 0 ? (
           practiceData.map((item) => (
             <div
               key={item.id}

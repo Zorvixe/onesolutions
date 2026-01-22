@@ -6,7 +6,7 @@ import { javascriptCodingPracticesData } from "../../codingPracticesData/javascr
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const Coding_Pratice_13 = () => {
+const Coding_Pratice_JS_12 = () => {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -82,12 +82,12 @@ const Coding_Pratice_13 = () => {
 
   // Load practice
   useEffect(() => {
-    const practice13 = javascriptCodingPracticesData.javascript.find(
-      (p) => p.id === "javascript-coding-practice-13"
+    const practice12 = javascriptCodingPracticesData.javascript.find(
+      (p) => p.id === "javascript-coding-practice-12"
     );
-    if (practice13) {
-      setSelectedPractice(practice13);
-      console.log("✅ Loaded practice:", practice13.id);
+    if (practice12) {
+      setSelectedPractice(practice12);
+      console.log("✅ Loaded practice:", practice12.id);
     }
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
@@ -389,4 +389,4 @@ const Coding_Pratice_13 = () => {
   );
 };
 
-export default Coding_Pratice_13;
+export default Coding_Pratice_JS_12;

@@ -26,16 +26,47 @@ export default function Courses() {
     courses: {},
     modules: {},
   });
+  const [refreshKey, setRefreshKey] = useState(0); // Add refresh key to force re-render
 
-  // ✅ Load progress and calculate local progress
+  // ✅ Load progress and calculate local progress on mount
   useEffect(() => {
     loadProgressSummary();
+    calculateLocalProgress();
+
+    // Listen for content completion events
+    const handleContentCompleted = () => {
+      console.log("Content completed event received, refreshing progress...");
+      loadProgressSummary().then(() => {
+        calculateLocalProgress();
+        setRefreshKey((prev) => prev + 1); // Force re-render
+      });
+    };
+
+    // Listen for storage changes (when subtopic is marked complete)
+    const handleStorageChange = (e) => {
+      if (e.key === "completedContent") {
+        console.log("LocalStorage completedContent changed, refreshing...");
+        loadProgressSummary().then(() => {
+          calculateLocalProgress();
+          setRefreshKey((prev) => prev + 1);
+        });
+      }
+    };
+
+    // Listen for custom event when content is completed
+    window.addEventListener("contentCompleted", handleContentCompleted);
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("contentCompleted", handleContentCompleted);
+      window.removeEventListener("storage", handleStorageChange);
+    };
   }, []);
 
-  // ✅ Calculate local progress whenever completedContent changes
+  // ✅ Recalculate local progress whenever completedContent changes
   useEffect(() => {
     calculateLocalProgress();
-  }, [completedContent, goalsData]);
+  }, [completedContent, goalsData, refreshKey]);
 
   const calculateLocalProgress = () => {
     const goalsProgress = {};
@@ -67,9 +98,9 @@ export default function Courses() {
     });
   };
 
-  //  Enhanced goal locking - checks ALL previous goals
+  // Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 1 || goalIndex === 2) return false; // First goal is always open
+    if (goalIndex === 0 || goalIndex === 1) return false; // First goals are always open
 
     // Check ALL previous goals (not just immediate previous)
     for (let i = 0; i < goalIndex; i++) {
@@ -143,7 +174,6 @@ export default function Courses() {
     return false;
   };
 
-  // ✅ Enhanced subtopic click handler with comprehensive lock check
   // ✅ Enhanced subtopic click handler with proper navigation
   const handleSubtopicClick = (
     moduleId,
@@ -214,7 +244,11 @@ export default function Courses() {
   };
 
   return (
-    <div className="courses-container" style={{ marginTop: "50px" }}>
+    <div
+      className="courses-container"
+      style={{ marginTop: "50px" }}
+      key={refreshKey}
+    >
       {/* Goals List */}
       <div className="goals-wrapper">
         {goalsData.map((goal, goalIndex) => {
@@ -512,8 +546,8 @@ export default function Courses() {
                                                   {isMCQ(subtopic)
                                                     ? "MCQ Practice"
                                                     : isCodingPractice(subtopic)
-                                                    ? "Coding Practice"
-                                                    : subtopic.name}
+                                                      ? "Coding Practice"
+                                                      : subtopic.name}
                                                 </span>
                                               </div>
                                             );

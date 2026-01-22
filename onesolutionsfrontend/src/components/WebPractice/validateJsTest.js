@@ -941,6 +941,84 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         const passed = resultEl.textContent.trim() === "-1";
         return { passed, actual: resultEl.textContent.trim() };
       }
+      //Remove Item in local storage
+      case "check-clear-button": {
+        const element = iframeDoc.getElementById("clearBtn");
+        return { passed: element !== null };
+      }
+
+      case "check-input-text": {
+        const element = iframeDoc.getElementById("input");
+        const passed = element !== null && element.type === "text";
+        return { passed };
+      }
+
+      case "check-clear-input": {
+        const inputEl = iframeDoc.getElementById("input");
+        const clearBtn = iframeDoc.getElementById("clearBtn");
+
+        inputEl.value = "Test Value";
+        clearBtn.click();
+
+        const passed = inputEl.value === "";
+        return { passed, actual: inputEl.value };
+      }
+
+      case "check-clear-localstorage": {
+        const inputEl = iframeDoc.getElementById("input");
+        const clearBtn = iframeDoc.getElementById("clearBtn");
+
+        localStorage.setItem("userInput", "Hello");
+        clearBtn.click();
+
+        const passed = localStorage.getItem("userInput") === null;
+        return { passed, actual: localStorage.getItem("userInput") };
+      }
+      //chat bot
+      case "check-chat-container": {
+        const element = iframeDoc.getElementById("chatContainer");
+        return { passed: element !== null };
+      }
+
+      case "check-user-input": {
+        const element = iframeDoc.getElementById("userInput");
+        return { passed: element !== null };
+      }
+
+      case "check-user-message-display": {
+        const inputEl = iframeDoc.getElementById("userInput");
+        const sendBtn = iframeDoc.getElementById("sendMsgBtn");
+        const chatContainer = iframeDoc.getElementById("chatContainer");
+
+        inputEl.value = "Hi";
+        sendBtn.click();
+
+        const passed = chatContainer.textContent.includes("Hi");
+        return { passed, actual: chatContainer.textContent };
+      }
+
+      case "check-user-input-clear": {
+        const inputEl = iframeDoc.getElementById("userInput");
+        const sendBtn = iframeDoc.getElementById("sendMsgBtn");
+
+        inputEl.value = "Hello";
+        sendBtn.click();
+
+        const passed = inputEl.value === "";
+        return { passed, actual: inputEl.value };
+      }
+
+      case "check-bot-reply": {
+        const inputEl = iframeDoc.getElementById("userInput");
+        const sendBtn = iframeDoc.getElementById("sendMsgBtn");
+        const chatContainer = iframeDoc.getElementById("chatContainer");
+
+        inputEl.value = "hi";
+        sendBtn.click();
+
+        const passed = chatContainer.textContent.includes("Hey");
+        return { passed, actual: chatContainer.textContent };
+      }
 
       default:
         return {
