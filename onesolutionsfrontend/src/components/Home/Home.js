@@ -124,10 +124,8 @@ const Home = () => {
   // Load user progress from backend API (same as Practice component)
   const fetchUserProgress = async () => {
     // Don't fetch if already loading
-    if (progressLoading) return;
 
     try {
-      setProgressLoading(true);
       const response = await CodingPracticeService.getAllProgress();
       if (response.success) {
         const progressMap = {};
@@ -728,11 +726,7 @@ const Home = () => {
       </div>
 
       <div className="live">
-        {progressLoading ? (
-          <div className="no-classes">
-            <p>Loading practice progress...</p>
-          </div>
-        ) : practiceData.length > 0 ? (
+        { practiceData.length > 0 ? (
           practiceData.map((item) => (
             <div
               key={item.id}

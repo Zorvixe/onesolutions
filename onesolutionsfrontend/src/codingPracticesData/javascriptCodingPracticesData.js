@@ -3482,6 +3482,323 @@ export const javascriptCodingPracticesData = {
             },
           ],
         },
+        {
+          id: "ed911af8-2fxxskknkfbvj486d9-0dm5643kkeb19",
+          title: "Custom Range Counter",
+          description:
+            "In this assignment, let's build a Custom Range Counter by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container pt-3">
+                    <div class="row">
+                        <h1 class="col-12 heading text-center">Custom Range Counter</h1>
+                        <div class="col-12 text-center">
+                            <input type="text" placeholder="Enter From Value" class="w-50 mt-3 pl-2" id="fromUserInput" />
+                            <input type="text" placeholder="Enter To Value" class="w-50 mt-3 pl-2" id="toUserInput" />
+                            <br />
+                            <button class="btn btn-primary mt-4" id="startBtn" onclick="onClickStart()">
+                                Start
+                            </button>
+                            <p class="counter mt-4" id="counterText"></p>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .heading {
+                color: #3e4c59;
+                font-family: "Bree Serif";
+                font-size: 24px;
+            }
+            
+            .counter {
+                font-size: 32px;
+            }`,
+            javascript: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769080238/run-counter-within-intervals-v1_boiyhq.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                    <ol class="ordered-unordered-lists">
+                       <li><span>Add the ids <code>fromUserInput</code> and <code>toUserInput </code>to the HTML input elements correspondingly</span></li>
+                       <li><span>Add an id <code>counterText</code> to the HTML paragraph element with the class name <code>counter</code></span></li>
+                     </ol>
+                      <hr>
+                    <p class="">By following the above instructions, achieve the given functionality.</p>
+                    <ul>
+                        <li>When the HTML <code>button</code> element with the id <code>startBtn</code> is clicked,
+                        <ul>
+                        <li>If the values of fromUserInput or toUserInput are not empty, display the numbers from fromUserInput to toUserInput for each second in the HTML element with the id counterText.</li>
+                        <li>If the value of fromUserInput or toUserInput is empty, show a corresponding alert message to enter the input value.</li>
+                        </ul>
+                        </li>
+                    </ul>
+                 
+                    <div className="Warning-container">
+                    <div>
+                      <h5>
+                        <i class="bi bi-exclamation-triangle"></i>Warning
+                      </h5>
+                    </div>
+                    <ul style={{ marginLeft: "1.5rem" }}>
+                      <li>
+                      Do not delete the prefilled code.
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>               
+                      <li>
+                      The fromUserInput and toUserInput values should be the numbers.
+                      </li>
+                    </ul>
+                  </p>
+                </div>
+
+                  <hr>
+            
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                        
+                  </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element",
+              type: "js-validation",
+              input: "check-heading",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id fromUserInput",
+              type: "js-validation",
+              input: "check-from-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML input element with the id toUserInput",
+              type: "js-validation",
+              input: "check-to-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML button element with the id startBtn",
+              type: "js-validation",
+              input: "check-start-button",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML paragraph element with the id counterText",
+              type: "js-validation",
+              input: "check-counter-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML button element with the id startBtn is clicked, if the 'fromUserInput' value is less than the 'toUserInput' value, the first value displayed in the HTML paragraph element with the id counterText should be the number entered in the 'fromUserInput'",
+              type: "js-validation",
+              input: "check-counter-start-value",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice - 15
+    {
+      id: "javascript-coding-practice-15",
+      title: "Javascript Coding Practice 15",
+      description: "",
+      questions: [
+        {
+          id: "e195zx22-ab24faqqc88-050b9ddb",
+          title: "Theme Switcher",
+          description:
+            "In this assignment, let's build a Theme Switcher by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="bg-container d-flex flex-column justify-content-center text-center" id="bgContainer">
+                    <h1 class="heading" id="heading">Dark or Light</h1>
+                    <div class="mt-3">
+                        <input type="text" class="user-input pl-2" id="themeUserInput" />
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .bg-container {
+                background-image: url("https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769084537/change-theme-light-bg_j5lcz8.png");
+                height: 100vh;
+                background-size: cover;
+            }
+            
+            .heading {
+                color: #014d40;
+                font-size: 48px;
+                font-family: "Lobster";
+            }
+            
+            .user-input {
+                width: 150px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769083732/change-theme-v1_qt6xo5.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add an id bgContainer to the HTML container element with the class name bg-container</span></li>
+                        <li><span>Add an id heading to the HTML main heading element with the class name heading</span></li>
+                        <li><span>Add an id themeUserInput to the HTML input element with the class name user-input</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not delete the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li>When the HTML button element with the season id is clicked, the season images in both the small and medium devices should change respectively.
+                      <ul>
+                      <li>Change the background image of the HTML container element with the id bgContainer correspondingly</li>
+                      <li>Change the text color of the HTML main heading element with the id heading correspondingly</li>
+                      </ul>
+                      </li>
+                      <li>When the value other than the Light or Dark is entered in the HTML input element and Enter key is pressed,</li>
+                      <ul>
+                      <li>Show an alert message to enter the valid theme</li>
+                      </ul>
+                </ul>
+
+                <hr>
+
+                  <p class="desc-que-blue">Resources</p>
+
+              <p class="">Use the image URLs given below.</p>
+              <p>URL: <a href="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769084537/change-theme-light-bg_j5lcz8.png" target="_blank">https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769084537/change-theme-light-bg_j5lcz8.png</a></p>
+              <p>URL: <a href="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769084763/change-theme-dark-bg_ckjnhk.png" target="_blank">https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769084763/change-theme-dark-bg_ckjnhk.png</a></p>
+                 
+              <p class="desc-que-blue">Resources</p>
+
+              <p class="desc-que-blue">CSS Colors used:</p>
+              <div  class="desc-colors c014d40">#014d40
+              </div>
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>
+                   
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML container element with the id bgContainer",
+              type: "js-validation",
+              input: "check-bg-container",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML main heading element with the id heading",
+              type: "js-validation",
+              input: "check-heading",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML input element with the id themeUserInput",
+              type: "js-validation",
+              input: "check-theme-input",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
       ],
     },
 

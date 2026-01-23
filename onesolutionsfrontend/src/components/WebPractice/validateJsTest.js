@@ -1036,6 +1036,63 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: element !== null && element.tagName === "BUTTON" };
       }
 
+      //custom Range
+
+      case "check-heading": {
+        const element = iframeDoc.querySelector("h1");
+        return { passed: element !== null };
+      }
+
+      case "check-from-input": {
+        const element = iframeDoc.getElementById("fromUserInput");
+        return { passed: element !== null };
+      }
+
+      case "check-to-input": {
+        const element = iframeDoc.getElementById("toUserInput");
+        return { passed: element !== null };
+      }
+
+      case "check-start-button": {
+        const element = iframeDoc.getElementById("startBtn");
+        return { passed: element !== null };
+      }
+
+      case "check-counter-text": {
+        const element = iframeDoc.getElementById("counterText");
+        return { passed: element !== null };
+      }
+
+      case "check-counter-start-value": {
+        const fromInput = iframeDoc.getElementById("fromUserInput");
+        const toInput = iframeDoc.getElementById("toUserInput");
+        const startBtn = iframeDoc.getElementById("startBtn");
+        const counterText = iframeDoc.getElementById("counterText");
+
+        fromInput.value = "3";
+        toInput.value = "6";
+        startBtn.click();
+
+        const passed = counterText.textContent.trim() === "3";
+        return { passed, actual: counterText.textContent.trim() };
+      }
+
+      //Theme switcher
+      case "check-bg-container": {
+        const element = iframeDoc.getElementById("bgContainer");
+        return { passed: element !== null };
+      }
+
+      case "check-heading": {
+        const element = iframeDoc.getElementById("heading");
+        return { passed: element !== null };
+      }
+
+      case "check-theme-input": {
+        const element = iframeDoc.getElementById("themeUserInput");
+        return { passed: element !== null && element.tagName === "INPUT" };
+      }
+
       default:
         return {
           passed: false,

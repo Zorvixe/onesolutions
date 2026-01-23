@@ -1115,10 +1115,10 @@ export const goalsData = [
                 name: "Problem Solving and Debugging Part 3",
               },
 
-              {
-                id: "QW9_s3_A0 m6_H g1_7B c3_D2E",
-                name: "Coding Practice 12",
-              },
+              // {
+              //   id: "QW9_s3_A0 m6_H g1_7B c3_D2E",
+              //   name: "Coding Practice 12",
+              // },
               {
                 id: "QW9_s4_A0 m6_H g1_7B c3_D2E",
                 name: "Assignment 12",

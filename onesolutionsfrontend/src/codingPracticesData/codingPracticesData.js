@@ -5751,11 +5751,11 @@ export const codingPracticesData = {
           sampleInput: "4",
           sampleOutput: "0\n0\n0\n0",
           testCases: [
-            { input: "3", output: "0\n0\n0", visible: true },
+            { input: "1", output: "0", visible: true },
             { input: "2", output: "0\n0", visible: true },
-            { input: "2", output: "0\n0", visible: false },
-            { input: "2", output: "0\n0", visible: false },
             { input: "3", output: "0\n0\n0", visible: false },
+            { input: "4", output: "0\n0\n0\n0", visible: false },
+            { input: "5", output: "0\n0\n0\n0\n0", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -5771,11 +5771,14 @@ export const codingPracticesData = {
           sampleInput: "4",
           sampleOutput: "1\n2\n3\n4",
           testCases: [
-            { input: "3", output: "1\n2\n3", visible: true },
-            { input: "2", output: "1\n2", visible: true },
-            { input: "2", output: "1\n2", visible: false },
-            { input: "2", output: "1\n2", visible: false },
+            { input: "5", output: "1\n2\n3\n4\n5", visible: true },
+            { input: "1", output: "1", visible: true },
             { input: "3", output: "1\n2\n3", visible: false },
+            {
+              input: "10",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -5791,11 +5794,14 @@ export const codingPracticesData = {
           sampleInput: "4",
           sampleOutput: "1\n2\n3\n4",
           testCases: [
+            { input: "1", output: "1", visible: true },
             { input: "3", output: "1\n2\n3", visible: true },
-            { input: "2", output: "1\n2", visible: true },
-            { input: "2", output: "1\n2", visible: false },
-            { input: "2", output: "1\n2", visible: false },
-            { input: "3", output: "1\n2\n3", visible: false },
+            { input: "5", output: "1\n2\n3\n4\n5", visible: false },
+            {
+              input: "10",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -5815,7 +5821,6 @@ export const codingPracticesData = {
             { input: "-2\n1", output: "-2\n-1\n0\n1", visible: true },
             { input: "2\n5", output: "2\n3\n4\n5", visible: false },
             { input: "2\n4", output: "2\n3\n4", visible: false },
-            { input: "3\n5", output: "3\n4\n5", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -5832,10 +5837,10 @@ export const codingPracticesData = {
           sampleOutput: "2.5",
           testCases: [
             { input: "7", output: "4.0", visible: true },
-            { input: "3", output: "2.0", visible: true },
-            { input: "3", output: "2.0", visible: false },
-            { input: "4", output: "2.5", visible: false },
-            { input: "3", output: "2.0", visible: false },
+            { input: "5", output: "3.0", visible: true },
+            { input: "10", output: "5.5", visible: false },
+            { input: "2", output: "1.5", visible: false },
+            { input: "100", output: "50.5", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -5852,10 +5857,23 @@ export const codingPracticesData = {
           sampleOutput: "1\n8\n27",
           testCases: [
             { input: "4", output: "1\n8\n27\n64", visible: true },
-            { input: "2", output: "1\n8", visible: true },
-            { input: "3", output: "1\n8\n27", visible: false },
-            { input: "4", output: "1\n8\n27\n64", visible: false },
-            { input: "4", output: "1\n8\n27\n64", visible: false },
+            {
+              input: "10",
+              output: "1\n8\n27\n64\n125\n216\n343\n512\n729\n1000",
+              visible: true,
+            },
+            {
+              input: "15",
+              output:
+                "1\n8\n27\n64\n125\n216\n343\n512\n729\n1000\n1331\n1728\n2197\n2744\n3375",
+              visible: false,
+            },
+            {
+              input: "20",
+              output:
+                "1\n8\n27\n64\n125\n216\n343\n512\n729\n1000\n1331\n1728\n2197\n2744\n3375\n4096\n4913\n5832\n6859\n8000",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -6100,9 +6118,10 @@ export const codingPracticesData = {
           testCases: [
             { input: "program", output: "p\np\np\np\np\np\np", visible: true },
             { input: "simple", output: "s\ns\ns\ns\ns\ns", visible: true },
-            { input: "program", output: "p\np\np\np\np\np\np", visible: false },
-            { input: "program", output: "p\np\np\np\np\np\np", visible: false },
-            { input: "program", output: "p\np\np\np\np\np\np", visible: false },
+            { input: "a", output: "a", visible: false },
+            { input: "123", output: "1\n1\n1", visible: false },
+            { input: "Python", output: "P\nP\nP\nP\nP\nP", visible: false },
+            { input: "Z", output: "Z", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -6119,10 +6138,10 @@ export const codingPracticesData = {
           sampleOutput: "c\no\no\nl",
           testCases: [
             { input: "program", output: "p\nr\no\ng\nr\na\nm", visible: true },
-            { input: "simple", output: "s\ni\nm\np\nl\ne", visible: true },
-            { input: "program", output: "p\nr\no\ng\nr\na\nm", visible: false },
-            { input: "program", output: "p\nr\no\ng\nr\na\nm", visible: false },
-            { input: "program", output: "p\nr\no\ng\nr\na\nm", visible: false },
+            { input: "hello", output: "h\ne\nl\nl\no", visible: true },
+            { input: "123", output: "1\n2\n3", visible: false },
+            { input: "Python", output: "P\ny\nt\nh\no\nn", visible: false },
+            { input: "Z9", output: "Z\n9", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -6140,9 +6159,17 @@ export const codingPracticesData = {
           testCases: [
             { input: "2", output: "11\n22", visible: true },
             { input: "4", output: "1111\n2222\n3333\n4444", visible: true },
-            { input: "2", output: "11\n22", visible: false },
-            { input: "3", output: "111\n222\n333", visible: false },
-            { input: "3", output: "111\n222\n333", visible: false },
+            {
+              input: "5",
+              output: "11111\n22222\n33333\n44444\n55555",
+              visible: false,
+            },
+            {
+              input: "7",
+              output:
+                "1111111\n2222222\n3333333\n4444444\n5555555\n6666666\n7777777",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 25,
@@ -6161,7 +6188,6 @@ export const codingPracticesData = {
             { input: "2\n4", output: "****\n****", visible: true },
             { input: "3\n5", output: "*****\n*****\n*****", visible: true },
             { input: "2\n1", output: "*\n*", visible: false },
-            { input: "3\n2", output: "**\n**\n**", visible: false },
             { input: "3\n2", output: "**\n**\n**", visible: false },
           ],
           defaultCode: ``,
@@ -6358,11 +6384,21 @@ export const codingPracticesData = {
           sampleInput: "3\n2",
           sampleOutput: "1 1 \n2 2 \n3 3 ",
           testCases: [
+            { input: "1\n5", output: "1 1 1 1 1 ", visible: true },
             { input: "3\n3", output: "1 1 1 \n2 2 2 \n3 3 3 ", visible: true },
-            { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: true },
-            { input: "3\n2", output: "1 1 \n2 2 \n3 3 ", visible: false },
-            { input: "3\n2", output: "1 1 \n2 2 \n3 3 ", visible: false },
-            { input: "3\n2", output: "1 1 \n2 2 \n3 3 ", visible: false },
+            { input: "5\n1", output: "1 \n2 \n3 \n4 \n5 ", visible: false },
+            {
+              input: "7\n4",
+              output:
+                "1 1 1 1 \n2 2 2 2 \n3 3 3 3 \n4 4 4 4 \n5 5 5 5 \n6 6 6 6 \n7 7 7 7 ",
+              visible: false,
+            },
+            {
+              input: "10\n5",
+              output:
+                "1 1 1 1 1 \n2 2 2 2 2 \n3 3 3 3 3 \n4 4 4 4 4 \n5 5 5 5 5 \n6 6 6 6 6 \n7 7 7 7 7 \n8 8 8 8 8 \n9 9 9 9 9 \n10 10 10 10 10 ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 25,
@@ -6380,9 +6416,14 @@ export const codingPracticesData = {
           testCases: [
             { input: "3", output: "0\n1\n2", visible: true },
             { input: "4", output: "0\n1\n2\n3", visible: true },
+            { input: "1", output: "0", visible: false },
             { input: "5", output: "0\n1\n2\n3\n4", visible: false },
-            { input: "3", output: "0\n1\n2", visible: false },
-            { input: "3", output: "0\n1\n2", visible: false },
+            { input: "-3", output: "No Output", visible: false },
+            {
+              input: "10",
+              output: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -6398,11 +6439,11 @@ export const codingPracticesData = {
           sampleInput: "5\n5\n2",
           sampleOutput: "4.0",
           testCases: [
-            { input: "4\n6", output: "5.0", visible: true },
-            { input: "3\n3\n6\n4", output: "4.0", visible: true },
-            { input: "5\n5\n2", output: "4.0", visible: false },
-            { input: "5\n5\n2", output: "4.0", visible: false },
-            { input: "5\n5\n2", output: "4.0", visible: false },
+            { input: "1\n5", output: "5.0", visible: true },
+            { input: "2\n5\n2", output: "3.5", visible: true },
+            { input: "5\n1\n2\n3\n4\n5", output: "3.0", visible: false },
+            { input: "3\n10\n20\n30", output: "20.0", visible: false },
+            { input: "4\n0\n0\n0\n0", output: "0.0", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -6416,23 +6457,24 @@ export const codingPracticesData = {
           description:
             "Write a program that reads a number N and print two right angled triangles,each of N rows using stars(*).",
           sampleInput: "3",
-          sampleOutput: "* \n* * \n* * * ",
+          sampleOutput: "* \n* * \n* * * \n* \n* * \n* * * ",
           testCases: [
-            { input: "4", output: "* \n* * \n* * * \n* * * * ", visible: true },
-            { input: "2", output: "* \n* * ", visible: true },
+            { input: "1", output: "* \n* ", visible: true },
+            { input: "2", output: "* \n* * \n* \n* * ", visible: true },
             {
-              input: "4",
-              output: "* \n* * \n* * * \n* * * * ",
+              input: "3",
+              output: "* \n* * \n* * * \n* \n* * \n* * * ",
               visible: false,
             },
             {
               input: "4",
-              output: "* \n* * \n* * * \n* * * * ",
+              output: "* \n* * \n* * * \n* * * * \n* \n* * \n* * * \n* * * * ",
               visible: false,
             },
             {
-              input: "4",
-              output: "* \n* * \n* * * \n* * * * ",
+              input: "5",
+              output:
+                "* \n* * \n* * * \n* * * * \n* * * * * \n* \n* * \n* * * \n* * * * \n* * * * * ",
               visible: false,
             },
           ],
@@ -6537,11 +6579,10 @@ export const codingPracticesData = {
           sampleInput: "python",
           sampleOutput: "p\ny\nt\nh\no\nn",
           testCases: [
-            { input: "apple", output: "a\np\np\nl\ne", visible: true },
-            { input: "cat", output: "c\na\nt", visible: true },
-            { input: "dog", output: "d\no\ng", visible: false },
-            { input: "python", output: "p\ny\nt\nh\no\nn", visible: false },
-            { input: "python", output: "p\ny\nt\nh\no\nn", visible: false },
+            { input: "hello", output: "h\ne\nl\nl\no", visible: true },
+            { input: "123", output: "1\n2\n3", visible: true },
+            { input: "Python", output: "P\ny\nt\nh\no\nn", visible: false },
+            { input: "Z9", output: "Z\n9", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -6577,11 +6618,15 @@ export const codingPracticesData = {
           sampleInput: "3",
           sampleOutput: "1\n2\n3",
           testCases: [
-            { input: "5", output: "1\n2\n3\n4\n5", visible: true },
             { input: "6", output: "1\n2\n3\n4\n5\n6", visible: true },
-            { input: "4", output: "1\n2\n3\n4", visible: false },
-            { input: "3", output: "1\n2\n3", visible: false },
+            {
+              input: "10",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              visible: true,
+            },
             { input: "2", output: "1\n2", visible: false },
+            { input: "3", output: "1\n2\n3", visible: false },
+            { input: "4", output: "1\n2\n3\n4", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -6600,8 +6645,7 @@ export const codingPracticesData = {
             { input: "3", output: "6", visible: true },
             { input: "2", output: "3", visible: true },
             { input: "4", output: "10", visible: false },
-            { input: "3", output: "6", visible: false },
-            { input: "2", output: "3", visible: false },
+            { input: "6", output: "21", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -6785,14 +6829,34 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Write a program that reads a number N and prints 10 numbers after N.\nuse For loop.",
-          sampleInput: "4",
-          sampleOutput: "5,6,7,8,9,10,11,12,13,14",
+          sampleInput: "10",
+          sampleOutput: "11\n12\n13\n14\n15\n16\n17\n18\n19\n20",
           testCases: [
-            { input: "5", output: "6,7,8,9,10,11,12,13,14,15", visible: true },
-            { input: "2", output: "3,4,5,6,7,8,9,10,11,12", visible: true },
-            { input: "4", output: "5,6,7,8,9,10,11,12,13,14", visible: false },
-            { input: "4", output: "5,6,7,8,9,10,11,12,13,14", visible: false },
-            { input: "4", output: "5,6,7,8,9,10,11,12,13,14", visible: false },
+            {
+              input: "0",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              visible: true,
+            },
+            {
+              input: "5",
+              output: "6\n7\n8\n9\n10\n11\n12\n13\n14\n15",
+              visible: true,
+            },
+            {
+              input: "10",
+              output: "11\n12\n13\n14\n15\n16\n17\n18\n19\n20",
+              visible: false,
+            },
+            {
+              input: "-3",
+              output: "-2\n-1\n0\n1\n2\n3\n4\n5\n6\n7",
+              visible: false,
+            },
+            {
+              input: "100",
+              output: "101\n102\n103\n104\n105\n106\n107\n108\n109\n110",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -6805,14 +6869,19 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given two integer numbers M and N,write a program to print the integers from M to N.\nUse for loop.",
-          sampleInput: "4\n8",
-          sampleOutput: "4\n5\n6\n7\n8",
+          sampleInput: "4\n6",
+          sampleOutput: "4\n5\n6",
           testCases: [
             { input: "5\n10", output: "5\n6\n7\n8\n9\n10", visible: true },
-            { input: "2\n5", output: "2\n3\n4\n5", visible: true },
-            { input: "4\n6", output: "4\n5\n6", visible: false },
-            { input: "4\n7", output: "4\n5\n6\n7", visible: false },
-            { input: "2\n5", output: "2\n3\n4\n5", visible: false },
+            { input: "1\n5", output: "1\n2\n3\n4\n5", visible: true },
+            { input: "3\n3", output: "3", visible: true },
+            { input: "0\n0", output: "0", visible: false },
+            { input: "-2\n2", output: "-2\n-1\n0\n1\n2", visible: false },
+            {
+              input: "10\n15",
+              output: "10\n11\n12\n13\n14\n15",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -6830,9 +6899,8 @@ export const codingPracticesData = {
           testCases: [
             { input: "10\n20", output: "165", visible: true },
             { input: "2\n5", output: "14", visible: true },
-            { input: "4\n6", output: "15", visible: false },
-            { input: "4\n7", output: "22", visible: false },
-            { input: "2\n5", output: "14", visible: false },
+            { input: "-2\n2", output: "0", visible: false },
+            { input: "10\n15", output: "75", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -6854,9 +6922,19 @@ export const codingPracticesData = {
               output: "* * * * \n* * * * \n* * * * \n* * * * ",
               visible: true,
             },
+            { input: "1", output: "* ", visible: false },
             { input: "3", output: "* * * \n* * * \n* * * ", visible: false },
-            { input: "3", output: "* * * \n* * * \n* * * ", visible: false },
-            { input: "3", output: "* * * \n* * * \n* * * ", visible: false },
+            {
+              input: "4",
+              output: "* * * * \n* * * * \n* * * * \n* * * * ",
+              visible: false,
+            },
+            {
+              input: "5",
+              output:
+                "* * * * * \n* * * * * \n* * * * * \n* * * * * \n* * * * * ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 30,
@@ -7043,11 +7121,15 @@ export const codingPracticesData = {
           sampleInput: "2\n3",
           sampleOutput: "1 1 1 \n2 2 2 ",
           testCases: [
-            { input: "3\n2", output: "1 1\n2 2\n3 3 ", visible: true },
             { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: true },
-            { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: false },
-            { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: false },
-            { input: "2\n4", output: "1 1 1 1 \n2 2 2 2 ", visible: false },
+            { input: "1\n3", output: "1 1 1 ", visible: true },
+            { input: "3\n2", output: "1 1 \n2 2 \n3 3 ", visible: false },
+            { input: "4\n1", output: "1 \n2 \n3 \n4 ", visible: false },
+            {
+              input: "5\n3",
+              output: "1 1 1 \n2 2 2 \n3 3 3 \n4 4 4 \n5 5 5 ",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 25,
@@ -7065,9 +7147,15 @@ export const codingPracticesData = {
           testCases: [
             { input: "3", output: "0\n1\n2\n3", visible: true },
             { input: "4", output: "0\n1\n2\n3\n4", visible: true },
-            { input: "2", output: "0\n1\n2", visible: false },
-            { input: "2", output: "0\n1\n2", visible: false },
-            { input: "2", output: "0\n1\n2", visible: false },
+            { input: "0", output: "0", visible: false },
+            { input: "3", output: "0\n1\n2\n3", visible: false },
+            { input: "1", output: "0\n1", visible: false },
+            { input: "5", output: "0\n1\n2\n3\n4\n5", visible: false },
+            {
+              input: "10",
+              output: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 35,
@@ -7080,14 +7168,14 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N ,write a program that reads N inputs and prints the average of the given N inputs.\nUse For loop.",
-          sampleInput: "4\n3\n4\n6\n7",
-          sampleOutput: "5.0",
+          sampleInput: "2\n10\n20",
+          sampleOutput: "15.0",
           testCases: [
             { input: "2\n24\n15", output: "19.5", visible: true },
-            { input: "4\n3\n3", output: "5.0", visible: true },
-            { input: "4\n3\n3", output: "5.0", visible: false },
-            { input: "4\n3\n3", output: "5.0", visible: false },
-            { input: "4\n3\n3", output: "5.0", visible: false },
+            { input: "3\n2\n4\n6", output: "4.0", visible: true },
+            { input: "5\n1\n2\n3\n4\n5", output: "3.0", visible: false },
+            { input: "2\n10\n20", output: "15.0", visible: false },
+            { input: "4\n0\n0\n0\n0", output: "0.0", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -7110,9 +7198,12 @@ export const codingPracticesData = {
               output: "* \n* * \n* * * \n* \n* * \n* * * ",
               visible: true,
             },
+            { input: "1", output: "* \n* ", visible: false },
+            { input: "2", output: "* \n* * \n* \n* * ", visible: false },
+
             {
-              input: "4",
-              output: "* \n* * \n* * * \n* * * * \n* \n* * \n* * * \n* * * * ",
+              input: "3",
+              output: "* \n* * \n* * * \n* \n* * \n* * * ",
               visible: false,
             },
             {
@@ -7121,8 +7212,9 @@ export const codingPracticesData = {
               visible: false,
             },
             {
-              input: "4",
-              output: "* \n* * \n* * * \n* * * * \n* \n* * \n* * * \n* * * * ",
+              input: "5",
+              output:
+                "* \n* * \n* * * \n* * * * \n* * * * * \n* \n* * \n* * * \n* * * * \n* * * * * ",
               visible: false,
             },
           ],
@@ -7280,8 +7372,8 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Write a program that reads a number and prints all the digits of the given number separated by a space.",
-          sampleInput: "165",
-          sampleOutput: "12",
+          sampleInput: "294",
+          sampleOutput: "15",
           testCases: [
             { input: "345", output: "12", visible: true },
             { input: "234", output: "9", visible: true },
@@ -7300,14 +7392,13 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Write a program to print the factorial of N.Factorial is the product of all positive integers less than or equal to N.\nNote:The factorial of 0 is 1.",
-          sampleInput: "165",
-          sampleOutput: "12",
+          sampleInput: "5",
+          sampleOutput: "120",
           testCases: [
-            { input: "345", output: "12", visible: true },
-            { input: "234", output: "9", visible: true },
-            { input: "294", output: "15", visible: false },
-            { input: "2234", output: "11", visible: false },
-            { input: "286", output: "16", visible: false },
+            { input: "1", output: "1", visible: true },
+            { input: "3", output: "6", visible: true },
+            { input: "5", output: "120", visible: false },
+            { input: "7", output: "5040", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -7323,11 +7414,11 @@ export const codingPracticesData = {
           sampleInput: "3",
           sampleOutput: "36",
           testCases: [
-            { input: "6", output: "441", visible: true },
-            { input: "3", output: "36", visible: true },
-            { input: "6", output: "441", visible: false },
-            { input: "6", output: "441", visible: false },
+            { input: "1", output: "1", visible: true },
+            { input: "2", output: "9", visible: true },
             { input: "3", output: "36", visible: false },
+            { input: "5", output: "225", visible: false },
+            { input: "10", output: "3025", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -7344,28 +7435,28 @@ export const codingPracticesData = {
           sampleOutput: "230\n23.0",
           testCases: [
             {
-              input: "20\n35\n99\n-84\n-93\n2\n7\n53\n23\n11",
-              output: "73\n7.3",
+              input: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              output: "55\n5.5",
               visible: true,
             },
             {
-              input: "4\n7\n14\n25\n1\n8\n24\n38\n99\n10",
-              output: "230\n23.0",
+              input: "10\n10\n10\n10\n10\n10\n10\n10\n10\n10",
+              output: "100\n10.0",
               visible: true,
             },
             {
-              input: "4\n7\n14\n25\n1\n8\n24\n38\n99\n10",
-              output: "230\n23.0",
+              input: "0\n0\n0\n0\n0\n0\n0\n0\n0\n0",
+              output: "0\n0.0",
               visible: false,
             },
             {
-              input: "4\n7\n14\n25\n1\n8\n24\n38\n99\n10",
-              output: "230\n23.0",
+              input: "1\n1\n1\n1\n1\n1\n1\n1\n1\n1",
+              output: "10\n1.0",
               visible: false,
             },
             {
-              input: "4\n7\n14\n25\n1\n8\n24\n38\n99\n10",
-              output: "230\n23.0",
+              input: "5\n10\n15\n20\n25\n30\n35\n40\n45\n50",
+              output: "275\n27.5",
               visible: false,
             },
           ],
@@ -7374,26 +7465,26 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {
-          id: "q-python-Codingpractice-9A-006",
-          title: "Sum of squares from M to N",
-          difficulty: "Easy",
-          description:
-            "Write a program that reads two numbers M and N,and prints the sum of squares of numbers from M to N.",
-          sampleInput: "2\n4",
-          sampleOutput: "29",
-          testCases: [
-            { input: "3\n8", output: "199", visible: true },
-            { input: "2\n4", output: "29", visible: true },
-            { input: "3\n8", output: "199", visible: false },
-            { input: "3\n8", output: "199", visible: false },
-            { input: "3\n8", output: "199", visible: false },
-          ],
-          defaultCode: ``,
-          score: 30,
-          status: "unsolved",
-          attempts: [],
-        },
+        // {
+        //   id: "q-python-Codingpractice-9A-006",
+        //   title: "Sum of squares from M to N",
+        //   difficulty: "Easy",
+        //   description:
+        //     "Write a program that reads two numbers M and N,and prints the sum of squares of numbers from M to N.",
+        //   sampleInput: "2\n4",
+        //   sampleOutput: "29",
+        //   testCases: [
+        //     { input: "3\n8", output: "199", visible: true },
+        //     { input: "2\n4", output: "29", visible: true },
+        //     { input: "3\n8", output: "199", visible: false },
+        //     { input: "3\n8", output: "199", visible: false },
+        //     { input: "3\n8", output: "199", visible: false },
+        //   ],
+        //   defaultCode: ``,
+        //   score: 30,
+        //   status: "unsolved",
+        //   attempts: [],
+        // },
         // {
         //   id: "q-python-Codingpractice-9A-007",
         //   title: "Print even numbers up to N",
@@ -7551,10 +7642,11 @@ export const codingPracticesData = {
           sampleOutput: "3\n6\n9",
           testCases: [
             { input: "21\n5", output: "5\n10\n15\n20", visible: true },
-            { input: "10\n3", output: "3\n6\n9", visible: true },
-            { input: "21\n5", output: "5\n10\n15\n20", visible: false },
-            { input: "21\n5", output: "5\n10\n15\n20", visible: false },
-            { input: "21\n5", output: "5\n10\n15\n20", visible: false },
+            { input: "10\n2", output: "2\n4\n6\n8\n10", visible: true },
+            { input: "15\n3", output: "3\n6\n9\n12\n15", visible: false },
+            { input: "10\n3", output: "3\n6\n9", visible: false },
+            { input: "20\n5", output: "5\n10\n15\n20", visible: false },
+            { input: "1\n1", output: "1", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -7570,11 +7662,11 @@ export const codingPracticesData = {
           sampleInput: "2\n5\n9",
           sampleOutput: "14",
           testCases: [
-            { input: "10\n20\n200", output: "2090", visible: true },
-            { input: "2\n5\n9", output: "14", visible: true },
-            { input: "2\n5\n9", output: "14", visible: false },
-            { input: "2\n5\n9", output: "14", visible: false },
-            { input: "2\n5\n9", output: "14", visible: false },
+            { input: "2\n2\n10", output: "30", visible: true },
+            { input: "3\n3\n9", output: "18", visible: true },
+            { input: "5\n1\n20", output: "50", visible: false },
+            { input: "4\n1\n16", output: "40", visible: false },
+            { input: "7\n1\n50", output: "196", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -7591,10 +7683,11 @@ export const codingPracticesData = {
           sampleOutput: "4",
           testCases: [
             { input: "25\n5", output: "5", visible: true },
-            { input: "12\n3", output: "4", visible: true },
-            { input: "25\n5", output: "5", visible: false },
-            { input: "25\n5", output: "5", visible: false },
-            { input: "25\n5", output: "5", visible: false },
+            { input: "10\n2", output: "5", visible: true },
+            { input: "15\n3", output: "5", visible: false },
+            { input: "5\n7", output: "0", visible: false },
+            { input: "20\n5", output: "4", visible: false },
+            { input: "1\n1", output: "1", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -7611,10 +7704,9 @@ export const codingPracticesData = {
           sampleOutput: "6\n12",
           testCases: [
             { input: "9", output: "6", visible: true },
-            { input: "15", output: "6\n12", visible: true },
-            { input: "9", output: "6", visible: false },
-            { input: "15", output: "6\n12", visible: false },
-            { input: "9", output: "6", visible: false },
+            { input: "10", output: "6", visible: true },
+            { input: "20", output: "6\n12\n18", visible: false },
+            { input: "36", output: "6\n12\n18\n24\n30\n36", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -7837,11 +7929,11 @@ export const codingPracticesData = {
           sampleInput: "2\n7",
           sampleOutput: "18",
           testCases: [
-            { input: "12\n14", output: "12", visible: true },
-            { input: "1\n2", output: "1", visible: true },
-            { input: "12\n14", output: "12", visible: false },
-            { input: "12\n14", output: "12", visible: false },
-            { input: "2\n7", output: "18", visible: false },
+            { input: "1\n10", output: "162", visible: true },
+            { input: "3\n6", output: "18", visible: true },
+            { input: "1\n2", output: "1", visible: false },
+            { input: "6\n12", output: "648", visible: false },
+            { input: "10\n20", output: "3240", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -7861,7 +7953,6 @@ export const codingPracticesData = {
             { input: "5\n3", output: "225", visible: true },
             { input: "3\n2", output: "14", visible: false },
             { input: "5\n1", output: "15", visible: false },
-            { input: "5\n3", output: "225", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -8208,14 +8299,14 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given two numbers M and N,write a program to print the count of the total number of digits from M to N.",
-          sampleInput: "4\n13",
-          sampleOutput: "14",
+          sampleInput: "10\n20",
+          sampleOutput: "22",
           testCases: [
-            { input: "5\n8", output: "4", visible: true },
-            { input: "1\n9", output: "9", visible: true },
-            { input: "10\n15", output: "12", visible: false },
-            { input: "7\n13", output: "9", visible: false },
-            { input: "99\n101", output: "8", visible: false },
+            { input: "1\n10", output: "11", visible: true },
+            { input: "5\n15", output: "17", visible: true },
+            { input: "1\n1", output: "1", visible: false },
+            { input: "10\n20", output: "22", visible: false },
+            { input: "100\n105", output: "18", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -9160,9 +9251,8 @@ export const codingPracticesData = {
           testCases: [
             { input: "3\n2", output: "-24", visible: true },
             { input: "2\n2", output: "-6", visible: true },
-            { input: "3\n2", output: "-24", visible: false },
             { input: "2\n3", output: "26", visible: false },
-            { input: "3\n3", output: "246", visible: false },
+            { input: "2\n5", output: "410", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -9201,11 +9291,6 @@ export const codingPracticesData = {
             {
               input: "6",
               output: "Number has more than 2 factors",
-              visible: false,
-            },
-            {
-              input: "13",
-              output: "Number doesn't have more than 2 factors",
               visible: false,
             },
           ],
@@ -9360,17 +9445,18 @@ export const codingPracticesData = {
           sampleInput: "3",
           sampleOutput: "* * * \n* 0 *\n* * * ",
           testCases: [
-            { input: "1", output: "* \n* ", visible: true },
+            { input: "1", output: "* ", visible: true },
             { input: "2", output: "* * \n* * ", visible: true },
-            { input: "3", output: "* * * \n* 0 *\n* * * ", visible: false },
+            { input: "3", output: "* * * \n* 0 * \n* * * ", visible: false },
             {
               input: "4",
-              output: "* * * * \n* 0 0 *\n* 0 0 *\n* * * * ",
+              output: "* * * * \n* 0 0 * \n* 0 0 * \n* * * * ",
               visible: false,
             },
             {
               input: "5",
-              output: "* * * * * \n* 0 0 0 *\n* 0 0 0 *\n* 0 0 0 *\n* * * * * ",
+              output:
+                "* * * * * \n* 0 0 0 * \n* 0 0 0 * \n* 0 0 0 * \n* * * * * ",
               visible: false,
             },
           ],
@@ -9386,19 +9472,19 @@ export const codingPracticesData = {
           description:
             "Given two numbers M and N,write a program to print a rectangle of M rows and N columns using stars(*)in the borders and zeros(0)inside the rectangle.\nNote:There is a space after every star(*) and every zero(0).",
           sampleInput: "3\n3",
-          sampleOutput: "* * * \n* 0 *\n* * * ",
+          sampleOutput: "* * * \n* 0 * \n* * * ",
           testCases: [
-            { input: "1\n1", output: "* \n* ", visible: true },
+            { input: "1\n1", output: "* ", visible: true },
+            { input: "2\n3", output: "* * * \n* * * ", visible: true },
+            { input: "3\n3", output: "* * * \n* 0 * \n* * * ", visible: false },
             {
-              input: "4\n4",
-              output: "* * * * \n* 0 0 *\n* 0 0 *\n* * * * ",
-              visible: true,
+              input: "4\n5",
+              output: "* * * * * \n* 0 0 0 * \n* 0 0 0 * \n* * * * * ",
+              visible: false,
             },
-            { input: "2\n3", output: "* * * \n* * * ", visible: false },
-            { input: "3\n3", output: "* * * \n* 0 *\n* * * ", visible: false },
             {
-              input: "5\n5",
-              output: "* * * * * \n* 0 0 0 *\n* 0 0 0 *\n* 0 0 0 *\n* * * * * ",
+              input: "5\n4",
+              output: "* * * * \n* 0 0 * \n* 0 0 * \n* 0 0 * \n* * * * ",
               visible: false,
             },
           ],
@@ -9438,20 +9524,20 @@ export const codingPracticesData = {
           description:
             "Given a number N,write a program to print a Square of N rows using stars(*).\nNote:There is a space after every star(*).",
           sampleInput: "3",
-          sampleOutput: "* * * \n*   * \n* * * ",
+          sampleOutput: "* * * \n*   *\n* * * ",
           testCases: [
-            { input: "1", output: "* \n* ", visible: true },
+            { input: "1", output: "* ", visible: true },
             { input: "2", output: "* * \n* * ", visible: true },
-            { input: "3", output: "* * * \n*   * \n* * * ", visible: false },
+
+            { input: "3", output: "* * * \n*   *\n* * * ", visible: false },
             {
               input: "4",
-              output: "* * * * \n*     * \n*     * \n* * * * ",
+              output: "* * * * \n*     *\n*     *\n* * * * ",
               visible: false,
             },
             {
               input: "5",
-              output:
-                "* * * * * \n*       * \n*       * \n*       * \n* * * * * ",
+              output: "* * * * * \n*       *\n*       *\n*       *\n* * * * * ",
               visible: false,
             },
           ],
@@ -9567,19 +9653,19 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a hollow pyramid of N rows using stars(*).",
           sampleInput: "3",
-          sampleOutput: "  * \n * *\n* * * ",
+          sampleOutput: "  * \n * * \n* * * ",
           testCases: [
             { input: "1", output: "* ", visible: true },
             { input: "2", output: " * \n* * ", visible: true },
-            { input: "3", output: "  * \n * *\n* * * ", visible: false },
+            { input: "3", output: "  * \n * * \n* * * ", visible: false },
             {
               input: "4",
-              output: "   * \n  * *\n *   *\n* * * * ",
+              output: "   * \n  * * \n *   * \n* * * * ",
               visible: false,
             },
             {
               input: "5",
-              output: "    * \n   * *\n  *   *\n *     *\n* * * * * ",
+              output: "    * \n   * * \n  *   * \n *     * \n* * * * * ",
               visible: false,
             },
           ],
@@ -9595,17 +9681,15 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a Hollow Right Angled Triangle of N rows using pluses (+) and hashes (#).\nThe first line contains hashes(#) and the next N-1 lines contain pluses(+).",
           sampleInput: "3",
-          sampleOutput: "# # # \n+ + \n+",
+          sampleOutput: "# # # \n+ +\n+",
           testCases: [
             { input: "1", output: "# ", visible: true },
+
             { input: "2", output: "# # \n+", visible: true },
-            { input: "3", output: "# # # \n+ + \n+", visible: false },
-            { input: "4", output: "# # # # \n+   + \n+ + \n+", visible: false },
-            {
-              input: "5",
-              output: "# # # # # \n+     + \n+   + \n+ + \n+",
-              visible: false,
-            },
+
+            { input: "3", output: "# # # \n+ +\n+", visible: false },
+
+            { input: "4", output: "# # # # \n+   +\n+ +\n+", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -9618,20 +9702,23 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print a Hollow Pyramid of 2*N-1 rows using numbers.\nThere is a space after every number(1).",
-          sampleInput: "3",
-          sampleOutput: "1\n2 2\n3  3\n2 2\n1",
+          sampleInput: "4",
+          sampleOutput: "1\n2  2\n3    3\n4      4\n3    3\n2  2\n1",
           testCases: [
-            { input: "1", output: "1", visible: true },
             { input: "2", output: "1\n2 2\n1", visible: true },
-            { input: "2", output: "1\n2 2\n1", visible: false },
+
+            { input: "3", output: "1\n2 2\n3   3\n2 2\n1", visible: true },
+
             {
-              input: "2",
-              output: "1\n2 2\n1",
+              input: "4",
+              output: "1\n2 2\n3   3\n4     4\n3   3\n2 2\n1",
               visible: false,
             },
+
             {
-              input: "2",
-              output: "1\n2 2\n1",
+              input: "5",
+              output:
+                "1\n2 2\n3   3\n4     4\n5       5\n4     4\n3   3\n2 2\n1",
               visible: false,
             },
           ],
@@ -9647,19 +9734,19 @@ export const codingPracticesData = {
           description:
             "Given a number N, write a program to print a Hollow Right Angled Triangle of N rows using stars(*).\nNote:There is a space after every star(*).",
           sampleInput: "3",
-          sampleOutput: "* * * \n* * \n* ",
+          sampleOutput: "* * * \n* *\n*",
           testCases: [
-            { input: "1", output: "* \n* ", visible: true },
-            { input: "2", output: "* * \n* ", visible: true },
-            { input: "3", output: "* * * \n* * \n* ", visible: false },
-            {
-              input: "4",
-              output: "* * * * \n*   * \n* * \n* ",
-              visible: false,
-            },
+            { input: "1", output: "* ", visible: true },
+
+            { input: "2", output: "* * \n*", visible: true },
+
+            { input: "3", output: "* * * \n* *\n*", visible: false },
+
+            { input: "4", output: "* * * * \n*   *\n* *\n*", visible: false },
+
             {
               input: "5",
-              output: "* * * * * \n*     * \n*   * \n* * \n* ",
+              output: "* * * * * \n*     *\n*   *\n* *\n*",
               visible: false,
             },
           ],
@@ -9677,9 +9764,8 @@ export const codingPracticesData = {
           sampleInput: "3",
           sampleOutput: "    *\n  * *\n* * * ",
           testCases: [
-            { input: "1", output: "*\n* ", visible: true },
             { input: "2", output: "  *\n* * ", visible: true },
-            { input: "3", output: "    *\n  * *\n* * * ", visible: false },
+            { input: "3", output: "    *\n  * *\n* * * ", visible: true },
             {
               input: "4",
               output: "      *\n    * *\n  *   *\n* * * * ",
@@ -9811,33 +9897,31 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print an Inverted Hollow Pyramid of 2*N-1 rows using numbers.\nNote:There is a space after every number(1).",
-          sampleInput: "3",
-          sampleOutput: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
+          sampleInput: "5",
+          sampleOutput:
+            "        1\n      2 2 \n    3   3 \n  4     4 \n5       5 \n  4     4\n    3   3\n      2 2\n        1 ",
           testCases: [
-            { input: "1", output: "1 ", visible: true },
-            {
-              input: "2",
-              output: "  1 \n2 2 \n  1 ",
-              visible: true,
-            },
+            { input: "1", output: "1", visible: true },
+
+            { input: "2", output: "  1\n2 2 \n  1 ", visible: true },
 
             {
               input: "3",
-              output: "    1 \n  2 2 \n3   3\n  2 2 \n    1 ",
+              output: "    1\n  2 2 \n3   3 \n  2 2\n    1 ",
               visible: false,
             },
 
             {
               input: "4",
               output:
-                "      1 \n    2 2 \n  3   3\n4     4\n  3   3 \n    2 2 \n      1 ",
+                "      1\n    2 2 \n  3   3 \n4     4 \n  3   3\n    2 2\n      1 ",
               visible: false,
             },
 
             {
               input: "5",
               output:
-                "        1 \n      2 2 \n    3   3\n  4     4\n5       5\n  4     4 \n    3   3 \n      2 2 \n        1 ",
+                "        1\n      2 2 \n    3   3 \n  4     4 \n5       5 \n  4     4\n    3   3\n      2 2\n        1 ",
               visible: false,
             },
           ],
@@ -9852,28 +9936,21 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print two right angled triangles of N rows using stars(*).\nNote:There is a space after every star(*).",
-          sampleInput: "2",
-          sampleOutput: "*     * \n* * * * ",
+          sampleInput: "3",
+          sampleOutput: "*         *\n* *     * *\n* * * * * * ",
           testCases: [
-            {
-              input: "1",
-              output: "* * ",
-              visible: true,
-            },
-            {
-              input: "2",
-              output: "*     * \n* * * * ",
-              visible: true,
-            },
+            { input: "1", output: "* *", visible: true },
+            { input: "2", output: "*     *\n* * * * ", visible: true },
             {
               input: "3",
-              output: "*         * \n* *     * * \n* * * * * * ",
+              output: "*         *\n* *     * *\n* * * * * * ",
               visible: false,
             },
+
             {
               input: "4",
               output:
-                "*             * \n* *         * * \n*   *     *   * \n* * * * * * * * ",
+                "*             *\n* *         * *\n*   *     *   *\n* * * * * * * * ",
               visible: false,
             },
           ],
@@ -9888,30 +9965,22 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N, write a program to print a Hollow Butterfly of 2*N rows using stars(*).\nNote:There is a space after every star(*).",
-          sampleInput: "3",
+          sampleInput: "4",
           sampleOutput:
-            "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
+            "*             *\n* *         * *\n*   *     *   *\n*     * *     *\n*     * *     *\n*   *     *   *\n* *         * *\n*             *",
           testCases: [
-            {
-              input: "1",
-              output: "* * \n* * ",
-              visible: true,
-            },
+            { input: "1", output: "* *\n* *", visible: true },
+
             {
               input: "2",
-              output: "*     * \n* * * * \n* * * * \n*     * ",
+              output: "*     *\n* * * *\n* * * *\n*     *",
               visible: true,
             },
-            {
-              input: "3",
-              output:
-                "*         * \n* *     * * \n*   * *   * \n*   * *   * \n* *     * * \n*         * ",
-              visible: false,
-            },
+
             {
               input: "4",
               output:
-                "*             * \n* *         * * \n*   *     *   * \n*     * *     * \n*     * *     * \n*   *     *   * \n* *         * * \n*             * ",
+                "*             *\n* *         * *\n*   *     *   *\n*     * *     *\n*     * *     *\n*   *     *   *\n* *         * *\n*             *",
               visible: false,
             },
           ],
@@ -9932,8 +10001,7 @@ export const codingPracticesData = {
             { input: "1\n1", output: "1", visible: true },
             { input: "1\n10", output: "3", visible: true },
             { input: "625\n1444", output: "14", visible: false },
-            { input: "1\n1", output: "1", visible: false },
-            { input: "1\n10", output: "3", visible: false },
+            { input: "9\n100", output: "8", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -10625,23 +10693,10 @@ export const codingPracticesData = {
           sampleInput: "hello onesolutions",
           sampleOutput: "hll nsltns",
           testCases: [
-            {
-              input: "hello onesolutions",
-              output: "hll nsltns",
-              visible: true,
-            },
-            {
-              input: "123 Hello World!",
-              output: "123 Hll Wrld!",
-              visible: true,
-            },
-            { input: "Programming", output: "Prgrmmng", visible: false },
-            {
-              input: "123 Hello World!",
-              output: "123 Hll Wrld!",
-              visible: false,
-            },
-            { input: "BCDFG", output: "BCDFG", visible: false },
+            { input: "apple", output: "ppl", visible: true },
+            { input: "education", output: "dctn", visible: true },
+            { input: "Python", output: "Pythn", visible: false },
+            { input: "hello world", output: "hll wrld", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -10658,11 +10713,6 @@ export const codingPracticesData = {
           sampleOutput: "True",
           testCases: [
             {
-              input: "onesolutions\none",
-              output: "True",
-              visible: true,
-            },
-            {
               input: "cammel\nmme",
               output: "False",
               visible: true,
@@ -10670,6 +10720,11 @@ export const codingPracticesData = {
             {
               input: "Programming\npro",
               output: "False",
+              visible: true,
+            },
+            {
+              input: "onesolutions\none",
+              output: "True",
               visible: false,
             },
             {
@@ -10729,32 +10784,30 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a string and N indices,where N is the length of the string.Write a program to print the character of the string present at each index of the given N indices.",
-          sampleInput: "tarc\n3\n1\n2\n0",
-          sampleOutput: "cart",
+          sampleInput: "dlrow\n4\n3\n2\n1\n0",
+          sampleOutput: "w\no\nr\nl\nd",
           testCases: [
             {
-              input: "tarc\n3\n1\n2\n0",
-              output: "cart",
+              input: "lleho\n3\n2\n0\n1\n4",
+              output: "h\ne\nl\nl\no",
               visible: true,
             },
+
             {
               input: "nohtyp\n5\n4\n3\n2\n1\n0",
-              output: "python",
+              output: "p\ny\nt\nh\no\nn",
               visible: true,
             },
+
             {
-              input: "cba\n2\n1\n0",
-              output: "abc",
+              input: "dlrow\n4\n3\n2\n1\n0",
+              output: "w\no\nr\nl\nd",
               visible: false,
             },
+
             {
-              input: "edoc\n3\n2\n1\n0",
-              output: "code",
-              visible: false,
-            },
-            {
-              input: "olleh\n4\n3\n2\n1\n0",
-              output: "hello",
+              input: "tcaer\n4\n3\n2\n1\n0",
+              output: "r\ne\na\nc\nt",
               visible: false,
             },
           ],
@@ -10861,12 +10914,6 @@ export const codingPracticesData = {
             },
 
             {
-              input: "7",
-              output: "prime number",
-              visible: false,
-            },
-
-            {
               input: "9",
               output: "not a prime number",
               visible: false,
@@ -10942,11 +10989,9 @@ export const codingPracticesData = {
           sampleInput: "game",
           sampleOutput: "game\ngam\nga\ng",
           testCases: [
-            { input: "game", output: "game\ngam\nga\ng", visible: true },
-
             { input: "a", output: "a", visible: true },
-
-            { input: "hi", output: "hi\nh", visible: false },
+            { input: "hi", output: "hi\nh", visible: true },
+            { input: "game", output: "game\ngam\nga\ng", visible: false },
 
             { input: "code", output: "code\ncod\nco\nc", visible: false },
 
@@ -11099,17 +11144,15 @@ export const codingPracticesData = {
           sampleInput: "5",
           sampleOutput: "1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5\n1 2 3 4 5",
           testCases: [
-            { input: "3", output: "1 2 3\n1 2 3\n1 2 3", visible: true },
+            { input: "1", output: "1 ", visible: true },
 
-            { input: "2", output: "1 2\n1 2", visible: true },
+            { input: "2", output: "1 2 \n1 2 ", visible: true },
 
-            { input: "3", output: "1 2 3\n1 2 3\n1 2 3", visible: false },
-
-            { input: "2", output: "1 2\n1 2", visible: false },
+            { input: "3", output: "1 2 3 \n1 2 3 \n1 2 3 ", visible: false },
 
             {
               input: "4",
-              output: "1 2 3 4\n1 2 3 4\n1 2 3 4\n1 2 3 4",
+              output: "1 2 3 4 \n1 2 3 4 \n1 2 3 4 \n1 2 3 4 ",
               visible: false,
             },
           ],
@@ -11165,33 +11208,18 @@ export const codingPracticesData = {
           description:
             "Given two numbers S and N,write a program to print a Pyramid of N rows using numbers starting from S.",
           sampleInput: "3\n3",
-          sampleOutput: "  3   \n 3 4  \n3 4 5 ",
+          sampleOutput: "  3 \n 3 4 \n3 4 5 ",
           testCases: [
+            { input: "1\n1", output: "1 ", visible: true },
+
             {
-              input: "1\n1",
-              output: "1 ",
+              input: "2\n4",
+              output: "   2 \n  2 3 \n 2 3 4 \n2 3 4 5 ",
               visible: true,
             },
-            {
-              input: "1\n2",
-              output: " 1  \n1 2 ",
-              visible: true,
-            },
-            {
-              input: "3\n3",
-              output: "  3   \n 3 4  \n3 4 5 ",
-              visible: false,
-            },
-            {
-              input: "5\n4",
-              output: "   5    \n 5 6   \n 5 6 7  \n5 6 7 8 ",
-              visible: false,
-            },
-            {
-              input: "10\n2",
-              output: " 10  \n10 11 ",
-              visible: false,
-            },
+            { input: "3\n3", output: "  3 \n 3 4 \n3 4 5 ", visible: false },
+
+            { input: "5\n2", output: " 5 \n5 6 ", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -11208,13 +11236,13 @@ export const codingPracticesData = {
           sampleOutput: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153",
           testCases: [
             {
-              input: "200",
-              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153",
+              input: "10",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9",
               visible: true,
             },
             {
-              input: "10",
-              output: "1\n2\n3\n4\n5\n6\n7\n8\n9",
+              input: "400",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153\n370\n371",
               visible: true,
             },
             {
@@ -11223,10 +11251,11 @@ export const codingPracticesData = {
               visible: false,
             },
             {
-              input: "400",
-              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153\n370\n371",
+              input: "200",
+              output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153",
               visible: false,
             },
+
             {
               input: "1000",
               output: "1\n2\n3\n4\n5\n6\n7\n8\n9\n153\n370\n371\n407",
@@ -11332,32 +11361,17 @@ export const codingPracticesData = {
           description:
             "Given a number N,write a program to print a square of N rows using numbers starting from 1.\nNote:There is a space after every number.",
           sampleInput: "3",
-          sampleOutput: "1 2 3\n4 5 6\n7 8 9",
+          sampleOutput: "1 2 3 \n4 5 6 \n7 8 9 ",
           testCases: [
-            {
-              input: "3",
-              output: "1 2 3\n4 5 6\n7 8 9",
-              visible: true,
-            },
-            {
-              input: "1",
-              output: "1",
-              visible: true,
-            },
-            {
-              input: "2",
-              output: "1 2\n3 4",
-              visible: false,
-            },
+            { input: "1", output: "1 ", visible: true },
+
+            { input: "2", output: "1 2 \n3 4 ", visible: true },
+
+            { input: "3", output: "1 2 3 \n4 5 6 \n7 8 9 ", visible: false },
+
             {
               input: "4",
-              output: "1 2 3 4\n5 6 7 8\n9 10 11 12\n13 14 15 16",
-              visible: false,
-            },
-            {
-              input: "5",
-              output:
-                "1 2 3 4 5\n6 7 8 9 10\n11 12 13 14 15\n16 17 18 19 20\n21 22 23 24 25",
+              output: "1 2 3 4 \n5 6 7 8 \n9 10 11 12 \n13 14 15 16 ",
               visible: false,
             },
           ],
@@ -11381,20 +11395,21 @@ export const codingPracticesData = {
               visible: true,
             },
             {
+              input: "5\n4",
+              output: "5 \n6 7 \n8 9 10 \n11 12 13 14 ",
+              visible: true,
+            },
+            {
               input: "1\n2",
               output: "1 \n2 3 ",
-              visible: true,
+              visible: false,
             },
             {
               input: "3\n3",
               output: "3 \n4 5 \n6 7 8 ",
               visible: false,
             },
-            {
-              input: "5\n4",
-              output: "5 \n6 7 \n8 9 10 \n11 12 13 14 ",
-              visible: false,
-            },
+
             {
               input: "10\n5",
               output: "10 \n11 12 \n13 14 15 \n16 17 18 19 \n20 21 22 23 24 ",
@@ -11425,11 +11440,7 @@ export const codingPracticesData = {
               output: "0",
               visible: true,
             },
-            {
-              input: "3",
-              output: "1",
-              visible: false,
-            },
+
             {
               input: "4",
               output: "1",
@@ -11470,11 +11481,7 @@ export const codingPracticesData = {
               output: "1",
               visible: true,
             },
-            {
-              input: "8",
-              output: "2",
-              visible: false,
-            },
+
             {
               input: "10",
               output: "4",
@@ -11547,31 +11554,11 @@ export const codingPracticesData = {
           sampleInput: "5",
           sampleOutput: "1",
           testCases: [
-            {
-              input: "20",
-              output: "6",
-              visible: true,
-            },
-            {
-              input: "5",
-              output: "1",
-              visible: true,
-            },
-            {
-              input: "20",
-              output: "6",
-              visible: false,
-            },
-            {
-              input: "20",
-              output: "6",
-              visible: false,
-            },
-            {
-              input: "5",
-              output: "1",
-              visible: false,
-            },
+            { input: "10", output: "2", visible: true },
+            { input: "13", output: "3", visible: true },
+            { input: "15", output: "4", visible: false },
+            { input: "5", output: "1", visible: false },
+            { input: "20", output: "6", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -11589,7 +11576,6 @@ export const codingPracticesData = {
           testCases: [
             { input: "1\n3", output: "6 5 4 \n3 2 \n1 ", visible: true },
             { input: "2\n3", output: "7 6 5 \n4 3 \n2 ", visible: true },
-            { input: "5\n2", output: "7 6 \n5 ", visible: false },
             { input: "1\n1", output: "1 ", visible: false },
             {
               input: "3\n4",
@@ -11614,11 +11600,6 @@ export const codingPracticesData = {
             {
               input: "3",
               output: "1 2 3 \n 1 2 \n  1 ",
-              visible: true,
-            },
-            {
-              input: "4",
-              output: "1 2 3 4 \n 1 2 3 \n  1 2 \n   1 ",
               visible: true,
             },
             {
@@ -11664,7 +11645,7 @@ export const codingPracticesData = {
             {
               input: "3",
               output: "  1 \n 1 2 \n1 2 3 \n 1 2 \n  1 ",
-              visible: true,
+              visible: false,
             },
             {
               input: "4",
@@ -11687,11 +11668,6 @@ export const codingPracticesData = {
           sampleInput: "1\n100",
           sampleOutput: "1 2 3 4 5 6 7 8 9 ",
           testCases: [
-            {
-              input: "1\n100",
-              output: "1 2 3 4 5 6 7 8 9 ",
-              visible: true,
-            },
             {
               input: "100\n500",
               output: "153 370 371 407 ",
@@ -11732,32 +11708,17 @@ export const codingPracticesData = {
           description:
             "Given a number N,write a program to print a Hollow Square of N rows and N columns using numbers starting from 1.\nNote:There is a space after every number.",
           sampleInput: "4",
-          sampleOutput: "1 2 3 4 \n1     4\n1     4\n1     4\n1 2 3 4 ",
+          sampleOutput: "1 2 3 4 \n1     4\n1     4\n1 2 3 4 ",
           testCases: [
-            {
-              input: "1",
-              output: "1",
-              visible: true,
-            },
-            {
-              input: "2",
-              output: "1 2 \n1 2 ",
-              visible: true,
-            },
-            {
-              input: "3",
-              output: "1 2 3 \n1   3\n1   3\n1 2 3 ",
-              visible: true,
-            },
+            { input: "1", output: "1 ", visible: true },
+
+            { input: "2", output: "1 2 \n1 2 ", visible: true },
+
+            { input: "3", output: "1 2 3 \n1   3\n1 2 3 ", visible: false },
+
             {
               input: "4",
-              output: "1 2 3 4 \n1     4\n1     4\n1     4\n1 2 3 4 ",
-              visible: false,
-            },
-            {
-              input: "5",
-              output:
-                "1 2 3 4 5 \n1       5\n1       5\n1       5\n1       5\n1 2 3 4 5 ",
+              output: "1 2 3 4 \n1     4\n1     4\n1 2 3 4 ",
               visible: false,
             },
           ],
@@ -11773,33 +11734,15 @@ export const codingPracticesData = {
           description:
             "Given a number N,write a program to print a Hollow Right Angled Triangle of N rows using numbers starting from 1.",
           sampleInput: "3",
-          sampleOutput: "1 \n1 2 \n1 2 3 ",
+          sampleOutput: "1\n1 2\n1 2 3 ",
           testCases: [
-            {
-              input: "1",
-              output: "1 ",
-              visible: true,
-            },
-            {
-              input: "2",
-              output: "1 \n1 2 ",
-              visible: true,
-            },
-            {
-              input: "3",
-              output: "1 \n1 2 \n1 2 3 ",
-              visible: true,
-            },
-            {
-              input: "4",
-              output: "1 \n1 2 \n1   3 \n1 2 3 4 ",
-              visible: false,
-            },
-            {
-              input: "5",
-              output: "1 \n1 2 \n1   3 \n1     4 \n1 2 3 4 5 ",
-              visible: false,
-            },
+            { input: "1", output: "1", visible: true },
+
+            { input: "2", output: "1\n1 2 ", visible: true },
+
+            { input: "3", output: "1\n1 2\n1 2 3 ", visible: false },
+
+            { input: "4", output: "1\n1 2\n1   3\n1 2 3 4 ", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -11815,11 +11758,6 @@ export const codingPracticesData = {
           sampleInput: "4\n4",
           sampleOutput: "7 8 9 10 \n7     10\n7     10\n7 8 9 10 ",
           testCases: [
-            {
-              input: "2\n1",
-              output: "7",
-              visible: true,
-            },
             {
               input: "2\n2",
               output: "7 8 \n7 8 ",
@@ -11965,20 +11903,18 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a number N,write a program to print a an Inverted Hollow Right Angled Triangle of N rows using numbers starting from 1.\nNote:There is a space after every number.",
-          sampleInput: "3",
-          sampleOutput: "1 2 3 \n4 5 \n6",
+          sampleInput: "4",
+          sampleOutput: "1 2 3 4 \n5   7\n8 9\n10",
           testCases: [
-            { input: "1", output: "1", visible: true },
-            { input: "2", output: "1 2 \n3", visible: true },
-            { input: "3", output: "1 2 3 \n4 5 \n6", visible: false },
-            {
-              input: "4",
-              output: "1 2 3 4 \n5   7 \n8 9 \n10",
-              visible: false,
-            },
+            { input: "1", output: "1 \n2", visible: true },
+
+            { input: "3", output: "1 2 3 \n4 5\n6", visible: true },
+
+            { input: "4", output: "1 2 3 4 \n5   7\n8 9\n10", visible: false },
+
             {
               input: "5",
-              output: "1 2 3 4 5 \n6     9 \n10   12 \n13 14 \n15",
+              output: "1 2 3 4 5 \n6     9\n10   12\n13 14\n15",
               visible: false,
             },
           ],
@@ -12077,18 +12013,16 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given two numbers S and N,write a program to print a Hollow Inverted Right Angled Triangle of N rows using numbers.\nThe numbers start from S on the N th row and increase by 1 until the 1st row.",
-          sampleInput: "1\n2",
-          sampleOutput: "3 2 \n  1 ",
+          sampleInput: "5\n3",
+          sampleOutput: "10 9 8 \n  7 6\n    5",
           testCases: [
-            {
-              input: "2\n3",
-              output: "7 6 5 \n  4   2 \n    1 ",
-              visible: true,
-            },
-            { input: "1\n1", output: "1 ", visible: true },
-            { input: "1\n2", output: "3 2 \n  1 ", visible: false },
-            { input: "2\n2", output: "4 3 \n  2 ", visible: false },
-            { input: "3\n3", output: "8 7 6 \n  5 4 \n    3 ", visible: false },
+            { input: "5\n1", output: "5 ", visible: true },
+
+            { input: "5\n2", output: "7 6 \n  5", visible: true },
+
+            { input: "5\n3", output: "10 9 8 \n  7 6\n    5", visible: false },
+
+            { input: "3\n3", output: "8 7 6 \n  5 4\n    3", visible: false },
           ],
           defaultCode: ``,
           score: 40,
@@ -12101,18 +12035,22 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given two numbers S and N,write a program to print a Inverted Hollow Pyramid of N rows using numbers starting from S.",
-          sampleInput: "1\n2",
-          sampleOutput: "3 2 \n  1 ",
+          sampleInput: "10\n2",
+          sampleOutput: "10 11 \n 12",
           testCases: [
             {
-              input: "2\n3",
-              output: "7 6 5 \n  4   2 \n    1 ",
+              input: "5\n4",
+              output: "5 6 7 8 \n 9   11\n  12 13\n   14",
               visible: true,
             },
-            { input: "1\n1", output: "1 ", visible: true },
-            { input: "1\n2", output: "3 2 \n  1 ", visible: false },
-            { input: "2\n2", output: "4 3 \n  2 ", visible: false },
-            { input: "3\n3", output: "8 7 6 \n  5 4 \n    3 ", visible: false },
+
+            { input: "10\n2", output: "10 11 \n 12", visible: false },
+
+            {
+              input: "3\n5",
+              output: "3 4 5 6 7 \n 8     11\n  12   14\n   15 16\n    17",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
@@ -12121,7 +12059,7 @@ export const codingPracticesData = {
         },
         {
           id: "q-python-Assignment-14-003",
-          title: "Numbers in Inverted Hollow Pyramid",
+          title: "Numbers in Hollow Diamond",
           difficulty: "Easy",
           description:
             "Given two numbers S and N,write a program to print a Inverted Hollow Pyramid of N rows using numbers starting from S.",
@@ -12135,11 +12073,7 @@ export const codingPracticesData = {
               output: "  1\n 1 2\n1   3\n 1 2\n  1",
               visible: false,
             },
-            {
-              input: "4",
-              output: "   1\n 1 2\n 1   3\n1     4\n 1   3\n  1 2\n   1",
-              visible: false,
-            },
+
             {
               input: "5",
               output:
@@ -12316,7 +12250,7 @@ export const codingPracticesData = {
           attempts: [],
         },
         {
-          id: "q-python-Codingpractice-15A-004",
+          id: "q-python-Codingpractice-15A-005",
           title: "alphabets in Inverted Right Angled Triangle",
           difficulty: "Easy",
           description:
@@ -12389,12 +12323,6 @@ export const codingPracticesData = {
             {
               input: "3",
               output: "* * * \n*   *\n* * * \n    *\n* * * ",
-              visible: false,
-            },
-            {
-              input: "4",
-              output:
-                "* * * * \n*     *\n*     *\n* * * * \n      *\n      *\n* * * * ",
               visible: false,
             },
             {
@@ -12526,7 +12454,7 @@ export const codingPracticesData = {
             { input: "abcDef", output: "D", visible: true },
             { input: "pythonJAVA", output: "J", visible: false },
             { input: "aBcDe", output: "B", visible: false },
-            { input: "lowercase", output: "", visible: false },
+            { input: "Lowercase", output: "L", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -12569,7 +12497,7 @@ export const codingPracticesData = {
             { input: "1\n-5", output: "-5", visible: true },
             { input: "3\n4\n-2\n6", output: "-2", visible: true },
             { input: "5\n1\n2\n3\n-9\n10", output: "-9", visible: false },
-            { input: "4\n5\n6\n7\n8", output: "", visible: false },
+            { input: "4\n-5\n6\n7\n8", output: "-5", visible: false },
             { input: "6\n10\n20\n-1\n-5\n3\n4", output: "-1", visible: false },
           ],
           defaultCode: ``,
@@ -12588,9 +12516,8 @@ export const codingPracticesData = {
           testCases: [
             { input: "1\n2", output: "2", visible: true },
             { input: "4\n1\n3\n4\n6", output: "4", visible: true },
-            { input: "5\n7\n9\n11\n12\n14", output: "12", visible: false },
-            { input: "3\n1\n3\n5\n6", output: "6", visible: false },
-            { input: "6\n5\n7\n9\n10\n2\n4", output: "10", visible: false },
+            { input: "3\n2\n4\n6", output: "2", visible: false },
+            { input: "1\n4", output: "4", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -12675,15 +12602,11 @@ export const codingPracticesData = {
             { input: "5\n1\n2\n3\n4\n5", output: "1\n2\n3\n4", visible: true },
             { input: "4\n7\n9\n11\n15", output: "7\n9\n11", visible: true },
             {
-              input: "6\n2\n4\n6\n8\n10\n12",
-              output: "2\n4\n6\n8",
+              input: "5\n6\n7\n8\n9\n10",
+              output: "6\n7\n8\n9",
               visible: false,
             },
-            {
-              input: "6\n2\n4\n6\n8\n10\n12",
-              output: "2\n4\n6\n8",
-              visible: false,
-            },
+            { input: "4\n1\n3\n5\n7", output: "1\n3", visible: false },
           ],
           defaultCode: ``,
           score: 25,
@@ -12925,25 +12848,6 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {
-          id: "q-python-Codingpractice-17A-004",
-          title: "Print Smallest Letter",
-          difficulty: "Easy",
-          description:
-            "Given a string S,Write a program to print the character with the smallest Unicode value in the string S.",
-          sampleInput: "hello",
-          sampleOutput: "e",
-          testCases: [
-            { input: "dcba", output: "a", visible: true },
-            { input: "Zebra", output: "Z", visible: true },
-            { input: "hello", output: "e", visible: false },
-            { input: "aA", output: "A", visible: false },
-          ],
-          defaultCode: ``,
-          score: 30,
-          status: "unsolved",
-          attempts: [],
-        },
       ],
     },
     {
@@ -13000,12 +12904,13 @@ export const codingPracticesData = {
           sampleInput: "Python java Cpp",
           sampleOutput: "Cpp",
           testCases: [
-            { input: "apple banana cherry", output: "apple", visible: true },
-            { input: "Dog cat Elephant", output: "cat", visible: true },
+            { input: "Apple banana Cherry", output: "Apple", visible: true },
+
+            { input: "dog Cat elephant", output: "Cat", visible: true },
+
             { input: "Zebra ant Lion", output: "ant", visible: true },
-            { input: "one Two three", output: "one", visible: false },
+
             { input: "Python java Cpp", output: "Cpp", visible: false },
-            { input: "HELLO hello HeLLo", output: "HELLO", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -13045,14 +12950,16 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a string S and two numbers M and N,write a program to print the characters of S that have Unicode values from M to N separated by a space.\nNote:Unicode values are unique numbers that are given to every character,symbol and digit.",
-          sampleInput: "@A9z#\n35\n90",
-          sampleOutput: "@ A 9 ",
+          sampleInput: "ABCdef\n97\n122",
+          sampleOutput: "d e f ",
           testCases: [
-            { input: "abc\n97\n99", output: "a b c ", visible: true },
             { input: "abcXYZ\n65\n90", output: "X Y Z ", visible: true },
-            { input: "a1b2c3\n48\n57", output: "1 2 3 ", visible: false },
-            { input: "@A9z#\n35\n90", output: "@ A 9 ", visible: false },
-            { input: "hello\n65\n70", output: "", visible: false },
+
+            { input: "hello123\n97\n122", output: "h e l l o ", visible: true },
+
+            { input: "Python3\n48\n57", output: "3 ", visible: true },
+
+            { input: "ABCdef\n97\n122", output: "d e f ", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -13065,18 +12972,16 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Given a string S,Write a program to print the unicode value of the first digit in the given string.",
-          sampleInput: "ab3c7",
-          sampleOutput: "51",
+          sampleInput: "7seven",
+          sampleOutput: "55",
           testCases: [
-            { input: "abc5d9", output: "53", visible: true },
+            { input: "abc1def", output: "49", visible: true },
 
-            { input: "1abc", output: "49", visible: true },
+            { input: "hello9", output: "57", visible: true },
 
-            { input: "ab3c7", output: "51", visible: false },
+            { input: "7seven", output: "55", visible: false },
 
-            { input: "hello", output: "", visible: false },
-
-            { input: "99bottles", output: "57", visible: false },
+            { input: "noDigitsHere5", output: "53", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -13207,22 +13112,14 @@ export const codingPracticesData = {
           sampleInput: "3\n6.001\n1.0\n2.0\n3.0",
           sampleOutput: "False",
           testCases: [
-            { input: "3\n6.000\n1.0\n2.0\n3.0", output: "True", visible: true },
-
             { input: "2\n5.500\n2.25\n3.25", output: "True", visible: true },
 
             {
               input: "4\n10.123\n2.5\n2.5\n2.5\n2.623",
               output: "True",
-              visible: false,
+              visible: true,
             },
-
-            {
-              input: "3\n6.001\n1.0\n2.0\n3.0",
-              output: "False",
-              visible: false,
-            },
-
+            { input: "3\n6.000\n1.0\n2.0\n3.0", output: "True", visible: true },
             {
               input: "2\n4.000\n1.999\n2.000",
               output: "False",
@@ -13486,8 +13383,6 @@ export const codingPracticesData = {
 
             { input: "Hello", output: "HHeelllloo", visible: false },
 
-            { input: " ", output: "  ", visible: false },
-
             { input: "Py3", output: "PPyy33", visible: false },
           ],
           defaultCode: ``,
@@ -13622,30 +13517,24 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "You are given N number of inputs.Print the Maximum of them after each input.",
-          sampleInput: "4\n-1\n-5\n0\n-2",
-          sampleOutput: "-1\n-1\n0\n0",
+          sampleInput: "1\n100",
+          sampleOutput: "100",
           testCases: [
-            { input: "3\n1\n5\n2", output: "1\n5\n5", visible: true },
-
-            { input: "1\n10", output: "10", visible: true },
+            { input: "3\n1\n2\n3", output: "1\n2\n3", visible: true },
 
             {
-              input: "4\n-1\n-5\n0\n-2",
-              output: "-1\n-1\n0\n0",
-              visible: false,
+              input: "5\n5\n3\n8\n2\n7",
+              output: "5\n5\n8\n8\n8",
+              visible: true,
             },
 
             {
-              input: "5\n3\n3\n3\n3\n3",
-              output: "3\n3\n3\n3\n3",
+              input: "4\n10\n9\n8\n7",
+              output: "10\n10\n10\n10",
               visible: false,
             },
 
-            {
-              input: "3\n100\n50\n200",
-              output: "100\n100\n200",
-              visible: false,
-            },
+            { input: "1\n100", output: "100", visible: false },
           ],
           defaultCode: ``,
           score: 35,
@@ -14088,22 +13977,21 @@ export const codingPracticesData = {
           sampleInput: "Split   by   spaces",
           sampleOutput: "Split\nby\nspaces",
           testCases: [
+            { input: "hello world", output: "hello\nworld", visible: true },
+
             {
-              input: "Hello World",
-              output: "['Hello', 'World']",
+              input: "Python is fun",
+              output: "Python\nis\nfun",
               visible: true,
             },
+
+            { input: "single", output: "single", visible: false },
+
             {
-              input: "Python is easy",
-              output: "['Python', 'is', 'easy']",
-              visible: true,
-            },
-            {
-              input: "Split   by   spaces",
-              output: "['Split', 'by', 'spaces']",
+              input: "split these words now",
+              output: "split\nthese\nwords\nnow",
               visible: false,
             },
-            { input: "one", output: "['one']", visible: false },
           ],
           defaultCode: ``,
           score: 20,
@@ -14360,13 +14248,13 @@ export const codingPracticesData = {
           sampleOutput: "[20, 25, 30, 35]",
           testCases: [
             { input: "5\n1 2 3 4 5", output: "[4, 5]", visible: true },
+            { input: "6\n1 2 3 4 5 6", output: "[4, 5, 6]", visible: true },
+
             { input: "4\n10 20 30 40", output: "[30, 40]", visible: true },
-            {
-              input: "7\n5 10 15 20 25 30 35",
-              output: "[20, 25, 30, 35]",
-              visible: false,
-            },
-            { input: "1\n99", output: "[]", visible: false },
+
+            { input: "5\n1 2 3 4 5", output: "[4, 5]", visible: false },
+
+            { input: "2\n7 9", output: "[9]", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -14946,7 +14834,6 @@ export const codingPracticesData = {
           sampleOutput: "11 13 17 19 ",
           testCases: [
             { input: "1\n10", output: "2 3 5 7 ", visible: true },
-            { input: "-3\n5", output: "-3 -2 -1 2 3 5 ", visible: true },
             { input: "10\n20", output: "11 13 17 19 ", visible: false },
             { input: "0\n3", output: "2 3 ", visible: false },
           ],
