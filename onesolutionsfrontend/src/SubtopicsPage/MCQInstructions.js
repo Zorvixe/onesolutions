@@ -15,7 +15,8 @@ const MCQInstructions = ({ onStart }) => {
           </li>
           <li>
             <strong>Marking Scheme:</strong> All questions have equal weightage.
-            Every correct response gets +1 mark. There is no negative marking.
+            Every correct response gets positive marks. There is a negative
+            marking also.
           </li>
           <li>
             You must answer all the MCQs correctly in order to mark your
