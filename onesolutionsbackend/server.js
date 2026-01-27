@@ -2926,7 +2926,7 @@ app.get("/api/auth/profile", auth, async (req, res) => {
   }
 });
 app.put(
-  "/update-profile-image",
+  "/api/student/update-profile-image",
   auth,
   upload.single("profileImage"),
   async (req, res) => {
