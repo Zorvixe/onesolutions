@@ -415,14 +415,14 @@ const createTables = async () => {
 `;
 
   await pool.query(`
-  ALTER TABLE students 
-  ADD COLUMN student_type VARCHAR(250)
-  DEFAULT 'zorvixe_core'
-  CHECK (student_type IN (
-    'zorvixe_core',
-    'zorvixe_pro',
-    'zorvixe_elite'
-  ))
+ALTER TABLE students
+ADD COLUMN IF NOT EXISTS student_type VARCHAR(250)
+DEFAULT 'zorvixe_core'
+CHECK (student_type IN (
+  'zorvixe_core',
+  'zorvixe_pro',
+  'zorvixe_elite'
+));
 `);
 
   console.log("✅ Added New column");
