@@ -1777,7 +1777,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML button element with the id addBtn",
               type: "js-validation",
-              input: "check-add-button",
+              input: "check-add-button1",
               output: "true",
               visible: true,
             },
@@ -3320,7 +3320,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML input element with the id userInput",
               type: "js-validation",
-              input: "check-user-input",
+              input: "check-user-input1",
               output: "true",
               visible: true,
             },
@@ -3476,7 +3476,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML button element with the id clearBtn",
               type: "js-validation",
-              input: "check-clear-button",
+              input: "check-clear-button1",
               output: "true",
               visible: true,
             },
@@ -3598,7 +3598,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML main heading element",
               type: "js-validation",
-              input: "check-heading",
+              input: "check-heading1",
               output: "true",
               visible: true,
             },
@@ -3784,7 +3784,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML main heading element with the id heading",
               type: "js-validation",
-              input: "check-heading",
+              input: "check-heading2",
               output: "true",
               visible: true,
             },
@@ -3794,6 +3794,184 @@ export const javascriptCodingPracticesData = {
                 "Page should consist of an HTML input element with the id themeUserInput",
               type: "js-validation",
               input: "check-theme-input",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice - 16
+    {
+      id: "javascript-coding-practice-16",
+      title: "Javascript Coding Practice 16",
+      description: "",
+      questions: [
+        {
+          id: "e195ll22-ab24fiiqc88-051b9ddb",
+          title: "HTTP Get Method Practice Page",
+          description:
+            "In this assignment, let's build an HTTP Get Method Practice Page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="p-3 bg-container">
+                    <h1 class="heading mb-4">Get method practice</h1>
+                    <p class="request-url-text">REQUEST URL: <span class="request-url">https://gorest.co.in/public-api/users</span></p>
+                    <button class="mt-3 p-2 button" id="sendGetRequestBtn">Send Get Request</button>
+                    <hr />
+                    <div class="p-2 mt-4">
+                        <p>Request Status</p>
+                        <p class="request-status" id="requestStatus"></p>
+                        <p class="d-none" id="loading">Loading....</p>
+                    </div>
+                    <hr />
+                    <div class="p-2 mt-4">
+                        <p>Response Body</p>
+                        <p class="http-response" id="httpResponse"></p>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .bg-container {
+                background-image: linear-gradient(to right, #4188da, #2be3c6);
+            }
+            
+            .heading {
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 32px;
+            }
+            
+            .request-url-text {
+                color: #ffffff;
+                font-weight: bold;
+            }
+            
+            .request-url {
+                font-weight: 300;
+            }
+            
+            .button {
+                color: #ffffff;
+                background-color: #0967d2;
+                font-size: 14px;
+                border-width: 0;
+                border-radius: 4px;
+            }
+            
+            .request-status {
+                color: #ffffff;
+                font-family: "Roboto";
+                font-size: 24px;
+            }
+            
+            .http-response {
+                color: #ffffff;
+                font-family: "Roboto";
+                font-size: 14px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1769490001/http-get-method-v1_eyf1ub.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add the id sendGetRequestBtn to the HTML button element</span></li>
+                        <li><span>Add the id requestStatus to the HTML paragraph element with the class name request-status</span></li>
+                        <li><span>Add the id httpResponse to the HTML paragraph element with the class name http-response</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not delete the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">Achieve the given functionality to the given prefilled code.</p>
+                  <ul>
+                      <li>When the HTML <code>button </code> element with the id <code>sendGetRequestBtn</code> is clicked,
+                      <ul>
+                      <li>Make HTTP Request (GET method) using Fetch with URL <code>https://gorest.co.in/public-api/users</code>
+                    
+                          <ul>
+                          <li>Show loading while making HTTP request as shown in the image.</li>
+                          <li>Set status code in the HTML paragraph element with the id requestStatus as shown in the image.</li>
+                          <li>Set HTTP response in the HTML paragraph element with the id <code>httpResponse</code> as shown in the image.</li>
+                          </ul>
+                        </li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML button element with the id sendGetRequestBtn",
+              type: "js-validation",
+              input: "check-send-btn",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element with the id requestStatus",
+              type: "js-validation",
+              input: "check-request-status",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the id httpResponse",
+              type: "js-validation",
+              input: "check-http-response",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id sendGetRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
+              type: "js-validation",
+              input: "check-get-response",
               output: "true",
               visible: true,
             },

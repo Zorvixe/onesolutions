@@ -681,7 +681,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: element !== null };
       }
 
-      case "check-add-button": {
+      case "check-add-button1": {
         const element = iframeDoc.getElementById("addBtn");
         return { passed: element !== null };
       }
@@ -980,7 +980,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: element !== null };
       }
 
-      case "check-user-input": {
+      case "check-user-input1": {
         const element = iframeDoc.getElementById("userInput");
         return { passed: element !== null };
       }
@@ -1031,14 +1031,14 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: element !== null && element.tagName === "P" };
       }
 
-      case "check-clear-button": {
+      case "check-clear-button1": {
         const element = iframeDoc.getElementById("clearBtn");
         return { passed: element !== null && element.tagName === "BUTTON" };
       }
 
       //custom Range
 
-      case "check-heading": {
+      case "check-heading1": {
         const element = iframeDoc.querySelector("h1");
         return { passed: element !== null };
       }
@@ -1083,7 +1083,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: element !== null };
       }
 
-      case "check-heading": {
+      case "check-heading2": {
         const element = iframeDoc.getElementById("heading");
         return { passed: element !== null };
       }
@@ -1091,6 +1091,58 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
       case "check-theme-input": {
         const element = iframeDoc.getElementById("themeUserInput");
         return { passed: element !== null && element.tagName === "INPUT" };
+      }
+
+      //HTTP GEt
+      case "check-send-btn": {
+        const element = iframeDoc.getElementById("sendGetRequestBtn");
+        return { passed: element !== null };
+      }
+
+      case "check-request-status": {
+        const element = iframeDoc.getElementById("requestStatus");
+        return { passed: element !== null && element.tagName === "P" };
+      }
+
+      case "check-http-response": {
+        const element = iframeDoc.getElementById("httpResponse");
+        return { passed: element !== null && element.tagName === "P" };
+      }
+
+      case "check-get-response": {
+        const statusEl = iframeDoc.getElementById("requestStatus");
+        const responseEl = iframeDoc.getElementById("httpResponse");
+        const btn = iframeDoc.getElementById("sendGetRequestBtn");
+
+        // Force-fill like fetch success would do
+        const fakeResponse = { code: 200, data: [] };
+
+        iframeDoc.defaultView.fetch = function () {
+          return {
+            then: function (cb) {
+              return cb({
+                json: function () {
+                  return {
+                    then: function (cb2) {
+                      cb2(fakeResponse);
+                    },
+                  };
+                },
+              });
+            },
+          };
+        };
+
+        btn.click();
+
+        const passed =
+          statusEl.textContent.trim() === "200" &&
+          responseEl.textContent.includes("code");
+
+        return {
+          passed,
+          actual: statusEl.textContent + " | " + responseEl.textContent,
+        };
       }
 
       default:

@@ -767,6 +767,7 @@ sys.stderr = OutputCapture()
                 self.data = ""
         
             def write(self, text):
+                # PRESERVE ALL WHITESPACE - including leading spaces
                 self.data += text
                 return len(text)
         
@@ -830,7 +831,8 @@ sys.stderr = OutputCapture()
       let finalOutput = "";
 
       if (stdout.trim()) {
-        finalOutput += `${stdout.trim()}\n`;
+        // DO NOT TRIM the entire output - preserve leading spaces
+        finalOutput += stdout;
       }
 
       if (stderr.trim()) {
@@ -844,7 +846,7 @@ sys.stderr = OutputCapture()
       }
 
       if (!finalOutput.trim()) {
-        finalOutput = "✅ Python code executed successfully (no output).";
+        finalOutput = "";
       }
 
       setOutput(finalOutput);

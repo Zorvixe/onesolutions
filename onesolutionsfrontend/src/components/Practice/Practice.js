@@ -700,51 +700,52 @@ const Practice = () => {
 
       /** 🧠 Setup Python execution environment */
       await pyodide.runPythonAsync(`
-  import sys
-  import io
-  import builtins
-  import traceback
-  
-  class StreamCapture(io.StringIO):
-      def __init__(self):
-          super().__init__()
-          self.data = ""
-  
-      def write(self, text):
-          self.data += text
-          return len(text)
-  
-      def get(self):
-          return self.data
-  
-  stdout_capture = StreamCapture()
-  stderr_capture = StreamCapture()
-  
-  _original_stdout = sys.stdout
-  _original_stderr = sys.stderr
-  _original_input = builtins.input
-  
-  sys.stdout = stdout_capture
-  sys.stderr = stderr_capture
-  
-  def custom_input(prompt=""):
-      try:
-          return __python_input__()
-      except Exception:
-          raise RuntimeError("Input expected but not provided.")
-  
-  builtins.input = custom_input
-      `);
+        import sys
+        import io
+        import builtins
+        import traceback
+        
+        class StreamCapture(io.StringIO):
+            def __init__(self):
+                super().__init__()
+                self.data = ""
+        
+            def write(self, text):
+                # PRESERVE ALL WHITESPACE
+                self.data += text
+                return len(text)
+        
+            def get(self):
+                return self.data
+        
+        stdout_capture = StreamCapture()
+        stderr_capture = StreamCapture()
+        
+        _original_stdout = sys.stdout
+        _original_stderr = sys.stderr
+        _original_input = builtins.input
+        
+        sys.stdout = stdout_capture
+        sys.stderr = stderr_capture
+        
+        def custom_input(prompt=""):
+            try:
+                return __python_input__()
+            except Exception:
+                raise RuntimeError("Input expected but not provided.")
+        
+        builtins.input = custom_input
+            `);
 
       /** ⏱ Execution with timeout (infinite loop protection) */
       const EXECUTION_TIMEOUT = 4000;
 
       const execution = pyodide.runPythonAsync(`
-  try:
-      exec(${JSON.stringify(userCode)})
-  except Exception:
-      traceback.print_exc()
-      `);
+        try:
+            exec(${JSON.stringify(userCode)})
+        except Exception:
+            traceback.print_exc()
+            `);
 
       await Promise.race([
         execution,
@@ -765,16 +766,16 @@ const Practice = () => {
 
       /** 🧹 Restore environment */
       await pyodide.runPythonAsync(`
-  sys.stdout = _original_stdout
-  sys.stderr = _original_stderr
-  builtins.input = _original_input
-      `);
+        sys.stdout = _original_stdout
+        sys.stderr = _original_stderr
+        builtins.input = _original_input
+            `);
 
-      /** 🎯 Format final output */
+      /** 🎯 Format final output - preserve leading spaces */
       let finalOutput = "";
 
       if (stdout.trim()) {
-        finalOutput += `${stdout.trim()}\n`;
+        finalOutput += stdout; // Don't trim the entire output
       }
 
       if (stderr.trim()) {
@@ -788,8 +789,9 @@ const Practice = () => {
       }
 
       result =
-        finalOutput.trim() ||
-        "✅ Python code executed successfully (no output).";
+        finalOutput.length > 0
+          ? finalOutput.replace(/\n$/, "") // remove ONLY last newline
+          : "";
     } catch (err) {
       result = `🔥 Execution Failed\n\n${err.message}`;
     } finally {
@@ -841,8 +843,13 @@ const Practice = () => {
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeCode(code, testCase.input);
 
-        const cleanActualOutput = actualOutput.trim();
-        const cleanExpectedOutput = testCase.output.trim();
+        const normalizeOutput = (output) =>
+          output
+            .replace(/\r\n/g, "\n") // Windows → Unix
+            .replace(/\n+$/, ""); // remove trailing newlines ONLY
+
+        const cleanActualOutput = normalizeOutput(actualOutput);
+        const cleanExpectedOutput = normalizeOutput(testCase.output);
 
         const passed = cleanActualOutput === cleanExpectedOutput;
 
@@ -936,8 +943,13 @@ const Practice = () => {
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeCode(code, testCase.input);
 
-        const cleanActualOutput = actualOutput.trim();
-        const cleanExpectedOutput = testCase.output.trim();
+        const normalizeOutput = (output) =>
+          output
+            .replace(/\r\n/g, "\n") // Windows → Unix
+            .replace(/\n+$/, ""); // remove trailing newlines ONLY
+
+        const cleanActualOutput = normalizeOutput(actualOutput);
+        const cleanExpectedOutput = normalizeOutput(testCase.output);
 
         const passed = cleanActualOutput === cleanExpectedOutput;
 
