@@ -23,19 +23,19 @@ const Navbar = () => {
         color: "#4a6bff",
         bg: "#e8edff",
         label: "Zorvixe Core",
-        shortLabel: "CORE"
+        shortLabel: "CORE",
       },
       zorvixe_pro: {
         color: "#10b981",
         bg: "#ecfdf5",
         label: "Zorvixe Pro",
-        shortLabel: "PRO"
+        shortLabel: "PRO",
       },
       zorvixe_elite: {
         color: "#f59e0b",
         bg: "#fffbeb",
         label: "Zorvixe Elite",
-        shortLabel: "ELITE"
+        shortLabel: "ELITE",
       },
     };
 
@@ -100,8 +100,27 @@ const Navbar = () => {
   };
 
   // Get student type info
-  const studentTypeInfo = getStudentTypeBadge(user.studentType || "zorvixe_core");
-  const studentTypeDescription = getStudentTypeDescription(user.studentType || "zorvixe_core");
+  const studentTypeInfo = getStudentTypeBadge(
+    user.studentType || "zorvixe_core"
+  );
+  const studentTypeDescription = getStudentTypeDescription(
+    user.studentType || "zorvixe_core"
+  );
+
+  const getDefaultProfileImage = (firstName = "") => {
+    const name = firstName.toLowerCase();
+  
+    // Simple heuristic for Indian names (extend anytime)
+    const femaleEndings = ["a", "i", "ya", "na", "sha", "thi"];
+    const maleEndings = ["n", "k", "sh", "r", "th"];
+  
+    if (femaleEndings.some((ending) => name.endsWith(ending))) {
+      return "/assets/img/girl_profile_icon.jpg";
+    }
+  
+    return "/assets/img/man_profile_icon.jpg";
+  };
+  
 
   return (
     <div className="container">
@@ -220,7 +239,7 @@ const Navbar = () => {
                 <i className="bi bi-gift"></i> Help & Earn
               </button>
             </li>
-            
+
             {/* Student Type Badge in Mobile Menu */}
             {user.studentType && (
               <li className="mobile-student-type-badge">
@@ -235,11 +254,13 @@ const Navbar = () => {
                   >
                     {studentTypeInfo.shortLabel}
                   </span>
-                  <span className="student-type-label">{studentTypeInfo.label}</span>
+                  <span className="student-type-label">
+                    {studentTypeInfo.label}
+                  </span>
                 </div>
               </li>
             )}
-            
+
             <li>
               <Link to="/profile" onClick={() => setShowMobileMenu(false)}>
                 <i className="bi bi-person"></i> My Profile
@@ -364,16 +385,18 @@ const Navbar = () => {
                 ref={profileRef}
               />
             ) : (
-              <div className="profile-anchor" ref={profileRef}>
-                <span onClick={toggleProfile} className="profile_name">
-                  {user.firstName?.charAt(0)}
-                  {user.lastName?.charAt(0)}
-                </span>
-              </div>
+              <img
+  src={getDefaultProfileImage(user.firstName)}
+  alt={`${user.firstName} ${user.lastName}`}
+  className="placementimg"
+  onClick={toggleProfile}
+  ref={profileRef}
+/>
+
             )}
-            
+
             {/* Student Type Badge near profile image */}
-            <div className="profile-student-type-badge">
+            <div className="profile-student-type-badge"  onClick={toggleProfile}>
               <span
                 className="student-type-badge-small"
                 style={{
@@ -449,7 +472,6 @@ const Navbar = () => {
                       <i className="bi bi-award-fill"></i>
                       {studentTypeInfo.label}
                     </span>
-                    
                   </div>
                 </div>
               </div>
