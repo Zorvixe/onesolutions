@@ -20,6 +20,7 @@ const StudentList = () => {
     first_name: "",
     last_name: "",
     phone: "",
+    student_type: "zorvixe_core", // Added student_type
     batch_month: "",
     batch_year: "",
     password: "",
@@ -29,12 +30,20 @@ const StudentList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Student type options
+  const studentTypes = [
+    { value: "zorvixe_core", label: "Zorvixe Core" },
+    { value: "zorvixe_pro", label: "Zorvixe Pro" },
+    { value: "zorvixe_elite", label: "Zorvixe Elite" },
+  ];
+
   // Filters state
   const [filters, setFilters] = useState({
     search: "",
     batchMonth: "",
     batchYear: "",
     status: "",
+    studentType: "", // Added studentType filter
   });
 
   // Pagination state
@@ -80,6 +89,7 @@ const StudentList = () => {
       if (filters.batchMonth) params.append("batchMonth", filters.batchMonth);
       if (filters.batchYear) params.append("batchYear", filters.batchYear);
       if (filters.status) params.append("status", filters.status);
+      if (filters.studentType) params.append("studentType", filters.studentType); // Added studentType filter
       params.append("page", pagination.page);
       params.append("limit", pagination.limit);
 
@@ -160,6 +170,30 @@ const StudentList = () => {
     );
   };
 
+  // Get student type badge
+  const getStudentTypeBadge = (type) => {
+    const typeConfig = {
+      zorvixe_core: { color: "#4a6bff", bg: "#e8edff", label: "CORE" },
+      zorvixe_pro: { color: "#10b981", bg: "#ecfdf5", label: "PRO" },
+      zorvixe_elite: { color: "#f59e0b", bg: "#fffbeb", label: "ELITE" },
+    };
+
+    const config = typeConfig[type] || typeConfig.zorvixe_core;
+
+    return (
+      <span
+        className="student-type-badge-stud"
+        style={{
+          backgroundColor: config.bg,
+          color: config.color,
+          border: `1px solid ${config.color}20`,
+        }}
+      >
+        {config.label}
+      </span>
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -193,6 +227,7 @@ const StudentList = () => {
           first_name: "",
           last_name: "",
           phone: "",
+          student_type: "zorvixe_core",
           batch_month: "",
           batch_year: "",
           password: "",
@@ -219,6 +254,7 @@ const StudentList = () => {
       first_name: "",
       last_name: "",
       phone: "",
+      student_type: "zorvixe_core",
       batch_month: "",
       batch_year: "",
       password: "",
@@ -240,6 +276,7 @@ const StudentList = () => {
       first_name: student.first_name,
       last_name: student.last_name,
       phone: student.phone || "",
+      student_type: student.student_type || "zorvixe_core", // Added student_type
       batch_month: student.batch_month || "",
       batch_year: student.batch_year || "",
       password: "", // Don't pre-fill password for security
@@ -300,6 +337,7 @@ const StudentList = () => {
       batchMonth: "",
       batchYear: "",
       status: "",
+      studentType: "", // Added studentType
     });
     setPagination((prev) => ({ ...prev, page: 1 }));
   };
@@ -367,6 +405,24 @@ const StudentList = () => {
       `${student.first_name || ""} ${student.last_name || ""}`.trim() ||
       "Unknown Student"
     );
+  };
+
+  // Student type statistics
+  const getStudentTypeStats = () => {
+    const stats = {
+      zorvixe_core: 0,
+      zorvixe_pro: 0,
+      zorvixe_elite: 0,
+    };
+
+    students.forEach((student) => {
+      const type = student.student_type || "zorvixe_core";
+      if (stats[type] !== undefined) {
+        stats[type]++;
+      }
+    });
+
+    return stats;
   };
 
   // Pagination component
@@ -440,6 +496,8 @@ const StudentList = () => {
       />
     );
   }
+
+  const studentTypeStats = getStudentTypeStats();
 
   return (
     <div className="student-management-admin-stud">
@@ -528,26 +586,37 @@ const StudentList = () => {
             <p>Active Students</p>
           </div>
         </div>
-        <div className="stat-card-stud online-stud">
-          <div className="stat-icon-stud">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+        <div className="stat-card-stud">
+          <div className="stat-icon-stud" style={{ backgroundColor: "#e8edff" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#4a6bff">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
           </div>
           <div className="stat-info-stud">
-            <h3>{onlineStats.totalOnline}</h3>
-            <p>Online Now</p>
+            <h3>{studentTypeStats.zorvixe_core}</h3>
+            <p>Zorvixe Core</p>
           </div>
         </div>
         <div className="stat-card-stud">
-          <div className="stat-icon-stud batches-stud">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />
+          <div className="stat-icon-stud" style={{ backgroundColor: "#ecfdf5" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#10b981">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
           </div>
           <div className="stat-info-stud">
-            <h3>{new Set(students.map((s) => s.batch_year)).size}</h3>
-            <p>Active Batches</p>
+            <h3>{studentTypeStats.zorvixe_pro}</h3>
+            <p>Zorvixe Pro</p>
+          </div>
+        </div>
+        <div className="stat-card-stud">
+          <div className="stat-icon-stud" style={{ backgroundColor: "#fffbeb" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#f59e0b">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+            </svg>
+          </div>
+          <div className="stat-info-stud">
+            <h3>{studentTypeStats.zorvixe_elite}</h3>
+            <p>Zorvixe Elite</p>
           </div>
         </div>
       </div>
@@ -615,6 +684,20 @@ const StudentList = () => {
               <option value="inactive">Inactive</option>
             </select>
           </div>
+          <div className="filter-group-stud">
+            <label>Student Type</label>
+            <select
+              value={filters.studentType}
+              onChange={(e) => handleFilterChange("studentType", e.target.value)}
+            >
+              <option value="">All Types</option>
+              {studentTypes.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -655,6 +738,7 @@ const StudentList = () => {
                 <tr>
                   <th>Student</th>
                   <th>Contact</th>
+                  <th>Type</th> {/* Added Type column */}
                   <th>Batch</th>
                   <th>Password</th>
                   <th>Status</th>
@@ -711,6 +795,9 @@ const StudentList = () => {
                           {student.phone || "Not provided"}
                         </div>
                       </div>
+                    </td>
+                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
+                      {getStudentTypeBadge(student.student_type || "zorvixe_core")}
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getBatchInfo(student.batch_month, student.batch_year)}
@@ -888,6 +975,30 @@ const StudentList = () => {
                     }
                     placeholder="Enter phone number"
                   />
+                </div>
+
+                <div className="form-group-stud">
+                  <label htmlFor="student-type" className="form-label-stud">
+                    Student Type *
+                  </label>
+                  <select
+                    className="form-input-stud"
+                    id="student-type"
+                    value={formData.student_type}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        student_type: e.target.value,
+                      })
+                    }
+                    required
+                  >
+                    {studentTypes.map((type) => (
+                      <option key={type.value} value={type.value}>
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="form-group-stud password-field-stud">

@@ -408,3 +408,110 @@
     height: 48px;
   }
 }
+
+/* Student Type Selector Styles */
+.student-type-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.student-type-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #f9f9f9;
+}
+
+.student-type-option:hover {
+  border-color: #4a6bff;
+  background: #f0f4ff;
+}
+
+.student-type-option.selected {
+  border-color: #4a6bff;
+  background: #e8edff;
+  box-shadow: 0 2px 8px rgba(74, 107, 255, 0.1);
+}
+
+.type-radio {
+  margin-right: 12px;
+  margin-top: 2px;
+}
+
+.type-radio input[type="radio"] {
+  opacity: 0;
+  position: absolute;
+}
+
+.radio-custom {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.student-type-option.selected .radio-custom {
+  border-color: #4a6bff;
+  background: #4a6bff;
+}
+
+.radio-custom:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+}
+
+.student-type-option.selected .radio-custom:after {
+  opacity: 1;
+}
+
+.type-label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.type-name {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.type-description {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .student-type-option {
+    padding: 12px;
+  }
+  
+  .type-name {
+    font-size: 15px;
+  }
+  
+  .type-description {
+    font-size: 13px;
+  }
+}

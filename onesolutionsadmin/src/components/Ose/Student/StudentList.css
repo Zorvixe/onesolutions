@@ -845,3 +845,51 @@
   padding: 8px 4px;
   color: #6b7280;
 }
+/* Student Type Badge Styles */
+.student-type-badge-stud {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Update stats overview to accommodate more cards */
+.stats-overview-stud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Update filters grid to add student type filter */
+.filters-grid-stud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+  .stats-overview-stud {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .filters-grid-stud {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-overview-stud {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Update table header for the new Type column */
+.students-table-stud th:nth-child(3) {
+  width: 100px;
+}

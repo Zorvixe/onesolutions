@@ -414,6 +414,19 @@ const createTables = async () => {
   EXECUTE FUNCTION generate_thread_slug();
 `;
 
+await pool.query(`
+  ALTER TABLE students 
+  ADD COLUMN student_type VARCHAR(250)
+  DEFAULT 'zorvixe_core'
+  CHECK (student_type IN (
+    'zorvixe_core',
+    'zorvixe_pro',
+    'zorvixe_elite'
+  ))
+`);
+
+      console.log("✅ Added New column");
+
   // In your createTables function, after creating the discussion_threads table:
   try {
     // Ensure no null slugs exist
@@ -702,7 +715,7 @@ const auth = async (req, res, next) => {
     // Verify user exists in database
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, phone, 
-              profile_image, batch_month, batch_year, is_current_batch,
+              profile_image, student_type, batch_month, batch_year, is_current_batch,
               name_on_certificate, gender, preferred_languages, date_of_birth,
               code_playground_username, linkedin_profile_url, github_profile_url,
               hackerrank_profile_url, leetcode_profile_url, resume_url,
@@ -2617,6 +2630,7 @@ app.get("/api/coding-practice/summary/:practiceId", auth, async (req, res) => {
 // -------------------------------------------
 // 🔹 Register Route
 // -------------------------------------------
+// Update the registration route
 app.post(
   "/api/auth/register",
   upload.single("profileImage"),
@@ -2643,6 +2657,10 @@ app.post(
       .withMessage("Last name is required")
       .isLength({ min: 2 })
       .withMessage("Last name must be at least 2 characters long"),
+    body("studentType")
+      .optional()
+      .isIn(["zorvixe_core", "zorvixe_pro", "zorvixe_elite"])
+      .withMessage("Invalid student type"),
   ],
   async (req, res) => {
     try {
@@ -2668,6 +2686,7 @@ app.post(
         firstName,
         lastName,
         phone,
+        studentType = "zorvixe_core", // Default to core
         batchMonth,
         batchYear,
         isCurrentBatch,
@@ -2714,14 +2733,13 @@ app.post(
         ? Number.parseInt(batchYear)
         : new Date().getFullYear();
 
-      // Insert new student
-      // In your registration route, add this field
+      // Insert new student with student_type
       const result = await pool.query(
         `INSERT INTO students (student_id, email, password, first_name, last_name, phone, 
-                        profile_image, batch_month, batch_year, is_current_batch, join_date)
-   VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, CURRENT_DATE)
-   RETURNING id, student_id, email, first_name, last_name, phone, profile_image, 
-             batch_month, batch_year, is_current_batch, join_date, created_at`,
+                        profile_image, student_type, batch_month, batch_year, is_current_batch, join_date)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, CURRENT_DATE)
+         RETURNING id, student_id, email, first_name, last_name, phone, profile_image, 
+                   student_type, batch_month, batch_year, is_current_batch, join_date, created_at`,
         [
           studentId,
           email,
@@ -2730,6 +2748,7 @@ app.post(
           lastName,
           phone,
           profileImagePath,
+          studentType,
           batchMonth,
           batchYearInt,
           currentBatch,
@@ -2753,6 +2772,7 @@ app.post(
         profileImage: student.profile_image
           ? `${baseUrl}${student.profile_image}`
           : null,
+        studentType: student.student_type,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -2871,6 +2891,7 @@ app.post(
 // -------------------------------------------
 // 🔹 Profile Route (Protected)
 // -------------------------------------------
+// Update the profile route response
 app.get("/api/auth/profile", auth, async (req, res) => {
   try {
     const baseUrl =
@@ -2885,6 +2906,7 @@ app.get("/api/auth/profile", auth, async (req, res) => {
       profileImage: req.student.profile_image
         ? `${baseUrl}${req.student.profile_image}`
         : null,
+      studentType: req.student.student_type,
       batchMonth: req.student.batch_month,
       batchYear: req.student.batch_year,
       isCurrentBatch: req.student.is_current_batch,
@@ -3109,6 +3131,7 @@ app.get("/api/student/complete-profile", auth, async (req, res) => {
       profileImage: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
+        studentType: student.student_type,
       batchMonth: student.batch_month,
       batchYear: student.batch_year,
       isCurrentBatch: student.is_current_batch,
@@ -5113,15 +5136,15 @@ app.get("/api/admin/students", async (req, res) => {
 
     // Build base query
     let baseQuery = `
-      SELECT 
-        id, student_id, email, first_name, last_name, phone,
-        profile_image, batch_month, batch_year, is_current_batch,
-        status, join_date, created_at, password,
-        name_on_certificate, gender, current_coding_level,
-        occupation_status, has_work_experience
-      FROM students 
-      WHERE 1=1
-    `;
+    SELECT 
+      id, student_id, email, first_name, last_name, phone,
+      profile_image, student_type, batch_month, batch_year, is_current_batch,
+      status, join_date, created_at, password,
+      name_on_certificate, gender, current_coding_level,
+      occupation_status, has_work_experience
+    FROM students 
+    WHERE 1=1
+  `;
 
     let countQuery = `SELECT COUNT(*) as total FROM students WHERE 1=1`;
     let queryParams = [];
@@ -5301,6 +5324,7 @@ app.get("/api/admin/students/:studentId", async (req, res) => {
 });
 
 // Update student by admin with password support
+// Update the admin student update route to include student_type
 app.put("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -5326,12 +5350,14 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     const updateValues = [];
     let paramCount = 1;
 
+    // Add student_type to allowed fields
     const allowedFields = [
       "student_id",
       "email",
       "first_name",
       "last_name",
       "phone",
+      "student_type",
       "batch_month",
       "batch_year",
       "is_current_batch",
@@ -5340,6 +5366,17 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       "gender",
       "password",
     ];
+
+    // Validate student_type if provided
+    if (updateData.student_type) {
+      const validTypes = ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"];
+      if (!validTypes.includes(updateData.student_type)) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid student type. Must be one of: zorvixe_core, zorvixe_pro, zorvixe_elite",
+        });
+      }
+    }
 
     // Use for...of loop instead of forEach to handle async operations
     for (const field of allowedFields) {

@@ -14,6 +14,7 @@ const Register = () => {
     firstName: "",
     lastName: "",
     phone: "",
+    studentType: "zorvixe_core", // New field with default value
     batchMonth: "",
     batchYear: new Date().getFullYear(),
     isCurrentBatch: false,
@@ -25,6 +26,13 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+
+  // Student type options
+  const studentTypes = [
+    { value: "zorvixe_core", label: "Zorvixe Core" },
+    { value: "zorvixe_pro", label: "Zorvixe Pro" },
+    { value: "zorvixe_elite", label: "Zorvixe Elite" },
+  ];
 
   // Batch month options
   const batchMonths = [
@@ -113,6 +121,14 @@ const Register = () => {
 
     if (!formData.batchMonth) errors.batchMonth = "Batch month is required";
 
+    // Validate student type
+    const validTypes = ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"];
+    if (!formData.studentType) {
+      errors.studentType = "Student type is required";
+    } else if (!validTypes.includes(formData.studentType)) {
+      errors.studentType = "Please select a valid student type";
+    }
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -133,6 +149,9 @@ const Register = () => {
       if (profileImage) {
         submitData.append("profileImage", profileImage);
       }
+
+      // Log the data being sent (for debugging)
+      console.log("Sending student type:", formData.studentType);
 
       // Direct API call to register endpoint
       const response = await fetch(
@@ -156,7 +175,12 @@ const Register = () => {
         localStorage.setItem("token", token);
 
         // Show success toast
-        toast.success("Registration successful...");
+        toast.success("Registration successful!");
+
+        // Redirect to login or dashboard after a short delay
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       } else {
         throw new Error(responseData.message || "Registration failed");
       }
@@ -179,6 +203,19 @@ const Register = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const getStudentTypeDescription = (type) => {
+    switch (type) {
+      case "zorvixe_core":
+        return "Basic access with essential features";
+      case "zorvixe_pro":
+        return "Advanced features with priority support";
+      case "zorvixe_elite":
+        return "Full access with premium features";
+      default:
+        return "";
+    }
   };
 
   return (
@@ -397,6 +434,57 @@ const Register = () => {
                 placeholder="Enter your phone number"
                 disabled={isSubmitting}
               />
+            </div>
+
+            {/* Student Type Selection */}
+            <div className="form-group">
+              <label>Student Type *</label>
+              <div className="student-type-selector">
+                {studentTypes.map((type) => (
+                  <div
+                    key={type.value}
+                    className={`student-type-option ${
+                      formData.studentType === type.value ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      if (!isSubmitting) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          studentType: type.value,
+                        }));
+                        if (validationErrors.studentType) {
+                          setValidationErrors((prev) => ({
+                            ...prev,
+                            studentType: "",
+                          }));
+                        }
+                      }
+                    }}
+                  >
+                    <div className="type-radio">
+                      <input
+                        type="radio"
+                        name="studentType"
+                        value={type.value}
+                        checked={formData.studentType === type.value}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        id={`type-${type.value}`}
+                      />
+                      <span className="radio-custom"></span>
+                    </div>
+                    <label htmlFor={`type-${type.value}`} className="type-label">
+                      <span className="type-name">{type.label}</span>
+                      <span className="type-description">
+                        {getStudentTypeDescription(type.value)}
+                      </span>
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {validationErrors.studentType && (
+                <span className="error-text">{validationErrors.studentType}</span>
+              )}
             </div>
 
             {/* Batch Information */}
