@@ -1704,16 +1704,7 @@ const CompleteProfileUpdate = () => {
                   {formData.lastName?.charAt(0) || "S"}
                 </div>
               )}
-              <div className="image-upload-overlay">
-                {isImageUploading ? (
-                  <div className="uploading-spinner"></div>
-                ) : (
-                  <>
-                    <span className="upload-icon">📷</span>
-                    <span className="upload-text">Change Photo</span>
-                  </>
-                )}
-              </div>
+             
             </div>
             <input
               type="file"
