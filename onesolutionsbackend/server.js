@@ -2925,13 +2925,14 @@ app.get("/api/auth/profile", auth, async (req, res) => {
     });
   }
 });
+
 app.put(
   "/api/student/update-profile-image",
   auth,
   upload.single("profileImage"),
   async (req, res) => {
     try {
-      const studentId = req.user.id;
+      const studentId = req.student.id; // Get student ID from auth middleware
 
       if (!req.file) {
         return res.status(400).json({
@@ -2943,22 +2944,94 @@ app.put(
       // Upload to cloud storage or save locally
       const imageUrl = `/uploads/${req.file.filename}`;
 
-      // Update student's profile image
-      const updatedStudent = await Student.findByIdAndUpdate(
-        studentId,
-        { profileImage: imageUrl },
-        { new: true }
+      console.log(`🖼️ Updating profile image for student ${studentId}`);
+
+      // Get the old image path to delete it later if needed
+      const oldImageResult = await pool.query(
+        "SELECT profile_image FROM students WHERE id = $1",
+        [studentId]
       );
+
+      const oldProfileImage = oldImageResult.rows[0]?.profile_image;
+
+      // Update student's profile image in PostgreSQL
+      const updatedStudentResult = await pool.query(
+        `UPDATE students 
+         SET profile_image = $1, updated_at = CURRENT_TIMESTAMP
+         WHERE id = $2
+         RETURNING id, student_id, email, first_name, last_name, profile_image, 
+                   batch_month, batch_year, is_current_batch, created_at`,
+        [imageUrl, studentId]
+      );
+
+      if (updatedStudentResult.rows.length === 0) {
+        // If update failed, delete the uploaded file
+        fs.unlinkSync(req.file.path);
+        return res.status(404).json({
+          success: false,
+          message: "Student not found",
+        });
+      }
+
+      // Delete old profile image if it exists and is not default
+      if (oldProfileImage && oldProfileImage !== "/uploads/default-profile.png") {
+        const oldImagePath = path.join(__dirname, oldProfileImage);
+        if (fs.existsSync(oldImagePath)) {
+          try {
+            fs.unlinkSync(oldImagePath);
+            console.log(`🗑️ Deleted old profile image: ${oldProfileImage}`);
+          } catch (deleteError) {
+            console.error("Error deleting old profile image:", deleteError.message);
+          }
+        }
+      }
+
+      const updatedStudent = updatedStudentResult.rows[0];
+      const baseUrl =
+        process.env.BACKEND_URL ||
+        `http://localhost:${process.env.PORT || 5002}`;
+
+      // Format response
+      const studentResponse = {
+        id: updatedStudent.id,
+        studentId: updatedStudent.student_id,
+        email: updatedStudent.email,
+        firstName: updatedStudent.first_name,
+        lastName: updatedStudent.last_name,
+        profileImage: updatedStudent.profile_image
+          ? `${baseUrl}${updatedStudent.profile_image}`
+          : null,
+        batchMonth: updatedStudent.batch_month,
+        batchYear: updatedStudent.batch_year,
+        isCurrentBatch: updatedStudent.is_current_batch,
+        createdAt: updatedStudent.created_at,
+      };
+
+      console.log(`✅ Profile image updated successfully for student ${studentId}`);
 
       res.json({
         success: true,
         message: "Profile image updated successfully",
         data: {
-          profileImage: updatedStudent.profileImage,
+          profileImage: `${baseUrl}${imageUrl}`,
+          student: studentResponse,
         },
       });
     } catch (error) {
-      console.error("Profile image update error:", error);
+      console.error("❌ Profile image update error:", error.message);
+      
+      // Clean up uploaded file if there was an error
+      if (req.file && req.file.path) {
+        try {
+          if (fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+            console.log("🧹 Cleaned up uploaded file due to error");
+          }
+        } catch (cleanupError) {
+          console.error("File cleanup error:", cleanupError.message);
+        }
+      }
+
       res.status(500).json({
         success: false,
         message: "Server error",
