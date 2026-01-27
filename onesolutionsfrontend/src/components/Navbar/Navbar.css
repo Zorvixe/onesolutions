@@ -1,5 +1,3 @@
-
-
 .container {
   position: fixed;
   top: 0;
@@ -336,6 +334,8 @@
 }
 
 .profile_name {
+  min-height: 40px;
+  min-width: 40px;
   padding: 5px;
   border-radius: 12px;
   text-align: center;
@@ -386,7 +386,9 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .profile-dropdown ul li a:hover {

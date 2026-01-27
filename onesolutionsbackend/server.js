@@ -414,7 +414,7 @@ const createTables = async () => {
   EXECUTE FUNCTION generate_thread_slug();
 `;
 
-await pool.query(`
+  await pool.query(`
   ALTER TABLE students 
   ADD COLUMN student_type VARCHAR(250)
   DEFAULT 'zorvixe_core'
@@ -425,7 +425,7 @@ await pool.query(`
   ))
 `);
 
-      console.log("✅ Added New column");
+  console.log("✅ Added New column");
 
   // In your createTables function, after creating the discussion_threads table:
   try {
@@ -3131,7 +3131,7 @@ app.get("/api/student/complete-profile", auth, async (req, res) => {
       profileImage: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
-        studentType: student.student_type,
+      studentType: student.student_type,
       batchMonth: student.batch_month,
       batchYear: student.batch_year,
       isCurrentBatch: student.is_current_batch,
@@ -5373,7 +5373,8 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       if (!validTypes.includes(updateData.student_type)) {
         return res.status(400).json({
           success: false,
-          message: "Invalid student type. Must be one of: zorvixe_core, zorvixe_pro, zorvixe_elite",
+          message:
+            "Invalid student type. Must be one of: zorvixe_core, zorvixe_pro, zorvixe_elite",
         });
       }
     }
@@ -6067,6 +6068,49 @@ app.get("/uploads/videos/:filename", async (req, res) => {
     });
   }
 });
+
+// Backend route for updating profile image only
+app.put(
+  "/update-profile-image",
+  auth,
+  upload.single("profileImage"),
+  async (req, res) => {
+    try {
+      const studentId = req.user.id;
+
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          message: "No image uploaded",
+        });
+      }
+
+      // Upload to cloud storage or save locally
+      const imageUrl = `/uploads/profile-images/${req.file.filename}`;
+
+      // Update student's profile image
+      const updatedStudent = await Student.findByIdAndUpdate(
+        studentId,
+        { profileImage: imageUrl },
+        { new: true }
+      );
+
+      res.json({
+        success: true,
+        message: "Profile image updated successfully",
+        data: {
+          profileImage: updatedStudent.profileImage,
+        },
+      });
+    } catch (error) {
+      console.error("Profile image update error:", error);
+      res.status(500).json({
+        success: false,
+        message: "Server error",
+      });
+    }
+  }
+);
 
 // Handle 404 routes
 app.use("*", (req, res) => {

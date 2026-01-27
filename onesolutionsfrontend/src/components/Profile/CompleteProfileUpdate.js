@@ -21,6 +21,7 @@ const CompleteProfileUpdate = () => {
   const [editMode, setEditMode] = useState(false);
   const [editingSection, setEditingSection] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isImageUploading, setIsImageUploading] = useState(false);
   const fileInputRef = useRef(null);
 
   const languageOptions = ["English", "Hindi", "Telugu", "Tamil", "Kannada"];
@@ -196,11 +197,99 @@ const CompleteProfileUpdate = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setMessage("Image size should be less than 5MB");
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith("image/")) {
+        setMessage("Please select an image file");
+        return;
+      }
+
       setProfileImage(file);
-      setPreview(URL.createObjectURL(file));
+      const previewUrl = URL.createObjectURL(file);
+      setPreview(previewUrl);
+
+      // Automatically upload the image
+      await handleImageUpload(file);
+    }
+  };
+
+  // New function to handle image upload separately
+  const handleImageUpload = async (file) => {
+    if (!file) return;
+
+    setIsImageUploading(true);
+    setMessage("Uploading image...");
+
+    try {
+      const token = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("profileImage", file);
+
+      // Upload only the image
+      const response = await axios.put(
+        `${API_BASE_URL}/api/student/update-profile-image`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        setMessage("Profile image updated successfully!");
+
+        // Update preview with the new image URL from server
+        if (response.data.data?.profileImage) {
+          setPreview(response.data.data.profileImage);
+        }
+
+        // Clear the file state since it's uploaded
+        setProfileImage(null);
+      } else {
+        setMessage(response.data.message || "Failed to update profile image");
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      setMessage(
+        error.response?.data?.message ||
+          error.message ||
+          "Error uploading image"
+      );
+
+      // Keep the preview as the local one since upload failed
+      // But note: we should revert to the previous image
+      // We'll need to reload the original image
+      const token = localStorage.getItem("token");
+      try {
+        const res = await axios.get(
+          `${API_BASE_URL}/api/student/complete-profile`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (res.data.success && res.data.data.student.profileImage) {
+          setPreview(res.data.data.student.profileImage);
+        }
+      } catch (refreshError) {
+        console.error("Failed to refresh profile:", refreshError);
+      }
+    } finally {
+      setIsImageUploading(false);
+
+      // Clear message after 3 seconds
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
     }
   };
 
@@ -388,9 +477,11 @@ const CompleteProfileUpdate = () => {
         }
       });
 
-      if (profileImage) {
-        submitData.append("profileImage", profileImage);
-      }
+      // Don't include profile image in the main form submission
+      // since it's already uploaded separately
+      // if (profileImage) {
+      //   submitData.append("profileImage", profileImage);
+      // }
 
       const cleanedProjects = projects.map((project) => ({
         ...project,
@@ -429,11 +520,6 @@ const CompleteProfileUpdate = () => {
 
       if (refreshRes.data.success) {
         const s = refreshRes.data.data.student;
-
-        // Update preview if needed
-        if (s.profileImage && s.profileImage !== preview) {
-          setPreview(s.profileImage);
-        }
 
         // Format date for input field
         const formatDateForInput = (dateString) => {
@@ -1604,19 +1690,31 @@ const CompleteProfileUpdate = () => {
       <div className="profile-wrapper">
         <div className="profile-sidebar">
           <div className="sidebar-profile-card">
-            {preview ? (
-              <img
-                src={preview || "/placeholder.svg"}
-                alt="Profile"
-                className="profile-image"
-                onClick={handleImageClick}
-              />
-            ) : (
-              <div className="profile-avatar" onClick={handleImageClick}>
-                {formData.firstName?.charAt(0) || "U"}
-                {formData.lastName?.charAt(0) || "S"}
+            <div className="profile-image-container">
+              {preview ? (
+                <img
+                  src={preview || "/placeholder.svg"}
+                  alt="Profile"
+                  className="profile-image"
+                  onClick={handleImageClick}
+                />
+              ) : (
+                <div className="profile-avatar" onClick={handleImageClick}>
+                  {formData.firstName?.charAt(0) || "U"}
+                  {formData.lastName?.charAt(0) || "S"}
+                </div>
+              )}
+              <div className="image-upload-overlay">
+                {isImageUploading ? (
+                  <div className="uploading-spinner"></div>
+                ) : (
+                  <>
+                    <span className="upload-icon">📷</span>
+                    <span className="upload-text">Change Photo</span>
+                  </>
+                )}
               </div>
-            )}
+            </div>
             <input
               type="file"
               accept="image/*"
@@ -1628,6 +1726,9 @@ const CompleteProfileUpdate = () => {
               {formData.firstName || "User"} {formData.lastName || ""}
             </h3>
             <p>{formData.email || "No email"}</p>
+            {isImageUploading && (
+              <div className="image-upload-progress">Uploading image...</div>
+            )}
           </div>
           <nav className="sidebar-nav">
             {sections.map((section) => (
@@ -1653,13 +1754,17 @@ const CompleteProfileUpdate = () => {
           {message && (
             <div
               className={`alert ${
-                message.toLowerCase().includes("success")
+                message.toLowerCase().includes("success") ||
+                message.toLowerCase().includes("updated")
                   ? "alert-success"
                   : "alert-error"
               }`}
             >
               <span className="alert-icon">
-                {message.toLowerCase().includes("success") ? "✅" : "⚠️"}
+                {message.toLowerCase().includes("success") ||
+                message.toLowerCase().includes("updated")
+                  ? "✅"
+                  : "⚠️"}
               </span>
               {message}
             </div>
