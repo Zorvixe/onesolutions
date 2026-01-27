@@ -7,19 +7,53 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [copied, setCopied] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false); // New state for mobile menu
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const { user, logout } = useAuth();
 
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
   const helpEarnButtonRef = useRef(null);
-  const mobileMenuRef = useRef(null); // New ref for mobile menu
+  const mobileMenuRef = useRef(null);
 
-  // ✅ Always define hooks before any conditional return
+  // Function to get student type badge with colors
+  const getStudentTypeBadge = (studentType) => {
+    const typeConfig = {
+      zorvixe_core: {
+        color: "#4a6bff",
+        bg: "#e8edff",
+        label: "Zorvixe Core",
+        shortLabel: "CORE"
+      },
+      zorvixe_pro: {
+        color: "#10b981",
+        bg: "#ecfdf5",
+        label: "Zorvixe Pro",
+        shortLabel: "PRO"
+      },
+      zorvixe_elite: {
+        color: "#f59e0b",
+        bg: "#fffbeb",
+        label: "Zorvixe Elite",
+        shortLabel: "ELITE"
+      },
+    };
+
+    return typeConfig[studentType] || typeConfig.zorvixe_core;
+  };
+
+  // Function to get student type description
+  const getStudentTypeDescription = (studentType) => {
+    const descriptions = {
+      zorvixe_core: "Basic access with essential features",
+      zorvixe_pro: "Advanced features with priority support",
+      zorvixe_elite: "Full access with premium features",
+    };
+    return descriptions[studentType] || "";
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Close Help & Earn dropdown
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&
@@ -29,12 +63,10 @@ const Navbar = () => {
         setShowDropdown(false);
       }
 
-      // Close Profile dropdown
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setShowProfile(false);
       }
 
-      // Close Mobile Menu if clicked outside
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
@@ -50,16 +82,14 @@ const Navbar = () => {
     };
   }, []);
 
-  // ✅ Conditional render AFTER all hooks
   if (!user) {
     return <div className="profile-loading">Loading profile...</div>;
   }
 
   const handleLogout = () => logout();
-
   const toggleDropdown = () => setShowDropdown(!showDropdown);
   const toggleProfile = () => setShowProfile(!showProfile);
-  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu); // Toggle mobile menu
+  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
 
   const handleCopy = () => {
     const referralLink = "https://myreferral.link/abcd123";
@@ -68,6 +98,10 @@ const Navbar = () => {
       setTimeout(() => setCopied(false), 2000);
     });
   };
+
+  // Get student type info
+  const studentTypeInfo = getStudentTypeBadge(user.studentType || "zorvixe_core");
+  const studentTypeDescription = getStudentTypeDescription(user.studentType || "zorvixe_core");
 
   return (
     <div className="container">
@@ -186,6 +220,26 @@ const Navbar = () => {
                 <i className="bi bi-gift"></i> Help & Earn
               </button>
             </li>
+            
+            {/* Student Type Badge in Mobile Menu */}
+            {user.studentType && (
+              <li className="mobile-student-type-badge">
+                <div className="student-type-mobile">
+                  <span
+                    className="student-type-badge"
+                    style={{
+                      backgroundColor: studentTypeInfo.bg,
+                      color: studentTypeInfo.color,
+                      border: `1px solid ${studentTypeInfo.color}20`,
+                    }}
+                  >
+                    {studentTypeInfo.shortLabel}
+                  </span>
+                  <span className="student-type-label">{studentTypeInfo.label}</span>
+                </div>
+              </li>
+            )}
+            
             <li>
               <Link to="/profile" onClick={() => setShowMobileMenu(false)}>
                 <i className="bi bi-person"></i> My Profile
@@ -299,22 +353,40 @@ const Navbar = () => {
             </a>
           </div>
 
-          {user.profileImage ? (
-            <img
-              src={user.profileImage}
-              alt={`${user.firstName} ${user.lastName}`}
-              className="placementimg"
-              onClick={toggleProfile}
-              ref={profileRef}
-            />
-          ) : (
-            <div className="profile-anchor">
-              <span onClick={toggleProfile} className="profile_name">
-                {user.firstName?.charAt(0)}
-                {user.lastName?.charAt(0)}
+          {/* Profile Image with Student Type Badge */}
+          <div className="profile-header-wrapper">
+            {user.profileImage ? (
+              <img
+                src={user.profileImage}
+                alt={`${user.firstName} ${user.lastName}`}
+                className="placementimg"
+                onClick={toggleProfile}
+                ref={profileRef}
+              />
+            ) : (
+              <div className="profile-anchor" ref={profileRef}>
+                <span onClick={toggleProfile} className="profile_name">
+                  {user.firstName?.charAt(0)}
+                  {user.lastName?.charAt(0)}
+                </span>
+              </div>
+            )}
+            
+            {/* Student Type Badge near profile image */}
+            <div className="profile-student-type-badge">
+              <span
+                className="student-type-badge-small"
+                style={{
+                  backgroundColor: studentTypeInfo.bg,
+                  color: studentTypeInfo.color,
+                  border: `1px solid ${studentTypeInfo.color}20`,
+                }}
+                title={studentTypeInfo.label}
+              >
+                {studentTypeInfo.shortLabel}
               </span>
             </div>
-          )}
+          </div>
 
           <div className="footer-menu">
             <NavLink
@@ -362,9 +434,23 @@ const Navbar = () => {
                     {user.firstName} {user.lastName}
                   </h4>
                   <p className="status">
-                    {" "}
-                    {user.batchMonth} {user.batchYear}{" "}
+                    {user.batchMonth} {user.batchYear}
                   </p>
+                  {/* Student Type in Profile Dropdown */}
+                  <div className="profile-student-type">
+                    <span
+                      className="student-type-badge-profile"
+                      style={{
+                        backgroundColor: studentTypeInfo.bg,
+                        color: studentTypeInfo.color,
+                        border: `1px solid ${studentTypeInfo.color}20`,
+                      }}
+                    >
+                      <i className="bi bi-award-fill"></i>
+                      {studentTypeInfo.label}
+                    </span>
+                    
+                  </div>
                 </div>
               </div>
 
