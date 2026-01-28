@@ -5362,8 +5362,8 @@ export const codingPracticesData = {
           testCases: [
             { input: "1", output: "Week Start", visible: true },
             { input: "6", output: "Weekend", visible: true },
-            { input: "3", output: "Mid Week", visible: false },
-            { input: "4", output: "Mid Week", visible: false },
+            { input: "3", output: "Midweek", visible: false },
+            { input: "4", output: "Midweek", visible: false },
             { input: "2", output: "Week Start", visible: false },
           ],
           defaultCode: ``,

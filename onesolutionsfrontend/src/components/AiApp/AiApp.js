@@ -113,17 +113,19 @@ const AiApp = () => {
     if (isListening) recognitionRef.current.stop();
 
     let tempSessionId = currentSessionId;
-    let isNewSession = !tempSessionId;
+    const isNewSession = !tempSessionId;
 
     if (isNewSession) {
       tempSessionId = `temp-${Date.now()}`;
-      const newSession = {
-        id: tempSessionId,
-        title: "Summarizing...",
-        messages: [],
-        updatedAt: Date.now(),
-      };
-      setSessions((prev) => [newSession, ...prev]);
+      setSessions((prev) => [
+        {
+          id: tempSessionId,
+          title: "Summarizing...",
+          messages: [],
+          updatedAt: Date.now(),
+        },
+        ...prev,
+      ]);
       setCurrentSessionId(tempSessionId);
     }
 
@@ -133,6 +135,7 @@ const AiApp = () => {
       content: messageContent,
       timestamp: Date.now(),
     };
+
     const botPlaceholder = {
       id: `b-${Date.now()}`,
       role: Role.MODEL,
@@ -157,58 +160,46 @@ const AiApp = () => {
     setIsTyping(true);
 
     try {
-      let fullResponse = "";
-      const stream = GeminiService.sendMessageStream(messageContent, profile);
-      for await (const chunk of stream) {
-        fullResponse += chunk;
-        setSessions((prev) =>
-          prev.map((s) =>
-            s.id === tempSessionId
-              ? {
-                  ...s,
-                  messages: s.messages.map((m) =>
-                    m.id === botPlaceholder.id
-                      ? { ...m, content: fullResponse }
-                      : m
-                  ),
-                }
-              : s
-          )
-        );
-      }
+      // ✅ NON-STREAMING CALL
+      const fullResponse = await GeminiService.sendMessage(
+        messageContent,
+        profile
+      );
 
-      let finalTitle =
-        sessions.find((s) => s.id === tempSessionId)?.title || "New Discussion";
-      if (isNewSession || finalTitle === "Summarizing...") {
-        finalTitle = await GeminiService.getQuickSummary(messageContent);
-      }
-
-      // Sync with Backend
-      const currentSessionData = sessions.find((s) => s.id === tempSessionId);
-      const updatedMessages = [
-        ...(currentSessionData?.messages.filter(
-          (m) => m.id !== botPlaceholder.id
-        ) || []),
-        userMsg,
-        { ...botPlaceholder, content: fullResponse, isStreaming: false },
-      ];
-
-      const savedSession = await InstituteService.saveChatSession({
-        id: isNewSession ? undefined : tempSessionId,
-        title: finalTitle,
-        messages: updatedMessages,
-      });
-
-      // Crucial: Update local state with the actual Database UUID
       setSessions((prev) =>
         prev.map((s) =>
           s.id === tempSessionId
             ? {
                 ...s,
-                id: savedSession.id,
-                title: finalTitle,
-                messages: updatedMessages,
+                messages: s.messages.map((m) =>
+                  m.id === botPlaceholder.id
+                    ? { ...m, content: fullResponse, isStreaming: false }
+                    : m
+                ),
               }
+            : s
+        )
+      );
+
+      let finalTitle = "New Discussion";
+      if (isNewSession) {
+        finalTitle = await GeminiService.getQuickSummary(messageContent);
+      }
+
+      const savedSession = await InstituteService.saveChatSession({
+        id: isNewSession ? undefined : tempSessionId,
+        title: finalTitle,
+        messages: [
+          ...(currentSession?.messages || []),
+          userMsg,
+          { ...botPlaceholder, content: fullResponse, isStreaming: false },
+        ],
+      });
+
+      setSessions((prev) =>
+        prev.map((s) =>
+          s.id === tempSessionId
+            ? { ...s, id: savedSession.id, title: finalTitle }
             : s
         )
       );
@@ -218,18 +209,6 @@ const AiApp = () => {
       console.error("Chat sync error:", error);
     } finally {
       setIsTyping(false);
-      setSessions((prev) =>
-        prev.map((s) =>
-          s.id === (currentSessionId || tempSessionId)
-            ? {
-                ...s,
-                messages: s.messages.map((m) =>
-                  m.role === Role.MODEL ? { ...m, isStreaming: false } : m
-                ),
-              }
-            : s
-        )
-      );
     }
   };
 
