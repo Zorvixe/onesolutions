@@ -6208,61 +6208,195 @@ app.get("/uploads/videos/:filename", async (req, res) => {
   }
 });
 
-// 1. Get all sessions for a student
+// ==========================================
+// 🔹 AI CHAT SESSIONS ROUTES
+// ==========================================
+
+// Get all sessions for a student
 app.get("/api/ai/sessions", auth, async (req, res) => {
   try {
-    const studentId = req.user.id; // Extract from JWT
+    const studentId = req.student.id; // Note: changed from req.user.id to req.student.id
+
+    console.log(`📱 Fetching AI sessions for student: ${studentId}`);
+
     const result = await pool.query(
-      "SELECT id, title, messages, updated_at FROM ai_chat_sessions WHERE student_id = $1 ORDER BY updated_at DESC",
+      "SELECT id, title, messages, created_at, updated_at FROM ai_chat_sessions WHERE student_id = $1 ORDER BY updated_at DESC",
       [studentId]
     );
-    res.json({ success: true, data: result.rows });
+
+    // Parse messages JSON for each session
+    const sessions = result.rows.map((session) => ({
+      ...session,
+      messages: session.messages ? JSON.parse(session.messages) : [],
+      updatedAt: session.updated_at,
+      createdAt: session.created_at,
+    }));
+
+    res.json({
+      success: true,
+      data: sessions,
+    });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    console.error("❌ AI sessions fetch error:", err.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to load chat history: " + err.message,
+    });
   }
 });
 
-// 2. Save or Update a session
+// Create or update a session
 app.post("/api/ai/sessions", auth, async (req, res) => {
-  const { id, title, messages } = req.body;
-  const studentId = req.user.id;
-
   try {
+    const { id, title, messages } = req.body;
+    const studentId = req.student.id;
+
+    console.log(`📝 Saving AI session for student: ${studentId}`, {
+      id,
+      title,
+    });
+
+    if (!title || !messages) {
+      return res.status(400).json({
+        success: false,
+        error: "Title and messages are required",
+      });
+    }
+
     let result;
+
     if (id) {
-      // Update existing
+      // Update existing session
       result = await pool.query(
-        "UPDATE ai_chat_sessions SET title = $1, messages = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 AND student_id = $4 RETURNING *",
+        `UPDATE ai_chat_sessions 
+         SET title = $1, messages = $2, updated_at = CURRENT_TIMESTAMP 
+         WHERE id = $3 AND student_id = $4 
+         RETURNING *`,
         [title, JSON.stringify(messages), id, studentId]
       );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          error: "Session not found or access denied",
+        });
+      }
     } else {
-      // Create new
+      // Create new session
       result = await pool.query(
-        "INSERT INTO ai_chat_sessions (student_id, title, messages) VALUES ($1, $2, $3) RETURNING *",
+        `INSERT INTO ai_chat_sessions (student_id, title, messages) 
+         VALUES ($1, $2, $3) 
+         RETURNING *`,
         [studentId, title, JSON.stringify(messages)]
       );
     }
 
-    if (result.rows.length === 0) throw new Error("Session not found");
-    res.json({ success: true, data: result.rows[0] });
+    const session = result.rows[0];
+    const formattedSession = {
+      ...session,
+      messages: session.messages ? JSON.parse(session.messages) : [],
+      updatedAt: session.updated_at,
+      createdAt: session.created_at,
+    };
+
+    console.log(
+      `✅ Session ${id ? "updated" : "created"} successfully: ${session.id}`
+    );
+
+    res.json({
+      success: true,
+      data: formattedSession,
+    });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    console.error("❌ AI session save error:", err.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to save session: " + err.message,
+    });
   }
 });
 
-// 3. Delete a session
+// Delete a session
 app.delete("/api/ai/sessions/:id", auth, async (req, res) => {
-  const { id } = req.params;
-  const studentId = req.user.id;
-
   try {
+    const { id } = req.params;
+    const studentId = req.student.id;
+
+    console.log(`🗑️ Deleting AI session: ${id} for student: ${studentId}`);
+
+    // Verify the session belongs to the student
+    const checkResult = await pool.query(
+      "SELECT id FROM ai_chat_sessions WHERE id = $1 AND student_id = $2",
+      [id, studentId]
+    );
+
+    if (checkResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: "Session not found or access denied",
+      });
+    }
+
     await pool.query(
       "DELETE FROM ai_chat_sessions WHERE id = $1 AND student_id = $2",
       [id, studentId]
     );
-    res.json({ success: true, message: "Session deleted" });
+
+    console.log(`✅ Session deleted successfully: ${id}`);
+
+    res.json({
+      success: true,
+      message: "Session deleted successfully",
+    });
   } catch (err) {
-    res.status(500).json({ success: false, error: err.message });
+    console.error("❌ AI session delete error:", err.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to delete session: " + err.message,
+    });
+  }
+});
+
+// Get single session by ID
+app.get("/api/ai/sessions/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const studentId = req.student.id;
+
+    console.log(`📱 Fetching single AI session: ${id}`);
+
+    const result = await pool.query(
+      `SELECT id, title, messages, created_at, updated_at 
+       FROM ai_chat_sessions 
+       WHERE id = $1 AND student_id = $2`,
+      [id, studentId]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: "Session not found or access denied",
+      });
+    }
+
+    const session = result.rows[0];
+    const formattedSession = {
+      ...session,
+      messages: session.messages ? JSON.parse(session.messages) : [],
+      updatedAt: session.updated_at,
+      createdAt: session.created_at,
+    };
+
+    res.json({
+      success: true,
+      data: formattedSession,
+    });
+  } catch (err) {
+    console.error("❌ AI single session fetch error:", err.message);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch session: " + err.message,
+    });
   }
 });
 
