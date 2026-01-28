@@ -11,7 +11,7 @@ import CodingPracticeService from "../../services/codingPracticeService";
 
 const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
 
-const Home = () => {
+const Home = ({ toggleAiApp }) => {
   const [liveClasses, setLiveClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [practiceData, setPracticeData] = useState([]);
@@ -534,7 +534,7 @@ const Home = () => {
         <div className="BroOne-container-text">
           <h4>{homeData.BroOne.title}</h4>
           <p>{homeData.BroOne.description}</p>
-          <button>Chat with BroOne</button>
+          <button onClick={toggleAiApp}>Chat with BroOne</button>
         </div>
         <img src={homeData.BroOne.image} alt="BroOne" className="broone_img" />
       </div>
@@ -726,7 +726,7 @@ const Home = () => {
       </div>
 
       <div className="live">
-        { practiceData.length > 0 ? (
+        {practiceData.length > 0 ? (
           practiceData.map((item) => (
             <div
               key={item.id}

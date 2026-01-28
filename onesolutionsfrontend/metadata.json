@@ -1,0 +1,8 @@
+{
+    "name": "OneSolutions AI Tutor",
+    "description": "A high-performance AI assistant for students of OneSolutions Full Stack Development Training Institute, providing code help, technical explanations, and career guidance.",
+    "requestFramePermissions": [
+      "camera",
+      "microphone"
+    ]
+  }

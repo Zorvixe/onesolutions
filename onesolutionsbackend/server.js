@@ -11,6 +11,7 @@ const fs = require("fs");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
+
 // -------------------------------------------
 // 🔹 Database Connection
 // -------------------------------------------
@@ -427,6 +428,21 @@ CHECK (student_type IN (
 
   console.log("✅ Added New column");
 
+
+  const aiChatSessions = `
+  CREATE TABLE IF NOT EXISTS ai_chat_sessions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+    title VARCHAR(255) DEFAULT 'New Discussion',
+    messages JSONB NOT NULL DEFAULT '[]',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_ai_sessions_student ON ai_chat_sessions(student_id);
+
+  `;
+
   // In your createTables function, after creating the discussion_threads table:
   try {
     // Ensure no null slugs exist
@@ -606,6 +622,9 @@ CREATE TABLE IF NOT EXISTS student_feedback (
 
   try {
     await checkAndAddMissingColumns();
+
+    await pool.query(aiChatSessions);
+    console.log("Ai Chat Table Queries")
 
     // Add to your createTables function
     await pool.query(discussionThreadsTableQuery);
@@ -6183,7 +6202,68 @@ app.get("/uploads/videos/:filename", async (req, res) => {
   }
 });
 
-// Backend route for updating profile image only
+
+
+
+// 1. Get all sessions for a student
+app.get('/sessions', auth, async (req, res) => {
+  try {
+    const studentId = req.user.id; // Extract from JWT
+    const result = await pool.query(
+      'SELECT id, title, messages, updated_at FROM ai_chat_sessions WHERE student_id = $1 ORDER BY updated_at DESC',
+      [studentId]
+    );
+    res.json({ success: true, data: result.rows });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 2. Save or Update a session
+app.post('/sessions', auth, async (req, res) => {
+  const { id, title, messages } = req.body;
+  const studentId = req.user.id;
+
+  try {
+    let result;
+    if (id) {
+      // Update existing
+      result = await pool.query(
+        'UPDATE ai_chat_sessions SET title = $1, messages = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 AND student_id = $4 RETURNING *',
+        [title, JSON.stringify(messages), id, studentId]
+      );
+    } else {
+      // Create new
+      result = await pool.query(
+        'INSERT INTO ai_chat_sessions (student_id, title, messages) VALUES ($1, $2, $3) RETURNING *',
+        [studentId, title, JSON.stringify(messages)]
+      );
+    }
+
+    if (result.rows.length === 0) throw new Error("Session not found");
+    res.json({ success: true, data: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 3. Delete a session
+app.delete('/sessions/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  const studentId = req.user.id;
+
+  try {
+    await pool.query(
+      'DELETE FROM ai_chat_sessions WHERE id = $1 AND student_id = $2',
+      [id, studentId]
+    );
+    res.json({ success: true, message: "Session deleted" });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+
 
 // Handle 404 routes
 app.use("*", (req, res) => {
