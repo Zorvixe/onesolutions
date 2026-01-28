@@ -11,7 +11,6 @@ const fs = require("fs");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 
-
 // -------------------------------------------
 // 🔹 Database Connection
 // -------------------------------------------
@@ -428,7 +427,6 @@ CHECK (student_type IN (
 
   console.log("✅ Added New column");
 
-
   const aiChatSessions = `
   CREATE TABLE IF NOT EXISTS ai_chat_sessions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -624,7 +622,7 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     await checkAndAddMissingColumns();
 
     await pool.query(aiChatSessions);
-    console.log("Ai Chat Table Queries")
+    console.log("Ai Chat Table Queries");
 
     // Add to your createTables function
     await pool.query(discussionThreadsTableQuery);
@@ -2993,14 +2991,20 @@ app.put(
       }
 
       // Delete old profile image if it exists and is not default
-      if (oldProfileImage && oldProfileImage !== "/uploads/default-profile.png") {
+      if (
+        oldProfileImage &&
+        oldProfileImage !== "/uploads/default-profile.png"
+      ) {
         const oldImagePath = path.join(__dirname, oldProfileImage);
         if (fs.existsSync(oldImagePath)) {
           try {
             fs.unlinkSync(oldImagePath);
             console.log(`🗑️ Deleted old profile image: ${oldProfileImage}`);
           } catch (deleteError) {
-            console.error("Error deleting old profile image:", deleteError.message);
+            console.error(
+              "Error deleting old profile image:",
+              deleteError.message
+            );
           }
         }
       }
@@ -3026,7 +3030,9 @@ app.put(
         createdAt: updatedStudent.created_at,
       };
 
-      console.log(`✅ Profile image updated successfully for student ${studentId}`);
+      console.log(
+        `✅ Profile image updated successfully for student ${studentId}`
+      );
 
       res.json({
         success: true,
@@ -3038,7 +3044,7 @@ app.put(
       });
     } catch (error) {
       console.error("❌ Profile image update error:", error.message);
-      
+
       // Clean up uploaded file if there was an error
       if (req.file && req.file.path) {
         try {
@@ -6202,15 +6208,12 @@ app.get("/uploads/videos/:filename", async (req, res) => {
   }
 });
 
-
-
-
 // 1. Get all sessions for a student
-app.get('/sessions', auth, async (req, res) => {
+app.get("/api/ai/sessions", auth, async (req, res) => {
   try {
     const studentId = req.user.id; // Extract from JWT
     const result = await pool.query(
-      'SELECT id, title, messages, updated_at FROM ai_chat_sessions WHERE student_id = $1 ORDER BY updated_at DESC',
+      "SELECT id, title, messages, updated_at FROM ai_chat_sessions WHERE student_id = $1 ORDER BY updated_at DESC",
       [studentId]
     );
     res.json({ success: true, data: result.rows });
@@ -6220,7 +6223,7 @@ app.get('/sessions', auth, async (req, res) => {
 });
 
 // 2. Save or Update a session
-app.post('/sessions', auth, async (req, res) => {
+app.post("/api/ai/sessions", auth, async (req, res) => {
   const { id, title, messages } = req.body;
   const studentId = req.user.id;
 
@@ -6229,13 +6232,13 @@ app.post('/sessions', auth, async (req, res) => {
     if (id) {
       // Update existing
       result = await pool.query(
-        'UPDATE ai_chat_sessions SET title = $1, messages = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 AND student_id = $4 RETURNING *',
+        "UPDATE ai_chat_sessions SET title = $1, messages = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3 AND student_id = $4 RETURNING *",
         [title, JSON.stringify(messages), id, studentId]
       );
     } else {
       // Create new
       result = await pool.query(
-        'INSERT INTO ai_chat_sessions (student_id, title, messages) VALUES ($1, $2, $3) RETURNING *',
+        "INSERT INTO ai_chat_sessions (student_id, title, messages) VALUES ($1, $2, $3) RETURNING *",
         [studentId, title, JSON.stringify(messages)]
       );
     }
@@ -6248,13 +6251,13 @@ app.post('/sessions', auth, async (req, res) => {
 });
 
 // 3. Delete a session
-app.delete('/sessions/:id', auth, async (req, res) => {
+app.delete("/api/ai/sessions/:id", auth, async (req, res) => {
   const { id } = req.params;
   const studentId = req.user.id;
 
   try {
     await pool.query(
-      'DELETE FROM ai_chat_sessions WHERE id = $1 AND student_id = $2',
+      "DELETE FROM ai_chat_sessions WHERE id = $1 AND student_id = $2",
       [id, studentId]
     );
     res.json({ success: true, message: "Session deleted" });
@@ -6262,8 +6265,6 @@ app.delete('/sessions/:id', auth, async (req, res) => {
     res.status(500).json({ success: false, error: err.message });
   }
 });
-
-
 
 // Handle 404 routes
 app.use("*", (req, res) => {
