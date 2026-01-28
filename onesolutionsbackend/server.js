@@ -437,7 +437,7 @@ CHECK (student_type IN (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX idx_ai_sessions_student ON ai_chat_sessions(student_id);
+CREATE INDEX IF NOT EXISTS idx_ai_sessions_student ON ai_chat_sessions(student_id);
 
   `;
 
