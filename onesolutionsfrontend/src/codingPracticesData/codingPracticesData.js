@@ -5562,13 +5562,13 @@ export const codingPracticesData = {
           description:
             "Write a program to print the given input word N times in a single line separated by space.",
           sampleInput: "pen\n2",
-          sampleOutput: "pen pen",
+          sampleOutput: "pen pen ",
           testCases: [
-            { input: "cat\n3", output: "cat cat cat", visible: true },
-            { input: "one\n4", output: "one one one one", visible: true },
-            { input: "dog\n2", output: "dog dog", visible: false },
-            { input: "hen\n2", output: "hen hen", visible: false },
-            { input: "hello\n1", output: "hello", visible: false },
+            { input: "cat\n3", output: "cat cat cat ", visible: true },
+            { input: "one\n4", output: "one one one one ", visible: true },
+            { input: "dog\n2", output: "dog dog ", visible: false },
+            { input: "hen\n2", output: "hen hen ", visible: false },
+            { input: "hello\n1", output: "hello ", visible: false },
           ],
           defaultCode: ``,
           score: 15,
@@ -6411,14 +6411,15 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Write a program that reads a number N and print N numbers starting from 0.",
-          sampleInput: "2",
-          sampleOutput: "0\n1",
+          sampleInput: "5",
+          sampleOutput: "0\n1\n2\n3\n4",
           testCases: [
             { input: "3", output: "0\n1\n2", visible: true },
             { input: "4", output: "0\n1\n2\n3", visible: true },
+            { input: "-3", output: "No Output", visible: true },
             { input: "1", output: "0", visible: false },
             { input: "5", output: "0\n1\n2\n3\n4", visible: false },
-            { input: "-3", output: "No Output", visible: false },
+
             {
               input: "10",
               output: "0\n1\n2\n3\n4\n5\n6\n7\n8\n9",
@@ -6435,9 +6436,9 @@ export const codingPracticesData = {
           title: "Average of N inputs",
           difficulty: "Easy",
           description:
-            "Given a number N,write a program that reads N inputs and prints the average of the N inputs.",
-          sampleInput: "5\n5\n2",
-          sampleOutput: "4.0",
+            "Given a number N,write a program that reads N inputs and prints the average of the N inputs.\nInput:\nThe first line of input contains an integer representing N,The next N lines of input contain integers.\nOutput:\nThe output should be a single line containing a float that is the average of N inputs.",
+          sampleInput: "3\n10\n20\n30",
+          sampleOutput: "20.0",
           testCases: [
             { input: "1\n5", output: "5.0", visible: true },
             { input: "2\n5\n2", output: "3.5", visible: true },
@@ -7142,8 +7143,8 @@ export const codingPracticesData = {
           difficulty: "Easy",
           description:
             "Write a program that reads a number N and prints the numbers from 0 to N.\nUse for loop for iteration.",
-          sampleInput: "4",
-          sampleOutput: "0\n1\n2\n3\n4",
+          sampleInput: "7",
+          sampleOutput: "0\n1\n2\n3\n4\n5\n6\n7",
           testCases: [
             { input: "3", output: "0\n1\n2\n3", visible: true },
             { input: "4", output: "0\n1\n2\n3\n4", visible: true },
@@ -7353,13 +7354,13 @@ export const codingPracticesData = {
           description:
             "Write a program that reads a number and prints all the digits of the given number separated by a space.",
           sampleInput: "165",
-          sampleOutput: "1 6 5",
+          sampleOutput: "1 6 5 ",
           testCases: [
-            { input: "345", output: "3 4 5", visible: true },
-            { input: "234", output: "2 3 4", visible: true },
-            { input: "294", output: "2 9 4", visible: false },
-            { input: "2234", output: "2 2 3 4", visible: false },
-            { input: "286", output: "2 8 6", visible: false },
+            { input: "345", output: "3 4 5 ", visible: true },
+            { input: "234", output: "2 3 4 ", visible: true },
+            { input: "294", output: "2 9 4 ", visible: false },
+            { input: "2234", output: "2 2 3 4 ", visible: false },
+            { input: "286", output: "2 8 6 ", visible: false },
           ],
           defaultCode: ``,
           score: 30,
@@ -12879,11 +12880,11 @@ export const codingPracticesData = {
           title: "Previous Characters",
           difficulty: "Easy",
           description:
-            "Given a string S,write a program to print the Previous characters of all characters in S bases on the Unicode value,each on a new line.",
+            "Given a string S,write a program to print the Previous characters of all characters in S bases on the Unicode value,each on a new line.\nNote:Do not consider space.",
           sampleInput: "Az",
           sampleOutput: "B\n{",
           testCases: [
-            { input: "bcd", output: "a\nb\nc", visible: true },
+            { input: "b  cd", output: "a\nb\nc", visible: true },
             { input: "BCD", output: "A\nB\nC", visible: true },
             { input: "a1", output: "`\n0", visible: false },
             { input: "1", output: "0", visible: false },
@@ -16581,11 +16582,31 @@ export const codingPracticesData = {
           sampleInput: "Dec 31 2020 11:30 PM",
           sampleOutput: "0 hours 30 minutes",
           testCases: [
-            { input: "Jan 01 2021 12:00 AM", output: "0 hours 0 minutes", visible: true },
-            { input: "Dec 31 2020 11:00 PM", output: "1 hours 0 minutes", visible: true },
-            { input: "Dec 31 2020 10:30 PM", output: "1 hours 30 minutes", visible: false }, 
-            { input: "Dec 30 2020 12:00 AM", output: "48 hours 0 minutes", visible: false },
-            { input: "Jan 01 2020 12:00 AM", output: "8784 hours 0 minutes", visible: false },  
+            {
+              input: "Jan 01 2021 12:00 AM",
+              output: "0 hours 0 minutes",
+              visible: true,
+            },
+            {
+              input: "Dec 31 2020 11:00 PM",
+              output: "1 hours 0 minutes",
+              visible: true,
+            },
+            {
+              input: "Dec 31 2020 10:30 PM",
+              output: "1 hours 30 minutes",
+              visible: false,
+            },
+            {
+              input: "Dec 30 2020 12:00 AM",
+              output: "48 hours 0 minutes",
+              visible: false,
+            },
+            {
+              input: "Jan 01 2020 12:00 AM",
+              output: "8784 hours 0 minutes",
+              visible: false,
+            },
           ],
           defaultCode: ``,
           score: 40,
