@@ -1,10 +1,33 @@
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
+
+
+// Frontend example:
+const fetchGoals = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/goals`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    const data = await response.json();
+    if (data.success) {
+      setGoals(data.data.goals);
+      setStudentType(data.data.studentType);
+    }
+  } catch (error) {
+    console.error('Error fetching goals:', error);
+  }
+};
 export const goalsData = [
+  
   {
     id: "goal 1",
     title: "Goal 1",
     color: "#1e90ff", // blue
     dateRange: "",
     progress: 0,
+    accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"], // All students
     courses: [
       {
         id: "g1 c1",
@@ -1807,6 +1830,7 @@ export const goalsData = [
     color: "#ff8c00",
     dateRange: "", // Will be populated dynamically
     progress: 0,
+    accessibleTo: ["zorvixe_core"], // All students
     courses: [
       {
         id: "g2 c1",
@@ -3270,6 +3294,7 @@ export const goalsData = [
     color: "#28a745",
     dateRange: "", // Will be populated dynamically
     progress: 0,
+    accessibleTo: ["zorvixe_pro"], // All students
     courses: [
       {
         id: "g3 c1",

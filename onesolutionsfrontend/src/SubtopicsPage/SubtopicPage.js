@@ -9,7 +9,8 @@ import MCQWrapper from "../SubtopicsPage/MCQWrapper.js";
 
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
-  const { completedContent } = useAuth();
+  const { completedContent, markContentAsCompleted, forceProgressUpdate } =
+    useAuth();
 
   const [selectedSubtopicSub, setSelectedSubtopicSub] = useState(null);
   const [selectedModuleSub, setSelectedModuleSub] = useState(null);
@@ -46,6 +47,77 @@ const SubtopicPage = () => {
     return { foundSubtopicSub, foundModuleSub, foundCourseSub, foundGoalSub };
   };
 
+  // ✅ Check if subtopic is already completed
+  const isSubtopicCompleted = () => {
+    return completedContent.includes(subtopicId);
+  };
+
+  // ✅ IMMEDIATELY mark subtopic as completed and notify all components
+  const markAsCompleted = async () => {
+    if (!subtopicId || isSubtopicCompleted()) {
+      console.log(`Subtopic ${subtopicId} already completed or invalid`);
+      return;
+    }
+
+    console.log(`SubtopicPage: Marking subtopic ${subtopicId} as completed`);
+
+    try {
+      // 1. Mark as completed in AuthContext
+      await markContentAsCompleted(subtopicId);
+
+      // 2. Force immediate update in AuthContext
+      if (forceProgressUpdate) {
+        forceProgressUpdate();
+      }
+
+      // 3. Store timestamp in localStorage for Courses.js to detect
+      const timestamp = Date.now();
+      localStorage.setItem("lastProgressUpdate", timestamp.toString());
+      localStorage.setItem("progress_update", timestamp.toString());
+
+      // 4. Dispatch multiple events for different listeners
+      const events = [
+        new CustomEvent("subtopicCompleted", {
+          detail: { subtopicId, timestamp },
+        }),
+        new CustomEvent("contentCompleted", {
+          detail: { subtopicId, timestamp },
+        }),
+        new CustomEvent("progressUpdated", {
+          detail: { subtopicId, timestamp },
+        }),
+      ];
+
+      events.forEach((event) => {
+        window.dispatchEvent(event);
+        // Also dispatch to parent frames if in iframe
+        if (window.parent !== window) {
+          window.parent.dispatchEvent(event);
+        }
+      });
+
+      // 5. Force storage event
+      window.dispatchEvent(
+        new StorageEvent("storage", {
+          key: "completedContent",
+          newValue: JSON.stringify([...completedContent, subtopicId]),
+        })
+      );
+
+      // 6. Log success
+      console.log(
+        `SubtopicPage: ${subtopicId} marked as completed, events dispatched`
+      );
+
+      // 7. Show immediate feedback
+      alert(
+        "Subtopic marked as completed! The Courses page should update immediately."
+      );
+    } catch (error) {
+      console.error("Error marking subtopic as completed:", error);
+    }
+  };
+
   // 📌 Load content on route change
   useEffect(() => {
     if (topicId && subtopicId) {
@@ -58,6 +130,13 @@ const SubtopicPage = () => {
         setSelectedCourseSub(foundCourseSub);
         setSelectedGoalSub(foundGoalSub);
         setExpandedModuleSub(topicId);
+
+        console.log(
+          `SubtopicPage loaded: ${foundSubtopicSub.name} (${subtopicId})`
+        );
+        console.log(
+          `Already completed? ${isSubtopicCompleted() ? "YES" : "NO"}`
+        );
       } else if (location.state) {
         setSelectedSubtopicSub({
           id: subtopicId,
@@ -65,6 +144,23 @@ const SubtopicPage = () => {
         });
       }
     }
+
+    // Listen for completion events from child components
+    const handleChildCompletion = (e) => {
+      if (e.detail?.subtopicId === subtopicId) {
+        console.log("SubtopicPage: Received completion from child component");
+        markAsCompleted();
+      }
+    };
+
+    window.addEventListener("markSubtopicCompleted", handleChildCompletion);
+
+    return () => {
+      window.removeEventListener(
+        "markSubtopicCompleted",
+        handleChildCompletion
+      );
+    };
   }, [topicId, subtopicId, location.state]);
 
   // 🔄 Auto-scroll active subtopic
@@ -103,7 +199,7 @@ const SubtopicPage = () => {
     });
   };
 
-  // ✅ ONLY PLACE WE CHANGE LOGIC
+  // ✅ Pass markAsCompleted to all child components
   const renderSubtopicContentSub = (subtopic) => {
     if (!subtopic) return <p>No subtopic selected</p>;
 
@@ -112,23 +208,23 @@ const SubtopicPage = () => {
     if (!ComponentSub) {
       return (
         <div className="not-found-con">
-      {!imageLoaded && (
-        <div className="loading-container">
-        <div className="spinner"></div>
-      </div>
-      )}
+          {!imageLoaded && (
+            <div className="loading-container">
+              <div className="spinner"></div>
+            </div>
+          )}
 
-      <img
-        src="/assets/img/locked_image.png"
-        className="locked_image"
-        onLoad={() => setImageLoaded(true)}
-        style={{ display: imageLoaded ? "block" : "none" }}
-      />
-    </div>
+          <img
+            src="/assets/img/locked_image.png"
+            className="locked_image"
+            onLoad={() => setImageLoaded(true)}
+            style={{ display: imageLoaded ? "block" : "none" }}
+          />
+        </div>
       );
     }
 
-    // ✅ MCQ → use MCQWrapper (instructions handled there)
+    // ✅ MCQ → use MCQWrapper
     if (ComponentSub.name?.includes("MCQ")) {
       return (
         <MCQWrapper
@@ -136,17 +232,36 @@ const SubtopicPage = () => {
           subtopicId={subtopic.id}
           goalName={selectedGoalSub?.title}
           courseName={selectedCourseSub?.title}
+          onComplete={() => {
+            console.log("MCQWrapper: onComplete called");
+            markAsCompleted();
+            // Also dispatch event for immediate update
+            window.dispatchEvent(
+              new CustomEvent("markSubtopicCompleted", {
+                detail: { subtopicId: subtopic.id },
+              })
+            );
+          }}
         />
       );
     }
 
-    // ✅ Cheat Sheet / Topic
+    // ✅ Other components
     return (
       <ComponentSub
         subtopicId={subtopic.id}
         goalName={selectedGoalSub?.title}
         courseName={selectedCourseSub?.title}
         subtopic={subtopic.name}
+        onComplete={() => {
+          console.log("Component: onComplete called");
+          markAsCompleted();
+          window.dispatchEvent(
+            new CustomEvent("markSubtopicCompleted", {
+              detail: { subtopicId: subtopic.id },
+            })
+          );
+        }}
       />
     );
   };
@@ -213,11 +328,14 @@ const SubtopicPage = () => {
         )}
       </div>
 
-      {/* 🔒 RIGHT PANEL — 100% UNCHANGED */}
+      {/* RIGHT PANEL */}
       <div className="subtopic-page-sub__right-panel-sub">
         {selectedSubtopicSub ? (
           isContentInCurrentContext(selectedSubtopicSub) ? (
-            renderSubtopicContentSub(selectedSubtopicSub)
+            <div>
+              {/* Subtopic Content */}
+              {renderSubtopicContentSub(selectedSubtopicSub)}
+            </div>
           ) : (
             <div className="subtopic-page-sub__access-denied-sub">
               <h3>Content Not Accessible</h3>

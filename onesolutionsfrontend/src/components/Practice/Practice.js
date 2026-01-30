@@ -51,7 +51,7 @@ const Practice = () => {
   const [mySnippets, setMySnippets] = useState([]);
 
   // Add state for resize functionality
-  const [editorWidth, setEditorWidth] = useState(50);
+  const [editorWidth, setEditorWidth] = useState(70);
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(50);

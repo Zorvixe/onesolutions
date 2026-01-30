@@ -107,20 +107,31 @@ const Navbar = () => {
     user.studentType || "zorvixe_core"
   );
 
-  const getDefaultProfileImage = (firstName = "") => {
+  const getDefaultProfileImage = () => {
+    // Use gender from user data if available
+    if (user.gender) {
+      const gender = user.gender.toLowerCase();
+      if (gender === "female" || gender === "f") {
+        return "/assets/img/girl_profile_icon.jpg";
+      } else if (gender === "male" || gender === "m") {
+        return "/assets/img/man_profile_icon.jpg";
+      }
+    }
+
+    // Fallback to name-based heuristic if gender is not provided
+    const firstName = user.firstName || "";
     const name = firstName.toLowerCase();
-  
+
     // Simple heuristic for Indian names (extend anytime)
     const femaleEndings = ["a", "i", "ya", "na", "sha", "thi"];
     const maleEndings = ["n", "k", "sh", "r", "th"];
-  
+
     if (femaleEndings.some((ending) => name.endsWith(ending))) {
       return "/assets/img/girl_profile_icon.jpg";
     }
-  
+
     return "/assets/img/man_profile_icon.jpg";
   };
-  
 
   return (
     <div className="container">
@@ -386,17 +397,16 @@ const Navbar = () => {
               />
             ) : (
               <img
-  src={getDefaultProfileImage(user.firstName)}
-  alt={`${user.firstName} ${user.lastName}`}
-  className="placementimg"
-  onClick={toggleProfile}
-  ref={profileRef}
-/>
-
+                src={getDefaultProfileImage()}
+                alt={`${user.firstName} ${user.lastName}`}
+                className="placementimg"
+                onClick={toggleProfile}
+                ref={profileRef}
+              />
             )}
 
             {/* Student Type Badge near profile image */}
-            <div className="profile-student-type-badge"  onClick={toggleProfile}>
+            <div className="profile-student-type-badge" onClick={toggleProfile}>
               <span
                 className="student-type-badge-small"
                 style={{
@@ -447,10 +457,11 @@ const Navbar = () => {
                     alt={`${user.firstName} ${user.lastName}`}
                   />
                 ) : (
-                  <span className="profile_name">
-                    {user.firstName?.charAt(0)}
-                    {user.lastName?.charAt(0)}
-                  </span>
+                  <img
+                    src={getDefaultProfileImage()}
+                    alt={`${user.firstName} ${user.lastName}`}
+                    className="profile-default-img"
+                  />
                 )}
                 <div>
                   <h4>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { goalsData } from "../../data/goalsData";
@@ -15,6 +15,7 @@ export default function Courses() {
     calculateModuleProgress,
     calculateCourseProgress,
     calculateGoalProgress,
+    refreshProgress,
   } = useAuth();
 
   const [expandedGoal, setExpandedGoal] = useState(goalsData[0]?.id || null);
@@ -26,49 +27,80 @@ export default function Courses() {
     courses: {},
     modules: {},
   });
-  const [refreshKey, setRefreshKey] = useState(0); // Add refresh key to force re-render
+  const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
   // ✅ Load progress and calculate local progress on mount
   useEffect(() => {
+    console.log("Courses: Initial load progress");
     loadProgressSummary();
     calculateLocalProgress();
+  }, []);
 
-    // Listen for content completion events
-    const handleContentCompleted = () => {
-      console.log("Content completed event received, refreshing progress...");
+  // ✅ Calculate local progress whenever completedContent changes
+  useEffect(() => {
+    console.log("Courses: completedContent changed, recalculating progress", {
+      completedContentLength: completedContent?.length || 0,
+    });
+    calculateLocalProgress();
+    setLastUpdateTime(Date.now()); // Force re-render
+  }, [completedContent]);
+
+  // ✅ Listen for global completion events
+  useEffect(() => {
+    const handleGlobalCompletion = () => {
+      console.log("Courses: Received global completion event");
+      // Force refresh from context
+      if (refreshProgress) {
+        refreshProgress();
+      }
       loadProgressSummary().then(() => {
         calculateLocalProgress();
-        setRefreshKey((prev) => prev + 1); // Force re-render
+        setLastUpdateTime(Date.now());
       });
     };
 
-    // Listen for storage changes (when subtopic is marked complete)
+    // Listen for storage changes
     const handleStorageChange = (e) => {
-      if (e.key === "completedContent") {
-        console.log("LocalStorage completedContent changed, refreshing...");
-        loadProgressSummary().then(() => {
-          calculateLocalProgress();
-          setRefreshKey((prev) => prev + 1);
-        });
+      if (e.key === "completedContent" || e.key === "progress_update") {
+        console.log("Courses: Storage changed, refreshing...");
+        setTimeout(() => {
+          loadProgressSummary().then(() => {
+            calculateLocalProgress();
+            setLastUpdateTime(Date.now());
+          });
+        }, 100);
       }
     };
 
-    // Listen for custom event when content is completed
-    window.addEventListener("contentCompleted", handleContentCompleted);
+    // Listen for custom events
+    window.addEventListener("contentCompleted", handleGlobalCompletion);
+    window.addEventListener("subtopicCompleted", handleGlobalCompletion);
+    window.addEventListener("progressUpdated", handleGlobalCompletion);
     window.addEventListener("storage", handleStorageChange);
 
+    // Set up interval to check for updates
+    const intervalId = setInterval(() => {
+      const lastUpdate = localStorage.getItem("lastProgressUpdate");
+      if (lastUpdate && parseInt(lastUpdate) > lastUpdateTime) {
+        console.log("Courses: Interval check - progress updated externally");
+        loadProgressSummary().then(() => {
+          calculateLocalProgress();
+          setLastUpdateTime(parseInt(lastUpdate));
+        });
+      }
+    }, 1000);
+
     return () => {
-      window.removeEventListener("contentCompleted", handleContentCompleted);
+      window.removeEventListener("contentCompleted", handleGlobalCompletion);
+      window.removeEventListener("subtopicCompleted", handleGlobalCompletion);
+      window.removeEventListener("progressUpdated", handleGlobalCompletion);
       window.removeEventListener("storage", handleStorageChange);
+      clearInterval(intervalId);
     };
-  }, []);
+  }, [lastUpdateTime]);
 
-  // ✅ Recalculate local progress whenever completedContent changes
-  useEffect(() => {
-    calculateLocalProgress();
-  }, [completedContent, goalsData, refreshKey]);
-
-  const calculateLocalProgress = () => {
+  const calculateLocalProgress = useCallback(() => {
+    console.log("Courses: Calculating local progress");
     const goalsProgress = {};
     const coursesProgress = {};
     const modulesProgress = {};
@@ -77,16 +109,27 @@ export default function Courses() {
       // Calculate goal progress
       const goalProg = calculateGoalProgress(goal);
       goalsProgress[goal.id] = goalProg;
+      console.log(`Goal ${goal.title}: ${goalProg}%`);
 
       goal.courses.forEach((course) => {
         // Calculate course progress
         const courseProg = calculateCourseProgress(course);
         coursesProgress[course.id] = courseProg;
+        console.log(`Course ${course.title}: ${courseProg}%`);
 
         course.modules.forEach((module) => {
           // Calculate module progress
           const moduleProg = calculateModuleProgress(module);
           modulesProgress[module.id] = moduleProg;
+          console.log(`Module ${module.name}: ${moduleProg}%`);
+
+          // Log subtopic completion status
+          module.topic?.forEach((subtopic) => {
+            const isCompleted = completedContent.includes(subtopic.id);
+            console.log(
+              `Subtopic ${subtopic.name} (${subtopic.id}): ${isCompleted ? "COMPLETED" : "not completed"}`
+            );
+          });
         });
       });
     });
@@ -96,18 +139,21 @@ export default function Courses() {
       courses: coursesProgress,
       modules: modulesProgress,
     });
-  };
+  }, [
+    calculateGoalProgress,
+    calculateCourseProgress,
+    calculateModuleProgress,
+    completedContent,
+  ]);
 
   // Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 0 || goalIndex === 1) return false; // First goals are always open
+    if (goalIndex === 0 || goalIndex === 1) return false;
 
-    // Check ALL previous goals (not just immediate previous)
     for (let i = 0; i < goalIndex; i++) {
       const previousGoal = goalsData[i];
       const previousGoalProgress = getGoalProgress(previousGoal);
 
-      // If any previous goal is not 100% completed, this goal is locked
       if (previousGoalProgress < 100) {
         return true;
       }
@@ -116,13 +162,7 @@ export default function Courses() {
     return false;
   };
 
-  // ✅ Check if specific content is accessible (for courses/modules within locked goals)
-  const isContentAccessible = (goalIndex) => {
-    return !isGoalLocked(goalIndex);
-  };
-
   const toggleGoal = (goalId, goalIndex) => {
-    // Don't allow expanding locked goals
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -135,7 +175,6 @@ export default function Courses() {
   };
 
   const toggleCourse = (courseId, goalIndex) => {
-    // Don't allow expanding courses in locked goals
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -147,7 +186,6 @@ export default function Courses() {
   };
 
   const toggleModule = (moduleName, goalIndex) => {
-    // Don't allow expanding modules in locked goals
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -174,7 +212,6 @@ export default function Courses() {
     return false;
   };
 
-  // ✅ Enhanced subtopic click handler with proper navigation
   const handleSubtopicClick = (
     moduleId,
     subtopicId,
@@ -183,7 +220,6 @@ export default function Courses() {
     courseName,
     goalIndex
   ) => {
-    // Don't allow clicking subtopics in locked goals
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -191,7 +227,6 @@ export default function Courses() {
 
     setSelectedSubtopic(subtopicName);
 
-    // Navigate to subtopic with all necessary parameters
     navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
       state: {
         moduleId,
@@ -209,7 +244,6 @@ export default function Courses() {
     return <p>Content for {subtopic}</p>;
   };
 
-  // ✅ Get progress percentage with better fallbacks and debugging
   const getGoalProgress = (goal) => {
     const progress =
       localProgress.goals[goal.id] ||
@@ -217,7 +251,6 @@ export default function Courses() {
       goal.progress ||
       0;
 
-    // Ensure progress is a number and capped at 100
     return Math.min(100, Math.max(0, Number(progress) || 0));
   };
 
@@ -238,7 +271,15 @@ export default function Courses() {
     return Math.min(100, Math.max(0, Number(progress) || 0));
   };
 
-  // ✅ Enhanced locked message with more context
+  // ✅ REAL-TIME check if subtopic is completed
+  const isSubtopicCompleted = (subtopicId) => {
+    const completed = completedContent.includes(subtopicId);
+    console.log(
+      `Courses: Checking subtopic ${subtopicId}: ${completed ? "COMPLETED" : "not completed"}`
+    );
+    return completed;
+  };
+
   const showLockedMessage = () => {
     alert("This content is locked.");
   };
@@ -247,8 +288,15 @@ export default function Courses() {
     <div
       className="courses-container"
       style={{ marginTop: "50px" }}
-      key={refreshKey}
+      key={`courses-${lastUpdateTime}`}
     >
+      {/* Debug info */}
+      <div style={{ display: "none" }}>
+        Last update: {lastUpdateTime}
+        <br />
+        Completed count: {completedContent?.length || 0}
+      </div>
+
       {/* Goals List */}
       <div className="goals-wrapper">
         {goalsData.map((goal, goalIndex) => {
@@ -426,9 +474,10 @@ export default function Courses() {
                                         <>
                                           {subtopics.map((subtopic) => {
                                             const isCompleted =
-                                              completedContent.includes(
-                                                subtopic.id
-                                              );
+                                              isSubtopicCompleted(subtopic.id);
+                                            console.log(
+                                              `Rendering subtopic ${subtopic.id}: ${isCompleted ? "completed" : "not completed"}`
+                                            );
                                             return (
                                               <div
                                                 className="circle-row subtopic-circle-row"
@@ -521,9 +570,7 @@ export default function Courses() {
                                         <div className="subtopics-section">
                                           {subtopics.map((subtopic) => {
                                             const isCompleted =
-                                              completedContent.includes(
-                                                subtopic.id
-                                              );
+                                              isSubtopicCompleted(subtopic.id);
                                             return (
                                               <div
                                                 className={`subtopic-content-row ${

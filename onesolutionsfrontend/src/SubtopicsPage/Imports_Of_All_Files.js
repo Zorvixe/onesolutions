@@ -427,6 +427,7 @@ import Todos_Application_Part_4_Class from "../JavaScript/Todos_Application_2/To
 import Coding_Pratice_9 from "../JavaScript/Todos_Application_2/Coding_Pratice_9.js";
 import Coding_Pratice_10 from "../JavaScript/Todos_Application_2/Coding_Pratice_10.js";
 import Coding_Pratice_11 from "../JavaScript/Todos_Application_3/Coding_Pratice_11.js";
+import JS_Coding_Pratic_5 from "../JavaScript/Todos_Application/JS_Coding_Pratic_5.js";
 import JS_Coding_Pratice_6 from "../JavaScript/Todos_Application_3/JS_Coding_Pratice_6.js";
 import JS_Coding_Pratice_7 from "../JavaScript/Todos_Application_3/JS_Coding_Pratice_7.js";
 import Todos_Application_Part_5_Class from "../JavaScript/Todos_Application_3/Todos_Application_Part_5_Class.js";
@@ -1363,6 +1364,7 @@ export const subtopicComponents = {
   "Coding Practice 9": Coding_Pratice_9,
   "Coding Practice 10": Coding_Pratice_10,
   "Coding Practice 11": Coding_Pratice_11,
+  "JS Coding Practice 5": JS_Coding_Pratic_5,
   "JS Coding Practice 6": JS_Coding_Pratice_6,
   "JS Coding Practice 7": JS_Coding_Pratice_7,
   "Todos Application | Part 5": Todos_Application_Part_5_Class,

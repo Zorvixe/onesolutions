@@ -9,9 +9,13 @@ import { useAuth } from "../../context/AuthContext";
 import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
 import CodingPracticeService from "../../services/codingPracticeService";
 
+// Import AiApp component
+import AiApp from "../AiApp/AiApp";
+// import AiApp from "../AiApp/AiApp";
+
 const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
 
-const Home = ({ toggleAiApp }) => {
+const Home = () => {
   const [liveClasses, setLiveClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [practiceData, setPracticeData] = useState([]);
@@ -21,6 +25,9 @@ const Home = ({ toggleAiApp }) => {
   const [selectedLanguage, setSelectedLanguage] = useState("python");
   const [progressLoading, setProgressLoading] = useState(false);
   const [lastProgressUpdate, setLastProgressUpdate] = useState(null);
+
+  // State for AI app
+  const [isAiAppOpen, setIsAiAppOpen] = useState(false);
 
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -520,6 +527,15 @@ const Home = ({ toggleAiApp }) => {
     setSelectedLanguage(languages[nextIndex]);
   };
 
+  // AI App functions
+  const toggleAiApp = () => {
+    setIsAiAppOpen(!isAiAppOpen);
+  };
+
+  const closeAiApp = () => {
+    setIsAiAppOpen(false);
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -923,6 +939,54 @@ const Home = ({ toggleAiApp }) => {
         ) : (
           <div className="no-classes">
             <p>No placement achievements.</p>
+          </div>
+        )}
+      </div>
+
+      {/* AI Bot Floating Button - Only on Home Page */}
+      <div className={`ai-bot-container ${isAiAppOpen ? "open" : ""}`}>
+        {isAiAppOpen && (
+          <div className="ai-app-overlay" onClick={closeAiApp}></div>
+        )}
+
+        <button
+          className="ai-bot-floating-btn"
+          onClick={toggleAiApp}
+          aria-label="Open BroOne AI Assistant"
+        >
+          <img
+            src="/assets/BroOneImg.png"
+            alt="BroOne AI Assistant"
+            className="ai-bot-icon"
+          />
+          <span className="ai-bot-pulse"></span>
+        </button>
+
+        {isAiAppOpen && (
+          <div className="ai-app-slide-up">
+            <div className="ai-app-header">
+              <div className="ai-app-header-content">
+                <img
+                  src="/assets/BroOneImg.png"
+                  alt="BroOne"
+                  className="ai-app-header-icon"
+                />
+                <div>
+                  <h3>BroOne AI Assistant</h3>
+                  <p>Your 24/7 Learning Ally</p>
+                </div>
+              </div>
+              <button
+                className="ai-app-close-btn"
+                onClick={closeAiApp}
+                aria-label="Close AI Assistant"
+              >
+                <i className="bi bi-x-lg"></i>
+              </button>
+            </div>
+            <div className="ai-app-content">
+              <AiApp />
+            </div>
           </div>
         )}
       </div>

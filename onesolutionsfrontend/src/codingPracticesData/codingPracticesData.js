@@ -1420,13 +1420,13 @@ export const codingPracticesData = {
           testCases: [
             {
               input: "bottle\n3",
-              output: "bottle bottle bottle",
+              output: "bottle bottle bottle ",
               visible: true,
             },
-            { input: "ganesh\n2", output: "ganesh ganesh", visible: true },
-            { input: "bhumi\n2", output: "bhumi bhumi", visible: false },
-            { input: "car\n1", output: "car", visible: false },
-            { input: "mangoo\n2", output: "mangoo mangoo", visible: false },
+            { input: "ganesh\n2", output: "ganesh ganesh ", visible: true },
+            { input: "bhumi\n2", output: "bhumi bhumi ", visible: false },
+            { input: "car\n1", output: "car ", visible: false },
+            { input: "mangoo\n2", output: "mangoo mangoo ", visible: false },
           ],
           defaultCode: ``,
           score: 20,
@@ -13585,7 +13585,7 @@ export const codingPracticesData = {
     },
     {
       id: "Codingpractice-python-20",
-      title: "Codingpractice-20",
+      title: "Coding Practice - 20",
       description: "Lists",
       questions: [
         {
@@ -13613,7 +13613,7 @@ export const codingPracticesData = {
           title: "List Indexing",
           difficulty: "Easy",
           description:
-            "For this problem,the prefilled code will contain a list.Write a program to print the element at the given index location.",
+            "For this problem, Given a list.Write a program to print the element at the given index location.\ncolor_list = [Red, Orange, Yellow, Pink, Green, Blue, Purple, Black, White].",
           sampleInput: "3",
           sampleOutput: "Pink",
           testCases: [
@@ -13622,7 +13622,8 @@ export const codingPracticesData = {
             { input: "5", output: "Blue", visible: false },
             { input: "8", output: "White", visible: false },
           ],
-          defaultCode: ``,
+          defaultCode: `color_list = ["Red", "Orange", "Yellow", "Pink", "Green", "Blue", "Purple", "Black", "White"]
+          # Write your code here`,
           score: 25,
           status: "unsolved",
           attempts: [],
@@ -13632,7 +13633,7 @@ export const codingPracticesData = {
           title: "List Indexing - 2",
           difficulty: "Easy",
           description:
-            "For this problem,the prefilled code will contain a list.You need to write a program to read N integers,and print the elements at the index locations represented by those integers.",
+            "For this problem, Given a list.You need to write a program to read N integers,and print the elements at the index locations represented by those integers.\nprogramming_languages_list = [Python, Java, Ruby, C, C++, Go, R, JavaScript, Swift, PHP, Kotlin, Perl].",
           sampleInput: "4\n5\n7\n9\n11",
           sampleOutput: "Go\nJavaScript\nPHP\nPerl",
           testCases: [
@@ -13649,7 +13650,8 @@ export const codingPracticesData = {
             },
             { input: "1\n10", output: "Kotlin", visible: false },
           ],
-          defaultCode: ``,
+          defaultCode: `programming_languages_list = ["Python", "Java", "Ruby", "C", "C++", "Go", "R", "JavaScript", "Swift", "PHP", "Kotlin", "Perl"]
+          # Write your code here`,
           score: 25,
           status: "unsolved",
           attempts: [],
@@ -13659,16 +13661,18 @@ export const codingPracticesData = {
           title: "Find Element in List",
           difficulty: "Easy",
           description:
-            "A list L is given in the prefilled code.\nWrite a program that reads a string S and checks if S is in the given list L.Print True if S is present in L else,Print False.\nL=[`5`,`eat`,`9.80`,`water`,`python`,`-678`,`7685.26`,`-2.5`,`sing`]",
+            "A list L is given in the prefilled code.\nWrite a program that reads a string S and checks if S is in the given list L.Print True if S is present in L else,Print False.\nL=[`5`,`Eat`,`9.80`,`Water`,`Python`,`-678`,`7685.26`,`-2.5`,`Sing`]",
           sampleInput: "Water",
           sampleOutput: "True",
           testCases: [
-            { input: "eat", output: "True", visible: true },
-            { input: "python", output: "True", visible: true },
+            { input: "Eat", output: "True", visible: true },
+            { input: "Hello", output: "False", visible: true },
             { input: "Water", output: "True", visible: false },
-            { input: "hello", output: "False", visible: false },
+            { input: "Python", output: "True", visible: false },
           ],
-          defaultCode: ``,
+          defaultCode: `L = ["5","Eat","9.80","Water","Python","-678","7685.26","-2.5","Sing"]
+
+          # Write your code here`,
           score: 30,
           status: "unsolved",
           attempts: [],

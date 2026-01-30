@@ -5300,5 +5300,168 @@ console.log(getPreferredGameMode(arrayOfFriends));
         },
       ],
     },
+    //Js Coding practice - 5
+    {
+      id: "js-coding-practice-5",
+      title: "JS Coding Practice 5",
+      description: "",
+      questions: [
+        {
+          id: "4db4c9df-6d21-41cc-a381-25c9551210ee",
+          title: "Sum of the values of an Array",
+          description:
+            "Given an array (myArray).\n Write a JS program to log the sum of the values of an array.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array of numbers.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the sum of the values of an array.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Constrains</p>
+                <p>The values of an array should be the numbers.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "[12, 1, 2, 4, 1]",
+
+          sampleOutput: `20`,
+
+          testCases: [],
+
+          defaultCode: `
+
+          `,
+           score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "2483cd0c-12dd4981b83c-b9a6be60ac4c",
+          title: "Log the values from each Object",
+          description:
+            "Given an array of objects (arrayOfInventions) in the prefilled code.\n Write a JS program to log the values of the given key (objectKey) from each object.",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain a string (objectKey).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The value of the given key (objectKey) from each object should be in a new line.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "name",
+
+          sampleOutput: `Printing Press\nLight Buld\nTelephone\nAeroplane\nComputer`,
+
+          testCases: [
+       
+          ],
+
+          defaultCode: `
+
+          `,
+
+          score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "1839d6c4-fa5f48d0be88-9f8606f58b76",
+          title: "Eligibility to Vote",
+          description:
+            "Given an array of objects (arrayOfPersons) with the properties 'name' and 'age'.\n Write a JS program to log the names of the persons who are eligible to vote (age >= 18).",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array of objects (arrayOfPersons).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>Each person's name should be in a new line.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The keys of the object should be in quotes.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "[{'name': 'Rahul', 'age': 19 },{'name': 'Vinod', 'age': 10}, {'name':'Pavan', 'age': 11},{'name': 'Geetha', 'age': 17 }]",
+
+          sampleOutput: `Rahul`,
+
+          testCases: [
+       
+          ],
+
+          defaultCode: `
+
+            `,
+
+            score: 12,
+            status: "unsolved",
+            attempts: [],
+          },
+        {
+          id: "47d6bda7-14e94f2c90ff-b201f9340c8a",
+          title: "Indian Car Brand Names",
+          description:
+            "Given an array of objects (arrayOfCarBrands) with the properties 'name' and 'country'.\n Write a JS program to log an array of the Indian car brand names.\nThe Indian car brands have the country-'India' as a key-value pair",
+          difficulty: "Easy",
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+             <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array of objects (arrayOfCarBrands).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the array of Indian car brand names.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The keys of the object should be in quotes.</p>
+              </div>
+            </div>
+          `,
+
+          sampleInput: "[{'name': 'Chevrolet', 'country': 'America' },{'name': 'Maruthi Suzuki', 'country': 'India' },{'name':'Audi', 'country': 'Germany' },{'name': 'Tata', 'country': 'India' },{'name': 'Honda', 'country': 'Japan' }]",
+
+          sampleOutput: `[ 'Maruti Suzuki', 'Tata' ]`,
+
+          testCases: [
+       
+          ],
+
+          defaultCode: `
+
+           `,
+
+          score: 14,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    //Js Coding practice - 6 
+    
   ],
 };

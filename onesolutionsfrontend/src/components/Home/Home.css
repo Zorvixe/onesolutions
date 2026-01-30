@@ -688,7 +688,7 @@ hr {
 /* AI Bot Floating Button Styles */
 .ai-bot-container {
   position: fixed;
-  bottom: 20px;
+  bottom: 100px;
   right: 20px;
   z-index: 9999;
 }
@@ -891,3 +891,4 @@ hr {
     height: 40px;
   }
 }
+

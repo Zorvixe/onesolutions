@@ -35,7 +35,6 @@ import "./App.css";
 // Create a wrapper component to handle the loading state properly
 function AppWrapper() {
   const { isAuthenticated, loading } = useAuth();
-  const [isAiAppOpen, setIsAiAppOpen] = useState(false);
 
   // Show loading spinner only during initial auth check
   if (loading) {
@@ -46,14 +45,6 @@ function AppWrapper() {
     );
   }
 
-  const toggleAiApp = () => {
-    setIsAiAppOpen(!isAiAppOpen);
-  };
-
-  const closeAiApp = () => {
-    setIsAiAppOpen(false);
-  };
-
   // Once loading is complete, render the appropriate content based on auth state
   return isAuthenticated ? (
     <div className="app-container">
@@ -61,7 +52,7 @@ function AppWrapper() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<Home toggleAiApp={toggleAiApp} />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/saved-snippets" element={<SavedSnippets />} />
@@ -103,54 +94,6 @@ function AppWrapper() {
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </main>
-
-      {/* AI Bot Floating Button */}
-      <div className={`ai-bot-container ${isAiAppOpen ? "open" : ""}`}>
-        {isAiAppOpen && (
-          <div className="ai-app-overlay" onClick={closeAiApp}></div>
-        )}
-
-        <button
-          className="ai-bot-floating-btn"
-          onClick={toggleAiApp}
-          aria-label="Open BroOne AI Assistant"
-        >
-          <img
-            src="/assets/BroOneImg.png"
-            alt="BroOne AI Assistant"
-            className="ai-bot-icon"
-          />
-          <span className="ai-bot-pulse"></span>
-        </button>
-
-        {isAiAppOpen && (
-          <div className="ai-app-slide-up">
-            <div className="ai-app-header">
-              <div className="ai-app-header-content">
-                <img
-                  src="/assets/BroOneImg.png"
-                  alt="BroOne"
-                  className="ai-app-header-icon"
-                />
-                <div>
-                  <h3>BroOne AI Assistant</h3>
-                  <p>Your 24/7 Learning Ally</p>
-                </div>
-              </div>
-              <button
-                className="ai-app-close-btn"
-                onClick={closeAiApp}
-                aria-label="Close AI Assistant"
-              >
-                <i className="bi bi-x-lg"></i>
-              </button>
-            </div>
-            <div className="ai-app-content">
-              <AiApp />
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   ) : (
     <div className="auth-wrapper">
