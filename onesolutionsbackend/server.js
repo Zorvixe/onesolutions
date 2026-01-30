@@ -6400,61 +6400,6 @@ app.get("/api/ai/sessions/:id", auth, async (req, res) => {
   }
 });
 
-
-// -------------------------------------------
-// 🔹 Get Goals Filtered by Student Type
-// -------------------------------------------
-app.get("/api/goals", auth, async (req, res) => {
-  try {
-    const studentType = req.student.student_type || "zorvixe_core";
-    
-    console.log(`📋 Fetching goals for student type: ${studentType}`);
-    
-    // Filter goals based on student type
-    const filteredGoals = goalsData.filter(goal => {
-      return goal.accessibleTo.includes(studentType);
-    });
-    
-    // Calculate progress for each goal
-    const goalsWithProgress = await Promise.all(
-      filteredGoals.map(async (goal) => {
-        // Calculate goal progress based on completed content
-        const progressResult = await pool.query(
-          `SELECT COUNT(*) as total_content,
-                  SUM(CASE WHEN completed THEN 1 ELSE 0 END) as completed_content
-           FROM student_content_progress 
-           WHERE student_id = $1 AND goal_name = $2`,
-          [req.student.id, goal.title]
-        );
-        
-        const totalContent = Number(progressResult.rows[0]?.total_content || 0);
-        const completedContent = Number(progressResult.rows[0]?.completed_content || 0);
-        const progress = totalContent > 0 ? Math.round((completedContent / totalContent) * 100) : 0;
-        
-        return {
-          ...goal,
-          progress,
-          accessible: true // Since we already filtered by accessibleTo
-        };
-      })
-    );
-    
-    res.json({
-      success: true,
-      data: {
-        goals: goalsWithProgress,
-        studentType: studentType
-      }
-    });
-  } catch (error) {
-    console.error("Goals fetch error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching goals"
-    });
-  }
-});
-
 // Handle 404 routes
 app.use("*", (req, res) => {
   res.status(404).json({

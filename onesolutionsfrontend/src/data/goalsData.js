@@ -1,33 +1,11 @@
-const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL || "http://localhost:5002";
-
-
-// Frontend example:
-const fetchGoals = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/goals`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    const data = await response.json();
-    if (data.success) {
-      setGoals(data.data.goals);
-      setStudentType(data.data.studentType);
-    }
-  } catch (error) {
-    console.error('Error fetching goals:', error);
-  }
-};
 export const goalsData = [
-  
   {
     id: "goal 1",
     title: "Goal 1",
     color: "#1e90ff", // blue
     dateRange: "",
     progress: 0,
-    accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"], // All students
+    accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
     courses: [
       {
         id: "g1 c1",
@@ -95,14 +73,17 @@ export const goalsData = [
           {
             id: "QW9_m2_A0 g1_H c1_7B",
             name: "CSS Box Model",
+            accessibleTo: ["zorvixe_core", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m2_H g1_7B c1_D2E",
                 name: "Introduction to CSS Box Model Part 1",
+                accessibleTo: ["zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m2_H g1_7B c1_D2E",
                 name: "Introduction to CSS Box Model Part 1 | Cheat Sheet",
+                accessibleTo: ["zorvixe_core"],
               },
               {
                 id: "QW9_s3_A0 m2_H g1_7B c1_D2E",
@@ -1830,7 +1811,7 @@ export const goalsData = [
     color: "#ff8c00",
     dateRange: "", // Will be populated dynamically
     progress: 0,
-    accessibleTo: ["zorvixe_core"], // All students
+    accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
     courses: [
       {
         id: "g2 c1",
@@ -3294,7 +3275,7 @@ export const goalsData = [
     color: "#28a745",
     dateRange: "", // Will be populated dynamically
     progress: 0,
-    accessibleTo: ["zorvixe_pro"], // All students
+    accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
     courses: [
       {
         id: "g3 c1",
