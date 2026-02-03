@@ -799,7 +799,7 @@ hr {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 5px 15px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border-radius: 20px 20px 0 0;
@@ -891,4 +891,3 @@ hr {
     height: 40px;
   }
 }
-

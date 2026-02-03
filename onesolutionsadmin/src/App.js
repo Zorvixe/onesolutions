@@ -36,6 +36,8 @@ import FeedbackManagement from "./components/Ose/pages/FeedbackManagement/Feedba
 
 import Enroll from "./components/Ose/Enroll/OseEnroll";
 import Contacts from "./components/Ose/Contacts/OseContacts";
+import AdminStudentQuestions from "./components/Ose/Ai/AdminStudentQuestions";
+import AdminAIContent from "./components/Ose/Ai/AdminAIContent";
 
 import "./App.css";
 
@@ -104,6 +106,8 @@ function App() {
 
               <Route path="/enrollments" element={<Enroll />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/AdminStudentQuestions" element={<AdminStudentQuestions />} />
+              <Route path="/AdminAIContent" element={<AdminAIContent />} />
             </Route>
 
             {/* Default redirect */}

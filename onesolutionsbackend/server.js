@@ -10,6 +10,7 @@ const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // -------------------------------------------
 // 🔹 Database Connection
@@ -6539,7 +6540,11 @@ async function insertDefaultCategories() {
         `INSERT INTO ai_content_categories 
          (category_name, description, icon_url, parent_category, display_order, is_active)
          VALUES ($1, $2, $3, $4, $5, $6)
-         ON CONFLICT (category_name) DO NOTHING`,
+         ON CONFLICT (category_name) DO UPDATE SET
+           description = EXCLUDED.description,
+           icon_url = EXCLUDED.icon_url,
+           parent_category = EXCLUDED.parent_category,
+           display_order = EXCLUDED.display_order`,
         [
           category.category_name,
           category.description,
@@ -6549,8 +6554,9 @@ async function insertDefaultCategories() {
           true
         ]
       );
+      console.log(`✅ Category added/updated: ${category.category_name}`);
     } catch (error) {
-      console.error("Error inserting category:", error.message);
+      console.error(`Error inserting category ${category.category_name}:`, error.message);
     }
   }
 }
@@ -6560,7 +6566,17 @@ async function insertDefaultCategories() {
 // ==========================================
 
 // Enhanced GeminiService with content search
+
+// ==========================================
+// 🔹 ENHANCED GEMINI SERVICE
+// ==========================================
 class EnhancedGeminiService {
+  constructor() {
+    if (!process.env.GEMINI_API_KEY) {
+      console.error("❌ GEMINI_API_KEY is not configured in environment variables");
+    }
+  }
+
   static async searchContent(keywords, category = null) {
     try {
       let query = `
@@ -6615,6 +6631,113 @@ class EnhancedGeminiService {
       return [];
     }
   }
+
+  static async getEnhancedGeminiResponse(message, context) {
+    try {
+      if (!process.env.GEMINI_API_KEY) {
+        throw new Error("Gemini API key is not configured");
+      }
+      
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-pro",
+        systemInstruction: `
+        You are "BroOne AI", the official AI assistant of OneSolutions Institute.
+        Your role: Expert tutor, mentor, and career guide for students.
+
+        INSTRUCTIONS:
+        1. Use the provided context to give accurate, personalized answers
+        2. If context doesn't match perfectly, use your general knowledge
+        3. Always be encouraging and supportive
+        4. Structure complex answers with bullet points or steps
+        5. Include code examples when relevant
+        6. Suggest next learning steps
+        7. Relate answers to real-world applications
+        8. Keep responses concise but thorough
+
+        FORMAT GUIDELINES:
+        - Start with a brief acknowledgment
+        - Present main answer clearly
+        - Use examples when helpful
+        - End with key takeaways or next steps
+        `
+      });
+      
+      const prompt = `Context Information:\n${context}\n\nStudent Question: ${message}\n\nPlease provide a helpful, accurate response based on the context above. If the context doesn't fully answer the question, use your knowledge to supplement.`;
+      
+      const result = await model.generateContent(prompt);
+      return result.response.text();
+    } catch (error) {
+      console.error("Gemini API error:", error);
+      return "I'm here to help! Based on our learning materials and your question, I recommend checking our course content on this topic. You can also reach out to your mentors for personalized guidance.";
+    }
+  }
+}
+
+// Helper functions for AI content
+function extractKeywords(text) {
+  if (!text) return [];
+  const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'as', 'is', 'it', 'that', 'this', 'was', 'are', 'be', 'have', 'has', 'had'];
+  const words = text.toLowerCase()
+    .replace(/[^\w\s]/g, ' ')
+    .split(/\s+/)
+    .filter(word => word.length > 2 && !stopWords.includes(word));
+  
+  return [...new Set(words)].slice(0, 10);
+}
+
+function detectCategory(message) {
+  if (!message) return 'General';
+  
+  const categories = {
+    'react|jsx|component|hook|state|props|frontend|javascript|js': 'Frontend',
+    'node|express|server|api|backend|database|mongodb|postgres|mysql': 'Backend',
+    'python|django|flask|ml|ai|data|pandas|numpy|tensorflow': 'Python',
+    'html|css|tailwind|bootstrap|responsive|design': 'Frontend',
+    'git|github|version|control|commit|devops|deployment|ci/cd': 'Git & DevOps',
+    'marketing|seo|social|media|digital|content|analytics': 'Digital Marketing',
+    'interview|resume|placement|job|career|salary|ctc|hiring': 'Placements',
+    'project|portfolio|build|create|implementation|real-world': 'Projects'
+  };
+  
+  const lowerMsg = message.toLowerCase();
+  for (const [keywords, category] of Object.entries(categories)) {
+    if (keywords.split('|').some(keyword => lowerMsg.includes(keyword))) {
+      return category;
+    }
+  }
+  
+  return 'General';
+}
+
+function prepareAIContext(content, questions, student) {
+  let context = `STUDENT CONTEXT:\n`;
+  context += `- Name: ${student?.first_name || 'Student'} ${student?.last_name || ''}\n`;
+  context += `- Batch: ${student?.batch_month || ''} ${student?.batch_year || ''}\n`;
+  context += `- Current Level: ${student?.current_coding_level || 'Not specified'}\n`;
+  context += `- Technical Skills: ${student?.technical_skills?.join(', ') || 'Not specified'}\n`;
+  context += `- Job Search Status: ${student?.job_search_status || 'Not specified'}\n\n`;
+
+  context += `RELEVANT LEARNING CONTENT:\n`;
+        
+  if (content && content.length > 0) {
+    content.forEach((item, index) => {
+      context += `${index + 1}. [${item.category}] ${item.title}: ${item.content.substring(0, 200)}...\n`;
+    });
+  } else {
+    context += "No direct content matches found.\n";
+  }
+  
+  context += "\nSIMILAR PREVIOUS QUESTIONS:\n";
+  if (questions && questions.length > 0) {
+    questions.forEach((q, index) => {
+      context += `${index + 1}. Q: ${q.question}\n   A: ${q.answer?.substring(0, 150) || 'No answer yet'}...\n`;
+    });
+  } else {
+    context += "No similar questions found.\n";
+  }
+  
+  return context;
 }
 
 // ==========================================
@@ -6972,50 +7095,70 @@ app.put("/api/admin/ai-content/student-questions/:id", async (req, res) => {
 // 🔹 ENHANCED AI CHAT ENDPOINT WITH CONTEXT
 // ==========================================
 
+// ==========================================
+// 🔹 ENHANCED AI CHAT ENDPOINT WITH CONTEXT
+// ==========================================
+
 app.post("/api/ai/enhanced-chat", auth, async (req, res) => {
   try {
-    const { message, sessionId } = req.body;
+    const { message, sessionId, category } = req.body;
     const studentId = req.student.id;
     
-    if (!message) {
+    console.log(`🤖 Enhanced chat request from student ${studentId}`);
+    console.log(`📝 Message: ${message?.substring(0, 200) || 'No message'}...`);
+    
+    if (!message || message.trim() === '') {
       return res.status(400).json({
         success: false,
         message: "Message is required"
       });
     }
     
-    console.log(`🤖 Enhanced chat request from student ${studentId}`);
-    console.log(`📝 Message: ${message.substring(0, 200)}...`);
-    
     // Extract keywords from message
     const keywords = extractKeywords(message);
     
     // 1. Search in learning content
-    const relevantContent = await EnhancedGeminiService.searchContent(keywords);
+    const relevantContent = await EnhancedGeminiService.searchContent(keywords, category);
     
     // 2. Search in student questions KB
     const similarQuestions = await EnhancedGeminiService.findStudentQuestions(message, studentId);
     
     // 3. Save this question to KB
-    await pool.query(
-      `INSERT INTO student_questions_kb (student_id, question, category, tags, status)
-       VALUES ($1, $2, $3, $4, 'pending')`,
-      [studentId, message, detectCategory(message), keywords]
-    );
+    try {
+      await pool.query(
+        `INSERT INTO student_questions_kb (student_id, question, category, tags, status, asked_at)
+         VALUES ($1, $2, $3, $4, 'pending', CURRENT_TIMESTAMP)`,
+        [studentId, message, detectCategory(message), keywords]
+      );
+    } catch (insertError) {
+      console.error("Failed to save question to KB:", insertError.message);
+      // Continue even if saving fails
+    }
     
     // 4. Prepare context for Gemini
     const context = prepareAIContext(relevantContent, similarQuestions, req.student);
     
     // 5. Get response from Gemini with context
-    const geminiResponse = await getEnhancedGeminiResponse(message, context);
+    let geminiResponse;
+    try {
+      geminiResponse = await EnhancedGeminiService.getEnhancedGeminiResponse(message, context);
+    } catch (geminiError) {
+      console.error("Gemini service error:", geminiError);
+      geminiResponse = "I'm currently experiencing technical difficulties. Please try again in a moment or contact support.";
+    }
     
-    // 6. Save the response
-    await pool.query(
-      `UPDATE student_questions_kb 
-       SET answer = $1, status = 'answered', answered_at = CURRENT_TIMESTAMP
-       WHERE student_id = $2 AND question = $3 AND status = 'pending'`,
-      [geminiResponse, studentId, message]
-    );
+    // 6. Try to save the response (but don't fail if it doesn't work)
+    try {
+      await pool.query(
+        `UPDATE student_questions_kb 
+         SET answer = $1, status = 'answered', answered_at = CURRENT_TIMESTAMP
+         WHERE student_id = $2 AND question = $3 AND status = 'pending'
+         ORDER BY asked_at DESC LIMIT 1`,
+        [geminiResponse, studentId, message]
+      );
+    } catch (updateError) {
+      console.error("Failed to update question with answer:", updateError.message);
+    }
     
     res.json({
       success: true,
@@ -7031,74 +7174,11 @@ app.post("/api/ai/enhanced-chat", auth, async (req, res) => {
     console.error("Enhanced chat error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to process chat request"
+      error: "Failed to process chat request: " + error.message
     });
   }
 });
 
-// Helper functions
-function extractKeywords(text) {
-  const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'];
-  const words = text.toLowerCase()
-    .replace(/[^\w\s]/g, '')
-    .split(/\s+/)
-    .filter(word => word.length > 2 && !stopWords.includes(word));
-  
-  return [...new Set(words)].slice(0, 10);
-}
-
-function detectCategory(message) {
-  const categories = {
-    'react|jsx|component|hook|state|props': 'Frontend',
-    'node|express|server|api|backend': 'Backend',
-    'python|django|flask|ml|ai|data': 'Python',
-    'html|css|javascript|js|frontend': 'Frontend',
-    'sql|database|postgres|mysql|mongodb': 'Backend',
-    'git|github|version|control|commit': 'Git & DevOps',
-    'marketing|seo|social|media|digital': 'Digital Marketing',
-    'interview|resume|placement|job|career': 'Placements',
-    'project|portfolio|build|create': 'Projects'
-  };
-  
-  const lowerMsg = message.toLowerCase();
-  for (const [keywords, category] of Object.entries(categories)) {
-    if (keywords.split('|').some(keyword => lowerMsg.includes(keyword))) {
-      return category;
-    }
-  }
-  
-  return 'General';
-}
-
-function prepareAIContext(content, questions, student) {
-  let context = `STUDENT CONTEXT:
-      - Name: ${student.first_name} ${student.last_name}
-      - Batch: ${student.batch_month} ${student.batch_year}
-      - Current Level: ${student.current_coding_level || 'Not specified'}
-      - Technical Skills: ${student.technical_skills?.join(', ') || 'Not specified'}
-      - Job Search Status: ${student.job_search_status || 'Not specified'}
-
-      RELEVANT LEARNING CONTENT:\n`;
-        
-  if (content.length > 0) {
-    content.forEach((item, index) => {
-      context += `${index + 1}. [${item.category}] ${item.title}: ${item.content.substring(0, 200)}...\n`;
-    });
-  } else {
-    context += "No direct content matches found.\n";
-  }
-  
-  context += "\nSIMILAR PREVIOUS QUESTIONS:\n";
-  if (questions.length > 0) {
-    questions.forEach((q, index) => {
-      context += `${index + 1}. Q: ${q.question}\n   A: ${q.answer?.substring(0, 150) || 'No answer yet'}...\n`;
-    });
-  } else {
-    context += "No similar questions found.\n";
-  }
-  
-  return context;
-}
 
 async function getEnhancedGeminiResponse(message, context) {
   try {

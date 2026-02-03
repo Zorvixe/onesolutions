@@ -2,167 +2,125 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
 
-export class GeminiService {
-  static model = null;
-
-  // ✅ ADD THIS METHOD TO CHECK AVAILABLE MODELS
-  static async listModels() {
+export class EnhancedGeminiService {
+  static async sendEnhancedChat({
+    message,
+    context,
+    category,
+    studentProfile,
+  }) {
     try {
-      console.log("🔍 Listing available models...");
-      const models = await genAI.listModels();
-      console.log("📋 Available models:", models);
-      return models;
+      const model = genAI.getGenerativeModel({
+        model: "gemini-pro",
+        systemInstruction: this.generateEnhancedSystemInstruction(
+          studentProfile,
+          context,
+          category
+        ),
+      });
+
+      const result = await model.generateContent(
+        this.formatPrompt(message, context)
+      );
+      return result.response.text();
     } catch (error) {
-      console.error("❌ Error listing models:", error);
+      console.error("Enhanced Gemini error:", error);
       throw error;
     }
   }
 
-  static generateSystemInstruction(profile) {
-    const context = profile
-      ? `
-STUDENT CONTEXT:
-- Name: ${profile.firstName} ${profile.lastName}
-- Batch: ${profile.batchMonth} ${profile.batchYear}
-- Current Level: ${profile.currentCodingLevel}
-- Skills: ${profile.technicalSkills?.join(", ") || "None listed"}
-- Goal: ${profile.jobSearchStatus}
-`
-      : "";
-
+  static generateEnhancedSystemInstruction(profile, context, category) {
     return `
-You are the "OneSolutions AI Tutor", a senior lead instructor at OneSolutions Institute.
+You are "BroOne AI", the official AI assistant of OneSolutions Institute.
 
-Your mission:
-- Teach Full Stack Web Development step-by-step
-- Explain concepts using simple real-world analogies
-- Encourage students if they feel stuck
-- Use clean ES6+ code examples
+STUDENT PROFILE:
+- Name: ${profile?.firstName || "Student"} ${profile?.lastName || ""}
+- Batch: ${profile?.batchMonth || ""} ${profile?.batchYear || ""}
+- Skills: ${profile?.technicalSkills?.join(", ") || "Not specified"}
+- Current Level: ${profile?.currentCodingLevel || "Beginner"}
+- Goal: ${profile?.jobSearchStatus || "Not specified"}
 
-Specialties:
-- Frontend: React, Tailwind, JavaScript, TypeScript
-- Backend: Node.js, Express, PostgreSQL
-- Interview prep & career growth
+SPECIALIZATION CONTEXT:
+Current Category: ${category || "General"}
+Available Context: ${context ? "Yes - use provided context" : "No - use general knowledge"}
 
-${context}
+ROLE & RESPONSIBILITIES:
+1. Expert Tutor: Provide accurate, detailed explanations
+2. Code Mentor: Write clean, production-ready code examples
+3. Career Guide: Offer placement and interview advice
+4. Problem Solver: Debug code and solve technical issues
+5. Learning Path Designer: Suggest next steps and resources
 
-Rules:
-- Be structured and supportive
-- Avoid unnecessary complexity
-- Redirect institute admin questions to OneSolutions Portal
+RESPONSE GUIDELINES:
+- Start with brief acknowledgment
+- Use provided context when relevant
+- Include code examples for technical questions
+- Structure complex answers with headings
+- Be encouraging and supportive
+- Suggest additional resources
+- Keep responses comprehensive but concise
+- Always verify information accuracy
+
+TOPIC EXPERTISE:
+- Full Stack: React, Node.js, Express, PostgreSQL, MongoDB
+- Frontend: HTML, CSS, JavaScript, TypeScript, Tailwind
+- Backend: REST APIs, Authentication, Database Design
+- Python: Django, Flask, Data Science, Automation
+- Digital Marketing: SEO, Social Media, Analytics, Content
+- Placements: Resume building, Interview prep, Career growth
+- Git & DevOps: Version control, Deployment, CI/CD
+- Projects: Portfolio building, Real-world implementations
+
+FORMATTING RULES:
+- Use **bold** for important terms
+- Use \`code\` for inline code
+- Use \`\`\` for code blocks with language
+- Use bullet points for lists
+- Separate sections with clear headings
 `;
   }
 
-  // ✅ UPDATE THIS TO TRY MULTIPLE MODELS
-  static getModel(profile) {
-    if (!this.model) {
-      // Try different model names in order
-      const modelNames = [
-        "gemini-1.5-flash", // Try original
-        "gemini-1.5-flash-001", // Try with version
-        "gemini-1.5-pro", // Try pro version
-        "gemini-pro", // Try older pro
-        "models/gemini-1.5-flash", // Try with models/ prefix
-        "models/gemini-pro", // Try with models/ prefix
-      ];
+  static formatPrompt(message, context) {
+    return `
+${context ? `CONTEXT INFORMATION:\n${context}\n\n` : ""}
+STUDENT QUESTION: ${message}
 
-      let successfulModel = null;
-
-      for (const modelName of modelNames) {
-        try {
-          console.log(`🔄 Trying model: ${modelName}`);
-          this.model = genAI.getGenerativeModel({
-            model: modelName,
-            systemInstruction: this.generateSystemInstruction(profile),
-          });
-          successfulModel = modelName;
-          break;
-        } catch (err) {
-          console.log(`❌ Model ${modelName} failed: ${err.message}`);
-          continue;
-        }
-      }
-
-      if (!this.model) {
-        throw new Error(
-          "No valid Gemini model found. Check API key and model availability."
-        );
-      }
-
-      console.log(`✅ Using model: ${successfulModel}`);
-    }
-    return this.model;
+Please provide a comprehensive, helpful response based on ${context ? "the context above and " : ""}your expertise.
+Include relevant examples, code snippets, and practical advice.
+`;
   }
 
-  // ✅ ENHANCE WITH BETTER ERROR HANDLING
-  static async sendMessage(message, profile) {
+  static async extractKeywords(text) {
     try {
-      console.log("🤖 Sending message to Gemini...");
-      console.log("📝 Message:", message.substring(0, 100) + "...");
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const prompt = `Extract 5-10 important keywords from this text for search indexing: "${text.substring(0, 500)}"`;
 
-      const model = this.getModel(profile);
-
-      // Test with simple content first
-      const testContent = "Hello, how are you?";
-      console.log(`🔧 Testing with: "${testContent}"`);
-
-      const result = await model.generateContent(testContent);
+      const result = await model.generateContent(prompt);
       const response = result.response.text();
 
-      console.log(
-        "✅ Test successful! Response:",
-        response.substring(0, 100) + "..."
-      );
-
-      // Now send the actual message
-      const actualResult = await model.generateContent(message);
-      const actualResponse = actualResult.response.text();
-
-      console.log(
-        "✅ Response received:",
-        actualResponse.substring(0, 100) + "..."
-      );
-      return actualResponse;
+      return response
+        .split(",")
+        .map((k) => k.trim().toLowerCase())
+        .filter((k) => k.length > 2);
     } catch (error) {
-      console.error("❌ Gemini API Error Details:");
-      console.error("Error name:", error.name);
-      console.error("Error message:", error.message);
-      console.error("Error code:", error.code);
-      console.error("Error status:", error.status);
-
-      // List available models for debugging
-      try {
-        await this.listModels();
-      } catch (listError) {
-        console.error("Could not list models:", listError);
-      }
-
-      throw new Error(
-        `Gemini API Error: ${error.message}. Please check your API key and model availability.`
-      );
+      console.error("Keyword extraction error:", error);
+      return [];
     }
   }
 
-  static async getQuickSummary(content) {
+  static async categorizeQuestion(question) {
     try {
-      const model = genAI.getGenerativeModel({
-        model: "gemini-1.5-flash", // Use the simplest one
-      });
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const prompt = `Categorize this question into one of these categories: 
+      Frontend, Backend, Python, Digital Marketing, Placements, Git & DevOps, Projects, General.
+      Question: "${question.substring(0, 300)}"
+      Return only the category name.`;
 
-      const result = await model.generateContent(
-        `Generate a concise 2–3 word title for this conversation: ${content}`
-      );
-
-      return (
-        result.response.text().replace(/"/g, "").trim() || "New Discussion"
-      );
+      const result = await model.generateContent(prompt);
+      return result.response.text().trim();
     } catch (error) {
-      console.error("❌ Gemini title generation error:", error);
-      return content.substring(0, 30) + "...";
+      console.error("Categorization error:", error);
+      return "General";
     }
-  }
-
-  static reset() {
-    this.model = null;
   }
 }
