@@ -76,19 +76,19 @@ const AdminAIContent = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5002'}/api/admin/ai-content?category=${selectedCategory}&search=${searchTerm}&is_active=${filterActive}`,
+        `https://api.onesolutionsekam.in/api/admin/ai-content?category=${selectedCategory}&search=${searchTerm}&is_active=${filterActive}`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       if (data.success) {
         setContent(data.data.content || []);
@@ -100,7 +100,7 @@ const AdminAIContent = () => {
       setSnackbar({
         open: true,
         message: `Failed to fetch content: ${error.message}`,
-        severity: "error"
+        severity: "error",
       });
       setContent([]);
     } finally {
@@ -112,19 +112,19 @@ const AdminAIContent = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5002'}/api/admin/ai-content/categories`,
+        `https://api.onesolutionsekam.in/api/admin/ai-content/categories`,
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       if (data.success) {
         setCategories(data.data.categories || []);
@@ -134,7 +134,7 @@ const AdminAIContent = () => {
       setSnackbar({
         open: true,
         message: `Failed to fetch categories: ${error.message}`,
-        severity: "error"
+        severity: "error",
       });
       setCategories([]);
     }
@@ -183,7 +183,7 @@ const AdminAIContent = () => {
       setSnackbar({
         open: true,
         message: "Category, title, and content are required",
-        severity: "error"
+        severity: "error",
       });
       return;
     }
@@ -191,32 +191,37 @@ const AdminAIContent = () => {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      const url = `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5002'}/api/admin/ai-content`;
-      
+      const url = `https://api.onesolutionsekam.in/api/admin/ai-content`;
+
       const payload = {
         ...formData,
         id: editingContent?.id,
-        keywords: formData.keywords 
-          ? formData.keywords.split(',').map(k => k.trim()).filter(k => k)
-          : []
+        keywords: formData.keywords
+          ? formData.keywords
+              .split(",")
+              .map((k) => k.trim())
+              .filter((k) => k)
+          : [],
       };
 
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setSnackbar({
           open: true,
-          message: `Content ${editingContent ? 'updated' : 'created'} successfully`,
-          severity: "success"
+          message: `Content ${
+            editingContent ? "updated" : "created"
+          } successfully`,
+          severity: "success",
         });
         fetchContent();
         handleCloseDialog();
@@ -228,7 +233,7 @@ const AdminAIContent = () => {
       setSnackbar({
         open: true,
         message: `Failed to save content: ${error.message}`,
-        severity: "error"
+        severity: "error",
       });
     } finally {
       setSaving(false);
@@ -236,20 +241,24 @@ const AdminAIContent = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this content? This action cannot be undone.")) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this content? This action cannot be undone."
+      )
+    ) {
       return;
     }
 
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${process.env.REACT_APP_API_BASE_URL || 'http://localhost:5002'}/api/admin/ai-content/${id}`,
+        `https://api.onesolutionsekam.in/api/admin/ai-content/${id}`,
         {
           method: "DELETE",
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -258,7 +267,7 @@ const AdminAIContent = () => {
         setSnackbar({
           open: true,
           message: "Content deleted successfully",
-          severity: "success"
+          severity: "success",
         });
         fetchContent();
       } else {
@@ -269,7 +278,7 @@ const AdminAIContent = () => {
       setSnackbar({
         open: true,
         message: `Failed to delete content: ${error.message}`,
-        severity: "error"
+        severity: "error",
       });
     }
   };
@@ -288,12 +297,12 @@ const AdminAIContent = () => {
         open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Alert 
-          onClose={handleCloseSnackbar} 
+        <Alert
+          onClose={handleCloseSnackbar}
           severity={snackbar.severity}
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         >
           {snackbar.message}
         </Alert>
@@ -379,9 +388,9 @@ const AdminAIContent = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12} md={2}>
-            <Button 
-              variant="outlined" 
-              onClick={fetchContent} 
+            <Button
+              variant="outlined"
+              onClick={fetchContent}
               fullWidth
               disabled={loading}
               startIcon={loading ? <CircularProgress size={20} /> : null}
@@ -439,22 +448,29 @@ const AdminAIContent = () => {
                       variant="outlined"
                     />
                     {item.subcategory && (
-                      <Typography variant="caption" display="block" color="text.secondary">
+                      <Typography
+                        variant="caption"
+                        display="block"
+                        color="text.secondary"
+                      >
                         {item.subcategory}
                       </Typography>
                     )}
                   </TableCell>
                   <TableCell>
                     <Box display="flex" flexWrap="wrap" gap={0.5}>
-                      {Array.isArray(item.keywords) && item.keywords.length > 0 ? (
-                        item.keywords.slice(0, 3).map((keyword, idx) => (
-                          <Chip 
-                            key={idx} 
-                            label={keyword} 
-                            size="small" 
-                            sx={{ fontSize: '0.7rem' }}
-                          />
-                        ))
+                      {Array.isArray(item.keywords) &&
+                      item.keywords.length > 0 ? (
+                        item.keywords
+                          .slice(0, 3)
+                          .map((keyword, idx) => (
+                            <Chip
+                              key={idx}
+                              label={keyword}
+                              size="small"
+                              sx={{ fontSize: "0.7rem" }}
+                            />
+                          ))
                       ) : (
                         <Typography variant="caption" color="text.secondary">
                           No keywords
@@ -467,14 +483,18 @@ const AdminAIContent = () => {
                       label={`P${item.priority}`}
                       size="small"
                       sx={{
-                        backgroundColor: 
-                          item.priority === 1 ? '#f44336' :
-                          item.priority === 2 ? '#ff9800' :
-                          item.priority === 3 ? '#ffeb3b' :
-                          item.priority === 4 ? '#4caf50' :
-                          '#9e9e9e',
-                        color: item.priority <= 3 ? 'white' : 'black',
-                        fontWeight: 'bold'
+                        backgroundColor:
+                          item.priority === 1
+                            ? "#f44336"
+                            : item.priority === 2
+                            ? "#ff9800"
+                            : item.priority === 3
+                            ? "#ffeb3b"
+                            : item.priority === 4
+                            ? "#4caf50"
+                            : "#9e9e9e",
+                        color: item.priority <= 3 ? "white" : "black",
+                        fontWeight: "bold",
                       }}
                     />
                   </TableCell>
@@ -483,12 +503,16 @@ const AdminAIContent = () => {
                       label={item.is_active ? "Active" : "Inactive"}
                       size="small"
                       color={item.is_active ? "success" : "default"}
-                      icon={item.is_active ? <CheckCircleIcon /> : <ErrorIcon />}
+                      icon={
+                        item.is_active ? <CheckCircleIcon /> : <ErrorIcon />
+                      }
                       variant={item.is_active ? "filled" : "outlined"}
                     />
                   </TableCell>
                   <TableCell>
-                    {item.created_at ? new Date(item.created_at).toLocaleDateString() : 'N/A'}
+                    {item.created_at
+                      ? new Date(item.created_at).toLocaleDateString()
+                      : "N/A"}
                   </TableCell>
                   <TableCell>
                     <IconButton
@@ -674,10 +698,15 @@ const AdminAIContent = () => {
           <Button onClick={handleCloseDialog} disabled={saving}>
             Cancel
           </Button>
-          <Button 
-            onClick={handleSubmit} 
+          <Button
+            onClick={handleSubmit}
             variant="contained"
-            disabled={saving || !formData.category || !formData.title || !formData.content}
+            disabled={
+              saving ||
+              !formData.category ||
+              !formData.title ||
+              !formData.content
+            }
             startIcon={saving ? <CircularProgress size={20} /> : null}
           >
             {saving ? "Saving..." : editingContent ? "Update" : "Create"}
