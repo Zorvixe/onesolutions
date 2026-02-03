@@ -16269,6 +16269,124 @@ export const codingPracticesData = {
         },
       ],
     },
+
+    //OOPS CORE START
+    {
+      id: "Coding-practice-python-oops",
+      title: "Coding practice OOPS",
+      description: "Introduction to Object Oriented Programming",
+      questions: [
+        {
+          id: "q-python-Codingpractice-32-001",
+          title: "Car",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "Red\n250\n10\n3",
+          testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-32-002",
+          title: "Car - 2",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "False\nTrue\nFalse",
+          testCases: [
+            { input: "", output: "False\nTrue\nFalse", visible: true },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-32-003",
+          title: "Car - 3",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+          testCases: [
+            {
+              input: "",
+              output: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Coding-practice-python-Miscellaneous",
+      title: "Coding Practice Miscellaneous",
+      description: "Introduction to Object Oriented Programming",
+      questions: [
+        {
+          id: "q-python-Codingpractice-32-001",
+          title: "Car",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "Red\n250\n10\n3",
+          testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-32-002",
+          title: "Car - 2",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "False\nTrue\nFalse",
+          testCases: [
+            { input: "", output: "False\nTrue\nFalse", visible: true },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-Codingpractice-32-003",
+          title: "Car - 3",
+          difficulty: "Easy",
+          description:
+            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+          sampleInput: "Checking default Tests",
+          sampleOutput: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+          testCases: [
+            {
+              input: "",
+              output: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+              visible: true,
+            },
+          ],
+          defaultCode: ``,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    //OOPS CORE END
+    
     {
       id: "Codingpractice-python-32",
       title: "Codingpractice-32",

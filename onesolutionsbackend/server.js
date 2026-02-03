@@ -588,6 +588,76 @@ CREATE TABLE IF NOT EXISTS student_feedback (
   );
 `;
 
+
+
+  // AI Learning Content Table
+  const aiContentTableQuery = `
+    CREATE TABLE IF NOT EXISTS ai_learning_content (
+      id SERIAL PRIMARY KEY,
+      category VARCHAR(100) NOT NULL,
+      subcategory VARCHAR(100),
+      title VARCHAR(500) NOT NULL,
+      content TEXT NOT NULL,
+      keywords TEXT[] DEFAULT '{}',
+      content_type VARCHAR(50) DEFAULT 'text',
+      file_url VARCHAR(500),
+      priority INTEGER DEFAULT 1,
+      is_active BOOLEAN DEFAULT true,
+      created_by INTEGER REFERENCES students(id),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  // Student Questions Knowledge Base
+  const studentQuestionsTableQuery = `
+    CREATE TABLE IF NOT EXISTS student_questions_kb (
+      id SERIAL PRIMARY KEY,
+      student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+      question TEXT NOT NULL,
+      answer TEXT,
+      category VARCHAR(100),
+      tags TEXT[] DEFAULT '{}',
+      is_important BOOLEAN DEFAULT false,
+      status VARCHAR(50) DEFAULT 'pending',
+      asked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      answered_at TIMESTAMP,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  // Content Categories Table
+  const contentCategoriesTableQuery = `
+    CREATE TABLE IF NOT EXISTS ai_content_categories (
+      id SERIAL PRIMARY KEY,
+      category_name VARCHAR(100) UNIQUE NOT NULL,
+      description TEXT,
+      icon_url VARCHAR(500),
+      parent_category VARCHAR(100),
+      is_active BOOLEAN DEFAULT true,
+      display_order INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+
+  try {
+    await pool.query(aiContentTableQuery);
+    console.log("✅ AI Learning Content table ready");
+
+    await pool.query(studentQuestionsTableQuery);
+    console.log("✅ Student Questions KB table ready");
+
+    await pool.query(contentCategoriesTableQuery);
+    console.log("✅ Content Categories table ready");
+
+    // Insert default categories
+    await insertDefaultCategories();
+  } catch (error) {
+    console.error("❌ New tables creation error:", error.message);
+  }
+
   // Add to your existing createTables function
   try {
     await pool.query(codeSnippetsTableQuery);
@@ -6399,6 +6469,745 @@ app.get("/api/ai/sessions/:id", auth, async (req, res) => {
     });
   }
 });
+
+
+
+// Function to insert default categories
+async function insertDefaultCategories() {
+  const defaultCategories = [
+    {
+      category_name: "Full Stack Development",
+      description: "Complete web development from frontend to backend",
+      icon_url: "/icons/dev.svg",
+      display_order: 1
+    },
+    {
+      category_name: "Frontend",
+      description: "HTML, CSS, JavaScript, React, Angular, Vue",
+      parent_category: "Full Stack Development",
+      icon_url: "/icons/frontend.svg",
+      display_order: 2
+    },
+    {
+      category_name: "Backend",
+      description: "Node.js, Python, Java, PHP, Databases",
+      parent_category: "Full Stack Development",
+      icon_url: "/icons/backend.svg",
+      display_order: 3
+    },
+    {
+      category_name: "Python",
+      description: "Python programming, Django, Flask, ML",
+      icon_url: "/icons/python.svg",
+      display_order: 4
+    },
+    {
+      category_name: "Digital Marketing",
+      description: "SEO, Social Media, Content Marketing, Analytics",
+      icon_url: "/icons/marketing.svg",
+      display_order: 5
+    },
+    {
+      category_name: "Placements",
+      description: "Interview prep, Resume building, Career guidance",
+      icon_url: "/icons/placement.svg",
+      display_order: 6
+    },
+    {
+      category_name: "Git & DevOps",
+      description: "Version control, CI/CD, Deployment",
+      icon_url: "/icons/git.svg",
+      display_order: 7
+    },
+    {
+      category_name: "Projects",
+      description: "Real-world projects and implementations",
+      icon_url: "/icons/project.svg",
+      display_order: 8
+    },
+    {
+      category_name: "FAQs",
+      description: "Frequently asked questions by students",
+      icon_url: "/icons/faq.svg",
+      display_order: 9
+    }
+  ];
+
+  for (const category of defaultCategories) {
+    try {
+      await pool.query(
+        `INSERT INTO ai_content_categories 
+         (category_name, description, icon_url, parent_category, display_order, is_active)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         ON CONFLICT (category_name) DO NOTHING`,
+        [
+          category.category_name,
+          category.description,
+          category.icon_url,
+          category.parent_category || null,
+          category.display_order,
+          true
+        ]
+      );
+    } catch (error) {
+      console.error("Error inserting category:", error.message);
+    }
+  }
+}
+
+// ==========================================
+// 🔹 ENHANCED AI CHAT WITH CONTENT INTEGRATION
+// ==========================================
+
+// Enhanced GeminiService with content search
+class EnhancedGeminiService {
+  static async searchContent(keywords, category = null) {
+    try {
+      let query = `
+        SELECT title, content, category, subcategory 
+        FROM ai_learning_content 
+        WHERE is_active = true 
+        AND (keywords @> $1 OR title ILIKE $2 OR content ILIKE $2)
+      `;
+      
+      const params = [
+        keywords,
+        `%${keywords[0]}%`
+      ];
+      
+      if (category) {
+        query += ` AND category = $${params.length + 1}`;
+        params.push(category);
+      }
+      
+      query += ` ORDER BY priority DESC LIMIT 5`;
+      
+      const result = await pool.query(query, params);
+      return result.rows;
+    } catch (error) {
+      console.error("Content search error:", error);
+      return [];
+    }
+  }
+
+  static async findStudentQuestions(question, studentId = null) {
+    try {
+      let query = `
+        SELECT question, answer, category 
+        FROM student_questions_kb 
+        WHERE status = 'answered' 
+        AND (question ILIKE $1 OR answer ILIKE $1)
+      `;
+      
+      const params = [`%${question}%`];
+      
+      if (studentId) {
+        query += ` AND student_id = $${params.length + 1}`;
+        params.push(studentId);
+      }
+      
+      query += ` ORDER BY is_important DESC, asked_at DESC LIMIT 3`;
+      
+      const result = await pool.query(query, params);
+      return result.rows;
+    } catch (error) {
+      console.error("Questions search error:", error);
+      return [];
+    }
+  }
+}
+
+// ==========================================
+// 🔹 ADMIN CONTENT MANAGEMENT ROUTES
+// ==========================================
+
+// Get all categories
+app.get("/api/admin/ai-content/categories", async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM ai_content_categories 
+       ORDER BY display_order, category_name`
+    );
+    
+    res.json({
+      success: true,
+      data: { categories: result.rows }
+    });
+  } catch (error) {
+    console.error("Categories fetch error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch categories"
+    });
+  }
+});
+
+// Add/Update category
+app.post("/api/admin/ai-content/categories", async (req, res) => {
+  try {
+    const { id, category_name, description, icon_url, parent_category, is_active, display_order } = req.body;
+    
+    if (!category_name) {
+      return res.status(400).json({
+        success: false,
+        message: "Category name is required"
+      });
+    }
+    
+    let result;
+    if (id) {
+      // Update existing category
+      result = await pool.query(
+        `UPDATE ai_content_categories 
+         SET category_name = $1, description = $2, icon_url = $3, 
+             parent_category = $4, is_active = $5, display_order = $6,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = $7
+         RETURNING *`,
+        [category_name, description, icon_url, parent_category, is_active, display_order, id]
+      );
+    } else {
+      // Insert new category
+      result = await pool.query(
+        `INSERT INTO ai_content_categories 
+         (category_name, description, icon_url, parent_category, is_active, display_order)
+         VALUES ($1, $2, $3, $4, $5, $6)
+         RETURNING *`,
+        [category_name, description, icon_url, parent_category, is_active, display_order]
+      );
+    }
+    
+    res.json({
+      success: true,
+      message: `Category ${id ? 'updated' : 'created'} successfully`,
+      data: { category: result.rows[0] }
+    });
+  } catch (error) {
+    console.error("Category save error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to save category"
+    });
+  }
+});
+
+// Get all content with filters
+app.get("/api/admin/ai-content", async (req, res) => {
+  try {
+    const { page = 1, limit = 20, category, search, is_active } = req.query;
+    const offset = (page - 1) * limit;
+    
+    let query = `
+      SELECT alc.*, 
+             s.first_name as created_by_first_name,
+             s.last_name as created_by_last_name,
+             acc.category_name as category_display
+      FROM ai_learning_content alc
+      LEFT JOIN students s ON alc.created_by = s.id
+      LEFT JOIN ai_content_categories acc ON alc.category = acc.category_name
+      WHERE 1=1
+    `;
+    
+    let countQuery = `
+      SELECT COUNT(*) as total
+      FROM ai_learning_content alc
+      WHERE 1=1
+    `;
+    
+    const queryParams = [];
+    let paramCount = 1;
+    
+    if (category && category !== 'all') {
+      query += ` AND alc.category = $${paramCount}`;
+      countQuery += ` AND alc.category = $${paramCount}`;
+      queryParams.push(category);
+      paramCount++;
+    }
+    
+    if (search && search.trim() !== '') {
+      query += ` AND (
+        alc.title ILIKE $${paramCount} OR 
+        alc.content ILIKE $${paramCount} OR 
+        alc.keywords::text ILIKE $${paramCount}
+      )`;
+      countQuery += ` AND (
+        alc.title ILIKE $${paramCount} OR 
+        alc.content ILIKE $${paramCount} OR 
+        alc.keywords::text ILIKE $${paramCount}
+      )`;
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+    
+    if (is_active !== undefined && is_active !== '') {
+      query += ` AND alc.is_active = $${paramCount}`;
+      countQuery += ` AND alc.is_active = $${paramCount}`;
+      queryParams.push(is_active === 'true');
+      paramCount++;
+    }
+    
+    query += ` ORDER BY alc.priority DESC, alc.created_at DESC 
+               LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    queryParams.push(parseInt(limit), offset);
+    
+    const result = await pool.query(query, queryParams);
+    const countResult = await pool.query(countQuery, queryParams.slice(0, -2));
+    
+    res.json({
+      success: true,
+      data: {
+        content: result.rows,
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total: parseInt(countResult.rows[0]?.total || 0),
+          pages: Math.ceil(parseInt(countResult.rows[0]?.total || 0) / limit)
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Content fetch error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch content"
+    });
+  }
+});
+
+// Add/Update content
+app.post("/api/admin/ai-content", async (req, res) => {
+  try {
+    const { 
+      id, category, subcategory, title, content, 
+      keywords, content_type, file_url, priority, is_active 
+    } = req.body;
+    
+    if (!category || !title || !content) {
+      return res.status(400).json({
+        success: false,
+        message: "Category, title, and content are required"
+      });
+    }
+    
+    // Parse keywords if string
+    const keywordsArray = Array.isArray(keywords) 
+      ? keywords 
+      : keywords ? keywords.split(',').map(k => k.trim()) : [];
+    
+    let result;
+    if (id) {
+      // Update existing content
+      result = await pool.query(
+        `UPDATE ai_learning_content 
+         SET category = $1, subcategory = $2, title = $3, content = $4,
+             keywords = $5, content_type = $6, file_url = $7, 
+             priority = $8, is_active = $9, updated_at = CURRENT_TIMESTAMP
+         WHERE id = $10
+         RETURNING *`,
+        [category, subcategory, title, content, keywordsArray, 
+         content_type, file_url, priority, is_active, id]
+      );
+    } else {
+      // Insert new content
+      result = await pool.query(
+        `INSERT INTO ai_learning_content 
+         (category, subcategory, title, content, keywords, 
+          content_type, file_url, priority, is_active, created_by)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+         RETURNING *`,
+        [category, subcategory, title, content, keywordsArray,
+         content_type, file_url, priority, is_active, 1] // Admin user ID
+      );
+    }
+    
+    res.json({
+      success: true,
+      message: `Content ${id ? 'updated' : 'created'} successfully`,
+      data: { content: result.rows[0] }
+    });
+  } catch (error) {
+    console.error("Content save error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to save content"
+    });
+  }
+});
+
+// Delete content
+app.delete("/api/admin/ai-content/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const result = await pool.query(
+      "DELETE FROM ai_learning_content WHERE id = $1 RETURNING *",
+      [id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Content not found"
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: "Content deleted successfully"
+    });
+  } catch (error) {
+    console.error("Content delete error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to delete content"
+    });
+  }
+});
+
+// Get student questions for admin
+app.get("/api/admin/ai-content/student-questions", async (req, res) => {
+  try {
+    const { page = 1, limit = 20, status, category, search } = req.query;
+    const offset = (page - 1) * limit;
+    
+    let query = `
+      SELECT sqk.*, 
+             s.first_name, 
+             s.last_name,
+             s.email,
+             s.batch_month,
+             s.batch_year
+      FROM student_questions_kb sqk
+      LEFT JOIN students s ON sqk.student_id = s.id
+      WHERE 1=1
+    `;
+    
+    const queryParams = [];
+    let paramCount = 1;
+    
+    if (status && status !== 'all') {
+      query += ` AND sqk.status = $${paramCount}`;
+      queryParams.push(status);
+      paramCount++;
+    }
+    
+    if (category && category !== 'all') {
+      query += ` AND sqk.category = $${paramCount}`;
+      queryParams.push(category);
+      paramCount++;
+    }
+    
+    if (search && search.trim() !== '') {
+      query += ` AND (
+        sqk.question ILIKE $${paramCount} OR 
+        sqk.answer ILIKE $${paramCount} OR
+        s.first_name ILIKE $${paramCount} OR
+        s.last_name ILIKE $${paramCount}
+      )`;
+      queryParams.push(`%${search}%`);
+      paramCount++;
+    }
+    
+    query += ` ORDER BY sqk.is_important DESC, sqk.asked_at DESC 
+               LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    queryParams.push(parseInt(limit), offset);
+    
+    const result = await pool.query(query, queryParams);
+    
+    res.json({
+      success: true,
+      data: { questions: result.rows }
+    });
+  } catch (error) {
+    console.error("Student questions fetch error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch student questions"
+    });
+  }
+});
+
+// Update student question (add answer or mark important)
+app.put("/api/admin/ai-content/student-questions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { answer, is_important, status, category, tags } = req.body;
+    
+    const result = await pool.query(
+      `UPDATE student_questions_kb 
+       SET answer = COALESCE($1, answer),
+           is_important = COALESCE($2, is_important),
+           status = COALESCE($3, status),
+           category = COALESCE($4, category),
+           tags = COALESCE($5, tags),
+           answered_at = CASE WHEN $1 IS NOT NULL THEN CURRENT_TIMESTAMP ELSE answered_at END,
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $6
+       RETURNING *`,
+      [answer, is_important, status, category, tags, id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Question not found"
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: "Question updated successfully",
+      data: { question: result.rows[0] }
+    });
+  } catch (error) {
+    console.error("Question update error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to update question"
+    });
+  }
+});
+
+// ==========================================
+// 🔹 ENHANCED AI CHAT ENDPOINT WITH CONTEXT
+// ==========================================
+
+app.post("/api/ai/enhanced-chat", auth, async (req, res) => {
+  try {
+    const { message, sessionId } = req.body;
+    const studentId = req.student.id;
+    
+    if (!message) {
+      return res.status(400).json({
+        success: false,
+        message: "Message is required"
+      });
+    }
+    
+    console.log(`🤖 Enhanced chat request from student ${studentId}`);
+    console.log(`📝 Message: ${message.substring(0, 200)}...`);
+    
+    // Extract keywords from message
+    const keywords = extractKeywords(message);
+    
+    // 1. Search in learning content
+    const relevantContent = await EnhancedGeminiService.searchContent(keywords);
+    
+    // 2. Search in student questions KB
+    const similarQuestions = await EnhancedGeminiService.findStudentQuestions(message, studentId);
+    
+    // 3. Save this question to KB
+    await pool.query(
+      `INSERT INTO student_questions_kb (student_id, question, category, tags, status)
+       VALUES ($1, $2, $3, $4, 'pending')`,
+      [studentId, message, detectCategory(message), keywords]
+    );
+    
+    // 4. Prepare context for Gemini
+    const context = prepareAIContext(relevantContent, similarQuestions, req.student);
+    
+    // 5. Get response from Gemini with context
+    const geminiResponse = await getEnhancedGeminiResponse(message, context);
+    
+    // 6. Save the response
+    await pool.query(
+      `UPDATE student_questions_kb 
+       SET answer = $1, status = 'answered', answered_at = CURRENT_TIMESTAMP
+       WHERE student_id = $2 AND question = $3 AND status = 'pending'`,
+      [geminiResponse, studentId, message]
+    );
+    
+    res.json({
+      success: true,
+      data: {
+        response: geminiResponse,
+        contextFound: relevantContent.length > 0 || similarQuestions.length > 0,
+        relevantContent: relevantContent.slice(0, 3),
+        similarQuestions: similarQuestions.slice(0, 2)
+      }
+    });
+    
+  } catch (error) {
+    console.error("Enhanced chat error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to process chat request"
+    });
+  }
+});
+
+// Helper functions
+function extractKeywords(text) {
+  const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'];
+  const words = text.toLowerCase()
+    .replace(/[^\w\s]/g, '')
+    .split(/\s+/)
+    .filter(word => word.length > 2 && !stopWords.includes(word));
+  
+  return [...new Set(words)].slice(0, 10);
+}
+
+function detectCategory(message) {
+  const categories = {
+    'react|jsx|component|hook|state|props': 'Frontend',
+    'node|express|server|api|backend': 'Backend',
+    'python|django|flask|ml|ai|data': 'Python',
+    'html|css|javascript|js|frontend': 'Frontend',
+    'sql|database|postgres|mysql|mongodb': 'Backend',
+    'git|github|version|control|commit': 'Git & DevOps',
+    'marketing|seo|social|media|digital': 'Digital Marketing',
+    'interview|resume|placement|job|career': 'Placements',
+    'project|portfolio|build|create': 'Projects'
+  };
+  
+  const lowerMsg = message.toLowerCase();
+  for (const [keywords, category] of Object.entries(categories)) {
+    if (keywords.split('|').some(keyword => lowerMsg.includes(keyword))) {
+      return category;
+    }
+  }
+  
+  return 'General';
+}
+
+function prepareAIContext(content, questions, student) {
+  let context = `STUDENT CONTEXT:
+      - Name: ${student.first_name} ${student.last_name}
+      - Batch: ${student.batch_month} ${student.batch_year}
+      - Current Level: ${student.current_coding_level || 'Not specified'}
+      - Technical Skills: ${student.technical_skills?.join(', ') || 'Not specified'}
+      - Job Search Status: ${student.job_search_status || 'Not specified'}
+
+      RELEVANT LEARNING CONTENT:\n`;
+        
+  if (content.length > 0) {
+    content.forEach((item, index) => {
+      context += `${index + 1}. [${item.category}] ${item.title}: ${item.content.substring(0, 200)}...\n`;
+    });
+  } else {
+    context += "No direct content matches found.\n";
+  }
+  
+  context += "\nSIMILAR PREVIOUS QUESTIONS:\n";
+  if (questions.length > 0) {
+    questions.forEach((q, index) => {
+      context += `${index + 1}. Q: ${q.question}\n   A: ${q.answer?.substring(0, 150) || 'No answer yet'}...\n`;
+    });
+  } else {
+    context += "No similar questions found.\n";
+  }
+  
+  return context;
+}
+
+async function getEnhancedGeminiResponse(message, context) {
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-pro",
+      systemInstruction: `
+      You are "BroOne AI", the official AI assistant of OneSolutions Institute.
+      Your role: Expert tutor, mentor, and career guide for students.
+
+      INSTRUCTIONS:
+      1. Use the provided context to give accurate, personalized answers
+      2. If context doesn't match perfectly, use your general knowledge
+      3. Always be encouraging and supportive
+      4. Structure complex answers with bullet points or steps
+      5. Include code examples when relevant
+      6. Suggest next learning steps
+      7. Relate answers to real-world applications
+      8. Keep responses concise but thorough
+
+      FORMAT GUIDELINES:
+      - Start with a brief acknowledgment
+      - Present main answer clearly
+      - Use examples when helpful
+      - End with key takeaways or next steps
+      `
+    });
+    
+    const prompt = `Context Information:\n${context}\n\nStudent Question: ${message}\n\nPlease provide a helpful, accurate response based on the context above. If the context doesn't fully answer the question, use your knowledge to supplement.`;
+    
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+  } catch (error) {
+    console.error("Gemini API error:", error);
+    return "I'm here to help! Based on our learning materials and your question, I recommend checking our course content on this topic. You can also reach out to your mentors for personalized guidance.";
+  }
+}
+
+// Get learning content for students
+app.get("/api/ai/learning-content", auth, async (req, res) => {
+  try {
+    const { category, search } = req.query;
+    
+    let query = `
+      SELECT id, category, subcategory, title, content, 
+             content_type, file_url, created_at
+      FROM ai_learning_content 
+      WHERE is_active = true
+    `;
+    
+    const params = [];
+    let paramCount = 1;
+    
+    if (category && category !== 'all') {
+      query += ` AND category = $${paramCount}`;
+      params.push(category);
+      paramCount++;
+    }
+    
+    if (search && search.trim() !== '') {
+      query += ` AND (
+        title ILIKE $${paramCount} OR 
+        content ILIKE $${paramCount} OR 
+        keywords::text ILIKE $${paramCount}
+      )`;
+      params.push(`%${search}%`);
+      paramCount++;
+    }
+    
+    query += ` ORDER BY priority DESC, created_at DESC LIMIT 50`;
+    
+    const result = await pool.query(query, params);
+    
+    res.json({
+      success: true,
+      data: { content: result.rows }
+    });
+  } catch (error) {
+    console.error("Learning content fetch error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch learning content"
+    });
+  }
+});
+
+// Get content categories for students
+app.get("/api/ai/categories", auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT category_name, description, icon_url 
+       FROM ai_content_categories 
+       WHERE is_active = true
+       ORDER BY display_order, category_name`
+    );
+    
+    res.json({
+      success: true,
+      data: { categories: result.rows }
+    });
+  } catch (error) {
+    console.error("Categories fetch error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to fetch categories"
+    });
+  }
+});
+
 
 // Handle 404 routes
 app.use("*", (req, res) => {

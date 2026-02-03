@@ -16,6 +16,7 @@ export default function Courses() {
     calculateCourseProgress,
     calculateGoalProgress,
     refreshProgress,
+    user, // Assuming user object contains studentType
   } = useAuth();
 
   const [expandedGoal, setExpandedGoal] = useState(goalsData[0]?.id || null);
@@ -28,6 +29,38 @@ export default function Courses() {
     modules: {},
   });
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
+
+  // Get student type from user context
+  const studentType = user?.studentType || "zorvixe_core"; // Default to core if not specified
+
+  // ✅ Filter goals based on student type
+  const filteredGoals = goalsData.filter(
+    (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
+  );
+
+  // ✅ Filter courses based on student type
+  const getFilteredCourses = (courses) => {
+    return courses.filter(
+      (course) =>
+        !course.accessibleTo || course.accessibleTo.includes(studentType)
+    );
+  };
+
+  // ✅ Filter modules based on student type
+  const getFilteredModules = (modules) => {
+    return modules.filter(
+      (module) =>
+        !module.accessibleTo || module.accessibleTo.includes(studentType)
+    );
+  };
+
+  // ✅ Filter subtopics based on student type
+  const getFilteredSubtopics = (topics) => {
+    if (!topics) return [];
+    return topics.filter(
+      (topic) => !topic.accessibleTo || topic.accessibleTo.includes(studentType)
+    );
+  };
 
   // ✅ Load progress and calculate local progress on mount
   useEffect(() => {
@@ -105,26 +138,29 @@ export default function Courses() {
     const coursesProgress = {};
     const modulesProgress = {};
 
-    goalsData.forEach((goal) => {
-      // Calculate goal progress
+    filteredGoals.forEach((goal) => {
+      // Calculate goal progress - only include accessible content
       const goalProg = calculateGoalProgress(goal);
       goalsProgress[goal.id] = goalProg;
       console.log(`Goal ${goal.title}: ${goalProg}%`);
 
-      goal.courses.forEach((course) => {
-        // Calculate course progress
+      const accessibleCourses = getFilteredCourses(goal.courses);
+      accessibleCourses.forEach((course) => {
+        // Calculate course progress - only include accessible content
         const courseProg = calculateCourseProgress(course);
         coursesProgress[course.id] = courseProg;
         console.log(`Course ${course.title}: ${courseProg}%`);
 
-        course.modules.forEach((module) => {
-          // Calculate module progress
+        const accessibleModules = getFilteredModules(course.modules);
+        accessibleModules.forEach((module) => {
+          // Calculate module progress - only include accessible content
           const moduleProg = calculateModuleProgress(module);
           modulesProgress[module.id] = moduleProg;
           console.log(`Module ${module.name}: ${moduleProg}%`);
 
-          // Log subtopic completion status
-          module.topic?.forEach((subtopic) => {
+          // Log accessible subtopic completion status
+          const accessibleSubtopics = getFilteredSubtopics(module.topic);
+          accessibleSubtopics.forEach((subtopic) => {
             const isCompleted = completedContent.includes(subtopic.id);
             console.log(
               `Subtopic ${subtopic.name} (${subtopic.id}): ${isCompleted ? "COMPLETED" : "not completed"}`
@@ -144,14 +180,18 @@ export default function Courses() {
     calculateCourseProgress,
     calculateModuleProgress,
     completedContent,
+    filteredGoals,
+    getFilteredCourses,
+    getFilteredModules,
+    getFilteredSubtopics,
   ]);
 
   // Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 0 || goalIndex === 1) return false;
+    if (goalIndex === 0 || goalIndex === 2) return false;
 
     for (let i = 0; i < goalIndex; i++) {
-      const previousGoal = goalsData[i];
+      const previousGoal = filteredGoals[i];
       const previousGoalProgress = getGoalProgress(previousGoal);
 
       if (previousGoalProgress < 100) {
@@ -284,24 +324,30 @@ export default function Courses() {
     alert("This content is locked.");
   };
 
+  // Debug info for student type
+  console.log("Current student type:", studentType);
+
   return (
     <div
       className="courses-container"
       style={{ marginTop: "50px" }}
-      key={`courses-${lastUpdateTime}`}
+      key={`courses-${lastUpdateTime}-${studentType}`}
     >
       {/* Debug info */}
       <div style={{ display: "none" }}>
         Last update: {lastUpdateTime}
         <br />
         Completed count: {completedContent?.length || 0}
+        <br />
+        Student type: {studentType}
       </div>
 
       {/* Goals List */}
       <div className="goals-wrapper">
-        {goalsData.map((goal, goalIndex) => {
+        {filteredGoals.map((goal, goalIndex) => {
           const goalPercent = getGoalProgress(goal);
           const locked = isGoalLocked(goalIndex);
+          const accessibleCourses = getFilteredCourses(goal.courses);
 
           return (
             <section
@@ -347,13 +393,13 @@ export default function Courses() {
               </header>
 
               <div className="goal-body">
-                {!locked && goal.courses.length === 0 ? (
+                {!locked && accessibleCourses.length === 0 ? (
                   <div className="no-courses">
                     <h4>No courses found</h4>
-                    <p>You don't have any courses in this goal.</p>
+                    <p>You don't have any accessible courses in this goal.</p>
                   </div>
                 ) : (
-                  goal.courses.map((course) => {
+                  accessibleCourses.map((course) => {
                     const coursePercent = getCourseProgress(course);
 
                     return (
@@ -436,183 +482,202 @@ export default function Courses() {
                         {/* Modules */}
                         {expandedCourse === course.id && !locked && (
                           <div className="module-details">
-                            {(course.modules || []).map((module) => {
-                              const subtopics = module.topic || [];
-                              const isExpanded = expandedModule === module.name;
-                              const moduleProgress = getModuleProgress(module);
-                              const isModuleCompleted = moduleProgress >= 100;
+                            {(getFilteredModules(course.modules) || []).map(
+                              (module) => {
+                                const accessibleSubtopics =
+                                  getFilteredSubtopics(module.topic);
+                                const isExpanded =
+                                  expandedModule === module.name;
+                                const moduleProgress =
+                                  getModuleProgress(module);
+                                const isModuleCompleted = moduleProgress >= 100;
 
-                              return (
-                                <div
-                                  className={`module-container ${
-                                    isExpanded ? "expanded" : ""
-                                  }`}
-                                  key={module.id}
-                                >
+                                return (
                                   <div
-                                    className="module-single-div"
-                                    onClick={() =>
-                                      toggleModule(module.name, goalIndex)
-                                    }
+                                    className={`module-container ${
+                                      isExpanded ? "expanded" : ""
+                                    }`}
+                                    key={module.id}
                                   >
-                                    {/* Timeline Column */}
-                                    <div className="timeline">
-                                      <div className="circle-row module-circle-row">
-                                        <div
-                                          className={`circle module-circle ${
-                                            isModuleCompleted ? "completed" : ""
-                                          }`}
-                                          style={{
-                                            "--progress": `${moduleProgress}%`,
-                                          }}
-                                        >
-                                          {isModuleCompleted ? "✓" : ""}
-                                        </div>
-                                      </div>
-
-                                      {isExpanded && (
-                                        <>
-                                          {subtopics.map((subtopic) => {
-                                            const isCompleted =
-                                              isSubtopicCompleted(subtopic.id);
-                                            console.log(
-                                              `Rendering subtopic ${subtopic.id}: ${isCompleted ? "completed" : "not completed"}`
-                                            );
-                                            return (
-                                              <div
-                                                className="circle-row subtopic-circle-row"
-                                                key={subtopic.id}
-                                              >
-                                                <div
-                                                  className={`circle subtopic-circle ${
-                                                    isCompleted
-                                                      ? "completed"
-                                                      : ""
-                                                  }`}
-                                                  onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleSubtopicClick(
-                                                      module.id,
-                                                      subtopic.id,
-                                                      subtopic.name,
-                                                      goal.title,
-                                                      course.title,
-                                                      goalIndex
-                                                    );
-                                                  }}
-                                                >
-                                                  {isCompleted ? "✓" : ""}
-                                                </div>
-                                              </div>
-                                            );
-                                          })}
-                                          {subtopics.length > 0 && (
-                                            <div className="vertical-line"></div>
-                                          )}
-                                        </>
-                                      )}
-                                    </div>
-
-                                    {/* Content Column */}
-                                    <div className="content-area">
-                                      <div className="module_topic_names">
-                                        <div className="module-header-row">
-                                          <div className="topic-label">
-                                            <h6>TOPIC</h6>
-                                          </div>
-                                          <div className="module-title">
-                                            <h5>{module.name}</h5>
-                                          </div>
-                                        </div>
-
-                                        {/* Expand Modules Button */}
-                                        <div className="active-module_subtopic">
-                                          <button
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              toggleModule(
-                                                module.name,
-                                                goalIndex
-                                              );
+                                    <div
+                                      className="module-single-div"
+                                      onClick={() =>
+                                        toggleModule(module.name, goalIndex)
+                                      }
+                                    >
+                                      {/* Timeline Column */}
+                                      <div className="timeline">
+                                        <div className="circle-row module-circle-row">
+                                          <div
+                                            className={`circle module-circle ${
+                                              isModuleCompleted
+                                                ? "completed"
+                                                : ""
+                                            }`}
+                                            style={{
+                                              "--progress": `${moduleProgress}%`,
                                             }}
-                                            aria-label={
-                                              isExpanded
-                                                ? "Collapse module"
-                                                : "Expand module"
-                                            }
                                           >
-                                            {isExpanded ? (
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="22"
-                                                height="22"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                              >
-                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                                              </svg>
-                                            ) : (
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="22"
-                                                height="22"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                              >
-                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                                              </svg>
-                                            )}
-                                          </button>
+                                            {isModuleCompleted ? "✓" : ""}
+                                          </div>
                                         </div>
+
+                                        {isExpanded && (
+                                          <>
+                                            {accessibleSubtopics.map(
+                                              (subtopic) => {
+                                                const isCompleted =
+                                                  isSubtopicCompleted(
+                                                    subtopic.id
+                                                  );
+                                                console.log(
+                                                  `Rendering subtopic ${subtopic.id}: ${isCompleted ? "completed" : "not completed"}`
+                                                );
+                                                return (
+                                                  <div
+                                                    className="circle-row subtopic-circle-row"
+                                                    key={subtopic.id}
+                                                  >
+                                                    <div
+                                                      className={`circle subtopic-circle ${
+                                                        isCompleted
+                                                          ? "completed"
+                                                          : ""
+                                                      }`}
+                                                      onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        handleSubtopicClick(
+                                                          module.id,
+                                                          subtopic.id,
+                                                          subtopic.name,
+                                                          goal.title,
+                                                          course.title,
+                                                          goalIndex
+                                                        );
+                                                      }}
+                                                    >
+                                                      {isCompleted ? "✓" : ""}
+                                                    </div>
+                                                  </div>
+                                                );
+                                              }
+                                            )}
+                                            {accessibleSubtopics.length > 0 && (
+                                              <div className="vertical-line"></div>
+                                            )}
+                                          </>
+                                        )}
                                       </div>
 
-                                      {isExpanded && (
-                                        <div className="subtopics-section">
-                                          {subtopics.map((subtopic) => {
-                                            const isCompleted =
-                                              isSubtopicCompleted(subtopic.id);
-                                            return (
-                                              <div
-                                                className={`subtopic-content-row ${
-                                                  isCompleted ? "completed" : ""
-                                                }`}
-                                                key={subtopic.id}
-                                                onClick={(e) => {
-                                                  e.stopPropagation();
-                                                  handleSubtopicClick(
-                                                    module.id,
-                                                    subtopic.id,
-                                                    subtopic.name,
-                                                    goal.title,
-                                                    course.title,
-                                                    goalIndex
-                                                  );
-                                                }}
-                                              >
-                                                <span className="subtopic-text">
-                                                  {isMCQ(subtopic)
-                                                    ? "MCQ Practice"
-                                                    : isCodingPractice(subtopic)
-                                                      ? "Coding Practice"
-                                                      : subtopic.name}
-                                                </span>
-                                              </div>
-                                            );
-                                          })}
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
+                                      {/* Content Column */}
+                                      <div className="content-area">
+                                        <div className="module_topic_names">
+                                          <div className="module-header-row">
+                                            <div className="topic-label">
+                                              <h6>TOPIC</h6>
+                                            </div>
+                                            <div className="module-title">
+                                              <h5>{module.name}</h5>
+                                            </div>
+                                          </div>
 
-                                  {/* Right Side Lesson Content */}
-                                  {isExpanded && selectedSubtopic && (
-                                    <div className="lesson-content">
-                                      {getSubtopicContent(selectedSubtopic)}
+                                          {/* Expand Modules Button */}
+                                          <div className="active-module_subtopic">
+                                            <button
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                toggleModule(
+                                                  module.name,
+                                                  goalIndex
+                                                );
+                                              }}
+                                              aria-label={
+                                                isExpanded
+                                                  ? "Collapse module"
+                                                  : "Expand module"
+                                              }
+                                            >
+                                              {isExpanded ? (
+                                                <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="22"
+                                                  height="22"
+                                                  fill="currentColor"
+                                                  viewBox="0 0 16 16"
+                                                >
+                                                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                                                </svg>
+                                              ) : (
+                                                <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  width="22"
+                                                  height="22"
+                                                  fill="currentColor"
+                                                  viewBox="0 0 16 16"
+                                                >
+                                                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                                </svg>
+                                              )}
+                                            </button>
+                                          </div>
+                                        </div>
+
+                                        {isExpanded && (
+                                          <div className="subtopics-section">
+                                            {accessibleSubtopics.map(
+                                              (subtopic) => {
+                                                const isCompleted =
+                                                  isSubtopicCompleted(
+                                                    subtopic.id
+                                                  );
+                                                return (
+                                                  <div
+                                                    className={`subtopic-content-row ${
+                                                      isCompleted
+                                                        ? "completed"
+                                                        : ""
+                                                    }`}
+                                                    key={subtopic.id}
+                                                    onClick={(e) => {
+                                                      e.stopPropagation();
+                                                      handleSubtopicClick(
+                                                        module.id,
+                                                        subtopic.id,
+                                                        subtopic.name,
+                                                        goal.title,
+                                                        course.title,
+                                                        goalIndex
+                                                      );
+                                                    }}
+                                                  >
+                                                    <span className="subtopic-text">
+                                                      {isMCQ(subtopic)
+                                                        ? "MCQ Practice"
+                                                        : isCodingPractice(
+                                                              subtopic
+                                                            )
+                                                          ? "Coding Practice"
+                                                          : subtopic.name}
+                                                    </span>
+                                                  </div>
+                                                );
+                                              }
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
                                     </div>
-                                  )}
-                                </div>
-                              );
-                            })}
+
+                                    {/* Right Side Lesson Content */}
+                                    {isExpanded && selectedSubtopic && (
+                                      <div className="lesson-content">
+                                        {getSubtopicContent(selectedSubtopic)}
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              }
+                            )}
                           </div>
                         )}
                       </div>

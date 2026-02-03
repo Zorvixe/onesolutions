@@ -9,8 +9,12 @@ import MCQWrapper from "../SubtopicsPage/MCQWrapper.js";
 
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
-  const { completedContent, markContentAsCompleted, forceProgressUpdate } =
-    useAuth();
+  const { 
+    completedContent, 
+    markContentAsCompleted, 
+    forceProgressUpdate,
+    user // Get user to access student type
+  } = useAuth();
 
   const [selectedSubtopicSub, setSelectedSubtopicSub] = useState(null);
   const [selectedModuleSub, setSelectedModuleSub] = useState(null);
@@ -18,33 +22,105 @@ const SubtopicPage = () => {
   const [selectedGoalSub, setSelectedGoalSub] = useState(null);
   const [expandedModuleSub, setExpandedModuleSub] = useState(null);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isAccessible, setIsAccessible] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔍 Find subtopic, module, course, goal
+  // Get student type from user context
+  const studentType = user?.studentType || "zorvixe_core"; // Default to core if not specified
+
+  // ✅ Filter goals based on student type
+  const filteredGoals = goalsData.filter(goal => 
+    !goal.accessibleTo || goal.accessibleTo.includes(studentType)
+  );
+
+  // ✅ Filter courses based on student type
+  const getFilteredCourses = (courses) => {
+    return courses.filter(course => 
+      !course.accessibleTo || course.accessibleTo.includes(studentType)
+    );
+  };
+
+  // ✅ Filter modules based on student type
+  const getFilteredModules = (modules) => {
+    return modules.filter(module => 
+      !module.accessibleTo || module.accessibleTo.includes(studentType)
+    );
+  };
+
+  // ✅ Filter subtopics based on student type
+  const getFilteredSubtopics = (topics) => {
+    if (!topics) return [];
+    return topics.filter(topic => 
+      !topic.accessibleTo || topic.accessibleTo.includes(studentType)
+    );
+  };
+
+  // 🔍 Find subtopic, module, course, goal - WITH ACCESSIBILITY CHECK
   const findContentByIds = (moduleId, subtopicId) => {
     let foundSubtopicSub = null;
     let foundModuleSub = null;
     let foundCourseSub = null;
     let foundGoalSub = null;
+    let isAccessibleContent = false;
 
-    goalsData.forEach((goal) => {
-      goal.courses.forEach((course) => {
-        course.modules.forEach((module) => {
-          module.topic?.forEach((subtopic) => {
+    // Only search through accessible goals
+    filteredGoals.forEach((goal) => {
+      // Only search through accessible courses
+      const accessibleCourses = getFilteredCourses(goal.courses);
+      accessibleCourses.forEach((course) => {
+        // Only search through accessible modules
+        const accessibleModules = getFilteredModules(course.modules);
+        accessibleModules.forEach((module) => {
+          // Only search through accessible subtopics
+          const accessibleSubtopics = getFilteredSubtopics(module.topic);
+          accessibleSubtopics.forEach((subtopic) => {
             if (subtopic.id === subtopicId && module.id === moduleId) {
               foundSubtopicSub = subtopic;
               foundModuleSub = module;
               foundCourseSub = course;
               foundGoalSub = goal;
+              isAccessibleContent = true;
             }
           });
         });
       });
     });
 
-    return { foundSubtopicSub, foundModuleSub, foundCourseSub, foundGoalSub };
+    // If not found in accessible content, check if it exists in general data
+    if (!foundSubtopicSub) {
+      goalsData.forEach((goal) => {
+        goal.courses.forEach((course) => {
+          course.modules.forEach((module) => {
+            module.topic?.forEach((subtopic) => {
+              if (subtopic.id === subtopicId && module.id === moduleId) {
+                foundSubtopicSub = subtopic;
+                foundModuleSub = module;
+                foundCourseSub = course;
+                foundGoalSub = goal;
+                // Content exists but might not be accessible
+                const isGoalAccessible = !goal.accessibleTo || goal.accessibleTo.includes(studentType);
+                const isCourseAccessible = !course.accessibleTo || course.accessibleTo.includes(studentType);
+                const isModuleAccessible = !module.accessibleTo || module.accessibleTo.includes(studentType);
+                const isSubtopicAccessible = !subtopic.accessibleTo || subtopic.accessibleTo.includes(studentType);
+                
+                isAccessibleContent = isGoalAccessible && isCourseAccessible && 
+                                      isModuleAccessible && isSubtopicAccessible;
+              }
+            });
+          });
+        });
+      });
+    }
+
+    return { 
+      foundSubtopicSub, 
+      foundModuleSub, 
+      foundCourseSub, 
+      foundGoalSub,
+      isAccessible: isAccessibleContent
+    };
   };
 
   // ✅ Check if subtopic is already completed
@@ -118,26 +194,45 @@ const SubtopicPage = () => {
     }
   };
 
-  // 📌 Load content on route change
+  // 📌 Load content on route change - WITH ACCESSIBILITY CHECK
   useEffect(() => {
     if (topicId && subtopicId) {
-      const { foundSubtopicSub, foundModuleSub, foundCourseSub, foundGoalSub } =
-        findContentByIds(topicId, subtopicId);
+      const { 
+        foundSubtopicSub, 
+        foundModuleSub, 
+        foundCourseSub, 
+        foundGoalSub,
+        isAccessible: accessible 
+      } = findContentByIds(topicId, subtopicId);
 
       if (foundSubtopicSub && foundModuleSub) {
-        setSelectedSubtopicSub(foundSubtopicSub);
-        setSelectedModuleSub(foundModuleSub);
-        setSelectedCourseSub(foundCourseSub);
-        setSelectedGoalSub(foundGoalSub);
-        setExpandedModuleSub(topicId);
+        setIsAccessible(accessible);
+        
+        if (accessible) {
+          setSelectedSubtopicSub(foundSubtopicSub);
+          setSelectedModuleSub(foundModuleSub);
+          setSelectedCourseSub(foundCourseSub);
+          setSelectedGoalSub(foundGoalSub);
+          setExpandedModuleSub(topicId);
 
-        console.log(
-          `SubtopicPage loaded: ${foundSubtopicSub.name} (${subtopicId})`
-        );
-        console.log(
-          `Already completed? ${isSubtopicCompleted() ? "YES" : "NO"}`
-        );
+          console.log(
+            `SubtopicPage loaded: ${foundSubtopicSub.name} (${subtopicId})`
+          );
+          console.log(
+            `Already completed? ${isSubtopicCompleted() ? "YES" : "NO"}`
+          );
+        } else {
+          console.log(
+            `SubtopicPage: Content ${subtopicId} exists but is not accessible to student type ${studentType}`
+          );
+          setSelectedSubtopicSub(null);
+          setSelectedModuleSub(null);
+          setSelectedCourseSub(null);
+          setSelectedGoalSub(null);
+        }
       } else if (location.state) {
+        // If content is not found but we have state from navigation
+        setIsAccessible(false); // Mark as not accessible since it's not in filtered data
         setSelectedSubtopicSub({
           id: subtopicId,
           name: location.state.subtopicName || "Unknown Subtopic",
@@ -161,11 +256,11 @@ const SubtopicPage = () => {
         handleChildCompletion
       );
     };
-  }, [topicId, subtopicId, location.state]);
+  }, [topicId, subtopicId, location.state, studentType]);
 
   // 🔄 Auto-scroll active subtopic
   useEffect(() => {
-    if (expandedModuleSub && selectedSubtopicSub) {
+    if (expandedModuleSub && selectedSubtopicSub && isAccessible) {
       const timer = setTimeout(() => {
         const activeEl = document.querySelector(
           ".subtopic-page-sub__item-sub.active-sub"
@@ -184,24 +279,34 @@ const SubtopicPage = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [expandedModuleSub, selectedSubtopicSub]);
+  }, [expandedModuleSub, selectedSubtopicSub, isAccessible]);
 
   const handleModuleClickSub = (moduleId) => {
     setExpandedModuleSub((prev) => (prev === moduleId ? null : moduleId));
   };
 
   const handleSubtopicClickSub = (module, subtopic) => {
-    navigate(`/topic/${module.id}/subtopic/${subtopic.id}`, {
-      state: {
-        subtopicName: subtopic.name,
-        fromCourse: true,
-      },
-    });
+    // Check if the subtopic is accessible before navigating
+    const isGoalAccessible = !selectedGoalSub?.accessibleTo || selectedGoalSub.accessibleTo.includes(studentType);
+    const isCourseAccessible = !selectedCourseSub?.accessibleTo || selectedCourseSub.accessibleTo.includes(studentType);
+    const isModuleAccessible = !module?.accessibleTo || module.accessibleTo.includes(studentType);
+    const isSubtopicAccessible = !subtopic?.accessibleTo || subtopic.accessibleTo.includes(studentType);
+    
+    if (isGoalAccessible && isCourseAccessible && isModuleAccessible && isSubtopicAccessible) {
+      navigate(`/topic/${module.id}/subtopic/${subtopic.id}`, {
+        state: {
+          subtopicName: subtopic.name,
+          fromCourse: true,
+        },
+      });
+    } else {
+      alert("You don't have access to this content based on your subscription.");
+    }
   };
 
   // ✅ Pass markAsCompleted to all child components
   const renderSubtopicContentSub = (subtopic) => {
-    if (!subtopic) return <p>No subtopic selected</p>;
+    if (!subtopic || !isAccessible) return null;
 
     const ComponentSub = subtopicComponents[subtopic.name];
 
@@ -267,7 +372,7 @@ const SubtopicPage = () => {
   };
 
   const isContentInCurrentContext = (subtopic) => {
-    if (!selectedCourseSub || !subtopic) return false;
+    if (!selectedCourseSub || !subtopic || !isAccessible) return false;
 
     return selectedCourseSub.modules?.some((module) =>
       module.topic?.some((topic) => topic.id === subtopic.id)
@@ -277,13 +382,13 @@ const SubtopicPage = () => {
   return (
     <div className="subtopic-page-sub">
       <div className="subtopic-page-sub__left-panel-sub">
-        {selectedCourseSub ? (
+        {selectedCourseSub && isAccessible ? (
           <div className="subtopic-page-sub__navigation-sub">
             <h3 className="subtopic-page-sub__course-title-sub">
               {selectedCourseSub.title}
             </h3>
 
-            {selectedCourseSub.modules.map((module) => (
+            {getFilteredModules(selectedCourseSub.modules).map((module) => (
               <div
                 key={module.id}
                 className="subtopic-page-sub__module-section-sub"
@@ -301,7 +406,7 @@ const SubtopicPage = () => {
 
                 {expandedModuleSub === module.id && (
                   <div className="subtopic-page-sub__topics-sub">
-                    {module.topic?.map((subtopic) => (
+                    {getFilteredSubtopics(module.topic).map((subtopic) => (
                       <div
                         key={subtopic.id}
                         className={`subtopic-page-sub__item-sub ${
@@ -323,14 +428,14 @@ const SubtopicPage = () => {
               </div>
             ))}
           </div>
-        ) : (
+        ) : isAccessible ? (
           <p>Loading course content...</p>
-        )}
+        ) : null}
       </div>
 
       {/* RIGHT PANEL */}
       <div className="subtopic-page-sub__right-panel-sub">
-        {selectedSubtopicSub ? (
+        {selectedSubtopicSub && isAccessible ? (
           isContentInCurrentContext(selectedSubtopicSub) ? (
             <div>
               {/* Subtopic Content */}
@@ -344,6 +449,16 @@ const SubtopicPage = () => {
               </button>
             </div>
           )
+        ) : !isAccessible ? (
+          <div className="subtopic-page-sub__access-denied-sub">
+            <h3>Access Denied</h3>
+            <p>
+              This content is not available for your subscription level ({studentType}).
+            </p>
+            <button onClick={() => navigate("/courses")}>
+              Back to Courses
+            </button>
+          </div>
         ) : (
           <p>Select a subtopic to start learning.</p>
         )}
