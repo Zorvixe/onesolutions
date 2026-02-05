@@ -716,10 +716,15 @@ import SQL_Coding_Pratice_8 from "../SQL_Database/Modelling_Databases/SQL_Coding
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
+import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
+import Miscellaneous_Python_Library_CheeatSheet from "../Python/Miscellaneous/Miscellaneous_Python_Library_CheeatSheet.js";
 export const subtopicComponents = {
   //Python OOPS CORE
   "Foundations of Object Oriented Programming | Cheat Sheet":
     FoundationsOfOOP_CheatSheet,
+  "Foundations of Object Oriented Programming | Cheat Sheet 2":
+    FoundationsOfOOP_CheatSheet_2,
+  "Standard Library | Cheat Sheet": Miscellaneous_Python_Library_CheeatSheet,
   //SQL Coding Pratice
   "SQL Coding Practice 1": SQL_Coding_Pratice_1,
   "SQL Coding Practice 2": SQL_Coding_Pratice_2,

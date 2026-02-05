@@ -1975,40 +1975,45 @@ export const goalsData = [
               },
               {
                 id: "QW9_43_A0 m13_H g1_7B c3_D2E",
+                name: "Foundations of Object Oriented Programming | Cheat Sheet 2",
+                accessibleTo: ["zorvixe_core"],
+              },
+              {
+                id: "QW9_44_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Intro_OOP",
                 accessibleTo: ["zorvixe_core"],
               },
 
               {
-                id: "QW9_s44_A0 m13_H g1_7B c3_D2E",
+                id: "QW9_s45_A0 m13_H g1_7B c3_D2E",
                 name: "Coding Practice OOPS",
                 accessibleTo: ["zorvixe_core"],
               },
             ],
           },
           {
-            id: "QW9_m14_A0 g1_H c3_7B",
+            id: "QW9_m50_A0 g1_H c3_7B",
             name: "Miscellaneous Topics",
             accessibleTo: ["zorvixe_core"],
             topic: [
               {
-                id: "QW9_s1_A0 m14_H g1_7B c3_D2E",
+                id: "QW9_s51_A0 m14_H g1_7B c3_D2E",
                 name: "Python Standard Library",
                 accessibleTo: ["zorvixe_core"],
               },
               {
-                id: "QW9_s2_A0 m14_H g1_7B c3_D2E",
-                name: "Python Standard Library | Cheat Sheet",
+                id: "QW9_s52_A0 m14_H g1_7B c3_D2E",
+                name: "Standard Library | Cheat Sheet",
                 accessibleTo: ["zorvixe_core"],
               },
               {
-                id: "QW9_s3_A0 m14_H g1_7B c3_D2E",
+                id: "QW9_s53_A0 m14_H g1_7B c3_D2E",
                 name: "MCQ Practice - Miscellaneous",
                 accessibleTo: ["zorvixe_core"],
               },
 
               {
-                id: "QW9_s16_A0 m14_H g1_7B c3_D2E",
+                id: "QW9_s54_A0 m14_H g1_7B c3_D2E",
                 name: "Coding Practice Miscellaneous",
                 accessibleTo: ["zorvixe_core"],
               },
