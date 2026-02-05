@@ -5334,12 +5334,40 @@ console.log(getPreferredGameMode(arrayOfFriends));
 
           sampleOutput: `20`,
 
-          testCases: [],
+          testCases: [
+            {
+              input: "[12, 1, 2, 4, 1]",
+              output: "20",
+              visible: true,
+            },
+            {
+              input: "[5, 10, 15]",
+              output: "30",
+              visible: true,
+            },
+            {
+              input: "[100, 200, 300]",
+              output: "600",
+              visible: false,
+            },
+            {
+              input: "[1, 1, 1, 1, 1]",
+              output: "5",
+              visible: false,
+            },
+          ],
 
           defaultCode: `
+          // Read input
+let myArray = eval(prompt());
+
+/*
+ * Write your code here and log the output.
+ */
+
 
           `,
-           score: 12,
+          score: 12,
           status: "unsolved",
           attempts: [],
         },
@@ -5368,12 +5396,73 @@ console.log(getPreferredGameMode(arrayOfFriends));
           sampleOutput: `Printing Press\nLight Buld\nTelephone\nAeroplane\nComputer`,
 
           testCases: [
-       
+            {
+              input: "name",
+              output:
+                "Printing Press\nLight Buld\nTelephone\nAeroplane\nComputer",
+              visible: true,
+            },
+            {
+              input: "inventor",
+              output:
+                "Johannes Gutenberg\nThomas Edison\nAlexander Graham Bell\nWright Brothers\nCharles Babbage",
+              visible: true,
+            },
+            {
+              input: "year",
+              output: "1440\n1879\n1876\n1903\n1822",
+              visible: false,
+            },
+            {
+              input: "country",
+              output: "Germany\nUSA\nScotland\nUSA\nEngland",
+              visible: false,
+            },
           ],
 
           defaultCode: `
+          // Prefilled array of objects
+          let arrayOfInventions = [
+            {
+  name: "Printing Press",
+  inventor: "Johannes Gutenberg",
+  year: 1440,
+  country: "Germany"
+},
+{
+  name: "Light Buld",
+  inventor: "Thomas Edison",
+  year: 1879,
+  country: "USA"
+},
+{
+  name: "Telephone",
+  inventor: "Alexander Graham Bell",
+  year: 1876,
+  country: "Scotland"
+},
+{
+  name: "Aeroplane",
+  inventor: "Wright Brothers",
+  year: 1903,
+  country: "USA"
+},
+{
+  name: "Computer",
+  inventor: "Charles Babbage",
+  year: 1822,
+  country: "England"
+}
+];
 
-          `,
+// Read input
+let objectKey = prompt();
+
+/*
+* Write your code here and log the output.
+*/
+
+`,
 
           score: 12,
           status: "unsolved",
@@ -5403,22 +5492,58 @@ console.log(getPreferredGameMode(arrayOfFriends));
             </div>
           `,
 
-          sampleInput: "[{'name': 'Rahul', 'age': 19 },{'name': 'Vinod', 'age': 10}, {'name':'Pavan', 'age': 11},{'name': 'Geetha', 'age': 17 }]",
+          sampleInput:
+            "[{'name': 'Rahul', 'age': 19 },{'name': 'Vinod', 'age': 10}, {'name':'Pavan', 'age': 11},{'name': 'Geetha', 'age': 17 }]",
 
           sampleOutput: `Rahul`,
 
           testCases: [
-       
-          ],
+            {
+              input: '[{"name":"Rahul","age":19},{"name":"Vinod","age":10},{"name":"Pavan","age":11},{"name":"Geetha","age":17}]',
+              output: '["Rahul"]',
+              visible: true,
+            },
+            {
+              input: '[{"name":"Anand","age":18},{"name":"Sita","age":25}]',
+              output: '["Anand","Sita"]',
+              visible: true,
+            },
+            {
+              input: '[{"name":"Raj","age":16},{"name":"Kiran","age":17}]',
+              output: '[]',
+              visible: true,
+            },
+            {
+              input: '[]',
+              output: '[]',
+              visible: true,
+            },
+          ]
+          
+          
+          ,
 
           defaultCode: `
 
+          // Read input
+          let arrayOfPersons = JSON.parse(prompt());
+          
+          /*
+           * Write your code here and log the output.
+           */
+          function logEligibleVoters(persons) {
+            // Student will write code here
+          }
+          
+          logEligibleVoters(arrayOfPersons);
+          
+
             `,
 
-            score: 12,
-            status: "unsolved",
-            attempts: [],
-          },
+          score: 12,
+          status: "unsolved",
+          attempts: [],
+        },
         {
           id: "47d6bda7-14e94f2c90ff-b201f9340c8a",
           title: "Indian Car Brand Names",
@@ -5443,13 +5568,12 @@ console.log(getPreferredGameMode(arrayOfFriends));
             </div>
           `,
 
-          sampleInput: "[{'name': 'Chevrolet', 'country': 'America' },{'name': 'Maruthi Suzuki', 'country': 'India' },{'name':'Audi', 'country': 'Germany' },{'name': 'Tata', 'country': 'India' },{'name': 'Honda', 'country': 'Japan' }]",
+          sampleInput:
+            "[{'name': 'Chevrolet', 'country': 'America' },{'name': 'Maruthi Suzuki', 'country': 'India' },{'name':'Audi', 'country': 'Germany' },{'name': 'Tata', 'country': 'India' },{'name': 'Honda', 'country': 'Japan' }]",
 
           sampleOutput: `[ 'Maruti Suzuki', 'Tata' ]`,
 
-          testCases: [
-       
-          ],
+          testCases: [],
 
           defaultCode: `
 
@@ -5461,7 +5585,6 @@ console.log(getPreferredGameMode(arrayOfFriends));
         },
       ],
     },
-    //Js Coding practice - 6 
-    
+    //Js Coding practice - 6
   ],
 };

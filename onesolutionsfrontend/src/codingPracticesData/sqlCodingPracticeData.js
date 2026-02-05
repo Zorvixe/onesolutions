@@ -1,20 +1,21 @@
 export const sqlCodingPracticesData = {
-    sql: [
-      {
-        id: "javascript-coding-practice-1",
-        title: "Javascript Coding Practice 1",
-        description: "",
-        questions: [
-          {
-            id: "ed912af8-2fvjfrkbnjfbvj46d9-0d95ddf8eb19",
-            title: "Color Picker",
-            description:
-              "In this assignment, let's build a Color Picker by applying the concepts we learned till now.",
-            difficulty: "Easy",
-            score: 80,
-            type: "web",
-            defaultCode: {
-              html: `<!DOCTYPE html>
+  sql: [
+    //coding practice - 1
+    {
+      id: "sql-coding-practice-1",
+      title: "sql Coding Practice 1",
+      description: "",
+      questions: [
+        {
+          id: "ed91f8-2ffrhjdvm-f8eb19",
+          title: "Color Picker SQL",
+          description:
+            "In this assignment, let's build a Color Picker by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 80,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
               <html>
               
               <head>
@@ -39,7 +40,7 @@ export const sqlCodingPracticesData = {
               </body>
               
               </html>`,
-              css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
+            css: `@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap');
   
               .button {
                   width: 80px;
@@ -82,10 +83,10 @@ export const sqlCodingPracticesData = {
                   margin-top: 20px;
                   border-radius: 10px;
               }`,
-              javascript: ``,
-            },
-            // FIX: Use proper string formatting for descriptionDetails
-            descriptionDetails: `
+            sql: ``,
+          },
+          // FIX: Use proper string formatting for descriptionDetails
+          descriptionDetails: `
                     <div class="desc-question-details">
   
                       <p class="desc-que-blue">Refer to the below image.</p>
@@ -163,82 +164,82 @@ export const sqlCodingPracticesData = {
                      
                     </div>
                   `,
-            testCases: [
-              {
-                id: 1,
-                description:
-                  "When button1 is clicked, background color should change to #e0e0e0",
-                type: "js-validation",
-                input: "check-button1-bg",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 2,
-                description:
-                  "When button1 is clicked, selectedColorHexCode text should be #e0e0e0",
-                type: "js-validation",
-                input: "check-button1-text",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 3,
-                description:
-                  "When button2 is clicked, background color should change to #6fcf97",
-                type: "js-validation",
-                input: "check-button2-bg",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 4,
-                description:
-                  "When button2 is clicked, selectedColorHexCode text should be #6fcf97",
-                type: "js-validation",
-                input: "check-button2-text",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 5,
-                description:
-                  "When button3 is clicked, background color should change to #56ccf2",
-                type: "js-validation",
-                input: "check-button3-bg",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 6,
-                description:
-                  "When button3 is clicked, selectedColorHexCode text should be #56ccf2",
-                type: "js-validation",
-                input: "check-button3-text",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 7,
-                description:
-                  "When button4 is clicked, background color should change to #bb6bd9",
-                type: "js-validation",
-                input: "check-button4-bg",
-                output: "true",
-                visible: true,
-              },
-              {
-                id: 8,
-                description:
-                  "When button4 is clicked, selectedColorHexCode text should be #bb6bd9",
-                type: "js-validation",
-                input: "check-button4-text",
-                output: "true",
-                visible: true,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
+          testCases: [
+            {
+              id: 1,
+              description:
+                "When button1 is clicked, background color should change to #e0e0e0",
+              type: "js-validation",
+              input: "check-button1-bg",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "When button1 is clicked, selectedColorHexCode text should be #e0e0e0",
+              type: "js-validation",
+              input: "check-button1-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When button2 is clicked, background color should change to #6fcf97",
+              type: "js-validation",
+              input: "check-button2-bg",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When button2 is clicked, selectedColorHexCode text should be #6fcf97",
+              type: "js-validation",
+              input: "check-button2-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When button3 is clicked, background color should change to #56ccf2",
+              type: "js-validation",
+              input: "check-button3-bg",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When button3 is clicked, selectedColorHexCode text should be #56ccf2",
+              type: "js-validation",
+              input: "check-button3-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "When button4 is clicked, background color should change to #bb6bd9",
+              type: "js-validation",
+              input: "check-button4-bg",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "When button4 is clicked, selectedColorHexCode text should be #bb6bd9",
+              type: "js-validation",
+              input: "check-button4-text",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};

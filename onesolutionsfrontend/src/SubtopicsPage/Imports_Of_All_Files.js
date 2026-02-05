@@ -704,7 +704,32 @@ import JS_Essential_MCQ_Assignment_4 from "../JavaScript_Essentials/Assignments/
 import JS_Essential_Mock_Tests_MCQ_1 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Tests_MCQ_1.js";
 import JS_Essential_Mock_Tests_MCQ_2 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Tests_MCQ_2.js";
 
+//SQL Coding Pratice
+import SQL_Coding_Pratice_1 from "../SQL_Database/Introdutionto_SQL/SQL_Coding_Pratice_1.js";
+import SQL_Coding_Pratice_2 from "../SQL_Database/Introdutionto_SQL/SQL_Coding_Pratice_2.js";
+import SQL_Coding_Pratice_3 from "../SQL_Database/Quering_SQL/SQL_Coding_Pratice_3.js";
+import SQL_Coding_Pratice_4 from "../SQL_Database/Quering_SQL/SQL_Coding_Pratice_4.js";
+import SQL_Coding_Pratice_5 from "../SQL_Database/Quering_SQL/SQL_COding_Pratice_5.js";
+import SQL_Coding_Pratice_6 from "../SQL_Database/Aggregations/SQL_Coding_Pratice_6.js";
+import SQL_Coding_Pratice_7 from "../SQL_Database/Common_Concepts/SQL_Coding_Pratice_7.js";
+import SQL_Coding_Pratice_8 from "../SQL_Database/Modelling_Databases/SQL_Coding_Pratice_8.js";
+
+//Python OOPS CORE
+import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 export const subtopicComponents = {
+  //Python OOPS CORE
+  "Foundations of Object Oriented Programming | Cheat Sheet":
+    FoundationsOfOOP_CheatSheet,
+  //SQL Coding Pratice
+  "SQL Coding Practice 1": SQL_Coding_Pratice_1,
+  "SQL Coding Practice 2": SQL_Coding_Pratice_2,
+  "SQL Coding Practice 3": SQL_Coding_Pratice_3,
+  "SQL Coding Practice 4": SQL_Coding_Pratice_4,
+  "SQL Coding Practice 5": SQL_Coding_Pratice_5,
+  "SQL Coding Practice 6": SQL_Coding_Pratice_6,
+  "SQL Coding Practice 7": SQL_Coding_Pratice_7,
+  "SQL Coding Practice 8": SQL_Coding_Pratice_8,
+
   // JavaScript Essentials
   "More Modern JS Concepts | Cheat Sheet": More_Modern_JS_Concepts_CS,
   "MCQ Practice - More Modern JS Concepts": More_Modern_Js_Concepts_MCQ,
@@ -785,8 +810,8 @@ export const subtopicComponents = {
   // "Coding Practice 5": Coding_Pratice_5,
   "MileStone | Cheat Sheet": Milestone_CS,
   "MCQ Practice MileStone": Milestone_MCQ,
-  "Assignment 1": SQL_Assignment_1,
-  "Assignment 2": SQL_Assignment_2,
+  "SQL Assignment 1": SQL_Assignment_1,
+  "SQL Assignment 2": SQL_Assignment_2,
   "Modelling Database | Part 1": Modelling_Database_Class_1,
   "Core Concepts of ER Model | Cheat Sheets": Core_Concepts_ER_CS,
   "Appliying ER Model Concepts | Cheat Sheets": Applying_ER_Model_Concepts_CS,
@@ -804,22 +829,22 @@ export const subtopicComponents = {
   "MCQ Practice Querying with Joins | Part 2": Quering_with_Joins_Part_2_MCQ,
   "Querying with Joins | Part 3": Quering_with_Joins_Class_Part_3,
   "MCQ Practice Querying with Joins | Part 3": Quering_with_Joins_MCQ_Part_3,
-  "Coding Practice - 7": Joins_Coding_Pratice_1,
-  "Coding Practice - 8": Joins_Coding_Pratice_2,
-  "Coding Practice - 9": Joins_Coding_Pratice_3,
-  "Coding Practice - 10": Joins_Coding_Pratice_4,
+  "SQL Coding Practice 9": Joins_Coding_Pratice_1,
+  "SQL Coding Practice 10": Joins_Coding_Pratice_2,
+  "SQL Coding Practice 11": Joins_Coding_Pratice_3,
+  "SQL Coding Practice 12": Joins_Coding_Pratice_4,
   "Views and Subqueries": Views_And_Subqueries,
   "Views Subqueries | Cheat Sheet": Views_And_Subqueries_CS,
   "Subqueries | Cheat Sheet": Subqueries_CS,
   "MCQ Practice Views and Subqueries": Views_And_Subqueries_MCQ,
-  "Coding Practice - 11": View_Subqeries_Coding_Pratice_11,
+  "SQL Coding Practice 13": View_Subqeries_Coding_Pratice_11,
   "Transaction and Indexes": Transaction_Indexes_Class,
   "Transaction and Indexes | Cheat Sheet": Transaction_Indexes_CS,
   "MCQ Practice Transaction and Indexes": Transaction_Indexes_MCQ,
   "SQL Syntax Differences Between SQLite, MySQL, and Oracle":
     SQL_Syntax_Differences,
 
-  "Assignment 3": SQL_Assignment_3,
+  "SQL Assignment 3": SQL_Assignment_3,
   "MCQ Exam 1": MCQ_Exam_1,
 
   //Responsive Website

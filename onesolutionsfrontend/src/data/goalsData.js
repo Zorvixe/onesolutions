@@ -1959,32 +1959,31 @@ export const goalsData = [
           },
           //OOPS CORE START
           {
-            id: "QW9_m13_A0 g1_H c3_7B",
+            id: "QW9_m40_A0 g1_H c3_7B",
             name: "Introduction to Object Oriented Programming",
             accessibleTo: ["zorvixe_core"],
             topic: [
               {
-                id: "QW9_s1_A0 m13_H g1_7B c3_D2E",
+                id: "QW9_41_A0 m13_H g1_7B c3_D2E",
                 name: "Introduction to Object Oriented Programming",
                 accessibleTo: ["zorvixe_core"],
               },
               {
-                id: "QW9_s2_A0 m13_H g1_7B c3_D2E",
-                name: "Introduction to Object Oriented Programming | Cheat Sheet",
+                id: "QW9_42_A0 m13_H g1_7B c3_D2E",
+                name: "Foundations of Object Oriented Programming | Cheat Sheet",
                 accessibleTo: ["zorvixe_core"],
               },
               {
-                id: "QW9_s3_A0 m13_H g1_7B c3_D2E",
+                id: "QW9_43_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Intro_OOP",
                 accessibleTo: ["zorvixe_core"],
               },
-             
+
               {
-                id: "QW9_s10_A0 m13_H g1_7B c3_D2E",
+                id: "QW9_s44_A0 m13_H g1_7B c3_D2E",
                 name: "Coding Practice OOPS",
                 accessibleTo: ["zorvixe_core"],
-              }
-             
+              },
             ],
           },
           {
@@ -2007,14 +2006,12 @@ export const goalsData = [
                 name: "MCQ Practice - Miscellaneous",
                 accessibleTo: ["zorvixe_core"],
               },
-            
-            
+
               {
                 id: "QW9_s16_A0 m14_H g1_7B c3_D2E",
                 name: "Coding Practice Miscellaneous",
                 accessibleTo: ["zorvixe_core"],
               },
-             
             ],
           },
           //OOPS CORE END
@@ -3027,12 +3024,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s14_A0 m2_H g2_7B c2_D2E",
-                name: "Coding Practice 1",
+                name: "SQL Coding Practice 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m2_H g2_7B c2_D2E",
-                name: "Coding Practice 2",
+                name: "SQL Coding Practice 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3064,7 +3061,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m3_H g2_7B c2_D2E",
-                name: "Coding Practice 1",
+                name: "SQL Coding Practice 3",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -3084,7 +3081,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m3_H g2_7B c2_D2E",
-                name: "Coding Practice 2",
+                name: "SQL Coding Practice 4",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -3114,7 +3111,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s15_A0 m3_H g2_7B c2_D2E",
-                name: "Coding Practice 3",
+                name: "SQL Coding Practice 5",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3161,7 +3158,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m4_H g2_7B c2_D2E",
-                name: "Coding Practice 4",
+                name: "SQL Coding Practice 6",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3213,7 +3210,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m5_H g2_7B c2_D2E",
-                name: "Coding Practice 5",
+                name: "SQL Coding Practice 7",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3235,12 +3232,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m6_H g2_7B c2_D2E",
-                name: "Assignment 1",
+                name: "SQL Assignment 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m6_H g2_7B c2_D2E",
-                name: "Assignment 2",
+                name: "SQL Assignment 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3292,7 +3289,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m7_H g2_7B c2_D2E",
-                name: "Coding Practice 6",
+                name: "SQL Coding Practice 8",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3319,7 +3316,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice - 7",
+                name: "SQL Coding Practice 9",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -3339,7 +3336,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice - 8",
+                name: "SQL Coding Practice 10",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -3359,12 +3356,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice - 9",
+                name: "SQL Coding Practice 11",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m8_H g2_7B c2_D2E",
-                name: "Coding Practice - 10",
+                name: "SQL Coding Practice 12",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3396,7 +3393,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m9_H g2_7B c2_D2E",
-                name: "Coding Practice - 11",
+                name: "SQL Coding Practice 13",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -3440,7 +3437,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m12_H g2_7B c2_D2E",
-                name: "Assignment 3",
+                name: "SQL Assignment 3",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {

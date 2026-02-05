@@ -14,7 +14,7 @@ import Home from "./components/Home/Home";
 import Navbar from "./components/Navbar/Navbar";
 import Courses from "./components/Courses/Courses";
 import Practice from "./components/Practice/Practice";
-import JSPractice from "./components/JSPractice/JSPractice";
+import SQLPractice from "./components/SQLPractice/SQLPractice";
 import Placements from "./components/Placements/Placements";
 import SubtopicPage from "./SubtopicsPage/SubtopicPage";
 import CodeGround from "./CodePlayground/CodePlayground";
@@ -62,6 +62,12 @@ function AppWrapper() {
           <Route
             path="/practice/:practiceId/:questionId"
             element={<Practice />}
+          />
+          <Route path="/sqlpractice" element={<SQLPractice />} />
+          <Route path="/sqlpractice/:practiceId" element={<SQLPractice />} />
+          <Route
+            path="/sqlpractice/:practiceId/:questionId"
+            element={<SQLPractice />}
           />
 
           <Route

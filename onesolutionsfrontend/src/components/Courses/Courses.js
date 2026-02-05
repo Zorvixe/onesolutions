@@ -188,7 +188,7 @@ export default function Courses() {
 
   // Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 0 || goalIndex === 2) return false;
+    if (goalIndex === 0 || goalIndex === 1) return false;
 
     for (let i = 0; i < goalIndex; i++) {
       const previousGoal = filteredGoals[i];
