@@ -1,500 +1,128 @@
 "use client";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { sqlCodingPracticesData } from "../../codingPracticesData/sqlCodingPracticesData";
+import CodingPracticeService from "../../services/codingPracticeService";
+import { useAuth } from "../../context/AuthContext";
+import CodePlayground from "../../CodePlayground/CodePlayground";
+import validateSqlTest from "./validateSqlTest";
+import "./sqlPracticee.css";
+import "../../codingPracticesData/codingpracticesweb.css";
+import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
+import confetti from "canvas-confetti";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-
-import AceEditor from "react-ace";
-import "ace-builds/src-noconflict/mode-sql";
-import "ace-builds/src-noconflict/theme-monokai";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/theme-twilight";
-import "ace-builds/src-noconflict/ext-language_tools";
-
-import initSqlJs from "sql.js";
-
-const API_URL = process.env.REACT_APP_API_BASE_URL;
-
-export default function SQLPractice({
-  initialCode = "",
-  remoteRunners = {},
-  onCodeChange = () => {},
-  customHeight = "calc(90vh - 20px)",
-}) {
+const SQLPractice = () => {
+  const { practiceId, questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Add these state variables
-  const [showSaveModal, setShowSaveModal] = useState(false);
-  const [snippetName, setSnippetName] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [mySnippets, setMySnippets] = useState([]);
-
-  // Add these states for update functionality
-  const [currentSnippetId, setCurrentSnippetId] = useState(null);
-  const [originalSnippetName, setOriginalSnippetName] = useState("");
-  const [originalCode, setOriginalCode] = useState("");
-
-  const editorRef = useRef(null);
-  const [output, setOutput] = useState("");
+  const { loadProgressSummary, user } = useAuth();
+  const [selectedPractice, setSelectedPractice] = useState(null);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [testResults, setTestResults] = useState([]);
   const [isRunning, setIsRunning] = useState(false);
-  const [theme, setTheme] = useState("monokai");
-  const [fontSize, setFontSize] = useState(14);
-  const [sqlJs, setSqlJs] = useState(null);
-  const [db, setDb] = useState(null);
-  const [inputValue, setInputValue] = useState("");
+  const [output, setOutput] = useState("");
+  const [userProgress, setUserProgress] = useState({});
+  const [currentCode, setCurrentCode] = useState({
+    sql: "",
+  });
+  const [allTestsPassed, setAllTestsPassed] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+  const [debugInfo, setDebugInfo] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showCelebrationModal, setShowCelebrationModal] = useState(false);
+  const [tweakIncrease, setTweakIncrease] = useState(0);
+  const confettiRef = useRef([]);
+  const autoSaveTimeoutRef = useRef(null);
+  const [isJustSolved, setIsJustSolved] = useState(false);
+  const [audio, setAudio] = useState(null);
+  const [showTestCases, setShowTestCases] = useState(false);
+  const [queryResult, setQueryResult] = useState(null);
+  const [executionError, setExecutionError] = useState(null);
 
-  const [editorWidth, setEditorWidth] = useState(60);
+  const subtopicId = location.state?.subtopicId;
+  const topicId = location.state?.topicId;
+  const goalName = location.state?.goalName;
+  const courseName = location.state?.courseName;
+
+  // Add state for resize functionality
+  const [editorWidth, setEditorWidth] = useState(65);
   const isResizing = useRef(false);
   const startX = useRef(0);
   const startWidth = useRef(50);
 
-  // Default SQL template
-  const defaultCode = useMemo(
-    () => `-- Sample SQL Practice
--- Create tables
-CREATE TABLE students (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    age INTEGER,
-    grade TEXT,
-    email TEXT UNIQUE
-);
+  const MIN_LEFT_PANEL_PX = 50;
+  const MAX_RIGHT_PANEL_PERCENT = 95;
 
-CREATE TABLE courses (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    instructor TEXT,
-    credits INTEGER
-);
+  const loadProgress = useCallback(async () => {
+    try {
+      const response = await CodingPracticeService.getAllProgress();
+      if (response.success) {
+        const progressMap = {};
+        if (response.data?.progress && Array.isArray(response.data.progress)) {
+          response.data.progress.forEach((prog) => {
+            if (prog && prog.question_id) {
+              progressMap[prog.question_id] = prog;
+            }
+          });
+        }
+        setUserProgress(progressMap);
+        return progressMap;
+      } else {
+        console.error("Failed to load progress:", response.error);
+      }
+    } catch (error) {
+      console.error("Failed to load progress:", error);
+      setDebugInfo(`Error loading progress: ${error.message}`);
+    }
+    return {};
+  }, []);
 
-CREATE TABLE enrollments (
-    student_id INTEGER,
-    course_id INTEGER,
-    enrollment_date DATE DEFAULT CURRENT_DATE,
-    grade REAL,
-    FOREIGN KEY (student_id) REFERENCES students(id),
-    FOREIGN KEY (course_id) REFERENCES courses(id),
-    PRIMARY KEY (student_id, course_id)
-);
+  const autoSaveCode = useCallback(
+    async (questionId, code, isSolved = false) => {
+      try {
+        const codeContent = JSON.stringify(code);
+        const status = isSolved ? "solved" : "attempted";
+        const score = isSolved ? selectedQuestion?.score || 0 : 0;
 
--- Insert sample data
-INSERT INTO students (name, age, grade, email) VALUES 
-('Alice Johnson', 20, 'A', 'alice@example.com'),
-('Bob Smith', 21, 'B', 'bob@example.com'),
-('Carol Davis', 19, 'A', 'carol@example.com'),
-('David Wilson', 22, 'C', 'david@example.com'),
-('Eva Brown', 20, 'B', 'eva@example.com');
+        const response = await CodingPracticeService.saveProgress(
+          practiceId,
+          questionId,
+          "sql",
+          codeContent,
+          status,
+          score,
+          {
+            passed: isSolved,
+            score: score,
+            timestamp: new Date().toISOString(),
+          }
+        );
 
-INSERT INTO courses (name, instructor, credits) VALUES 
-('Database Systems', 'Dr. Smith', 3),
-('Web Development', 'Prof. Johnson', 4),
-('Data Structures', 'Dr. Williams', 3),
-('Algorithms', 'Prof. Davis', 4);
-
-INSERT INTO enrollments (student_id, course_id, grade) VALUES 
-(1, 1, 85.5),
-(1, 2, 92.0),
-(2, 1, 78.0),
-(2, 3, 88.5),
-(3, 2, 95.0),
-(3, 4, 90.5),
-(4, 1, 72.0),
-(4, 2, 81.5),
-(5, 3, 89.0),
-(5, 4, 86.5);
-
--- Query examples
--- 1. Basic SELECT
-SELECT * FROM students;
-
--- 2. Filter with WHERE
-SELECT name, age FROM students WHERE age > 20;
-
--- 3. JOIN tables
-SELECT 
-    s.name AS student_name,
-    c.name AS course_name,
-    e.grade,
-    e.enrollment_date
-FROM students s
-JOIN enrollments e ON s.id = e.student_id
-JOIN courses c ON e.course_id = c.id;
-
--- 4. Aggregate functions
-SELECT 
-    c.name AS course_name,
-    COUNT(e.student_id) AS total_students,
-    AVG(e.grade) AS average_grade,
-    MAX(e.grade) AS highest_grade,
-    MIN(e.grade) AS lowest_grade
-FROM courses c
-LEFT JOIN enrollments e ON c.id = e.course_id
-GROUP BY c.id, c.name;
-
--- 5. Subquery
-SELECT 
-    name,
-    age,
-    (SELECT COUNT(*) FROM enrollments WHERE student_id = students.id) AS courses_taken
-FROM students;
-
--- 6. Update records
-UPDATE students SET grade = 'A+' WHERE name = 'Alice Johnson';
-
--- 7. Delete record
--- DELETE FROM students WHERE name = 'David Wilson';
-
--- 8. Create index
-CREATE INDEX idx_students_email ON students(email);
-
--- 9. Views
-CREATE VIEW student_course_summary AS
-SELECT 
-    s.name AS student,
-    COUNT(e.course_id) AS total_courses,
-    AVG(e.grade) AS average_grade
-FROM students s
-LEFT JOIN enrollments e ON s.id = e.student_id
-GROUP BY s.id, s.name;
-
--- Query the view
-SELECT * FROM student_course_summary WHERE average_grade > 85;`,
-    []
+        if (response.success) {
+          setUserProgress((prev) => ({
+            ...prev,
+            [questionId]: {
+              ...prev[questionId],
+              question_id: questionId,
+              status: status,
+              score: score,
+              code: codeContent,
+            },
+          }));
+          return { success: true };
+        }
+        return { success: false };
+      } catch (error) {
+        console.error("Auto-save failed:", error);
+        return { success: false, error: error.message };
+      }
+    },
+    [practiceId, selectedQuestion]
   );
 
-  const [code, setCode] = useState(initialCode || defaultCode);
-
-  // Add this useEffect to handle iframe links (removed iframe-specific code)
-  useEffect(() => {
-    const handleIframeMessage = (event) => {
-      if (event.data.type === "NAVIGATE_TO_HASH") {
-        console.log("Navigating to:", event.data.hash);
-      }
-    };
-
-    window.addEventListener("message", handleIframeMessage);
-
-    return () => {
-      window.removeEventListener("message", handleIframeMessage);
-    };
-  }, []);
-
-  // ADD THIS useEffect to load snippets from navigation state
-  useEffect(() => {
-    const loadSnippetFromState = () => {
-      if (location.state?.loadSnippet && location.state?.snippetData) {
-        const snippet = location.state.snippetData;
-
-        console.log("Loading snippet from state:", snippet);
-        console.log("Available fields:", Object.keys(snippet));
-
-        setCurrentSnippetId(snippet.id);
-        setSnippetName(snippet.name);
-        setOriginalSnippetName(snippet.name);
-
-        // Handle SQL code
-        const sqlCode =
-          snippet.sqlCode || snippet.code || snippet.sql || defaultCode;
-        setCode(sqlCode);
-        setOriginalCode(sqlCode);
-
-        navigate(location.pathname, { replace: true, state: {} });
-      }
-    };
-
-    loadSnippetFromState();
-  }, [location.state, navigate, location.pathname, defaultCode]);
-
-  // Check if snippet has been modified
-  const isSnippetModified = useMemo(() => {
-    if (!currentSnippetId) return false;
-    return snippetName !== originalSnippetName || code !== originalCode;
-  }, [currentSnippetId, snippetName, originalSnippetName, code, originalCode]);
-
-  // Add update snippet function
-  const handleUpdateSnippet = async () => {
-    if (!currentSnippetId || !snippetName.trim()) {
-      alert("Please enter a name for your snippet");
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const snippetData = {
-        snippetName: snippetName.trim(),
-        language: "sql",
-        sqlCode: code,
-      };
-
-      const response = await fetch(
-        `${API_URL}/api/code-snippets/${currentSnippetId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(snippetData),
-        }
-      );
-
-      const result = await response.json();
-
-      if (result.success) {
-        setOriginalSnippetName(snippetName);
-        setOriginalCode(code);
-        fetchMySnippets();
-        setShowSaveModal(false);
-      } else {
-        alert(`Failed to update: ${result.message}`);
-      }
-    } catch (error) {
-      console.error("Update error:", error);
-      alert("Failed to update snippet");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Modify handleSaveSnippet to handle both save and update
-  const handleSaveSnippet = async () => {
-    if (currentSnippetId) {
-      handleUpdateSnippet();
-      return;
-    }
-
-    if (!snippetName.trim()) {
-      alert("Please enter a name for your snippet");
-      return;
-    }
-
-    setSaving(true);
-    try {
-      const snippetData = {
-        snippetName: snippetName.trim(),
-        language: "sql",
-        sqlCode: code,
-      };
-
-      const response = await fetch(`${API_URL}/api/code-snippets/save`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(snippetData),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        alert("Snippet saved successfully!");
-        setShowSaveModal(false);
-        setSnippetName("");
-        if (result.data && result.data.snippet) {
-          setCurrentSnippetId(result.data.snippet.id);
-          setOriginalSnippetName(snippetData.snippetName);
-          setOriginalCode(code);
-        }
-        fetchMySnippets();
-      } else {
-        alert(`Failed to save: ${result.message}`);
-      }
-    } catch (error) {
-      console.error("Save error:", error);
-      alert("Failed to save snippet");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Load SQL.js
-  useEffect(() => {
-    const loadSqlJs = async () => {
-      try {
-        const SQL = await initSqlJs({
-          locateFile: (file) => `https://sql.js.org/dist/${file}`,
-        });
-        setSqlJs(SQL);
-        const database = new SQL.Database();
-        setDb(database);
-      } catch (error) {
-        console.error("Failed to load SQL.js:", error);
-        setOutput(
-          "Failed to load SQL database engine. Please refresh the page."
-        );
-      }
-    };
-    loadSqlJs();
-  }, []);
-
-  const runSQL = useCallback(async () => {
-    setIsRunning(true);
-    setOutput("");
-
-    if (!sqlJs || !db) {
-      setOutput(
-        "SQL database is still loading. Please wait a moment and try again."
-      );
-      setIsRunning(false);
-      return;
-    }
-
-    try {
-      const sqlRunner = remoteRunners?.sql;
-      if (typeof sqlRunner === "function") {
-        const result = await sqlRunner(code);
-        setOutput(result);
-      } else {
-        let outputText = "";
-        const statements = code.split(";").filter((stmt) => stmt.trim());
-
-        // Track execution statistics
-        let totalStatements = 0;
-        let successfulStatements = 0;
-        let errorStatements = 0;
-
-        for (const statement of statements) {
-          if (!statement.trim()) continue;
-          totalStatements++;
-
-          try {
-            const stmtUpper = statement.trim().toUpperCase();
-            if (
-              stmtUpper.startsWith("SELECT") ||
-              stmtUpper.startsWith("PRAGMA") ||
-              stmtUpper.startsWith("EXPLAIN") ||
-              stmtUpper.startsWith("WITH")
-            ) {
-              const result = db.exec(statement);
-              if (result.length > 0) {
-                const columns = result[0].columns;
-                const values = result[0].values;
-
-                // Calculate column widths
-                const colWidths = columns.map((col, index) => {
-                  const maxDataWidth = Math.max(
-                    ...values.map((row) => String(row[index] || "").length)
-                  );
-                  return Math.max(col.length, maxDataWidth, 3);
-                });
-
-                // Build table header
-                const header = columns
-                  .map((col, i) =>
-                    col.padEnd(colWidths[i] + 1).padStart(colWidths[i] + 2)
-                  )
-                  .join("│");
-
-                const topBorder =
-                  "┌" +
-                  colWidths.map((width) => "─".repeat(width + 2)).join("┬") +
-                  "┐";
-                const middleBorder =
-                  "├" +
-                  colWidths.map((width) => "─".repeat(width + 2)).join("┼") +
-                  "┤";
-                const bottomBorder =
-                  "└" +
-                  colWidths.map((width) => "─".repeat(width + 2)).join("┴") +
-                  "┘";
-
-                outputText += topBorder + "\n";
-                outputText += "│" + header + "│\n";
-                outputText += middleBorder + "\n";
-
-                // Add rows
-                values.forEach((row) => {
-                  const rowStr =
-                    "│" +
-                    row
-                      .map((cell, i) =>
-                        String(cell || "")
-                          .padEnd(colWidths[i] + 1)
-                          .padStart(colWidths[i] + 2)
-                      )
-                      .join("│") +
-                    "│";
-                  outputText += rowStr + "\n";
-                });
-
-                outputText += bottomBorder + "\n";
-                outputText += `\n${values.length} row(s) returned\n\n`;
-              } else {
-                outputText += "✓ Query executed successfully (no results)\n\n";
-              }
-              successfulStatements++;
-            } else if (
-              stmtUpper.startsWith("INSERT") ||
-              stmtUpper.startsWith("UPDATE") ||
-              stmtUpper.startsWith("DELETE") ||
-              stmtUpper.startsWith("CREATE") ||
-              stmtUpper.startsWith("ALTER") ||
-              stmtUpper.startsWith("DROP") ||
-              stmtUpper.startsWith("TRUNCATE")
-            ) {
-              db.run(statement);
-              const changes = db.getRowsModified();
-              const operation = statement.split(" ")[0].toUpperCase();
-              outputText += `✓ ${operation} executed successfully. ${changes} row(s) affected.\n\n`;
-              successfulStatements++;
-            } else if (
-              stmtUpper.startsWith("BEGIN") ||
-              stmtUpper.startsWith("COMMIT") ||
-              stmtUpper.startsWith("ROLLBACK")
-            ) {
-              // Transaction control statements
-              db.run(statement);
-              outputText += `✓ ${statement.trim()}\n\n`;
-              successfulStatements++;
-            } else {
-              // Other SQL statements
-              db.run(statement);
-              outputText += `✓ Statement executed successfully.\n\n`;
-              successfulStatements++;
-            }
-          } catch (err) {
-            errorStatements++;
-            outputText += `✗ Error in statement ${totalStatements}:\n`;
-            outputText += `   Statement: ${statement.trim()}\n`;
-            outputText += `   Error: ${err.message}\n\n`;
-          }
-        }
-
-        // Add execution summary
-        if (totalStatements > 0) {
-          outputText += "=".repeat(50) + "\n";
-          outputText += "EXECUTION SUMMARY:\n";
-          outputText += `Total Statements: ${totalStatements}\n`;
-          outputText += `Successful: ${successfulStatements}\n`;
-          outputText += `Failed: ${errorStatements}\n`;
-          outputText += "=".repeat(50) + "\n";
-        }
-
-        if (!outputText.trim()) {
-          outputText =
-            "No SQL statements to execute. Please write some SQL code.";
-        }
-
-        setOutput(outputText);
-      }
-    } catch (err) {
-      setOutput(`SQL Error: ${err.message}`);
-    } finally {
-      setIsRunning(false);
-    }
-  }, [code, sqlJs, db, remoteRunners]);
-
-  const handleRun = useCallback(() => {
-    setOutput("");
-    console.log("Running SQL code");
-    runSQL();
-  }, [runSQL]);
-
-  const onChangeCode = useCallback((value) => {
-    setCode(value);
-  }, []);
-
+  // Resize functionality
   const startResize = useCallback(
     (e) => {
       isResizing.current = true;
@@ -515,347 +143,900 @@ SELECT * FROM student_course_summary WHERE average_grade > 85;`,
   const handleResize = useCallback((e) => {
     if (!isResizing.current) return;
 
-    const deltaX = e.clientX - startX.current;
-    const containerWidth = document.querySelector(
-      ".playground-content-codep"
-    ).offsetWidth;
+    // 👈 INVERTED HERE
+    const deltaX = startX.current - e.clientX;
+
+    const container = document.querySelector(".sql-practice-content");
+    const containerWidth = container?.offsetWidth || window.innerWidth;
+
     const deltaPercent = (deltaX / containerWidth) * 100;
+    let newEditorWidth = startWidth.current + deltaPercent;
 
-    let newWidth = startWidth.current + deltaPercent;
-    newWidth = Math.max(15, Math.min(85, newWidth));
+    const minLeftPercent = (MIN_LEFT_PANEL_PX / containerWidth) * 100;
+    const maxEditorWidth = 100 - minLeftPercent;
 
-    setEditorWidth(newWidth);
+    newEditorWidth = Math.max(0, Math.min(maxEditorWidth, newEditorWidth));
+
+    setEditorWidth(newEditorWidth);
   }, []);
 
   useEffect(() => {
     document.addEventListener("mousemove", handleResize);
     document.addEventListener("mouseup", stopResize);
-
     return () => {
       document.removeEventListener("mousemove", handleResize);
       document.removeEventListener("mouseup", stopResize);
     };
   }, [handleResize, stopResize]);
 
-  const resetToDefault = useCallback(() => {
-    setCode(defaultCode);
-    setOutput("");
-    setInputValue("");
-    if (sqlJs) {
-      const newDb = new sqlJs.Database();
-      setDb(newDb);
-    }
-    setCurrentSnippetId(null);
-    setSnippetName("");
-    setOriginalSnippetName("");
-    setOriginalCode("");
-  }, [defaultCode, sqlJs]);
+  useEffect(() => {
+    const loadPracticeData = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
 
-  const getLanguageIcon = () => {
-    return <img src="/assets/sql_logo.png" alt="SQL" width="44" height="24" />;
-  };
+        const practice = sqlCodingPracticesData.sql.find(
+          (p) => p.id === practiceId
+        );
+        if (!practice) {
+          setError(`Practice with ID "${practiceId}" not found.`);
+          return;
+        }
+
+        setSelectedPractice(practice);
+
+        if (!practice.questions || !Array.isArray(practice.questions)) {
+          setError("Practice questions not available.");
+          return;
+        }
+
+        const question =
+          practice.questions.find((q) => q.id === questionId) ||
+          practice.questions[0];
+        if (!question) {
+          setError(`Question with ID "${questionId}" not found.`);
+          return;
+        }
+
+        setSelectedQuestion(question);
+
+        const progressMap = await loadProgress();
+        const savedProgress = progressMap[question.id];
+        let initialCode = {
+          sql: question.defaultCode?.sql || "",
+        };
+
+        if (savedProgress && savedProgress.code) {
+          try {
+            let parsedCode;
+            if (typeof savedProgress.code === "string") {
+              parsedCode = JSON.parse(savedProgress.code);
+            } else {
+              parsedCode = savedProgress.code;
+            }
+
+            if (parsedCode && typeof parsedCode === "object") {
+              initialCode = {
+                sql: parsedCode.sql || initialCode.sql,
+              };
+            }
+          } catch (error) {
+            console.error("Failed to parse saved code:", error);
+          }
+        }
+
+        setCurrentCode(initialCode);
+        setIsJustSolved(false);
+      } catch (error) {
+        console.error("Error loading practice data:", error);
+        setError(`Error loading practice: ${error.message}`);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPracticeData();
+  }, [practiceId, questionId, loadProgress]);
+
+  const updateQuestionStatus = useCallback(
+    async (questionId, passed, score, code) => {
+      try {
+        const codeContent = JSON.stringify(code || currentCode);
+        const status = passed ? "solved" : "attempted";
+        const finalScore = passed ? score : 0;
+
+        const response = await CodingPracticeService.saveProgress(
+          practiceId,
+          questionId,
+          "sql",
+          codeContent,
+          status,
+          finalScore,
+          {
+            passed,
+            score: finalScore,
+            timestamp: new Date().toISOString(),
+          }
+        );
+
+        if (response.success) {
+          setUserProgress((prev) => ({
+            ...prev,
+            [questionId]: {
+              ...prev[questionId],
+              question_id: questionId,
+              status: status,
+              score: finalScore,
+              code: codeContent,
+            },
+          }));
+
+          await loadProgressSummary();
+          return { success: true, data: response.data };
+        } else {
+          console.error("Failed to save progress:", response.message);
+          return { success: false, error: response.message };
+        }
+      } catch (error) {
+        console.error("Failed to update question status:", error);
+        return { success: false, error: error.message };
+      }
+    },
+    [practiceId, currentCode, loadProgressSummary]
+  );
 
   useEffect(() => {
-    onCodeChange(code);
-  }, [code, onCodeChange]);
-
-  useEffect(() => {
-    fetchMySnippets();
+    return () => {
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+      // Cleanup confetti
+      confettiRef.current.forEach((conf) => {
+        if (conf && conf.parentNode) {
+          conf.parentNode.removeChild(conf);
+        }
+      });
+    };
   }, []);
 
-  const fetchMySnippets = async () => {
+  const executeQuery = async () => {
+    setIsRunning(true);
+    setOutput("");
+    setQueryResult(null);
+    setExecutionError(null);
+    setTestResults([]);
+
     try {
-      const token = localStorage.getItem("token");
-      if (!token) return;
+      // Simulate SQL execution for now
+      // In a real implementation, you would connect to a SQL execution service
+      const result = await validateSqlTest(selectedQuestion, currentCode.sql);
 
-      const response = await fetch(`${API_URL}/api/code-snippets/my-snippets`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const result = await response.json();
       if (result.success) {
-        setMySnippets(result.data.snippets || []);
+        setOutput(result.output || "Query executed successfully");
+        setQueryResult(result.data);
+
+        // If there are test cases, run them
+        if (
+          selectedQuestion.testCases &&
+          selectedQuestion.testCases.length > 0
+        ) {
+          runTests(result);
+        }
+      } else {
+        setExecutionError(result.error);
+        setOutput(`Error: ${result.error}`);
       }
     } catch (error) {
-      console.error("Fetch snippets error:", error);
+      setExecutionError(error.message);
+      setOutput(`Execution Error: ${error.message}`);
+    } finally {
+      setIsRunning(false);
     }
+  };
+
+  const runTests = async (executionResult) => {
+    if (!selectedQuestion) return;
+
+    setIsRunning(true);
+    setOutput("Running tests...");
+    setSubmitMessage("");
+    setDebugInfo("");
+
+    const results = [];
+    let passedCount = 0;
+
+    try {
+      if (
+        !selectedQuestion.testCases ||
+        !Array.isArray(selectedQuestion.testCases)
+      ) {
+        setOutput("No test cases available for this question.");
+        setIsRunning(false);
+        return;
+      }
+
+      for (const testCase of selectedQuestion.testCases) {
+        let passed = false;
+        let actual = "";
+
+        try {
+          const result = validateSqlTest(
+            testCase,
+            currentCode.sql,
+            executionResult
+          );
+          passed = result.passed;
+          actual = result.actual || "";
+        } catch (error) {
+          console.error(`Test ${testCase.id} error:`, error);
+          passed = false;
+          actual = `Error: ${error.message}`;
+        }
+
+        if (passed) passedCount++;
+
+        results.push({
+          ...testCase,
+          passed,
+          actual,
+        });
+      }
+
+      setTestResults(results);
+      const allPassed = passedCount === selectedQuestion.testCases.length;
+      setAllTestsPassed(allPassed);
+
+      if (allPassed) {
+        setOutput(
+          `✅ All tests passed! ${passedCount}/${selectedQuestion.testCases.length} tests completed successfully. You can now submit your solution.`
+        );
+      } else {
+        setOutput(
+          `Tests completed: ${passedCount}/${selectedQuestion.testCases.length} passed. Fix the issues and run tests again.`
+        );
+      }
+    } catch (error) {
+      console.error("Error running tests:", error);
+      setOutput(`Error running tests: ${error.message}`);
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
+  const handleRunTests = () => {
+    console.log("Running SQL tests...");
+    setShowTestCases(true);
+    executeQuery();
+  };
+
+  const handleCodeChange = (newCode) => {
+    if (newCode && typeof newCode === "object") {
+      setCurrentCode(newCode);
+      setAllTestsPassed(false);
+      setSubmitMessage("");
+      setQueryResult(null);
+      setExecutionError(null);
+
+      if (isJustSolved) {
+        setIsJustSolved(false);
+        return;
+      }
+
+      if (autoSaveTimeoutRef.current) {
+        clearTimeout(autoSaveTimeoutRef.current);
+      }
+
+      autoSaveTimeoutRef.current = setTimeout(() => {
+        if (selectedQuestion) {
+          const currentStatus = getQuestionStatus(selectedQuestion.id);
+          if (currentStatus !== "solved") {
+            autoSaveCode(selectedQuestion.id, newCode, false);
+          }
+        }
+      }, 2000);
+    }
+  };
+
+  // UPDATED: Improved createConfetti function
+  const createConfetti = () => {
+    const container = document.querySelector(".confetti-container");
+    if (!container) {
+      console.warn("Confetti container not found");
+      return;
+    }
+
+    // Clear existing confetti
+    confettiRef.current.forEach((conf) => {
+      if (conf && conf.parentNode) {
+        conf.parentNode.removeChild(conf);
+      }
+    });
+    confettiRef.current = [];
+
+    const colors = [
+      "#FFD700",
+      "#FF6B6B",
+      "#4ECDC4",
+      "#FFDE59",
+      "#667eea",
+      "#764ba2",
+      "#ff9a9e",
+      "#a18cd1",
+      "#fbc2eb",
+      "#a1c4fd",
+    ];
+
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.position = "absolute";
+      confetti.style.zIndex = "9999";
+      confetti.style.left = `${Math.random() * 100}%`;
+      confetti.style.top = `${Math.random() * 100}%`;
+      confetti.style.backgroundColor =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.width = `${Math.random() * 12 + 6}px`;
+      confetti.style.height = confetti.style.width;
+      confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+
+      // Create animation
+      const animationName = `confettiFall_${Date.now()}_${i}`;
+      const animationDuration = Math.random() * 3 + 2;
+
+      // Create style for animation
+      const style = document.createElement("style");
+      style.innerHTML = `
+        @keyframes ${animationName} {
+          0% {
+            transform: translate(0, -20px) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(${Math.random() * 100 - 50}px, 100vh) rotate(${
+              Math.random() * 720
+            }deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+
+      confetti.style.animation = `${animationName} ${animationDuration}s linear forwards`;
+      confetti.style.animationDelay = `${Math.random() * 1}s`;
+
+      container.appendChild(confetti);
+      confettiRef.current.push(confetti);
+
+      // Remove style element after animation
+      setTimeout(
+        () => {
+          if (style.parentNode) {
+            style.parentNode.removeChild(style);
+          }
+        },
+        animationDuration * 1000 + 1000
+      );
+    }
+  };
+
+  // UPDATED: Improved playSuccessSound function
+  const playSuccessSound = () => {
+    try {
+      // Initialize audio only when needed (on submit)
+      if (!audio) {
+        const newAudio = new Audio("/sounds/success-sound.mp3");
+        newAudio.volume = 0.2;
+        newAudio.preload = "auto";
+        setAudio(newAudio);
+
+        // Play the sound
+        newAudio.currentTime = 0;
+        const playPromise = newAudio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.log(
+              "Audio play failed, trying user interaction fallback:",
+              error
+            );
+            // Create a fallback beep sound using Web Audio API
+            playFallbackSound();
+          });
+        }
+      } else {
+        // If audio already exists, play it
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            console.log(
+              "Audio play failed, trying user interaction fallback:",
+              error
+            );
+            // Create a fallback beep sound using Web Audio API
+            playFallbackSound();
+          });
+        }
+      }
+    } catch (error) {
+      console.warn("Could not play success sound:", error);
+      playFallbackSound();
+    }
+  };
+
+  // NEW: Fallback sound using Web Audio API
+  const playFallbackSound = () => {
+    try {
+      // Check if AudioContext is available
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        console.log("Web Audio API not supported");
+        return;
+      }
+
+      const audioContext = new AudioContext();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.1);
+      oscillator.type = "sine";
+
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      gainNode.gain.linearRampToValueAtTime(
+        0.3,
+        audioContext.currentTime + 0.05
+      );
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + 1
+      );
+
+      oscillator.start();
+      oscillator.stop(audioContext.currentTime + 1);
+
+      // Clean up after sound completes
+      setTimeout(() => {
+        audioContext.close();
+      }, 2000);
+    } catch (error) {
+      console.log("Fallback sound failed:", error);
+    }
+  };
+
+  // UPDATED: Improved celebrateSuccess function
+  const celebrateSuccess = () => {
+    // Play sound first (only when this function is called)
+    playSuccessSound();
+
+    // Then trigger confetti
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      // Launch confetti from left edge
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0, y: 0.5 },
+        colors: ["#FFD700", "#FF6B6B", "#4ECDC4", "#FFDE59"],
+      });
+
+      // Launch confetti from right edge
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1, y: 0.5 },
+        colors: ["#667eea", "#764ba2", "#ff9a9e", "#a18cd1"],
+      });
+
+      // Launch some from the top
+      if (Math.random() > 0.7) {
+        confetti({
+          particleCount: 5,
+          angle: 90,
+          spread: 100,
+          origin: { x: 0.5, y: 0 },
+          colors: ["#FFD700", "#4ECDC4", "#FF6B6B"],
+        });
+      }
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+
+    // Start the animation
+    frame();
+
+    // Add an extra burst after 500ms
+    setTimeout(() => {
+      confetti({
+        particleCount: 150,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
+    }, 500);
+  };
+
+  const handleSubmit = async () => {
+    const allTestsCurrentlyPassed =
+      testResults.length > 0 && testResults.every((test) => test.passed);
+
+    if (!allTestsCurrentlyPassed) {
+      setSubmitMessage(
+        "❌ Please pass all tests before submitting. Run tests first and ensure all tests pass."
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitMessage("Submitting your solution...");
+    setDebugInfo("");
+
+    try {
+      const result = await updateQuestionStatus(
+        selectedQuestion.id,
+        true,
+        selectedQuestion.score,
+        currentCode
+      );
+
+      if (result.success) {
+        const tweakIncreaseValue = selectedQuestion.score || 10;
+        setTweakIncrease(tweakIncreaseValue);
+
+        setIsJustSolved(true);
+
+        if (autoSaveTimeoutRef.current) {
+          clearTimeout(autoSaveTimeoutRef.current);
+        }
+
+        setShowCelebrationModal(true);
+
+        // Trigger both celebrations
+        setTimeout(() => {
+          createConfetti();
+          celebrateSuccess(); // This is where sound will play
+        }, 100);
+
+        if (selectedPractice) {
+          try {
+            await CodingPracticeService.completePractice(
+              selectedPractice.id,
+              goalName,
+              courseName
+            );
+            setDebugInfo("Practice completion status updated successfully.");
+          } catch (practiceError) {
+            console.log(
+              "Practice completion update optional:",
+              practiceError.message
+            );
+          }
+        }
+      } else {
+        setSubmitMessage(
+          `❌ Failed to submit solution: ${result.error || "Unknown error"}`
+        );
+      }
+    } catch (error) {
+      console.error("Submit error:", error);
+      setSubmitMessage(`❌ Error submitting solution: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const closeCelebrationModal = () => {
+    setShowCelebrationModal(false);
+    // Clean up confetti
+    confettiRef.current.forEach((conf) => {
+      if (conf && conf.parentNode) {
+        conf.parentNode.removeChild(conf);
+      }
+    });
+    confettiRef.current = [];
+  };
+
+  const handleBackToPractice = () => {
+    if (topicId && subtopicId) {
+      navigate(`/topic/${topicId}/subtopic/${subtopicId}`, {
+        state: { subtopicId, goalName, courseName, topicId },
+      });
+    } else {
+      navigate(-1);
+    }
+  };
+
+  const getQuestionStatus = (questionId) => {
+    return userProgress[questionId]?.status || "unsolved";
+  };
+
+  const renderDescriptionDetails = () => {
+    if (!selectedQuestion?.descriptionDetails) return null;
+    if (typeof selectedQuestion.descriptionDetails === "string") {
+      return (
+        <div
+          className="desc-question-details"
+          dangerouslySetInnerHTML={{
+            __html: selectedQuestion.descriptionDetails,
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
+  const renderQueryResult = () => {
+    if (!queryResult) return null;
+
+    if (queryResult.error) {
+      return (
+        <div className="sql-error-output">
+          <h4>Error:</h4>
+          <pre>{queryResult.error}</pre>
+        </div>
+      );
+    }
+
+    if (queryResult.results && queryResult.results.length > 0) {
+      return (
+        <div className="sql-result-output">
+          <h4>Query Result:</h4>
+          <div className="sql-result-table">
+            <table>
+              <thead>
+                <tr>
+                  {queryResult.columns?.map((col, idx) => (
+                    <th key={idx}>{col}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {queryResult.results.map((row, rowIdx) => (
+                  <tr key={rowIdx}>
+                    {queryResult.columns?.map((col, colIdx) => (
+                      <td key={colIdx}>{row[col]}</td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="sql-row-count">
+            {queryResult.rowCount} row(s) returned
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="sql-success-output">
+        <p>✓ Query executed successfully.</p>
+        <p>{queryResult.rowCount || 0} row(s) affected.</p>
+      </div>
+    );
+  };
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <h2>Error Loading Practice</h2>
+        <p>{error}</p>
+        <button onClick={handleBackToPractice} className="back-button">
+          ← Back to Practice
+        </button>
+      </div>
+    );
+  }
+
+  if (!selectedPractice || !selectedQuestion) {
+    return (
+      <div className="loading-container">
+        <p>Practice not found...</p>
+        <button onClick={handleBackToPractice} className="back-button">
+          ← Back to Practice
+        </button>
+      </div>
+    );
+  }
+
+  const currentStatus = getQuestionStatus(selectedQuestion.id);
+  const isAlreadySolved = currentStatus === "solved";
+
+  const CelebrationModal = () => {
+    if (!showCelebrationModal) return null;
+
+    return (
+      <div className="celebration-modal-overlay">
+        <div className="confetti-container"></div>
+        <div className="celebration-modal">
+          <h2 className="modal-title">Congratulations!</h2>
+
+          <div className="modal-message">
+            <p>
+              Great job{" "}
+              <span className="modal-username">
+                {user?.username || "Coder"}
+              </span>
+              !
+            </p>
+            <p>You've successfully solved this SQL challenge!</p>
+          </div>
+
+          <div className="modal-tweak-increase">
+            <p>Your Today's Tweak has increased by</p>
+            <div className="tweak-value">+{tweakIncrease}</div>
+            <p>Keep up the great work!</p>
+          </div>
+
+          <button
+            className="modal-button"
+            onClick={closeCelebrationModal}
+            autoFocus
+          >
+            Continue Practicing
+          </button>
+        </div>
+      </div>
+    );
   };
 
   return (
-    <section
-      className="code-playground-codep"
-      style={{ minHeight: customHeight }}
-    >
-      <div className="playground-content-codep">
-        <div
-          className="editor-panel-codep"
-          style={{ width: `${editorWidth}%` }}
-        >
-          <div className="panel-header-codep">
-            <h3 className="lang-header-codep">
-              {getLanguageIcon()}
-              {editorWidth > 25 && (
-                <p className="code-tabs-lang-names">
-                  {editorWidth > 40 ? "SQL" : "SQL"}
-                </p>
-              )}
-              {currentSnippetId && (
-                <span className="edit-mode-indicator"> (Editing)</span>
-              )}
-              {!sqlJs && (
-                <span className="sql-loading-codep"> (Loading...)</span>
-              )}
-            </h3>
-          </div>
-
-          <div className="editor-container-codep">
-            <AceEditor
-              ref={editorRef}
-              mode="sql"
-              theme={theme}
-              value={code}
-              onChange={onChangeCode}
-              fontSize={fontSize}
-              width="100%"
-              height="100%"
-              showPrintMargin={false}
-              showGutter={true}
-              highlightActiveLine={true}
-              setOptions={{
-                enableBasicAutocompletion: true,
-                enableLiveAutocompletion: true,
-                enableSnippets: true,
-                showLineNumbers: true,
-                tabSize: 2,
-                useWorker: false,
-                fontFamily:
-                  "'Fira Code', 'Cascadia Code', 'Monaco', 'Consolas', monospace",
-                scrollPastEnd: 0.5,
-                highlightSelectedWord: true,
-                displayIndentGuides: true,
-                showInvisibles: false,
-                showFoldWidgets: true,
-                fixedWidthGutter: true,
-                wrap: false,
-                indentedSoftWrap: false,
-                lineHeight: 1.4,
-              }}
-              editorProps={{
-                $blockScrolling: true,
-              }}
-              style={{
-                lineHeight: "1.4",
-              }}
-            />
-          </div>
-
-          <header className="playground-header-codep">
-            <div className="header-right-codep">
-              {currentSnippetId ? (
-                <>
-                  <button
-                    className="btn-codep btn-secondary-codep"
-                    onClick={() => setShowSaveModal(true)}
-                    title="Update Snippet"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      className="bi bi-floppy"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M11 2H9v3h2z" />
-                      <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
-                    </svg>
-                    Update
-                  </button>
-                  <button
-                    className="btn-codep btn-secondary-codep"
-                    onClick={resetToDefault}
-                    title="New Snippet"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      className="bi bi-plus-circle"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
-                    New
-                  </button>
-                </>
-              ) : (
-                <button
-                  className="btn-codep btn-secondary-codep"
-                  onClick={() => setShowSaveModal(true)}
-                  title="Save Snippet"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    fill="currentColor"
-                    className="bi bi-floppy"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11 2H9v3h2z" />
-                    <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
-                  </svg>
-                </button>
-              )}
-
-              <button
-                className="btn-codep btn-secondary-codep"
-                onClick={resetToDefault}
-                title="Reset"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  fill="currentColor"
-                  className="bi bi-arrow-clockwise"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
-                  />
-                  <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
-                </svg>
-              </button>
-
-              <button
-                className="btn-codep btn-primary-codep"
-                onClick={handleRun}
-                disabled={isRunning || !sqlJs}
-              >
-                {isRunning ? (
-                  "🔄 Running..."
-                ) : (
-                  <div className="run-code-btn-codep">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      className="bi bi-play-fill"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393" />
-                    </svg>
-                    {currentSnippetId ? "Run SQL" : "Run SQL"}
-                  </div>
-                )}
-              </button>
-            </div>
-          </header>
-        </div>
-
-        <div className="resizer-codep" onMouseDown={startResize} />
-
-        <div
-          className="output-panel-codep"
-          style={{ width: `${100 - editorWidth}%` }}
-        >
-          <div className="output-section-codep">
-            <div className="output-container-codep">
-              <div className="section-header-codep">
-                <h3>SQL Output</h3>
-              </div>
-              <pre className="sql-output-codep">
-                {output || "Click 'Run SQL' to execute your SQL code"}
-              </pre>
-
-              {/* Database Info Section */}
-              {sqlJs && db && (
-                <div className="database-info-codep">
-                  <div className="section-header-codep">
-                    <h4>Database Information</h4>
-                  </div>
-                  <div className="database-stats-codep">
-                    <p>✅ SQL.js Engine Loaded</p>
-                    <p>📊 In-memory SQLite Database Ready</p>
-                    <p>💾 All changes are temporary (in browser memory)</p>
-                    <p>🔄 Refresh the page to reset database</p>
-                  </div>
-                </div>
-              )}
-            </div>
+    <div className="sql-practice-container">
+      <CelebrationModal />
+      <div className="full-question-header-prac">
+        <button className="back-button-prac" onClick={handleBackToPractice}>
+          ← <span className="practice-name-prac">{selectedPractice.title}</span>
+        </button>
+        <div className="full-question-title-prac">
+          <div className="full-question-meta-prac">
+            <span
+              className={`status-indicator-prac ${currentStatus} large-prac`}
+            >
+              {currentStatus === "solved"
+                ? "✓ Solved"
+                : currentStatus === "attempted"
+                  ? "● Attempted"
+                  : "○ Unsolved"}
+            </span>
+            <span
+              className={`difficulty-badge-prac large-prac ${selectedQuestion.difficulty.toLowerCase()}`}
+            >
+              {selectedQuestion.difficulty}
+            </span>
+            <span className="score-badge-prac">
+              {selectedQuestion.score} points
+            </span>
           </div>
         </div>
       </div>
-
-      {/* Save/Update Snippet Modal */}
-      {showSaveModal && (
-        <div className="modal-overlay-codep">
-          <div className="modal-codep">
-            <div className="modal-header-codep">
-              <h3>
-                {currentSnippetId ? "Update SQL Snippet" : "Save SQL Snippet"}
-              </h3>
-              <button onClick={() => setShowSaveModal(false)}>×</button>
-            </div>
-            <div className="modal-body-codep">
-              <div className="form-group-codep">
-                <label htmlFor="snippetName">Snippet Name</label>
-                <input
-                  type="text"
-                  id="snippetName"
-                  value={snippetName}
-                  onChange={(e) => setSnippetName(e.target.value)}
-                  placeholder="Enter SQL snippet name"
-                  autoFocus
-                />
+      <div className="sql-practice-content">
+        <div
+          className={`left-panel ${100 - editorWidth < 8 ? "collapsed" : ""}`}
+          style={{ width: `${100 - editorWidth}%` }}
+        >
+          <div className="question-description">
+            <div className="question-description-header">Description</div>
+            <div className="question-description-content">
+              <h2>{selectedQuestion.title}</h2>
+              <p>{selectedQuestion.description}</p>
+              <div className="desc-question-full-view">
+                {renderDescriptionDetails()}
               </div>
-              <div className="form-group-codep">
-                <label>Language</label>
-                <div className="language-display-codep">
-                  {getLanguageIcon()} SQL
-                </div>
-              </div>
-              {currentSnippetId && (
-                <div className="edit-mode-note-codep">
-                  <small>
-                    ⚠️ Updating will overwrite the original snippet: "
-                    {originalSnippetName}"
-                  </small>
-                </div>
-              )}
-            </div>
-            <div className="modal-footer-codep">
-              <button
-                className="btn-codep btn-secondary-codep"
-                onClick={() => setShowSaveModal(false)}
-                disabled={saving}
-              >
-                Cancel
-              </button>
-              <button
-                className="btn-codep btn-primary-codep"
-                onClick={handleSaveSnippet}
-                disabled={saving || !snippetName.trim()}
-              >
-                {saving
-                  ? currentSnippetId
-                    ? "Updating..."
-                    : "Saving..."
-                  : currentSnippetId
-                    ? "Update SQL Snippet"
-                    : "Save SQL Snippet"}
-              </button>
             </div>
           </div>
         </div>
-      )}
-    </section>
+
+        {/* Resizer */}
+        <div className="resizer-prac" onMouseDown={startResize} />
+
+        <div className="right-panel">
+          <CodePlayground
+            customHeight="calc(90vh - 90px)"
+            initialLanguage="sql"
+            initialCode={currentCode}
+            autoRun={false}
+            onCodeChange={handleCodeChange}
+            customRunHandler={() => handleRunTests()}
+            runButtonText="Run Query & Test"
+          />
+
+          {/* Display SQL execution results */}
+          {output && (
+            <div className="sql-output-preview">
+              <div className="sql-output-header">
+                <h3>Query Output</h3>
+              </div>
+              <div className="sql-output-content">
+                <pre className="sql-output-text">{output}</pre>
+                {renderQueryResult()}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {showTestCases && (
+          <div className="test-cases">
+            <div className="test-cases-header">
+              <div className="test-cases-head-row">
+                <h3>Test Cases</h3>
+                <button
+                  className="hide-test-btn"
+                  onClick={() => setShowTestCases(false)}
+                  title="Hide test cases"
+                >
+                  ✕
+                </button>
+              </div>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
+                <span className="tests-count">
+                  {testResults.filter((t) => t.passed).length}/
+                  {testResults.length} Passed
+                </span>
+              </div>
+            </div>
+            <div className="test-cases-content">
+              <div className="test-results">
+                {testResults.map((test, index) => (
+                  <div
+                    key={index}
+                    className={`test-case ${test.passed ? "passed" : "failed"}`}
+                  >
+                    <div className="test-header">
+                      <span className="test-status">
+                        {test.passed ? "✓" : "✗"}
+                        <p className="test-description">{test.description}</p>
+                      </span>
+                      {test.actual && !test.passed && (
+                        <div className="test-actual">Actual: {test.actual}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {testResults.length === 0 && (
+                  <div className="no-tests">
+                    Run the tests to see results here
+                  </div>
+                )}
+              </div>
+
+              <div className="test-actions">
+                <button
+                  onClick={handleSubmit}
+                  className="submit-btn"
+                  disabled={isSubmitting || !allTestsPassed}
+                >
+                  {isSubmitting ? (
+                    <span className="btn-loader"></span>
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default SQLPractice;

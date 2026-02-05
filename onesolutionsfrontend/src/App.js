@@ -63,10 +63,10 @@ function AppWrapper() {
             path="/practice/:practiceId/:questionId"
             element={<Practice />}
           />
-          <Route path="/sqlpractice" element={<SQLPractice />} />
-          <Route path="/sqlpractice/:practiceId" element={<SQLPractice />} />
+          <Route path="/sql-practice" element={<SQLPractice />} />
+          <Route path="/sql-practice/:practiceId" element={<SQLPractice />} />
           <Route
-            path="/sqlpractice/:practiceId/:questionId"
+            path="/sql-practice/:practiceId/:questionId"
             element={<SQLPractice />}
           />
 

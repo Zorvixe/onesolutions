@@ -1378,17 +1378,17 @@ remoteRunners={{
               </h3>
             )}
 
-            <select
-              className="language-select-codep"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-            >
-              <option value="web">Web</option>
-              <option value="javascript_standalone">JavaScript</option>
-              <option value="python">Python</option>
-              <option value="java">Java</option>
-              <option value="sql">SQL</option>
-            </select>
+<select
+  className="language-select-codep"
+  value={language}
+  onChange={(e) => setLanguage(e.target.value)}
+>
+  <option value="web">Web</option>
+  <option value="javascript_standalone">JavaScript</option>
+  <option value="python">Python</option>
+  <option value="java">Java</option>
+  <option value="sql">SQL</option>
+</select>
           </div>
 
           <div className="editor-container-codep">
