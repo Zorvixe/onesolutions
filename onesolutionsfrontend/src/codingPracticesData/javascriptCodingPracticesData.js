@@ -4106,15 +4106,32 @@ export const javascriptCodingPracticesData = {
                   <ul>
                       <li>When the HTML <code>button </code> element with the id <code>sendGetRequestBtn</code> is clicked,
                       <ul>
-                      <li>Make HTTP Request (GET method) using Fetch with URL <code>https://gorest.co.in/public-api/users</code>
-                    
+                      <li>Make HTTP Request (POST method) using Fetch with URL <code>https://gorest.co.in/public-api/users</code>
                           <ul>
                           <li>Show loading while making HTTP request as shown in the image.</li>
-                          <li>Set status code in the HTML paragraph element with the id requestStatus as shown in the image.</li>
-                          <li>Set HTTP response in the HTML paragraph element with the id <code>httpResponse</code> as shown in the image.</li>
+                          <li>Set status code in the HTML <code>paragraph</code> element with the id <code>requestStatus</code> as shown in the image.</li>
+                          <li>Set HTTP response in the HTML <code>paragraph</code> element with the id <code>httpResponse</code> as shown in the image.</li>
                           </ul>
                         </li>
                   </ul>
+
+                  <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                    <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>               
+                      <li>
+                      Ensure you should give the request body object with the keys name, gender, email, status as shown in the image.
+                      </li>
+                      <li>
+                      While giving the value to the HTML textarea element with the id requestBody, make sure you keep the double quotes to the object keys as shown in the image.
+                      </li>
+                    </ul>
+                  </p>
+                </div>
 
               <hr>
                 <p class="desc-que-blue">Concepts Review</p>
@@ -4126,7 +4143,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 1,
               description:
-                "Page should consist of an HTML button element with the id sendGetRequestBtn",
+                "Page should consist of an HTML textarea element with the id requestBody",
               type: "js-validation",
               input: "check-send-btn",
               output: "true",
@@ -4135,7 +4152,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 2,
               description:
-                "Page should consist of an HTML paragraph element with the id requestStatus",
+                "Page should consist of an HTML button element with the id sendPostRequestBtn",
               type: "js-validation",
               input: "check-request-status",
               output: "true",
@@ -4144,7 +4161,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 3,
               description:
-                "Page should consist of an HTML paragraph element with the id httpResponse",
+                "Page should consist of an HTML paragraph element with the id requestStatus",
               type: "js-validation",
               input: "check-http-response",
               output: "true",
@@ -4153,7 +4170,16 @@ export const javascriptCodingPracticesData = {
             {
               id: 4,
               description:
-                "When the HTML button element with the id sendGetRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
+                "Page should consist of an HTML paragraph element with the id httpResponse",
+              type: "js-validation",
+              input: "check-get-response",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the HTML button element with the id sendPostRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
               type: "js-validation",
               input: "check-get-response",
               output: "true",
@@ -6204,7 +6230,8 @@ concatenateArrays(firstArray, secondArray);
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
-              <p class=""></p>The first line of output should contain the value extracted from the array.\n The second line of output should contain the updated array.</p>
+              <p class=""></p>The first line of output should contain the value extracted from the array.</p>
+              <p class=""></p>The second line of output should contain the updated array.</p>
             </div>
           </div>
            `,
@@ -6224,7 +6251,7 @@ concatenateArrays(firstArray, secondArray);
             {
               input: "['X', 'Y', 'Z']",
               output: "X\n['Y', 'Z']",
-              visible: true,
+              visible: false,
             },
             {
               input: "[true, false, true]",
@@ -6267,20 +6294,269 @@ removeFirstValue(myArray);
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input will contain an array (myArray).\nThe Second line of input will contain any value (val).</p>
+                <p class=""></p>The first line of input will contain an array (myArray).The Second line of input will contain any value (val).</p>
+                <p class=""></p>The Second line of input will contain any value (val).</p>
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be a single lie containing the ndex or -1.</p>
+              <p class=""></p>The output should be a single line containing the index or -1.</p>
             </div>
           </div>
            `,
           sampleInput: "[ 7.2, 4.5, 8.6, 4.5 ]",
           sampleOutput: "4.5",
-          testCases: [],
+          testCases: [
+            {
+              input: "[7.2, 4.5, 8.6, 4.5]\n4.5",
+              output: "3",
+              visible: true,
+            },
+            {
+              input: "[1, 2, 3, 2, 1]\n2",
+              output: "3",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'c', 'b']\n'b'",
+              output: "3",
+              visible: false,
+            },
+            {
+              input: "[10, 20, 30]\n40",
+              output: "-1",
+              visible: false,
+            },
+            {
+              input: "[true, false, true]\ntrue",
+              output: "2",
+              visible: false,
+            },
+            {
+              input: "['x']\n'x'",
+              output: "0",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+// Read input
+let myArray = eval(prompt());
+let val = eval(prompt());
 
+
+function findLastIndex(arr, value) {
+  /*
+  * Write your code here and log the output.
+  */
+}
+
+findLastIndex(myArray, val);
+
+
+          `,
+          score: 28,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "d63c5768-87904030b20d-f87b1734c5f9",
+          title: "Sorting Array Values",
+          description:
+            "Given an array (myArray), write a JS program to sort the array values in the ascending order using 'sort()' method.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing the sorted array.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ 2, 3, 1 ]",
+          sampleOutput: "[ 1, 2, 3]",
+          testCases: [
+            {
+              input: "[2, 3, 1]",
+              output: "[1, 2, 3]",
+              visible: true,
+            },
+            {
+              input: "[5, 1, 4, 2]",
+              output: "[1, 2, 4, 5]",
+              visible: true,
+            },
+            {
+              input: "[10, 3, 20, 1]",
+              output: "[1, 3, 10, 20]",
+              visible: false,
+            },
+            {
+              input: "[7]",
+              output: "[7]",
+              visible: false,
+            },
+            {
+              input: "[9, 8, 7, 6]",
+              output: "[6, 7, 8, 9]",
+              visible: false,
+            },
+            {
+              input: "[100, 2, 50]",
+              output: "[2, 50, 100]",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+
+function sortArray(arr) {
+  /*
+  * Write your code here and log the output.
+  */
+}
+
+sortArray(myArray);
+
+          `,
+          score: 28,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "1bd1b072-4530-43df-b373-ec9ad99fbc94",
+          title: "Joining Array Values",
+          description:
+            "Given an array (myArray) and the string (separator), write a JS Program to join the array values using the separator and 'join()' method.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray)\nThe second line of input will contain a string (separator).</p>
+                <p class=""></p>The second line of input will contain a string (separator).</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line string of combined array values.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ 1, 2, 3, 4, 5 ]",
+          sampleOutput: "+",
+          testCases: [
+            {
+              input: "[1, 2, 3]\n+",
+              output: "1+2+3",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'c']\n-",
+              output: "a-b-c",
+              visible: false,
+            },
+            {
+              input: "[10, 20, 30]\n:",
+              output: "10:20:30",
+              visible: false,
+            },
+            {
+              input: "['JS', 'HTML', 'CSS']\n, ",
+              output: "JS, HTML, CSS",
+              visible: true,
+            },
+            {
+              input: "[5]\n+",
+              output: "5",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+// Read input
+let myArray = eval(prompt());   // handles single quotes
+let separator = prompt();
+
+
+function joinArray(arr, sep) {
+  /*
+  * Write your code here
+  */
+}
+
+joinArray(myArray, separator);
+
+
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "68fb2ebf-3b964514a9c0-093a153655d9",
+          title: "Array Slicing",
+          description:
+            "Given an array (myArray) and the two integers (startIndex and endIndex), write a JS Program to slice the myArray from the start index to end index using 'slice()' method.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray)/nThe second and third lines of input will contain whole numbers (startIndex and endIndex respectively).</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing the sliced array.</p>
+            </div>
+             <div>
+              <p class="desc-que-blue">Constraints</p>
+              <p class=""></p>0 <= startIndex, endIndex < myArray.length</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ 2, 4, 6, 8 ]\n1\n3",
+          sampleOutput: "[ 4, 6 ]",
+          testCases: [],
           defaultCode: `
 
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "68fb2ebf-3b964514a9c0-093a153655d9",
+          title: "Array Slicing",
+          description:
+            "Given an array (myArray) and the two integers (startIndex and endIndex), write a JS Program to slice the myArray from the start index to end index using 'slice()' method.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray)nThe second and third lines of input will contain whole numbers (startIndex and endIndex respectively).</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing the sliced array.</p>
+            </div>
+             <div>
+              <p class="desc-que-blue">Constraints</p>
+              <p class=""></p>0 <= startIndex, endIndex < myArray.length</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ 2, 4, 6, 8 ]\n1\n3",
+          sampleOutput: "[ 4, 6 ]",
+          testCases: [],
+          defaultCode: `
 
           `,
           score: 19,

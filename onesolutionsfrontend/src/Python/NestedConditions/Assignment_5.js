@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import {useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../CodingPracticeCss/CodingPractice.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";

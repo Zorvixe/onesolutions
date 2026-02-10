@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../CodingPracticeCss/CodingPractice.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
 const Assignment_4 = () => {
-  const { questionId } = useParams();
+  // const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,7 +17,7 @@ const Assignment_4 = () => {
     codingPracticeProgress,
     loadProgressSummary,
     markSubtopicComplete,
-    completedContent,
+    // completedContent,
     loadProgressSummary: refreshProgress,
   } = useAuth();
 
@@ -218,7 +218,7 @@ const Assignment_4 = () => {
   ]);
 
   // Check if this coding practice subtopic is already completed in main system
-  const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
+  // const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
 
   const handleQuestionSelect = (question) => {
     navigate(`/practice/${selectedPractice.id}/${question.id}`, {
@@ -246,8 +246,8 @@ const Assignment_4 = () => {
     );
   }
 
-  const practiceCompleted = isPracticeCompleted(selectedPractice.id);
-  const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
+  // const practiceCompleted = isPracticeCompleted(selectedPractice.id);
+  // const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
   const solvedCount = selectedPractice.questions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
