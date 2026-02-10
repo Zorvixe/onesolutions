@@ -3977,14 +3977,6 @@ export const javascriptCodingPracticesData = {
             },
           ],
         },
-      ],
-    },
-    //coding practice - 17
-    {
-      id: "javascript-coding-practice-17",
-      title: "Javascript Coding Practice 17",
-      description: "",
-      questions: [
         {
           id: "e190022-ac24fjjqc88-051s9ddb",
           title: "HTTP Post Method Practice Page",
@@ -4145,14 +4137,15 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML textarea element with the id requestBody",
               type: "js-validation",
-              input: "check-send-btn",
+              input: "check-request-body",
               output: "true",
               visible: true,
             },
+
             {
               id: 2,
               description:
-                "Page should consist of an HTML button element with the id sendPostRequestBtn",
+                "Page should consist of an HTML paragraph element with the id requestStatus",
               type: "js-validation",
               input: "check-request-status",
               output: "true",
@@ -4161,7 +4154,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 3,
               description:
-                "Page should consist of an HTML paragraph element with the id requestStatus",
+                "Page should consist of an HTML paragraph element with the id httpResponse",
               type: "js-validation",
               input: "check-http-response",
               output: "true",
@@ -4170,16 +4163,195 @@ export const javascriptCodingPracticesData = {
             {
               id: 4,
               description:
-                "Page should consist of an HTML paragraph element with the id httpResponse",
+                "When the HTML button element with the id sendPostRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
               type: "js-validation",
-              input: "check-get-response",
+              input: "click-sendPostRequestBtn",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    //coding practice - 17
+    {
+      id: "javascript-coding-practice-17",
+      title: "Javascript Coding Practice 17",
+      description: "",
+      questions: [
+        {
+          id: "e19asl22-axa4fiiqc88-07r49ddb",
+          title: "Wikipedia Search Application",
+          description:
+            "In this assignment, let's build a Wikipedia Search Application by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 25,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="main-container">
+                    <div class="wiki-search-header text-center">
+                        <img class="wiki-logo" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/wiki-logo-img.png" />
+                        <br />
+                        <input placeholder="Type a keyword and press Enter to search" type="search" class="search-input w-100" id="searchInput" />
+                    </div>
+                    <div class="d-none" id="spinner">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border" role="status">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .main-container {
+                font-family: "Roboto";
+            }
+            
+            .wiki-search-header {
+                border-style: solid;
+                border-width: 1px;
+                border-color: #d5cdcd;
+                padding-top: 30px;
+                padding-right: 20px;
+                padding-bottom: 30px;
+                padding-left: 20px;
+                margin-bottom: 40px;
+            }
+            
+            .wiki-logo {
+                width: 150px;
+                margin-bottom: 30px;
+            }
+            
+            .search-input {
+                font-size: 18px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: #d5cdcd;
+                border-radius: 3px;
+                padding: 10px;
+            }
+            
+            .search-results {
+                width: 100%;
+                padding-left: 20px;
+            }
+            
+            .result-item {
+                margin-bottom: 20px;
+            }
+            
+            .result-title {
+                font-size: 22px;
+            }
+            
+            .link-description {
+                color: #444444;
+                font-size: 15px;
+            }
+            
+            .result-url {
+                color: #006621;
+                text-decoration: none;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770729770/wikipedia-search-application-v1_yiid3n.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add the id sendGetRequestBtn to the HTML button element</span></li>
+                        <li><span>Add the id requestStatus to the HTML paragraph element with the class name request-status</span></li>
+                        <li><span>Add the id httpResponse to the HTML paragraph element with the class name http-response</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not delete the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">Achieve the given functionality to the given prefilled code.</p>
+                  <ul>
+                      <li>When the HTML <code>button </code> element with the id <code>sendGetRequestBtn</code> is clicked,
+                      <ul>
+                      <li>Make HTTP Request (GET method) using Fetch with URL <code>https://gorest.co.in/public-api/users</code>
+                    
+                          <ul>
+                          <li>Show loading while making HTTP request as shown in the image.</li>
+                          <li>Set status code in the HTML paragraph element with the id requestStatus as shown in the image.</li>
+                          <li>Set HTTP response in the HTML paragraph element with the id <code>httpResponse</code> as shown in the image.</li>
+                          </ul>
+                        </li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML button element with the id sendGetRequestBtn",
+              type: "js-validation",
+              input: "check-send-btn",
               output: "true",
               visible: true,
             },
             {
-              id: 5,
+              id: 2,
               description:
-                "When the HTML button element with the id sendPostRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
+                "Page should consist of an HTML paragraph element with the id requestStatus",
+              type: "js-validation",
+              input: "check-request-status",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the id httpResponse",
+              type: "js-validation",
+              input: "check-http-response",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id sendGetRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
               type: "js-validation",
               input: "check-get-response",
               output: "true",

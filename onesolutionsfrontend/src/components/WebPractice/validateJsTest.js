@@ -1093,7 +1093,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: element !== null && element.tagName === "INPUT" };
       }
 
-      //HTTP GEt
+      //HTTP GEt--------------------------------------
       case "check-send-btn": {
         const element = iframeDoc.getElementById("sendGetRequestBtn");
         return { passed: element !== null };
@@ -1142,6 +1142,57 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return {
           passed,
           actual: statusEl.textContent + " | " + responseEl.textContent,
+        };
+      }
+
+      //http post--------
+      case "check-request-body": {
+        const element = iframeDoc.getElementById("requestBody");
+        return {
+          passed: element !== null && element.tagName === "TEXTAREA",
+        };
+      }
+
+      case "check-request-status": {
+        const element = iframeDoc.getElementById("requestStatus");
+        return {
+          passed: element !== null && element.tagName === "P",
+        };
+      }
+
+      case "check-http-response": {
+        const element = iframeDoc.getElementById("httpResponse");
+        return {
+          passed: element !== null && element.tagName === "P",
+        };
+      }
+
+      case "click-sendPostRequestBtn": {
+        const statusEl = iframeDoc.getElementById("requestStatus");
+        const responseEl = iframeDoc.getElementById("httpResponse");
+        const btn = iframeDoc.getElementById("sendPostRequestBtn");
+
+        // mock fetch (POST success)
+        iframeDoc.defaultView.fetch = function () {
+          return Promise.resolve({
+            json: function () {
+              return Promise.resolve({
+                code: 201,
+                data: {},
+              });
+            },
+          });
+        };
+
+        btn.click();
+
+        const passed =
+          statusEl.textContent.trim() === "201" &&
+          responseEl.textContent.includes("code");
+
+        return {
+          passed,
+          actual: statusEl.textContent.trim() + " | " + responseEl.textContent,
         };
       }
 
