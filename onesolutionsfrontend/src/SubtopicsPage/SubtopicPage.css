@@ -347,3 +347,12 @@
 .locked_image {
   height: 50%;
 }
+
+.subtopic-page-sub__access-denied-sub {
+  height: 80vh;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

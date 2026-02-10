@@ -39,6 +39,15 @@ import Contacts from "./components/Ose/Contacts/OseContacts";
 import AdminStudentQuestions from "./components/Ose/Ai/AdminStudentQuestions";
 import AdminAIContent from "./components/Ose/Ai/AdminAIContent";
 
+//Digital Marketing
+
+import DigitalMCQCreator from "./components/Ose/DigitalMarketing/admin/MCQCreator";
+import DigitalVideoUploadModal from "./components/Ose/DigitalMarketing/admin/VideoUploadModal";
+import DigitalCourseManagement from "./components/Ose/DigitalMarketing/pages/CourseManagement";
+import DigitalDashboard from "./components/Ose/DigitalMarketing/pages/Dashboard";
+
+
+
 import "./App.css";
 
 const ProtectedLayout = () => {
@@ -108,6 +117,13 @@ function App() {
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/AdminStudentQuestions" element={<AdminStudentQuestions />} />
               <Route path="/AdminAIContent" element={<AdminAIContent />} />
+
+              {/* Digital Marketing */}
+              <Route path="/digital/dashboard" element={<DigitalDashboard />} />
+              <Route path="/digital/CourseManagement" element={<DigitalCourseManagement />} />
+              <Route path="/digital/VideoUploadModal" element={<DigitalVideoUploadModal />} />
+              <Route path="/digital/MCQCreator" element={<DigitalMCQCreator />} />
+                {/* Digital Marketing */}
             </Route>
 
             {/* Default redirect */}

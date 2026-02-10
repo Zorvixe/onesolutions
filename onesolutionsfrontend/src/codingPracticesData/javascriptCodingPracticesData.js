@@ -3979,6 +3979,190 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
+    //coding practice - 17
+    {
+      id: "javascript-coding-practice-17",
+      title: "Javascript Coding Practice 17",
+      description: "",
+      questions: [
+        {
+          id: "e190022-ac24fjjqc88-051s9ddb",
+          title: "HTTP Post Method Practice Page",
+          description:
+            "In this assignment, let's build an HTTP Post Method Practice Page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 50,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="p-3 bg-container">
+                    <h1 class="heading mb-4">Post method practice</h1>
+                    <p class="request-url-text">REQUEST URL: <span class="request-url">https://gorest.co.in/public-api/users</span></p>
+                    <textarea placeholder="Enter Request Body" rows="5" class="w-100 p-2 request-body" id="requestBody"></textarea>
+                    <button class="mt-3 p-2 button" id="sendPostRequestBtn">Send Post Request</button>
+                    <hr />
+                    <div class="p-2 mt-4">
+                        <p>Request Status</p>
+                        <p class="request-status" id="requestStatus"></p>
+                        <p class="d-none" id="loading">Loading....</p>
+                    </div>
+                    <hr />
+                    <div class="p-2 mt-4">
+                        <p>Response Body</p>
+                        <p class="http-response" id="httpResponse"></p>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .bg-container {
+                background-image: linear-gradient(to right, #1cc8ef, #4fa5b2);
+            }
+            
+            .heading {
+                color: #ffffff;
+                font-weight: bold;
+                font-size: 32px;
+            }
+            
+            .request-url-text {
+                color: #ffffff;
+                font-weight: bold;
+            }
+            
+            .request-url {
+                font-weight: 300;
+            }
+            
+            .request-body {
+                background-color: #ffffff;
+                border-radius: 4px;
+            }
+            
+            .button {
+                color: #ffffff;
+                background-color: #0552b5;
+                font-size: 14px;
+                border-width: 0;
+                border-radius: 4px;
+            }
+            
+            .request-status {
+                color: #ffffff;
+                font-family: "Roboto";
+                font-size: 24px;
+            }
+            
+            .http-response {
+                color: #ffffff;
+                font-family: "Roboto";
+                font-size: 14px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770701369/http-post-method-v1_njkccn.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add the id requestBody to the HTML textarea element</span></li>
+                        <li><span>Add the id sendPostRequestBtn to the HTML button element</span></li>
+                        <li><span>Add the id requestStatus to the HTML paragraph element with the class name request-status</span></li>
+                        <li><span>Add the id httpResponse to the HTML paragraph element with the class name http-response</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not delete the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">Achieve the given functionality to the given prefilled code.</p>
+                  <ul>
+                      <li>When the HTML <code>button </code> element with the id <code>sendGetRequestBtn</code> is clicked,
+                      <ul>
+                      <li>Make HTTP Request (GET method) using Fetch with URL <code>https://gorest.co.in/public-api/users</code>
+                    
+                          <ul>
+                          <li>Show loading while making HTTP request as shown in the image.</li>
+                          <li>Set status code in the HTML paragraph element with the id requestStatus as shown in the image.</li>
+                          <li>Set HTTP response in the HTML paragraph element with the id <code>httpResponse</code> as shown in the image.</li>
+                          </ul>
+                        </li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML button element with the id sendGetRequestBtn",
+              type: "js-validation",
+              input: "check-send-btn",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML paragraph element with the id requestStatus",
+              type: "js-validation",
+              input: "check-request-status",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the id httpResponse",
+              type: "js-validation",
+              input: "check-http-response",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When the HTML button element with the id sendGetRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
+              type: "js-validation",
+              input: "check-get-response",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
 
     //JS coding practice - 1
     {
@@ -5499,43 +5683,43 @@ let objectKey = prompt();
 
           testCases: [
             {
-              input: '[{"name":"Rahul","age":19},{"name":"Vinod","age":10},{"name":"Pavan","age":11},{"name":"Geetha","age":17}]',
-              output: '["Rahul"]',
+              input:
+                '[{"name":"Rahul","age":19},{"name":"Vinod","age":10},{"name":"Pavan","age":11},{"name":"Geetha","age":17}]',
+              output: "Rahul",
               visible: true,
             },
             {
               input: '[{"name":"Anand","age":18},{"name":"Sita","age":25}]',
-              output: '["Anand","Sita"]',
+              output: "Anand\nSita",
               visible: true,
             },
             {
-              input: '[{"name":"Raj","age":16},{"name":"Kiran","age":17}]',
-              output: '[]',
-              visible: true,
+              input: '[{"name":"Raj","age":44},{"name":"Kiran","age":17}]',
+              output: "Raj",
+              visible: false,
             },
             {
-              input: '[]',
-              output: '[]',
-              visible: true,
+              input:
+                '[{"name":"Kiran","age":30},{"name":"Divya","age":18},{"name":"Nikhil","age":15}]',
+              output: "Kiran\nDivya",
+              visible: false,
             },
-          ]
-          
-          
-          ,
+          ],
 
           defaultCode: `
 
           // Read input
-          let arrayOfPersons = JSON.parse(prompt());
-          
-          /*
-           * Write your code here and log the output.
-           */
-          function logEligibleVoters(persons) {
-            // Student will write code here
-          }
-          
-          logEligibleVoters(arrayOfPersons);
+let arrayOfPersons = JSON.parse(prompt());
+
+/*
+ * Write your code here and log the output.
+ */
+function logEligibleVoters(persons) {
+  // Student will write code here
+}
+
+logEligibleVoters(arrayOfPersons);
+
           
 
             `,
@@ -5573,11 +5757,47 @@ let objectKey = prompt();
 
           sampleOutput: `[ 'Maruti Suzuki', 'Tata' ]`,
 
-          testCases: [],
-
+          testCases: [
+            {
+              input:
+                '[{"name":"Chevrolet","country":"America"},{"name":"Maruti Suzuki","country":"India"},{"name":"Audi","country":"Germany"},{"name":"Tata","country":"India"},{"name":"Honda","country":"Japan"}]',
+              output: "['Maruti Suzuki', 'Tata']",
+              visible: true,
+            },
+            {
+              input:
+                '[{"name":"Mahindra","country":"India"},{"name":"Hyundai","country":"South Korea"}]',
+              output: "['Mahindra']",
+              visible: true,
+            },
+            {
+              input:
+                '[{"name":"BMW","country":"Germany"},{"name":"Ford","country":"America"}]',
+              output: "[]",
+              visible: false,
+            },
+            {
+              input:
+                '[{"name":"Tata","country":"India"},{"name":"Maruti Suzuki","country":"India"}]',
+              output: "['Tata', 'Maruti Suzuki']",
+              visible: false,
+            },
+          ],
           defaultCode: `
-
-           `,
+          // Read input
+          let arrayOfCarBrands = JSON.parse(prompt());
+          
+          /*
+           * Write your code here and log the output.
+           */
+          function getIndianCarBrands(brands) {
+            // Student will write code here
+          }
+          
+          getIndianCarBrands(arrayOfCarBrands);
+          
+          
+  `,
 
           score: 14,
           status: "unsolved",
@@ -5586,5 +5806,488 @@ let objectKey = prompt();
       ],
     },
     //Js Coding practice - 6
+    {
+      id: "js-coding-practice-6",
+      title: "JS Coding Practice 6",
+      description: "",
+      questions: [
+        {
+          id: "fc77ba9c-c6d2454898d7-fe870b4459ed",
+          title: "Array Includes Practice",
+          description:
+            "Given an array (myArray) and the value (val).\n Write a JS program to find whether an array (myArray) includes the given value (val) or not using the array method 'includes'.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).\n The second line of input will contain any value.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p class=""></p>The Output should be a single line containing the boolean value.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class=""></p>Strings should be given in quotes.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "[3, 4, 5]\n4",
+          sampleOutput: "true",
+          testCases: [
+            {
+              input: "[3, 4, 5]\n4",
+              output: "true",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30]\n25",
+              output: "false",
+              visible: true,
+            },
+            {
+              input: "['apple', 'banana', 'mango']\n'banana'",
+              output: "true",
+              visible: true,
+            },
+            {
+              input: "['red', 'blue', 'green']\n'yellow'",
+              output: "false",
+              visible: false,
+            },
+            {
+              input: "[1, 2, 3, 4]\n5",
+              output: "false",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          // Read input
+let myArray = eval(prompt());
+let val = eval(prompt());
+
+
+function checkIncludes(arr, value) {
+  /*
+ * Write your code here and log the output
+ */
+}
+
+checkIncludes(myArray, val);
+
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "91931168-f088-430bb298-b94430d317e3",
+          title: "Find the Index of First Occurrence of Value",
+          description:
+            "Given an array (myArray) and the value (val).\n Write a JS program to find the index of first occurrence of a value (val) in the given array (myArray) using the array method 'indexOf'./n  NOTE: If the values is not present in the array, indexOf returns '-1'.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).\n The second line of input will contain any value.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p class=""></p>The Output should be a single line containing the index or -1.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class=""></p>Strings should be given in quotes.</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "['a', 'b', 'c', 'b', 'a']\n'a'",
+          sampleOutput: "0",
+          testCases: [
+            {
+              input: "['a', 'b', 'c', 'b', 'a']\n'a'",
+              output: "0",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30, 40]\n30",
+              output: "2",
+              visible: true,
+            },
+            {
+              input: "['apple', 'banana', 'cherry']\n'banana'",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "[1, 2, 3, 4, 5]\n6",
+              output: "-1",
+              visible: false,
+            },
+            {
+              input: "['x', 'y', 'z']\n'a'",
+              output: "-1",
+              visible: false,
+            },
+            {
+              input: "[true, false, true]\ntrue",
+              output: "0",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+// Read input
+let myArray = eval(prompt());
+let val = eval(prompt());
+
+
+function findIndex(myArray, val) {
+  /*
+  * Write your code here and log the output
+  */
+}
+
+findIndex(myArray, val);
+
+
+          `,
+          score: 28,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "7be08e7b-b4f1-4bf187ad-ef5ef9614f18",
+          title: "Find the First Occurrence of String",
+          description:
+            "Given an array (myArray).\n Write a JS program to find the first string in the given array (myArray) using the array method 'find'. \n NOTE: If the value is not present in the array, find returns 'undefined'.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p class=""></p>The Output should be a single line containing the value or undefined.</p>
+              </div>
+              
+          </div>
+           `,
+          sampleInput: "[23, 4.5, 'Asia', 7, 'Europe']",
+          sampleOutput: "Asia",
+          testCases: [
+            {
+              input: "[23, 4.5, 'Asia', 7, 'Europe']",
+              output: "Asia",
+              visible: true,
+            },
+            {
+              input: "['Apple', 10, true, 'Banana']",
+              output: "Apple",
+              visible: true,
+            },
+            {
+              input: "[100, 200, 300]",
+              output: "undefined",
+              visible: true,
+            },
+            {
+              input: "[false, 'India', 'USA']",
+              output: "India",
+              visible: false,
+            },
+            {
+              input: "['One', 'Two', 'Three']",
+              output: "One",
+              visible: false,
+            },
+            {
+              input: "[1, 2, 3, 'Last']",
+              output: "Last",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+function findFirstString(myArray) {
+  /*
+ * Write your code here and log the output.
+ */
+}
+
+findFirstString(myArray);
+
+
+          `,
+          score: 28,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "8613fcc9-29eb-4c03b977-89b6de62e605",
+          title: "Add a Value to the Begining od an Array",
+          description:
+            "Given an array (myArray) and the value (val).\n Write a JS program to add the given value (val) at the beginning of the array (myArray) using the array method 'unshift'.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).\n The second line of input will contain any value.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p class=""></p>The Output should be a single line containing the updated aray.</p>
+              </div>
+               <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class=""></p>Strings should be given in quotes.</p>
+              </div>
+              
+          </div>
+           `,
+          sampleInput: "[2, 3, 4, 5]\n1",
+          sampleOutput: "[ 1, 2, 3, 4, 5 ]",
+          testCases: [
+            {
+              input: "[2, 3, 4, 5]\n1",
+              output: "[1, 2, 3, 4, 5]",
+              visible: true,
+            },
+            {
+              input: "['b', 'c', 'd']\n'a'",
+              output: "['a', 'b', 'c', 'd']",
+              visible: true,
+            },
+            {
+              input: "[10, 20]\n5",
+              output: "[5, 10, 20]",
+              visible: false,
+            },
+            {
+              input: "[]\n100",
+              output: "[100]",
+              visible: false,
+            },
+            {
+              input: "[true, false]\nfalse",
+              output: "[false, true, false]",
+              visible: false,
+            },
+            {
+              input: "['JavaScript']\n'Learn'",
+              output: "['Learn', 'JavaScript']",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+// Read input
+let myArray = eval(prompt());
+let val = eval(prompt());
+
+function addAtBeginning(myArray, val) {
+  /*
+  * Write your code here and log the output.
+  */
+}
+
+addAtBeginning(myArray, val);
+
+
+
+          `,
+          score: 28,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "c0ace370-fcfa-4ed0a94e-3d982bf1978d",
+          title: "Concatenate Arrays",
+          description:
+            "Given two arrays (i.e. firstArray and secondArray).\n Write a JS program to concatenate two arrays using the array mehod 'concat'.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+          <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (firstArray).\n The second line of input will contain an array (secondArray).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p class=""></p>The Output should be a single line containing the concatenated array (i.e. Items from the firstArray and secondArray respectively).</p>
+              </div>
+              
+          </div>
+           `,
+          sampleInput: "[1, 2]\n['Cricket', 'Football']",
+          sampleOutput: "[ 1, 2, 'Cricket', 'Football' ]",
+          testCases: [
+            {
+              input: "[1, 2]\n['Cricket', 'Football']",
+              output: "[1, 2, 'Cricket', 'Football']",
+              visible: true,
+            },
+            {
+              input: "['a', 'b']\n['c', 'd']",
+              output: "['a', 'b', 'c', 'd']",
+              visible: true,
+            },
+            {
+              input: "[10, 20]\n[30, 40]",
+              output: "[10, 20, 30, 40]",
+              visible: true,
+            },
+            {
+              input: "[]\n[1, 2, 3]",
+              output: "[1, 2, 3]",
+              visible: false,
+            },
+            {
+              input: "['JS']\n[]",
+              output: "['JS']",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+// Read input
+let firstArray = eval(prompt());
+let secondArray = eval(prompt());
+
+
+function concatenateArrays(firstArray, secondArray) {
+  /*
+  * Write your code here and log the output.
+  */
+}
+
+concatenateArrays(firstArray, secondArray);
+
+
+
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    //JS coding practice - 7
+    {
+      id: "js-coding-practice-7",
+      title: "JS Coding Practice 7",
+      description: "",
+      questions: [
+        {
+          id: "655560e5-6294-457cb253-d7e8d1d6b93f",
+          title: "Remove First Value",
+          description:
+            "Given an array (myArray), write a JS program to remove value at the first index of the array using 'shift()' method. Log the extracted value ad updated array in the console.",
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The first line of output should contain the value extracted from the array.\n The second line of output should contain the updated array.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ 'A', 1, 2, 3 ]",
+          sampleOutput: "A\n[ 1, 2, 3 ]",
+          testCases: [
+            {
+              input: "['A', 1, 2, 3]",
+              output: "A\n[1, 2, 3]",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30]",
+              output: "10\n[20, 30]",
+              visible: true,
+            },
+            {
+              input: "['X', 'Y', 'Z']",
+              output: "X\n['Y', 'Z']",
+              visible: true,
+            },
+            {
+              input: "[true, false, true]",
+              output: "true\n[false, true]",
+              visible: false,
+            },
+            {
+              input: "[100]",
+              output: "100\n[]",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+          // Read input
+let myArray = eval(prompt());
+
+function removeFirstValue(arr) {
+  
+/*
+* Write your code here and log the output.
+*/
+}
+
+removeFirstValue(myArray);
+
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "249f9dcb-d541-40f7b396-295c0a524f5b",
+          title: "Find the Index of the Last Occurrence of Value",
+          description:
+            "Given an array (myArray) and the value (val), write a JS program to find the index of the last occurrence of value in the given array using 'lastIndexOf()' method./nNOTE: If the value is not present in the array, lastIndexOf() returns '-1'.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input will contain an array (myArray).\nThe Second line of input will contain any value (val).</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single lie containing the ndex or -1.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ 7.2, 4.5, 8.6, 4.5 ]",
+          sampleOutput: "4.5",
+          testCases: [],
+
+          defaultCode: `
+
+
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
   ],
 };

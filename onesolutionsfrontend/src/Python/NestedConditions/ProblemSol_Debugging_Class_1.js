@@ -464,8 +464,8 @@ const ProblemSol_Debugging_Class_1 = ({
             {isCheckingFeedback
               ? "Checking..."
               : hasSubmittedFeedback
-              ? "✓ Feedback Submitted"
-              : "Submit Feedback"}
+                ? "✓ Feedback Submitted"
+                : "Submit Feedback"}
           </button>
           <button
             className={`complete-button-clss ${
@@ -477,8 +477,8 @@ const ProblemSol_Debugging_Class_1 = ({
             {isLoading
               ? "Marking..."
               : isSubtopicCompleted
-              ? "✓ Completed"
-              : "Mark as Complete"}
+                ? "✓ Completed"
+                : "Mark as Complete"}
           </button>
         </div>
       </div>

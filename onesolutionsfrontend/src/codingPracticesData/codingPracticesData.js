@@ -16386,7 +16386,7 @@ export const codingPracticesData = {
       ],
     },
     //OOPS CORE END
-    
+
     {
       id: "Codingpractice-python-32",
       title: "Codingpractice-32",
@@ -16750,6 +16750,527 @@ export const codingPracticesData = {
           ],
           defaultCode: ``,
           score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+
+    //Core
+    {
+      id: "Coding-practice-python-OOPCore-01",
+      title: "Coding Practice OOP Core 01",
+      description: "Foundations of Object-Oriented Programming",
+      questions: [
+        {
+          id: "q-python-OOPCore-001",
+          title: "Create a Class",
+          difficulty: "Easy",
+          description:
+            "Write a program to create a class named Mobile with attributes model and camera. Create an object and print both attributes.",
+          sampleInput: "iPhone 12 12MP",
+          sampleOutput: "Model: iPhone 12\nCamera: 12MP",
+          testCases: [
+            {
+              input: "Galaxy M51 64MP",
+              output: "Model: Galaxy M51\nCamera: 64MP",
+              visible: true,
+            },
+            {
+              input: "Redmi Note 10 48MP",
+              output: "Model: Redmi Note 10\nCamera: 48MP",
+              visible: true,
+            },
+            {
+              input: "Pixel 7 50MP",
+              output: "Model: Pixel 7\nCamera: 50MP",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+# Read input
+data = input().split()
+
+camera = data[-1]              # last value
+model = " ".join(data[:-1])    # remaining values
+
+class Mobile:
+    # Write your code here
+
+# Create object
+mobile = Mobile(model, camera)
+
+# Print output
+print("Model:", mobile.model)
+print("Camera:", mobile.camera)
+
+
+
+          `,
+          score: 30,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-OOP-002",
+          title: "Calling Class Method",
+          difficulty: "Easy",
+          description:
+            "Write a program to create a class Car with attributes brand and model. Add a method display_info() that prints brand and model.",
+          sampleInput: "Toyota Corolla",
+          sampleOutput: "Toyota Corolla",
+          testCases: [
+            {
+              input: "Honda Civic",
+              output: "Honda Civic",
+              visible: true,
+            },
+            {
+              input: "Hyundai Creta",
+              output: "Hyundai Creta",
+              visible: true,
+            },
+            {
+              input: "Tata Nexon",
+              output: "Tata Nexon",
+              visible: false,
+            },
+            {
+              input: "Toyota Fortuner",
+              output: "Toyota Fortuner",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+# Read input
+data = input().split()
+
+model = data[-1]              # last word
+brand = " ".join(data[:-1])   # remaining words
+
+class Car:
+    # Write your code here
+    
+
+# Create object
+car = Car(brand, model)
+
+# Call method
+car.display_info()
+`,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+
+        {
+          id: "q-python-OOP-003",
+          title: "Update Attribute Value",
+          difficulty: "Easy",
+          description:
+            "Write a program to create a class Car with attribute model. Add a method update_model(new_model) to update the model and print updated value.",
+          sampleInput: "Corolla Camry",
+          sampleOutput: "Camry",
+          testCases: [
+            {
+              input: "Civic Accord",
+              output: "Accord",
+              visible: true,
+            },
+            {
+              input: "Swift Baleno",
+              output: "Baleno",
+              visible: false,
+            },
+            {
+              input: "Altroz Punch",
+              output: "Punch",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+# Read input
+input_data = input().split()
+
+old_model = input_data[0]
+new_model = input_data[1]
+
+class Car:
+    def __init__(self, model):
+        self.model = model
+
+    # Write your code here
+        
+
+
+car = Car(old_model)
+car.update_model(new_model)
+          
+          `,
+          score: 35,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-OOP-004",
+          title: "Object Identity",
+          difficulty: "Medium",
+          description:
+            "Write a program to create two objects of class Mobile and print their unique identities using id().",
+          sampleInput: "iPhone 12 12MP\nGalaxy M51 64MP",
+          sampleOutput: "Different IDs",
+          testCases: [
+            {
+              input: "Redmi 10 48MP\nRealme 8 64MP",
+              output: "Different IDs",
+              visible: true,
+            },
+            {
+              input: "Pixel 6 50MP\nPixel 7 50MP",
+              output: "Different IDs",
+              visible: true,
+            },
+            {
+              input: "Moto G 48MP\nNokia 7 48MP",
+              output: "Different IDs",
+              visible: false,
+            },
+            {
+              input: "OnePlus 11 50MP\nOnePlus 12 50MP",
+              output: "Different IDs",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+# Read input
+mobile1 = input()
+mobile2 = input()
+
+class Mobile:
+    def __init__(self, details):
+        self.details = details
+
+# Create two objects
+m1 = Mobile(mobile1)
+m2 = Mobile(mobile2)
+
+# Write your code here
+
+
+`,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+
+        {
+          id: "q-python-OOP-005",
+          title: "Shopping Cart Total",
+          difficulty: "Medium",
+          description:
+            "Create a class Cart that stores items with price and quantity. Add items and print total price.\nHINT: total = total + (price × quantity)",
+          sampleInput: "Laptop 50000 1\nMouse 500 2",
+          sampleOutput: "51000",
+          testCases: [
+            {
+              input: "Keyboard 1500 1\nMouse 500 1",
+              output: "2000",
+              visible: true,
+            },
+            {
+              input: "Monitor 12000 2\nCable 500 2",
+              output: "25000",
+              visible: true,
+            },
+            {
+              input: "Tablet 20000 1\nCover 1000 2",
+              output: "22000",
+              visible: false,
+            },
+            {
+              input: "Phone 15000 1\nCharger 1000 1",
+              output: "16000",
+              visible: false,
+            },
+          ],
+
+          defaultCode: `
+# Read input
+item1 = input().split()
+item2 = input().split()
+
+class Cart:
+    def __init__(self):
+        self.total = 0
+
+    def add_item(self, price, quantity):
+        # write code here
+       
+
+    def print_total(self):
+        # write code here
+        
+
+      
+# Create object
+cart = Cart()
+
+# Add items
+cart.add_item(int(item1[1]), int(item1[2]))
+cart.add_item(int(item2[1]), int(item2[2]))
+
+# Print total
+cart.print_total()
+      
+`,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+    {
+      id: "Coding-practice-python-Miscellaneous-Core",
+      title: "Coding practice Miscellaneous",
+      description: "Miscellaneous",
+      questions: [
+        {
+          id: "q-python-INH-001",
+          title: "Basic Inheritance",
+          difficulty: "Easy",
+          description:
+            "Create a base class Product with attribute price. Create a child class Electronic that inherits Product and prints the price.",
+          sampleInput: "45000",
+          sampleOutput: "Price: 45000",
+          testCases: [
+            {
+              input: "30000",
+              output: "Price: 30000",
+              visible: true,
+            },
+            {
+              input: "15000",
+              output: "Price: 15000",
+              visible: true,
+            },
+            {
+              input: "60000",
+              output: "Price: 60000",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+# Read input
+price = int(input())
+
+class Product:
+    def __init__(self, price):
+        self.price = price
+
+class Electronic(Product):
+    # Write your code here
+    
+
+
+# Create object
+item = Electronic(price)
+item.display_price()
+          
+`,
+          score: 40,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-INH-002",
+          title: "Method Overriding",
+          difficulty: "Medium",
+          description:
+            "Create a parent class Product with method display(). Override it in child class Grocery to print 'Grocery Item'.",
+          sampleInput: "Rice",
+          sampleOutput: "Grocery Item",
+          testCases: [
+            {
+              input: "Wheat",
+              output: "Grocery Item",
+              visible: true,
+            },
+            {
+              input: "Sugar",
+              output: "Grocery Item",
+              visible: true,
+            },
+            {
+              input: "Salt",
+              output: "Grocery Item",
+              visible: false,
+            },
+            {
+              input: "Rice",
+              output: "Grocery Item",
+              visible: false,
+            },
+            {
+              input: "Oil",
+              output: "Grocery Item",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+# Read input
+item = input()
+
+class Product:
+    def display(self):
+        print("Product")
+
+class Grocery(Product):
+    # Write your code here
+    
+
+g = Grocery()
+g.display()
+        `,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-INH-003",
+          title: "Multi-Level Inheritance",
+          difficulty: "Medium",
+          description:
+            "Create a class Product. Create Electronic inheriting Product. Create Mobile inheriting Electronic. Print 'Mobile Product'.",
+          sampleInput: "iPhone",
+          sampleOutput: "Mobile Product",
+          testCases: [
+            {
+              input: "Samsung",
+              output: "Mobile Product",
+              visible: true,
+            },
+            {
+              input: "OnePlus",
+              output: "Mobile Product",
+              visible: true,
+            },
+            {
+              input: "Pixel",
+              output: "Mobile Product",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+# Read input
+name = input()
+
+class Product:
+    pass
+
+class Electronic(Product):
+    pass
+
+class Mobile(Electronic):
+    # Write your code here
+    
+
+m = Mobile()
+m.show()
+        `,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-COMP-004",
+          title: "Composition Example",
+          difficulty: "Medium",
+          description:
+            "Create a class Engine with attribute power. Create a class Car that HAS an Engine and prints engine power.",
+          sampleInput: "150",
+          sampleOutput: "Engine Power: 150",
+          testCases: [
+            {
+              input: "120",
+              output: "Engine Power: 120",
+              visible: true,
+            },
+            {
+              input: "200",
+              output: "Engine Power: 200",
+              visible: true,
+            },
+            {
+              input: "300",
+              output: "Engine Power: 300",
+              visible: false,
+            },
+            {
+              input: "180",
+              output: "Engine Power: 180",
+              visible: false,
+            },
+            {
+              input: "250",
+              output: "Engine Power: 250",
+              visible: false,
+            },
+          ],
+          defaultCode: `
+# Read input
+power = int(input())
+
+class Engine:
+    def __init__(self, power):
+        self.power = power
+
+class Car:
+    def __init__(self, engine):
+        self.engine = engine
+
+    # Write your code here
+    
+
+engine = Engine(power)
+car = Car(engine)
+car.show_power()
+        `,
+          score: 50,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "q-python-LIB-005",
+          title: "Math Library",
+          difficulty: "Easy",
+          description:
+            "Use math module to print square root of a given number.",
+          sampleInput: "25",
+          sampleOutput: "5.0",
+          testCases: [
+            {
+              input: "16",
+              output: "4.0",
+              visible: true,
+            },
+            {
+              input: "36",
+              output: "6.0",
+              visible: true,
+            },
+          ],
+          defaultCode: `
+import math  # You must import the math module
+
+# Read input
+num = int(input())
+
+# Write your code here
+
+        `,
+          score: 20,
           status: "unsolved",
           attempts: [],
         },

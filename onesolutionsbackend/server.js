@@ -12,6 +12,8 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+const digitalMarketingRoutes = require('./digitalMarketingRoutes');
+
 // -------------------------------------------
 // 🔹 Database Connection
 // -------------------------------------------
@@ -123,6 +125,8 @@ const videoUpload = multer({
     fileSize: 1024 * 1024 * 1024, // 1GB
   },
 });
+
+
 
 // Add this helper function to check file validity
 const validateVideoFile = (file) => {
@@ -589,8 +593,6 @@ CREATE TABLE IF NOT EXISTS student_feedback (
   );
 `;
 
-
-
   // AI Learning Content Table
   const aiContentTableQuery = `
     CREATE TABLE IF NOT EXISTS ai_learning_content (
@@ -642,6 +644,195 @@ CREATE TABLE IF NOT EXISTS student_feedback (
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `;
+
+  //Add these to your existing database
+
+  // ========================================
+  // DIGITAL MARKETING COURSE STRUCTURE
+  // ========================================
+
+  // GOALS TABLE (6 months divided into 3 goals)
+
+  const courseGoalTableQuery = `CREATE TABLE IF NOT EXISTS course_goals (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  duration_months INTEGER DEFAULT 2,
+  order_number INTEGER DEFAULT 0,
+  certificate_name VARCHAR(255),
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+
+  // MODULES TABLE (under Goals)
+
+  const courseModulesTableQuery = `CREATE TABLE IF NOT EXISTS course_modules (
+  id SERIAL PRIMARY KEY,
+  goal_id INTEGER REFERENCES course_goals(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  order_number INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+
+  // TOPICS TABLE (under Modules)
+
+  const courseTopicsTableQuery = `CREATE TABLE IF NOT EXISTS course_topics (
+  id SERIAL PRIMARY KEY,
+  module_id INTEGER REFERENCES course_modules(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  order_number INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+
+  // SUBTOPICS TABLE (under Topics)
+
+  const courseSubTopicTableQuery = `CREATE TABLE IF NOT EXISTS course_subtopics (
+  id SERIAL PRIMARY KEY,
+  topic_id INTEGER REFERENCES course_topics(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  order_number INTEGER DEFAULT 0,
+  is_active BOOLEAN DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+
+  // CONTENT TABLE (for each subtopic)
+
+  const courseSubTopicContent = `CREATE TABLE IF NOT EXISTS subtopic_content (
+  id SERIAL PRIMARY KEY,
+  subtopic_id INTEGER REFERENCES course_subtopics(id) ON DELETE CASCADE,
+  content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('video', 'cheatsheet', 'mcq')),
+  
+  -- Video content
+  video_title VARCHAR(500),
+  video_url VARCHAR(1000),
+  video_description TEXT,
+  video_duration INTEGER, -- in seconds
+  thumbnail_url VARCHAR(1000),
+  video_type VARCHAR(50) DEFAULT 'youtube', -- youtube, vimeo, uploaded
+  
+  -- Cheatsheet content
+  cheatsheet_title VARCHAR(500),
+  cheatsheet_content TEXT, -- Rich HTML content
+  file_url VARCHAR(1000), -- Optional PDF URL
+  
+  -- MCQ content
+  mcq_title VARCHAR(500),
+  questions JSONB DEFAULT '[]', -- Array of questions
+  
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`;
+
+  // STUDENT PROGRESS FOR DIGITAL MARKETING COURSE
+
+  const studentContentProgress = `CREATE TABLE IF NOT EXISTS student_course_progress (
+  id SERIAL PRIMARY KEY,
+  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+  goal_id INTEGER REFERENCES course_goals(id),
+  module_id INTEGER REFERENCES course_modules(id),
+  subtopic_id INTEGER REFERENCES course_subtopics(id),
+  content_id INTEGER REFERENCES subtopic_content(id),
+  status VARCHAR(50) DEFAULT 'not_started', -- not_started, in_progress, completed
+  completed_at TIMESTAMP,
+  quiz_score INTEGER,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(student_id, content_id)
+);`;
+
+  // STUDENT COURSE ENROLLMENTS
+
+  const studentCourseEnrollments = `CREATE TABLE IF NOT EXISTS student_course_enrollments (
+  id SERIAL PRIMARY KEY,
+  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+  goal_id INTEGER REFERENCES course_goals(id),
+  enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  completed_at TIMESTAMP,
+  status VARCHAR(50) DEFAULT 'active', -- active, completed, dropped
+  progress_percentage INTEGER DEFAULT 0,
+  UNIQUE(student_id, goal_id)
+);`;
+
+  // INSERT DEFAULT GOALS (Digital Marketing 6 months plan)
+
+  const courseGoals = `INSERT INTO course_goals (name, description, duration_months, order_number, certificate_name) VALUES
+('Content & SEO Specialist', 'Master Website Creation, Content Writing & SEO', 2, 1, 'Content & SEO Specialist'),
+('Social Media & Ads Expert', 'Learn Social Media Marketing & Paid Advertising', 2, 2, 'Social Media & Ads Expert'),
+('Digital Marketing Professional', 'Become a Complete Digital Marketing Pro', 2, 3, 'Digital Marketing Professional')
+ON CONFLICT DO NOTHING;`;
+
+
+try {
+  // Required extension
+  await pool.query(`CREATE EXTENSION IF NOT EXISTS pgcrypto;`);
+
+  // ===== TABLE CREATION ORDER =====
+
+  await pool.query(courseGoalTableQuery);
+  await pool.query(courseModulesTableQuery);
+  await pool.query(courseTopicsTableQuery);
+  await pool.query(courseSubTopicTableQuery);
+  await pool.query(courseSubTopicContent);
+
+  await pool.query(studentCourseEnrollments);
+  await pool.query(studentContentProgress);
+
+  // ===== ALTER TABLE UUID =====
+
+  await pool.query(`
+    ALTER TABLE subtopic_content 
+    ADD COLUMN IF NOT EXISTS content_uuid UUID DEFAULT gen_random_uuid() UNIQUE,
+    ADD COLUMN IF NOT EXISTS access_token UUID DEFAULT gen_random_uuid(),
+    ADD COLUMN IF NOT EXISTS is_public BOOLEAN DEFAULT false,
+    ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP;
+  `);
+
+  // ===== INDEXES =====
+
+  await pool.query(`
+    CREATE INDEX IF NOT EXISTS idx_content_uuid 
+    ON subtopic_content(content_uuid);
+
+    CREATE INDEX IF NOT EXISTS idx_access_token 
+    ON subtopic_content(access_token);
+
+    CREATE INDEX IF NOT EXISTS idx_student_progress_student
+    ON student_course_progress(student_id);
+  `);
+
+  // ===== ACCESS LOG TABLE =====
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS content_access_logs (
+      id SERIAL PRIMARY KEY,
+      content_uuid UUID REFERENCES subtopic_content(content_uuid),
+      student_id INTEGER REFERENCES students(id),
+      accessed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      ip_address INET,
+      user_agent TEXT,
+      action VARCHAR(50)
+    );
+  `);
+
+  // ===== DEFAULT GOALS =====
+
+  await pool.query(courseGoals);
+
+  console.log("✅ Digital marketing course schema initialized");
+
+} catch (err) {
+  console.error("❌ DB init error:", err);
+}
+
 
   try {
     await pool.query(aiContentTableQuery);
@@ -6471,8 +6662,6 @@ app.get("/api/ai/sessions/:id", auth, async (req, res) => {
   }
 });
 
-
-
 // Function to insert default categories
 async function insertDefaultCategories() {
   const defaultCategories = [
@@ -6480,58 +6669,58 @@ async function insertDefaultCategories() {
       category_name: "Full Stack Development",
       description: "Complete web development from frontend to backend",
       icon_url: "/icons/dev.svg",
-      display_order: 1
+      display_order: 1,
     },
     {
       category_name: "Frontend",
       description: "HTML, CSS, JavaScript, React, Angular, Vue",
       parent_category: "Full Stack Development",
       icon_url: "/icons/frontend.svg",
-      display_order: 2
+      display_order: 2,
     },
     {
       category_name: "Backend",
       description: "Node.js, Python, Java, PHP, Databases",
       parent_category: "Full Stack Development",
       icon_url: "/icons/backend.svg",
-      display_order: 3
+      display_order: 3,
     },
     {
       category_name: "Python",
       description: "Python programming, Django, Flask, ML",
       icon_url: "/icons/python.svg",
-      display_order: 4
+      display_order: 4,
     },
     {
       category_name: "Digital Marketing",
       description: "SEO, Social Media, Content Marketing, Analytics",
       icon_url: "/icons/marketing.svg",
-      display_order: 5
+      display_order: 5,
     },
     {
       category_name: "Placements",
       description: "Interview prep, Resume building, Career guidance",
       icon_url: "/icons/placement.svg",
-      display_order: 6
+      display_order: 6,
     },
     {
       category_name: "Git & DevOps",
       description: "Version control, CI/CD, Deployment",
       icon_url: "/icons/git.svg",
-      display_order: 7
+      display_order: 7,
     },
     {
       category_name: "Projects",
       description: "Real-world projects and implementations",
       icon_url: "/icons/project.svg",
-      display_order: 8
+      display_order: 8,
     },
     {
       category_name: "FAQs",
       description: "Frequently asked questions by students",
       icon_url: "/icons/faq.svg",
-      display_order: 9
-    }
+      display_order: 9,
+    },
   ];
 
   for (const category of defaultCategories) {
@@ -6551,12 +6740,15 @@ async function insertDefaultCategories() {
           category.icon_url,
           category.parent_category || null,
           category.display_order,
-          true
+          true,
         ]
       );
       console.log(`✅ Category added/updated: ${category.category_name}`);
     } catch (error) {
-      console.error(`Error inserting category ${category.category_name}:`, error.message);
+      console.error(
+        `Error inserting category ${category.category_name}:`,
+        error.message
+      );
     }
   }
 }
@@ -6573,7 +6765,9 @@ async function insertDefaultCategories() {
 class EnhancedGeminiService {
   constructor() {
     if (!process.env.GEMINI_API_KEY) {
-      console.error("❌ GEMINI_API_KEY is not configured in environment variables");
+      console.error(
+        "❌ GEMINI_API_KEY is not configured in environment variables"
+      );
     }
   }
 
@@ -6585,19 +6779,16 @@ class EnhancedGeminiService {
         WHERE is_active = true 
         AND (keywords @> $1 OR title ILIKE $2 OR content ILIKE $2)
       `;
-      
-      const params = [
-        keywords,
-        `%${keywords[0]}%`
-      ];
-      
+
+      const params = [keywords, `%${keywords[0]}%`];
+
       if (category) {
         query += ` AND category = $${params.length + 1}`;
         params.push(category);
       }
-      
+
       query += ` ORDER BY priority DESC LIMIT 5`;
-      
+
       const result = await pool.query(query, params);
       return result.rows;
     } catch (error) {
@@ -6614,16 +6805,16 @@ class EnhancedGeminiService {
         WHERE status = 'answered' 
         AND (question ILIKE $1 OR answer ILIKE $1)
       `;
-      
+
       const params = [`%${question}%`];
-      
+
       if (studentId) {
         query += ` AND student_id = $${params.length + 1}`;
         params.push(studentId);
       }
-      
+
       query += ` ORDER BY is_important DESC, asked_at DESC LIMIT 3`;
-      
+
       const result = await pool.query(query, params);
       return result.rows;
     } catch (error) {
@@ -6637,9 +6828,9 @@ class EnhancedGeminiService {
       if (!process.env.GEMINI_API_KEY) {
         throw new Error("Gemini API key is not configured");
       }
-      
+
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ 
+      const model = genAI.getGenerativeModel({
         model: "gemini-pro",
         systemInstruction: `
         You are "BroOne AI", the official AI assistant of OneSolutions Institute.
@@ -6660,11 +6851,11 @@ class EnhancedGeminiService {
         - Present main answer clearly
         - Use examples when helpful
         - End with key takeaways or next steps
-        `
+        `,
       });
-      
+
       const prompt = `Context Information:\n${context}\n\nStudent Question: ${message}\n\nPlease provide a helpful, accurate response based on the context above. If the context doesn't fully answer the question, use your knowledge to supplement.`;
-      
+
       const result = await model.generateContent(prompt);
       return result.response.text();
     } catch (error) {
@@ -6677,66 +6868,108 @@ class EnhancedGeminiService {
 // Helper functions for AI content
 function extractKeywords(text) {
   if (!text) return [];
-  const stopWords = ['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'as', 'is', 'it', 'that', 'this', 'was', 'are', 'be', 'have', 'has', 'had'];
-  const words = text.toLowerCase()
-    .replace(/[^\w\s]/g, ' ')
+  const stopWords = [
+    "the",
+    "a",
+    "an",
+    "and",
+    "or",
+    "but",
+    "in",
+    "on",
+    "at",
+    "to",
+    "for",
+    "of",
+    "with",
+    "by",
+    "as",
+    "is",
+    "it",
+    "that",
+    "this",
+    "was",
+    "are",
+    "be",
+    "have",
+    "has",
+    "had",
+  ];
+  const words = text
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
     .split(/\s+/)
-    .filter(word => word.length > 2 && !stopWords.includes(word));
-  
+    .filter((word) => word.length > 2 && !stopWords.includes(word));
+
   return [...new Set(words)].slice(0, 10);
 }
 
 function detectCategory(message) {
-  if (!message) return 'General';
-  
+  if (!message) return "General";
+
   const categories = {
-    'react|jsx|component|hook|state|props|frontend|javascript|js': 'Frontend',
-    'node|express|server|api|backend|database|mongodb|postgres|mysql': 'Backend',
-    'python|django|flask|ml|ai|data|pandas|numpy|tensorflow': 'Python',
-    'html|css|tailwind|bootstrap|responsive|design': 'Frontend',
-    'git|github|version|control|commit|devops|deployment|ci/cd': 'Git & DevOps',
-    'marketing|seo|social|media|digital|content|analytics': 'Digital Marketing',
-    'interview|resume|placement|job|career|salary|ctc|hiring': 'Placements',
-    'project|portfolio|build|create|implementation|real-world': 'Projects'
+    "react|jsx|component|hook|state|props|frontend|javascript|js": "Frontend",
+    "node|express|server|api|backend|database|mongodb|postgres|mysql":
+      "Backend",
+    "python|django|flask|ml|ai|data|pandas|numpy|tensorflow": "Python",
+    "html|css|tailwind|bootstrap|responsive|design": "Frontend",
+    "git|github|version|control|commit|devops|deployment|ci/cd": "Git & DevOps",
+    "marketing|seo|social|media|digital|content|analytics": "Digital Marketing",
+    "interview|resume|placement|job|career|salary|ctc|hiring": "Placements",
+    "project|portfolio|build|create|implementation|real-world": "Projects",
   };
-  
+
   const lowerMsg = message.toLowerCase();
   for (const [keywords, category] of Object.entries(categories)) {
-    if (keywords.split('|').some(keyword => lowerMsg.includes(keyword))) {
+    if (keywords.split("|").some((keyword) => lowerMsg.includes(keyword))) {
       return category;
     }
   }
-  
-  return 'General';
+
+  return "General";
 }
 
 function prepareAIContext(content, questions, student) {
   let context = `STUDENT CONTEXT:\n`;
-  context += `- Name: ${student?.first_name || 'Student'} ${student?.last_name || ''}\n`;
-  context += `- Batch: ${student?.batch_month || ''} ${student?.batch_year || ''}\n`;
-  context += `- Current Level: ${student?.current_coding_level || 'Not specified'}\n`;
-  context += `- Technical Skills: ${student?.technical_skills?.join(', ') || 'Not specified'}\n`;
-  context += `- Job Search Status: ${student?.job_search_status || 'Not specified'}\n\n`;
+  context += `- Name: ${student?.first_name || "Student"} ${
+    student?.last_name || ""
+  }\n`;
+  context += `- Batch: ${student?.batch_month || ""} ${
+    student?.batch_year || ""
+  }\n`;
+  context += `- Current Level: ${
+    student?.current_coding_level || "Not specified"
+  }\n`;
+  context += `- Technical Skills: ${
+    student?.technical_skills?.join(", ") || "Not specified"
+  }\n`;
+  context += `- Job Search Status: ${
+    student?.job_search_status || "Not specified"
+  }\n\n`;
 
   context += `RELEVANT LEARNING CONTENT:\n`;
-        
+
   if (content && content.length > 0) {
     content.forEach((item, index) => {
-      context += `${index + 1}. [${item.category}] ${item.title}: ${item.content.substring(0, 200)}...\n`;
+      context += `${index + 1}. [${item.category}] ${
+        item.title
+      }: ${item.content.substring(0, 200)}...\n`;
     });
   } else {
     context += "No direct content matches found.\n";
   }
-  
+
   context += "\nSIMILAR PREVIOUS QUESTIONS:\n";
   if (questions && questions.length > 0) {
     questions.forEach((q, index) => {
-      context += `${index + 1}. Q: ${q.question}\n   A: ${q.answer?.substring(0, 150) || 'No answer yet'}...\n`;
+      context += `${index + 1}. Q: ${q.question}\n   A: ${
+        q.answer?.substring(0, 150) || "No answer yet"
+      }...\n`;
     });
   } else {
     context += "No similar questions found.\n";
   }
-  
+
   return context;
 }
 
@@ -6751,16 +6984,16 @@ app.get("/api/admin/ai-content/categories", async (req, res) => {
       `SELECT * FROM ai_content_categories 
        ORDER BY display_order, category_name`
     );
-    
+
     res.json({
       success: true,
-      data: { categories: result.rows }
+      data: { categories: result.rows },
     });
   } catch (error) {
     console.error("Categories fetch error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch categories"
+      error: "Failed to fetch categories",
     });
   }
 });
@@ -6768,15 +7001,23 @@ app.get("/api/admin/ai-content/categories", async (req, res) => {
 // Add/Update category
 app.post("/api/admin/ai-content/categories", async (req, res) => {
   try {
-    const { id, category_name, description, icon_url, parent_category, is_active, display_order } = req.body;
-    
+    const {
+      id,
+      category_name,
+      description,
+      icon_url,
+      parent_category,
+      is_active,
+      display_order,
+    } = req.body;
+
     if (!category_name) {
       return res.status(400).json({
         success: false,
-        message: "Category name is required"
+        message: "Category name is required",
       });
     }
-    
+
     let result;
     if (id) {
       // Update existing category
@@ -6787,7 +7028,15 @@ app.post("/api/admin/ai-content/categories", async (req, res) => {
              updated_at = CURRENT_TIMESTAMP
          WHERE id = $7
          RETURNING *`,
-        [category_name, description, icon_url, parent_category, is_active, display_order, id]
+        [
+          category_name,
+          description,
+          icon_url,
+          parent_category,
+          is_active,
+          display_order,
+          id,
+        ]
       );
     } else {
       // Insert new category
@@ -6796,20 +7045,27 @@ app.post("/api/admin/ai-content/categories", async (req, res) => {
          (category_name, description, icon_url, parent_category, is_active, display_order)
          VALUES ($1, $2, $3, $4, $5, $6)
          RETURNING *`,
-        [category_name, description, icon_url, parent_category, is_active, display_order]
+        [
+          category_name,
+          description,
+          icon_url,
+          parent_category,
+          is_active,
+          display_order,
+        ]
       );
     }
-    
+
     res.json({
       success: true,
-      message: `Category ${id ? 'updated' : 'created'} successfully`,
-      data: { category: result.rows[0] }
+      message: `Category ${id ? "updated" : "created"} successfully`,
+      data: { category: result.rows[0] },
     });
   } catch (error) {
     console.error("Category save error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to save category"
+      error: "Failed to save category",
     });
   }
 });
@@ -6819,7 +7075,7 @@ app.get("/api/admin/ai-content", async (req, res) => {
   try {
     const { page = 1, limit = 20, category, search, is_active } = req.query;
     const offset = (page - 1) * limit;
-    
+
     let query = `
       SELECT alc.*, 
              s.first_name as created_by_first_name,
@@ -6830,24 +7086,24 @@ app.get("/api/admin/ai-content", async (req, res) => {
       LEFT JOIN ai_content_categories acc ON alc.category = acc.category_name
       WHERE 1=1
     `;
-    
+
     let countQuery = `
       SELECT COUNT(*) as total
       FROM ai_learning_content alc
       WHERE 1=1
     `;
-    
+
     const queryParams = [];
     let paramCount = 1;
-    
-    if (category && category !== 'all') {
+
+    if (category && category !== "all") {
       query += ` AND alc.category = $${paramCount}`;
       countQuery += ` AND alc.category = $${paramCount}`;
       queryParams.push(category);
       paramCount++;
     }
-    
-    if (search && search.trim() !== '') {
+
+    if (search && search.trim() !== "") {
       query += ` AND (
         alc.title ILIKE $${paramCount} OR 
         alc.content ILIKE $${paramCount} OR 
@@ -6861,21 +7117,21 @@ app.get("/api/admin/ai-content", async (req, res) => {
       queryParams.push(`%${search}%`);
       paramCount++;
     }
-    
-    if (is_active !== undefined && is_active !== '') {
+
+    if (is_active !== undefined && is_active !== "") {
       query += ` AND alc.is_active = $${paramCount}`;
       countQuery += ` AND alc.is_active = $${paramCount}`;
-      queryParams.push(is_active === 'true');
+      queryParams.push(is_active === "true");
       paramCount++;
     }
-    
+
     query += ` ORDER BY alc.priority DESC, alc.created_at DESC 
                LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(parseInt(limit), offset);
-    
+
     const result = await pool.query(query, queryParams);
     const countResult = await pool.query(countQuery, queryParams.slice(0, -2));
-    
+
     res.json({
       success: true,
       data: {
@@ -6884,15 +7140,15 @@ app.get("/api/admin/ai-content", async (req, res) => {
           page: parseInt(page),
           limit: parseInt(limit),
           total: parseInt(countResult.rows[0]?.total || 0),
-          pages: Math.ceil(parseInt(countResult.rows[0]?.total || 0) / limit)
-        }
-      }
+          pages: Math.ceil(parseInt(countResult.rows[0]?.total || 0) / limit),
+        },
+      },
     });
   } catch (error) {
     console.error("Content fetch error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch content"
+      error: "Failed to fetch content",
     });
   }
 });
@@ -6900,23 +7156,33 @@ app.get("/api/admin/ai-content", async (req, res) => {
 // Add/Update content
 app.post("/api/admin/ai-content", async (req, res) => {
   try {
-    const { 
-      id, category, subcategory, title, content, 
-      keywords, content_type, file_url, priority, is_active 
+    const {
+      id,
+      category,
+      subcategory,
+      title,
+      content,
+      keywords,
+      content_type,
+      file_url,
+      priority,
+      is_active,
     } = req.body;
-    
+
     if (!category || !title || !content) {
       return res.status(400).json({
         success: false,
-        message: "Category, title, and content are required"
+        message: "Category, title, and content are required",
       });
     }
-    
+
     // Parse keywords if string
-    const keywordsArray = Array.isArray(keywords) 
-      ? keywords 
-      : keywords ? keywords.split(',').map(k => k.trim()) : [];
-    
+    const keywordsArray = Array.isArray(keywords)
+      ? keywords
+      : keywords
+      ? keywords.split(",").map((k) => k.trim())
+      : [];
+
     let result;
     if (id) {
       // Update existing content
@@ -6927,8 +7193,18 @@ app.post("/api/admin/ai-content", async (req, res) => {
              priority = $8, is_active = $9, updated_at = CURRENT_TIMESTAMP
          WHERE id = $10
          RETURNING *`,
-        [category, subcategory, title, content, keywordsArray, 
-         content_type, file_url, priority, is_active, id]
+        [
+          category,
+          subcategory,
+          title,
+          content,
+          keywordsArray,
+          content_type,
+          file_url,
+          priority,
+          is_active,
+          id,
+        ]
       );
     } else {
       // Insert new content
@@ -6938,21 +7214,31 @@ app.post("/api/admin/ai-content", async (req, res) => {
           content_type, file_url, priority, is_active, created_by)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
          RETURNING *`,
-        [category, subcategory, title, content, keywordsArray,
-         content_type, file_url, priority, is_active, 1] // Admin user ID
+        [
+          category,
+          subcategory,
+          title,
+          content,
+          keywordsArray,
+          content_type,
+          file_url,
+          priority,
+          is_active,
+          1,
+        ] // Admin user ID
       );
     }
-    
+
     res.json({
       success: true,
-      message: `Content ${id ? 'updated' : 'created'} successfully`,
-      data: { content: result.rows[0] }
+      message: `Content ${id ? "updated" : "created"} successfully`,
+      data: { content: result.rows[0] },
     });
   } catch (error) {
     console.error("Content save error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to save content"
+      error: "Failed to save content",
     });
   }
 });
@@ -6961,28 +7247,28 @@ app.post("/api/admin/ai-content", async (req, res) => {
 app.delete("/api/admin/ai-content/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     const result = await pool.query(
       "DELETE FROM ai_learning_content WHERE id = $1 RETURNING *",
       [id]
     );
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Content not found"
+        message: "Content not found",
       });
     }
-    
+
     res.json({
       success: true,
-      message: "Content deleted successfully"
+      message: "Content deleted successfully",
     });
   } catch (error) {
     console.error("Content delete error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to delete content"
+      error: "Failed to delete content",
     });
   }
 });
@@ -6992,7 +7278,7 @@ app.get("/api/admin/ai-content/student-questions", async (req, res) => {
   try {
     const { page = 1, limit = 20, status, category, search } = req.query;
     const offset = (page - 1) * limit;
-    
+
     let query = `
       SELECT sqk.*, 
              s.first_name, 
@@ -7004,23 +7290,23 @@ app.get("/api/admin/ai-content/student-questions", async (req, res) => {
       LEFT JOIN students s ON sqk.student_id = s.id
       WHERE 1=1
     `;
-    
+
     const queryParams = [];
     let paramCount = 1;
-    
-    if (status && status !== 'all') {
+
+    if (status && status !== "all") {
       query += ` AND sqk.status = $${paramCount}`;
       queryParams.push(status);
       paramCount++;
     }
-    
-    if (category && category !== 'all') {
+
+    if (category && category !== "all") {
       query += ` AND sqk.category = $${paramCount}`;
       queryParams.push(category);
       paramCount++;
     }
-    
-    if (search && search.trim() !== '') {
+
+    if (search && search.trim() !== "") {
       query += ` AND (
         sqk.question ILIKE $${paramCount} OR 
         sqk.answer ILIKE $${paramCount} OR
@@ -7030,22 +7316,22 @@ app.get("/api/admin/ai-content/student-questions", async (req, res) => {
       queryParams.push(`%${search}%`);
       paramCount++;
     }
-    
+
     query += ` ORDER BY sqk.is_important DESC, sqk.asked_at DESC 
                LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(parseInt(limit), offset);
-    
+
     const result = await pool.query(query, queryParams);
-    
+
     res.json({
       success: true,
-      data: { questions: result.rows }
+      data: { questions: result.rows },
     });
   } catch (error) {
     console.error("Student questions fetch error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch student questions"
+      error: "Failed to fetch student questions",
     });
   }
 });
@@ -7055,7 +7341,7 @@ app.put("/api/admin/ai-content/student-questions/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { answer, is_important, status, category, tags } = req.body;
-    
+
     const result = await pool.query(
       `UPDATE student_questions_kb 
        SET answer = COALESCE($1, answer),
@@ -7069,24 +7355,24 @@ app.put("/api/admin/ai-content/student-questions/:id", async (req, res) => {
        RETURNING *`,
       [answer, is_important, status, category, tags, id]
     );
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "Question not found"
+        message: "Question not found",
       });
     }
-    
+
     res.json({
       success: true,
       message: "Question updated successfully",
-      data: { question: result.rows[0] }
+      data: { question: result.rows[0] },
     });
   } catch (error) {
     console.error("Question update error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to update question"
+      error: "Failed to update question",
     });
   }
 });
@@ -7103,26 +7389,32 @@ app.post("/api/ai/enhanced-chat", auth, async (req, res) => {
   try {
     const { message, sessionId, category } = req.body;
     const studentId = req.student.id;
-    
+
     console.log(`🤖 Enhanced chat request from student ${studentId}`);
-    console.log(`📝 Message: ${message?.substring(0, 200) || 'No message'}...`);
-    
-    if (!message || message.trim() === '') {
+    console.log(`📝 Message: ${message?.substring(0, 200) || "No message"}...`);
+
+    if (!message || message.trim() === "") {
       return res.status(400).json({
         success: false,
-        message: "Message is required"
+        message: "Message is required",
       });
     }
-    
+
     // Extract keywords from message
     const keywords = extractKeywords(message);
-    
+
     // 1. Search in learning content
-    const relevantContent = await EnhancedGeminiService.searchContent(keywords, category);
-    
+    const relevantContent = await EnhancedGeminiService.searchContent(
+      keywords,
+      category
+    );
+
     // 2. Search in student questions KB
-    const similarQuestions = await EnhancedGeminiService.findStudentQuestions(message, studentId);
-    
+    const similarQuestions = await EnhancedGeminiService.findStudentQuestions(
+      message,
+      studentId
+    );
+
     // 3. Save this question to KB
     try {
       await pool.query(
@@ -7134,19 +7426,27 @@ app.post("/api/ai/enhanced-chat", auth, async (req, res) => {
       console.error("Failed to save question to KB:", insertError.message);
       // Continue even if saving fails
     }
-    
+
     // 4. Prepare context for Gemini
-    const context = prepareAIContext(relevantContent, similarQuestions, req.student);
-    
+    const context = prepareAIContext(
+      relevantContent,
+      similarQuestions,
+      req.student
+    );
+
     // 5. Get response from Gemini with context
     let geminiResponse;
     try {
-      geminiResponse = await EnhancedGeminiService.getEnhancedGeminiResponse(message, context);
+      geminiResponse = await EnhancedGeminiService.getEnhancedGeminiResponse(
+        message,
+        context
+      );
     } catch (geminiError) {
       console.error("Gemini service error:", geminiError);
-      geminiResponse = "I'm currently experiencing technical difficulties. Please try again in a moment or contact support.";
+      geminiResponse =
+        "I'm currently experiencing technical difficulties. Please try again in a moment or contact support.";
     }
-    
+
     // 6. Try to save the response (but don't fail if it doesn't work)
     try {
       await pool.query(
@@ -7157,33 +7457,34 @@ app.post("/api/ai/enhanced-chat", auth, async (req, res) => {
         [geminiResponse, studentId, message]
       );
     } catch (updateError) {
-      console.error("Failed to update question with answer:", updateError.message);
+      console.error(
+        "Failed to update question with answer:",
+        updateError.message
+      );
     }
-    
+
     res.json({
       success: true,
       data: {
         response: geminiResponse,
         contextFound: relevantContent.length > 0 || similarQuestions.length > 0,
         relevantContent: relevantContent.slice(0, 3),
-        similarQuestions: similarQuestions.slice(0, 2)
-      }
+        similarQuestions: similarQuestions.slice(0, 2),
+      },
     });
-    
   } catch (error) {
     console.error("Enhanced chat error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to process chat request: " + error.message
+      error: "Failed to process chat request: " + error.message,
     });
   }
 });
 
-
 async function getEnhancedGeminiResponse(message, context) {
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ 
+    const model = genAI.getGenerativeModel({
       model: "gemini-pro",
       systemInstruction: `
       You are "BroOne AI", the official AI assistant of OneSolutions Institute.
@@ -7204,11 +7505,11 @@ async function getEnhancedGeminiResponse(message, context) {
       - Present main answer clearly
       - Use examples when helpful
       - End with key takeaways or next steps
-      `
+      `,
     });
-    
+
     const prompt = `Context Information:\n${context}\n\nStudent Question: ${message}\n\nPlease provide a helpful, accurate response based on the context above. If the context doesn't fully answer the question, use your knowledge to supplement.`;
-    
+
     const result = await model.generateContent(prompt);
     return result.response.text();
   } catch (error) {
@@ -7221,24 +7522,24 @@ async function getEnhancedGeminiResponse(message, context) {
 app.get("/api/ai/learning-content", auth, async (req, res) => {
   try {
     const { category, search } = req.query;
-    
+
     let query = `
       SELECT id, category, subcategory, title, content, 
              content_type, file_url, created_at
       FROM ai_learning_content 
       WHERE is_active = true
     `;
-    
+
     const params = [];
     let paramCount = 1;
-    
-    if (category && category !== 'all') {
+
+    if (category && category !== "all") {
       query += ` AND category = $${paramCount}`;
       params.push(category);
       paramCount++;
     }
-    
-    if (search && search.trim() !== '') {
+
+    if (search && search.trim() !== "") {
       query += ` AND (
         title ILIKE $${paramCount} OR 
         content ILIKE $${paramCount} OR 
@@ -7247,20 +7548,20 @@ app.get("/api/ai/learning-content", auth, async (req, res) => {
       params.push(`%${search}%`);
       paramCount++;
     }
-    
+
     query += ` ORDER BY priority DESC, created_at DESC LIMIT 50`;
-    
+
     const result = await pool.query(query, params);
-    
+
     res.json({
       success: true,
-      data: { content: result.rows }
+      data: { content: result.rows },
     });
   } catch (error) {
     console.error("Learning content fetch error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch learning content"
+      error: "Failed to fetch learning content",
     });
   }
 });
@@ -7274,19 +7575,21 @@ app.get("/api/ai/categories", auth, async (req, res) => {
        WHERE is_active = true
        ORDER BY display_order, category_name`
     );
-    
+
     res.json({
       success: true,
-      data: { categories: result.rows }
+      data: { categories: result.rows },
     });
   } catch (error) {
     console.error("Categories fetch error:", error);
     res.status(500).json({
       success: false,
-      error: "Failed to fetch categories"
+      error: "Failed to fetch categories",
     });
   }
 });
+
+app.use('/', digitalMarketingRoutes);
 
 
 // Handle 404 routes

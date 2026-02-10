@@ -52,20 +52,16 @@ const Miscellaneous_Python_Library_CheeatSheet = ({
       <section>
         <h2>1. Why Inheritance?</h2>
         <p>
-          Inheritance helps model real-world relationships by allowing a new
-          class to reuse properties and methods of an existing class.
+          Inheritance is used when multiple classes share common properties and
+          behavior. Instead of writing the same code again, we create a parent
+          class and reuse it in child classes.
         </p>
-        <p>In an e-commerce application:</p>
+        <p>This makes programs easier to maintain, extend, and understand.</p>
         <ul>
-          <li>
-            <b>Common attributes:</b> name, price (shared by all products)
-          </li>
-          <li>
-            <b>Specific attributes:</b> warranty for electronics, expiry date for
-            groceries
-          </li>
+          <li>Common attributes: name, price</li>
+          <li>Specific attributes: warranty, expiry date</li>
           <li>Reduces code duplication</li>
-          <li>Makes the system easy to extend</li>
+          <li>Makes systems easy to extend</li>
         </ul>
       </section>
 
@@ -73,8 +69,12 @@ const Miscellaneous_Python_Library_CheeatSheet = ({
       <section>
         <h2>2. Base / Parent Class</h2>
         <p>
-          The base class contains common attributes and behavior that all child
-          classes can inherit.
+          A parent (base) class contains common attributes and methods that are
+          shared by multiple child classes.
+        </p>
+        <p>
+          In this example, the <b>Product</b> class stores general product
+          details like price and ratings.
         </p>
 
         <CodeBlock
@@ -99,8 +99,12 @@ Ratings:{self.ratings}"""`}
       <section>
         <h2>3. Child Classes (Inheritance)</h2>
         <p>
-          Child classes inherit from the parent class and can add new attributes
-          or override existing methods.
+          Child classes inherit properties and methods from the parent class.
+          They can also add new features or override existing behavior.
+        </p>
+        <p>
+          Here, electronic and grocery products reuse product details but add
+          their own specific information.
         </p>
 
         <CodeBlock
@@ -128,9 +132,10 @@ print(tv.display_product())`}
       <section>
         <h2>4. Multi-Level Inheritance</h2>
         <p>
-          Multi-level inheritance occurs when a class inherits from another child
-          class, forming a chain.
+          Multi-level inheritance occurs when a class is derived from another
+          child class, forming a chain of inheritance.
         </p>
+        <p>Each level adds more functionality to the existing class.</p>
 
         <CodeBlock
           language="python"
@@ -144,10 +149,13 @@ print(tv.display_product())`}
       <section>
         <h2>5. Composition (HAS-A Relationship)</h2>
         <p>
-          Composition represents a relationship where one class <b>contains</b>{" "}
-          another class rather than inheriting from it.
+          Composition represents a <b>HAS-A</b> relationship where one class
+          contains objects of another class.
         </p>
-
+        <p>
+          This approach is more flexible than inheritance and promotes better
+          design.
+        </p>
         <CodeBlock
           language="python"
           code={`class Product:
@@ -178,8 +186,8 @@ print(order1.total_amount())`}
       <section>
         <h2>6. Python Standard Library</h2>
         <p>
-          Python provides a rich standard library that supports mathematics,
-          randomness, and date-time operations.
+          Python provides built-in modules that help perform common tasks
+          without writing extra code.
         </p>
 
         <CodeBlock
@@ -199,11 +207,11 @@ print(today.strftime("%d-%m-%Y"))`}
       {/* Functional Programming */}
       <section>
         <h2>7. Functional Programming Tools</h2>
-        <p>
-          Python supports functional programming using <b>map</b>,{" "}
-          <b>filter</b>, and <b>reduce</b>.
-        </p>
 
+        <p>
+          Python supports functional programming concepts such as map, filter,
+          and reduce to process data efficiently.
+        </p>
         <CodeBlock
           language="python"
           code={`numbers = [1, 2, 3]
@@ -245,9 +253,10 @@ print(x)`}
       {/* Error Handling */}
       <section>
         <h2>9. Error Handling</h2>
+
         <p>
-          Error handling prevents program crashes and allows graceful recovery
-          using try-except blocks.
+          Error handling allows programs to manage runtime errors without
+          crashing and improves user experience.
         </p>
 
         <CodeBlock
@@ -269,8 +278,8 @@ finally:
       <section>
         <h2>10. Date & Time Operations</h2>
         <p>
-          Python’s datetime module allows date formatting, arithmetic, and time
-          difference calculations.
+          Python provides powerful tools to work with dates and time, including
+          formatting and date calculations.
         </p>
 
         <CodeBlock
@@ -289,9 +298,10 @@ print((next_week - now).days)`}
       {/* Comprehensive Example */}
       <section>
         <h2>11. Comprehensive E-Commerce Example</h2>
+
         <p>
-          This example combines inheritance, composition, and data management
-          into a simple e-commerce workflow.
+          This example combines multiple concepts like classes, inheritance,
+          collections, and methods into a real-world application.
         </p>
 
         <CodeBlock
@@ -334,8 +344,8 @@ print((next_week - now).days)`}
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
-            : "Continue"}
+              ? "✓ Completed"
+              : "Continue"}
         </button>
       </div>
     </div>

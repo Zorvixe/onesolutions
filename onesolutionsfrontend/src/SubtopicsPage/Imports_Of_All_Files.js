@@ -717,14 +717,20 @@ import SQL_Coding_Pratice_8 from "../SQL_Database/Modelling_Databases/SQL_Coding
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
+import FoundationsOfOOP_Coding_Pratice from "../Python/IntroductiontoOOP/FoundationsOfOOP_Coding_Pratice.js";
 import Miscellaneous_Python_Library_CheeatSheet from "../Python/Miscellaneous/Miscellaneous_Python_Library_CheeatSheet.js";
+import Miscellaneous_Python_Library_MCQ from "../Python/Miscellaneous/Miscellaneous_Python_Library_MCQ.js";
+import Miscellaneous_Python_Library_Coding_Pratice from "../Python/Miscellaneous/Miscellaneous_Python_Library_Coding_Pratice.js";
 export const subtopicComponents = {
   //Python OOPS CORE
   "Foundations of Object Oriented Programming | Cheat Sheet":
     FoundationsOfOOP_CheatSheet,
   "Foundations of Object Oriented Programming | Cheat Sheet 2":
     FoundationsOfOOP_CheatSheet_2,
+  "Python Coding Practice 32": FoundationsOfOOP_Coding_Pratice,
   "Standard Library | Cheat Sheet": Miscellaneous_Python_Library_CheeatSheet,
+  "MCQ Practice - Standard Library": Miscellaneous_Python_Library_MCQ,
+  "Python Coding Practice 33": Miscellaneous_Python_Library_Coding_Pratice,
   //SQL Coding Pratice
   "SQL Coding Practice 1": SQL_Coding_Pratice_1,
   "SQL Coding Practice 2": SQL_Coding_Pratice_2,

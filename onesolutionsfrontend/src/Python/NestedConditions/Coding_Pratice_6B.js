@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../CodingPracticeCss/CodingPractice.css";
 import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const Coding_Pratice_6B= () => {
-  const { questionId } = useParams();
+const Coding_Pratice_6B = () => {
+  // const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,7 +17,7 @@ const Coding_Pratice_6B= () => {
     codingPracticeProgress,
     loadProgressSummary,
     markSubtopicComplete,
-    completedContent,
+    // completedContent,
     loadProgressSummary: refreshProgress,
   } = useAuth();
 
@@ -218,7 +218,7 @@ const Coding_Pratice_6B= () => {
   ]);
 
   // Check if this coding practice subtopic is already completed in main system
-  const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
+  // const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
 
   const handleQuestionSelect = (question) => {
     navigate(`/practice/${selectedPractice.id}/${question.id}`, {
@@ -233,8 +233,8 @@ const Coding_Pratice_6B= () => {
   if (loading) {
     return (
       <div className="loading-container">
-      <div className="spinner"></div>
-    </div>
+        <div className="spinner"></div>
+      </div>
     );
   }
 
@@ -246,8 +246,8 @@ const Coding_Pratice_6B= () => {
     );
   }
 
-  const practiceCompleted = isPracticeCompleted(selectedPractice.id);
-  const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
+  // const practiceCompleted = isPracticeCompleted(selectedPractice.id);
+  // const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
   const solvedCount = selectedPractice.questions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
@@ -305,8 +305,8 @@ const Coding_Pratice_6B= () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
@@ -315,8 +315,8 @@ const Coding_Pratice_6B= () => {
                             {status === "solved"
                               ? "✓"
                               : status === "attempted"
-                              ? "●"
-                              : "○"}
+                                ? "●"
+                                : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
@@ -329,7 +329,7 @@ const Coding_Pratice_6B= () => {
                             )}
                           </div>
                           <div className="question-description-cod">
-                          {(question.description).slice(0,45)}...
+                            {question.description.slice(0, 45)}...
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">

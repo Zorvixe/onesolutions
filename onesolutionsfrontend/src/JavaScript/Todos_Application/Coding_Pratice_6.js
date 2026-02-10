@@ -227,8 +227,8 @@ const Coding_Pratice_6 = () => {
   if (loading) {
     return (
       <div className="loading-container">
-      <div className="spinner"></div>
-    </div>
+        <div className="spinner"></div>
+      </div>
     );
   }
 

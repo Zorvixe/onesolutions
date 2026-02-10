@@ -9,11 +9,11 @@ import MCQWrapper from "../SubtopicsPage/MCQWrapper.js";
 
 const SubtopicPage = () => {
   const { topicId, subtopicId } = useParams();
-  const { 
-    completedContent, 
-    markContentAsCompleted, 
+  const {
+    completedContent,
+    markContentAsCompleted,
     forceProgressUpdate,
-    user // Get user to access student type
+    user, // Get user to access student type
   } = useAuth();
 
   const [selectedSubtopicSub, setSelectedSubtopicSub] = useState(null);
@@ -31,29 +31,31 @@ const SubtopicPage = () => {
   const studentType = user?.studentType || "zorvixe_core"; // Default to core if not specified
 
   // ✅ Filter goals based on student type
-  const filteredGoals = goalsData.filter(goal => 
-    !goal.accessibleTo || goal.accessibleTo.includes(studentType)
+  const filteredGoals = goalsData.filter(
+    (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
   );
 
   // ✅ Filter courses based on student type
   const getFilteredCourses = (courses) => {
-    return courses.filter(course => 
-      !course.accessibleTo || course.accessibleTo.includes(studentType)
+    return courses.filter(
+      (course) =>
+        !course.accessibleTo || course.accessibleTo.includes(studentType)
     );
   };
 
   // ✅ Filter modules based on student type
   const getFilteredModules = (modules) => {
-    return modules.filter(module => 
-      !module.accessibleTo || module.accessibleTo.includes(studentType)
+    return modules.filter(
+      (module) =>
+        !module.accessibleTo || module.accessibleTo.includes(studentType)
     );
   };
 
   // ✅ Filter subtopics based on student type
   const getFilteredSubtopics = (topics) => {
     if (!topics) return [];
-    return topics.filter(topic => 
-      !topic.accessibleTo || topic.accessibleTo.includes(studentType)
+    return topics.filter(
+      (topic) => !topic.accessibleTo || topic.accessibleTo.includes(studentType)
     );
   };
 
@@ -100,13 +102,23 @@ const SubtopicPage = () => {
                 foundCourseSub = course;
                 foundGoalSub = goal;
                 // Content exists but might not be accessible
-                const isGoalAccessible = !goal.accessibleTo || goal.accessibleTo.includes(studentType);
-                const isCourseAccessible = !course.accessibleTo || course.accessibleTo.includes(studentType);
-                const isModuleAccessible = !module.accessibleTo || module.accessibleTo.includes(studentType);
-                const isSubtopicAccessible = !subtopic.accessibleTo || subtopic.accessibleTo.includes(studentType);
-                
-                isAccessibleContent = isGoalAccessible && isCourseAccessible && 
-                                      isModuleAccessible && isSubtopicAccessible;
+                const isGoalAccessible =
+                  !goal.accessibleTo || goal.accessibleTo.includes(studentType);
+                const isCourseAccessible =
+                  !course.accessibleTo ||
+                  course.accessibleTo.includes(studentType);
+                const isModuleAccessible =
+                  !module.accessibleTo ||
+                  module.accessibleTo.includes(studentType);
+                const isSubtopicAccessible =
+                  !subtopic.accessibleTo ||
+                  subtopic.accessibleTo.includes(studentType);
+
+                isAccessibleContent =
+                  isGoalAccessible &&
+                  isCourseAccessible &&
+                  isModuleAccessible &&
+                  isSubtopicAccessible;
               }
             });
           });
@@ -114,12 +126,12 @@ const SubtopicPage = () => {
       });
     }
 
-    return { 
-      foundSubtopicSub, 
-      foundModuleSub, 
-      foundCourseSub, 
+    return {
+      foundSubtopicSub,
+      foundModuleSub,
+      foundCourseSub,
       foundGoalSub,
-      isAccessible: isAccessibleContent
+      isAccessible: isAccessibleContent,
     };
   };
 
@@ -197,17 +209,17 @@ const SubtopicPage = () => {
   // 📌 Load content on route change - WITH ACCESSIBILITY CHECK
   useEffect(() => {
     if (topicId && subtopicId) {
-      const { 
-        foundSubtopicSub, 
-        foundModuleSub, 
-        foundCourseSub, 
+      const {
+        foundSubtopicSub,
+        foundModuleSub,
+        foundCourseSub,
         foundGoalSub,
-        isAccessible: accessible 
+        isAccessible: accessible,
       } = findContentByIds(topicId, subtopicId);
 
       if (foundSubtopicSub && foundModuleSub) {
         setIsAccessible(accessible);
-        
+
         if (accessible) {
           setSelectedSubtopicSub(foundSubtopicSub);
           setSelectedModuleSub(foundModuleSub);
@@ -287,12 +299,23 @@ const SubtopicPage = () => {
 
   const handleSubtopicClickSub = (module, subtopic) => {
     // Check if the subtopic is accessible before navigating
-    const isGoalAccessible = !selectedGoalSub?.accessibleTo || selectedGoalSub.accessibleTo.includes(studentType);
-    const isCourseAccessible = !selectedCourseSub?.accessibleTo || selectedCourseSub.accessibleTo.includes(studentType);
-    const isModuleAccessible = !module?.accessibleTo || module.accessibleTo.includes(studentType);
-    const isSubtopicAccessible = !subtopic?.accessibleTo || subtopic.accessibleTo.includes(studentType);
-    
-    if (isGoalAccessible && isCourseAccessible && isModuleAccessible && isSubtopicAccessible) {
+    const isGoalAccessible =
+      !selectedGoalSub?.accessibleTo ||
+      selectedGoalSub.accessibleTo.includes(studentType);
+    const isCourseAccessible =
+      !selectedCourseSub?.accessibleTo ||
+      selectedCourseSub.accessibleTo.includes(studentType);
+    const isModuleAccessible =
+      !module?.accessibleTo || module.accessibleTo.includes(studentType);
+    const isSubtopicAccessible =
+      !subtopic?.accessibleTo || subtopic.accessibleTo.includes(studentType);
+
+    if (
+      isGoalAccessible &&
+      isCourseAccessible &&
+      isModuleAccessible &&
+      isSubtopicAccessible
+    ) {
       navigate(`/topic/${module.id}/subtopic/${subtopic.id}`, {
         state: {
           subtopicName: subtopic.name,
@@ -300,7 +323,9 @@ const SubtopicPage = () => {
         },
       });
     } else {
-      alert("You don't have access to this content based on your subscription.");
+      alert(
+        "You don't have access to this content based on your subscription."
+      );
     }
   };
 
@@ -442,22 +467,35 @@ const SubtopicPage = () => {
               {renderSubtopicContentSub(selectedSubtopicSub)}
             </div>
           ) : (
-            <div className="subtopic-page-sub__access-denied-sub">
-              <h3>Content Not Accessible</h3>
-              <button onClick={() => navigate("/courses")}>
-                Back to Courses
-              </button>
+            <div className="not-found-con">
+              {!imageLoaded && (
+                <div className="loading-container">
+                  <div className="spinner"></div>
+                </div>
+              )}
+
+              <img
+                src="/assets/img/locked_image.png"
+                className="locked_image"
+                onLoad={() => setImageLoaded(true)}
+                style={{ display: imageLoaded ? "block" : "none" }}
+              />
             </div>
           )
         ) : !isAccessible ? (
-          <div className="subtopic-page-sub__access-denied-sub">
-            <h3>Access Denied</h3>
-            <p>
-              This content is not available for your subscription level ({studentType}).
-            </p>
-            <button onClick={() => navigate("/courses")}>
-              Back to Courses
-            </button>
+          <div className="not-found-con">
+            {!imageLoaded && (
+              <div className="loading-container">
+                <div className="spinner"></div>
+              </div>
+            )}
+
+            <img
+              src="/assets/img/locked_image.png"
+              className="locked_image"
+              onLoad={() => setImageLoaded(true)}
+              style={{ display: imageLoaded ? "block" : "none" }}
+            />
           </div>
         ) : (
           <p>Select a subtopic to start learning.</p>

@@ -366,6 +366,13 @@ function Landing() {
                   <a href="/contacts">contacts</a>
                   <a href="/AdminStudentQuestions">AdminStudentQuestions</a>
                   <a href="/AdminAIContent">AdminAIContent</a>
+
+                  {/* Digital Marketing */}
+                  <a href="/digital/dashboard">DigitalDashboard</a>
+                  <a href="/digital/CourseManagement">DigitalCourseManagement</a>
+                  <a href="/digital/VideoUploadModal">DigitalVideoUploadModal</a>
+                  <a href="/digital/MCQCreator">DigitalMCQCreator</a>
+                  {/* Digital Marketing */}
                 </div>
               </div>
             </div>

@@ -1,124 +1,112 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { javascriptCodingPracticesData } from "../../codingPracticesData/javascriptCodingPracticesData";
+import "../CodingPracticeCss/CodingPractice.css";
+import { codingPracticesData } from "../../codingPracticesData/codingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const JS_Coding_Pratice_6 =  () => {
-  const { topicId, subtopicId } = useParams();
+const Miscellaneous_Python_Library_Coding_Pratice = () => {
+  const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Use Auth context for progress tracking
   const {
     codingPracticeProgress,
     loadProgressSummary,
     markSubtopicComplete,
+    completedContent,
     loadProgressSummary: refreshProgress,
   } = useAuth();
 
   const [selectedPractice, setSelectedPractice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
-  const [progressData, setProgressData] = useState({});
 
+  // Get goalName and courseName from navigation state with fallbacks
   const {
     goalName: stateGoalName,
     courseName: stateCourseName,
     subtopicId: codingPracticeSubtopicId,
   } = location.state || {};
 
+  // Extract goal and course names from practice data
   const goalName = stateGoalName;
   const courseName = stateCourseName;
+
+  // Use provided subtopicId or fallback
   const finalSubtopicId = codingPracticeSubtopicId;
 
-  // Load progress data
-  const loadProgressData = useCallback(async () => {
-    try {
-      console.log("🔄 Loading progress data...");
-
-      // Load overall progress summary
-      await loadProgressSummary();
-
-      // Load specific practice progress
-      const response = await CodingPracticeService.getAllProgress();
-      if (response.success) {
-        const progressMap = {};
-        response.data.progress.forEach((prog) => {
-          progressMap[prog.question_id] = prog;
-        });
-        setProgressData(progressMap);
-        console.log(
-          "✅ Progress data loaded:",
-          Object.keys(progressMap).length,
-          "items"
-        );
-      }
-
-      // Load completion status for all javascript practices
-      const completionStatus = {};
-      for (const practice of javascriptCodingPracticesData.javascript) {
-        try {
-          const response = await CodingPracticeService.getCompletionStatus(
-            practice.id
-          );
-          if (response.success) {
-            completionStatus[practice.id] = response.data.isCompleted;
-          }
-        } catch (error) {
-          console.error(
-            `Failed to check completion for ${practice.id}:`,
-            error
-          );
-          completionStatus[practice.id] = false;
-        }
-      }
-      setPracticeCompletionStatus(completionStatus);
-    } catch (error) {
-      console.error("❌ Failed to load progress data:", error);
-    }
-  }, [loadProgressSummary]);
-
-  // Load practice
+  // Load "Coding Practice - 1" from codingPracticesData
   useEffect(() => {
-    const practice11 = javascriptCodingPracticesData.javascript.find(
-      (p) => p.id === "js-coding-practice-6"
+    const practice91 = codingPracticesData.python.find(
+      (p) => p.id === "Coding-practice-python-Miscellaneous-Core"
     );
-    if (practice11) {
-      setSelectedPractice(practice11);
-      console.log("✅ Loaded practice:", practice11.id);
+    if (practice91) {
+      setSelectedPractice(practice91);
+      console.log("📝 Loaded practice with details:", {
+        practiceId: practice91.id,
+        goalName,
+        courseName,
+        subtopicId: finalSubtopicId,
+      });
     }
     setLoading(false);
   }, [goalName, courseName, finalSubtopicId]);
 
-  // Load progress on mount and when practice changes
+  // Load progress data when component mounts or when progress updates
   useEffect(() => {
-    if (selectedPractice) {
-      loadProgressData();
-    }
-  }, [selectedPractice, loadProgressData]);
+    const loadProgressData = async () => {
+      try {
+        setLoading(true);
+        await loadProgressSummary();
 
+        // Check completion status for each practice
+        if (selectedPractice) {
+          const completionStatus = {};
+          for (const practice of codingPracticesData.python) {
+            try {
+              const response = await CodingPracticeService.getCompletionStatus(
+                practice.id
+              );
+              if (response.success) {
+                completionStatus[practice.id] = response.data.isCompleted;
+              }
+            } catch (error) {
+              console.error(
+                `Failed to check completion for ${practice.id}:`,
+                error
+              );
+              completionStatus[practice.id] = false;
+            }
+          }
+          setPracticeCompletionStatus(completionStatus);
+        }
+      } catch (error) {
+        console.error("Failed to load progress data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProgressData();
+  }, [selectedPractice, loadProgressSummary]);
+
+  // Enhanced progress tracking functions
   const getQuestionStatus = useCallback(
     (questionId) => {
-      return (
-        progressData[questionId]?.status ||
-        codingPracticeProgress[questionId]?.status ||
-        "unsolved"
-      );
+      return codingPracticeProgress[questionId]?.status || "unsolved";
     },
-    [progressData, codingPracticeProgress]
+    [codingPracticeProgress]
   );
 
   const getQuestionScore = useCallback(
     (questionId) => {
-      return (
-        progressData[questionId]?.score ||
-        codingPracticeProgress[questionId]?.score ||
-        0
-      );
+      return codingPracticeProgress[questionId]?.score || 0;
     },
-    [progressData, codingPracticeProgress]
+    [codingPracticeProgress]
   );
 
   const getQuestionAttempts = useCallback(
@@ -154,7 +142,7 @@ const JS_Coding_Pratice_6 =  () => {
     [getQuestionStatus]
   );
 
-  // Auto-complete practice when all questions are solved
+  // ✅ FIXED: Auto-mark practice as complete when all questions are solved
   useEffect(() => {
     const autoCompletePractice = async () => {
       if (
@@ -163,30 +151,56 @@ const JS_Coding_Pratice_6 =  () => {
         !isPracticeCompleted(selectedPractice.id)
       ) {
         try {
-          console.log("🎉 All questions solved, marking practice complete");
+          console.log(
+            "🎯 All questions solved in practice! Marking as complete...",
+            {
+              practiceId: selectedPractice.id,
+              goalName,
+              courseName,
+              subtopicId: finalSubtopicId,
+            }
+          );
+
+          // Method 1: Mark coding practice as complete via coding practice service
           await CodingPracticeService.completePractice(
             selectedPractice.id,
             goalName,
             courseName
           );
 
-          if (finalSubtopicId) {
-            await markSubtopicComplete(finalSubtopicId, goalName, courseName);
+          // Method 2: ALSO mark the subtopic as complete in the main progress system
+          // This is crucial for goal and course progress tracking
+          const result = await markSubtopicComplete(
+            finalSubtopicId,
+            goalName,
+            courseName
+          );
+
+          if (result.success) {
+            console.log(
+              "✅ Coding practice subtopic marked as complete in main progress system"
+            );
           }
 
           await refreshProgress();
 
-          // Reload progress data
-          await loadProgressData();
-
+          // Update local completion status
           setPracticeCompletionStatus((prev) => ({
             ...prev,
             [selectedPractice.id]: true,
           }));
 
-          console.log("✅ Practice marked complete");
+          console.log("✅ Practice marked as completed in both systems!");
         } catch (error) {
           console.error("❌ Failed to mark practice complete:", error);
+
+          // Fallback: Try to mark just the subtopic
+          try {
+            await markSubtopicComplete(finalSubtopicId, goalName, courseName);
+            await refreshProgress();
+          } catch (fallbackError) {
+            console.error("❌ Fallback also failed:", fallbackError);
+          }
         }
       }
     };
@@ -198,11 +212,13 @@ const JS_Coding_Pratice_6 =  () => {
     isPracticeCompleted,
     markSubtopicComplete,
     refreshProgress,
-    loadProgressData,
     finalSubtopicId,
     goalName,
     courseName,
   ]);
+
+  // Check if this coding practice subtopic is already completed in main system
+  const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
 
   const handleQuestionSelect = (question) => {
     navigate(`/practice/${selectedPractice.id}/${question.id}`, {
@@ -230,15 +246,19 @@ const JS_Coding_Pratice_6 =  () => {
     );
   }
 
+  const practiceCompleted = isPracticeCompleted(selectedPractice.id);
+  const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
   const solvedCount = selectedPractice.questions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
 
   return (
     <div className="coding-practice-container-cod">
+      {/* Header */}
       <div className="coding-header-cod">
         <div className="header-left-cod">
           <h3>{selectedPractice.title}</h3>
+
           <div className="practice-stats-cod">
             <p className="practice-description-cod">
               {selectedPractice.description}
@@ -254,6 +274,7 @@ const JS_Coding_Pratice_6 =  () => {
       </div>
 
       <div className="coding-practice-content-cod">
+        {/* Questions List View */}
         <div className="questions-list-view-cod">
           <div className="questions-table-container-cod">
             <div className="questions-table-cod">
@@ -276,6 +297,7 @@ const JS_Coding_Pratice_6 =  () => {
                       attempts.length > 0
                         ? attempts[attempts.length - 1]
                         : null;
+
                     return (
                       <tr
                         key={question.id}
@@ -290,7 +312,11 @@ const JS_Coding_Pratice_6 =  () => {
                       >
                         <td className="status-cell-cod">
                           <span className={`status-indicator-cod ${status}`}>
-                            {status === "solved" ? "✓" : "○"}
+                            {status === "solved"
+                              ? "✓"
+                              : status === "attempted"
+                                ? "●"
+                                : "○"}
                           </span>
                         </td>
                         <td className="question-title-cell-cod">
@@ -301,6 +327,9 @@ const JS_Coding_Pratice_6 =  () => {
                                 Solved
                               </span>
                             )}
+                          </div>
+                          <div className="question-description-cod">
+                            {question.description.slice(0, 45)}...
                           </div>
                         </td>
                         <td className="difficulty-cell-cod">
@@ -316,7 +345,6 @@ const JS_Coding_Pratice_6 =  () => {
                             : `0/${question.score}`}{" "}
                           pts
                         </td>
-
                         <td className="progress-cell-cod">
                           {lastAttempt ? (
                             <div className="progress-info-cod">
@@ -356,11 +384,35 @@ const JS_Coding_Pratice_6 =  () => {
             </div>
           </div>
 
+          {/* Practice Completion Status */}
           <div className="practice-completion-status-cod">
             <div className="completion-header-cod">
               <h4>Practice Progress</h4>
             </div>
             <div className="progress-summary-cod">
+              <div className="progress-stats-cod">
+                <div className="progress-stat-cod">
+                  <span className="stat-label-cod">Questions Solved:</span>
+                  <span className="stat-value-cod">
+                    {solvedCount} / {selectedPractice.questions.length}
+                  </span>
+                </div>
+                <div className="progress-stat-cod">
+                  <span className="stat-label-cod">Total Score:</span>
+                  <span className="stat-value-cod">
+                    {selectedPractice.questions.reduce(
+                      (total, q) => total + (getQuestionScore(q.id) || 0),
+                      0
+                    )}{" "}
+                    /{" "}
+                    {selectedPractice.questions.reduce(
+                      (total, q) => total + q.score,
+                      0
+                    )}{" "}
+                    pts
+                  </span>
+                </div>
+              </div>
               <div className="overall-progress-bar-cod">
                 <div
                   className="overall-progress-fill-cod"
@@ -378,5 +430,4 @@ const JS_Coding_Pratice_6 =  () => {
     </div>
   );
 };
-
-export default JS_Coding_Pratice_6;
+export default Miscellaneous_Python_Library_Coding_Pratice;

@@ -6,6 +6,7 @@ import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 import CodePlayground from "../../CodePlayground/CodePlayground";
 import validateSqlTest from "./validateSqlTest";
+import { mockExecuteSql } from "./validateSqlTest";
 import "./sqlPracticee.css";
 import "../../codingPracticesData/codingpracticesweb.css";
 import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
@@ -307,20 +308,19 @@ const SQLPractice = () => {
     setTestResults([]);
 
     try {
-      // Simulate SQL execution for now
-      // In a real implementation, you would connect to a SQL execution service
-      const result = await validateSqlTest(selectedQuestion, currentCode.sql);
+      // Use mock execution for now
+      const result = await mockExecuteSql(currentCode.sql);
 
       if (result.success) {
         setOutput(result.output || "Query executed successfully");
         setQueryResult(result.data);
 
-        // If there are test cases, run them
+        // Run tests after successful execution
         if (
           selectedQuestion.testCases &&
           selectedQuestion.testCases.length > 0
         ) {
-          runTests(result);
+          await runTests(result.data);
         }
       } else {
         setExecutionError(result.error);
@@ -356,29 +356,30 @@ const SQLPractice = () => {
       }
 
       for (const testCase of selectedQuestion.testCases) {
-        let passed = false;
-        let actual = "";
+        let testResult;
 
         try {
-          const result = validateSqlTest(
+          // Call validateSqlTest with correct parameters
+          testResult = validateSqlTest(
             testCase,
             currentCode.sql,
             executionResult
           );
-          passed = result.passed;
-          actual = result.actual || "";
         } catch (error) {
           console.error(`Test ${testCase.id} error:`, error);
-          passed = false;
-          actual = `Error: ${error.message}`;
+          testResult = {
+            passed: false,
+            actual: `Error: ${error.message}`,
+            expected: testCase.expected || "Test failed",
+          };
         }
 
-        if (passed) passedCount++;
+        if (testResult.passed) passedCount++;
 
         results.push({
           ...testCase,
-          passed,
-          actual,
+          ...testResult,
+          visible: testCase.visible !== false,
         });
       }
 
@@ -956,23 +957,10 @@ const SQLPractice = () => {
             customRunHandler={() => handleRunTests()}
             runButtonText="Run Query & Test"
           />
-
-          {/* Display SQL execution results */}
-          {output && (
-            <div className="sql-output-preview">
-              <div className="sql-output-header">
-                <h3>Query Output</h3>
-              </div>
-              <div className="sql-output-content">
-                <pre className="sql-output-text">{output}</pre>
-                {renderQueryResult()}
-              </div>
-            </div>
-          )}
         </div>
 
         {showTestCases && (
-          <div className="test-cases">
+          <div className="test-cases sql-testcases">
             <div className="test-cases-header">
               <div className="test-cases-head-row">
                 <h3>Test Cases</h3>
@@ -995,26 +983,33 @@ const SQLPractice = () => {
             </div>
             <div className="test-cases-content">
               <div className="test-results">
-                {testResults.map((test, index) => (
-                  <div
-                    key={index}
-                    className={`test-case ${test.passed ? "passed" : "failed"}`}
-                  >
-                    <div className="test-header">
-                      <span className="test-status">
-                        {test.passed ? "✓" : "✗"}
-                        <p className="test-description">{test.description}</p>
-                      </span>
-                      {test.actual && !test.passed && (
-                        <div className="test-actual">Actual: {test.actual}</div>
-                      )}
-                    </div>
+                {isRunning ? (
+                  <div className="loading-container-sql">
+                    <div className="spinner-sql"></div>
                   </div>
-                ))}
-                {testResults.length === 0 && (
-                  <div className="no-tests">
-                    Run the tests to see results here
-                  </div>
+                ) : (
+                  <>
+                    {testResults.map((test, index) => (
+                      <div
+                        key={index}
+                        className={`test-case ${test.passed ? "passed" : "failed"}`}
+                      >
+                        <div className="test-header">
+                          <span className="test-status">
+                            {test.passed ? "✓" : "✗"}
+                          </span>
+
+                          <p className="test-description">{test.description}</p>
+                        </div>
+                      </div>
+                    ))}
+
+                    {testResults.length === 0 && (
+                      <div className="no-tests">
+                        Run the tests to see results here
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
 
