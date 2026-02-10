@@ -1,544 +1,608 @@
-// Add this to your existing backend
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
 const { Pool } = require("pg");
-const { verifyContentAccess, generateSecureUrl } = require('.middleware/secureContent');
+const path = require("path");
+const fs = require("fs");
+const crypto = require("crypto");
+const multer = require("multer");
+const { verifyContentAccess, generateSecureUrl } = require('./middleware/secureContent');
+const jwt = require('jsonwebtoken');
 
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const crypto = require('crypto');
+// -------------------------------------------
+// Database Connection
+// -------------------------------------------
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+});
 
+// -------------------------------------------
+// Express Config
+// -------------------------------------------
 const app = express();
+app.use(cors({ origin: "*", credentials: true }));
+app.use(express.json({ limit: "2gb" }));
+app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
-// CORS configuration
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-);
+// Upload Directories
+const uploadsDir = path.join(__dirname, "uploads");
+const videosDir = path.join(uploadsDir, "videos");
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir);
 
-// Configure upload for videos
-const uploadDirDigital = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadDirDigital)) {
-  fs.mkdirSync(uploadDirDigital, { recursive: true });
-}
+// Static files
+app.use("/uploads", express.static(uploadsDir));
 
-const videoStorageDigital = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDirDigital);
-  },
+// -------------------------------------------
+// Multer Config
+// -------------------------------------------
+const videoStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, videosDir),
   filename: (req, file, cb) => {
-    const uniqueName =
-      Date.now() +
-      "-" +
-      Math.round(Math.random() * 1e9) +
-      path.extname(file.originalname);
-    cb(null, "video-" + uniqueName);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "video-" + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
-const videoUploadDigital = multer({
-  storage: videoStorageDigital,
-  limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
+const videoUpload = multer({
+  storage: videoStorage,
+  limits: { fileSize: 1024 * 1024 * 1024 }, // 1GB
   fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith("video/")) {
-      cb(null, true);
-    } else {
-      cb(new Error("Only video files are allowed!"), false);
-    }
+    if (file.mimetype.startsWith("video/")) cb(null, true);
+    else cb(new Error("Only video files allowed"), false);
   },
 });
 
-// ========================================
-// ADMIN COURSE MANAGEMENT APIs
-// ========================================
+// -------------------------------------------
+// Authentication Middleware
+// -------------------------------------------
+const authenticate = (req, res, next) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    
+    if (!token) {
+      return res.status(401).json({ 
+        success: false, 
+        message: 'No token provided' 
+      });
+    }
+    
+    const JWT_SECRET = process.env.JWT_SECRET || 'your-fallback-secret-key-for-development-only-change-in-production';
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    req.student = { id: decoded.id }; // Compatible with your existing system
+    next();
+  } catch (error) {
+    res.status(401).json({ 
+      success: false, 
+      message: 'Invalid token' 
+    });
+  }
+};
 
-// 1. GET all goals
+// -------------------------------------------
+// Database Initialization
+// -------------------------------------------
+const createTables = async () => {
+  try {
+    // 1. Goals
+    await pool.query(`CREATE TABLE IF NOT EXISTS course_goals (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      description TEXT,
+      duration_months INTEGER DEFAULT 2,
+      certificate_name VARCHAR(255),
+      order_number INTEGER DEFAULT 0,
+      is_active BOOLEAN DEFAULT true,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // 2. Modules
+    await pool.query(`CREATE TABLE IF NOT EXISTS course_modules (
+      id SERIAL PRIMARY KEY,
+      goal_id INTEGER REFERENCES course_goals(id) ON DELETE CASCADE,
+      name VARCHAR(255) NOT NULL,
+      description TEXT,
+      order_number INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // 3. Topics
+    await pool.query(`CREATE TABLE IF NOT EXISTS course_topics (
+      id SERIAL PRIMARY KEY,
+      module_id INTEGER REFERENCES course_modules(id) ON DELETE CASCADE,
+      name VARCHAR(255) NOT NULL,
+      description TEXT,
+      order_number INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // 4. Subtopics
+    await pool.query(`CREATE TABLE IF NOT EXISTS course_subtopics (
+      id SERIAL PRIMARY KEY,
+      topic_id INTEGER REFERENCES course_topics(id) ON DELETE CASCADE,
+      name VARCHAR(255) NOT NULL,
+      description TEXT,
+      order_number INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // 5. Content (Consolidated table)
+    await pool.query(`CREATE TABLE IF NOT EXISTS subtopic_content (
+      id SERIAL PRIMARY KEY,
+      subtopic_id INTEGER REFERENCES course_subtopics(id) ON DELETE CASCADE,
+      content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('video', 'cheatsheet', 'mcq')),
+      content_uuid UUID DEFAULT gen_random_uuid(),
+      access_token UUID,
+      
+      -- Video specific
+      video_title VARCHAR(500),
+      video_url VARCHAR(1000),
+      video_description TEXT,
+      video_duration INTEGER,
+      video_type VARCHAR(50) DEFAULT 'uploaded',
+
+      -- Cheatsheet specific
+      cheatsheet_title VARCHAR(500),
+      cheatsheet_content TEXT,
+      file_url VARCHAR(1000),
+
+      -- MCQ specific
+      mcq_title VARCHAR(500),
+      questions JSONB DEFAULT '[]',
+
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`);
+
+    // 6. Student Enrollments
+    await pool.query(`CREATE TABLE IF NOT EXISTS student_course_enrollments (
+      id SERIAL PRIMARY KEY,
+      student_id INTEGER,
+      goal_id INTEGER REFERENCES course_goals(id),
+      enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      completed_at TIMESTAMP,
+      status VARCHAR(50) DEFAULT 'active',
+      progress_percentage INTEGER DEFAULT 0,
+      UNIQUE(student_id, goal_id)
+    )`);
+
+    // 7. Student Progress
+    await pool.query(`CREATE TABLE IF NOT EXISTS student_course_progress (
+      id SERIAL PRIMARY KEY,
+      student_id INTEGER,
+      goal_id INTEGER,
+      module_id INTEGER,
+      subtopic_id INTEGER,
+      content_id INTEGER REFERENCES subtopic_content(id),
+      status VARCHAR(50) DEFAULT 'completed',
+      quiz_score INTEGER,
+      completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(student_id, content_id)
+    )`);
+
+    console.log("✅ Digital Marketing Schema Initialized");
+  } catch (err) {
+    console.error("❌ Schema Init Error:", err);
+  }
+};
+
+// -------------------------------------------
+// ADMIN ROUTES (Course Management)
+// -------------------------------------------
+
+// Goals
 app.get('/api/admin/course/goals', async (req, res) => {
     try {
-        const result = await pool.query(
-            'SELECT * FROM course_goals ORDER BY order_number'
-        );
+        const result = await pool.query('SELECT * FROM course_goals ORDER BY order_number');
         res.json({ success: true, data: result.rows });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 2. CREATE goal
 app.post('/api/admin/course/goals', async (req, res) => {
     try {
         const { name, description, duration_months, certificate_name } = req.body;
         const result = await pool.query(
             `INSERT INTO course_goals (name, description, duration_months, certificate_name, order_number)
-             VALUES ($1, $2, $3, $4, (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_goals))
-             RETURNING *`,
+             VALUES ($1, $2, $3, $4, (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_goals)) RETURNING *`,
             [name, description, duration_months, certificate_name]
         );
         res.json({ success: true, data: result.rows[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 3. GET modules by goal
+// Modules
 app.get('/api/admin/course/goals/:goalId/modules', async (req, res) => {
     try {
-        const { goalId } = req.params;
-        const result = await pool.query(
-            'SELECT * FROM course_modules WHERE goal_id = $1 ORDER BY order_number',
-            [goalId]
-        );
+        const result = await pool.query('SELECT * FROM course_modules WHERE goal_id = $1 ORDER BY order_number', [req.params.goalId]);
         res.json({ success: true, data: result.rows });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 4. CREATE module
 app.post('/api/admin/course/modules', async (req, res) => {
     try {
         const { goal_id, name, description } = req.body;
         const result = await pool.query(
             `INSERT INTO course_modules (goal_id, name, description, order_number)
-             VALUES ($1, $2, $3, 
-                (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_modules WHERE goal_id = $1)
-             ) RETURNING *`,
+             VALUES ($1, $2, $3, (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_modules WHERE goal_id = $1)) RETURNING *`,
             [goal_id, name, description]
         );
         res.json({ success: true, data: result.rows[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 5. GET topics by module
+// Topics
 app.get('/api/admin/course/modules/:moduleId/topics', async (req, res) => {
     try {
-        const { moduleId } = req.params;
-        const result = await pool.query(
-            'SELECT * FROM course_topics WHERE module_id = $1 ORDER BY order_number',
-            [moduleId]
-        );
+        const result = await pool.query('SELECT * FROM course_topics WHERE module_id = $1 ORDER BY order_number', [req.params.moduleId]);
         res.json({ success: true, data: result.rows });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 6. CREATE topic
 app.post('/api/admin/course/topics', async (req, res) => {
     try {
         const { module_id, name, description } = req.body;
         const result = await pool.query(
             `INSERT INTO course_topics (module_id, name, description, order_number)
-             VALUES ($1, $2, $3,
-                (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_topics WHERE module_id = $1)
-             ) RETURNING *`,
+             VALUES ($1, $2, $3, (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_topics WHERE module_id = $1)) RETURNING *`,
             [module_id, name, description]
         );
         res.json({ success: true, data: result.rows[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 7. GET subtopics by topic
+// Subtopics
 app.get('/api/admin/course/topics/:topicId/subtopics', async (req, res) => {
     try {
-        const { topicId } = req.params;
-        const result = await pool.query(
-            'SELECT * FROM course_subtopics WHERE topic_id = $1 ORDER BY order_number',
-            [topicId]
-        );
+        const result = await pool.query('SELECT * FROM course_subtopics WHERE topic_id = $1 ORDER BY order_number', [req.params.topicId]);
         res.json({ success: true, data: result.rows });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 8. CREATE subtopic
 app.post('/api/admin/course/subtopics', async (req, res) => {
     try {
         const { topic_id, name, description } = req.body;
         const result = await pool.query(
             `INSERT INTO course_subtopics (topic_id, name, description, order_number)
-             VALUES ($1, $2, $3,
-                (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_subtopics WHERE topic_id = $1)
-             ) RETURNING *`,
+             VALUES ($1, $2, $3, (SELECT COALESCE(MAX(order_number), 0) + 1 FROM course_subtopics WHERE topic_id = $1)) RETURNING *`,
             [topic_id, name, description]
         );
         res.json({ success: true, data: result.rows[0] });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 9. GET content by subtopic
+// Content
 app.get('/api/admin/course/subtopics/:subtopicId/content', async (req, res) => {
     try {
-        const { subtopicId } = req.params;
-        const result = await pool.query(
-            'SELECT * FROM subtopic_content WHERE subtopic_id = $1 ORDER BY created_at DESC',
-            [subtopicId]
-        );
+        const result = await pool.query('SELECT * FROM subtopic_content WHERE subtopic_id = $1 ORDER BY created_at DESC', [req.params.subtopicId]);
         res.json({ success: true, data: result.rows });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 10. UPLOAD VIDEO for subtopic
+// Upload Video
 app.post('/api/admin/course/subtopics/:subtopicId/video', videoUpload.single('video'), async (req, res) => {
     try {
-        const { subtopicId } = req.params;
         const { title, description, duration } = req.body;
-        
-        if (!req.file) {
-            return res.status(400).json({ success: false, message: 'Video file is required' });
-        }
-        
         const videoUrl = `/uploads/videos/${req.file.filename}`;
-        
-        const contentUuid = crypto.randomUUID();
-        const accessToken = crypto.randomUUID();
-        
+        const uuid = crypto.randomUUID();
+        const token = crypto.randomUUID();
+
         const result = await pool.query(
-            `INSERT INTO subtopic_content 
-             (subtopic_id, content_type, content_uuid, access_token,
-              video_title, video_url, video_description, video_duration, video_type)
-             VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, 'uploaded') 
-             RETURNING *`,
-            [subtopicId, contentUuid, accessToken, title, videoUrl, description, duration || 0]
+            `INSERT INTO subtopic_content (subtopic_id, content_type, content_uuid, access_token, video_title, video_description, video_duration, video_url)
+             VALUES ($1, 'video', $2, $3, $4, $5, $6, $7) RETURNING *`,
+            [req.params.subtopicId, uuid, token, title, description, duration || 0, videoUrl]
         );
-        
-        const content = result.rows[0];
-        
-        res.json({ 
-            success: true, 
-            data: {
-                ...content,
-                secureUrls: {
-                    view: generateSecureUrl(content.content_uuid),
-                    stream: generateSecureUrl(content.content_uuid, content.access_token, 'stream')
-                }
-            }
-        });    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) { 
+        if (req.file) fs.unlinkSync(req.file.path);
+        res.status(500).json({ error: e.message }); 
     }
 });
 
-// 11. CREATE CHEATSHEET (Rich Text)
+// Create Cheatsheet
 app.post('/api/admin/course/subtopics/:subtopicId/cheatsheet', async (req, res) => {
     try {
-        const { subtopicId } = req.params;
         const { title, content } = req.body;
-        
-        const contentUuid = crypto.randomUUID();
-        const accessToken = crypto.randomUUID();
+        const uuid = crypto.randomUUID();
         
         const result = await pool.query(
-            `INSERT INTO subtopic_content 
-             (subtopic_id, content_type, content_uuid, access_token,
-              cheatsheet_title, cheatsheet_content)
-             VALUES ($1, 'cheatsheet', $2, $3, $4, $5) 
-             RETURNING *`,
-            [subtopicId, contentUuid, accessToken, title, content]
+            `INSERT INTO subtopic_content (subtopic_id, content_type, content_uuid, cheatsheet_title, cheatsheet_content)
+             VALUES ($1, 'cheatsheet', $2, $3, $4) RETURNING *`,
+            [req.params.subtopicId, uuid, title, content]
         );
-        
-        const contentItem = result.rows[0];
-        
-        res.json({ 
-            success: true, 
-            data: {
-                ...contentItem,
-                secureUrls: {
-                    view: generateSecureUrl(contentItem.content_uuid),
-                    download: generateSecureUrl(contentItem.content_uuid, contentItem.access_token, 'download')
-                }
-            }
-        });    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 12. CREATE MCQ
+// Create MCQ
 app.post('/api/admin/course/subtopics/:subtopicId/mcq', async (req, res) => {
     try {
-        const { subtopicId } = req.params;
         const { title, questions } = req.body;
-        
-        // Validate questions structure
-        const validatedQuestions = questions.map(q => ({
-            question: q.question,
-            options: q.options,
-            correctAnswer: q.correctAnswer,
-            explanation: q.explanation || ''
-        }));
-        
-        
-        const contentUuid = crypto.randomUUID();
-        const accessToken = crypto.randomUUID();
-        
+        const uuid = crypto.randomUUID();
+
         const result = await pool.query(
-            `INSERT INTO subtopic_content 
-             (subtopic_id, content_type, content_uuid, access_token,
-              mcq_title, questions)
-             VALUES ($1, 'mcq', $2, $3, $4, $5) 
-             RETURNING *`,
-            [subtopicId, contentUuid, accessToken, title, JSON.stringify(validatedQuestions)]
+            `INSERT INTO subtopic_content (subtopic_id, content_type, content_uuid, mcq_title, questions)
+             VALUES ($1, 'mcq', $2, $3, $4) RETURNING *`,
+            [req.params.subtopicId, uuid, title, JSON.stringify(questions)]
         );
-        
-        const contentItem = result.rows[0];
-        
-        res.json({ 
-            success: true, 
-            data: {
-                ...contentItem,
-                secureUrls: {
-                    view: generateSecureUrl(contentItem.content_uuid)
-                }
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// ========================================
-// STUDENT PORTAL APIs
-// ========================================
+// -------------------------------------------
+// STUDENT ROUTES
+// -------------------------------------------
 
-// 1. GET available courses for student
-app.get('/api/student/courses', async (req, res) => {
+// Get Courses (Goals)
+app.get('/api/student/courses', authenticate, async (req, res) => {
     try {
-        const studentId = req.user.id; // From auth middleware
-        
-        // Get all goals with enrollment status
-        const goalsResult = await pool.query(
-            `SELECT cg.*, 
-                    sce.enrolled_at,
-                    sce.completed_at,
-                    sce.status as enrollment_status,
-                    sce.progress_percentage
-             FROM course_goals cg
-             LEFT JOIN student_course_enrollments sce 
-                    ON cg.id = sce.goal_id AND sce.student_id = $1
+        const studentId = req.student.id;
+
+        const result = await pool.query(
+            `SELECT cg.*, sce.enrolled_at, sce.progress_percentage 
+             FROM course_goals cg 
+             LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
              WHERE cg.is_active = true
              ORDER BY cg.order_number`,
             [studentId]
         );
-        
-        res.json({ success: true, data: goalsResult.rows });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
+        res.json({ success: true, data: result.rows });
+    } catch (e) { res.status(500).json({ error: e.message }); }
 });
 
-// 2. ENROLL in a goal
-app.post('/api/student/courses/enroll/:goalId', async (req, res) => {
+// Enroll
+app.post('/api/student/courses/enroll/:goalId', authenticate, async (req, res) => {
     try {
-        const studentId = req.user.id;
-        const { goalId } = req.params;
+        const studentId = req.student.id;
+        const goalId = req.params.goalId;
         
-        const result = await pool.query(
-            `INSERT INTO student_course_enrollments (student_id, goal_id)
-             VALUES ($1, $2)
+        // Check if goal exists and is active
+        const goalCheck = await pool.query(
+            'SELECT id FROM course_goals WHERE id = $1 AND is_active = true',
+            [goalId]
+        );
+        
+        if (goalCheck.rows.length === 0) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Course not found or inactive' 
+            });
+        }
+        
+        await pool.query(
+            `INSERT INTO student_course_enrollments (student_id, goal_id) 
+             VALUES ($1, $2) 
              ON CONFLICT (student_id, goal_id) DO NOTHING
              RETURNING *`,
             [studentId, goalId]
         );
-        
         res.json({ 
-            success: true, 
-            message: 'Enrolled successfully',
-            data: result.rows[0] 
+            success: true,
+            message: 'Successfully enrolled in course' 
         });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+    } catch (e) { 
+        res.status(500).json({ 
+            success: false,
+            error: e.message 
+        }); 
     }
 });
 
-// 3. GET goal content with progress
-app.get('/api/student/courses/goal/:goalId', async (req, res) => {
+// Get Full Course Structure with Progress
+app.get('/api/student/courses/goal/:goalId', authenticate, async (req, res) => {
     try {
-        const studentId = req.user.id;
+        const studentId = req.student.id;
         const { goalId } = req.params;
-        
-        // Get goal details
-        const goalResult = await pool.query(
-            'SELECT * FROM course_goals WHERE id = $1',
-            [goalId]
-        );
-        
-        if (goalResult.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Goal not found' });
-        }
-        
-        // Get all modules with topics and subtopics
-        const modulesResult = await pool.query(
-            `SELECT cm.*,
-                    json_agg(
-                        json_build_object(
-                            'id', ct.id,
-                            'name', ct.name,
-                            'description', ct.description,
-                            'order_number', ct.order_number,
-                            'subtopics', (
-                                SELECT json_agg(
-                                    json_build_object(
-                                        'id', cs.id,
-                                        'name', cs.name,
-                                        'description', cs.description,
-                                        'content', (
-                                            SELECT json_agg(
-                                                json_build_object(
-                                                    'id', sc.id,
-                                                    'content_type', sc.content_type,
-                                                    'video_title', sc.video_title,
-                                                    'video_url', sc.video_url,
-                                                    'cheatsheet_title', sc.cheatsheet_title,
-                                                    'cheatsheet_content', sc.cheatsheet_content,
-                                                    'mcq_title', sc.mcq_title,
-                                                    'questions', sc.questions,
-                                                    'progress', scp.status
-                                                )
-                                            )
-                                            FROM subtopic_content sc
-                                            LEFT JOIN student_course_progress scp 
-                                                ON sc.id = scp.content_id AND scp.student_id = $1
-                                            WHERE sc.subtopic_id = cs.id
-                                        )
-                                    )
-                                )
-                                FROM course_subtopics cs
-                                WHERE cs.topic_id = ct.id
-                                ORDER BY cs.order_number
-                            )
-                        )
-                    ) as topics
-             FROM course_modules cm
-             LEFT JOIN course_topics ct ON cm.id = ct.module_id
-             WHERE cm.goal_id = $2
-             GROUP BY cm.id
-             ORDER BY cm.order_number`,
+
+        // Check enrollment
+        const enrollment = await pool.query(
+            'SELECT * FROM student_course_enrollments WHERE student_id = $1 AND goal_id = $2',
             [studentId, goalId]
         );
         
-        res.json({ 
-            success: true, 
-            data: {
-                goal: goalResult.rows[0],
-                modules: modulesResult.rows
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-// 4. MARK CONTENT AS COMPLETED
-app.post('/api/student/courses/content/complete', async (req, res) => {
-    try {
-        const studentId = req.user.id;
-        const { content_id, goal_id, module_id, subtopic_id, quiz_score } = req.body;
-        
-        // Update or insert progress
-        const result = await pool.query(
-            `INSERT INTO student_course_progress 
-             (student_id, goal_id, module_id, subtopic_id, content_id, status, completed_at, quiz_score)
-             VALUES ($1, $2, $3, $4, $5, 'completed', CURRENT_TIMESTAMP, $6)
-             ON CONFLICT (student_id, content_id) 
-             DO UPDATE SET status = 'completed', completed_at = CURRENT_TIMESTAMP, quiz_score = $6
-             RETURNING *`,
-            [studentId, goal_id, module_id, subtopic_id, content_id, quiz_score || null]
-        );
-        
-        // Update overall progress percentage
-        await updateGoalProgress(studentId, goal_id);
-        
-        res.json({ 
-            success: true, 
-            message: 'Progress updated',
-            data: result.rows[0] 
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-
-
-// 1. Get content by UUID (with access control)
-app.get('/api/content/:contentUuid', verifyContentAccess, async (req, res) => {
-    try {
-        const content = req.content;
-        
-        // Return content based on type
-        const response = {
-            success: true,
-            data: {
-                id: content.id,
-                uuid: content.content_uuid,
-                type: content.content_type,
-                title: content.video_title || content.cheatsheet_title || content.mcq_title,
-                description: content.video_description,
-                createdAt: content.created_at,
-                secureUrls: {
-                    view: generateSecureUrl(content.content_uuid),
-                    download: content.content_type === 'cheatsheet' 
-                        ? generateSecureUrl(content.content_uuid, content.access_token, 'download')
-                        : null
-                }
-            }
-        };
-
-        // Add type-specific data
-        switch (content.content_type) {
-            case 'video':
-                response.data.video = {
-                    url: generateSecureUrl(content.content_uuid, content.access_token, 'stream'),
-                    duration: content.video_duration,
-                    thumbnail: content.thumbnail_url
-                };
-                break;
-                
-            case 'cheatsheet':
-                response.data.cheatsheet = {
-                    content: content.cheatsheet_content,
-                    fileUrl: content.file_url
-                };
-                break;
-                
-            case 'mcq':
-                response.data.quiz = {
-                    questions: content.questions,
-                    passingScore: 70
-                };
-                break;
+        if (enrollment.rows.length === 0) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'You are not enrolled in this course' 
+            });
         }
 
-        res.json(response);
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+        const goal = await pool.query(
+            'SELECT * FROM course_goals WHERE id = $1 AND is_active = true',
+            [goalId]
+        );
+        
+        if (goal.rows.length === 0) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Course not found' 
+            });
+        }
+
+        // Get modules with nested structure
+        const modulesResult = await pool.query(
+            `SELECT cm.*,
+                (SELECT json_agg(
+                    json_build_object(
+                        'id', ct.id, 
+                        'name', ct.name,
+                        'subtopics', (
+                            SELECT json_agg(
+                                json_build_object(
+                                    'id', cs.id, 
+                                    'name', cs.name,
+                                    'content', (
+                                        SELECT json_agg(
+                                            json_build_object(
+                                                'id', sc.id, 
+                                                'content_type', sc.content_type,
+                                                'content_uuid', sc.content_uuid,
+                                                'video_title', sc.video_title,
+                                                'video_description', sc.video_description,
+                                                'cheatsheet_title', sc.cheatsheet_title,
+                                                'cheatsheet_content', sc.cheatsheet_content,
+                                                'mcq_title', sc.mcq_title,
+                                                'questions', sc.questions,
+                                                'progress', scp.status
+                                            )
+                                        ) FROM subtopic_content sc
+                                        LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
+                                        WHERE sc.subtopic_id = cs.id
+                                    )
+                                ) ORDER BY cs.order_number
+                            ) FROM course_subtopics cs WHERE cs.topic_id = ct.id
+                        )
+                    ) ORDER BY ct.order_number
+                ) FROM course_topics ct WHERE ct.module_id = cm.id) as topics
+             FROM course_modules cm 
+             WHERE cm.goal_id = $2 
+             ORDER BY cm.order_number`,
+            [studentId, goalId]
+        );
+
+        res.json({ 
+            success: true, 
+            data: { 
+                goal: goal.rows[0], 
+                modules: modulesResult.rows,
+                enrollment: enrollment.rows[0]
+            } 
+        });
+    } catch (e) { 
+        console.error('Course fetch error:', e);
+        res.status(500).json({ 
+            success: false, 
+            error: e.message 
+        }); 
     }
 });
 
-// 2. Stream video securely
-app.get('/api/content/:contentUuid/stream', verifyContentAccess, async (req, res) => {
+// Complete Content
+app.post('/api/student/courses/content/complete', authenticate, async (req, res) => {
+    try {
+        const studentId = req.student.id;
+        const { content_id, goal_id, quiz_score } = req.body;
+        
+        if (!content_id || !goal_id) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Content ID and Goal ID are required' 
+            });
+        }
+        
+        await pool.query(
+            `INSERT INTO student_course_progress (student_id, goal_id, content_id, status, quiz_score)
+             VALUES ($1, $2, $3, 'completed', $4)
+             ON CONFLICT (student_id, content_id) DO UPDATE SET 
+                quiz_score = $4,
+                completed_at = CURRENT_TIMESTAMP`,
+            [studentId, goal_id, content_id, quiz_score || null]
+        );
+        
+        res.json({ 
+            success: true,
+            message: 'Content marked as completed' 
+        });
+    } catch (e) { 
+        res.status(500).json({ 
+            success: false,
+            error: e.message 
+        }); 
+    }
+});
+
+// Secure Content Serving
+app.get('/api/content/:contentUuid', authenticate, verifyContentAccess, async (req, res) => {
+    try {
+        const content = req.content;
+        const studentId = req.student.id;
+        
+        // Check if student is enrolled in this course
+        const enrollment = await pool.query(
+            `SELECT sce.* FROM student_course_enrollments sce
+             JOIN course_goals cg ON sce.goal_id = cg.id
+             JOIN course_modules cm ON cm.goal_id = cg.id
+             JOIN course_topics ct ON ct.module_id = cm.id
+             JOIN course_subtopics cs ON cs.topic_id = ct.id
+             JOIN subtopic_content sc ON sc.subtopic_id = cs.id
+             WHERE sce.student_id = $1 AND sc.content_uuid = $2`,
+            [studentId, req.params.contentUuid]
+        );
+        
+        if (enrollment.rows.length === 0) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'You are not enrolled in this course' 
+            });
+        }
+        
+        const baseUrl = process.env.BACKEND_URL || 'http://localhost:5002';
+        
+        if (content.content_type === 'video') {
+            res.json({ 
+                success: true, 
+                data: { 
+                    type: 'video',
+                    video: {
+                        title: content.video_title,
+                        description: content.video_description,
+                        duration: content.video_duration,
+                        url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
+                        thumbnail: content.thumbnail_url
+                    }
+                } 
+            });
+        } else if (content.content_type === 'cheatsheet') {
+            res.json({ 
+                success: true, 
+                data: { 
+                    type: 'cheatsheet',
+                    cheatsheet: {
+                        title: content.cheatsheet_title,
+                        content: content.cheatsheet_content,
+                        file_url: content.file_url
+                    }
+                } 
+            });
+        } else if (content.content_type === 'mcq') {
+            res.json({ 
+                success: true, 
+                data: { 
+                    type: 'mcq',
+                    mcq: {
+                        title: content.mcq_title,
+                        questions: content.questions
+                    }
+                } 
+            });
+        } else {
+            res.json({ 
+                success: true, 
+                data: { type: content.content_type } 
+            });
+        }
+    } catch (e) { 
+        res.status(500).json({ 
+            success: false, 
+            error: e.message 
+        }); 
+    }
+});
+
+// Video Stream
+app.get('/api/content/:contentUuid/stream', verifyContentAccess, (req, res) => {
     try {
         const content = req.content;
         
         if (content.content_type !== 'video') {
             return res.status(400).json({ 
                 success: false, 
-                message: 'Not a video content' 
+                message: 'This content is not a video' 
             });
         }
-
-        // Check if video exists
-        const videoPath = path.join(__dirname, '..', content.video_url);
+        
+        const videoPath = path.join(__dirname, content.video_url);
+        
         if (!fs.existsSync(videoPath)) {
             return res.status(404).json({ 
                 success: false, 
@@ -546,210 +610,73 @@ app.get('/api/content/:contentUuid/stream', verifyContentAccess, async (req, res
             });
         }
 
-        // Get video stats
         const stat = fs.statSync(videoPath);
         const fileSize = stat.size;
         const range = req.headers.range;
 
-        // Handle range requests for streaming
         if (range) {
             const parts = range.replace(/bytes=/, "").split("-");
             const start = parseInt(parts[0], 10);
             const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
             const chunksize = (end - start) + 1;
-            
-            // Create read stream
             const file = fs.createReadStream(videoPath, { start, end });
             const head = {
                 'Content-Range': `bytes ${start}-${end}/${fileSize}`,
                 'Accept-Ranges': 'bytes',
                 'Content-Length': chunksize,
                 'Content-Type': 'video/mp4',
-                'Cache-Control': 'private, max-age=31536000'
             };
-            
             res.writeHead(206, head);
             file.pipe(res);
         } else {
-            // Send entire file
-            const head = {
-                'Content-Length': fileSize,
-                'Content-Type': 'video/mp4',
-                'Cache-Control': 'private, max-age=31536000'
+            const head = { 
+                'Content-Length': fileSize, 
+                'Content-Type': 'video/mp4' 
             };
-            
             res.writeHead(200, head);
             fs.createReadStream(videoPath).pipe(res);
         }
-    } catch (error) {
-        console.error('Video streaming error:', error);
-        res.status(500).json({ success: false, error: 'Failed to stream video' });
-    }
-});
-
-// 3. Download cheatsheet securely
-app.get('/api/content/:contentUuid/download', verifyContentAccess, async (req, res) => {
-    try {
-        const content = req.content;
-        
-        if (content.content_type !== 'cheatsheet') {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Not a cheatsheet' 
-            });
-        }
-
-        if (!content.file_url) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'No file available for download' 
-            });
-        }
-
-        const filePath = path.join(__dirname, '..', content.file_url);
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'File not found' 
-            });
-        }
-
-        // Set download headers
-        const fileName = path.basename(filePath);
-        res.download(filePath, fileName, (err) => {
-            if (err) {
-                console.error('Download error:', err);
-                res.status(500).json({ 
-                    success: false, 
-                    message: 'Failed to download file' 
-                });
-            }
+    } catch (e) {
+        res.status(500).json({ 
+            success: false, 
+            error: e.message 
         });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
     }
 });
 
-// 4. Generate secure temporary access token
-app.post('/api/content/:contentUuid/generate-token', verifyContentAccess, async (req, res) => {
+// Progress Stats Endpoint
+app.get('/api/student/courses/progress/overall', authenticate, async (req, res) => {
     try {
-        const { contentUuid } = req.params;
-        const { expiresIn = 3600 } = req.body; // Default 1 hour
+        const studentId = req.student.id;
         
-        // Generate new access token
-        const newToken = crypto.randomUUID();
-        const expiresAt = new Date(Date.now() + expiresIn * 1000);
-        
-        await pool.query(
-            `UPDATE subtopic_content 
-             SET access_token = $1, expires_at = $2 
-             WHERE content_uuid = $3 
-             RETURNING access_token, expires_at`,
-            [newToken, expiresAt, contentUuid]
-        );
-        
-        res.json({
-            success: true,
-            data: {
-                accessToken: newToken,
-                expiresAt: expiresAt,
-                secureUrl: generateSecureUrl(contentUuid, newToken, 'download')
-            }
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-// 5. Revoke access token
-app.post('/api/content/:contentUuid/revoke-token', verifyContentAccess, async (req, res) => {
-    try {
-        const { contentUuid } = req.params;
-        
-        await pool.query(
-            `UPDATE subtopic_content 
-             SET access_token = gen_random_uuid(), expires_at = NULL 
-             WHERE content_uuid = $1`,
-            [contentUuid]
-        );
-        
-        res.json({
-            success: true,
-            message: 'Access token revoked successfully'
-        });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-// 6. Get content analytics
-app.get('/api/content/:contentUuid/analytics', verifyContentAccess, async (req, res) => {
-    try {
-        const { contentUuid } = req.params;
-        
-        const analytics = await pool.query(
+        const progressResult = await pool.query(
             `SELECT 
-                COUNT(*) as total_views,
-                COUNT(DISTINCT student_id) as unique_viewers,
-                MIN(accessed_at) as first_view,
-                MAX(accessed_at) as last_view
-             FROM content_access_logs 
-             WHERE content_uuid = $1`,
-            [contentUuid]
+                COUNT(DISTINCT sce.goal_id) as enrolled_courses,
+                COUNT(DISTINCT scp.content_id) as completed_content,
+                COUNT(DISTINCT scp.goal_id) as courses_with_progress,
+                ROUND(AVG(sce.progress_percentage), 2) as avg_progress
+             FROM student_course_enrollments sce
+             LEFT JOIN student_course_progress scp ON sce.student_id = scp.student_id AND sce.goal_id = scp.goal_id
+             WHERE sce.student_id = $1`,
+            [studentId]
         );
         
-        res.json({
-            success: true,
-            data: analytics.rows[0]
+        res.json({ 
+            success: true, 
+            data: progressResult.rows[0] 
         });
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
+    } catch (e) { 
+        res.status(500).json({ 
+            success: false, 
+            error: e.message 
+        }); 
     }
 });
 
-
-
-// Helper function to update goal progress
-async function updateGoalProgress(studentId, goalId) {
-    // Count total content in this goal
-    const totalResult = await pool.query(
-        `SELECT COUNT(DISTINCT sc.id) as total
-         FROM subtopic_content sc
-         JOIN course_subtopics cs ON sc.subtopic_id = cs.id
-         JOIN course_topics ct ON cs.topic_id = ct.id
-         JOIN course_modules cm ON ct.module_id = cm.id
-         WHERE cm.goal_id = $1`,
-        [goalId]
-    );
-    
-    // Count completed content by student
-    const completedResult = await pool.query(
-        `SELECT COUNT(DISTINCT scp.content_id) as completed
-         FROM student_course_progress scp
-         JOIN subtopic_content sc ON scp.content_id = sc.id
-         JOIN course_subtopics cs ON sc.subtopic_id = cs.id
-         JOIN course_topics ct ON cs.topic_id = ct.id
-         JOIN course_modules cm ON ct.module_id = cm.id
-         WHERE scp.student_id = $1 AND cm.goal_id = $2 AND scp.status = 'completed'`,
-        [studentId, goalId]
-    );
-    
-    const total = parseInt(totalResult.rows[0]?.total || 0);
-    const completed = parseInt(completedResult.rows[0]?.completed || 0);
-    const progressPercentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-    
-    // Update enrollment progress
-    await pool.query(
-        `UPDATE student_course_enrollments 
-         SET progress_percentage = $1,
-             updated_at = CURRENT_TIMESTAMP,
-             completed_at = CASE WHEN $1 = 100 THEN CURRENT_TIMESTAMP ELSE completed_at END,
-             status = CASE WHEN $1 = 100 THEN 'completed' ELSE status END
-         WHERE student_id = $2 AND goal_id = $3`,
-        [progressPercentage, studentId, goalId]
-    );
-    
-    return progressPercentage;
-}
-
-module.exports = app;
+// -------------------------------------------
+// Export
+// -------------------------------------------
+module.exports = {
+  router: app,
+  createDigitalMarketingTables: createTables
+};

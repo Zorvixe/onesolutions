@@ -9,11 +9,12 @@ import {
   Trash2,
   FolderOpen,
   File,
-  Upload
+  Upload,
+  Layout
 } from 'lucide-react';
-import VideoUploadModal from '../components/admin/VideoUploadModal';
-import CheatsheetEditor from '../components/admin/CheatsheetEditor';
-import MCQCreator from '../components/admin/MCQCreator';
+import VideoUploadModal from './VideoUploadModal';
+import CheatsheetEditor from './CheatsheetEditor';
+import MCQCreator from './MCQCreator';
 
 const CourseManagement = () => {
   const [goals, setGoals] = useState([]);
@@ -36,6 +37,9 @@ const CourseManagement = () => {
   const [newTopicName, setNewTopicName] = useState('');
   const [newSubtopicName, setNewSubtopicName] = useState('');
 
+  // Authentication Token
+  const getToken = () => localStorage.getItem('token');
+
   // Fetch goals on mount
   useEffect(() => {
     fetchGoals();
@@ -43,9 +47,11 @@ const CourseManagement = () => {
 
   const fetchGoals = async () => {
     try {
-      const res = await fetch('/api/admin/course/goals');
+      const res = await fetch('/api/admin/course/goals', {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
       const data = await res.json();
-      setGoals(data.data);
+      setGoals(data.data || []);
     } catch (error) {
       console.error('Error fetching goals:', error);
     }
@@ -53,9 +59,11 @@ const CourseManagement = () => {
 
   const fetchModules = async (goalId) => {
     try {
-      const res = await fetch(`/api/admin/course/goals/${goalId}/modules`);
+      const res = await fetch(`/api/admin/course/goals/${goalId}/modules`, {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
       const data = await res.json();
-      setModules(data.data);
+      setModules(data.data || []);
     } catch (error) {
       console.error('Error fetching modules:', error);
     }
@@ -63,9 +71,11 @@ const CourseManagement = () => {
 
   const fetchTopics = async (moduleId) => {
     try {
-      const res = await fetch(`/api/admin/course/modules/${moduleId}/topics`);
+      const res = await fetch(`/api/admin/course/modules/${moduleId}/topics`, {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
       const data = await res.json();
-      setTopics(data.data);
+      setTopics(data.data || []);
     } catch (error) {
       console.error('Error fetching topics:', error);
     }
@@ -73,9 +83,11 @@ const CourseManagement = () => {
 
   const fetchSubtopics = async (topicId) => {
     try {
-      const res = await fetch(`/api/admin/course/topics/${topicId}/subtopics`);
+      const res = await fetch(`/api/admin/course/topics/${topicId}/subtopics`, {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
       const data = await res.json();
-      setSubtopics(data.data);
+      setSubtopics(data.data || []);
     } catch (error) {
       console.error('Error fetching subtopics:', error);
     }
@@ -83,19 +95,25 @@ const CourseManagement = () => {
 
   const fetchContent = async (subtopicId) => {
     try {
-      const res = await fetch(`/api/admin/course/subtopics/${subtopicId}/content`);
+      const res = await fetch(`/api/admin/course/subtopics/${subtopicId}/content`, {
+        headers: { 'Authorization': `Bearer ${getToken()}` }
+      });
       const data = await res.json();
-      setContent(data.data);
+      setContent(data.data || []);
     } catch (error) {
       console.error('Error fetching content:', error);
     }
   };
 
+  // Selection Handlers
   const handleGoalSelect = (goal) => {
     setSelectedGoal(goal);
     setSelectedModule(null);
     setSelectedTopic(null);
     setSelectedSubtopic(null);
+    setModules([]);
+    setTopics([]);
+    setSubtopics([]);
     fetchModules(goal.id);
   };
 
@@ -103,12 +121,15 @@ const CourseManagement = () => {
     setSelectedModule(module);
     setSelectedTopic(null);
     setSelectedSubtopic(null);
+    setTopics([]);
+    setSubtopics([]);
     fetchTopics(module.id);
   };
 
   const handleTopicSelect = (topic) => {
     setSelectedTopic(topic);
     setSelectedSubtopic(null);
+    setSubtopics([]);
     fetchSubtopics(topic.id);
   };
 
@@ -117,16 +138,19 @@ const CourseManagement = () => {
     fetchContent(subtopic.id);
   };
 
+  // Creation Handlers
   const createGoal = async () => {
     if (!newGoalName.trim()) return;
-    
     try {
       const res = await fetch('/api/admin/course/goals', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        },
         body: JSON.stringify({ 
           name: newGoalName,
-          description: 'New goal description',
+          description: 'New goal',
           duration_months: 2,
           certificate_name: `${newGoalName} Certificate`
         })
@@ -143,15 +167,17 @@ const CourseManagement = () => {
 
   const createModule = async () => {
     if (!newModuleName.trim() || !selectedGoal) return;
-    
     try {
       const res = await fetch('/api/admin/course/modules', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        },
         body: JSON.stringify({ 
           goal_id: selectedGoal.id,
           name: newModuleName,
-          description: 'New module description'
+          description: 'New module'
         })
       });
       const data = await res.json();
@@ -166,15 +192,17 @@ const CourseManagement = () => {
 
   const createTopic = async () => {
     if (!newTopicName.trim() || !selectedModule) return;
-    
     try {
       const res = await fetch('/api/admin/course/topics', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        },
         body: JSON.stringify({ 
           module_id: selectedModule.id,
           name: newTopicName,
-          description: 'New topic description'
+          description: 'New topic'
         })
       });
       const data = await res.json();
@@ -189,15 +217,17 @@ const CourseManagement = () => {
 
   const createSubtopic = async () => {
     if (!newSubtopicName.trim() || !selectedTopic) return;
-    
     try {
       const res = await fetch('/api/admin/course/subtopics', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        },
         body: JSON.stringify({ 
           topic_id: selectedTopic.id,
           name: newSubtopicName,
-          description: 'New subtopic description'
+          description: 'New subtopic'
         })
       });
       const data = await res.json();
@@ -211,340 +241,221 @@ const CourseManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="p-6 max-w-[1600px] mx-auto space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Course Management</h1>
-          <p className="text-gray-600">Manage your digital marketing course hierarchy</p>
+          <h1 className="text-3xl font-bold text-gray-900">Course Content Manager</h1>
+          <p className="text-gray-500 mt-1">Organize your digital marketing curriculum hierarchy</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left Sidebar - Hierarchy */}
-        <div className="lg:col-span-1 space-y-4">
-          {/* Goals Section */}
-          <div className="bg-white rounded-xl shadow-md p-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-lg">Goals</h3>
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={newGoalName}
-                  onChange={(e) => setNewGoalName(e.target.value)}
-                  placeholder="New goal name"
-                  className="flex-1 border rounded px-2 py-1 text-sm"
+      <div className="grid grid-cols-12 gap-6 h-[calc(100vh-200px)]">
+        
+        {/* Level 1: Goals */}
+        <div className="col-span-12 md:col-span-3 lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col">
+          <div className="p-4 border-b bg-gray-50 rounded-t-xl">
+            <h3 className="font-semibold text-gray-700 mb-2 flex items-center"><Layout className="w-4 h-4 mr-2"/> Goals</h3>
+            <div className="flex gap-1">
+              <input 
+                value={newGoalName}
+                onChange={e => setNewGoalName(e.target.value)}
+                placeholder="Add Goal..."
+                className="flex-1 text-sm border rounded px-2 py-1"
+              />
+              <button onClick={createGoal} className="bg-blue-600 text-white p-1 rounded"><Plus className="w-4 h-4"/></button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-y-auto p-2 space-y-1">
+            {goals.map(goal => (
+              <div 
+                key={goal.id}
+                onClick={() => handleGoalSelect(goal)}
+                className={`p-3 rounded-lg cursor-pointer text-sm font-medium flex justify-between items-center ${selectedGoal?.id === goal.id ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-50 text-gray-700'}`}
+              >
+                {goal.name}
+                <ChevronRight className="w-4 h-4 opacity-50"/>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Level 2: Modules (Conditional) */}
+        {selectedGoal && (
+          <div className="col-span-12 md:col-span-3 lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col animation-fade-in">
+            <div className="p-4 border-b bg-gray-50 rounded-t-xl">
+              <h3 className="font-semibold text-gray-700 mb-2 flex items-center"><FolderOpen className="w-4 h-4 mr-2"/> Modules</h3>
+              <div className="flex gap-1">
+                <input 
+                  value={newModuleName}
+                  onChange={e => setNewModuleName(e.target.value)}
+                  placeholder="Add Module..."
+                  className="flex-1 text-sm border rounded px-2 py-1"
                 />
-                <button 
-                  onClick={createGoal}
-                  className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
+                <button onClick={createModule} className="bg-green-600 text-white p-1 rounded"><Plus className="w-4 h-4"/></button>
               </div>
             </div>
-            <div className="space-y-2">
-              {goals.map(goal => (
-                <div
-                  key={goal.id}
-                  className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                    selectedGoal?.id === goal.id 
-                    ? 'bg-blue-50 border border-blue-200' 
-                    : 'hover:bg-gray-50'
-                  }`}
-                  onClick={() => handleGoalSelect(goal)}
+            <div className="flex-1 overflow-y-auto p-2 space-y-1">
+              {modules.map(module => (
+                <div 
+                  key={module.id}
+                  onClick={() => handleModuleSelect(module)}
+                  className={`p-3 rounded-lg cursor-pointer text-sm font-medium flex justify-between items-center ${selectedModule?.id === module.id ? 'bg-green-100 text-green-700' : 'hover:bg-gray-50 text-gray-700'}`}
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <FolderOpen className="w-4 h-4 mr-2 text-blue-500" />
-                      <span className="font-medium">{goal.name}</span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 text-gray-400" />
-                  </div>
-                  <p className="text-sm text-gray-500 mt-1">{goal.description}</p>
+                  {module.name}
+                  <ChevronRight className="w-4 h-4 opacity-50"/>
                 </div>
               ))}
             </div>
           </div>
+        )}
 
-          {/* Modules Section (visible when goal selected) */}
-          {selectedGoal && (
-            <div className="bg-white rounded-xl shadow-md p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">Modules</h3>
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={newModuleName}
-                    onChange={(e) => setNewModuleName(e.target.value)}
-                    placeholder="New module"
-                    className="flex-1 border rounded px-2 py-1 text-sm"
-                  />
-                  <button 
-                    onClick={createModule}
-                    className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-              <div className="space-y-2">
-                {modules.map(module => (
-                  <div
-                    key={module.id}
-                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                      selectedModule?.id === module.id 
-                      ? 'bg-blue-50 border border-blue-200' 
-                      : 'hover:bg-gray-50'
-                    }`}
-                    onClick={() => handleModuleSelect(module)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <FolderOpen className="w-4 h-4 mr-2 text-green-500" />
-                        <span className="font-medium">{module.name}</span>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                  </div>
-                ))}
+        {/* Level 3: Topics (Conditional) */}
+        {selectedModule && (
+          <div className="col-span-12 md:col-span-3 lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col animation-fade-in">
+            <div className="p-4 border-b bg-gray-50 rounded-t-xl">
+              <h3 className="font-semibold text-gray-700 mb-2 flex items-center"><File className="w-4 h-4 mr-2"/> Topics</h3>
+              <div className="flex gap-1">
+                <input 
+                  value={newTopicName}
+                  onChange={e => setNewTopicName(e.target.value)}
+                  placeholder="Add Topic..."
+                  className="flex-1 text-sm border rounded px-2 py-1"
+                />
+                <button onClick={createTopic} className="bg-purple-600 text-white p-1 rounded"><Plus className="w-4 h-4"/></button>
               </div>
             </div>
-          )}
-
-          {/* Topics Section (visible when module selected) */}
-          {selectedModule && (
-            <div className="bg-white rounded-xl shadow-md p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">Topics</h3>
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={newTopicName}
-                    onChange={(e) => setNewTopicName(e.target.value)}
-                    placeholder="New topic"
-                    className="flex-1 border rounded px-2 py-1 text-sm"
-                  />
-                  <button 
-                    onClick={createTopic}
-                    className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
+            <div className="flex-1 overflow-y-auto p-2 space-y-1">
+              {topics.map(topic => (
+                <div 
+                  key={topic.id}
+                  onClick={() => handleTopicSelect(topic)}
+                  className={`p-3 rounded-lg cursor-pointer text-sm font-medium flex justify-between items-center ${selectedTopic?.id === topic.id ? 'bg-purple-100 text-purple-700' : 'hover:bg-gray-50 text-gray-700'}`}
+                >
+                  {topic.name}
+                  <ChevronRight className="w-4 h-4 opacity-50"/>
                 </div>
-              </div>
-              <div className="space-y-2">
-                {topics.map(topic => (
-                  <div
-                    key={topic.id}
-                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                      selectedTopic?.id === topic.id 
-                      ? 'bg-blue-50 border border-blue-200' 
-                      : 'hover:bg-gray-50'
-                    }`}
-                    onClick={() => handleTopicSelect(topic)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <File className="w-4 h-4 mr-2 text-purple-500" />
-                        <span className="font-medium">{topic.name}</span>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                  </div>
-                ))}
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Level 4: Subtopics (Conditional) */}
+        {selectedTopic && (
+          <div className="col-span-12 md:col-span-3 lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col animation-fade-in">
+             <div className="p-4 border-b bg-gray-50 rounded-t-xl">
+              <h3 className="font-semibold text-gray-700 mb-2 flex items-center"><FileText className="w-4 h-4 mr-2"/> Subtopics</h3>
+              <div className="flex gap-1">
+                <input 
+                  value={newSubtopicName}
+                  onChange={e => setNewSubtopicName(e.target.value)}
+                  placeholder="Add Subtopic..."
+                  className="flex-1 text-sm border rounded px-2 py-1"
+                />
+                <button onClick={createSubtopic} className="bg-orange-600 text-white p-1 rounded"><Plus className="w-4 h-4"/></button>
               </div>
             </div>
-          )}
-
-          {/* Subtopics Section (visible when topic selected) */}
-          {selectedTopic && (
-            <div className="bg-white rounded-xl shadow-md p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">Subtopics</h3>
-                <div className="flex space-x-2">
-                  <input
-                    type="text"
-                    value={newSubtopicName}
-                    onChange={(e) => setNewSubtopicName(e.target.value)}
-                    placeholder="New subtopic"
-                    className="flex-1 border rounded px-2 py-1 text-sm"
-                  />
-                  <button 
-                    onClick={createSubtopic}
-                    className="bg-green-500 text-white p-1 rounded hover:bg-green-600"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
+            <div className="flex-1 overflow-y-auto p-2 space-y-1">
+              {subtopics.map(subtopic => (
+                <div 
+                  key={subtopic.id}
+                  onClick={() => handleSubtopicSelect(subtopic)}
+                  className={`p-3 rounded-lg cursor-pointer text-sm font-medium flex justify-between items-center ${selectedSubtopic?.id === subtopic.id ? 'bg-orange-100 text-orange-700' : 'hover:bg-gray-50 text-gray-700'}`}
+                >
+                  {subtopic.name}
+                  <ChevronRight className="w-4 h-4 opacity-50"/>
                 </div>
-              </div>
-              <div className="space-y-2">
-                {subtopics.map(subtopic => (
-                  <div
-                    key={subtopic.id}
-                    className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                      selectedSubtopic?.id === subtopic.id 
-                      ? 'bg-blue-50 border border-blue-200' 
-                      : 'hover:bg-gray-50'
-                    }`}
-                    onClick={() => handleSubtopicSelect(subtopic)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center">
-                        <File className="w-4 h-4 mr-2 text-yellow-500" />
-                        <span className="font-medium">{subtopic.name}</span>
-                      </div>
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
-        {/* Right Content Area */}
-        <div className="lg:col-span-3">
+        {/* Content Area */}
+        <div className="col-span-12 lg:col-span-4 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col">
           {selectedSubtopic ? (
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <div className="flex justify-between items-center mb-6">
-                <div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500 mb-2">
-                    <span className="font-medium text-blue-600">{selectedGoal?.name}</span>
-                    <ChevronRight className="w-3 h-3" />
-                    <span className="font-medium text-green-600">{selectedModule?.name}</span>
-                    <ChevronRight className="w-3 h-3" />
-                    <span className="font-medium text-purple-600">{selectedTopic?.name}</span>
-                    <ChevronRight className="w-3 h-3" />
-                    <span className="font-medium text-yellow-600">{selectedSubtopic?.name}</span>
-                  </div>
-                  <h2 className="text-2xl font-bold">{selectedSubtopic.name}</h2>
-                  <p className="text-gray-600">{selectedSubtopic.description}</p>
-                </div>
+            <>
+              <div className="p-6 border-b">
+                 <div className="text-xs text-gray-500 mb-2 flex items-center gap-1 flex-wrap">
+                    <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded">{selectedGoal.name}</span> / 
+                    <span className="bg-green-100 text-green-800 px-2 py-0.5 rounded">{selectedModule.name}</span> / 
+                    <span className="bg-purple-100 text-purple-800 px-2 py-0.5 rounded">{selectedTopic.name}</span>
+                 </div>
+                 <h2 className="text-xl font-bold text-gray-900">{selectedSubtopic.name}</h2>
               </div>
+              
+              <div className="p-6 overflow-y-auto flex-1">
+                 <div className="grid grid-cols-3 gap-3 mb-6">
+                    <button onClick={() => setShowVideoModal(true)} className="flex flex-col items-center justify-center p-4 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition border border-red-100">
+                        <Video className="w-6 h-6 mb-2"/>
+                        <span className="text-xs font-bold">Add Video</span>
+                    </button>
+                    <button onClick={() => setShowCheatsheetModal(true)} className="flex flex-col items-center justify-center p-4 bg-green-50 text-green-600 rounded-xl hover:bg-green-100 transition border border-green-100">
+                        <FileText className="w-6 h-6 mb-2"/>
+                        <span className="text-xs font-bold">Add Cheatsheet</span>
+                    </button>
+                    <button onClick={() => setShowMCQModal(true)} className="flex flex-col items-center justify-center p-4 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition border border-purple-100">
+                        <HelpCircle className="w-6 h-6 mb-2"/>
+                        <span className="text-xs font-bold">Add Quiz</span>
+                    </button>
+                 </div>
 
-              {/* Content Management Section */}
-              <div className="mb-8">
-                <h3 className="text-lg font-semibold mb-4">Content for this Subtopic</h3>
-                
-                {/* Add Content Buttons */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <button 
-                    onClick={() => setShowVideoModal(true)}
-                    className="bg-gradient-to-r from-red-500 to-orange-500 text-white p-4 rounded-lg flex flex-col items-center justify-center hover:opacity-90 transition"
-                  >
-                    <Video className="w-8 h-8 mb-2" />
-                    <span className="font-medium">Upload Video</span>
-                  </button>
-                  
-                  <button 
-                    onClick={() => setShowCheatsheetModal(true)}
-                    className="bg-gradient-to-r from-green-500 to-teal-500 text-white p-4 rounded-lg flex flex-col items-center justify-center hover:opacity-90 transition"
-                  >
-                    <FileText className="w-8 h-8 mb-2" />
-                    <span className="font-medium">Create Cheatsheet</span>
-                  </button>
-                  
-                  <button 
-                    onClick={() => setShowMCQModal(true)}
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-lg flex flex-col items-center justify-center hover:opacity-90 transition"
-                  >
-                    <HelpCircle className="w-8 h-8 mb-2" />
-                    <span className="font-medium">Create MCQ Quiz</span>
-                  </button>
-                </div>
-
-                {/* Existing Content List */}
-                <div className="space-y-4">
-                  <h4 className="font-medium text-gray-700">Existing Content:</h4>
-                  {content.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
-                      <Upload className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                      <p>No content added yet. Use buttons above to add content.</p>
-                    </div>
-                  ) : (
-                    content.map(item => (
-                      <div key={item.id} className="border rounded-lg p-4 hover:bg-gray-50">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            {item.content_type === 'video' && (
-                              <Video className="w-5 h-5 mr-3 text-red-500" />
-                            )}
-                            {item.content_type === 'cheatsheet' && (
-                              <FileText className="w-5 h-5 mr-3 text-green-500" />
-                            )}
-                            {item.content_type === 'mcq' && (
-                              <HelpCircle className="w-5 h-5 mr-3 text-purple-500" />
-                            )}
-                            <div>
-                              <p className="font-medium">
-                                {item.video_title || item.cheatsheet_title || item.mcq_title}
-                              </p>
-                              <p className="text-sm text-gray-500 capitalize">
-                                {item.content_type} • Created on {new Date(item.created_at).toLocaleDateString()}
-                              </p>
+                 <h3 className="font-semibold text-gray-700 mb-3">Existing Content</h3>
+                 <div className="space-y-3">
+                    {content.length === 0 && <p className="text-gray-400 text-sm text-center py-4">No content added yet.</p>}
+                    {content.map(item => (
+                        <div key={item.id} className="flex items-center p-3 border rounded-lg hover:shadow-sm transition bg-white">
+                            {item.content_type === 'video' && <Video className="w-5 h-5 text-red-500 mr-3"/>}
+                            {item.content_type === 'cheatsheet' && <FileText className="w-5 h-5 text-green-500 mr-3"/>}
+                            {item.content_type === 'mcq' && <HelpCircle className="w-5 h-5 text-purple-500 mr-3"/>}
+                            <div className="flex-1 min-w-0">
+                                <p className="font-medium text-sm truncate">{item.video_title || item.cheatsheet_title || item.mcq_title}</p>
+                                <p className="text-xs text-gray-500 capitalize">{item.content_type}</p>
                             </div>
-                          </div>
-                          <div className="flex space-x-2">
-                            <button className="p-2 text-blue-600 hover:bg-blue-50 rounded">
-                              <Edit className="w-4 h-4" />
-                            </button>
-                            <button className="p-2 text-red-600 hover:bg-red-50 rounded">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
+                            <button className="p-2 text-red-500 hover:bg-red-50 rounded"><Trash2 className="w-4 h-4"/></button>
                         </div>
-                      </div>
-                    ))
-                  )}
-                </div>
+                    ))}
+                 </div>
               </div>
-            </div>
+            </>
           ) : (
-            <div className="bg-white rounded-xl shadow-md p-12 text-center">
-              <FolderOpen className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Select a Subtopic</h3>
-              <p className="text-gray-600 max-w-md mx-auto">
-                Navigate through the hierarchy on the left: Goals → Modules → Topics → Subtopics
-              </p>
-              <p className="text-sm text-gray-500 mt-4">
-                Once you select a subtopic, you can add videos, cheatsheets, and quizzes.
-              </p>
+            <div className="h-full flex flex-col items-center justify-center text-gray-400 p-8 text-center">
+                <Layout className="w-16 h-16 mb-4 opacity-20"/>
+                <p>Select a subtopic from the navigation to manage content.</p>
             </div>
           )}
         </div>
       </div>
 
       {/* Modals */}
-      {showVideoModal && (
+      {showVideoModal && selectedSubtopic && (
         <VideoUploadModal 
-          subtopicId={selectedSubtopic?.id}
-          onClose={() => setShowVideoModal(false)}
-          onSuccess={() => {
-            setShowVideoModal(false);
-            fetchContent(selectedSubtopic.id);
-          }}
+            subtopicId={selectedSubtopic.id}
+            onClose={() => setShowVideoModal(false)}
+            onSuccess={() => {
+                setShowVideoModal(false);
+                fetchContent(selectedSubtopic.id);
+            }}
         />
       )}
-
-      {showCheatsheetModal && (
+      
+      {showCheatsheetModal && selectedSubtopic && (
         <CheatsheetEditor 
-          subtopicId={selectedSubtopic?.id}
-          onClose={() => setShowCheatsheetModal(false)}
-          onSuccess={() => {
-            setShowCheatsheetModal(false);
-            fetchContent(selectedSubtopic.id);
-          }}
+            subtopicId={selectedSubtopic.id}
+            onClose={() => setShowCheatsheetModal(false)}
+            onSuccess={() => {
+                setShowCheatsheetModal(false);
+                fetchContent(selectedSubtopic.id);
+            }}
         />
       )}
 
-      {showMCQModal && (
+      {showMCQModal && selectedSubtopic && (
         <MCQCreator 
-          subtopicId={selectedSubtopic?.id}
-          onClose={() => setShowMCQModal(false)}
-          onSuccess={() => {
-            setShowMCQModal(false);
-            fetchContent(selectedSubtopic.id);
-          }}
+            subtopicId={selectedSubtopic.id}
+            onClose={() => setShowMCQModal(false)}
+            onSuccess={() => {
+                setShowMCQModal(false);
+                fetchContent(selectedSubtopic.id);
+            }}
         />
       )}
     </div>

@@ -12,7 +12,7 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const digitalMarketingRoutes = require('./digitalMarketingRoutes');
+const { router: digitalMarketingRouter, createDigitalMarketingTables } = require('./digitalMarketingRoutes');
 
 // -------------------------------------------
 // 🔹 Database Connection
@@ -429,8 +429,18 @@ CHECK (student_type IN (
   'zorvixe_elite'
 ));
 `);
+// In the students table creation query, add this field after student_type:
+await pool.query(`
+ALTER TABLE students
+ADD COLUMN IF NOT EXISTS course_selection VARCHAR(250)
+DEFAULT 'web_development'
+CHECK (course_selection IN (
+  'web_development',
+  'digital_marketing'
+));
+`);
 
-  console.log("✅ Added New column");
+console.log("✅ Added course_selection column");
 
   const aiChatSessions = `
   CREATE TABLE IF NOT EXISTS ai_chat_sessions (
@@ -645,193 +655,7 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     );
   `;
 
-  //Add these to your existing database
-
-  // ========================================
-  // DIGITAL MARKETING COURSE STRUCTURE
-  // ========================================
-
-  // GOALS TABLE (6 months divided into 3 goals)
-
-  const courseGoalTableQuery = `CREATE TABLE IF NOT EXISTS course_goals (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL,
-  description TEXT,
-  duration_months INTEGER DEFAULT 2,
-  order_number INTEGER DEFAULT 0,
-  certificate_name VARCHAR(255),
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`;
-
-  // MODULES TABLE (under Goals)
-
-  const courseModulesTableQuery = `CREATE TABLE IF NOT EXISTS course_modules (
-  id SERIAL PRIMARY KEY,
-  goal_id INTEGER REFERENCES course_goals(id) ON DELETE CASCADE,
-  name VARCHAR(255) NOT NULL,
-  description TEXT,
-  order_number INTEGER DEFAULT 0,
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`;
-
-  // TOPICS TABLE (under Modules)
-
-  const courseTopicsTableQuery = `CREATE TABLE IF NOT EXISTS course_topics (
-  id SERIAL PRIMARY KEY,
-  module_id INTEGER REFERENCES course_modules(id) ON DELETE CASCADE,
-  name VARCHAR(255) NOT NULL,
-  description TEXT,
-  order_number INTEGER DEFAULT 0,
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`;
-
-  // SUBTOPICS TABLE (under Topics)
-
-  const courseSubTopicTableQuery = `CREATE TABLE IF NOT EXISTS course_subtopics (
-  id SERIAL PRIMARY KEY,
-  topic_id INTEGER REFERENCES course_topics(id) ON DELETE CASCADE,
-  name VARCHAR(255) NOT NULL,
-  description TEXT,
-  order_number INTEGER DEFAULT 0,
-  is_active BOOLEAN DEFAULT true,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`;
-
-  // CONTENT TABLE (for each subtopic)
-
-  const courseSubTopicContent = `CREATE TABLE IF NOT EXISTS subtopic_content (
-  id SERIAL PRIMARY KEY,
-  subtopic_id INTEGER REFERENCES course_subtopics(id) ON DELETE CASCADE,
-  content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('video', 'cheatsheet', 'mcq')),
-  
-  -- Video content
-  video_title VARCHAR(500),
-  video_url VARCHAR(1000),
-  video_description TEXT,
-  video_duration INTEGER, -- in seconds
-  thumbnail_url VARCHAR(1000),
-  video_type VARCHAR(50) DEFAULT 'youtube', -- youtube, vimeo, uploaded
-  
-  -- Cheatsheet content
-  cheatsheet_title VARCHAR(500),
-  cheatsheet_content TEXT, -- Rich HTML content
-  file_url VARCHAR(1000), -- Optional PDF URL
-  
-  -- MCQ content
-  mcq_title VARCHAR(500),
-  questions JSONB DEFAULT '[]', -- Array of questions
-  
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);`;
-
-  // STUDENT PROGRESS FOR DIGITAL MARKETING COURSE
-
-  const studentContentProgress = `CREATE TABLE IF NOT EXISTS student_course_progress (
-  id SERIAL PRIMARY KEY,
-  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
-  goal_id INTEGER REFERENCES course_goals(id),
-  module_id INTEGER REFERENCES course_modules(id),
-  subtopic_id INTEGER REFERENCES course_subtopics(id),
-  content_id INTEGER REFERENCES subtopic_content(id),
-  status VARCHAR(50) DEFAULT 'not_started', -- not_started, in_progress, completed
-  completed_at TIMESTAMP,
-  quiz_score INTEGER,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(student_id, content_id)
-);`;
-
-  // STUDENT COURSE ENROLLMENTS
-
-  const studentCourseEnrollments = `CREATE TABLE IF NOT EXISTS student_course_enrollments (
-  id SERIAL PRIMARY KEY,
-  student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
-  goal_id INTEGER REFERENCES course_goals(id),
-  enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  completed_at TIMESTAMP,
-  status VARCHAR(50) DEFAULT 'active', -- active, completed, dropped
-  progress_percentage INTEGER DEFAULT 0,
-  UNIQUE(student_id, goal_id)
-);`;
-
-  // INSERT DEFAULT GOALS (Digital Marketing 6 months plan)
-
-  const courseGoals = `INSERT INTO course_goals (name, description, duration_months, order_number, certificate_name) VALUES
-('Content & SEO Specialist', 'Master Website Creation, Content Writing & SEO', 2, 1, 'Content & SEO Specialist'),
-('Social Media & Ads Expert', 'Learn Social Media Marketing & Paid Advertising', 2, 2, 'Social Media & Ads Expert'),
-('Digital Marketing Professional', 'Become a Complete Digital Marketing Pro', 2, 3, 'Digital Marketing Professional')
-ON CONFLICT DO NOTHING;`;
-
-
-try {
-  // Required extension
-  await pool.query(`CREATE EXTENSION IF NOT EXISTS pgcrypto;`);
-
-  // ===== TABLE CREATION ORDER =====
-
-  await pool.query(courseGoalTableQuery);
-  await pool.query(courseModulesTableQuery);
-  await pool.query(courseTopicsTableQuery);
-  await pool.query(courseSubTopicTableQuery);
-  await pool.query(courseSubTopicContent);
-
-  await pool.query(studentCourseEnrollments);
-  await pool.query(studentContentProgress);
-
-  // ===== ALTER TABLE UUID =====
-
-  await pool.query(`
-    ALTER TABLE subtopic_content 
-    ADD COLUMN IF NOT EXISTS content_uuid UUID DEFAULT gen_random_uuid() UNIQUE,
-    ADD COLUMN IF NOT EXISTS access_token UUID DEFAULT gen_random_uuid(),
-    ADD COLUMN IF NOT EXISTS is_public BOOLEAN DEFAULT false,
-    ADD COLUMN IF NOT EXISTS expires_at TIMESTAMP;
-  `);
-
-  // ===== INDEXES =====
-
-  await pool.query(`
-    CREATE INDEX IF NOT EXISTS idx_content_uuid 
-    ON subtopic_content(content_uuid);
-
-    CREATE INDEX IF NOT EXISTS idx_access_token 
-    ON subtopic_content(access_token);
-
-    CREATE INDEX IF NOT EXISTS idx_student_progress_student
-    ON student_course_progress(student_id);
-  `);
-
-  // ===== ACCESS LOG TABLE =====
-
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS content_access_logs (
-      id SERIAL PRIMARY KEY,
-      content_uuid UUID REFERENCES subtopic_content(content_uuid),
-      student_id INTEGER REFERENCES students(id),
-      accessed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      ip_address INET,
-      user_agent TEXT,
-      action VARCHAR(50)
-    );
-  `);
-
-  // ===== DEFAULT GOALS =====
-
-  await pool.query(courseGoals);
-
-  console.log("✅ Digital marketing course schema initialized");
-
-} catch (err) {
-  console.error("❌ DB init error:", err);
-}
+ 
 
 
   try {
@@ -2940,6 +2764,10 @@ app.post(
       .optional()
       .isIn(["zorvixe_core", "zorvixe_pro", "zorvixe_elite"])
       .withMessage("Invalid student type"),
+    body("courseSelection")
+      .optional()
+      .isIn(["web_development", "digital_marketing"])
+      .withMessage("Invalid course selection"),
   ],
   async (req, res) => {
     try {
@@ -2966,6 +2794,7 @@ app.post(
         lastName,
         phone,
         studentType = "zorvixe_core", // Default to core
+        courseSelection = "web_development", // Default value
         batchMonth,
         batchYear,
         isCurrentBatch,
@@ -3015,10 +2844,10 @@ app.post(
       // Insert new student with student_type
       const result = await pool.query(
         `INSERT INTO students (student_id, email, password, first_name, last_name, phone, 
-                        profile_image, student_type, batch_month, batch_year, is_current_batch, join_date)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, CURRENT_DATE)
+                        profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, join_date)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, CURRENT_DATE)
          RETURNING id, student_id, email, first_name, last_name, phone, profile_image, 
-                   student_type, batch_month, batch_year, is_current_batch, join_date, created_at`,
+                   student_type, course_selection, batch_month, batch_year, is_current_batch, join_date, created_at`,
         [
           studentId,
           email,
@@ -3028,6 +2857,7 @@ app.post(
           phone,
           profileImagePath,
           studentType,
+          courseSelection, // Add this
           batchMonth,
           batchYearInt,
           currentBatch,
@@ -3851,6 +3681,9 @@ app.put(
         bachelorInstitutePincode: parseValue(bachelorInstitutePincode),
         bachelorInstituteDistrict: parseValue(bachelorInstituteDistrict),
 
+        courseSelection: parseValue(courseSelection),
+
+
         // Work Experience
         occupationStatus: parseValue(occupationStatus),
         hasWorkExperience: parseValue(hasWorkExperience, "boolean"),
@@ -3861,6 +3694,7 @@ app.put(
       // Update student record with proper null handling
       const updateQuery = `
         UPDATE students SET
+        course_selection = COALESCE($54, course_selection),
           first_name = COALESCE($1, first_name),
           last_name = COALESCE($2, last_name),
           phone = COALESCE($3, phone),
@@ -3915,8 +3749,8 @@ app.put(
           occupation_status = COALESCE($52, occupation_status),
           has_work_experience = COALESCE($53, has_work_experience),
           updated_at = CURRENT_TIMESTAMP
-        WHERE id = $54
-        RETURNING *
+          WHERE id = $55
+          RETURNING *
       `;
 
       const result = await pool.query(updateQuery, [
@@ -5531,6 +5365,8 @@ app.get("/api/admin/students", async (req, res) => {
       batchMonth,
       batchYear,
       status,
+      studentType,
+      courseSelection, // Add this
     } = req.query;
 
     const offset = (page - 1) * limit;
@@ -5587,6 +5423,14 @@ app.get("/api/admin/students", async (req, res) => {
       baseQuery += ` AND status = $${paramCount}`;
       countQuery += ` AND status = $${paramCount}`;
       queryParams.push(status);
+      paramCount++;
+    }
+
+     // Add course filter to query
+     if (courseSelection && courseSelection !== "") {
+      baseQuery += ` AND course_selection = $${paramCount}`;
+      countQuery += ` AND course_selection = $${paramCount}`;
+      queryParams.push(courseSelection);
       paramCount++;
     }
 
@@ -7589,8 +7433,8 @@ app.get("/api/ai/categories", auth, async (req, res) => {
   }
 });
 
-app.use('/', digitalMarketingRoutes);
-
+// Add the router (somewhere before your 404 handler)
+app.use('/', digitalMarketingRouter);
 
 // Handle 404 routes
 app.use("*", (req, res) => {
@@ -7630,6 +7474,10 @@ const PORT = process.env.PORT || 5002;
 (async () => {
   try {
     await createTables();
+     // Add digital marketing tables
+     await createDigitalMarketingTables();
+    
+     console.log("✅ All database tables initialized");
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);

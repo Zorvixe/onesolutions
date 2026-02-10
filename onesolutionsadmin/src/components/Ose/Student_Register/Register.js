@@ -15,10 +15,16 @@ const Register = () => {
     lastName: "",
     phone: "",
     studentType: "zorvixe_core", // New field with default value
+    courseSelection: "web_development", // New field
     batchMonth: "",
     batchYear: new Date().getFullYear(),
     isCurrentBatch: false,
   });
+   // Course options
+   const courseOptions = [
+    { value: "web_development", label: "Web Development" },
+    { value: "digital_marketing", label: "Digital Marketing" },
+  ];
   const [profileImage, setProfileImage] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
@@ -129,6 +135,14 @@ const Register = () => {
       errors.studentType = "Please select a valid student type";
     }
 
+     // Validate course selection
+     const validCourses = ["web_development", "digital_marketing"];
+     if (!formData.courseSelection) {
+       errors.courseSelection = "Course selection is required";
+     } else if (!validCourses.includes(formData.courseSelection)) {
+       errors.courseSelection = "Please select a valid course";
+     }
+
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -213,6 +227,17 @@ const Register = () => {
         return "Advanced features with priority support";
       case "zorvixe_elite":
         return "Full access with premium features";
+      default:
+        return "";
+    }
+  };
+
+  const getCourseDescription = (course) => {
+    switch (course) {
+      case "web_development":
+        return "Full stack web development with React, Node.js, and databases";
+      case "digital_marketing":
+        return "SEO, Social Media Marketing, Content Strategy, and Analytics";
       default:
         return "";
     }
@@ -436,6 +461,58 @@ const Register = () => {
               />
             </div>
 
+            {/* Course Selection */}
+            <div className="form-group">
+              <label>Select Course *</label>
+              <div className="course-selector">
+                {courseOptions.map((course) => (
+                  <div
+                    key={course.value}
+                    className={`course-option ${
+                      formData.courseSelection === course.value ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      if (!isSubmitting) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          courseSelection: course.value,
+                        }));
+                        if (validationErrors.courseSelection) {
+                          setValidationErrors((prev) => ({
+                            ...prev,
+                            courseSelection: "",
+                          }));
+                        }
+                      }
+                    }}
+                  >
+                    <div className="course-radio">
+                      <input
+                        type="radio"
+                        name="courseSelection"
+                        value={course.value}
+                        checked={formData.courseSelection === course.value}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        id={`course-${course.value}`}
+                      />
+                      <span className="radio-custom"></span>
+                    </div>
+                    <label htmlFor={`course-${course.value}`} className="course-label">
+                      <span className="course-name">{course.label}</span>
+                      <span className="course-description">
+                        {getCourseDescription(course.value)}
+                      </span>
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {validationErrors.courseSelection && (
+                <span className="error-text">{validationErrors.courseSelection}</span>
+              )}
+            </div>
+
+
             {/* Student Type Selection */}
             <div className="form-group">
               <label>Student Type *</label>
@@ -486,6 +563,8 @@ const Register = () => {
                 <span className="error-text">{validationErrors.studentType}</span>
               )}
             </div>
+
+
 
             {/* Batch Information */}
             <div className="form-row">

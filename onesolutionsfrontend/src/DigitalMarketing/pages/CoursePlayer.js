@@ -1,28 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 import { 
   ChevronLeft, 
+  ChevronDown,
   Play, 
-  Pause, 
-  Volume2, 
-  Maximize, 
-  BookOpen,
-  Download,
-  CheckCircle,
-  Clock,
+  CheckCircle, 
   Menu,
-  X
+  X,
+  BookOpen,
+  FileText,
+  HelpCircle,
+  Download
 } from 'lucide-react';
-import ReactPlayer from 'react-player';
 
-const CoursePlayer = ({ goalId }) => {
+const CoursePlayer = () => {
+  const { goalId } = useParams();
+  const navigate = useNavigate();
   const [courseData, setCourseData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  // Navigation State
   const [currentModule, setCurrentModule] = useState(null);
   const [currentTopic, setCurrentTopic] = useState(null);
   const [currentSubtopic, setCurrentSubtopic] = useState(null);
   const [currentContent, setCurrentContent] = useState(null);
+  
+  // UI State
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [expandedTopics, setExpandedTopics] = useState({}); // { topicId: boolean }
+
+  // Content specific state
+  const [videoUrl, setVideoUrl] = useState(null);
+  const [quizScore, setQuizScore] = useState(0);
+  const [showQuizResult, setShowQuizResult] = useState(false);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
 
   useEffect(() => {
     fetchCourseData();
@@ -30,461 +42,345 @@ const CoursePlayer = ({ goalId }) => {
 
   const fetchCourseData = async () => {
     try {
-      const res = await fetch(`/api/student/courses/goal/${goalId}`);
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/student/courses/goal/${goalId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
       const data = await res.json();
+      
       if (data.success) {
         setCourseData(data.data);
-        // Set first module/topic/subtopic/content as default
-        if (data.data.modules.length > 0) {
-          const firstModule = data.data.modules[0];
-          setCurrentModule(firstModule);
-          if (firstModule.topics.length > 0) {
-            const firstTopic = firstModule.topics[0];
-            setCurrentTopic(firstTopic);
-            if (firstTopic.subtopics.length > 0) {
-              const firstSubtopic = firstTopic.subtopics[0];
-              setCurrentSubtopic(firstSubtopic);
-              if (firstSubtopic.content.length > 0) {
-                setCurrentContent(firstSubtopic.content[0]);
-              }
-            }
-          }
+        
+        // Initial Selection Logic: Select first available content
+        if (data.data.modules?.length > 0) {
+           const firstMod = data.data.modules[0];
+           setCurrentModule(firstMod);
+           
+           if(firstMod.topics?.length > 0) {
+               const firstTopic = firstMod.topics[0];
+               setCurrentTopic(firstTopic);
+               setExpandedTopics({ [firstTopic.id]: true });
+               
+               if(firstTopic.subtopics?.length > 0) {
+                   const firstSub = firstTopic.subtopics[0];
+                   setCurrentSubtopic(firstSub);
+                   
+                   if(firstSub.content?.length > 0) {
+                       handleContentSelect(firstSub.content[0]);
+                   }
+               }
+           }
         }
       }
     } catch (error) {
-      console.error('Error fetching course data:', error);
+      console.error('Error fetching course:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const markAsCompleted = async () => {
-    if (!currentContent) return;
-    
+  const fetchSecureContent = async (contentUuid) => {
     try {
-      await fetch('/api/student/courses/content/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          content_id: currentContent.id,
-          goal_id: goalId,
-          module_id: currentModule?.id,
-          subtopic_id: currentSubtopic?.id
-        })
-      });
+        const token = localStorage.getItem('token');
+        const res = await fetch(`/api/content/${contentUuid}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if(data.success) {
+            return data.data;
+        }
+    } catch(err) {
+        console.error("Secure content fetch failed", err);
+    }
+    return null;
+  };
+
+  const handleContentSelect = async (content) => {
+      setCurrentContent(content);
+      // Reset quiz state
+      setQuizScore(0);
+      setShowQuizResult(false);
+      setSelectedAnswers({});
       
-      // Refresh course data
-      fetchCourseData();
-    } catch (error) {
-      console.error('Error marking as completed:', error);
-    }
+      if(content.content_type === 'video') {
+         const secureData = await fetchSecureContent(content.content_uuid);
+         if(secureData?.video?.url) {
+             setVideoUrl(secureData.video.url);
+         }
+      } else {
+         setVideoUrl(null);
+      }
+      
+      // Auto-mark read for cheatsheets could go here
   };
 
-  const handleProgress = (state) => {
-    setProgress(state.played * 100);
-    // Auto-save progress every 30 seconds
-    if (state.playedSeconds % 30 < 1) {
-      // You can implement auto-save here
-    }
+  const markCompleted = async (score = null) => {
+      if(!currentContent) return;
+      try {
+          const token = localStorage.getItem('token');
+          await fetch('/api/student/courses/content/complete', {
+              method: 'POST',
+              headers: { 
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                  content_id: currentContent.id,
+                  goal_id: goalId,
+                  module_id: currentModule?.id,
+                  subtopic_id: currentSubtopic?.id,
+                  quiz_score: score
+              })
+          });
+          // Refresh course progress
+          fetchCourseData();
+      } catch (err) {
+          console.error(err);
+      }
   };
 
-  const handleEnded = () => {
-    setPlaying(false);
-    markAsCompleted();
+  const toggleTopic = (topicId) => {
+      setExpandedTopics(prev => ({
+          ...prev,
+          [topicId]: !prev[topicId]
+      }));
   };
 
   const renderContent = () => {
-    if (!currentContent) {
-      return (
-        <div className="flex items-center justify-center h-full">
-          <div className="text-center">
-            <BookOpen className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-xl font-semibold">No Content Available</h3>
-            <p className="text-gray-600">Select a subtopic from the sidebar</p>
-          </div>
-        </div>
-      );
-    }
+      if(!currentContent) return <div className="p-10 text-center text-gray-500">Select a lesson to begin</div>;
 
-    switch (currentContent.content_type) {
-      case 'video':
-        return (
-          <div className="space-y-6">
-            {/* Video Player */}
-            <div className="bg-black rounded-xl overflow-hidden">
-              <ReactPlayer
-                url={currentContent.video_url}
-                playing={playing}
-                controls={true}
-                width="100%"
-                height="500px"
-                onProgress={handleProgress}
-                onEnded={handleEnded}
-                config={{
-                  file: {
-                    attributes: {
-                      controlsList: 'nodownload'
-                    }
-                  }
-                }}
-              />
-            </div>
+      switch(currentContent.content_type) {
+          case 'video':
+              return (
+                  <div className="space-y-6 animate-fade-in">
+                      <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg relative">
+                          {videoUrl ? (
+                              <ReactPlayer 
+                                  url={videoUrl}
+                                  controls={true}
+                                  width="100%"
+                                  height="100%"
+                                  onEnded={() => markCompleted()}
+                                  config={{ file: { attributes: { controlsList: 'nodownload' } } }}
+                              />
+                          ) : (
+                              <div className="flex items-center justify-center h-full text-white">Loading Video...</div>
+                          )}
+                      </div>
+                      <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                          <h2 className="text-2xl font-bold text-gray-900">{currentContent.video_title}</h2>
+                          <p className="mt-2 text-gray-600 leading-relaxed">{currentContent.video_description || "No description available."}</p>
+                      </div>
+                  </div>
+              );
 
-            {/* Video Info */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold">{currentContent.video_title}</h2>
-                  <p className="text-gray-600 mt-2">{currentContent.video_description}</p>
-                </div>
-                <button
-                  onClick={markAsCompleted}
-                  className="flex items-center space-x-2 px-4 py-2 bg-green-100 text-green-600 rounded-lg hover:bg-green-200"
-                >
-                  <CheckCircle className="w-4 h-4" />
-                  <span>Mark Complete</span>
-                </button>
-              </div>
-              
-              <div className="flex items-center space-x-6 text-sm text-gray-500">
-                <div className="flex items-center">
-                  <Clock className="w-4 h-4 mr-2" />
-                  <span>{Math.floor((currentContent.video_duration || 0) / 60)} min</span>
-                </div>
-                <div className="flex items-center">
-                  <Play className="w-4 h-4 mr-2" />
-                  <span>{progress.toFixed(1)}% watched</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'cheatsheet':
-        return (
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h2 className="text-2xl font-bold">{currentContent.cheatsheet_title}</h2>
-                <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
-                  <span>Cheatsheet</span>
-                  <span>•</span>
-                  <span>Read time: 5 min</span>
-                </div>
-              </div>
-              <button className="flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200">
-                <Download className="w-4 h-4" />
-                <span>Download PDF</span>
-              </button>
-            </div>
-            
-            <div 
-              className="prose max-w-none"
-              dangerouslySetInnerHTML={{ __html: currentContent.cheatsheet_content }}
-            />
-            
-            <div className="mt-8 pt-6 border-t">
-              <button
-                onClick={markAsCompleted}
-                className="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg font-medium hover:opacity-90"
-              >
-                Mark as Read
-              </button>
-            </div>
-          </div>
-        );
-
-      case 'mcq':
-        const [selectedAnswers, setSelectedAnswers] = useState({});
-        const [showResults, setShowResults] = useState(false);
-        const [score, setScore] = useState(0);
-
-        const handleAnswerSelect = (questionIndex, optionIndex) => {
-          if (showResults) return;
-          setSelectedAnswers({
-            ...selectedAnswers,
-            [questionIndex]: optionIndex
-          });
-        };
-
-        const calculateScore = () => {
-          const questions = currentContent.questions || [];
-          let correct = 0;
-          questions.forEach((q, qIndex) => {
-            if (selectedAnswers[qIndex] === q.correctAnswer) {
-              correct++;
-            }
-          });
-          const calculatedScore = Math.round((correct / questions.length) * 100);
-          setScore(calculatedScore);
-          setShowResults(true);
-          
-          // Save score
-          fetch('/api/student/courses/content/complete', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              content_id: currentContent.id,
-              goal_id: goalId,
-              module_id: currentModule?.id,
-              subtopic_id: currentSubtopic?.id,
-              quiz_score: calculatedScore
-            })
-          });
-        };
-
-        return (
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="mb-8">
-              <h2 className="text-2xl font-bold">{currentContent.mcq_title}</h2>
-              <p className="text-gray-600 mt-2">Test your knowledge with this quiz</p>
-            </div>
-
-            <div className="space-y-8">
-              {(currentContent.questions || []).map((question, qIndex) => (
-                <div key={qIndex} className="border rounded-xl p-6">
-                  <h3 className="font-semibold text-lg mb-4">
-                    {qIndex + 1}. {question.question}
-                  </h3>
-                  
-                  <div className="space-y-3">
-                    {question.options.map((option, optIndex) => {
-                      const isSelected = selectedAnswers[qIndex] === optIndex;
-                      const isCorrect = optIndex === question.correctAnswer;
-                      let optionClass = "p-4 border rounded-lg cursor-pointer transition-colors ";
-                      
-                      if (showResults) {
-                        if (isCorrect) {
-                          optionClass += "bg-green-50 border-green-500";
-                        } else if (isSelected && !isCorrect) {
-                          optionClass += "bg-red-50 border-red-500";
-                        } else {
-                          optionClass += "hover:bg-gray-50";
-                        }
-                      } else {
-                        optionClass += isSelected 
-                          ? "bg-blue-50 border-blue-500" 
-                          : "hover:bg-gray-50";
-                      }
-
-                      return (
-                        <div
-                          key={optIndex}
-                          className={optionClass}
-                          onClick={() => handleAnswerSelect(qIndex, optIndex)}
-                        >
-                          <div className="flex items-center">
-                            <div className={`w-6 h-6 rounded-full border mr-3 flex items-center justify-center ${
-                              isSelected ? 'bg-blue-500 border-blue-500' : ''
-                            }`}>
-                              {isSelected && <div className="w-2 h-2 bg-white rounded-full" />}
-                            </div>
-                            <span>{option}</span>
+          case 'cheatsheet':
+              return (
+                  <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm animate-fade-in max-w-4xl mx-auto">
+                      <div className="flex justify-between items-start border-b pb-4 mb-6">
+                          <div>
+                              <div className="flex items-center space-x-2 text-green-600 mb-2">
+                                  <FileText className="w-5 h-5"/>
+                                  <span className="font-semibold uppercase tracking-wide text-xs">Reading Material</span>
+                              </div>
+                              <h2 className="text-3xl font-bold text-gray-900">{currentContent.cheatsheet_title}</h2>
                           </div>
-                        </div>
-                      );
-                    })}
+                          <button 
+                            onClick={() => markCompleted()}
+                            className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition"
+                          >
+                            Mark as Read
+                          </button>
+                      </div>
+                      <div className="prose prose-lg max-w-none text-gray-700" dangerouslySetInnerHTML={{ __html: currentContent.cheatsheet_content }} />
                   </div>
+              );
 
-                  {showResults && question.explanation && (
-                    <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                      <p className="text-sm text-blue-700">{question.explanation}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+          case 'mcq':
+              const questions = currentContent.questions || [];
+              
+              const handleQuizSubmit = () => {
+                  let correct = 0;
+                  questions.forEach((q, idx) => {
+                      if(selectedAnswers[idx] === q.correctAnswer) correct++;
+                  });
+                  const score = Math.round((correct / questions.length) * 100);
+                  setQuizScore(score);
+                  setShowQuizResult(true);
+                  markCompleted(score);
+              };
 
-            <div className="mt-8 pt-6 border-t">
-              {showResults ? (
-                <div className="text-center">
-                  <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mb-4">
-                    <span className="text-2xl font-bold text-white">{score}%</span>
+              return (
+                  <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
+                      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                          <div className="flex items-center space-x-2 text-purple-600 mb-2">
+                                <HelpCircle className="w-5 h-5"/>
+                                <span className="font-semibold uppercase tracking-wide text-xs">Quiz</span>
+                          </div>
+                          <h2 className="text-2xl font-bold text-gray-900">{currentContent.mcq_title}</h2>
+                          <p className="text-gray-500 mt-1">{questions.length} Questions</p>
+                      </div>
+
+                      {showQuizResult ? (
+                          <div className="bg-white p-8 rounded-xl shadow-lg text-center border border-purple-100">
+                              <div className="w-24 h-24 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                  <span className="text-3xl font-bold text-purple-600">{quizScore}%</span>
+                              </div>
+                              <h3 className="text-xl font-bold mb-2">{quizScore >= 70 ? 'Great Job!' : 'Keep Practicing'}</h3>
+                              <p className="text-gray-600 mb-6">You answered {Math.round((quizScore/100)*questions.length)} out of {questions.length} correctly.</p>
+                              <button 
+                                onClick={() => { setShowQuizResult(false); setSelectedAnswers({}); }}
+                                className="text-purple-600 font-medium hover:underline"
+                              >
+                                Retry Quiz
+                              </button>
+                          </div>
+                      ) : (
+                          <div className="space-y-6">
+                              {questions.map((q, idx) => (
+                                  <div key={idx} className="bg-white p-6 rounded-xl border border-gray-200">
+                                      <h3 className="text-lg font-medium text-gray-900 mb-4">{idx + 1}. {q.question}</h3>
+                                      <div className="space-y-2">
+                                          {q.options.map((opt, optIdx) => (
+                                              <div 
+                                                key={optIdx}
+                                                onClick={() => setSelectedAnswers(prev => ({...prev, [idx]: optIdx}))}
+                                                className={`p-3 rounded-lg border cursor-pointer transition flex items-center ${
+                                                    selectedAnswers[idx] === optIdx 
+                                                    ? 'border-purple-500 bg-purple-50 text-purple-900' 
+                                                    : 'border-gray-200 hover:bg-gray-50'
+                                                }`}
+                                              >
+                                                  <div className={`w-4 h-4 rounded-full border mr-3 flex items-center justify-center ${selectedAnswers[idx] === optIdx ? 'border-purple-600 bg-purple-600' : 'border-gray-400'}`}>
+                                                      {selectedAnswers[idx] === optIdx && <div className="w-1.5 h-1.5 bg-white rounded-full"/>}
+                                                  </div>
+                                                  {opt}
+                                              </div>
+                                          ))}
+                                      </div>
+                                  </div>
+                              ))}
+                              <button 
+                                onClick={handleQuizSubmit}
+                                disabled={Object.keys(selectedAnswers).length < questions.length}
+                                className="w-full py-4 bg-purple-600 text-white rounded-xl font-bold text-lg hover:bg-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+                              >
+                                Submit Quiz
+                              </button>
+                          </div>
+                      )}
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Quiz Completed!</h3>
-                  <p className="text-gray-600 mb-6">
-                    You scored {score}% on this quiz
-                  </p>
-                  <button
-                    onClick={() => {
-                      setShowResults(false);
-                      setSelectedAnswers({});
-                      markAsCompleted();
-                    }}
-                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90"
-                  >
-                    Continue Learning
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={calculateScore}
-                  disabled={Object.keys(selectedAnswers).length !== (currentContent.questions || []).length}
-                  className="px-6 py-3 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Submit Quiz
-                </button>
-              )}
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
-    }
+              );
+              
+          default: return null;
+      }
   };
 
+  if(loading) return <div className="h-screen flex items-center justify-center bg-gray-50">Loading Course...</div>;
+
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <div className={`${
-        sidebarOpen ? 'w-80' : 'w-0'
-      } bg-white border-r transition-all duration-300 overflow-hidden`}>
-        <div className="p-4 border-b">
-          <div className="flex justify-between items-center">
-            <h3 className="font-semibold">Course Content</h3>
-            <button 
-              onClick={() => setSidebarOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-          {courseData && (
-            <div className="mt-4">
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <h4 className="font-medium text-blue-900">{courseData.goal.name}</h4>
-                <p className="text-sm text-blue-700">{courseData.goal.description}</p>
-              </div>
-            </div>
-          )}
-        </div>
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden bg-gray-50">
+        {/* Mobile Sidebar Toggle */}
+        <div className={`fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden ${sidebarOpen ? 'block' : 'hidden'}`} onClick={() => setSidebarOpen(false)}/>
 
-        <div className="overflow-y-auto h-[calc(100vh-120px)]">
-          {courseData?.modules.map(module => (
-            <div key={module.id} className="border-b">
-              <div 
-                className="p-4 hover:bg-gray-50 cursor-pointer"
-                onClick={() => setCurrentModule(module)}
-              >
-                <div className="flex items-center justify-between">
-                  <h4 className="font-medium">{module.name}</h4>
-                  <ChevronLeft className={`w-4 h-4 transition-transform ${
-                    currentModule?.id === module.id ? 'rotate-90' : ''
-                  }`} />
-                </div>
-              </div>
-
-              {currentModule?.id === module.id && module.topics?.map(topic => (
-                <div key={topic.id} className="ml-4 border-l">
-                  <div 
-                    className="p-4 hover:bg-gray-50 cursor-pointer border-l-2 border-transparent hover:border-blue-500"
-                    onClick={() => setCurrentTopic(topic)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <h5 className="font-medium">{topic.name}</h5>
-                      <ChevronLeft className={`w-4 h-4 transition-transform ${
-                        currentTopic?.id === topic.id ? 'rotate-90' : ''
-                      }`} />
-                    </div>
-                  </div>
-
-                  {currentTopic?.id === topic.id && topic.subtopics?.map(subtopic => (
-                    <div key={subtopic.id} className="ml-8">
-                      <div 
-                        className="p-4 hover:bg-gray-50 cursor-pointer border-l-2 border-transparent hover:border-purple-500"
-                        onClick={() => {
-                          setCurrentSubtopic(subtopic);
-                          if (subtopic.content?.[0]) {
-                            setCurrentContent(subtopic.content[0]);
-                          }
-                        }}
-                      >
-                        <h6 className="font-medium">{subtopic.name}</h6>
-                        {subtopic.content?.length > 0 && (
-                          <div className="flex items-center space-x-2 mt-1">
-                            {subtopic.content.map(content => {
-                              let Icon = BookOpen;
-                              let color = 'text-gray-400';
-                              
-                              if (content.content_type === 'video') {
-                                Icon = Play;
-                                color = content.progress === 'completed' ? 'text-green-500' : 'text-red-500';
-                              } else if (content.content_type === 'mcq') {
-                                Icon = CheckCircle;
-                                color = content.progress === 'completed' ? 'text-green-500' : 'text-yellow-500';
-                              }
-                              
-                              return (
-                                <div key={content.id} className={`p-1 ${color}`}>
-                                  <Icon className="w-4 h-4" />
-                                </div>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b z-10">
-          <div className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                {!sidebarOpen && (
-                  <button 
-                    onClick={() => setSidebarOpen(true)}
-                    className="p-2 hover:bg-gray-100 rounded"
-                  >
-                    <Menu className="w-5 h-5" />
-                  </button>
-                )}
-                <div>
-                  <h1 className="text-xl font-bold">
-                    {currentSubtopic?.name || 'Select a Lesson'}
-                  </h1>
-                  <p className="text-gray-600 text-sm">
-                    {currentTopic?.name} • {currentModule?.name}
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <button className="p-2 hover:bg-gray-100 rounded">
-                  <Volume2 className="w-5 h-5" />
+        {/* Sidebar */}
+        <div className={`fixed lg:static inset-y-0 left-0 z-30 w-80 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 flex flex-col`}>
+            <div className="p-4 border-b flex justify-between items-center bg-white sticky top-0 z-10">
+                <h3 className="font-bold text-gray-800 truncate" title={courseData?.goal?.name}>{courseData?.goal?.name}</h3>
+                <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-1 hover:bg-gray-100 rounded">
+                    <X className="w-5 h-5"/>
                 </button>
-                <button className="p-2 hover:bg-gray-100 rounded">
-                  <Maximize className="w-5 h-5" />
+            </div>
+            
+            <div className="flex-1 overflow-y-auto custom-scrollbar">
+                {courseData?.modules.map(module => (
+                    <div key={module.id} className="border-b border-gray-100">
+                        <div className="bg-gray-50 p-3 font-semibold text-gray-700 text-sm uppercase tracking-wider">
+                            {module.name}
+                        </div>
+                        {module.topics?.map(topic => (
+                            <div key={topic.id}>
+                                <button 
+                                    onClick={() => toggleTopic(topic.id)}
+                                    className="w-full flex items-center justify-between p-3 hover:bg-gray-50 transition text-left text-sm font-medium text-gray-800"
+                                >
+                                    <span>{topic.name}</span>
+                                    <ChevronDown className={`w-4 h-4 transition-transform ${expandedTopics[topic.id] ? 'rotate-180' : ''}`}/>
+                                </button>
+                                
+                                {expandedTopics[topic.id] && (
+                                    <div className="bg-gray-50 pb-2">
+                                        {topic.subtopics?.map(subtopic => (
+                                            <div key={subtopic.id}>
+                                                {subtopic.content?.map(content => {
+                                                    const isActive = currentContent?.id === content.id;
+                                                    const isCompleted = content.progress === 'completed';
+                                                    
+                                                    let Icon = BookOpen;
+                                                    if(content.content_type === 'video') Icon = Play;
+                                                    if(content.content_type === 'mcq') Icon = HelpCircle;
+
+                                                    return (
+                                                        <button
+                                                            key={content.id}
+                                                            onClick={() => {
+                                                                setCurrentModule(module);
+                                                                setCurrentTopic(topic);
+                                                                setCurrentSubtopic(subtopic);
+                                                                handleContentSelect(content);
+                                                                if(window.innerWidth < 1024) setSidebarOpen(false);
+                                                            }}
+                                                            className={`w-full flex items-center pl-6 pr-3 py-2 text-sm transition border-l-4 ${
+                                                                isActive 
+                                                                ? 'bg-blue-50 border-blue-600 text-blue-700' 
+                                                                : 'border-transparent text-gray-600 hover:bg-gray-100'
+                                                            }`}
+                                                        >
+                                                            <div className="mr-3 relative">
+                                                                {isCompleted ? (
+                                                                    <CheckCircle className="w-4 h-4 text-green-500"/>
+                                                                ) : (
+                                                                    <Icon className={`w-4 h-4 ${isActive ? 'text-blue-600' : 'text-gray-400'}`}/>
+                                                                )}
+                                                            </div>
+                                                            <div className="flex-1 text-left truncate">
+                                                                {content.video_title || content.cheatsheet_title || content.mcq_title}
+                                                            </div>
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="flex-1 flex flex-col h-full overflow-hidden w-full">
+            <div className="bg-white border-b px-6 py-3 flex items-center shadow-sm z-10">
+                <button onClick={() => setSidebarOpen(!sidebarOpen)} className="lg:hidden mr-4 p-2 hover:bg-gray-100 rounded-lg">
+                    <Menu className="w-6 h-6"/>
                 </button>
-              </div>
+                <button onClick={() => navigate('/dashboard')} className="flex items-center text-gray-500 hover:text-gray-900 transition mr-4">
+                    <ChevronLeft className="w-5 h-5"/>
+                    <span className="hidden sm:inline">Dashboard</span>
+                </button>
+                <div className="border-l pl-4">
+                    <h1 className="text-lg font-bold text-gray-900 truncate max-w-[200px] sm:max-w-md">
+                        {currentContent ? (currentContent.video_title || currentContent.cheatsheet_title || currentContent.mcq_title) : "Course Player"}
+                    </h1>
+                </div>
             </div>
-          </div>
-        </div>
-
-        <div className="p-6 max-w-4xl mx-auto">
-          {renderContent()}
-
-          {/* Navigation */}
-          {currentContent && (
-            <div className="mt-8 flex justify-between">
-              <button className="px-6 py-3 border rounded-lg font-medium hover:bg-gray-50 flex items-center space-x-2">
-                <ChevronLeft className="w-4 h-4" />
-                <span>Previous Lesson</span>
-              </button>
-              <button className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium hover:opacity-90 flex items-center space-x-2">
-                <span>Next Lesson</span>
-                <ChevronLeft className="w-4 h-4 rotate-180" />
-              </button>
+            
+            <div className="flex-1 overflow-y-auto p-4 sm:p-8 bg-gray-50">
+                {renderContent()}
             </div>
-          )}
         </div>
-      </div>
     </div>
   );
 };

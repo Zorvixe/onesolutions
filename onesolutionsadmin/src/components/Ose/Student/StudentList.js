@@ -21,11 +21,18 @@ const StudentList = () => {
     last_name: "",
     phone: "",
     student_type: "zorvixe_core", // Added student_type
+    course_selection: "web_development", // New field
     batch_month: "",
     batch_year: "",
     password: "",
     status: "active",
   });
+  // Add course options:
+const courseOptions = [
+  { value: "web_development", label: "Web Development" },
+  { value: "digital_marketing", label: "Digital Marketing" },
+];
+
   const [editingStudent, setEditingStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +51,7 @@ const StudentList = () => {
     batchYear: "",
     status: "",
     studentType: "", // Added studentType filter
+    courseSelection: "", // New filter
   });
 
   // Pagination state
@@ -497,6 +505,9 @@ const StudentList = () => {
     );
   }
 
+  if (filters.courseSelection) params.append("courseSelection", filters.courseSelection);
+
+
   const studentTypeStats = getStudentTypeStats();
 
   return (
@@ -698,6 +709,20 @@ const StudentList = () => {
               ))}
             </select>
           </div>
+          <div className="filter-group-stud">
+            <label>Course</label>
+            <select
+              value={filters.courseSelection}
+              onChange={(e) => handleFilterChange("courseSelection", e.target.value)}
+            >
+              <option value="">All Courses</option>
+              {courseOptions.map((course) => (
+                <option key={course.value} value={course.value}>
+                  {course.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -739,6 +764,7 @@ const StudentList = () => {
                   <th>Student</th>
                   <th>Contact</th>
                   <th>Type</th> {/* Added Type column */}
+                  <th>Course</th>
                   <th>Batch</th>
                   <th>Password</th>
                   <th>Status</th>
@@ -798,6 +824,9 @@ const StudentList = () => {
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getStudentTypeBadge(student.student_type || "zorvixe_core")}
+                    </td>
+                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
+                      {student.course_selection === 'digital_marketing' ? 'Digital Marketing' : 'Web Development'}
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getBatchInfo(student.batch_month, student.batch_year)}
@@ -996,6 +1025,30 @@ const StudentList = () => {
                     {studentTypes.map((type) => (
                       <option key={type.value} value={type.value}>
                         {type.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="form-group-stud">
+                  <label htmlFor="course-selection" className="form-label-stud">
+                    Course *
+                  </label>
+                  <select
+                    className="form-input-stud"
+                    id="course-selection"
+                    value={formData.course_selection}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        course_selection: e.target.value,
+                      })
+                    }
+                    required
+                  >
+                    {courseOptions.map((course) => (
+                      <option key={course.value} value={course.value}>
+                        {course.label}
                       </option>
                     ))}
                   </select>
