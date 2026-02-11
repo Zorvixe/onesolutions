@@ -153,6 +153,7 @@ const CourseManagement = () => {
 
   // Selection Handlers
   const handleGoalSelect = async (goal) => {
+    if (editingGoal) return; // Prevent selection while editing
     if (expandedGoals[goal.id]) {
       setExpandedGoals({ ...expandedGoals, [goal.id]: false });
       if (selectedGoal?.id === goal.id) {
@@ -175,6 +176,7 @@ const CourseManagement = () => {
   };
 
   const handleModuleSelect = async (module) => {
+    if (editingModule) return;
     if (expandedModules[module.id]) {
       setExpandedModules({ ...expandedModules, [module.id]: false });
       if (selectedModule?.id === module.id) {
@@ -194,6 +196,7 @@ const CourseManagement = () => {
   };
 
   const handleTopicSelect = async (topic) => {
+    if (editingTopic) return;
     if (expandedTopics[topic.id]) {
       setExpandedTopics({ ...expandedTopics, [topic.id]: false });
       if (selectedTopic?.id === topic.id) {
@@ -210,6 +213,7 @@ const CourseManagement = () => {
   };
 
   const handleSubtopicSelect = (subtopic) => {
+    if (editingSubtopic) return;
     setSelectedSubtopic(subtopic);
     fetchContent(subtopic.id);
   };
@@ -353,11 +357,15 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      // Check if data has data property (your API returns { success: true, data: {...} })
       if (data.data) {
+        const updatedGoal = data.data;
         setGoals(
-          goals.map((g) => (g.id === goalId ? { ...g, name: editGoalName } : g))
+          goals.map((g) => (g.id === goalId ? updatedGoal : g))
         );
+        // Also update selectedGoal if it is the one being edited
+        if (selectedGoal?.id === goalId) {
+          setSelectedGoal(updatedGoal);
+        }
         setEditingGoal(null);
         setEditGoalName("");
       } else {
@@ -425,11 +433,16 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.data) {
+        const updatedModule = data.data;
         setModules(
           modules.map((m) =>
-            m.id === moduleId ? { ...m, name: editModuleName } : m
+            m.id === moduleId ? updatedModule : m
           )
         );
+        // Update selectedModule if it's the current one
+        if (selectedModule?.id === moduleId) {
+          setSelectedModule(updatedModule);
+        }
         setEditingModule(null);
         setEditModuleName("");
       } else {
@@ -440,8 +453,6 @@ const CourseManagement = () => {
       alert("Error updating module");
     }
   };
-  
-  
 
   const deleteModule = async (moduleId, e) => {
     e.stopPropagation();
@@ -497,11 +508,16 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.data) {
+        const updatedTopic = data.data;
         setTopics(
           topics.map((t) =>
-            t.id === topicId ? { ...t, name: editTopicName } : t
+            t.id === topicId ? updatedTopic : t
           )
         );
+        // Update selectedTopic if active
+        if (selectedTopic?.id === topicId) {
+            setSelectedTopic(updatedTopic);
+        }
         setEditingTopic(null);
         setEditTopicName("");
       } else {
@@ -565,17 +581,18 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.data) {
+        const updatedSubtopic = data.data;
         setSubtopics(
           subtopics.map((s) =>
-            s.id === subtopicId ? { ...s, name: editSubtopicName } : s
+            s.id === subtopicId ? updatedSubtopic : s
           )
         );
-        setEditingSubtopic(null);
-        setEditSubtopicName("");
         
         if (selectedSubtopic?.id === subtopicId) {
-          setSelectedSubtopic({ ...selectedSubtopic, name: editSubtopicName });
+          setSelectedSubtopic(updatedSubtopic);
         }
+        setEditingSubtopic(null);
+        setEditSubtopicName("");
       } else {
         alert(data.message || "Failed to update subtopic");
       }
@@ -648,6 +665,7 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.data) {
+        // Optimistically update the content list
         setContent(
           content.map((c) => {
             if (c.id === contentId) {
@@ -797,6 +815,7 @@ const CourseManagement = () => {
                             e.key === "Enter" && saveEditGoal(goal.id, e)
                           }
                           autoFocus
+                          onClick={(e) => e.stopPropagation()}
                         />
                         <button
                           onClick={(e) => saveEditGoal(goal.id, e)}
@@ -888,6 +907,7 @@ const CourseManagement = () => {
                                   saveEditModule(module.id, e)
                                 }
                                 autoFocus
+                                onClick={(e) => e.stopPropagation()}
                               />
                               <button
                                 onClick={(e) => saveEditModule(module.id, e)}
@@ -986,6 +1006,7 @@ const CourseManagement = () => {
                                             saveEditTopic(topic.id, e)
                                           }
                                           autoFocus
+                                          onClick={(e) => e.stopPropagation()}
                                         />
                                         <button
                                           onClick={(e) =>
@@ -1100,6 +1121,7 @@ const CourseManagement = () => {
                                                     )
                                                   }
                                                   autoFocus
+                                                  onClick={(e) => e.stopPropagation()}
                                                 />
                                                 <button
                                                   onClick={(e) =>
@@ -1223,6 +1245,7 @@ const CourseManagement = () => {
                           saveEditSubtopic(selectedSubtopic.id, e)
                         }
                         autoFocus
+                        onClick={(e) => e.stopPropagation()}
                       />
                       <button
                         onClick={(e) =>
@@ -1355,6 +1378,7 @@ const CourseManagement = () => {
                                     saveEditContent(item.id, e)
                                   }
                                   autoFocus
+                                  onClick={(e) => e.stopPropagation()}
                                 />
                                 <button
                                   onClick={(e) => saveEditContent(item.id, e)}
@@ -1365,6 +1389,7 @@ const CourseManagement = () => {
                                 <button
                                   onClick={cancelEdit}
                                   className="course-cancel-btn"
+                                  type="button"
                                 >
                                   <X size={14} />
                                 </button>
