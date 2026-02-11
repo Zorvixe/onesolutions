@@ -675,6 +675,7 @@ app.get('/api/student/courses/progress/overall', authenticate, async (req, res) 
 
 // Add these routes to your backend server code
 // Update Goal - NO AUTHENTICATE
+// Update Goal - NO AUTHENTICATE
 app.put('/api/admin/course/goals/:goalId', async (req, res) => {
     try {
         const { goalId } = req.params;
@@ -713,23 +714,8 @@ app.put('/api/admin/course/goals/:goalId', async (req, res) => {
             return res.status(404).json({ success: false, message: 'Goal not found' });
         }
         
+        // Return with success: true and data property
         res.json({ success: true, data: result.rows[0] });
-    } catch (e) {
-        res.status(500).json({ success: false, error: e.message });
-    }
-});
-
-// Delete Goal - NO AUTHENTICATE
-app.delete('/api/admin/course/goals/:goalId', async (req, res) => {
-    try {
-        const { goalId } = req.params;
-        const result = await pool.query('DELETE FROM course_goals WHERE id = $1 RETURNING *', [goalId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Goal not found' });
-        }
-        
-        res.json({ success: true, message: 'Goal deleted successfully' });
     } catch (e) {
         res.status(500).json({ success: false, error: e.message });
     }
@@ -772,22 +758,6 @@ app.put('/api/admin/course/modules/:moduleId', async (req, res) => {
     }
 });
 
-// Delete Module - NO AUTHENTICATE
-app.delete('/api/admin/course/modules/:moduleId', async (req, res) => {
-    try {
-        const { moduleId } = req.params;
-        const result = await pool.query('DELETE FROM course_modules WHERE id = $1 RETURNING *', [moduleId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Module not found' });
-        }
-        
-        res.json({ success: true, message: 'Module deleted successfully' });
-    } catch (e) {
-        res.status(500).json({ success: false, error: e.message });
-    }
-});
-
 // Update Topic - NO AUTHENTICATE
 app.put('/api/admin/course/topics/:topicId', async (req, res) => {
     try {
@@ -825,22 +795,6 @@ app.put('/api/admin/course/topics/:topicId', async (req, res) => {
     }
 });
 
-// Delete Topic - NO AUTHENTICATE
-app.delete('/api/admin/course/topics/:topicId', async (req, res) => {
-    try {
-        const { topicId } = req.params;
-        const result = await pool.query('DELETE FROM course_topics WHERE id = $1 RETURNING *', [topicId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Topic not found' });
-        }
-        
-        res.json({ success: true, message: 'Topic deleted successfully' });
-    } catch (e) {
-        res.status(500).json({ success: false, error: e.message });
-    }
-});
-
 // Update Subtopic - NO AUTHENTICATE
 app.put('/api/admin/course/subtopics/:subtopicId', async (req, res) => {
     try {
@@ -873,22 +827,6 @@ app.put('/api/admin/course/subtopics/:subtopicId', async (req, res) => {
         }
         
         res.json({ success: true, data: result.rows[0] });
-    } catch (e) {
-        res.status(500).json({ success: false, error: e.message });
-    }
-});
-
-// Delete Subtopic - NO AUTHENTICATE
-app.delete('/api/admin/course/subtopics/:subtopicId', async (req, res) => {
-    try {
-        const { subtopicId } = req.params;
-        const result = await pool.query('DELETE FROM course_subtopics WHERE id = $1 RETURNING *', [subtopicId]);
-        
-        if (result.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Subtopic not found' });
-        }
-        
-        res.json({ success: true, message: 'Subtopic deleted successfully' });
     } catch (e) {
         res.status(500).json({ success: false, error: e.message });
     }
@@ -946,6 +884,77 @@ app.put('/api/admin/course/content/:contentId', async (req, res) => {
         res.status(500).json({ success: false, error: e.message });
     }
 });
+
+// Delete Goal - NO AUTHENTICATE
+app.delete('/api/admin/course/goals/:goalId', async (req, res) => {
+    try {
+        const { goalId } = req.params;
+        const result = await pool.query('DELETE FROM course_goals WHERE id = $1 RETURNING *', [goalId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Goal not found' });
+        }
+        
+        res.json({ success: true, message: 'Goal deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+
+
+// Delete Module - NO AUTHENTICATE
+app.delete('/api/admin/course/modules/:moduleId', async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const result = await pool.query('DELETE FROM course_modules WHERE id = $1 RETURNING *', [moduleId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Module not found' });
+        }
+        
+        res.json({ success: true, message: 'Module deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+
+
+// Delete Topic - NO AUTHENTICATE
+app.delete('/api/admin/course/topics/:topicId', async (req, res) => {
+    try {
+        const { topicId } = req.params;
+        const result = await pool.query('DELETE FROM course_topics WHERE id = $1 RETURNING *', [topicId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Topic not found' });
+        }
+        
+        res.json({ success: true, message: 'Topic deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+
+
+// Delete Subtopic - NO AUTHENTICATE
+app.delete('/api/admin/course/subtopics/:subtopicId', async (req, res) => {
+    try {
+        const { subtopicId } = req.params;
+        const result = await pool.query('DELETE FROM course_subtopics WHERE id = $1 RETURNING *', [subtopicId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Subtopic not found' });
+        }
+        
+        res.json({ success: true, message: 'Subtopic deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
 
 // Delete Content - NO AUTHENTICATE
 app.delete('/api/admin/course/content/:contentId', async (req, res) => {

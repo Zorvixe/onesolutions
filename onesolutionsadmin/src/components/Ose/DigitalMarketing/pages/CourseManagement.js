@@ -344,7 +344,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",  // CRITICAL - This was missing
+            "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -353,7 +353,8 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      if (data.success) {
+      // Check if data has data property (your API returns { success: true, data: {...} })
+      if (data.data) {
         setGoals(
           goals.map((g) => (g.id === goalId ? { ...g, name: editGoalName } : g))
         );
@@ -414,7 +415,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",  // CRITICAL - This was missing
+            "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -423,7 +424,7 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      if (data.success) {
+      if (data.data) {
         setModules(
           modules.map((m) =>
             m.id === moduleId ? { ...m, name: editModuleName } : m
@@ -439,6 +440,7 @@ const CourseManagement = () => {
       alert("Error updating module");
     }
   };
+  
   
 
   const deleteModule = async (moduleId, e) => {
@@ -485,7 +487,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",  // CRITICAL - This was missing
+            "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -494,7 +496,7 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      if (data.success) {
+      if (data.data) {
         setTopics(
           topics.map((t) =>
             t.id === topicId ? { ...t, name: editTopicName } : t
@@ -553,7 +555,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",  // CRITICAL - This was missing
+            "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -562,7 +564,7 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      if (data.success) {
+      if (data.data) {
         setSubtopics(
           subtopics.map((s) =>
             s.id === subtopicId ? { ...s, name: editSubtopicName } : s
@@ -571,7 +573,6 @@ const CourseManagement = () => {
         setEditingSubtopic(null);
         setEditSubtopicName("");
         
-        // Also update selectedSubtopic if it's the one being edited
         if (selectedSubtopic?.id === subtopicId) {
           setSelectedSubtopic({ ...selectedSubtopic, name: editSubtopicName });
         }
@@ -637,7 +638,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",  // CRITICAL - This was missing
+            "Content-Type": "application/json",
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -646,7 +647,7 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      if (data.success) {
+      if (data.data) {
         setContent(
           content.map((c) => {
             if (c.id === contentId) {
