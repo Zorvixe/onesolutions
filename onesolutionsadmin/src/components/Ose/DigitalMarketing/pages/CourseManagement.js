@@ -32,10 +32,12 @@ import "./CourseManagement.css";
 
 const CourseManagement = () => {
   const [goals, setGoals] = useState([]);
-  const [modules, setModules] = useState([]);
-  const [topics, setTopics] = useState([]);
-  const [subtopics, setSubtopics] = useState([]);
-  const [content, setContent] = useState([]);
+  
+  // Store data in objects keyed by parent ID instead of arrays
+  const [modulesByGoal, setModulesByGoal] = useState({});
+  const [topicsByModule, setTopicsByModule] = useState({});
+  const [subtopicsByTopic, setSubtopicsByTopic] = useState({});
+  const [contentBySubtopic, setContentBySubtopic] = useState({});
 
   const [selectedGoal, setSelectedGoal] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
@@ -68,12 +70,27 @@ const CourseManagement = () => {
   const [expandedModules, setExpandedModules] = useState({});
   const [expandedTopics, setExpandedTopics] = useState({});
 
-  // Authentication Token
+  const [activeMenu, setActiveMenu] = useState(null);
+  const [addingTo, setAddingTo] = useState(null);
+  
+  // Store which parent's children are currently loading
+  const [loadingStates, setLoadingStates] = useState({
+    modules: {},
+    topics: {},
+    subtopics: {},
+    content: {}
+  });
+
   const getToken = () => localStorage.getItem("token");
 
-  // Fetch goals on mount
   useEffect(() => {
     fetchGoals();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = () => setActiveMenu(null);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
   const fetchGoals = async () => {
@@ -92,6 +109,13 @@ const CourseManagement = () => {
   };
 
   const fetchModules = async (goalId) => {
+    if (loadingStates.modules[goalId]) return;
+    
+    setLoadingStates(prev => ({
+      ...prev,
+      modules: { ...prev.modules, [goalId]: true }
+    }));
+    
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/goals/${goalId}/modules`,
@@ -100,13 +124,28 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setModules(data.data || []);
+      setModulesByGoal(prev => ({
+        ...prev,
+        [goalId]: data.data || []
+      }));
     } catch (error) {
       console.error("Error fetching modules:", error);
+    } finally {
+      setLoadingStates(prev => ({
+        ...prev,
+        modules: { ...prev.modules, [goalId]: false }
+      }));
     }
   };
 
   const fetchTopics = async (moduleId) => {
+    if (loadingStates.topics[moduleId]) return;
+    
+    setLoadingStates(prev => ({
+      ...prev,
+      topics: { ...prev.topics, [moduleId]: true }
+    }));
+    
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/modules/${moduleId}/topics`,
@@ -115,13 +154,28 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setTopics(data.data || []);
+      setTopicsByModule(prev => ({
+        ...prev,
+        [moduleId]: data.data || []
+      }));
     } catch (error) {
       console.error("Error fetching topics:", error);
+    } finally {
+      setLoadingStates(prev => ({
+        ...prev,
+        topics: { ...prev.topics, [moduleId]: false }
+      }));
     }
   };
 
   const fetchSubtopics = async (topicId) => {
+    if (loadingStates.subtopics[topicId]) return;
+    
+    setLoadingStates(prev => ({
+      ...prev,
+      subtopics: { ...prev.subtopics, [topicId]: true }
+    }));
+    
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/topics/${topicId}/subtopics`,
@@ -130,13 +184,28 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setSubtopics(data.data || []);
+      setSubtopicsByTopic(prev => ({
+        ...prev,
+        [topicId]: data.data || []
+      }));
     } catch (error) {
       console.error("Error fetching subtopics:", error);
+    } finally {
+      setLoadingStates(prev => ({
+        ...prev,
+        subtopics: { ...prev.subtopics, [topicId]: false }
+      }));
     }
   };
 
   const fetchContent = async (subtopicId) => {
+    if (loadingStates.content[subtopicId]) return;
+    
+    setLoadingStates(prev => ({
+      ...prev,
+      content: { ...prev.content, [subtopicId]: true }
+    }));
+    
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/content`,
@@ -145,70 +214,74 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setContent(data.data || []);
+      setContentBySubtopic(prev => ({
+        ...prev,
+        [subtopicId]: data.data || []
+      }));
     } catch (error) {
       console.error("Error fetching content:", error);
+    } finally {
+      setLoadingStates(prev => ({
+        ...prev,
+        content: { ...prev.content, [subtopicId]: false }
+      }));
     }
   };
 
-  // Selection Handlers
   const handleGoalSelect = async (goal) => {
-    if (editingGoal) return; // Prevent selection while editing
-    if (expandedGoals[goal.id]) {
-      setExpandedGoals({ ...expandedGoals, [goal.id]: false });
+    if (editingGoal) return;
+    
+    const newExpandedState = !expandedGoals[goal.id];
+    
+    setExpandedGoals({ ...expandedGoals, [goal.id]: newExpandedState });
+    
+    if (newExpandedState) {
+      setSelectedGoal(goal);
+      await fetchModules(goal.id);
+    } else {
       if (selectedGoal?.id === goal.id) {
         setSelectedGoal(null);
         setSelectedModule(null);
         setSelectedTopic(null);
         setSelectedSubtopic(null);
-        setModules([]);
-        setTopics([]);
-        setSubtopics([]);
       }
-    } else {
-      setExpandedGoals({ ...expandedGoals, [goal.id]: true });
-      setSelectedGoal(goal);
-      setSelectedModule(null);
-      setSelectedTopic(null);
-      setSelectedSubtopic(null);
-      await fetchModules(goal.id);
     }
   };
 
   const handleModuleSelect = async (module) => {
     if (editingModule) return;
-    if (expandedModules[module.id]) {
-      setExpandedModules({ ...expandedModules, [module.id]: false });
+    
+    const newExpandedState = !expandedModules[module.id];
+    
+    setExpandedModules({ ...expandedModules, [module.id]: newExpandedState });
+    
+    if (newExpandedState) {
+      setSelectedModule(module);
+      await fetchTopics(module.id);
+    } else {
       if (selectedModule?.id === module.id) {
         setSelectedModule(null);
         setSelectedTopic(null);
         setSelectedSubtopic(null);
-        setTopics([]);
-        setSubtopics([]);
       }
-    } else {
-      setExpandedModules({ ...expandedModules, [module.id]: true });
-      setSelectedModule(module);
-      setSelectedTopic(null);
-      setSelectedSubtopic(null);
-      await fetchTopics(module.id);
     }
   };
 
   const handleTopicSelect = async (topic) => {
     if (editingTopic) return;
-    if (expandedTopics[topic.id]) {
-      setExpandedTopics({ ...expandedTopics, [topic.id]: false });
+    
+    const newExpandedState = !expandedTopics[topic.id];
+    
+    setExpandedTopics({ ...expandedTopics, [topic.id]: newExpandedState });
+    
+    if (newExpandedState) {
+      setSelectedTopic(topic);
+      await fetchSubtopics(topic.id);
+    } else {
       if (selectedTopic?.id === topic.id) {
         setSelectedTopic(null);
         setSelectedSubtopic(null);
-        setSubtopics([]);
       }
-    } else {
-      setExpandedTopics({ ...expandedTopics, [topic.id]: true });
-      setSelectedTopic(topic);
-      setSelectedSubtopic(null);
-      await fetchSubtopics(topic.id);
     }
   };
 
@@ -218,7 +291,57 @@ const CourseManagement = () => {
     fetchContent(subtopic.id);
   };
 
-  // Creation Handlers
+  const toggleMenu = (type, id, e) => {
+    e.stopPropagation();
+    if (activeMenu?.type === type && activeMenu?.id === id) {
+      setActiveMenu(null);
+    } else {
+      setActiveMenu({ type, id });
+    }
+  };
+
+  const handleMenuAction = async (action, type, item, e) => {
+    e.stopPropagation();
+    setActiveMenu(null);
+
+    if (action === "edit") {
+      if (type === "goal") startEditGoal(item, e);
+      if (type === "module") startEditModule(item, e);
+      if (type === "topic") startEditTopic(item, e);
+      if (type === "subtopic") startEditSubtopic(item, e);
+    } else if (action === "delete") {
+      if (type === "goal") deleteGoal(item.id, e);
+      if (type === "module") deleteModule(item.id, e);
+      if (type === "topic") deleteTopic(item.id, e);
+      if (type === "subtopic") deleteSubtopic(item.id, e);
+    } else if (action === "add") {
+      if (type === "goal") {
+        setAddingTo({ type: "goal", id: item.id });
+        setSelectedGoal(item);
+        if (!expandedGoals[item.id]) {
+          setExpandedGoals({ ...expandedGoals, [item.id]: true });
+          await fetchModules(item.id);
+        }
+      }
+      if (type === "module") {
+        setAddingTo({ type: "module", id: item.id });
+        setSelectedModule(item);
+        if (!expandedModules[item.id]) {
+          setExpandedModules({ ...expandedModules, [item.id]: true });
+          await fetchTopics(item.id);
+        }
+      }
+      if (type === "topic") {
+        setAddingTo({ type: "topic", id: item.id });
+        setSelectedTopic(item);
+        if (!expandedTopics[item.id]) {
+          setExpandedTopics({ ...expandedTopics, [item.id]: true });
+          await fetchSubtopics(item.id);
+        }
+      }
+    }
+  };
+
   const createGoal = async () => {
     if (!newGoalName.trim()) return;
     try {
@@ -242,6 +365,7 @@ const CourseManagement = () => {
       if (data.success) {
         setGoals([...goals, data.data]);
         setNewGoalName("");
+        setAddingTo(null);
       }
     } catch (error) {
       console.error("Error creating goal:", error);
@@ -268,8 +392,12 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setModules([...modules, data.data]);
+        setModulesByGoal(prev => ({
+          ...prev,
+          [selectedGoal.id]: [...(prev[selectedGoal.id] || []), data.data]
+        }));
         setNewModuleName("");
+        setAddingTo(null);
       }
     } catch (error) {
       console.error("Error creating module:", error);
@@ -296,8 +424,12 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setTopics([...topics, data.data]);
+        setTopicsByModule(prev => ({
+          ...prev,
+          [selectedModule.id]: [...(prev[selectedModule.id] || []), data.data]
+        }));
         setNewTopicName("");
+        setAddingTo(null);
       }
     } catch (error) {
       console.error("Error creating topic:", error);
@@ -324,17 +456,19 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setSubtopics([...subtopics, data.data]);
+        setSubtopicsByTopic(prev => ({
+          ...prev,
+          [selectedTopic.id]: [...(prev[selectedTopic.id] || []), data.data]
+        }));
         setNewSubtopicName("");
+        setAddingTo(null);
       }
     } catch (error) {
       console.error("Error creating subtopic:", error);
     }
   };
 
-  // Edit Handlers
   const startEditGoal = (goal, e) => {
-    e.stopPropagation();
     setEditingGoal(goal.id);
     setEditGoalName(goal.name);
   };
@@ -360,7 +494,6 @@ const CourseManagement = () => {
       if (data.data) {
         const updatedGoal = data.data;
         setGoals(goals.map((g) => (g.id === goalId ? updatedGoal : g)));
-        // Also update selectedGoal if it is the one being edited
         if (selectedGoal?.id === goalId) {
           setSelectedGoal(updatedGoal);
         }
@@ -376,7 +509,7 @@ const CourseManagement = () => {
   };
 
   const deleteGoal = async (goalId, e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!window.confirm("Are you sure you want to delete this goal?")) return;
     try {
       const res = await fetch(
@@ -391,14 +524,16 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.success) {
         setGoals(goals.filter((g) => g.id !== goalId));
+        // Clean up related data
+        const newModulesByGoal = { ...modulesByGoal };
+        delete newModulesByGoal[goalId];
+        setModulesByGoal(newModulesByGoal);
+        
         if (selectedGoal?.id === goalId) {
           setSelectedGoal(null);
           setSelectedModule(null);
           setSelectedTopic(null);
           setSelectedSubtopic(null);
-          setModules([]);
-          setTopics([]);
-          setSubtopics([]);
         }
       }
     } catch (error) {
@@ -407,7 +542,6 @@ const CourseManagement = () => {
   };
 
   const startEditModule = (module, e) => {
-    e.stopPropagation();
     setEditingModule(module.id);
     setEditModuleName(module.name);
   };
@@ -432,8 +566,18 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedModule = data.data;
-        setModules(modules.map((m) => (m.id === moduleId ? updatedModule : m)));
-        // Update selectedModule if it's the current one
+        
+        // Find which goal this module belongs to
+        for (const [goalId, modules] of Object.entries(modulesByGoal)) {
+          if (modules.some(m => m.id === moduleId)) {
+            setModulesByGoal(prev => ({
+              ...prev,
+              [goalId]: prev[goalId].map(m => m.id === moduleId ? updatedModule : m)
+            }));
+            break;
+          }
+        }
+        
         if (selectedModule?.id === moduleId) {
           setSelectedModule(updatedModule);
         }
@@ -449,7 +593,7 @@ const CourseManagement = () => {
   };
 
   const deleteModule = async (moduleId, e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!window.confirm("Are you sure you want to delete this module?")) return;
     try {
       const res = await fetch(
@@ -463,13 +607,21 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setModules(modules.filter((m) => m.id !== moduleId));
+        // Remove module from its parent goal
+        for (const [goalId, modules] of Object.entries(modulesByGoal)) {
+          if (modules.some(m => m.id === moduleId)) {
+            setModulesByGoal(prev => ({
+              ...prev,
+              [goalId]: prev[goalId].filter(m => m.id !== moduleId)
+            }));
+            break;
+          }
+        }
+        
         if (selectedModule?.id === moduleId) {
           setSelectedModule(null);
           setSelectedTopic(null);
           setSelectedSubtopic(null);
-          setTopics([]);
-          setSubtopics([]);
         }
       }
     } catch (error) {
@@ -478,7 +630,6 @@ const CourseManagement = () => {
   };
 
   const startEditTopic = (topic, e) => {
-    e.stopPropagation();
     setEditingTopic(topic.id);
     setEditTopicName(topic.name);
   };
@@ -503,8 +654,18 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedTopic = data.data;
-        setTopics(topics.map((t) => (t.id === topicId ? updatedTopic : t)));
-        // Update selectedTopic if active
+        
+        // Find which module this topic belongs to
+        for (const [moduleId, topics] of Object.entries(topicsByModule)) {
+          if (topics.some(t => t.id === topicId)) {
+            setTopicsByModule(prev => ({
+              ...prev,
+              [moduleId]: prev[moduleId].map(t => t.id === topicId ? updatedTopic : t)
+            }));
+            break;
+          }
+        }
+        
         if (selectedTopic?.id === topicId) {
           setSelectedTopic(updatedTopic);
         }
@@ -520,7 +681,7 @@ const CourseManagement = () => {
   };
 
   const deleteTopic = async (topicId, e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!window.confirm("Are you sure you want to delete this topic?")) return;
     try {
       const res = await fetch(
@@ -534,11 +695,20 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setTopics(topics.filter((t) => t.id !== topicId));
+        // Remove topic from its parent module
+        for (const [moduleId, topics] of Object.entries(topicsByModule)) {
+          if (topics.some(t => t.id === topicId)) {
+            setTopicsByModule(prev => ({
+              ...prev,
+              [moduleId]: prev[moduleId].filter(t => t.id !== topicId)
+            }));
+            break;
+          }
+        }
+        
         if (selectedTopic?.id === topicId) {
           setSelectedTopic(null);
           setSelectedSubtopic(null);
-          setSubtopics([]);
         }
       }
     } catch (error) {
@@ -547,7 +717,6 @@ const CourseManagement = () => {
   };
 
   const startEditSubtopic = (subtopic, e) => {
-    e.stopPropagation();
     setEditingSubtopic(subtopic.id);
     setEditSubtopicName(subtopic.name);
   };
@@ -572,9 +741,17 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedSubtopic = data.data;
-        setSubtopics(
-          subtopics.map((s) => (s.id === subtopicId ? updatedSubtopic : s))
-        );
+        
+        // Find which topic this subtopic belongs to
+        for (const [topicId, subtopics] of Object.entries(subtopicsByTopic)) {
+          if (subtopics.some(s => s.id === subtopicId)) {
+            setSubtopicsByTopic(prev => ({
+              ...prev,
+              [topicId]: prev[topicId].map(s => s.id === subtopicId ? updatedSubtopic : s)
+            }));
+            break;
+          }
+        }
 
         if (selectedSubtopic?.id === subtopicId) {
           setSelectedSubtopic(updatedSubtopic);
@@ -591,7 +768,7 @@ const CourseManagement = () => {
   };
 
   const deleteSubtopic = async (subtopicId, e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!window.confirm("Are you sure you want to delete this subtopic?"))
       return;
     try {
@@ -606,7 +783,17 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setSubtopics(subtopics.filter((s) => s.id !== subtopicId));
+        // Remove subtopic from its parent topic
+        for (const [topicId, subtopics] of Object.entries(subtopicsByTopic)) {
+          if (subtopics.some(s => s.id === subtopicId)) {
+            setSubtopicsByTopic(prev => ({
+              ...prev,
+              [topicId]: prev[topicId].filter(s => s.id !== subtopicId)
+            }));
+            break;
+          }
+        }
+        
         if (selectedSubtopic?.id === subtopicId) {
           setSelectedSubtopic(null);
         }
@@ -630,8 +817,11 @@ const CourseManagement = () => {
     e.stopPropagation();
     if (!editContentTitle.trim()) return;
     try {
+      const subtopicId = selectedSubtopic?.id;
+      const currentContent = contentBySubtopic[subtopicId] || [];
+      const contentItem = currentContent.find(c => c.id === contentId);
       let field = "";
-      let contentType = content.find((c) => c.id === contentId)?.content_type;
+      let contentType = contentItem?.content_type;
 
       if (contentType === "video") field = "video_title";
       else if (contentType === "cheatsheet") field = "cheatsheet_title";
@@ -652,9 +842,9 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.data) {
-        // Optimistically update the content list
-        setContent(
-          content.map((c) => {
+        setContentBySubtopic(prev => ({
+          ...prev,
+          [subtopicId]: prev[subtopicId].map(c => {
             if (c.id === contentId) {
               if (c.content_type === "video")
                 return { ...c, video_title: editContentTitle };
@@ -665,7 +855,7 @@ const CourseManagement = () => {
             }
             return c;
           })
-        );
+        }));
         setEditingContent(null);
         setEditContentTitle("");
       } else {
@@ -693,7 +883,11 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setContent(content.filter((c) => c.id !== contentId));
+        const subtopicId = selectedSubtopic?.id;
+        setContentBySubtopic(prev => ({
+          ...prev,
+          [subtopicId]: prev[subtopicId].filter(c => c.id !== contentId)
+        }));
       }
     } catch (error) {
       console.error("Error deleting content:", error);
@@ -701,15 +895,15 @@ const CourseManagement = () => {
   };
 
   const cancelEdit = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setEditingGoal(null);
     setEditingModule(null);
     setEditingTopic(null);
     setEditingSubtopic(null);
     setEditingContent(null);
+    setAddingTo(null);
   };
 
-  // Get icon for content type
   const getContentIcon = (type) => {
     switch (type) {
       case "video":
@@ -722,6 +916,62 @@ const CourseManagement = () => {
         return <File className="course-content-icon" />;
     }
   };
+
+  const renderActionMenu = (type, item) => {
+    const isEditing =
+      (type === "goal" && editingGoal === item.id) ||
+      (type === "module" && editingModule === item.id) ||
+      (type === "topic" && editingTopic === item.id) ||
+      (type === "subtopic" && editingSubtopic === item.id);
+
+    if (isEditing) return null;
+
+    const isOpen = activeMenu?.type === type && activeMenu?.id === item.id;
+
+    return (
+      <div className="course-menu-wrapper">
+        <button
+          className={`course-menu-btn ${isOpen ? "active" : ""}`}
+          onClick={(e) => toggleMenu(type, item.id, e)}
+        >
+          <MoreVertical size={16} />
+        </button>
+        {isOpen && (
+          <div className="course-menu-dropdown">
+            {type !== "subtopic" && (
+              <div
+                className="course-menu-item"
+                onClick={(e) => handleMenuAction("add", type, item, e)}
+              >
+                <Plus size={14} />
+                <span>
+                  Add {type === "goal" ? "Module" : type === "module" ? "Topic" : "Subtopic"}
+                </span>
+              </div>
+            )}
+            <div
+              className="course-menu-item"
+              onClick={(e) => handleMenuAction("edit", type, item, e)}
+            >
+              <Edit size={14} />
+              <span>Rename</span>
+            </div>
+            <div
+              className="course-menu-item delete"
+              onClick={(e) => handleMenuAction("delete", type, item, e)}
+            >
+              <Trash2 size={14} />
+              <span>Delete</span>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const currentContent = selectedSubtopic 
+    ? (contentBySubtopic[selectedSubtopic.id] || [])
+    : [];
 
   return (
     <div className="course-container">
@@ -763,19 +1013,51 @@ const CourseManagement = () => {
         {/* Left Sidebar - Hierarchical Navigation */}
         <div className="course-sidebar">
           <div className="course-sidebar-header">
-            <h3>Curriculum</h3>
-            <div className="course-add-goal">
-              <input
-                type="text"
-                value={newGoalName}
-                onChange={(e) => setNewGoalName(e.target.value)}
-                placeholder="Add new goal..."
-                onKeyPress={(e) => e.key === "Enter" && createGoal()}
-              />
-              <button onClick={createGoal}>
-                <Plus size={16} />
-              </button>
+            <div className="left-header-course course-add-goal">
+              <h3>Curriculum</h3>
+              <div className="course-tooltip-wrapper">
+                <button onClick={() => setAddingTo({ type: "root" })}>
+                  <Plus size={16} />
+                </button>
+                <span className="course-tooltip">New Goal</span>
+              </div>
             </div>
+            {addingTo?.type === "root" && (
+              <div
+                className="course-add-child"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <input
+                  type="text"
+                  value={newGoalName}
+                  onChange={(e) => setNewGoalName(e.target.value)}
+                  placeholder="Add goal..."
+                  onKeyPress={(e) => e.key === "Enter" && createGoal()}
+                  autoFocus
+                />
+                <button onClick={createGoal}>
+                  <Check size={14} />
+                </button>
+                <button
+                  onClick={() => setAddingTo(null)}
+                  className="course-cancel-btn-small"
+                  style={{
+                    background: "#fee2e2",
+                    color: "#ef4444",
+                    border: "none",
+                    borderRadius: 4,
+                    width: 28,
+                    height: 28,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                  }}
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="course-navigation">
@@ -822,22 +1104,7 @@ const CourseManagement = () => {
                     )}
                   </div>
                   <div className="course-nav-actions">
-                    {!editingGoal && (
-                      <>
-                        <button
-                          className="course-nav-edit-btn"
-                          onClick={(e) => startEditGoal(goal, e)}
-                        >
-                          <Edit size={14} />
-                        </button>
-                        <button
-                          className="course-nav-delete-btn"
-                          onClick={(e) => deleteGoal(goal.id, e)}
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </>
-                    )}
+                    {renderActionMenu("goal", goal)}
                     <ChevronRight
                       size={16}
                       className={`course-nav-arrow ${
@@ -849,8 +1116,8 @@ const CourseManagement = () => {
 
                 {expandedGoals[goal.id] && (
                   <div className="course-nav-children">
-                    {selectedGoal?.id === goal.id && (
-                      <div className="course-add-child">
+                    {addingTo?.type === "goal" && addingTo?.id === goal.id && (
+                      <div className="course-add-child" onClick={(e) => e.stopPropagation()}>
                         <input
                           type="text"
                           value={newModuleName}
@@ -859,14 +1126,22 @@ const CourseManagement = () => {
                           onKeyPress={(e) =>
                             e.key === "Enter" && createModule()
                           }
+                          autoFocus
                         />
                         <button onClick={createModule}>
-                          <Plus size={14} />
+                          <Check size={14} />
+                        </button>
+                        <button
+                          onClick={() => setAddingTo(null)}
+                          className="course-cancel-btn-small"
+                          style={{ background: "#fee2e2", color: "#ef4444", border: "none", borderRadius: 4, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                        >
+                          <X size={14} />
                         </button>
                       </div>
                     )}
 
-                    {modules.map((module) => (
+                    {(modulesByGoal[goal.id] || []).map((module) => (
                       <div key={module.id} className="course-nav-child">
                         <div
                           className={`course-nav-child-header ${
@@ -915,22 +1190,7 @@ const CourseManagement = () => {
                             </span>
                           )}
                           <div className="course-nav-actions">
-                            {!editingModule && (
-                              <>
-                                <button
-                                  className="course-nav-edit-btn"
-                                  onClick={(e) => startEditModule(module, e)}
-                                >
-                                  <Edit size={12} />
-                                </button>
-                                <button
-                                  className="course-nav-delete-btn"
-                                  onClick={(e) => deleteModule(module.id, e)}
-                                >
-                                  <Trash2 size={12} />
-                                </button>
-                              </>
-                            )}
+                            {renderActionMenu("module", module)}
                             <ChevronRight
                               size={14}
                               className={`course-nav-arrow ${
@@ -940,10 +1200,10 @@ const CourseManagement = () => {
                           </div>
                         </div>
 
-                        {expandedModules[module.id] &&
-                          selectedModule?.id === module.id && (
-                            <div className="course-nav-grandchildren">
-                              <div className="course-add-child">
+                        {expandedModules[module.id] && (
+                          <div className="course-nav-grandchildren">
+                            {addingTo?.type === "module" && addingTo?.id === module.id && (
+                              <div className="course-add-child" onClick={(e) => e.stopPropagation()}>
                                 <input
                                   type="text"
                                   value={newTopicName}
@@ -954,221 +1214,193 @@ const CourseManagement = () => {
                                   onKeyPress={(e) =>
                                     e.key === "Enter" && createTopic()
                                   }
+                                  autoFocus
                                 />
                                 <button onClick={createTopic}>
-                                  <Plus size={14} />
+                                  <Check size={14} />
+                                </button>
+                                <button
+                                  onClick={() => setAddingTo(null)}
+                                  className="course-cancel-btn-small"
+                                  style={{ background: "#fee2e2", color: "#ef4444", border: "none", borderRadius: 4, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                                >
+                                  <X size={14} />
                                 </button>
                               </div>
+                            )}
 
-                              {topics.map((topic) => (
+                            {(topicsByModule[module.id] || []).map((topic) => (
+                              <div
+                                key={topic.id}
+                                className="course-nav-grandchild"
+                              >
                                 <div
-                                  key={topic.id}
-                                  className="course-nav-grandchild"
+                                  className={`course-nav-grandchild-header ${
+                                    selectedTopic?.id === topic.id
+                                      ? "active"
+                                      : ""
+                                  }`}
+                                  onClick={() => handleTopicSelect(topic)}
                                 >
-                                  <div
-                                    className={`course-nav-grandchild-header ${
-                                      selectedTopic?.id === topic.id
-                                        ? "active"
-                                        : ""
-                                    }`}
-                                    onClick={() => handleTopicSelect(topic)}
-                                  >
-                                    <File
-                                      size={14}
-                                      className="course-nav-icon topic"
-                                    />
-                                    {editingTopic === topic.id ? (
-                                      <div
-                                        className="course-edit-inline"
+                                  <File
+                                    size={14}
+                                    className="course-nav-icon topic"
+                                  />
+                                  {editingTopic === topic.id ? (
+                                    <div
+                                      className="course-edit-inline"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      <input
+                                        type="text"
+                                        value={editTopicName}
+                                        onChange={(e) =>
+                                          setEditTopicName(e.target.value)
+                                        }
+                                        onKeyPress={(e) =>
+                                          e.key === "Enter" &&
+                                          saveEditTopic(topic.id, e)
+                                        }
+                                        autoFocus
                                         onClick={(e) => e.stopPropagation()}
+                                      />
+                                      <button
+                                        onClick={(e) =>
+                                          saveEditTopic(topic.id, e)
+                                        }
+                                        className="course-save-btn"
                                       >
+                                        <Check size={12} />
+                                      </button>
+                                      <button
+                                        onClick={cancelEdit}
+                                        className="course-cancel-btn"
+                                      >
+                                        <X size={12} />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <span className="course-nav-grandchild-title">
+                                      {topic.name}
+                                    </span>
+                                  )}
+                                  <div className="course-nav-actions">
+                                    {renderActionMenu("topic", topic)}
+                                    <ChevronRight
+                                      size={12}
+                                      className={`course-nav-arrow ${
+                                        expandedTopics[topic.id]
+                                          ? "expanded"
+                                          : ""
+                                      }`}
+                                    />
+                                  </div>
+                                </div>
+
+                                {expandedTopics[topic.id] && (
+                                  <div className="course-nav-great-grandchildren">
+                                    {addingTo?.type === "topic" && addingTo?.id === topic.id && (
+                                      <div className="course-add-child" onClick={(e) => e.stopPropagation()}>
                                         <input
                                           type="text"
-                                          value={editTopicName}
+                                          value={newSubtopicName}
                                           onChange={(e) =>
-                                            setEditTopicName(e.target.value)
+                                            setNewSubtopicName(e.target.value)
                                           }
+                                          placeholder="Add subtopic..."
                                           onKeyPress={(e) =>
                                             e.key === "Enter" &&
-                                            saveEditTopic(topic.id, e)
+                                            createSubtopic()
                                           }
                                           autoFocus
-                                          onClick={(e) => e.stopPropagation()}
                                         />
-                                        <button
-                                          onClick={(e) =>
-                                            saveEditTopic(topic.id, e)
-                                          }
-                                          className="course-save-btn"
-                                        >
-                                          <Check size={12} />
+                                        <button onClick={createSubtopic}>
+                                          <Check size={14} />
                                         </button>
                                         <button
-                                          onClick={cancelEdit}
-                                          className="course-cancel-btn"
+                                          onClick={() => setAddingTo(null)}
+                                          className="course-cancel-btn-small"
+                                          style={{ background: "#fee2e2", color: "#ef4444", border: "none", borderRadius: 4, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
                                         >
-                                          <X size={12} />
+                                          <X size={14} />
                                         </button>
                                       </div>
-                                    ) : (
-                                      <span className="course-nav-grandchild-title">
-                                        {topic.name}
-                                      </span>
                                     )}
-                                    <div className="course-nav-actions">
-                                      {!editingTopic && (
-                                        <>
-                                          <button
-                                            className="course-nav-edit-btn"
-                                            onClick={(e) =>
-                                              startEditTopic(topic, e)
-                                            }
-                                          >
-                                            <Edit size={12} />
-                                          </button>
-                                          <button
-                                            className="course-nav-delete-btn"
-                                            onClick={(e) =>
-                                              deleteTopic(topic.id, e)
-                                            }
-                                          >
-                                            <Trash2 size={12} />
-                                          </button>
-                                        </>
-                                      )}
-                                      <ChevronRight
-                                        size={12}
-                                        className={`course-nav-arrow ${
-                                          expandedTopics[topic.id]
-                                            ? "expanded"
+
+                                    {(subtopicsByTopic[topic.id] || []).map((subtopic) => (
+                                      <div
+                                        key={subtopic.id}
+                                        className={`course-nav-great-grandchild ${
+                                          selectedSubtopic?.id ===
+                                          subtopic.id
+                                            ? "active"
                                             : ""
                                         }`}
-                                      />
-                                    </div>
-                                  </div>
-
-                                  {expandedTopics[topic.id] &&
-                                    selectedTopic?.id === topic.id && (
-                                      <div className="course-nav-great-grandchildren">
-                                        <div className="course-add-child">
-                                          <input
-                                            type="text"
-                                            value={newSubtopicName}
-                                            onChange={(e) =>
-                                              setNewSubtopicName(e.target.value)
-                                            }
-                                            placeholder="Add subtopic..."
-                                            onKeyPress={(e) =>
-                                              e.key === "Enter" &&
-                                              createSubtopic()
-                                            }
-                                          />
-                                          <button onClick={createSubtopic}>
-                                            <Plus size={14} />
-                                          </button>
-                                        </div>
-
-                                        {subtopics.map((subtopic) => (
+                                        onClick={() =>
+                                          handleSubtopicSelect(subtopic)
+                                        }
+                                      >
+                                        <FileText
+                                          size={12}
+                                          className="course-nav-icon subtopic"
+                                        />
+                                        {editingSubtopic === subtopic.id ? (
                                           <div
-                                            key={subtopic.id}
-                                            className={`course-nav-great-grandchild ${
-                                              selectedSubtopic?.id ===
-                                              subtopic.id
-                                                ? "active"
-                                                : ""
-                                            }`}
-                                            onClick={() =>
-                                              handleSubtopicSelect(subtopic)
+                                            className="course-edit-inline"
+                                            onClick={(e) =>
+                                              e.stopPropagation()
                                             }
                                           >
-                                            <FileText
-                                              size={12}
-                                              className="course-nav-icon subtopic"
+                                            <input
+                                              type="text"
+                                              value={editSubtopicName}
+                                              onChange={(e) =>
+                                                setEditSubtopicName(
+                                                  e.target.value
+                                                )
+                                              }
+                                              onKeyPress={(e) =>
+                                                e.key === "Enter" &&
+                                                saveEditSubtopic(
+                                                  subtopic.id,
+                                                  e
+                                                )
+                                              }
+                                              autoFocus
+                                              onClick={(e) => e.stopPropagation()}
                                             />
-                                            {editingSubtopic === subtopic.id ? (
-                                              <div
-                                                className="course-edit-inline"
-                                                onClick={(e) =>
-                                                  e.stopPropagation()
-                                                }
-                                              >
-                                                <input
-                                                  type="text"
-                                                  value={editSubtopicName}
-                                                  onChange={(e) =>
-                                                    setEditSubtopicName(
-                                                      e.target.value
-                                                    )
-                                                  }
-                                                  onKeyPress={(e) =>
-                                                    e.key === "Enter" &&
-                                                    saveEditSubtopic(
-                                                      subtopic.id,
-                                                      e
-                                                    )
-                                                  }
-                                                  autoFocus
-                                                  onClick={(e) =>
-                                                    e.stopPropagation()
-                                                  }
-                                                />
-                                                <button
-                                                  onClick={(e) =>
-                                                    saveEditSubtopic(
-                                                      subtopic.id,
-                                                      e
-                                                    )
-                                                  }
-                                                  className="course-save-btn"
-                                                >
-                                                  <Check size={12} />
-                                                </button>
-                                                <button
-                                                  onClick={cancelEdit}
-                                                  className="course-cancel-btn"
-                                                >
-                                                  <X size={12} />
-                                                </button>
-                                              </div>
-                                            ) : (
-                                              <span>{subtopic.name}</span>
-                                            )}
-                                            <div className="course-nav-actions">
-                                              {!editingSubtopic && (
-                                                <>
-                                                  <button
-                                                    className="course-nav-edit-btn"
-                                                    onClick={(e) =>
-                                                      startEditSubtopic(
-                                                        subtopic,
-                                                        e
-                                                      )
-                                                    }
-                                                  >
-                                                    <Edit size={12} />
-                                                  </button>
-                                                  <button
-                                                    className="course-nav-delete-btn"
-                                                    onClick={(e) =>
-                                                      deleteSubtopic(
-                                                        subtopic.id,
-                                                        e
-                                                      )
-                                                    }
-                                                  >
-                                                    <Trash2 size={12} />
-                                                  </button>
-                                                </>
-                                              )}
-                                            </div>
+                                            <button
+                                              onClick={(e) =>
+                                                saveEditSubtopic(
+                                                  subtopic.id,
+                                                  e
+                                                )
+                                              }
+                                              className="course-save-btn"
+                                            >
+                                              <Check size={12} />
+                                            </button>
+                                            <button
+                                              onClick={cancelEdit}
+                                              className="course-cancel-btn"
+                                            >
+                                              <X size={12} />
+                                            </button>
                                           </div>
-                                        ))}
+                                        ) : (
+                                          <span>{subtopic.name}</span>
+                                        )}
+                                        <div className="course-nav-actions">
+                                          {renderActionMenu("subtopic", subtopic)}
+                                        </div>
                                       </div>
-                                    )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -1269,7 +1501,7 @@ const CourseManagement = () => {
                   <div className="course-stat">
                     <Video size={16} />
                     <span>
-                      {content.filter((c) => c.content_type === "video").length}{" "}
+                      {currentContent.filter((c) => c.content_type === "video").length}{" "}
                       Videos
                     </span>
                   </div>
@@ -1277,7 +1509,7 @@ const CourseManagement = () => {
                     <FileText size={16} />
                     <span>
                       {
-                        content.filter((c) => c.content_type === "cheatsheet")
+                        currentContent.filter((c) => c.content_type === "cheatsheet")
                           .length
                       }{" "}
                       Cheatsheets
@@ -1286,7 +1518,7 @@ const CourseManagement = () => {
                   <div className="course-stat">
                     <HelpCircle size={16} />
                     <span>
-                      {content.filter((c) => c.content_type === "mcq").length}{" "}
+                      {currentContent.filter((c) => c.content_type === "mcq").length}{" "}
                       Quizzes
                     </span>
                   </div>
@@ -1341,7 +1573,7 @@ const CourseManagement = () => {
               {/* Existing Content */}
               <div className="course-existing-content">
                 <h3>Lesson Content</h3>
-                {content.length === 0 ? (
+                {currentContent.length === 0 ? (
                   <div className="course-empty-content">
                     <FileText size={48} />
                     <p>No content added yet</p>
@@ -1349,7 +1581,7 @@ const CourseManagement = () => {
                   </div>
                 ) : (
                   <div className={`course-content-grid ${viewMode}`}>
-                    {content.map((item) => (
+                    {currentContent.map((item) => (
                       <div key={item.id} className="course-content-card">
                         <div className="course-content-card-header">
                           {getContentIcon(item.content_type)}
