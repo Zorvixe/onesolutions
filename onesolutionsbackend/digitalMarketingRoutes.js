@@ -676,7 +676,7 @@ app.get('/api/student/courses/progress/overall', authenticate, async (req, res) 
 // Add these routes to your backend server code
 
 // Update Goal
-app.put('/api/admin/course/goals/:goalId', authenticate, async (req, res) => {
+app.put('/api/admin/course/goals/:goalId', async (req, res) => {
     try {
         const { goalId } = req.params;
         const { name, description, duration_months, certificate_name } = req.body;
@@ -721,7 +721,7 @@ app.put('/api/admin/course/goals/:goalId', authenticate, async (req, res) => {
 });
 
 // Delete Goal
-app.delete('/api/admin/course/goals/:goalId', authenticate, async (req, res) => {
+app.delete('/api/admin/course/goals/:goalId',  async (req, res) => {
     try {
         const { goalId } = req.params;
         const result = await pool.query('DELETE FROM course_goals WHERE id = $1 RETURNING *', [goalId]);
@@ -737,7 +737,7 @@ app.delete('/api/admin/course/goals/:goalId', authenticate, async (req, res) => 
 });
 
 // Update Module
-app.put('/api/admin/course/modules/:moduleId', authenticate, async (req, res) => {
+app.put('/api/admin/course/modules/:moduleId',  async (req, res) => {
     try {
         const { moduleId } = req.params;
         const { name, description } = req.body;
@@ -774,7 +774,7 @@ app.put('/api/admin/course/modules/:moduleId', authenticate, async (req, res) =>
 });
 
 // Delete Module
-app.delete('/api/admin/course/modules/:moduleId', authenticate, async (req, res) => {
+app.delete('/api/admin/course/modules/:moduleId',  async (req, res) => {
     try {
         const { moduleId } = req.params;
         const result = await pool.query('DELETE FROM course_modules WHERE id = $1 RETURNING *', [moduleId]);
@@ -790,7 +790,7 @@ app.delete('/api/admin/course/modules/:moduleId', authenticate, async (req, res)
 });
 
 // Update Topic
-app.put('/api/admin/course/topics/:topicId', authenticate, async (req, res) => {
+app.put('/api/admin/course/topics/:topicId',  async (req, res) => {
     try {
         const { topicId } = req.params;
         const { name, description } = req.body;
@@ -827,7 +827,7 @@ app.put('/api/admin/course/topics/:topicId', authenticate, async (req, res) => {
 });
 
 // Delete Topic
-app.delete('/api/admin/course/topics/:topicId', authenticate, async (req, res) => {
+app.delete('/api/admin/course/topics/:topicId',  async (req, res) => {
     try {
         const { topicId } = req.params;
         const result = await pool.query('DELETE FROM course_topics WHERE id = $1 RETURNING *', [topicId]);
@@ -843,7 +843,7 @@ app.delete('/api/admin/course/topics/:topicId', authenticate, async (req, res) =
 });
 
 // Update Subtopic
-app.put('/api/admin/course/subtopics/:subtopicId', authenticate, async (req, res) => {
+app.put('/api/admin/course/subtopics/:subtopicId',  async (req, res) => {
     try {
         const { subtopicId } = req.params;
         const { name, description } = req.body;
@@ -880,7 +880,7 @@ app.put('/api/admin/course/subtopics/:subtopicId', authenticate, async (req, res
 });
 
 // Delete Subtopic
-app.delete('/api/admin/course/subtopics/:subtopicId', authenticate, async (req, res) => {
+app.delete('/api/admin/course/subtopics/:subtopicId',  async (req, res) => {
     try {
         const { subtopicId } = req.params;
         const result = await pool.query('DELETE FROM course_subtopics WHERE id = $1 RETURNING *', [subtopicId]);
@@ -896,7 +896,7 @@ app.delete('/api/admin/course/subtopics/:subtopicId', authenticate, async (req, 
 });
 
 // Update Content
-app.put('/api/admin/course/content/:contentId', authenticate, async (req, res) => {
+app.put('/api/admin/course/content/:contentId',  async (req, res) => {
     try {
         const { contentId } = req.params;
         const { video_title, cheatsheet_title, mcq_title, video_description, cheatsheet_content, questions } = req.body;
@@ -949,7 +949,7 @@ app.put('/api/admin/course/content/:contentId', authenticate, async (req, res) =
 });
 
 // Delete Content
-app.delete('/api/admin/course/content/:contentId', authenticate, async (req, res) => {
+app.delete('/api/admin/course/content/:contentId',  async (req, res) => {
     try {
         const { contentId } = req.params;
         
