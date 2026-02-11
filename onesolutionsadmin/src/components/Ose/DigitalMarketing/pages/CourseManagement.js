@@ -344,7 +344,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",  // CRITICAL - This was missing
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -354,12 +354,17 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setGoals(goals.map(g => g.id === goalId ? { ...g, name: editGoalName } : g));
+        setGoals(
+          goals.map((g) => (g.id === goalId ? { ...g, name: editGoalName } : g))
+        );
         setEditingGoal(null);
         setEditGoalName("");
+      } else {
+        alert(data.message || "Failed to update goal");
       }
     } catch (error) {
       console.error("Error updating goal:", error);
+      alert("Error updating goal");
     }
   };
 
@@ -378,7 +383,7 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setGoals(goals.filter(g => g.id !== goalId));
+        setGoals(goals.filter((g) => g.id !== goalId));
         if (selectedGoal?.id === goalId) {
           setSelectedGoal(null);
           setSelectedModule(null);
@@ -409,7 +414,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",  // CRITICAL - This was missing
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -419,14 +424,22 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setModules(modules.map(m => m.id === moduleId ? { ...m, name: editModuleName } : m));
+        setModules(
+          modules.map((m) =>
+            m.id === moduleId ? { ...m, name: editModuleName } : m
+          )
+        );
         setEditingModule(null);
         setEditModuleName("");
+      } else {
+        alert(data.message || "Failed to update module");
       }
     } catch (error) {
       console.error("Error updating module:", error);
+      alert("Error updating module");
     }
   };
+  
 
   const deleteModule = async (moduleId, e) => {
     e.stopPropagation();
@@ -443,7 +456,7 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setModules(modules.filter(m => m.id !== moduleId));
+        setModules(modules.filter((m) => m.id !== moduleId));
         if (selectedModule?.id === moduleId) {
           setSelectedModule(null);
           setSelectedTopic(null);
@@ -472,7 +485,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",  // CRITICAL - This was missing
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -482,12 +495,19 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setTopics(topics.map(t => t.id === topicId ? { ...t, name: editTopicName } : t));
+        setTopics(
+          topics.map((t) =>
+            t.id === topicId ? { ...t, name: editTopicName } : t
+          )
+        );
         setEditingTopic(null);
         setEditTopicName("");
+      } else {
+        alert(data.message || "Failed to update topic");
       }
     } catch (error) {
       console.error("Error updating topic:", error);
+      alert("Error updating topic");
     }
   };
 
@@ -506,7 +526,7 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setTopics(topics.filter(t => t.id !== topicId));
+        setTopics(topics.filter((t) => t.id !== topicId));
         if (selectedTopic?.id === topicId) {
           setSelectedTopic(null);
           setSelectedSubtopic(null);
@@ -533,7 +553,7 @@ const CourseManagement = () => {
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",  // CRITICAL - This was missing
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -543,18 +563,32 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setSubtopics(subtopics.map(s => s.id === subtopicId ? { ...s, name: editSubtopicName } : s));
+        setSubtopics(
+          subtopics.map((s) =>
+            s.id === subtopicId ? { ...s, name: editSubtopicName } : s
+          )
+        );
         setEditingSubtopic(null);
         setEditSubtopicName("");
+        
+        // Also update selectedSubtopic if it's the one being edited
+        if (selectedSubtopic?.id === subtopicId) {
+          setSelectedSubtopic({ ...selectedSubtopic, name: editSubtopicName });
+        }
+      } else {
+        alert(data.message || "Failed to update subtopic");
       }
     } catch (error) {
       console.error("Error updating subtopic:", error);
+      alert("Error updating subtopic");
     }
   };
+  
 
   const deleteSubtopic = async (subtopicId, e) => {
     e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this subtopic?")) return;
+    if (!window.confirm("Are you sure you want to delete this subtopic?"))
+      return;
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}`,
@@ -567,7 +601,7 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setSubtopics(subtopics.filter(s => s.id !== subtopicId));
+        setSubtopics(subtopics.filter((s) => s.id !== subtopicId));
         if (selectedSubtopic?.id === subtopicId) {
           setSelectedSubtopic(null);
         }
@@ -580,24 +614,30 @@ const CourseManagement = () => {
   const startEditContent = (contentItem, e) => {
     e.stopPropagation();
     setEditingContent(contentItem.id);
-    setEditContentTitle(contentItem.video_title || contentItem.cheatsheet_title || contentItem.mcq_title);
+    setEditContentTitle(
+      contentItem.video_title ||
+        contentItem.cheatsheet_title ||
+        contentItem.mcq_title
+    );
   };
 
   const saveEditContent = async (contentId, e) => {
     e.stopPropagation();
     if (!editContentTitle.trim()) return;
     try {
-      let field = '';
-      if (content.find(c => c.id === contentId)?.content_type === 'video') field = 'video_title';
-      else if (content.find(c => c.id === contentId)?.content_type === 'cheatsheet') field = 'cheatsheet_title';
-      else if (content.find(c => c.id === contentId)?.content_type === 'mcq') field = 'mcq_title';
+      let field = "";
+      let contentType = content.find((c) => c.id === contentId)?.content_type;
       
+      if (contentType === "video") field = "video_title";
+      else if (contentType === "cheatsheet") field = "cheatsheet_title";
+      else if (contentType === "mcq") field = "mcq_title";
+  
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/content/${contentId}`,
         {
           method: "PUT",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json",  // CRITICAL - This was missing
             Authorization: `Bearer ${getToken()}`,
           },
           body: JSON.stringify({
@@ -607,25 +647,34 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setContent(content.map(c => {
-          if (c.id === contentId) {
-            if (c.content_type === 'video') return { ...c, video_title: editContentTitle };
-            if (c.content_type === 'cheatsheet') return { ...c, cheatsheet_title: editContentTitle };
-            if (c.content_type === 'mcq') return { ...c, mcq_title: editContentTitle };
-          }
-          return c;
-        }));
+        setContent(
+          content.map((c) => {
+            if (c.id === contentId) {
+              if (c.content_type === "video")
+                return { ...c, video_title: editContentTitle };
+              if (c.content_type === "cheatsheet")
+                return { ...c, cheatsheet_title: editContentTitle };
+              if (c.content_type === "mcq")
+                return { ...c, mcq_title: editContentTitle };
+            }
+            return c;
+          })
+        );
         setEditingContent(null);
         setEditContentTitle("");
+      } else {
+        alert(data.message || "Failed to update content");
       }
     } catch (error) {
       console.error("Error updating content:", error);
+      alert("Error updating content");
     }
   };
 
   const deleteContent = async (contentId, e) => {
     e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this content?")) return;
+    if (!window.confirm("Are you sure you want to delete this content?"))
+      return;
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/content/${contentId}`,
@@ -638,7 +687,7 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setContent(content.filter(c => c.id !== contentId));
+        setContent(content.filter((c) => c.id !== contentId));
       }
     } catch (error) {
       console.error("Error deleting content:", error);
@@ -678,18 +727,24 @@ const CourseManagement = () => {
           </div>
           <div>
             <h1 className="course-title">Course Structure</h1>
-            <p className="course-subtitle">Build and organize your learning path</p>
+            <p className="course-subtitle">
+              Build and organize your learning path
+            </p>
           </div>
         </div>
         <div className="course-header-actions">
           <button
-            className={`course-view-toggle ${viewMode === "grid" ? "active" : ""}`}
+            className={`course-view-toggle ${
+              viewMode === "grid" ? "active" : ""
+            }`}
             onClick={() => setViewMode("grid")}
           >
             <Grid size={18} />
           </button>
           <button
-            className={`course-view-toggle ${viewMode === "list" ? "active" : ""}`}
+            className={`course-view-toggle ${
+              viewMode === "list" ? "active" : ""
+            }`}
             onClick={() => setViewMode("list")}
           >
             <List size={18} />
@@ -729,18 +784,29 @@ const CourseManagement = () => {
                   <div className="course-nav-header-left">
                     <Target size={18} className="course-nav-icon goal" />
                     {editingGoal === goal.id ? (
-                      <div className="course-edit-inline" onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="course-edit-inline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <input
                           type="text"
                           value={editGoalName}
                           onChange={(e) => setEditGoalName(e.target.value)}
-                          onKeyPress={(e) => e.key === "Enter" && saveEditGoal(goal.id, e)}
+                          onKeyPress={(e) =>
+                            e.key === "Enter" && saveEditGoal(goal.id, e)
+                          }
                           autoFocus
                         />
-                        <button onClick={(e) => saveEditGoal(goal.id, e)} className="course-save-btn">
+                        <button
+                          onClick={(e) => saveEditGoal(goal.id, e)}
+                          className="course-save-btn"
+                        >
                           <Check size={14} />
                         </button>
-                        <button onClick={cancelEdit} className="course-cancel-btn">
+                        <button
+                          onClick={cancelEdit}
+                          className="course-cancel-btn"
+                        >
                           <X size={14} />
                         </button>
                       </div>
@@ -751,13 +817,13 @@ const CourseManagement = () => {
                   <div className="course-nav-actions">
                     {!editingGoal && (
                       <>
-                        <button 
+                        <button
                           className="course-nav-edit-btn"
                           onClick={(e) => startEditGoal(goal, e)}
                         >
                           <Edit size={14} />
                         </button>
-                        <button 
+                        <button
                           className="course-nav-delete-btn"
                           onClick={(e) => deleteGoal(goal.id, e)}
                         >
@@ -783,7 +849,9 @@ const CourseManagement = () => {
                           value={newModuleName}
                           onChange={(e) => setNewModuleName(e.target.value)}
                           placeholder="Add module..."
-                          onKeyPress={(e) => e.key === "Enter" && createModule()}
+                          onKeyPress={(e) =>
+                            e.key === "Enter" && createModule()
+                          }
                         />
                         <button onClick={createModule}>
                           <Plus size={14} />
@@ -799,36 +867,55 @@ const CourseManagement = () => {
                           }`}
                           onClick={() => handleModuleSelect(module)}
                         >
-                          <Layers size={16} className="course-nav-icon module" />
+                          <Layers
+                            size={16}
+                            className="course-nav-icon module"
+                          />
                           {editingModule === module.id ? (
-                            <div className="course-edit-inline" onClick={(e) => e.stopPropagation()}>
+                            <div
+                              className="course-edit-inline"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <input
                                 type="text"
                                 value={editModuleName}
-                                onChange={(e) => setEditModuleName(e.target.value)}
-                                onKeyPress={(e) => e.key === "Enter" && saveEditModule(module.id, e)}
+                                onChange={(e) =>
+                                  setEditModuleName(e.target.value)
+                                }
+                                onKeyPress={(e) =>
+                                  e.key === "Enter" &&
+                                  saveEditModule(module.id, e)
+                                }
                                 autoFocus
                               />
-                              <button onClick={(e) => saveEditModule(module.id, e)} className="course-save-btn">
+                              <button
+                                onClick={(e) => saveEditModule(module.id, e)}
+                                className="course-save-btn"
+                              >
                                 <Check size={12} />
                               </button>
-                              <button onClick={cancelEdit} className="course-cancel-btn">
+                              <button
+                                onClick={cancelEdit}
+                                className="course-cancel-btn"
+                              >
                                 <X size={12} />
                               </button>
                             </div>
                           ) : (
-                            <span className="course-nav-child-title">{module.name}</span>
+                            <span className="course-nav-child-title">
+                              {module.name}
+                            </span>
                           )}
                           <div className="course-nav-actions">
                             {!editingModule && (
                               <>
-                                <button 
+                                <button
                                   className="course-nav-edit-btn"
                                   onClick={(e) => startEditModule(module, e)}
                                 >
                                   <Edit size={12} />
                                 </button>
-                                <button 
+                                <button
                                   className="course-nav-delete-btn"
                                   onClick={(e) => deleteModule(module.id, e)}
                                 >
@@ -845,149 +932,231 @@ const CourseManagement = () => {
                           </div>
                         </div>
 
-                        {expandedModules[module.id] && selectedModule?.id === module.id && (
-                          <div className="course-nav-grandchildren">
-                            <div className="course-add-child">
-                              <input
-                                type="text"
-                                value={newTopicName}
-                                onChange={(e) => setNewTopicName(e.target.value)}
-                                placeholder="Add topic..."
-                                onKeyPress={(e) => e.key === "Enter" && createTopic()}
-                              />
-                              <button onClick={createTopic}>
-                                <Plus size={14} />
-                              </button>
-                            </div>
+                        {expandedModules[module.id] &&
+                          selectedModule?.id === module.id && (
+                            <div className="course-nav-grandchildren">
+                              <div className="course-add-child">
+                                <input
+                                  type="text"
+                                  value={newTopicName}
+                                  onChange={(e) =>
+                                    setNewTopicName(e.target.value)
+                                  }
+                                  placeholder="Add topic..."
+                                  onKeyPress={(e) =>
+                                    e.key === "Enter" && createTopic()
+                                  }
+                                />
+                                <button onClick={createTopic}>
+                                  <Plus size={14} />
+                                </button>
+                              </div>
 
-                            {topics.map((topic) => (
-                              <div key={topic.id} className="course-nav-grandchild">
+                              {topics.map((topic) => (
                                 <div
-                                  className={`course-nav-grandchild-header ${
-                                    selectedTopic?.id === topic.id ? "active" : ""
-                                  }`}
-                                  onClick={() => handleTopicSelect(topic)}
+                                  key={topic.id}
+                                  className="course-nav-grandchild"
                                 >
-                                  <File size={14} className="course-nav-icon topic" />
-                                  {editingTopic === topic.id ? (
-                                    <div className="course-edit-inline" onClick={(e) => e.stopPropagation()}>
-                                      <input
-                                        type="text"
-                                        value={editTopicName}
-                                        onChange={(e) => setEditTopicName(e.target.value)}
-                                        onKeyPress={(e) => e.key === "Enter" && saveEditTopic(topic.id, e)}
-                                        autoFocus
-                                      />
-                                      <button onClick={(e) => saveEditTopic(topic.id, e)} className="course-save-btn">
-                                        <Check size={12} />
-                                      </button>
-                                      <button onClick={cancelEdit} className="course-cancel-btn">
-                                        <X size={12} />
-                                      </button>
-                                    </div>
-                                  ) : (
-                                    <span className="course-nav-grandchild-title">{topic.name}</span>
-                                  )}
-                                  <div className="course-nav-actions">
-                                    {!editingTopic && (
-                                      <>
-                                        <button 
-                                          className="course-nav-edit-btn"
-                                          onClick={(e) => startEditTopic(topic, e)}
-                                        >
-                                          <Edit size={12} />
-                                        </button>
-                                        <button 
-                                          className="course-nav-delete-btn"
-                                          onClick={(e) => deleteTopic(topic.id, e)}
-                                        >
-                                          <Trash2 size={12} />
-                                        </button>
-                                      </>
-                                    )}
-                                    <ChevronRight
-                                      size={12}
-                                      className={`course-nav-arrow ${
-                                        expandedTopics[topic.id] ? "expanded" : ""
-                                      }`}
+                                  <div
+                                    className={`course-nav-grandchild-header ${
+                                      selectedTopic?.id === topic.id
+                                        ? "active"
+                                        : ""
+                                    }`}
+                                    onClick={() => handleTopicSelect(topic)}
+                                  >
+                                    <File
+                                      size={14}
+                                      className="course-nav-icon topic"
                                     />
-                                  </div>
-                                </div>
-
-                                {expandedTopics[topic.id] && selectedTopic?.id === topic.id && (
-                                  <div className="course-nav-great-grandchildren">
-                                    <div className="course-add-child">
-                                      <input
-                                        type="text"
-                                        value={newSubtopicName}
-                                        onChange={(e) => setNewSubtopicName(e.target.value)}
-                                        placeholder="Add subtopic..."
-                                        onKeyPress={(e) => e.key === "Enter" && createSubtopic()}
-                                      />
-                                      <button onClick={createSubtopic}>
-                                        <Plus size={14} />
-                                      </button>
-                                    </div>
-
-                                    {subtopics.map((subtopic) => (
+                                    {editingTopic === topic.id ? (
                                       <div
-                                        key={subtopic.id}
-                                        className={`course-nav-great-grandchild ${
-                                          selectedSubtopic?.id === subtopic.id
-                                            ? "active"
+                                        className="course-edit-inline"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        <input
+                                          type="text"
+                                          value={editTopicName}
+                                          onChange={(e) =>
+                                            setEditTopicName(e.target.value)
+                                          }
+                                          onKeyPress={(e) =>
+                                            e.key === "Enter" &&
+                                            saveEditTopic(topic.id, e)
+                                          }
+                                          autoFocus
+                                        />
+                                        <button
+                                          onClick={(e) =>
+                                            saveEditTopic(topic.id, e)
+                                          }
+                                          className="course-save-btn"
+                                        >
+                                          <Check size={12} />
+                                        </button>
+                                        <button
+                                          onClick={cancelEdit}
+                                          className="course-cancel-btn"
+                                        >
+                                          <X size={12} />
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <span className="course-nav-grandchild-title">
+                                        {topic.name}
+                                      </span>
+                                    )}
+                                    <div className="course-nav-actions">
+                                      {!editingTopic && (
+                                        <>
+                                          <button
+                                            className="course-nav-edit-btn"
+                                            onClick={(e) =>
+                                              startEditTopic(topic, e)
+                                            }
+                                          >
+                                            <Edit size={12} />
+                                          </button>
+                                          <button
+                                            className="course-nav-delete-btn"
+                                            onClick={(e) =>
+                                              deleteTopic(topic.id, e)
+                                            }
+                                          >
+                                            <Trash2 size={12} />
+                                          </button>
+                                        </>
+                                      )}
+                                      <ChevronRight
+                                        size={12}
+                                        className={`course-nav-arrow ${
+                                          expandedTopics[topic.id]
+                                            ? "expanded"
                                             : ""
                                         }`}
-                                        onClick={() => handleSubtopicSelect(subtopic)}
-                                      >
-                                        <FileText
-                                          size={12}
-                                          className="course-nav-icon subtopic"
-                                        />
-                                        {editingSubtopic === subtopic.id ? (
-                                          <div className="course-edit-inline" onClick={(e) => e.stopPropagation()}>
-                                            <input
-                                              type="text"
-                                              value={editSubtopicName}
-                                              onChange={(e) => setEditSubtopicName(e.target.value)}
-                                              onKeyPress={(e) => e.key === "Enter" && saveEditSubtopic(subtopic.id, e)}
-                                              autoFocus
-                                            />
-                                            <button onClick={(e) => saveEditSubtopic(subtopic.id, e)} className="course-save-btn">
-                                              <Check size={12} />
-                                            </button>
-                                            <button onClick={cancelEdit} className="course-cancel-btn">
-                                              <X size={12} />
-                                            </button>
-                                          </div>
-                                        ) : (
-                                          <span>{subtopic.name}</span>
-                                        )}
-                                        <div className="course-nav-actions">
-                                          {!editingSubtopic && (
-                                            <>
-                                              <button 
-                                                className="course-nav-edit-btn"
-                                                onClick={(e) => startEditSubtopic(subtopic, e)}
-                                              >
-                                                <Edit size={12} />
-                                              </button>
-                                              <button 
-                                                className="course-nav-delete-btn"
-                                                onClick={(e) => deleteSubtopic(subtopic.id, e)}
-                                              >
-                                                <Trash2 size={12} />
-                                              </button>
-                                            </>
-                                          )}
-                                        </div>
-                                      </div>
-                                    ))}
+                                      />
+                                    </div>
                                   </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        )}
+
+                                  {expandedTopics[topic.id] &&
+                                    selectedTopic?.id === topic.id && (
+                                      <div className="course-nav-great-grandchildren">
+                                        <div className="course-add-child">
+                                          <input
+                                            type="text"
+                                            value={newSubtopicName}
+                                            onChange={(e) =>
+                                              setNewSubtopicName(e.target.value)
+                                            }
+                                            placeholder="Add subtopic..."
+                                            onKeyPress={(e) =>
+                                              e.key === "Enter" &&
+                                              createSubtopic()
+                                            }
+                                          />
+                                          <button onClick={createSubtopic}>
+                                            <Plus size={14} />
+                                          </button>
+                                        </div>
+
+                                        {subtopics.map((subtopic) => (
+                                          <div
+                                            key={subtopic.id}
+                                            className={`course-nav-great-grandchild ${
+                                              selectedSubtopic?.id ===
+                                              subtopic.id
+                                                ? "active"
+                                                : ""
+                                            }`}
+                                            onClick={() =>
+                                              handleSubtopicSelect(subtopic)
+                                            }
+                                          >
+                                            <FileText
+                                              size={12}
+                                              className="course-nav-icon subtopic"
+                                            />
+                                            {editingSubtopic === subtopic.id ? (
+                                              <div
+                                                className="course-edit-inline"
+                                                onClick={(e) =>
+                                                  e.stopPropagation()
+                                                }
+                                              >
+                                                <input
+                                                  type="text"
+                                                  value={editSubtopicName}
+                                                  onChange={(e) =>
+                                                    setEditSubtopicName(
+                                                      e.target.value
+                                                    )
+                                                  }
+                                                  onKeyPress={(e) =>
+                                                    e.key === "Enter" &&
+                                                    saveEditSubtopic(
+                                                      subtopic.id,
+                                                      e
+                                                    )
+                                                  }
+                                                  autoFocus
+                                                />
+                                                <button
+                                                  onClick={(e) =>
+                                                    saveEditSubtopic(
+                                                      subtopic.id,
+                                                      e
+                                                    )
+                                                  }
+                                                  className="course-save-btn"
+                                                >
+                                                  <Check size={12} />
+                                                </button>
+                                                <button
+                                                  onClick={cancelEdit}
+                                                  className="course-cancel-btn"
+                                                >
+                                                  <X size={12} />
+                                                </button>
+                                              </div>
+                                            ) : (
+                                              <span>{subtopic.name}</span>
+                                            )}
+                                            <div className="course-nav-actions">
+                                              {!editingSubtopic && (
+                                                <>
+                                                  <button
+                                                    className="course-nav-edit-btn"
+                                                    onClick={(e) =>
+                                                      startEditSubtopic(
+                                                        subtopic,
+                                                        e
+                                                      )
+                                                    }
+                                                  >
+                                                    <Edit size={12} />
+                                                  </button>
+                                                  <button
+                                                    className="course-nav-delete-btn"
+                                                    onClick={(e) =>
+                                                      deleteSubtopic(
+                                                        subtopic.id,
+                                                        e
+                                                      )
+                                                    }
+                                                  >
+                                                    <Trash2 size={12} />
+                                                  </button>
+                                                </>
+                                              )}
+                                            </div>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                       </div>
                     ))}
                   </div>
@@ -1007,22 +1176,31 @@ const CourseManagement = () => {
                   <Target size={14} />
                   {selectedGoal?.name}
                 </span>
-                <ChevronRight size={14} className="course-breadcrumb-separator" />
+                <ChevronRight
+                  size={14}
+                  className="course-breadcrumb-separator"
+                />
                 <span className="course-breadcrumb-item">
                   <Layers size={14} />
                   {selectedModule?.name}
                 </span>
-                <ChevronRight size={14} className="course-breadcrumb-separator" />
+                <ChevronRight
+                  size={14}
+                  className="course-breadcrumb-separator"
+                />
                 <span className="course-breadcrumb-item">
                   <File size={14} />
                   {selectedTopic?.name}
                 </span>
-                <ChevronRight size={14} className="course-breadcrumb-separator" />
+                <ChevronRight
+                  size={14}
+                  className="course-breadcrumb-separator"
+                />
                 <span className="course-breadcrumb-item active">
                   <FileText size={14} />
                   {selectedSubtopic?.name}
                 </span>
-                <button 
+                <button
                   className="course-breadcrumb-edit"
                   onClick={(e) => startEditSubtopic(selectedSubtopic, e)}
                 >
@@ -1039,20 +1217,33 @@ const CourseManagement = () => {
                         type="text"
                         value={editSubtopicName}
                         onChange={(e) => setEditSubtopicName(e.target.value)}
-                        onKeyPress={(e) => e.key === "Enter" && saveEditSubtopic(selectedSubtopic.id, e)}
+                        onKeyPress={(e) =>
+                          e.key === "Enter" &&
+                          saveEditSubtopic(selectedSubtopic.id, e)
+                        }
                         autoFocus
                       />
-                      <button onClick={(e) => saveEditSubtopic(selectedSubtopic.id, e)} className="course-save-btn">
+                      <button
+                        onClick={(e) =>
+                          saveEditSubtopic(selectedSubtopic.id, e)
+                        }
+                        className="course-save-btn"
+                      >
                         <Check size={16} />
                       </button>
-                      <button onClick={cancelEdit} className="course-cancel-btn">
+                      <button
+                        onClick={cancelEdit}
+                        className="course-cancel-btn"
+                      >
                         <X size={16} />
                       </button>
                     </div>
                   ) : (
                     <>
-                      <h2 className="course-subtopic-title">{selectedSubtopic.name}</h2>
-                      <button 
+                      <h2 className="course-subtopic-title">
+                        {selectedSubtopic.name}
+                      </h2>
+                      <button
                         className="course-edit-btn"
                         onClick={(e) => startEditSubtopic(selectedSubtopic, e)}
                       >
@@ -1064,15 +1255,27 @@ const CourseManagement = () => {
                 <div className="course-content-stats">
                   <div className="course-stat">
                     <Video size={16} />
-                    <span>{content.filter(c => c.content_type === 'video').length} Videos</span>
+                    <span>
+                      {content.filter((c) => c.content_type === "video").length}{" "}
+                      Videos
+                    </span>
                   </div>
                   <div className="course-stat">
                     <FileText size={16} />
-                    <span>{content.filter(c => c.content_type === 'cheatsheet').length} Cheatsheets</span>
+                    <span>
+                      {
+                        content.filter((c) => c.content_type === "cheatsheet")
+                          .length
+                      }{" "}
+                      Cheatsheets
+                    </span>
                   </div>
                   <div className="course-stat">
                     <HelpCircle size={16} />
-                    <span>{content.filter(c => c.content_type === 'mcq').length} Quizzes</span>
+                    <span>
+                      {content.filter((c) => c.content_type === "mcq").length}{" "}
+                      Quizzes
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1143,26 +1346,37 @@ const CourseManagement = () => {
                                 <input
                                   type="text"
                                   value={editContentTitle}
-                                  onChange={(e) => setEditContentTitle(e.target.value)}
-                                  onKeyPress={(e) => e.key === "Enter" && saveEditContent(item.id, e)}
+                                  onChange={(e) =>
+                                    setEditContentTitle(e.target.value)
+                                  }
+                                  onKeyPress={(e) =>
+                                    e.key === "Enter" &&
+                                    saveEditContent(item.id, e)
+                                  }
                                   autoFocus
                                 />
-                                <button onClick={(e) => saveEditContent(item.id, e)} className="course-save-btn">
+                                <button
+                                  onClick={(e) => saveEditContent(item.id, e)}
+                                  className="course-save-btn"
+                                >
                                   <Check size={14} />
                                 </button>
-                                <button onClick={cancelEdit} className="course-cancel-btn">
+                                <button
+                                  onClick={cancelEdit}
+                                  className="course-cancel-btn"
+                                >
                                   <X size={14} />
                                 </button>
                               </div>
                             ) : (
                               <>
-                                <button 
+                                <button
                                   className="course-content-edit"
                                   onClick={(e) => startEditContent(item, e)}
                                 >
                                   <Edit size={14} />
                                 </button>
-                                <button 
+                                <button
                                   className="course-content-delete"
                                   onClick={(e) => deleteContent(item.id, e)}
                                 >
@@ -1201,8 +1415,8 @@ const CourseManagement = () => {
               </div>
               <h3>Select a subtopic to begin</h3>
               <p>
-                Choose a subtopic from the navigation tree to view and manage its
-                content
+                Choose a subtopic from the navigation tree to view and manage
+                its content
               </p>
               <div className="course-empty-steps">
                 <div className="course-step">

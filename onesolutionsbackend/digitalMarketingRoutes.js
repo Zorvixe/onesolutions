@@ -674,8 +674,7 @@ app.get('/api/student/courses/progress/overall', authenticate, async (req, res) 
 });
 
 // Add these routes to your backend server code
-
-// Update Goal
+// Update Goal - NO AUTHENTICATE
 app.put('/api/admin/course/goals/:goalId', async (req, res) => {
     try {
         const { goalId } = req.params;
@@ -720,8 +719,8 @@ app.put('/api/admin/course/goals/:goalId', async (req, res) => {
     }
 });
 
-// Delete Goal
-app.delete('/api/admin/course/goals/:goalId',  async (req, res) => {
+// Delete Goal - NO AUTHENTICATE
+app.delete('/api/admin/course/goals/:goalId', async (req, res) => {
     try {
         const { goalId } = req.params;
         const result = await pool.query('DELETE FROM course_goals WHERE id = $1 RETURNING *', [goalId]);
@@ -736,8 +735,8 @@ app.delete('/api/admin/course/goals/:goalId',  async (req, res) => {
     }
 });
 
-// Update Module
-app.put('/api/admin/course/modules/:moduleId',  async (req, res) => {
+// Update Module - NO AUTHENTICATE
+app.put('/api/admin/course/modules/:moduleId', async (req, res) => {
     try {
         const { moduleId } = req.params;
         const { name, description } = req.body;
@@ -773,8 +772,8 @@ app.put('/api/admin/course/modules/:moduleId',  async (req, res) => {
     }
 });
 
-// Delete Module
-app.delete('/api/admin/course/modules/:moduleId',  async (req, res) => {
+// Delete Module - NO AUTHENTICATE
+app.delete('/api/admin/course/modules/:moduleId', async (req, res) => {
     try {
         const { moduleId } = req.params;
         const result = await pool.query('DELETE FROM course_modules WHERE id = $1 RETURNING *', [moduleId]);
@@ -789,8 +788,8 @@ app.delete('/api/admin/course/modules/:moduleId',  async (req, res) => {
     }
 });
 
-// Update Topic
-app.put('/api/admin/course/topics/:topicId',  async (req, res) => {
+// Update Topic - NO AUTHENTICATE
+app.put('/api/admin/course/topics/:topicId', async (req, res) => {
     try {
         const { topicId } = req.params;
         const { name, description } = req.body;
@@ -826,8 +825,8 @@ app.put('/api/admin/course/topics/:topicId',  async (req, res) => {
     }
 });
 
-// Delete Topic
-app.delete('/api/admin/course/topics/:topicId',  async (req, res) => {
+// Delete Topic - NO AUTHENTICATE
+app.delete('/api/admin/course/topics/:topicId', async (req, res) => {
     try {
         const { topicId } = req.params;
         const result = await pool.query('DELETE FROM course_topics WHERE id = $1 RETURNING *', [topicId]);
@@ -842,8 +841,8 @@ app.delete('/api/admin/course/topics/:topicId',  async (req, res) => {
     }
 });
 
-// Update Subtopic
-app.put('/api/admin/course/subtopics/:subtopicId',  async (req, res) => {
+// Update Subtopic - NO AUTHENTICATE
+app.put('/api/admin/course/subtopics/:subtopicId', async (req, res) => {
     try {
         const { subtopicId } = req.params;
         const { name, description } = req.body;
@@ -879,8 +878,8 @@ app.put('/api/admin/course/subtopics/:subtopicId',  async (req, res) => {
     }
 });
 
-// Delete Subtopic
-app.delete('/api/admin/course/subtopics/:subtopicId',  async (req, res) => {
+// Delete Subtopic - NO AUTHENTICATE
+app.delete('/api/admin/course/subtopics/:subtopicId', async (req, res) => {
     try {
         const { subtopicId } = req.params;
         const result = await pool.query('DELETE FROM course_subtopics WHERE id = $1 RETURNING *', [subtopicId]);
@@ -895,8 +894,8 @@ app.delete('/api/admin/course/subtopics/:subtopicId',  async (req, res) => {
     }
 });
 
-// Update Content
-app.put('/api/admin/course/content/:contentId',  async (req, res) => {
+// Update Content - NO AUTHENTICATE
+app.put('/api/admin/course/content/:contentId', async (req, res) => {
     try {
         const { contentId } = req.params;
         const { video_title, cheatsheet_title, mcq_title, video_description, cheatsheet_content, questions } = req.body;
@@ -948,8 +947,8 @@ app.put('/api/admin/course/content/:contentId',  async (req, res) => {
     }
 });
 
-// Delete Content
-app.delete('/api/admin/course/content/:contentId',  async (req, res) => {
+// Delete Content - NO AUTHENTICATE
+app.delete('/api/admin/course/content/:contentId', async (req, res) => {
     try {
         const { contentId } = req.params;
         
