@@ -359,9 +359,7 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedGoal = data.data;
-        setGoals(
-          goals.map((g) => (g.id === goalId ? updatedGoal : g))
-        );
+        setGoals(goals.map((g) => (g.id === goalId ? updatedGoal : g)));
         // Also update selectedGoal if it is the one being edited
         if (selectedGoal?.id === goalId) {
           setSelectedGoal(updatedGoal);
@@ -369,7 +367,7 @@ const CourseManagement = () => {
         setEditingGoal(null);
         setEditGoalName("");
       } else {
-        alert(data.message || "Failed to update goal");
+        alert(data.message || data.error || "Failed to update goal");
       }
     } catch (error) {
       console.error("Error updating goal:", error);
@@ -434,11 +432,7 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedModule = data.data;
-        setModules(
-          modules.map((m) =>
-            m.id === moduleId ? updatedModule : m
-          )
-        );
+        setModules(modules.map((m) => (m.id === moduleId ? updatedModule : m)));
         // Update selectedModule if it's the current one
         if (selectedModule?.id === moduleId) {
           setSelectedModule(updatedModule);
@@ -509,14 +503,10 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedTopic = data.data;
-        setTopics(
-          topics.map((t) =>
-            t.id === topicId ? updatedTopic : t
-          )
-        );
+        setTopics(topics.map((t) => (t.id === topicId ? updatedTopic : t)));
         // Update selectedTopic if active
         if (selectedTopic?.id === topicId) {
-            setSelectedTopic(updatedTopic);
+          setSelectedTopic(updatedTopic);
         }
         setEditingTopic(null);
         setEditTopicName("");
@@ -583,11 +573,9 @@ const CourseManagement = () => {
       if (data.data) {
         const updatedSubtopic = data.data;
         setSubtopics(
-          subtopics.map((s) =>
-            s.id === subtopicId ? updatedSubtopic : s
-          )
+          subtopics.map((s) => (s.id === subtopicId ? updatedSubtopic : s))
         );
-        
+
         if (selectedSubtopic?.id === subtopicId) {
           setSelectedSubtopic(updatedSubtopic);
         }
@@ -601,7 +589,6 @@ const CourseManagement = () => {
       alert("Error updating subtopic");
     }
   };
-  
 
   const deleteSubtopic = async (subtopicId, e) => {
     e.stopPropagation();
@@ -645,11 +632,11 @@ const CourseManagement = () => {
     try {
       let field = "";
       let contentType = content.find((c) => c.id === contentId)?.content_type;
-      
+
       if (contentType === "video") field = "video_title";
       else if (contentType === "cheatsheet") field = "cheatsheet_title";
       else if (contentType === "mcq") field = "mcq_title";
-  
+
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/content/${contentId}`,
         {
@@ -1121,7 +1108,9 @@ const CourseManagement = () => {
                                                     )
                                                   }
                                                   autoFocus
-                                                  onClick={(e) => e.stopPropagation()}
+                                                  onClick={(e) =>
+                                                    e.stopPropagation()
+                                                  }
                                                 />
                                                 <button
                                                   onClick={(e) =>

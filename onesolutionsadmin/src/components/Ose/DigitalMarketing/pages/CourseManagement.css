@@ -340,6 +340,7 @@ body {
 }
 
 .course-nav-grandchild-title {
+  color:#000;
   flex: 1;
 }
 
