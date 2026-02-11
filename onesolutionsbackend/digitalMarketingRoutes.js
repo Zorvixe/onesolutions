@@ -673,6 +673,308 @@ app.get('/api/student/courses/progress/overall', authenticate, async (req, res) 
     }
 });
 
+// Add these routes to your backend server code
+
+// Update Goal
+app.put('/api/admin/course/goals/:goalId', authenticate, async (req, res) => {
+    try {
+        const { goalId } = req.params;
+        const { name, description, duration_months, certificate_name } = req.body;
+        
+        let query = 'UPDATE course_goals SET ';
+        const updates = [];
+        const values = [];
+        let paramIndex = 1;
+        
+        if (name) {
+            updates.push(`name = $${paramIndex++}`);
+            values.push(name);
+        }
+        if (description) {
+            updates.push(`description = $${paramIndex++}`);
+            values.push(description);
+        }
+        if (duration_months) {
+            updates.push(`duration_months = $${paramIndex++}`);
+            values.push(duration_months);
+        }
+        if (certificate_name) {
+            updates.push(`certificate_name = $${paramIndex++}`);
+            values.push(certificate_name);
+        }
+        
+        updates.push(`updated_at = CURRENT_TIMESTAMP`);
+        query += updates.join(', ');
+        query += ` WHERE id = $${paramIndex} RETURNING *`;
+        values.push(goalId);
+        
+        const result = await pool.query(query, values);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Goal not found' });
+        }
+        
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Delete Goal
+app.delete('/api/admin/course/goals/:goalId', authenticate, async (req, res) => {
+    try {
+        const { goalId } = req.params;
+        const result = await pool.query('DELETE FROM course_goals WHERE id = $1 RETURNING *', [goalId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Goal not found' });
+        }
+        
+        res.json({ success: true, message: 'Goal deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Update Module
+app.put('/api/admin/course/modules/:moduleId', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const { name, description } = req.body;
+        
+        let query = 'UPDATE course_modules SET ';
+        const updates = [];
+        const values = [];
+        let paramIndex = 1;
+        
+        if (name) {
+            updates.push(`name = $${paramIndex++}`);
+            values.push(name);
+        }
+        if (description) {
+            updates.push(`description = $${paramIndex++}`);
+            values.push(description);
+        }
+        
+        updates.push(`updated_at = CURRENT_TIMESTAMP`);
+        query += updates.join(', ');
+        query += ` WHERE id = $${paramIndex} RETURNING *`;
+        values.push(moduleId);
+        
+        const result = await pool.query(query, values);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Module not found' });
+        }
+        
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Delete Module
+app.delete('/api/admin/course/modules/:moduleId', authenticate, async (req, res) => {
+    try {
+        const { moduleId } = req.params;
+        const result = await pool.query('DELETE FROM course_modules WHERE id = $1 RETURNING *', [moduleId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Module not found' });
+        }
+        
+        res.json({ success: true, message: 'Module deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Update Topic
+app.put('/api/admin/course/topics/:topicId', authenticate, async (req, res) => {
+    try {
+        const { topicId } = req.params;
+        const { name, description } = req.body;
+        
+        let query = 'UPDATE course_topics SET ';
+        const updates = [];
+        const values = [];
+        let paramIndex = 1;
+        
+        if (name) {
+            updates.push(`name = $${paramIndex++}`);
+            values.push(name);
+        }
+        if (description) {
+            updates.push(`description = $${paramIndex++}`);
+            values.push(description);
+        }
+        
+        updates.push(`updated_at = CURRENT_TIMESTAMP`);
+        query += updates.join(', ');
+        query += ` WHERE id = $${paramIndex} RETURNING *`;
+        values.push(topicId);
+        
+        const result = await pool.query(query, values);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Topic not found' });
+        }
+        
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Delete Topic
+app.delete('/api/admin/course/topics/:topicId', authenticate, async (req, res) => {
+    try {
+        const { topicId } = req.params;
+        const result = await pool.query('DELETE FROM course_topics WHERE id = $1 RETURNING *', [topicId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Topic not found' });
+        }
+        
+        res.json({ success: true, message: 'Topic deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Update Subtopic
+app.put('/api/admin/course/subtopics/:subtopicId', authenticate, async (req, res) => {
+    try {
+        const { subtopicId } = req.params;
+        const { name, description } = req.body;
+        
+        let query = 'UPDATE course_subtopics SET ';
+        const updates = [];
+        const values = [];
+        let paramIndex = 1;
+        
+        if (name) {
+            updates.push(`name = $${paramIndex++}`);
+            values.push(name);
+        }
+        if (description) {
+            updates.push(`description = $${paramIndex++}`);
+            values.push(description);
+        }
+        
+        updates.push(`updated_at = CURRENT_TIMESTAMP`);
+        query += updates.join(', ');
+        query += ` WHERE id = $${paramIndex} RETURNING *`;
+        values.push(subtopicId);
+        
+        const result = await pool.query(query, values);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Subtopic not found' });
+        }
+        
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Delete Subtopic
+app.delete('/api/admin/course/subtopics/:subtopicId', authenticate, async (req, res) => {
+    try {
+        const { subtopicId } = req.params;
+        const result = await pool.query('DELETE FROM course_subtopics WHERE id = $1 RETURNING *', [subtopicId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Subtopic not found' });
+        }
+        
+        res.json({ success: true, message: 'Subtopic deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Update Content
+app.put('/api/admin/course/content/:contentId', authenticate, async (req, res) => {
+    try {
+        const { contentId } = req.params;
+        const { video_title, cheatsheet_title, mcq_title, video_description, cheatsheet_content, questions } = req.body;
+        
+        let query = 'UPDATE subtopic_content SET ';
+        const updates = [];
+        const values = [];
+        let paramIndex = 1;
+        
+        if (video_title !== undefined) {
+            updates.push(`video_title = $${paramIndex++}`);
+            values.push(video_title);
+        }
+        if (cheatsheet_title !== undefined) {
+            updates.push(`cheatsheet_title = $${paramIndex++}`);
+            values.push(cheatsheet_title);
+        }
+        if (mcq_title !== undefined) {
+            updates.push(`mcq_title = $${paramIndex++}`);
+            values.push(mcq_title);
+        }
+        if (video_description !== undefined) {
+            updates.push(`video_description = $${paramIndex++}`);
+            values.push(video_description);
+        }
+        if (cheatsheet_content !== undefined) {
+            updates.push(`cheatsheet_content = $${paramIndex++}`);
+            values.push(cheatsheet_content);
+        }
+        if (questions !== undefined) {
+            updates.push(`questions = $${paramIndex++}`);
+            values.push(JSON.stringify(questions));
+        }
+        
+        updates.push(`updated_at = CURRENT_TIMESTAMP`);
+        query += updates.join(', ');
+        query += ` WHERE id = $${paramIndex} RETURNING *`;
+        values.push(contentId);
+        
+        const result = await pool.query(query, values);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Content not found' });
+        }
+        
+        res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
+// Delete Content
+app.delete('/api/admin/course/content/:contentId', authenticate, async (req, res) => {
+    try {
+        const { contentId } = req.params;
+        
+        // Get content to check if it's a video and delete file
+        const content = await pool.query('SELECT * FROM subtopic_content WHERE id = $1', [contentId]);
+        
+        if (content.rows.length > 0 && content.rows[0].content_type === 'video' && content.rows[0].video_url) {
+            const videoPath = path.join(__dirname, content.rows[0].video_url);
+            if (fs.existsSync(videoPath)) {
+                fs.unlinkSync(videoPath);
+            }
+        }
+        
+        const result = await pool.query('DELETE FROM subtopic_content WHERE id = $1 RETURNING *', [contentId]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Content not found' });
+        }
+        
+        res.json({ success: true, message: 'Content deleted successfully' });
+    } catch (e) {
+        res.status(500).json({ success: false, error: e.message });
+    }
+});
+
 // -------------------------------------------
 // Export
 // -------------------------------------------

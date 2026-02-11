@@ -207,8 +207,8 @@ const Workingwith_Data_Time_CS = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
-            : "Continue"}
+              ? "✓ Completed"
+              : "Continue"}
         </button>
       </div>
     </div>

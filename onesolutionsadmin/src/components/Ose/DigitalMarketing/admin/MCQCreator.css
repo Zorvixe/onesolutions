@@ -1,0 +1,426 @@
+/* MCQ Creator Styles */
+.mcq-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 1rem;
+  }
+  
+  .mcq-modal {
+    background-color: white;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 64rem;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Header Styles */
+  .mcq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #f9fafb;
+  }
+  
+  .mcq-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .mcq-icon-wrapper {
+    padding: 0.5rem;
+    background-color: #f3e8ff;
+    border-radius: 0.5rem;
+  }
+  
+  .mcq-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #9333ea;
+  }
+  
+  .mcq-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+  }
+  
+  .mcq-close-btn {
+    padding: 0.5rem;
+    border-radius: 9999px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .mcq-close-btn:hover {
+    background-color: #e5e7eb;
+  }
+  
+  .mcq-close-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: #6b7280;
+  }
+  
+  /* Content Styles */
+  .mcq-content {
+    overflow-y: auto;
+    flex: 1;
+    padding: 2rem;
+  }
+  
+  .mcq-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .mcq-form-section {
+    width: 100%;
+  }
+  
+  .mcq-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+  }
+  
+  .mcq-input {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+  }
+  
+  .mcq-input:focus {
+    border-color: #9333ea;
+    box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2);
+  }
+  
+  .mcq-input::placeholder {
+    color: #9ca3af;
+  }
+  
+  /* Questions Container */
+  .mcq-questions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  /* Question Card */
+  .mcq-question-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+    position: relative;
+  }
+  
+  .mcq-question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+  
+  .mcq-question-number {
+    font-weight: 700;
+    color: #374151;
+    margin: 0;
+  }
+  
+  .mcq-remove-btn {
+    padding: 0.5rem;
+    color: #ef4444;
+    background: none;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    opacity: 0.5;
+  }
+  
+  .mcq-question-card:hover .mcq-remove-btn {
+    opacity: 1;
+  }
+  
+  .mcq-remove-btn:hover {
+    background-color: #fee2e2;
+  }
+  
+  .mcq-remove-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  /* Question Textarea */
+  .mcq-question-textarea-wrapper {
+    margin-bottom: 1.5rem;
+  }
+  
+  .mcq-textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s;
+    background-color: white;
+    font-family: inherit;
+    resize: vertical;
+  }
+  
+  .mcq-textarea:focus {
+    border-color: #9333ea;
+    box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.2);
+  }
+  
+  .mcq-textarea::placeholder {
+    color: #9ca3af;
+  }
+  
+  /* Options Grid */
+  .mcq-options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 768px) {
+    .mcq-options-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .mcq-option-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .mcq-correct-btn {
+    padding: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .mcq-correct-btn:hover {
+    border-color: #22c55e;
+  }
+  
+  .mcq-correct-active {
+    background-color: #22c55e;
+    border-color: #22c55e;
+    color: white;
+  }
+  
+  .mcq-check-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .mcq-option-input {
+    flex: 1;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s;
+  }
+  
+  .mcq-option-input:focus {
+    border-color: #9333ea;
+  }
+  
+  .mcq-option-correct {
+    border-color: #22c55e;
+    background-color: #f0fdf4;
+    box-shadow: 0 0 0 1px #22c55e;
+  }
+  
+  /* Explanation Section */
+  .mcq-explanation-wrapper {
+    margin-top: 1rem;
+  }
+  
+  .mcq-explanation-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .mcq-explanation-input {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s;
+    background-color: white;
+  }
+  
+  .mcq-explanation-input:focus {
+    border-color: #9333ea;
+  }
+  
+  .mcq-explanation-input::placeholder {
+    color: #9ca3af;
+  }
+  
+  /* Add Question Button */
+  .mcq-add-btn {
+    width: 100%;
+    border: 2px dashed #d1d5db;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    background: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+  
+  .mcq-add-btn:hover {
+    border-color: #9333ea;
+    color: #9333ea;
+    background-color: #faf5ff;
+  }
+  
+  .mcq-add-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  /* Footer Styles */
+  .mcq-footer {
+    padding: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    background-color: white;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .mcq-cancel-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    background-color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .mcq-cancel-btn:hover:not(:disabled) {
+    background-color: #f9fafb;
+  }
+  
+  .mcq-save-btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #9333ea;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s;
+  }
+  
+  .mcq-save-btn:hover:not(:disabled) {
+    background-color: #7e22ce;
+  }
+  
+  .mcq-save-btn:disabled,
+  .mcq-cancel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    .mcq-header {
+      padding: 1rem;
+    }
+  
+    .mcq-title {
+      font-size: 1.125rem;
+    }
+  
+    .mcq-content {
+      padding: 1.5rem;
+    }
+  
+    .mcq-footer {
+      padding: 1rem;
+    }
+  
+    .mcq-question-card {
+      padding: 1rem;
+    }
+  
+    .mcq-cancel-btn,
+    .mcq-save-btn {
+      padding: 0.625rem 1.25rem;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .mcq-overlay {
+      padding: 0.5rem;
+    }
+  
+    .mcq-footer {
+      flex-direction: column-reverse;
+      gap: 0.5rem;
+    }
+  
+    .mcq-cancel-btn,
+    .mcq-save-btn {
+      width: 100%;
+    }
+  
+    .mcq-options-grid {
+      grid-template-columns: 1fr;
+    }
+  }

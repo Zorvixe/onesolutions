@@ -28,10 +28,10 @@ const StudentList = () => {
     status: "active",
   });
   // Add course options:
-const courseOptions = [
-  { value: "web_development", label: "Web Development" },
-  { value: "digital_marketing", label: "Digital Marketing" },
-];
+  const courseOptions = [
+    { value: "web_development", label: "Web Development" },
+    { value: "digital_marketing", label: "Digital Marketing" },
+  ];
 
   const [editingStudent, setEditingStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,7 +97,10 @@ const courseOptions = [
       if (filters.batchMonth) params.append("batchMonth", filters.batchMonth);
       if (filters.batchYear) params.append("batchYear", filters.batchYear);
       if (filters.status) params.append("status", filters.status);
-      if (filters.studentType) params.append("studentType", filters.studentType); // Added studentType filter
+      if (filters.studentType)
+        params.append("studentType", filters.studentType); // Added studentType filter
+      if (filters.courseSelection)
+        params.append("courseSelection", filters.courseSelection);
       params.append("page", pagination.page);
       params.append("limit", pagination.limit);
 
@@ -236,6 +239,7 @@ const courseOptions = [
           last_name: "",
           phone: "",
           student_type: "zorvixe_core",
+          course_selection: "",
           batch_month: "",
           batch_year: "",
           password: "",
@@ -263,6 +267,7 @@ const courseOptions = [
       last_name: "",
       phone: "",
       student_type: "zorvixe_core",
+      course_selection: "",
       batch_month: "",
       batch_year: "",
       password: "",
@@ -285,6 +290,7 @@ const courseOptions = [
       last_name: student.last_name,
       phone: student.phone || "",
       student_type: student.student_type || "zorvixe_core", // Added student_type
+      course_selection: student.course_selection, // Added student_type
       batch_month: student.batch_month || "",
       batch_year: student.batch_year || "",
       password: "", // Don't pre-fill password for security
@@ -346,6 +352,7 @@ const courseOptions = [
       batchYear: "",
       status: "",
       studentType: "", // Added studentType
+      courseSelection: "",
     });
     setPagination((prev) => ({ ...prev, page: 1 }));
   };
@@ -505,9 +512,6 @@ const courseOptions = [
     );
   }
 
-  if (filters.courseSelection) params.append("courseSelection", filters.courseSelection);
-
-
   const studentTypeStats = getStudentTypeStats();
 
   return (
@@ -598,7 +602,10 @@ const courseOptions = [
           </div>
         </div>
         <div className="stat-card-stud">
-          <div className="stat-icon-stud" style={{ backgroundColor: "#e8edff" }}>
+          <div
+            className="stat-icon-stud"
+            style={{ backgroundColor: "#e8edff" }}
+          >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#4a6bff">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
@@ -609,7 +616,10 @@ const courseOptions = [
           </div>
         </div>
         <div className="stat-card-stud">
-          <div className="stat-icon-stud" style={{ backgroundColor: "#ecfdf5" }}>
+          <div
+            className="stat-icon-stud"
+            style={{ backgroundColor: "#ecfdf5" }}
+          >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#10b981">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
@@ -620,7 +630,10 @@ const courseOptions = [
           </div>
         </div>
         <div className="stat-card-stud">
-          <div className="stat-icon-stud" style={{ backgroundColor: "#fffbeb" }}>
+          <div
+            className="stat-icon-stud"
+            style={{ backgroundColor: "#fffbeb" }}
+          >
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#f59e0b">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
@@ -699,7 +712,9 @@ const courseOptions = [
             <label>Student Type</label>
             <select
               value={filters.studentType}
-              onChange={(e) => handleFilterChange("studentType", e.target.value)}
+              onChange={(e) =>
+                handleFilterChange("studentType", e.target.value)
+              }
             >
               <option value="">All Types</option>
               {studentTypes.map((type) => (
@@ -713,7 +728,9 @@ const courseOptions = [
             <label>Course</label>
             <select
               value={filters.courseSelection}
-              onChange={(e) => handleFilterChange("courseSelection", e.target.value)}
+              onChange={(e) =>
+                handleFilterChange("courseSelection", e.target.value)
+              }
             >
               <option value="">All Courses</option>
               {courseOptions.map((course) => (
@@ -823,10 +840,14 @@ const courseOptions = [
                       </div>
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {getStudentTypeBadge(student.student_type || "zorvixe_core")}
+                      {getStudentTypeBadge(
+                        student.student_type || "zorvixe_core"
+                      )}
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {student.course_selection === 'digital_marketing' ? 'Digital Marketing' : 'Web Development'}
+                      {student.course_selection === "digital_marketing"
+                        ? "Digital Marketing"
+                        : "Web Development"}
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getBatchInfo(student.batch_month, student.batch_year)}

@@ -6605,21 +6605,20 @@ sortArray(myArray);
           title: "Joining Array Values",
           description:
             "Given an array (myArray) and the string (separator), write a JS Program to join the array values using the separator and 'join()' method.",
-
           difficulty: "Easy",
           descriptionDetails: `
-          <div class="desc-question-details">
+            <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input will contain an array (myArray)\nThe second line of input will contain a string (separator).</p>
-                <p class=""></p>The second line of input will contain a string (separator).</p>
+                <p>The first line of input will contain an array (myArray)
+                The second line of input will contain a string (separator).</p>
               </div>
               <div>
-              <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be a single line string of combined array values.</p>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line string of combined array values.</p>
+              </div>
             </div>
-          </div>
-           `,
+          `,
           sampleInput: "[ 1, 2, 3, 4, 5 ]",
           sampleOutput: "+",
           testCases: [
@@ -6650,20 +6649,17 @@ sortArray(myArray);
             },
           ],
           defaultCode: `
-// Read input
-let myArray = eval(prompt());   // handles single quotes
-let separator = prompt();
-
-
-function joinArray(arr, sep) {
-  /*
-  * Write your code here
-  */
-}
-
-joinArray(myArray, separator);
-
-
+        // Read input
+        let myArray = eval(prompt()); // handles single quotes
+        let separator = prompt();
+        
+        function joinArray(arr, sep) {
+          // Join array using separator
+          let result = arr.join(sep);
+          console.log(result);
+        }
+        
+        joinArray(myArray, separator);
           `,
           score: 19,
           status: "unsolved",
@@ -6674,67 +6670,562 @@ joinArray(myArray, separator);
           title: "Array Slicing",
           description:
             "Given an array (myArray) and the two integers (startIndex and endIndex), write a JS Program to slice the myArray from the start index to end index using 'slice()' method.",
-
           difficulty: "Easy",
           descriptionDetails: `
-          <div class="desc-question-details">
+            <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input will contain an array (myArray)/nThe second and third lines of input will contain whole numbers (startIndex and endIndex respectively).</p>
+                <p>The first line of input will contain an array (myArray)
+                The second and third lines of input will contain whole numbers (startIndex and endIndex respectively).</p>
               </div>
               <div>
-              <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be a single line containing the sliced array.</p>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the sliced array.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>0 <= startIndex, endIndex < myArray.length</p>
+              </div>
             </div>
-             <div>
-              <p class="desc-que-blue">Constraints</p>
-              <p class=""></p>0 <= startIndex, endIndex < myArray.length</p>
-            </div>
-          </div>
-           `,
+          `,
           sampleInput: "[ 2, 4, 6, 8 ]\n1\n3",
           sampleOutput: "[ 4, 6 ]",
-          testCases: [],
+          testCases: [
+            {
+              input: "[1, 2, 3, 4, 5]\n1\n4",
+              output: "[ 2, 3, 4 ]",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'c', 'd']\n0\n2",
+              output: "[ 'a', 'b' ]",
+              visible: false,
+            },
+            {
+              input: "[10, 20, 30, 40]\n2\n4",
+              output: "[ 30, 40 ]",
+              visible: true,
+            },
+            {
+              input: "[5]\n0\n1",
+              output: "[ 5 ]",
+              visible: false,
+            },
+          ],
           defaultCode: `
-
+        // Read input
+        let myArray = eval(prompt()); // handles single quotes
+        let startIndex = Number(prompt());
+        let endIndex = Number(prompt());
+        
+        function sliceArray(arr, start, end) {
+          // Slice array from startIndex to endIndex
+          let result = arr.slice(start, end);
+        
+          // Format output with spaces like [ 4, 6 ]
+          console.log("[ " + result.join(", ") + " ]");
+        }
+        
+        sliceArray(myArray, startIndex, endIndex);
           `,
           score: 19,
           status: "unsolved",
           attempts: [],
         },
         {
-          id: "68fb2ebf-3b964514a9c0-093a153655d9",
-          title: "Array Slicing",
+          id: "1dbf1b1d-8f6a-a2f7df974716",
+          title: "Find the Index of First Boolean Value",
           description:
-            "Given an array (myArray) and the two integers (startIndex and endIndex), write a JS Program to slice the myArray from the start index to end index using 'slice()' method.",
+            "Given an array (myArray), Write a JS program to find the index of the first boolean value in myArray using 'findIndex()' method./nNOTE: If the value is not present in the array, findIndex() returns '-1'.",
+          difficulty: "Easy",
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array (myArray).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the index or -1.</p>
+              </div>
+            </div>
+          `,
+          sampleInput: "[ 'a', true, 'v', 5 ]",
+          sampleOutput: "1",
+          testCases: [
+           
+          ],
+          defaultCode: `
+        
+          `,
+          score: 19,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "26dd0180-d6bb-222f07fe13b2",
+          title: "Replacing the Array Values",
+          description:
+            "Given an array (myArray), start index (startIndex), delete count (deleteCount), and two values (firstVal and secondVal)/nWrite a JS program to replace the array's existing values from the start index, with the new values using the 'splice()' method.",
+          difficulty: "Easy",
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p>The first line of input will contain an array (myArray)./nThe second and third lines of input will contain the whole numbers (startIndex and deleteCount respectively)./nThe fourth and fifth lines of input will contain any values (firstVal and secondVal respectively).</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Output</p>
+                <p>The output should be a single line containing the updated array.</p>
+              </div>
+              <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p>Strings should be given in quotes./n 0 <= startIndex < myArray.length/n 0 <= deleteCount <= myArray.length - startIndex</p>
+              </div>
+            </div>
+          `,
+          sampleInput: "[ 1, 2, 3, 4 ]/n0/n2/'a'/n'b'",
+          sampleOutput: "[ 'a', 'b', 3, 4 ]",
+          testCases: [
+           
+          ],
+          defaultCode: `
+        
+          `,
+          score: 22,
+          status: "unsolved",
+          attempts: [],
+        },
+        
+      ],
+    },
+    //JS Coding Test - 1
+    {
+      id: "javascript-coding-test-1",
+      title: "JS Coding Test 1",
+      description: "",
+      questions: [
+        {
+          id: "7232feb4-ccd9-44ed-b479-4e0a9c5f-9e379ee36bbd",
+          title: "Min & Max Values in an Array",
+          description:
+            "Given an array myArray of integers, write a JS program to find the minimum and maximum values in the array. Minimum and maximum values will be the same in case the array consists of only one value.",
 
           difficulty: "Easy",
           descriptionDetails: `
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input will contain an array (myArray)nThe second and third lines of input will contain whole numbers (startIndex and endIndex respectively).</p>
+                <p class=""></p>The input will be a single line containing an array myArray.</p>
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be a single line containing the sliced array.</p>
-            </div>
-             <div>
-              <p class="desc-que-blue">Constraints</p>
-              <p class=""></p>0 <= startIndex, endIndex < myArray.length</p>
+              <p class=""></p>The output should contain an object with keys as min, max and its corresponding minimum and maximum values.</p>
             </div>
           </div>
            `,
-          sampleInput: "[ 2, 4, 6, 8 ]\n1\n3",
-          sampleOutput: "[ 4, 6 ]",
+          sampleInput: "[1, 4, 2, 7, 9, 3, 5]",
+          sampleOutput: "{ min: 1, max: 9 }",
           testCases: [],
           defaultCode: `
 
+
           `,
-          score: 19,
+          score: 18,
           status: "unsolved",
           attempts: [],
         },
+        {
+          id: "7232feb4-ccd9-4afb-b5ed-065b4850f407",
+          title: "Data Type Report",
+          description:
+            "Given an array myArray, write a JS program to find the count of number, object, string, boolean data type values in the array.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array myArray.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should contain an object with data types as keys and corresponding count as value as shown in the sample outputs.</p>
+            </div>
+             <div>
+              <p class="desc-que-blue">Constraints</p>
+              <p class=""></p>The keys of an object should be in quotes while giving the input.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, '2', true, {'a': 'b'}, false]",
+          sampleOutput: "{ number: 1, object: 1, string: 1, boolean: 2 }",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 45,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "7232feb4-ccd9-44ed-4afb-b5ed-065b4850f407",
+          title: "Find the Duplicate in an Array",
+          description:
+            "Given an array myArray, write a JS program to find the duplicate item in the array.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array myArray.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing the duplicate item or false if no duplicate item is present in the myArray.</p>
+            </div>
+             <div>
+              <p class="desc-que-blue">Constraints</p>
+              <p class=""></p>The keys of an object should be in quotes while giving the input.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 2, 3, 4, 5, 6, 7, 7, 8]",
+          sampleOutput: "7",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "7232feb4-ccd9-b5ed-065b4850f407",
+          title: "Sports Data",
+          description:
+            "There is a sports competition in a school and each student is allowed to participate in only one sport.Given an array sportsData of arrays,the first item of each array consists of the name of the student and the second item consists of the sport in which the student has registered.\nWrite a JS program to consolidate the sata so that each student should participate in only one sport. If duplicate entries are found, consider the last entry.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array sportsData.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be an object with student names as keys and the latest game they registered as its corresponding value</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
+          sampleOutput: "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "7232feb4-ccd9-44ed-b5ed-065b4850f407",
+          title: "Cumulative Sum",
+          description:
+            "Given an array integers, Write a JS program to get the cumulative sum of items in the array.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array integers.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing an array with cumulative sum values.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 10, 100, 1000]",
+          sampleOutput: "[ 1, 11, 111, 111 ]",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "7232feb4-ccd9-44ed-b5ed-065b4850f407",
+          title: "Common Items in Three Arrays",
+          description:
+            "Given three arrays arr1, arr2, and arr3, Write a JS program to find the common items among the threee arrays.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input contains an array arr1./nThe second line of input contains an array arr2./nThe third line of input contains an array arr3.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing an array of common items among the three arrays.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 2, 3, 'cat']/n[1, 'cat', 7, 10]/n[1, 'cat', 16, 64]",
+          sampleOutput: "[ 1, 'cat' ]",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 18,
+          status: "unsolved",
+          attempts: [],
+        },
+      ],
+    },
+
+    //JS Coding Test - 2
+    {
+      id: "javascript-coding-test-2",
+      title: "JS Coding Test 2",
+      description: "",
+      questions: [
+        {
+          id: "e8f49aad-62e3-a233-b71b6d1ab82d",
+          title: "Concatenate and Remove Duplicates",
+          description:
+            "Given two arrays arr1 and arr2 of positive integers, Write a JS program to concatenate two arrays and remove the duplicate items from the concatenated array. Log the array with unique items in ascending order.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input contains an array arr1./nThe second line of input contains an array arr2./nThe third line of input contains an array arr3.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be an array containing the unique items ascending order.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 4, 7, 3, 7, 3, 3]/n[2, 4, 5, 5, 3, 2, 1]",
+          sampleOutput: "[ 1, 2, 3, 4, 5, 7 ]",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 18,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "e8f49aad-62e3-41dd-a233-b71b6d1ab82d",
+          title: "Replacing Array Item",
+          description:
+            "Given  an array myArray, targetItem, and a replaceItem, Write a JS program to replace the targetItem with the given replaceItem in myArray. If myArray consists of more than one targetItem replace the first occurrence.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input contains an array myArray./nThe second line of input contains a targetItem./nThe third line of input contains a replaceItem.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be an array containing the replaced item.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 2, 3, 'four', 5, 6]/n'four'/n4",
+          sampleOutput: "[ 1, 2, 3, 4, 5, 6 ]",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 18,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "e8f49aad-62e3-a233-b71b6d1ab82d",
+          title: "Find the First Value",
+          description:
+            "Given an array myArray of positive integers, write a JS program to find the first smallest integer divisible by 2 and 3. Log the number or undefined in case no integer is found divisible by 2 and 3.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array myArray.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line containing a number divisible by 2 and 3 or undefined.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[51, 18, 15, 12]",
+          sampleOutput: "12",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "e8f49aad-62e3-41dd-a233-b71b6d1ab82d",
+          title: "Squares of Array Items",
+          description:
+            "Given an array myArray, write a JS program to get the squares of each item in the given myArray.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array myArray, myArray consists of numbers and arrays.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be an array containing the square of each item.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[ [1,2], [3, 4], [5, 6] ]",
+          sampleOutput: "[ [ 1, 4 ], [ 9, 16 ], [ 25, 36 ] ]",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 18,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "e8f49aad-62e3-41dd-a233-b71b6d1ab82d",
+          title: "Product of Array Items",
+          description:
+            "Given an array integers, write a JS program to get the product of the integers in the given array.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an array integers.</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a single line string containing the product as shown in sample outputs.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 2, 3]",
+          sampleOutput: "1 * 2 * 3 = 6",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 13,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "e8f49aad-62e3-235c-42bb-a233-b71b6d1ab82d",
+          title: "Magical Indices",
+          description:
+            "Given an array of integers and a number x. An index is valid if /n item y at an index is increased by x and /n x+y would be greater than the sum of all other items in the array. /n Write a JS program to determine the number of valid indices.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The first line of input contains an array./n The second line of input contains a number</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The output should be a number indicating the number of valid positions.</p>
+            </div>
+             <div>
+              <p class="desc-que-blue">Explanation</p>
+              <p class=""></p>For example, an array A = [10,20,30] and a value x = 25./nWe have values 10, 20, 30 at indices 0,1,2 respectively.</p>
+              <p class=""></p>Here index 0 is invalid because /n 10 + 25 = 35 is less than 20 + 30 = 50.</p>
+              <p class=""></p>Here index 1 is valid because /n 20 + 25 = 45 is greater than 10 + 30 = 40.</p>
+              <p class=""></p>Here index 2 is valid because /n 30 + 25 = 55 is greater than 10 + 20 = 30.</p>
+              <p class=""></p>So there are 2 valid indices.</p>
+            </div>
+          </div>
+           `,
+          sampleInput: "[1, 2, 3, 5, 7]",
+          sampleOutput: 13,
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 25,
+          status: "unsolved",
+          attempts: [],
+        },
+        {
+          id: "e8f49aad-62e3-235c-42bb-a233-b71b6d1ab82d",
+          title: "Person Details",
+          description:
+            "Given an object person containing a person's details, Write a JS program to log the name, address, and nicknames count.",
+
+          difficulty: "Easy",
+          descriptionDetails: `
+          <div class="desc-question-details">
+              <div>
+                <p class="desc-que-blue">Input</p>
+                <p class=""></p>The input will be a single line containing an object person</p>
+              </div>
+              <div>
+              <p class="desc-que-blue">Output</p>
+              <p class=""></p>The first line of output should contain the name and address of the person as shown in the sample output.</p>
+              <p class=""></p>The second line of output should contain the nicknames count as shown in the sample output.</p>
+            </div>
+           <div>
+                <p class="desc-que-blue">Constraints</p>
+                <p class=""></p>The keys of an object should be in quotes while giving the input</p>
+              </div>
+          </div>
+           `,
+          sampleInput: "{ 'name': 'Pranay', 'address': { 'city': 'Mumbai', 'state': 'Maharashtra' }, 'nickNames': ['Nani', 'Chanti'] }",
+          sampleOutput: "Pranay is from Mumbai, Maharashtra/n Pranay has 2 nicknames",
+          testCases: [],
+          defaultCode: `
+
+
+          `,
+          score: 11,
+          status: "unsolved",
+          attempts: [],
+        },
+      
       ],
     },
   ],

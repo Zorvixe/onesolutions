@@ -382,31 +382,37 @@ export const mockExecuteSql = async (sql, databaseSchema = null) => {
   console.log("Parsing SQL:", sqlWithoutComments);
 
   // Check for SELECT * FROM employees (basic query)
-  if (sqlWithoutComments.includes("select") && sqlWithoutComments.includes("from employees")) {
-    
+  if (
+    sqlWithoutComments.includes("select") &&
+    sqlWithoutComments.includes("from employees")
+  ) {
     // Check for specific columns
-    if (sqlWithoutComments.includes("select first_name, last_name, department from employees")) {
+    if (
+      sqlWithoutComments.includes(
+        "select first_name, last_name, department from employees"
+      )
+    ) {
       return {
         success: true,
         output: "Query executed successfully. Returned 5 rows.",
         data: {
           columns: ["first_name", "last_name", "department"],
-          results: employeesData.results.map(row => ({
+          results: employeesData.results.map((row) => ({
             first_name: row.first_name,
             last_name: row.last_name,
-            department: row.department
+            department: row.department,
           })),
-          rowCount: 5
-        }
+          rowCount: 5,
+        },
       };
     }
-    
+
     // Check for WHERE clause
     if (sqlWithoutComments.includes("where")) {
       // WHERE department = 'engineering'
       if (sqlWithoutComments.includes("department = 'engineering'")) {
         const filteredData = employeesData.results.filter(
-          row => row.department.toLowerCase() === "engineering"
+          (row) => row.department.toLowerCase() === "engineering"
         );
         return {
           success: true,
@@ -414,39 +420,39 @@ export const mockExecuteSql = async (sql, databaseSchema = null) => {
           data: {
             columns: employeesData.columns,
             results: filteredData,
-            rowCount: filteredData.length
-          }
+            rowCount: filteredData.length,
+          },
         };
       }
-      
+
       // WHERE salary > 70000
       if (sqlWithoutComments.includes("salary > 70000")) {
         const filteredData = employeesData.results.filter(
-          row => row.salary > 70000
+          (row) => row.salary > 70000
         );
         return {
           success: true,
           output: "Query executed successfully. Returned 2 rows.",
           data: {
             columns: ["first_name", "last_name", "salary"],
-            results: filteredData.map(row => ({
+            results: filteredData.map((row) => ({
               first_name: row.first_name,
               last_name: row.last_name,
-              salary: row.salary
+              salary: row.salary,
             })),
-            rowCount: filteredData.length
-          }
+            rowCount: filteredData.length,
+          },
         };
       }
     }
-    
+
     // Check for ORDER BY
     if (sqlWithoutComments.includes("order by")) {
       const sortedData = [...employeesData.results];
-      
+
       if (sqlWithoutComments.includes("salary desc")) {
         sortedData.sort((a, b) => b.salary - a.salary);
-        
+
         // Check for LIMIT
         if (sqlWithoutComments.includes("limit 3")) {
           const limitedData = sortedData.slice(0, 3);
@@ -455,98 +461,103 @@ export const mockExecuteSql = async (sql, databaseSchema = null) => {
             output: "Query executed successfully. Returned 3 rows.",
             data: {
               columns: ["first_name", "last_name", "salary"],
-              results: limitedData.map(row => ({
+              results: limitedData.map((row) => ({
                 first_name: row.first_name,
                 last_name: row.last_name,
-                salary: row.salary
+                salary: row.salary,
               })),
-              rowCount: 3
-            }
+              rowCount: 3,
+            },
           };
         }
-        
+
         return {
           success: true,
           output: "Query executed successfully. Returned 5 rows.",
           data: {
             columns: ["first_name", "last_name", "salary"],
-            results: sortedData.map(row => ({
+            results: sortedData.map((row) => ({
               first_name: row.first_name,
               last_name: row.last_name,
-              salary: row.salary
+              salary: row.salary,
             })),
-            rowCount: 5
-          }
+            rowCount: 5,
+          },
         };
       }
     }
-    
+
     // Check for GROUP BY
     if (sqlWithoutComments.includes("group by")) {
       // GROUP BY department with COUNT(*)
       if (sqlWithoutComments.includes("count(*)")) {
         const departmentCounts = {};
-        employeesData.results.forEach(row => {
-          departmentCounts[row.department] = (departmentCounts[row.department] || 0) + 1;
+        employeesData.results.forEach((row) => {
+          departmentCounts[row.department] =
+            (departmentCounts[row.department] || 0) + 1;
         });
-        
-        const results = Object.entries(departmentCounts).map(([dept, count]) => ({
-          department: dept,
-          employee_count: count
-        }));
-        
+
+        const results = Object.entries(departmentCounts).map(
+          ([dept, count]) => ({
+            department: dept,
+            employee_count: count,
+          })
+        );
+
         return {
           success: true,
           output: "Query executed successfully. Returned 3 rows.",
           data: {
             columns: ["department", "employee_count"],
             results: results,
-            rowCount: results.length
-          }
+            rowCount: results.length,
+          },
         };
       }
-      
+
       // GROUP BY department with AVG(salary)
       if (sqlWithoutComments.includes("avg(salary)")) {
         const departmentStats = {};
-        employeesData.results.forEach(row => {
+        employeesData.results.forEach((row) => {
           if (!departmentStats[row.department]) {
             departmentStats[row.department] = { total: 0, count: 0 };
           }
           departmentStats[row.department].total += row.salary;
           departmentStats[row.department].count += 1;
         });
-        
-        const results = Object.entries(departmentStats).map(([dept, stats]) => ({
-          department: dept,
-          avg_salary: Math.round(stats.total / stats.count)
-        }));
-        
+
+        const results = Object.entries(departmentStats).map(
+          ([dept, stats]) => ({
+            department: dept,
+            avg_salary: Math.round(stats.total / stats.count),
+          })
+        );
+
         // Sort if ORDER BY is present
         if (sqlWithoutComments.includes("order by avg_salary desc")) {
           results.sort((a, b) => b.avg_salary - a.avg_salary);
         }
-        
+
         return {
           success: true,
           output: "Query executed successfully. Returned 3 rows.",
           data: {
             columns: ["department", "avg_salary"],
             results: results,
-            rowCount: results.length
-          }
+            rowCount: results.length,
+          },
         };
       }
     }
-    
+
     // Default SELECT response
     return {
       success: true,
       output: "Query executed successfully. Returned 5 rows.",
-      data: employeesData
+      data: employeesData,
     };
   }
-  
+
   // Default response for other queries
   return {
     success: true,
@@ -554,8 +565,8 @@ export const mockExecuteSql = async (sql, databaseSchema = null) => {
     data: {
       columns: ["result"],
       results: [{ result: "Query completed" }],
-      rowCount: 1
-    }
+      rowCount: 1,
+    },
   };
 };
 

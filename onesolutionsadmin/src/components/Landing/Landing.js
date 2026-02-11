@@ -362,17 +362,18 @@ function Landing() {
                   <a href="/discussions">Discussions</a>
                   <a href="/feedbacks">Feedbacks</a>
                   <a href="/student_list">Student List</a>
-                  <a href="/enrollments">enrollments</a>
-                  <a href="/contacts">contacts</a>
-                  <a href="/AdminStudentQuestions">AdminStudentQuestions</a>
-                  <a href="/AdminAIContent">AdminAIContent</a>
+                  <a href="/enrollments">Enrollments</a>
+                  <a href="/contacts">Contacts</a>
+                  <a href="/AdminStudentQuestions">Admin Student Questions</a>
+                  <a href="/AdminAIContent">Admin AI Content</a>
 
                   {/* Digital Marketing */}
-                  <a href="/digital/dashboard">DigitalDashboard</a>
-                  <a href="/digital/CourseManagement">DigitalCourseManagement</a>
-                  <a href="/digital/VideoUploadModal">DigitalVideoUploadModal</a>
-                  <a href="/digital/MCQCreator">DigitalMCQCreator</a>
-                  {/* Digital Marketing */}
+                  <a href="/digital-marketing/dashboard">
+                    Digital Marketing Dashboard
+                  </a>
+                  <a href="/digital-marketing/courses">
+                    Digital Marketing Courses
+                  </a>
                 </div>
               </div>
             </div>

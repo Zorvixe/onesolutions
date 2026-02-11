@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Upload, Clock, Video } from 'lucide-react';
+import './VideoUploadModal.css';
 
 const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
   const [title, setTitle] = useState('');
@@ -41,7 +42,7 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/admin/course/subtopics/${subtopicId}/video`, {
+      const response = await fetch(`https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/video`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`
@@ -68,97 +69,99 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden">
-        <div className="flex justify-between items-center p-6 border-b bg-gray-50">
-          <h3 className="text-xl font-bold text-gray-800">Upload Video Lesson</h3>
-          <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition">
-            <X className="w-5 h-5 text-gray-500" />
+    <div className="video-upload-overlay">
+      <div className="video-upload-modal">
+        <div className="video-upload-header">
+          <h3 className="video-upload-title">Upload Video Lesson</h3>
+          <button onClick={onClose} className="video-upload-close-btn">
+            <X className="video-upload-close-icon" />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Video Title *</label>
+        <form onSubmit={handleSubmit} className="video-upload-form">
+          <div className="video-upload-field">
+            <label className="video-upload-label">Video Title *</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              className="video-upload-input"
               placeholder="e.g., Introduction to SEO"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+          <div className="video-upload-field">
+            <label className="video-upload-label">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              className="video-upload-textarea"
               placeholder="Brief summary of this lesson..."
               rows="3"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Duration (minutes)</label>
-            <div className="relative">
-              <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <div className="video-upload-field">
+            <label className="video-upload-label">Duration (minutes)</label>
+            <div className="video-upload-duration-wrapper">
+              <Clock className="video-upload-duration-icon" />
               <input
                 type="number"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg pl-12 pr-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                className="video-upload-duration-input"
                 placeholder="e.g., 15"
               />
             </div>
           </div>
 
-          <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer relative">
-             <input
-                type="file"
-                accept="video/*"
-                onChange={handleFileChange}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-             />
-             {videoFile ? (
-                <div className="space-y-2">
-                   <div className="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-2">
-                      <Video className="w-8 h-8"/>
-                   </div>
-                   <p className="font-medium text-gray-900">{videoFile.name}</p>
-                   <p className="text-sm text-gray-500">{(videoFile.size / (1024 * 1024)).toFixed(2)} MB</p>
+          <div className="video-upload-dropzone">
+            <input
+              type="file"
+              accept="video/*"
+              onChange={handleFileChange}
+              className="video-upload-file-input"
+            />
+            {videoFile ? (
+              <div className="video-upload-file-preview">
+                <div className="video-upload-file-icon-wrapper">
+                  <Video className="video-upload-file-icon" />
                 </div>
-             ) : (
-                <>
-                   <Upload className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                   <p className="font-medium text-gray-700">Drop video file here or click to browse</p>
-                   <p className="text-sm text-gray-500 mt-1">MP4, MOV, AVI up to 500MB</p>
-                </>
-             )}
+                <p className="video-upload-file-name">{videoFile.name}</p>
+                <p className="video-upload-file-size">
+                  {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+                </p>
+              </div>
+            ) : (
+              <div className="video-upload-placeholder">
+                <Upload className="video-upload-placeholder-icon" />
+                <p className="video-upload-placeholder-text">Drop video file here or click to browse</p>
+                <p className="video-upload-placeholder-hint">MP4, MOV, AVI up to 500MB</p>
+              </div>
+            )}
           </div>
 
           {uploading && (
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm font-medium text-gray-700">
-                <span>Uploading...</span>
-                <span>{progress}%</span>
+            <div className="video-upload-progress">
+              <div className="video-upload-progress-header">
+                <span className="video-upload-progress-label">Uploading...</span>
+                <span className="video-upload-progress-percentage">{progress}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div className="video-upload-progress-bar">
                 <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  className="video-upload-progress-fill"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
           )}
 
-          <div className="flex justify-end space-x-4 pt-4 border-t">
+          <div className="video-upload-actions">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 border border-gray-300 rounded-lg font-medium text-gray-700 hover:bg-gray-50 transition"
+              className="video-upload-cancel-btn"
               disabled={uploading}
             >
               Cancel
@@ -166,7 +169,7 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={uploading || !title || !videoFile}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              className="video-upload-submit-btn"
             >
               {uploading ? 'Processing...' : 'Upload Video'}
             </button>

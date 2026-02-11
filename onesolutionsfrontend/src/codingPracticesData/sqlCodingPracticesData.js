@@ -8,46 +8,71 @@ export const sqlCodingPracticesData = {
       questions: [
         {
           id: "sql-query-1",
-          title: "Create Student Table",
-          description: "Write a SQL query to Create a Student table.",
+          title: "Select All Employees",
+          description:
+            "Write a SQL query to select all columns from the employees table.",
           difficulty: "Easy",
           score: 50,
           type: "sql",
           defaultCode: {
-            sql: `-- Write your SQL query here`,
+            sql: `-- Write your SQL query here;`,
+          },
+          tableData: {
+            employees: {
+              columns: ["id", "name", "department", "salary", "hire_date"],
+              rows: [
+                [1, "John Doe", "Engineering", 75000, "2022-01-15"],
+                [2, "Jane Smith", "Marketing", 65000, "2021-03-22"],
+                [3, "Bob Johnson", "Engineering", 55000, "2023-06-10"],
+                [4, "Alice Brown", "Sales", 80000, "2020-11-05"],
+                [5, "Charlie Wilson", "HR", 60000, "2022-09-30"],
+              ],
+            },
           },
           descriptionDetails: `
             <div class="desc-question-details">
-             
+              <p class="desc-que-blue">Your Task</p>
+              <p>Write a SQL query to select all columns from the employees table.</p>
+              
               <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: Student</div>
+                <div class="sql-table-caption">Table: employees</div>
                 <table>
                   <thead>
                     <tr>
                       <th>Column Name</th>
                       <th>Data Type</th>
+                      <th>Description</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
+                      <td>id</td>
+                      <td>INTEGER</td>
+                      <td>Employee ID (Primary Key)</td>
+                    </tr>
+                    <tr>
                       <td>name</td>
-                      <td>string of max length 200</td>
+                      <td>VARCHAR(100)</td>
+                      <td>Employee name</td>
                     </tr>
                     <tr>
-                      <td>age</td>
-                      <td>integer</td>
+                      <td>department</td>
+                      <td>VARCHAR(50)</td>
+                      <td>Department name</td>
                     </tr>
                     <tr>
-                      <td>score</td>
-                      <td>integer</td>
+                      <td>salary</td>
+                      <td>DECIMAL(10,2)</td>
+                      <td>Annual salary</td>
+                    </tr>
+                    <tr>
+                      <td>hire_date</td>
+                      <td>DATE</td>
+                      <td>Date hired</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              
-              
-              <p class="desc-que-blue">Your Task</p>
-              <p>Create a student table to store name, age and score of students.</p>
               
               <div class="Note-container">
                 <div class="icon-note">
@@ -59,24 +84,21 @@ export const sqlCodingPracticesData = {
                   <ul style="margin: 1rem 0 1rem 1.5rem; line-height: 1.6;">
                     <li>Use proper SQL syntax</li>
                     <li>End your query with a semicolon</li>
-                    <li>The query should work for any data in the Students table</li>
+                    <li>The query should work for any data in the employees table</li>
                   </ul>
                 </p>
               </div>
               
               <p class="desc-que-blue">Expected Output</p>
-              <p>Your query should create a student table in the same order as the table structure.</p>
+              <p>Your query should return all 5 rows with all columns from the employees table.</p>
               
               <hr>
               
               <p class="desc-que-blue">SQL Concepts Review</p>
-              <p><strong>CREATE statement syntax:</strong></p>
+              <p><strong>SELECT statement syntax:</strong></p>
               <pre style="background: #1e293b; padding: 10px; border-radius: 6px; color: #cbd5e1; margin: 10px 0;">
-              CREATE TABLE table_name (
-                column1 type1,
-                column2 type2,
-                ...
-              );</pre>
+SELECT * FROM table_name;
+              </pre>
             </div>
           `,
           testCases: [
@@ -104,9 +126,201 @@ export const sqlCodingPracticesData = {
             },
             {
               id: 4,
-              description: "Query should end with semicolon",
+              description: "Query should return exactly 5 rows",
+              type: "result-validation",
+              expectedRowCount: 5,
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should return all 5 columns",
+              type: "result-validation",
+              expectedColumnCount: 5,
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-2",
+          title: "Filter Employees by Department",
+          description:
+            "Write a SQL query to select all employees from the Engineering department.",
+          difficulty: "Easy",
+          score: 50,
+          type: "sql",
+          defaultCode: {
+            sql: `-- Write your SQL query here\nSELECT * FROM employees WHERE department = 'Engineering';`,
+          },
+          tableData: {
+            employees: {
+              columns: ["id", "name", "department", "salary", "hire_date"],
+              rows: [
+                [1, "John Doe", "Engineering", 75000, "2022-01-15"],
+                [2, "Jane Smith", "Marketing", 65000, "2021-03-22"],
+                [3, "Bob Johnson", "Sales", 55000, "2023-06-10"],
+                [4, "Alice Brown", "Engineering", 80000, "2020-11-05"],
+                [5, "Charlie Wilson", "HR", 60000, "2022-09-30"],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Your Task</p>
+              <p>Write a SQL query to select all employees who work in the Engineering department.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: employees</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Column Name</th>
+                      <th>Data Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>id</td>
+                      <td>INTEGER</td>
+                      <td>Employee ID (Primary Key)</td>
+                    </tr>
+                    <tr>
+                      <td>name</td>
+                      <td>VARCHAR(100)</td>
+                      <td>Employee name</td>
+                    </tr>
+                    <tr>
+                      <td>department</td>
+                      <td>VARCHAR(50)</td>
+                      <td>Department name</td>
+                    </tr>
+                    <tr>
+                      <td>salary</td>
+                      <td>DECIMAL(10,2)</td>
+                      <td>Annual salary</td>
+                    </tr>
+                    <tr>
+                      <td>hire_date</td>
+                      <td>DATE</td>
+                      <td>Date hired</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <p class="desc-que-blue">Expected Output</p>
+              <p>Your query should return 2 rows (John Doe and Bob Johnson).</p>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should use WHERE clause",
               type: "syntax-validation",
-              expectedKeywords: [";"],
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should filter by Engineering department",
+              type: "query-validation",
+              expectedKeywords: ["department", "=", "'Engineering'"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should return exactly 2 rows",
+              type: "result-validation",
+              expectedRowCount: 2,
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-3",
+          title: "Calculate Average Salary",
+          description:
+            "Write a SQL query to calculate the average salary of all employees.",
+          difficulty: "Medium",
+          score: 75,
+          type: "sql",
+          defaultCode: {
+            sql: `-- Write your SQL query here\nSELECT AVG(salary) as average_salary FROM employees;`,
+          },
+          tableData: {
+            employees: {
+              columns: ["id", "name", "department", "salary", "hire_date"],
+              rows: [
+                [1, "John Doe", "Engineering", 75000, "2022-01-15"],
+                [2, "Jane Smith", "Marketing", 65000, "2021-03-22"],
+                [3, "Bob Johnson", "Sales", 55000, "2023-06-10"],
+                [4, "Alice Brown", "Engineering", 80000, "2020-11-05"],
+                [5, "Charlie Wilson", "HR", 60000, "2022-09-30"],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Your Task</p>
+              <p>Write a SQL query to calculate the average salary of all employees.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: employees</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Column Name</th>
+                      <th>Data Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>id</td>
+                      <td>INTEGER</td>
+                      <td>Employee ID (Primary Key)</td>
+                    </tr>
+                    <tr>
+                      <td>name</td>
+                      <td>VARCHAR(100)</td>
+                      <td>Employee name</td>
+                    </tr>
+                    <tr>
+                      <td>department</td>
+                      <td>VARCHAR(50)</td>
+                      <td>Department name</td>
+                    </tr>
+                    <tr>
+                      <td>salary</td>
+                      <td>DECIMAL(10,2)</td>
+                      <td>Annual salary</td>
+                    </tr>
+                    <tr>
+                      <td>hire_date</td>
+                      <td>DATE</td>
+                      <td>Date hired</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <p class="desc-que-blue">Expected Output</p>
+              <p>Your query should return the average salary: 67000.00</p>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should use AVG aggregate function",
+              type: "syntax-validation",
+              expectedKeywords: ["avg(", "salary"],
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description: "Average salary should be correct",
+              type: "result-validation",
+              expectedValue: 67000,
+              tolerance: 0.01,
               visible: true,
             },
           ],

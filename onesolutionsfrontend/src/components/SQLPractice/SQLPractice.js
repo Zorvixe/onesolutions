@@ -1,15 +1,19 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { sqlCodingPracticesData } from "../../codingPracticesData/sqlCodingPracticesData";
 import CodingPracticeService from "../../services/codingPracticeService";
+
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-sql";
+import "ace-builds/src-noconflict/theme-monokai";
+import "ace-builds/src-noconflict/ext-language_tools";
+
 import { useAuth } from "../../context/AuthContext";
-import CodePlayground from "../../CodePlayground/CodePlayground";
 import validateSqlTest from "./validateSqlTest";
 import { mockExecuteSql } from "./validateSqlTest";
 import "./sqlPracticee.css";
-import "../../codingPracticesData/codingpracticesweb.css";
-import "../../Python/IntroductiontoPython/Pro_W_P_CS_1.css";
 import confetti from "canvas-confetti";
 
 const SQLPractice = () => {
@@ -23,9 +27,7 @@ const SQLPractice = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [output, setOutput] = useState("");
   const [userProgress, setUserProgress] = useState({});
-  const [currentCode, setCurrentCode] = useState({
-    sql: "",
-  });
+  const [currentCode, setCurrentCode] = useState({ sql: "" });
   const [allTestsPassed, setAllTestsPassed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
@@ -41,6 +43,22 @@ const SQLPractice = () => {
   const [showTestCases, setShowTestCases] = useState(false);
   const [queryResult, setQueryResult] = useState(null);
   const [executionError, setExecutionError] = useState(null);
+  const [isMarkingComplete, setIsMarkingComplete] = useState(false);
+  const [isPracticeCompleted, setIsPracticeCompleted] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+
+  // Editor state for SQL
+  const [code, setCode] = useState("");
+  const [theme] = useState("monokai");
+  const [fontSize] = useState(16);
+  const [executionResult, setExecutionResult] = useState(null);
+
+  // Add state for save snippet modal
+  const [showSaveModal, setShowSaveModal] = useState(false);
+  const [snippetName, setSnippetName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [mySnippets, setMySnippets] = useState([]);
 
   const subtopicId = location.state?.subtopicId;
   const topicId = location.state?.topicId;
@@ -56,6 +74,36 @@ const SQLPractice = () => {
   const MIN_LEFT_PANEL_PX = 50;
   const MAX_RIGHT_PANEL_PERCENT = 95;
 
+  const API_URL = process.env.REACT_APP_API_BASE_URL;
+
+  const questions = selectedPractice?.questions || [];
+
+  const currentQuestionIndex = useMemo(() => {
+    if (!selectedQuestion) return -1;
+    return questions.findIndex((q) => q.id === selectedQuestion.id);
+  }, [questions, selectedQuestion]);
+
+  const hasPrevQuestion = currentQuestionIndex > 0;
+  const hasNextQuestion = currentQuestionIndex < questions.length - 1;
+
+  const handlePrevQuestion = () => {
+    if (!hasPrevQuestion) return;
+
+    const prevQuestion = questions[currentQuestionIndex - 1];
+    navigate(`/sql-practice/${practiceId}/${prevQuestion.id}`, {
+      state: { subtopicId, goalName, courseName },
+    });
+  };
+
+  const handleNextQuestion = () => {
+    if (!hasNextQuestion) return;
+
+    const nextQuestion = questions[currentQuestionIndex + 1];
+    navigate(`/sql-practice/${practiceId}/${nextQuestion.id}`, {
+      state: { subtopicId, goalName, courseName },
+    });
+  };
+
   const loadProgress = useCallback(async () => {
     try {
       const response = await CodingPracticeService.getAllProgress();
@@ -64,7 +112,13 @@ const SQLPractice = () => {
         if (response.data?.progress && Array.isArray(response.data.progress)) {
           response.data.progress.forEach((prog) => {
             if (prog && prog.question_id) {
-              progressMap[prog.question_id] = prog;
+              progressMap[prog.question_id] = {
+                status: prog.status,
+                code: prog.code,
+                score: prog.score,
+                attempts: prog.attempts || [],
+                lastAttempt: prog.last_attempt,
+              };
             }
           });
         }
@@ -80,10 +134,78 @@ const SQLPractice = () => {
     return {};
   }, []);
 
+  const checkPracticeCompletion = useCallback(async () => {
+    if (!practiceId) return;
+    try {
+      const response =
+        await CodingPracticeService.getCompletionStatus(practiceId);
+      if (response.success) {
+        setIsPracticeCompleted(response.data.isCompleted);
+      }
+    } catch (error) {
+      console.error("Failed to check practice completion:", error);
+    }
+  }, [practiceId]);
+
+  useEffect(() => {
+    checkPracticeCompletion();
+  }, [practiceId, checkPracticeCompletion]);
+
+  const areAllQuestionsSolved = useMemo(() => {
+    if (!selectedPractice) return false;
+
+    return selectedPractice.questions.every(
+      (question) => userProgress[question.id]?.status === "solved"
+    );
+  }, [selectedPractice, userProgress]);
+
+  useEffect(() => {
+    const markPracticeAsComplete = async () => {
+      if (
+        areAllQuestionsSolved &&
+        practiceId &&
+        !isPracticeCompleted &&
+        !isMarkingComplete
+      ) {
+        try {
+          setIsMarkingComplete(true);
+          console.log(
+            "🎯 All questions solved! Marking practice as complete..."
+          );
+
+          await CodingPracticeService.completePractice(
+            practiceId,
+            goalName,
+            courseName
+          );
+          await loadProgressSummary();
+          await checkPracticeCompletion();
+
+          console.log("✅ Practice marked as completed!");
+        } catch (error) {
+          console.error("❌ Failed to mark practice complete:", error);
+        } finally {
+          setIsMarkingComplete(false);
+        }
+      }
+    };
+
+    markPracticeAsComplete();
+  }, [
+    areAllQuestionsSolved,
+    practiceId,
+    isPracticeCompleted,
+    isMarkingComplete,
+    loadProgressSummary,
+    goalName,
+    courseName,
+    checkPracticeCompletion,
+  ]);
+
   const autoSaveCode = useCallback(
     async (questionId, code, isSolved = false) => {
       try {
-        const codeContent = JSON.stringify(code);
+        const codeContent = JSON.stringify({ sql: code });
         const status = isSolved ? "solved" : "attempted";
         const score = isSolved ? selectedQuestion?.score || 0 : 0;
 
@@ -110,6 +232,23 @@ const SQLPractice = () => {
               status: status,
               score: score,
               code: codeContent,
+              lastAttempt: new Date().toISOString(),
+              attempts: prev[questionId]?.attempts
+                ? [
+                    ...prev[questionId].attempts,
+                    {
+                      passed: isSolved,
+                      score: score,
+                      timestamp: new Date().toISOString(),
+                    },
+                  ]
+                : [
+                    {
+                      passed: isSolved,
+                      score: score,
+                      timestamp: new Date().toISOString(),
+                    },
+                  ],
             },
           }));
           return { success: true };
@@ -144,20 +283,14 @@ const SQLPractice = () => {
   const handleResize = useCallback((e) => {
     if (!isResizing.current) return;
 
-    // 👈 INVERTED HERE
     const deltaX = startX.current - e.clientX;
-
     const container = document.querySelector(".sql-practice-content");
     const containerWidth = container?.offsetWidth || window.innerWidth;
-
     const deltaPercent = (deltaX / containerWidth) * 100;
     let newEditorWidth = startWidth.current + deltaPercent;
-
     const minLeftPercent = (MIN_LEFT_PANEL_PX / containerWidth) * 100;
     const maxEditorWidth = 100 - minLeftPercent;
-
     newEditorWidth = Math.max(0, Math.min(maxEditorWidth, newEditorWidth));
-
     setEditorWidth(newEditorWidth);
   }, []);
 
@@ -169,6 +302,96 @@ const SQLPractice = () => {
       document.removeEventListener("mouseup", stopResize);
     };
   }, [handleResize, stopResize]);
+
+  // Reset function for SQL
+  const resetToDefault = useCallback(() => {
+    if (selectedQuestion) {
+      const savedCode = userProgress[selectedQuestion.id]?.code;
+      if (selectedQuestion.defaultCode) {
+        if (typeof selectedQuestion.defaultCode === "object") {
+          setCode(savedCode || selectedQuestion.defaultCode.sql || "");
+        } else {
+          setCode(savedCode || selectedQuestion.defaultCode || "");
+        }
+      } else {
+        setCode(savedCode || "");
+      }
+    } else {
+      setCode("");
+    }
+
+    setOutput("");
+    setTestResults([]);
+    setExecutionResult(null);
+    setQueryResult(null);
+    setExecutionError(null);
+    setOutput("Code has been reset to default.");
+  }, [selectedQuestion, userProgress]);
+
+  // Load snippets
+  const fetchMySnippets = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(`${API_URL}/api/code-snippets/my-snippets`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setMySnippets(result.data.snippets || []);
+      }
+    } catch (error) {
+      console.error("Fetch snippets error:", error);
+    }
+  };
+
+  // Handle save snippet
+  const handleSaveSnippet = async () => {
+    if (!snippetName.trim()) {
+      alert("Please enter a name for your snippet");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const snippetData = {
+        snippetName: snippetName.trim(),
+        language: "sql",
+        sqlCode: code,
+      };
+
+      console.log("Saving SQL snippet data:", snippetData);
+
+      const response = await fetch(`${API_URL}/api/code-snippets/save`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(snippetData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Snippet saved successfully!");
+        setShowSaveModal(false);
+        setSnippetName("");
+        fetchMySnippets();
+      } else {
+        alert(`Failed to save: ${result.message}`);
+      }
+    } catch (error) {
+      console.error("Save error:", error);
+      alert("Failed to save snippet");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   useEffect(() => {
     const loadPracticeData = async () => {
@@ -203,9 +426,7 @@ const SQLPractice = () => {
 
         const progressMap = await loadProgress();
         const savedProgress = progressMap[question.id];
-        let initialCode = {
-          sql: question.defaultCode?.sql || "",
-        };
+        let initialCode = "";
 
         if (savedProgress && savedProgress.code) {
           try {
@@ -217,17 +438,29 @@ const SQLPractice = () => {
             }
 
             if (parsedCode && typeof parsedCode === "object") {
-              initialCode = {
-                sql: parsedCode.sql || initialCode.sql,
-              };
+              initialCode = parsedCode.sql || "";
+            } else {
+              initialCode = savedProgress.code || "";
             }
           } catch (error) {
             console.error("Failed to parse saved code:", error);
+            initialCode = savedProgress.code || "";
           }
         }
 
-        setCurrentCode(initialCode);
+        if (!initialCode && question.defaultCode) {
+          if (typeof question.defaultCode === "object") {
+            initialCode = question.defaultCode.sql || "";
+          } else {
+            initialCode = question.defaultCode || "";
+          }
+        }
+
+        setCode(initialCode);
         setIsJustSolved(false);
+        setOutput("");
+        setTestResults([]);
+        setExecutionResult(null);
       } catch (error) {
         console.error("Error loading practice data:", error);
         setError(`Error loading practice: ${error.message}`);
@@ -237,14 +470,21 @@ const SQLPractice = () => {
     };
 
     loadPracticeData();
+    fetchMySnippets();
   }, [practiceId, questionId, loadProgress]);
 
   const updateQuestionStatus = useCallback(
-    async (questionId, passed, score, code) => {
+    async (questionId, passed, score, codeToSave = code) => {
       try {
-        const codeContent = JSON.stringify(code || currentCode);
+        const codeContent = JSON.stringify({ sql: codeToSave });
         const status = passed ? "solved" : "attempted";
         const finalScore = passed ? score : 0;
+
+        const attemptData = {
+          passed,
+          score: passed ? score : 0,
+          timestamp: new Date().toISOString(),
+        };
 
         const response = await CodingPracticeService.saveProgress(
           practiceId,
@@ -253,11 +493,7 @@ const SQLPractice = () => {
           codeContent,
           status,
           finalScore,
-          {
-            passed,
-            score: finalScore,
-            timestamp: new Date().toISOString(),
-          }
+          attemptData
         );
 
         if (response.success) {
@@ -269,6 +505,10 @@ const SQLPractice = () => {
               status: status,
               score: finalScore,
               code: codeContent,
+              lastAttempt: new Date().toISOString(),
+              attempts: prev[questionId]?.attempts
+                ? [...prev[questionId].attempts, attemptData]
+                : [attemptData],
             },
           }));
 
@@ -283,7 +523,7 @@ const SQLPractice = () => {
         return { success: false, error: error.message };
       }
     },
-    [practiceId, currentCode, loadProgressSummary]
+    [practiceId, code, loadProgressSummary]
   );
 
   useEffect(() => {
@@ -291,7 +531,6 @@ const SQLPractice = () => {
       if (autoSaveTimeoutRef.current) {
         clearTimeout(autoSaveTimeoutRef.current);
       }
-      // Cleanup confetti
       confettiRef.current.forEach((conf) => {
         if (conf && conf.parentNode) {
           conf.parentNode.removeChild(conf);
@@ -308,27 +547,22 @@ const SQLPractice = () => {
     setTestResults([]);
 
     try {
-      // Use mock execution for now
-      const result = await mockExecuteSql(currentCode.sql);
+      const result = await mockExecuteSql(code);
+      console.log("SQL execution result:", result);
 
       if (result.success) {
         setOutput(result.output || "Query executed successfully");
         setQueryResult(result.data);
-
-        // Run tests after successful execution
-        if (
-          selectedQuestion.testCases &&
-          selectedQuestion.testCases.length > 0
-        ) {
-          await runTests(result.data);
-        }
+        return result.data;
       } else {
         setExecutionError(result.error);
         setOutput(`Error: ${result.error}`);
+        return null;
       }
     } catch (error) {
       setExecutionError(error.message);
       setOutput(`Execution Error: ${error.message}`);
+      return null;
     } finally {
       setIsRunning(false);
     }
@@ -355,16 +589,12 @@ const SQLPractice = () => {
         return;
       }
 
-      for (const testCase of selectedQuestion.testCases) {
+      for (let i = 0; i < selectedQuestion.testCases.length; i++) {
+        const testCase = selectedQuestion.testCases[i];
         let testResult;
 
         try {
-          // Call validateSqlTest with correct parameters
-          testResult = validateSqlTest(
-            testCase,
-            currentCode.sql,
-            executionResult
-          );
+          testResult = validateSqlTest(testCase, code, executionResult);
         } catch (error) {
           console.error(`Test ${testCase.id} error:`, error);
           testResult = {
@@ -380,12 +610,19 @@ const SQLPractice = () => {
           ...testCase,
           ...testResult,
           visible: testCase.visible !== false,
+          id: i,
         });
       }
 
       setTestResults(results);
       const allPassed = passedCount === selectedQuestion.testCases.length;
       setAllTestsPassed(allPassed);
+      const newExecutionResult = {
+        total: selectedQuestion.testCases.length,
+        passed: passedCount,
+        failed: selectedQuestion.testCases.length - passedCount,
+      };
+      setExecutionResult(newExecutionResult);
 
       if (allPassed) {
         setOutput(
@@ -404,41 +641,89 @@ const SQLPractice = () => {
     }
   };
 
-  const handleRunTests = () => {
+  const handleRunTests = async () => {
     console.log("Running SQL tests...");
     setShowTestCases(true);
-    executeQuery();
-  };
-
-  const handleCodeChange = (newCode) => {
-    if (newCode && typeof newCode === "object") {
-      setCurrentCode(newCode);
-      setAllTestsPassed(false);
-      setSubmitMessage("");
-      setQueryResult(null);
-      setExecutionError(null);
-
-      if (isJustSolved) {
-        setIsJustSolved(false);
-        return;
-      }
-
-      if (autoSaveTimeoutRef.current) {
-        clearTimeout(autoSaveTimeoutRef.current);
-      }
-
-      autoSaveTimeoutRef.current = setTimeout(() => {
-        if (selectedQuestion) {
-          const currentStatus = getQuestionStatus(selectedQuestion.id);
-          if (currentStatus !== "solved") {
-            autoSaveCode(selectedQuestion.id, newCode, false);
-          }
-        }
-      }, 2000);
+    const executionResult = await executeQuery();
+    if (executionResult) {
+      await runTests(executionResult);
     }
   };
 
-  // UPDATED: Improved createConfetti function
+  const handleCodeChange = (newCode) => {
+    setCode(newCode);
+    setAllTestsPassed(false);
+    setSubmitMessage("");
+    setQueryResult(null);
+    setExecutionError(null);
+
+    if (isJustSolved) {
+      setIsJustSolved(false);
+      return;
+    }
+
+    if (autoSaveTimeoutRef.current) {
+      clearTimeout(autoSaveTimeoutRef.current);
+    }
+
+    autoSaveTimeoutRef.current = setTimeout(() => {
+      if (selectedQuestion) {
+        const currentStatus = getQuestionStatus(selectedQuestion.id);
+        if (currentStatus !== "solved") {
+          autoSaveCode(selectedQuestion.id, newCode, false);
+        }
+      }
+    }, 2000);
+  };
+
+  const isEmptyCode = (userCode) => {
+    if (!userCode) return true;
+    const cleanCode = userCode
+      .replace(/--.*$/gm, "")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\s/g, "");
+    return cleanCode === "";
+  };
+
+  const playSuccessSound = () => {
+    try {
+      const audio = new Audio("/sounds/success-sound.mp3");
+      audio.volume = 0.2;
+      audio.play().catch((e) => {
+        console.log(
+          "Audio play failed, likely due to browser autoplay policy:",
+          e
+        );
+      });
+    } catch (error) {
+      console.warn("Could not play success sound:", error);
+    }
+  };
+
+  const celebrateSuccess = () => {
+    playSuccessSound();
+
+    const duration = 1800;
+    const end = Date.now() + duration;
+    (function frame() {
+      confetti({
+        particleCount: 7,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+      });
+      confetti({
+        particleCount: 7,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+      });
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+  };
+
   const createConfetti = () => {
     const container = document.querySelector(".confetti-container");
     if (!container) {
@@ -446,7 +731,6 @@ const SQLPractice = () => {
       return;
     }
 
-    // Clear existing confetti
     confettiRef.current.forEach((conf) => {
       if (conf && conf.parentNode) {
         conf.parentNode.removeChild(conf);
@@ -480,11 +764,9 @@ const SQLPractice = () => {
       confetti.style.height = confetti.style.width;
       confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
 
-      // Create animation
       const animationName = `confettiFall_${Date.now()}_${i}`;
       const animationDuration = Math.random() * 3 + 2;
 
-      // Create style for animation
       const style = document.createElement("style");
       style.innerHTML = `
         @keyframes ${animationName} {
@@ -508,7 +790,6 @@ const SQLPractice = () => {
       container.appendChild(confetti);
       confettiRef.current.push(confetti);
 
-      // Remove style element after animation
       setTimeout(
         () => {
           if (style.parentNode) {
@@ -518,152 +799,6 @@ const SQLPractice = () => {
         animationDuration * 1000 + 1000
       );
     }
-  };
-
-  // UPDATED: Improved playSuccessSound function
-  const playSuccessSound = () => {
-    try {
-      // Initialize audio only when needed (on submit)
-      if (!audio) {
-        const newAudio = new Audio("/sounds/success-sound.mp3");
-        newAudio.volume = 0.2;
-        newAudio.preload = "auto";
-        setAudio(newAudio);
-
-        // Play the sound
-        newAudio.currentTime = 0;
-        const playPromise = newAudio.play();
-
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.log(
-              "Audio play failed, trying user interaction fallback:",
-              error
-            );
-            // Create a fallback beep sound using Web Audio API
-            playFallbackSound();
-          });
-        }
-      } else {
-        // If audio already exists, play it
-        audio.currentTime = 0;
-        const playPromise = audio.play();
-
-        if (playPromise !== undefined) {
-          playPromise.catch((error) => {
-            console.log(
-              "Audio play failed, trying user interaction fallback:",
-              error
-            );
-            // Create a fallback beep sound using Web Audio API
-            playFallbackSound();
-          });
-        }
-      }
-    } catch (error) {
-      console.warn("Could not play success sound:", error);
-      playFallbackSound();
-    }
-  };
-
-  // NEW: Fallback sound using Web Audio API
-  const playFallbackSound = () => {
-    try {
-      // Check if AudioContext is available
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) {
-        console.log("Web Audio API not supported");
-        return;
-      }
-
-      const audioContext = new AudioContext();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.1);
-      oscillator.type = "sine";
-
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-      gainNode.gain.linearRampToValueAtTime(
-        0.3,
-        audioContext.currentTime + 0.05
-      );
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01,
-        audioContext.currentTime + 1
-      );
-
-      oscillator.start();
-      oscillator.stop(audioContext.currentTime + 1);
-
-      // Clean up after sound completes
-      setTimeout(() => {
-        audioContext.close();
-      }, 2000);
-    } catch (error) {
-      console.log("Fallback sound failed:", error);
-    }
-  };
-
-  // UPDATED: Improved celebrateSuccess function
-  const celebrateSuccess = () => {
-    // Play sound first (only when this function is called)
-    playSuccessSound();
-
-    // Then trigger confetti
-    const duration = 3000;
-    const end = Date.now() + duration;
-
-    const frame = () => {
-      // Launch confetti from left edge
-      confetti({
-        particleCount: 7,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0, y: 0.5 },
-        colors: ["#FFD700", "#FF6B6B", "#4ECDC4", "#FFDE59"],
-      });
-
-      // Launch confetti from right edge
-      confetti({
-        particleCount: 7,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1, y: 0.5 },
-        colors: ["#667eea", "#764ba2", "#ff9a9e", "#a18cd1"],
-      });
-
-      // Launch some from the top
-      if (Math.random() > 0.7) {
-        confetti({
-          particleCount: 5,
-          angle: 90,
-          spread: 100,
-          origin: { x: 0.5, y: 0 },
-          colors: ["#FFD700", "#4ECDC4", "#FF6B6B"],
-        });
-      }
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    };
-
-    // Start the animation
-    frame();
-
-    // Add an extra burst after 500ms
-    setTimeout(() => {
-      confetti({
-        particleCount: 150,
-        spread: 100,
-        origin: { y: 0.6 },
-      });
-    }, 500);
   };
 
   const handleSubmit = async () => {
@@ -677,22 +812,72 @@ const SQLPractice = () => {
       return;
     }
 
+    if (isEmptyCode(code)) {
+      setSubmitMessage(
+        "❌ Cannot submit empty code. Please write your SQL query."
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitMessage("Submitting your solution...");
     setDebugInfo("");
 
     try {
-      const result = await updateQuestionStatus(
+      const allPassed = testResults.every((test) => test.passed);
+
+      await updateQuestionStatus(
         selectedQuestion.id,
-        true,
+        allPassed,
         selectedQuestion.score,
-        currentCode
+        code
       );
 
-      if (result.success) {
+      if (allPassed) {
+        const successMessage = `✅ All test cases passed! Submission successful.`;
+        setOutput(successMessage);
+        celebrateSuccess();
+
+        setToastMessage(
+          `✅ Hurrah! ${testResults.filter((t) => t.passed).length}/${selectedQuestion.testCases.length} Test Cases Passed`
+        );
+        setShowSuccessToast(true);
+
+        setTimeout(() => {
+          setShowSuccessToast(false);
+        }, 2200);
+
+        const allQuestionsSolved = selectedPractice.questions.every(
+          (question) => {
+            if (question.id === selectedQuestion.id) {
+              return true;
+            }
+            return userProgress[question.id]?.status === "solved";
+          }
+        );
+
+        if (allQuestionsSolved && practiceId && !isPracticeCompleted) {
+          setOutput(
+            "✅ All test cases passed! 🎉 All questions in this practice are now solved! Marking practice as complete..."
+          );
+
+          setIsMarkingComplete(true);
+          await CodingPracticeService.completePractice(
+            practiceId,
+            goalName,
+            courseName
+          );
+          await loadProgressSummary();
+          await checkPracticeCompletion();
+          setIsMarkingComplete(false);
+
+          setOutput(
+            "✅ All test cases passed! 🎉 Practice completed successfully!"
+          );
+        }
+
         const tweakIncreaseValue = selectedQuestion.score || 10;
         setTweakIncrease(tweakIncreaseValue);
-
         setIsJustSolved(true);
 
         if (autoSaveTimeoutRef.current) {
@@ -701,10 +886,9 @@ const SQLPractice = () => {
 
         setShowCelebrationModal(true);
 
-        // Trigger both celebrations
         setTimeout(() => {
           createConfetti();
-          celebrateSuccess(); // This is where sound will play
+          celebrateSuccess();
         }, 100);
 
         if (selectedPractice) {
@@ -724,7 +908,7 @@ const SQLPractice = () => {
         }
       } else {
         setSubmitMessage(
-          `❌ Failed to submit solution: ${result.error || "Unknown error"}`
+          `❌ Submission failed: ${testResults.filter((t) => t.passed).length}/${selectedQuestion.testCases.length} test cases passed.`
         );
       }
     } catch (error) {
@@ -737,7 +921,6 @@ const SQLPractice = () => {
 
   const closeCelebrationModal = () => {
     setShowCelebrationModal(false);
-    // Clean up confetti
     confettiRef.current.forEach((conf) => {
       if (conf && conf.parentNode) {
         conf.parentNode.removeChild(conf);
@@ -758,6 +941,10 @@ const SQLPractice = () => {
 
   const getQuestionStatus = (questionId) => {
     return userProgress[questionId]?.status || "unsolved";
+  };
+
+  const getQuestionAttempts = (questionId) => {
+    return userProgress[questionId]?.attempts || [];
   };
 
   const renderDescriptionDetails = () => {
@@ -790,7 +977,6 @@ const SQLPractice = () => {
     if (queryResult.results && queryResult.results.length > 0) {
       return (
         <div className="sql-result-output">
-          <h4>Query Result:</h4>
           <div className="sql-result-table">
             <table>
               <thead>
@@ -811,9 +997,6 @@ const SQLPractice = () => {
               </tbody>
             </table>
           </div>
-          <p className="sql-row-count">
-            {queryResult.rowCount} row(s) returned
-          </p>
         </div>
       );
     }
@@ -868,24 +1051,21 @@ const SQLPractice = () => {
         <div className="confetti-container"></div>
         <div className="celebration-modal">
           <h2 className="modal-title">Congratulations!</h2>
-
           <div className="modal-message">
             <p>
               Great job{" "}
               <span className="modal-username">
-                {user?.username || "Coder"}
+                {user?.lastName || "Coder"}
               </span>
               !
             </p>
             <p>You've successfully solved this SQL challenge!</p>
           </div>
-
           <div className="modal-tweak-increase">
             <p>Your Today's Tweak has increased by</p>
             <div className="tweak-value">+{tweakIncrease}</div>
             <p>Keep up the great work!</p>
           </div>
-
           <button
             className="modal-button"
             onClick={closeCelebrationModal}
@@ -899,8 +1079,12 @@ const SQLPractice = () => {
   };
 
   return (
-    <div className="sql-practice-container">
+    <div className="practice-full-question-prac">
       <CelebrationModal />
+      {showSuccessToast && (
+        <div className="success-toast-center">{toastMessage}</div>
+      )}
+
       <div className="full-question-header-prac">
         <button className="back-button-prac" onClick={handleBackToPractice}>
           ← <span className="practice-name-prac">{selectedPractice.title}</span>
@@ -927,9 +1111,9 @@ const SQLPractice = () => {
           </div>
         </div>
       </div>
-      <div className="sql-practice-content">
+      <div className="full-question-content-prac">
         <div
-          className={`left-panel ${100 - editorWidth < 8 ? "collapsed" : ""}`}
+          className={`full-question-detail-prac ${100 - editorWidth < 8 ? "collapsed" : ""}`}
           style={{ width: `${100 - editorWidth}%` }}
         >
           <div className="question-description">
@@ -944,92 +1128,322 @@ const SQLPractice = () => {
           </div>
         </div>
 
-        {/* Resizer */}
         <div className="resizer-prac" onMouseDown={startResize} />
 
-        <div className="right-panel">
-          <CodePlayground
-            customHeight="calc(90vh - 90px)"
-            initialLanguage="sql"
-            initialCode={currentCode}
-            autoRun={false}
-            onCodeChange={handleCodeChange}
-            customRunHandler={() => handleRunTests()}
-            runButtonText="Run Query & Test"
-          />
-        </div>
-
-        {showTestCases && (
-          <div className="test-cases sql-testcases">
-            <div className="test-cases-header">
-              <div className="test-cases-head-row">
-                <h3>Test Cases</h3>
-                <button
-                  className="hide-test-btn"
-                  onClick={() => setShowTestCases(false)}
-                  title="Hide test cases"
-                >
-                  ✕
-                </button>
-              </div>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <span className="tests-count">
-                  {testResults.filter((t) => t.passed).length}/
-                  {testResults.length} Passed
-                </span>
-              </div>
+        <div
+          className="full-code-editor-section-prac"
+          style={{ width: `${editorWidth}%` }}
+        >
+          <div className="editor-header-prac">
+            <div className="editor-title-prac">
+              <div className="editor-info-prac">SQL</div>
             </div>
-            <div className="test-cases-content">
-              <div className="test-results">
-                {isRunning ? (
-                  <div className="loading-container-sql">
-                    <div className="spinner-sql"></div>
-                  </div>
+            <button
+              className="save-snippet-button-prac"
+              onClick={resetToDefault}
+              title="Reset"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="#64748b"
+                className="bi bi-arrow-clockwise"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"
+                />
+                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
+              </svg>
+            </button>
+            <button
+              className="save-snippet-button-prac"
+              onClick={() => setShowSaveModal(true)}
+              title="Save Snippet"
+            >
+              <svg
+                width="20px"
+                height="20px"
+                viewBox="0 0 16 16"
+                fill="none"
+                color="#64748b"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M3.8 3.2C3.64087 3.2 3.48826 3.26321 3.37574 3.37574C3.26321 3.48826 3.2 3.64087 3.2 3.8V12.2C3.2 12.3591 3.26321 12.5117 3.37574 12.6243C3.48826 12.7368 3.64087 12.8 3.8 12.8H12.2C12.3591 12.8 12.5117 12.7368 12.6243 12.6243C12.7368 12.5117 12.8 12.3591 12.8 12.2V5.84853L10.1515 3.2H3.8ZM2.52721 2.52721C2.86477 2.18964 3.32261 2 3.8 2H10.4C10.5591 2 10.7117 2.06321 10.8243 2.17574L13.8243 5.17574C13.9368 5.28826 14 5.44087 14 5.6V12.2C14 12.6774 13.8104 13.1352 13.4728 13.4728C13.1352 13.8104 12.6774 14 12.2 14H3.8C3.32261 14 2.86477 13.8104 2.52721 13.4728C2.18964 13.1352 2 12.6774 2 12.2V3.8C2 3.32261 2.18964 2.86477 2.52721 2.52721Z"
+                  fill="#64748b"
+                ></path>
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M5.33325 9.20033C5.33325 8.90577 5.55711 8.66699 5.83325 8.66699H10.8333C11.1094 8.66699 11.3333 8.90577 11.3333 9.20033V13.467C11.3333 13.7615 11.1094 14.0003 10.8333 14.0003C10.5571 14.0003 10.3333 13.7615 10.3333 13.467V9.73366H6.33325V13.467C6.33325 13.7615 6.10939 14.0003 5.83325 14.0003C5.55711 14.0003 5.33325 13.7615 5.33325 13.467V9.20033Z"
+                  fill="#64748b"
+                ></path>
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M5.86659 2C6.16114 2 6.39992 2.2132 6.39992 2.47619V4.38095H10.1333C10.4278 4.38095 10.6666 4.59415 10.6666 4.85714C10.6666 5.12014 10.4278 5.33333 10.1333 5.33333H5.86659C5.57203 5.33333 5.33325 5.12014 5.33325 4.85714V2.47619C5.33325 2.2132 5.57203 2 5.86659 2Z"
+                  fill="#64748b"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          <div className="code-editor-container-prac">
+            <AceEditor
+              mode="sql"
+              theme={theme}
+              value={code}
+              onChange={handleCodeChange}
+              fontSize={fontSize}
+              width="100%"
+              height="100%"
+              showPrintMargin={false}
+              showGutter={true}
+              highlightActiveLine={false}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 2,
+                useWorker: false,
+                fontFamily: "'Fira Code', 'Monaco', 'Consolas', monospace",
+                scrollPastEnd: 0.5,
+                highlightSelectedWord: true,
+                displayIndentGuides: true,
+                showInvisibles: false,
+                showFoldWidgets: true,
+                fixedWidthGutter: true,
+                wrap: false,
+                indentedSoftWrap: false,
+                lineHeight: 1.5,
+              }}
+              editorProps={{
+                $blockScrolling: true,
+              }}
+            />
+          </div>
+
+          <div className="editor-controls-prac">
+            {executionResult && (
+              <div className="execution-summary-prac">
+                <span className="summary-text-prac">
+                  {executionResult.passed}/{executionResult.total} test cases
+                  passed
+                </span>
+                <div className="progress-bar-prac">
+                  <div
+                    className="progress-fill-prac"
+                    style={{
+                      width: `${
+                        (executionResult.passed / executionResult.total) * 100
+                      }%`,
+                    }}
+                  ></div>
+                </div>
+              </div>
+            )}
+            <div className="editor-actions-prac">
+              <button
+                className="run-button-prac"
+                onClick={handleRunTests}
+                disabled={isRunning || isEmptyCode(code)}
+              >
+                {isRunning ? <span className="loader-prac"></span> : "Run"}
+              </button>
+              <button
+                className="submit-button-prac"
+                onClick={handleSubmit}
+                disabled={isRunning || isEmptyCode(code) || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="loader-prac"></span>
                 ) : (
-                  <>
-                    {testResults.map((test, index) => (
-                      <div
-                        key={index}
-                        className={`test-case ${test.passed ? "passed" : "failed"}`}
-                      >
-                        <div className="test-header">
-                          <span className="test-status">
-                            {test.passed ? "✓" : "✗"}
-                          </span>
-
-                          <p className="test-description">{test.description}</p>
-                        </div>
-                      </div>
-                    ))}
-
-                    {testResults.length === 0 && (
-                      <div className="no-tests">
-                        Run the tests to see results here
-                      </div>
-                    )}
-                  </>
+                  "Submit"
                 )}
-              </div>
-
-              <div className="test-actions">
-                <button
-                  onClick={handleSubmit}
-                  className="submit-btn"
-                  disabled={isSubmitting || !allTestsPassed}
-                >
-                  {isSubmitting ? (
-                    <span className="btn-loader"></span>
-                  ) : (
-                    "Submit"
-                  )}
-                </button>
-              </div>
+              </button>
             </div>
           </div>
-        )}
+
+          {output && (
+            <div className="sql-output-section">
+              <div className="output-header-prac">
+                <h4>Output</h4>
+              </div>
+              <div className="output-content-prac-sql">
+                {renderQueryResult()}
+                {!queryResult && output && (
+                  <div className="sql-output-text">
+                    <pre>{output}</pre>
+                  </div>
+                )}
+                {executionError && (
+                  <div className="sql-error-message">
+                    <h4>Error:</h4>
+                    <pre>{executionError}</pre>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      <div className="prac-footer">
+        <div className="full-question-meta-prac">
+          {hasPrevQuestion && (
+            <button className="prac-back-btn" onClick={handlePrevQuestion}>
+              Back
+            </button>
+          )}
+
+          {hasNextQuestion && (
+            <button className="prac-next-btn" onClick={handleNextQuestion}>
+              Next
+            </button>
+          )}
+        </div>
+      </div>
+
+      {showTestCases && (
+        <div className="test-cases sql-testcases">
+          <div className="test-cases-header">
+            <h3>Test Cases</h3>
+            <div className="test-cases-head-row">
+              <div
+                className="hide-test-btn-sql"
+                onClick={() => setShowTestCases(false)}
+                title="Hide test cases"
+              >
+                <button className="hide-test-btn-icon">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    fill="currentColor"
+                    class="bi bi-chevron-double-down"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"
+                    />
+                  </svg>
+                </button>
+                Close
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span className="tests-count">
+                {testResults.filter((t) => t.passed).length}/
+                {testResults.length} Passed
+              </span>
+            </div>
+          </div>
+          <div className="test-cases-content">
+            <div className="test-results">
+              {isRunning ? (
+                <div className="loading-container-sql">
+                  <div className="spinner-sql"></div>
+                </div>
+              ) : (
+                <>
+                  {testResults.map((test, index) => (
+                    <div
+                      key={index}
+                      className={`test-case ${test.passed ? "passed" : "failed"}`}
+                    >
+                      <div className="test-header">
+                        <span className="test-status">
+                          {test.passed ? "✓" : "✗"}
+                        </span>
+                        <p className="test-description">{test.description}</p>
+                      </div>
+                    </div>
+                  ))}
+
+                  {testResults.length === 0 && (
+                    <div className="no-tests">
+                      Run the tests to see results here
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Save Snippet Modal */}
+      {showSaveModal && (
+        <div className="modal-overlay-prac">
+          <div className="modal-prac">
+            <div className="modal-header-prac">
+              <h3>Save SQL Snippet</h3>
+              <button onClick={() => setShowSaveModal(false)}>×</button>
+            </div>
+            <div className="modal-body-prac">
+              <div className="form-group-prac">
+                <label htmlFor="snippetName">Snippet Name</label>
+                <input
+                  type="text"
+                  id="snippetName"
+                  value={snippetName}
+                  onChange={(e) => setSnippetName(e.target.value)}
+                  placeholder="Enter snippet name"
+                  autoFocus
+                />
+              </div>
+              <div className="form-group-prac">
+                <label>Language</label>
+                <div className="language-display-prac">
+                  <img
+                    src="/assets/sql_logo.png"
+                    alt="SQL"
+                    width="24"
+                    height="24"
+                  />
+                  <span className="language-name-prac">SQL</span>
+                </div>
+              </div>
+              <div className="code-preview-prac">
+                <label>Code Preview</label>
+                <div className="code-preview-content-prac">
+                  <pre>
+                    {code.substring(0, 200)}
+                    {code.length > 200 ? "..." : ""}
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer-prac">
+              <button
+                className="btn-secondary-prac"
+                onClick={() => setShowSaveModal(false)}
+                disabled={saving}
+              >
+                Cancel
+              </button>
+              <button
+                className="btn-primary-prac"
+                onClick={handleSaveSnippet}
+                disabled={saving || !snippetName.trim()}
+              >
+                {saving ? "Saving..." : "Save Snippet"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
