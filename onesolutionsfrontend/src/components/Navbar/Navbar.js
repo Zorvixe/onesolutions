@@ -16,7 +16,7 @@ const Navbar = () => {
   const helpEarnButtonRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
-  // Function to get student type badge with colors
+  // 🔥 FIXED: Enhanced student type badge with course info
   const getStudentTypeBadge = (studentType) => {
     const typeConfig = {
       zorvixe_core: {
@@ -38,11 +38,28 @@ const Navbar = () => {
         shortLabel: "ELITE",
       },
     };
-
     return typeConfig[studentType] || typeConfig.zorvixe_core;
   };
 
-  // Function to get student type description
+  // 🔥 NEW: Get course badge
+  const getCourseBadge = (course) => {
+    const courseConfig = {
+      web_development: {
+        color: "#0d9488",
+        bg: "#f0fdfa",
+        label: "Web Development",
+        shortLabel: "Web Dev",
+      },
+      digital_marketing: {
+        color: "#b45309",
+        bg: "#fff7ed",
+        label: "Digital Marketing",
+        shortLabel: "Digi Mkt",
+      },
+    };
+    return courseConfig[course] || courseConfig.web_development;
+  };
+
   const getStudentTypeDescription = (studentType) => {
     const descriptions = {
       zorvixe_core: "Basic access with essential features",
@@ -62,11 +79,9 @@ const Navbar = () => {
       ) {
         setShowDropdown(false);
       }
-
       if (profileRef.current && !profileRef.current.contains(event.target)) {
         setShowProfile(false);
       }
-
       if (
         mobileMenuRef.current &&
         !mobileMenuRef.current.contains(event.target) &&
@@ -99,16 +114,12 @@ const Navbar = () => {
     });
   };
 
-  // Get student type info
-  const studentTypeInfo = getStudentTypeBadge(
-    user.studentType || "zorvixe_core"
-  );
-  const studentTypeDescription = getStudentTypeDescription(
-    user.studentType || "zorvixe_core"
-  );
+  // Get student type and course info
+  const studentTypeInfo = getStudentTypeBadge(user.studentType || "zorvixe_core");
+  const courseInfo = getCourseBadge(user.courseSelection || "web_development");
+  const studentTypeDescription = getStudentTypeDescription(user.studentType || "zorvixe_core");
 
   const getDefaultProfileImage = () => {
-    // Use gender from user data if available
     if (user.gender) {
       const gender = user.gender.toLowerCase();
       if (gender === "female" || gender === "f") {
@@ -117,25 +128,17 @@ const Navbar = () => {
         return "/assets/img/man_profile_icon.jpg";
       }
     }
-
-    // Fallback to name-based heuristic if gender is not provided
     const firstName = user.firstName || "";
     const name = firstName.toLowerCase();
-
-    // Simple heuristic for Indian names (extend anytime)
     const femaleEndings = ["a", "i", "ya", "na", "sha", "thi"];
-    const maleEndings = ["n", "k", "sh", "r", "th"];
-
     if (femaleEndings.some((ending) => name.endsWith(ending))) {
       return "/assets/img/girl_profile_icon.jpg";
     }
-
     return "/assets/img/man_profile_icon.jpg";
   };
 
   return (
     <div className="container">
-      {/* Hamburger Menu for Mobile */}
       <button
         className="hamburger-menu"
         onClick={toggleMobileMenu}
@@ -148,7 +151,6 @@ const Navbar = () => {
         <img src="/assets/onesolutions.png" alt="logo" />
       </Link>
 
-      {/* Desktop Navigation Links */}
       <ul className="nav-links">
         <li>
           <NavLink
@@ -161,7 +163,6 @@ const Navbar = () => {
             Home
           </NavLink>
         </li>
-
         <li>
           <NavLink
             to="/courses"
@@ -172,7 +173,6 @@ const Navbar = () => {
             Courses
           </NavLink>
         </li>
-
         <li>
           <NavLink
             to="/practice"
@@ -185,7 +185,6 @@ const Navbar = () => {
         </li>
       </ul>
 
-      {/* Mobile Navigation Menu */}
       {showMobileMenu && (
         <div className="mobile-nav-menu" ref={mobileMenuRef}>
           <div className="mobile-nav-header">
@@ -251,26 +250,43 @@ const Navbar = () => {
               </button>
             </li>
 
-            {/* Student Type Badge in Mobile Menu */}
-            {user.studentType && (
-              <li className="mobile-student-type-badge">
-                <div className="student-type-mobile">
-                  <span
-                    className="student-type-badge"
-                    style={{
-                      backgroundColor: studentTypeInfo.bg,
-                      color: studentTypeInfo.color,
-                      border: `1px solid ${studentTypeInfo.color}20`,
-                    }}
-                  >
-                    {studentTypeInfo.shortLabel}
-                  </span>
-                  <span className="student-type-label">
-                    {studentTypeInfo.label}
-                  </span>
-                </div>
-              </li>
-            )}
+            {/* 🔥 FIXED: Display both Student Type and Course in mobile menu */}
+            <li className="mobile-student-type-badge">
+              <div className="student-type-mobile">
+                <span
+                  className="student-type-badge"
+                  style={{
+                    backgroundColor: studentTypeInfo.bg,
+                    color: studentTypeInfo.color,
+                    border: `1px solid ${studentTypeInfo.color}20`,
+                  }}
+                >
+                  {studentTypeInfo.shortLabel}
+                </span>
+                <span className="student-type-label">
+                  {studentTypeInfo.label}
+                </span>
+              </div>
+              <div className="course-type-mobile" style={{ marginTop: '8px' }}>
+                <span
+                  className="course-badge"
+                  style={{
+                    backgroundColor: courseInfo.bg,
+                    color: courseInfo.color,
+                    border: `1px solid ${courseInfo.color}20`,
+                    padding: '4px 8px',
+                    borderRadius: '12px',
+                    fontSize: '11px',
+                    fontWeight: '600'
+                  }}
+                >
+                  {courseInfo.shortLabel}
+                </span>
+                <span className="course-label" style={{ marginLeft: '8px', fontSize: '12px' }}>
+                  {courseInfo.label}
+                </span>
+              </div>
+            </li>
 
             <li>
               <Link to="/profile" onClick={() => setShowMobileMenu(false)}>
@@ -322,20 +338,8 @@ const Navbar = () => {
 
                 <div className="referallnbonuse">
                   <h3>Referral Bonus</h3>
-                  <p>
-                    Earn{" "}
-                    {/* <span>
-                      <i className="bi bi-currency-rupee"></i>2000
-                    </span>{" "} */}
-                    for every successful referral
-                  </p>
-                  <p>
-                    Your friend gets{" "}
-                    {/* <span>
-                      <i className="bi bi-currency-rupee"></i>2000
-                    </span>{" "} */}
-                    discount on course fees
-                  </p>
+                  <p>Earn for every successful referral</p>
+                  <p>Your friend gets discount on course fees</p>
                   <p
                     style={{
                       fontStyle: "oblique",
@@ -385,7 +389,7 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* Profile Image with Student Type Badge */}
+          {/* 🔥 FIXED: Profile header with both badges */}
           <div className="profile-header-wrapper">
             {user.profileImage ? (
               <img
@@ -414,7 +418,7 @@ const Navbar = () => {
                   color: studentTypeInfo.color,
                   border: `1px solid ${studentTypeInfo.color}20`,
                 }}
-                title={studentTypeInfo.label}
+                title={`${studentTypeInfo.label} - ${studentTypeDescription}`}
               >
                 {studentTypeInfo.shortLabel}
               </span>
@@ -430,7 +434,6 @@ const Navbar = () => {
               <i className="bi bi-house"></i>
               <span>Home</span>
             </NavLink>
-
             <NavLink
               to="/courses"
               className={({ isActive }) => (isActive ? "active" : "")}
@@ -438,7 +441,6 @@ const Navbar = () => {
               <i className="bi bi-journal-bookmark"></i>
               <span>Courses</span>
             </NavLink>
-
             <NavLink
               to="/practice"
               className={({ isActive }) => (isActive ? "active" : "")}
@@ -470,18 +472,37 @@ const Navbar = () => {
                   <p className="status">
                     {user.batchMonth} {user.batchYear}
                   </p>
-                  {/* Student Type in Profile Dropdown */}
-                  <div className="profile-student-type">
+                  {/* 🔥 FIXED: Display both Student Type and Course in profile dropdown */}
+                  <div className="profile-student-type" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '5px' }}>
                     <span
                       className="student-type-badge-profile"
                       style={{
                         backgroundColor: studentTypeInfo.bg,
                         color: studentTypeInfo.color,
                         border: `1px solid ${studentTypeInfo.color}20`,
+                        padding: '4px 8px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        fontWeight: '600'
                       }}
                     >
-                      <i className="bi bi-award-fill"></i>
-                      {studentTypeInfo.label}
+                      <i className="bi bi-award-fill" style={{ marginRight: '4px' }}></i>
+                      {studentTypeInfo.shortLabel}
+                    </span>
+                    <span
+                      className="course-badge-profile"
+                      style={{
+                        backgroundColor: courseInfo.bg,
+                        color: courseInfo.color,
+                        border: `1px solid ${courseInfo.color}20`,
+                        padding: '4px 8px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        fontWeight: '600'
+                      }}
+                    >
+                      <i className="bi bi-journal-code" style={{ marginRight: '4px' }}></i>
+                      {courseInfo.shortLabel}
                     </span>
                   </div>
                 </div>

@@ -39,20 +39,57 @@ export const AuthProvider = ({ children }) => {
     checkAuthStatus();
   }, []);
 
+  // 🔥 FIXED: Auth check with complete user data including studentType and courseSelection
   const checkAuthStatus = async () => {
     try {
       const token = localStorage.getItem("token");
       if (token && token !== "null" && token !== "undefined") {
         const response = await authAPI.getProfile();
-        setUser(response.data.data.student);
+        
+        // 🔥 Ensure we have complete user data with all required fields
+        const userData = response.data.data.student;
+        
+        // Set default values if missing
+        const enrichedUserData = {
+          ...userData,
+          studentType: userData.studentType || userData.student_type || "zorvixe_core",
+          courseSelection: userData.courseSelection || userData.course_selection || "web_development",
+          batchMonth: userData.batchMonth || userData.batch_month || "",
+          batchYear: userData.batchYear || userData.batch_year || "",
+        };
+        
+        setUser(enrichedUserData);
+        
+        // Also update localStorage to ensure consistency
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          try {
+            const parsedUser = JSON.parse(storedUser);
+            const updatedStoredUser = {
+              ...parsedUser,
+              ...enrichedUserData
+            };
+            localStorage.setItem("user", JSON.stringify(updatedStoredUser));
+          } catch (e) {
+            localStorage.setItem("user", JSON.stringify(enrichedUserData));
+          }
+        } else {
+          localStorage.setItem("user", JSON.stringify(enrichedUserData));
+        }
+        
+        console.log("[AUTH] Auth check successful:", enrichedUserData.email);
+        console.log("[AUTH] Student Type:", enrichedUserData.studentType);
+        console.log("[AUTH] Course Selection:", enrichedUserData.courseSelection);
       } else {
         setUser(null);
         setCompleteProfile(null);
+        localStorage.removeItem("user");
       }
     } catch (error) {
       console.error("[AUTH] Auth check failed:", error.message);
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
       }
       setUser(null);
       setCompleteProfile(null);
@@ -317,11 +354,47 @@ export const AuthProvider = ({ children }) => {
     return courseCount > 0 ? totalCourseProgress / courseCount : 0;
   };
 
+  // 🔥 FIXED: Load complete profile with all fields
   const loadCompleteProfile = async () => {
     try {
       const response = await authAPI.getCompleteProfile();
       if (response.data.success) {
-        setCompleteProfile(response.data.data.student);
+        const profileData = response.data.data.student;
+        
+        // 🔥 Ensure studentType and courseSelection are set
+        const enrichedProfile = {
+          ...profileData,
+          studentType: profileData.studentType || profileData.student_type || "zorvixe_core",
+          courseSelection: profileData.courseSelection || profileData.course_selection || "web_development",
+        };
+        
+        setCompleteProfile(enrichedProfile);
+        
+        // Also update user state with these values
+        if (user) {
+          setUser(prev => ({
+            ...prev,
+            studentType: enrichedProfile.studentType,
+            courseSelection: enrichedProfile.courseSelection,
+          }));
+          
+          // Update localStorage
+          const storedUser = localStorage.getItem("user");
+          if (storedUser) {
+            try {
+              const parsedUser = JSON.parse(storedUser);
+              parsedUser.studentType = enrichedProfile.studentType;
+              parsedUser.courseSelection = enrichedProfile.courseSelection;
+              localStorage.setItem("user", JSON.stringify(parsedUser));
+            } catch (e) {
+              // Ignore
+            }
+          }
+        }
+        
+        console.log("[AUTH] Complete profile loaded:", enrichedProfile.email);
+        console.log("[AUTH] Student Type:", enrichedProfile.studentType);
+        console.log("[AUTH] Course Selection:", enrichedProfile.courseSelection);
       }
     } catch (error) {
       console.error("[AUTH] Complete profile load failed:", error.message);
@@ -432,16 +505,21 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // 🔥 FIXED: Enhanced logout - clear all user data
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
     setCompleteProfile(null);
+    setToken(null);
     setError("");
     setOtpSent(false);
     setCompletedContent([]);
     setGoalProgress({});
     setCourseProgress({});
     setOverallProgress(0);
+    setCodingPracticeProgress({});
+    console.log("[AUTH] Logout successful - all user data cleared");
   };
 
   const clearError = () => setError("");
@@ -454,8 +532,25 @@ export const AuthProvider = ({ children }) => {
       const response = await authAPI.updateCompleteProfile(formData);
 
       if (response.data.success) {
-        setUser(response.data.data.student);
-        setCompleteProfile(response.data.data.student);
+        const updatedStudent = response.data.data.student;
+        
+        // 🔥 Ensure studentType and courseSelection are preserved
+        const enrichedStudent = {
+          ...updatedStudent,
+          studentType: updatedStudent.studentType || updatedStudent.student_type || user?.studentType || "zorvixe_core",
+          courseSelection: updatedStudent.courseSelection || updatedStudent.course_selection || user?.courseSelection || "web_development",
+        };
+        
+        setUser(enrichedStudent);
+        setCompleteProfile(enrichedStudent);
+        
+        // Update localStorage
+        localStorage.setItem("user", JSON.stringify(enrichedStudent));
+        
+        console.log("[AUTH] Profile updated successfully");
+        console.log("[AUTH] Student Type:", enrichedStudent.studentType);
+        console.log("[AUTH] Course Selection:", enrichedStudent.courseSelection);
+        
         return { success: true, message: "Profile updated successfully" };
       } else {
         const errorMsg = response.data.message || "Profile update failed";
@@ -562,7 +657,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ✅ OTP Verification
+  // ✅ OTP Verification - 🔥 FIXED: Store complete user data with studentType and courseSelection
   const loginOtpVerify = async (email, otp) => {
     try {
       setError("");
@@ -575,10 +670,33 @@ export const AuthProvider = ({ children }) => {
       if (response.data.success) {
         const { student, token } = response.data.data;
 
+        // 🔥 Ensure we have complete user data with all required fields
+        const userData = {
+          id: student.id,
+          studentId: student.studentId || student.student_id,
+          email: student.email,
+          firstName: student.firstName || student.first_name,
+          lastName: student.lastName || student.last_name,
+          phone: student.phone || "",
+          profileImage: student.profileImage || student.profile_image,
+          studentType: student.studentType || student.student_type || "zorvixe_core",
+          courseSelection: student.courseSelection || student.course_selection || "web_development",
+          batchMonth: student.batchMonth || student.batch_month || "",
+          batchYear: student.batchYear || student.batch_year || "",
+          isCurrentBatch: student.isCurrentBatch || student.is_current_batch,
+          createdAt: student.createdAt || student.created_at,
+        };
+
         localStorage.setItem("token", token);
-        setToken(token); // 🔥 REQUIRED
-        setUser(student);
+        localStorage.setItem("user", JSON.stringify(userData));
+        
+        setToken(token);
+        setUser(userData);
         setOtpSent(false);
+
+        console.log("[AUTH] OTP login successful:", userData.email);
+        console.log("[AUTH] Student Type:", userData.studentType);
+        console.log("[AUTH] Course Selection:", userData.courseSelection);
 
         return { success: true, message: "Login successful" };
       } else {
@@ -606,6 +724,112 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // 🔥 FIXED: Enhanced register - store complete user data with studentType and courseSelection
+  const register = async (formData) => {
+    try {
+      setError("");
+      const response = await authAPI.register(formData);
+      
+      if (response.data.success) {
+        const { student, token } = response.data.data;
+        
+        // 🔥 Ensure we have complete user data with all required fields
+        const userData = {
+          id: student.id,
+          studentId: student.studentId || student.student_id,
+          email: student.email,
+          firstName: student.firstName || student.first_name,
+          lastName: student.lastName || student.last_name,
+          phone: student.phone || "",
+          profileImage: student.profileImage || student.profile_image,
+          studentType: student.studentType || student.student_type || formData.get('studentType') || formData.get('student_type') || "zorvixe_core",
+          courseSelection: student.courseSelection || student.course_selection || formData.get('courseSelection') || formData.get('course_selection') || "web_development",
+          batchMonth: student.batchMonth || student.batch_month || formData.get('batchMonth') || "",
+          batchYear: student.batchYear || student.batch_year || formData.get('batchYear') || "",
+          isCurrentBatch: student.isCurrentBatch || student.is_current_batch,
+          createdAt: student.createdAt || student.created_at,
+        };
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+        
+        setToken(token);
+        setUser(userData);
+        
+        console.log("[AUTH] Registration successful:", userData.email);
+        console.log("[AUTH] Student Type:", userData.studentType);
+        console.log("[AUTH] Course Selection:", userData.courseSelection);
+        
+        return { success: true, message: "Registration successful" };
+      } else {
+        const errorMsg = response.data.message || "Registration failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[AUTH] Registration error:", error);
+      const errorMsg = error.response?.data?.message || "Registration failed";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  // 🔥 FIXED: Enhanced update profile - preserve studentType and courseSelection
+  const updateProfile = async (formData) => {
+    try {
+      setError("");
+      const response = await authAPI.updateProfile(formData);
+      
+      if (response.data.success) {
+        const updatedStudent = response.data.data.student;
+        
+        // 🔥 Preserve existing studentType and courseSelection if not returned
+        const enrichedStudent = {
+          ...updatedStudent,
+          studentType: updatedStudent.studentType || updatedStudent.student_type || user?.studentType || "zorvixe_core",
+          courseSelection: updatedStudent.courseSelection || updatedStudent.course_selection || user?.courseSelection || "web_development",
+        };
+        
+        setUser(enrichedStudent);
+        
+        // Update localStorage
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          try {
+            const parsedUser = JSON.parse(storedUser);
+            const updatedUser = {
+              ...parsedUser,
+              ...enrichedStudent,
+              studentType: enrichedStudent.studentType,
+              courseSelection: enrichedStudent.courseSelection,
+            };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+          } catch (e) {
+            localStorage.setItem("user", JSON.stringify(enrichedStudent));
+          }
+        } else {
+          localStorage.setItem("user", JSON.stringify(enrichedStudent));
+        }
+        
+        console.log("[AUTH] Profile updated successfully");
+        console.log("[AUTH] Student Type:", enrichedStudent.studentType);
+        console.log("[AUTH] Course Selection:", enrichedStudent.courseSelection);
+        
+        return { success: true, message: "Profile updated successfully" };
+      } else {
+        const errorMsg = response.data.message || "Profile update failed";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[AUTH] Profile update error:", error);
+      const errorMsg =
+        error.response?.data?.message || "Profile update failed";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
   const value = {
     user,
     setUser,
@@ -617,48 +841,8 @@ export const AuthProvider = ({ children }) => {
     otpSent,
     loginOtpRequest,
     loginOtpVerify,
-    register: async (formData) => {
-      try {
-        setError("");
-        const response = await authAPI.register(formData);
-        if (response.data.success) {
-          const { student, token } = response.data.data;
-          localStorage.setItem("token", token);
-          setToken(token); // 🔥 REQUIRED
-          setUser(student);
-          return { success: true, message: "Registration successful" };
-        } else {
-          const errorMsg = response.data.message || "Registration failed";
-          setError(errorMsg);
-          return { success: false, message: errorMsg };
-        }
-      } catch (error) {
-        console.error("[AUTH] Registration error:", error);
-        const errorMsg = error.response?.data?.message || "Registration failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    },
-    updateProfile: async (formData) => {
-      try {
-        setError("");
-        const response = await authAPI.updateProfile(formData);
-        if (response.data.success) {
-          setUser(response.data.data.student);
-          return { success: true, message: "Profile updated successfully" };
-        } else {
-          const errorMsg = response.data.message || "Profile update failed";
-          setError(errorMsg);
-          return { success: false, message: errorMsg };
-        }
-      } catch (error) {
-        console.error("[AUTH] Profile update error:", error);
-        const errorMsg =
-          error.response?.data?.message || "Profile update failed";
-        setError(errorMsg);
-        return { success: false, message: errorMsg };
-      }
-    },
+    register,
+    updateProfile,
     completedContent,
     goalProgress,
     courseProgress,

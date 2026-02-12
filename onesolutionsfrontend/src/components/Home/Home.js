@@ -8,12 +8,9 @@ import { javascriptCodingPracticesData } from "../../codingPracticesData/javascr
 import { useAuth } from "../../context/AuthContext";
 import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
 import CodingPracticeService from "../../services/codingPracticeService";
-
-// Import AiApp component
 import AiApp from "../AiApp/AiApp";
-// import AiApp from "../AiApp/AiApp";
 
-const API_OSE_URL = process.env.REACT_APP_API_OSE_URL;
+const API_OSE_URL = process.env.REACT_APP_API_OSE_URL || "https://ose.onesolutionsekam.in/";
 
 const Home = () => {
   const [liveClasses, setLiveClasses] = useState([]);
@@ -23,99 +20,108 @@ const Home = () => {
   const [placementAchievements, setPlacementAchievements] = useState([]);
   const [achievementsLoading, setAchievementsLoading] = useState(true);
   const [selectedLanguage, setSelectedLanguage] = useState("python");
-  const [progressLoading, setProgressLoading] = useState(false);
   const [lastProgressUpdate, setLastProgressUpdate] = useState(null);
-
-  // State for AI app
   const [isAiAppOpen, setIsAiAppOpen] = useState(false);
+  const [filterDebug, setFilterDebug] = useState(null);
 
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Updated fetchLiveClasses function in Home.js
-     // ==========================================
-// 🔹 UPDATED: Fetch live classes for students
-// ==========================================
-const fetchLiveClasses = async () => {
-  try {
-    // Get user data from auth context
-    const batchMonth = user?.batchMonth;
-    const batchYear = user?.batchYear;
-    const studentType = user?.studentType || 'zorvixe_core';
-    const courseSelection = user?.courseSelection || 'web_development';
-
-    console.log("🎯 Fetching live classes for:", {
-      batchMonth,
-      batchYear,
-      studentType,
-      courseSelection
-    });
-
-    // Build URL with query parameters
-    let url = `${API_OSE_URL}api/live-classes`;
-    const params = new URLSearchParams();
-    
-    // Add batch filters if available
-    if (batchMonth && batchMonth !== "") {
-      params.append('batch_month', batchMonth);
-    }
-    
-    if (batchYear && batchYear !== "") {
-      params.append('batch_year', batchYear);
-    }
-    
-    // ALWAYS add student_type and course_selection
-    params.append('student_type', studentType);
-    params.append('course_selection', courseSelection);
-    
-    // Append params to URL
-    if (params.toString()) {
-      url += `?${params.toString()}`;
-    }
-
-    console.log("📡 Fetching from URL:", url);
-
-    const response = await fetch(url, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      console.log("📊 Received live classes:", data);
-
-      // Sort live classes: live first, then upcoming
-      const sortedData = data.sort((a, b) => {
-        const statusPriority = {
-          live: 1,
-          upcoming: 2,
-        };
-
-        if (statusPriority[a.status] !== statusPriority[b.status]) {
-          return statusPriority[a.status] - statusPriority[b.status];
-        }
-
-        // If same status, sort by start time (earlier first)
-        return new Date(a.start_time) - new Date(b.start_time);
-      });
-
-      setLiveClasses(sortedData);
-    } else {
-      console.error("❌ Failed to fetch live classes, status:", response.status);
-      const errorData = await response.json().catch(() => ({}));
-      console.error("Error details:", errorData);
+  // 🔥 FIXED: Robust fetchLiveClasses with proper error handling and logging
+  const fetchLiveClasses = async () => {
+    try {
+      setLoading(true);
       
-      // Set empty array to avoid errors
+      // Get user data from auth context with safe defaults
+      const batchMonth = user?.batchMonth || "";
+      const batchYear = user?.batchYear || "";
+      const studentType = user?.studentType || 'zorvixe_core';
+      const courseSelection = user?.courseSelection || 'web_development';
+
+      const filterInfo = {
+        batchMonth,
+        batchYear,
+        studentType,
+        courseSelection,
+        timestamp: new Date().toISOString()
+      };
+      
+      console.log("🎯 Fetching live classes with filters:", filterInfo);
+      setFilterDebug(filterInfo);
+
+      // Build URL with ALL query parameters - even empty ones
+      let url = `${API_OSE_URL}api/live-classes`;
+      const params = new URLSearchParams();
+      
+      // ALWAYS add these parameters - backend will handle null/empty values
+      params.append('batch_month', batchMonth || '');
+      params.append('batch_year', batchYear || '');
+      params.append('student_type', studentType);
+      params.append('course_selection', courseSelection);
+      
+      // Append params to URL
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+
+      console.log("📡 Fetching from URL:", url);
+
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        console.error("❌ No authentication token found");
+        setLiveClasses([]);
+        return;
+      }
+
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`📊 Received ${data.length} live classes:`, data);
+
+        // Log filtering results for debugging
+        const filteredCount = data.filter(cls => {
+          const typeMatch = cls.student_type === studentType || cls.student_type === 'all' || !cls.student_type;
+          const courseMatch = cls.course_selection === courseSelection || cls.course_selection === 'all' || !cls.course_selection;
+          return typeMatch && courseMatch;
+        }).length;
+        
+        console.log(`🔍 Filtered classes for ${studentType}/${courseSelection}: ${filteredCount} of ${data.length}`);
+
+        // Sort live classes: live first, then upcoming
+        const sortedData = data.sort((a, b) => {
+          const statusPriority = { live: 1, upcoming: 2, completed: 3 };
+          const aPriority = statusPriority[a.status] || 4;
+          const bPriority = statusPriority[b.status] || 4;
+
+          if (aPriority !== bPriority) {
+            return aPriority - bPriority;
+          }
+
+          // If same status, sort by start time (earlier first)
+          return new Date(a.start_time) - new Date(b.start_time);
+        });
+
+        setLiveClasses(sortedData);
+      } else {
+        console.error("❌ Failed to fetch live classes, status:", response.status);
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Error details:", errorData);
+        setLiveClasses([]);
+      }
+    } catch (error) {
+      console.error("❌ Error fetching live classes:", error);
       setLiveClasses([]);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error("❌ Error fetching live classes:", error);
-    setLiveClasses([]);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // Fetch placement achievements from backend
   const fetchPlacementAchievements = async () => {
@@ -123,31 +129,16 @@ const fetchLiveClasses = async () => {
       const response = await fetch(`${API_OSE_URL}api/placement-achievements`);
       if (response.ok) {
         const data = await response.json();
-
-        // Sort placement achievements by most recent first
-        // Assuming there's a date field like "created_at" or "placement_date"
         const sortedData = data.sort((a, b) => {
-          // If there's a timestamp field
           if (a.created_at && b.created_at) {
             return new Date(b.created_at) - new Date(a.created_at);
           }
-
-          // If there's a date field
-          if (a.date && b.date) {
-            return new Date(b.date) - new Date(a.date);
-          }
-
-          // If there's an id that indicates recency (higher id = more recent)
           if (a.id && b.id) {
             return b.id - a.id;
           }
-
           return 0;
         });
-
         setPlacementAchievements(sortedData);
-      } else {
-        console.error("Failed to fetch placement achievements");
       }
     } catch (error) {
       console.error("Error fetching placement achievements:", error);
@@ -156,10 +147,8 @@ const fetchLiveClasses = async () => {
     }
   };
 
-  // Load user progress from backend API (same as Practice component)
+  // Load user progress from backend API
   const fetchUserProgress = async () => {
-    // Don't fetch if already loading
-
     try {
       const response = await CodingPracticeService.getAllProgress();
       if (response.success) {
@@ -175,15 +164,8 @@ const fetchLiveClasses = async () => {
         });
         setUserProgress(progressMap);
         setLastProgressUpdate(Date.now());
-
-        // Also update localStorage for consistency
-        localStorage.setItem(
-          "codingPracticeProgress",
-          JSON.stringify(progressMap)
-        );
+        localStorage.setItem("codingPracticeProgress", JSON.stringify(progressMap));
       } else {
-        console.error("Failed to fetch progress from backend");
-        // Fallback to localStorage if backend fails
         const savedProgress = localStorage.getItem("codingPracticeProgress");
         if (savedProgress) {
           setUserProgress(JSON.parse(savedProgress));
@@ -191,27 +173,19 @@ const fetchLiveClasses = async () => {
       }
     } catch (error) {
       console.error("Error fetching progress:", error);
-      // Fallback to localStorage if backend fails
       const savedProgress = localStorage.getItem("codingPracticeProgress");
       if (savedProgress) {
         setUserProgress(JSON.parse(savedProgress));
       }
-    } finally {
-      setProgressLoading(false);
     }
   };
 
   // Merge JavaScript practices with existing data
   const allCodingPracticesData = React.useMemo(() => {
     const mergedData = { ...codingPracticesData };
-
-    if (
-      javascriptCodingPracticesData &&
-      javascriptCodingPracticesData.javascript
-    ) {
+    if (javascriptCodingPracticesData?.javascript) {
       mergedData.javascript = javascriptCodingPracticesData.javascript;
     }
-
     return mergedData;
   }, []);
 
@@ -223,9 +197,7 @@ const fetchLiveClasses = async () => {
       java: "Java",
       sql: "SQL",
     };
-
     const languageName = languageNames[language] || language;
-
     const difficultyTitles = {
       easy: {
         python: "Python Fundamentals",
@@ -246,7 +218,6 @@ const fetchLiveClasses = async () => {
         sql: "Advanced SQL Problems",
       },
     };
-
     return (
       difficultyTitles[difficulty]?.[language] ||
       `${languageName} ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Challenge`
@@ -294,18 +265,11 @@ const fetchLiveClasses = async () => {
       }
 
       const difficultyGroups = {
-        easy: {
-          questions: [],
-        },
-        medium: {
-          questions: [],
-        },
-        hard: {
-          questions: [],
-        },
+        easy: { questions: [] },
+        medium: { questions: [] },
+        hard: { questions: [] },
       };
 
-      // Collect all questions from selected language practices and group by difficulty
       allCodingPracticesData[selectedLanguage].forEach((practice) => {
         practice.questions.forEach((question) => {
           const difficulty = question.difficulty.toLowerCase();
@@ -319,21 +283,17 @@ const fetchLiveClasses = async () => {
         });
       });
 
-      // Calculate progress for each difficulty group
       const practiceCards = Object.keys(difficultyGroups)
-        .filter(
-          (difficulty) => difficultyGroups[difficulty].questions.length > 0
-        )
+        .filter((difficulty) => difficultyGroups[difficulty].questions.length > 0)
         .map((difficulty) => {
           const group = difficultyGroups[difficulty];
           const totalQuestions = group.questions.length;
           const solvedQuestions = group.questions.filter(
             (question) => userProgress[question.id]?.status === "solved"
           ).length;
-          const progress =
-            totalQuestions > 0
-              ? Math.round((solvedQuestions / totalQuestions) * 100)
-              : 0;
+          const progress = totalQuestions > 0
+            ? Math.round((solvedQuestions / totalQuestions) * 100)
+            : 0;
 
           const colors = getDifficultyColors(difficulty);
 
@@ -353,15 +313,10 @@ const fetchLiveClasses = async () => {
           };
         });
 
-      // Sort practice cards by progress (most progress first)
-      // If same progress, sort by difficulty: easy -> medium -> hard
       const sortedPracticeCards = practiceCards.sort((a, b) => {
-        // First sort by progress (descending - higher progress first)
         if (b.numericProgress !== a.numericProgress) {
           return b.numericProgress - a.numericProgress;
         }
-
-        // Then sort by difficulty order: easy -> medium -> hard
         const difficultyOrder = { easy: 1, medium: 2, hard: 3 };
         return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
       });
@@ -374,19 +329,19 @@ const fetchLiveClasses = async () => {
 
   // Initial data fetch
   useEffect(() => {
-    fetchLiveClasses();
-    fetchPlacementAchievements();
-    fetchUserProgress(); // Fetch progress on initial load
+    if (user) {
+      fetchLiveClasses();
+      fetchPlacementAchievements();
+      fetchUserProgress();
 
-    // Only poll live classes, not progress
-    const liveClassesInterval = setInterval(fetchLiveClasses, 60000);
-
-    return () => {
-      clearInterval(liveClassesInterval);
-    };
+      const liveClassesInterval = setInterval(fetchLiveClasses, 60000);
+      return () => {
+        clearInterval(liveClassesInterval);
+      };
+    }
   }, [user]);
 
-  // Listen for storage events to update progress when Practice component updates localStorage
+  // Listen for storage events
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === "codingPracticeProgress") {
@@ -401,54 +356,24 @@ const fetchLiveClasses = async () => {
     };
 
     window.addEventListener("storage", handleStorageChange);
-
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
-  // Listen for custom event when practice is completed in Practice component
+  // Listen for custom practice completed event
   useEffect(() => {
     const handlePracticeCompleted = () => {
-      // Fetch updated progress after a short delay to allow backend to update
       setTimeout(() => {
         fetchUserProgress();
       }, 1000);
     };
 
     window.addEventListener("practiceCompleted", handlePracticeCompleted);
-
     return () => {
       window.removeEventListener("practiceCompleted", handlePracticeCompleted);
     };
   }, []);
-
-  // Poll for progress updates less frequently (every 60 seconds instead of 10)
-  useEffect(() => {
-    const progressInterval = setInterval(() => {
-      // Only fetch if it's been at least 30 seconds since last update
-      if (lastProgressUpdate && Date.now() - lastProgressUpdate > 30000) {
-        fetchUserProgress();
-      }
-    }, 60000); // Check every 60 seconds
-
-    return () => clearInterval(progressInterval);
-  }, [lastProgressUpdate]);
-
-  // Only fetch progress on focus if it's been a while
-  useEffect(() => {
-    const handleFocus = () => {
-      // Only fetch if it's been more than 30 seconds since last update
-      if (!lastProgressUpdate || Date.now() - lastProgressUpdate > 30000) {
-        fetchUserProgress();
-      }
-    };
-
-    window.addEventListener("focus", handleFocus);
-    return () => {
-      window.removeEventListener("focus", handleFocus);
-    };
-  }, [lastProgressUpdate]);
 
   const homeData = {
     BroOne: {
@@ -461,27 +386,19 @@ const fetchLiveClasses = async () => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "upcoming":
-        return "bi bi-stopwatch";
-      case "live":
-        return "bi bi-broadcast";
-      case "completed":
-        return "bi bi-check-circle";
-      default:
-        return "bi bi-stopwatch";
+      case "upcoming": return "bi bi-stopwatch";
+      case "live": return "bi bi-broadcast";
+      case "completed": return "bi bi-check-circle";
+      default: return "bi bi-stopwatch";
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "upcoming":
-        return "#ffa500";
-      case "live":
-        return "#28a745";
-      case "completed":
-        return "#6c757d";
-      default:
-        return "#ffa500";
+      case "upcoming": return "#ffa500";
+      case "live": return "#28a745";
+      case "completed": return "#6c757d";
+      default: return "#ffa500";
     }
   };
 
@@ -490,13 +407,9 @@ const fetchLiveClasses = async () => {
   };
 
   const handlePracticeClick = (difficulty) => {
-    const difficultyGroup = practiceData.find(
-      (p) => p.difficulty === difficulty
-    );
-    if (difficultyGroup && difficultyGroup.questions.length > 0) {
-      // Find the first practice that has questions of this difficulty
+    const difficultyGroup = practiceData.find((p) => p.difficulty === difficulty);
+    if (difficultyGroup?.questions.length > 0) {
       let targetPracticeId = null;
-
       allCodingPracticesData[selectedLanguage].forEach((practice) => {
         if (targetPracticeId) return;
         const hasDifficultyQuestions = practice.questions.some(
@@ -506,7 +419,6 @@ const fetchLiveClasses = async () => {
           targetPracticeId = practice.id;
         }
       });
-
       if (targetPracticeId) {
         navigate(`/practice/${targetPracticeId}`);
       }
@@ -520,18 +432,13 @@ const fetchLiveClasses = async () => {
 
   const handleContinue = (difficulty, e) => {
     e.stopPropagation();
-    const difficultyGroup = practiceData.find(
-      (p) => p.difficulty === difficulty
-    );
+    const difficultyGroup = practiceData.find((p) => p.difficulty === difficulty);
     if (difficultyGroup) {
       const unsolvedQuestion = difficultyGroup.questions.find(
         (question) => userProgress[question.id]?.status !== "solved"
       );
-
       if (unsolvedQuestion) {
-        navigate(
-          `/practice/${unsolvedQuestion.practiceId}/${unsolvedQuestion.id}`
-        );
+        navigate(`/practice/${unsolvedQuestion.practiceId}/${unsolvedQuestion.id}`);
       } else if (difficultyGroup.questions.length > 0) {
         const firstQuestion = difficultyGroup.questions[0];
         navigate(`/practice/${firstQuestion.practiceId}/${firstQuestion.id}`);
@@ -542,38 +449,47 @@ const fetchLiveClasses = async () => {
   const handlePrevLanguage = () => {
     const languages = Object.keys(allCodingPracticesData);
     const currentIndex = languages.indexOf(selectedLanguage);
-    const prevIndex =
-      currentIndex > 0 ? currentIndex - 1 : languages.length - 1;
+    const prevIndex = currentIndex > 0 ? currentIndex - 1 : languages.length - 1;
     setSelectedLanguage(languages[prevIndex]);
   };
 
   const handleNextLanguage = () => {
     const languages = Object.keys(allCodingPracticesData);
     const currentIndex = languages.indexOf(selectedLanguage);
-    const nextIndex =
-      currentIndex < languages.length - 1 ? currentIndex + 1 : 0;
+    const nextIndex = currentIndex < languages.length - 1 ? currentIndex + 1 : 0;
     setSelectedLanguage(languages[nextIndex]);
   };
 
-  // AI App functions
-  const toggleAiApp = () => {
-    setIsAiAppOpen(!isAiAppOpen);
-  };
+  const toggleAiApp = () => setIsAiAppOpen(!isAiAppOpen);
+  const closeAiApp = () => setIsAiAppOpen(false);
 
-  const closeAiApp = () => {
-    setIsAiAppOpen(false);
-  };
-
-  if (loading) {
+  if (loading && !user) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
+        <p>Loading your personalized content...</p>
       </div>
     );
   }
 
   return (
     <div className="website">
+      {/* Debug Panel - Remove in production */}
+      {process.env.NODE_ENV === 'development' && filterDebug && (
+        <div style={{ 
+          background: '#f0f0f0', 
+          padding: '10px', 
+          margin: '10px', 
+          borderRadius: '5px',
+          fontSize: '12px',
+          border: '1px solid #ccc'
+        }}>
+          <strong>🔍 Filter Debug:</strong>
+          <pre>{JSON.stringify(filterDebug, null, 2)}</pre>
+          <strong>📊 Live Classes Count:</strong> {liveClasses.length}
+        </div>
+      )}
+
       <div className="BroOne-container">
         <div className="BroOne-container-text">
           <h4>{homeData.BroOne.title}</h4>
@@ -608,6 +524,13 @@ const fetchLiveClasses = async () => {
                     {classItem.batch_month && classItem.batch_year && (
                       <p className="batch-info">
                         Batch: {classItem.batch_month} {classItem.batch_year}
+                      </p>
+                    )}
+                    {/* 🔥 ADDED: Display student type and course for debugging */}
+                    {process.env.NODE_ENV === 'development' && (
+                      <p style={{ fontSize: '11px', color: '#666' }}>
+                        Type: {classItem.student_type || 'all'} | 
+                        Course: {classItem.course_selection || 'all'}
                       </p>
                     )}
                   </div>
@@ -706,7 +629,11 @@ const fetchLiveClasses = async () => {
           ))
         ) : (
           <div className="no-classes">
-            <p>No live classes.</p>
+            <p>No live classes available for your batch and course.</p>
+            <p style={{ fontSize: '14px', color: '#666', marginTop: '10px' }}>
+              Your filters: {user?.studentType || 'Core'} | {user?.courseSelection || 'Web Dev'}
+              {user?.batchMonth && ` | ${user.batchMonth} ${user.batchYear || ''}`}
+            </p>
           </div>
         )}
       </div>
@@ -730,7 +657,6 @@ const fetchLiveClasses = async () => {
             maxWidth: "300px",
           }}
         >
-          {" "}
           <button
             onClick={handlePrevLanguage}
             style={{
@@ -747,7 +673,10 @@ const fetchLiveClasses = async () => {
             }}
           >
             <i className="bi bi-chevron-left"></i>
-          </button>{" "}
+          </button>
+          <span style={{ margin: "0 10px", fontWeight: "500" }}>
+            {selectedLanguage.charAt(0).toUpperCase() + selectedLanguage.slice(1)}
+          </span>
           <button
             onClick={handleNextLanguage}
             style={{
@@ -761,7 +690,6 @@ const fetchLiveClasses = async () => {
               justifyContent: "center",
               cursor: "pointer",
               fontSize: "18px",
-              marginLeft: "10px",
             }}
           >
             <i className="bi bi-chevron-right"></i>
@@ -852,10 +780,7 @@ const fetchLiveClasses = async () => {
                       cursor: "pointer",
                     }}
                   >
-                    <i
-                      className="bi bi-book"
-                      style={{ marginRight: "8px" }}
-                    ></i>
+                    <i className="bi bi-book" style={{ marginRight: "8px" }}></i>
                     View Problems
                   </button>
                   <button
@@ -971,7 +896,7 @@ const fetchLiveClasses = async () => {
         )}
       </div>
 
-      {/* AI Bot Floating Button - Only on Home Page */}
+      {/* AI Bot Floating Button */}
       <div className={`ai-bot-container ${isAiAppOpen ? "open" : ""}`}>
         {isAiAppOpen && (
           <div className="ai-app-overlay" onClick={closeAiApp}></div>
@@ -1023,4 +948,5 @@ const fetchLiveClasses = async () => {
     </div>
   );
 };
+
 export default Home;

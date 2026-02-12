@@ -14,20 +14,22 @@ const StudentList = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // 🔥 FIXED: Added course_selection to form data
   const [formData, setFormData] = useState({
     student_id: "",
     email: "",
     first_name: "",
     last_name: "",
     phone: "",
-    student_type: "zorvixe_core", // Added student_type
-    course_selection: "web_development", // New field
+    student_type: "zorvixe_core",
+    course_selection: "web_development", // 🔥 FIXED: Added with default
     batch_month: "",
     batch_year: "",
     password: "",
     status: "active",
   });
-  // Add course options:
+
+  // 🔥 Course options
   const courseOptions = [
     { value: "web_development", label: "Web Development" },
     { value: "digital_marketing", label: "Digital Marketing" },
@@ -44,14 +46,14 @@ const StudentList = () => {
     { value: "zorvixe_elite", label: "Zorvixe Elite" },
   ];
 
-  // Filters state
+  // 🔥 FIXED: Filters with courseSelection
   const [filters, setFilters] = useState({
     search: "",
     batchMonth: "",
     batchYear: "",
     status: "",
-    studentType: "", // Added studentType filter
-    courseSelection: "", // New filter
+    studentType: "",
+    courseSelection: "", // 🔥 FIXED: Added course filter
   });
 
   // Pagination state
@@ -81,28 +83,32 @@ const StudentList = () => {
   useEffect(() => {
     if (isAuthenticated) {
       fetchStudents();
-      // Set up interval to refresh online status every 30 seconds
       const interval = setInterval(fetchStudents, 30000);
       return () => clearInterval(interval);
     }
   }, [filters, pagination.page, isAuthenticated]);
 
+  // 🔥 FIXED: Updated fetchStudents with proper API URL and course filter
   const fetchStudents = async () => {
     if (!isAuthenticated) return;
 
     setLoading(true);
     try {
       const params = new URLSearchParams();
+      
+      // Add all filters
       if (filters.search) params.append("search", filters.search);
       if (filters.batchMonth) params.append("batchMonth", filters.batchMonth);
       if (filters.batchYear) params.append("batchYear", filters.batchYear);
       if (filters.status) params.append("status", filters.status);
-      if (filters.studentType)
-        params.append("studentType", filters.studentType); // Added studentType filter
-      if (filters.courseSelection)
-        params.append("courseSelection", filters.courseSelection);
+      if (filters.studentType) params.append("studentType", filters.studentType);
+      if (filters.courseSelection) params.append("courseSelection", filters.courseSelection); // 🔥 FIXED: Add course filter
+      
+      // Pagination
       params.append("page", pagination.page);
       params.append("limit", pagination.limit);
+
+      console.log("📡 Fetching students with params:", params.toString());
 
       const response = await fetch(
         `${API_BASE_URL}/api/admin/students?${params}`,
@@ -133,11 +139,12 @@ const StudentList = () => {
             pages: 0,
           }
         );
+        console.log(`✅ Fetched ${result.data.students?.length || 0} students`);
       } else {
         throw new Error(result.message || "Failed to fetch students");
       }
     } catch (err) {
-      console.error("Error fetching students:", err);
+      console.error("❌ Error fetching students:", err);
       toast.error(err.message || "Failed to fetch students. Please try again.");
     } finally {
       setLoading(false);
@@ -181,16 +188,14 @@ const StudentList = () => {
     );
   };
 
-  // Get student type badge
+  // 🔥 FIXED: Get student type badge
   const getStudentTypeBadge = (type) => {
     const typeConfig = {
       zorvixe_core: { color: "#4a6bff", bg: "#e8edff", label: "CORE" },
       zorvixe_pro: { color: "#10b981", bg: "#ecfdf5", label: "PRO" },
       zorvixe_elite: { color: "#f59e0b", bg: "#fffbeb", label: "ELITE" },
     };
-
     const config = typeConfig[type] || typeConfig.zorvixe_core;
-
     return (
       <span
         className="student-type-badge-stud"
@@ -205,6 +210,32 @@ const StudentList = () => {
     );
   };
 
+  // 🔥 NEW: Get course badge
+  const getCourseBadge = (course) => {
+    const courseConfig = {
+      web_development: { color: "#0d9488", bg: "#f0fdfa", label: "Web Dev" },
+      digital_marketing: { color: "#b45309", bg: "#fff7ed", label: "Digi Mkt" },
+    };
+    const config = courseConfig[course] || courseConfig.web_development;
+    return (
+      <span
+        className="course-badge-stud"
+        style={{
+          backgroundColor: config.bg,
+          color: config.color,
+          border: `1px solid ${config.color}20`,
+          padding: '4px 8px',
+          borderRadius: '12px',
+          fontSize: '11px',
+          fontWeight: '600'
+        }}
+      >
+        {config.label}
+      </span>
+    );
+  };
+
+  // 🔥 FIXED: Handle form submit with course_selection
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -215,12 +246,18 @@ const StudentList = () => {
 
       const method = editingStudent ? "PUT" : "POST";
 
+      // Ensure course_selection is always set
+      const submitData = {
+        ...formData,
+        course_selection: formData.course_selection || "web_development"
+      };
+
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       });
 
       const result = await response.json();
@@ -239,14 +276,14 @@ const StudentList = () => {
           last_name: "",
           phone: "",
           student_type: "zorvixe_core",
-          course_selection: "",
+          course_selection: "web_development",
           batch_month: "",
           batch_year: "",
           password: "",
           status: "active",
         });
         setEditingStudent(null);
-        fetchStudents(); // Refresh the list
+        fetchStudents();
       } else {
         throw new Error(
           result.message || result.error || "Failed to save student"
@@ -267,7 +304,7 @@ const StudentList = () => {
       last_name: "",
       phone: "",
       student_type: "zorvixe_core",
-      course_selection: "",
+      course_selection: "web_development",
       batch_month: "",
       batch_year: "",
       password: "",
@@ -280,6 +317,7 @@ const StudentList = () => {
     navigate("/student_register");
   };
 
+  // 🔥 FIXED: Handle edit with course_selection
   const handleEdit = (student) => {
     console.log("Editing student:", student);
     setEditingStudent(student);
@@ -289,11 +327,11 @@ const StudentList = () => {
       first_name: student.first_name,
       last_name: student.last_name,
       phone: student.phone || "",
-      student_type: student.student_type || "zorvixe_core", // Added student_type
-      course_selection: student.course_selection, // Added student_type
+      student_type: student.student_type || "zorvixe_core",
+      course_selection: student.course_selection || "web_development", // 🔥 FIXED
       batch_month: student.batch_month || "",
       batch_year: student.batch_year || "",
-      password: "", // Don't pre-fill password for security
+      password: "",
       status: student.status || "active",
     });
     setIsModalOpen(true);
@@ -324,7 +362,7 @@ const StudentList = () => {
 
       if (response.ok && result.success) {
         toast.success("Student deleted successfully");
-        fetchStudents(); // Refresh the list
+        fetchStudents();
       } else {
         throw new Error(
           result.message || result.error || "Failed to delete student"
@@ -341,7 +379,6 @@ const StudentList = () => {
       ...prev,
       [key]: value,
     }));
-    // Reset to first page when filters change
     setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
@@ -351,7 +388,7 @@ const StudentList = () => {
       batchMonth: "",
       batchYear: "",
       status: "",
-      studentType: "", // Added studentType
+      studentType: "",
       courseSelection: "",
     });
     setPagination((prev) => ({ ...prev, page: 1 }));
@@ -367,9 +404,7 @@ const StudentList = () => {
       inactive: { color: "#EF4444", bg: "#FEF2F2", label: "INACTIVE" },
       pending: { color: "#F59E0B", bg: "#FFFBEB", label: "PENDING" },
     };
-
     const config = statusConfig[status] || statusConfig.active;
-
     return (
       <span
         className="status-badge-stud"
@@ -385,18 +420,10 @@ const StudentList = () => {
   };
 
   const getBatchInfo = (batch_month, batch_year) => {
-    if (!batch_month && !batch_year) {
-      return "All Batches";
-    }
-    if (batch_month && batch_year) {
-      return `${batch_month} ${batch_year}`;
-    }
-    if (batch_month) {
-      return batch_month;
-    }
-    if (batch_year) {
-      return batch_year;
-    }
+    if (!batch_month && !batch_year) return "All Batches";
+    if (batch_month && batch_year) return `${batch_month} ${batch_year}`;
+    if (batch_month) return batch_month;
+    if (batch_year) return batch_year;
     return "All Batches";
   };
 
@@ -429,21 +456,29 @@ const StudentList = () => {
       zorvixe_pro: 0,
       zorvixe_elite: 0,
     };
-
     students.forEach((student) => {
       const type = student.student_type || "zorvixe_core";
-      if (stats[type] !== undefined) {
-        stats[type]++;
-      }
+      if (stats[type] !== undefined) stats[type]++;
     });
+    return stats;
+  };
 
+  // 🔥 NEW: Course statistics
+  const getCourseStats = () => {
+    const stats = {
+      web_development: 0,
+      digital_marketing: 0,
+    };
+    students.forEach((student) => {
+      const course = student.course_selection || "web_development";
+      if (stats[course] !== undefined) stats[course]++;
+    });
     return stats;
   };
 
   // Pagination component
   const Pagination = () => {
     const { page, pages } = pagination;
-
     if (pages <= 1) return null;
 
     return (
@@ -455,14 +490,12 @@ const StudentList = () => {
         >
           Previous
         </button>
-
         <div className="pagination-pages-stud">
           {Array.from({ length: pages }, (_, i) => i + 1)
             .filter(
               (p) => p === 1 || p === pages || (p >= page - 1 && p <= page + 1)
             )
             .map((p, index, array) => {
-              // Add ellipsis for gaps
               const showEllipsis = index > 0 && p - array[index - 1] > 1;
               return (
                 <div key={p} style={{ display: "flex", alignItems: "center" }}>
@@ -481,7 +514,6 @@ const StudentList = () => {
               );
             })}
         </div>
-
         <button
           className="pagination-btn-stud"
           onClick={() => handlePageChange(page + 1)}
@@ -513,6 +545,7 @@ const StudentList = () => {
   }
 
   const studentTypeStats = getStudentTypeStats();
+  const courseStats = getCourseStats();
 
   return (
     <div className="student-management-admin-stud">
@@ -536,15 +569,11 @@ const StudentList = () => {
           {/* Online Stats */}
           <div className="online-stats-stud">
             <div className="stat-item-stud">
-              <span className="stat-number-stud">
-                {onlineStats.totalOnline}
-              </span>
+              <span className="stat-number-stud">{onlineStats.totalOnline}</span>
               <span className="stat-label-stud">Online Now</span>
             </div>
             <div className="stat-item-stud">
-              <span className="stat-number-stud">
-                {onlineStats.totalStudents}
-              </span>
+              <span className="stat-number-stud">{onlineStats.totalStudents}</span>
               <span className="stat-label-stud">Total Students</span>
             </div>
           </div>
@@ -602,10 +631,7 @@ const StudentList = () => {
           </div>
         </div>
         <div className="stat-card-stud">
-          <div
-            className="stat-icon-stud"
-            style={{ backgroundColor: "#e8edff" }}
-          >
+          <div className="stat-icon-stud" style={{ backgroundColor: "#e8edff" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#4a6bff">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
@@ -616,10 +642,7 @@ const StudentList = () => {
           </div>
         </div>
         <div className="stat-card-stud">
-          <div
-            className="stat-icon-stud"
-            style={{ backgroundColor: "#ecfdf5" }}
-          >
+          <div className="stat-icon-stud" style={{ backgroundColor: "#ecfdf5" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#10b981">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
@@ -630,10 +653,7 @@ const StudentList = () => {
           </div>
         </div>
         <div className="stat-card-stud">
-          <div
-            className="stat-icon-stud"
-            style={{ backgroundColor: "#fffbeb" }}
-          >
+          <div className="stat-icon-stud" style={{ backgroundColor: "#fffbeb" }}>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="#f59e0b">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
             </svg>
@@ -641,6 +661,32 @@ const StudentList = () => {
           <div className="stat-info-stud">
             <h3>{studentTypeStats.zorvixe_elite}</h3>
             <p>Zorvixe Elite</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 🔥 NEW: Course Stats Row */}
+      <div className="stats-overview-stud" style={{ marginTop: '20px' }}>
+        <div className="stat-card-stud">
+          <div className="stat-icon-stud" style={{ backgroundColor: "#f0fdfa" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#0d9488">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-6h2v6zm0-8h-2V6h2v2z" />
+            </svg>
+          </div>
+          <div className="stat-info-stud">
+            <h3>{courseStats.web_development}</h3>
+            <p>Web Development</p>
+          </div>
+        </div>
+        <div className="stat-card-stud">
+          <div className="stat-icon-stud" style={{ backgroundColor: "#fff7ed" }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="#b45309">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2h6v2h-6V6zm0 4h6v2h-6v-2zm0 4h6v2h-6v-2zM8 6v2H4V6h4zm0 4v2H4v-2h4zm0 4v2H4v-2h4z" />
+            </svg>
+          </div>
+          <div className="stat-info-stud">
+            <h3>{courseStats.digital_marketing}</h3>
+            <p>Digital Marketing</p>
           </div>
         </div>
       </div>
@@ -712,9 +758,7 @@ const StudentList = () => {
             <label>Student Type</label>
             <select
               value={filters.studentType}
-              onChange={(e) =>
-                handleFilterChange("studentType", e.target.value)
-              }
+              onChange={(e) => handleFilterChange("studentType", e.target.value)}
             >
               <option value="">All Types</option>
               {studentTypes.map((type) => (
@@ -724,6 +768,7 @@ const StudentList = () => {
               ))}
             </select>
           </div>
+          {/* 🔥 FIXED: Course filter */}
           <div className="filter-group-stud">
             <label>Course</label>
             <select
@@ -758,12 +803,7 @@ const StudentList = () => {
         {!loading && students.length === 0 ? (
           <div className="empty-state-stud">
             <div className="empty-icon-stud">
-              <svg
-                width="64"
-                height="64"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
               </svg>
             </div>
@@ -780,8 +820,8 @@ const StudentList = () => {
                 <tr>
                   <th>Student</th>
                   <th>Contact</th>
-                  <th>Type</th> {/* Added Type column */}
-                  <th>Course</th>
+                  <th>Type</th>
+                  <th>Course</th> {/* 🔥 FIXED: Course column */}
                   <th>Batch</th>
                   <th>Password</th>
                   <th>Status</th>
@@ -839,15 +879,11 @@ const StudentList = () => {
                         </div>
                       </div>
                     </td>
-                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {getStudentTypeBadge(
-                        student.student_type || "zorvixe_core"
-                      )}
+                    <td>
+                      {getStudentTypeBadge(student.student_type || "zorvixe_core")}
                     </td>
-                    <td style={{ color: "#6b7280", fontSize: "12px" }}>
-                      {student.course_selection === "digital_marketing"
-                        ? "Digital Marketing"
-                        : "Web Development"}
+                    <td>
+                      {getCourseBadge(student.course_selection || "web_development")}
                     </td>
                     <td style={{ color: "#6b7280", fontSize: "12px" }}>
                       {getBatchInfo(student.batch_month, student.batch_year)}
@@ -915,12 +951,7 @@ const StudentList = () => {
             <div className="modal-header-stud">
               <h2>{editingStudent ? "Edit Student" : "Add New Student"}</h2>
               <button className="modal-close-stud" onClick={closeModal}>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
                 </svg>
               </button>
@@ -938,10 +969,7 @@ const StudentList = () => {
                     id="student-id"
                     value={formData.student_id}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        student_id: e.target.value,
-                      })
+                      setFormData({ ...formData, student_id: e.target.value })
                     }
                     required
                     placeholder="Enter student ID"
@@ -958,10 +986,7 @@ const StudentList = () => {
                     id="student-email"
                     value={formData.email}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        email: e.target.value,
-                      })
+                      setFormData({ ...formData, email: e.target.value })
                     }
                     required
                     placeholder="Enter email address"
@@ -978,10 +1003,7 @@ const StudentList = () => {
                     id="first-name"
                     value={formData.first_name}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        first_name: e.target.value,
-                      })
+                      setFormData({ ...formData, first_name: e.target.value })
                     }
                     required
                     placeholder="Enter first name"
@@ -998,10 +1020,7 @@ const StudentList = () => {
                     id="last-name"
                     value={formData.last_name}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        last_name: e.target.value,
-                      })
+                      setFormData({ ...formData, last_name: e.target.value })
                     }
                     required
                     placeholder="Enter last name"
@@ -1018,10 +1037,7 @@ const StudentList = () => {
                     id="student-phone"
                     value={formData.phone}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        phone: e.target.value,
-                      })
+                      setFormData({ ...formData, phone: e.target.value })
                     }
                     placeholder="Enter phone number"
                   />
@@ -1036,10 +1052,7 @@ const StudentList = () => {
                     id="student-type"
                     value={formData.student_type}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        student_type: e.target.value,
-                      })
+                      setFormData({ ...formData, student_type: e.target.value })
                     }
                     required
                   >
@@ -1051,6 +1064,7 @@ const StudentList = () => {
                   </select>
                 </div>
 
+                {/* 🔥 FIXED: Course Selection Field */}
                 <div className="form-group-stud">
                   <label htmlFor="course-selection" className="form-label-stud">
                     Course *
@@ -1086,10 +1100,7 @@ const StudentList = () => {
                       id="password"
                       value={formData.password}
                       onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          password: e.target.value,
-                        })
+                        setFormData({ ...formData, password: e.target.value })
                       }
                       placeholder={
                         editingStudent ? "Enter new password" : "Enter password"
@@ -1143,10 +1154,7 @@ const StudentList = () => {
                     id="batch-month"
                     value={formData.batch_month}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        batch_month: e.target.value,
-                      })
+                      setFormData({ ...formData, batch_month: e.target.value })
                     }
                   >
                     <option value="">Select Month</option>
@@ -1174,10 +1182,7 @@ const StudentList = () => {
                     id="batch-year"
                     value={formData.batch_year}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        batch_year: e.target.value,
-                      })
+                      setFormData({ ...formData, batch_year: e.target.value })
                     }
                   >
                     <option value="">Select Year</option>
@@ -1190,11 +1195,7 @@ const StudentList = () => {
               </div>
 
               <div className="form-actions-stud">
-                <button
-                  type="button"
-                  className="btn-cancel-stud"
-                  onClick={closeModal}
-                >
+                <button type="button" className="btn-cancel-stud" onClick={closeModal}>
                   Cancel
                 </button>
                 <button type="submit" className="btn-submit-stud">

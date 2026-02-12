@@ -770,6 +770,9 @@ const generateToken = (id) => {
 // -------------------------------------------
 // 🔹 Enhanced Auth Middleware
 // -------------------------------------------
+// -------------------------------------------
+// 🔹 ENHANCED AUTH MIDDLEWARE WITH FULL STUDENT DATA
+// -------------------------------------------
 const auth = async (req, res, next) => {
   try {
     let token = req.header("Authorization");
@@ -795,7 +798,6 @@ const auth = async (req, res, next) => {
       });
     }
 
-    // Use the same JWT_SECRET consistently
     const JWT_SECRET =
       process.env.JWT_SECRET ||
       "your-fallback-secret-key-for-development-only-change-in-production";
@@ -815,10 +817,10 @@ const auth = async (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     console.log(`✅ Token decoded for user ID: ${decoded.id}`);
 
-    // Verify user exists in database
+    // 🔥 FIXED: Include ALL student fields including student_type and course_selection
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, phone, 
-              profile_image, student_type, batch_month, batch_year, is_current_batch,
+              profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch,
               name_on_certificate, gender, preferred_languages, date_of_birth,
               code_playground_username, linkedin_profile_url, github_profile_url,
               hackerrank_profile_url, leetcode_profile_url, resume_url,
@@ -848,6 +850,7 @@ const auth = async (req, res, next) => {
 
     req.student = result.rows[0];
     console.log(`✅ Auth successful for: ${req.student.email}`);
+    console.log(`📊 Student Type: ${req.student.student_type}, Course: ${req.student.course_selection}`);
     next();
   } catch (error) {
     console.error("🔐 Auth middleware error:", error.message);
@@ -1708,6 +1711,7 @@ app.post(
 );
 
 // Login Step 2: Verify OTP
+// Login Step 2: Verify OTP - UPDATED WITH STUDENT_TYPE & COURSE_SELECTION
 app.post(
   "/api/auth/login/verify-otp",
   [
@@ -1747,10 +1751,10 @@ app.post(
         });
       }
 
-      // OTP is valid, get user data and generate token
+      // 🔥 FIXED: Include student_type and course_selection
       const result = await pool.query(
         `SELECT id, student_id, email, first_name, last_name, phone, 
-                profile_image, batch_month, batch_year, is_current_batch, created_at 
+                profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, created_at 
          FROM students WHERE email = $1`,
         [normalizedEmail]
       );
@@ -1763,7 +1767,23 @@ app.post(
         });
       }
 
-      const token = generateToken(student.id);
+      // 🔥 FIXED: Include student_type and course_selection in JWT
+      const token = jwt.sign(
+        { 
+          id: student.id,
+          studentId: student.student_id,
+          email: student.email,
+          firstName: student.first_name,
+          lastName: student.last_name,
+          studentType: student.student_type,
+          courseSelection: student.course_selection,
+          batchMonth: student.batch_month,
+          batchYear: student.batch_year
+        },
+        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        { expiresIn: "30d" }
+      );
+
       const baseUrl =
         process.env.BACKEND_URL ||
         `http://localhost:${process.env.PORT || 5002}`;
@@ -1778,6 +1798,8 @@ app.post(
         profileImage: student.profile_image
           ? `${baseUrl}${student.profile_image}`
           : null,
+        studentType: student.student_type,
+        courseSelection: student.course_selection,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -2734,6 +2756,9 @@ app.get("/api/coding-practice/summary/:practiceId", auth, async (req, res) => {
 // 🔹 Register Route
 // -------------------------------------------
 // Update the registration route
+// -------------------------------------------
+// 🔹 REGISTER ROUTE - UPDATED WITH COURSE_SELECTION
+// -------------------------------------------
 app.post(
   "/api/auth/register",
   upload.single("profileImage"),
@@ -2794,7 +2819,7 @@ app.post(
         lastName,
         phone,
         studentType = "zorvixe_core", // Default to core
-        courseSelection = "web_development", // Default value
+        courseSelection = "web_development", // 🔥 FIXED: Default to web_development
         batchMonth,
         batchYear,
         isCurrentBatch,
@@ -2841,7 +2866,7 @@ app.post(
         ? Number.parseInt(batchYear)
         : new Date().getFullYear();
 
-      // Insert new student with student_type
+      // 🔥 FIXED: Include course_selection in INSERT
       const result = await pool.query(
         `INSERT INTO students (student_id, email, password, first_name, last_name, phone, 
                         profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, join_date)
@@ -2857,7 +2882,7 @@ app.post(
           phone,
           profileImagePath,
           studentType,
-          courseSelection, // Add this
+          courseSelection, // 🔥 FIXED: Added course_selection
           batchMonth,
           batchYearInt,
           currentBatch,
@@ -2865,7 +2890,23 @@ app.post(
       );
 
       const student = result.rows[0];
-      const token = generateToken(student.id);
+      
+      // 🔥 FIXED: Include course_selection in JWT
+      const token = jwt.sign(
+        { 
+          id: student.id,
+          studentId: student.student_id,
+          email: student.email,
+          firstName: student.first_name,
+          lastName: student.last_name,
+          studentType: student.student_type,
+          courseSelection: student.course_selection,
+          batchMonth: student.batch_month,
+          batchYear: student.batch_year
+        },
+        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        { expiresIn: "30d" }
+      );
 
       // Construct full image URL
       const baseUrl =
@@ -2882,6 +2923,7 @@ app.post(
           ? `${baseUrl}${student.profile_image}`
           : null,
         studentType: student.student_type,
+        courseSelection: student.course_selection,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -2912,6 +2954,9 @@ app.post(
 // -------------------------------------------
 // 🔹 Login Route (Legacy - Keep for compatibility)
 // -------------------------------------------
+// -------------------------------------------
+// 🔹 LOGIN ROUTE - UPDATED WITH STUDENT_TYPE & COURSE_SELECTION
+// -------------------------------------------
 app.post(
   "/api/auth/login",
   [
@@ -2934,9 +2979,10 @@ app.post(
 
       const { email, password } = req.body;
 
+      // 🔥 FIXED: Include student_type and course_selection
       const result = await pool.query(
         `SELECT id, student_id, email, password, first_name, last_name, phone, 
-                profile_image, batch_month, batch_year, is_current_batch, created_at 
+                profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch, created_at 
          FROM students WHERE email = $1`,
         [email]
       );
@@ -2957,7 +3003,22 @@ app.post(
         });
       }
 
-      const token = generateToken(student.id);
+      // 🔥 FIXED: Include student_type and course_selection in JWT
+      const token = jwt.sign(
+        { 
+          id: student.id,
+          studentId: student.student_id,
+          email: student.email,
+          firstName: student.first_name,
+          lastName: student.last_name,
+          studentType: student.student_type,
+          courseSelection: student.course_selection,
+          batchMonth: student.batch_month,
+          batchYear: student.batch_year
+        },
+        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        { expiresIn: "30d" }
+      );
 
       // Construct full image URL
       const baseUrl =
@@ -2973,6 +3034,8 @@ app.post(
         profileImage: student.profile_image
           ? `${baseUrl}${student.profile_image}`
           : null,
+        studentType: student.student_type,
+        courseSelection: student.course_selection,
         batchMonth: student.batch_month,
         batchYear: student.batch_year,
         isCurrentBatch: student.is_current_batch,
@@ -3001,6 +3064,9 @@ app.post(
 // 🔹 Profile Route (Protected)
 // -------------------------------------------
 // Update the profile route response
+// -------------------------------------------
+// 🔹 PROFILE ROUTE - UPDATED WITH STUDENT_TYPE & COURSE_SELECTION
+// -------------------------------------------
 app.get("/api/auth/profile", auth, async (req, res) => {
   try {
     const baseUrl =
@@ -3016,6 +3082,7 @@ app.get("/api/auth/profile", auth, async (req, res) => {
         ? `${baseUrl}${req.student.profile_image}`
         : null,
       studentType: req.student.student_type,
+      courseSelection: req.student.course_selection,
       batchMonth: req.student.batch_month,
       batchYear: req.student.batch_year,
       isCurrentBatch: req.student.is_current_batch,
@@ -5356,6 +5423,9 @@ app.post("/api/student/heartbeat", async (req, res) => {
 });
 
 // Update the students list endpoint to include online status with pagination
+// -------------------------------------------
+// 🔹 ADMIN STUDENT LIST - FULLY FIXED WITH COURSE FILTERING
+// -------------------------------------------
 app.get("/api/admin/students", async (req, res) => {
   try {
     const {
@@ -5366,7 +5436,7 @@ app.get("/api/admin/students", async (req, res) => {
       batchYear,
       status,
       studentType,
-      courseSelection, // Add this
+      courseSelection, // 🔥 FIXED: Add course filter
     } = req.query;
 
     const offset = (page - 1) * limit;
@@ -5375,7 +5445,7 @@ app.get("/api/admin/students", async (req, res) => {
     let baseQuery = `
     SELECT 
       id, student_id, email, first_name, last_name, phone,
-      profile_image, student_type, batch_month, batch_year, is_current_batch,
+      profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch,
       status, join_date, created_at, password,
       name_on_certificate, gender, current_coding_level,
       occupation_status, has_work_experience
@@ -5426,8 +5496,16 @@ app.get("/api/admin/students", async (req, res) => {
       paramCount++;
     }
 
-     // Add course filter to query
-     if (courseSelection && courseSelection !== "") {
+    // 🔥 FIXED: Student Type filter
+    if (studentType && studentType !== "") {
+      baseQuery += ` AND student_type = $${paramCount}`;
+      countQuery += ` AND student_type = $${paramCount}`;
+      queryParams.push(studentType);
+      paramCount++;
+    }
+
+    // 🔥 FIXED: Course Selection filter
+    if (courseSelection && courseSelection !== "") {
       baseQuery += ` AND course_selection = $${paramCount}`;
       countQuery += ` AND course_selection = $${paramCount}`;
       queryParams.push(courseSelection);
@@ -5435,9 +5513,7 @@ app.get("/api/admin/students", async (req, res) => {
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -5464,10 +5540,12 @@ app.get("/api/admin/students", async (req, res) => {
       first_name: student.first_name,
       last_name: student.last_name,
       phone: student.phone,
-      password: student.password, // Include password in response
+      password: student.password,
       profile_image: student.profile_image
         ? `${baseUrl}${student.profile_image}`
         : null,
+      student_type: student.student_type,
+      course_selection: student.course_selection,
       batch_month: student.batch_month,
       batch_year: student.batch_year,
       is_current_batch: student.is_current_batch,
@@ -5569,7 +5647,9 @@ app.get("/api/admin/students/:studentId", async (req, res) => {
 });
 
 // Update student by admin with password support
-// Update the admin student update route to include student_type
+// -------------------------------------------
+// 🔹 ADMIN UPDATE STUDENT - FIXED WITH COURSE_SELECTION
+// -------------------------------------------
 app.put("/api/admin/students/:studentId", async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -5595,7 +5675,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     const updateValues = [];
     let paramCount = 1;
 
-    // Add student_type to allowed fields
+    // 🔥 FIXED: Add course_selection to allowed fields
     const allowedFields = [
       "student_id",
       "email",
@@ -5603,6 +5683,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       "last_name",
       "phone",
       "student_type",
+      "course_selection",
       "batch_month",
       "batch_year",
       "is_current_batch",
@@ -5620,6 +5701,18 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
           success: false,
           message:
             "Invalid student type. Must be one of: zorvixe_core, zorvixe_pro, zorvixe_elite",
+        });
+      }
+    }
+
+    // Validate course_selection if provided
+    if (updateData.course_selection) {
+      const validCourses = ["web_development", "digital_marketing"];
+      if (!validCourses.includes(updateData.course_selection)) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid course selection. Must be one of: web_development, digital_marketing",
         });
       }
     }

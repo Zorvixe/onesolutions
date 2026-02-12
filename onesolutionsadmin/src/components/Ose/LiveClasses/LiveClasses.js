@@ -1,11 +1,9 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import "./LiveClasses.css";
-import { assests } from "../../../assests/assests";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL = process.env.REACT_APP_API_URL || "https://ose.onesolutionsekam.in";
 
 const LiveClasses = () => {
   const [classes, setClasses] = useState([]);
@@ -21,11 +19,13 @@ const LiveClasses = () => {
     status: "upcoming",
     progress: 0,
     student_type: "all",
-    course_selection: "all",
+    course_selection: "all", // 🔥 FIXED: Default to "all"
   });
   const [editingClass, setEditingClass] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // 🔥 FIXED: Filters with course_selection
   const [filters, setFilters] = useState({
     student_type: "all",
     course_selection: "all",
@@ -33,6 +33,7 @@ const LiveClasses = () => {
     batch_year: "",
     status: "",
   });
+  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,41 +61,49 @@ const LiveClasses = () => {
     }
   }, [token, filters]);
 
+  // 🔥 FIXED: Updated fetchClasses with proper course filter
   const fetchClasses = async () => {
     try {
       const params = new URLSearchParams();
+      
+      // Add filters - handle 'all' values correctly
       if (filters.student_type && filters.student_type !== "all") {
         params.append("student_type", filters.student_type);
       }
       if (filters.course_selection && filters.course_selection !== "all") {
         params.append("course_selection", filters.course_selection);
       }
-      if (filters.batch_month) {
+      if (filters.batch_month && filters.batch_month !== "") {
         params.append("batch_month", filters.batch_month);
       }
-      if (filters.batch_year) {
+      if (filters.batch_year && filters.batch_year !== "") {
         params.append("batch_year", filters.batch_year);
       }
-      if (filters.status) {
+      if (filters.status && filters.status !== "") {
         params.append("status", filters.status);
       }
 
-      const url = `https://ose.onesolutionsekam.in/api/admin/live-classes${
+      const url = `${API_BASE_URL}/api/admin/live-classes${
         params.toString() ? `?${params.toString()}` : ""
       }`;
+
+      console.log("📡 Fetching admin live classes:", url);
 
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      
       if (response.ok) {
         const data = await response.json();
-        console.log("Fetched classes:", data);
+        console.log(`✅ Fetched ${data.length} classes:`, data);
         setClasses(data);
+      } else {
+        console.error("❌ Failed to fetch classes, status:", response.status);
       }
     } catch (error) {
-      console.error("Error fetching classes:", error);
+      console.error("❌ Error fetching classes:", error);
     } finally {
       setLoading(false);
     }
@@ -104,10 +113,22 @@ const LiveClasses = () => {
     e.preventDefault();
     try {
       const url = editingClass
-        ? `https://ose.onesolutionsekam.in/api/live-classes/${editingClass.id}`
-        : `https://ose.onesolutionsekam.in/api/live-classes`;
+        ? `${API_BASE_URL}/api/live-classes/${editingClass.id}`
+        : `${API_BASE_URL}/api/live-classes`;
 
       const method = editingClass ? "PUT" : "POST";
+
+      // 🔥 FIXED: Ensure course_selection is included
+      const submitData = {
+        ...formData,
+        course_selection: formData.course_selection || "all",
+        student_type: formData.student_type || "all",
+        // Handle empty batch fields - send as null
+        batch_month: formData.batch_month || null,
+        batch_year: formData.batch_year || null,
+      };
+
+      console.log(`📤 ${method} live class:`, submitData);
 
       const response = await fetch(url, {
         method,
@@ -115,7 +136,7 @@ const LiveClasses = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(submitData),
       });
 
       if (response.ok) {
@@ -135,13 +156,15 @@ const LiveClasses = () => {
         });
         setEditingClass(null);
         fetchClasses();
+        toast?.success?.(`Class ${editingClass ? "updated" : "created"} successfully`);
       } else {
         const error = await response.json();
-        alert(error.error || "Failed to save class");
+        console.error("❌ Failed to save class:", error);
+        alert(error.error || error.message || "Failed to save class");
       }
     } catch (error) {
-      console.error("Error saving class:", error);
-      alert("Failed to save class");
+      console.error("❌ Error saving class:", error);
+      alert("Failed to save class: " + error.message);
     }
   };
 
@@ -191,7 +214,7 @@ const LiveClasses = () => {
 
     try {
       const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
+        `${API_BASE_URL}/api/live-classes/${classId}`,
         {
           method: "DELETE",
           headers: {
@@ -202,6 +225,7 @@ const LiveClasses = () => {
 
       if (response.ok) {
         fetchClasses();
+        toast?.success?.("Class deleted successfully");
       } else {
         alert("Failed to delete class");
       }
@@ -231,29 +255,37 @@ const LiveClasses = () => {
 
   const formatDateTime = (dateTime) => {
     if (!dateTime) return "Not set";
-    const date = new Date(dateTime);
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-      timeZone: "UTC",
-    });
+    try {
+      const date = new Date(dateTime);
+      return date.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "UTC",
+      });
+    } catch (e) {
+      return "Invalid time";
+    }
   };
 
   const formatDateOnly = (dateTime) => {
     if (!dateTime) return "";
-    const date = new Date(dateTime);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      timeZone: "UTC",
-    });
+    try {
+      const date = new Date(dateTime);
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        timeZone: "UTC",
+      });
+    } catch (e) {
+      return "";
+    }
   };
 
   const handleStatusChange = async (classId, newStatus) => {
     try {
       const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
+        `${API_BASE_URL}/api/live-classes/${classId}`,
         {
           method: "PUT",
           headers: {
@@ -266,6 +298,7 @@ const LiveClasses = () => {
 
       if (response.ok) {
         fetchClasses();
+        toast?.success?.(`Status updated to ${newStatus}`);
       } else {
         alert("Failed to update status");
       }
@@ -278,7 +311,7 @@ const LiveClasses = () => {
   const handleProgressChange = async (classId, newProgress) => {
     try {
       const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/live-classes/${classId}`,
+        `${API_BASE_URL}/api/live-classes/${classId}`,
         {
           method: "PUT",
           headers: {
@@ -302,6 +335,17 @@ const LiveClasses = () => {
 
   const newClassVideo = () => {
     navigate("/Video_Management");
+  };
+
+  // 🔥 NEW: Get course badge for display
+  const getCourseBadge = (course) => {
+    const courseConfig = {
+      web_development: { color: "#0d9488", bg: "#f0fdfa", label: "Web Dev" },
+      digital_marketing: { color: "#b45309", bg: "#fff7ed", label: "Digi Mkt" },
+      all: { color: "#6b7280", bg: "#f3f4f6", label: "All Courses" },
+    };
+    const config = courseConfig[course] || courseConfig.all;
+    return config;
   };
 
   if (loading) {
@@ -457,174 +501,182 @@ const LiveClasses = () => {
           </div>
         ) : (
           <div className="lc-card-grid">
-            {classes.map((classItem) => (
-              <div
-                key={classItem.id}
-                className={`lc-card lc-card-${classItem.status}`}
-              >
-                {/* Card Header: Badges & Actions */}
-                <div className="lc-card-header">
-                  <div className="lc-badges">
-                    <span
-                      className={`lc-badge lc-badge-type ${classItem.student_type}`}
-                    >
-                      {classItem.student_type.replace("zorvixe_", "")}
-                    </span>
-                    <span className="lc-badge lc-badge-course">
-                      {classItem.course_selection === "web_development"
-                        ? "Web Dev"
-                        : classItem.course_selection === "digital_marketing"
-                        ? "Digi Mkt"
-                        : "All"}
-                    </span>
-                  </div>
-                  <div className="lc-card-actions-top">
-                    <button
-                      onClick={() => handleEdit(classItem)}
-                      title="Edit"
-                      className="lc-icon-btn edit"
-                    >
-                      <i className="bi bi-pencil"></i>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(classItem.id)}
-                      title="Delete"
-                      className="lc-icon-btn delete"
-                    >
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Card Body: Info */}
-                <div className="lc-card-body">
-                  <div className="lc-class-title-row">
-                    <div className="lc-avatar">
-                      {classItem.class_name.charAt(0).toUpperCase()}
-                    </div>
-                    <h3 title={classItem.class_name}>{classItem.class_name}</h3>
-                  </div>
-
-                  <div className="lc-details-grid">
-                    <div className="lc-detail-item">
-                      <i className="bi bi-person"></i>
-                      <span>{classItem.mentor_name || "Mentor"}</span>
-                    </div>
-                    <div className="lc-detail-item">
-                      <i className="bi bi-calendar"></i>
-                      <span>
-                        {formatDateOnly(classItem.start_time)} |{" "}
-                        {formatDateTime(classItem.start_time)}
+            {classes.map((classItem) => {
+              const courseBadge = getCourseBadge(classItem.course_selection);
+              return (
+                <div
+                  key={classItem.id}
+                  className={`lc-card lc-card-${classItem.status}`}
+                >
+                  {/* Card Header: Badges & Actions */}
+                  <div className="lc-card-header">
+                    <div className="lc-badges">
+                      <span
+                        className={`lc-badge lc-badge-type ${classItem.student_type}`}
+                      >
+                        {classItem.student_type === "all" 
+                          ? "All" 
+                          : classItem.student_type.replace("zorvixe_", "").toUpperCase()}
+                      </span>
+                      <span 
+                        className="lc-badge lc-badge-course"
+                        style={{
+                          backgroundColor: courseBadge.bg,
+                          color: courseBadge.color,
+                          border: `1px solid ${courseBadge.color}20`
+                        }}
+                      >
+                        {courseBadge.label}
                       </span>
                     </div>
-                    {(classItem.batch_month || classItem.batch_year) && (
-                      <div className="lc-detail-item full-width">
-                        <i className="bi bi-people"></i>
+                    <div className="lc-card-actions-top">
+                      <button
+                        onClick={() => handleEdit(classItem)}
+                        title="Edit"
+                        className="lc-icon-btn edit"
+                      >
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      <button
+                        onClick={() => handleDelete(classItem.id)}
+                        title="Delete"
+                        className="lc-icon-btn delete"
+                      >
+                        <i className="bi bi-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Card Body: Info */}
+                  <div className="lc-card-body">
+                    <div className="lc-class-title-row">
+                      <div className="lc-avatar">
+                        {classItem.class_name?.charAt(0)?.toUpperCase() || "C"}
+                      </div>
+                      <h3 title={classItem.class_name}>{classItem.class_name}</h3>
+                    </div>
+
+                    <div className="lc-details-grid">
+                      <div className="lc-detail-item">
+                        <i className="bi bi-person"></i>
+                        <span>{classItem.mentor_name || "Mentor"}</span>
+                      </div>
+                      <div className="lc-detail-item">
+                        <i className="bi bi-calendar"></i>
                         <span>
-                          Batch: {classItem.batch_month} {classItem.batch_year}
+                          {formatDateOnly(classItem.start_time)} |{" "}
+                          {formatDateTime(classItem.start_time)}
                         </span>
                       </div>
-                    )}
-                  </div>
-
-                  {classItem.description && (
-                    <p className="lc-description-text">
-                      {classItem.description}
-                    </p>
-                  )}
-
-                  {/* Zoom Link Section */}
-                  <div className="lc-link-section">
-                    {classItem.status === "live" && classItem.zoom_link ? (
-                      <a
-                        href={classItem.zoom_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="lc-join-btn pulse-animation"
-                      >
-                        <i className="bi bi-camera-video-fill"></i> Join Now
-                      </a>
-                    ) : classItem.zoom_link ? (
-                      <a
-                        href={classItem.zoom_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="lc-link-text"
-                      >
-                        <i className="bi bi-link-45deg"></i> Zoom Link
-                      </a>
-                    ) : (
-                      <span className="lc-no-link">
-                        <i className="bi bi-slash-circle"></i> No Link
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Card Footer: Progress & Controls */}
-                <div className="lc-card-footer">
-                  <div className="lc-progress-wrapper">
-                    <div className="lc-progress-header">
-                      <span>Progress</span>
-                      <span>{classItem.progress}%</span>
+                      {(classItem.batch_month || classItem.batch_year) && (
+                        <div className="lc-detail-item full-width">
+                          <i className="bi bi-people"></i>
+                          <span>
+                            Batch: {classItem.batch_month} {classItem.batch_year}
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    <div className="lc-slider-container">
-                      <div
-                        className="lc-progress-track"
-                        style={{ width: `${classItem.progress}%` }}
-                      ></div>
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        className="lc-progress-input"
-                        value={classItem.progress || 0}
-                        onChange={(e) =>
-                          handleProgressChange(
-                            classItem.id,
-                            Number(e.target.value)
-                          )
+
+                    {classItem.description && (
+                      <p className="lc-description-text">
+                        {classItem.description}
+                      </p>
+                    )}
+
+                    {/* Zoom Link Section */}
+                    <div className="lc-link-section">
+                      {classItem.status === "live" && classItem.zoom_link ? (
+                        <a
+                          href={classItem.zoom_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="lc-join-btn pulse-animation"
+                        >
+                          <i className="bi bi-camera-video-fill"></i> Join Now
+                        </a>
+                      ) : classItem.zoom_link ? (
+                        <a
+                          href={classItem.zoom_link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="lc-link-text"
+                        >
+                          <i className="bi bi-link-45deg"></i> Zoom Link
+                        </a>
+                      ) : (
+                        <span className="lc-no-link">
+                          <i className="bi bi-slash-circle"></i> No Link
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Card Footer: Progress & Controls */}
+                  <div className="lc-card-footer">
+                    <div className="lc-progress-wrapper">
+                      <div className="lc-progress-header">
+                        <span>Progress</span>
+                        <span>{classItem.progress}%</span>
+                      </div>
+                      <div className="lc-slider-container">
+                        <div
+                          className="lc-progress-track"
+                          style={{ width: `${classItem.progress}%` }}
+                        ></div>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          className="lc-progress-input"
+                          value={classItem.progress || 0}
+                          onChange={(e) =>
+                            handleProgressChange(
+                              classItem.id,
+                              Number(e.target.value)
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+
+                    <div className="lc-status-toggle">
+                      <button
+                        className={`lc-toggle-btn ${
+                          classItem.status === "upcoming" ? "active" : ""
+                        }`}
+                        onClick={() =>
+                          handleStatusChange(classItem.id, "upcoming")
                         }
-                      />
+                        title="Set as Upcoming"
+                      >
+                        Wait
+                      </button>
+                      <button
+                        className={`lc-toggle-btn ${
+                          classItem.status === "live" ? "active" : ""
+                        }`}
+                        onClick={() => handleStatusChange(classItem.id, "live")}
+                        title="Set as Live"
+                      >
+                        Live
+                      </button>
+                      <button
+                        className={`lc-toggle-btn ${
+                          classItem.status === "completed" ? "active" : ""
+                        }`}
+                        onClick={() =>
+                          handleStatusChange(classItem.id, "completed")
+                        }
+                        title="Set as Completed"
+                      >
+                        Done
+                      </button>
                     </div>
                   </div>
-
-                  <div className="lc-status-toggle">
-                    <button
-                      className={`lc-toggle-btn ${
-                        classItem.status === "upcoming" ? "active" : ""
-                      }`}
-                      onClick={() =>
-                        handleStatusChange(classItem.id, "upcoming")
-                      }
-                      title="Set as Upcoming"
-                    >
-                      Wait
-                    </button>
-                    <button
-                      className={`lc-toggle-btn ${
-                        classItem.status === "live" ? "active" : ""
-                      }`}
-                      onClick={() => handleStatusChange(classItem.id, "live")}
-                      title="Set as Live"
-                    >
-                      Live
-                    </button>
-                    <button
-                      className={`lc-toggle-btn ${
-                        classItem.status === "completed" ? "active" : ""
-                      }`}
-                      onClick={() =>
-                        handleStatusChange(classItem.id, "completed")
-                      }
-                      title="Set as Completed"
-                    >
-                      Done
-                    </button>
-                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
@@ -632,7 +684,10 @@ const LiveClasses = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="lc-modal-overlay" onClick={closeModal}>
-          <div className="lc-modal-container" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="lc-modal-container"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="lc-modal-header">
               <h2>{editingClass ? "Edit Class" : "Schedule New Class"}</h2>
               <button className="lc-close-modal" onClick={closeModal}>

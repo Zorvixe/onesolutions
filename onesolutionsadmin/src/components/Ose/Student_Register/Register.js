@@ -14,17 +14,19 @@ const Register = () => {
     firstName: "",
     lastName: "",
     phone: "",
-    studentType: "zorvixe_core", // New field with default value
-    courseSelection: "web_development", // New field
+    studentType: "zorvixe_core",
+    courseSelection: "web_development",
     batchMonth: "",
     batchYear: new Date().getFullYear(),
     isCurrentBatch: false,
   });
-   // Course options
-   const courseOptions = [
+
+  // Course options
+  const courseOptions = [
     { value: "web_development", label: "Web Development" },
     { value: "digital_marketing", label: "Digital Marketing" },
   ];
+
   const [profileImage, setProfileImage] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState("");
   const [validationErrors, setValidationErrors] = useState({});
@@ -67,6 +69,7 @@ const Register = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
+    // Clear validation error for this field when user starts typing
     if (validationErrors[name]) {
       setValidationErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -105,29 +108,60 @@ const Register = () => {
   const validateForm = () => {
     const errors = {};
 
-    if (!formData.studentId) errors.studentId = "Student ID is required";
-    else if (formData.studentId.length < 3)
+    // Student ID validation
+    if (!formData.studentId) {
+      errors.studentId = "Student ID is required";
+    } else if (formData.studentId.length < 3) {
       errors.studentId = "Student ID must be at least 3 characters";
+    } else if (!/^[a-zA-Z0-9_-]+$/.test(formData.studentId)) {
+      errors.studentId = "Student ID can only contain letters, numbers, underscores and hyphens";
+    }
 
-    if (!formData.email) errors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
+    // Email validation
+    if (!formData.email) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = "Email is invalid";
+    }
 
-    if (!formData.password) errors.password = "Password is required";
-    else if (formData.password.length < 6)
+    // Password validation
+    if (!formData.password) {
+      errors.password = "Password is required";
+    } else if (formData.password.length < 6) {
       errors.password = "Password must be at least 6 characters";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      errors.password = "Password must contain at least one uppercase letter, one lowercase letter, and one number";
+    }
 
-    if (!formData.firstName) errors.firstName = "First name is required";
-    else if (formData.firstName.length < 2)
+    // First name validation
+    if (!formData.firstName) {
+      errors.firstName = "First name is required";
+    } else if (formData.firstName.length < 2) {
       errors.firstName = "First name must be at least 2 characters";
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName)) {
+      errors.firstName = "First name can only contain letters and spaces";
+    }
 
-    if (!formData.lastName) errors.lastName = "Last name is required";
-    else if (formData.lastName.length < 2)
+    // Last name validation
+    if (!formData.lastName) {
+      errors.lastName = "Last name is required";
+    } else if (formData.lastName.length < 2) {
       errors.lastName = "Last name must be at least 2 characters";
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName)) {
+      errors.lastName = "Last name can only contain letters and spaces";
+    }
 
-    if (!formData.batchMonth) errors.batchMonth = "Batch month is required";
+    // Phone validation (optional but if provided, must be valid)
+    if (formData.phone && !/^[0-9+\-\s()]{10,15}$/.test(formData.phone)) {
+      errors.phone = "Please enter a valid phone number";
+    }
 
-    // Validate student type
+    // Batch month validation
+    if (!formData.batchMonth) {
+      errors.batchMonth = "Batch month is required";
+    }
+
+    // Student type validation
     const validTypes = ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"];
     if (!formData.studentType) {
       errors.studentType = "Student type is required";
@@ -135,13 +169,13 @@ const Register = () => {
       errors.studentType = "Please select a valid student type";
     }
 
-     // Validate course selection
-     const validCourses = ["web_development", "digital_marketing"];
-     if (!formData.courseSelection) {
-       errors.courseSelection = "Course selection is required";
-     } else if (!validCourses.includes(formData.courseSelection)) {
-       errors.courseSelection = "Please select a valid course";
-     }
+    // Course selection validation
+    const validCourses = ["web_development", "digital_marketing"];
+    if (!formData.courseSelection) {
+      errors.courseSelection = "Course selection is required";
+    } else if (!validCourses.includes(formData.courseSelection)) {
+      errors.courseSelection = "Please select a valid course";
+    }
 
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
@@ -149,23 +183,52 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm()) {
+      // Scroll to first error
+      const firstError = Object.keys(validationErrors)[0];
+      if (firstError) {
+        const errorElement = document.querySelector(`[name="${firstError}"]`);
+        if (errorElement) {
+          errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+          errorElement.focus();
+        }
+      }
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
       // Create FormData for file upload
       const submitData = new FormData();
+      
+      // Append all form fields
       Object.keys(formData).forEach((key) => {
-        submitData.append(key, formData[key]);
+        // Ensure all fields are properly appended
+        const value = formData[key];
+        if (value !== null && value !== undefined) {
+          submitData.append(key, value.toString());
+        }
       });
 
+      // Append profile image if exists
       if (profileImage) {
         submitData.append("profileImage", profileImage);
       }
 
       // Log the data being sent (for debugging)
-      console.log("Sending student type:", formData.studentType);
+      console.log("📝 Registration Data:", {
+        studentId: formData.studentId,
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        studentType: formData.studentType,
+        courseSelection: formData.courseSelection,
+        batchMonth: formData.batchMonth,
+        batchYear: formData.batchYear,
+        isCurrentBatch: formData.isCurrentBatch,
+        hasProfileImage: !!profileImage
+      });
 
       // Direct API call to register endpoint
       const response = await fetch(
@@ -173,13 +236,14 @@ const Register = () => {
         {
           method: "POST",
           body: submitData,
+          // Don't set Content-Type header - browser will set it with boundary for FormData
         }
       );
 
       const responseData = await response.json();
 
       if (!response.ok) {
-        throw new Error(responseData.message || "Registration failed");
+        throw new Error(responseData.message || responseData.error || "Registration failed");
       }
 
       if (responseData.success) {
@@ -187,20 +251,73 @@ const Register = () => {
 
         // Store token in localStorage
         localStorage.setItem("token", token);
+        
+        // Store user data in localStorage for AuthContext
+        const userData = {
+          id: student.id,
+          studentId: student.studentId || student.student_id,
+          email: student.email,
+          firstName: student.firstName || student.first_name,
+          lastName: student.lastName || student.last_name,
+          phone: student.phone || "",
+          profileImage: student.profileImage || student.profile_image,
+          studentType: student.studentType || student.student_type || formData.studentType,
+          courseSelection: student.courseSelection || student.course_selection || formData.courseSelection,
+          batchMonth: student.batchMonth || student.batch_month || formData.batchMonth,
+          batchYear: student.batchYear || student.batch_year || formData.batchYear,
+          isCurrentBatch: student.isCurrentBatch || student.is_current_batch || formData.isCurrentBatch,
+        };
+        
+        localStorage.setItem("user", JSON.stringify(userData));
 
         // Show success toast
-        toast.success("Registration successful!");
+        toast.success("🎉 Registration successful! Redirecting to login...", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
 
-        // Redirect to login or dashboard after a short delay
+        console.log("✅ Registration successful:", {
+          email: userData.email,
+          studentType: userData.studentType,
+          courseSelection: userData.courseSelection
+        });
+
+        // Redirect to login after a short delay
         setTimeout(() => {
           navigate("/login");
         }, 2000);
       } else {
-        throw new Error(responseData.message || "Registration failed");
+        throw new Error(responseData.message || responseData.error || "Registration failed");
       }
     } catch (err) {
-      console.error("Registration error:", err);
-      toast.error(err.message || "Registration failed. Please try again.");
+      console.error("❌ Registration error:", err);
+      
+      // Show specific error message
+      let errorMessage = err.message || "Registration failed. Please try again.";
+      
+      // Handle specific error cases
+      if (errorMessage.includes("duplicate key") || errorMessage.includes("already exists")) {
+        if (errorMessage.includes("email")) {
+          errorMessage = "Email already registered. Please use a different email or login.";
+        } else if (errorMessage.includes("student_id")) {
+          errorMessage = "Student ID already exists. Please use a different ID.";
+        } else {
+          errorMessage = "This account already exists. Please try logging in.";
+        }
+      }
+      
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -232,6 +349,19 @@ const Register = () => {
     }
   };
 
+  const getStudentTypeColor = (type) => {
+    switch (type) {
+      case "zorvixe_core":
+        return "#4a6bff";
+      case "zorvixe_pro":
+        return "#10b981";
+      case "zorvixe_elite":
+        return "#f59e0b";
+      default:
+        return "#4a6bff";
+    }
+  };
+
   const getCourseDescription = (course) => {
     switch (course) {
       case "web_development":
@@ -240,6 +370,17 @@ const Register = () => {
         return "SEO, Social Media Marketing, Content Strategy, and Analytics";
       default:
         return "";
+    }
+  };
+
+  const getCourseColor = (course) => {
+    switch (course) {
+      case "web_development":
+        return "#0d9488";
+      case "digital_marketing":
+        return "#b45309";
+      default:
+        return "#0d9488";
     }
   };
 
@@ -255,18 +396,25 @@ const Register = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        theme="light"
       />
 
       <div className="image-section-register">
-        <button className="back-button" onClick={handleBack}>
-          Back
+        <button className="back-button" onClick={handleBack} type="button">
+          ← Back
         </button>
         <img src={registerBanner} alt="Register Banner" />
+        <div className="image-overlay-text">
+          <h2>Join OneSolutions</h2>
+          <p>Start your journey to becoming a tech professional</p>
+        </div>
       </div>
 
       <div className="form-section-register">
         <div className="card-register">
           <h2>Student Registration</h2>
+          <p className="subtitle">Create your account to get started</p>
+          
           <form onSubmit={handleSubmit} encType="multipart/form-data">
             {/* Profile Image Upload */}
             <div className="form-group">
@@ -277,6 +425,7 @@ const Register = () => {
                   accept="image/*"
                   onChange={handleImageChange}
                   className="file-input"
+                  disabled={isSubmitting}
                 />
                 <label htmlFor="profileImage" className="file-input-label">
                   {profileImagePreview ? (
@@ -286,6 +435,7 @@ const Register = () => {
                         type="button"
                         className="remove-image-btn"
                         onClick={removeImage}
+                        disabled={isSubmitting}
                       >
                         ×
                       </button>
@@ -301,9 +451,9 @@ const Register = () => {
                         aria-hidden="true"
                         focusable="false"
                       >
-                        <circle cx="12" cy="8" r="3.2" />
-                        <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" />
-                        <circle cx="19" cy="5" r="3" />
+                        <circle cx="12" cy="8" r="3.2" fill="currentColor" />
+                        <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" fill="currentColor" />
+                        <circle cx="19" cy="5" r="3" fill="currentColor" />
                         <path
                           d="M19 4v2M18 5h2"
                           stroke="#fff"
@@ -312,6 +462,8 @@ const Register = () => {
                           strokeLinejoin="round"
                         />
                       </svg>
+                      <span className="upload-text">Upload Profile Photo</span>
+                      <span className="upload-hint">Optional</span>
                     </div>
                   )}
                 </label>
@@ -447,18 +599,25 @@ const Register = () => {
               {validationErrors.password && (
                 <span className="error-text">{validationErrors.password}</span>
               )}
+              <span className="hint-text">
+                Password must be at least 6 characters with uppercase, lowercase and number
+              </span>
             </div>
 
             <div className="form-group">
-              <label>Phone</label>
+              <label>Phone (Optional)</label>
               <input
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
+                className={validationErrors.phone ? "error" : ""}
                 placeholder="Enter your phone number"
                 disabled={isSubmitting}
               />
+              {validationErrors.phone && (
+                <span className="error-text">{validationErrors.phone}</span>
+              )}
             </div>
 
             {/* Course Selection */}
@@ -485,6 +644,11 @@ const Register = () => {
                         }
                       }
                     }}
+                    style={{
+                      borderColor: formData.courseSelection === course.value 
+                        ? getCourseColor(course.value) 
+                        : "#e0e0e0"
+                    }}
                   >
                     <div className="course-radio">
                       <input
@@ -496,7 +660,14 @@ const Register = () => {
                         disabled={isSubmitting}
                         id={`course-${course.value}`}
                       />
-                      <span className="radio-custom"></span>
+                      <span 
+                        className="radio-custom"
+                        style={{
+                          borderColor: formData.courseSelection === course.value 
+                            ? getCourseColor(course.value) 
+                            : "#ccc"
+                        }}
+                      ></span>
                     </div>
                     <label htmlFor={`course-${course.value}`} className="course-label">
                       <span className="course-name">{course.label}</span>
@@ -511,7 +682,6 @@ const Register = () => {
                 <span className="error-text">{validationErrors.courseSelection}</span>
               )}
             </div>
-
 
             {/* Student Type Selection */}
             <div className="form-group">
@@ -537,6 +707,11 @@ const Register = () => {
                         }
                       }
                     }}
+                    style={{
+                      borderColor: formData.studentType === type.value 
+                        ? getStudentTypeColor(type.value) 
+                        : "#e0e0e0"
+                    }}
                   >
                     <div className="type-radio">
                       <input
@@ -548,7 +723,14 @@ const Register = () => {
                         disabled={isSubmitting}
                         id={`type-${type.value}`}
                       />
-                      <span className="radio-custom"></span>
+                      <span 
+                        className="radio-custom"
+                        style={{
+                          borderColor: formData.studentType === type.value 
+                            ? getStudentTypeColor(type.value) 
+                            : "#ccc"
+                        }}
+                      ></span>
                     </div>
                     <label htmlFor={`type-${type.value}`} className="type-label">
                       <span className="type-name">{type.label}</span>
@@ -563,8 +745,6 @@ const Register = () => {
                 <span className="error-text">{validationErrors.studentType}</span>
               )}
             </div>
-
-
 
             {/* Batch Information */}
             <div className="form-row">
@@ -626,13 +806,30 @@ const Register = () => {
               type="submit"
               className="btn btn-primary"
               disabled={isSubmitting}
+              style={{
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer"
+              }}
             >
-              {isSubmitting ? "Registering..." : "Register"}
+              {isSubmitting ? (
+                <>
+                  <span className="spinner"></span>
+                  Registering...
+                </>
+              ) : (
+                "Register"
+              )}
             </button>
           </form>
 
           <div className="auth-link">
-            <Link to="/login">Login here</Link>
+            Already have an account? <Link to="/login">Login here</Link>
+          </div>
+          
+          <div className="terms-text">
+            By registering, you agree to our{" "}
+            <Link to="/terms">Terms of Service</Link> and{" "}
+            <Link to="/privacy">Privacy Policy</Link>
           </div>
         </div>
       </div>
