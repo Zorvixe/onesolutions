@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Upload, Clock, Video } from "lucide-react";
 import "./VideoUploadModal.css";
 
-const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
+const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("");
@@ -10,11 +10,22 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
 
+  const isEditing = !!editData;
+
+  // Load existing data if editing
+  useEffect(() => {
+    if (editData) {
+      setTitle(editData.video_title || "");
+      setDescription(editData.video_description || "");
+      setDuration(editData.video_duration || "");
+    }
+  }, [editData]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 500 * 1024 * 1024) {
-        alert("File size must be less than 500MB");
+      if (file.size > 1024 * 1024 * 1024) { // 1GB limit matches server config
+        alert("File size must be less than 1GB");
         return;
       }
       setVideoFile(file);
@@ -23,37 +34,64 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title.trim() || !videoFile) {
-      alert("Please provide title and select a video file");
+    // Validation: Title required always. File required only if creating.
+    if (!title.trim()) {
+      alert("Please provide a title");
+      return;
+    }
+    if (!isEditing && !videoFile) {
+      alert("Please select a video file");
       return;
     }
 
     setUploading(true);
+    
+    // Fake progress for UX
     const interval = setInterval(() => {
       setProgress((prev) => Math.min(prev + 10, 90));
     }, 500);
 
-    const formData = new FormData();
-    formData.append("video", videoFile);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("duration", duration);
-
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/video`,
-        {
-          method: "POST",
+      
+      if (isEditing) {
+        // --- UPDATE MODE (JSON PUT) ---
+        // We only update metadata here based on your requirements
+        const response = await fetch(`https://api.onesolutionsekam.in/api/admin/course/content/${editData.id}`, {
+          method: "PUT",
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: formData,
-        }
-      );
+          body: JSON.stringify({
+            video_title: title,
+            video_description: description,
+            // Assuming backend accepts duration update via this endpoint, otherwise logic stays same
+          }),
+        });
 
-      if (!response.ok) {
-        throw new Error("Upload failed");
+        if (!response.ok) throw new Error("Update failed");
+
+      } else {
+        // --- CREATE MODE (FormData POST) ---
+        const formData = new FormData();
+        formData.append("video", videoFile);
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("duration", duration);
+
+        const response = await fetch(
+          `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/video`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
+        );
+
+        if (!response.ok) throw new Error("Upload failed");
       }
 
       clearInterval(interval);
@@ -63,8 +101,8 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
       }, 500);
     } catch (error) {
       clearInterval(interval);
-      console.error("Upload error:", error);
-      alert("Failed to upload video");
+      console.error("Action error:", error);
+      alert(isEditing ? "Failed to update video details" : "Failed to upload video");
       setUploading(false);
     }
   };
@@ -73,7 +111,7 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
     <div className="video-upload-overlay">
       <div className="video-upload-modal">
         <div className="video-upload-header">
-          <h3 className="video-upload-title">Upload Video Lesson</h3>
+          <h3 className="video-upload-title">{isEditing ? "Edit Video Details" : "Upload Video Lesson"}</h3>
           <button onClick={onClose} className="video-upload-close-btn">
             <X className="video-upload-close-icon" />
           </button>
@@ -106,52 +144,66 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
                 />
               </div>
 
-              <div className="video-upload-field">
-                <label className="video-upload-label">Duration (minutes)</label>
-                <div className="video-upload-duration-wrapper">
-                  <Clock className="video-upload-duration-icon" />
-                  <input
-                    type="number"
-                    value={duration}
-                    onChange={(e) => setDuration(e.target.value)}
-                    className="video-upload-duration-input"
-                    placeholder="e.g., 15"
-                  />
+              {!isEditing && (
+                <div className="video-upload-field">
+                  <label className="video-upload-label">Duration (minutes)</label>
+                  <div className="video-upload-duration-wrapper">
+                    <Clock className="video-upload-duration-icon" />
+                    <input
+                      type="number"
+                      value={duration}
+                      onChange={(e) => setDuration(e.target.value)}
+                      className="video-upload-duration-input"
+                      placeholder="e.g., 15"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
-            {/* Right Column - Video Uploader */}
+            {/* Right Column - Video Uploader (Only show if Creating) */}
             <div className="video-upload-right">
-              <div className="video-upload-dropzone">
-                <input
-                  type="file"
-                  accept="video/*"
-                  onChange={handleFileChange}
-                  className="video-upload-file-input"
-                />
-                {videoFile ? (
-                  <div className="video-upload-file-preview">
-                    <div className="video-upload-file-icon-wrapper">
-                      <Video className="video-upload-file-icon" />
+              {isEditing ? (
+                <div className="video-upload-placeholder" style={{ backgroundColor: '#f0fdf4', borderColor: '#86efac' }}>
+                  <Video className="video-upload-placeholder-icon" style={{ color: '#16a34a' }} />
+                  <p className="video-upload-placeholder-text">
+                    Video file is already uploaded.
+                  </p>
+                  <p className="video-upload-placeholder-hint">
+                    You can edit the title and description on the left.
+                  </p>
+                </div>
+              ) : (
+                <div className="video-upload-dropzone">
+                  <input
+                    type="file"
+                    accept="video/*"
+                    onChange={handleFileChange}
+                    className="video-upload-file-input"
+                  />
+                  {videoFile ? (
+                    <div className="video-upload-file-preview">
+                      <div className="video-upload-file-icon-wrapper">
+                        <Video className="video-upload-file-icon" />
+                      </div>
+                      <p className="video-upload-file-name">{videoFile.name}</p>
+                      <p className="video-upload-file-size">
+                        {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
+                      </p>
                     </div>
-                    <p className="video-upload-file-name">{videoFile.name}</p>
-                    <p className="video-upload-file-size">
-                      {(videoFile.size / (1024 * 1024)).toFixed(2)} MB
-                    </p>
-                  </div>
-                ) : (
-                  <div className="video-upload-placeholder">
-                    <Upload className="video-upload-placeholder-icon" />
-                    <p className="video-upload-placeholder-text">
-                      Drop video file here or click to browse
-                    </p>
-                    <p className="video-upload-placeholder-hint">
-                      MP4, MOV, AVI up to 500MB
-                    </p>
-                  </div>
-                )}
-              </div>
+                  ) : (
+                    <div className="video-upload-placeholder">
+                      <Upload className="video-upload-placeholder-icon" />
+                      <p className="video-upload-placeholder-text">
+                        Drop video file here or click to browse
+                      </p>
+                      <p className="video-upload-placeholder-hint">
+                        MP4, MOV, AVI up to 1GB
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -159,7 +211,7 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
             <div className="video-upload-progress">
               <div className="video-upload-progress-header">
                 <span className="video-upload-progress-label">
-                  Uploading...
+                  {isEditing ? "Updating..." : "Uploading..."}
                 </span>
                 <span className="video-upload-progress-percentage">
                   {progress}%
@@ -185,10 +237,10 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess }) => {
             </button>
             <button
               type="submit"
-              disabled={uploading || !title || !videoFile}
+              disabled={uploading || !title || (!isEditing && !videoFile)}
               className="video-upload-submit-btn"
             >
-              {uploading ? "Processing..." : "Upload Video"}
+              {uploading ? "Processing..." : (isEditing ? "Update Details" : "Upload Video")}
             </button>
           </div>
         </form>

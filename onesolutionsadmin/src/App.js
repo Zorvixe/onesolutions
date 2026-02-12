@@ -39,11 +39,7 @@ import AdminStudentQuestions from "./components/Ose/Ai/AdminStudentQuestions";
 import AdminAIContent from "./components/Ose/Ai/AdminAIContent";
 
 // Course Management Components //
-import DigitalCheatsheetEditor from "./components/Ose/DigitalMarketing/admin/CheatsheetEditor";
-import DigitalMCQCreator from "./components/Ose/DigitalMarketing/admin/MCQCreator";
-import DigitalVideoUploadModal from "./components/Ose/DigitalMarketing/admin/VideoUploadModal";
 import DigitalCourseManagement from "./components/Ose/DigitalMarketing/pages/CourseManagement";
-import DigitalDashboard from "./components/Ose/DigitalMarketing/pages/DigitalDashboard";
 
 import "./App.css";
 
@@ -125,25 +121,10 @@ function App() {
               />
 
               {/* Digital Marketing Routes - Updated with proper paths */}
-              <Route
-                path="/digital-marketing/dashboard"
-                element={<DigitalDashboard />}
-              />
+
               <Route
                 path="/digital-marketing/courses"
                 element={<DigitalCourseManagement />}
-              />
-              <Route
-                path="/digital-marketing/courses/:subtopicId/video"
-                element={<DigitalVideoUploadModal />}
-              />
-              <Route
-                path="/digital-marketing/courses/:subtopicId/mcq"
-                element={<DigitalMCQCreator />}
-              />
-              <Route
-                path="/digital-marketing/courses/:subtopicId/cheatsheet"
-                element={<DigitalCheatsheetEditor />}
               />
             </Route>
 

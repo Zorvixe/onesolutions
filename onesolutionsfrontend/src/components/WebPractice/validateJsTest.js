@@ -1254,6 +1254,121 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      //countries search========================================================
+      case "check-search-input": {
+        const element = iframeDoc.getElementById("searchInput");
+        return {
+          passed: element !== null && element.tagName === "INPUT",
+        };
+      }
+
+      case "check-search-results": {
+        const element = iframeDoc.getElementById("resultCountries");
+        return {
+          passed: element !== null && element.tagName === "DIV",
+        };
+      }
+
+      case "check-page-load-request": {
+        let fetchCalled = false;
+
+        iframeDoc.defaultView.fetch = function () {
+          fetchCalled = true;
+          return Promise.resolve({
+            json: function () {
+              return Promise.resolve([]);
+            },
+          });
+        };
+
+        // Reload page simulation
+        iframeDoc.defaultView.getCountries?.();
+
+        return {
+          passed: fetchCalled,
+        };
+      }
+
+      //add user============================
+      case "check-form": {
+        const element = iframeDoc.getElementById("addUserForm");
+        return {
+          passed: element !== null && element.tagName === "FORM",
+        };
+      }
+
+      case "check-name-input": {
+        const element = iframeDoc.getElementById("name");
+        return {
+          passed: element !== null && element.tagName === "INPUT",
+        };
+      }
+
+      case "check-name-error": {
+        const element = iframeDoc.getElementById("nameErrMsg");
+        return {
+          passed: element !== null && element.tagName === "P",
+        };
+      }
+
+      case "check-email-input": {
+        const element = iframeDoc.getElementById("email");
+        return {
+          passed: element !== null && element.tagName === "INPUT",
+        };
+      }
+
+      case "check-email-error": {
+        const element = iframeDoc.getElementById("emailErrMsg");
+        return {
+          passed: element !== null && element.tagName === "P",
+        };
+      }
+
+      case "check-name-blur": {
+        const nameEl = iframeDoc.getElementById("name");
+        const errorEl = iframeDoc.getElementById("nameErrMsg");
+
+        // Empty value test
+        nameEl.value = "";
+        nameEl.dispatchEvent(new iframeDoc.defaultView.Event("blur"));
+
+        const emptyCheck = errorEl.textContent === "Required*";
+
+        // Non-empty value test
+        nameEl.value = "Ganesh";
+        nameEl.dispatchEvent(new iframeDoc.defaultView.Event("blur"));
+
+        const filledCheck = errorEl.textContent === "";
+
+        return {
+          passed: emptyCheck && filledCheck,
+          actual: errorEl.textContent,
+        };
+      }
+
+      case "check-email-blur": {
+        const emailEl = iframeDoc.getElementById("email");
+        const errorEl = iframeDoc.getElementById("emailErrMsg");
+
+        // Empty value test
+        emailEl.value = "";
+        emailEl.dispatchEvent(new iframeDoc.defaultView.Event("blur"));
+
+        const emptyCheck = errorEl.textContent === "Required*";
+
+        // Non-empty value test
+        emailEl.value = "test@mail.com";
+        emailEl.dispatchEvent(new iframeDoc.defaultView.Event("blur"));
+
+        const filledCheck = errorEl.textContent === "";
+
+        return {
+          passed: emptyCheck && filledCheck,
+          actual: errorEl.textContent,
+        };
+      }
+
       default:
         return {
           passed: false,

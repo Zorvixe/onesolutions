@@ -250,9 +250,12 @@
 
 /* Placeholder Styles */
 .video-upload-placeholder {
+  padding: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  border-radius: 10px;
 }
 
 .video-upload-placeholder-icon {

@@ -1,29 +1,47 @@
 import React, { useState, useEffect } from "react";
-import { Save, X, FileText } from "lucide-react";
+import { Save, ArrowLeft } from "lucide-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./CheatsheetEditor.css";
 
-const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess }) => {
+const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = null }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [saving, setSaving] = useState(false);
-  const [lastSaved, setLastSaved] = useState(null);
+  const [wordCount, setWordCount] = useState(0);
 
-  // Notion-like simple toolbar configuration
+  // Determine if we are editing existing content or creating new
+  const isEditing = !!initialData;
+
+  // Simple, clean toolbar configuration
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
       ["bold", "italic", "underline", "strike", "blockquote", "code-block"],
       [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-      ["link", "image"],
       [{ color: [] }, { background: [] }],
+      ["link", "image"],
       ["clean"],
     ],
     clipboard: {
       matchVisual: false,
     },
   };
+
+  // Load initial data if editing
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.cheatsheet_title || "");
+      setContent(initialData.cheatsheet_content || "");
+    }
+  }, [initialData]);
+
+  // Update word count
+  useEffect(() => {
+    const text = content.replace(/<[^>]*>/g, ' ');
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0);
+    setWordCount(words.length);
+  }, [content]);
 
   const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
@@ -34,29 +52,38 @@ const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess }) => {
     setSaving(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(
-        `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/cheatsheet`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            title,
-            content,
-          }),
-        }
-      );
+      let url, method, body;
+
+      if (isEditing) {
+        // --- UPDATE MODE ---
+        url = `https://api.onesolutionsekam.in/api/admin/course/content/${initialData.id}`;
+        method = "PUT";
+        body = {
+          cheatsheet_title: title,
+          cheatsheet_content: content,
+        };
+      } else {
+        // --- CREATE MODE ---
+        url = `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/cheatsheet`;
+        method = "POST";
+        body = {
+          title: title,
+          content: content,
+        };
+      }
+
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
 
       if (!response.ok) throw new Error("Failed to save cheatsheet");
       
-      setLastSaved(new Date());
-      // Optional: Wait a moment to show "Saved" state before closing
-      setTimeout(() => {
-        onSuccess();
-      }, 500);
-      
+      onSuccess();
     } catch (error) {
       console.error("Save error:", error);
       alert("Failed to save cheatsheet");
@@ -66,52 +93,52 @@ const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess }) => {
   };
 
   return (
-    <div className="notion-editor-container">
+    <div className="notepad-container">
       {/* Top Action Bar */}
-      <div className="notion-top-bar">
-        <div className="notion-status">
-            {saving ? "Saving..." : lastSaved ? "Saved" : "Unsaved changes"}
+      <div className="notepad-header">
+        <div className="notepad-left">
+          <button onClick={onCancel} className="notepad-back-btn" disabled={saving}>
+            <ArrowLeft size={16} />
+            Back
+          </button>
+          <span className="notepad-status">
+            {saving ? "Saving..." : isEditing ? "Editing Mode" : `${wordCount} words`}
+          </span>
         </div>
-        <div className="notion-actions">
-          <button 
-            onClick={onCancel} 
-            className="notion-btn-cancel"
-            disabled={saving}
-          >
-            Cancel
+        <div className="notepad-actions">
+          <button onClick={onCancel} className="notepad-cancel-btn" disabled={saving}>
+            Discard
           </button>
           <button 
             onClick={handleSubmit} 
-            className="notion-btn-save"
+            className="notepad-save-btn"
             disabled={saving || !title.trim()}
           >
             <Save size={16} />
-            {saving ? "Saving..." : "Save Document"}
+            {saving ? "Saving..." : isEditing ? "Update Document" : "Save Document"}
           </button>
         </div>
       </div>
 
       {/* Editor Surface */}
-      <div className="notion-paper">
-        {/* Huge Title Input */}
+      <div className="notepad-paper">
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="notion-title-input"
+          className="notepad-title-input"
           placeholder="Untitled Cheatsheet"
           autoFocus
         />
 
-        {/* Rich Text Editor */}
-        <div className="notion-body">
+        <div className="notepad-editor-wrapper">
           <ReactQuill
             theme="snow"
             value={content}
             onChange={setContent}
             modules={modules}
-            placeholder="Type '/' for commands or start writing..."
-            className="notion-quill-instance"
+            placeholder="Type '/' for commands or start writing your content here..."
+            className="notepad-quill"
           />
         </div>
       </div>

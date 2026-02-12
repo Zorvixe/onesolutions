@@ -367,10 +367,6 @@ function Landing() {
                   <a href="/AdminStudentQuestions">Admin Student Questions</a>
                   <a href="/AdminAIContent">Admin AI Content</a>
 
-                  {/* Digital Marketing */}
-                  <a href="/digital-marketing/dashboard">
-                    Digital Marketing Dashboard
-                  </a>
                   <a href="/digital-marketing/courses">
                     Digital Marketing Courses
                   </a>

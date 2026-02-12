@@ -448,8 +448,8 @@ import Wikipedia_Search_Class from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Se
 import Coding_Pratice_JS_16 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_JS_16.js";
 import Coding_Pratice_17 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_17.js";
 import Coding_Pratice_JS_18 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_JS_18.js";
-// import Coding_Pratice_19 from "../JavaScript/Forms/Coding_Pratice_19.js";
-// import Coding_Pratice_20 from "../JavaScript/Forms/Coding_Pratice_20.js";
+import Coding_Pratice_JS_19 from "../JavaScript/Forms/Coding_Pratice_JS_19.js";
+import Coding_Pratice_JS_20 from "../JavaScript/Forms/Coding_Pratice_JS_20.js";
 import Forms_Part_1_Class from "../JavaScript/Forms/Forms_Part_1_Class.js";
 import Forms_Part_2_Class from "../JavaScript/Forms/Forms_Part_2_Class.js";
 import JS_Coding_Assignment_2 from "../JavaScript/Assignment/JS_Coding_Assignment_2.js";
@@ -1421,8 +1421,8 @@ export const subtopicComponents = {
   "Coding Practice 17": Coding_Pratice_17,
   "Coding Practice 16": Coding_Pratice_JS_16,
   "Coding Practice 18": Coding_Pratice_JS_18,
-  // "Coding Practice 19": Coding_Pratice_19,
-  // "Coding Practice 20": Coding_Pratice_20,
+  "Coding Practice 19": Coding_Pratice_JS_19,
+  "Coding Practice 20": Coding_Pratice_JS_20,
   Forms: Forms_Part_1_Class,
   "Forms | Part 2": Forms_Part_2_Class,
   "Coding Assignment 2": JS_Coding_Assignment_2,

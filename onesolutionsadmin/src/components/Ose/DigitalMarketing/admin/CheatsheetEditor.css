@@ -1,170 +1,187 @@
-/* Container for the inline editor */
-.notion-editor-container {
+/* Container takes up the full space where the dashboard was */
+.notepad-container {
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  min-height: calc(100vh - 200px); /* Fill remaining space */
-  animation: fadeIn 0.3s ease-in-out;
+  min-height: calc(100vh - 150px);
+  animation: fadeIn 0.2s ease-out;
+  border-radius: 8px;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Top Bar (Actions) */
-.notion-top-bar {
+/* Header / Action Bar */
+.notepad-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   border-bottom: 1px solid #f1f5f9;
   position: sticky;
   top: 0;
   background: rgba(255, 255, 255, 0.95);
-  z-index: 50;
-  backdrop-filter: blur(5px);
+  z-index: 10;
+  backdrop-filter: blur(4px);
 }
 
-.notion-status {
-  font-size: 13px;
-  color: #94a3b8;
-  font-style: italic;
-}
-
-.notion-actions {
+.notepad-left {
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
 }
 
-.notion-btn-cancel {
-  padding: 8px 16px;
+.notepad-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   border: none;
   background: transparent;
   color: #64748b;
   font-size: 14px;
   cursor: pointer;
+  padding: 6px 8px;
   border-radius: 6px;
   transition: all 0.2s;
 }
 
-.notion-btn-cancel:hover {
+.notepad-back-btn:hover {
   background-color: #f1f5f9;
   color: #0f172a;
 }
 
-.notion-btn-save {
+.notepad-status {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.notepad-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.notepad-cancel-btn {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #ef4444;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.notepad-cancel-btn:hover {
+  background-color: #fef2f2;
+}
+
+.notepad-save-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 20px;
-  background: #111827; /* Dark black/grey like Notion button */
+  background-color: #111827;
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
   transition: all 0.2s;
 }
 
-.notion-btn-save:hover {
-  background: #374151;
+.notepad-save-btn:hover:not(:disabled) {
+  background-color: #374151;
   transform: translateY(-1px);
 }
 
-.notion-btn-save:disabled {
+.notepad-save-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
 }
 
-/* The "Paper" area */
-.notion-paper {
-  max-width: 850px;
+/* Paper / Writing Area */
+.notepad-paper {
+  max-width: 800px;
   width: 100%;
   margin: 0 auto;
-  padding-bottom: 100px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Title Input - Looks like H1 */
-.notion-title-input {
+.notepad-title-input {
   width: 100%;
   border: none;
   outline: none;
-  font-size: 40px;
+  font-size: 36px;
   font-weight: 700;
   color: #0f172a;
   padding: 20px 0;
+  margin-bottom: 10px;
   background: transparent;
   line-height: 1.2;
 }
 
-.notion-title-input::placeholder {
+.notepad-title-input::placeholder {
   color: #cbd5e1;
 }
 
-/* React Quill Customization for Notion Look */
-.notion-quill-instance .ql-toolbar {
+/* Quill Overrides for Notepad Look */
+.notepad-quill {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.notepad-quill .ql-toolbar {
   border: none !important;
-  border-bottom: 1px solid #f1f5f9 !important;
-  padding: 12px 0 !important;
+  padding: 8px 0 !important;
+  margin-bottom: 16px;
   position: sticky;
-  top: 60px; /* Below the top bar */
+  top: 60px; /* Adjust based on header height */
   background: white;
-  z-index: 40;
-  margin-bottom: 20px;
+  z-index: 5;
+  border-bottom: 1px solid #f1f5f9 !important;
 }
 
-.notion-quill-instance .ql-container {
+.notepad-quill .ql-container {
   border: none !important;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Inter', sans-serif !important;
   font-size: 16px !important;
+  flex: 1;
 }
 
-.notion-quill-instance .ql-editor {
+.notepad-quill .ql-editor {
   padding: 0 !important;
-  min-height: 300px;
   color: #334155;
   line-height: 1.7;
+  min-height: 300px;
 }
 
-.notion-quill-instance .ql-editor.ql-blank::before {
+.notepad-quill .ql-editor.ql-blank::before {
   color: #94a3b8;
   font-style: normal;
   left: 0;
 }
 
-/* Typography adjustments inside editor */
-.notion-quill-instance .ql-editor h1 {
-  font-size: 2em;
-  font-weight: 700;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-
-.notion-quill-instance .ql-editor h2 {
-  font-size: 1.5em;
-  font-weight: 600;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-}
-
-.notion-quill-instance .ql-editor p {
-  margin-bottom: 1em;
-}
-
-.notion-quill-instance .ql-editor pre.ql-syntax {
-  background-color: #f8fafc;
-  color: #334155;
-  border-radius: 8px;
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-}
-
-.notion-quill-instance .ql-editor blockquote {
-  border-left: 3px solid #111827;
-  padding-left: 16px;
+/* Editor Typography */
+.notepad-quill .ql-editor h1 { font-size: 2em; margin-bottom: 0.5em; font-weight: 700; color: #1e293b; }
+.notepad-quill .ql-editor h2 { font-size: 1.5em; margin-bottom: 0.5em; font-weight: 600; color: #1e293b; }
+.notepad-quill .ql-editor p { margin-bottom: 1em; }
+.notepad-quill .ql-editor blockquote { 
+  border-left: 3px solid #0f172a; 
+  padding-left: 1rem; 
+  margin: 1rem 0;
   font-style: italic;
+  color: #475569;
+}
+.notepad-quill .ql-editor pre.ql-syntax {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  color: #334155;
 }
