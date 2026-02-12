@@ -302,7 +302,6 @@ body {
 /* Content Area */
 .course-content {
   background: white;
-  border-radius: 16px;
   padding: 24px;
   overflow-y: auto;
 }

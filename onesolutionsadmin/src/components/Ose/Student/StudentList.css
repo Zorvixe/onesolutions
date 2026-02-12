@@ -1,6 +1,5 @@
 .student-management-admin-stud {
   padding: 20px;
-  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -391,9 +390,15 @@
 }
 
 @keyframes pulse-stud {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .online-badge-stud {
@@ -671,8 +676,12 @@
 }
 
 @keyframes spin-stud {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -728,7 +737,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 12px;
 }
 
@@ -877,7 +886,7 @@
   .stats-overview-stud {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .filters-grid-stud {
     grid-template-columns: 1fr;
   }

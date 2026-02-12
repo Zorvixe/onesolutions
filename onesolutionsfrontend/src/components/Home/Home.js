@@ -10,7 +10,8 @@ import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
 import CodingPracticeService from "../../services/codingPracticeService";
 import AiApp from "../AiApp/AiApp";
 
-const API_OSE_URL = process.env.REACT_APP_API_OSE_URL || "https://ose.onesolutionsekam.in/";
+const API_OSE_URL =
+  process.env.REACT_APP_API_OSE_URL || "https://ose.onesolutionsekam.in/";
 
 const Home = () => {
   const [liveClasses, setLiveClasses] = useState([]);
@@ -31,34 +32,34 @@ const Home = () => {
   const fetchLiveClasses = async () => {
     try {
       setLoading(true);
-      
+
       // Get user data from auth context with safe defaults
       const batchMonth = user?.batchMonth || "";
       const batchYear = user?.batchYear || "";
-      const studentType = user?.studentType || 'zorvixe_core';
-      const courseSelection = user?.courseSelection || 'web_development';
+      const studentType = user?.studentType || "zorvixe_core";
+      const courseSelection = user?.courseSelection || "web_development";
 
       const filterInfo = {
         batchMonth,
         batchYear,
         studentType,
         courseSelection,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
-      
+
       console.log("🎯 Fetching live classes with filters:", filterInfo);
       setFilterDebug(filterInfo);
 
       // Build URL with ALL query parameters - even empty ones
       let url = `${API_OSE_URL}api/live-classes`;
       const params = new URLSearchParams();
-      
+
       // ALWAYS add these parameters - backend will handle null/empty values
-      params.append('batch_month', batchMonth || '');
-      params.append('batch_year', batchYear || '');
-      params.append('student_type', studentType);
-      params.append('course_selection', courseSelection);
-      
+      params.append("batch_month", batchMonth || "");
+      params.append("batch_year", batchYear || "");
+      params.append("student_type", studentType);
+      params.append("course_selection", courseSelection);
+
       // Append params to URL
       if (params.toString()) {
         url += `?${params.toString()}`;
@@ -66,8 +67,8 @@ const Home = () => {
 
       console.log("📡 Fetching from URL:", url);
 
-      const token = localStorage.getItem('token');
-      
+      const token = localStorage.getItem("token");
+
       if (!token) {
         console.error("❌ No authentication token found");
         setLiveClasses([]);
@@ -76,23 +77,31 @@ const Home = () => {
 
       const response = await fetch(url, {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         console.log(`📊 Received ${data.length} live classes:`, data);
 
         // Log filtering results for debugging
-        const filteredCount = data.filter(cls => {
-          const typeMatch = cls.student_type === studentType || cls.student_type === 'all' || !cls.student_type;
-          const courseMatch = cls.course_selection === courseSelection || cls.course_selection === 'all' || !cls.course_selection;
+        const filteredCount = data.filter((cls) => {
+          const typeMatch =
+            cls.student_type === studentType ||
+            cls.student_type === "all" ||
+            !cls.student_type;
+          const courseMatch =
+            cls.course_selection === courseSelection ||
+            cls.course_selection === "all" ||
+            !cls.course_selection;
           return typeMatch && courseMatch;
         }).length;
-        
-        console.log(`🔍 Filtered classes for ${studentType}/${courseSelection}: ${filteredCount} of ${data.length}`);
+
+        console.log(
+          `🔍 Filtered classes for ${studentType}/${courseSelection}: ${filteredCount} of ${data.length}`
+        );
 
         // Sort live classes: live first, then upcoming
         const sortedData = data.sort((a, b) => {
@@ -110,7 +119,10 @@ const Home = () => {
 
         setLiveClasses(sortedData);
       } else {
-        console.error("❌ Failed to fetch live classes, status:", response.status);
+        console.error(
+          "❌ Failed to fetch live classes, status:",
+          response.status
+        );
         const errorData = await response.json().catch(() => ({}));
         console.error("Error details:", errorData);
         setLiveClasses([]);
@@ -164,7 +176,10 @@ const Home = () => {
         });
         setUserProgress(progressMap);
         setLastProgressUpdate(Date.now());
-        localStorage.setItem("codingPracticeProgress", JSON.stringify(progressMap));
+        localStorage.setItem(
+          "codingPracticeProgress",
+          JSON.stringify(progressMap)
+        );
       } else {
         const savedProgress = localStorage.getItem("codingPracticeProgress");
         if (savedProgress) {
@@ -284,16 +299,19 @@ const Home = () => {
       });
 
       const practiceCards = Object.keys(difficultyGroups)
-        .filter((difficulty) => difficultyGroups[difficulty].questions.length > 0)
+        .filter(
+          (difficulty) => difficultyGroups[difficulty].questions.length > 0
+        )
         .map((difficulty) => {
           const group = difficultyGroups[difficulty];
           const totalQuestions = group.questions.length;
           const solvedQuestions = group.questions.filter(
             (question) => userProgress[question.id]?.status === "solved"
           ).length;
-          const progress = totalQuestions > 0
-            ? Math.round((solvedQuestions / totalQuestions) * 100)
-            : 0;
+          const progress =
+            totalQuestions > 0
+              ? Math.round((solvedQuestions / totalQuestions) * 100)
+              : 0;
 
           const colors = getDifficultyColors(difficulty);
 
@@ -386,19 +404,27 @@ const Home = () => {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case "upcoming": return "bi bi-stopwatch";
-      case "live": return "bi bi-broadcast";
-      case "completed": return "bi bi-check-circle";
-      default: return "bi bi-stopwatch";
+      case "upcoming":
+        return "bi bi-stopwatch";
+      case "live":
+        return "bi bi-broadcast";
+      case "completed":
+        return "bi bi-check-circle";
+      default:
+        return "bi bi-stopwatch";
     }
   };
 
   const getStatusColor = (status) => {
     switch (status) {
-      case "upcoming": return "#ffa500";
-      case "live": return "#28a745";
-      case "completed": return "#6c757d";
-      default: return "#ffa500";
+      case "upcoming":
+        return "#ffa500";
+      case "live":
+        return "#28a745";
+      case "completed":
+        return "#6c757d";
+      default:
+        return "#ffa500";
     }
   };
 
@@ -407,7 +433,9 @@ const Home = () => {
   };
 
   const handlePracticeClick = (difficulty) => {
-    const difficultyGroup = practiceData.find((p) => p.difficulty === difficulty);
+    const difficultyGroup = practiceData.find(
+      (p) => p.difficulty === difficulty
+    );
     if (difficultyGroup?.questions.length > 0) {
       let targetPracticeId = null;
       allCodingPracticesData[selectedLanguage].forEach((practice) => {
@@ -432,13 +460,17 @@ const Home = () => {
 
   const handleContinue = (difficulty, e) => {
     e.stopPropagation();
-    const difficultyGroup = practiceData.find((p) => p.difficulty === difficulty);
+    const difficultyGroup = practiceData.find(
+      (p) => p.difficulty === difficulty
+    );
     if (difficultyGroup) {
       const unsolvedQuestion = difficultyGroup.questions.find(
         (question) => userProgress[question.id]?.status !== "solved"
       );
       if (unsolvedQuestion) {
-        navigate(`/practice/${unsolvedQuestion.practiceId}/${unsolvedQuestion.id}`);
+        navigate(
+          `/practice/${unsolvedQuestion.practiceId}/${unsolvedQuestion.id}`
+        );
       } else if (difficultyGroup.questions.length > 0) {
         const firstQuestion = difficultyGroup.questions[0];
         navigate(`/practice/${firstQuestion.practiceId}/${firstQuestion.id}`);
@@ -449,14 +481,16 @@ const Home = () => {
   const handlePrevLanguage = () => {
     const languages = Object.keys(allCodingPracticesData);
     const currentIndex = languages.indexOf(selectedLanguage);
-    const prevIndex = currentIndex > 0 ? currentIndex - 1 : languages.length - 1;
+    const prevIndex =
+      currentIndex > 0 ? currentIndex - 1 : languages.length - 1;
     setSelectedLanguage(languages[prevIndex]);
   };
 
   const handleNextLanguage = () => {
     const languages = Object.keys(allCodingPracticesData);
     const currentIndex = languages.indexOf(selectedLanguage);
-    const nextIndex = currentIndex < languages.length - 1 ? currentIndex + 1 : 0;
+    const nextIndex =
+      currentIndex < languages.length - 1 ? currentIndex + 1 : 0;
     setSelectedLanguage(languages[nextIndex]);
   };
 
@@ -474,22 +508,6 @@ const Home = () => {
 
   return (
     <div className="website">
-      {/* Debug Panel - Remove in production */}
-      {process.env.NODE_ENV === 'development' && filterDebug && (
-        <div style={{ 
-          background: '#f0f0f0', 
-          padding: '10px', 
-          margin: '10px', 
-          borderRadius: '5px',
-          fontSize: '12px',
-          border: '1px solid #ccc'
-        }}>
-          <strong>🔍 Filter Debug:</strong>
-          <pre>{JSON.stringify(filterDebug, null, 2)}</pre>
-          <strong>📊 Live Classes Count:</strong> {liveClasses.length}
-        </div>
-      )}
-
       <div className="BroOne-container">
         <div className="BroOne-container-text">
           <h4>{homeData.BroOne.title}</h4>
@@ -524,13 +542,6 @@ const Home = () => {
                     {classItem.batch_month && classItem.batch_year && (
                       <p className="batch-info">
                         Batch: {classItem.batch_month} {classItem.batch_year}
-                      </p>
-                    )}
-                    {/* 🔥 ADDED: Display student type and course for debugging */}
-                    {process.env.NODE_ENV === 'development' && (
-                      <p style={{ fontSize: '11px', color: '#666' }}>
-                        Type: {classItem.student_type || 'all'} | 
-                        Course: {classItem.course_selection || 'all'}
                       </p>
                     )}
                   </div>
@@ -630,10 +641,6 @@ const Home = () => {
         ) : (
           <div className="no-classes">
             <p>No live classes available for your batch and course.</p>
-            <p style={{ fontSize: '14px', color: '#666', marginTop: '10px' }}>
-              Your filters: {user?.studentType || 'Core'} | {user?.courseSelection || 'Web Dev'}
-              {user?.batchMonth && ` | ${user.batchMonth} ${user.batchYear || ''}`}
-            </p>
           </div>
         )}
       </div>
@@ -675,7 +682,8 @@ const Home = () => {
             <i className="bi bi-chevron-left"></i>
           </button>
           <span style={{ margin: "0 10px", fontWeight: "500" }}>
-            {selectedLanguage.charAt(0).toUpperCase() + selectedLanguage.slice(1)}
+            {selectedLanguage.charAt(0).toUpperCase() +
+              selectedLanguage.slice(1)}
           </span>
           <button
             onClick={handleNextLanguage}
@@ -780,7 +788,10 @@ const Home = () => {
                       cursor: "pointer",
                     }}
                   >
-                    <i className="bi bi-book" style={{ marginRight: "8px" }}></i>
+                    <i
+                      className="bi bi-book"
+                      style={{ marginRight: "8px" }}
+                    ></i>
                     View Problems
                   </button>
                   <button

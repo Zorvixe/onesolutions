@@ -8,7 +8,7 @@
   --lc-text-main: #111827;
   --lc-text-muted: #6b7280;
   --lc-border: #e5e7eb;
-  
+
   /* Status Colors */
   --lc-upcoming-bg: #fff7ed;
   --lc-upcoming-text: #c2410c;
@@ -18,14 +18,16 @@
   --lc-completed-text: #4b5563;
 
   --lc-radius: 12px;
-  --lc-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --lc-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .lc-dashboard-container {
   min-height: 100vh;
   padding: 24px;
   background-color: var(--lc-bg);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
   color: var(--lc-text-main);
   box-sizing: border-box;
 }
@@ -98,6 +100,8 @@
   background: none;
   color: var(--lc-text-muted);
   padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
 .lc-btn-text:hover {
@@ -138,10 +142,22 @@
   font-size: 24px;
 }
 
-.lc-stat-upcoming .lc-stat-icon { background: #fff7ed; color: #f97316; }
-.lc-stat-live .lc-stat-icon { background: #f0fdf4; color: #22c55e; }
-.lc-stat-completed .lc-stat-icon { background: #f3f4f6; color: #6b7280; }
-.lc-stat-total .lc-stat-icon { background: #eef2ff; color: var(--lc-primary); }
+.lc-stat-upcoming .lc-stat-icon {
+  background: #fff7ed;
+  color: #f97316;
+}
+.lc-stat-live .lc-stat-icon {
+  background: #f0fdf4;
+  color: #22c55e;
+}
+.lc-stat-completed .lc-stat-icon {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+.lc-stat-total .lc-stat-icon {
+  background: #eef2ff;
+  color: var(--lc-primary);
+}
 
 .lc-stat-info h3 {
   font-size: 24px;
@@ -241,8 +257,14 @@
   letter-spacing: 0.5px;
 }
 
-.lc-badge-type { background: #e0e7ff; color: #3730a3; }
-.lc-badge-course { background: #f3f4f6; color: #374151; }
+.lc-badge-type {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+.lc-badge-course {
+  background: #f3f4f6;
+  color: #374151;
+}
 
 .lc-card-actions-top {
   display: flex;
@@ -380,9 +402,15 @@
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 .lc-link-text {
@@ -476,13 +504,19 @@
 .lc-toggle-btn.active {
   background: white;
   color: var(--lc-text-main);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 /* Active Status Card Colors */
-.lc-card-live { border-left: 4px solid #22c55e; }
-.lc-card-upcoming { border-left: 4px solid #f97316; }
-.lc-card-completed { border-left: 4px solid #9ca3af; }
+.lc-card-live {
+  border-left: 4px solid #22c55e;
+}
+.lc-card-upcoming {
+  border-left: 4px solid #f97316;
+}
+.lc-card-completed {
+  border-left: 4px solid #9ca3af;
+}
 
 /* Modal */
 .lc-modal-overlay {
@@ -491,7 +525,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -511,8 +545,14 @@
 }
 
 @keyframes modalSlide {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .lc-modal-header {
@@ -628,7 +668,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive */
@@ -638,20 +680,20 @@
     align-items: flex-start;
     gap: 16px;
   }
-  
+
   .lc-header-actions {
     width: 100%;
   }
-  
+
   .lc-btn {
     flex: 1;
     justify-content: center;
   }
-  
+
   .lc-form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .lc-form-group.span-2 {
     grid-column: span 1;
   }

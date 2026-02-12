@@ -9,8 +9,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Header / Action Bar */
@@ -104,7 +110,6 @@
 
 /* Paper / Writing Area */
 .notepad-paper {
-  max-width: 800px;
   width: 100%;
   margin: 0 auto;
   flex: 1;
@@ -149,7 +154,7 @@
 
 .notepad-quill .ql-container {
   border: none !important;
-  font-family: 'Inter', sans-serif !important;
+  font-family: "Inter", sans-serif !important;
   font-size: 16px !important;
   flex: 1;
 }
@@ -168,12 +173,24 @@
 }
 
 /* Editor Typography */
-.notepad-quill .ql-editor h1 { font-size: 2em; margin-bottom: 0.5em; font-weight: 700; color: #1e293b; }
-.notepad-quill .ql-editor h2 { font-size: 1.5em; margin-bottom: 0.5em; font-weight: 600; color: #1e293b; }
-.notepad-quill .ql-editor p { margin-bottom: 1em; }
-.notepad-quill .ql-editor blockquote { 
-  border-left: 3px solid #0f172a; 
-  padding-left: 1rem; 
+.notepad-quill .ql-editor h1 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+  font-weight: 700;
+  color: #1e293b;
+}
+.notepad-quill .ql-editor h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  color: #1e293b;
+}
+.notepad-quill .ql-editor p {
+  margin-bottom: 1em;
+}
+.notepad-quill .ql-editor blockquote {
+  border-left: 3px solid #0f172a;
+  padding-left: 1rem;
   margin: 1rem 0;
   font-style: italic;
   color: #475569;

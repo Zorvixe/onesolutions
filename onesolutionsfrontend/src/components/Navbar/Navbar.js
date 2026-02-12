@@ -115,9 +115,13 @@ const Navbar = () => {
   };
 
   // Get student type and course info
-  const studentTypeInfo = getStudentTypeBadge(user.studentType || "zorvixe_core");
+  const studentTypeInfo = getStudentTypeBadge(
+    user.studentType || "zorvixe_core"
+  );
   const courseInfo = getCourseBadge(user.courseSelection || "web_development");
-  const studentTypeDescription = getStudentTypeDescription(user.studentType || "zorvixe_core");
+  const studentTypeDescription = getStudentTypeDescription(
+    user.studentType || "zorvixe_core"
+  );
 
   const getDefaultProfileImage = () => {
     if (user.gender) {
@@ -267,22 +271,25 @@ const Navbar = () => {
                   {studentTypeInfo.label}
                 </span>
               </div>
-              <div className="course-type-mobile" style={{ marginTop: '8px' }}>
+              <div className="course-type-mobile" style={{ marginTop: "8px" }}>
                 <span
                   className="course-badge"
                   style={{
                     backgroundColor: courseInfo.bg,
                     color: courseInfo.color,
                     border: `1px solid ${courseInfo.color}20`,
-                    padding: '4px 8px',
-                    borderRadius: '12px',
-                    fontSize: '11px',
-                    fontWeight: '600'
+                    padding: "4px 8px",
+                    borderRadius: "12px",
+                    fontSize: "11px",
+                    fontWeight: "600",
                   }}
                 >
                   {courseInfo.shortLabel}
                 </span>
-                <span className="course-label" style={{ marginLeft: '8px', fontSize: '12px' }}>
+                <span
+                  className="course-label"
+                  style={{ marginLeft: "8px", fontSize: "12px" }}
+                >
                   {courseInfo.label}
                 </span>
               </div>
@@ -473,35 +480,59 @@ const Navbar = () => {
                     {user.batchMonth} {user.batchYear}
                   </p>
                   {/* 🔥 FIXED: Display both Student Type and Course in profile dropdown */}
-                  <div className="profile-student-type" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '5px' }}>
+                  <div
+                    className="profile-student-type"
+                    style={{
+                      display: "flex",
+                      gap: "8px",
+                      flexWrap: "wrap",
+                      marginTop: "5px",
+                    }}
+                  >
                     <span
                       className="student-type-badge-profile"
                       style={{
                         backgroundColor: studentTypeInfo.bg,
                         color: studentTypeInfo.color,
                         border: `1px solid ${studentTypeInfo.color}20`,
-                        padding: '4px 8px',
-                        borderRadius: '12px',
-                        fontSize: '11px',
-                        fontWeight: '600'
+                        padding: "4px 8px",
+                        borderRadius: "12px",
+                        fontSize: "11px",
+                        fontWeight: "600",
                       }}
                     >
-                      <i className="bi bi-award-fill" style={{ marginRight: '4px' }}></i>
+                      <i
+                        className="bi bi-award-fill"
+                        style={{ marginRight: "4px" }}
+                      ></i>
                       {studentTypeInfo.shortLabel}
                     </span>
                     <span
-                      className="course-badge-profile"
+                      className="student-type-badge-profile"
                       style={{
                         backgroundColor: courseInfo.bg,
                         color: courseInfo.color,
                         border: `1px solid ${courseInfo.color}20`,
-                        padding: '4px 8px',
-                        borderRadius: '12px',
-                        fontSize: '11px',
-                        fontWeight: '600'
+                        padding: "4px 8px",
+                        borderRadius: "12px",
+                        fontSize: "11px",
+                        fontWeight: "600",
                       }}
                     >
-                      <i className="bi bi-journal-code" style={{ marginRight: '4px' }}></i>
+                      {courseInfo.shortLabel === "Web Dev" && (
+                        <i
+                          className="bi bi-journal-code"
+                          style={{ marginRight: "4px" }}
+                        ></i>
+                      )}
+
+                      {courseInfo.shortLabel === "Digi Mkt" && (
+                        <i
+                          className="bi bi-shop-window"
+                          style={{ marginRight: "4px" }}
+                        ></i>
+                      )}
+
                       {courseInfo.shortLabel}
                     </span>
                   </div>

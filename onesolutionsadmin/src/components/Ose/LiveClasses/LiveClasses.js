@@ -1,9 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import "./LiveClasses.css";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./LiveClasses.css";
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || "https://ose.onesolutionsekam.in";
+const API_BASE_URL =
+  process.env.REACT_APP_API_URL || "https://ose.onesolutionsekam.in";
 
 const LiveClasses = () => {
   const [classes, setClasses] = useState([]);
@@ -24,7 +27,7 @@ const LiveClasses = () => {
   const [editingClass, setEditingClass] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   // 🔥 FIXED: Filters with course_selection
   const [filters, setFilters] = useState({
     student_type: "all",
@@ -33,20 +36,24 @@ const LiveClasses = () => {
     batch_year: "",
     status: "",
   });
-  
+
   const navigate = useNavigate();
 
+  // Check authentication
   useEffect(() => {
     if (!token) {
       navigate("/login");
     }
   }, [token, navigate]);
 
+  // Listen for token changes
   useEffect(() => {
     const checkToken = () => {
       const currentToken = localStorage.getItem("token");
       if (!currentToken) {
         navigate("/login");
+      } else {
+        setToken(currentToken);
       }
     };
     window.addEventListener("storage", checkToken);
@@ -55,17 +62,19 @@ const LiveClasses = () => {
     };
   }, [navigate]);
 
+  // Fetch classes when token or filters change
   useEffect(() => {
     if (token) {
       fetchClasses();
     }
   }, [token, filters]);
 
-  // 🔥 FIXED: Updated fetchClasses with proper course filter
+  // 🔥 FIXED: Updated fetchClasses with proper error handling
   const fetchClasses = async () => {
     try {
+      setLoading(true);
       const params = new URLSearchParams();
-      
+
       // Add filters - handle 'all' values correctly
       if (filters.student_type && filters.student_type !== "all") {
         params.append("student_type", filters.student_type);
@@ -94,23 +103,37 @@ const LiveClasses = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         console.log(`✅ Fetched ${data.length} classes:`, data);
         setClasses(data);
       } else {
         console.error("❌ Failed to fetch classes, status:", response.status);
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
+        toast.error("Failed to fetch classes");
       }
     } catch (error) {
       console.error("❌ Error fetching classes:", error);
+      toast.error("Error connecting to server");
     } finally {
       setLoading(false);
     }
   };
 
+  // 🔥 FIXED: Handle form submit with proper data formatting
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate required fields
+    if (!formData.class_name || !formData.start_time || !formData.end_time) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
     try {
       const url = editingClass
         ? `${API_BASE_URL}/api/live-classes/${editingClass.id}`
@@ -118,14 +141,19 @@ const LiveClasses = () => {
 
       const method = editingClass ? "PUT" : "POST";
 
-      // 🔥 FIXED: Ensure course_selection is included
+      // 🔥 CRITICAL FIX: Ensure course_selection and student_type are included
       const submitData = {
-        ...formData,
-        course_selection: formData.course_selection || "all",
-        student_type: formData.student_type || "all",
-        // Handle empty batch fields - send as null
+        class_name: formData.class_name,
+        start_time: formData.start_time,
+        end_time: formData.end_time,
+        description: formData.description || null,
+        zoom_link: formData.zoom_link || null,
         batch_month: formData.batch_month || null,
         batch_year: formData.batch_year || null,
+        status: formData.status || "upcoming",
+        progress: Number(formData.progress) || 0,
+        student_type: formData.student_type || "all",
+        course_selection: formData.course_selection || "all",
       };
 
       console.log(`📤 ${method} live class:`, submitData);
@@ -140,6 +168,9 @@ const LiveClasses = () => {
       });
 
       if (response.ok) {
+        const responseData = await response.json();
+        console.log("✅ Server response:", responseData);
+
         closeModal();
         setFormData({
           class_name: "",
@@ -156,15 +187,17 @@ const LiveClasses = () => {
         });
         setEditingClass(null);
         fetchClasses();
-        toast?.success?.(`Class ${editingClass ? "updated" : "created"} successfully`);
+        toast.success(
+          `Class ${editingClass ? "updated" : "created"} successfully`
+        );
       } else {
         const error = await response.json();
         console.error("❌ Failed to save class:", error);
-        alert(error.error || error.message || "Failed to save class");
+        toast.error(error.error || error.message || "Failed to save class");
       }
     } catch (error) {
       console.error("❌ Error saving class:", error);
-      alert("Failed to save class: " + error.message);
+      toast.error("Failed to save class: " + error.message);
     }
   };
 
@@ -187,7 +220,7 @@ const LiveClasses = () => {
   };
 
   const handleEdit = (classItem) => {
-    console.log("Editing class:", classItem);
+    console.log("✏️ Editing class:", classItem);
     setEditingClass(classItem);
     setFormData({
       class_name: classItem.class_name,
@@ -225,13 +258,13 @@ const LiveClasses = () => {
 
       if (response.ok) {
         fetchClasses();
-        toast?.success?.("Class deleted successfully");
+        toast.success("Class deleted successfully");
       } else {
-        alert("Failed to delete class");
+        toast.error("Failed to delete class");
       }
     } catch (error) {
-      console.error("Error deleting class:", error);
-      alert("Failed to delete class");
+      console.error("❌ Error deleting class:", error);
+      toast.error("Failed to delete class");
     }
   };
 
@@ -251,6 +284,7 @@ const LiveClasses = () => {
       batch_year: "",
       status: "",
     });
+    toast.info("Filters reset");
   };
 
   const formatDateTime = (dateTime) => {
@@ -275,7 +309,6 @@ const LiveClasses = () => {
       return date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
-        timeZone: "UTC",
       });
     } catch (e) {
       return "";
@@ -298,13 +331,13 @@ const LiveClasses = () => {
 
       if (response.ok) {
         fetchClasses();
-        toast?.success?.(`Status updated to ${newStatus}`);
+        toast.success(`Status updated to ${newStatus}`);
       } else {
-        alert("Failed to update status");
+        toast.error("Failed to update status");
       }
     } catch (error) {
-      console.error("Error updating status:", error);
-      alert("Failed to update status");
+      console.error("❌ Error updating status:", error);
+      toast.error("Failed to update status");
     }
   };
 
@@ -325,11 +358,11 @@ const LiveClasses = () => {
       if (response.ok) {
         fetchClasses();
       } else {
-        alert("Failed to update progress");
+        toast.error("Failed to update progress");
       }
     } catch (error) {
-      console.error("Error updating progress:", error);
-      alert("Failed to update progress");
+      console.error("❌ Error updating progress:", error);
+      toast.error("Failed to update progress");
     }
   };
 
@@ -337,15 +370,35 @@ const LiveClasses = () => {
     navigate("/Video_Management");
   };
 
+  // 🔥 NEW: Get student type badge for display
+  const getStudentTypeBadge = (type) => {
+    const config = {
+      zorvixe_core: { color: "#4f46e5", bg: "#eef2ff", label: "CORE" },
+      zorvixe_pro: { color: "#0d9488", bg: "#f0fdfa", label: "PRO" },
+      zorvixe_elite: { color: "#b45309", bg: "#fff7ed", label: "ELITE" },
+      all: { color: "#6b7280", bg: "#f3f4f6", label: "ALL" },
+    };
+    return config[type] || config.all;
+  };
+
   // 🔥 NEW: Get course badge for display
   const getCourseBadge = (course) => {
-    const courseConfig = {
+    const config = {
       web_development: { color: "#0d9488", bg: "#f0fdfa", label: "Web Dev" },
       digital_marketing: { color: "#b45309", bg: "#fff7ed", label: "Digi Mkt" },
       all: { color: "#6b7280", bg: "#f3f4f6", label: "All Courses" },
     };
-    const config = courseConfig[course] || courseConfig.all;
-    return config;
+    return config[course] || config.all;
+  };
+
+  // 🔥 NEW: Get status badge
+  const getStatusBadge = (status) => {
+    const config = {
+      upcoming: { color: "#c2410c", bg: "#fff7ed", label: "Upcoming" },
+      live: { color: "#15803d", bg: "#f0fdf4", label: "Live Now" },
+      completed: { color: "#4b5563", bg: "#f3f4f6", label: "Completed" },
+    };
+    return config[status] || config.upcoming;
   };
 
   if (loading) {
@@ -359,6 +412,19 @@ const LiveClasses = () => {
 
   return (
     <div className="lc-dashboard-container">
+      {/* Toast Container for notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
       {/* Top Header Area */}
       <header className="lc-header">
         <div className="lc-header-left">
@@ -456,7 +522,7 @@ const LiveClasses = () => {
             onChange={handleFilterChange}
             className="lc-select"
           >
-            <option value="">Month</option>
+            <option value="">All Months</option>
             <option value="January">January</option>
             <option value="February">February</option>
             <option value="March">March</option>
@@ -476,7 +542,7 @@ const LiveClasses = () => {
             onChange={handleFilterChange}
             className="lc-select"
           >
-            <option value="">Year</option>
+            <option value="">All Years</option>
             <option value="2023">2023</option>
             <option value="2024">2024</option>
             <option value="2025">2025</option>
@@ -485,7 +551,7 @@ const LiveClasses = () => {
           </select>
         </div>
         <button onClick={resetFilters} className="lc-btn-text">
-          Reset
+          <i className="bi bi-arrow-counterclockwise"></i> Reset
         </button>
       </div>
 
@@ -498,11 +564,19 @@ const LiveClasses = () => {
             </div>
             <h3>No Classes Found</h3>
             <p>Try adjusting your filters or create a new class.</p>
+            <button className="lc-btn lc-btn-primary" onClick={showCreateModal}>
+              <i className="bi bi-plus-lg"></i> Create Your First Class
+            </button>
           </div>
         ) : (
           <div className="lc-card-grid">
             {classes.map((classItem) => {
+              const studentTypeBadge = getStudentTypeBadge(
+                classItem.student_type
+              );
               const courseBadge = getCourseBadge(classItem.course_selection);
+              const statusBadge = getStatusBadge(classItem.status);
+
               return (
                 <div
                   key={classItem.id}
@@ -512,21 +586,34 @@ const LiveClasses = () => {
                   <div className="lc-card-header">
                     <div className="lc-badges">
                       <span
-                        className={`lc-badge lc-badge-type ${classItem.student_type}`}
+                        className="lc-badge lc-badge-type"
+                        style={{
+                          backgroundColor: studentTypeBadge.bg,
+                          color: studentTypeBadge.color,
+                          border: `1px solid ${studentTypeBadge.color}20`,
+                        }}
                       >
-                        {classItem.student_type === "all" 
-                          ? "All" 
-                          : classItem.student_type.replace("zorvixe_", "").toUpperCase()}
+                        {studentTypeBadge.label}
                       </span>
-                      <span 
+                      <span
                         className="lc-badge lc-badge-course"
                         style={{
                           backgroundColor: courseBadge.bg,
                           color: courseBadge.color,
-                          border: `1px solid ${courseBadge.color}20`
+                          border: `1px solid ${courseBadge.color}20`,
                         }}
                       >
                         {courseBadge.label}
+                      </span>
+                      <span
+                        className="lc-badge lc-badge-status"
+                        style={{
+                          backgroundColor: statusBadge.bg,
+                          color: statusBadge.color,
+                          border: `1px solid ${statusBadge.color}20`,
+                        }}
+                      >
+                        {statusBadge.label}
                       </span>
                     </div>
                     <div className="lc-card-actions-top">
@@ -553,7 +640,9 @@ const LiveClasses = () => {
                       <div className="lc-avatar">
                         {classItem.class_name?.charAt(0)?.toUpperCase() || "C"}
                       </div>
-                      <h3 title={classItem.class_name}>{classItem.class_name}</h3>
+                      <h3 title={classItem.class_name}>
+                        {classItem.class_name}
+                      </h3>
                     </div>
 
                     <div className="lc-details-grid">
@@ -572,7 +661,8 @@ const LiveClasses = () => {
                         <div className="lc-detail-item full-width">
                           <i className="bi bi-people"></i>
                           <span>
-                            Batch: {classItem.batch_month} {classItem.batch_year}
+                            Batch: {classItem.batch_month || ""}{" "}
+                            {classItem.batch_year || ""}
                           </span>
                         </div>
                       )}
@@ -617,12 +707,22 @@ const LiveClasses = () => {
                     <div className="lc-progress-wrapper">
                       <div className="lc-progress-header">
                         <span>Progress</span>
-                        <span>{classItem.progress}%</span>
+                        <span
+                          style={{ fontWeight: 600, color: courseBadge.color }}
+                        >
+                          {classItem.progress || 0}%
+                        </span>
                       </div>
                       <div className="lc-slider-container">
                         <div
                           className="lc-progress-track"
-                          style={{ width: `${classItem.progress}%` }}
+                          style={{
+                            width: `${Math.min(
+                              100,
+                              Math.max(0, classItem.progress || 0)
+                            )}%`,
+                            backgroundColor: courseBadge.color,
+                          }}
                         ></div>
                         <input
                           type="range"
@@ -650,7 +750,7 @@ const LiveClasses = () => {
                         }
                         title="Set as Upcoming"
                       >
-                        Wait
+                        Upcoming
                       </button>
                       <button
                         className={`lc-toggle-btn ${
@@ -670,7 +770,7 @@ const LiveClasses = () => {
                         }
                         title="Set as Completed"
                       >
-                        Done
+                        Completed
                       </button>
                     </div>
                   </div>
@@ -698,7 +798,7 @@ const LiveClasses = () => {
             <form onSubmit={handleSubmit} className="lc-modal-form">
               <div className="lc-form-row">
                 <div className="lc-form-group span-2">
-                  <label>Class Name</label>
+                  <label>Class Name *</label>
                   <input
                     type="text"
                     value={formData.class_name}
@@ -713,7 +813,7 @@ const LiveClasses = () => {
 
               <div className="lc-form-row">
                 <div className="lc-form-group">
-                  <label>Student Type</label>
+                  <label>Student Type *</label>
                   <select
                     value={formData.student_type}
                     onChange={(e) =>
@@ -728,7 +828,7 @@ const LiveClasses = () => {
                   </select>
                 </div>
                 <div className="lc-form-group">
-                  <label>Course</label>
+                  <label>Course *</label>
                   <select
                     value={formData.course_selection}
                     onChange={(e) =>
@@ -755,7 +855,7 @@ const LiveClasses = () => {
                       setFormData({ ...formData, batch_month: e.target.value })
                     }
                   >
-                    <option value="">Select Month</option>
+                    <option value="">All Batches</option>
                     <option value="January">January</option>
                     <option value="February">February</option>
                     <option value="March">March</option>
@@ -778,7 +878,7 @@ const LiveClasses = () => {
                       setFormData({ ...formData, batch_year: e.target.value })
                     }
                   >
-                    <option value="">Select Year</option>
+                    <option value="">All Years</option>
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
@@ -790,7 +890,7 @@ const LiveClasses = () => {
 
               <div className="lc-form-row">
                 <div className="lc-form-group">
-                  <label>Start Time</label>
+                  <label>Start Time *</label>
                   <input
                     type="datetime-local"
                     value={formData.start_time}
@@ -801,7 +901,7 @@ const LiveClasses = () => {
                   />
                 </div>
                 <div className="lc-form-group">
-                  <label>End Time</label>
+                  <label>End Time *</label>
                   <input
                     type="datetime-local"
                     value={formData.end_time}
@@ -821,7 +921,6 @@ const LiveClasses = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, status: e.target.value })
                     }
-                    required
                   >
                     <option value="upcoming">Upcoming</option>
                     <option value="live">Live</option>
@@ -841,7 +940,6 @@ const LiveClasses = () => {
                         progress: Number(e.target.value),
                       })
                     }
-                    required
                   />
                 </div>
               </div>
