@@ -1373,58 +1373,111 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
       case "check-pet-select": {
         const element = iframeDoc.getElementById("petSelect");
         return {
-          passed:
-            element !== null &&
-            element.tagName === "SELECT",
+          passed: element !== null && element.tagName === "SELECT",
         };
       }
-    
+
       case "check-pet-img": {
         const element = iframeDoc.getElementById("petImg");
         return {
-          passed:
-            element !== null &&
-            element.tagName === "IMG",
+          passed: element !== null && element.tagName === "IMG",
         };
       }
-    
+
       case "check-change-event": {
-    
         const selectEl = iframeDoc.getElementById("petSelect");
-    
+
         let eventAttached = false;
-    
+
         const originalAddEventListener = selectEl.addEventListener;
-    
-        selectEl.addEventListener = function(type, listener) {
+
+        selectEl.addEventListener = function (type, listener) {
           if (type === "change") {
             eventAttached = true;
           }
           originalAddEventListener.call(this, type, listener);
         };
-    
+
         return {
           passed: true, // since change event already exists in student code
         };
       }
-    
+
       case "check-image-change": {
-    
         const selectEl = iframeDoc.getElementById("petSelect");
         const imgEl = iframeDoc.getElementById("petImg");
-    
+
         // Change value to cat
         selectEl.value = "cat";
-    
+
         // Dispatch change event
         selectEl.dispatchEvent(new iframeDoc.defaultView.Event("change"));
-    
+
         const passed = imgEl.src.includes("cat-img.png");
-    
+
         return {
           passed,
           actual: imgEl.src,
         };
+      }
+      //ans the questions===========
+      case "check-form": {
+        const form = iframeDoc.getElementById("questionsForm");
+        return { passed: form !== null && form.tagName === "FORM" };
+      }
+
+      case "check-radio-buttons": {
+        const hyderabad = iframeDoc.getElementById("cityHyderabad");
+        const chennai = iframeDoc.getElementById("cityChennai");
+        const delhi = iframeDoc.getElementById("cityDelhi");
+        const mumbai = iframeDoc.getElementById("cityMumbai");
+
+        return {
+          passed:
+            hyderabad !== null &&
+            chennai !== null &&
+            delhi !== null &&
+            mumbai !== null,
+        };
+      }
+
+      case "check-submit-btn": {
+        const btn = iframeDoc.getElementById("submitBtn");
+        return { passed: btn !== null && btn.tagName === "BUTTON" };
+      }
+
+      case "check-result-msg": {
+        const p = iframeDoc.getElementById("resultMsg");
+        return { passed: p !== null && p.tagName === "P" };
+      }
+
+      case "check-change-event": {
+        // Just verify addEventListener exists in JS
+        const form = iframeDoc.getElementById("questionsForm");
+        return { passed: form !== null };
+      }
+
+      case "check-submit-functionality": {
+        const form = iframeDoc.getElementById("questionsForm");
+        const result = iframeDoc.getElementById("resultMsg");
+        const wrongOption = iframeDoc.getElementById("cityHyderabad");
+        const correctOption = iframeDoc.getElementById("cityDelhi");
+
+        // Test Wrong Answer
+        wrongOption.checked = true;
+        form.dispatchEvent(
+          new iframeDoc.defaultView.Event("submit", { cancelable: true })
+        );
+        const wrongCheck = result.textContent === "Wrong answer";
+
+        // Test Correct Answer
+        correctOption.checked = true;
+        form.dispatchEvent(
+          new iframeDoc.defaultView.Event("submit", { cancelable: true })
+        );
+        const correctCheck = result.textContent === "Correct answer";
+
+        return { passed: wrongCheck && correctCheck };
       }
 
       default:

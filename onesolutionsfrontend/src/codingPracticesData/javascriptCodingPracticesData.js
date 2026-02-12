@@ -4933,7 +4933,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML form element with the id questionsForm",
               type: "js-validation",
-              input: "check-pet-select",
+              input: "check-form",
               output: "true",
               visible: true,
             },
@@ -4942,7 +4942,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "The HTML form element with the id questionsForm should consist of the radio buttons with the ids cityHyderabad, cityChennai, cityDelhi and cityMumbai ",
               type: "js-validation",
-              input: "check-pet-img",
+              input: "check-radio-buttons",
               output: "true",
               visible: true,
             },
@@ -4951,7 +4951,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "The HTML form element with the id questionsForm should consist of an HTML button element with the id submitBtn",
               type: "js-validation",
-              input: "check-change-event",
+              input: "check-submit-btn",
               output: "true",
               visible: true,
             },
@@ -4960,7 +4960,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML paragraph element with the id resultMsg",
               type: "js-validation",
-              input: "check-image-change",
+              input: "check-result-msg",
               output: "true",
               visible: true,
             },
@@ -4969,7 +4969,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "JS code should contain addEventListener for the change event",
               type: "js-validation",
-              input: "check-image-change",
+              input: "check-change-event",
               output: "true",
               visible: true,
             },
@@ -4978,7 +4978,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "When the HTML button element with the id submitBtn clicked or the HTML form element with the id questionsForm submitted, then the HTML paragraph element with the id resultMsg should have Wrong answer as result if the selected radio button is a wrong answer. Otherwise, it should have Correct answer",
               type: "js-validation",
-              input: "check-image-change",
+              input: "check-submit-functionality",
               output: "true",
               visible: true,
             },
