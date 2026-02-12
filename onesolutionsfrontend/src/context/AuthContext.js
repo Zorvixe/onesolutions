@@ -7,7 +7,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import { authAPI, progressAPI } from "../services/api";
+import { authAPI, progressAPI, digitalMarketingAPI } from "../services/api";
 
 const AuthContext = createContext();
 
@@ -35,9 +35,38 @@ export const AuthProvider = ({ children }) => {
   const [codingPracticeProgress, setCodingPracticeProgress] = useState({});
   const [token, setToken] = useState(localStorage.getItem("token"));
 
+  // ✅ NEW: Digital Marketing Course Structure States
+  const [digitalMarketingGoals, setDigitalMarketingGoals] = useState([]);
+  const [digitalMarketingStructure, setDigitalMarketingStructure] = useState({});
+  const [digitalMarketingLoading, setDigitalMarketingLoading] = useState(false);
+  const [currentGoal, setCurrentGoal] = useState(null);
+  const [currentModule, setCurrentModule] = useState(null);
+  const [currentTopic, setCurrentTopic] = useState(null);
+  const [currentSubtopic, setCurrentSubtopic] = useState(null);
+  const [currentContent, setCurrentContent] = useState(null);
+
   useEffect(() => {
     checkAuthStatus();
   }, []);
+  const getContentUrl = (contentUuid) => {
+    return `/content/${contentUuid}`;
+  };
+
+  // ✅ NEW: Navigate to content by UUID
+const navigateToContent = async (contentUuid, navigate) => {
+  try {
+    const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
+    if (res.data.success) {
+      setCurrentContent(res.data.data);
+      // Navigate to the content page with UUID in URL
+      navigate(`/content/${contentUuid}`);
+      return { success: true, data: res.data.data };
+    }
+  } catch (err) {
+    console.error(`[DIGITAL_MARKETING] Navigate to content ${contentUuid} failed:`, err);
+    return { success: false, error: err };
+  }
+};
 
   // 🔥 FIXED: Auth check with complete user data including studentType and courseSelection
   const checkAuthStatus = async () => {
@@ -232,23 +261,28 @@ export const AuthProvider = ({ children }) => {
     [token]
   );
 
-  const markSubtopicComplete = async (contentId, goalName, courseName) => {
+  // ✅ UPDATED: Mark Digital Marketing Content Complete
+  const markSubtopicComplete = async (contentId, goalId, moduleId, subtopicId, quizScore) => {
     try {
       console.log(`[PROGRESS] Marking subtopic complete:`, {
         contentId,
-        goalName,
-        courseName,
+        goalId,
+        moduleId,
+        subtopicId,
+        quizScore
       });
 
-      if (!contentId) {
-        console.error("[PROGRESS] contentId is required");
-        return { success: false, message: "Content ID is required" };
+      if (!contentId || !goalId) {
+        console.error("[PROGRESS] contentId and goalId are required");
+        return { success: false, message: "Content ID and Goal ID are required" };
       }
 
       const res = await progressAPI.markContentComplete(
         contentId,
-        goalName,
-        courseName
+        goalId,
+        moduleId,
+        subtopicId,
+        quizScore
       );
 
       if (res.data.success) {
@@ -258,9 +292,17 @@ export const AuthProvider = ({ children }) => {
         setCompletedContent((prev) => [...new Set([...prev, contentId])]);
 
         // Reload all progress data
-        await Promise.all([loadProgressSummary(), loadOverallProgress()]);
+        await Promise.all([
+          loadProgressSummary(), 
+          loadOverallProgress(),
+          loadDigitalMarketingProgress(goalId)
+        ]);
 
-        return { success: true, data: res.data.data };
+        return { 
+          success: true, 
+          data: res.data.data,
+          progress: res.data.progress 
+        };
       } else {
         console.error("[PROGRESS] Mark complete failed:", res.data.message);
         return { success: false, message: res.data.message };
@@ -307,18 +349,171 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ✅ Enhanced progress calculation utilities
-  const calculateModuleProgress = (module) => {
-    if (!module.topic || !Array.isArray(module.topic)) return 0;
-
-    const subtopics = module.topic;
-    const completedCount = subtopics.filter((sub) =>
-      completedContent.includes(sub.id)
-    ).length;
-
-    return subtopics.length > 0 ? (completedCount / subtopics.length) * 100 : 0;
+  // ✅ NEW: Digital Marketing Course Functions
+  const loadDigitalMarketingCourses = async () => {
+    try {
+      setDigitalMarketingLoading(true);
+      const res = await digitalMarketingAPI.getStudentCourses();
+      if (res.data.success) {
+        setDigitalMarketingGoals(res.data.data);
+        
+        // Also load the full structure for each goal
+        for (const goal of res.data.data) {
+          if (goal.is_enrolled) {
+            await loadDigitalMarketingGoalStructure(goal.id);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Load courses failed:", err);
+    } finally {
+      setDigitalMarketingLoading(false);
+    }
   };
 
+  const loadDigitalMarketingGoalStructure = async (goalId) => {
+    try {
+      const res = await digitalMarketingAPI.getGoalStructure(goalId);
+      if (res.data.success) {
+        setDigitalMarketingStructure(prev => ({
+          ...prev,
+          [goalId]: res.data.data
+        }));
+      }
+      return res.data;
+    } catch (err) {
+      console.error(`[DIGITAL_MARKETING] Load goal ${goalId} structure failed:`, err);
+      throw err;
+    }
+  };
+
+  const loadDigitalMarketingAllStructure = async () => {
+    try {
+      setDigitalMarketingLoading(true);
+      const res = await digitalMarketingAPI.getAllCoursesStructure();
+      if (res.data.success) {
+        setDigitalMarketingGoals(res.data.data);
+      }
+      return res.data;
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Load all structure failed:", err);
+      throw err;
+    } finally {
+      setDigitalMarketingLoading(false);
+    }
+  };
+
+  const enrollInDigitalMarketingCourse = async (goalId) => {
+    try {
+      const res = await digitalMarketingAPI.enrollInCourse(goalId);
+      if (res.data.success) {
+        await loadDigitalMarketingAllStructure();
+        return { success: true, message: "Successfully enrolled in course" };
+      }
+      return { success: false, message: res.data.message };
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Enroll failed:", err);
+      return { 
+        success: false, 
+        message: err.response?.data?.message || "Enrollment failed" 
+      };
+    }
+  };
+
+  const loadDigitalMarketingProgress = async (goalId) => {
+    try {
+      const res = await digitalMarketingAPI.getGoalProgress(goalId);
+      if (res.data.success) {
+        setGoalProgress(prev => ({
+          ...prev,
+          [goalId]: res.data.data.progress_percentage
+        }));
+        return res.data.data;
+      }
+    } catch (err) {
+      console.error(`[DIGITAL_MARKETING] Load progress for goal ${goalId} failed:`, err);
+    }
+  };
+
+  const getContentByUuid = async (contentUuid) => {
+    try {
+      const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
+      if (res.data.success) {
+        setCurrentContent(res.data.data);
+        return res.data;
+      }
+    } catch (err) {
+      console.error(`[DIGITAL_MARKETING] Get content ${contentUuid} failed:`, err);
+      throw err;
+    }
+  };
+
+  // ✅ Enhanced progress calculation utilities for Digital Marketing
+  const calculateModuleProgress = (module) => {
+    if (!module.topics || !Array.isArray(module.topics)) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    module.topics.forEach(topic => {
+      if (topic.subtopics) {
+        topic.subtopics.forEach(subtopic => {
+          if (subtopic.content) {
+            totalContent += subtopic.content.length;
+            completedContentCount += subtopic.content.filter(c => 
+              c.is_completed || completedContent.includes(c.id)
+            ).length;
+          }
+        });
+      }
+    });
+
+    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+  };
+
+  const calculateGoalProgress = (goal) => {
+    if (!goal.modules || !Array.isArray(goal.modules)) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    goal.modules.forEach(module => {
+      if (module.topics) {
+        module.topics.forEach(topic => {
+          if (topic.subtopics) {
+            topic.subtopics.forEach(subtopic => {
+              if (subtopic.content) {
+                totalContent += subtopic.content.length;
+                completedContentCount += subtopic.content.filter(c => 
+                  c.is_completed || completedContent.includes(c.id)
+                ).length;
+              }
+            });
+          }
+        });
+      }
+    });
+
+    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+  };
+
+  const calculateOverallDigitalMarketingProgress = () => {
+    if (!digitalMarketingGoals || digitalMarketingGoals.length === 0) return 0;
+
+    let totalProgress = 0;
+    let enrolledGoalsCount = 0;
+
+    digitalMarketingGoals.forEach(goal => {
+      if (goal.is_enrolled) {
+        totalProgress += goal.stats?.progress_percentage || 0;
+        enrolledGoalsCount++;
+      }
+    });
+
+    return enrolledGoalsCount > 0 ? totalProgress / enrolledGoalsCount : 0;
+  };
+
+  // ✅ Enhanced progress calculation utilities (backward compatibility)
   const calculateCourseProgress = (course) => {
     if (!course.modules || !Array.isArray(course.modules)) return 0;
 
@@ -339,7 +534,7 @@ export const AuthProvider = ({ children }) => {
       : 0;
   };
 
-  const calculateGoalProgress = (goal) => {
+  const calculateGoalProgressLegacy = (goal) => {
     if (!goal.courses || !Array.isArray(goal.courses)) return 0;
 
     let totalCourseProgress = 0;
@@ -416,6 +611,7 @@ export const AuthProvider = ({ children }) => {
           loadUserProgress(),
           loadProgressSummary(),
           loadOverallProgress(),
+          loadDigitalMarketingAllStructure() // ✅ NEW: Load digital marketing courses
         ]);
       } catch (err) {
         console.error("[AUTH] Failed to load user data:", err);
@@ -505,7 +701,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔥 FIXED: Enhanced logout - clear all user data
+  // 🔥 FIXED: Enhanced logout - clear all user data including digital marketing
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -519,6 +715,14 @@ export const AuthProvider = ({ children }) => {
     setCourseProgress({});
     setOverallProgress(0);
     setCodingPracticeProgress({});
+    // ✅ Clear digital marketing states
+    setDigitalMarketingGoals([]);
+    setDigitalMarketingStructure({});
+    setCurrentGoal(null);
+    setCurrentModule(null);
+    setCurrentTopic(null);
+    setCurrentSubtopic(null);
+    setCurrentContent(null);
     console.log("[AUTH] Logout successful - all user data cleared");
   };
 
@@ -857,7 +1061,7 @@ export const AuthProvider = ({ children }) => {
     loadOverallProgress,
     calculateModuleProgress,
     calculateCourseProgress,
-    calculateGoalProgress,
+    calculateGoalProgress: calculateGoalProgressLegacy,
     updateCompleteProfile,
     addProject,
     addAchievement,
@@ -867,6 +1071,31 @@ export const AuthProvider = ({ children }) => {
     forgotPasswordVerifyOtpReset,
     isAuthenticated: !!user,
     refreshCompleteProfile: loadCompleteProfile,
+    
+    // ✅ NEW: Digital Marketing Course exports
+    getContentUrl,
+  navigateToContent,
+    digitalMarketingGoals,
+    digitalMarketingStructure,
+    digitalMarketingLoading,
+    currentGoal,
+    currentModule,
+    currentTopic,
+    currentSubtopic,
+    currentContent,
+    setCurrentGoal,
+    setCurrentModule,
+    setCurrentTopic,
+    setCurrentSubtopic,
+    setCurrentContent,
+    loadDigitalMarketingCourses,
+    loadDigitalMarketingGoalStructure,
+    loadDigitalMarketingAllStructure,
+    enrollInDigitalMarketingCourse,
+    loadDigitalMarketingProgress,
+    getContentByUuid,
+    calculateDigitalMarketingGoalProgress: calculateGoalProgress,
+    overallDigitalMarketingProgress: calculateOverallDigitalMarketingProgress,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
