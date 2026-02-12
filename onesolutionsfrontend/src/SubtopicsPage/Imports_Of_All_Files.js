@@ -447,7 +447,7 @@ import HTTP_Request_Using_Class from "../JavaScript/Fetch_Callbacks_2/HTTP_Reque
 import Wikipedia_Search_Class from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_Class.js";
 import Coding_Pratice_JS_16 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_JS_16.js";
 import Coding_Pratice_17 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_17.js";
-// import Coding_Pratice_18 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_18.js";
+import Coding_Pratice_JS_18 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_JS_18.js";
 // import Coding_Pratice_19 from "../JavaScript/Forms/Coding_Pratice_19.js";
 // import Coding_Pratice_20 from "../JavaScript/Forms/Coding_Pratice_20.js";
 import Forms_Part_1_Class from "../JavaScript/Forms/Forms_Part_1_Class.js";
@@ -1419,8 +1419,8 @@ export const subtopicComponents = {
   "HTTP Requests using JS": HTTP_Request_Using_Class,
   "Wikipedia Search Application": Wikipedia_Search_Class,
   "Coding Practice 17": Coding_Pratice_17,
-  "Coding Practice 16 js": Coding_Pratice_JS_16,
-  // "Coding Practice 18": Coding_Pratice_18,
+  "Coding Practice 16": Coding_Pratice_JS_16,
+  "Coding Practice 18": Coding_Pratice_JS_18,
   // "Coding Practice 19": Coding_Pratice_19,
   // "Coding Practice 20": Coding_Pratice_20,
   Forms: Forms_Part_1_Class,

@@ -4280,9 +4280,175 @@ export const javascriptCodingPracticesData = {
 
                     <p class="desc-que-blue">Instructions</p>
                      <ol class="ordered-unordered-lists">
-                        <li><span>Add the id sendGetRequestBtn to the HTML button element</span></li>
-                        <li><span>Add the id requestStatus to the HTML paragraph element with the class name request-status</span></li>
-                        <li><span>Add the id httpResponse to the HTML paragraph element with the class name http-response</span></li>
+                        <li><span>Add the id <code>searchInput</code> to the HTML <code>input element.</code></span></li>
+                        <li><span>Add the id <code>searchResults</code> to the HTML container element with the class name <code>search-results</code></span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not delete the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li>Practice adding type search to the HTML input element.</li>
+                      <li>Practice adding loading status with Bootstrap component spinner while making an HTTP request.</li>   
+                      <li>When we enter text in HTML input element with the id searchInput and press Enter,
+                         <ul>
+                          <li>Get link, title, description (HTTP response with key search_results) by making HTTP request using <code>fetch</code> with URL <code>https://apis.ccbp.in/wiki-search?search=</code></li>
+                          <li>Set title, link in the HTML a element and set description in the HTML paragraph element.</li>
+                          </ul>
+                        </li>
+                      
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML input element with the id searchInput",
+              type: "js-validation",
+              input: "check-search-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML container element with the id searchResults",
+              type: "js-validation",
+              input: "check-search-results",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When enter text in HTML input element with the id searchInput and press Enter, A GET request has to be sent to the given URL and set HTTP response title, link in the HTML anchor element, and set description in HTML paragraph element",
+              type: "js-validation",
+              input: "check-search-functionality",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding practice -18
+    {
+      id: "javascript-coding-practice-18",
+      title: "Javascript Coding Practice 18",
+      description: "",
+      questions: [
+        {
+          id: "e19asc22-axa1ziiqc88-07g49ddb",
+          title: "Countries Search Page",
+          description:
+            "In this assignment, let's build a Countries Search Page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 25,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container pt-5">
+                    <div class="row">
+                        <h1 class="col-12 heading text-center">Find the Countries Population</h1>
+                        <div class="col-12 text-center mt-3">
+                            <input type="search" placeholder="Search for a Country" class="form-control search-input" id="searchInput" />
+                        </div>
+                        <div class="col-12 d-none mt-5" id="spinner">
+                            <div class="d-flex flex-row justify-content-center">
+                                <div class="spinner-border" role="status"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row result-countries" id="resultCountries"></div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .heading {
+                color: #3e4c59;
+                font-size: 28px;
+                font-weight: bold;
+            }
+            
+            .search-input {
+                height: 50px;
+            }
+            
+            .result-countries {
+                margin-top: 18px;
+            }
+            
+            .country-card {
+                background-color: #ebf2fc;
+                border-radius: 24px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                padding: 15px;
+            }
+            
+            .country-flag {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .country-name {
+                color: #183b56;
+                font-family: "Roboto";
+                font-size: 22px;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+            
+            .country-population {
+                font-family: "Roboto";
+                font-size: 14px;
+                font-weight: 300;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770874597/countries-search-page-output-v2_kfykdz.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add the id searchInput to the HTML input element</span></li>
+                        <li><span>Add the id resultCountries to the HTML container element with the class name result-countries</span></li>
                     </ol>
 
 
@@ -4302,16 +4468,19 @@ export const javascriptCodingPracticesData = {
 
                   <p class="">Achieve the given functionality to the given prefilled code.</p>
                   <ul>
-                      <li>When the HTML <code>button </code> element with the id <code>sendGetRequestBtn</code> is clicked,
-                      <ul>
-                      <li>Make HTTP Request (GET method) using Fetch with URL <code>https://gorest.co.in/public-api/users</code>
-                    
-                          <ul>
-                          <li>Show loading while making HTTP request as shown in the image.</li>
-                          <li>Set status code in the HTML paragraph element with the id requestStatus as shown in the image.</li>
-                          <li>Set HTTP response in the HTML paragraph element with the id <code>httpResponse</code> as shown in the image.</li>
+                      <li>when the page is opened,
+                         <ul>
+                          <li>Make an HTTP GET Request using Fetch with URL https://apis.ccbp.in/countries-data</li>
+                          <li>Loader should be displayed using the Bootstrap component spinner while making an HTTP request</li>
+                          <li>Create HTML elements dynamically and append the created elements to the HTML container element with the id resultCountries</li>
                           </ul>
                         </li>
+                       <li>When the value is provided in the HTML input element with id searchInput,
+                       <ul>
+                       <li>Filter the HTTP response (Array of objects with keys flag, name, population) based on the value of the HTML input element</li>
+                       <li></li>
+                       </ul>
+                       </li>    
                   </ul>
 
               <hr>
@@ -4324,36 +4493,27 @@ export const javascriptCodingPracticesData = {
             {
               id: 1,
               description:
-                "Page should consist of an HTML button element with the id sendGetRequestBtn",
+                "Page should consist of an HTML input element with the id searchInput",
               type: "js-validation",
-              input: "check-send-btn",
+              input: "check-search-input",
               output: "true",
               visible: true,
             },
             {
               id: 2,
               description:
-                "Page should consist of an HTML paragraph element with the id requestStatus",
+                "Page should consist of an HTML container element with the id searchResults",
               type: "js-validation",
-              input: "check-request-status",
+              input: "check-search-results",
               output: "true",
               visible: true,
             },
             {
               id: 3,
               description:
-                "Page should consist of an HTML paragraph element with the id httpResponse",
+                "When enter text in HTML input element with the id searchInput and press Enter, A GET request has to be sent to the given URL and set HTTP response title, link in the HTML anchor element, and set description in HTML paragraph element",
               type: "js-validation",
-              input: "check-http-response",
-              output: "true",
-              visible: true,
-            },
-            {
-              id: 4,
-              description:
-                "When the HTML button element with the id sendGetRequestBtn is clicked, the status code and HTTP Response should be in the HTML paragraph elements with the ids requestStatus and httpResponse respectively",
-              type: "js-validation",
-              input: "check-get-response",
+              input: "check-search-functionality",
               output: "true",
               visible: true,
             },
@@ -6392,7 +6552,7 @@ concatenateArrays(firstArray, secondArray);
           id: "655560e5-6294-457cb253-d7e8d1d6b93f",
           title: "Remove First Value",
           description:
-            "Given an array (myArray), write a JS program to remove value at the first index of the array using 'shift()' method. Log the extracted value ad updated array in the console.",
+            "Given an array (myArray), write a JS program to remove value at the first index of the array using 'shift()' method.\n Log the extracted value ad updated array in the console.",
           difficulty: "Easy",
           descriptionDetails: `
           <div class="desc-question-details">
@@ -6459,15 +6619,15 @@ removeFirstValue(myArray);
           id: "249f9dcb-d541-40f7b396-295c0a524f5b",
           title: "Find the Index of the Last Occurrence of Value",
           description:
-            "Given an array (myArray) and the value (val), write a JS program to find the index of the last occurrence of value in the given array using 'lastIndexOf()' method./nNOTE: If the value is not present in the array, lastIndexOf() returns '-1'.",
+            "Given an array (myArray) and the value (val), write a JS program to find the index of the last occurrence of value in the given array using 'lastIndexOf()' method.\n NOTE: If the value is not present in the array, lastIndexOf() returns '-1'.",
 
           difficulty: "Easy",
           descriptionDetails: `
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input will contain an array (myArray).The Second line of input will contain any value (val).</p>
-                <p class=""></p>The Second line of input will contain any value (val).</p>
+                <p class=""></p>The first line of input will contain an array (myArray).<br/> The Second line of input will contain any value (val).</p>
+                
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
@@ -6669,7 +6829,7 @@ sortArray(myArray);
           id: "68fb2ebf-3b964514a9c0-093a153655d9",
           title: "Array Slicing",
           description:
-            "Given an array (myArray) and the two integers (startIndex and endIndex), write a JS Program to slice the myArray from the start index to end index using 'slice()' method.",
+            "Given an array (myArray) and the two integers (startIndex and endIndex), Write a JS Program to slice the myArray from the start index to end index using 'slice()' method.",
           difficulty: "Easy",
           descriptionDetails: `
             <div class="desc-question-details">
@@ -6689,44 +6849,50 @@ sortArray(myArray);
             </div>
           `,
           sampleInput: "[ 2, 4, 6, 8 ]\n1\n3",
-          sampleOutput: "[ 4, 6 ]",
+          sampleOutput: "[4, 6]",
           testCases: [
             {
-              input: "[1, 2, 3, 4, 5]\n1\n4",
-              output: "[ 2, 3, 4 ]",
+              input: "[2, 4, 6, 8]\n1\n3",
+              output: "[4, 6]",
               visible: true,
             },
             {
               input: "['a', 'b', 'c', 'd']\n0\n2",
-              output: "[ 'a', 'b' ]",
-              visible: false,
-            },
-            {
-              input: "[10, 20, 30, 40]\n2\n4",
-              output: "[ 30, 40 ]",
+              output: "['a', 'b']",
               visible: true,
             },
             {
-              input: "[5]\n0\n1",
-              output: "[ 5 ]",
+              input: "[10, 20, 30, 40, 50]\n2\n5",
+              output: "[30, 40, 50]",
+              visible: false,
+            },
+            {
+              input: "[1, 2, 3, 4, 5]\n4\n5",
+              output: "[5]",
+              visible: false,
+            },
+            {
+              input: "[100, 200, 300]\n0\n1",
+              output: "[100]",
               visible: false,
             },
           ],
+
           defaultCode: `
-        // Read input
-        let myArray = eval(prompt()); // handles single quotes
-        let startIndex = Number(prompt());
-        let endIndex = Number(prompt());
-        
-        function sliceArray(arr, start, end) {
-          // Slice array from startIndex to endIndex
-          let result = arr.slice(start, end);
-        
-          // Format output with spaces like [ 4, 6 ]
-          console.log("[ " + result.join(", ") + " ]");
-        }
-        
-        sliceArray(myArray, startIndex, endIndex);
+// Read input
+let myArray = eval(prompt());
+let startIndex = parseInt(prompt());
+let endIndex = parseInt(prompt());
+
+
+function sliceArray(arr, start, end) {
+  /*
+  * Write your code here
+  */
+}
+
+sliceArray(myArray, startIndex, endIndex);
+          
           `,
           score: 19,
           status: "unsolved",
@@ -6736,7 +6902,7 @@ sortArray(myArray);
           id: "1dbf1b1d-8f6a-a2f7df974716",
           title: "Find the Index of First Boolean Value",
           description:
-            "Given an array (myArray), Write a JS program to find the index of the first boolean value in myArray using 'findIndex()' method./nNOTE: If the value is not present in the array, findIndex() returns '-1'.",
+            "Given an array (myArray), Write a JS program to find the index of the first boolean value in myArray using 'findIndex()' method.\n NOTE: If the value is not present in the array, findIndex() returns '-1'.",
           difficulty: "Easy",
           descriptionDetails: `
             <div class="desc-question-details">
@@ -6753,11 +6919,42 @@ sortArray(myArray);
           sampleInput: "[ 'a', true, 'v', 5 ]",
           sampleOutput: "1",
           testCases: [
-           
+            {
+              input: "[ 'a', true, 'v', 5 ]",
+              output: "1",
+              visible: true,
+            },
+            {
+              input: "[ 1, 2, 3, true ]",
+              output: "3",
+              visible: true,
+            },
+            {
+              input: "[ 'hello', 25, 'world' ]",
+              output: "-1",
+              visible: false,
+            },
+            {
+              input: "[ false, true, false ]",
+              output: "0",
+              visible: false,
+            },
           ],
           defaultCode: `
-        
-          `,
+// Read input
+let myArray = eval(prompt());  // converts array with single quotes
+
+function findFirstBooleanIndex(arr) {
+  /*
+* Write your code here
+*/
+}
+
+findFirstBooleanIndex(myArray);
+
+
+
+`,
           score: 19,
           status: "unsolved",
           attempts: [],
@@ -6766,13 +6963,13 @@ sortArray(myArray);
           id: "26dd0180-d6bb-222f07fe13b2",
           title: "Replacing the Array Values",
           description:
-            "Given an array (myArray), start index (startIndex), delete count (deleteCount), and two values (firstVal and secondVal)/nWrite a JS program to replace the array's existing values from the start index, with the new values using the 'splice()' method.",
+            "Given an array (myArray), start index (startIndex), delete count (deleteCount), and two values (firstVal and secondVal)\n Write a JS program to replace the array's existing values from the start index, with the new values using the 'splice()' method.",
           difficulty: "Easy",
           descriptionDetails: `
             <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p>The first line of input will contain an array (myArray)./nThe second and third lines of input will contain the whole numbers (startIndex and deleteCount respectively)./nThe fourth and fifth lines of input will contain any values (firstVal and secondVal respectively).</p>
+                <p>The first line of input will contain an array (myArray).\n The second and third lines of input will contain the whole numbers (startIndex and deleteCount respectively).\n The fourth and fifth lines of input will contain any values (firstVal and secondVal respectively).</p>
               </div>
               <div>
                 <p class="desc-que-blue">Output</p>
@@ -6780,15 +6977,13 @@ sortArray(myArray);
               </div>
               <div>
                 <p class="desc-que-blue">Constraints</p>
-                <p>Strings should be given in quotes./n 0 <= startIndex < myArray.length/n 0 <= deleteCount <= myArray.length - startIndex</p>
+                <p>Strings should be given in quotes.\n 0 <= startIndex < myArray.length/n 0 <= deleteCount <= myArray.length - startIndex</p>
               </div>
             </div>
           `,
-          sampleInput: "[ 1, 2, 3, 4 ]/n0/n2/'a'/n'b'",
+          sampleInput: "[ 1, 2, 3, 4 ]\n0\n2\n'a'\n'b'",
           sampleOutput: "[ 'a', 'b', 3, 4 ]",
-          testCases: [
-           
-          ],
+          testCases: [],
           defaultCode: `
         
           `,
@@ -6796,7 +6991,6 @@ sortArray(myArray);
           status: "unsolved",
           attempts: [],
         },
-        
       ],
     },
     //JS Coding Test - 1
@@ -6922,8 +7116,10 @@ sortArray(myArray);
             </div>
           </div>
            `,
-          sampleInput: "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
-          sampleOutput: "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
+          sampleInput:
+            "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
+          sampleOutput:
+            "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
           testCases: [],
           defaultCode: `
 
@@ -6982,7 +7178,8 @@ sortArray(myArray);
             </div>
           </div>
            `,
-          sampleInput: "[1, 2, 3, 'cat']/n[1, 'cat', 7, 10]/n[1, 'cat', 16, 64]",
+          sampleInput:
+            "[1, 2, 3, 'cat']/n[1, 'cat', 7, 10]/n[1, 'cat', 16, 64]",
           sampleOutput: "[ 1, 'cat' ]",
           testCases: [],
           defaultCode: `
@@ -7214,8 +7411,10 @@ sortArray(myArray);
               </div>
           </div>
            `,
-          sampleInput: "{ 'name': 'Pranay', 'address': { 'city': 'Mumbai', 'state': 'Maharashtra' }, 'nickNames': ['Nani', 'Chanti'] }",
-          sampleOutput: "Pranay is from Mumbai, Maharashtra/n Pranay has 2 nicknames",
+          sampleInput:
+            "{ 'name': 'Pranay', 'address': { 'city': 'Mumbai', 'state': 'Maharashtra' }, 'nickNames': ['Nani', 'Chanti'] }",
+          sampleOutput:
+            "Pranay is from Mumbai, Maharashtra/n Pranay has 2 nicknames",
           testCases: [],
           defaultCode: `
 
@@ -7225,7 +7424,6 @@ sortArray(myArray);
           status: "unsolved",
           attempts: [],
         },
-      
       ],
     },
   ],

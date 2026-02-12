@@ -1,257 +1,170 @@
-/* Cheatsheet Editor Styles */
-.cheatsheet-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 50;
-  padding: 1rem;
-}
-
-.cheatsheet-modal {
-  background-color: white;
-  border-radius: 1rem;
-  width: 100%;
-  max-width: 64rem;
-  height: 90vh;
+/* Container for the inline editor */
+.notion-editor-container {
   display: flex;
   flex-direction: column;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
+  background-color: #ffffff;
+  min-height: calc(100vh - 200px); /* Fill remaining space */
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Header Styles */
-.cheatsheet-header {
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Top Bar (Actions) */
+.notion-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  padding: 12px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 50;
+  backdrop-filter: blur(5px);
 }
 
-.cheatsheet-header-left {
+.notion-status {
+  font-size: 13px;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.notion-actions {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  gap: 12px;
 }
 
-.cheatsheet-icon-wrapper {
-  padding: 0.5rem;
-  background-color: #dcfce7;
-  border-radius: 0.5rem;
-}
-
-.cheatsheet-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #16a34a;
-}
-
-.cheatsheet-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.cheatsheet-close-btn {
-  padding: 0.5rem;
-  border-radius: 9999px;
+.notion-btn-cancel {
+  padding: 8px 16px;
   border: none;
-  background: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.cheatsheet-close-btn:hover {
-  background-color: #e5e7eb;
-}
-
-.cheatsheet-close-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #6b7280;
-}
-
-/* Form Styles */
-.cheatsheet-form {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  overflow: hidden;
-}
-
-.cheatsheet-form-section {
-  padding: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: white;
-}
-
-.cheatsheet-label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #374151;
-  margin-bottom: 0.5rem;
-}
-
-.cheatsheet-input {
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  outline: none;
+  border-radius: 6px;
   transition: all 0.2s;
 }
 
-.cheatsheet-input:focus {
-  border-color: #22c55e;
-  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+.notion-btn-cancel:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
 }
 
-.cheatsheet-input::placeholder {
-  color: #9ca3af;
-}
-
-/* Editor Section Styles */
-.cheatsheet-editor-section {
-  flex: 1;
-  padding: 1.5rem;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  background-color: #f9fafb;
-}
-
-.cheatsheet-editor-wrapper {
-  flex: 1;
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Quill Editor Customization */
-.cheatsheet-quill {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.cheatsheet-quill .ql-toolbar {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  border: none;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #f9fafb;
-}
-
-.cheatsheet-quill .ql-container {
-  flex: 1;
-  overflow-y: auto;
-  border: none;
-  font-size: 1rem;
-}
-
-.cheatsheet-quill .ql-editor {
-  min-height: 200px;
-  font-family: inherit;
-}
-
-/* Footer Styles */
-.cheatsheet-footer {
-  padding: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  background-color: white;
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-}
-
-.cheatsheet-cancel-btn {
-  padding: 0.75rem 1.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-weight: 500;
-  color: #374151;
-  background-color: white;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.cheatsheet-cancel-btn:hover:not(:disabled) {
-  background-color: #f9fafb;
-}
-
-.cheatsheet-save-btn {
-  padding: 0.75rem 1.5rem;
-  background-color: #16a34a;
+.notion-btn-save {
+  padding: 8px 20px;
+  background: #111827; /* Dark black/grey like Notion button */
   color: white;
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 6px;
+  font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
 }
 
-.cheatsheet-save-btn:hover:not(:disabled) {
-  background-color: #15803d;
+.notion-btn-save:hover {
+  background: #374151;
+  transform: translateY(-1px);
 }
 
-.cheatsheet-save-btn:disabled,
-.cheatsheet-cancel-btn:disabled {
+.notion-btn-save:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .cheatsheet-modal {
-    height: 95vh;
-  }
-
-  .cheatsheet-header {
-    padding: 1rem;
-  }
-
-  .cheatsheet-title {
-    font-size: 1.125rem;
-  }
-
-  .cheatsheet-form-section,
-  .cheatsheet-editor-section,
-  .cheatsheet-footer {
-    padding: 1rem;
-  }
-
-  .cheatsheet-cancel-btn,
-  .cheatsheet-save-btn {
-    padding: 0.625rem 1.25rem;
-  }
+/* The "Paper" area */
+.notion-paper {
+  max-width: 850px;
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 100px;
 }
 
-@media (max-width: 640px) {
-  .cheatsheet-overlay {
-    padding: 0.5rem;
-  }
+/* Title Input - Looks like H1 */
+.notion-title-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 40px;
+  font-weight: 700;
+  color: #0f172a;
+  padding: 20px 0;
+  background: transparent;
+  line-height: 1.2;
+}
 
-  .cheatsheet-footer {
-    flex-direction: column-reverse;
-    gap: 0.5rem;
-  }
+.notion-title-input::placeholder {
+  color: #cbd5e1;
+}
 
-  .cheatsheet-cancel-btn,
-  .cheatsheet-save-btn {
-    width: 100%;
-  }
+/* React Quill Customization for Notion Look */
+.notion-quill-instance .ql-toolbar {
+  border: none !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  padding: 12px 0 !important;
+  position: sticky;
+  top: 60px; /* Below the top bar */
+  background: white;
+  z-index: 40;
+  margin-bottom: 20px;
+}
+
+.notion-quill-instance .ql-container {
+  border: none !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 16px !important;
+}
+
+.notion-quill-instance .ql-editor {
+  padding: 0 !important;
+  min-height: 300px;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.notion-quill-instance .ql-editor.ql-blank::before {
+  color: #94a3b8;
+  font-style: normal;
+  left: 0;
+}
+
+/* Typography adjustments inside editor */
+.notion-quill-instance .ql-editor h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.notion-quill-instance .ql-editor h2 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+}
+
+.notion-quill-instance .ql-editor p {
+  margin-bottom: 1em;
+}
+
+.notion-quill-instance .ql-editor pre.ql-syntax {
+  background-color: #f8fafc;
+  color: #334155;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.notion-quill-instance .ql-editor blockquote {
+  border-left: 3px solid #111827;
+  padding-left: 16px;
+  font-style: italic;
 }

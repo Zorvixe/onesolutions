@@ -15687,7 +15687,8 @@ export const codingPracticesData = {
             { input: "10 11 12", output: "Disjoint Set", visible: false },
             { input: "5 6 7 8 9", output: "Superset", visible: false },
           ],
-          defaultCode: ``,
+          defaultCode: `num_set = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+          # Write your code here`,
           score: 45,
           status: "unsolved",
           attempts: [],
@@ -15843,7 +15844,29 @@ export const codingPracticesData = {
             { input: "1 4\n7 8 9 10", output: "10\n7\n34", visible: false },
             { input: "2 2\n-1 -2\n3 4", output: "4\n-2\n4", visible: false },
           ],
-          defaultCode: ``,
+          defaultCode: `def get_sum_of_matrix(nested_list):
+          total = 0
+          for each_list in nested_list:
+              total += sum(each_list)
+          return total
+      
+      def convert_string_to_int(list_a):
+          new_list = []
+          for item in list_a:
+              num = int(item)
+              new_list.append(num)
+          return new_list
+      
+      
+      m, n = input().split()
+      m, n = int(m), int(n)
+      num_list = []
+      
+      for i in range(m):
+          list_a = input().split()
+          list_a = convert_string_to_int(list_a)
+          num_list.append(list_a)
+          # Write your code here`,
           score: 50,
           status: "unsolved",
           attempts: [],
@@ -15913,7 +15936,38 @@ export const codingPracticesData = {
               visible: false,
             },
           ],
-          defaultCode: ``,
+          defaultCode: `def get_transpose_of_matrix(matrix, m, n):
+          # Complete this function
+          transpose_matrix = []
+          for i in range(n):
+              row = []
+              
+              for j in range(m):
+                  #here the inner loop it iterates m which is 2 times
+                  row.append(matrix[j][i]) 
+                   #this will give idea for you how program executes index values for matrix problems   
+              transpose_matrix.append(row)
+              
+          return transpose_matrix  
+      
+      def convert_string_to_int(list_a):
+          new_list = []
+          for item in list_a:
+              num = int(item)
+              new_list.append(num)
+          return new_list
+      
+      
+      m, n = input().split()
+      m, n = int(m), int(n)
+      num_list = []
+      
+      for i in range(m):
+          list_a = input().split()
+          list_a = convert_string_to_int(list_a)
+          num_list.append(list_a)
+      
+      # Call the get_transpose_of_matrix function`,
           score: 65,
           status: "unsolved",
           attempts: [],
@@ -15948,7 +16002,36 @@ export const codingPracticesData = {
               visible: false,
             },
           ],
-          defaultCode: ``,
+          defaultCode: `def add_two_matrices(first_matrix, second_matrix, m, n):
+          # Complete this function
+          
+          
+          
+          
+          def convert_string_to_int(list_a):
+    new_list = []
+    for item in list_a:
+        num = int(item)
+        new_list.append(num)
+    return new_list
+
+
+def read_matrix_inputs(m):
+    num_list = []
+    for i in range(m):
+        list_a = input().split()
+        list_a = convert_string_to_int(list_a)
+        num_list.append(list_a)
+    return num_list
+
+
+m, n = input().split()
+m, n = int(m), int(n)
+
+first_matrix = read_matrix_inputs(m)
+second_matrix = read_matrix_inputs(m)
+
+# call the add_two_matrices matrices`,
           score: 65,
           status: "unsolved",
           attempts: [],
@@ -15965,7 +16048,7 @@ export const codingPracticesData = {
           title: "Add a Key",
           difficulty: "Easy",
           description:
-            "For this problem,the prefilled code will contain a dictionary.Write a program to add a Key-Value pair to the dictionary.\nstudents_dict=`Ram`: Cricket \n `Naresh`: Football\n `Vani`: Tennis\n `Rahim`: Cricket",
+            "For this problem,the prefilled code will contain a dictionary.Write a program to add a Key-Value pair to the dictionary.",
           sampleInput: "Amit Chess",
           sampleOutput:
             "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Amit': 'Chess'}",
@@ -15995,7 +16078,14 @@ export const codingPracticesData = {
               visible: false,
             },
           ],
-          defaultCode: ``,
+          defaultCode: `students_dict = {
+            "Ram": "Cricket",
+            "Naresh": "Football",
+            "Vani": "Tennis",
+            "Rahim": "Cricket"
+        }
+        
+        # Write your code here`,
           score: 40,
           status: "unsolved",
           attempts: [],
@@ -16005,7 +16095,7 @@ export const codingPracticesData = {
           title: "Update Value of Key",
           difficulty: "Easy",
           description:
-            "For this problem,the prefilled code will contain a dictionary.Write a program to update the value of a given key.\nstudents_dict=`Ram`: Cricket \n `Naresh`: Football\n `Vani`: Tennis\n `Rahim`: Cricket \n`Deepak`:boxing",
+            "For this problem,the prefilled code will contain a dictionary.Write a program to update the value of a given key.",
           sampleInput: "Deepak Wrestling",
           sampleOutput:
             "{'Ram': 'Cricket', 'Naresh': 'Football', 'Vani': 'Tennis', 'Rahim': 'Cricket', 'Deepak': 'Wrestling'}",
@@ -16035,7 +16125,15 @@ export const codingPracticesData = {
               visible: false,
             },
           ],
-          defaultCode: ``,
+          defaultCode: `students_dict = {
+            "Ram": "Cricket",
+            "Naresh": "Football",
+            "Vani": "Tennis",
+            "Rahim": "Cricket",
+            "Deepak": "Boxing"
+        }
+        
+        # Write your code here`,
           score: 40,
           status: "unsolved",
           attempts: [],
@@ -16075,7 +16173,15 @@ export const codingPracticesData = {
               visible: false,
             },
           ],
-          defaultCode: ``,
+          defaultCode: `students_dict = {
+            "Ram": "Cricket",
+            "Naresh": "Football",
+            "Vani": "Tennis",
+            "Rahim": "Cricket",
+            "Deepak": "Boxing"
+        }
+        
+        # Write your code here`,
           score: 40,
           status: "unsolved",
           attempts: [],

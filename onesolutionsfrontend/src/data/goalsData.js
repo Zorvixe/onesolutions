@@ -2764,7 +2764,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m8_H g2_7B c1_D2E",
-                name: "Coding Practice 16 js",
+                name: "Coding Practice 16",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {

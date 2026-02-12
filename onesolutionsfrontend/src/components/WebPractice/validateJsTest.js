@@ -1195,6 +1195,64 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
           actual: statusEl.textContent.trim() + " | " + responseEl.textContent,
         };
       }
+      //wikipedia search===========================================================
+      case "check-search-input": {
+        const element = iframeDoc.getElementById("searchInput");
+        return {
+          passed: element !== null && element.tagName === "INPUT",
+        };
+      }
+
+      case "check-search-results": {
+        const element = iframeDoc.getElementById("searchResults");
+        return {
+          passed: element !== null,
+        };
+      }
+
+      case "check-search-functionality": {
+        const inputEl = iframeDoc.getElementById("searchInput");
+        const resultsEl = iframeDoc.getElementById("searchResults");
+
+        iframeDoc.defaultView.fetch = function () {
+          return Promise.resolve({
+            json: function () {
+              return Promise.resolve({
+                search_results: [
+                  {
+                    title: "India",
+                    link: "https://example.com",
+                    description: "Country in South Asia",
+                  },
+                ],
+              });
+            },
+          });
+        };
+
+        inputEl.value = "India";
+
+        const event = new iframeDoc.defaultView.KeyboardEvent("keydown", {
+          keyCode: 13,
+          which: 13,
+        });
+
+        inputEl.dispatchEvent(event);
+
+        const anchorEl = resultsEl.querySelector(".result-title");
+        const descriptionEl = resultsEl.querySelector(".link-description");
+
+        const passed =
+          anchorEl !== null &&
+          descriptionEl !== null &&
+          anchorEl.textContent === "India" &&
+          descriptionEl.textContent === "Country in South Asia";
+
+        return {
+          passed,
+          actual: resultsEl.innerHTML,
+        };
+      }
 
       default:
         return {

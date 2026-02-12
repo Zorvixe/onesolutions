@@ -1,45 +1,33 @@
-import React, { useState } from "react";
-import { X, FileText } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Save, X, FileText } from "lucide-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./CheatsheetEditor.css";
 
-const CheatsheetEditor = ({ subtopicId, onClose, onSuccess }) => {
+const CheatsheetEditor = ({ subtopicId, onCancel, onSuccess }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [saving, setSaving] = useState(false);
+  const [lastSaved, setLastSaved] = useState(null);
 
+  // Notion-like simple toolbar configuration
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
+      ["bold", "italic", "underline", "strike", "blockquote", "code-block"],
+      [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+      ["link", "image"],
       [{ color: [] }, { background: [] }],
-      ["link", "image", "code-block"],
       ["clean"],
     ],
+    clipboard: {
+      matchVisual: false,
+    },
   };
 
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "link",
-    "image",
-    "color",
-    "background",
-    "code-block",
-  ];
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!title.trim() || !content.trim()) {
-      alert("Title and content are required");
+      alert("Please provide both a title and content.");
       return;
     }
 
@@ -62,7 +50,13 @@ const CheatsheetEditor = ({ subtopicId, onClose, onSuccess }) => {
       );
 
       if (!response.ok) throw new Error("Failed to save cheatsheet");
-      onSuccess();
+      
+      setLastSaved(new Date());
+      // Optional: Wait a moment to show "Saved" state before closing
+      setTimeout(() => {
+        onSuccess();
+      }, 500);
+      
     } catch (error) {
       console.error("Save error:", error);
       alert("Failed to save cheatsheet");
@@ -72,70 +66,53 @@ const CheatsheetEditor = ({ subtopicId, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="cheatsheet-overlay">
-      <div className="cheatsheet-modal">
-        <div className="cheatsheet-header">
-          <div className="cheatsheet-header-left">
-            <div className="cheatsheet-icon-wrapper">
-              <FileText className="cheatsheet-icon" />
-            </div>
-            <h3 className="cheatsheet-title">Create Cheatsheet</h3>
-          </div>
-          <button onClick={onClose} className="cheatsheet-close-btn">
-            <X className="cheatsheet-close-icon" />
-          </button>
+    <div className="notion-editor-container">
+      {/* Top Action Bar */}
+      <div className="notion-top-bar">
+        <div className="notion-status">
+            {saving ? "Saving..." : lastSaved ? "Saved" : "Unsaved changes"}
         </div>
-
-        <form
-          id="cheatsheet-form"
-          onSubmit={handleSubmit}
-          className="cheatsheet-form"
-        >
-          <div className="cheatsheet-form-section">
-            <label className="cheatsheet-label">Cheatsheet Title *</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="cheatsheet-input"
-              placeholder="e.g., HTML5 Semantic Elements Guide"
-              required
-            />
-          </div>
-
-          <div className="cheatsheet-editor-section">
-            <label className="cheatsheet-label">Content *</label>
-            <div className="cheatsheet-editor-wrapper">
-              <ReactQuill
-                theme="snow"
-                value={content}
-                onChange={setContent}
-                modules={modules}
-                formats={formats}
-                className="cheatsheet-quill"
-                placeholder="Start writing your cheatsheet content..."
-              />
-            </div>
-          </div>
-        </form>
-
-        <div className="cheatsheet-footer">
-          <button
-            type="button"
-            onClick={onClose}
-            className="cheatsheet-cancel-btn"
+        <div className="notion-actions">
+          <button 
+            onClick={onCancel} 
+            className="notion-btn-cancel"
             disabled={saving}
           >
             Cancel
           </button>
-          <button
-            type="submit"
-            form="cheatsheet-form"
-            disabled={saving}
-            className="cheatsheet-save-btn"
+          <button 
+            onClick={handleSubmit} 
+            className="notion-btn-save"
+            disabled={saving || !title.trim()}
           >
-            {saving ? "Saving..." : "Save Cheatsheet"}
+            <Save size={16} />
+            {saving ? "Saving..." : "Save Document"}
           </button>
+        </div>
+      </div>
+
+      {/* Editor Surface */}
+      <div className="notion-paper">
+        {/* Huge Title Input */}
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="notion-title-input"
+          placeholder="Untitled Cheatsheet"
+          autoFocus
+        />
+
+        {/* Rich Text Editor */}
+        <div className="notion-body">
+          <ReactQuill
+            theme="snow"
+            value={content}
+            onChange={setContent}
+            modules={modules}
+            placeholder="Type '/' for commands or start writing..."
+            className="notion-quill-instance"
+          />
         </div>
       </div>
     </div>
