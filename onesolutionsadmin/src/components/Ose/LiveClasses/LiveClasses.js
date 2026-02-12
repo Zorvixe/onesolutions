@@ -58,11 +58,10 @@ const LiveClasses = () => {
     if (token) {
       fetchClasses();
     }
-  }, [token, filters]); // Re-fetch when filters change
+  }, [token, filters]);
 
   const fetchClasses = async () => {
     try {
-      // Build query params
       const params = new URLSearchParams();
       if (filters.student_type && filters.student_type !== "all") {
         params.append("student_type", filters.student_type);
@@ -241,100 +240,14 @@ const LiveClasses = () => {
     });
   };
 
-  const getStatusBadge = (status) => {
-    const statusConfig = {
-      upcoming: { color: "#FF6B35", bg: "#FFF0EB", label: "UPCOMING" },
-      live: { color: "#10B981", bg: "#ECFDF5", label: "LIVE" },
-      completed: { color: "#6B7280", bg: "#F9FAFB", label: "COMPLETED" },
-    };
-
-    const config = statusConfig[status] || statusConfig.upcoming;
-
-    return (
-      <span
-        className="status-badge"
-        style={{
-          backgroundColor: config.bg,
-          color: config.color,
-          border: `1px solid ${config.color}20`,
-        }}
-      >
-        {config.label}
-      </span>
-    );
-  };
-
-  const getStudentTypeBadge = (studentType) => {
-    const typeConfig = {
-      zorvixe_core: { color: "#4F46E5", bg: "#EEF2FF", label: "CORE" },
-      zorvixe_pro: { color: "#0D9488", bg: "#F0FDF9", label: "PRO" },
-      zorvixe_elite: { color: "#B45309", bg: "#FFFBEB", label: "ELITE" },
-      all: { color: "#6B7280", bg: "#F3F4F6", label: "ALL" },
-    };
-
-    const config = typeConfig[studentType] || typeConfig.all;
-
-    return (
-      <span
-        className="student-type-badge"
-        style={{
-          backgroundColor: config.bg,
-          color: config.color,
-          border: `1px solid ${config.color}20`,
-          padding: "4px 8px",
-          borderRadius: "4px",
-          fontSize: "12px",
-          fontWeight: "500",
-          marginLeft: "8px",
-        }}
-      >
-        {config.label}
-      </span>
-    );
-  };
-
-  const getCourseBadge = (course) => {
-    const courseConfig = {
-      web_development: { color: "#2563EB", bg: "#DBEAFE", label: "WEB DEV" },
-      digital_marketing: { color: "#7C3AED", bg: "#EDE9FE", label: "DIGITAL" },
-      all: { color: "#6B7280", bg: "#F3F4F6", label: "ALL" },
-    };
-
-    const config = courseConfig[course] || courseConfig.all;
-
-    return (
-      <span
-        className="course-badge"
-        style={{
-          backgroundColor: config.bg,
-          color: config.color,
-          border: `1px solid ${config.color}20`,
-          padding: "4px 8px",
-          borderRadius: "4px",
-          fontSize: "12px",
-          fontWeight: "500",
-          marginLeft: "8px",
-        }}
-      >
-        {config.label}
-      </span>
-    );
-  };
-
-  const getBatchInfo = (batch_month, batch_year) => {
-    if (!batch_month && !batch_year) {
-      return "All Batches";
-    }
-    if (batch_month && batch_year) {
-      return `${batch_month} ${batch_year}`;
-    }
-    if (batch_month) {
-      return batch_month;
-    }
-    if (batch_year) {
-      return batch_year;
-    }
-    return "All Batches";
+  const formatDateOnly = (dateTime) => {
+    if (!dateTime) return "";
+    const date = new Date(dateTime);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    });
   };
 
   const handleStatusChange = async (classId, newStatus) => {
@@ -387,635 +300,366 @@ const LiveClasses = () => {
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case "upcoming":
-        return "bi bi-stopwatch";
-      case "live":
-        return "bi bi-broadcast";
-      case "completed":
-        return "bi bi-check-circle";
-      default:
-        return "bi bi-stopwatch";
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "upcoming":
-        return "#ffa500";
-      case "live":
-        return "#28a745";
-      case "completed":
-        return "#6c757d";
-      default:
-        return "#ffa500";
-    }
-  };
-
   const newClassVideo = () => {
     navigate("/Video_Management");
   };
 
   if (loading) {
     return (
-      <div className="pa-loading-container">
-        <img src={assests.one_solutions} className="pa-one-solutions-image" />
-        <div className="pa-loader"></div>
+      <div className="lc-loading-screen">
+        <div className="lc-loader"></div>
+        <p>Loading your classes...</p>
       </div>
     );
   }
 
   return (
-    <div className="live-classes-admin">
-      {/* Header Section */}
-      <div className="admin-header">
-        <div className="header-content">
-          <h1>Live Classes Management</h1>
-          <p>Manage and schedule your live classes efficiently</p>
+    <div className="lc-dashboard-container">
+      {/* Top Header Area */}
+      <header className="lc-header">
+        <div className="lc-header-left">
+          <h1>Live Classes</h1>
+          <p>Manage schedule, batches, and live sessions</p>
         </div>
-        <div>
-          <button className="btn-create mb-2" onClick={showCreateModal}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-            </svg>
-            Create New Class
+        <div className="lc-header-actions">
+          <button className="lc-btn lc-btn-secondary" onClick={newClassVideo}>
+            <i className="bi bi-camera-video"></i> Manage Videos
           </button>
-          <button className="btn-create" onClick={newClassVideo}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-            </svg>
-            Create New Video
+          <button className="lc-btn lc-btn-primary" onClick={showCreateModal}>
+            <i className="bi bi-plus-lg"></i> Create Class
           </button>
         </div>
-      </div>
+      </header>
 
-      {/* Filters Section */}
-      <div
-        className="filters-section"
-        style={{
-          marginBottom: "20px",
-          padding: "20px",
-          backgroundColor: "#f9f9f9",
-          borderRadius: "8px",
-        }}
-      >
-        <h3
-          style={{ marginBottom: "15px", fontSize: "16px", fontWeight: "600" }}
-        >
-          Filter Classes
-        </h3>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "15px",
-          }}
-        >
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Student Type
-            </label>
-            <select
-              name="student_type"
-              value={filters.student_type}
-              onChange={handleFilterChange}
-              style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <option value="all">All Types</option>
-              <option value="zorvixe_core">Zorvixe Core</option>
-              <option value="zorvixe_pro">Zorvixe Pro</option>
-              <option value="zorvixe_elite">Zorvixe Elite</option>
-            </select>
+      {/* Stats Row */}
+      <div className="lc-stats-grid">
+        <div className="lc-stat-card lc-stat-upcoming">
+          <div className="lc-stat-icon">
+            <i className="bi bi-hourglass-split"></i>
           </div>
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Course
-            </label>
-            <select
-              name="course_selection"
-              value={filters.course_selection}
-              onChange={handleFilterChange}
-              style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <option value="all">All Courses</option>
-              <option value="web_development">Web Development</option>
-              <option value="digital_marketing">Digital Marketing</option>
-            </select>
-          </div>
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Batch Month
-            </label>
-            <select
-              name="batch_month"
-              value={filters.batch_month}
-              onChange={handleFilterChange}
-              style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <option value="">All Months</option>
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
-          </div>
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Batch Year
-            </label>
-            <select
-              name="batch_year"
-              value={filters.batch_year}
-              onChange={handleFilterChange}
-              style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <option value="">All Years</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-              <option value="2025">2025</option>
-              <option value="2026">2026</option>
-              <option value="2027">2027</option>
-            </select>
-          </div>
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontSize: "14px",
-                fontWeight: "500",
-              }}
-            >
-              Status
-            </label>
-            <select
-              name="status"
-              value={filters.status}
-              onChange={handleFilterChange}
-              style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-              }}
-            >
-              <option value="">All Status</option>
-              <option value="upcoming">Upcoming</option>
-              <option value="live">Live</option>
-              <option value="completed">Completed</option>
-            </select>
-          </div>
-          <div style={{ display: "flex", alignItems: "flex-end" }}>
-            <button
-              onClick={resetFilters}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: "#6c757d",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-                width: "100%",
-              }}
-            >
-              Reset Filters
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Overview */}
-      <div className="stats-overview">
-        <div className="stat-card">
-          <div className="stat-icon upcoming">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-            </svg>
-          </div>
-          <div className="stat-info">
+          <div className="lc-stat-info">
             <h3>{classes.filter((c) => c.status === "upcoming").length}</h3>
-            <p>Upcoming Classes</p>
+            <span>Upcoming</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon live">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zm-2-.79V18H4V6h12v3.69z" />
-            </svg>
+        <div className="lc-stat-card lc-stat-live">
+          <div className="lc-stat-icon">
+            <i className="bi bi-broadcast"></i>
           </div>
-          <div className="stat-info">
+          <div className="lc-stat-info">
             <h3>{classes.filter((c) => c.status === "live").length}</h3>
-            <p>Live Now</p>
+            <span>Live Now</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon completed">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-            </svg>
+        <div className="lc-stat-card lc-stat-completed">
+          <div className="lc-stat-icon">
+            <i className="bi bi-check-circle-fill"></i>
           </div>
-          <div className="stat-info">
+          <div className="lc-stat-info">
             <h3>{classes.filter((c) => c.status === "completed").length}</h3>
-            <p>Completed</p>
+            <span>Completed</span>
           </div>
         </div>
-        <div className="stat-card">
-          <div className="stat-icon total">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z" />
-            </svg>
+        <div className="lc-stat-card lc-stat-total">
+          <div className="lc-stat-icon">
+            <i className="bi bi-collection"></i>
           </div>
-          <div className="stat-info">
+          <div className="lc-stat-info">
             <h3>{classes.length}</h3>
-            <p>Total Classes</p>
+            <span>Total Classes</span>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="admin-content">
-        <div className="content-header">
-          <h2>Scheduled Classes</h2>
-          <span className="class-count">({classes.length} classes)</span>
+      {/* Filter Bar */}
+      <div className="lc-filter-bar">
+        <div className="lc-filter-group">
+          <select
+            name="student_type"
+            value={filters.student_type}
+            onChange={handleFilterChange}
+            className="lc-select"
+          >
+            <option value="all">All Student Types</option>
+            <option value="zorvixe_core">Zorvixe Core</option>
+            <option value="zorvixe_pro">Zorvixe Pro</option>
+            <option value="zorvixe_elite">Zorvixe Elite</option>
+          </select>
+          <select
+            name="course_selection"
+            value={filters.course_selection}
+            onChange={handleFilterChange}
+            className="lc-select"
+          >
+            <option value="all">All Courses</option>
+            <option value="web_development">Web Development</option>
+            <option value="digital_marketing">Digital Marketing</option>
+          </select>
+          <select
+            name="status"
+            value={filters.status}
+            onChange={handleFilterChange}
+            className="lc-select"
+          >
+            <option value="">All Statuses</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="live">Live</option>
+            <option value="completed">Completed</option>
+          </select>
+          <select
+            name="batch_month"
+            value={filters.batch_month}
+            onChange={handleFilterChange}
+            className="lc-select"
+          >
+            <option value="">Month</option>
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+          </select>
+          <select
+            name="batch_year"
+            value={filters.batch_year}
+            onChange={handleFilterChange}
+            className="lc-select"
+          >
+            <option value="">Year</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+          </select>
         </div>
+        <button onClick={resetFilters} className="lc-btn-text">
+          Reset
+        </button>
+      </div>
 
-        {/* Classes Grid */}
+      {/* Classes Grid */}
+      <div className="lc-content-area">
         {classes.length === 0 ? (
-          <div className="empty-state">
-            <div className="empty-icon">
-              <svg
-                width="64"
-                height="64"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />
-              </svg>
+          <div className="lc-empty-state">
+            <div className="lc-empty-icon">
+              <i className="bi bi-calendar-x"></i>
             </div>
-            <h3>No classes scheduled yet</h3>
-            <p>Get started by creating your first live class</p>
+            <h3>No Classes Found</h3>
+            <p>Try adjusting your filters or create a new class.</p>
           </div>
         ) : (
-          <div className="livcss-live container-fluid">
-            <div className="row live-classes-row-con">
-              {classes.length > 0 ? (
-                classes.map((classItem) => (
-                  <div
-                    key={classItem.id}
-                    className="livcss-liveclasses-container"
-                  >
-                    <div
-                      className="livcss-indicator-bar"
-                      style={{
-                        backgroundColor:
-                          classItem.status === "live"
-                            ? "#28a745"
-                            : classItem.status === "completed"
-                            ? "#6c757d"
-                            : "#ffa500",
-                      }}
-                    ></div>
-                    <div className="livcss-card-actions">
-                      <button
-                        className="livcss-btn-action livcss-btn-edit"
-                        onClick={() => handleEdit(classItem)}
-                        title="Edit class"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
-                        </svg>
-                      </button>
-                      <button
-                        className="livcss-btn-action livcss-btn-delete"
-                        onClick={() => handleDelete(classItem.id)}
-                        title="Delete class"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="currentColor"
-                        >
-                          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
-                        </svg>
-                      </button>
+          <div className="lc-card-grid">
+            {classes.map((classItem) => (
+              <div
+                key={classItem.id}
+                className={`lc-card lc-card-${classItem.status}`}
+              >
+                {/* Card Header: Badges & Actions */}
+                <div className="lc-card-header">
+                  <div className="lc-badges">
+                    <span
+                      className={`lc-badge lc-badge-type ${classItem.student_type}`}
+                    >
+                      {classItem.student_type.replace("zorvixe_", "")}
+                    </span>
+                    <span className="lc-badge lc-badge-course">
+                      {classItem.course_selection === "web_development"
+                        ? "Web Dev"
+                        : classItem.course_selection === "digital_marketing"
+                        ? "Digi Mkt"
+                        : "All"}
+                    </span>
+                  </div>
+                  <div className="lc-card-actions-top">
+                    <button
+                      onClick={() => handleEdit(classItem)}
+                      title="Edit"
+                      className="lc-icon-btn edit"
+                    >
+                      <i className="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(classItem.id)}
+                      title="Delete"
+                      className="lc-icon-btn delete"
+                    >
+                      <i className="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Card Body: Info */}
+                <div className="lc-card-body">
+                  <div className="lc-class-title-row">
+                    <div className="lc-avatar">
+                      {classItem.class_name.charAt(0).toUpperCase()}
                     </div>
-                    <div className="livcss-information">
-                      <div className="livcss-class-info">
-                        <button className="livcss-letter-tag">
-                          {classItem.class_name.toUpperCase().slice(0, 1)}
-                        </button>
-                        <div className="livcss-class-text">
-                          <div
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              flexWrap: "wrap",
-                            }}
-                          >
-                            <h3 style={{ marginRight: "10px" }}>
-                              {classItem.class_name}
-                            </h3>
-                            {getStudentTypeBadge(classItem.student_type)}
-                            {getCourseBadge(classItem.course_selection)}
-                          </div>
-                          <p>Mentor: {classItem.mentor_name}</p>
-                          {classItem.batch_month && classItem.batch_year && (
-                            <p className="livcss-batch-info">
-                              Batch: {classItem.batch_month}{" "}
-                              {classItem.batch_year}
-                            </p>
-                          )}
-                        </div>
+                    <h3 title={classItem.class_name}>{classItem.class_name}</h3>
+                  </div>
 
-                        <div className="d-flex flex-column">
-                          <button
-                            className="livcss-status"
-                            style={{
-                              backgroundColor: getStatusColor(classItem.status),
-                              color: "white",
-                              border: "none",
-                              padding: "5px",
-                              borderRadius: "8px",
-                              marginBottom: "10px",
-                            }}
-                          >
-                            <i
-                              className={getStatusIcon(classItem.status)}
-                              style={{ marginRight: "8px" }}
-                            ></i>
-                            {classItem.status.charAt(0).toUpperCase() +
-                              classItem.status.slice(1)}
-                          </button>
-                          {classItem.zoom_link && (
-                            <a
-                              href={classItem.zoom_link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                color: "#28a745",
-                                fontWeight: "bold",
-                                textDecoration: "none",
-                              }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <i
-                                className="bi bi-box-arrow-right"
-                                style={{ marginRight: "8px" }}
-                              ></i>
-                              Join Class
-                            </a>
-                          )}
-                          {classItem.status === "live" &&
-                            !classItem.zoom_link && (
-                              <p
-                                style={{ color: "#ff6b6b", fontWeight: "bold" }}
-                              >
-                                <i
-                                  className="bi bi-exclamation-triangle"
-                                  style={{ marginRight: "8px" }}
-                                ></i>
-                                No Zoom Link
-                              </p>
-                            )}
-                        </div>
+                  <div className="lc-details-grid">
+                    <div className="lc-detail-item">
+                      <i className="bi bi-person"></i>
+                      <span>{classItem.mentor_name || "Mentor"}</span>
+                    </div>
+                    <div className="lc-detail-item">
+                      <i className="bi bi-calendar"></i>
+                      <span>
+                        {formatDateOnly(classItem.start_time)} |{" "}
+                        {formatDateTime(classItem.start_time)}
+                      </span>
+                    </div>
+                    {(classItem.batch_month || classItem.batch_year) && (
+                      <div className="lc-detail-item full-width">
+                        <i className="bi bi-people"></i>
+                        <span>
+                          Batch: {classItem.batch_month} {classItem.batch_year}
+                        </span>
                       </div>
-                      <div className="livcss-progress-time">
-                        <div className="livcss-row">
-                          <p>Progress</p>
-                          <p className="livcss-highlight">
-                            {classItem.progress}%
-                          </p>
-                        </div>
-                        <div className="livcss-progress-bar-container">
-                          <div
-                            className="livcss-progress-bar-fill"
-                            style={{
-                              width: `${Math.min(
-                                100,
-                                Math.max(0, classItem.progress || 0)
-                              )}%`,
-                            }}
-                          ></div>
-                        </div>
-                        <div className="livcss-row livcss-highlights">
-                          <p>Class Time</p>
-                          <p>
-                            {" "}
-                            {formatDateTime(classItem.start_time)}
-                            {" - "}
-                            {formatDateTime(classItem.end_time)}
-                          </p>
-                        </div>
-                      </div>
+                    )}
+                  </div>
 
-                      {/* Controls */}
-                      <div className="livcss-controls-section">
-                        <div className="livcss-status-controls">
-                          <h4>Update Status</h4>
-                          <div className="livcss-status-buttons">
-                            <button
-                              className={`livcss-status-btn ${
-                                classItem.status === "upcoming"
-                                  ? "livcss-active"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                handleStatusChange(classItem.id, "upcoming")
-                              }
-                            >
-                              Upcoming
-                            </button>
-                            <button
-                              className={`livcss-status-btn ${
-                                classItem.status === "live"
-                                  ? "livcss-active"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                handleStatusChange(classItem.id, "live")
-                              }
-                            >
-                              Live
-                            </button>
-                            <button
-                              className={`livcss-status-btn ${
-                                classItem.status === "completed"
-                                  ? "livcss-active"
-                                  : ""
-                              }`}
-                              onClick={() =>
-                                handleStatusChange(classItem.id, "completed")
-                              }
-                            >
-                              Completed
-                            </button>
-                          </div>
-                        </div>
+                  {classItem.description && (
+                    <p className="lc-description-text">
+                      {classItem.description}
+                    </p>
+                  )}
 
-                        <div className="livcss-progress-controls">
-                          <label>Adjust Progress</label>
-                          <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={classItem.progress || 0}
-                            onChange={(e) =>
-                              handleProgressChange(
-                                classItem.id,
-                                Number.parseFloat(e.target.value)
-                              )
-                            }
-                            className="livcss-progress-slider"
-                          />
-                        </div>
-                      </div>
-                      {classItem.description && (
-                        <div className="livcss-description-section">
-                          <p>{classItem.description}</p>
-                        </div>
-                      )}
+                  {/* Zoom Link Section */}
+                  <div className="lc-link-section">
+                    {classItem.status === "live" && classItem.zoom_link ? (
+                      <a
+                        href={classItem.zoom_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="lc-join-btn pulse-animation"
+                      >
+                        <i className="bi bi-camera-video-fill"></i> Join Now
+                      </a>
+                    ) : classItem.zoom_link ? (
+                      <a
+                        href={classItem.zoom_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="lc-link-text"
+                      >
+                        <i className="bi bi-link-45deg"></i> Zoom Link
+                      </a>
+                    ) : (
+                      <span className="lc-no-link">
+                        <i className="bi bi-slash-circle"></i> No Link
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Card Footer: Progress & Controls */}
+                <div className="lc-card-footer">
+                  <div className="lc-progress-wrapper">
+                    <div className="lc-progress-header">
+                      <span>Progress</span>
+                      <span>{classItem.progress}%</span>
+                    </div>
+                    <div className="lc-slider-container">
+                      <div
+                        className="lc-progress-track"
+                        style={{ width: `${classItem.progress}%` }}
+                      ></div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        className="lc-progress-input"
+                        value={classItem.progress || 0}
+                        onChange={(e) =>
+                          handleProgressChange(
+                            classItem.id,
+                            Number(e.target.value)
+                          )
+                        }
+                      />
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="livcss-no-classes col-12">
-                  <p>No live classes.</p>
+
+                  <div className="lc-status-toggle">
+                    <button
+                      className={`lc-toggle-btn ${
+                        classItem.status === "upcoming" ? "active" : ""
+                      }`}
+                      onClick={() =>
+                        handleStatusChange(classItem.id, "upcoming")
+                      }
+                      title="Set as Upcoming"
+                    >
+                      Wait
+                    </button>
+                    <button
+                      className={`lc-toggle-btn ${
+                        classItem.status === "live" ? "active" : ""
+                      }`}
+                      onClick={() => handleStatusChange(classItem.id, "live")}
+                      title="Set as Live"
+                    >
+                      Live
+                    </button>
+                    <button
+                      className={`lc-toggle-btn ${
+                        classItem.status === "completed" ? "active" : ""
+                      }`}
+                      onClick={() =>
+                        handleStatusChange(classItem.id, "completed")
+                      }
+                      title="Set as Completed"
+                    >
+                      Done
+                    </button>
+                  </div>
                 </div>
-              )}
-            </div>
+              </div>
+            ))}
           </div>
         )}
       </div>
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>{editingClass ? "Edit Class" : "Create New Class"}</h2>
-              <button className="modal-close" onClick={closeModal}>
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-                </svg>
+        <div className="lc-modal-overlay" onClick={closeModal}>
+          <div className="lc-modal-container" onClick={(e) => e.stopPropagation()}>
+            <div className="lc-modal-header">
+              <h2>{editingClass ? "Edit Class" : "Schedule New Class"}</h2>
+              <button className="lc-close-modal" onClick={closeModal}>
+                <i className="bi bi-x-lg"></i>
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="modal-form">
-              <div className="form-grid">
-                <div className="form-group">
-                  <label htmlFor="class-name" className="form-label">
-                    Class Name *
-                  </label>
+            <form onSubmit={handleSubmit} className="lc-modal-form">
+              <div className="lc-form-row">
+                <div className="lc-form-group span-2">
+                  <label>Class Name</label>
                   <input
                     type="text"
-                    className="form-input"
-                    id="class-name"
                     value={formData.class_name}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        class_name: e.target.value,
-                      })
+                      setFormData({ ...formData, class_name: e.target.value })
                     }
+                    placeholder="e.g. React Hooks Deep Dive"
                     required
-                    placeholder="Enter class name"
                   />
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="class-status" className="form-label">
-                    Status *
-                  </label>
+              <div className="lc-form-row">
+                <div className="lc-form-group">
+                  <label>Student Type</label>
                   <select
-                    className="form-input"
-                    id="class-status"
-                    value={formData.status}
-                    onChange={(e) =>
-                      setFormData({ ...formData, status: e.target.value })
-                    }
-                    required
-                  >
-                    <option value="upcoming">Upcoming</option>
-                    <option value="live">Live</option>
-                    <option value="completed">Completed</option>
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="student-type" className="form-label">
-                    Student Type *
-                  </label>
-                  <select
-                    className="form-input"
-                    id="student-type"
                     value={formData.student_type}
                     onChange={(e) =>
                       setFormData({ ...formData, student_type: e.target.value })
@@ -1028,14 +672,9 @@ const LiveClasses = () => {
                     <option value="zorvixe_elite">Zorvixe Elite</option>
                   </select>
                 </div>
-
-                <div className="form-group">
-                  <label htmlFor="course-selection" className="form-label">
-                    Course *
-                  </label>
+                <div className="lc-form-group">
+                  <label>Course</label>
                   <select
-                    className="form-input"
-                    id="course-selection"
                     value={formData.course_selection}
                     onChange={(e) =>
                       setFormData({
@@ -1050,23 +689,18 @@ const LiveClasses = () => {
                     <option value="digital_marketing">Digital Marketing</option>
                   </select>
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="batch-month" className="form-label">
-                    Batch Month
-                  </label>
+              <div className="lc-form-row">
+                <div className="lc-form-group">
+                  <label>Batch Month</label>
                   <select
-                    className="form-input"
-                    id="batch-month"
                     value={formData.batch_month}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        batch_month: e.target.value,
-                      })
+                      setFormData({ ...formData, batch_month: e.target.value })
                     }
                   >
-                    <option value="">All Batches</option>
+                    <option value="">Select Month</option>
                     <option value="January">January</option>
                     <option value="February">February</option>
                     <option value="March">March</option>
@@ -1081,23 +715,15 @@ const LiveClasses = () => {
                     <option value="December">December</option>
                   </select>
                 </div>
-
-                <div className="form-group">
-                  <label htmlFor="batch-year" className="form-label">
-                    Batch Year
-                  </label>
+                <div className="lc-form-group">
+                  <label>Batch Year</label>
                   <select
-                    className="form-input"
-                    id="batch-year"
                     value={formData.batch_year}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        batch_year: e.target.value,
-                      })
+                      setFormData({ ...formData, batch_year: e.target.value })
                     }
                   >
-                    <option value="">All Years</option>
+                    <option value="">Select Year</option>
                     <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
@@ -1105,34 +731,24 @@ const LiveClasses = () => {
                     <option value="2027">2027</option>
                   </select>
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="start-time" className="form-label">
-                    Start Time *
-                  </label>
+              <div className="lc-form-row">
+                <div className="lc-form-group">
+                  <label>Start Time</label>
                   <input
                     type="datetime-local"
-                    className="form-input"
-                    id="start-time"
                     value={formData.start_time}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        start_time: e.target.value,
-                      })
+                      setFormData({ ...formData, start_time: e.target.value })
                     }
                     required
                   />
                 </div>
-
-                <div className="form-group">
-                  <label htmlFor="end-time" className="form-label">
-                    End Time *
-                  </label>
+                <div className="lc-form-group">
+                  <label>End Time</label>
                   <input
                     type="datetime-local"
-                    className="form-input"
-                    id="end-time"
                     value={formData.end_time}
                     onChange={(e) =>
                       setFormData({ ...formData, end_time: e.target.value })
@@ -1140,77 +756,79 @@ const LiveClasses = () => {
                     required
                   />
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="class-progress" className="form-label">
-                    Progress (%) *
-                  </label>
+              <div className="lc-form-row">
+                <div className="lc-form-group">
+                  <label>Initial Status</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) =>
+                      setFormData({ ...formData, status: e.target.value })
+                    }
+                    required
+                  >
+                    <option value="upcoming">Upcoming</option>
+                    <option value="live">Live</option>
+                    <option value="completed">Completed</option>
+                  </select>
+                </div>
+                <div className="lc-form-group">
+                  <label>Progress (%)</label>
                   <input
                     type="number"
-                    className="form-input"
-                    id="class-progress"
                     min="0"
                     max="100"
                     value={formData.progress}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        progress: Number.parseFloat(e.target.value),
+                        progress: Number(e.target.value),
                       })
                     }
                     required
                   />
                 </div>
+              </div>
 
-                <div className="form-group">
-                  <label htmlFor="zoom-link" className="form-label">
-                    Zoom Link
-                  </label>
+              <div className="lc-form-row">
+                <div className="lc-form-group span-2">
+                  <label>Zoom/Meeting Link</label>
                   <input
                     type="url"
-                    className="form-input"
-                    id="zoom-link"
-                    placeholder="https://zoom.us/j/..."
                     value={formData.zoom_link}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        zoom_link: e.target.value,
-                      })
+                      setFormData({ ...formData, zoom_link: e.target.value })
                     }
+                    placeholder="https://zoom.us/..."
                   />
                 </div>
               </div>
 
-              <div className="form-group full-width">
-                <label htmlFor="class-description" className="form-label">
-                  Description
-                </label>
-                <textarea
-                  className="form-textarea"
-                  id="class-description"
-                  value={formData.description}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      description: e.target.value,
-                    })
-                  }
-                  rows="3"
-                  placeholder="Enter class description..."
-                />
+              <div className="lc-form-row">
+                <div className="lc-form-group span-2">
+                  <label>Description</label>
+                  <textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
+                    rows="3"
+                    placeholder="What will be covered in this class?"
+                  ></textarea>
+                </div>
               </div>
 
-              <div className="form-actions">
+              <div className="lc-modal-actions">
                 <button
                   type="button"
-                  className="btn-cancel"
+                  className="lc-btn lc-btn-text"
                   onClick={closeModal}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-submit">
-                  {editingClass ? "Update Class" : "Create Class"}
+                <button type="submit" className="lc-btn lc-btn-primary">
+                  {editingClass ? "Save Changes" : "Create Class"}
                 </button>
               </div>
             </form>

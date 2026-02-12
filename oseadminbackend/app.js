@@ -628,7 +628,6 @@ CREATE TABLE IF NOT EXISTS contacts (
     }
 
     // Add this after your existing table creations in initializeDbAndServer
-    // Add this after your existing table creations in initializeDbAndServer
     await pool.query(`
   CREATE TABLE IF NOT EXISTS live_classes (
     id SERIAL PRIMARY KEY,
@@ -650,7 +649,7 @@ CREATE TABLE IF NOT EXISTS contacts (
 
     // Add these columns to the live_classes table
     await pool.query(`
-  ALTER TABLE live_classes 
+  ALTER TABLE  live_classes 
   ADD COLUMN IF NOT EXISTS student_type VARCHAR(50) 
   CHECK (student_type IN ('zorvixe_core', 'zorvixe_pro', 'zorvixe_elite', 'all')) 
   DEFAULT 'all',
@@ -3227,6 +3226,9 @@ app.put("/:id/edit", async (req, res) => {
 
 //  Live Classes Routes
 
+// ==========================================
+// 🔹 UPDATED: Create live class with proper defaults
+// ==========================================
 app.post(
   "/api/live-classes",
   authenticateToken,
@@ -3234,21 +3236,6 @@ app.post(
     body("class_name").notEmpty().withMessage("Class name is required"),
     body("start_time").isISO8601().withMessage("Valid start time is required"),
     body("end_time").isISO8601().withMessage("Valid end time is required"),
-    body("description").optional(),
-    body("zoom_link")
-      .optional()
-      .isURL()
-      .withMessage("Zoom link must be a valid URL"),
-    body("batch_month").optional(),
-    body("batch_year").optional(),
-    body("status")
-      .optional()
-      .isIn(["upcoming", "live", "completed"])
-      .withMessage("Status must be upcoming, live, or completed"),
-    body("progress")
-      .optional()
-      .isFloat({ min: 0, max: 100 })
-      .withMessage("Progress must be between 0 and 100"),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -3265,11 +3252,14 @@ app.post(
       batch_year,
       status,
       progress,
+      student_type,
+      course_selection,
     } = req.body;
+    
     const mentor_id = req.user.id;
 
     try {
-      // Check if mentor exists and get their name
+      // Check if mentor exists
       const mentorResult = await pool.query(
         "SELECT adminname FROM admin WHERE id = $1",
         [mentor_id]
@@ -3280,6 +3270,14 @@ app.post(
       }
 
       const mentor_name = mentorResult.rows[0].adminname;
+
+      // ✅ CRITICAL FIX: Set default values for student_type and course_selection
+      const finalStudentType = student_type || "all";
+      const finalCourseSelection = course_selection || "all";
+      
+      // ✅ Handle empty strings for batch fields - set to NULL
+      const finalBatchMonth = batch_month && batch_month.trim() !== "" ? batch_month : null;
+      const finalBatchYear = batch_year && batch_year.trim() !== "" ? batch_year : null;
 
       // Check for scheduling conflicts
       const conflictCheck = await pool.query(
@@ -3301,8 +3299,21 @@ app.post(
       }
 
       const insertQuery = `
-        INSERT INTO live_classes (class_name, mentor_name, mentor_id, start_time, end_time, description, zoom_link, batch_month, batch_year, status, progress)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        INSERT INTO live_classes (
+          class_name, 
+          mentor_name, 
+          mentor_id, 
+          start_time, 
+          end_time, 
+          description, 
+          zoom_link, 
+          batch_month, 
+          batch_year, 
+          status, 
+          progress,
+          student_type,
+          course_selection
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
         RETURNING *;
       `;
 
@@ -3313,39 +3324,39 @@ app.post(
         start_time,
         end_time,
         description || null,
-        zoom_link || null, // Add zoom_link here
-        batch_month || null,
-        batch_year || null,
+        zoom_link || null,
+        finalBatchMonth,
+        finalBatchYear,
         status || "upcoming",
         progress || 0,
+        finalStudentType,
+        finalCourseSelection,
       ]);
 
+      console.log("✅ Live class created successfully:", result.rows[0].id);
+      
       res.status(201).json({
         message: "Live class created successfully",
         class: result.rows[0],
       });
     } catch (error) {
-      console.error(`Error creating live class: ${error.message}`);
-      res.status(500).json({ error: "Failed to create live class" });
+      console.error(`❌ Error creating live class: ${error.message}`);
+      console.error(error.stack);
+      res.status(500).json({ 
+        error: "Failed to create live class",
+        details: error.message 
+      });
     }
   }
 );
 
 // Update the PUT route for updating live classes
+// ==========================================
+// 🔹 UPDATED: Update live class
+// ==========================================
 app.put(
   "/api/live-classes/:id",
   authenticateToken,
-  [
-    body("class_name").optional(),
-    body("start_time").optional().isISO8601(),
-    body("end_time").optional().isISO8601(),
-    body("description").optional(),
-    body("zoom_link").optional().isURL(),
-    body("batch_month").optional(),
-    body("batch_year").optional(),
-    body("status").optional().isIn(["upcoming", "live", "completed"]),
-    body("progress").optional().isFloat({ min: 0, max: 100 }),
-  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())
@@ -3362,11 +3373,13 @@ app.put(
       batch_year,
       status,
       progress,
+      student_type,
+      course_selection,
     } = req.body;
     const mentor_id = req.user.id;
 
     try {
-      // Check if class exists and user owns it or is admin
+      // Check if class exists
       const classCheck = await pool.query(
         "SELECT * FROM live_classes WHERE id = $1",
         [id]
@@ -3385,46 +3398,61 @@ app.put(
           .json({ error: "Not authorized to update this class" });
       }
 
-      // Build dynamic update query
+      // ✅ CRITICAL FIX: Build dynamic update query with proper NULL handling
       const updates = [];
       const values = [];
       let paramCount = 1;
 
-      if (class_name) {
+      if (class_name !== undefined) {
         updates.push(`class_name = $${paramCount++}`);
         values.push(class_name);
       }
-      if (start_time) {
+      if (start_time !== undefined) {
         updates.push(`start_time = $${paramCount++}`);
         values.push(start_time);
       }
-      if (end_time) {
+      if (end_time !== undefined) {
         updates.push(`end_time = $${paramCount++}`);
         values.push(end_time);
       }
       if (description !== undefined) {
         updates.push(`description = $${paramCount++}`);
-        values.push(description);
+        values.push(description || null);
       }
       if (zoom_link !== undefined) {
         updates.push(`zoom_link = $${paramCount++}`);
-        values.push(zoom_link);
+        values.push(zoom_link || null);
       }
+      
+      // ✅ Handle batch fields - convert empty strings to NULL
       if (batch_month !== undefined) {
+        const finalBatchMonth = batch_month && batch_month.trim() !== "" ? batch_month : null;
         updates.push(`batch_month = $${paramCount++}`);
-        values.push(batch_month);
+        values.push(finalBatchMonth);
       }
       if (batch_year !== undefined) {
+        const finalBatchYear = batch_year && batch_year.trim() !== "" ? batch_year : null;
         updates.push(`batch_year = $${paramCount++}`);
-        values.push(batch_year);
+        values.push(finalBatchYear);
       }
-      if (status) {
+      
+      if (status !== undefined) {
         updates.push(`status = $${paramCount++}`);
         values.push(status);
       }
       if (progress !== undefined) {
         updates.push(`progress = $${paramCount++}`);
         values.push(progress);
+      }
+      
+      // ✅ Handle student_type and course_selection
+      if (student_type !== undefined) {
+        updates.push(`student_type = $${paramCount++}`);
+        values.push(student_type || "all");
+      }
+      if (course_selection !== undefined) {
+        updates.push(`course_selection = $${paramCount++}`);
+        values.push(course_selection || "all");
       }
 
       updates.push(`updated_at = $${paramCount++}`);
@@ -3441,22 +3469,43 @@ app.put(
 
       const result = await pool.query(updateQuery, values);
 
+      console.log(`✅ Live class ${id} updated successfully`);
+      
       res.json({
         message: "Live class updated successfully",
         class: result.rows[0],
       });
     } catch (error) {
-      console.error(`Error updating live class: ${error.message}`);
-      res.status(500).json({ error: "Failed to update live class" });
+      console.error(`❌ Error updating live class: ${error.message}`);
+      console.error(error.stack);
+      res.status(500).json({ 
+        error: "Failed to update live class",
+        details: error.message 
+      });
     }
   }
 );
 
 // Update the GET route for live classes to include zoom_link
 // GET live classes for students with filtering by student_type and course_selection
+// ==========================================
+// 🔹 UPDATED: GET live classes for students with proper filtering
+// ==========================================
 app.get("/api/live-classes", async (req, res) => {
   try {
-    const { batch_month, batch_year, student_type, course_selection } = req.query;
+    const { 
+      batch_month, 
+      batch_year, 
+      student_type, 
+      course_selection 
+    } = req.query;
+
+    console.log("📚 Fetching live classes with filters:", {
+      batch_month,
+      batch_year,
+      student_type,
+      course_selection
+    });
 
     let query = `
       SELECT lc.*, 
@@ -3467,26 +3516,30 @@ app.get("/api/live-classes", async (req, res) => {
       WHERE 1=1
     `;
 
-    let queryParams = [];
+    const queryParams = [];
     let paramCount = 1;
 
-    // Filter by student type (if provided)
+    // ✅ CRITICAL FIX: Filter by student type - matches EXACT or 'all' or NULL
     if (student_type) {
-      query += ` AND (lc.student_type = $${paramCount} OR lc.student_type = 'all')`;
+      query += ` AND (lc.student_type = $${paramCount} OR lc.student_type = 'all' OR lc.student_type IS NULL)`;
       queryParams.push(student_type);
       paramCount++;
     }
 
-    // Filter by course selection (if provided)
+    // ✅ CRITICAL FIX: Filter by course selection - matches EXACT or 'all' or NULL
     if (course_selection) {
-      query += ` AND (lc.course_selection = $${paramCount} OR lc.course_selection = 'all')`;
+      query += ` AND (lc.course_selection = $${paramCount} OR lc.course_selection = 'all' OR lc.course_selection IS NULL)`;
       queryParams.push(course_selection);
       paramCount++;
     }
 
-    // Filter by batch month and year (if provided)
+    // ✅ CRITICAL FIX: Filter by batch - if both are provided
     if (batch_month && batch_year) {
-      query += ` AND ((lc.batch_month = $${paramCount} AND lc.batch_year = $${paramCount + 1}) OR lc.batch_month IS NULL)`;
+      query += ` AND (
+        (lc.batch_month = $${paramCount} AND lc.batch_year = $${paramCount + 1}) 
+        OR lc.batch_month IS NULL 
+        OR lc.batch_year IS NULL
+      )`;
       queryParams.push(batch_month, batch_year);
       paramCount += 2;
     } else if (batch_month) {
@@ -3499,26 +3552,34 @@ app.get("/api/live-classes", async (req, res) => {
       paramCount++;
     }
 
+    // ✅ Only show upcoming and live classes to students
+    query += ` AND lc.status IN ('upcoming', 'live')`;
+
     query += ` ORDER BY 
       CASE 
         WHEN lc.status = 'live' THEN 1
         WHEN lc.status = 'upcoming' THEN 2
-        WHEN lc.status = 'completed' THEN 3
+        ELSE 3
       END,
       lc.start_time ASC;
     `;
 
+    console.log("🔍 SQL Query:", query);
+    console.log("📦 Query Params:", queryParams);
+
     const result = await pool.query(query, queryParams);
+    
+    console.log(`✅ Found ${result.rows.length} live classes`);
 
     // Format the response
     const formattedClasses = result.rows.map((cls) => ({
       id: cls.id,
-      letter: cls.class_name.charAt(0).toUpperCase(),
+      letter: cls.class_name?.charAt(0)?.toUpperCase() || 'C',
       name: cls.class_name,
       mentor: cls.mentor_display_name,
       status: cls.status,
-      progress: `${Math.min(100, Math.max(0, Math.round(cls.progress)))}%`,
-      numericProgress: Math.min(100, Math.max(0, Math.round(cls.progress))),
+      progress: `${Math.min(100, Math.max(0, Math.round(cls.progress || 0)))}%`,
+      numericProgress: Math.min(100, Math.max(0, Math.round(cls.progress || 0))),
       time: `${new Date(cls.start_time).toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
@@ -3541,8 +3602,12 @@ app.get("/api/live-classes", async (req, res) => {
 
     res.json(formattedClasses);
   } catch (error) {
-    console.error(`Error fetching live classes: ${error.message}`);
-    res.status(500).json({ error: "Failed to fetch live classes" });
+    console.error("❌ Error fetching live classes:", error.message);
+    console.error("Error stack:", error.stack);
+    res.status(500).json({ 
+      error: "Failed to fetch live classes",
+      details: error.message 
+    });
   }
 });
 
