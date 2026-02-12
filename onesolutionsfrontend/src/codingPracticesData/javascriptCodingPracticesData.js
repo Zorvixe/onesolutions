@@ -4708,7 +4708,7 @@ export const javascriptCodingPracticesData = {
           description:
             "In this assignment, let's build a Select your Pet page by applying the concepts we learned till now.",
           difficulty: "Easy",
-          score: 45,
+          score: 40,
           type: "web",
           defaultCode: {
             html: `<!DOCTYPE html>
@@ -4739,7 +4739,13 @@ export const javascriptCodingPracticesData = {
             
             </html>`,
             css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Monoton&family=Open+Sans:wght@400;700&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Work+Sans:wght@400;700&display=swap");`,
-            javascript: ``,
+            javascript: `let petsImageUrls = {
+              dog: "https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770893265/01-domestic-dog-gallery_m6o5lf.avif",
+              cat: "https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770893448/Domestic-cat-34_ojtg92.jpg",
+              parrot: "https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770893705/OIP_njaxkt.jpg",
+              spider: "https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770893818/White_tailed_spider_kp3yps.jpg",
+              rabbit: "https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770893944/rabbit_PNG3780_w9whoe.png"
+          };`,
           },
           descriptionDetails: `
                   <div class="desc-question-details">
@@ -4844,6 +4850,133 @@ export const javascriptCodingPracticesData = {
               id: 4,
               description:
                 "When the value of the HTML select element with the id petSelect  changed, the src value of the HTML img element with the id petImg should change accordingly",
+              type: "js-validation",
+              input: "check-image-change",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "e19sdv22-axa04rtiqc88-0sfrvddb",
+          title: "Answer the Question",
+          description:
+            "In this assignment, let's build an Answer the Question page by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                Your code goes here
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Monoton&family=Open+Sans:wght@400;700&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Work+Sans:wght@400;700&display=swap");`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770894417/answer-the-question-v1_a7ax3v.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add the HTML form, h1, input, button, and p elements to the HTML code</span></li>
+                        <li><span>Add an id <strong>questionsForm</strong> to the HTML form element</span></li>
+                        <li><span>Add the ids cityHyderabad, cityChennai, cityDelhi and cityMumbai to the HTML input radio elements</span></li>
+                        <li><span>Add an id <strong>submitBtn</strong> to the HTML button element</span></li>
+                        <li><span>Add an id <strong>resultMsg</strong> to the HTML paragraph element</span></li>
+                    </ol>
+
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li>When the HTML button element with the id submitBtn is clicked or the HTML form element with the id questionsForm is submitted,
+                         <ul>
+                          <li>If no option is selected, then the HTML paragraph element with the id <code>resultMsg</code> should have Please select the answer.</li>
+                          <li>If the selected option is a wrong answer, then the HTML paragraph element with the id <code>resultMsg</code> should have Wrong answer else it should have Correct answer.</li>
+                          </ul>
+                       </li>    
+                  </ul>
+                  
+                  <hr>
+
+                  <p class="desc-que-blue">Resources</p>
+                  <p class="desc-que-blue">CSS Font families used:</p>
+                  <ul>
+                  <li>Roboto</li>
+                  <li>Bree Serif</li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML form element with the id questionsForm",
+              type: "js-validation",
+              input: "check-pet-select",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "The HTML form element with the id questionsForm should consist of the radio buttons with the ids cityHyderabad, cityChennai, cityDelhi and cityMumbai ",
+              type: "js-validation",
+              input: "check-pet-img",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "The HTML form element with the id questionsForm should consist of an HTML button element with the id submitBtn",
+              type: "js-validation",
+              input: "check-change-event",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element with the id resultMsg",
+              type: "js-validation",
+              input: "check-image-change",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "JS code should contain addEventListener for the change event",
+              type: "js-validation",
+              input: "check-image-change",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML button element with the id submitBtn clicked or the HTML form element with the id questionsForm submitted, then the HTML paragraph element with the id resultMsg should have Wrong answer as result if the selected radio button is a wrong answer. Otherwise, it should have Correct answer",
               type: "js-validation",
               input: "check-image-change",
               output: "true",
@@ -7633,16 +7766,7 @@ findDuplicate(myArray);
             },
           ],
           defaultCode: `
-// Read input
-let sportsData = eval(prompt());
 
-function consolidateSportsData(data) {
-  /*
-  * Write your code here
-  */
-}
-
-consolidateSportsData(sportsData);
 
 
           `,
@@ -7671,7 +7795,34 @@ consolidateSportsData(sportsData);
            `,
           sampleInput: "[1, 10, 100, 1000]",
           sampleOutput: "[ 1, 11, 111, 111 ]",
-          testCases: [],
+          testCases: [
+            {
+              input: "[1, 10, 100, 1000]",
+              output: "[1, 11, 111, 1111]",
+              visible: true,
+            },
+            {
+              input: "[5, 5, 5, 5]",
+              output: "[5, 10, 15, 20]",
+              visible: true,
+            },
+            {
+              input: "[2, 4, 6, 8]",
+              output: "[2, 6, 12, 20]",
+              visible: false,
+            },
+            {
+              input: "[0, 1, 2, 3]",
+              output: "[0, 1, 3, 6]",
+              visible: false,
+            },
+            {
+              input: "[10, -5, 5, 10]",
+              output: "[10, 5, 10, 20]",
+              visible: false,
+            },
+          ],
+
           defaultCode: `
 
 
@@ -7681,7 +7832,7 @@ consolidateSportsData(sportsData);
           attempts: [],
         },
         {
-          id: "7232feb4-ccd9-44ed-b5ed-065b4850f407",
+          id: "7232feb4-ccd9-065b4850f407",
           title: "Common Items in Three Arrays",
           description:
             "Given three arrays arr1, arr2, and arr3, Write a JS program to find the common items among the threee arrays.",
@@ -7691,7 +7842,7 @@ consolidateSportsData(sportsData);
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input contains an array arr1./nThe second line of input contains an array arr2./nThe third line of input contains an array arr3.</p>
+                <p class=""></p>The first line of input contains an array arr1.<br/> The second line of input contains an array arr2.<br/>The third line of input contains an array arr3.</p>
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
@@ -7700,12 +7851,46 @@ consolidateSportsData(sportsData);
           </div>
            `,
           sampleInput:
-            "[1, 2, 3, 'cat']/n[1, 'cat', 7, 10]/n[1, 'cat', 16, 64]",
+            "[1, 2, 3, 'cat']\n[1, 'cat', 7, 10]\n[1, 'cat', 16, 64]",
           sampleOutput: "[ 1, 'cat' ]",
-          testCases: [],
+          testCases: [
+            {
+              input: "[1, 2, 3, 'cat']\n[1, 'cat', 7, 10]\n[1, 'cat', 16, 64]",
+              output: "[1, 'cat']",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30]\n[5, 10, 15, 20]\n[10, 40, 50]",
+              output: "[10]",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'c']\n['b', 'c', 'd']\n['c', 'b']",
+              output: "['b', 'c']",
+              visible: true,
+            },
+            {
+              input: "[1, 2, 3]\n[4, 5, 6]\n[7, 8, 9]",
+              output: "[]",
+              visible: true,
+            },
+          ],
+
           defaultCode: `
 
+// Read input
+let arr1 = eval(prompt());
+let arr2 = eval(prompt());
+let arr3 = eval(prompt());
 
+function findCommonItems(a1, a2, a3) {
+  /*
+  * Write your code here
+  */
+}
+
+findCommonItems(arr1, arr2, arr3);
+          
           `,
           score: 18,
           status: "unsolved",

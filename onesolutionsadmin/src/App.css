@@ -6,16 +6,16 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #ffffff;
-  color: #ffffff;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 /* Main content wrapper positioned to account for sidebar and navbar */
@@ -59,10 +59,9 @@ code {
   }
 }
 
-
 /* Admin Dashboard Styles */
 .admin-dashboard {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Card Styles */
@@ -204,7 +203,7 @@ code {
     position: static;
     height: auto;
   }
-  
+
   .table-responsive {
     font-size: 0.875rem;
   }
@@ -212,8 +211,12 @@ code {
 
 /* Animation for new submissions */
 @keyframes highlight {
-  0% { background-color: #fff3cd; }
-  100% { background-color: transparent; }
+  0% {
+    background-color: #fff3cd;
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 .highlight-new {
@@ -234,8 +237,18 @@ code {
 }
 
 /* Status Colors */
-.status-pending { color: #f6c23e; }
--status-contacted { color: #36b9cc; }
-.status-enrolled { color: #1cc88a; }
-.status-rejected { color: #e74a3b; }
-.status-followup { color: #4e73df; }
+.status-pending {
+  color: #f6c23e;
+}
+-status-contacted {
+  color: #36b9cc;
+}
+.status-enrolled {
+  color: #1cc88a;
+}
+.status-rejected {
+  color: #e74a3b;
+}
+.status-followup {
+  color: #4e73df;
+}
