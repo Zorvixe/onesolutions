@@ -20,29 +20,35 @@ const LiveClasses = () => {
     batch_year: "",
     status: "upcoming",
     progress: 0,
+    student_type: "all",
+    course_selection: "all",
   });
   const [editingClass, setEditingClass] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    student_type: "all",
+    course_selection: "all",
+    batch_month: "",
+    batch_year: "",
+    status: "",
+  });
   const navigate = useNavigate();
 
-  // Fixed: Use useEffect for navigation
   useEffect(() => {
     if (!token) {
       navigate("/login");
     }
   }, [token, navigate]);
 
-  // Also add a second effect to handle token changes during component lifecycle
   useEffect(() => {
     const checkToken = () => {
       const currentToken = localStorage.getItem("token");
       if (!currentToken) {
         navigate("/login");
       }
-    }; // Check token periodically or on specific events
+    };
     window.addEventListener("storage", checkToken);
-
     return () => {
       window.removeEventListener("storage", checkToken);
     };
@@ -52,18 +58,37 @@ const LiveClasses = () => {
     if (token) {
       fetchClasses();
     }
-  }, [token]); // Add token as dependency
+  }, [token, filters]); // Re-fetch when filters change
 
   const fetchClasses = async () => {
     try {
-      const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/admin/live-classes`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      // Build query params
+      const params = new URLSearchParams();
+      if (filters.student_type && filters.student_type !== "all") {
+        params.append("student_type", filters.student_type);
+      }
+      if (filters.course_selection && filters.course_selection !== "all") {
+        params.append("course_selection", filters.course_selection);
+      }
+      if (filters.batch_month) {
+        params.append("batch_month", filters.batch_month);
+      }
+      if (filters.batch_year) {
+        params.append("batch_year", filters.batch_year);
+      }
+      if (filters.status) {
+        params.append("status", filters.status);
+      }
+
+      const url = `https://ose.onesolutionsekam.in/api/admin/live-classes${
+        params.toString() ? `?${params.toString()}` : ""
+      }`;
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         console.log("Fetched classes:", data);
@@ -106,6 +131,8 @@ const LiveClasses = () => {
           batch_year: "",
           status: "upcoming",
           progress: 0,
+          student_type: "all",
+          course_selection: "all",
         });
         setEditingClass(null);
         fetchClasses();
@@ -131,6 +158,8 @@ const LiveClasses = () => {
       batch_year: "",
       status: "upcoming",
       progress: 0,
+      student_type: "all",
+      course_selection: "all",
     });
     setIsModalOpen(true);
   };
@@ -148,6 +177,8 @@ const LiveClasses = () => {
       batch_year: classItem.batch_year || "",
       status: classItem.status,
       progress: classItem.progress || 0,
+      student_type: classItem.student_type || "all",
+      course_selection: classItem.course_selection || "all",
     });
     setIsModalOpen(true);
   };
@@ -181,11 +212,27 @@ const LiveClasses = () => {
     }
   };
 
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      student_type: "all",
+      course_selection: "all",
+      batch_month: "",
+      batch_year: "",
+      status: "",
+    });
+  };
+
   const formatDateTime = (dateTime) => {
     if (!dateTime) return "Not set";
-
     const date = new Date(dateTime);
-
     return date.toLocaleTimeString("en-US", {
       hour: "2-digit",
       minute: "2-digit",
@@ -210,6 +257,63 @@ const LiveClasses = () => {
           backgroundColor: config.bg,
           color: config.color,
           border: `1px solid ${config.color}20`,
+        }}
+      >
+        {config.label}
+      </span>
+    );
+  };
+
+  const getStudentTypeBadge = (studentType) => {
+    const typeConfig = {
+      zorvixe_core: { color: "#4F46E5", bg: "#EEF2FF", label: "CORE" },
+      zorvixe_pro: { color: "#0D9488", bg: "#F0FDF9", label: "PRO" },
+      zorvixe_elite: { color: "#B45309", bg: "#FFFBEB", label: "ELITE" },
+      all: { color: "#6B7280", bg: "#F3F4F6", label: "ALL" },
+    };
+
+    const config = typeConfig[studentType] || typeConfig.all;
+
+    return (
+      <span
+        className="student-type-badge"
+        style={{
+          backgroundColor: config.bg,
+          color: config.color,
+          border: `1px solid ${config.color}20`,
+          padding: "4px 8px",
+          borderRadius: "4px",
+          fontSize: "12px",
+          fontWeight: "500",
+          marginLeft: "8px",
+        }}
+      >
+        {config.label}
+      </span>
+    );
+  };
+
+  const getCourseBadge = (course) => {
+    const courseConfig = {
+      web_development: { color: "#2563EB", bg: "#DBEAFE", label: "WEB DEV" },
+      digital_marketing: { color: "#7C3AED", bg: "#EDE9FE", label: "DIGITAL" },
+      all: { color: "#6B7280", bg: "#F3F4F6", label: "ALL" },
+    };
+
+    const config = courseConfig[course] || courseConfig.all;
+
+    return (
+      <span
+        className="course-badge"
+        style={{
+          backgroundColor: config.bg,
+          color: config.color,
+          border: `1px solid ${config.color}20`,
+          padding: "4px 8px",
+          borderRadius: "4px",
+          fontSize: "12px",
+          fontWeight: "500",
+          marginLeft: "8px",
         }}
       >
         {config.label}
@@ -346,6 +450,197 @@ const LiveClasses = () => {
         </div>
       </div>
 
+      {/* Filters Section */}
+      <div
+        className="filters-section"
+        style={{
+          marginBottom: "20px",
+          padding: "20px",
+          backgroundColor: "#f9f9f9",
+          borderRadius: "8px",
+        }}
+      >
+        <h3
+          style={{ marginBottom: "15px", fontSize: "16px", fontWeight: "600" }}
+        >
+          Filter Classes
+        </h3>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "15px",
+          }}
+        >
+          <div>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontSize: "14px",
+                fontWeight: "500",
+              }}
+            >
+              Student Type
+            </label>
+            <select
+              name="student_type"
+              value={filters.student_type}
+              onChange={handleFilterChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #ddd",
+              }}
+            >
+              <option value="all">All Types</option>
+              <option value="zorvixe_core">Zorvixe Core</option>
+              <option value="zorvixe_pro">Zorvixe Pro</option>
+              <option value="zorvixe_elite">Zorvixe Elite</option>
+            </select>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontSize: "14px",
+                fontWeight: "500",
+              }}
+            >
+              Course
+            </label>
+            <select
+              name="course_selection"
+              value={filters.course_selection}
+              onChange={handleFilterChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #ddd",
+              }}
+            >
+              <option value="all">All Courses</option>
+              <option value="web_development">Web Development</option>
+              <option value="digital_marketing">Digital Marketing</option>
+            </select>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontSize: "14px",
+                fontWeight: "500",
+              }}
+            >
+              Batch Month
+            </label>
+            <select
+              name="batch_month"
+              value={filters.batch_month}
+              onChange={handleFilterChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #ddd",
+              }}
+            >
+              <option value="">All Months</option>
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="July">July</option>
+              <option value="August">August</option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontSize: "14px",
+                fontWeight: "500",
+              }}
+            >
+              Batch Year
+            </label>
+            <select
+              name="batch_year"
+              value={filters.batch_year}
+              onChange={handleFilterChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #ddd",
+              }}
+            >
+              <option value="">All Years</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                marginBottom: "5px",
+                fontSize: "14px",
+                fontWeight: "500",
+              }}
+            >
+              Status
+            </label>
+            <select
+              name="status"
+              value={filters.status}
+              onChange={handleFilterChange}
+              style={{
+                width: "100%",
+                padding: "8px",
+                borderRadius: "4px",
+                border: "1px solid #ddd",
+              }}
+            >
+              <option value="">All Status</option>
+              <option value="upcoming">Upcoming</option>
+              <option value="live">Live</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div style={{ display: "flex", alignItems: "flex-end" }}>
+            <button
+              onClick={resetFilters}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: "#6c757d",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                width: "100%",
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Stats Overview */}
       <div className="stats-overview">
         <div className="stat-card">
@@ -420,15 +715,12 @@ const LiveClasses = () => {
         ) : (
           <div className="livcss-live container-fluid">
             <div className="row live-classes-row-con">
-              {" "}
-              {/* Changed to g-4 for larger gap */}
               {classes.length > 0 ? (
                 classes.map((classItem) => (
                   <div
                     key={classItem.id}
-                    className="livcss-liveclasses-container" // Added mb-4 back as backup
+                    className="livcss-liveclasses-container"
                   >
-                    {/* Rest of your card content remains exactly the same */}
                     <div
                       className="livcss-indicator-bar"
                       style={{
@@ -475,10 +767,20 @@ const LiveClasses = () => {
                         <button className="livcss-letter-tag">
                           {classItem.class_name.toUpperCase().slice(0, 1)}
                         </button>
-                        {classItem.class_name.toUpperCase().slice(0, 1)}
-
                         <div className="livcss-class-text">
-                          <h3>{classItem.class_name}</h3>
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            <h3 style={{ marginRight: "10px" }}>
+                              {classItem.class_name}
+                            </h3>
+                            {getStudentTypeBadge(classItem.student_type)}
+                            {getCourseBadge(classItem.course_selection)}
+                          </div>
                           <p>Mentor: {classItem.mentor_name}</p>
                           {classItem.batch_month && classItem.batch_year && (
                             <p className="livcss-batch-info">
@@ -704,6 +1006,48 @@ const LiveClasses = () => {
                     <option value="upcoming">Upcoming</option>
                     <option value="live">Live</option>
                     <option value="completed">Completed</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="student-type" className="form-label">
+                    Student Type *
+                  </label>
+                  <select
+                    className="form-input"
+                    id="student-type"
+                    value={formData.student_type}
+                    onChange={(e) =>
+                      setFormData({ ...formData, student_type: e.target.value })
+                    }
+                    required
+                  >
+                    <option value="all">All Students</option>
+                    <option value="zorvixe_core">Zorvixe Core</option>
+                    <option value="zorvixe_pro">Zorvixe Pro</option>
+                    <option value="zorvixe_elite">Zorvixe Elite</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="course-selection" className="form-label">
+                    Course *
+                  </label>
+                  <select
+                    className="form-input"
+                    id="course-selection"
+                    value={formData.course_selection}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        course_selection: e.target.value,
+                      })
+                    }
+                    required
+                  >
+                    <option value="all">All Courses</option>
+                    <option value="web_development">Web Development</option>
+                    <option value="digital_marketing">Digital Marketing</option>
                   </select>
                 </div>
 

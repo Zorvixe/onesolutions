@@ -32,62 +32,58 @@ const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  // Fetch live classes from backend with batch filtering
-  const fetchLiveClasses = async () => {
-    try {
-      const batchMonth = user?.batchMonth;
-      const batchYear = user?.batchYear;
+  // Updated fetchLiveClasses function in Home.js
+      const fetchLiveClasses = async () => {
+        try {
+          const batchMonth = user?.batchMonth;
+          const batchYear = user?.batchYear;
+          const studentType = user?.studentType || 'zorvixe_core';
+          const courseSelection = user?.courseSelection || 'web_development';
 
-      let url = `${API_OSE_URL}api/live-classes`;
-
-      if (batchMonth && batchYear) {
-        url += `?batch_month=${batchMonth}&batch_year=${batchYear}`;
-      }
-
-      const response = await fetch(url);
-      if (response.ok) {
-        const data = await response.json();
-
-        // Sort live classes: live first, then upcoming, then completed
-        // Within each status, sort by time (most recent first)
-        const sortedData = data.sort((a, b) => {
-          // Priority: live > upcoming > completed
-          const statusPriority = {
-            live: 1,
-            upcoming: 2,
-            completed: 3,
-          };
-
-          if (statusPriority[a.status] !== statusPriority[b.status]) {
-            return statusPriority[a.status] - statusPriority[b.status];
+          let url = `${API_OSE_URL}api/live-classes`;
+          const params = new URLSearchParams();
+          
+          if (batchMonth && batchYear) {
+            params.append('batch_month', batchMonth);
+            params.append('batch_year', batchYear);
           }
+          
+          params.append('student_type', studentType);
+          params.append('course_selection', courseSelection);
+          
+          url += `?${params.toString()}`;
 
-          // If same status, sort by time (most recent first)
-          // Assuming time is in format "HH:MM AM/PM"
-          const convertTimeToMinutes = (timeStr) => {
-            if (!timeStr) return 0;
-            const [time, modifier] = timeStr.split(" ");
-            let [hours, minutes] = time.split(":").map(Number);
+          const response = await fetch(url);
+          if (response.ok) {
+            const data = await response.json();
 
-            if (modifier === "PM" && hours < 12) hours += 12;
-            if (modifier === "AM" && hours === 12) hours = 0;
+            // Sort live classes: live first, then upcoming, then completed
+            // Within each status, sort by time (most recent first)
+            const sortedData = data.sort((a, b) => {
+              const statusPriority = {
+                live: 1,
+                upcoming: 2,
+                completed: 3,
+              };
 
-            return hours * 60 + minutes;
-          };
+              if (statusPriority[a.status] !== statusPriority[b.status]) {
+                return statusPriority[a.status] - statusPriority[b.status];
+              }
 
-          return convertTimeToMinutes(a.time) - convertTimeToMinutes(b.time);
-        });
+              // If same status, sort by start time
+              return new Date(a.start_time) - new Date(b.start_time);
+            });
 
-        setLiveClasses(sortedData);
-      } else {
-        console.error("Failed to fetch live classes");
-      }
-    } catch (error) {
-      console.error("Error fetching live classes:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+            setLiveClasses(sortedData);
+          } else {
+            console.error("Failed to fetch live classes");
+          }
+        } catch (error) {
+          console.error("Error fetching live classes:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
   // Fetch placement achievements from backend
   const fetchPlacementAchievements = async () => {

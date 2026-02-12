@@ -648,6 +648,17 @@ CREATE TABLE IF NOT EXISTS contacts (
   );
 `);
 
+    // Add these columns to the live_classes table
+    await pool.query(`
+  ALTER TABLE live_classes 
+  ADD COLUMN IF NOT EXISTS student_type VARCHAR(50) 
+  CHECK (student_type IN ('zorvixe_core', 'zorvixe_pro', 'zorvixe_elite', 'all')) 
+  DEFAULT 'all',
+  ADD COLUMN IF NOT EXISTS course_selection VARCHAR(50) 
+  CHECK (course_selection IN ('web_development', 'digital_marketing', 'all')) 
+  DEFAULT 'all';
+`);
+
     // Create placement_achievements table
     await pool.query(`
   CREATE TABLE IF NOT EXISTS placement_achievements (
@@ -3442,9 +3453,10 @@ app.put(
 );
 
 // Update the GET route for live classes to include zoom_link
+// GET live classes for students with filtering by student_type and course_selection
 app.get("/api/live-classes", async (req, res) => {
   try {
-    const { batch_month, batch_year } = req.query;
+    const { batch_month, batch_year, student_type, course_selection } = req.query;
 
     let query = `
       SELECT lc.*, 
@@ -3452,24 +3464,53 @@ app.get("/api/live-classes", async (req, res) => {
              a.admin_image_link as mentor_image
       FROM live_classes lc
       LEFT JOIN admin a ON lc.mentor_id = a.id
+      WHERE 1=1
     `;
 
     let queryParams = [];
+    let paramCount = 1;
 
-    // If batch_month and batch_year are provided, filter by them
-    if (batch_month && batch_year) {
-      query += ` WHERE (lc.batch_month = $1 AND lc.batch_year = $2) OR lc.batch_month IS NULL`;
-      queryParams.push(batch_month, batch_year);
-    } else {
-      // If no batch specified, show classes with no specific batch (general classes)
-      query += ` WHERE lc.batch_month IS NULL`;
+    // Filter by student type (if provided)
+    if (student_type) {
+      query += ` AND (lc.student_type = $${paramCount} OR lc.student_type = 'all')`;
+      queryParams.push(student_type);
+      paramCount++;
     }
 
-    query += ` ORDER BY lc.start_time ASC;`;
+    // Filter by course selection (if provided)
+    if (course_selection) {
+      query += ` AND (lc.course_selection = $${paramCount} OR lc.course_selection = 'all')`;
+      queryParams.push(course_selection);
+      paramCount++;
+    }
+
+    // Filter by batch month and year (if provided)
+    if (batch_month && batch_year) {
+      query += ` AND ((lc.batch_month = $${paramCount} AND lc.batch_year = $${paramCount + 1}) OR lc.batch_month IS NULL)`;
+      queryParams.push(batch_month, batch_year);
+      paramCount += 2;
+    } else if (batch_month) {
+      query += ` AND (lc.batch_month = $${paramCount} OR lc.batch_month IS NULL)`;
+      queryParams.push(batch_month);
+      paramCount++;
+    } else if (batch_year) {
+      query += ` AND (lc.batch_year = $${paramCount} OR lc.batch_year IS NULL)`;
+      queryParams.push(batch_year);
+      paramCount++;
+    }
+
+    query += ` ORDER BY 
+      CASE 
+        WHEN lc.status = 'live' THEN 1
+        WHEN lc.status = 'upcoming' THEN 2
+        WHEN lc.status = 'completed' THEN 3
+      END,
+      lc.start_time ASC;
+    `;
 
     const result = await pool.query(query, queryParams);
 
-    // Format the response to match frontend structure
+    // Format the response
     const formattedClasses = result.rows.map((cls) => ({
       id: cls.id,
       letter: cls.class_name.charAt(0).toUpperCase(),
@@ -3477,6 +3518,7 @@ app.get("/api/live-classes", async (req, res) => {
       mentor: cls.mentor_display_name,
       status: cls.status,
       progress: `${Math.min(100, Math.max(0, Math.round(cls.progress)))}%`,
+      numericProgress: Math.min(100, Math.max(0, Math.round(cls.progress))),
       time: `${new Date(cls.start_time).toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
@@ -3489,15 +3531,81 @@ app.get("/api/live-classes", async (req, res) => {
       start_time: cls.start_time,
       end_time: cls.end_time,
       description: cls.description,
-      zoom_link: cls.zoom_link, // Add zoom_link here
+      zoom_link: cls.zoom_link,
       mentor_image: cls.mentor_image,
       batch_month: cls.batch_month,
       batch_year: cls.batch_year,
+      student_type: cls.student_type,
+      course_selection: cls.course_selection,
     }));
 
     res.json(formattedClasses);
   } catch (error) {
     console.error(`Error fetching live classes: ${error.message}`);
+    res.status(500).json({ error: "Failed to fetch live classes" });
+  }
+});
+
+// GET admin live classes with filtering
+app.get("/api/admin/live-classes", authenticateToken, async (req, res) => {
+  try {
+    const { 
+      batch_month, 
+      batch_year, 
+      status, 
+      student_type, 
+      course_selection 
+    } = req.query;
+
+    let query = `
+      SELECT lc.*, 
+             a.adminname as mentor_name,
+             a.admin_image_link as mentor_image,
+             a.phone as mentor_phone
+      FROM live_classes lc
+      LEFT JOIN admin a ON lc.mentor_id = a.id
+      WHERE 1=1
+    `;
+
+    let queryParams = [];
+    let paramCount = 1;
+
+    if (batch_month) {
+      query += ` AND lc.batch_month = $${paramCount}`;
+      queryParams.push(batch_month);
+      paramCount++;
+    }
+
+    if (batch_year) {
+      query += ` AND lc.batch_year = $${paramCount}`;
+      queryParams.push(batch_year);
+      paramCount++;
+    }
+
+    if (status) {
+      query += ` AND lc.status = $${paramCount}`;
+      queryParams.push(status);
+      paramCount++;
+    }
+
+    if (student_type && student_type !== "all") {
+      query += ` AND lc.student_type = $${paramCount}`;
+      queryParams.push(student_type);
+      paramCount++;
+    }
+
+    if (course_selection && course_selection !== "all") {
+      query += ` AND lc.course_selection = $${paramCount}`;
+      queryParams.push(course_selection);
+      paramCount++;
+    }
+
+    query += ` ORDER BY lc.start_time ASC;`;
+
+    const result = await pool.query(query, queryParams);
+    res.json(result.rows);
+  } catch (error) {
+    console.error(`Error fetching admin live classes: ${error.message}`);
     res.status(500).json({ error: "Failed to fetch live classes" });
   }
 });
@@ -3536,26 +3644,7 @@ app.delete("/api/live-classes/:id", authenticateToken, async (req, res) => {
   }
 });
 
-// Get live classes for admin panel - UPDATED to show all classes
-app.get("/api/admin/live-classes", authenticateToken, async (req, res) => {
-  try {
-    const query = `
-      SELECT lc.*, 
-             a.adminname as mentor_display_name,
-             a.admin_image_link as mentor_image,
-             a.phone as mentor_phone
-      FROM live_classes lc
-      LEFT JOIN admin a ON lc.mentor_id = a.id
-      ORDER BY lc.start_time ASC;
-    `;
 
-    const result = await pool.query(query);
-    res.json(result.rows);
-  } catch (error) {
-    console.error(`Error fetching admin live classes: ${error.message}`);
-    res.status(500).json({ error: "Failed to fetch live classes" });
-  }
-});
 
 // Placement Achievements Routes
 

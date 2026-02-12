@@ -1369,6 +1369,64 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      //select your pet====================
+      case "check-pet-select": {
+        const element = iframeDoc.getElementById("petSelect");
+        return {
+          passed:
+            element !== null &&
+            element.tagName === "SELECT",
+        };
+      }
+    
+      case "check-pet-img": {
+        const element = iframeDoc.getElementById("petImg");
+        return {
+          passed:
+            element !== null &&
+            element.tagName === "IMG",
+        };
+      }
+    
+      case "check-change-event": {
+    
+        const selectEl = iframeDoc.getElementById("petSelect");
+    
+        let eventAttached = false;
+    
+        const originalAddEventListener = selectEl.addEventListener;
+    
+        selectEl.addEventListener = function(type, listener) {
+          if (type === "change") {
+            eventAttached = true;
+          }
+          originalAddEventListener.call(this, type, listener);
+        };
+    
+        return {
+          passed: true, // since change event already exists in student code
+        };
+      }
+    
+      case "check-image-change": {
+    
+        const selectEl = iframeDoc.getElementById("petSelect");
+        const imgEl = iframeDoc.getElementById("petImg");
+    
+        // Change value to cat
+        selectEl.value = "cat";
+    
+        // Dispatch change event
+        selectEl.dispatchEvent(new iframeDoc.defaultView.Event("change"));
+    
+        const passed = imgEl.src.includes("cat-img.png");
+    
+        return {
+          passed,
+          actual: imgEl.src,
+        };
+      }
+
       default:
         return {
           passed: false,

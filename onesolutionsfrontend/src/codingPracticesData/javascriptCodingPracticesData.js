@@ -4773,9 +4773,9 @@ export const javascriptCodingPracticesData = {
 
                   <p class="">By following the above instructions, achieve the given functionality.</p>
                   <ul>
-                      <li>When the value of the HTML select element with the id petSelect is changed,
+                      <li>When the value of the HTML <code>select</code> element with the id <code>petSelect</code> is changed,
                          <ul>
-                          <li>Change the src value of the HTML img element with the id petImg according to the selected pet</li>
+                          <li>Change the <code>src</code> value of the HTML img element with the id <code>petImg</code> according to the selected pet</li>
                           </ul>
                        </li>    
                   </ul>
@@ -4816,63 +4816,36 @@ export const javascriptCodingPracticesData = {
             {
               id: 1,
               description:
-                "Page should consist of an HTML form element with the id addUserForm",
+                "Page should consist of an HTML select element with the id petSelect",
               type: "js-validation",
-              input: "check-form",
+              input: "check-pet-select",
               output: "true",
               visible: true,
             },
             {
               id: 2,
               description:
-                "Page should consist of an HTML input element with the id name",
+                "Page should consist of an HTML img element with the id petImg",
               type: "js-validation",
-              input: "check-name-input",
+              input: "check-pet-img",
               output: "true",
               visible: true,
             },
             {
               id: 3,
               description:
-                "Page should consist of an HTML paragraph element with the id nameErrMsg",
+                "JS code should contain addEventListener for the change event",
               type: "js-validation",
-              input: "check-name-error",
+              input: "check-change-event",
               output: "true",
               visible: true,
             },
             {
               id: 4,
               description:
-                "Page should consist of an HTML input element with the id email",
+                "When the value of the HTML select element with the id petSelect  changed, the src value of the HTML img element with the id petImg should change accordingly",
               type: "js-validation",
-              input: "check-email-input",
-              output: "true",
-              visible: true,
-            },
-            {
-              id: 5,
-              description:
-                "Page should consist of an HTML paragraph element with the id emailErrMsg",
-              type: "js-validation",
-              input: "check-email-error",
-              output: "true",
-              visible: true,
-            },
-            {
-              id: 6,
-              description:
-                "When the HTML element with the id name lost the focus, if the name input element's value is empty, then the HTML element with the id nameErrMsg should have the error message. Otherwise, it should have an empty string",
-              type: "js-validation",
-              input: "check-name-blur",
-              output: "true",
-              visible: true,
-            },
-            {
-              id: 7,
-              description:
-                "When the HTML element with the id email lost the focus, if the name input element's value is empty, then the HTML element with the id emailErrMsg should have the error message. Otherwise, it should have an empty string",
-              type: "js-validation",
-              input: "check-email-blur",
+              input: "check-image-change",
               output: "true",
               visible: true,
             },
@@ -7481,8 +7454,54 @@ findMinMax(myArray);
            `,
           sampleInput: "[1, '2', true, {'a': 'b'}, false]",
           sampleOutput: "{ number: 1, object: 1, string: 1, boolean: 2 }",
-          testCases: [],
+          testCases: [
+            {
+              input: "[1, '2', true, {'a': 'b'}, false]",
+              output: "{ number: 1, object: 1, string: 1, boolean: 2 }",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30]",
+              output: "{ number: 3, object: 0, string: 0, boolean: 0 }",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'c']",
+              output: "{ number: 0, object: 0, string: 3, boolean: 0 }",
+              visible: false,
+            },
+            {
+              input: "[true, false, true]",
+              output: "{ number: 0, object: 0, string: 0, boolean: 3 }",
+              visible: false,
+            },
+            {
+              input: "[{'x':1}, {'y':2}]",
+              output: "{ number: 0, object: 2, string: 0, boolean: 0 }",
+              visible: false,
+            },
+            {
+              input: "[1, 'hello', false, 5, {'a':10}]",
+              output: "{ number: 2, object: 1, string: 1, boolean: 1 }",
+              visible: false,
+            },
+            {
+              input: "[]",
+              output: "{ number: 0, object: 0, string: 0, boolean: 0 }",
+              visible: false,
+            },
+          ],
           defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+function dataTypeReport(arr) {
+  /*
+  * Write your code here
+  */
+}
+
+dataTypeReport(myArray);
 
 
           `,
@@ -7515,8 +7534,44 @@ findMinMax(myArray);
            `,
           sampleInput: "[1, 2, 3, 4, 5, 6, 7, 7, 8]",
           sampleOutput: "7",
-          testCases: [],
+          testCases: [
+            {
+              input: "[1, 2, 3, 4, 5, 6, 7, 7, 8]",
+              output: "7",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'b', 'c']",
+              output: "b",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30, 40]",
+              output: "false",
+              visible: false,
+            },
+            {
+              input: "[true, false, true]",
+              output: "true",
+              visible: false,
+            },
+            {
+              input: "[5, 1, 2, 3, 2, 4]",
+              output: "2",
+              visible: false,
+            },
+          ],
           defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+function findDuplicate(arr) {
+  /*
+  * Write your code here
+  */
+}
+
+findDuplicate(myArray);
 
 
           `,
@@ -7528,7 +7583,7 @@ findMinMax(myArray);
           id: "7232feb4-ccd9-b5ed-065b4850f407",
           title: "Sports Data",
           description:
-            "There is a sports competition in a school and each student is allowed to participate in only one sport.Given an array sportsData of arrays,the first item of each array consists of the name of the student and the second item consists of the sport in which the student has registered.\nWrite a JS program to consolidate the sata so that each student should participate in only one sport. If duplicate entries are found, consider the last entry.",
+            "There is a sports competition in a school and each student is allowed to participate in only one sport.\n Given an array sportsData of arrays,the first item of each array consists of the name of the student and the second item consists of the sport in which the student has registered.\nWrite a JS program to consolidate the sata so that each student should participate in only one sport. If duplicate entries are found, consider the last entry.",
 
           difficulty: "Easy",
           descriptionDetails: `
@@ -7547,8 +7602,47 @@ findMinMax(myArray);
             "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
           sampleOutput:
             "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
-          testCases: [],
+          testCases: [
+            {
+              input:
+                "[ ['Arjun', 'Cricket'], ['Ronaldo', 'Football'], ['Pardeep', 'Volley ball'] ]",
+              output:
+                "{ Arjun: 'Cricket', Ronaldo: 'Football', Pardeep: 'Volley ball' }",
+              visible: true,
+            },
+            {
+              input: "[ ['Arjun', 'Cricket'], ['Arjun', 'Football'] ]",
+              output: "{ Arjun: 'Football' }",
+              visible: true,
+            },
+            {
+              input: "[ ['A', 'Chess'], ['B', 'Tennis'], ['A', 'Cricket'] ]",
+              output: "{ A: 'Cricket', B: 'Tennis' }",
+              visible: false,
+            },
+            {
+              input: "[ ['Ravi', 'Kabaddi'] ]",
+              output: "{ Ravi: 'Kabaddi' }",
+              visible: false,
+            },
+            {
+              input:
+                "[ ['John', 'Baseball'], ['Mike', 'Hockey'], ['John', 'Basketball'], ['Mike', 'Football'] ]",
+              output: "{ John: 'Basketball', Mike: 'Football' }",
+              visible: false,
+            },
+          ],
           defaultCode: `
+// Read input
+let sportsData = eval(prompt());
+
+function consolidateSportsData(data) {
+  /*
+  * Write your code here
+  */
+}
+
+consolidateSportsData(sportsData);
 
 
           `,
