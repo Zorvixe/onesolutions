@@ -39,7 +39,6 @@ const DigitalClasses = ({
   const [threads, setThreads] = useState([]);
   const [showNewThread, setShowNewThread] = useState(false);
   const [newThread, setNewThread] = useState({ title: "", content: "" });
-  const [classVideo, setClassVideo] = useState(null);
   const [videoLoading, setVideoLoading] = useState(true);
   const [videoError, setVideoError] = useState(null);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
@@ -53,6 +52,7 @@ const DigitalClasses = ({
     if (preLoadedContent) {
       setContent(preLoadedContent);
       setLoading(false);
+      setVideoLoading(false);
       setIsVideoCompleted(
         completedContent.includes(preLoadedContent.id) ||
           preLoadedContent.is_completed
@@ -65,6 +65,7 @@ const DigitalClasses = ({
       const load = async () => {
         try {
           setLoading(true);
+          setVideoLoading(true);
           const res = await getContentByUuid(finalContentUuid);
           if (res?.success) {
             setContent(res.data);
@@ -74,8 +75,10 @@ const DigitalClasses = ({
           }
         } catch (e) {
           console.error(e);
+          setVideoError("Failed to load content");
         } finally {
           setLoading(false);
+          setVideoLoading(false);
         }
       };
       load();
@@ -86,7 +89,6 @@ const DigitalClasses = ({
     if (content) {
       loadThreads();
       checkFeedbackStatus();
-      fetchClassVideo();
     }
   }, [content]);
 
@@ -140,39 +142,6 @@ const DigitalClasses = ({
       document.removeEventListener("drop", handleDrop);
     };
   }, []);
-
-  const fetchClassVideo = async () => {
-    if (!content) return;
-
-    try {
-      setVideoLoading(true);
-      setVideoError(null);
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${API_BASE_URL}/api/class-video/${content.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          setClassVideo(data.data.video);
-        } else {
-          setVideoError("Video not found for this class");
-        }
-      } else {
-        setVideoError("Your Class will coming soon");
-      }
-    } catch (error) {
-      console.error("Error fetching class video:", error);
-      setVideoError("Error loading video");
-    } finally {
-      setVideoLoading(false);
-    }
-  };
 
   const checkFeedbackStatus = async () => {
     if (!content) return;
@@ -389,20 +358,87 @@ const DigitalClasses = ({
       );
     }
 
-    if (videoError) {
+    // Handle case when content exists but has no video
+    if (!content) {
       return (
         <div className="video-error-clss">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
           </svg>
-          <h3>Comming Soon</h3>
+          <h3>Coming Soon</h3>
         </div>
       );
     }
 
-    if (!classVideo && content) {
-      // Fallback to content.video_url if classVideo is not available
-      if (content.video_url) {
+    // Handle video content from digital marketing API
+    if (content.type === "video" || content.content_type === "video") {
+      // Check if it's a YouTube or Vimeo video
+      const videoUrl = content.video_url || "";
+      const isYouTube =
+        videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be");
+      const isVimeo = videoUrl.includes("vimeo.com");
+
+      // Extract YouTube video ID for proper embedding
+      const getYouTubeEmbedUrl = (url) => {
+        const regExp =
+          /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return match && match[2].length === 11
+          ? `https://www.youtube.com/embed/${match[2]}`
+          : url;
+      };
+
+      // Extract Vimeo video ID
+      const getVimeoEmbedUrl = (url) => {
+        const regExp = /vimeo\.com\/(?:video\/)?(\d+)/;
+        const match = url.match(regExp);
+        return match ? `https://player.vimeo.com/video/${match[1]}` : url;
+      };
+
+      if (isYouTube) {
+        const embedUrl = getYouTubeEmbedUrl(videoUrl);
+        return (
+          <div className="secure-video-player-clss">
+            <iframe
+              ref={videoRef}
+              width="100%"
+              height="400"
+              src={embedUrl}
+              title={content.video_title || "Video"}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="secure-iframe-clss"
+              onContextMenu={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+            ></iframe>
+          </div>
+        );
+      } else if (isVimeo) {
+        const embedUrl = getVimeoEmbedUrl(videoUrl);
+        return (
+          <div className="secure-video-player-clss">
+            <iframe
+              ref={videoRef}
+              width="100%"
+              height="400"
+              src={embedUrl}
+              title={content.video_title || "Video"}
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+              className="secure-iframe-clss"
+              onContextMenu={(e) => {
+                e.preventDefault();
+                return false;
+              }}
+            ></iframe>
+          </div>
+        );
+      } else if (videoUrl) {
+        // Handle uploaded video
         return (
           <div className="secure-video-player-clss">
             <video
@@ -430,84 +466,83 @@ const DigitalClasses = ({
                 return false;
               }}
             >
-              <source src={content.video_url} type="video/mp4" />
+              <source src={videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
         );
       }
+    }
 
+    // Handle cheatsheet or MCQ content type
+    if (
+      content.type === "cheatsheet" ||
+      content.content_type === "cheatsheet"
+    ) {
       return (
-        <div className="video-error-clss">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-          </svg>
-          <h3>Comming Soon</h3>
+        <div className="content-info-clss">
+          <div className="cheatsheet-preview-clss">
+            <h2>{content.cheatsheet_title || "Cheatsheet"}</h2>
+            <div className="cheatsheet-content-clss">
+              {content.cheatsheet_content ? (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: content.cheatsheet_content,
+                  }}
+                />
+              ) : (
+                <p>Cheatsheet content will be available soon.</p>
+              )}
+            </div>
+            {content.file_url && (
+              <a
+                href={content.file_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="download-cheatsheet-clss"
+                onClick={(e) => {
+                  e.preventDefault();
+                  alert("Download feature coming soon");
+                }}
+              >
+                Download Cheatsheet
+              </a>
+            )}
+          </div>
         </div>
       );
     }
 
+    if (content.type === "mcq" || content.content_type === "mcq") {
+      return (
+        <div className="content-info-clss">
+          <div className="mcq-preview-clss">
+            <h2>{content.mcq_title || "MCQ Assessment"}</h2>
+            <p>
+              This is an MCQ assessment. Please click on the assessment tab to
+              take the quiz.
+            </p>
+            <p>Questions: {content.questions?.length || 0}</p>
+            <p>
+              Time Limit:{" "}
+              {content.time_limit
+                ? `${content.time_limit} minutes`
+                : "No time limit"}
+            </p>
+            <p>Passing Score: {content.passing_score || 70}%</p>
+          </div>
+        </div>
+      );
+    }
+
+    // Fallback for when no video is available
     return (
-      <div className="secure-video-player-clss">
-        {classVideo.video_type === "youtube" ||
-        classVideo.video_type === "vimeo" ? (
-          <iframe
-            ref={videoRef}
-            width="100%"
-            height="400"
-            src={classVideo.video_url}
-            title={classVideo.video_title}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="secure-iframe-clss"
-            onContextMenu={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-            onCopy={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-            onCut={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-            onDrag={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-          ></iframe>
-        ) : (
-          <video
-            ref={videoRef}
-            controls
-            width="100%"
-            height="400"
-            poster={classVideo.thumbnail_url}
-            className="secure-video-clss"
-            onContextMenu={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-            controlsList="nodownload"
-            onCopy={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-            onCut={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-            onDrag={(e) => {
-              e.preventDefault();
-              return false;
-            }}
-          >
-            <source src={classVideo.video_url} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        )}
+      <div className="video-error-clss">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+        </svg>
+        <h3>Coming Soon</h3>
+        <p>This content is being prepared and will be available shortly.</p>
       </div>
     );
   };
@@ -520,7 +555,13 @@ const DigitalClasses = ({
       <div className="subtopic-header-clss">
         <div className="breadcrumb-clss">
           <span className="module-name-clss">
-            {classVideo ? classVideo.module_name : moduleName}
+            {content.type === "video"
+              ? content.video_title
+              : content.type === "cheatsheet"
+                ? content.cheatsheet_title
+                : content.type === "mcq"
+                  ? content.mcq_title
+                  : moduleName}
           </span>
           <span className="separator-clss">
             <svg
@@ -538,9 +579,10 @@ const DigitalClasses = ({
             </svg>
           </span>
           <span className="topic-name-clss">
-            {classVideo
-              ? classVideo.video_title
-              : content.video_title || topicName}
+            {content.video_title ||
+              content.cheatsheet_title ||
+              content.mcq_title ||
+              topicName}
           </span>
         </div>
       </div>
@@ -597,6 +639,16 @@ const DigitalClasses = ({
         >
           Slides
         </button>
+        {(content.type === "mcq" || content.content_type === "mcq") && (
+          <button
+            className={`tab-button-clss ${
+              activeTab === "assessment" ? "active-clss" : ""
+            }`}
+            onClick={() => setActiveTab("assessment")}
+          >
+            Assessment
+          </button>
+        )}
       </div>
 
       {activeTab === "discussions" && (
@@ -852,10 +904,22 @@ const DigitalClasses = ({
               height="500"
               frameBorder="0"
               allowFullScreen
+              title="Presentation Slides"
             ></iframe>
           </div>
         </div>
       )}
+
+      {activeTab === "assessment" &&
+        (content.type === "mcq" || content.content_type === "mcq") && (
+          <div className="assessment-tab-clss">
+            <h2>{content.mcq_title || "Assessment"}</h2>
+            <div className="assessment-container-clss">
+              <p>Assessment component will be implemented here.</p>
+              <p>Number of questions: {content.questions?.length || 0}</p>
+            </div>
+          </div>
+        )}
 
       <FeedbackModal
         isOpen={showFeedbackModal}

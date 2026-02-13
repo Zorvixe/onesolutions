@@ -14,20 +14,21 @@ const DigitalSubtopicPage = () => {
     user,
     getContentByUuid,
     loadDigitalMarketingAllStructure,
+    digitalMarketingGoals,
   } = useAuth();
 
   const [content, setContent] = useState(null);
-  const [selectedSubtopicSub, setSelectedSubtopicSub] = useState(null);
-  const [selectedModuleSub, setSelectedModuleSub] = useState(null);
-  const [selectedTopicSub, setSelectedTopicSub] = useState(null);
-  const [selectedGoalSub, setSelectedGoalSub] = useState(null);
-  const [expandedModuleSub, setExpandedModuleSub] = useState(null);
-  const [expandedTopicSub, setExpandedTopicSub] = useState(null);
+  const [selectedSubtopic, setSelectedSubtopic] = useState(null);
+  const [selectedModule, setSelectedModule] = useState(null);
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [selectedGoal, setSelectedGoal] = useState(null);
+  const [expandedModule, setExpandedModule] = useState(null);
+  const [expandedTopic, setExpandedTopic] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [navigationStructure, setNavigationStructure] = useState([]);
   const [isAccessible, setIsAccessible] = useState(true);
   const [goalModules, setGoalModules] = useState([]);
+  const [goalIndex, setGoalIndex] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -47,9 +48,9 @@ const DigitalSubtopicPage = () => {
     try {
       await markSubtopicComplete(
         content.id,
-        selectedGoalSub?.id,
-        selectedModuleSub?.id,
-        selectedSubtopicSub?.id
+        selectedGoal?.id,
+        selectedModule?.id,
+        selectedSubtopic?.id
       );
 
       const timestamp = Date.now();
@@ -68,7 +69,6 @@ const DigitalSubtopicPage = () => {
         window.dispatchEvent(event);
       });
 
-      // Update local state to reflect completion immediately
       setContent((prev) => ({ ...prev, is_completed: true }));
     } catch (error) {
       console.error("Error marking digital content as completed:", error);
@@ -86,7 +86,6 @@ const DigitalSubtopicPage = () => {
     if (contentData.content_type) {
       return contentData.content_type;
     }
-    // Fallback detection
     if (contentData.cheatsheet_title) return "cheatsheet";
     if (contentData.mcq_title) return "mcq";
     return "video";
@@ -95,13 +94,168 @@ const DigitalSubtopicPage = () => {
   const getContentTypeIcon = (type) => {
     switch (type) {
       case "video":
-        return "🎬 ";
+        return "🎬";
       case "cheatsheet":
-        return "📘 ";
+        return "📘";
       case "mcq":
-        return "📝 ";
+        return "📝";
       default:
-        return "📄 ";
+        return "📄";
+    }
+  };
+
+  const getModuleProgress = (module) => {
+    if (!module.topics) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    module.topics.forEach((topic) => {
+      topic.subtopics?.forEach((subtopic) => {
+        subtopic.content?.forEach((contentItem) => {
+          totalContent++;
+          if (
+            completedContent.includes(contentItem.id) ||
+            contentItem.is_completed
+          ) {
+            completedContentCount++;
+          }
+        });
+      });
+    });
+
+    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+  };
+
+  const getTopicProgress = (topic) => {
+    if (!topic.subtopics) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    topic.subtopics?.forEach((subtopic) => {
+      subtopic.content?.forEach((contentItem) => {
+        totalContent++;
+        if (
+          completedContent.includes(contentItem.id) ||
+          contentItem.is_completed
+        ) {
+          completedContentCount++;
+        }
+      });
+    });
+
+    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+  };
+
+  // Find and set the correct module, topic, and subtopic based on content
+  const findAndSetCurrentPath = (modules, currentContent) => {
+    if (!modules || !currentContent) return;
+
+    for (const module of modules) {
+      if (module.topics) {
+        for (const topic of module.topics) {
+          if (topic.subtopics) {
+            for (const subtopic of topic.subtopics) {
+              if (subtopic.content) {
+                const foundContent = subtopic.content.find(
+                  (c) =>
+                    c.id === currentContent.id ||
+                    c.content_uuid === currentContent.content_uuid
+                );
+                if (foundContent) {
+                  setExpandedModule(module.id);
+                  setExpandedTopic(topic.id);
+                  setSelectedModule({ id: module.id, name: module.name });
+                  setSelectedTopic({ id: topic.id, name: topic.name });
+                  setSelectedSubtopic({ id: subtopic.id, name: subtopic.name });
+                  return;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  const loadCourseStructure = async (goalId, contentData = null) => {
+    if (!goalId) return;
+
+    try {
+      let goalData = null;
+
+      // ✅ Try context first
+      if (digitalMarketingGoals?.length > 0) {
+        goalData = digitalMarketingGoals.find(
+          (g) => g.id === parseInt(goalId) || g.id === goalId
+        );
+      }
+
+      // ✅ Fetch fallback
+      if (!goalData) {
+        const res = await loadDigitalMarketingAllStructure();
+
+        if (res?.success) {
+          goalData = res.data.find(
+            (g) => g.id === parseInt(goalId) || g.id === goalId
+          );
+        }
+      }
+
+      if (!goalData) {
+        console.warn("Goal not found");
+        return;
+      }
+
+      // ✅ FORCE goal selection
+      setSelectedGoal(goalData);
+
+      // ✅ Set modules
+      const modules = goalData.modules || [];
+      setGoalModules(modules);
+
+      // ✅ Sync sidebar AFTER modules ready
+      if (contentData && modules.length > 0) {
+        findAndSetCurrentPath(modules, contentData);
+      }
+    } catch (err) {
+      console.error("Structure load failed:", err);
+    }
+  };
+
+  const loadModuleStructure = async (moduleId, contentData = null) => {
+    if (!moduleId) return;
+
+    try {
+      // Ensure structure is loaded
+      if (!digitalMarketingGoals?.length) {
+        await loadDigitalMarketingAllStructure();
+      }
+
+      // Search module inside all goals
+      for (const goal of digitalMarketingGoals) {
+        const foundModule = goal.modules?.find((m) => m.id === moduleId);
+
+        if (foundModule) {
+          // optional — set goal context
+          setSelectedGoal(goal);
+
+          // IMPORTANT — sidebar modules
+          setGoalModules([foundModule]);
+
+          // Expand current lesson path
+          if (contentData) {
+            findAndSetCurrentPath([foundModule], contentData);
+          }
+
+          return;
+        }
+      }
+
+      console.warn("Module not found");
+    } catch (err) {
+      console.error("Module load failed:", err);
     }
   };
 
@@ -118,50 +272,65 @@ const DigitalSubtopicPage = () => {
         setLoading(true);
         setError(null);
 
-        // 1. Try to load from state first (navigation click)
+        // Try to load from state first (navigation click)
         if (location.state && location.state.contentItem) {
           const contentFromState = location.state.contentItem;
+
+          contentFromState.content_type =
+            contentFromState.content_type || getContentType(contentFromState);
 
           setContent(contentFromState);
           setIsAccessible(true);
 
-          // Set navigation context
-          if (location.state.goalId)
-            setSelectedGoalSub({
+          // Set navigation context from state
+          if (location.state.goalId) {
+            setSelectedGoal({
               id: location.state.goalId,
-              name: location.state.goalName,
+              name: location.state.goalName || "Digital Marketing",
             });
-          if (location.state.moduleId)
-            setSelectedModuleSub({
+
+            // Find goal index from digitalMarketingGoals
+            const goalIdx = digitalMarketingGoals?.findIndex(
+              (g) => g.id === location.state.goalId
+            );
+            if (goalIdx !== -1) setGoalIndex(goalIdx);
+          }
+
+          if (location.state.moduleId) {
+            setSelectedModule({
               id: location.state.moduleId,
               name: location.state.moduleName,
             });
-          if (location.state.topicId)
-            setSelectedTopicSub({
+            setExpandedModule(location.state.moduleId);
+          }
+
+          if (location.state.topicId) {
+            setSelectedTopic({
               id: location.state.topicId,
               name: location.state.topicName,
             });
-          if (location.state.subtopicId)
-            setSelectedSubtopicSub({
+            setExpandedTopic(location.state.topicId);
+          }
+
+          if (location.state.subtopicId) {
+            setSelectedSubtopic({
               id: location.state.subtopicId,
               name: location.state.subtopicName,
             });
+          }
 
-          // Load sidebar structure
-          await loadCourseStructure(
-            location.state.goalId || contentFromState.goal_id
-          );
+          await loadModuleStructure(location.state.moduleId, contentFromState);
+
           setLoading(false);
           return;
         }
 
-        // 2. If no state, fetch by UUID (URL direct access/refresh)
+        // If no state, fetch by UUID
         if (contentUuid) {
           const response = await getContentByUuid(contentUuid);
 
           if (response?.success) {
             const contentData = response.data;
-            // Ensure type is set
             contentData.content_type =
               contentData.content_type || getContentType(contentData);
 
@@ -169,15 +338,16 @@ const DigitalSubtopicPage = () => {
             setIsAccessible(true);
 
             if (contentData.goal_id) {
-              setSelectedGoalSub({ id: contentData.goal_id });
-              await loadCourseStructure(contentData.goal_id);
+              setSelectedGoal({
+                id: contentData.goal_id,
+                name: contentData.goal_name || "Digital Marketing",
+              });
 
-              if (contentData.module_id)
-                setSelectedModuleSub({ id: contentData.module_id });
-              if (contentData.topic_id)
-                setSelectedTopicSub({ id: contentData.topic_id });
-              if (contentData.subtopic_id)
-                setSelectedSubtopicSub({ id: contentData.subtopic_id });
+              // Find goal index
+              const goalIdx = digitalMarketingGoals?.findIndex(
+                (g) => g.id === contentData.goal_id
+              );
+              if (goalIdx !== -1) setGoalIndex(goalIdx);
             }
           } else {
             setError("Content not found");
@@ -194,44 +364,28 @@ const DigitalSubtopicPage = () => {
     };
 
     loadContent();
-  }, [contentUuid, hasDigitalAccess, location.state]);
+  }, [contentUuid, hasDigitalAccess, location.state, digitalMarketingGoals]);
 
-  const loadCourseStructure = async (goalId) => {
-    if (!goalId) return;
-    try {
-      const structureResponse = await loadDigitalMarketingAllStructure();
-      if (structureResponse?.success && structureResponse.data) {
-        const goalData = structureResponse.data.find(
-          (g) => g.id === parseInt(goalId)
-        );
-        if (goalData && goalData.modules) {
-          setGoalModules(goalData.modules);
-          if (goalData.modules.length > 0 && !expandedModuleSub) {
-            // Only auto-expand if not already set
-            setExpandedModuleSub(goalData.modules[0].id);
-          }
-        }
-      }
-    } catch (err) {
-      console.error("Error loading course structure:", err);
+  useEffect(() => {
+    if (goalModules.length > 0 && content) {
+      findAndSetCurrentPath(goalModules, content);
     }
-  };
+  }, [goalModules, content]);
 
   const renderContentComponent = () => {
     if (!content || !isAccessible) return null;
 
     const contentType = getContentType(content);
 
-    // Common props for all viewers
     const commonProps = {
       contentId: content.id,
       contentUuid: content.content_uuid,
-      goalId: selectedGoalSub?.id || content.goal_id,
-      moduleId: selectedModuleSub?.id || content.module_id,
-      topicId: selectedTopicSub?.id || content.topic_id,
-      subtopicId: selectedSubtopicSub?.id || content.subtopic_id,
+      goalId: selectedGoal?.id || content.goal_id,
+      moduleId: selectedModule?.id || content.module_id,
+      topicId: selectedTopic?.id || content.topic_id,
+      subtopicId: selectedSubtopic?.id || content.subtopic_id,
       onComplete: markAsCompleted,
-      preLoadedContent: content, // Pass full content to avoid re-fetch
+      preLoadedContent: content,
     };
 
     switch (contentType) {
@@ -242,24 +396,22 @@ const DigitalSubtopicPage = () => {
       case "mcq":
         return <DigitalMcqs {...commonProps} />;
       default:
-        // Default to video if unknown, but handle gracefully
         return <DigitalClasses {...commonProps} />;
     }
   };
 
   const handleModuleClick = (moduleId) => {
-    setExpandedModuleSub(expandedModuleSub === moduleId ? null : moduleId);
-    setExpandedTopicSub(null);
+    setExpandedModule(expandedModule === moduleId ? null : moduleId);
+    setExpandedTopic(null);
   };
 
   const handleTopicClick = (topicId) => {
-    setExpandedTopicSub(expandedTopicSub === topicId ? null : topicId);
+    setExpandedTopic(expandedTopic === topicId ? null : topicId);
   };
 
   const handleSubtopicClick = (module, topic, subtopic, contentItem) => {
     if (!contentItem || !contentItem.content_uuid) return;
 
-    // Determine type before navigation
     let contentType = contentItem.content_type;
     if (!contentType) {
       if (contentItem.cheatsheet_title) contentType = "cheatsheet";
@@ -270,9 +422,9 @@ const DigitalSubtopicPage = () => {
 
     navigate(`/digital/content/${contentItem.content_uuid}`, {
       state: {
-        contentItem: contentItem, // Pass the whole object!
-        goalId: selectedGoalSub?.id,
-        goalName: selectedGoalSub?.name,
+        contentItem: contentItem,
+        goalId: selectedGoal?.id,
+        goalName: selectedGoal?.name,
         moduleId: module.id,
         moduleName: module.name,
         topicId: topic.id,
@@ -283,6 +435,14 @@ const DigitalSubtopicPage = () => {
         isDigital: true,
       },
     });
+  };
+
+  const isCurrentContent = (contentItem) => {
+    if (!content || !contentItem) return false;
+    return (
+      contentItem.id === content.id ||
+      contentItem.content_uuid === content.content_uuid
+    );
   };
 
   if (loading) {
@@ -328,123 +488,89 @@ const DigitalSubtopicPage = () => {
 
   return (
     <div className="subtopic-page-sub digital-subtopic-page">
+      {/* LEFT PANEL - Navigation */}
       <div className="subtopic-page-sub__left-panel-sub">
-        {selectedGoalSub && goalModules.length > 0 ? (
+        {goalModules.length > 0 ? (
           <div className="subtopic-page-sub__navigation-sub">
+            {/* Module title header */}
             <h3 className="subtopic-page-sub__course-title-sub">
-              📱 {selectedGoalSub.name || "Digital Marketing"}
+              {goalModules[0]?.name || "Digital Marketing"}
             </h3>
 
-            {goalModules.map((module) => (
-              <div
-                key={module.id}
-                className="subtopic-page-sub__module-section-sub"
-              >
-                <h4
-                  className={`subtopic-page-sub__module-title-sub ${expandedModuleSub === module.id ? "subtopic-page-sub__module-title-sub--active" : ""}`}
-                  onClick={() => handleModuleClick(module.id)}
+            {/* Topics directly visible */}
+            {goalModules.map((module) =>
+              module.topics?.map((topic) => (
+                <div
+                  key={topic.id}
+                  className="subtopic-page-sub__module-section-sub"
                 >
-                  <span className="module-icon">📊</span>
-                  {module.name}
-                  <span className="expand-icon">
-                    {expandedModuleSub === module.id ? "−" : "+"}
-                  </span>
-                </h4>
+                  {/* Topic title */}
+                  <h4
+                    className={`subtopic-page-sub__module-title-sub ${
+                      topic.id === topic.id
+                        ? "subtopic-page-sub__module-title-sub--active"
+                        : ""
+                    }`}
+                    onClick={() => handleTopicClick(topic.id)}
+                  >
+                    {topic.name}
+                  </h4>
 
-                {expandedModuleSub === module.id && module.topics && (
-                  <div className="subtopic-page-sub__topics-sub">
-                    {module.topics.map((topic) => (
-                      <div
-                        key={topic.id}
-                        className="subtopic-page-sub__topic-section"
-                      >
-                        <h5
-                          className={`subtopic-page-sub__topic-title-sub ${expandedTopicSub === topic.id ? "active" : ""}`}
-                          onClick={() => handleTopicClick(topic.id)}
-                        >
-                          <span className="topic-icon">📌</span>
-                          {topic.name}
-                          <span className="expand-icon-small">
-                            {expandedTopicSub === topic.id ? "−" : "+"}
-                          </span>
-                        </h5>
+                  {/* Lessons */}
+                  {expandedTopic === topic.id &&
+                    topic.subtopics?.map((subtopic) =>
+                      subtopic.content?.map((contentItem) => {
+                        const isCompleted = completedContent.includes(
+                          contentItem.id
+                        );
+                        const isActive = isCurrentContent(contentItem);
 
-                        {expandedTopicSub === topic.id && topic.subtopics && (
-                          <div className="subtopic-page-sub__subtopics-sub">
-                            {topic.subtopics.map((subtopic) =>
-                              subtopic.content?.map((contentItem) => {
-                                const isActive = contentItem.id === content?.id;
-                                const isCompleted = completedContent.includes(
-                                  contentItem.id
-                                );
-
-                                return (
-                                  <div
-                                    key={contentItem.id}
-                                    className={`subtopic-page-sub__item-sub ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
-                                    onClick={() =>
-                                      handleSubtopicClick(
-                                        module,
-                                        topic,
-                                        subtopic,
-                                        contentItem
-                                      )
-                                    }
-                                  >
-                                    <span className="subtopic-page-sub__item-text-sub">
-                                      {contentItem.video_title ||
-                                        contentItem.cheatsheet_title ||
-                                        contentItem.mcq_title ||
-                                        subtopic.name}
-                                    </span>
-                                    <span
-                                      className={`content-type-tag ${contentItem.content_type || "video"}`}
-                                    >
-                                      {getContentTypeIcon(
-                                        contentItem.content_type || "video"
-                                      )}
-                                    </span>
-                                  </div>
-                                );
-                              })
-                            )}
+                        return (
+                          <div className="subtopic-page-sub__topics-sub">
+                            <div
+                              key={contentItem.id}
+                              className={`subtopic-page-sub__item-sub ${
+                                isActive ? "active-sub" : ""
+                              } ${isCompleted ? "completed-sub" : ""}`}
+                              onClick={() =>
+                                handleSubtopicClick(
+                                  module,
+                                  topic,
+                                  subtopic,
+                                  contentItem
+                                )
+                              }
+                            >
+                              <span className="subtopic-page-sub__item-text-sub">
+                                {contentItem.video_title ||
+                                  contentItem.cheatsheet_title ||
+                                  contentItem.mcq_title ||
+                                  subtopic.name}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                        );
+                      })
+                    )}
+                </div>
+              ))
+            )}
           </div>
         ) : (
-          <div className="digital-navigation-placeholder">
-            <div className="placeholder-content">
-              <h4>No Content Selected</h4>
-            </div>
-          </div>
+          <p>Select a topic from the courses page to start learning</p>
         )}
       </div>
 
+      {/* RIGHT PANEL - Content */}
       <div className="subtopic-page-sub__right-panel-sub">
         {content && isAccessible ? (
           <div className="digital-content-container">
-            <div className="digital-subtopic-header">
-              <div className="content-header-top">
-                <span
-                  className={`content-type-badge-large ${getContentType(content)}`}
-                >
-                  {getContentTypeIcon(getContentType(content))}
-                  {getContentType(content).toUpperCase()}
-                </span>
-              </div>
-            </div>
-
             {renderContentComponent()}
           </div>
         ) : (
           <div className="loading-container">
             <div className="spinner"></div>
+            <p>Loading content...</p>
           </div>
         )}
       </div>

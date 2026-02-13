@@ -173,6 +173,7 @@ export default function DigitalCourses() {
     if (contentUuid) {
       navigate(`/digital/content/${contentUuid}`, {
         state: {
+          goalId: digitalMarketingGoals[goalIndex]?.id,
           moduleId,
           subtopicId,
           subtopicName,
@@ -493,6 +494,57 @@ export default function DigitalCourses() {
                                           {isTopicCompleted ? "✓" : ""}
                                         </div>
                                       </div>
+                                      {isTopicExpanded && (
+                                        <>
+                                          {topic.subtopics?.flatMap(
+                                            (subtopic) =>
+                                              subtopic.content?.map(
+                                                (content) => {
+                                                  const isCompleted =
+                                                    isSubtopicCompleted(
+                                                      content.id
+                                                    );
+
+                                                  return (
+                                                    <div
+                                                      className="circle-row subtopic-circle-row"
+                                                      key={content.id}
+                                                    >
+                                                      <div
+                                                        className={`circle subtopic-circle ${
+                                                          isCompleted
+                                                            ? "completed"
+                                                            : ""
+                                                        }`}
+                                                        onClick={(e) => {
+                                                          e.stopPropagation();
+                                                          handleSubtopicClick(
+                                                            module.id,
+                                                            subtopic.id,
+                                                            subtopic.name,
+                                                            content.content_uuid,
+                                                            goal.name ||
+                                                              goal.title,
+                                                            module.name,
+                                                            goalIndex,
+                                                            content
+                                                          );
+                                                        }}
+                                                      >
+                                                        {isCompleted ? "✓" : ""}
+                                                      </div>
+                                                    </div>
+                                                  );
+                                                }
+                                              )
+                                          )}
+
+                                          {/* vertical connector */}
+                                          {topic.subtopics?.length > 0 && (
+                                            <div className="vertical-line"></div>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
 
                                     <div className="content-area">
@@ -568,14 +620,6 @@ export default function DigitalCourses() {
                                                       content.cheatsheet_title ||
                                                       content.mcq_title ||
                                                       subtopic.name}
-                                                  </span>
-                                                  <span className="content-type-icon">
-                                                    {content.content_type ===
-                                                      "video" && "🎬"}
-                                                    {content.content_type ===
-                                                      "cheatsheet" && "📘"}
-                                                    {content.content_type ===
-                                                      "mcq" && "📝"}
                                                   </span>
                                                 </div>
                                               );
