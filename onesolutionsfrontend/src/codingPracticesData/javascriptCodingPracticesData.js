@@ -5100,19 +5100,6 @@ export const javascriptCodingPracticesData = {
                        
                     </ol>
 
-
-                      <div className="Warning-container">
-                      <div>
-                        <h5>
-                          <i class="bi bi-exclamation-triangle"></i>Warning
-                        </h5>
-                      </div>
-                      <ul style={{ marginLeft: "1.5rem" }}>
-                        <li>
-                        Please provide valid URL's to the siteUrlInput element
-                        </li>
-                      </ul>
-                    </div>
                       <hr>
 
                   <p class="">By following the above instructions, achieve the given functionality.</p>
@@ -9307,12 +9294,12 @@ findFirstValue(myArray);
             </div>
           </div>
            `,
-          sampleInput: "[[1,2], [3, 4], [5, 6]]",
-          sampleOutput: "[[1,4],[9,16],[25,36]]",
+          sampleInput: "[ [1,2], [3, 4], [5, 6] ]",
+          sampleOutput: "[ [1,4],[9,16],[25,36] ]",
           testCases: [
             {
-              input: "[[1,2], [3,4], [5,6]]",
-              output: "[[1,4],[9,16],[25,36]]",
+              input: "[ [1,2], [3,4], [5,6] ]",
+              output: "[ [1,4],[9,16],[25,36] ]",
               visible: true,
             },
             {
@@ -9331,7 +9318,7 @@ findFirstValue(myArray);
               visible: false,
             },
           ],
-          
+
           defaultCode: `
 // Read input
 let myArray = eval(prompt());
