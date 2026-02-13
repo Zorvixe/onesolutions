@@ -5105,91 +5105,76 @@ export const javascriptCodingPracticesData = {
                   <p class="">By following the above instructions, achieve the given functionality.</p>
                   <ul>
                   <li>
-                    When the HTML <code>button</code> element with the id <code>submitBtn</code> is clicked,
+                    When values are provided in HTML <code>input</code> elements with ids
+                    <code>hoursInput</code> and <code>minutesInput</code>, the HTML button with id
+                    <code>convertBtn</code> is clicked
                     <ul>
                       <li>
-                        If the values are provided in the HTML input elements with ids
-                        <code>siteNameInput</code> and <code>siteUrlInput</code>
-                        <ul>
-                          <li>
-                            A new bookmark should be added to the
-                            <code>bookmarksList</code> as list item.
-                          </li>
-                        </ul>
+                        The converted time in seconds should be displayed in the HTML
+                        <code>p</code> element with id <code>timeInSeconds</code>
                       </li>
-                
                       <li>
-                        If the <code>siteNameInput</code> value is empty,
-                        <ul>
-                          <li>
-                            The HTML <code>p</code> element with id
-                            <code>siteNameErrMsg</code> should have error message
-                          </li>
-                        </ul>
-                      </li>
-                
-                      <li>
-                        If the <code>siteUrlInput</code> value is empty,
-                        <ul>
-                          <li>
-                            The HTML <code>p</code> element with id
-                            <code>siteUrlErrMsg</code> should have error message
-                          </li>
-                        </ul>
+                        The HTML <code>p</code> element with id <code>errorMsg</code> should be empty
                       </li>
                     </ul>
                   </li>
                 
                   <li>
-                    When the HTML <code>a</code> element consisting of the bookmarked site URL is clicked,
-                    the site should open in a <strong>new tab</strong>.
-                  </li>
-                
-                  <li>
-                    When the HTML <code>input</code> element with id
-                    <code>siteNameInput</code> is empty after changing the value inside the input
+                    The HTML <code>p</code> element with id <code>errorMsg</code> should display an
+                    error message in the following cases
                     <ul>
                       <li>
-                        The HTML <code>p</code> element with id
-                        <code>siteNameErrMsg</code> should have error message
+                        When the HTML <code>input</code> element with id
+                        <code>hoursInput</code> is empty and <code>convertBtn</code> is clicked
                       </li>
-                    </ul>
-                  </li>
-                
-                  <li>
-                    When the HTML <code>input</code> element with id
-                    <code>siteUrlInput</code> is empty after changing the value inside the input
-                    <ul>
                       <li>
-                        The HTML <code>p</code> element with id
-                        <code>siteUrlErrMsg</code> should have error message
+                        When the HTML <code>input</code> element with id
+                        <code>minutesInput</code> is empty and <code>convertBtn</code> is clicked
+                      </li>
+                      <li>
+                        When both the HTML <code>input</code> elements
+                        <code>hoursInput</code> and <code>minutesInput</code> are empty and
+                        <code>convertBtn</code> is clicked
                       </li>
                     </ul>
                   </li>
                 </ul>
+
+                <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   
+                    <li>
+                    Use addEventListener to attach events to HTML elements
+                    </li>
+                    <li>
+                    The values given for the HTML input elements with ids hoursInput and minutesInput should be positive integers.
+                    </li>
+                  </ul>
+                </p>
+              </div>
                 
                   <hr>
                   <p class="desc-que-blue">Resources</p>
-                  <p class="desc-que-blue">Background colors Hex code values used:</p>
-                  <div  class="desc-colors c2d3a8c">#2d3a8c</div>
-                  <div  class="desc-colors cffffff">#ffffff</div>
-                  <div  class="desc-colors cf5f7fa">#f5f7fa</div>
-                  <div  class="desc-colors c21396c">#21396c</div>
+                  <p class="desc-que-blue">Use this Background image:</p>
+                  <ul><li>https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770989071/time-converter-bg_kl3txr.png</li></ul>
 
+                  <p class="desc-que-blue"><strong>CSS Colors used:</strong></p>
                   <p class="desc-que-blue">Text colors Hex code values used:</p>
-                  <div  class="desc-colors c323f4b">#323f4b</div>
+                  
+                  <div  class="desc-colors cf5f7fa">#f5f7fa</div>
+                  <div  class="desc-colors c000000">#000000</div>
                   <div  class="desc-colors cffffff">#ffffff</div>
-                  <div  class="desc-colors c7b8794">#7b8794</div>
-                  <div  class="desc-colors cdc3545">#dc3545</div>
-
-                  <p class="desc-que-blue">Border Colors Hex code values used:</p>
-                  <div  class="desc-colors c7b8794">#cbd2d9</div>
-                  <div  class="desc-colors ce4e7eb">#e4e7eb</div>
 
                
                   <p class="desc-que-blue">CSS Font families used::</p>
                   <ul>
-                  <li>Roboto</li>
+                  <li>Open Sans</li>
                   </ul>
 
               <hr>
@@ -9294,12 +9279,12 @@ findFirstValue(myArray);
             </div>
           </div>
            `,
-          sampleInput: "[ [1,2], [3, 4], [5, 6] ]",
-          sampleOutput: "[ [1,4],[9,16],[25,36] ]",
+          sampleInput: "[[1,2], [3, 4], [5, 6]]",
+          sampleOutput: "[[1,4],[9,16],[25,36]]",
           testCases: [
             {
-              input: "[ [1,2], [3,4], [5,6] ]",
-              output: "[ [1,4],[9,16],[25,36] ]",
+              input: "[[1,2], [3,4], [5,6]]",
+              output: "[[1,4],[9,16],[25,36]]",
               visible: true,
             },
             {
@@ -9338,7 +9323,7 @@ getSquares(myArray);
           attempts: [],
         },
         {
-          id: "e8f49aad-a233-b71b6d1ab82d",
+          id: "e8f49aad-a235783-b71b6d1ab82d",
           title: "Product of Array Items",
           description:
             "Given an array integers, write a JS program to get the product of the integers in the given array.",
@@ -9358,8 +9343,35 @@ getSquares(myArray);
            `,
           sampleInput: "[1, 2, 3]",
           sampleOutput: "1 * 2 * 3 = 6",
-          testCases: [],
+          testCases: [
+            {
+              input: "[1, 2, 3]",
+              output: "1 * 2 * 3 = 6",
+              visible: true,
+            },
+            {
+              input: "[4, 5]",
+              output: "4 * 5 = 20",
+              visible: true,
+            },
+            {
+              input: "[10]",
+              output: "10 = 10",
+              visible: false,
+            },
+          ],
+          
           defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+function getProduct(arr) {
+  /*
+  * Write your code here
+  */
+}
+
+getProduct(myArray);
 
 
           `,

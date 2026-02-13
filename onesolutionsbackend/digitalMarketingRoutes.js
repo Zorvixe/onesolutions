@@ -136,7 +136,7 @@ const createTables = async () => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
-    // 5. Content (Consolidated table) - Check and add missing columns
+    // 5. Content table - Create if not exists with all columns
     await pool.query(`CREATE TABLE IF NOT EXISTS subtopic_content (
       id SERIAL PRIMARY KEY,
       subtopic_id INTEGER REFERENCES course_subtopics(id) ON DELETE CASCADE,
@@ -150,7 +150,8 @@ const createTables = async () => {
       video_description TEXT,
       video_duration INTEGER,
       video_type VARCHAR(50) DEFAULT 'uploaded',
-      
+      thumbnail_url VARCHAR(1000),
+
       -- Cheatsheet specific
       cheatsheet_title VARCHAR(500),
       cheatsheet_content TEXT,
@@ -171,21 +172,38 @@ const createTables = async () => {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
-    // Check if thumbnail_url column exists and add it if not
-    const checkColumnQuery = `
-      SELECT column_name 
-      FROM information_schema.columns 
-      WHERE table_name = 'subtopic_content' AND column_name = 'thumbnail_url'
-    `;
+    // Check for and add any missing columns to subtopic_content
+    const columnsToAdd = [
+      { name: "thumbnail_url", type: "VARCHAR(1000)" },
+      { name: "learning_objectives", type: "JSONB DEFAULT '[]'" },
+      { name: "resources", type: "JSONB DEFAULT '[]'" },
+      { name: "key_takeaways", type: "JSONB DEFAULT '[]'" },
+      { name: "table_of_contents", type: "JSONB DEFAULT '[]'" },
+      { name: "time_limit", type: "INTEGER" },
+      { name: "passing_score", type: "INTEGER DEFAULT 70" },
+      { name: "video_type", type: "VARCHAR(50) DEFAULT 'uploaded'" },
+      { name: "file_url", type: "VARCHAR(1000)" },
+      { name: "questions", type: "JSONB DEFAULT '[]'" },
+    ];
 
-    const columnCheck = await pool.query(checkColumnQuery);
+    for (const column of columnsToAdd) {
+      const checkColumnQuery = `
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = 'subtopic_content' AND column_name = '${column.name}'
+      `;
 
-    if (columnCheck.rows.length === 0) {
-      console.log("Adding thumbnail_url column to subtopic_content table...");
-      await pool.query(
-        `ALTER TABLE subtopic_content ADD COLUMN IF NOT EXISTS thumbnail_url VARCHAR(1000)`
-      );
-      console.log("✅ thumbnail_url column added successfully");
+      const columnCheck = await pool.query(checkColumnQuery);
+
+      if (columnCheck.rows.length === 0) {
+        console.log(
+          `Adding ${column.name} column to subtopic_content table...`
+        );
+        await pool.query(
+          `ALTER TABLE subtopic_content ADD COLUMN IF NOT EXISTS ${column.name} ${column.type}`
+        );
+        console.log(`✅ ${column.name} column added successfully`);
+      }
     }
 
     // 6. Student Enrollments
@@ -214,7 +232,7 @@ const createTables = async () => {
       UNIQUE(student_id, content_id)
     )`);
 
-    console.log("✅ Digital Marketing Schema Initialized");
+    console.log("✅ Digital Marketing Schema Initialized and Verified");
   } catch (err) {
     console.error("❌ Schema Init Error:", err);
   }
