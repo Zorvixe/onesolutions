@@ -79,7 +79,7 @@ const authenticate = (req, res, next) => {
       "your-fallback-secret-key-for-development-only-change-in-production";
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
-    req.student = { id: decoded.id }; // Compatible with your existing system
+    req.student = { id: decoded.id };
     next();
   } catch (error) {
     res.status(401).json({
@@ -142,7 +142,7 @@ const createTables = async () => {
       subtopic_id INTEGER REFERENCES course_subtopics(id) ON DELETE CASCADE,
       content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('video', 'cheatsheet', 'mcq')),
       content_uuid UUID DEFAULT gen_random_uuid(),
-      access_token UUID,
+      access_token UUID DEFAULT gen_random_uuid(),
       
       -- Video specific
       video_title VARCHAR(500),
@@ -150,16 +150,25 @@ const createTables = async () => {
       video_description TEXT,
       video_duration INTEGER,
       video_type VARCHAR(50) DEFAULT 'uploaded',
+      thumbnail_url VARCHAR(1000),
 
       -- Cheatsheet specific
       cheatsheet_title VARCHAR(500),
       cheatsheet_content TEXT,
       file_url VARCHAR(1000),
-
+      
       -- MCQ specific
       mcq_title VARCHAR(500),
       questions JSONB DEFAULT '[]',
-
+      
+      -- Common fields
+      learning_objectives JSONB DEFAULT '[]',
+      resources JSONB DEFAULT '[]',
+      key_takeaways JSONB DEFAULT '[]',
+      table_of_contents JSONB DEFAULT '[]',
+      time_limit INTEGER,
+      passing_score INTEGER DEFAULT 70,
+      
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`);
 
@@ -225,7 +234,6 @@ app.post("/api/admin/course/goals", async (req, res) => {
   }
 });
 
-// Update Goal - NO AUTHENTICATE
 app.put("/api/admin/course/goals/:goalId", async (req, res) => {
   try {
     const { goalId } = req.params;
@@ -258,9 +266,6 @@ app.put("/api/admin/course/goals/:goalId", async (req, res) => {
         .status(400)
         .json({ success: false, message: "No fields to update" });
     }
-
-    // REMOVED updated_at since it doesn't exist in the schema
-    // updates.push(`updated_at = CURRENT_TIMESTAMP`);
 
     query += updates.join(", ");
     query += ` WHERE id = $${paramIndex} RETURNING *`;
@@ -583,7 +588,6 @@ app.get("/api/admin/course/subtopics/:subtopicId/content", async (req, res) => {
   }
 });
 
-// Update Content - NO AUTHENTICATE
 app.put("/api/admin/course/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
@@ -594,6 +598,13 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
       video_description,
       cheatsheet_content,
       questions,
+      learning_objectives,
+      resources,
+      key_takeaways,
+      table_of_contents,
+      time_limit,
+      passing_score,
+      thumbnail_url
     } = req.body;
 
     let query = "UPDATE subtopic_content SET ";
@@ -625,6 +636,34 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
       updates.push(`questions = $${paramIndex++}`);
       values.push(JSON.stringify(questions));
     }
+    if (learning_objectives !== undefined) {
+      updates.push(`learning_objectives = $${paramIndex++}`);
+      values.push(JSON.stringify(learning_objectives));
+    }
+    if (resources !== undefined) {
+      updates.push(`resources = $${paramIndex++}`);
+      values.push(JSON.stringify(resources));
+    }
+    if (key_takeaways !== undefined) {
+      updates.push(`key_takeaways = $${paramIndex++}`);
+      values.push(JSON.stringify(key_takeaways));
+    }
+    if (table_of_contents !== undefined) {
+      updates.push(`table_of_contents = $${paramIndex++}`);
+      values.push(JSON.stringify(table_of_contents));
+    }
+    if (time_limit !== undefined) {
+      updates.push(`time_limit = $${paramIndex++}`);
+      values.push(time_limit);
+    }
+    if (passing_score !== undefined) {
+      updates.push(`passing_score = $${paramIndex++}`);
+      values.push(passing_score);
+    }
+    if (thumbnail_url !== undefined) {
+      updates.push(`thumbnail_url = $${paramIndex++}`);
+      values.push(thumbnail_url);
+    }
 
     if (updates.length === 0) {
       return res
@@ -654,7 +693,6 @@ app.delete("/api/admin/course/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
 
-    // Get content to check if it's a video and delete file
     const content = await pool.query(
       "SELECT * FROM subtopic_content WHERE id = $1",
       [contentId]
@@ -694,14 +732,33 @@ app.post(
   videoUpload.single("video"),
   async (req, res) => {
     try {
-      const { title, description, duration } = req.body;
+      const { 
+        title, 
+        description, 
+        duration, 
+        learning_objectives, 
+        resources,
+        thumbnail_url 
+      } = req.body;
+      
       const videoUrl = `/uploads/videos/${req.file.filename}`;
       const uuid = crypto.randomUUID();
       const token = crypto.randomUUID();
 
       const result = await pool.query(
-        `INSERT INTO subtopic_content (subtopic_id, content_type, content_uuid, access_token, video_title, video_description, video_duration, video_url)
-             VALUES ($1, 'video', $2, $3, $4, $5, $6, $7) RETURNING *`,
+        `INSERT INTO subtopic_content (
+          subtopic_id, 
+          content_type, 
+          content_uuid, 
+          access_token, 
+          video_title, 
+          video_description, 
+          video_duration, 
+          video_url,
+          learning_objectives,
+          resources,
+          thumbnail_url
+        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
         [
           req.params.subtopicId,
           uuid,
@@ -710,6 +767,9 @@ app.post(
           description,
           duration || 0,
           videoUrl,
+          JSON.stringify(learning_objectives || []),
+          JSON.stringify(resources || []),
+          thumbnail_url || null
         ]
       );
       res.json({ success: true, data: result.rows[0] });
@@ -725,13 +785,39 @@ app.post(
   "/api/admin/course/subtopics/:subtopicId/cheatsheet",
   async (req, res) => {
     try {
-      const { title, content } = req.body;
+      const { 
+        title, 
+        content, 
+        file_url, 
+        key_takeaways, 
+        table_of_contents 
+      } = req.body;
+      
       const uuid = crypto.randomUUID();
+      const token = crypto.randomUUID();
 
       const result = await pool.query(
-        `INSERT INTO subtopic_content (subtopic_id, content_type, content_uuid, cheatsheet_title, cheatsheet_content)
-             VALUES ($1, 'cheatsheet', $2, $3, $4) RETURNING *`,
-        [req.params.subtopicId, uuid, title, content]
+        `INSERT INTO subtopic_content (
+          subtopic_id, 
+          content_type, 
+          content_uuid,
+          access_token, 
+          cheatsheet_title, 
+          cheatsheet_content,
+          file_url,
+          key_takeaways,
+          table_of_contents
+        ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+        [
+          req.params.subtopicId, 
+          uuid, 
+          token,
+          title, 
+          content, 
+          file_url || null,
+          JSON.stringify(key_takeaways || []),
+          JSON.stringify(table_of_contents || [])
+        ]
       );
       res.json({ success: true, data: result.rows[0] });
     } catch (e) {
@@ -743,13 +829,36 @@ app.post(
 // Create MCQ
 app.post("/api/admin/course/subtopics/:subtopicId/mcq", async (req, res) => {
   try {
-    const { title, questions } = req.body;
+    const { 
+      title, 
+      questions, 
+      time_limit, 
+      passing_score 
+    } = req.body;
+    
     const uuid = crypto.randomUUID();
+    const token = crypto.randomUUID();
 
     const result = await pool.query(
-      `INSERT INTO subtopic_content (subtopic_id, content_type, content_uuid, mcq_title, questions)
-             VALUES ($1, 'mcq', $2, $3, $4) RETURNING *`,
-      [req.params.subtopicId, uuid, title, JSON.stringify(questions)]
+      `INSERT INTO subtopic_content (
+        subtopic_id, 
+        content_type, 
+        content_uuid,
+        access_token, 
+        mcq_title, 
+        questions,
+        time_limit,
+        passing_score
+      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7) RETURNING *`,
+      [
+        req.params.subtopicId, 
+        uuid, 
+        token,
+        title, 
+        JSON.stringify(questions),
+        time_limit || null,
+        passing_score || 70
+      ]
     );
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -789,7 +898,6 @@ app.post(
       const studentId = req.student.id;
       const goalId = req.params.goalId;
 
-      // Check if goal exists and is active
       const goalCheck = await pool.query(
         "SELECT id FROM course_goals WHERE id = $1 AND is_active = true",
         [goalId]
@@ -828,7 +936,6 @@ app.get("/api/student/courses/goal/:goalId", authenticate, async (req, res) => {
     const studentId = req.student.id;
     const { goalId } = req.params;
 
-    // Check enrollment
     const enrollment = await pool.query(
       "SELECT * FROM student_course_enrollments WHERE student_id = $1 AND goal_id = $2",
       [studentId, goalId]
@@ -853,18 +960,21 @@ app.get("/api/student/courses/goal/:goalId", authenticate, async (req, res) => {
       });
     }
 
-    // Get modules with nested structure
     const modulesResult = await pool.query(
       `SELECT cm.*,
                 (SELECT json_agg(
                     json_build_object(
                         'id', ct.id, 
                         'name', ct.name,
+                        'description', ct.description,
+                        'order_number', ct.order_number,
                         'subtopics', (
                             SELECT json_agg(
                                 json_build_object(
                                     'id', cs.id, 
                                     'name', cs.name,
+                                    'description', cs.description,
+                                    'order_number', cs.order_number,
                                     'content', (
                                         SELECT json_agg(
                                             json_build_object(
@@ -873,11 +983,24 @@ app.get("/api/student/courses/goal/:goalId", authenticate, async (req, res) => {
                                                 'content_uuid', sc.content_uuid,
                                                 'video_title', sc.video_title,
                                                 'video_description', sc.video_description,
+                                                'video_duration', sc.video_duration,
+                                                'video_url', sc.video_url,
+                                                'thumbnail_url', sc.thumbnail_url,
                                                 'cheatsheet_title', sc.cheatsheet_title,
                                                 'cheatsheet_content', sc.cheatsheet_content,
+                                                'file_url', sc.file_url,
                                                 'mcq_title', sc.mcq_title,
                                                 'questions', sc.questions,
-                                                'progress', scp.status
+                                                'learning_objectives', sc.learning_objectives,
+                                                'resources', sc.resources,
+                                                'key_takeaways', sc.key_takeaways,
+                                                'table_of_contents', sc.table_of_contents,
+                                                'time_limit', sc.time_limit,
+                                                'passing_score', sc.passing_score,
+                                                'progress_status', scp.status,
+                                                'completed_at', scp.completed_at,
+                                                'quiz_score', scp.quiz_score,
+                                                'is_completed', CASE WHEN scp.id IS NOT NULL THEN true ELSE false END
                                             )
                                         ) FROM subtopic_content sc
                                         LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
@@ -912,45 +1035,84 @@ app.get("/api/student/courses/goal/:goalId", authenticate, async (req, res) => {
 });
 
 // Complete Content
-app.post(
-  "/api/student/courses/content/complete",
-  authenticate,
-  async (req, res) => {
-    try {
-      const studentId = req.student.id;
-      const { content_id, goal_id, quiz_score } = req.body;
+app.post("/api/student/courses/content/complete", authenticate, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const { content_id, goal_id, quiz_score, module_id, subtopic_id } = req.body;
 
-      if (!content_id || !goal_id) {
-        return res.status(400).json({
-          success: false,
-          message: "Content ID and Goal ID are required",
-        });
-      }
-
-      await pool.query(
-        `INSERT INTO student_course_progress (student_id, goal_id, content_id, status, quiz_score)
-             VALUES ($1, $2, $3, 'completed', $4)
-             ON CONFLICT (student_id, content_id) DO UPDATE SET 
-                quiz_score = $4,
-                completed_at = CURRENT_TIMESTAMP`,
-        [studentId, goal_id, content_id, quiz_score || null]
-      );
-
-      res.json({
-        success: true,
-        message: "Content marked as completed",
-      });
-    } catch (e) {
-      res.status(500).json({
+    if (!content_id || !goal_id) {
+      return res.status(400).json({
         success: false,
-        error: e.message,
+        message: "Content ID and Goal ID are required",
       });
     }
-  }
-);
 
-// Secure Content Serving
-// In your server.js or routes file - UPDATE the secure content serving endpoint
+    await pool.query(
+      `INSERT INTO student_course_progress (student_id, goal_id, content_id, status, quiz_score, module_id, subtopic_id)
+       VALUES ($1, $2, $3, 'completed', $4, $5, $6)
+       ON CONFLICT (student_id, content_id) DO UPDATE SET 
+          status = 'completed',
+          quiz_score = COALESCE($4, student_course_progress.quiz_score),
+          module_id = COALESCE($5, student_course_progress.module_id),
+          subtopic_id = COALESCE($6, student_course_progress.subtopic_id),
+          completed_at = CURRENT_TIMESTAMP`,
+      [studentId, goal_id, content_id, quiz_score || null, module_id || null, subtopic_id || null]
+    );
+
+    const progressCalc = await pool.query(
+      `WITH 
+        total_content AS (
+          SELECT COUNT(sc.id) as total
+          FROM course_goals cg
+          JOIN course_modules cm ON cm.goal_id = cg.id
+          JOIN course_topics ct ON ct.module_id = cm.id
+          JOIN course_subtopics cs ON cs.topic_id = ct.id
+          JOIN subtopic_content sc ON sc.subtopic_id = cs.id
+          WHERE cg.id = $1
+        ),
+        completed_content AS (
+          SELECT COUNT(scp.content_id) as completed
+          FROM student_course_progress scp
+          WHERE scp.student_id = $2 AND scp.goal_id = $1 AND scp.status = 'completed'
+        )
+        SELECT 
+          total_content.total,
+          completed_content.completed,
+          CASE 
+            WHEN total_content.total > 0 
+            THEN ROUND((completed_content.completed::DECIMAL / total_content.total::DECIMAL) * 100)
+            ELSE 0 
+          END as progress_percentage
+        FROM total_content, completed_content`,
+      [goal_id, studentId]
+    );
+
+    if (progressCalc.rows.length > 0) {
+      await pool.query(
+        `UPDATE student_course_enrollments 
+         SET progress_percentage = $1,
+             completed_at = CASE WHEN $1 >= 100 THEN CURRENT_TIMESTAMP ELSE completed_at END,
+             status = CASE WHEN $1 >= 100 THEN 'completed' ELSE status END
+         WHERE student_id = $2 AND goal_id = $3`,
+        [progressCalc.rows[0].progress_percentage, studentId, goal_id]
+      );
+    }
+
+    res.json({
+      success: true,
+      message: "Content marked as completed",
+      progress: progressCalc.rows[0]?.progress_percentage || 0
+    });
+
+  } catch (e) {
+    res.status(500).json({
+      success: false,
+      error: e.message
+    });
+  }
+});
+
+// Secure Content Serving - FIXED to return proper data structure
 app.get(
   "/api/content/:contentUuid",
   authenticate,
@@ -960,7 +1122,6 @@ app.get(
       const content = req.content;
       const studentId = req.student.id;
 
-      // Check if student is enrolled in this course
       const enrollment = await pool.query(
         `SELECT sce.* FROM student_course_enrollments sce
              JOIN course_goals cg ON sce.goal_id = cg.id
@@ -981,65 +1142,99 @@ app.get(
 
       const baseUrl = process.env.BACKEND_URL || "http://localhost:5002";
 
+      // Get goal_id and other IDs from the enrollment
+      const goalResult = await pool.query(
+        `SELECT cg.id as goal_id, cm.id as module_id, ct.id as topic_id, cs.id as subtopic_id
+         FROM course_goals cg
+         JOIN course_modules cm ON cm.goal_id = cg.id
+         JOIN course_topics ct ON ct.module_id = cm.id
+         JOIN course_subtopics cs ON cs.topic_id = ct.id
+         JOIN subtopic_content sc ON sc.subtopic_id = cs.id
+         WHERE sce.student_id = $1 AND sc.content_uuid = $2
+         JOIN student_course_enrollments sce ON sce.goal_id = cg.id`,
+        [studentId, req.params.contentUuid]
+      );
+
+      const goalId = goalResult.rows[0]?.goal_id || null;
+      const moduleId = goalResult.rows[0]?.module_id || null;
+      const topicId = goalResult.rows[0]?.topic_id || null;
+      const subtopicId = goalResult.rows[0]?.subtopic_id || null;
+
       if (content.content_type === "video") {
         res.json({
           success: true,
           data: {
+            id: content.id,
             type: "video",
-            video: {
-              id: content.id,
-              uuid: content.content_uuid, // ✅ Include UUID
-              title: content.video_title,
-              description: content.video_description,
-              duration: content.video_duration,
-              // ✅ URL with UUID - clean and user-friendly
-              url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
-              // ✅ Also include the content page URL for frontend navigation
-              contentUrl: `/content/${content.content_uuid}`,
-              thumbnail: content.thumbnail_url,
-            },
+            content_type: "video",
+            content_uuid: content.content_uuid,
+            video_title: content.video_title,
+            video_description: content.video_description,
+            video_duration: content.video_duration,
+            video_url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
+            thumbnail_url: content.thumbnail_url,
+            learning_objectives: content.learning_objectives || [],
+            resources: content.resources || [],
+            goal_id: goalId,
+            module_id: moduleId,
+            topic_id: topicId,
+            subtopic_id: subtopicId
           },
         });
       } else if (content.content_type === "cheatsheet") {
         res.json({
           success: true,
           data: {
+            id: content.id,
             type: "cheatsheet",
-            cheatsheet: {
-              id: content.id,
-              uuid: content.content_uuid, // ✅ Include UUID
-              title: content.cheatsheet_title,
-              content: content.cheatsheet_content,
-              file_url: content.file_url,
-              contentUrl: `/content/${content.content_uuid}`, // ✅ Add content URL
-            },
+            content_type: "cheatsheet",
+            content_uuid: content.content_uuid,
+            cheatsheet_title: content.cheatsheet_title,
+            cheatsheet_content: content.cheatsheet_content,
+            file_url: content.file_url,
+            key_takeaways: content.key_takeaways || [],
+            table_of_contents: content.table_of_contents || [],
+            goal_id: goalId,
+            module_id: moduleId,
+            topic_id: topicId,
+            subtopic_id: subtopicId
           },
         });
       } else if (content.content_type === "mcq") {
         res.json({
           success: true,
           data: {
+            id: content.id,
             type: "mcq",
-            mcq: {
-              id: content.id,
-              uuid: content.content_uuid, // ✅ Include UUID
-              title: content.mcq_title,
-              questions: content.questions,
-              contentUrl: `/content/${content.content_uuid}`, // ✅ Add content URL
-            },
+            content_type: "mcq",
+            content_uuid: content.content_uuid,
+            mcq_title: content.mcq_title,
+            questions: content.questions || [],
+            time_limit: content.time_limit,
+            passing_score: content.passing_score || 70,
+            goal_id: goalId,
+            module_id: moduleId,
+            topic_id: topicId,
+            subtopic_id: subtopicId
           },
         });
       } else {
         res.json({
           success: true,
-          data: { 
+          data: {
+            id: content.id,
             type: content.content_type,
-            uuid: content.content_uuid,
-            contentUrl: `/content/${content.content_uuid}`
+            content_type: content.content_type,
+            content_uuid: content.content_uuid,
+            goal_id: goalId,
+            module_id: moduleId,
+            topic_id: topicId,
+            subtopic_id: subtopicId
           },
         });
       }
     } catch (e) {
+      console.error("Error fetching content by UUID:", e);
       res.status(500).json({
         success: false,
         error: e.message,
@@ -1136,16 +1331,11 @@ app.get(
   }
 );
 
-// -------------------------------------------
-// ADD THESE MISSING STUDENT ENDPOINTS
-// -------------------------------------------
-
 // Get ALL goals with complete structure for student portal
 app.get("/api/student/courses/all-structure", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
 
-    // Get all active goals with enrollment status
     const goalsResult = await pool.query(
       `SELECT cg.*, 
                 sce.enrolled_at, 
@@ -1162,7 +1352,6 @@ app.get("/api/student/courses/all-structure", authenticate, async (req, res) => 
     const goalsWithStructure = [];
 
     for (const goal of goalsResult.rows) {
-      // Get modules with complete nested structure for each goal
       const modulesResult = await pool.query(
         `SELECT 
             cm.*,
@@ -1189,10 +1378,19 @@ app.get("/api/student/courses/all-structure", authenticate, async (req, res) => 
                               'video_title', sc.video_title,
                               'video_description', sc.video_description,
                               'video_duration', sc.video_duration,
+                              'video_url', sc.video_url,
+                              'thumbnail_url', sc.thumbnail_url,
                               'cheatsheet_title', sc.cheatsheet_title,
                               'cheatsheet_content', sc.cheatsheet_content,
+                              'file_url', sc.file_url,
                               'mcq_title', sc.mcq_title,
                               'questions', sc.questions,
+                              'learning_objectives', sc.learning_objectives,
+                              'resources', sc.resources,
+                              'key_takeaways', sc.key_takeaways,
+                              'table_of_contents', sc.table_of_contents,
+                              'time_limit', sc.time_limit,
+                              'passing_score', sc.passing_score,
                               'progress_status', scp.status,
                               'completed_at', scp.completed_at,
                               'quiz_score', scp.quiz_score,
@@ -1214,7 +1412,6 @@ app.get("/api/student/courses/all-structure", authenticate, async (req, res) => 
         [studentId, goal.id]
       );
 
-      // Calculate total content and completed content for this goal
       let totalContent = 0;
       let completedContent = 0;
 
@@ -1313,79 +1510,33 @@ app.get("/api/student/courses/completed-content", authenticate, async (req, res)
   }
 });
 
-// -------------------------------------------
-// UPDATE EXISTING ENDPOINT - Add progress calculation
-// -------------------------------------------
-// Replace your existing complete content endpoint with this updated version
-app.post("/api/student/courses/content/complete", authenticate, async (req, res) => {
+// Get goal progress
+app.get("/api/student/courses/progress/goal/:goalId", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
-    const { content_id, goal_id, quiz_score, module_id, subtopic_id } = req.body;
+    const { goalId } = req.params;
 
-    if (!content_id || !goal_id) {
-      return res.status(400).json({
-        success: false,
-        message: "Content ID and Goal ID are required",
-      });
-    }
-
-    // Insert/Update progress
-    await pool.query(
-      `INSERT INTO student_course_progress (student_id, goal_id, content_id, status, quiz_score, module_id, subtopic_id)
-       VALUES ($1, $2, $3, 'completed', $4, $5, $6)
-       ON CONFLICT (student_id, content_id) DO UPDATE SET 
-          status = 'completed',
-          quiz_score = COALESCE($4, student_course_progress.quiz_score),
-          module_id = COALESCE($5, student_course_progress.module_id),
-          subtopic_id = COALESCE($6, student_course_progress.subtopic_id),
-          completed_at = CURRENT_TIMESTAMP`,
-      [studentId, goal_id, content_id, quiz_score || null, module_id || null, subtopic_id || null]
+    const result = await pool.query(
+      `SELECT 
+         sce.progress_percentage,
+         sce.status,
+         sce.completed_at,
+         COUNT(DISTINCT scp.content_id) as completed_content,
+         (SELECT COUNT(*) FROM subtopic_content sc
+          JOIN course_subtopics cs ON sc.subtopic_id = cs.id
+          JOIN course_topics ct ON cs.topic_id = ct.id
+          JOIN course_modules cm ON ct.module_id = cm.id
+          WHERE cm.goal_id = $1) as total_content
+       FROM student_course_enrollments sce
+       LEFT JOIN student_course_progress scp ON sce.student_id = scp.student_id AND sce.goal_id = scp.goal_id
+       WHERE sce.student_id = $2 AND sce.goal_id = $1
+       GROUP BY sce.progress_percentage, sce.status, sce.completed_at`,
+      [goalId, studentId]
     );
-
-    // Calculate and update overall progress percentage for the goal
-    const progressCalc = await pool.query(
-      `WITH 
-        total_content AS (
-          SELECT COUNT(sc.id) as total
-          FROM course_goals cg
-          JOIN course_modules cm ON cm.goal_id = cg.id
-          JOIN course_topics ct ON ct.module_id = cm.id
-          JOIN course_subtopics cs ON cs.topic_id = ct.id
-          JOIN subtopic_content sc ON sc.subtopic_id = cs.id
-          WHERE cg.id = $1
-        ),
-        completed_content AS (
-          SELECT COUNT(scp.content_id) as completed
-          FROM student_course_progress scp
-          WHERE scp.student_id = $2 AND scp.goal_id = $1 AND scp.status = 'completed'
-        )
-        SELECT 
-          total_content.total,
-          completed_content.completed,
-          CASE 
-            WHEN total_content.total > 0 
-            THEN ROUND((completed_content.completed::DECIMAL / total_content.total::DECIMAL) * 100)
-            ELSE 0 
-          END as progress_percentage
-        FROM total_content, completed_content`,
-      [goal_id, studentId]
-    );
-
-    if (progressCalc.rows.length > 0) {
-      await pool.query(
-        `UPDATE student_course_enrollments 
-         SET progress_percentage = $1,
-             completed_at = CASE WHEN $1 >= 100 THEN CURRENT_TIMESTAMP ELSE completed_at END,
-             status = CASE WHEN $1 >= 100 THEN 'completed' ELSE status END
-         WHERE student_id = $2 AND goal_id = $3`,
-        [progressCalc.rows[0].progress_percentage, studentId, goal_id]
-      );
-    }
 
     res.json({
       success: true,
-      message: "Content marked as completed",
-      progress: progressCalc.rows[0]?.progress_percentage || 0
+      data: result.rows[0] || { progress_percentage: 0 }
     });
 
   } catch (e) {
@@ -1396,87 +1547,7 @@ app.post("/api/student/courses/content/complete", authenticate, async (req, res)
   }
 });
 
-// -------------------------------------------
-// ADD THESE ADMIN REORDER ENDPOINTS
-// -------------------------------------------
-
-// Reorder goals
-app.post("/api/admin/course/goals/reorder", async (req, res) => {
-  try {
-    const { orderedIds } = req.body;
-    
-    for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        "UPDATE course_goals SET order_number = $1 WHERE id = $2",
-        [i, orderedIds[i]]
-      );
-    }
-    
-    res.json({ success: true, message: "Goals reordered successfully" });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
-  }
-});
-
-// Reorder modules
-app.post("/api/admin/course/modules/reorder", async (req, res) => {
-  try {
-    const { goalId, orderedIds } = req.body;
-    
-    for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        "UPDATE course_modules SET order_number = $1 WHERE id = $2 AND goal_id = $3",
-        [i, orderedIds[i], goalId]
-      );
-    }
-    
-    res.json({ success: true, message: "Modules reordered successfully" });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
-  }
-});
-
-// Reorder topics
-app.post("/api/admin/course/topics/reorder", async (req, res) => {
-  try {
-    const { moduleId, orderedIds } = req.body;
-    
-    for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        "UPDATE course_topics SET order_number = $1 WHERE id = $2 AND module_id = $3",
-        [i, orderedIds[i], moduleId]
-      );
-    }
-    
-    res.json({ success: true, message: "Topics reordered successfully" });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
-  }
-});
-
-// Reorder subtopics
-app.post("/api/admin/course/subtopics/reorder", async (req, res) => {
-  try {
-    const { topicId, orderedIds } = req.body;
-    
-    for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        "UPDATE course_subtopics SET order_number = $1 WHERE id = $2 AND topic_id = $3",
-        [i, orderedIds[i], topicId]
-      );
-    }
-    
-    res.json({ success: true, message: "Subtopics reordered successfully" });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
-  }
-});
-
-// -------------------------------------------
-// ADD THESE HELPER ENDPOINTS
-// -------------------------------------------
-
-// Get course statistics for student dashboard
+// Get dashboard stats
 app.get("/api/student/dashboard/stats", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
@@ -1494,12 +1565,11 @@ app.get("/api/student/dashboard/stats", authenticate, async (req, res) => {
       [studentId]
     );
 
-    // Get recent activity
     const recentActivity = await pool.query(
       `SELECT 
           scp.completed_at,
           cg.name as course_name,
-          sc.video_title as content_title,
+          COALESCE(sc.video_title, sc.cheatsheet_title, sc.mcq_title) as content_title,
           sc.content_type
         FROM student_course_progress scp
         JOIN course_goals cg ON scp.goal_id = cg.id
@@ -1524,6 +1594,89 @@ app.get("/api/student/dashboard/stats", authenticate, async (req, res) => {
       error: e.message
     });
   }
+});
+
+// -------------------------------------------
+// ADMIN REORDER ENDPOINTS
+// -------------------------------------------
+
+app.post("/api/admin/course/goals/reorder", async (req, res) => {
+  try {
+    const { orderedIds } = req.body;
+    
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE course_goals SET order_number = $1 WHERE id = $2",
+        [i, orderedIds[i]]
+      );
+    }
+    
+    res.json({ success: true, message: "Goals reordered successfully" });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+app.post("/api/admin/course/modules/reorder", async (req, res) => {
+  try {
+    const { goalId, orderedIds } = req.body;
+    
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE course_modules SET order_number = $1 WHERE id = $2 AND goal_id = $3",
+        [i, orderedIds[i], goalId]
+      );
+    }
+    
+    res.json({ success: true, message: "Modules reordered successfully" });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+app.post("/api/admin/course/topics/reorder", async (req, res) => {
+  try {
+    const { moduleId, orderedIds } = req.body;
+    
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE course_topics SET order_number = $1 WHERE id = $2 AND module_id = $3",
+        [i, orderedIds[i], moduleId]
+      );
+    }
+    
+    res.json({ success: true, message: "Topics reordered successfully" });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+app.post("/api/admin/course/subtopics/reorder", async (req, res) => {
+  try {
+    const { topicId, orderedIds } = req.body;
+    
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE course_subtopics SET order_number = $1 WHERE id = $2 AND topic_id = $3",
+        [i, orderedIds[i], topicId]
+      );
+    }
+    
+    res.json({ success: true, message: "Subtopics reordered successfully" });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// -------------------------------------------
+// Health Check
+// -------------------------------------------
+app.get("/api/health", (req, res) => {
+  res.json({
+    success: true,
+    message: "Digital Marketing API is running",
+    timestamp: new Date().toISOString(),
+  });
 });
 
 // Export
