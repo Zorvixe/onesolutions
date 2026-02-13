@@ -120,11 +120,11 @@ export const progressAPI = {
   markContentIncomplete: (contentId) =>
     api.post("/api/progress/content/incomplete", { contentId }),
 
-  getCompletedContent: () => api.get("/api/progress/completed"),
+  getCompletedContent: () => api.get("/api/student/courses/completed-content"),
 
   getProgressSummary: () => api.get("/api/progress/summary"),
 
-  getOverallProgress: () => api.get("/api/progress/overall"),
+  getOverallProgress: () => api.get("/api/student/courses/progress/overall"),
 
   getCourseProgress: (courseName) =>
     api.get(`/api/progress/course/${courseName}`),
@@ -147,7 +147,6 @@ export const digitalMarketingAPI = {
   getCompletedContent: () => api.get("/api/student/courses/completed-content"),
   getDashboardStats: () => api.get("/api/student/dashboard/stats"),
   getGoalProgress: (goalId) => api.get(`/api/student/courses/progress/goal/${goalId}`)
-
 };
 
 export const threadsAPI = {

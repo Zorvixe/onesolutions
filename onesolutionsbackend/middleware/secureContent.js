@@ -1,63 +1,79 @@
 // middleware/secureContent.js
 const { Pool } = require("pg");
-
-// Database pool for digital marketing
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
 });
 
-exports.verifyContentAccess = async (req, res, next) => {
-    try {
-        const { contentUuid } = req.params;
-        const { token } = req.query;
-        
-        const contentResult = await pool.query(
-            `SELECT sc.*, cm.goal_id 
-             FROM subtopic_content sc
-             JOIN course_subtopics cs ON sc.subtopic_id = cs.id
-             JOIN course_topics ct ON cs.topic_id = ct.id
-             JOIN course_modules cm ON ct.module_id = cm.id
-             WHERE sc.content_uuid = $1`,
-            [contentUuid]
-        );
+const verifyContentAccess = async (req, res, next) => {
+  try {
+    const { contentUuid } = req.params;
+    const token = req.query.token;
 
-        if (contentResult.rows.length === 0) {
-            return res.status(404).json({ success: false, message: 'Content not found' });
-        }
-
-        const content = contentResult.rows[0];
-        req.content = content;
-
-        // Strategy A: Bearer Token
-        if (req.headers.authorization) {
-            next();
-            return;
-        }
-
-        // Strategy B: Temporary Access Token
-        if (token) {
-            if (content.access_token === token) {
-                next();
-                return;
-            }
-        }
-
-        return res.status(403).json({ success: false, message: 'Access denied' });
-
-    } catch (error) {
-        console.error('Content verification error:', error);
-        res.status(500).json({ success: false, message: 'Server error' });
+    if (!contentUuid) {
+      return res.status(400).json({
+        success: false,
+        message: "Content UUID is required",
+      });
     }
+
+    const result = await pool.query(
+      "SELECT * FROM subtopic_content WHERE content_uuid = $1",
+      [contentUuid]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Content not found",
+      });
+    }
+
+    const content = result.rows[0];
+
+    if (token && content.access_token === token) {
+      req.content = content;
+      return next();
+    }
+
+    if (req.student) {
+      const enrollmentCheck = await pool.query(
+        `SELECT sce.* FROM student_course_enrollments sce
+         JOIN course_goals cg ON sce.goal_id = cg.id
+         JOIN course_modules cm ON cm.goal_id = cg.id
+         JOIN course_topics ct ON ct.module_id = cm.id
+         JOIN course_subtopics cs ON cs.topic_id = ct.id
+         JOIN subtopic_content sc ON sc.subtopic_id = cs.id
+         WHERE sce.student_id = $1 AND sc.content_uuid = $2`,
+        [req.student.id, contentUuid]
+      );
+
+      if (enrollmentCheck.rows.length > 0) {
+        req.content = content;
+        return next();
+      }
+    }
+
+    return res.status(403).json({
+      success: false,
+      message: "You do not have access to this content",
+    });
+
+  } catch (error) {
+    console.error("Content access verification error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error verifying content access",
+      error: error.message,
+    });
+  }
 };
 
-exports.generateSecureUrl = (contentUuid, accessToken = null, type = 'view') => {
-    const baseUrl = process.env.BACKEND_URL || 'http://localhost:5002'; 
-    let url = `${baseUrl}/api/content/${contentUuid}`;
-    
-    if (accessToken && (type === 'stream' || type === 'download')) {
-        url += `/${type}?token=${accessToken}`;
-    }
-    
-    return url;
+const generateSecureUrl = (baseUrl, contentUuid, accessToken) => {
+  return `${baseUrl}/api/content/${contentUuid}/stream?token=${accessToken}`;
+};
+
+module.exports = {
+  verifyContentAccess,
+  generateSecureUrl,
 };

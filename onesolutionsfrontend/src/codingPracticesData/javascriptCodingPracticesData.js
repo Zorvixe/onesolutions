@@ -4987,6 +4987,180 @@ export const javascriptCodingPracticesData = {
       ],
     },
 
+    //coding_Test_1
+    {
+      id: "javascript-Coding_Test_1",
+      title: "javascript Coding Test 1",
+      description: "",
+      questions: [
+        {
+          id: "e19agx2-axa1zrtiq638-0qme149ddb",
+          title: "BookMark Maker",
+          description:
+            "In this assignment, let's build an Add User form by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 45,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div>
+                    <h1 class="heading">Add User</h1>
+                </div>
+                <form id="addUserForm" class="formContainer">
+                    <label for="name">Name</label>
+                    <input class="form-control" id="name" />
+                    <p id="nameErrMsg" class="text"></p>
+                    <label for="email">Email</label>
+                    <input class="form-control" id="email" />
+                    <p class="text" id="emailErrMsg"></p>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Monoton&family=Open+Sans:wght@400;700&family=Playfair+Display+SC:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&family=Source+Sans+Pro:wght@400;700&family=Work+Sans:wght@400;700&display=swap");
+
+            p {
+                color: red;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770883013/add-user-v1_dasb2u.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add the HTML form, input, p and button elements to the HTML code</span></li>
+                        <li><span>Add an id <strong>addUserForm</strong> to the HTML form element</span></li>
+                        <li><span>Add the ids name and email to the HTML input elements respectively</span></li>
+                        <li><span>Add the ids <strong>nameErrMsg</strong> and <strong>emailErrMsg</strong> to the HTML paragraph elements respectively</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Do not delete the prefilled code.
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                      <li>When the HTML <code>input</code> element with id <code>name</code> lost the focus,
+                         <ul>
+                          <li>Practice adding the error message to the HTML paragraph element with the id <code>nameErrMsg</code> based on the value of the HTML <code>input</code> element with the id <code>name.</code></li>
+                          </ul>
+                        </li>
+                       <li>When the HTML <code>input</code> element with id <code>email</code> lost the focus,
+                       <ul>
+                       <li>Practice adding the error message to the HTML paragraph element with the id <code>emailErrMsg</code> based on the value of the HTML input element with the id <code>email</code></li>
+                       </ul>
+                       </li>    
+                  </ul>
+                  <hr>
+
+                  <p class="desc-que-blue">Resources</p>
+                  <p class="desc-que-blue">CSS Font families used:</p>
+                  <ul>
+                  <li>Roboto</li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML form element with the id addUserForm",
+              type: "js-validation",
+              input: "check-form",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML input element with the id name",
+              type: "js-validation",
+              input: "check-name-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML paragraph element with the id nameErrMsg",
+              type: "js-validation",
+              input: "check-name-error",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML input element with the id email",
+              type: "js-validation",
+              input: "check-email-input",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Page should consist of an HTML paragraph element with the id emailErrMsg",
+              type: "js-validation",
+              input: "check-email-error",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "When the HTML element with the id name lost the focus, if the name input element's value is empty, then the HTML element with the id nameErrMsg should have the error message. Otherwise, it should have an empty string",
+              type: "js-validation",
+              input: "check-name-blur",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "When the HTML element with the id email lost the focus, if the name input element's value is empty, then the HTML element with the id emailErrMsg should have the error message. Otherwise, it should have an empty string",
+              type: "js-validation",
+              input: "check-email-blur",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
     //JS coding practice - 1
     {
       id: "js-coding-practice-1",

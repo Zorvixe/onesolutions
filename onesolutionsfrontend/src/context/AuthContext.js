@@ -37,7 +37,9 @@ export const AuthProvider = ({ children }) => {
 
   // ✅ NEW: Digital Marketing Course Structure States
   const [digitalMarketingGoals, setDigitalMarketingGoals] = useState([]);
-  const [digitalMarketingStructure, setDigitalMarketingStructure] = useState({});
+  const [digitalMarketingStructure, setDigitalMarketingStructure] = useState(
+    {}
+  );
   const [digitalMarketingLoading, setDigitalMarketingLoading] = useState(false);
   const [currentGoal, setCurrentGoal] = useState(null);
   const [currentModule, setCurrentModule] = useState(null);
@@ -53,20 +55,23 @@ export const AuthProvider = ({ children }) => {
   };
 
   // ✅ NEW: Navigate to content by UUID
-const navigateToContent = async (contentUuid, navigate) => {
-  try {
-    const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
-    if (res.data.success) {
-      setCurrentContent(res.data.data);
-      // Navigate to the content page with UUID in URL
-      navigate(`/content/${contentUuid}`);
-      return { success: true, data: res.data.data };
+  const navigateToContent = async (contentUuid, navigate) => {
+    try {
+      const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
+      if (res.data.success) {
+        setCurrentContent(res.data.data);
+        // Navigate to the content page with UUID in URL
+        navigate(`/content/${contentUuid}`);
+        return { success: true, data: res.data.data };
+      }
+    } catch (err) {
+      console.error(
+        `[DIGITAL_MARKETING] Navigate to content ${contentUuid} failed:`,
+        err
+      );
+      return { success: false, error: err };
     }
-  } catch (err) {
-    console.error(`[DIGITAL_MARKETING] Navigate to content ${contentUuid} failed:`, err);
-    return { success: false, error: err };
-  }
-};
+  };
 
   // 🔥 FIXED: Auth check with complete user data including studentType and courseSelection
   const checkAuthStatus = async () => {
@@ -74,21 +79,25 @@ const navigateToContent = async (contentUuid, navigate) => {
       const token = localStorage.getItem("token");
       if (token && token !== "null" && token !== "undefined") {
         const response = await authAPI.getProfile();
-        
+
         // 🔥 Ensure we have complete user data with all required fields
         const userData = response.data.data.student;
-        
+
         // Set default values if missing
         const enrichedUserData = {
           ...userData,
-          studentType: userData.studentType || userData.student_type || "zorvixe_core",
-          courseSelection: userData.courseSelection || userData.course_selection || "web_development",
+          studentType:
+            userData.studentType || userData.student_type || "zorvixe_core",
+          courseSelection:
+            userData.courseSelection ||
+            userData.course_selection ||
+            "web_development",
           batchMonth: userData.batchMonth || userData.batch_month || "",
           batchYear: userData.batchYear || userData.batch_year || "",
         };
-        
+
         setUser(enrichedUserData);
-        
+
         // Also update localStorage to ensure consistency
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -96,7 +105,7 @@ const navigateToContent = async (contentUuid, navigate) => {
             const parsedUser = JSON.parse(storedUser);
             const updatedStoredUser = {
               ...parsedUser,
-              ...enrichedUserData
+              ...enrichedUserData,
             };
             localStorage.setItem("user", JSON.stringify(updatedStoredUser));
           } catch (e) {
@@ -105,10 +114,13 @@ const navigateToContent = async (contentUuid, navigate) => {
         } else {
           localStorage.setItem("user", JSON.stringify(enrichedUserData));
         }
-        
+
         console.log("[AUTH] Auth check successful:", enrichedUserData.email);
         console.log("[AUTH] Student Type:", enrichedUserData.studentType);
-        console.log("[AUTH] Course Selection:", enrichedUserData.courseSelection);
+        console.log(
+          "[AUTH] Course Selection:",
+          enrichedUserData.courseSelection
+        );
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -262,19 +274,32 @@ const navigateToContent = async (contentUuid, navigate) => {
   );
 
   // ✅ UPDATED: Mark Digital Marketing Content Complete
-  const markSubtopicComplete = async (contentId, goalId, moduleId, subtopicId, quizScore) => {
+  const markSubtopicComplete = async (
+    contentId,
+    goalId,
+    moduleId,
+    subtopicId,
+    quizScore,
+    goalName,
+    courseName
+  ) => {
     try {
       console.log(`[PROGRESS] Marking subtopic complete:`, {
         contentId,
         goalId,
         moduleId,
         subtopicId,
-        quizScore
+        quizScore,
+        goalName,
+        courseName,
       });
 
       if (!contentId || !goalId) {
         console.error("[PROGRESS] contentId and goalId are required");
-        return { success: false, message: "Content ID and Goal ID are required" };
+        return {
+          success: false,
+          message: "Content ID and Goal ID are required",
+        };
       }
 
       const res = await progressAPI.markContentComplete(
@@ -282,7 +307,9 @@ const navigateToContent = async (contentUuid, navigate) => {
         goalId,
         moduleId,
         subtopicId,
-        quizScore
+        quizScore,
+        goalName,
+        courseName
       );
 
       if (res.data.success) {
@@ -293,15 +320,15 @@ const navigateToContent = async (contentUuid, navigate) => {
 
         // Reload all progress data
         await Promise.all([
-          loadProgressSummary(), 
+          loadProgressSummary(),
           loadOverallProgress(),
-          loadDigitalMarketingProgress(goalId)
+          loadDigitalMarketingProgress(goalId),
         ]);
 
-        return { 
-          success: true, 
+        return {
+          success: true,
           data: res.data.data,
-          progress: res.data.progress 
+          progress: res.data.progress,
         };
       } else {
         console.error("[PROGRESS] Mark complete failed:", res.data.message);
@@ -350,125 +377,146 @@ const navigateToContent = async (contentUuid, navigate) => {
   };
 
   // ✅ NEW: Digital Marketing Course Functions
-  const loadDigitalMarketingCourses = async () => {
-    try {
-      setDigitalMarketingLoading(true);
-      const res = await digitalMarketingAPI.getStudentCourses();
-      if (res.data.success) {
-        setDigitalMarketingGoals(res.data.data);
-        
-        // Also load the full structure for each goal
-        for (const goal of res.data.data) {
-          if (goal.is_enrolled) {
-            await loadDigitalMarketingGoalStructure(goal.id);
-          }
+ // ✅ NEW: Digital Marketing Course Functions
+const loadDigitalMarketingCourses = async () => {
+  try {
+    setDigitalMarketingLoading(true);
+    const res = await digitalMarketingAPI.getStudentCourses();
+    if (res.data.success) {
+      setDigitalMarketingGoals(res.data.data);
+
+      for (const goal of res.data.data) {
+        if (goal.is_enrolled) {
+          await loadDigitalMarketingGoalStructure(goal.id);
         }
       }
-    } catch (err) {
-      console.error("[DIGITAL_MARKETING] Load courses failed:", err);
-    } finally {
-      setDigitalMarketingLoading(false);
     }
-  };
+  } catch (err) {
+    console.error("[DIGITAL_MARKETING] Load courses failed:", err);
+  } finally {
+    setDigitalMarketingLoading(false);
+  }
+};
 
-  const loadDigitalMarketingGoalStructure = async (goalId) => {
-    try {
-      const res = await digitalMarketingAPI.getGoalStructure(goalId);
-      if (res.data.success) {
-        setDigitalMarketingStructure(prev => ({
-          ...prev,
-          [goalId]: res.data.data
-        }));
-      }
+const loadDigitalMarketingGoalStructure = async (goalId) => {
+  try {
+    const res = await digitalMarketingAPI.getGoalStructure(goalId);
+    if (res.data.success) {
+      setDigitalMarketingStructure((prev) => ({
+        ...prev,
+        [goalId]: res.data.data,
+      }));
+    }
+    return res.data;
+  } catch (err) {
+    console.error(
+      `[DIGITAL_MARKETING] Load goal ${goalId} structure failed:`,
+      err
+    );
+    throw err;
+  }
+};
+
+const loadDigitalMarketingAllStructure = async () => {
+  try {
+    setDigitalMarketingLoading(true);
+    const res = await digitalMarketingAPI.getAllCoursesStructure();
+    if (res.data.success) {
+      setDigitalMarketingGoals(res.data.data);
+    }
+    return res.data;
+  } catch (err) {
+    console.error("[DIGITAL_MARKETING] Load all structure failed:", err);
+    throw err;
+  } finally {
+    setDigitalMarketingLoading(false);
+  }
+};
+
+const enrollInDigitalMarketingCourse = async (goalId) => {
+  try {
+    const res = await digitalMarketingAPI.enrollInCourse(goalId);
+    if (res.data.success) {
+      await loadDigitalMarketingAllStructure();
+      return { success: true, message: "Successfully enrolled in course" };
+    }
+    return { success: false, message: res.data.message };
+  } catch (err) {
+    console.error("[DIGITAL_MARKETING] Enroll failed:", err);
+    return {
+      success: false,
+      message: err.response?.data?.message || "Enrollment failed",
+    };
+  }
+};
+
+const loadDigitalMarketingProgress = async (goalId) => {
+  try {
+    const res = await digitalMarketingAPI.getGoalProgress(goalId);
+    if (res.data.success) {
+      setGoalProgress((prev) => ({
+        ...prev,
+        [goalId]: res.data.data.progress_percentage,
+      }));
+      return res.data.data;
+    }
+  } catch (err) {
+    console.error(
+      `[DIGITAL_MARKETING] Load progress for goal ${goalId} failed:`,
+      err
+    );
+  }
+};
+
+const getContentByUuid = async (contentUuid) => {
+  try {
+    const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
+    if (res.data.success) {
+      setCurrentContent(res.data.data);
       return res.data;
-    } catch (err) {
-      console.error(`[DIGITAL_MARKETING] Load goal ${goalId} structure failed:`, err);
-      throw err;
     }
-  };
-
-  const loadDigitalMarketingAllStructure = async () => {
-    try {
-      setDigitalMarketingLoading(true);
-      const res = await digitalMarketingAPI.getAllCoursesStructure();
-      if (res.data.success) {
-        setDigitalMarketingGoals(res.data.data);
-      }
-      return res.data;
-    } catch (err) {
-      console.error("[DIGITAL_MARKETING] Load all structure failed:", err);
-      throw err;
-    } finally {
-      setDigitalMarketingLoading(false);
-    }
-  };
-
-  const enrollInDigitalMarketingCourse = async (goalId) => {
-    try {
-      const res = await digitalMarketingAPI.enrollInCourse(goalId);
-      if (res.data.success) {
-        await loadDigitalMarketingAllStructure();
-        return { success: true, message: "Successfully enrolled in course" };
-      }
-      return { success: false, message: res.data.message };
-    } catch (err) {
-      console.error("[DIGITAL_MARKETING] Enroll failed:", err);
-      return { 
-        success: false, 
-        message: err.response?.data?.message || "Enrollment failed" 
-      };
-    }
-  };
-
-  const loadDigitalMarketingProgress = async (goalId) => {
-    try {
-      const res = await digitalMarketingAPI.getGoalProgress(goalId);
-      if (res.data.success) {
-        setGoalProgress(prev => ({
-          ...prev,
-          [goalId]: res.data.data.progress_percentage
-        }));
-        return res.data.data;
-      }
-    } catch (err) {
-      console.error(`[DIGITAL_MARKETING] Load progress for goal ${goalId} failed:`, err);
-    }
-  };
-
-  const getContentByUuid = async (contentUuid) => {
-    try {
-      const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
-      if (res.data.success) {
-        setCurrentContent(res.data.data);
-        return res.data;
-      }
-    } catch (err) {
-      console.error(`[DIGITAL_MARKETING] Get content ${contentUuid} failed:`, err);
-      throw err;
-    }
-  };
+    return { success: false, message: "Content not found" };
+  } catch (err) {
+    console.error(
+      `[DIGITAL_MARKETING] Get content ${contentUuid} failed:`,
+      err
+    );
+    throw err;
+  }
+};
 
   // ✅ Enhanced progress calculation utilities for Digital Marketing
   const calculateModuleProgress = (module) => {
-    if (!module.topics || !Array.isArray(module.topics)) return 0;
+    if (!module) return 0;
 
-    let totalContent = 0;
-    let completedContentCount = 0;
+    let total = 0;
+    let completed = 0;
 
-    module.topics.forEach(topic => {
-      if (topic.subtopics) {
-        topic.subtopics.forEach(subtopic => {
-          if (subtopic.content) {
-            totalContent += subtopic.content.length;
-            completedContentCount += subtopic.content.filter(c => 
-              c.is_completed || completedContent.includes(c.id)
-            ).length;
-          }
+    // ✅ NEW backend structure
+    if (Array.isArray(module.topics)) {
+      module.topics.forEach((topic) => {
+        topic?.subtopics?.forEach((subtopic) => {
+          subtopic?.content?.forEach((content) => {
+            total++;
+
+            if (content.is_completed || completedContent.includes(content.id)) {
+              completed++;
+            }
+          });
         });
-      }
-    });
+      });
+    }
 
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+    // ✅ Legacy fallback structure
+    else if (Array.isArray(module.topic)) {
+      total = module.topic.length;
+
+      completed = module.topic.filter((sub) =>
+        completedContent.includes(sub.id)
+      ).length;
+    }
+
+    return total > 0 ? (completed / total) * 100 : 0;
   };
 
   const calculateGoalProgress = (goal) => {
@@ -477,15 +525,15 @@ const navigateToContent = async (contentUuid, navigate) => {
     let totalContent = 0;
     let completedContentCount = 0;
 
-    goal.modules.forEach(module => {
+    goal.modules.forEach((module) => {
       if (module.topics) {
-        module.topics.forEach(topic => {
+        module.topics.forEach((topic) => {
           if (topic.subtopics) {
-            topic.subtopics.forEach(subtopic => {
+            topic.subtopics.forEach((subtopic) => {
               if (subtopic.content) {
                 totalContent += subtopic.content.length;
-                completedContentCount += subtopic.content.filter(c => 
-                  c.is_completed || completedContent.includes(c.id)
+                completedContentCount += subtopic.content.filter(
+                  (c) => c.is_completed || completedContent.includes(c.id)
                 ).length;
               }
             });
@@ -503,7 +551,7 @@ const navigateToContent = async (contentUuid, navigate) => {
     let totalProgress = 0;
     let enrolledGoalsCount = 0;
 
-    digitalMarketingGoals.forEach(goal => {
+    digitalMarketingGoals.forEach((goal) => {
       if (goal.is_enrolled) {
         totalProgress += goal.stats?.progress_percentage || 0;
         enrolledGoalsCount++;
@@ -555,24 +603,30 @@ const navigateToContent = async (contentUuid, navigate) => {
       const response = await authAPI.getCompleteProfile();
       if (response.data.success) {
         const profileData = response.data.data.student;
-        
+
         // 🔥 Ensure studentType and courseSelection are set
         const enrichedProfile = {
           ...profileData,
-          studentType: profileData.studentType || profileData.student_type || "zorvixe_core",
-          courseSelection: profileData.courseSelection || profileData.course_selection || "web_development",
+          studentType:
+            profileData.studentType ||
+            profileData.student_type ||
+            "zorvixe_core",
+          courseSelection:
+            profileData.courseSelection ||
+            profileData.course_selection ||
+            "web_development",
         };
-        
+
         setCompleteProfile(enrichedProfile);
-        
+
         // Also update user state with these values
         if (user) {
-          setUser(prev => ({
+          setUser((prev) => ({
             ...prev,
             studentType: enrichedProfile.studentType,
             courseSelection: enrichedProfile.courseSelection,
           }));
-          
+
           // Update localStorage
           const storedUser = localStorage.getItem("user");
           if (storedUser) {
@@ -586,10 +640,13 @@ const navigateToContent = async (contentUuid, navigate) => {
             }
           }
         }
-        
+
         console.log("[AUTH] Complete profile loaded:", enrichedProfile.email);
         console.log("[AUTH] Student Type:", enrichedProfile.studentType);
-        console.log("[AUTH] Course Selection:", enrichedProfile.courseSelection);
+        console.log(
+          "[AUTH] Course Selection:",
+          enrichedProfile.courseSelection
+        );
       }
     } catch (error) {
       console.error("[AUTH] Complete profile load failed:", error.message);
@@ -611,7 +668,7 @@ const navigateToContent = async (contentUuid, navigate) => {
           loadUserProgress(),
           loadProgressSummary(),
           loadOverallProgress(),
-          loadDigitalMarketingAllStructure() // ✅ NEW: Load digital marketing courses
+          loadDigitalMarketingAllStructure(), // ✅ NEW: Load digital marketing courses
         ]);
       } catch (err) {
         console.error("[AUTH] Failed to load user data:", err);
@@ -737,24 +794,35 @@ const navigateToContent = async (contentUuid, navigate) => {
 
       if (response.data.success) {
         const updatedStudent = response.data.data.student;
-        
+
         // 🔥 Ensure studentType and courseSelection are preserved
         const enrichedStudent = {
           ...updatedStudent,
-          studentType: updatedStudent.studentType || updatedStudent.student_type || user?.studentType || "zorvixe_core",
-          courseSelection: updatedStudent.courseSelection || updatedStudent.course_selection || user?.courseSelection || "web_development",
+          studentType:
+            updatedStudent.studentType ||
+            updatedStudent.student_type ||
+            user?.studentType ||
+            "zorvixe_core",
+          courseSelection:
+            updatedStudent.courseSelection ||
+            updatedStudent.course_selection ||
+            user?.courseSelection ||
+            "web_development",
         };
-        
+
         setUser(enrichedStudent);
         setCompleteProfile(enrichedStudent);
-        
+
         // Update localStorage
         localStorage.setItem("user", JSON.stringify(enrichedStudent));
-        
+
         console.log("[AUTH] Profile updated successfully");
         console.log("[AUTH] Student Type:", enrichedStudent.studentType);
-        console.log("[AUTH] Course Selection:", enrichedStudent.courseSelection);
-        
+        console.log(
+          "[AUTH] Course Selection:",
+          enrichedStudent.courseSelection
+        );
+
         return { success: true, message: "Profile updated successfully" };
       } else {
         const errorMsg = response.data.message || "Profile update failed";
@@ -883,8 +951,12 @@ const navigateToContent = async (contentUuid, navigate) => {
           lastName: student.lastName || student.last_name,
           phone: student.phone || "",
           profileImage: student.profileImage || student.profile_image,
-          studentType: student.studentType || student.student_type || "zorvixe_core",
-          courseSelection: student.courseSelection || student.course_selection || "web_development",
+          studentType:
+            student.studentType || student.student_type || "zorvixe_core",
+          courseSelection:
+            student.courseSelection ||
+            student.course_selection ||
+            "web_development",
           batchMonth: student.batchMonth || student.batch_month || "",
           batchYear: student.batchYear || student.batch_year || "",
           isCurrentBatch: student.isCurrentBatch || student.is_current_batch,
@@ -893,7 +965,7 @@ const navigateToContent = async (contentUuid, navigate) => {
 
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(userData));
-        
+
         setToken(token);
         setUser(userData);
         setOtpSent(false);
@@ -933,10 +1005,10 @@ const navigateToContent = async (contentUuid, navigate) => {
     try {
       setError("");
       const response = await authAPI.register(formData);
-      
+
       if (response.data.success) {
         const { student, token } = response.data.data;
-        
+
         // 🔥 Ensure we have complete user data with all required fields
         const userData = {
           id: student.id,
@@ -946,24 +1018,42 @@ const navigateToContent = async (contentUuid, navigate) => {
           lastName: student.lastName || student.last_name,
           phone: student.phone || "",
           profileImage: student.profileImage || student.profile_image,
-          studentType: student.studentType || student.student_type || formData.get('studentType') || formData.get('student_type') || "zorvixe_core",
-          courseSelection: student.courseSelection || student.course_selection || formData.get('courseSelection') || formData.get('course_selection') || "web_development",
-          batchMonth: student.batchMonth || student.batch_month || formData.get('batchMonth') || "",
-          batchYear: student.batchYear || student.batch_year || formData.get('batchYear') || "",
+          studentType:
+            student.studentType ||
+            student.student_type ||
+            formData.get("studentType") ||
+            formData.get("student_type") ||
+            "zorvixe_core",
+          courseSelection:
+            student.courseSelection ||
+            student.course_selection ||
+            formData.get("courseSelection") ||
+            formData.get("course_selection") ||
+            "web_development",
+          batchMonth:
+            student.batchMonth ||
+            student.batch_month ||
+            formData.get("batchMonth") ||
+            "",
+          batchYear:
+            student.batchYear ||
+            student.batch_year ||
+            formData.get("batchYear") ||
+            "",
           isCurrentBatch: student.isCurrentBatch || student.is_current_batch,
           createdAt: student.createdAt || student.created_at,
         };
 
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(userData));
-        
+
         setToken(token);
         setUser(userData);
-        
+
         console.log("[AUTH] Registration successful:", userData.email);
         console.log("[AUTH] Student Type:", userData.studentType);
         console.log("[AUTH] Course Selection:", userData.courseSelection);
-        
+
         return { success: true, message: "Registration successful" };
       } else {
         const errorMsg = response.data.message || "Registration failed";
@@ -983,19 +1073,27 @@ const navigateToContent = async (contentUuid, navigate) => {
     try {
       setError("");
       const response = await authAPI.updateProfile(formData);
-      
+
       if (response.data.success) {
         const updatedStudent = response.data.data.student;
-        
+
         // 🔥 Preserve existing studentType and courseSelection if not returned
         const enrichedStudent = {
           ...updatedStudent,
-          studentType: updatedStudent.studentType || updatedStudent.student_type || user?.studentType || "zorvixe_core",
-          courseSelection: updatedStudent.courseSelection || updatedStudent.course_selection || user?.courseSelection || "web_development",
+          studentType:
+            updatedStudent.studentType ||
+            updatedStudent.student_type ||
+            user?.studentType ||
+            "zorvixe_core",
+          courseSelection:
+            updatedStudent.courseSelection ||
+            updatedStudent.course_selection ||
+            user?.courseSelection ||
+            "web_development",
         };
-        
+
         setUser(enrichedStudent);
-        
+
         // Update localStorage
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -1014,11 +1112,14 @@ const navigateToContent = async (contentUuid, navigate) => {
         } else {
           localStorage.setItem("user", JSON.stringify(enrichedStudent));
         }
-        
+
         console.log("[AUTH] Profile updated successfully");
         console.log("[AUTH] Student Type:", enrichedStudent.studentType);
-        console.log("[AUTH] Course Selection:", enrichedStudent.courseSelection);
-        
+        console.log(
+          "[AUTH] Course Selection:",
+          enrichedStudent.courseSelection
+        );
+
         return { success: true, message: "Profile updated successfully" };
       } else {
         const errorMsg = response.data.message || "Profile update failed";
@@ -1027,8 +1128,7 @@ const navigateToContent = async (contentUuid, navigate) => {
       }
     } catch (error) {
       console.error("[AUTH] Profile update error:", error);
-      const errorMsg =
-        error.response?.data?.message || "Profile update failed";
+      const errorMsg = error.response?.data?.message || "Profile update failed";
       setError(errorMsg);
       return { success: false, message: errorMsg };
     }
@@ -1071,10 +1171,10 @@ const navigateToContent = async (contentUuid, navigate) => {
     forgotPasswordVerifyOtpReset,
     isAuthenticated: !!user,
     refreshCompleteProfile: loadCompleteProfile,
-    
+
     // ✅ NEW: Digital Marketing Course exports
     getContentUrl,
-  navigateToContent,
+    navigateToContent,
     digitalMarketingGoals,
     digitalMarketingStructure,
     digitalMarketingLoading,
