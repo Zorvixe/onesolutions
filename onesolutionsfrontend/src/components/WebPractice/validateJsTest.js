@@ -1673,6 +1673,30 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
           return { passed: result.textContent.includes("Incorrect") };
         }
 
+        // keyboard events validations
+
+case "check-keycode-usage": {
+  const scriptContent = iframeDoc.documentElement.innerHTML;
+  return { passed: scriptContent.includes("keyCode") };
+}
+
+case "check-keydown-eventlistener": {
+  const scriptContent = iframeDoc.documentElement.innerHTML;
+  return { 
+    passed: scriptContent.includes("addEventListener") &&
+            scriptContent.includes("keydown")
+  };
+}
+
+case "check-counter-increment": {
+  const scriptContent = iframeDoc.documentElement.innerHTML;
+  return { 
+    passed: scriptContent.includes("keydownCounter") &&
+            scriptContent.includes("textContent") &&
+            (scriptContent.includes("++") || scriptContent.includes("+="))
+  };
+}
+
 
 
       default:

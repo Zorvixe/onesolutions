@@ -5093,11 +5093,11 @@ export const javascriptCodingPracticesData = {
                      <ol class="ordered-unordered-lists">
                         <li><span>The HTML input element for entering the number of hours should have the id hoursInput</span></li>
                         <li><span>The HTML input element for entering the number of minutes should have the id minutesInput</span></li>
-                        <li><span>The HTML form element with id bookmarkForm should have HTML button element with id submitBtn</span></li>
-                        <li><span>Add HTML label elements for HTML input elements with ids siteNameInput and siteUrlInput</span></li>
-                        <li><span>The HTML form element with id bookmarkForm should have HTML p elements with ids siteNameErrMsg and siteUrlErrMsg</span></li>
-                        <li><span>The page should have HTML unordered list element with id bookmarksList</span></li>
-                        <li><span>Each bookmark item should contain an HTML anchor element to navigate to the bookmarked site</span></li>
+                        <li><span>Add HTML label elements for HTML input elements with ids hoursInput and minutesInput</span></li>
+                        <li><span>The HTML button element should have the id convertBtn</span></li>
+                        <li><span>The HTML p element to display the converted time in seconds should have the id timeInSeconds</span></li>
+                        <li><span>The HTML p element to display the error message should have the id errorMsg</span></li>
+                       
                     </ol>
 
 
@@ -9307,10 +9307,42 @@ findFirstValue(myArray);
             </div>
           </div>
            `,
-          sampleInput: "[ [1,2], [3, 4], [5, 6] ]",
-          sampleOutput: "[ [ 1, 4 ], [ 9, 16 ], [ 25, 36 ] ]",
-          testCases: [],
+          sampleInput: "[[1,2], [3, 4], [5, 6]]",
+          sampleOutput: "[[1,4],[9,16],[25,36]]",
+          testCases: [
+            {
+              input: "[[1,2], [3,4], [5,6]]",
+              output: "[[1,4],[9,16],[25,36]]",
+              visible: true,
+            },
+            {
+              input: "[[2,3], [4,5]]",
+              output: "[[4,9],[16,25]]",
+              visible: true,
+            },
+            {
+              input: "[[10,1], [2,3]]",
+              output: "[[100,1],[4,9]]",
+              visible: false,
+            },
+            {
+              input: "[[7,8,9]]",
+              output: "[[49,64,81]]",
+              visible: false,
+            },
+          ],
+          
           defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+function getSquares(arr) {
+  /*
+  * Write your code here
+  */
+}
+
+getSquares(myArray);
 
 
           `,
@@ -9319,7 +9351,7 @@ findFirstValue(myArray);
           attempts: [],
         },
         {
-          id: "e8f49aad-62e3-41dd-a233-b71b6d1ab82d",
+          id: "e8f49aad-a233-b71b6d1ab82d",
           title: "Product of Array Items",
           description:
             "Given an array integers, write a JS program to get the product of the integers in the given array.",
