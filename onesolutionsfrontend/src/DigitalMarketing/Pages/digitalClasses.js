@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const DigitalClasses = () => {
-  const { contentUuid } = useParams();
+const DigitalClasses = ({
+  contentId,
+  contentUuid: propContentUuid,
+  goalId: propGoalId,
+  moduleId: propModuleId,
+  topicId: propTopicId,
+  subtopicId: propSubtopicId,
+  onComplete,
+}) => {
+  const { contentUuid: paramContentUuid } = useParams();
   const navigate = useNavigate();
-  const {
-    getContentByUuid,
-    markSubtopicComplete,
-    completedContent,
-    loadDigitalMarketingAllStructure,
-    user,
-  } = useAuth();
+  const { getContentByUuid, markSubtopicComplete, completedContent, user } =
+    useAuth();
+
+  const finalContentUuid = propContentUuid || paramContentUuid;
 
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,9 +27,6 @@ const DigitalClasses = () => {
   const [notes, setNotes] = useState("");
   const [currentTimestamp, setCurrentTimestamp] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
-  const [goalId, setGoalId] = useState(null);
-  const [moduleId, setModuleId] = useState(null);
-  const [subtopicId, setSubtopicId] = useState(null);
 
   const courseSelection = user?.courseSelection || "web_development";
   const hasDigitalAccess =
@@ -42,20 +44,25 @@ const DigitalClasses = () => {
     const loadContent = async () => {
       try {
         setLoading(true);
-        if (contentUuid) {
-          const response = await getContentByUuid(contentUuid);
+        if (finalContentUuid) {
+          const response = await getContentByUuid(finalContentUuid);
           if (response?.success) {
             const contentData = response.data;
             setContent(contentData);
-            
-            setGoalId(contentData.goal_id);
-            setModuleId(contentData.module_id);
-            setSubtopicId(contentData.subtopic_id);
-            
-            setIsVideoCompleted(completedContent.includes(contentData.id));
+            setIsVideoCompleted(
+              completedContent.includes(contentData.id) ||
+                completedContent.includes(contentId) ||
+                contentData.is_completed
+            );
           } else {
             setError("Class not found");
           }
+        } else if (contentId) {
+          setContent({
+            id: contentId,
+            video_title: "Loading...",
+            video_description: "Loading content...",
+          });
         }
       } catch (err) {
         console.error("Error loading digital class:", err);
@@ -66,16 +73,36 @@ const DigitalClasses = () => {
     };
 
     loadContent();
-  }, [contentUuid, hasDigitalAccess, getContentByUuid, completedContent]);
+  }, [
+    finalContentUuid,
+    contentId,
+    hasDigitalAccess,
+    getContentByUuid,
+    completedContent,
+  ]);
+
+  useEffect(() => {
+    const savedNotes = localStorage.getItem(
+      `digital_notes_${finalContentUuid || contentId}`
+    );
+    if (savedNotes) {
+      setNotes(savedNotes);
+    }
+  }, [finalContentUuid, contentId]);
 
   const handleVideoTimeUpdate = (e) => {
+    if (!e.target) return;
     setCurrentTimestamp(e.target.currentTime);
-    const progress = (e.target.currentTime / e.target.duration) * 100;
-    setVideoProgress(progress);
+    if (e.target.duration) {
+      const progress = (e.target.currentTime / e.target.duration) * 100;
+      setVideoProgress(progress);
+    }
   };
 
   const handleVideoLoaded = (e) => {
-    setVideoDuration(e.target.duration);
+    if (e.target.duration) {
+      setVideoDuration(e.target.duration);
+    }
   };
 
   const handleMarkComplete = async () => {
@@ -84,15 +111,14 @@ const DigitalClasses = () => {
     try {
       const result = await markSubtopicComplete(
         content.id,
-        goalId,
-        moduleId,
-        subtopicId
+        propGoalId || content.goal_id,
+        propModuleId || content.module_id,
+        propSubtopicId || content.subtopic_id
       );
 
       if (result.success) {
         setIsVideoCompleted(true);
-        await loadDigitalMarketingAllStructure();
-        alert("✓ Class marked as completed!");
+        if (onComplete) onComplete();
       }
     } catch (error) {
       console.error("Error marking class complete:", error);
@@ -101,20 +127,12 @@ const DigitalClasses = () => {
   };
 
   const saveNotes = () => {
-    localStorage.setItem(`digital_notes_${contentUuid}`, notes);
+    localStorage.setItem(
+      `digital_notes_${finalContentUuid || contentId}`,
+      notes
+    );
     alert("Notes saved successfully!");
   };
-
-  const loadNotes = () => {
-    const savedNotes = localStorage.getItem(`digital_notes_${contentUuid}`);
-    if (savedNotes) {
-      setNotes(savedNotes);
-    }
-  };
-
-  useEffect(() => {
-    loadNotes();
-  }, [contentUuid]);
 
   if (!hasDigitalAccess) {
     return (
@@ -164,23 +182,32 @@ const DigitalClasses = () => {
       <div className="digital-classes-content">
         <div className="video-section">
           <div className="video-wrapper">
-            <video
-              controls
-              className="digital-video-player"
-              src={content.video_url}
-              onTimeUpdate={handleVideoTimeUpdate}
-              onLoadedMetadata={handleVideoLoaded}
-              poster={content.thumbnail_url}
-            >
-              Your browser does not support the video tag.
-            </video>
+            {content.video_url ? (
+              <video
+                controls
+                className="digital-video-player"
+                src={content.video_url}
+                onTimeUpdate={handleVideoTimeUpdate}
+                onLoadedMetadata={handleVideoLoaded}
+                poster={content.thumbnail_url}
+              >
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <div className="video-placeholder">
+                <div className="video-placeholder-icon">🎬</div>
+                <p>Video content is being prepared</p>
+              </div>
+            )}
 
-            <div className="video-progress-bar">
-              <div
-                className="video-progress-fill"
-                style={{ width: `${videoProgress}%` }}
-              ></div>
-            </div>
+            {content.video_url && (
+              <div className="video-progress-bar">
+                <div
+                  className="video-progress-fill"
+                  style={{ width: `${videoProgress}%` }}
+                ></div>
+              </div>
+            )}
           </div>
 
           <div className="video-actions">
@@ -199,18 +226,19 @@ const DigitalClasses = () => {
             <h3>{content.video_title || "About this Class"}</h3>
             <p>{content.video_description || "No description available."}</p>
 
-            {content.learning_objectives && content.learning_objectives.length > 0 && (
-              <>
-                <h4>What you'll learn:</h4>
-                <ul className="learning-objectives">
-                  {content.learning_objectives.map((objective, index) => (
-                    <li key={index}>
-                      <i className="fas fa-check-circle"></i> {objective}
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
+            {content.learning_objectives &&
+              content.learning_objectives.length > 0 && (
+                <>
+                  <h4>What you'll learn:</h4>
+                  <ul className="learning-objectives">
+                    {content.learning_objectives.map((objective, index) => (
+                      <li key={index}>
+                        <i className="fas fa-check-circle"></i> {objective}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
           </div>
 
           <button
@@ -235,12 +263,14 @@ const DigitalClasses = () => {
                 <button className="save-notes-btn" onClick={saveNotes}>
                   <i className="fas fa-save"></i> Save Notes
                 </button>
-                <span className="timestamp">
-                  Timestamp: {Math.floor(currentTimestamp / 60)}:
-                  {Math.floor(currentTimestamp % 60)
-                    .toString()
-                    .padStart(2, "0")}
-                </span>
+                {content.video_url && (
+                  <span className="timestamp">
+                    Timestamp: {Math.floor(currentTimestamp / 60)}:
+                    {Math.floor(currentTimestamp % 60)
+                      .toString()
+                      .padStart(2, "0")}
+                  </span>
+                )}
               </div>
             </div>
           )}

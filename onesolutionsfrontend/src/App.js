@@ -88,7 +88,10 @@ function AppWrapper() {
 
           {/* UUID Content Routes - Both Web and Digital */}
           <Route path="/content/:contentUuid" element={<SubtopicPage />} />
-          <Route path="/digital/content/:contentUuid" element={<DigitalSubtopicPage />} />
+          <Route
+            path="/digital/content/:contentUuid"
+            element={<DigitalSubtopicPage />}
+          />
 
           {/* Legacy Routes - Both Web and Digital */}
           <Route
@@ -111,12 +114,31 @@ function AppWrapper() {
           />
           <Route path="/digital/mcq/:contentUuid" element={<DigitalMcqs />} />
 
-          {/* Practice */}
-          <Route path="/practice/*" element={<Practice />} />
-          <Route path="/sql-practice/*" element={<SQLPractice />} />
+          <Route path="/practice" element={<Practice />} />
+          <Route path="/practice/:practiceId" element={<Practice />} />
+          <Route
+            path="/practice/:practiceId/:questionId"
+            element={<Practice />}
+          />
+          <Route path="/sql-practice" element={<SQLPractice />} />
+          <Route path="/sql-practice/:practiceId" element={<SQLPractice />} />
+          <Route
+            path="/sql-practice/:practiceId/:questionId"
+            element={<SQLPractice />}
+          />
+
           <Route
             path="/web-practice/:practiceId/:questionId"
             element={<WebPractice />}
+          />
+
+          <Route
+            path="/web-practice-exam/:practiceId"
+            element={<WebPracticeExam />}
+          />
+          <Route
+            path="/web-practice-exam/:practiceId/:questionId"
+            element={<WebPracticeExamQuestion />}
           />
 
           {/* Misc */}

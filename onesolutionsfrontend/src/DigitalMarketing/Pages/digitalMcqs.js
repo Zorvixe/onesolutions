@@ -2,16 +2,21 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const DigitalMcqs = () => {
-  const { contentUuid } = useParams();
+const DigitalMcqs = ({
+  contentId,
+  contentUuid: propContentUuid,
+  goalId: propGoalId,
+  moduleId: propModuleId,
+  topicId: propTopicId,
+  subtopicId: propSubtopicId,
+  onComplete,
+}) => {
+  const { contentUuid: paramContentUuid } = useParams();
   const navigate = useNavigate();
-  const {
-    getContentByUuid,
-    markSubtopicComplete,
-    completedContent,
-    loadDigitalMarketingAllStructure,
-    user,
-  } = useAuth();
+  const { getContentByUuid, markSubtopicComplete, completedContent, user } =
+    useAuth();
+
+  const finalContentUuid = propContentUuid || paramContentUuid;
 
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,9 +31,6 @@ const DigitalMcqs = () => {
   const [timeLeft, setTimeLeft] = useState(null);
   const [quizStarted, setQuizStarted] = useState(false);
   const [reviewMode, setReviewMode] = useState(false);
-  const [goalId, setGoalId] = useState(null);
-  const [moduleId, setModuleId] = useState(null);
-  const [subtopicId, setSubtopicId] = useState(null);
 
   const courseSelection = user?.courseSelection || "web_development";
   const hasDigitalAccess =
@@ -46,24 +48,32 @@ const DigitalMcqs = () => {
     const loadContent = async () => {
       try {
         setLoading(true);
-        if (contentUuid) {
-          const response = await getContentByUuid(contentUuid);
+        if (finalContentUuid) {
+          const response = await getContentByUuid(finalContentUuid);
           if (response?.success) {
             const contentData = response.data;
             setContent(contentData);
-            
-            setGoalId(contentData.goal_id);
-            setModuleId(contentData.module_id);
-            setSubtopicId(contentData.subtopic_id);
-            
-            setIsCompleted(completedContent.includes(contentData.id));
+
+            setIsCompleted(
+              completedContent.includes(contentData.id) ||
+                completedContent.includes(contentId) ||
+                contentData.is_completed
+            );
 
             if (contentData.questions && contentData.questions.length > 0) {
               setQuestions(contentData.questions);
+            } else {
+              setQuestions([]);
             }
           } else {
             setError("MCQ assessment not found");
           }
+        } else if (contentId) {
+          setContent({
+            id: contentId,
+            mcq_title: "Loading Assessment...",
+            questions: [],
+          });
         }
       } catch (err) {
         console.error("Error loading digital MCQs:", err);
@@ -74,7 +84,13 @@ const DigitalMcqs = () => {
     };
 
     loadContent();
-  }, [contentUuid, hasDigitalAccess, getContentByUuid, completedContent]);
+  }, [
+    finalContentUuid,
+    contentId,
+    hasDigitalAccess,
+    getContentByUuid,
+    completedContent,
+  ]);
 
   useEffect(() => {
     if (timeLeft > 0 && quizStarted && !showResults) {
@@ -94,6 +110,8 @@ const DigitalMcqs = () => {
   };
 
   const handleAnswerSubmit = () => {
+    if (!questions.length) return;
+
     const currentQuestion = questions[currentQuestionIndex];
     if (selectedOptions[currentQuestion.id] !== undefined) {
       setAnswers({
@@ -103,6 +121,7 @@ const DigitalMcqs = () => {
 
       if (currentQuestionIndex < questions.length - 1) {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
+        setSelectedOptions({});
       } else {
         calculateScore();
         setShowResults(true);
@@ -113,9 +132,11 @@ const DigitalMcqs = () => {
   };
 
   const calculateScore = () => {
+    if (!questions.length) return;
+
     let correctCount = 0;
     questions.forEach((question) => {
-      if (answers[question.id] === question.correct_answer) {
+      if (answers[question.id] === question.correctAnswer) {
         correctCount++;
       }
     });
@@ -129,16 +150,15 @@ const DigitalMcqs = () => {
     try {
       const result = await markSubtopicComplete(
         content.id,
-        goalId,
-        moduleId,
-        subtopicId,
+        propGoalId || content.goal_id,
+        propModuleId || content.module_id,
+        propSubtopicId || content.subtopic_id,
         score
       );
 
       if (result.success) {
         setIsCompleted(true);
-        await loadDigitalMarketingAllStructure();
-        alert(`✓ Assessment completed! Your score: ${score.toFixed(1)}%`);
+        if (onComplete) onComplete();
       }
     } catch (error) {
       console.error("Error marking MCQs complete:", error);
@@ -160,6 +180,10 @@ const DigitalMcqs = () => {
   };
 
   const startQuiz = () => {
+    if (!questions.length) {
+      alert("No questions available for this assessment.");
+      return;
+    }
     setQuizStarted(true);
     if (content?.time_limit) {
       setTimeLeft(content.time_limit * 60);
@@ -167,9 +191,17 @@ const DigitalMcqs = () => {
   };
 
   const renderQuestion = () => {
+    if (!questions.length) {
+      return (
+        <div className="no-questions-message">
+          <p>No questions available for this assessment.</p>
+        </div>
+      );
+    }
+
     const question = questions[currentQuestionIndex];
     if (!question) return null;
-    
+
     return (
       <div className="mcq-question-container">
         <div className="question-header">
@@ -222,9 +254,11 @@ const DigitalMcqs = () => {
   };
 
   const renderResults = () => {
+    if (!questions.length) return null;
+
     const passed = score >= (content?.passing_score || 70);
     const correctAnswers = questions.filter(
-      (q) => answers[q.id] === q.correct_answer
+      (q) => answers[q.id] === q.correctAnswer
     ).length;
 
     return (
@@ -281,6 +315,8 @@ const DigitalMcqs = () => {
   };
 
   const renderReview = () => {
+    if (!questions.length) return null;
+
     return (
       <div className="mcq-review-container">
         <h2>Review Answers</h2>
@@ -293,7 +329,7 @@ const DigitalMcqs = () => {
 
         {questions.map((question, qIndex) => {
           const userAnswer = answers[question.id];
-          const isCorrect = userAnswer === question.correct_answer;
+          const isCorrect = userAnswer === question.correctAnswer;
 
           return (
             <div
@@ -316,30 +352,32 @@ const DigitalMcqs = () => {
                   <div
                     key={oIndex}
                     className={`review-option 
-                      ${oIndex === question.correct_answer ? "correct-answer" : ""}
-                      ${userAnswer === oIndex && userAnswer !== question.correct_answer ? "wrong-answer" : ""}
+                      ${oIndex === question.correctAnswer ? "correct-answer" : ""}
+                      ${userAnswer === oIndex && userAnswer !== question.correctAnswer ? "wrong-answer" : ""}
                     `}
                   >
                     <span className="option-letter">
                       {String.fromCharCode(65 + oIndex)}
                     </span>
                     <span className="option-text">{option}</span>
-                    {oIndex === question.correct_answer && (
+                    {oIndex === question.correctAnswer && (
                       <span className="correct-indicator">
                         ✓ Correct Answer
                       </span>
                     )}
                     {userAnswer === oIndex &&
-                      userAnswer !== question.correct_answer && (
+                      userAnswer !== question.correctAnswer && (
                         <span className="wrong-indicator">✗ Your Answer</span>
                       )}
                   </div>
                 ))}
               </div>
 
-              <div className="explanation">
-                <strong>Explanation:</strong> {question.explanation}
-              </div>
+              {question.explanation && (
+                <div className="explanation">
+                  <strong>Explanation:</strong> {question.explanation}
+                </div>
+              )}
             </div>
           );
         })}
@@ -385,6 +423,25 @@ const DigitalMcqs = () => {
         >
           Back to Courses
         </button>
+      </div>
+    );
+  }
+
+  if (!questions.length) {
+    return (
+      <div className="digital-mcqs-container">
+        <div className="mcqs-header">
+          <div className="mcqs-breadcrumb">
+            <span onClick={() => navigate("/digital-courses")}>
+              Digital Marketing
+            </span>
+            <span className="separator">→</span>
+            <span>{content.mcq_title || "Digital Marketing Assessment"}</span>
+          </div>
+        </div>
+        <div className="no-questions-container">
+          <p>No questions available for this assessment.</p>
+        </div>
       </div>
     );
   }

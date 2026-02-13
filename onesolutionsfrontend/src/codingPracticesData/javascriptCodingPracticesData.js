@@ -4986,6 +4986,384 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
+    //coding assignment -1
+    {
+      id: "javascript-Coding_Assignment_1",
+      title: "javascript Coding Assignment 1",
+      description: "",
+      questions: [
+        {
+          id: "e39agx2-axazrtiq638-0fde149ddb",
+          title: "Time Converter",
+          description:
+            "In this assignment, let's build a Time Converter by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 90,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="bg-container d-flex flex-column pl-5">
+                    <h1 class="main-heading">Time Converter</h1>
+                    <p class="description">Enter hours and minutes<br /> values to convert into<br />seconds</p>
+                    <label for="hoursInput" class="hours-heading pt-3">Hours*</label>
+                    <input type="text" id="hoursInput" class="hoursInput">
+                    <label for="minutesInput" class="minutes-heading pt-3">Minutes*</label>
+                    <input type="text" id="minutesInput" class="minutesInput">
+                    <button id="convertBtn" class="button">Convert to Seconds</button>
+                    <p id="errorMsg"></p>
+                    <p id="timeInSeconds" class="timeInSeconds"></p>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .bg-container {
+                background-image: url("https://assets.ccbp.in/frontend/dynamic-webapps/time-converter-bg.png");
+                background-size: cover;
+                height: 100vh;
+                width: 100vw;
+                color: #ffffff;
+            }
+            
+            .main-heading {
+                color: #ffffff;
+                font-family: "Open Sans";
+                margin-top: 40px;
+                font-size: 40px;
+                font-weight: bold;
+            }
+            
+            .description {
+                color: #ffffff;
+                font-family: "Open Sans";
+                font-size: 16px;
+            }
+            
+            .button {
+                height: 40px;
+                width: 160px;
+                border-radius: 8px;
+                margin-top: 15px;
+                color: #000000;
+            }
+            
+            .hoursInput {
+                height: 40px;
+                width: 300px;
+                border-radius: 8px;
+                margin-top: 10px;
+            }
+            
+            .minutesInput {
+                height: 40px;
+                width: 300px;
+                border-radius: 8px;
+                margin-top: 10px;
+            }
+            
+            .timeInSeconds {
+                border-style: solid;
+                border-radius: 10px;
+                height: 40px;
+                width: 150px;
+                text-align: center;
+                padding: 10px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770987201/time-converter-output_kd9k3e.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>The HTML input element for entering the number of hours should have the id hoursInput</span></li>
+                        <li><span>The HTML input element for entering the number of minutes should have the id minutesInput</span></li>
+                        <li><span>The HTML form element with id bookmarkForm should have HTML button element with id submitBtn</span></li>
+                        <li><span>Add HTML label elements for HTML input elements with ids siteNameInput and siteUrlInput</span></li>
+                        <li><span>The HTML form element with id bookmarkForm should have HTML p elements with ids siteNameErrMsg and siteUrlErrMsg</span></li>
+                        <li><span>The page should have HTML unordered list element with id bookmarksList</span></li>
+                        <li><span>Each bookmark item should contain an HTML anchor element to navigate to the bookmarked site</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Please provide valid URL's to the siteUrlInput element
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                    When the HTML <code>button</code> element with the id <code>submitBtn</code> is clicked,
+                    <ul>
+                      <li>
+                        If the values are provided in the HTML input elements with ids
+                        <code>siteNameInput</code> and <code>siteUrlInput</code>
+                        <ul>
+                          <li>
+                            A new bookmark should be added to the
+                            <code>bookmarksList</code> as list item.
+                          </li>
+                        </ul>
+                      </li>
+                
+                      <li>
+                        If the <code>siteNameInput</code> value is empty,
+                        <ul>
+                          <li>
+                            The HTML <code>p</code> element with id
+                            <code>siteNameErrMsg</code> should have error message
+                          </li>
+                        </ul>
+                      </li>
+                
+                      <li>
+                        If the <code>siteUrlInput</code> value is empty,
+                        <ul>
+                          <li>
+                            The HTML <code>p</code> element with id
+                            <code>siteUrlErrMsg</code> should have error message
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    When the HTML <code>a</code> element consisting of the bookmarked site URL is clicked,
+                    the site should open in a <strong>new tab</strong>.
+                  </li>
+                
+                  <li>
+                    When the HTML <code>input</code> element with id
+                    <code>siteNameInput</code> is empty after changing the value inside the input
+                    <ul>
+                      <li>
+                        The HTML <code>p</code> element with id
+                        <code>siteNameErrMsg</code> should have error message
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    When the HTML <code>input</code> element with id
+                    <code>siteUrlInput</code> is empty after changing the value inside the input
+                    <ul>
+                      <li>
+                        The HTML <code>p</code> element with id
+                        <code>siteUrlErrMsg</code> should have error message
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                
+                  <hr>
+                  <p class="desc-que-blue">Resources</p>
+                  <p class="desc-que-blue">Background colors Hex code values used:</p>
+                  <div  class="desc-colors c2d3a8c">#2d3a8c</div>
+                  <div  class="desc-colors cffffff">#ffffff</div>
+                  <div  class="desc-colors cf5f7fa">#f5f7fa</div>
+                  <div  class="desc-colors c21396c">#21396c</div>
+
+                  <p class="desc-que-blue">Text colors Hex code values used:</p>
+                  <div  class="desc-colors c323f4b">#323f4b</div>
+                  <div  class="desc-colors cffffff">#ffffff</div>
+                  <div  class="desc-colors c7b8794">#7b8794</div>
+                  <div  class="desc-colors cdc3545">#dc3545</div>
+
+                  <p class="desc-que-blue">Border Colors Hex code values used:</p>
+                  <div  class="desc-colors c7b8794">#cbd2d9</div>
+                  <div  class="desc-colors ce4e7eb">#e4e7eb</div>
+
+               
+                  <p class="desc-que-blue">CSS Font families used::</p>
+                  <ul>
+                  <li>Roboto</li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element",
+              type: "js-validation",
+              input: "check-heading5",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description: "Page should consist of an HTML paragraph element",
+              type: "js-validation",
+              input: "check-paragraph",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-form4",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description:
+                "Page should consist of HTML input element with id siteNameInput inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-name-input",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description:
+                "Page should consist of HTML label element for HTML input element with id siteNameInput",
+              type: "js-validation",
+              input: "check-site-name-label",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of HTML paragraph element with id siteNameErrMsg inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-name-error",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 7,
+              description:
+                "Page should consist of HTML input element with id siteUrlInput inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-url-input",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 8,
+              description:
+                "Page should consist of HTML label element for HTML input element with id siteUrlInput",
+              type: "js-validation",
+              input: "check-site-url-label",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML paragraph element with id siteUrlErrMsg inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-url-error",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 10,
+              description:
+                "Page should consist of HTML unordered list element with id bookmarksList",
+              type: "js-validation",
+              input: "check-bookmarks-list",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 11,
+              description:
+                "JS code implementation should use addEventListener to attach change event for the HTML input elements",
+              type: "js-validation",
+              input: "check-change-event4",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 12,
+              description:
+                "JS code implementation should use addEventListener to attach submit event for the HTML form element",
+              type: "js-validation",
+              input: "check-submit-event",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 13,
+              description:
+                "JS code implementation should use event.preventDefault to prevent the default behavior of submit event",
+              type: "js-validation",
+              input: "check-prevent-default",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 14,
+              description:
+                "When HTML input elements with ids siteNameInput and siteUrlInput are filled with valid values, the HTML button element with id submitBtn is clicked a new bookmark should be added to HTML unordered list element with id bookmarksList",
+              type: "js-validation",
+              input: "check-add-bookmark",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 15,
+              description:
+                "When a new bookmark is added to the HTML unordered list element with id bookmarksList, the HTML anchor element in the bookmark item should have href attribute value as the bookmarked site",
+              type: "js-validation",
+              input: "check-bookmark-href",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
 
     //coding_Assignment 2
     {
@@ -5401,6 +5779,395 @@ export const javascriptCodingPracticesData = {
                 "When a new bookmark is added to the HTML unordered list element with id bookmarksList, the HTML anchor element in the bookmark item should have href attribute value as the bookmarked site",
               type: "js-validation",
               input: "check-bookmark-href",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    //coding assignment 3
+    {
+      id: "javascript-JS_Coding_Assignment_3",
+      title: "javascript Coding Assignment 3",
+      description: "",
+      questions: [
+        {
+          id: "e12agx2-av28tiq638-0qzc1cvddb",
+          title: "Speed Typing Test",
+          description:
+            "In this assignment, let's build a Speed Typing Test by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 120,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container p-3">
+                    <div class="row">
+                        <div id="speedTypingTest" class="col-12">
+                            <h1 class="container-heading">Speed Typing Test</h1>
+                            <p class="description">On your fingers lets sey Go!</p>
+                            <div class="d-flex flex-row">
+                                <img class="clock-image mr-3" src="https://assets.ccbp.in/frontend/dynamic-webapps/clock-img.png" />
+                                <p id="timer">0</p>
+                                <p class="description ml-2 mt-4">Seconds</p>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card-container">
+                                <p id="quoteDisplay"></p>
+                                <textarea placeholder="Type Here" class="form-control" id="quoteInput" rows="5" cols="20"></textarea>
+                            </div>
+                            <div class="text-center text-light mt-3">
+                                <div id="spinner" class="d-none spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <p id="result"></p>
+                            <div class="text-center">
+                                <button class="btn submit-btn" id="submitBtn" type="submit">Submit</button>
+                                <button class="btn ml-3 reset-btn" id="resetBtn" type="submit">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .container {
+                background-color: #dac0ff;
+                padding-left: 14px;
+            }
+            
+            .card-container {
+                background-color: #f3eaff;
+                height: auto;
+                width: auto;
+                padding: 20px;
+                border-radius: 20px;
+                border: 2px solid #9aa5b1;
+            }
+            
+            .container-heading {
+                color: #690cb0;
+                font-family: "Roboto";
+                font-weight: bold;
+                padding: 13px;
+            }
+            
+            .description {
+                color: #3e4c59;
+                font-family: "Roboto";
+                font-weight: 700;
+            }
+            
+            .submit-btn {
+                background-color: #f2ebf3;
+            }
+            
+            .reset-btn {
+                background-color: #f2ebf3;
+            }
+            
+            .clock-image {
+                height: 50px;
+            }
+            
+            span {
+                font-size: 40px;
+            }
+            
+            #timer {
+                font-size: 43px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770976438/speed-typing-test-output_ytxlrr.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>Add HTML container element with id <code>speedTypingTest</code></span></li>
+                        <li><span>Add HTML paragraph elements with id timer, quoteDisplay and result</span></li>
+                        <li><span>Add HTML textarea element with id <code>quoteInput</code></span></li>
+                        <li><span>Add HTML button elements with id submitBtn and resetBtn</span></li>
+                        <li><span>Add the Bootstrap component spinner</span></li>
+                       
+                    </ol>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                    When the page is opened
+                    <ul>
+                      <li>
+                        Make a HTTP request to get a random quotation
+                        <ul>
+                          <li>URL: <code>https://apis.ccbp.in/random-quote</code></li>
+                        </ul>
+                      </li>
+                      <li>
+                        Display the random quotation in the HTML paragraph element with id
+                        <code>quoteDisplay</code>
+                      </li>
+                      <li>
+                        Start the timer and display the time in seconds in the HTML paragraph
+                        element with id <code>timer</code>
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    When a value is entered in the HTML textarea element with id
+                    <code>quoteInput</code> and the HTML button element with id
+                    <code>submitBtn</code> is clicked
+                    <ul>
+                      <li>
+                        If the value entered in the HTML textarea element with id
+                        <code>quoteInput</code> is same as the quotation in the HTML paragraph
+                        element with id <code>quoteDisplay</code>
+                        <ul>
+                          <li>
+                            The timer should be stopped and a success message should be shown in
+                            the HTML paragraph element with id <code>result</code>
+                          </li>
+                        </ul>
+                      </li>
+                
+                      <li>
+                        If the value entered in the HTML textarea element with id
+                        <code>quoteInput</code> does not match the quotation in the HTML
+                        paragraph element with id <code>quoteDisplay</code>
+                        <ul>
+                          <li>
+                            The timer should be running and an error message should be shown in
+                            the HTML paragraph element with id <code>result</code>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    When the HTML button with id <code>resetBtn</code> is clicked
+                    <ul>
+                      <li>Make a HTTP request to get a new random quotation</li>
+                      <li>
+                        Display the new random quotation in the HTML paragraph element with id
+                        <code>quoteDisplay</code>
+                      </li>
+                      <li>
+                        Reset the timer to <code>0</code> seconds and display the time in seconds
+                        in the HTML paragraph element with id <code>timer</code>
+                      </li>
+                      <li>
+                        Empty the HTML textarea element with id <code>quoteInput</code>
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    Add <code>loading</code> status with Bootstrap component
+                    <code>spinner</code> while making an HTTP request.
+                  </li>
+                </ul>
+                
+                  <hr>
+                  <p class="desc-que-blue"><strong>Resources</strong></p>
+                  <p class="desc-que-blue">Clock Image:</p>
+                  <ul>
+                  <li>https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png</li>
+                  </ul>
+
+                  <p class="desc-que-blue"><strong>CSS Colors Used:</strong></p>
+                  <p class="desc-que-blue">Background Color Hex Codes Used:</p>
+                  <div  class="desc-colors c690cb0">#690cb0</div>
+                  <div  class="desc-colors cdac0ff">#dac0ff</div>
+                  <div  class="desc-colors cf3eaff">#f3eaff</div>
+                  <div  class="desc-colors cf2ebfe">#f2ebfe</div>
+                  <div  class="desc-colors cffffff">#ffffff</div>
+
+                  <p class="desc-que-blue">Border Color Hex Codes Used:</p>
+                  <div  class="desc-colors c9aa5b1">#9aa5b1</div>
+               
+
+                  <p class="desc-que-blue">Text Color Hex Codes Used:</p>
+                  <div  class="desc-colors c690cb0">#690cb0</div>
+                  <div  class="desc-colors c3e4c59">#3e4c59</div>
+                  <div  class="desc-colors cffffff">#ffffff</div>
+                  <div  class="desc-colors c323f4b">#323f4b</div>
+
+          
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of HTML container element with id speedTypingTest",
+              type: "js-validation",
+              input: "check-container1",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description: "Page should consist of HTML image element",
+              type: "js-validation",
+              input: "check-image3",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of HTML paragraph element with id timer",
+              type: "js-validation",
+              input: "check-timer",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description:
+                "Page should consist of HTML paragraph element with id quoteDisplay",
+              type: "js-validation",
+              input: "check-quote-display",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description:
+                "Page should consist of HTML textarea element with id quoteInput",
+              type: "js-validation",
+              input: "check-quote-input",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of HTML paragraph element with id result",
+              type: "js-validation",
+              input: "check-result",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 7,
+              description:
+                "Page should consist of HTML button element with id submitBtn",
+              type: "js-validation",
+              input: "check-submit-btn2",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 8,
+              description:
+                "Page should consist of HTML button element with id resetBtn",
+              type: "js-validation",
+              input: "check-reset-btn",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML paragraph element with id siteUrlErrMsg inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-spinner",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 10,
+              description:
+                "JS code implementation should use setInterval and clearInterval to implement timer",
+              type: "js-validation",
+              input: "check-timer-logic",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 11,
+              description:
+                "JS code implementation should use classList.add and classList.remove to show and hide bootstrap spinner element",
+              type: "js-validation",
+              input: "check-spinner-logic",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 12,
+              description:
+                "When page is opened, an HTTP request should be made to get a random quotation from the given URL and the HTML paragraph element with id quoteDisplay should have the quotation received in the response.",
+              type: "js-validation",
+              input: "check-fetch-quote",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 13,
+              description:
+                "When the text in HTML paragraph element with id quoteDisplay is entered in HTML textarea element, and the HTML button element with id submitBtn is clicked a success message should be shown in HTML paragraph element with id result",
+              type: "js-validation",
+              input: "check-success-msg",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 14,
+              description:
+                "When the text in HTML paragraph element with id quoteDisplay is entered in HTML textarea element, and the HTML button element with id submitBtn is clicked the timer should stop",
+              type: "js-validation",
+              input: "check-timer-stop",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 15,
+              description:
+                "When the text in the HTML paragraph element with id quoteDisplay and the value entered in HTML textarea element with id quoteInput are not the same, and the HTML button element with id submitBtn is clicked an error message should be shown in the HTML paragraph element with id result",
+              type: "js-validation",
+              input: "check-error-msg",
               output: "true",
               visible: true,
             },
@@ -8655,6 +9422,131 @@ findFirstValue(myArray);
           score: 11,
           status: "unsolved",
           attempts: [],
+        },
+      ],
+    },
+
+    //Coding Test -4
+    {
+      id: "javascript-JS_Coding_Test_4",
+      title: "javascript Coding Test 4",
+      description: "",
+      questions: [
+        {
+          id: "e12agx2-avzrtiq638467hy-0qme1cvddb",
+          title: "Keyboard Events",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with Keydown event",
+          difficulty: "Easy",
+          score: 130,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+            </head>
+            
+            <body>
+                <div class="container">
+                    <h1 class="heading">Keyboard Events</h1>
+                    <div class="enter-input">
+                        <label>Enter the value : </label><input type="text" id="userInput"  class="input" />
+                    </div>
+                    <div class="events-fired">
+                        <label>keydown() fired : </label><span id="keydownCounter">0</span> times.
+                    </div>
+                    <div class="event-keycode">
+                        <label>Recent keyCode : </label><span id="keydownCode">0</span>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .container {
+                margin-left: 30px;
+                font-family: "Roboto";
+            }
+            
+            .heading {
+                font-size: 36px;
+                padding-top: 40px;
+                padding-bottom: 20px;
+            }
+            
+            .enter-input {
+                font-size: 18px;
+            
+            }
+            
+            .input {
+                height: 20px;
+                width: 200px;
+            }
+            
+            .events-fired {
+                font-size: 16px;
+                padding: 10px;
+            }
+            
+            .event-keycode {
+                font-size: 16px;
+                padding: 10px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Use the below reference image</p>
+                    
+                    <img src="https://res.cloudinary.com/dawpjwhoh/image/upload/v1770981706/keyboard-event-op_xxv80j.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Achieve the given functionality using JS</p>
+                     <ul class="ordered-unordered-lists">
+                        <li><span>When the key is entered in the HTML input element with id userInput</span></li>
+                        <ul class="ordered-unordered-lists">
+                        <li><span>The value in the HTML span element with id keydownCounter should be Incremented</span></li>
+                        <li><span>The value in the HTML span element with id keydownCode should contain the key code of the latest key in the input element.</span></li>
+                        </ul>
+                    </ul>
+
+
+                    
+                  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "JS code implementation should use keyCode to get the key code of a pressed key",
+              type: "js-validation",
+              input: "check-userInput",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "JS code implementation should use addEventListener with event as keydown",
+              type: "js-validation",
+              input: "check-keydownCounter",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "When the value is entered in the HTML input element with id userInput then the count in HTML span element with the id keydownCounter should be incremented",
+              type: "js-validation",
+              input: "check-keydownCode",
+              output: "true",
+              visible: true,
+            },
+          ],
         },
       ],
     },

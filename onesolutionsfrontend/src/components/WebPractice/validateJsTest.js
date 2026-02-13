@@ -1580,6 +1580,101 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      //speed typing test
+        case "check-container1":
+          return { passed: iframeDoc.getElementById("speedTypingTest") !== null };
+
+        // 2
+        case "check-image3":
+          return { passed: iframeDoc.querySelector("img") !== null };
+
+        // 3
+        case "check-timer":
+          return { passed: iframeDoc.getElementById("timer")?.tagName === "P" };
+
+        // 4
+        case "check-quote-display":
+          return { passed: iframeDoc.getElementById("quoteDisplay")?.tagName === "P" };
+
+        // 5
+        case "check-quote-input":
+          return { passed: iframeDoc.getElementById("quoteInput")?.tagName === "TEXTAREA" };
+
+        // 6
+        case "check-result":
+          return { passed: iframeDoc.getElementById("result")?.tagName === "P" };
+
+        // 7
+        case "check-submit-btn2":
+          return { passed: iframeDoc.getElementById("submitBtn")?.tagName === "BUTTON" };
+
+        // 8
+        case "check-reset-btn":
+          return { passed: iframeDoc.getElementById("resetBtn")?.tagName === "BUTTON" };
+
+        // 9
+        case "check-spinner":
+          return { passed: iframeDoc.getElementById("spinner") !== null };
+
+        // 10
+        case "check-timer-logic": {
+          const js = iframeDoc.documentElement.outerHTML;
+          return { passed: js.includes("setInterval") && js.includes("clearInterval") };
+        }
+
+        // 11
+        case "check-spinner-logic": {
+          const js = iframeDoc.documentElement.outerHTML;
+          return { passed: js.includes("classList.add") && js.includes("classList.remove") };
+        }
+
+        // 12
+        case "check-fetch-quote": {
+          const quote = iframeDoc.getElementById("quoteDisplay").textContent.trim();
+          return { passed: quote.length > 0 };
+        }
+
+        // 13 SUCCESS MSG
+        case "check-success-msg": {
+          const quote = iframeDoc.getElementById("quoteDisplay").textContent;
+          const input = iframeDoc.getElementById("quoteInput");
+          const btn = iframeDoc.getElementById("submitBtn");
+          const result = iframeDoc.getElementById("result");
+
+          input.value = quote;
+          btn.click();
+
+          return { passed: result.textContent.includes("You typed In") };
+        }
+
+        // 14 TIMER STOP
+        case "check-timer-stop": {
+          const btn = iframeDoc.getElementById("submitBtn");
+          const timeBefore = iframeDoc.getElementById("timer").textContent;
+
+          btn.click();
+
+          setTimeout(() => {}, 1200);
+
+          const timeAfter = iframeDoc.getElementById("timer").textContent;
+
+          return { passed: timeBefore === timeAfter };
+        }
+
+        // 15 ERROR MSG
+        case "check-error-msg": {
+          const input = iframeDoc.getElementById("quoteInput");
+          const btn = iframeDoc.getElementById("submitBtn");
+          const result = iframeDoc.getElementById("result");
+
+          input.value = "wrong text";
+          btn.click();
+
+          return { passed: result.textContent.includes("Incorrect") };
+        }
+
+
+
       default:
         return {
           passed: false,

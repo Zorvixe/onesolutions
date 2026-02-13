@@ -442,7 +442,7 @@ import Event_Listners_More_Events_Class from "../JavaScript/Fetch_Callbacks/Even
 import Hypertext_Transfer_Protocal_Class from "../JavaScript/Fetch_Callbacks/Hypertext_Transfer_Protocal_Class.js";
 import Coding_Pratice_14 from "../JavaScript/Fetch_Callbacks/Coding_Pratice_14.js";
 import Coding_Pratice_15 from "../JavaScript/Fetch_Callbacks/Coding_Pratice_15.js";
-import Coding_Assignment_1 from "../JavaScript/Fetch_Callbacks/Coding_Assignment_1.js";
+import JS_Coding_Assignment_1 from "../JavaScript/Fetch_Callbacks/JS_Coding_Assignment_1.js";
 import HTTP_Request_Using_Class from "../JavaScript/Fetch_Callbacks_2/HTTP_Request_Using_Class.js";
 import Wikipedia_Search_Class from "../JavaScript/Fetch_Callbacks_2/Wikipedia_Search_Class.js";
 import Coding_Pratice_JS_16 from "../JavaScript/Fetch_Callbacks_2/Coding_Pratice_JS_16.js";
@@ -1415,7 +1415,7 @@ export const subtopicComponents = {
   "Hypertext Transfer Protocol (HTTP)": Hypertext_Transfer_Protocal_Class,
   "Coding Practice 14": Coding_Pratice_14,
   "Coding Practice 15": Coding_Pratice_15,
-  "Coding Assignment 1": Coding_Assignment_1,
+  "Coding Assignment 1": JS_Coding_Assignment_1,
   "HTTP Requests using JS": HTTP_Request_Using_Class,
   "Wikipedia Search Application": Wikipedia_Search_Class,
   "Coding Practice 17": Coding_Pratice_17,

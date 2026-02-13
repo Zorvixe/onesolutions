@@ -2,26 +2,27 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-const DigitalCheatsheet = () => {
-  const { contentUuid } = useParams();
+const DigitalCheatsheet = ({
+  contentId,
+  contentUuid: propContentUuid,
+  goalId: propGoalId,
+  moduleId: propModuleId,
+  topicId: propTopicId,
+  subtopicId: propSubtopicId,
+  onComplete,
+}) => {
+  const { contentUuid: paramContentUuid } = useParams();
   const navigate = useNavigate();
-  const {
-    getContentByUuid,
-    markSubtopicComplete,
-    completedContent,
-    loadDigitalMarketingAllStructure,
-    user,
-  } = useAuth();
+  const { getContentByUuid, markSubtopicComplete, completedContent, user } =
+    useAuth();
+
+  const finalContentUuid = propContentUuid || paramContentUuid;
 
   const [content, setContent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [printMode, setPrintMode] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
-  const [goalId, setGoalId] = useState(null);
-  const [moduleId, setModuleId] = useState(null);
-  const [subtopicId, setSubtopicId] = useState(null);
 
   const courseSelection = user?.courseSelection || "web_development";
   const hasDigitalAccess =
@@ -39,20 +40,27 @@ const DigitalCheatsheet = () => {
     const loadContent = async () => {
       try {
         setLoading(true);
-        if (contentUuid) {
-          const response = await getContentByUuid(contentUuid);
+        if (finalContentUuid) {
+          const response = await getContentByUuid(finalContentUuid);
           if (response?.success) {
             const contentData = response.data;
             setContent(contentData);
-            
-            setGoalId(contentData.goal_id);
-            setModuleId(contentData.module_id);
-            setSubtopicId(contentData.subtopic_id);
-            
-            setIsCompleted(completedContent.includes(contentData.id));
+            setIsCompleted(
+              completedContent.includes(contentData.id) ||
+                completedContent.includes(contentId) ||
+                contentData.is_completed
+            );
           } else {
             setError("Cheatsheet not found");
           }
+        } else if (contentId) {
+          // If we have contentId but no UUID, we need to fetch by ID
+          // This would require an additional API endpoint
+          setContent({
+            id: contentId,
+            cheatsheet_title: "Loading...",
+            cheatsheet_content: "<p>Loading content...</p>",
+          });
         }
       } catch (err) {
         console.error("Error loading digital cheatsheet:", err);
@@ -63,7 +71,13 @@ const DigitalCheatsheet = () => {
     };
 
     loadContent();
-  }, [contentUuid, hasDigitalAccess, getContentByUuid, completedContent]);
+  }, [
+    finalContentUuid,
+    contentId,
+    hasDigitalAccess,
+    getContentByUuid,
+    completedContent,
+  ]);
 
   const handleMarkComplete = async () => {
     if (!content || isCompleted) return;
@@ -71,15 +85,14 @@ const DigitalCheatsheet = () => {
     try {
       const result = await markSubtopicComplete(
         content.id,
-        goalId,
-        moduleId,
-        subtopicId
+        propGoalId || content.goal_id,
+        propModuleId || content.module_id,
+        propSubtopicId || content.subtopic_id
       );
 
       if (result.success) {
         setIsCompleted(true);
-        await loadDigitalMarketingAllStructure();
-        alert("✓ Cheatsheet marked as completed!");
+        if (onComplete) onComplete();
       }
     } catch (error) {
       console.error("Error marking cheatsheet complete:", error);
@@ -145,16 +158,16 @@ const DigitalCheatsheet = () => {
   }
 
   return (
-    <div
-      className={`digital-cheatsheet-container ${printMode ? "print-mode" : ""}`}
-    >
+    <div className="digital-cheatsheet-container">
       <div className="cheatsheet-header">
         <div className="cheatsheet-breadcrumb">
           <span onClick={() => navigate("/digital-courses")}>
             Digital Marketing
           </span>
           <span className="separator">→</span>
-          <span>{content.cheatsheet_title || "Digital Marketing Cheatsheet"}</span>
+          <span>
+            {content.cheatsheet_title || "Digital Marketing Cheatsheet"}
+          </span>
         </div>
 
         <div className="cheatsheet-title-section">
@@ -170,13 +183,6 @@ const DigitalCheatsheet = () => {
           <button className="action-btn" onClick={handleDownloadPDF}>
             <i className="fas fa-download"></i>
             Download PDF
-          </button>
-          <button
-            className="action-btn"
-            onClick={() => setPrintMode(!printMode)}
-          >
-            <i className="fas fa-print"></i>
-            {printMode ? "Exit Print Mode" : "Print Mode"}
           </button>
         </div>
       </div>
@@ -197,73 +203,30 @@ const DigitalCheatsheet = () => {
 
         <div className="cheatsheet-content-wrapper">
           <div className="cheatsheet-content">
-            <div
-              dangerouslySetInnerHTML={{
-                __html:
-                  content.cheatsheet_content ||
-                  `<h2 id="section-0">Digital Marketing Fundamentals</h2>
-                  <div class="cheatsheet-section">
-                    <h3>Key Concepts</h3>
-                    <ul>
-                      <li><strong>SEO (Search Engine Optimization):</strong> Optimizing content to rank higher in search results</li>
-                      <li><strong>PPC (Pay-Per-Click):</strong> Advertising model where you pay for each click</li>
-                      <li><strong>Social Media Marketing:</strong> Using platforms like Facebook, Instagram, LinkedIn for promotion</li>
-                      <li><strong>Content Marketing:</strong> Creating valuable content to attract and retain customers</li>
-                      <li><strong>Email Marketing:</strong> Using email to nurture leads and communicate with customers</li>
-                    </ul>
-                  </div>
-                  <div class="cheatsheet-section">
-                    <h3>SEO Checklist</h3>
-                    <ul>
-                      <li>✓ Keyword Research - Find terms your audience searches for</li>
-                      <li>✓ On-Page SEO - Optimize titles, meta descriptions, headers</li>
-                      <li>✓ Technical SEO - Site speed, mobile-friendliness, sitemap</li>
-                      <li>✓ Content Quality - Create comprehensive, valuable content</li>
-                      <li>✓ Backlinks - Build quality links from authoritative sites</li>
-                    </ul>
-                  </div>
-                  <div class="cheatsheet-section">
-                    <h3>Social Media Best Practices</h3>
-                    <ul>
-                      <li>📱 Post consistently (3-5 times per week)</li>
-                      <li>📸 Use high-quality visuals and videos</li>
-                      <li>💬 Engage with your audience in comments</li>
-                      <li>📊 Track analytics to optimize performance</li>
-                      <li>🎯 Target specific audience segments</li>
-                    </ul>
-                  </div>
-                  <div class="cheatsheet-section">
-                    <h3>Email Marketing Metrics</h3>
-                    <ul>
-                      <li>Open Rate: 15-25% is good</li>
-                      <li>Click-Through Rate (CTR): 2-5% is average</li>
-                      <li>Conversion Rate: 1-3% is typical</li>
-                      <li>Bounce Rate: Keep under 2%</li>
-                      <li>Unsubscribe Rate: Should be below 0.5%</li>
-                    </ul>
-                  </div>`,
-              }}
-            />
+            {content.cheatsheet_content ? (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: content.cheatsheet_content,
+                }}
+              />
+            ) : (
+              <p className="no-content-message">
+                No content available for this cheatsheet.
+              </p>
+            )}
           </div>
 
           <div className="cheatsheet-sidebar">
-            <div className="key-takeaways">
-              <h4>💡 Key Takeaways</h4>
-              <ul>
-                {content.key_takeaways && content.key_takeaways.length > 0 ? (
-                  content.key_takeaways.map((takeaway, index) => (
+            {content.key_takeaways && content.key_takeaways.length > 0 && (
+              <div className="key-takeaways">
+                <h4>💡 Key Takeaways</h4>
+                <ul>
+                  {content.key_takeaways.map((takeaway, index) => (
                     <li key={index}>{takeaway}</li>
-                  ))
-                ) : (
-                  <>
-                    <li>Focus on user intent, not just keywords</li>
-                    <li>Consistency is key in all marketing channels</li>
-                    <li>Always track and measure your results</li>
-                    <li>Test different approaches and optimize</li>
-                  </>
-                )}
-              </ul>
-            </div>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {content.file_url && (
               <div className="download-original">
