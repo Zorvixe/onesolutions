@@ -277,3 +277,237 @@ html,
     gap: 0.25rem;
   }
 }
+
+/* Add to App.css */
+
+/* Courses Toggle Styles */
+.courses-toggle-container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.courses-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
+  background: linear-gradient(to bottom, #f8f9fa, white);
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 60px;
+  z-index: 100;
+}
+
+.tab-button {
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  background: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tab-button.active {
+  background: #9c27b0;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(156,39,176,0.3);
+}
+
+.tab-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Digital Marketing Specific Styles */
+.digital-header {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #9c27b0, #673ab7);
+  color: white;
+  border-radius: 0 0 20px 20px;
+  margin-bottom: 30px;
+}
+
+.digital-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.digital-header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.digital-goal-group .goal-rail {
+  background: linear-gradient(to bottom, #9c27b0, #673ab7) !important;
+}
+
+.digital-subtopic-page .digital-navigation {
+  background: linear-gradient(to bottom, #f3e5f5, white);
+}
+
+.digital-module-title {
+  color: #9c27b0 !important;
+  border-left: 4px solid #9c27b0 !important;
+}
+
+.digital-subtopic-item:hover {
+  background-color: #f3e5f5 !important;
+}
+
+.digital-content-container {
+  padding: 20px;
+}
+
+.digital-subtopic-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f3e5f5;
+}
+
+.digital-subtopic-header h2 {
+  color: #9c27b0;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.digital-course-context {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.digital-welcome {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.digital-welcome h2 {
+  color: #9c27b0;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.digital-welcome p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.digital-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.digital-icons span {
+  padding: 10px 20px;
+  background: #f3e5f5;
+  border-radius: 30px;
+  color: #9c27b0;
+  font-weight: 500;
+}
+
+.digital-complete-section {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.digital-complete-button {
+  padding: 12px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #9c27b0, #673ab7);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(156,39,176,0.3);
+}
+
+.digital-complete-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(156,39,176,0.4);
+}
+
+/* Access Denied Styles */
+.access-denied-container {
+  text-align: center;
+  padding: 60px 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.access-denied-container h2 {
+  color: #dc3545;
+  margin: 20px 0;
+}
+
+.access-denied-container p {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.upgrade-button {
+  margin-top: 30px;
+  padding: 12px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #9c27b0, #673ab7);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upgrade-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(156,39,176,0.4);
+}
+
+.completed-badge {
+  margin-left: 10px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.completed-check {
+  margin-left: 8px;
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .courses-tabs {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+  
+  .tab-button {
+    width: 90%;
+  }
+  
+  .digital-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .digital-icons {
+    gap: 10px;
+  }
+  
+  .digital-icons span {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+}

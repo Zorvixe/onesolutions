@@ -4147,7 +4147,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML paragraph element with the id requestStatus",
               type: "js-validation",
-              input: "check-request-status",
+              input: "check-request-status2",
               output: "true",
               visible: true,
             },
@@ -4156,7 +4156,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML paragraph element with the id httpResponse",
               type: "js-validation",
-              input: "check-http-response",
+              input: "check-http-response2",
               output: "true",
               visible: true,
             },
@@ -4495,7 +4495,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML input element with the id searchInput",
               type: "js-validation",
-              input: "check-search-input",
+              input: "check-search-input2",
               output: "true",
               visible: true,
             },
@@ -4504,7 +4504,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML container element with the id resultCountries",
               type: "js-validation",
-              input: "check-search-results",
+              input: "check-search-results2",
               output: "true",
               visible: true,
             },
@@ -4933,7 +4933,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML form element with the id questionsForm",
               type: "js-validation",
-              input: "check-form",
+              input: "check-form2",
               output: "true",
               visible: true,
             },
@@ -4969,7 +4969,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "JS code should contain addEventListener for the change event",
               type: "js-validation",
-              input: "check-change-event",
+              input: "check-change-event2",
               output: "true",
               visible: true,
             },
@@ -4979,6 +4979,428 @@ export const javascriptCodingPracticesData = {
                 "When the HTML button element with the id submitBtn clicked or the HTML form element with the id questionsForm submitted, then the HTML paragraph element with the id resultMsg should have Wrong answer as result if the selected radio button is a wrong answer. Otherwise, it should have Correct answer",
               type: "js-validation",
               input: "check-submit-functionality",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding_Assignment 2
+    {
+      id: "javascript-JS_Coding_Assignment_2",
+      title: "javascript Coding Assignment 2",
+      description: "",
+      questions: [
+        {
+          id: "e19agx2-axa1zrtiq638-0qme149ddb",
+          title: "BookMark Maker",
+          description:
+            "In this assignment, let's build a Bookmark Maker by applying the concepts we learned till now.",
+          difficulty: "Easy",
+          score: 130,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+            </head>
+            
+            <body>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 mt-3">
+                            <h1 class="container-heading">Hello</h1>
+                            <h1 class="container-description"> Jane Doe</h1>
+                            <div class="p-3 formContainer">
+                                <h1 class="cardHeading">Bookmark your Favourite Sites</h1>
+                                <form class="boxContainer" id="bookmarkForm">
+                                    <label for="siteNameInput">SITE NAME</label>
+                                    <input class="form-control" placeholder="Enter the name" type="text" id="siteNameInput" />
+                                    <p id="siteNameErrMsg"></p>
+                                    <label for="siteUrlInput">SITE URL</label>
+                                    <input class="form-control" placeholder="Enter Site Url" type="text" id="siteUrlInput" />
+                                    <p id="siteUrlErrMsg"></p>
+                                    <div class="text-right">
+                                        <button class="button" id="submitBtn" type="submit">Submit</button>
+                                    </div>
+                                </form>
+                                <div class="mt-3 boxContainer">
+                                    <ul class="d-none goggle-box" id="bookmarksList">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+            .container {
+                background-color: #2d3a8c;
+                font-family: "Roboto";
+                padding: 0px;
+                margin: 0px;
+                height: 30px;
+            }
+            
+            .container-heading {
+                color: #f5f7fa;
+                font-size: 16px;
+                font-family: "Roboto";
+            }
+            
+            .container-description {
+                color: #ffffff;
+                font-size: 24px;
+                font-family: "Roboto";
+            }
+            
+            .bookmark-container {
+                background-color: #ffffff;
+                background-size: cover;
+                margin: 0px;
+                border-radius: 18px;
+            }
+            
+            .bookmark-container-heading {
+                color: #323f4b;
+                font-family: "Roboto";
+                font-size: 22px;
+                font-weight: 500;
+                padding: 20px;
+            }
+            
+            .boxContainer {
+                background-color: #f5f7fa;
+                border-radius: 15px;
+                padding: 20px;
+                border-style: solid;
+                border-color: #cbd2d9;
+                border-width: 1px;
+            }
+            
+            .goggle-box {
+                color: #323f4b;
+            }
+            
+            ul {
+                list-style: none;
+            }
+            
+            label {
+                color: #7b8794;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            
+            .button {
+                background-color: #2d3a8c;
+                color: #ffffff;
+                border-radius: 20px;
+                padding: 10px;
+            }
+            
+            p {
+                color: #dc3545;
+            }
+            
+            .formContainer {
+                background-color: #ffffff;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+                height: 60vh;
+            }
+            
+            .cargHeding {
+                color: #21396c;
+                font-size: 20px;
+            }`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Refer to the below image.</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770960723/bookmark-maker-output-v1_xc8jdt.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Instructions</p>
+                     <ol class="ordered-unordered-lists">
+                        <li><span>The page should have HTML form element with id bookmarkForm</span></li>
+                        <li><span>The HTML form element with id bookmarkForm should have HTML input elements with ids siteNameInput and siteUrlInput</span></li>
+                        <li><span>The HTML form element with id bookmarkForm should have HTML button element with id submitBtn</span></li>
+                        <li><span>Add HTML label elements for HTML input elements with ids siteNameInput and siteUrlInput</span></li>
+                        <li><span>The HTML form element with id bookmarkForm should have HTML p elements with ids siteNameErrMsg and siteUrlErrMsg</span></li>
+                        <li><span>The page should have HTML unordered list element with id bookmarksList</span></li>
+                        <li><span>Each bookmark item should contain an HTML anchor element to navigate to the bookmarked site</span></li>
+                    </ol>
+
+
+                      <div className="Warning-container">
+                      <div>
+                        <h5>
+                          <i class="bi bi-exclamation-triangle"></i>Warning
+                        </h5>
+                      </div>
+                      <ul style={{ marginLeft: "1.5rem" }}>
+                        <li>
+                        Please provide valid URL's to the siteUrlInput element
+                        </li>
+                      </ul>
+                    </div>
+                      <hr>
+
+                  <p class="">By following the above instructions, achieve the given functionality.</p>
+                  <ul>
+                  <li>
+                    When the HTML <code>button</code> element with the id <code>submitBtn</code> is clicked,
+                    <ul>
+                      <li>
+                        If the values are provided in the HTML input elements with ids
+                        <code>siteNameInput</code> and <code>siteUrlInput</code>
+                        <ul>
+                          <li>
+                            A new bookmark should be added to the
+                            <code>bookmarksList</code> as list item.
+                          </li>
+                        </ul>
+                      </li>
+                
+                      <li>
+                        If the <code>siteNameInput</code> value is empty,
+                        <ul>
+                          <li>
+                            The HTML <code>p</code> element with id
+                            <code>siteNameErrMsg</code> should have error message
+                          </li>
+                        </ul>
+                      </li>
+                
+                      <li>
+                        If the <code>siteUrlInput</code> value is empty,
+                        <ul>
+                          <li>
+                            The HTML <code>p</code> element with id
+                            <code>siteUrlErrMsg</code> should have error message
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    When the HTML <code>a</code> element consisting of the bookmarked site URL is clicked,
+                    the site should open in a <strong>new tab</strong>.
+                  </li>
+                
+                  <li>
+                    When the HTML <code>input</code> element with id
+                    <code>siteNameInput</code> is empty after changing the value inside the input
+                    <ul>
+                      <li>
+                        The HTML <code>p</code> element with id
+                        <code>siteNameErrMsg</code> should have error message
+                      </li>
+                    </ul>
+                  </li>
+                
+                  <li>
+                    When the HTML <code>input</code> element with id
+                    <code>siteUrlInput</code> is empty after changing the value inside the input
+                    <ul>
+                      <li>
+                        The HTML <code>p</code> element with id
+                        <code>siteUrlErrMsg</code> should have error message
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                
+                  <hr>
+                  <p class="desc-que-blue">Resources</p>
+                  <p class="desc-que-blue">Background colors Hex code values used:</p>
+                  <div  class="desc-colors c2d3a8c">#2d3a8c</div>
+                  <div  class="desc-colors cffffff">#ffffff</div>
+                  <div  class="desc-colors cf5f7fa">#f5f7fa</div>
+                  <div  class="desc-colors c21396c">#21396c</div>
+
+                  <p class="desc-que-blue">Text colors Hex code values used:</p>
+                  <div  class="desc-colors c323f4b">#323f4b</div>
+                  <div  class="desc-colors cffffff">#ffffff</div>
+                  <div  class="desc-colors c7b8794">#7b8794</div>
+                  <div  class="desc-colors cdc3545">#dc3545</div>
+
+                  <p class="desc-que-blue">Border Colors Hex code values used:</p>
+                  <div  class="desc-colors c7b8794">#cbd2d9</div>
+                  <div  class="desc-colors ce4e7eb">#e4e7eb</div>
+
+               
+                  <p class="desc-que-blue">CSS Font families used::</p>
+                  <ul>
+                  <li>Roboto</li>
+                  </ul>
+
+              <hr>
+                <p class="desc-que-blue">Concepts Review</p>
+                <p class="">Want to quickly review some of the concepts you've been learning?</p>
+                <p class="">Take a look at the Cheat Sheets.</p>  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML main heading element",
+              type: "js-validation",
+              input: "check-heading5",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 2,
+              description: "Page should consist of an HTML paragraph element",
+              type: "js-validation",
+              input: "check-paragraph",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 3,
+              description:
+                "Page should consist of HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-form4",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 4,
+              description:
+                "Page should consist of HTML input element with id siteNameInput inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-name-input",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 5,
+              description:
+                "Page should consist of HTML label element for HTML input element with id siteNameInput",
+              type: "js-validation",
+              input: "check-site-name-label",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 6,
+              description:
+                "Page should consist of HTML paragraph element with id siteNameErrMsg inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-name-error",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 7,
+              description:
+                "Page should consist of HTML input element with id siteUrlInput inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-url-input",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 8,
+              description:
+                "Page should consist of HTML label element for HTML input element with id siteUrlInput",
+              type: "js-validation",
+              input: "check-site-url-label",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 9,
+              description:
+                "Page should consist of HTML paragraph element with id siteUrlErrMsg inside HTML form element with id bookmarkForm",
+              type: "js-validation",
+              input: "check-site-url-error",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 10,
+              description:
+                "Page should consist of HTML unordered list element with id bookmarksList",
+              type: "js-validation",
+              input: "check-bookmarks-list",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 11,
+              description:
+                "JS code implementation should use addEventListener to attach change event for the HTML input elements",
+              type: "js-validation",
+              input: "check-change-event4",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 12,
+              description:
+                "JS code implementation should use addEventListener to attach submit event for the HTML form element",
+              type: "js-validation",
+              input: "check-submit-event",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 13,
+              description:
+                "JS code implementation should use event.preventDefault to prevent the default behavior of submit event",
+              type: "js-validation",
+              input: "check-prevent-default",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 14,
+              description:
+                "When HTML input elements with ids siteNameInput and siteUrlInput are filled with valid values, the HTML button element with id submitBtn is clicked a new bookmark should be added to HTML unordered list element with id bookmarksList",
+              type: "js-validation",
+              input: "check-add-bookmark",
+              output: "true",
+              visible: true,
+            },
+
+            {
+              id: 15,
+              description:
+                "When a new bookmark is added to the HTML unordered list element with id bookmarksList, the HTML anchor element in the bookmark item should have href attribute value as the bookmarked site",
+              type: "js-validation",
+              input: "check-bookmark-href",
               output: "true",
               visible: true,
             },
@@ -7909,14 +8331,14 @@ findCommonItems(arr1, arr2, arr3);
           id: "e8f49aad-62e3-a233-b71b6d1ab82d",
           title: "Concatenate and Remove Duplicates",
           description:
-            "Given two arrays arr1 and arr2 of positive integers, Write a JS program to concatenate two arrays and remove the duplicate items from the concatenated array. Log the array with unique items in ascending order.",
+            "Given two arrays arr1 and arr2 of positive integers.\n Write a JS program to concatenate two arrays and remove the duplicate items from the concatenated array.\n Log the array with unique items in ascending order.",
 
           difficulty: "Easy",
           descriptionDetails: `
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input contains an array arr1./nThe second line of input contains an array arr2./nThe third line of input contains an array arr3.</p>
+                <p class=""></p>The first line of input contains an array arr1.<br/> The second line of input contains an array arr2.</br> The third line of input contains an array arr3.</p>
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
@@ -7924,11 +8346,44 @@ findCommonItems(arr1, arr2, arr3);
             </div>
           </div>
            `,
-          sampleInput: "[1, 4, 7, 3, 7, 3, 3]/n[2, 4, 5, 5, 3, 2, 1]",
-          sampleOutput: "[ 1, 2, 3, 4, 5, 7 ]",
-          testCases: [],
-          defaultCode: `
+          sampleInput: "[1, 4, 7, 3, 7, 3, 3]\n[2, 4, 5, 5, 3, 2, 1]",
+          sampleOutput: "[1, 2, 3, 4, 5, 7]",
+          testCases: [
+            {
+              input: "[1, 4, 7, 3, 7, 3, 3]\n[2, 4, 5, 5, 3, 2, 1]",
+              output: "[1, 2, 3, 4, 5, 7]",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30]\n[5, 10, 15]",
+              output: "[5, 10, 15, 20, 30]",
+              visible: true,
+            },
+            {
+              input: "[8, 8, 8]\n[8, 8, 8]",
+              output: "[8]",
+              visible: false,
+            },
+            {
+              input: "[9, 1, 6]\n[4, 2, 6]",
+              output: "[1, 2, 4, 6, 9]",
+              visible: false,
+            },
+          ],
 
+          defaultCode: `
+          // Read input
+          let arr1 = eval(prompt());
+          let arr2 = eval(prompt());
+          
+          function concatenateAndRemoveDuplicates(a1, a2) {
+            /*
+            * Write your code here
+            */
+          }
+          
+          concatenateAndRemoveDuplicates(arr1, arr2);
+          
 
           `,
           score: 18,
@@ -7939,14 +8394,14 @@ findCommonItems(arr1, arr2, arr3);
           id: "e8f49aad-62e3-41dd-a233-b71b6d1ab82d",
           title: "Replacing Array Item",
           description:
-            "Given  an array myArray, targetItem, and a replaceItem, Write a JS program to replace the targetItem with the given replaceItem in myArray. If myArray consists of more than one targetItem replace the first occurrence.",
+            "Given  an array myArray, targetItem, and a replaceItem, Write a JS program to replace the targetItem with the given replaceItem in myArray.\n If myArray consists of more than one targetItem replace the first occurrence.",
 
           difficulty: "Easy",
           descriptionDetails: `
           <div class="desc-question-details">
               <div>
                 <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input contains an array myArray./nThe second line of input contains a targetItem./nThe third line of input contains a replaceItem.</p>
+                <p class=""></p>The first line of input contains an array myArray.<br/> The second line of input contains a targetItem.<br/> The third line of input contains a replaceItem.</p>
               </div>
               <div>
               <p class="desc-que-blue">Output</p>
@@ -7954,10 +8409,44 @@ findCommonItems(arr1, arr2, arr3);
             </div>
           </div>
            `,
-          sampleInput: "[1, 2, 3, 'four', 5, 6]/n'four'/n4",
-          sampleOutput: "[ 1, 2, 3, 4, 5, 6 ]",
-          testCases: [],
+          sampleInput: "[1, 2, 3, 'four', 5, 6]\n'four'\n4",
+          sampleOutput: "[1, 2, 3, 4, 5, 6]",
+          testCases: [
+            {
+              input: "[1, 2, 3, 'four', 5, 6]\n'four'\n4",
+              output: "[1, 2, 3, 4, 5, 6]",
+              visible: true,
+            },
+            {
+              input: "['a', 'b', 'c', 'b']\n'b'\n'x'",
+              output: "['a', 'x', 'c', 'b']",
+              visible: true,
+            },
+            {
+              input: "[10, 20, 30, 20]\n20\n99",
+              output: "[10, 99, 30, 20]",
+              visible: false,
+            },
+            {
+              input: "[5, 6, 7]\n8\n100",
+              output: "[5, 6, 7]",
+              visible: false,
+            },
+          ],
+
           defaultCode: `
+// Read input
+let myArray = eval(prompt());
+let targetItem = eval(prompt());
+let replaceItem = eval(prompt());
+
+function replaceArrayItem(arr, target, replace) {
+  /*
+  * Write your code here
+  */
+}
+
+replaceArrayItem(myArray, targetItem, replaceItem);
 
 
           `,
@@ -7966,10 +8455,10 @@ findCommonItems(arr1, arr2, arr3);
           attempts: [],
         },
         {
-          id: "e8f49aad-62e3-a233-b71b6d1ab82d",
+          id: "e8f49aad-a233-b71b6d1ab82d",
           title: "Find the First Value",
           description:
-            "Given an array myArray of positive integers, write a JS program to find the first smallest integer divisible by 2 and 3. Log the number or undefined in case no integer is found divisible by 2 and 3.",
+            "Given an array myArray of positive integers, write a JS program to find the first smallest integer divisible by 2 and 3.\n Log the number or undefined in case no integer is found divisible by 2 and 3.",
 
           difficulty: "Easy",
           descriptionDetails: `
@@ -7986,8 +8475,45 @@ findCommonItems(arr1, arr2, arr3);
            `,
           sampleInput: "[51, 18, 15, 12]",
           sampleOutput: "12",
-          testCases: [],
+          testCases: [
+            {
+              input: "[51, 18, 15, 12]",
+              output: "12",
+              visible: true,
+            },
+            {
+              input: "[5, 7, 11, 13]",
+              output: "undefined",
+              visible: true,
+            },
+            {
+              input: "[6, 12, 18]",
+              output: "6",
+              visible: false,
+            },
+            {
+              input: "[25, 30, 60]",
+              output: "30",
+              visible: false,
+            },
+            {
+              input: "[1, 2, 3, 4, 5, 6]",
+              output: "6",
+              visible: false,
+            },
+          ],
+
           defaultCode: `
+// Read input
+let myArray = eval(prompt());
+
+function findFirstValue(arr) {
+  /*
+  * Write your code here
+  */
+}
+
+findFirstValue(myArray);
 
 
           `,
@@ -7996,7 +8522,7 @@ findCommonItems(arr1, arr2, arr3);
           attempts: [],
         },
         {
-          id: "e8f49aad-62e3-41dd-a233-b71b6d1ab82d",
+          id: "e8f49aad-62e3-41dd-acf3-42bb-a233-b71bab82d",
           title: "Squares of Array Items",
           description:
             "Given an array myArray, write a JS program to get the squares of each item in the given myArray.",

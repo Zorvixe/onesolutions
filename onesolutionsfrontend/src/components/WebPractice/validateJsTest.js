@@ -1153,14 +1153,14 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
-      case "check-request-status": {
+      case "check-request-status2": {
         const element = iframeDoc.getElementById("requestStatus");
         return {
           passed: element !== null && element.tagName === "P",
         };
       }
 
-      case "check-http-response": {
+      case "check-http-response2": {
         const element = iframeDoc.getElementById("httpResponse");
         return {
           passed: element !== null && element.tagName === "P",
@@ -1255,14 +1255,14 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
       }
 
       //countries search========================================================
-      case "check-search-input": {
+      case "check-search-input2": {
         const element = iframeDoc.getElementById("searchInput");
         return {
           passed: element !== null && element.tagName === "INPUT",
         };
       }
 
-      case "check-search-results": {
+      case "check-search-results2": {
         const element = iframeDoc.getElementById("resultCountries");
         return {
           passed: element !== null && element.tagName === "DIV",
@@ -1421,7 +1421,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
       //ans the questions===========
-      case "check-form": {
+      case "check-form2": {
         const form = iframeDoc.getElementById("questionsForm");
         return { passed: form !== null && form.tagName === "FORM" };
       }
@@ -1451,7 +1451,7 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: p !== null && p.tagName === "P" };
       }
 
-      case "check-change-event": {
+      case "check-change-event2": {
         // Just verify addEventListener exists in JS
         const form = iframeDoc.getElementById("questionsForm");
         return { passed: form !== null };
@@ -1478,6 +1478,106 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         const correctCheck = result.textContent === "Correct answer";
 
         return { passed: wrongCheck && correctCheck };
+      }
+
+      //BookMark maker================
+      case "check-heading5":
+        return { passed: iframeDoc.querySelector("h1") !== null };
+
+      case "check-paragraph":
+        return { passed: iframeDoc.querySelector("p") !== null };
+
+      case "check-form4":
+        return {
+          passed: iframeDoc.getElementById("bookmarkForm")?.tagName === "FORM",
+        };
+
+      case "check-site-name-input":
+        return {
+          passed: iframeDoc
+            .getElementById("bookmarkForm")
+            .contains(iframeDoc.getElementById("siteNameInput")),
+        };
+
+      case "check-site-name-label":
+        return {
+          passed:
+            iframeDoc.querySelector('label[for="siteNameInput"]') !== null,
+        };
+
+      case "check-site-name-error":
+        return {
+          passed: iframeDoc
+            .getElementById("bookmarkForm")
+            .contains(iframeDoc.getElementById("siteNameErrMsg")),
+        };
+
+      case "check-site-url-input":
+        return {
+          passed: iframeDoc
+            .getElementById("bookmarkForm")
+            .contains(iframeDoc.getElementById("siteUrlInput")),
+        };
+
+      case "check-site-url-label":
+        return {
+          passed: iframeDoc.querySelector('label[for="siteUrlInput"]') !== null,
+        };
+
+      case "check-site-url-error":
+        return {
+          passed: iframeDoc
+            .getElementById("bookmarkForm")
+            .contains(iframeDoc.getElementById("siteUrlErrMsg")),
+        };
+
+      case "check-bookmarks-list":
+        return {
+          passed: iframeDoc.getElementById("bookmarksList")?.tagName === "UL",
+        };
+
+      case "check-change-event4":
+        return {
+          passed: iframeDoc.documentElement.outerHTML.includes(
+            'addEventListener("change"'
+          ),
+        };
+
+      case "check-submit-event":
+        return {
+          passed: iframeDoc.documentElement.outerHTML.includes(
+            'addEventListener("submit"'
+          ),
+        };
+
+      case "check-prevent-default":
+        return {
+          passed:
+            iframeDoc.documentElement.outerHTML.includes("preventDefault"),
+        };
+
+      case "check-add-bookmark": {
+        const name = iframeDoc.getElementById("siteNameInput");
+        const url = iframeDoc.getElementById("siteUrlInput");
+        const form = iframeDoc.getElementById("bookmarkForm");
+        const list = iframeDoc.getElementById("bookmarksList");
+
+        name.value = "Google";
+        url.value = "https://google.com";
+
+        form.dispatchEvent(
+          new iframeDoc.defaultView.Event("submit", { cancelable: true })
+        );
+
+        return { passed: list.children.length > 0 };
+      }
+
+      case "check-bookmark-href": {
+        const anchor = iframeDoc.querySelector("#bookmarksList li a");
+        return {
+          passed:
+            anchor && anchor.getAttribute("href") === "https://google.com",
+        };
       }
 
       default:
