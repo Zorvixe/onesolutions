@@ -5162,7 +5162,10 @@ export const javascriptCodingPracticesData = {
                   <hr>
                   <p class="desc-que-blue">Resources</p>
                   <p class="desc-que-blue">Use this Background image:</p>
-                  <ul><li>https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770989071/time-converter-bg_kl3txr.png</li></ul>
+                  <ul><li><a href="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770989071/time-converter-bg_kl3txr.png" target="_blank">
+                  https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770989071/time-converter-bg_kl3txr.png
+                </a>
+                </li></ul>
 
                   <p class="desc-que-blue"><strong>CSS Colors used:</strong></p>
                   <p class="desc-que-blue">Text colors Hex code values used:</p>
@@ -9360,7 +9363,7 @@ getSquares(myArray);
               visible: false,
             },
           ],
-          
+
           defaultCode: `
 // Read input
 let myArray = eval(prompt());
@@ -9555,7 +9558,7 @@ getProduct(myArray);
               description:
                 "JS code implementation should use keyCode to get the key code of a pressed key",
               type: "js-validation",
-              input: "check-userInput",
+              input: "check-keycode-usage",
               output: "true",
               visible: true,
             },
@@ -9564,7 +9567,7 @@ getProduct(myArray);
               description:
                 "JS code implementation should use addEventListener with event as keydown",
               type: "js-validation",
-              input: "check-keydownCounter",
+              input: "check-keydown-eventlistener",
               output: "true",
               visible: true,
             },
@@ -9573,7 +9576,7 @@ getProduct(myArray);
               description:
                 "When the value is entered in the HTML input element with id userInput then the count in HTML span element with the id keydownCounter should be incremented",
               type: "js-validation",
-              input: "check-keydownCode",
+              input: "check-counter-increment",
               output: "true",
               visible: true,
             },

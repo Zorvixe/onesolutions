@@ -8,13 +8,11 @@ import DigitalMcqs from "../Pages/digitalMcqs.js";
 
 const DigitalSubtopicPage = () => {
   const { contentUuid } = useParams();
-  const { topicId, subtopicId } = useParams();
   const {
     completedContent,
     markSubtopicComplete,
     user,
     getContentByUuid,
-    digitalMarketingStructure,
     loadDigitalMarketingAllStructure,
   } = useAuth();
 
@@ -25,7 +23,6 @@ const DigitalSubtopicPage = () => {
   const [selectedGoalSub, setSelectedGoalSub] = useState(null);
   const [expandedModuleSub, setExpandedModuleSub] = useState(null);
   const [expandedTopicSub, setExpandedTopicSub] = useState(null);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [navigationStructure, setNavigationStructure] = useState([]);
@@ -44,15 +41,8 @@ const DigitalSubtopicPage = () => {
 
   const markAsCompleted = async () => {
     if (!content?.id || isSubtopicCompleted()) {
-      console.log(
-        `Digital content ${content?.id} already completed or invalid`
-      );
       return;
     }
-
-    console.log(
-      `DigitalSubtopicPage: Marking content ${content.id} as completed`
-    );
 
     try {
       await markSubtopicComplete(
@@ -64,35 +54,22 @@ const DigitalSubtopicPage = () => {
 
       const timestamp = Date.now();
       localStorage.setItem("lastProgressUpdate", timestamp.toString());
-      localStorage.setItem("progress_update", timestamp.toString());
 
       const events = [
         new CustomEvent("subtopicCompleted", {
           detail: { subtopicId: content.id, timestamp, isDigital: true },
         }),
-        new CustomEvent("contentCompleted", {
-          detail: { subtopicId: content.id, timestamp, isDigital: true },
-        }),
-        new CustomEvent("progressUpdated", {
-          detail: { subtopicId: content.id, timestamp, isDigital: true },
+        new CustomEvent("markSubtopicCompleted", {
+          detail: { subtopicId: content.id, isDigital: true },
         }),
       ];
 
       events.forEach((event) => {
         window.dispatchEvent(event);
-        if (window.parent !== window) {
-          window.parent.dispatchEvent(event);
-        }
       });
 
-      window.dispatchEvent(
-        new StorageEvent("storage", {
-          key: "completedContent",
-          newValue: JSON.stringify([...completedContent, content.id]),
-        })
-      );
-
-      console.log(`DigitalSubtopicPage: ${content.id} marked as completed`);
+      // Update local state to reflect completion immediately
+      setContent((prev) => ({ ...prev, is_completed: true }));
     } catch (error) {
       console.error("Error marking digital content as completed:", error);
     }
@@ -109,15 +86,9 @@ const DigitalSubtopicPage = () => {
     if (contentData.content_type) {
       return contentData.content_type;
     }
-    if (contentData.cheatsheet_title) {
-      return "cheatsheet";
-    }
-    if (contentData.mcq_title) {
-      return "mcq";
-    }
-    if (contentData.video_title) {
-      return "video";
-    }
+    // Fallback detection
+    if (contentData.cheatsheet_title) return "cheatsheet";
+    if (contentData.mcq_title) return "mcq";
     return "video";
   };
 
@@ -147,68 +118,50 @@ const DigitalSubtopicPage = () => {
         setLoading(true);
         setError(null);
 
-        if (location.state) {
-          console.log(
-            "Loading digital content from navigation state:",
-            location.state
-          );
+        // 1. Try to load from state first (navigation click)
+        if (location.state && location.state.contentItem) {
+          const contentFromState = location.state.contentItem;
 
-          const contentFromState = {
-            id: location.state.contentId || location.state.subtopicId,
-            content_uuid: contentUuid || location.state.contentUuid,
-            content_type: location.state.contentType,
-            video_title: location.state.video_title,
-            cheatsheet_title: location.state.cheatsheet_title,
-            mcq_title: location.state.mcq_title,
-            subtopicName: location.state.subtopicName,
-            goal_id: location.state.goalId,
-            module_id: location.state.moduleId,
-            topic_id: location.state.topicId,
-            subtopic_id: location.state.subtopicId,
-            ...location.state,
-          };
-
-          console.log("Created content from state:", contentFromState);
           setContent(contentFromState);
           setIsAccessible(true);
 
-          if (location.state.goalName) {
+          // Set navigation context
+          if (location.state.goalId)
             setSelectedGoalSub({
               id: location.state.goalId,
               name: location.state.goalName,
             });
-          }
-          if (location.state.moduleName) {
+          if (location.state.moduleId)
             setSelectedModuleSub({
               id: location.state.moduleId,
               name: location.state.moduleName,
             });
-          }
-          if (location.state.topicName) {
+          if (location.state.topicId)
             setSelectedTopicSub({
               id: location.state.topicId,
               name: location.state.topicName,
             });
-          }
-          if (location.state.subtopicName) {
+          if (location.state.subtopicId)
             setSelectedSubtopicSub({
               id: location.state.subtopicId,
               name: location.state.subtopicName,
             });
-          }
 
-          await loadCourseStructure(location.state.goalId);
-
+          // Load sidebar structure
+          await loadCourseStructure(
+            location.state.goalId || contentFromState.goal_id
+          );
           setLoading(false);
           return;
         }
 
+        // 2. If no state, fetch by UUID (URL direct access/refresh)
         if (contentUuid) {
-          console.log(`Loading digital content by UUID: ${contentUuid}`);
           const response = await getContentByUuid(contentUuid);
 
           if (response?.success) {
             const contentData = response.data;
+            // Ensure type is set
             contentData.content_type =
               contentData.content_type || getContentType(contentData);
 
@@ -219,15 +172,12 @@ const DigitalSubtopicPage = () => {
               setSelectedGoalSub({ id: contentData.goal_id });
               await loadCourseStructure(contentData.goal_id);
 
-              if (contentData.module_id) {
+              if (contentData.module_id)
                 setSelectedModuleSub({ id: contentData.module_id });
-              }
-              if (contentData.topic_id) {
+              if (contentData.topic_id)
                 setSelectedTopicSub({ id: contentData.topic_id });
-              }
-              if (contentData.subtopic_id) {
+              if (contentData.subtopic_id)
                 setSelectedSubtopicSub({ id: contentData.subtopic_id });
-              }
             }
           } else {
             setError("Content not found");
@@ -247,6 +197,7 @@ const DigitalSubtopicPage = () => {
   }, [contentUuid, hasDigitalAccess, location.state]);
 
   const loadCourseStructure = async (goalId) => {
+    if (!goalId) return;
     try {
       const structureResponse = await loadDigitalMarketingAllStructure();
       if (structureResponse?.success && structureResponse.data) {
@@ -255,8 +206,8 @@ const DigitalSubtopicPage = () => {
         );
         if (goalData && goalData.modules) {
           setGoalModules(goalData.modules);
-
-          if (goalData.modules.length > 0) {
+          if (goalData.modules.length > 0 && !expandedModuleSub) {
+            // Only auto-expand if not already set
             setExpandedModuleSub(goalData.modules[0].id);
           }
         }
@@ -266,113 +217,33 @@ const DigitalSubtopicPage = () => {
     }
   };
 
-  const navigateToContent = (direction) => {
-    if (!navigationStructure.length || !content) return;
-
-    const currentIndex = navigationStructure.findIndex(
-      (item) => item.id === content.id || item.uuid === content.content_uuid
-    );
-
-    if (currentIndex === -1) return;
-
-    let targetIndex;
-    if (direction === "next") {
-      targetIndex = currentIndex + 1;
-    } else {
-      targetIndex = currentIndex - 1;
-    }
-
-    if (targetIndex >= 0 && targetIndex < navigationStructure.length) {
-      const targetContent = navigationStructure[targetIndex];
-      navigate(`/digital/content/${targetContent.uuid}`);
-    }
-  };
-
   const renderContentComponent = () => {
     if (!content || !isAccessible) return null;
 
     const contentType = getContentType(content);
 
-    console.log(
-      "DigitalSubtopicPage: Rendering content with type:",
-      contentType,
-      "Content:",
-      content
-    );
+    // Common props for all viewers
+    const commonProps = {
+      contentId: content.id,
+      contentUuid: content.content_uuid,
+      goalId: selectedGoalSub?.id || content.goal_id,
+      moduleId: selectedModuleSub?.id || content.module_id,
+      topicId: selectedTopicSub?.id || content.topic_id,
+      subtopicId: selectedSubtopicSub?.id || content.subtopic_id,
+      onComplete: markAsCompleted,
+      preLoadedContent: content, // Pass full content to avoid re-fetch
+    };
 
     switch (contentType) {
       case "video":
-        return (
-          <DigitalClasses
-            contentId={content.id}
-            contentUuid={content.content_uuid}
-            goalId={selectedGoalSub?.id}
-            moduleId={selectedModuleSub?.id}
-            topicId={selectedTopicSub?.id}
-            subtopicId={selectedSubtopicSub?.id}
-            onComplete={() => {
-              console.log("DigitalClasses: onComplete called");
-              markAsCompleted();
-              window.dispatchEvent(
-                new CustomEvent("markSubtopicCompleted", {
-                  detail: { subtopicId: content.id, isDigital: true },
-                })
-              );
-            }}
-          />
-        );
+        return <DigitalClasses {...commonProps} />;
       case "cheatsheet":
-        return (
-          <DigitalCheatsheet
-            contentId={content.id}
-            contentUuid={content.content_uuid}
-            goalId={selectedGoalSub?.id}
-            moduleId={selectedModuleSub?.id}
-            topicId={selectedTopicSub?.id}
-            subtopicId={selectedSubtopicSub?.id}
-            onComplete={() => {
-              console.log("DigitalCheatsheet: onComplete called");
-              markAsCompleted();
-              window.dispatchEvent(
-                new CustomEvent("markSubtopicCompleted", {
-                  detail: { subtopicId: content.id, isDigital: true },
-                })
-              );
-            }}
-          />
-        );
+        return <DigitalCheatsheet {...commonProps} />;
       case "mcq":
-        return (
-          <DigitalMcqs
-            contentId={content.id}
-            contentUuid={content.content_uuid}
-            goalId={selectedGoalSub?.id}
-            moduleId={selectedModuleSub?.id}
-            topicId={selectedTopicSub?.id}
-            subtopicId={selectedSubtopicSub?.id}
-            onComplete={() => {
-              console.log("DigitalMcqs: onComplete called");
-              markAsCompleted();
-              window.dispatchEvent(
-                new CustomEvent("markSubtopicCompleted", {
-                  detail: { subtopicId: content.id, isDigital: true },
-                })
-              );
-            }}
-          />
-        );
+        return <DigitalMcqs {...commonProps} />;
       default:
-        return (
-          <DigitalClasses
-            contentId={content.id}
-            contentUuid={content.content_uuid}
-            goalId={selectedGoalSub?.id}
-            moduleId={selectedModuleSub?.id}
-            topicId={selectedTopicSub?.id}
-            subtopicId={selectedSubtopicSub?.id}
-            onComplete={markAsCompleted}
-          />
-        );
+        // Default to video if unknown, but handle gracefully
+        return <DigitalClasses {...commonProps} />;
     }
   };
 
@@ -388,15 +259,18 @@ const DigitalSubtopicPage = () => {
   const handleSubtopicClick = (module, topic, subtopic, contentItem) => {
     if (!contentItem || !contentItem.content_uuid) return;
 
+    // Determine type before navigation
+    let contentType = contentItem.content_type;
+    if (!contentType) {
+      if (contentItem.cheatsheet_title) contentType = "cheatsheet";
+      else if (contentItem.mcq_title) contentType = "mcq";
+      else contentType = "video";
+    }
+    contentItem.content_type = contentType;
+
     navigate(`/digital/content/${contentItem.content_uuid}`, {
       state: {
-        contentId: contentItem.id,
-        contentUuid: contentItem.content_uuid,
-        contentType: contentItem.content_type,
-        video_title: contentItem.video_title,
-        cheatsheet_title: contentItem.cheatsheet_title,
-        mcq_title: contentItem.mcq_title,
-        subtopicName: subtopic.name,
+        contentItem: contentItem, // Pass the whole object!
         goalId: selectedGoalSub?.id,
         goalName: selectedGoalSub?.name,
         moduleId: module.id,
@@ -404,53 +278,12 @@ const DigitalSubtopicPage = () => {
         topicId: topic.id,
         topicName: topic.name,
         subtopicId: subtopic.id,
+        subtopicName: subtopic.name,
         fromCourse: true,
         isDigital: true,
       },
     });
   };
-
-  useEffect(() => {
-    if (expandedModuleSub && selectedSubtopicSub && isAccessible) {
-      const timer = setTimeout(() => {
-        const activeEl = document.querySelector(
-          ".subtopic-page-sub__item-sub.active-sub"
-        );
-        const leftPanel = document.querySelector(
-          ".subtopic-page-sub__left-panel-sub"
-        );
-
-        if (activeEl && leftPanel) {
-          leftPanel.scrollTo({
-            top: activeEl.offsetTop - leftPanel.clientHeight / 10,
-            behavior: "smooth",
-          });
-        }
-      }, 100);
-
-      return () => clearTimeout(timer);
-    }
-  }, [expandedModuleSub, selectedSubtopicSub, isAccessible]);
-
-  useEffect(() => {
-    const handleChildCompletion = (e) => {
-      if (e.detail?.subtopicId === content?.id) {
-        console.log(
-          "DigitalSubtopicPage: Received completion from child component"
-        );
-        markAsCompleted();
-      }
-    };
-
-    window.addEventListener("markSubtopicCompleted", handleChildCompletion);
-
-    return () => {
-      window.removeEventListener(
-        "markSubtopicCompleted",
-        handleChildCompletion
-      );
-    };
-  }, [content]);
 
   if (loading) {
     return (
@@ -477,44 +310,15 @@ const DigitalSubtopicPage = () => {
             <img
               src="/assets/img/locked_image.png"
               className="locked_image"
-              onLoad={() => setImageLoaded(true)}
               alt="Access Denied"
             />
             <h2>Digital Marketing Access Required</h2>
             <p>You don't have access to Digital Marketing content.</p>
-            <p>Please upgrade your subscription to access these courses.</p>
             <button
               className="upgrade-button"
               onClick={() => navigate("/profile")}
             >
               Upgrade Now
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="subtopic-page-sub">
-        <div
-          className="subtopic-page-sub__right-panel-sub"
-          style={{ width: "100%" }}
-        >
-          <div className="not-found-con">
-            <img
-              src="/assets/img/not_found.png"
-              className="not-found-image"
-              alt="Not Found"
-            />
-            <h2>Content Not Found</h2>
-            <p>{error}</p>
-            <button
-              className="back-button"
-              onClick={() => navigate("/digital-courses")}
-            >
-              Back to Courses
             </button>
           </div>
         </div>
@@ -537,11 +341,7 @@ const DigitalSubtopicPage = () => {
                 className="subtopic-page-sub__module-section-sub"
               >
                 <h4
-                  className={`subtopic-page-sub__module-title-sub ${
-                    expandedModuleSub === module.id
-                      ? "subtopic-page-sub__module-title-sub--active"
-                      : ""
-                  }`}
+                  className={`subtopic-page-sub__module-title-sub ${expandedModuleSub === module.id ? "subtopic-page-sub__module-title-sub--active" : ""}`}
                   onClick={() => handleModuleClick(module.id)}
                 >
                   <span className="module-icon">📊</span>
@@ -559,9 +359,7 @@ const DigitalSubtopicPage = () => {
                         className="subtopic-page-sub__topic-section"
                       >
                         <h5
-                          className={`subtopic-page-sub__topic-title-sub ${
-                            expandedTopicSub === topic.id ? "active" : ""
-                          }`}
+                          className={`subtopic-page-sub__topic-title-sub ${expandedTopicSub === topic.id ? "active" : ""}`}
                           onClick={() => handleTopicClick(topic.id)}
                         >
                           <span className="topic-icon">📌</span>
@@ -575,10 +373,7 @@ const DigitalSubtopicPage = () => {
                           <div className="subtopic-page-sub__subtopics-sub">
                             {topic.subtopics.map((subtopic) =>
                               subtopic.content?.map((contentItem) => {
-                                const isActive =
-                                  contentItem.id === content?.id ||
-                                  contentItem.content_uuid ===
-                                    content?.content_uuid;
+                                const isActive = contentItem.id === content?.id;
                                 const isCompleted = completedContent.includes(
                                   contentItem.id
                                 );
@@ -586,9 +381,7 @@ const DigitalSubtopicPage = () => {
                                 return (
                                   <div
                                     key={contentItem.id}
-                                    className={`subtopic-page-sub__item-sub ${
-                                      isActive ? "active-sub" : ""
-                                    } ${isCompleted ? "completed-sub" : ""}`}
+                                    className={`subtopic-page-sub__item-sub ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
                                     onClick={() =>
                                       handleSubtopicClick(
                                         module,
@@ -605,12 +398,11 @@ const DigitalSubtopicPage = () => {
                                         subtopic.name}
                                     </span>
                                     <span
-                                      className={`content-type-tag ${contentItem.content_type}`}
+                                      className={`content-type-tag ${contentItem.content_type || "video"}`}
                                     >
                                       {getContentTypeIcon(
-                                        contentItem.content_type
+                                        contentItem.content_type || "video"
                                       )}
-                                      {contentItem.content_type}
                                     </span>
                                   </div>
                                 );
@@ -628,9 +420,7 @@ const DigitalSubtopicPage = () => {
         ) : (
           <div className="digital-navigation-placeholder">
             <div className="placeholder-content">
-              <span className="placeholder-icon">📚</span>
               <h4>No Content Selected</h4>
-              <p>Select a lesson from the course structure to start learning</p>
             </div>
           </div>
         )}
@@ -641,95 +431,20 @@ const DigitalSubtopicPage = () => {
           <div className="digital-content-container">
             <div className="digital-subtopic-header">
               <div className="content-header-top">
-                <div className="breadcrumb">
-                  <span onClick={() => navigate("/digital-courses")}>
-                    Digital Marketing
-                  </span>
-                  {selectedGoalSub && (
-                    <>
-                      <span className="separator">→</span>
-                      <span onClick={() => navigate("/digital-courses")}>
-                        {selectedGoalSub.name}
-                      </span>
-                    </>
-                  )}
-                  {selectedModuleSub && (
-                    <>
-                      <span className="separator">→</span>
-                      <span>{selectedModuleSub.name}</span>
-                    </>
-                  )}
-                  {selectedTopicSub && (
-                    <>
-                      <span className="separator">→</span>
-                      <span>{selectedTopicSub.name}</span>
-                    </>
-                  )}
-                </div>
-
                 <span
                   className={`content-type-badge-large ${getContentType(content)}`}
                 >
                   {getContentTypeIcon(getContentType(content))}
-                  {getContentType(content)}
+                  {getContentType(content).toUpperCase()}
                 </span>
-              </div>
-
-              <h2 className="content-title">
-                {content.video_title ||
-                  content.cheatsheet_title ||
-                  content.mcq_title ||
-                  "Digital Marketing Lesson"}
-              </h2>
-
-              <div className="content-navigation-arrows">
-                <button
-                  className="nav-arrow prev-arrow"
-                  onClick={() => navigateToContent("prev")}
-                  disabled={!navigationStructure.length}
-                >
-                  ← Previous
-                </button>
-                <button
-                  className="nav-arrow next-arrow"
-                  onClick={() => navigateToContent("next")}
-                  disabled={!navigationStructure.length}
-                >
-                  Next →
-                </button>
               </div>
             </div>
 
             {renderContentComponent()}
-
-            {!isSubtopicCompleted() && (
-              <div className="mark-complete-container">
-                <button
-                  className="mark-complete-button"
-                  onClick={markAsCompleted}
-                >
-                  ✓ Mark as Completed
-                </button>
-              </div>
-            )}
-
-            {isSubtopicCompleted() && (
-              <div className="completed-message">
-                <span className="completed-check">✓</span>
-                <span>You have completed this lesson!</span>
-              </div>
-            )}
           </div>
         ) : (
-          <div className="digital-welcome">
-            <div className="welcome-content">
-              <span className="welcome-icon">📱</span>
-              <h2>Digital Marketing Mastery</h2>
-              <p>
-                Select a digital marketing topic from the left sidebar to start
-                learning
-              </p>
-            </div>
+          <div className="loading-container">
+            <div className="spinner"></div>
           </div>
         )}
       </div>
