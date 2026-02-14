@@ -1158,7 +1158,7 @@ app.post(
   }
 );
 
-// Secure Content Serving - FIXED to return proper data structure
+// Secure Content Serving - FIXED SQL syntax error
 app.get(
   "/api/content/:contentUuid",
   authenticate,
@@ -1170,12 +1170,12 @@ app.get(
 
       const enrollment = await pool.query(
         `SELECT sce.* FROM student_course_enrollments sce
-             JOIN course_goals cg ON sce.goal_id = cg.id
-             JOIN course_modules cm ON cm.goal_id = cg.id
-             JOIN course_topics ct ON ct.module_id = cm.id
-             JOIN course_subtopics cs ON cs.topic_id = ct.id
-             JOIN subtopic_content sc ON sc.subtopic_id = cs.id
-             WHERE sce.student_id = $1 AND sc.content_uuid = $2`,
+         JOIN course_goals cg ON sce.goal_id = cg.id
+         JOIN course_modules cm ON cm.goal_id = cg.id
+         JOIN course_topics ct ON ct.module_id = cm.id
+         JOIN course_subtopics cs ON cs.topic_id = ct.id
+         JOIN subtopic_content sc ON sc.subtopic_id = cs.id
+         WHERE sce.student_id = $1 AND sc.content_uuid = $2`,
         [studentId, req.params.contentUuid]
       );
 
@@ -1188,16 +1188,16 @@ app.get(
 
       const baseUrl = process.env.BACKEND_URL || "http://localhost:5002";
 
-      // Get goal_id and other IDs from the enrollment
+      // Get goal_id and other IDs from the enrollment - FIXED query
       const goalResult = await pool.query(
         `SELECT cg.id as goal_id, cm.id as module_id, ct.id as topic_id, cs.id as subtopic_id
-         FROM course_goals cg
+         FROM student_course_enrollments sce
+         JOIN course_goals cg ON sce.goal_id = cg.id
          JOIN course_modules cm ON cm.goal_id = cg.id
          JOIN course_topics ct ON ct.module_id = cm.id
          JOIN course_subtopics cs ON cs.topic_id = ct.id
          JOIN subtopic_content sc ON sc.subtopic_id = cs.id
-         WHERE sce.student_id = $1 AND sc.content_uuid = $2
-         JOIN student_course_enrollments sce ON sce.goal_id = cg.id`,
+         WHERE sce.student_id = $1 AND sc.content_uuid = $2`,
         [studentId, req.params.contentUuid]
       );
 
@@ -1206,30 +1206,30 @@ app.get(
       const topicId = goalResult.rows[0]?.topic_id || null;
       const subtopicId = goalResult.rows[0]?.subtopic_id || null;
 
-     // In the video section of the response
-        if (content.content_type === "video") {
-          res.json({
-            success: true,
-            data: {
-              id: content.id,
-              type: "video",
-              content_type: "video",
-              content_uuid: content.content_uuid,
-              video_title: content.video_title,
-              video_description: content.video_description,
-              video_duration: content.video_duration,
-              video_url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
-              thumbnail_url: content.thumbnail_url,
-              slides_id: content.slides_id, // Changed from slides_url
-              learning_objectives: content.learning_objectives || [],
-              resources: content.resources || [],
-              goal_id: goalId,
-              module_id: moduleId,
-              topic_id: topicId,
-              subtopic_id: subtopicId,
-            },
-          });
-        } else if (content.content_type === "cheatsheet") {
+      // In the video section of the response
+      if (content.content_type === "video") {
+        res.json({
+          success: true,
+          data: {
+            id: content.id,
+            type: "video",
+            content_type: "video",
+            content_uuid: content.content_uuid,
+            video_title: content.video_title,
+            video_description: content.video_description,
+            video_duration: content.video_duration,
+            video_url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
+            thumbnail_url: content.thumbnail_url,
+            slides_id: content.slides_id,
+            learning_objectives: content.learning_objectives || [],
+            resources: content.resources || [],
+            goal_id: goalId,
+            module_id: moduleId,
+            topic_id: topicId,
+            subtopic_id: subtopicId,
+          },
+        });
+      } else if (content.content_type === "cheatsheet") {
         res.json({
           success: true,
           data: {
