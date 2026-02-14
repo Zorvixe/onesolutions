@@ -11,7 +11,6 @@ export default function DigitalCourses() {
     digitalMarketingLoading,
     loadDigitalMarketingAllStructure,
     completedContent,
-    markSubtopicComplete,
     loadDigitalMarketingProgress,
     enrollInDigitalMarketingCourse,
   } = useAuth();
@@ -25,14 +24,10 @@ export default function DigitalCourses() {
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
   // Get student type from user context
-  const courseSelection = user?.courseSelection || "web_development";
+  const courseSelection = user?.courseSelection || "digital_marketing";
 
   // Check if user has digital marketing access
-  const hasDigitalAccess =
-    courseSelection === "web_development" ||
-    courseSelection === "digital_marketing" ||
-    courseSelection === "all";
-
+  const hasDigitalAccess = courseSelection === "digital_marketing";
   // Load digital marketing courses from backend
   useEffect(() => {
     if (hasDigitalAccess) {
@@ -50,18 +45,54 @@ export default function DigitalCourses() {
     }
   }, [completedContent, digitalMarketingGoals, hasDigitalAccess]);
 
+  // Helper: Robust completion check (Checks ID in array AND internal flag)
+  const checkIsContentCompleted = useCallback(
+    (content) => {
+      if (!content) return false;
+      // Check 1: Is the ID in the global completedContent array? (String comparison for safety)
+      const isRx = completedContent.some(
+        (id) => String(id) === String(content.id)
+      );
+      // Check 2: Does the content object itself say it's completed?
+      const isDb = content.is_completed === true || content.is_completed === 1;
+
+      return isRx || isDb;
+    },
+    [completedContent]
+  );
+
   // Calculate progress for all goals
   const calculateAllProgress = useCallback(() => {
     const progressMap = {};
 
     digitalMarketingGoals.forEach((goal) => {
+      // If we have calculated stats from backend, use them, otherwise calculate manually
       if (goal.stats) {
         progressMap[goal.id] = goal.stats.progress_percentage || 0;
+      } else {
+        progressMap[goal.id] = calculateGoalProgressManual(goal);
       }
     });
 
     setLocalProgress(progressMap);
-  }, [digitalMarketingGoals]);
+  }, [digitalMarketingGoals, completedContent]);
+
+  const calculateGoalProgressManual = (goal) => {
+    if (!goal.modules) return 0;
+    let total = 0;
+    let completed = 0;
+    goal.modules.forEach((m) => {
+      m.topics?.forEach((t) => {
+        t.subtopics?.forEach((s) => {
+          s.content?.forEach((c) => {
+            total++;
+            if (checkIsContentCompleted(c)) completed++;
+          });
+        });
+      });
+    });
+    return total === 0 ? 0 : (completed / total) * 100;
+  };
 
   // Check if goal is locked
   const isGoalLocked = (goalIndex) => {
@@ -207,7 +238,7 @@ export default function DigitalCourses() {
       topic.subtopics?.forEach((subtopic) => {
         subtopic.content?.forEach((content) => {
           totalContent++;
-          if (content.is_completed || completedContent.includes(content.id)) {
+          if (checkIsContentCompleted(content)) {
             completedContentCount++;
           }
         });
@@ -226,17 +257,13 @@ export default function DigitalCourses() {
     topic.subtopics?.forEach((subtopic) => {
       subtopic.content?.forEach((content) => {
         totalContent++;
-        if (content.is_completed || completedContent.includes(content.id)) {
+        if (checkIsContentCompleted(content)) {
           completedContentCount++;
         }
       });
     });
 
     return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
-  };
-
-  const isSubtopicCompleted = (subtopicId) => {
-    return completedContent.includes(subtopicId);
   };
 
   const showLockedMessage = () => {
@@ -255,7 +282,6 @@ export default function DigitalCourses() {
       <div className="courses-container" style={{ marginTop: "50px" }}>
         <div className="loading-container">
           <div className="spinner"></div>
-          <p>Loading Digital Marketing courses...</p>
         </div>
       </div>
     );
@@ -501,8 +527,8 @@ export default function DigitalCourses() {
                                               subtopic.content?.map(
                                                 (content) => {
                                                   const isCompleted =
-                                                    isSubtopicCompleted(
-                                                      content.id
+                                                    checkIsContentCompleted(
+                                                      content
                                                     );
 
                                                   return (
@@ -596,7 +622,9 @@ export default function DigitalCourses() {
                                           {topic.subtopics?.map((subtopic) =>
                                             subtopic.content?.map((content) => {
                                               const isCompleted =
-                                                isSubtopicCompleted(content.id);
+                                                checkIsContentCompleted(
+                                                  content
+                                                );
                                               return (
                                                 <div
                                                   className={`subtopic-content-row ${isCompleted ? "completed" : ""}`}

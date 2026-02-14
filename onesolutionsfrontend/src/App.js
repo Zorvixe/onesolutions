@@ -44,7 +44,7 @@ import "./App.css";
 function AppWrapper() {
   const { isAuthenticated, loading, user } = useAuth();
 
-  const courseSelection = user?.courseSelection || "web_development";
+  const courseSelection = user?.courseSelection;
 
   if (loading) {
     return (

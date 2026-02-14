@@ -373,7 +373,13 @@ const DigitalClasses = ({
     // Handle video content from digital marketing API
     if (content.type === "video" || content.content_type === "video") {
       // Check if it's a YouTube or Vimeo video
-      const videoUrl = content.video_url || "";
+      // Build full video URL
+      let videoUrl = content.video_url || "";
+
+      if (videoUrl && videoUrl.startsWith("/uploads")) {
+        videoUrl = `${API_BASE_URL}${videoUrl}`;
+      }
+
       const isYouTube =
         videoUrl.includes("youtube.com") || videoUrl.includes("youtu.be");
       const isVimeo = videoUrl.includes("vimeo.com");
@@ -438,7 +444,11 @@ const DigitalClasses = ({
           </div>
         );
       } else if (videoUrl) {
-        // Handle uploaded video
+        // Fix relative backend URL
+        if (videoUrl.startsWith("/uploads")) {
+          videoUrl = `${API_BASE_URL}${videoUrl}`;
+        }
+
         return (
           <div className="secure-video-player-clss">
             <video
@@ -448,23 +458,7 @@ const DigitalClasses = ({
               height="400"
               poster={content.thumbnail_url}
               className="secure-video-clss"
-              onContextMenu={(e) => {
-                e.preventDefault();
-                return false;
-              }}
               controlsList="nodownload"
-              onCopy={(e) => {
-                e.preventDefault();
-                return false;
-              }}
-              onCut={(e) => {
-                e.preventDefault();
-                return false;
-              }}
-              onDrag={(e) => {
-                e.preventDefault();
-                return false;
-              }}
             >
               <source src={videoUrl} type="video/mp4" />
               Your browser does not support the video tag.
@@ -472,67 +466,6 @@ const DigitalClasses = ({
           </div>
         );
       }
-    }
-
-    // Handle cheatsheet or MCQ content type
-    if (
-      content.type === "cheatsheet" ||
-      content.content_type === "cheatsheet"
-    ) {
-      return (
-        <div className="content-info-clss">
-          <div className="cheatsheet-preview-clss">
-            <h2>{content.cheatsheet_title || "Cheatsheet"}</h2>
-            <div className="cheatsheet-content-clss">
-              {content.cheatsheet_content ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: content.cheatsheet_content,
-                  }}
-                />
-              ) : (
-                <p>Cheatsheet content will be available soon.</p>
-              )}
-            </div>
-            {content.file_url && (
-              <a
-                href={content.file_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="download-cheatsheet-clss"
-                onClick={(e) => {
-                  e.preventDefault();
-                  alert("Download feature coming soon");
-                }}
-              >
-                Download Cheatsheet
-              </a>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    if (content.type === "mcq" || content.content_type === "mcq") {
-      return (
-        <div className="content-info-clss">
-          <div className="mcq-preview-clss">
-            <h2>{content.mcq_title || "MCQ Assessment"}</h2>
-            <p>
-              This is an MCQ assessment. Please click on the assessment tab to
-              take the quiz.
-            </p>
-            <p>Questions: {content.questions?.length || 0}</p>
-            <p>
-              Time Limit:{" "}
-              {content.time_limit
-                ? `${content.time_limit} minutes`
-                : "No time limit"}
-            </p>
-            <p>Passing Score: {content.passing_score || 70}%</p>
-          </div>
-        </div>
-      );
     }
 
     // Fallback for when no video is available
@@ -555,13 +488,7 @@ const DigitalClasses = ({
       <div className="subtopic-header-clss">
         <div className="breadcrumb-clss">
           <span className="module-name-clss">
-            {content.type === "video"
-              ? content.video_title
-              : content.type === "cheatsheet"
-                ? content.cheatsheet_title
-                : content.type === "mcq"
-                  ? content.mcq_title
-                  : moduleName}
+            {content.type === "video" ? content.video_title : moduleName}
           </span>
           <span className="separator-clss">
             <svg
@@ -579,10 +506,7 @@ const DigitalClasses = ({
             </svg>
           </span>
           <span className="topic-name-clss">
-            {content.video_title ||
-              content.cheatsheet_title ||
-              content.mcq_title ||
-              topicName}
+            {content.video_title || topicName}
           </span>
         </div>
       </div>

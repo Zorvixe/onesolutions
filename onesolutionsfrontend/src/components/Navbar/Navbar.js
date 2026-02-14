@@ -177,16 +177,20 @@ const Navbar = () => {
             Courses
           </NavLink>
         </li>
-        <li>
-          <NavLink
-            to="/practice"
-            className={({ isActive }) =>
-              isActive ? "nav-link active practice" : "nav-link practice"
-            }
-          >
-            Practice
-          </NavLink>
-        </li>
+
+        {courseInfo.shortLabel === "Web Dev" && (
+            <li>
+            <NavLink
+              to="/practice"
+              className={({ isActive }) =>
+                isActive ? "nav-link active practice" : "nav-link practice"
+              }
+            >
+              Practice
+            </NavLink>
+          </li>
+        )}
+      
       </ul>
 
       {showMobileMenu && (
@@ -310,9 +314,14 @@ const Navbar = () => {
       )}
 
       <div className="nav_right">
-        <li className="nav_c_btn">
-          <Link to="/codeGround">Code Playground</Link>
-        </li>
+
+        
+      {courseInfo.shortLabel === "Web Dev" && (
+           <li className="nav_c_btn">
+           <Link to="/codeGround">Code Playground</Link>
+         </li>
+        )}
+        
         <div className="help-earn">
           <div className="help-earn-wrapper">
             <button

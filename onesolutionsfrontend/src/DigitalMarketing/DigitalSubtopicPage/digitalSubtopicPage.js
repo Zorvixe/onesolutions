@@ -40,8 +40,16 @@ const DigitalSubtopicPage = () => {
     courseSelection === "digital_marketing" ||
     courseSelection === "all";
 
+  // Robust check for completion
+  const checkIsItemCompleted = (item) => {
+    if (!item) return false;
+    const isRx = completedContent.some((id) => String(id) === String(item.id));
+    const isDb = item.is_completed === true || item.is_completed === 1;
+    return isRx || isDb;
+  };
+
   const markAsCompleted = async () => {
-    if (!content?.id || isSubtopicCompleted()) {
+    if (!content?.id || checkIsItemCompleted(content)) {
       return;
     }
 
@@ -69,17 +77,11 @@ const DigitalSubtopicPage = () => {
         window.dispatchEvent(event);
       });
 
+      // Update local state immediately
       setContent((prev) => ({ ...prev, is_completed: true }));
     } catch (error) {
       console.error("Error marking digital content as completed:", error);
     }
-  };
-
-  const isSubtopicCompleted = () => {
-    if (content) {
-      return completedContent.includes(content.id) || content.is_completed;
-    }
-    return false;
   };
 
   const getContentType = (contentData) => {
@@ -89,63 +91,6 @@ const DigitalSubtopicPage = () => {
     if (contentData.cheatsheet_title) return "cheatsheet";
     if (contentData.mcq_title) return "mcq";
     return "video";
-  };
-
-  const getContentTypeIcon = (type) => {
-    switch (type) {
-      case "video":
-        return "🎬";
-      case "cheatsheet":
-        return "📘";
-      case "mcq":
-        return "📝";
-      default:
-        return "📄";
-    }
-  };
-
-  const getModuleProgress = (module) => {
-    if (!module.topics) return 0;
-
-    let totalContent = 0;
-    let completedContentCount = 0;
-
-    module.topics.forEach((topic) => {
-      topic.subtopics?.forEach((subtopic) => {
-        subtopic.content?.forEach((contentItem) => {
-          totalContent++;
-          if (
-            completedContent.includes(contentItem.id) ||
-            contentItem.is_completed
-          ) {
-            completedContentCount++;
-          }
-        });
-      });
-    });
-
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
-  };
-
-  const getTopicProgress = (topic) => {
-    if (!topic.subtopics) return 0;
-
-    let totalContent = 0;
-    let completedContentCount = 0;
-
-    topic.subtopics?.forEach((subtopic) => {
-      subtopic.content?.forEach((contentItem) => {
-        totalContent++;
-        if (
-          completedContent.includes(contentItem.id) ||
-          contentItem.is_completed
-        ) {
-          completedContentCount++;
-        }
-      });
-    });
-
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
   };
 
   // Find and set the correct module, topic, and subtopic based on content
@@ -160,7 +105,7 @@ const DigitalSubtopicPage = () => {
               if (subtopic.content) {
                 const foundContent = subtopic.content.find(
                   (c) =>
-                    c.id === currentContent.id ||
+                    String(c.id) === String(currentContent.id) ||
                     c.content_uuid === currentContent.content_uuid
                 );
                 if (foundContent) {
@@ -176,51 +121,6 @@ const DigitalSubtopicPage = () => {
           }
         }
       }
-    }
-  };
-
-  const loadCourseStructure = async (goalId, contentData = null) => {
-    if (!goalId) return;
-
-    try {
-      let goalData = null;
-
-      // ✅ Try context first
-      if (digitalMarketingGoals?.length > 0) {
-        goalData = digitalMarketingGoals.find(
-          (g) => g.id === parseInt(goalId) || g.id === goalId
-        );
-      }
-
-      // ✅ Fetch fallback
-      if (!goalData) {
-        const res = await loadDigitalMarketingAllStructure();
-
-        if (res?.success) {
-          goalData = res.data.find(
-            (g) => g.id === parseInt(goalId) || g.id === goalId
-          );
-        }
-      }
-
-      if (!goalData) {
-        console.warn("Goal not found");
-        return;
-      }
-
-      // ✅ FORCE goal selection
-      setSelectedGoal(goalData);
-
-      // ✅ Set modules
-      const modules = goalData.modules || [];
-      setGoalModules(modules);
-
-      // ✅ Sync sidebar AFTER modules ready
-      if (contentData && modules.length > 0) {
-        findAndSetCurrentPath(modules, contentData);
-      }
-    } catch (err) {
-      console.error("Structure load failed:", err);
     }
   };
 
@@ -252,7 +152,6 @@ const DigitalSubtopicPage = () => {
           return;
         }
       }
-
       console.warn("Module not found");
     } catch (err) {
       console.error("Module load failed:", err);
@@ -400,11 +299,6 @@ const DigitalSubtopicPage = () => {
     }
   };
 
-  const handleModuleClick = (moduleId) => {
-    setExpandedModule(expandedModule === moduleId ? null : moduleId);
-    setExpandedTopic(null);
-  };
-
   const handleTopicClick = (topicId) => {
     setExpandedTopic(expandedTopic === topicId ? null : topicId);
   };
@@ -440,7 +334,7 @@ const DigitalSubtopicPage = () => {
   const isCurrentContent = (contentItem) => {
     if (!content || !contentItem) return false;
     return (
-      contentItem.id === content.id ||
+      String(contentItem.id) === String(content.id) ||
       contentItem.content_uuid === content.content_uuid
     );
   };
@@ -507,7 +401,7 @@ const DigitalSubtopicPage = () => {
                   {/* Topic title */}
                   <h4
                     className={`subtopic-page-sub__module-title-sub ${
-                      topic.id === topic.id
+                      expandedTopic === topic.id
                         ? "subtopic-page-sub__module-title-sub--active"
                         : ""
                     }`}
@@ -520,15 +414,15 @@ const DigitalSubtopicPage = () => {
                   {expandedTopic === topic.id &&
                     topic.subtopics?.map((subtopic) =>
                       subtopic.content?.map((contentItem) => {
-                        const isCompleted = completedContent.includes(
-                          contentItem.id
-                        );
+                        const isCompleted = checkIsItemCompleted(contentItem);
                         const isActive = isCurrentContent(contentItem);
 
                         return (
-                          <div className="subtopic-page-sub__topics-sub">
+                          <div
+                            className="subtopic-page-sub__topics-sub"
+                            key={contentItem.id}
+                          >
                             <div
-                              key={contentItem.id}
                               className={`subtopic-page-sub__item-sub ${
                                 isActive ? "active-sub" : ""
                               } ${isCompleted ? "completed-sub" : ""}`}
