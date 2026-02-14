@@ -319,7 +319,7 @@ export default function DigitalCourses() {
     return (
       <div className="courses-container" style={{ marginTop: "50px" }}>
         <div className="digital-header">
-          <h1>📱 Digital Marketing Mastery</h1>
+          <h1>Digital Marketing Mastery</h1>
           <p>Learn SEO, Social Media, PPC, Analytics & more</p>
         </div>
         <div className="no-courses-container">
@@ -370,7 +370,7 @@ export default function DigitalCourses() {
                   >
                     {goal.name || goal.title}
                     {!isEnrolled && (
-                      <span className="not-enrolled-tag"> 📝 Not Enrolled</span>
+                      <span className="not-enrolled-tag"> Not Enrolled</span>
                     )}
                     {locked && <span className="locked-tag"> 🔒</span>}
                   </h2>
