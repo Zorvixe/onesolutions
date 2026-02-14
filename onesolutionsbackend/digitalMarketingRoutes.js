@@ -321,23 +321,92 @@ app.put("/api/admin/course/goals/:goalId", async (req, res) => {
   }
 });
 
+// DELETE Goal with cascading cleanup
 app.delete("/api/admin/course/goals/:goalId", async (req, res) => {
   try {
     const { goalId } = req.params;
+
+    // Start a transaction
+    await pool.query("BEGIN");
+
+    // Delete all related content first (cascading)
+    await pool.query(
+      `
+      DELETE FROM subtopic_content 
+      WHERE subtopic_id IN (
+        SELECT cs.id FROM course_subtopics cs
+        JOIN course_topics ct ON cs.topic_id = ct.id
+        JOIN course_modules cm ON ct.module_id = cm.id
+        WHERE cm.goal_id = $1
+      )
+    `,
+      [goalId]
+    );
+
+    // Delete subtopics
+    await pool.query(
+      `
+      DELETE FROM course_subtopics 
+      WHERE topic_id IN (
+        SELECT ct.id FROM course_topics ct
+        JOIN course_modules cm ON ct.module_id = cm.id
+        WHERE cm.goal_id = $1
+      )
+    `,
+      [goalId]
+    );
+
+    // Delete topics
+    await pool.query(
+      `
+      DELETE FROM course_topics 
+      WHERE module_id IN (
+        SELECT id FROM course_modules WHERE goal_id = $1
+      )
+    `,
+      [goalId]
+    );
+
+    // Delete modules
+    await pool.query("DELETE FROM course_modules WHERE goal_id = $1", [goalId]);
+
+    // Delete enrollments
+    await pool.query(
+      "DELETE FROM student_course_enrollments WHERE goal_id = $1",
+      [goalId]
+    );
+
+    // Delete progress records
+    await pool.query("DELETE FROM student_course_progress WHERE goal_id = $1", [
+      goalId,
+    ]);
+
+    // Finally delete the goal
     const result = await pool.query(
       "DELETE FROM course_goals WHERE id = $1 RETURNING *",
       [goalId]
     );
 
+    await pool.query("COMMIT");
+
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Goal not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Goal not found",
+      });
     }
 
-    res.json({ success: true, message: "Goal deleted successfully" });
+    res.json({
+      success: true,
+      message: "Goal and all related content deleted successfully",
+    });
   } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+    await pool.query("ROLLBACK");
+    console.error("Delete goal error:", e);
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 });
 
@@ -411,23 +480,68 @@ app.put("/api/admin/course/modules/:moduleId", async (req, res) => {
   }
 });
 
+// DELETE Module with cascading cleanup
 app.delete("/api/admin/course/modules/:moduleId", async (req, res) => {
   try {
     const { moduleId } = req.params;
+
+    await pool.query("BEGIN");
+
+    // Delete content
+    await pool.query(
+      `
+      DELETE FROM subtopic_content 
+      WHERE subtopic_id IN (
+        SELECT cs.id FROM course_subtopics cs
+        JOIN course_topics ct ON cs.topic_id = ct.id
+        WHERE ct.module_id = $1
+      )
+    `,
+      [moduleId]
+    );
+
+    // Delete subtopics
+    await pool.query(
+      `
+      DELETE FROM course_subtopics 
+      WHERE topic_id IN (
+        SELECT id FROM course_topics WHERE module_id = $1
+      )
+    `,
+      [moduleId]
+    );
+
+    // Delete topics
+    await pool.query("DELETE FROM course_topics WHERE module_id = $1", [
+      moduleId,
+    ]);
+
+    // Delete module
     const result = await pool.query(
       "DELETE FROM course_modules WHERE id = $1 RETURNING *",
       [moduleId]
     );
 
+    await pool.query("COMMIT");
+
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Module not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Module not found",
+      });
     }
 
-    res.json({ success: true, message: "Module deleted successfully" });
+    res.json({
+      success: true,
+      message: "Module and all related content deleted successfully",
+    });
   } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+    await pool.query("ROLLBACK");
+    console.error("Delete module error:", e);
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 });
 
@@ -501,23 +615,55 @@ app.put("/api/admin/course/topics/:topicId", async (req, res) => {
   }
 });
 
+// DELETE Topic with cascading cleanup
 app.delete("/api/admin/course/topics/:topicId", async (req, res) => {
   try {
     const { topicId } = req.params;
+
+    await pool.query("BEGIN");
+
+    // Delete content
+    await pool.query(
+      `
+      DELETE FROM subtopic_content 
+      WHERE subtopic_id IN (
+        SELECT id FROM course_subtopics WHERE topic_id = $1
+      )
+    `,
+      [topicId]
+    );
+
+    // Delete subtopics
+    await pool.query("DELETE FROM course_subtopics WHERE topic_id = $1", [
+      topicId,
+    ]);
+
+    // Delete topic
     const result = await pool.query(
       "DELETE FROM course_topics WHERE id = $1 RETURNING *",
       [topicId]
     );
 
+    await pool.query("COMMIT");
+
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Topic not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Topic not found",
+      });
     }
 
-    res.json({ success: true, message: "Topic deleted successfully" });
+    res.json({
+      success: true,
+      message: "Topic and all related content deleted successfully",
+    });
   } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+    await pool.query("ROLLBACK");
+    console.error("Delete topic error:", e);
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 });
 
@@ -591,23 +737,71 @@ app.put("/api/admin/course/subtopics/:subtopicId", async (req, res) => {
   }
 });
 
+// DELETE Subtopic with cascading cleanup
 app.delete("/api/admin/course/subtopics/:subtopicId", async (req, res) => {
   try {
     const { subtopicId } = req.params;
+
+    await pool.query("BEGIN");
+
+    // Delete content (with file cleanup)
+    const contentResult = await pool.query(
+      "SELECT * FROM subtopic_content WHERE subtopic_id = $1",
+      [subtopicId]
+    );
+
+    // Delete physical video files
+    for (const content of contentResult.rows) {
+      if (content.content_type === "video" && content.video_url) {
+        const videoPath = path.join(__dirname, content.video_url);
+        if (fs.existsSync(videoPath)) {
+          fs.unlinkSync(videoPath);
+        }
+      }
+    }
+
+    // Delete content records
+    await pool.query("DELETE FROM subtopic_content WHERE subtopic_id = $1", [
+      subtopicId,
+    ]);
+
+    // Delete progress records for this subtopic's content
+    await pool.query(
+      `
+      DELETE FROM student_course_progress 
+      WHERE content_id IN (
+        SELECT id FROM subtopic_content WHERE subtopic_id = $1
+      )
+    `,
+      [subtopicId]
+    );
+
+    // Delete subtopic
     const result = await pool.query(
       "DELETE FROM course_subtopics WHERE id = $1 RETURNING *",
       [subtopicId]
     );
 
+    await pool.query("COMMIT");
+
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Subtopic not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Subtopic not found",
+      });
     }
 
-    res.json({ success: true, message: "Subtopic deleted successfully" });
+    res.json({
+      success: true,
+      message: "Subtopic and all related content deleted successfully",
+    });
   } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+    await pool.query("ROLLBACK");
+    console.error("Delete subtopic error:", e);
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 });
 
@@ -731,40 +925,61 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
   }
 });
 
+// DELETE Content - Update this to be more robust
 app.delete("/api/admin/course/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
 
+    // Start transaction
+    await pool.query("BEGIN");
+
+    // Get content details first
     const content = await pool.query(
       "SELECT * FROM subtopic_content WHERE id = $1",
       [contentId]
     );
 
-    if (
-      content.rows.length > 0 &&
-      content.rows[0].content_type === "video" &&
-      content.rows[0].video_url
-    ) {
+    if (content.rows.length === 0) {
+      await pool.query("ROLLBACK");
+      return res.status(404).json({
+        success: false,
+        message: "Content not found",
+      });
+    }
+
+    // Delete physical video file if exists
+    if (content.rows[0].content_type === "video" && content.rows[0].video_url) {
       const videoPath = path.join(__dirname, content.rows[0].video_url);
       if (fs.existsSync(videoPath)) {
         fs.unlinkSync(videoPath);
       }
     }
 
+    // Delete progress records for this content
+    await pool.query(
+      "DELETE FROM student_course_progress WHERE content_id = $1",
+      [contentId]
+    );
+
+    // Delete the content
     const result = await pool.query(
       "DELETE FROM subtopic_content WHERE id = $1 RETURNING *",
       [contentId]
     );
 
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Content not found" });
-    }
+    await pool.query("COMMIT");
 
-    res.json({ success: true, message: "Content deleted successfully" });
+    res.json({
+      success: true,
+      message: "Content deleted successfully",
+    });
   } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+    await pool.query("ROLLBACK");
+    console.error("Delete content error:", e);
+    res.status(500).json({
+      success: false,
+      error: e.message,
+    });
   }
 });
 

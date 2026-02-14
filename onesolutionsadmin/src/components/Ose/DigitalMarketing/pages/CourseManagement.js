@@ -32,7 +32,7 @@ import "./CourseManagement.css";
 
 const CourseManagement = () => {
   const [goals, setGoals] = useState([]);
-  
+
   // Store data in objects keyed by parent ID instead of arrays
   const [modulesByGoal, setModulesByGoal] = useState({});
   const [topicsByModule, setTopicsByModule] = useState({});
@@ -76,13 +76,13 @@ const CourseManagement = () => {
 
   const [activeMenu, setActiveMenu] = useState(null);
   const [addingTo, setAddingTo] = useState(null);
-  
+
   // Store which parent's children are currently loading
   const [loadingStates, setLoadingStates] = useState({
     modules: {},
     topics: {},
     subtopics: {},
-    content: {}
+    content: {},
   });
 
   const getToken = () => localStorage.getItem("token");
@@ -120,12 +120,12 @@ const CourseManagement = () => {
 
   const fetchModules = async (goalId) => {
     if (loadingStates.modules[goalId]) return;
-    
-    setLoadingStates(prev => ({
+
+    setLoadingStates((prev) => ({
       ...prev,
-      modules: { ...prev.modules, [goalId]: true }
+      modules: { ...prev.modules, [goalId]: true },
     }));
-    
+
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/goals/${goalId}/modules`,
@@ -134,28 +134,28 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setModulesByGoal(prev => ({
+      setModulesByGoal((prev) => ({
         ...prev,
-        [goalId]: data.data || []
+        [goalId]: data.data || [],
       }));
     } catch (error) {
       console.error("Error fetching modules:", error);
     } finally {
-      setLoadingStates(prev => ({
+      setLoadingStates((prev) => ({
         ...prev,
-        modules: { ...prev.modules, [goalId]: false }
+        modules: { ...prev.modules, [goalId]: false },
       }));
     }
   };
 
   const fetchTopics = async (moduleId) => {
     if (loadingStates.topics[moduleId]) return;
-    
-    setLoadingStates(prev => ({
+
+    setLoadingStates((prev) => ({
       ...prev,
-      topics: { ...prev.topics, [moduleId]: true }
+      topics: { ...prev.topics, [moduleId]: true },
     }));
-    
+
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/modules/${moduleId}/topics`,
@@ -164,28 +164,28 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setTopicsByModule(prev => ({
+      setTopicsByModule((prev) => ({
         ...prev,
-        [moduleId]: data.data || []
+        [moduleId]: data.data || [],
       }));
     } catch (error) {
       console.error("Error fetching topics:", error);
     } finally {
-      setLoadingStates(prev => ({
+      setLoadingStates((prev) => ({
         ...prev,
-        topics: { ...prev.topics, [moduleId]: false }
+        topics: { ...prev.topics, [moduleId]: false },
       }));
     }
   };
 
   const fetchSubtopics = async (topicId) => {
     if (loadingStates.subtopics[topicId]) return;
-    
-    setLoadingStates(prev => ({
+
+    setLoadingStates((prev) => ({
       ...prev,
-      subtopics: { ...prev.subtopics, [topicId]: true }
+      subtopics: { ...prev.subtopics, [topicId]: true },
     }));
-    
+
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/topics/${topicId}/subtopics`,
@@ -194,28 +194,28 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setSubtopicsByTopic(prev => ({
+      setSubtopicsByTopic((prev) => ({
         ...prev,
-        [topicId]: data.data || []
+        [topicId]: data.data || [],
       }));
     } catch (error) {
       console.error("Error fetching subtopics:", error);
     } finally {
-      setLoadingStates(prev => ({
+      setLoadingStates((prev) => ({
         ...prev,
-        subtopics: { ...prev.subtopics, [topicId]: false }
+        subtopics: { ...prev.subtopics, [topicId]: false },
       }));
     }
   };
 
   const fetchContent = async (subtopicId) => {
     if (loadingStates.content[subtopicId]) return;
-    
-    setLoadingStates(prev => ({
+
+    setLoadingStates((prev) => ({
       ...prev,
-      content: { ...prev.content, [subtopicId]: true }
+      content: { ...prev.content, [subtopicId]: true },
     }));
-    
+
     try {
       const res = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/content`,
@@ -224,27 +224,27 @@ const CourseManagement = () => {
         }
       );
       const data = await res.json();
-      setContentBySubtopic(prev => ({
+      setContentBySubtopic((prev) => ({
         ...prev,
-        [subtopicId]: data.data || []
+        [subtopicId]: data.data || [],
       }));
     } catch (error) {
       console.error("Error fetching content:", error);
     } finally {
-      setLoadingStates(prev => ({
+      setLoadingStates((prev) => ({
         ...prev,
-        content: { ...prev.content, [subtopicId]: false }
+        content: { ...prev.content, [subtopicId]: false },
       }));
     }
   };
 
   const handleGoalSelect = async (goal) => {
     if (editingGoal) return;
-    
+
     const newExpandedState = !expandedGoals[goal.id];
-    
+
     setExpandedGoals({ ...expandedGoals, [goal.id]: newExpandedState });
-    
+
     if (newExpandedState) {
       setSelectedGoal(goal);
       await fetchModules(goal.id);
@@ -260,11 +260,11 @@ const CourseManagement = () => {
 
   const handleModuleSelect = async (module) => {
     if (editingModule) return;
-    
+
     const newExpandedState = !expandedModules[module.id];
-    
+
     setExpandedModules({ ...expandedModules, [module.id]: newExpandedState });
-    
+
     if (newExpandedState) {
       setSelectedModule(module);
       await fetchTopics(module.id);
@@ -279,11 +279,11 @@ const CourseManagement = () => {
 
   const handleTopicSelect = async (topic) => {
     if (editingTopic) return;
-    
+
     const newExpandedState = !expandedTopics[topic.id];
-    
+
     setExpandedTopics({ ...expandedTopics, [topic.id]: newExpandedState });
-    
+
     if (newExpandedState) {
       setSelectedTopic(topic);
       await fetchSubtopics(topic.id);
@@ -404,9 +404,9 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setModulesByGoal(prev => ({
+        setModulesByGoal((prev) => ({
           ...prev,
-          [selectedGoal.id]: [...(prev[selectedGoal.id] || []), data.data]
+          [selectedGoal.id]: [...(prev[selectedGoal.id] || []), data.data],
         }));
         setNewModuleName("");
         setAddingTo(null);
@@ -436,9 +436,9 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setTopicsByModule(prev => ({
+        setTopicsByModule((prev) => ({
           ...prev,
-          [selectedModule.id]: [...(prev[selectedModule.id] || []), data.data]
+          [selectedModule.id]: [...(prev[selectedModule.id] || []), data.data],
         }));
         setNewTopicName("");
         setAddingTo(null);
@@ -468,9 +468,9 @@ const CourseManagement = () => {
       );
       const data = await res.json();
       if (data.success) {
-        setSubtopicsByTopic(prev => ({
+        setSubtopicsByTopic((prev) => ({
           ...prev,
-          [selectedTopic.id]: [...(prev[selectedTopic.id] || []), data.data]
+          [selectedTopic.id]: [...(prev[selectedTopic.id] || []), data.data],
         }));
         setNewSubtopicName("");
         setAddingTo(null);
@@ -522,34 +522,64 @@ const CourseManagement = () => {
 
   const deleteGoal = async (goalId, e) => {
     if (e) e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this goal?")) return;
+
+    // Show confirmation dialog
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this goal? This will delete all modules, topics, subtopics, and content within it."
+      )
+    ) {
+      return;
+    }
+
     try {
-      const res = await fetch(
+      const token = getToken();
+      const response = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/goals/${goalId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await res.json();
+
+      const data = await response.json();
+
       if (data.success) {
-        setGoals(goals.filter((g) => g.id !== goalId));
-        // Clean up related data
-        const newModulesByGoal = { ...modulesByGoal };
-        delete newModulesByGoal[goalId];
-        setModulesByGoal(newModulesByGoal);
-        
+        // Update goals state
+        setGoals((prevGoals) => prevGoals.filter((g) => g.id !== goalId));
+
+        // Clean up related data in all state objects
+        setModulesByGoal((prev) => {
+          const newState = { ...prev };
+          delete newState[goalId];
+          return newState;
+        });
+
+        // Clear selected items if needed
         if (selectedGoal?.id === goalId) {
           setSelectedGoal(null);
           setSelectedModule(null);
           setSelectedTopic(null);
           setSelectedSubtopic(null);
         }
+
+        // Clear expanded state
+        setExpandedGoals((prev) => {
+          const newState = { ...prev };
+          delete newState[goalId];
+          return newState;
+        });
+
+        // Show success message
+        alert("Goal deleted successfully");
+      } else {
+        alert(data.message || "Failed to delete goal");
       }
     } catch (error) {
       console.error("Error deleting goal:", error);
+      alert("Error deleting goal. Please try again.");
     }
   };
 
@@ -578,18 +608,20 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedModule = data.data;
-        
+
         // Find which goal this module belongs to
         for (const [goalId, modules] of Object.entries(modulesByGoal)) {
-          if (modules.some(m => m.id === moduleId)) {
-            setModulesByGoal(prev => ({
+          if (modules.some((m) => m.id === moduleId)) {
+            setModulesByGoal((prev) => ({
               ...prev,
-              [goalId]: prev[goalId].map(m => m.id === moduleId ? updatedModule : m)
+              [goalId]: prev[goalId].map((m) =>
+                m.id === moduleId ? updatedModule : m
+              ),
             }));
             break;
           }
         }
-        
+
         if (selectedModule?.id === moduleId) {
           setSelectedModule(updatedModule);
         }
@@ -606,38 +638,82 @@ const CourseManagement = () => {
 
   const deleteModule = async (moduleId, e) => {
     if (e) e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this module?")) return;
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this module? This will delete all topics, subtopics, and content within it."
+      )
+    ) {
+      return;
+    }
+
     try {
-      const res = await fetch(
+      const token = getToken();
+      const response = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/modules/${moduleId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await res.json();
+
+      const data = await response.json();
+
       if (data.success) {
-        // Remove module from its parent goal
-        for (const [goalId, modules] of Object.entries(modulesByGoal)) {
-          if (modules.some(m => m.id === moduleId)) {
-            setModulesByGoal(prev => ({
-              ...prev,
-              [goalId]: prev[goalId].filter(m => m.id !== moduleId)
-            }));
-            break;
+        // Find which goal this module belongs to and update state
+        let parentGoalId = null;
+
+        // Search through modulesByGoal to find the parent
+        Object.entries(modulesByGoal).forEach(([goalId, modules]) => {
+          if (modules.some((m) => m.id === moduleId)) {
+            parentGoalId = goalId;
           }
+        });
+
+        if (parentGoalId) {
+          setModulesByGoal((prev) => ({
+            ...prev,
+            [parentGoalId]: prev[parentGoalId].filter((m) => m.id !== moduleId),
+          }));
         }
-        
+
+        // Clean up related data
+        // Remove any topics/subtopics content for this module from state
+        const topicsToRemove = Object.entries(topicsByModule)
+          .filter(([moduleIdKey]) => moduleIdKey === String(moduleId))
+          .map(([_, topics]) => topics);
+
+        if (topicsToRemove.length > 0) {
+          setTopicsByModule((prev) => {
+            const newState = { ...prev };
+            delete newState[moduleId];
+            return newState;
+          });
+        }
+
+        // Clear selected items if needed
         if (selectedModule?.id === moduleId) {
           setSelectedModule(null);
           setSelectedTopic(null);
           setSelectedSubtopic(null);
         }
+
+        // Clear expanded state
+        setExpandedModules((prev) => {
+          const newState = { ...prev };
+          delete newState[moduleId];
+          return newState;
+        });
+
+        alert("Module deleted successfully");
+      } else {
+        alert(data.message || "Failed to delete module");
       }
     } catch (error) {
       console.error("Error deleting module:", error);
+      alert("Error deleting module. Please try again.");
     }
   };
 
@@ -666,18 +742,20 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedTopic = data.data;
-        
+
         // Find which module this topic belongs to
         for (const [moduleId, topics] of Object.entries(topicsByModule)) {
-          if (topics.some(t => t.id === topicId)) {
-            setTopicsByModule(prev => ({
+          if (topics.some((t) => t.id === topicId)) {
+            setTopicsByModule((prev) => ({
               ...prev,
-              [moduleId]: prev[moduleId].map(t => t.id === topicId ? updatedTopic : t)
+              [moduleId]: prev[moduleId].map((t) =>
+                t.id === topicId ? updatedTopic : t
+              ),
             }));
             break;
           }
         }
-        
+
         if (selectedTopic?.id === topicId) {
           setSelectedTopic(updatedTopic);
         }
@@ -694,37 +772,85 @@ const CourseManagement = () => {
 
   const deleteTopic = async (topicId, e) => {
     if (e) e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this topic?")) return;
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this topic? This will delete all subtopics and content within it."
+      )
+    ) {
+      return;
+    }
+
     try {
-      const res = await fetch(
+      const token = getToken();
+      const response = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/topics/${topicId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await res.json();
+
+      const data = await response.json();
+
       if (data.success) {
-        // Remove topic from its parent module
-        for (const [moduleId, topics] of Object.entries(topicsByModule)) {
-          if (topics.some(t => t.id === topicId)) {
-            setTopicsByModule(prev => ({
-              ...prev,
-              [moduleId]: prev[moduleId].filter(t => t.id !== topicId)
-            }));
-            break;
+        // Find which module this topic belongs to
+        let parentModuleId = null;
+
+        Object.entries(topicsByModule).forEach(([moduleId, topics]) => {
+          if (topics.some((t) => t.id === topicId)) {
+            parentModuleId = moduleId;
           }
+        });
+
+        if (parentModuleId) {
+          setTopicsByModule((prev) => ({
+            ...prev,
+            [parentModuleId]: prev[parentModuleId].filter(
+              (t) => t.id !== topicId
+            ),
+          }));
         }
-        
+
+        // Clean up related data
+        setSubtopicsByTopic((prev) => {
+          const newState = { ...prev };
+          delete newState[topicId];
+          return newState;
+        });
+
+        setContentBySubtopic((prev) => {
+          const newState = { ...prev };
+          // Remove any content that belonged to subtopics under this topic
+          Object.entries(prev).forEach(([subtopicId, content]) => {
+            // You might need to track topic-subtopic relationships to clean this properly
+            // For now, we'll just keep it and rely on backend cascade
+          });
+          return newState;
+        });
+
+        // Clear selected items if needed
         if (selectedTopic?.id === topicId) {
           setSelectedTopic(null);
           setSelectedSubtopic(null);
         }
+
+        // Clear expanded state
+        setExpandedTopics((prev) => {
+          const newState = { ...prev };
+          delete newState[topicId];
+          return newState;
+        });
+
+        alert("Topic deleted successfully");
+      } else {
+        alert(data.message || "Failed to delete topic");
       }
     } catch (error) {
       console.error("Error deleting topic:", error);
+      alert("Error deleting topic. Please try again.");
     }
   };
 
@@ -753,13 +879,15 @@ const CourseManagement = () => {
       const data = await res.json();
       if (data.data) {
         const updatedSubtopic = data.data;
-        
+
         // Find which topic this subtopic belongs to
         for (const [topicId, subtopics] of Object.entries(subtopicsByTopic)) {
-          if (subtopics.some(s => s.id === subtopicId)) {
-            setSubtopicsByTopic(prev => ({
+          if (subtopics.some((s) => s.id === subtopicId)) {
+            setSubtopicsByTopic((prev) => ({
               ...prev,
-              [topicId]: prev[topicId].map(s => s.id === subtopicId ? updatedSubtopic : s)
+              [topicId]: prev[topicId].map((s) =>
+                s.id === subtopicId ? updatedSubtopic : s
+              ),
             }));
             break;
           }
@@ -781,37 +909,67 @@ const CourseManagement = () => {
 
   const deleteSubtopic = async (subtopicId, e) => {
     if (e) e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this subtopic?"))
+
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this subtopic? This will delete all content within it."
+      )
+    ) {
       return;
+    }
+
     try {
-      const res = await fetch(
+      const token = getToken();
+      const response = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await res.json();
+
+      const data = await response.json();
+
       if (data.success) {
-        // Remove subtopic from its parent topic
-        for (const [topicId, subtopics] of Object.entries(subtopicsByTopic)) {
-          if (subtopics.some(s => s.id === subtopicId)) {
-            setSubtopicsByTopic(prev => ({
-              ...prev,
-              [topicId]: prev[topicId].filter(s => s.id !== subtopicId)
-            }));
-            break;
+        // Find which topic this subtopic belongs to
+        let parentTopicId = null;
+
+        Object.entries(subtopicsByTopic).forEach(([topicId, subtopics]) => {
+          if (subtopics.some((s) => s.id === subtopicId)) {
+            parentTopicId = topicId;
           }
+        });
+
+        if (parentTopicId) {
+          setSubtopicsByTopic((prev) => ({
+            ...prev,
+            [parentTopicId]: prev[parentTopicId].filter(
+              (s) => s.id !== subtopicId
+            ),
+          }));
         }
-        
+
+        // Clean up content
+        setContentBySubtopic((prev) => {
+          const newState = { ...prev };
+          delete newState[subtopicId];
+          return newState;
+        });
+
+        // Clear selected if needed
         if (selectedSubtopic?.id === subtopicId) {
           setSelectedSubtopic(null);
         }
+
+        alert("Subtopic deleted successfully");
+      } else {
+        alert(data.message || "Failed to delete subtopic");
       }
     } catch (error) {
       console.error("Error deleting subtopic:", error);
+      alert("Error deleting subtopic. Please try again.");
     }
   };
 
@@ -831,28 +989,40 @@ const CourseManagement = () => {
 
   const deleteContent = async (contentId, e) => {
     e.stopPropagation();
-    if (!window.confirm("Are you sure you want to delete this content?"))
+
+    if (!window.confirm("Are you sure you want to delete this content?")) {
       return;
+    }
+
     try {
-      const res = await fetch(
+      const token = getToken();
+      const response = await fetch(
         `https://api.onesolutionsekam.in/api/admin/course/content/${contentId}`,
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      const data = await res.json();
+
+      const data = await response.json();
+
       if (data.success) {
         const subtopicId = selectedSubtopic?.id;
-        setContentBySubtopic(prev => ({
-          ...prev,
-          [subtopicId]: prev[subtopicId].filter(c => c.id !== contentId)
-        }));
+        if (subtopicId) {
+          setContentBySubtopic((prev) => ({
+            ...prev,
+            [subtopicId]: prev[subtopicId].filter((c) => c.id !== contentId),
+          }));
+        }
+        alert("Content deleted successfully");
+      } else {
+        alert(data.message || "Failed to delete content");
       }
     } catch (error) {
       console.error("Error deleting content:", error);
+      alert("Error deleting content. Please try again.");
     }
   };
 
@@ -906,7 +1076,12 @@ const CourseManagement = () => {
               >
                 <Plus size={14} />
                 <span>
-                  Add {type === "goal" ? "Module" : type === "module" ? "Topic" : "Subtopic"}
+                  Add{" "}
+                  {type === "goal"
+                    ? "Module"
+                    : type === "module"
+                    ? "Topic"
+                    : "Subtopic"}
                 </span>
               </div>
             )}
@@ -930,23 +1105,23 @@ const CourseManagement = () => {
     );
   };
 
-  const currentContent = selectedSubtopic 
-    ? (contentBySubtopic[selectedSubtopic.id] || [])
+  const currentContent = selectedSubtopic
+    ? contentBySubtopic[selectedSubtopic.id] || []
     : [];
 
   return (
     <div className="course-container">
-     
       {/* Main Content */}
       <div className="course-main">
         {/* Left Sidebar - Hierarchical Navigation */}
         <div className="course-sidebar">
           <div className="course-sidebar-header">
             <div className="left-header-course course-add-goal">
-              
               <div className="course-tooltip-wrapper">
-              <h3>DM Curriculum</h3>
-                <span className="course-tooltip" style={{marginLeft: "15px"}}>Digital Marketing Curriculum</span>
+                <h3>DM Curriculum</h3>
+                <span className="course-tooltip" style={{ marginLeft: "15px" }}>
+                  Digital Marketing Curriculum
+                </span>
               </div>
               <div className="course-tooltip-wrapper">
                 <button onClick={() => setAddingTo({ type: "root" })}>
@@ -1050,7 +1225,10 @@ const CourseManagement = () => {
                 {expandedGoals[goal.id] && (
                   <div className="course-nav-children">
                     {addingTo?.type === "goal" && addingTo?.id === goal.id && (
-                      <div className="course-add-child" onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="course-add-child"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <input
                           type="text"
                           value={newModuleName}
@@ -1067,7 +1245,18 @@ const CourseManagement = () => {
                         <button
                           onClick={() => setAddingTo(null)}
                           className="course-cancel-btn-small"
-                          style={{ background: "#fee2e2", color: "#ef4444", border: "none", borderRadius: 4, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                          style={{
+                            background: "#fee2e2",
+                            color: "#ef4444",
+                            border: "none",
+                            borderRadius: 4,
+                            width: 28,
+                            height: 28,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                          }}
                         >
                           <X size={14} />
                         </button>
@@ -1135,32 +1324,47 @@ const CourseManagement = () => {
 
                         {expandedModules[module.id] && (
                           <div className="course-nav-grandchildren">
-                            {addingTo?.type === "module" && addingTo?.id === module.id && (
-                              <div className="course-add-child" onClick={(e) => e.stopPropagation()}>
-                                <input
-                                  type="text"
-                                  value={newTopicName}
-                                  onChange={(e) =>
-                                    setNewTopicName(e.target.value)
-                                  }
-                                  placeholder="Add topic..."
-                                  onKeyPress={(e) =>
-                                    e.key === "Enter" && createTopic()
-                                  }
-                                  autoFocus
-                                />
-                                <button onClick={createTopic}>
-                                  <Check size={14} />
-                                </button>
-                                <button
-                                  onClick={() => setAddingTo(null)}
-                                  className="course-cancel-btn-small"
-                                  style={{ background: "#fee2e2", color: "#ef4444", border: "none", borderRadius: 4, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                            {addingTo?.type === "module" &&
+                              addingTo?.id === module.id && (
+                                <div
+                                  className="course-add-child"
+                                  onClick={(e) => e.stopPropagation()}
                                 >
-                                  <X size={14} />
-                                </button>
-                              </div>
-                            )}
+                                  <input
+                                    type="text"
+                                    value={newTopicName}
+                                    onChange={(e) =>
+                                      setNewTopicName(e.target.value)
+                                    }
+                                    placeholder="Add topic..."
+                                    onKeyPress={(e) =>
+                                      e.key === "Enter" && createTopic()
+                                    }
+                                    autoFocus
+                                  />
+                                  <button onClick={createTopic}>
+                                    <Check size={14} />
+                                  </button>
+                                  <button
+                                    onClick={() => setAddingTo(null)}
+                                    className="course-cancel-btn-small"
+                                    style={{
+                                      background: "#fee2e2",
+                                      color: "#ef4444",
+                                      border: "none",
+                                      borderRadius: 4,
+                                      width: 28,
+                                      height: 28,
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      cursor: "pointer",
+                                    }}
+                                  >
+                                    <X size={14} />
+                                  </button>
+                                </div>
+                              )}
 
                             {(topicsByModule[module.id] || []).map((topic) => (
                               <div
@@ -1232,102 +1436,123 @@ const CourseManagement = () => {
 
                                 {expandedTopics[topic.id] && (
                                   <div className="course-nav-great-grandchildren">
-                                    {addingTo?.type === "topic" && addingTo?.id === topic.id && (
-                                      <div className="course-add-child" onClick={(e) => e.stopPropagation()}>
-                                        <input
-                                          type="text"
-                                          value={newSubtopicName}
-                                          onChange={(e) =>
-                                            setNewSubtopicName(e.target.value)
-                                          }
-                                          placeholder="Add subtopic..."
-                                          onKeyPress={(e) =>
-                                            e.key === "Enter" &&
-                                            createSubtopic()
-                                          }
-                                          autoFocus
-                                        />
-                                        <button onClick={createSubtopic}>
-                                          <Check size={14} />
-                                        </button>
-                                        <button
-                                          onClick={() => setAddingTo(null)}
-                                          className="course-cancel-btn-small"
-                                          style={{ background: "#fee2e2", color: "#ef4444", border: "none", borderRadius: 4, width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                                    {addingTo?.type === "topic" &&
+                                      addingTo?.id === topic.id && (
+                                        <div
+                                          className="course-add-child"
+                                          onClick={(e) => e.stopPropagation()}
                                         >
-                                          <X size={14} />
-                                        </button>
-                                      </div>
-                                    )}
-
-                                    {(subtopicsByTopic[topic.id] || []).map((subtopic) => (
-                                      <div
-                                        key={subtopic.id}
-                                        className={`course-nav-great-grandchild ${
-                                          selectedSubtopic?.id ===
-                                          subtopic.id
-                                            ? "active"
-                                            : ""
-                                        }`}
-                                        onClick={() =>
-                                          handleSubtopicSelect(subtopic)
-                                        }
-                                      >
-                                        <FileText
-                                          size={12}
-                                          className="course-nav-icon subtopic"
-                                        />
-                                        {editingSubtopic === subtopic.id ? (
-                                          <div
-                                            className="course-edit-inline"
-                                            onClick={(e) =>
-                                              e.stopPropagation()
+                                          <input
+                                            type="text"
+                                            value={newSubtopicName}
+                                            onChange={(e) =>
+                                              setNewSubtopicName(e.target.value)
                                             }
+                                            placeholder="Add subtopic..."
+                                            onKeyPress={(e) =>
+                                              e.key === "Enter" &&
+                                              createSubtopic()
+                                            }
+                                            autoFocus
+                                          />
+                                          <button onClick={createSubtopic}>
+                                            <Check size={14} />
+                                          </button>
+                                          <button
+                                            onClick={() => setAddingTo(null)}
+                                            className="course-cancel-btn-small"
+                                            style={{
+                                              background: "#fee2e2",
+                                              color: "#ef4444",
+                                              border: "none",
+                                              borderRadius: 4,
+                                              width: 28,
+                                              height: 28,
+                                              display: "flex",
+                                              alignItems: "center",
+                                              justifyContent: "center",
+                                              cursor: "pointer",
+                                            }}
                                           >
-                                            <input
-                                              type="text"
-                                              value={editSubtopicName}
-                                              onChange={(e) =>
-                                                setEditSubtopicName(
-                                                  e.target.value
-                                                )
-                                              }
-                                              onKeyPress={(e) =>
-                                                e.key === "Enter" &&
-                                                saveEditSubtopic(
-                                                  subtopic.id,
-                                                  e
-                                                )
-                                              }
-                                              autoFocus
-                                              onClick={(e) => e.stopPropagation()}
-                                            />
-                                            <button
-                                              onClick={(e) =>
-                                                saveEditSubtopic(
-                                                  subtopic.id,
-                                                  e
-                                                )
-                                              }
-                                              className="course-save-btn"
-                                            >
-                                              <Check size={12} />
-                                            </button>
-                                            <button
-                                              onClick={cancelEdit}
-                                              className="course-cancel-btn"
-                                            >
-                                              <X size={12} />
-                                            </button>
-                                          </div>
-                                        ) : (
-                                          <span>{subtopic.name}</span>
-                                        )}
-                                        <div className="course-nav-actions">
-                                          {renderActionMenu("subtopic", subtopic)}
+                                            <X size={14} />
+                                          </button>
                                         </div>
-                                      </div>
-                                    ))}
+                                      )}
+
+                                    {(subtopicsByTopic[topic.id] || []).map(
+                                      (subtopic) => (
+                                        <div
+                                          key={subtopic.id}
+                                          className={`course-nav-great-grandchild ${
+                                            selectedSubtopic?.id === subtopic.id
+                                              ? "active"
+                                              : ""
+                                          }`}
+                                          onClick={() =>
+                                            handleSubtopicSelect(subtopic)
+                                          }
+                                        >
+                                          <FileText
+                                            size={12}
+                                            className="course-nav-icon subtopic"
+                                          />
+                                          {editingSubtopic === subtopic.id ? (
+                                            <div
+                                              className="course-edit-inline"
+                                              onClick={(e) =>
+                                                e.stopPropagation()
+                                              }
+                                            >
+                                              <input
+                                                type="text"
+                                                value={editSubtopicName}
+                                                onChange={(e) =>
+                                                  setEditSubtopicName(
+                                                    e.target.value
+                                                  )
+                                                }
+                                                onKeyPress={(e) =>
+                                                  e.key === "Enter" &&
+                                                  saveEditSubtopic(
+                                                    subtopic.id,
+                                                    e
+                                                  )
+                                                }
+                                                autoFocus
+                                                onClick={(e) =>
+                                                  e.stopPropagation()
+                                                }
+                                              />
+                                              <button
+                                                onClick={(e) =>
+                                                  saveEditSubtopic(
+                                                    subtopic.id,
+                                                    e
+                                                  )
+                                                }
+                                                className="course-save-btn"
+                                              >
+                                                <Check size={12} />
+                                              </button>
+                                              <button
+                                                onClick={cancelEdit}
+                                                className="course-cancel-btn"
+                                              >
+                                                <X size={12} />
+                                              </button>
+                                            </div>
+                                          ) : (
+                                            <span>{subtopic.name}</span>
+                                          )}
+                                          <div className="course-nav-actions">
+                                            {renderActionMenu(
+                                              "subtopic",
+                                              subtopic
+                                            )}
+                                          </div>
+                                        </div>
+                                      )
+                                    )}
                                   </div>
                                 )}
                               </div>
@@ -1388,7 +1613,7 @@ const CourseManagement = () => {
               {/* Conditional Rendering: Editor vs Dashboard */}
               {contentViewMode === "cheatsheet_editor" ? (
                 // --- INLINE CHEATSHEET EDITOR ---
-                <CheatsheetEditor 
+                <CheatsheetEditor
                   subtopicId={selectedSubtopic.id}
                   initialData={contentToEdit} // Pass existing data if editing
                   onCancel={() => {
@@ -1412,7 +1637,9 @@ const CourseManagement = () => {
                           <input
                             type="text"
                             value={editSubtopicName}
-                            onChange={(e) => setEditSubtopicName(e.target.value)}
+                            onChange={(e) =>
+                              setEditSubtopicName(e.target.value)
+                            }
                             onKeyPress={(e) =>
                               e.key === "Enter" &&
                               saveEditSubtopic(selectedSubtopic.id, e)
@@ -1442,7 +1669,9 @@ const CourseManagement = () => {
                           </h2>
                           <button
                             className="course-edit-btn"
-                            onClick={(e) => startEditSubtopic(selectedSubtopic, e)}
+                            onClick={(e) =>
+                              startEditSubtopic(selectedSubtopic, e)
+                            }
                           >
                             <Edit size={16} />
                           </button>
@@ -1453,7 +1682,11 @@ const CourseManagement = () => {
                       <div className="course-stat">
                         <Video size={16} />
                         <span>
-                          {currentContent.filter((c) => c.content_type === "video").length}{" "}
+                          {
+                            currentContent.filter(
+                              (c) => c.content_type === "video"
+                            ).length
+                          }{" "}
                           Videos
                         </span>
                       </div>
@@ -1461,8 +1694,9 @@ const CourseManagement = () => {
                         <FileText size={16} />
                         <span>
                           {
-                            currentContent.filter((c) => c.content_type === "cheatsheet")
-                              .length
+                            currentContent.filter(
+                              (c) => c.content_type === "cheatsheet"
+                            ).length
                           }{" "}
                           Cheatsheets
                         </span>
@@ -1470,7 +1704,11 @@ const CourseManagement = () => {
                       <div className="course-stat">
                         <HelpCircle size={16} />
                         <span>
-                          {currentContent.filter((c) => c.content_type === "mcq").length}{" "}
+                          {
+                            currentContent.filter(
+                              (c) => c.content_type === "mcq"
+                            ).length
+                          }{" "}
                           Quizzes
                         </span>
                       </div>
@@ -1539,7 +1777,9 @@ const CourseManagement = () => {
                       <div className="course-empty-content">
                         <FileText size={48} />
                         <p>No content added yet</p>
-                        <span>Start adding videos, cheatsheets, or quizzes</span>
+                        <span>
+                          Start adding videos, cheatsheets, or quizzes
+                        </span>
                       </div>
                     ) : (
                       <div className={`course-content-grid ${viewMode}`}>
