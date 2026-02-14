@@ -174,19 +174,19 @@ const createTables = async () => {
 
     // Check for and add any missing columns to subtopic_content
     // In digitalMarketingRoutes.js - Update the columnsToAdd array
-const columnsToAdd = [
-  { name: "thumbnail_url", type: "VARCHAR(1000)" },
-  { name: "learning_objectives", type: "JSONB DEFAULT '[]'" },
-  { name: "resources", type: "JSONB DEFAULT '[]'" },
-  { name: "key_takeaways", type: "JSONB DEFAULT '[]'" },
-  { name: "table_of_contents", type: "JSONB DEFAULT '[]'" },
-  { name: "time_limit", type: "INTEGER" },
-  { name: "passing_score", type: "INTEGER DEFAULT 70" },
-  { name: "video_type", type: "VARCHAR(50) DEFAULT 'uploaded'" },
-  { name: "file_url", type: "VARCHAR(1000)" },
-  { name: "questions", type: "JSONB DEFAULT '[]'" },
-  { name: "slides_id", type: "VARCHAR(255)" }, // Changed to slides_id
-];
+    const columnsToAdd = [
+      { name: "thumbnail_url", type: "VARCHAR(1000)" },
+      { name: "learning_objectives", type: "JSONB DEFAULT '[]'" },
+      { name: "resources", type: "JSONB DEFAULT '[]'" },
+      { name: "key_takeaways", type: "JSONB DEFAULT '[]'" },
+      { name: "table_of_contents", type: "JSONB DEFAULT '[]'" },
+      { name: "time_limit", type: "INTEGER" },
+      { name: "passing_score", type: "INTEGER DEFAULT 70" },
+      { name: "video_type", type: "VARCHAR(50) DEFAULT 'uploaded'" },
+      { name: "file_url", type: "VARCHAR(1000)" },
+      { name: "questions", type: "JSONB DEFAULT '[]'" },
+      { name: "slides_id", type: "VARCHAR(255)" }, // Changed to slides_id
+    ];
 
     for (const column of columnsToAdd) {
       const checkColumnQuery = `
@@ -701,7 +701,8 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
       updates.push(`thumbnail_url = $${paramIndex++}`);
       values.push(thumbnail_url);
     }
-    if (slides_id !== undefined) { // Changed from slides_url
+    if (slides_id !== undefined) {
+      // Changed from slides_url
       updates.push(`slides_id = $${paramIndex++}`);
       values.push(slides_id);
     }
@@ -1379,7 +1380,7 @@ app.get(
   }
 );
 
-// Get ALL goals with complete structure for student portal
+// Get ALL goals with complete structure for student portal - FIXED
 app.get(
   "/api/student/courses/all-structure",
   authenticate,
@@ -1405,58 +1406,78 @@ app.get(
       for (const goal of goalsResult.rows) {
         const modulesResult = await pool.query(
           `SELECT 
-            cm.*,
-            (
-              SELECT json_agg(
-                json_build_object(
-                  'id', ct.id,
-                  'name', ct.name,
-                  'description', ct.description,
-                  'order_number', ct.order_number,
-                  'subtopics', (
-                    SELECT json_agg(
-                      json_build_object(
-                        'id', cs.id,
-                        'name', cs.name,
-                        'description', cs.description,
-                        'order_number', cs.order_number,
-                        'content', (
-                          SELECT json_agg(
-                            json_build_object(
-                              'id', sc.id,
-                              'content_type', sc.content_type,
-                              'content_uuid', sc.content_uuid,
-                              'video_title', sc.video_title,
-                              'video_description', sc.video_description,
-                              'video_duration', sc.video_duration,
-                              'video_url', sc.video_url,
-                              'thumbnail_url', sc.thumbnail_url,
-                              'slides_id', sc.slides_id, // Changed from slides_url
-                              'cheatsheet_title', sc.cheatsheet_title,
-                              'cheatsheet_content', sc.cheatsheet_content,
-                              'file_url', sc.file_url,
-                              'mcq_title', sc.mcq_title,
-                              'questions', sc.questions,
-                              'learning_objectives', sc.learning_objectives,
-                              'resources', sc.resources,
-                              'key_takeaways', sc.key_takeaways,
-                              'table_of_contents', sc.table_of_contents,
-                              'time_limit', sc.time_limit,
-                              'passing_score', sc.passing_score,
-                              'progress_status', scp.status,
-                              'completed_at', scp.completed_at,
-                              'quiz_score', scp.quiz_score,
-                              'is_completed', CASE WHEN scp.id IS NOT NULL THEN true ELSE false END
-                            ) ORDER BY sc.id
-                          ) FROM subtopic_content sc
-                          LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
-                          WHERE sc.subtopic_id = cs.id
+            cm.id,
+            cm.name,
+            cm.description,
+            cm.order_number,
+            COALESCE(
+              (
+                SELECT json_agg(
+                  json_build_object(
+                    'id', ct.id,
+                    'name', ct.name,
+                    'description', ct.description,
+                    'order_number', ct.order_number,
+                    'subtopics', COALESCE(
+                      (
+                        SELECT json_agg(
+                          json_build_object(
+                            'id', cs.id,
+                            'name', cs.name,
+                            'description', cs.description,
+                            'order_number', cs.order_number,
+                            'content', COALESCE(
+                              (
+                                SELECT json_agg(
+                                  json_build_object(
+                                    'id', sc.id,
+                                    'content_type', sc.content_type,
+                                    'content_uuid', sc.content_uuid,
+                                    'video_title', sc.video_title,
+                                    'video_description', sc.video_description,
+                                    'video_duration', sc.video_duration,
+                                    'video_url', sc.video_url,
+                                    'thumbnail_url', sc.thumbnail_url,
+                                    'slides_id', sc.slides_id,
+                                    'cheatsheet_title', sc.cheatsheet_title,
+                                    'cheatsheet_content', sc.cheatsheet_content,
+                                    'file_url', sc.file_url,
+                                    'mcq_title', sc.mcq_title,
+                                    'questions', sc.questions,
+                                    'learning_objectives', sc.learning_objectives,
+                                    'resources', sc.resources,
+                                    'key_takeaways', sc.key_takeaways,
+                                    'table_of_contents', sc.table_of_contents,
+                                    'time_limit', sc.time_limit,
+                                    'passing_score', sc.passing_score,
+                                    'progress_status', scp.status,
+                                    'completed_at', scp.completed_at,
+                                    'quiz_score', scp.quiz_score,
+                                    'is_completed', CASE WHEN scp.id IS NOT NULL THEN true ELSE false END
+                                  )
+                                  ORDER BY sc.id
+                                )
+                                FROM subtopic_content sc
+                                LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
+                                WHERE sc.subtopic_id = cs.id
+                              ),
+                              '[]'::json
+                            )
+                          )
+                          ORDER BY cs.order_number
                         )
-                      ) ORDER BY cs.order_number
-                    ) FROM course_subtopics cs WHERE cs.topic_id = ct.id
+                        FROM course_subtopics cs 
+                        WHERE cs.topic_id = ct.id
+                      ),
+                      '[]'::json
+                    )
                   )
-                ) ORDER BY ct.order_number
-              ) FROM course_topics ct WHERE ct.module_id = cm.id
+                  ORDER BY ct.order_number
+                )
+                FROM course_topics ct 
+                WHERE ct.module_id = cm.id
+              ),
+              '[]'::json
             ) as topics
           FROM course_modules cm 
           WHERE cm.goal_id = $2 
