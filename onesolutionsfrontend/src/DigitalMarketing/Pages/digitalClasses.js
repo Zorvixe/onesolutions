@@ -18,7 +18,6 @@ const DigitalClasses = ({
   preLoadedContent,
   moduleName = "Digital Module",
   topicName = "Digital Topic",
-  slidesUrl = "https://docs.google.com/presentation/d/1nYAm8gHe5MepkIN_WPaSCb2cDfnQKSTqmPQFyud70Nw/embed",
 }) => {
   const { contentUuid: paramContentUuid } = useParams();
   const navigate = useNavigate();
@@ -47,6 +46,11 @@ const DigitalClasses = ({
 
   const editorRef = useRef(null);
   const videoRef = useRef(null);
+
+  const getSlidesEmbedUrl = (slidesId) => {
+    if (!slidesId) return null;
+    return `https://docs.google.com/presentation/d/${slidesId}/embed`;
+  };
 
   useEffect(() => {
     if (preLoadedContent) {
@@ -818,21 +822,28 @@ const DigitalClasses = ({
         </div>
       )}
 
-      {activeTab === "slides" && (
-        <div className="slides-tab-clss">
-          <h2>Presentation Slides</h2>
-          <div className="slides-container-clss">
-            <iframe
-              src={slidesUrl}
-              width="100%"
-              height="500"
-              frameBorder="0"
-              allowFullScreen
-              title="Presentation Slides"
-            ></iframe>
+
+        {activeTab === "slides" && (
+          <div className="slides-tab-clss">
+            <h2>Presentation Slides</h2>
+            <div className="slides-container-clss">
+              {content.slides_id ? (
+                <iframe
+                  src={getSlidesEmbedUrl(content.slides_id)}
+                  width="100%"
+                  height="500"
+                  frameBorder="0"
+                  allowFullScreen
+                  title="Presentation Slides"
+                />
+              ) : (
+                <div className="slides-placeholder">
+                  <p>No slides available for this lesson</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {activeTab === "assessment" &&
         (content.type === "mcq" || content.content_type === "mcq") && (

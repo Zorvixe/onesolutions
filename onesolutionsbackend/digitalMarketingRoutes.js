@@ -173,18 +173,20 @@ const createTables = async () => {
     )`);
 
     // Check for and add any missing columns to subtopic_content
-    const columnsToAdd = [
-      { name: "thumbnail_url", type: "VARCHAR(1000)" },
-      { name: "learning_objectives", type: "JSONB DEFAULT '[]'" },
-      { name: "resources", type: "JSONB DEFAULT '[]'" },
-      { name: "key_takeaways", type: "JSONB DEFAULT '[]'" },
-      { name: "table_of_contents", type: "JSONB DEFAULT '[]'" },
-      { name: "time_limit", type: "INTEGER" },
-      { name: "passing_score", type: "INTEGER DEFAULT 70" },
-      { name: "video_type", type: "VARCHAR(50) DEFAULT 'uploaded'" },
-      { name: "file_url", type: "VARCHAR(1000)" },
-      { name: "questions", type: "JSONB DEFAULT '[]'" },
-    ];
+    // In digitalMarketingRoutes.js - Update the columnsToAdd array
+const columnsToAdd = [
+  { name: "thumbnail_url", type: "VARCHAR(1000)" },
+  { name: "learning_objectives", type: "JSONB DEFAULT '[]'" },
+  { name: "resources", type: "JSONB DEFAULT '[]'" },
+  { name: "key_takeaways", type: "JSONB DEFAULT '[]'" },
+  { name: "table_of_contents", type: "JSONB DEFAULT '[]'" },
+  { name: "time_limit", type: "INTEGER" },
+  { name: "passing_score", type: "INTEGER DEFAULT 70" },
+  { name: "video_type", type: "VARCHAR(50) DEFAULT 'uploaded'" },
+  { name: "file_url", type: "VARCHAR(1000)" },
+  { name: "questions", type: "JSONB DEFAULT '[]'" },
+  { name: "slides_id", type: "VARCHAR(255)" }, // Changed to slides_id
+];
 
     for (const column of columnsToAdd) {
       const checkColumnQuery = `
@@ -639,6 +641,7 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
       time_limit,
       passing_score,
       thumbnail_url,
+      slides_id, // Changed from slides_url
     } = req.body;
 
     let query = "UPDATE subtopic_content SET ";
@@ -697,6 +700,10 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
     if (thumbnail_url !== undefined) {
       updates.push(`thumbnail_url = $${paramIndex++}`);
       values.push(thumbnail_url);
+    }
+    if (slides_id !== undefined) { // Changed from slides_url
+      updates.push(`slides_id = $${paramIndex++}`);
+      values.push(slides_id);
     }
 
     if (updates.length === 0) {
@@ -761,6 +768,7 @@ app.delete("/api/admin/course/content/:contentId", async (req, res) => {
 });
 
 // Upload Video
+// Upload Video - Updated with slides_id
 app.post(
   "/api/admin/course/subtopics/:subtopicId/video",
   videoUpload.single("video"),
@@ -773,6 +781,7 @@ app.post(
         learning_objectives,
         resources,
         thumbnail_url,
+        slides_id, // Changed from slides_url
       } = req.body;
 
       const videoUrl = `/uploads/videos/${req.file.filename}`;
@@ -791,8 +800,9 @@ app.post(
           video_url,
           learning_objectives,
           resources,
-          thumbnail_url
-        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+          thumbnail_url,
+          slides_id  // Changed from slides_url
+        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
         [
           req.params.subtopicId,
           uuid,
@@ -804,6 +814,7 @@ app.post(
           JSON.stringify(learning_objectives || []),
           JSON.stringify(resources || []),
           thumbnail_url || null,
+          slides_id || null, // Changed from slides_url
         ]
       );
       res.json({ success: true, data: result.rows[0] });
@@ -1195,28 +1206,30 @@ app.get(
       const topicId = goalResult.rows[0]?.topic_id || null;
       const subtopicId = goalResult.rows[0]?.subtopic_id || null;
 
-      if (content.content_type === "video") {
-        res.json({
-          success: true,
-          data: {
-            id: content.id,
-            type: "video",
-            content_type: "video",
-            content_uuid: content.content_uuid,
-            video_title: content.video_title,
-            video_description: content.video_description,
-            video_duration: content.video_duration,
-            video_url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
-            thumbnail_url: content.thumbnail_url,
-            learning_objectives: content.learning_objectives || [],
-            resources: content.resources || [],
-            goal_id: goalId,
-            module_id: moduleId,
-            topic_id: topicId,
-            subtopic_id: subtopicId,
-          },
-        });
-      } else if (content.content_type === "cheatsheet") {
+     // In the video section of the response
+        if (content.content_type === "video") {
+          res.json({
+            success: true,
+            data: {
+              id: content.id,
+              type: "video",
+              content_type: "video",
+              content_uuid: content.content_uuid,
+              video_title: content.video_title,
+              video_description: content.video_description,
+              video_duration: content.video_duration,
+              video_url: `${baseUrl}/api/content/${content.content_uuid}/stream?token=${content.access_token}`,
+              thumbnail_url: content.thumbnail_url,
+              slides_id: content.slides_id, // Changed from slides_url
+              learning_objectives: content.learning_objectives || [],
+              resources: content.resources || [],
+              goal_id: goalId,
+              module_id: moduleId,
+              topic_id: topicId,
+              subtopic_id: subtopicId,
+            },
+          });
+        } else if (content.content_type === "cheatsheet") {
         res.json({
           success: true,
           data: {
@@ -1418,6 +1431,7 @@ app.get(
                               'video_duration', sc.video_duration,
                               'video_url', sc.video_url,
                               'thumbnail_url', sc.thumbnail_url,
+                              'slides_id', sc.slides_id, // Changed from slides_url
                               'cheatsheet_title', sc.cheatsheet_title,
                               'cheatsheet_content', sc.cheatsheet_content,
                               'file_url', sc.file_url,

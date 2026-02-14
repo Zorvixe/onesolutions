@@ -1,11 +1,13 @@
+// In VideoUploadModal.js, update the field to accept slides ID
 import React, { useState, useEffect } from "react";
-import { X, Upload, Clock, Video } from "lucide-react";
+import { X, Upload, Clock, Video, Link } from "lucide-react";
 import "./VideoUploadModal.css";
 
 const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("");
+  const [slidesId, setSlidesId] = useState(""); // Changed from slidesUrl
   const [videoFile, setVideoFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -18,13 +20,14 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
       setTitle(editData.video_title || "");
       setDescription(editData.video_description || "");
       setDuration(editData.video_duration || "");
+      setSlidesId(editData.slides_id || ""); // Changed from slides_url
     }
   }, [editData]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 1024 * 1024 * 1024) { // 1GB limit matches server config
+      if (file.size > 1024 * 1024 * 1024) {
         alert("File size must be less than 1GB");
         return;
       }
@@ -34,7 +37,6 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validation: Title required always. File required only if creating.
     if (!title.trim()) {
       alert("Please provide a title");
       return;
@@ -46,7 +48,6 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
 
     setUploading(true);
     
-    // Fake progress for UX
     const interval = setInterval(() => {
       setProgress((prev) => Math.min(prev + 10, 90));
     }, 500);
@@ -55,8 +56,7 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
       const token = localStorage.getItem("token");
       
       if (isEditing) {
-        // --- UPDATE MODE (JSON PUT) ---
-        // We only update metadata here based on your requirements
+        // UPDATE MODE
         const response = await fetch(`https://api.onesolutionsekam.in/api/admin/course/content/${editData.id}`, {
           method: "PUT",
           headers: {
@@ -66,19 +66,20 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
           body: JSON.stringify({
             video_title: title,
             video_description: description,
-            // Assuming backend accepts duration update via this endpoint, otherwise logic stays same
+            slides_id: slidesId, // Changed from slides_url
           }),
         });
 
         if (!response.ok) throw new Error("Update failed");
 
       } else {
-        // --- CREATE MODE (FormData POST) ---
+        // CREATE MODE
         const formData = new FormData();
         formData.append("video", videoFile);
         formData.append("title", title);
         formData.append("description", description);
         formData.append("duration", duration);
+        formData.append("slides_id", slidesId); // Changed from slides_url
 
         const response = await fetch(
           `https://api.onesolutionsekam.in/api/admin/course/subtopics/${subtopicId}/video`,
@@ -159,9 +160,27 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
                   </div>
                 </div>
               )}
+
+              {/* Slides ID Field */}
+              <div className="video-upload-field">
+                <label className="video-upload-label">Google Slides ID</label>
+                <div className="video-upload-duration-wrapper">
+                  <Link className="video-upload-duration-icon" />
+                  <input
+                    type="text"
+                    value={slidesId}
+                    onChange={(e) => setSlidesId(e.target.value)}
+                    className="video-upload-duration-input"
+                    placeholder="e.g., 1ABCdefGHIjklMNOpqrsTUVwxyz"
+                  />
+                </div>
+                <p className="video-upload-hint">
+                  Optional: Enter the Google Slides ID (the long string in the presentation URL)
+                </p>
+              </div>
             </div>
 
-            {/* Right Column - Video Uploader (Only show if Creating) */}
+            {/* Right Column - Video Uploader */}
             <div className="video-upload-right">
               {isEditing ? (
                 <div className="video-upload-placeholder" style={{ backgroundColor: '#f0fdf4', borderColor: '#86efac' }}>
@@ -170,7 +189,7 @@ const VideoUploadModal = ({ subtopicId, onClose, onSuccess, editData = null }) =
                     Video file is already uploaded.
                   </p>
                   <p className="video-upload-placeholder-hint">
-                    You can edit the title and description on the left.
+                    You can edit the title, description, and slides ID on the left.
                   </p>
                 </div>
               ) : (
