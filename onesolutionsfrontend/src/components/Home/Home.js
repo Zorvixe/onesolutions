@@ -27,9 +27,11 @@ const Home = () => {
   const [userProgress, setUserProgress] = useState({});
   const [selectedLanguage, setSelectedLanguage] = useState("python");
   const [lastProgressUpdate, setLastProgressUpdate] = useState(null);
+  const [webDataInitialized, setWebDataInitialized] = useState(false);
 
   // --- Digital Marketing State ---
   const [digitalProgress, setDigitalProgress] = useState({});
+  const [digitalDataInitialized, setDigitalDataInitialized] = useState(false);
 
   const navigate = useNavigate();
   const {
@@ -48,8 +50,6 @@ const Home = () => {
   // ==========================================
   const fetchLiveClasses = async () => {
     try {
-      setLoading(true);
-
       const batchMonth = user?.batchMonth || "";
       const batchYear = user?.batchYear || "";
       const studentType = user?.studentType || "zorvixe_core";
@@ -113,8 +113,6 @@ const Home = () => {
     } catch (error) {
       console.error("❌ Error fetching live classes:", error);
       setLiveClasses([]);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -221,11 +219,13 @@ const Home = () => {
     return colors[difficulty] || colors.easy;
   };
 
+  // Web Dev useEffect - Only run if NOT digital user
   useEffect(() => {
     if (!isDigitalUser && user) {
       const processPracticeData = () => {
         if (!allCodingPracticesData[selectedLanguage]) {
           setPracticeData([]);
+          setWebDataInitialized(true);
           return;
         }
 
@@ -281,6 +281,7 @@ const Home = () => {
           });
 
         setPracticeData(practiceCards);
+        setWebDataInitialized(true);
       };
       processPracticeData();
     }
@@ -311,8 +312,12 @@ const Home = () => {
 
   // Calculate Progress Logic for Digital
   const calculateDigitalProgress = useCallback(() => {
-    const progressMap = {};
+    if (!digitalMarketingGoals || digitalMarketingGoals.length === 0) {
+      setDigitalProgress({});
+      return;
+    }
 
+    const progressMap = {};
     digitalMarketingGoals.forEach((goal) => {
       // Use backend stats if available, else calculate manually
       if (goal.stats && goal.stats.progress_percentage !== undefined) {
@@ -336,16 +341,29 @@ const Home = () => {
       }
     });
     setDigitalProgress(progressMap);
+    setDigitalDataInitialized(true);
   }, [digitalMarketingGoals, checkIsDigitalContentCompleted]);
 
-  // Fetch Digital Structure
+  // Fetch Digital Structure - Only run if digital user
   useEffect(() => {
     if (isDigitalUser && user) {
-      loadDigitalMarketingAllStructure().catch((e) => console.error(e));
+      const loadDigitalData = async () => {
+        try {
+          console.log(
+            "🔍 Loading digital marketing data for user:",
+            user.email
+          );
+          await loadDigitalMarketingAllStructure();
+        } catch (e) {
+          console.error("Error loading digital data:", e);
+          setDigitalDataInitialized(true); // Still set initialized to true to prevent infinite loading
+        }
+      };
+      loadDigitalData();
     }
   }, [isDigitalUser, user, loadDigitalMarketingAllStructure]);
 
-  // Update Digital Stats when completed content changes
+  // Update Digital Stats when completed content changes or goals change
   useEffect(() => {
     if (isDigitalUser && digitalMarketingGoals.length > 0) {
       calculateDigitalProgress();
@@ -362,9 +380,11 @@ const Home = () => {
   // ==========================================
   useEffect(() => {
     if (user) {
+      // Fetch live classes and achievements for all users
       fetchLiveClasses();
       fetchPlacementAchievements();
 
+      // For web dev users, fetch progress
       if (!isDigitalUser) {
         fetchUserProgress();
       }
@@ -487,12 +507,32 @@ const Home = () => {
   const toggleAiApp = () => setIsAiAppOpen(!isAiAppOpen);
   const closeAiApp = () => setIsAiAppOpen(false);
 
-  // Loading Screen
-  if (loading && !user) {
+  // Loading Screen - Show loading until data is initialized for respective user type
+  if (!user) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading your personalized content...</p>
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // For digital users, wait for digital data
+  if (isDigitalUser && !digitalDataInitialized) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading your digital marketing courses...</p>
+      </div>
+    );
+  }
+
+  // For web dev users, wait for web data
+  if (!isDigitalUser && !webDataInitialized) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading your practice challenges...</p>
       </div>
     );
   }
@@ -669,7 +709,7 @@ const Home = () => {
             {digitalMarketingGoals && digitalMarketingGoals.length > 0 ? (
               digitalMarketingGoals.map((goal, index) => {
                 const percent = digitalProgress[goal.id] || 0;
-                const formattedPercent = `${percent.toFixed(0)}%`;
+                const formattedPercent = `${Math.round(percent)}%`;
                 const styleIndex = index % digitalCardColors.length;
                 const colors = digitalCardColors[styleIndex];
 
@@ -776,7 +816,7 @@ const Home = () => {
               })
             ) : (
               <div className="no-classes">
-                <p>Loading your courses...</p>
+                <p>No courses available. Please contact support.</p>
               </div>
             )}
           </div>
