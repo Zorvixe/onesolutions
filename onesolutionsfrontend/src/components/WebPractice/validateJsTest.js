@@ -1480,6 +1480,95 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         return { passed: wrongCheck && correctCheck };
       }
 
+      //Time converter==========================
+      case "check-inputs":
+        return {
+          passed:
+            iframeDoc.getElementById("hoursInput") &&
+            iframeDoc.getElementById("minutesInput"),
+        };
+
+      // 2
+      case "check-hours-label":
+        return {
+          passed: iframeDoc.querySelector('label[for="hoursInput"]') !== null,
+        };
+
+      // 3
+      case "check-minutes-label":
+        return {
+          passed: iframeDoc.querySelector('label[for="minutesInput"]') !== null,
+        };
+
+      // 4
+      case "check-button11":
+        return {
+          passed: iframeDoc.getElementById("convertBtn")?.tagName === "BUTTON",
+        };
+
+      // 5
+      case "check-error-msg2":
+        return {
+          passed: iframeDoc.getElementById("errorMsg")?.tagName === "P",
+        };
+
+      // 6
+      case "check-seconds":
+        return {
+          passed: iframeDoc.getElementById("timeInSeconds")?.tagName === "P",
+        };
+
+      // 7
+      case "check-click-event": {
+        const js = iframeDoc.documentElement.outerHTML;
+        return { passed: js.includes('addEventListener("click"') };
+      }
+
+      // 8
+      case "check-conversion": {
+        const hours = iframeDoc.getElementById("hoursInput");
+        const minutes = iframeDoc.getElementById("minutesInput");
+        const btn = iframeDoc.getElementById("convertBtn");
+        const result = iframeDoc.getElementById("timeInSeconds");
+
+        hours.value = "1";
+        minutes.value = "1";
+
+        btn.click();
+
+        return { passed: result.textContent.includes("3660") };
+      }
+
+      // 9
+      case "check-error-empty": {
+        const hours = iframeDoc.getElementById("hoursInput");
+        const minutes = iframeDoc.getElementById("minutesInput");
+        const btn = iframeDoc.getElementById("convertBtn");
+        const error = iframeDoc.getElementById("errorMsg");
+
+        hours.value = "1";
+        minutes.value = "1";
+
+        btn.click();
+
+        return { passed: error.textContent === "" };
+      }
+
+      // 10
+      case "check-error-show": {
+        const hours = iframeDoc.getElementById("hoursInput");
+        const minutes = iframeDoc.getElementById("minutesInput");
+        const btn = iframeDoc.getElementById("convertBtn");
+        const error = iframeDoc.getElementById("errorMsg");
+
+        hours.value = "";
+        minutes.value = "";
+
+        btn.click();
+
+        return { passed: error.textContent !== "" };
+      }
+
       //BookMark maker================
       case "check-heading5":
         return { passed: iframeDoc.querySelector("h1") !== null };
@@ -1581,123 +1670,138 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
       }
 
       //speed typing test
-        case "check-container1":
-          return { passed: iframeDoc.getElementById("speedTypingTest") !== null };
+      case "check-container1":
+        return { passed: iframeDoc.getElementById("speedTypingTest") !== null };
 
-        // 2
-        case "check-image3":
-          return { passed: iframeDoc.querySelector("img") !== null };
+      // 2
+      case "check-image3":
+        return { passed: iframeDoc.querySelector("img") !== null };
 
-        // 3
-        case "check-timer":
-          return { passed: iframeDoc.getElementById("timer")?.tagName === "P" };
+      // 3
+      case "check-timer":
+        return { passed: iframeDoc.getElementById("timer")?.tagName === "P" };
 
-        // 4
-        case "check-quote-display":
-          return { passed: iframeDoc.getElementById("quoteDisplay")?.tagName === "P" };
+      // 4
+      case "check-quote-display":
+        return {
+          passed: iframeDoc.getElementById("quoteDisplay")?.tagName === "P",
+        };
 
-        // 5
-        case "check-quote-input":
-          return { passed: iframeDoc.getElementById("quoteInput")?.tagName === "TEXTAREA" };
+      // 5
+      case "check-quote-input":
+        return {
+          passed:
+            iframeDoc.getElementById("quoteInput")?.tagName === "TEXTAREA",
+        };
 
-        // 6
-        case "check-result":
-          return { passed: iframeDoc.getElementById("result")?.tagName === "P" };
+      // 6
+      case "check-result":
+        return { passed: iframeDoc.getElementById("result")?.tagName === "P" };
 
-        // 7
-        case "check-submit-btn2":
-          return { passed: iframeDoc.getElementById("submitBtn")?.tagName === "BUTTON" };
+      // 7
+      case "check-submit-btn2":
+        return {
+          passed: iframeDoc.getElementById("submitBtn")?.tagName === "BUTTON",
+        };
 
-        // 8
-        case "check-reset-btn":
-          return { passed: iframeDoc.getElementById("resetBtn")?.tagName === "BUTTON" };
+      // 8
+      case "check-reset-btn":
+        return {
+          passed: iframeDoc.getElementById("resetBtn")?.tagName === "BUTTON",
+        };
 
-        // 9
-        case "check-spinner":
-          return { passed: iframeDoc.getElementById("spinner") !== null };
+      // 9
+      case "check-spinner":
+        return { passed: iframeDoc.getElementById("spinner") !== null };
 
-        // 10
-        case "check-timer-logic": {
-          const js = iframeDoc.documentElement.outerHTML;
-          return { passed: js.includes("setInterval") && js.includes("clearInterval") };
-        }
+      // 10
+      case "check-timer-logic": {
+        const js = iframeDoc.documentElement.outerHTML;
+        return {
+          passed: js.includes("setInterval") && js.includes("clearInterval"),
+        };
+      }
 
-        // 11
-        case "check-spinner-logic": {
-          const js = iframeDoc.documentElement.outerHTML;
-          return { passed: js.includes("classList.add") && js.includes("classList.remove") };
-        }
+      // 11
+      case "check-spinner-logic": {
+        const js = iframeDoc.documentElement.outerHTML;
+        return {
+          passed:
+            js.includes("classList.add") && js.includes("classList.remove"),
+        };
+      }
 
-        // 12
-        case "check-fetch-quote": {
-          const quote = iframeDoc.getElementById("quoteDisplay").textContent.trim();
-          return { passed: quote.length > 0 };
-        }
+      // 12
+      case "check-fetch-quote": {
+        const quote = iframeDoc
+          .getElementById("quoteDisplay")
+          .textContent.trim();
+        return { passed: quote.length > 0 };
+      }
 
-        // 13 SUCCESS MSG
-        case "check-success-msg": {
-          const quote = iframeDoc.getElementById("quoteDisplay").textContent;
-          const input = iframeDoc.getElementById("quoteInput");
-          const btn = iframeDoc.getElementById("submitBtn");
-          const result = iframeDoc.getElementById("result");
+      // 13 SUCCESS MSG
+      case "check-success-msg": {
+        const quote = iframeDoc.getElementById("quoteDisplay").textContent;
+        const input = iframeDoc.getElementById("quoteInput");
+        const btn = iframeDoc.getElementById("submitBtn");
+        const result = iframeDoc.getElementById("result");
 
-          input.value = quote;
-          btn.click();
+        input.value = quote;
+        btn.click();
 
-          return { passed: result.textContent.includes("You typed In") };
-        }
+        return { passed: result.textContent.includes("You typed In") };
+      }
 
-        // 14 TIMER STOP
-        case "check-timer-stop": {
-          const btn = iframeDoc.getElementById("submitBtn");
-          const timeBefore = iframeDoc.getElementById("timer").textContent;
+      // 14 TIMER STOP
+      case "check-timer-stop": {
+        const btn = iframeDoc.getElementById("submitBtn");
+        const timeBefore = iframeDoc.getElementById("timer").textContent;
 
-          btn.click();
+        btn.click();
 
-          setTimeout(() => {}, 1200);
+        setTimeout(() => {}, 1200);
 
-          const timeAfter = iframeDoc.getElementById("timer").textContent;
+        const timeAfter = iframeDoc.getElementById("timer").textContent;
 
-          return { passed: timeBefore === timeAfter };
-        }
+        return { passed: timeBefore === timeAfter };
+      }
 
-        // 15 ERROR MSG
-        case "check-error-msg": {
-          const input = iframeDoc.getElementById("quoteInput");
-          const btn = iframeDoc.getElementById("submitBtn");
-          const result = iframeDoc.getElementById("result");
+      // 15 ERROR MSG
+      case "check-error-msg": {
+        const input = iframeDoc.getElementById("quoteInput");
+        const btn = iframeDoc.getElementById("submitBtn");
+        const result = iframeDoc.getElementById("result");
 
-          input.value = "wrong text";
-          btn.click();
+        input.value = "wrong text";
+        btn.click();
 
-          return { passed: result.textContent.includes("Incorrect") };
-        }
+        return { passed: result.textContent.includes("Incorrect") };
+      }
 
-        // keyboard events validations
+      // keyboard events validations==========
+      case "check-keycode-usage": {
+        const scriptContent = iframeDoc.documentElement.innerHTML;
+        return { passed: scriptContent.includes("keyCode") };
+      }
 
-case "check-keycode-usage": {
-  const scriptContent = iframeDoc.documentElement.innerHTML;
-  return { passed: scriptContent.includes("keyCode") };
-}
+      case "check-keydown-eventlistener": {
+        const scriptContent = iframeDoc.documentElement.innerHTML;
+        return {
+          passed:
+            scriptContent.includes("addEventListener") &&
+            scriptContent.includes("keydown"),
+        };
+      }
 
-case "check-keydown-eventlistener": {
-  const scriptContent = iframeDoc.documentElement.innerHTML;
-  return { 
-    passed: scriptContent.includes("addEventListener") &&
-            scriptContent.includes("keydown")
-  };
-}
-
-case "check-counter-increment": {
-  const scriptContent = iframeDoc.documentElement.innerHTML;
-  return { 
-    passed: scriptContent.includes("keydownCounter") &&
+      case "check-counter-increment": {
+        const scriptContent = iframeDoc.documentElement.innerHTML;
+        return {
+          passed:
+            scriptContent.includes("keydownCounter") &&
             scriptContent.includes("textContent") &&
-            (scriptContent.includes("++") || scriptContent.includes("+="))
-  };
-}
-
-
+            (scriptContent.includes("++") || scriptContent.includes("+=")),
+        };
+      }
 
       default:
         return {

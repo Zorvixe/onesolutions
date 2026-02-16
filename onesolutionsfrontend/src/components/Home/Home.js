@@ -522,7 +522,6 @@ const Home = () => {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading your digital marketing courses...</p>
       </div>
     );
   }
@@ -532,7 +531,6 @@ const Home = () => {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
-        <p>Loading your practice challenges...</p>
       </div>
     );
   }

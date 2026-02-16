@@ -325,6 +325,246 @@ SELECT * FROM table_name;
             },
           ],
         },
+        {
+          id: "sql-query-4",
+          title: "Create Table",
+          description:
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data. Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+          difficulty: "Medium",
+          score: 75,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Questions</p>
+              <p>1. Create a student table to store name, age and score of students.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>details</th>
+                      <th>datatype</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    <tr>
+                      <td>name</td>
+                      <td>string of max length 200</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>age</td>
+                      <td>integer</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>score</td>
+                      <td>integer</td>
+                     
+                    </tr>
+                   
+                  </tbody>
+                </table>
+              </div>
+
+              //
+              <p>1. Create astudenttable to store name, age and score of students.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>details</th>
+                      <th>datatype</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    <tr>
+                      <td>name</td>
+                      <td>string of max length 200</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>age</td>
+                      <td>integer</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>score</td>
+                      <td>integer</td>
+                     
+                    </tr>
+                   
+                  </tbody>
+                </table>
+              </div>
+              
+              
+            </div>
+          `,
+          testCases: [
+            {
+              id: 2,
+              description: "Table should contain columns name, age, and score",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "age", "score"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Column name should be VARCHAR(200)",
+              type: "syntax-validation",
+              expectedKeywords: ["varchar(200)"],
+              visible: false,
+            },
+            {
+              id: 4,
+              description: "Columns age and score should be INTEGER",
+              type: "syntax-validation",
+              expectedKeywords: ["age integer", "score integer"],
+              visible: false,
+            },
+          ],
+        },
+        {
+          id: "sql-query-4",
+          title: "Create Customer Table",
+          description:
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data. Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+          difficulty: "Medium",
+          score: 75,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Questions</p>
+              <p>1. Create a student table to store name, age and score of students.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>details</th>
+                      <th>datatype</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    <tr>
+                      <td>name</td>
+                      <td>string of max length 200</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>age</td>
+                      <td>integer</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>score</td>
+                      <td>integer</td>
+                     
+                    </tr>
+                   
+                  </tbody>
+                </table>
+              </div>
+
+              //
+              <p>1. Create astudenttable to store name, age and score of students.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>details</th>
+                      <th>datatype</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                    <tr>
+                      <td>name</td>
+                      <td>string of max length 200</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>age</td>
+                      <td>integer</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>score</td>
+                      <td>integer</td>
+                     
+                    </tr>
+                   
+                  </tbody>
+                </table>
+              </div>
+              
+              
+            </div>
+          `,
+          testCases: [
+            {
+              id: 2,
+              description: "Table should contain columns name, age, and score",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "age", "score"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Column name should be VARCHAR(200)",
+              type: "syntax-validation",
+              expectedKeywords: ["varchar(200)"],
+              visible: false,
+            },
+            {
+              id: 4,
+              description: "Columns age and score should be INTEGER",
+              type: "syntax-validation",
+              expectedKeywords: ["age integer", "score integer"],
+              visible: false,
+            },
+          ],
+        },
       ],
     },
   ],

@@ -3041,7 +3041,25 @@ export const javascriptCodingPracticesData = {
                 font-family: "Roboto";
                 font-size: 24px;
             }`,
-            javascript: ``,
+            javascript: `let inputEl = document.getElementById("input");
+            let saveBtnEl = document.getElementById("saveBtn");
+            let clearBtnEl = document.getElementById("clearBtn");
+            let storageKey = "userInput";
+            
+            let storageVal = localStorage.getItem(storageKey);
+            
+            if (storageVal === null) {
+                localStorage.setItem(storageKey, "Hello");
+            }
+            
+            inputEl.value = localStorage.getItem(storageKey);
+            
+            saveBtnEl.onclick = function() {
+                let inputVal = inputEl.value;
+                localStorage.setItem(storageKey, inputVal);
+            };
+            
+            // Write your code here`,
           },
           // FIX: Use proper string formatting for descriptionDetails
           descriptionDetails: `
@@ -5204,7 +5222,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of HTML input elements with ids hoursInput and minutesInput",
               type: "js-validation",
-              input: "check-heading5",
+              input: "check-inputs",
               output: "true",
               visible: true,
             },
@@ -5214,7 +5232,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of HTML label element for HTML input element with id hoursInput",
               type: "js-validation",
-              input: "check-paragraph",
+              input: "check-hours-label",
               output: "true",
               visible: true,
             },
@@ -5224,7 +5242,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of HTML label element for HTML input element with id minutesInput",
               type: "js-validation",
-              input: "check-form4",
+              input: "check-minutes-label",
               output: "true",
               visible: true,
             },
@@ -5234,7 +5252,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of HTML button element with id convertBtn",
               type: "js-validation",
-              input: "check-site-name-input",
+              input: "check-button11",
               output: "true",
               visible: true,
             },
@@ -5244,7 +5262,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of HTML paragraph element with id errorMsg",
               type: "js-validation",
-              input: "check-site-name-label",
+              input: "check-error-msg2",
               output: "true",
               visible: true,
             },
@@ -5254,7 +5272,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of HTML paragraph element with id timeInSeconds",
               type: "js-validation",
-              input: "check-site-name-error",
+              input: "check-seconds",
               output: "true",
               visible: true,
             },
@@ -5264,7 +5282,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "JS implementation should contain addEventListener for click event",
               type: "js-validation",
-              input: "check-site-url-input",
+              input: "check-click-event",
               output: "true",
               visible: true,
             },
@@ -5274,7 +5292,7 @@ export const javascriptCodingPracticesData = {
               description:
                 "When values are provided in HTML input elements with ids hoursInput and minutesInput, the HTML button with id convertBtn is clicked, the converted seconds should be displayed in the HTML paragraph element with id timeInSeconds",
               type: "js-validation",
-              input: "check-site-url-label",
+              input: "check-conversion",
               output: "true",
               visible: true,
             },
@@ -5282,9 +5300,9 @@ export const javascriptCodingPracticesData = {
             {
               id: 9,
               description:
-                "Page should consist of HTML paragraph element with id siteUrlErrMsg inside HTML form element with id bookmarkForm",
+                "When values are provided in HTML input elements with ids hoursInput and minutesInput, the HTML button with id convertBtn is clicked, the error message should be empty",
               type: "js-validation",
-              input: "check-site-url-error",
+              input: "check-error-empty",
               output: "true",
               visible: true,
             },
@@ -5292,59 +5310,9 @@ export const javascriptCodingPracticesData = {
             {
               id: 10,
               description:
-                "Page should consist of HTML unordered list element with id bookmarksList",
+                "When the HTML input elements with ids hoursInput, minutesInput are empty and HTML button with id convertBtn is clicked error message should be displayed in the HTML paragraph element with id errorMsg",
               type: "js-validation",
-              input: "check-bookmarks-list",
-              output: "true",
-              visible: true,
-            },
-
-            {
-              id: 11,
-              description:
-                "JS code implementation should use addEventListener to attach change event for the HTML input elements",
-              type: "js-validation",
-              input: "check-change-event4",
-              output: "true",
-              visible: true,
-            },
-
-            {
-              id: 12,
-              description:
-                "JS code implementation should use addEventListener to attach submit event for the HTML form element",
-              type: "js-validation",
-              input: "check-submit-event",
-              output: "true",
-              visible: true,
-            },
-
-            {
-              id: 13,
-              description:
-                "JS code implementation should use event.preventDefault to prevent the default behavior of submit event",
-              type: "js-validation",
-              input: "check-prevent-default",
-              output: "true",
-              visible: true,
-            },
-
-            {
-              id: 14,
-              description:
-                "When HTML input elements with ids siteNameInput and siteUrlInput are filled with valid values, the HTML button element with id submitBtn is clicked a new bookmark should be added to HTML unordered list element with id bookmarksList",
-              type: "js-validation",
-              input: "check-add-bookmark",
-              output: "true",
-              visible: true,
-            },
-
-            {
-              id: 15,
-              description:
-                "When a new bookmark is added to the HTML unordered list element with id bookmarksList, the HTML anchor element in the bookmark item should have href attribute value as the bookmarked site",
-              type: "js-validation",
-              input: "check-bookmark-href",
+              input: "check-error-show",
               output: "true",
               visible: true,
             },
@@ -5981,9 +5949,13 @@ export const javascriptCodingPracticesData = {
                   <p class="desc-que-blue"><strong>Resources</strong></p>
                   <p class="desc-que-blue">Clock Image:</p>
                   <ul>
-                  <li><a href="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png"></a>
-                  https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png</li>
-                  </ul>
+                  <li>
+                    <a href="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png" target="_blank">
+                      https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png
+                    </a>
+                  </li>
+                </ul>
+                
 
                   <p class="desc-que-blue"><strong>CSS Colors Used:</strong></p>
                   <p class="desc-que-blue">Background Color Hex Codes Used:</p>
@@ -9277,68 +9249,7 @@ findFirstValue(myArray);
           status: "unsolved",
           attempts: [],
         },
-        {
-          id: "e8f49aad-62e3-41dd-acf3-42bb-a233-b71bab82d",
-          title: "Squares of Array Items",
-          description:
-            "Given an array myArray, write a JS program to get the squares of each item in the given myArray.",
 
-          difficulty: "Easy",
-          descriptionDetails: `
-          <div class="desc-question-details">
-              <div>
-                <p class="desc-que-blue">Input</p>
-                <p class=""></p>The input will be a single line containing an array myArray, myArray consists of numbers and arrays.</p>
-              </div>
-              <div>
-              <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be an array containing the square of each item.</p>
-            </div>
-          </div>
-           `,
-          sampleInput: "[[1,2], [3, 4], [5, 6]]",
-          sampleOutput: "[[1,4],[9,16],[25,36]]",
-          testCases: [
-            {
-              input: "[[1,2], [3,4], [5,6]]",
-              output: "[[1,4],[9,16],[25,36]]",
-              visible: true,
-            },
-            {
-              input: "[[2,3], [4,5]]",
-              output: "[[4,9],[16,25]]",
-              visible: true,
-            },
-            {
-              input: "[[10,1], [2,3]]",
-              output: "[[100,1],[4,9]]",
-              visible: false,
-            },
-            {
-              input: "[[7,8,9]]",
-              output: "[[49,64,81]]",
-              visible: false,
-            },
-          ],
-
-          defaultCode: `
-// Read input
-let myArray = eval(prompt());
-
-function getSquares(arr) {
-  /*
-  * Write your code here
-  */
-}
-
-getSquares(myArray);
-
-
-          `,
-          score: 18,
-          status: "unsolved",
-          attempts: [],
-        },
         {
           id: "e8f49aad-a235783-b71b6d1ab82d",
           title: "Product of Array Items",
@@ -9393,81 +9304,6 @@ getProduct(myArray);
 
           `,
           score: 13,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "e8f49aad-62e3-235c-42bb-a233-b71b6d1ab82d",
-          title: "Magical Indices",
-          description:
-            "Given an array of integers and a number x. An index is valid if /n item y at an index is increased by x and /n x+y would be greater than the sum of all other items in the array. /n Write a JS program to determine the number of valid indices.",
-
-          difficulty: "Easy",
-          descriptionDetails: `
-          <div class="desc-question-details">
-              <div>
-                <p class="desc-que-blue">Input</p>
-                <p class=""></p>The first line of input contains an array./n The second line of input contains a number</p>
-              </div>
-              <div>
-              <p class="desc-que-blue">Output</p>
-              <p class=""></p>The output should be a number indicating the number of valid positions.</p>
-            </div>
-             <div>
-              <p class="desc-que-blue">Explanation</p>
-              <p class=""></p>For example, an array A = [10,20,30] and a value x = 25./nWe have values 10, 20, 30 at indices 0,1,2 respectively.</p>
-              <p class=""></p>Here index 0 is invalid because /n 10 + 25 = 35 is less than 20 + 30 = 50.</p>
-              <p class=""></p>Here index 1 is valid because /n 20 + 25 = 45 is greater than 10 + 30 = 40.</p>
-              <p class=""></p>Here index 2 is valid because /n 30 + 25 = 55 is greater than 10 + 20 = 30.</p>
-              <p class=""></p>So there are 2 valid indices.</p>
-            </div>
-          </div>
-           `,
-          sampleInput: "[1, 2, 3, 5, 7]",
-          sampleOutput: 13,
-          testCases: [],
-          defaultCode: `
-
-
-          `,
-          score: 25,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "e8f49aad-62e3-235c-42bb-a233-b71b6d1ab82d",
-          title: "Person Details",
-          description:
-            "Given an object person containing a person's details, Write a JS program to log the name, address, and nicknames count.",
-
-          difficulty: "Easy",
-          descriptionDetails: `
-          <div class="desc-question-details">
-              <div>
-                <p class="desc-que-blue">Input</p>
-                <p class=""></p>The input will be a single line containing an object person</p>
-              </div>
-              <div>
-              <p class="desc-que-blue">Output</p>
-              <p class=""></p>The first line of output should contain the name and address of the person as shown in the sample output.</p>
-              <p class=""></p>The second line of output should contain the nicknames count as shown in the sample output.</p>
-            </div>
-           <div>
-                <p class="desc-que-blue">Constraints</p>
-                <p class=""></p>The keys of an object should be in quotes while giving the input</p>
-              </div>
-          </div>
-           `,
-          sampleInput:
-            "{ 'name': 'Pranay', 'address': { 'city': 'Mumbai', 'state': 'Maharashtra' }, 'nickNames': ['Nani', 'Chanti'] }",
-          sampleOutput:
-            "Pranay is from Mumbai, Maharashtra/n Pranay has 2 nicknames",
-          testCases: [],
-          defaultCode: `
-
-
-          `,
-          score: 11,
           status: "unsolved",
           attempts: [],
         },

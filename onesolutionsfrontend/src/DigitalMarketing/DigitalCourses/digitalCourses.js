@@ -11,15 +11,12 @@ export default function DigitalCourses() {
     digitalMarketingLoading,
     loadDigitalMarketingAllStructure,
     completedContent,
-    loadDigitalMarketingProgress,
     enrollInDigitalMarketingCourse,
   } = useAuth();
 
   const [expandedGoal, setExpandedGoal] = useState(null);
-  const [expandedCourse, setExpandedCourse] = useState(null);
   const [expandedModule, setExpandedModule] = useState(null);
   const [expandedTopic, setExpandedTopic] = useState(null);
-  const [selectedSubtopic, setSelectedSubtopic] = useState(null);
   const [localProgress, setLocalProgress] = useState({});
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
@@ -28,6 +25,7 @@ export default function DigitalCourses() {
 
   // Check if user has digital marketing access
   const hasDigitalAccess = courseSelection === "digital_marketing";
+
   // Load digital marketing courses from backend
   useEffect(() => {
     if (hasDigitalAccess) {
@@ -35,38 +33,59 @@ export default function DigitalCourses() {
         console.error("Failed to load digital courses:", err);
       });
     }
-  }, [hasDigitalAccess]);
+  }, [hasDigitalAccess, loadDigitalMarketingAllStructure]);
 
-  // Calculate progress whenever completedContent changes
-  useEffect(() => {
-    if (hasDigitalAccess && digitalMarketingGoals.length > 0) {
-      calculateAllProgress();
-      setLastUpdateTime(Date.now());
-    }
-  }, [completedContent, digitalMarketingGoals, hasDigitalAccess]);
-
-  // Helper: Robust completion check (Checks ID in array AND internal flag)
+  // Helper: Check if content is completed
   const checkIsContentCompleted = useCallback(
     (content) => {
       if (!content) return false;
-      // Check 1: Is the ID in the global completedContent array? (String comparison for safety)
-      const isRx = completedContent.some(
+
+      // Check if content has is_completed flag
+      const isCompleted = content.is_completed === true;
+
+      // Check if content ID is in completedContent array
+      const isInCompletedArray = completedContent.some(
         (id) => String(id) === String(content.id)
       );
-      // Check 2: Does the content object itself say it's completed?
-      const isDb = content.is_completed === true || content.is_completed === 1;
 
-      return isRx || isDb;
+      return isCompleted || isInCompletedArray;
     },
     [completedContent]
   );
 
   // Calculate progress for all goals
+
+  const calculateGoalProgressManual = (goal) => {
+    if (!goal.modules || !Array.isArray(goal.modules)) return 0;
+
+    let total = 0;
+    let completed = 0;
+
+    goal.modules.forEach((module) => {
+      if (module.topics && Array.isArray(module.topics)) {
+        module.topics.forEach((topic) => {
+          if (topic.subtopics && Array.isArray(topic.subtopics)) {
+            topic.subtopics.forEach((subtopic) => {
+              if (subtopic.content && Array.isArray(subtopic.content)) {
+                subtopic.content.forEach((content) => {
+                  total++;
+                  if (checkIsContentCompleted(content)) completed++;
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+
+    return total === 0 ? 0 : Math.round((completed / total) * 100);
+  };
+
   const calculateAllProgress = useCallback(() => {
     const progressMap = {};
 
     digitalMarketingGoals.forEach((goal) => {
-      // If we have calculated stats from backend, use them, otherwise calculate manually
+      // If we have calculated stats from backend, use them
       if (goal.stats) {
         progressMap[goal.id] = goal.stats.progress_percentage || 0;
       } else {
@@ -75,29 +94,27 @@ export default function DigitalCourses() {
     });
 
     setLocalProgress(progressMap);
-  }, [digitalMarketingGoals, completedContent]);
+  }, [digitalMarketingGoals]);
 
-  const calculateGoalProgressManual = (goal) => {
-    if (!goal.modules) return 0;
-    let total = 0;
-    let completed = 0;
-    goal.modules.forEach((m) => {
-      m.topics?.forEach((t) => {
-        t.subtopics?.forEach((s) => {
-          s.content?.forEach((c) => {
-            total++;
-            if (checkIsContentCompleted(c)) completed++;
-          });
-        });
-      });
-    });
-    return total === 0 ? 0 : (completed / total) * 100;
-  };
+  // Calculate progress whenever completedContent changes
+  useEffect(() => {
+    if (hasDigitalAccess && digitalMarketingGoals.length > 0) {
+      calculateAllProgress();
+      setLastUpdateTime(Date.now());
+    }
+  }, [
+    completedContent,
+    digitalMarketingGoals,
+    hasDigitalAccess,
+    calculateAllProgress,
+  ]);
 
   // Check if goal is locked
   const isGoalLocked = (goalIndex) => {
+    // First two goals are always unlocked
     if (goalIndex === 0 || goalIndex === 1) return false;
 
+    // Check if all previous goals are 100% complete
     for (let i = 0; i < goalIndex; i++) {
       const previousGoal = digitalMarketingGoals[i];
       const previousGoalProgress = getGoalProgress(previousGoal);
@@ -120,13 +137,13 @@ export default function DigitalCourses() {
     }
 
     setExpandedGoal(expandedGoal === goalId ? null : goalId);
-    setExpandedCourse(null);
     setExpandedModule(null);
     setExpandedTopic(null);
-    setSelectedSubtopic(null);
   };
 
-  const toggleModule = (moduleId, goalIndex) => {
+  const toggleModule = (moduleId, goalIndex, e) => {
+    e.stopPropagation();
+
     if (!hasDigitalAccess) {
       showNoAccessMessage();
       return;
@@ -138,10 +155,11 @@ export default function DigitalCourses() {
 
     setExpandedModule(expandedModule === moduleId ? null : moduleId);
     setExpandedTopic(null);
-    setSelectedSubtopic(null);
   };
 
-  const toggleTopic = (topicId, goalIndex) => {
+  const toggleTopic = (topicId, goalIndex, e) => {
+    e.stopPropagation();
+
     if (!hasDigitalAccess) {
       showNoAccessMessage();
       return;
@@ -152,19 +170,17 @@ export default function DigitalCourses() {
     }
 
     setExpandedTopic(expandedTopic === topicId ? null : topicId);
-    setSelectedSubtopic(null);
   };
 
-  // Handle subtopic click - Navigate using content UUID
-  const handleSubtopicClick = async (
+  // Handle content click - Navigate using content UUID
+  const handleContentClick = (
+    content,
     moduleId,
     subtopicId,
     subtopicName,
-    contentUuid,
     goalName,
     courseName,
-    goalIndex,
-    contentItem = null
+    goalIndex
   ) => {
     if (!hasDigitalAccess) {
       showNoAccessMessage();
@@ -175,34 +191,8 @@ export default function DigitalCourses() {
       return;
     }
 
-    setSelectedSubtopic(subtopicName);
-
-    // Determine content type accurately from contentItem
-    let contentType = "video"; // Default fallback
-    let videoTitle = null;
-    let cheatsheetTitle = null;
-    let mcqTitle = null;
-
-    if (contentItem) {
-      // PRIORITY: Use the actual content_type from database
-      if (contentItem.content_type) {
-        contentType = contentItem.content_type;
-      }
-      // Fallback: Check based on titles if type is missing
-      else if (contentItem.cheatsheet_title) {
-        contentType = "cheatsheet";
-      } else if (contentItem.mcq_title) {
-        contentType = "mcq";
-      }
-
-      videoTitle = contentItem.video_title;
-      cheatsheetTitle = contentItem.cheatsheet_title;
-      mcqTitle = contentItem.mcq_title;
-    }
-
-    // Navigate using content UUID from backend
-    if (contentUuid) {
-      navigate(`/digital/content/${contentUuid}`, {
+    if (content.content_uuid) {
+      navigate(`/digital/content/${content.content_uuid}`, {
         state: {
           goalId: digitalMarketingGoals[goalIndex]?.id,
           moduleId,
@@ -213,12 +203,12 @@ export default function DigitalCourses() {
           goalIndex,
           fromCourse: true,
           isDigital: true,
-          contentType: contentType, // Passing correct type
-          video_title: videoTitle,
-          cheatsheet_title: cheatsheetTitle,
-          mcq_title: mcqTitle,
-          contentUuid: contentUuid,
-          contentItem: contentItem, // Pass full object to avoid re-fetch
+          contentType: content.content_type,
+          video_title: content.video_title,
+          cheatsheet_title: content.cheatsheet_title,
+          mcq_title: content.mcq_title,
+          contentUuid: content.content_uuid,
+          contentItem: content,
         },
       });
     }
@@ -229,41 +219,51 @@ export default function DigitalCourses() {
   };
 
   const getModuleProgress = (module) => {
-    if (!module.topics) return 0;
+    if (!module.topics || !Array.isArray(module.topics)) return 0;
 
     let totalContent = 0;
     let completedContentCount = 0;
 
     module.topics.forEach((topic) => {
-      topic.subtopics?.forEach((subtopic) => {
-        subtopic.content?.forEach((content) => {
+      if (topic.subtopics && Array.isArray(topic.subtopics)) {
+        topic.subtopics.forEach((subtopic) => {
+          if (subtopic.content && Array.isArray(subtopic.content)) {
+            subtopic.content.forEach((content) => {
+              totalContent++;
+              if (checkIsContentCompleted(content)) {
+                completedContentCount++;
+              }
+            });
+          }
+        });
+      }
+    });
+
+    return totalContent > 0
+      ? Math.round((completedContentCount / totalContent) * 100)
+      : 0;
+  };
+
+  const getTopicProgress = (topic) => {
+    if (!topic.subtopics || !Array.isArray(topic.subtopics)) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    topic.subtopics.forEach((subtopic) => {
+      if (subtopic.content && Array.isArray(subtopic.content)) {
+        subtopic.content.forEach((content) => {
           totalContent++;
           if (checkIsContentCompleted(content)) {
             completedContentCount++;
           }
         });
-      });
+      }
     });
 
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
-  };
-
-  const getTopicProgress = (topic) => {
-    if (!topic.subtopics) return 0;
-
-    let totalContent = 0;
-    let completedContentCount = 0;
-
-    topic.subtopics?.forEach((subtopic) => {
-      subtopic.content?.forEach((content) => {
-        totalContent++;
-        if (checkIsContentCompleted(content)) {
-          completedContentCount++;
-        }
-      });
-    });
-
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+    return totalContent > 0
+      ? Math.round((completedContentCount / totalContent) * 100)
+      : 0;
   };
 
   const showLockedMessage = () => {
@@ -340,14 +340,14 @@ export default function DigitalCourses() {
     <div
       className="courses-container"
       style={{ marginTop: "50px" }}
-      key={`digital-courses-${lastUpdateTime}-${courseSelection}`}
+      key={`digital-courses-${lastUpdateTime}`}
     >
       {/* Goals List */}
       <div className="goals-wrapper digital-goals-wrapper">
         {digitalMarketingGoals.map((goal, goalIndex) => {
           const goalPercent = getGoalProgress(goal);
           const locked = isGoalLocked(goalIndex);
-          const isEnrolled = goal.is_enrolled;
+          const isEnrolled = goal.is_enrolled === true;
 
           return (
             <section
@@ -374,9 +374,9 @@ export default function DigitalCourses() {
                     )}
                     {locked && <span className="locked-tag"> 🔒</span>}
                   </h2>
-                  {goal.dateRange ? (
+                  {goal.dateRange && (
                     <span className="goal-dates">({goal.dateRange})</span>
-                  ) : null}
+                  )}
                 </div>
                 <div className="goal-meta">
                   <div className="progress-section">
@@ -393,280 +393,283 @@ export default function DigitalCourses() {
                     <span
                       className="progress-percent"
                       style={{ color: goal.color || "#9c27b0" }}
-                    >{`${goalPercent.toFixed(1)}%`}</span>
+                    >{`${goalPercent}%`}</span>
                   </div>
                 </div>
               </header>
 
-              <div className="goal-body">
-                {!isEnrolled ? (
-                  <div className="enroll-prompt">
-                    <p>You are not enrolled in this course.</p>
-                    <button
-                      className="enroll-button"
-                      onClick={async () => {
-                        const result = await enrollInDigitalMarketingCourse(
-                          goal.id
-                        );
-                        if (result.success) {
-                          alert("Successfully enrolled!");
-                          loadDigitalMarketingAllStructure();
-                        }
-                      }}
-                    >
-                      Enroll Now
-                    </button>
-                  </div>
-                ) : !locked && (!goal.modules || goal.modules.length === 0) ? (
-                  <div className="no-courses">
-                    <h4>No modules found</h4>
-                    <p>This course is currently being prepared.</p>
-                  </div>
-                ) : (
-                  goal.modules?.map((module) => {
-                    const moduleProgress = getModuleProgress(module);
-                    const isModuleCompleted = moduleProgress >= 100;
+              {expandedGoal === goal.id && (
+                <div className="goal-body">
+                  {!isEnrolled ? (
+                    <div className="enroll-prompt">
+                      <p>You are not enrolled in this course.</p>
+                      <button
+                        className="enroll-button"
+                        onClick={async () => {
+                          const result = await enrollInDigitalMarketingCourse(
+                            goal.id
+                          );
+                          if (result.success) {
+                            alert("Successfully enrolled!");
+                            loadDigitalMarketingAllStructure();
+                          }
+                        }}
+                      >
+                        Enroll Now
+                      </button>
+                    </div>
+                  ) : locked ? (
+                    <div className="locked-message">
+                      <p>Complete previous goals to unlock this course.</p>
+                    </div>
+                  ) : !goal.modules || goal.modules.length === 0 ? (
+                    <div className="no-courses">
+                      <h4>No modules found</h4>
+                      <p>This course is currently being prepared.</p>
+                    </div>
+                  ) : (
+                    goal.modules.map((module) => {
+                      const moduleProgress = getModuleProgress(module);
+                      const isModuleExpanded = expandedModule === module.id;
 
-                    return (
-                      <div className="courses" key={module.id}>
-                        {/* Course Header */}
-                        <div className="couses-and-status">
-                          <h4 style={{ color: "inherit" }}>{module.name}</h4>
-                          <div className="progress-section_module">
-                            <div
-                              className={`circular-progress ${isModuleCompleted ? "completed" : ""}`}
-                              style={{ "--progress": moduleProgress }}
-                            >
-                              <span className="progress-value">
-                                {moduleProgress.toFixed(1)}%
-                              </span>
+                      return (
+                        <div className="courses" key={module.id}>
+                          {/* Module Header */}
+                          <div className="couses-and-status">
+                            <h4 style={{ color: "inherit" }}>{module.name}</h4>
+                            <div className="progress-section_module">
+                              <div
+                                className={`circular-progress ${moduleProgress >= 100 ? "completed" : ""}`}
+                                style={{ "--progress": moduleProgress }}
+                              >
+                                <span className="progress-value">
+                                  {moduleProgress}%
+                                </span>
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        {/* Expand Modules Button */}
-                        <div className="active-module_course">
-                          <button
-                            onClick={() =>
-                              locked
-                                ? showLockedMessage()
-                                : toggleModule(module.id, goalIndex)
-                            }
-                          >
-                            {expandedModule === module.id ? (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="22"
-                                height="22"
-                                fill="currentColor"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                              </svg>
-                            ) : (
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="22"
-                                height="22"
-                                fill="currentColor"
-                                viewBox="0 0 16 16"
-                              >
-                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                              </svg>
-                            )}
-                          </button>
-                          <p
-                            onClick={() =>
-                              locked
-                                ? showLockedMessage()
-                                : toggleModule(module.id, goalIndex)
-                            }
-                            style={{ cursor: "pointer", color: "inherit" }}
-                          >
-                            {expandedModule === module.id
-                              ? "Active Modules"
-                              : "Active Modules"}
-                          </p>
-                        </div>
-
-                        {/* Topics Section */}
-                        {expandedModule === module.id && !locked && (
-                          <div className="module-details">
-                            {module.topics?.map((topic) => {
-                              const topicProgress = getTopicProgress(topic);
-                              const isTopicExpanded =
-                                expandedTopic === topic.id;
-                              const isTopicCompleted = topicProgress >= 100;
-
-                              return (
-                                <div
-                                  key={topic.id}
-                                  className="module-container"
+                          {/* Expand Module Button */}
+                          <div className="active-module_course">
+                            <button
+                              onClick={(e) =>
+                                toggleModule(module.id, goalIndex, e)
+                              }
+                            >
+                              {isModuleExpanded ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="22"
+                                  height="22"
+                                  fill="currentColor"
+                                  viewBox="0 0 16 16"
                                 >
-                                  <div
-                                    className="module-single-div"
-                                    onClick={() =>
-                                      toggleTopic(topic.id, goalIndex)
-                                    }
-                                  >
-                                    <div className="timeline">
-                                      <div className="circle-row module-circle-row">
-                                        <div
-                                          className={`circle module-circle ${isTopicCompleted ? "completed" : ""}`}
-                                          style={{
-                                            "--progress": `${topicProgress}%`,
-                                          }}
-                                        >
-                                          {isTopicCompleted ? "✓" : ""}
-                                        </div>
-                                      </div>
-                                      {isTopicExpanded && (
-                                        <>
-                                          {topic.subtopics?.flatMap(
-                                            (subtopic) =>
-                                              subtopic.content?.map(
-                                                (content) => {
-                                                  const isCompleted =
-                                                    checkIsContentCompleted(
-                                                      content
-                                                    );
-
-                                                  return (
-                                                    <div
-                                                      className="circle-row subtopic-circle-row"
-                                                      key={content.id}
-                                                    >
-                                                      <div
-                                                        className={`circle subtopic-circle ${
-                                                          isCompleted
-                                                            ? "completed"
-                                                            : ""
-                                                        }`}
-                                                        onClick={(e) => {
-                                                          e.stopPropagation();
-                                                          handleSubtopicClick(
-                                                            module.id,
-                                                            subtopic.id,
-                                                            subtopic.name,
-                                                            content.content_uuid,
-                                                            goal.name ||
-                                                              goal.title,
-                                                            module.name,
-                                                            goalIndex,
-                                                            content
-                                                          );
-                                                        }}
-                                                      >
-                                                        {isCompleted ? "✓" : ""}
-                                                      </div>
-                                                    </div>
-                                                  );
-                                                }
-                                              )
-                                          )}
-
-                                          {/* vertical connector */}
-                                          {topic.subtopics?.length > 0 && (
-                                            <div className="vertical-line"></div>
-                                          )}
-                                        </>
-                                      )}
-                                    </div>
-
-                                    <div className="content-area">
-                                      <div className="module_topic_names">
-                                        <div className="module-header-row">
-                                          <div className="topic-label">
-                                            <h6>DIGITAL TOPIC</h6>
-                                          </div>
-                                          <div className="module-title">
-                                            <h5>{topic.name}</h5>
-                                          </div>
-                                        </div>
-
-                                        <div className="active-module_subtopic">
-                                          <button
-                                            onClick={(e) => {
-                                              e.stopPropagation();
-                                              toggleTopic(topic.id, goalIndex);
-                                            }}
-                                          >
-                                            {isTopicExpanded ? (
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="22"
-                                                height="22"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                              >
-                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                                              </svg>
-                                            ) : (
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="22"
-                                                height="22"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                              >
-                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                                              </svg>
-                                            )}
-                                          </button>
-                                        </div>
-                                      </div>
-
-                                      {/* Subtopics Section */}
-                                      {isTopicExpanded && (
-                                        <div className="subtopics-section">
-                                          {topic.subtopics?.map((subtopic) =>
-                                            subtopic.content?.map((content) => {
-                                              const isCompleted =
-                                                checkIsContentCompleted(
-                                                  content
-                                                );
-                                              return (
-                                                <div
-                                                  className={`subtopic-content-row ${isCompleted ? "completed" : ""}`}
-                                                  key={content.id}
-                                                  onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    handleSubtopicClick(
-                                                      module.id,
-                                                      subtopic.id,
-                                                      subtopic.name,
-                                                      content.content_uuid,
-                                                      goal.name || goal.title,
-                                                      module.name,
-                                                      goalIndex,
-                                                      content // Pass the full content object
-                                                    );
-                                                  }}
-                                                >
-                                                  <span className="subtopic-text">
-                                                    {content.video_title ||
-                                                      content.cheatsheet_title ||
-                                                      content.mcq_title ||
-                                                      subtopic.name}
-                                                  </span>
-                                                </div>
-                                              );
-                                            })
-                                          )}
-                                        </div>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
+                                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="22"
+                                  height="22"
+                                  fill="currentColor"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                </svg>
+                              )}
+                            </button>
+                            <p
+                              onClick={(e) =>
+                                toggleModule(module.id, goalIndex, e)
+                              }
+                              style={{ cursor: "pointer", color: "inherit" }}
+                            >
+                              {isModuleExpanded
+                                ? "Hide Modules"
+                                : "Show Modules"}
+                            </p>
                           </div>
-                        )}
-                      </div>
-                    );
-                  })
-                )}
-              </div>
+
+                          {/* Topics Section */}
+                          {isModuleExpanded &&
+                            module.topics &&
+                            module.topics.length > 0 && (
+                              <div className="module-details">
+                                {module.topics.map((topic) => {
+                                  const topicProgress = getTopicProgress(topic);
+                                  const isTopicExpanded =
+                                    expandedTopic === topic.id;
+
+                                  return (
+                                    <div
+                                      key={topic.id}
+                                      className="module-container"
+                                    >
+                                      <div className="module-single-div">
+                                        <div className="timeline">
+                                          <div className="circle-row module-circle-row">
+                                            <div
+                                              className={`circle module-circle ${topicProgress >= 100 ? "completed" : ""}`}
+                                              style={{
+                                                "--progress": `${topicProgress}%`,
+                                              }}
+                                            >
+                                              {topicProgress >= 100 ? "✓" : ""}
+                                            </div>
+                                          </div>
+                                        </div>
+
+                                        <div className="content-area">
+                                          <div className="module_topic_names">
+                                            <div className="module-header-row">
+                                              <div className="topic-label">
+                                                <h6>TOPIC</h6>
+                                              </div>
+                                              <div className="module-title">
+                                                <h5>{topic.name}</h5>
+                                              </div>
+                                            </div>
+
+                                            <div className="active-module_subtopic">
+                                              <button
+                                                onClick={(e) =>
+                                                  toggleTopic(
+                                                    topic.id,
+                                                    goalIndex,
+                                                    e
+                                                  )
+                                                }
+                                              >
+                                                {isTopicExpanded ? (
+                                                  <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="22"
+                                                    height="22"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 16 16"
+                                                  >
+                                                    <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
+                                                  </svg>
+                                                ) : (
+                                                  <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="22"
+                                                    height="22"
+                                                    fill="currentColor"
+                                                    viewBox="0 0 16 16"
+                                                  >
+                                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                                  </svg>
+                                                )}
+                                              </button>
+                                            </div>
+                                          </div>
+
+                                          {/* Subtopics and Content Section */}
+                                          {isTopicExpanded && (
+                                            <div className="subtopics-section">
+                                              {topic.subtopics &&
+                                              topic.subtopics.length > 0 ? (
+                                                topic.subtopics.map(
+                                                  (subtopic) => (
+                                                    <div
+                                                      key={subtopic.id}
+                                                      className="subtopic-container"
+                                                    >
+                                                      <div className="subtopic-header">
+                                                        <h6>{subtopic.name}</h6>
+                                                      </div>
+
+                                                      {subtopic.content &&
+                                                      subtopic.content.length >
+                                                        0 ? (
+                                                        <div className="content-list">
+                                                          {subtopic.content.map(
+                                                            (content) => {
+                                                              const isCompleted =
+                                                                checkIsContentCompleted(
+                                                                  content
+                                                                );
+                                                              const contentTitle =
+                                                                content.video_title ||
+                                                                content.cheatsheet_title ||
+                                                                content.mcq_title ||
+                                                                "Untitled Content";
+
+                                                              return (
+                                                                <div
+                                                                  key={
+                                                                    content.id
+                                                                  }
+                                                                  className={`content-item ${isCompleted ? "completed" : ""}`}
+                                                                  onClick={() =>
+                                                                    handleContentClick(
+                                                                      content,
+                                                                      module.id,
+                                                                      subtopic.id,
+                                                                      subtopic.name,
+                                                                      goal.name ||
+                                                                        goal.title,
+                                                                      module.name,
+                                                                      goalIndex
+                                                                    )
+                                                                  }
+                                                                >
+                                                                  <span className="content-type-badge">
+                                                                    {content.content_type ===
+                                                                    "video"
+                                                                      ? "📹"
+                                                                      : content.content_type ===
+                                                                          "cheatsheet"
+                                                                        ? "📄"
+                                                                        : content.content_type ===
+                                                                            "mcq"
+                                                                          ? "❓"
+                                                                          : "📝"}
+                                                                  </span>
+                                                                  <span className="content-title">
+                                                                    {
+                                                                      contentTitle
+                                                                    }
+                                                                  </span>
+                                                                  {isCompleted && (
+                                                                    <span className="completed-badge">
+                                                                      ✓
+                                                                    </span>
+                                                                  )}
+                                                                </div>
+                                                              );
+                                                            }
+                                                          )}
+                                                        </div>
+                                                      ) : (
+                                                        <p className="no-content">
+                                                          No content available
+                                                        </p>
+                                                      )}
+                                                    </div>
+                                                  )
+                                                )
+                                              ) : (
+                                                <p className="no-subtopics">
+                                                  No subtopics available
+                                                </p>
+                                              )}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
             </section>
           );
         })}
