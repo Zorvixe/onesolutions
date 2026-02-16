@@ -1595,9 +1595,7 @@ app.get(
   }
 );
 
-// In your backend file, replace the /api/student/courses/all-structure route with this:
-
-// Get ALL goals with complete structure for student portal - FIXED
+// Get ALL goals with complete structure for student portal
 app.get(
   "/api/student/courses/all-structure",
   authenticate,
@@ -1605,24 +1603,32 @@ app.get(
     try {
       const studentId = req.student.id;
 
-      // First get all goals the student is enrolled in or available
+      // Get all goals
       const goalsResult = await pool.query(
-        `SELECT cg.*, 
-              sce.enrolled_at, 
-              sce.progress_percentage,
-              sce.status as enrollment_status,
-              CASE WHEN sce.id IS NOT NULL THEN true ELSE false END as is_enrolled
-       FROM course_goals cg 
-       LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
-       WHERE cg.is_active = true
-       ORDER BY cg.order_number`,
+        `SELECT 
+        cg.id,
+        cg.name,
+        cg.description,
+        cg.duration_months,
+        cg.certificate_name,
+        cg.order_number,
+        cg.is_active,
+        cg.created_at,
+        CASE WHEN sce.id IS NOT NULL THEN true ELSE false END as is_enrolled,
+        sce.enrolled_at,
+        sce.progress_percentage as enrollment_progress,
+        sce.status as enrollment_status
+      FROM course_goals cg 
+      LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
+      WHERE cg.is_active = true
+      ORDER BY cg.order_number`,
         [studentId]
       );
 
       const goalsWithStructure = [];
 
       for (const goal of goalsResult.rows) {
-        // Get modules with all their nested structure
+        // Get modules for this goal
         const modulesResult = await pool.query(
           `SELECT 
           cm.id,
@@ -1635,8 +1641,10 @@ app.get(
           [goal.id]
         );
 
-        // For each module, get topics
+        const modules = [];
+
         for (const module of modulesResult.rows) {
+          // Get topics for this module
           const topicsResult = await pool.query(
             `SELECT 
             ct.id,
@@ -1649,10 +1657,10 @@ app.get(
             [module.id]
           );
 
-          module.topics = [];
+          const topics = [];
 
-          // For each topic, get subtopics
           for (const topic of topicsResult.rows) {
+            // Get subtopics for this topic
             const subtopicsResult = await pool.query(
               `SELECT 
               cs.id,
@@ -1665,10 +1673,10 @@ app.get(
               [topic.id]
             );
 
-            topic.subtopics = [];
+            const subtopics = [];
 
-            // For each subtopic, get content
             for (const subtopic of subtopicsResult.rows) {
+              // Get content for this subtopic
               const contentResult = await pool.query(
                 `SELECT 
                 sc.id,
@@ -1689,26 +1697,44 @@ app.get(
                 sc.slides_id,
                 CASE WHEN scp.id IS NOT NULL THEN true ELSE false END as is_completed
               FROM subtopic_content sc
-              LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
-              WHERE sc.subtopic_id = $2
+              LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $2
+              WHERE sc.subtopic_id = $1
               ORDER BY sc.id`,
-                [studentId, subtopic.id]
+                [subtopic.id, studentId]
               );
 
-              subtopic.content = contentResult.rows;
+              subtopics.push({
+                id: subtopic.id,
+                name: subtopic.name,
+                description: subtopic.description,
+                order_number: subtopic.order_number,
+                content: contentResult.rows,
+              });
             }
 
-            topic.subtopics = subtopicsResult.rows;
+            topics.push({
+              id: topic.id,
+              name: topic.name,
+              description: topic.description,
+              order_number: topic.order_number,
+              subtopics: subtopics,
+            });
           }
 
-          module.topics = topicsResult.rows;
+          modules.push({
+            id: module.id,
+            name: module.name,
+            description: module.description,
+            order_number: module.order_number,
+            topics: topics,
+          });
         }
 
-        // Calculate stats
+        // Calculate progress for this goal
         let totalContent = 0;
         let completedContent = 0;
 
-        modulesResult.rows.forEach((module) => {
+        modules.forEach((module) => {
           module.topics?.forEach((topic) => {
             topic.subtopics?.forEach((subtopic) => {
               totalContent += subtopic.content?.length || 0;
@@ -1728,10 +1754,10 @@ app.get(
           name: goal.name,
           title: goal.name,
           description: goal.description,
-          color: goal.color || "#9c27b0",
+          color: getGoalColor(goal.order_number), // Add this function or use a default
           is_enrolled: goal.is_enrolled,
           enrolled_at: goal.enrolled_at,
-          modules: modulesResult.rows,
+          modules: modules,
           stats: {
             total_content: totalContent,
             completed_content: completedContent,
@@ -1753,6 +1779,20 @@ app.get(
     }
   }
 );
+
+// Helper function for goal colors
+function getGoalColor(orderNumber) {
+  const colors = [
+    "#9c27b0",
+    "#2196f3",
+    "#4caf50",
+    "#ff9800",
+    "#f44336",
+    "#009688",
+  ];
+  return colors[orderNumber % colors.length];
+}
+
 // Get student progress for a specific content
 app.get(
   "/api/student/courses/content/:contentId/progress",
