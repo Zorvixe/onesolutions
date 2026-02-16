@@ -588,7 +588,9 @@ SELECT * FROM table_name;
               <p>
              
 We're storing the details of players who are a part of a tournament.<br/> The database contains aplayertable that stores the name, age and score of players.</p>
-              <div class="sql-table-desc">
+<p>We have to add a new player to the player table.</p>              
+<div class="sql-table-desc">
+              
                 <div class="sql-table-caption">Table: student</div>
                 <table>
                 <thead>
@@ -612,7 +614,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
                   </tr>
                 </tbody>
               </table>
-              <p>We have to add a new player to the player table.</p>
+             
               </div> 
             </div>
           `,

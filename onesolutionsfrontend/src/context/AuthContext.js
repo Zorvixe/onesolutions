@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     checkAuthStatus();
   }, []);
-
   const getContentUrl = (contentUuid) => {
     return `/content/${contentUuid}`;
   };
@@ -412,29 +411,36 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // In your AuthContext.js, ensure you have these functions:
-
-  const loadDigitalMarketingAllStructure = useCallback(async () => {
+  const loadDigitalMarketingAllStructure = async () => {
     try {
       setDigitalMarketingLoading(true);
-      const response = await digitalMarketingAPI.getAllCoursesStructure();
-      if (response.data.success) {
-        setDigitalMarketingGoals(response.data.data);
+      const res = await digitalMarketingAPI.getAllCoursesStructure();
+      if (res.data.success) {
+        setDigitalMarketingGoals(res.data.data);
       }
-    } catch (error) {
-      console.error("Error loading digital courses:", error);
+      return res.data;
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Load all structure failed:", err);
+      throw err;
     } finally {
       setDigitalMarketingLoading(false);
     }
-  }, []);
+  };
 
   const enrollInDigitalMarketingCourse = async (goalId) => {
     try {
-      const response = await digitalMarketingAPI.enrollInCourse(goalId);
-      return response.data;
-    } catch (error) {
-      console.error("Error enrolling:", error);
-      return { success: false, message: "Enrollment failed" };
+      const res = await digitalMarketingAPI.enrollInCourse(goalId);
+      if (res.data.success) {
+        await loadDigitalMarketingAllStructure();
+        return { success: true, message: "Successfully enrolled in course" };
+      }
+      return { success: false, message: res.data.message };
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Enroll failed:", err);
+      return {
+        success: false,
+        message: err.response?.data?.message || "Enrollment failed",
+      };
     }
   };
 
@@ -641,7 +647,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
-  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
   useEffect(() => {
     if (!token) {
       setLoading(false);
@@ -651,32 +656,13 @@ export const AuthProvider = ({ children }) => {
     const loadAllUserData = async () => {
       setLoading(true);
       try {
-        // First load basic user data
-        console.log("[AUTH] Loading all user data...");
-
-        // Load user profile first
-        await checkAuthStatus();
-
-        // Then load progress data
         await Promise.all([
+          loadCompleteProfile(),
           loadUserProgress(),
           loadProgressSummary(),
           loadOverallProgress(),
+          loadDigitalMarketingAllStructure(), // ✅ NEW: Load digital marketing courses
         ]);
-
-        // Then check if user is digital marketing and load their courses
-        // Get the latest user data from state after checkAuthStatus
-        const currentUser = user; // user should be set by checkAuthStatus now
-
-        if (
-          currentUser &&
-          currentUser.courseSelection === "digital_marketing"
-        ) {
-          console.log(
-            "[AUTH] Digital marketing user detected, loading digital courses..."
-          );
-          await loadDigitalMarketingAllStructure();
-        }
       } catch (err) {
         console.error("[AUTH] Failed to load user data:", err);
       } finally {
@@ -685,7 +671,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     loadAllUserData();
-  }, [token]); // Remove user from dependencies to prevent infinite loops
+  }, [token]);
 
   // ✅ Forgot Password Flow
   const forgotPasswordRequestOtp = async (email) => {
@@ -937,7 +923,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   // ✅ OTP Verification - 🔥 FIXED: Store complete user data with studentType and courseSelection
-  // ✅ OTP Verification - 🔥 FIXED: Store complete user data with studentType and courseSelection
   const loginOtpVerify = async (email, otp) => {
     try {
       setError("");
@@ -981,24 +966,6 @@ export const AuthProvider = ({ children }) => {
         console.log("[AUTH] OTP login successful:", userData.email);
         console.log("[AUTH] Student Type:", userData.studentType);
         console.log("[AUTH] Course Selection:", userData.courseSelection);
-
-        // 🔥 Immediately load digital marketing data if user is digital marketing
-        if (userData.courseSelection === "digital_marketing") {
-          console.log(
-            "[AUTH] Digital marketing user detected, loading courses immediately..."
-          );
-          // Small delay to ensure state is updated
-          setTimeout(async () => {
-            try {
-              await loadDigitalMarketingAllStructure();
-            } catch (e) {
-              console.error(
-                "[AUTH] Error loading digital courses after login:",
-                e
-              );
-            }
-          }, 100);
-        }
 
         return { success: true, message: "Login successful" };
       } else {
@@ -1079,16 +1046,6 @@ export const AuthProvider = ({ children }) => {
         console.log("[AUTH] Registration successful:", userData.email);
         console.log("[AUTH] Student Type:", userData.studentType);
         console.log("[AUTH] Course Selection:", userData.courseSelection);
-
-        // 🔥 Immediately load digital marketing data if user is digital marketing
-        if (userData.courseSelection === "digital_marketing") {
-          console.log(
-            "[AUTH] Digital marketing user detected, loading courses immediately..."
-          );
-          setTimeout(() => {
-            loadDigitalMarketingAllStructure();
-          }, 100);
-        }
 
         return { success: true, message: "Registration successful" };
       } else {
