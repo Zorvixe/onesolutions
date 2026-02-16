@@ -233,6 +233,7 @@ const createTables = async () => {
       { name: "file_url", type: "VARCHAR(1000)" },
       { name: "questions", type: "JSONB DEFAULT '[]'" },
       { name: "slides_id", type: "VARCHAR(255)" }, // Changed to slides_id
+      { name: "order_number", type: "INTEGER DEFAULT 0" }, // ADD THIS LINE
     ];
 
     for (const column of columnsToAdd) {
@@ -853,15 +854,43 @@ app.delete("/api/admin/course/subtopics/:subtopicId", async (req, res) => {
 });
 
 // Content
+// Content - Update this endpoint to use order_number
 app.get("/api/admin/course/subtopics/:subtopicId/content", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM subtopic_content WHERE subtopic_id = $1 ORDER BY created_at DESC",
+      "SELECT * FROM subtopic_content WHERE subtopic_id = $1 ORDER BY order_number ASC, created_at DESC",
       [req.params.subtopicId]
     );
     res.json({ success: true, data: result.rows });
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+// -------------------------------------------
+// CONTENT REORDER ENDPOINT
+// -------------------------------------------
+app.post("/api/admin/course/content/reorder", async (req, res) => {
+  try {
+    const { subtopicId, orderedIds } = req.body;
+
+    // Start a transaction
+    await pool.query("BEGIN");
+
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE subtopic_content SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
+        [i, orderedIds[i], subtopicId]
+      );
+    }
+
+    await pool.query("COMMIT");
+
+    res.json({ success: true, message: "Content reordered successfully" });
+  } catch (e) {
+    await pool.query("ROLLBACK");
+    console.error("Content reorder error:", e);
+    res.status(500).json({ success: false, error: e.message });
   }
 });
 
@@ -1091,8 +1120,10 @@ app.post(
           slides_id,
           learning_objectives,
           resources,
-          thumbnail_url
-        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
+          thumbnail_url,
+          order_number
+        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, 
+          (SELECT COALESCE(MAX(order_number), -1) + 1 FROM subtopic_content WHERE subtopic_id = $1)) RETURNING *`,
         [
           req.params.subtopicId,
           uuid,
@@ -1157,8 +1188,10 @@ app.post(
           cheatsheet_content,
           file_url,
           key_takeaways,
-          table_of_contents
-        ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+          table_of_contents,
+          order_number
+        ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6, $7, $8,
+          (SELECT COALESCE(MAX(order_number), -1) + 1 FROM subtopic_content WHERE subtopic_id = $1)) RETURNING *`,
         [
           req.params.subtopicId,
           uuid,
@@ -1170,6 +1203,7 @@ app.post(
           JSON.stringify(table_of_contents || []),
         ]
       );
+
       res.json({ success: true, data: result.rows[0] });
     } catch (e) {
       res.status(500).json({ error: e.message });
@@ -1194,8 +1228,10 @@ app.post("/api/admin/course/subtopics/:subtopicId/mcq", async (req, res) => {
         mcq_title, 
         questions,
         time_limit,
-        passing_score
-      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7) RETURNING *`,
+        passing_score,
+        order_number
+      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7,
+        (SELECT COALESCE(MAX(order_number), -1) + 1 FROM subtopic_content WHERE subtopic_id = $1)) RETURNING *`,
       [
         req.params.subtopicId,
         uuid,
@@ -1211,6 +1247,10 @@ app.post("/api/admin/course/subtopics/:subtopicId/mcq", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
+// -------------------------------------------
+// STUDENT ROUTES
+// -------------------------------------------
 
 // -------------------------------------------
 // STUDENT ROUTES
@@ -1276,7 +1316,7 @@ app.post(
   }
 );
 
-// Get Full Course Structure with Progress
+// Get Full Course Structure with Progress - UPDATED with content order by order_number
 app.get("/api/student/courses/goal/:goalId", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
@@ -1348,6 +1388,7 @@ app.get("/api/student/courses/goal/:goalId", authenticate, async (req, res) => {
                                                 'quiz_score', scp.quiz_score,
                                                 'is_completed', CASE WHEN scp.id IS NOT NULL THEN true ELSE false END
                                             )
+                                            ORDER BY sc.order_number ASC
                                         ) FROM subtopic_content sc
                                         LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
                                         WHERE sc.subtopic_id = cs.id
@@ -1469,7 +1510,7 @@ app.post(
   }
 );
 
-// Secure Content Serving - FIXED SQL syntax error
+// Secure Content Serving
 app.get(
   "/api/content/:contentUuid",
   authenticate,
@@ -1499,7 +1540,6 @@ app.get(
 
       const baseUrl = process.env.BACKEND_URL || "http://localhost:5002";
 
-      // Get goal_id and other IDs from the enrollment - FIXED query
       const goalResult = await pool.query(
         `SELECT cg.id as goal_id, cm.id as module_id, ct.id as topic_id, cs.id as subtopic_id
          FROM student_course_enrollments sce
@@ -1517,7 +1557,6 @@ app.get(
       const topicId = goalResult.rows[0]?.topic_id || null;
       const subtopicId = goalResult.rows[0]?.subtopic_id || null;
 
-      // In the video section of the response
       if (content.content_type === "video") {
         res.json({
           success: true,
@@ -1690,7 +1729,7 @@ app.get(
   }
 );
 
-// Get ALL goals with complete structure for student portal - FIXED
+// Get ALL goals with complete structure for student portal - UPDATED with content order by order_number
 app.get(
   "/api/student/courses/all-structure",
   authenticate,
@@ -1765,7 +1804,7 @@ app.get(
                                     'quiz_score', scp.quiz_score,
                                     'is_completed', CASE WHEN scp.id IS NOT NULL THEN true ELSE false END
                                   )
-                                  ORDER BY sc.id
+                                  ORDER BY sc.order_number ASC
                                 )
                                 FROM subtopic_content sc
                                 LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
