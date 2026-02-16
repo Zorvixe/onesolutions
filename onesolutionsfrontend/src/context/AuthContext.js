@@ -412,29 +412,44 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // In your AuthContext.js, ensure you have these functions:
-
-  const loadDigitalMarketingAllStructure = useCallback(async () => {
+  const loadDigitalMarketingAllStructure = async () => {
     try {
       setDigitalMarketingLoading(true);
-      const response = await digitalMarketingAPI.getAllCoursesStructure();
-      if (response.data.success) {
-        setDigitalMarketingGoals(response.data.data);
+      console.log("[DIGITAL_MARKETING] Loading all course structure...");
+      const res = await digitalMarketingAPI.getAllCoursesStructure();
+      if (res.data.success) {
+        console.log("[DIGITAL_MARKETING] Loaded goals:", res.data.data.length);
+        setDigitalMarketingGoals(res.data.data);
+        return { success: true, data: res.data.data };
+      } else {
+        console.error(
+          "[DIGITAL_MARKETING] Failed to load structure:",
+          res.data.message
+        );
+        return { success: false, message: res.data.message };
       }
-    } catch (error) {
-      console.error("Error loading digital courses:", error);
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Load all structure failed:", err);
+      throw err;
     } finally {
       setDigitalMarketingLoading(false);
     }
-  }, []);
+  };
 
   const enrollInDigitalMarketingCourse = async (goalId) => {
     try {
-      const response = await digitalMarketingAPI.enrollInCourse(goalId);
-      return response.data;
-    } catch (error) {
-      console.error("Error enrolling:", error);
-      return { success: false, message: "Enrollment failed" };
+      const res = await digitalMarketingAPI.enrollInCourse(goalId);
+      if (res.data.success) {
+        await loadDigitalMarketingAllStructure();
+        return { success: true, message: "Successfully enrolled in course" };
+      }
+      return { success: false, message: res.data.message };
+    } catch (err) {
+      console.error("[DIGITAL_MARKETING] Enroll failed:", err);
+      return {
+        success: false,
+        message: err.response?.data?.message || "Enrollment failed",
+      };
     }
   };
 

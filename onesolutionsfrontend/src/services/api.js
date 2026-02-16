@@ -114,7 +114,7 @@ export const progressAPI = {
       goal_id: goalId,
       module_id: moduleId,
       subtopic_id: subtopicId,
-      quiz_score: quizScore
+      quiz_score: quizScore,
     }),
 
   markContentIncomplete: (contentId) =>
@@ -139,15 +139,16 @@ export const digitalMarketingAPI = {
   enrollInCourse: (goalId) => api.post(`/api/student/courses/enroll/${goalId}`),
   getGoalStructure: (goalId) => api.get(`/api/student/courses/goal/${goalId}`),
   getAllCoursesStructure: () => api.get("/api/student/courses/all-structure"),
-  
+
   // ✅ UPDATED: Get content by UUID - this is what shows in the URL
   getContentByUuid: (contentUuid) => api.get(`/api/content/${contentUuid}`),
-  
-  getContentProgress: (contentId) => api.get(`/api/student/courses/content/${contentId}/progress`),
+
+  getContentProgress: (contentId) =>
+    api.get(`/api/student/courses/content/${contentId}/progress`),
   getCompletedContent: () => api.get("/api/student/courses/completed-content"),
   getDashboardStats: () => api.get("/api/student/dashboard/stats"),
-  getGoalProgress: (goalId) => api.get(`/api/student/courses/progress/goal/${goalId}`)
-
+  getGoalProgress: (goalId) =>
+    api.get(`/api/student/courses/progress/goal/${goalId}`),
 };
 
 export const threadsAPI = {
