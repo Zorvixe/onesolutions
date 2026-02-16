@@ -107,14 +107,23 @@ export const authAPI = {
 };
 
 export const progressAPI = {
-  // ✅ UPDATED: Digital Marketing progress tracking
-  markContentComplete: (contentId, goalId, moduleId, subtopicId, quizScore) =>
-    api.post("/api/student/courses/content/complete", {
-      content_id: contentId,
+  markContentComplete: (
+    contentId,
+    goalName,
+    courseName,
+    goalId,
+    moduleId,
+    subtopicId,
+    quizScore
+  ) =>
+    api.post("/api/progress/content/complete", {
+      contentId,
+      goalName: goalName || "Goal 1",
+      courseName: courseName || "Static Website: HTML CSS & Bootstrap",
       goal_id: goalId,
       module_id: moduleId,
       subtopic_id: subtopicId,
-      quiz_score: quizScore
+      quiz_score: quizScore,
     }),
 
   markContentIncomplete: (contentId) =>
@@ -139,15 +148,16 @@ export const digitalMarketingAPI = {
   enrollInCourse: (goalId) => api.post(`/api/student/courses/enroll/${goalId}`),
   getGoalStructure: (goalId) => api.get(`/api/student/courses/goal/${goalId}`),
   getAllCoursesStructure: () => api.get("/api/student/courses/all-structure"),
-  
+
   // ✅ UPDATED: Get content by UUID - this is what shows in the URL
   getContentByUuid: (contentUuid) => api.get(`/api/content/${contentUuid}`),
-  
-  getContentProgress: (contentId) => api.get(`/api/student/courses/content/${contentId}/progress`),
+
+  getContentProgress: (contentId) =>
+    api.get(`/api/student/courses/content/${contentId}/progress`),
   getCompletedContent: () => api.get("/api/student/courses/completed-content"),
   getDashboardStats: () => api.get("/api/student/dashboard/stats"),
-  getGoalProgress: (goalId) => api.get(`/api/student/courses/progress/goal/${goalId}`)
-
+  getGoalProgress: (goalId) =>
+    api.get(`/api/student/courses/progress/goal/${goalId}`),
 };
 
 export const threadsAPI = {

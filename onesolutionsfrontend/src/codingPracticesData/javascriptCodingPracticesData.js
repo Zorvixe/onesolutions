@@ -5140,6 +5140,18 @@ export const javascriptCodingPracticesData = {
                   </li>
                 </ul>
 
+                <div class="Quick-Tip-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-lightbulb"></i>Pro Tip:
+                  </h6>
+                </div>
+                <ul>
+                <li>timeInSeconds = hours * 3600 + minutes * 60</li>
+                <li>Example: When the hours is 5 and minutes is 6, then seconds will be 18360</li>
+                </ul>
+              </div>
+
                 <div class="Note-container">
                 <div class="icon-note">
                   <h6>
@@ -5190,7 +5202,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 1,
               description:
-                "Page should consist of an HTML main heading element",
+                "Page should consist of HTML input elements with ids hoursInput and minutesInput",
               type: "js-validation",
               input: "check-heading5",
               output: "true",
@@ -5199,7 +5211,8 @@ export const javascriptCodingPracticesData = {
 
             {
               id: 2,
-              description: "Page should consist of an HTML paragraph element",
+              description:
+                "Page should consist of HTML label element for HTML input element with id hoursInput",
               type: "js-validation",
               input: "check-paragraph",
               output: "true",
@@ -5209,7 +5222,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 3,
               description:
-                "Page should consist of HTML form element with id bookmarkForm",
+                "Page should consist of HTML label element for HTML input element with id minutesInput",
               type: "js-validation",
               input: "check-form4",
               output: "true",
@@ -5219,7 +5232,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 4,
               description:
-                "Page should consist of HTML input element with id siteNameInput inside HTML form element with id bookmarkForm",
+                "Page should consist of HTML button element with id convertBtn",
               type: "js-validation",
               input: "check-site-name-input",
               output: "true",
@@ -5229,7 +5242,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 5,
               description:
-                "Page should consist of HTML label element for HTML input element with id siteNameInput",
+                "Page should consist of HTML paragraph element with id errorMsg",
               type: "js-validation",
               input: "check-site-name-label",
               output: "true",
@@ -5239,7 +5252,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 6,
               description:
-                "Page should consist of HTML paragraph element with id siteNameErrMsg inside HTML form element with id bookmarkForm",
+                "Page should consist of HTML paragraph element with id timeInSeconds",
               type: "js-validation",
               input: "check-site-name-error",
               output: "true",
@@ -5249,7 +5262,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 7,
               description:
-                "Page should consist of HTML input element with id siteUrlInput inside HTML form element with id bookmarkForm",
+                "JS implementation should contain addEventListener for click event",
               type: "js-validation",
               input: "check-site-url-input",
               output: "true",
@@ -5259,7 +5272,7 @@ export const javascriptCodingPracticesData = {
             {
               id: 8,
               description:
-                "Page should consist of HTML label element for HTML input element with id siteUrlInput",
+                "When values are provided in HTML input elements with ids hoursInput and minutesInput, the HTML button with id convertBtn is clicked, the converted seconds should be displayed in the HTML paragraph element with id timeInSeconds",
               type: "js-validation",
               input: "check-site-url-label",
               output: "true",
@@ -5968,7 +5981,8 @@ export const javascriptCodingPracticesData = {
                   <p class="desc-que-blue"><strong>Resources</strong></p>
                   <p class="desc-que-blue">Clock Image:</p>
                   <ul>
-                  <li>https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png</li>
+                  <li><a href="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png"></a>
+                  https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770979493/clock-img_zzg7y2.png</li>
                   </ul>
 
                   <p class="desc-que-blue"><strong>CSS Colors Used:</strong></p>

@@ -655,9 +655,9 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-   // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
-   // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
-   useEffect(() => {
+  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
+  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
+  useEffect(() => {
     if (!token) {
       setLoading(false);
       return;
@@ -668,10 +668,10 @@ export const AuthProvider = ({ children }) => {
       try {
         // First load basic user data
         console.log("[AUTH] Loading all user data...");
-        
+
         // Load user profile first
         await checkAuthStatus();
-        
+
         // Then load progress data
         await Promise.all([
           loadUserProgress(),
@@ -682,8 +682,11 @@ export const AuthProvider = ({ children }) => {
         // Then check if user is digital marketing and load their courses
         // Get the latest user data from state after checkAuthStatus
         const currentUser = user; // user should be set by checkAuthStatus now
-        
-        if (currentUser && currentUser.courseSelection === "digital_marketing") {
+
+        if (
+          currentUser &&
+          currentUser.courseSelection === "digital_marketing"
+        ) {
           console.log(
             "[AUTH] Digital marketing user detected, loading digital courses..."
           );
