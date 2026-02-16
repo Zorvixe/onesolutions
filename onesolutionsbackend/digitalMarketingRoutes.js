@@ -34,8 +34,13 @@ app.use(express.urlencoded({ limit: "2gb", extended: true }));
 // Upload Directories
 const uploadsDir = path.join(__dirname, "uploads");
 const videosDir = path.join(uploadsDir, "videos");
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
-if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir);
+
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+if (!fs.existsSync(videosDir)) {
+  fs.mkdirSync(videosDir, { recursive: true });
+}
 
 // Static files
 app.use("/uploads", express.static(uploadsDir));
@@ -44,21 +49,63 @@ app.use("/uploads", express.static(uploadsDir));
 // Multer Config
 // -------------------------------------------
 const videoStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, videosDir),
+  destination: (req, file, cb) => {
+    console.log("Saving file to:", videosDir);
+    cb(null, videosDir);
+  },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, "video-" + uniqueSuffix + path.extname(file.originalname));
+    const filename = "video-" + uniqueSuffix + path.extname(file.originalname);
+    console.log("Generated filename:", filename);
+    cb(null, filename);
   },
 });
-
 const videoUpload = multer({
   storage: videoStorage,
-  limits: { fileSize: 1024 * 1024 * 1024 }, // 1GB
-  fileFilter: (req, file, cb) => {
-    if (file.mimetype.startsWith("video/")) cb(null, true);
-    else cb(new Error("Only video files allowed"), false);
+  limits: {
+    fileSize: 1024 * 1024 * 1024, // 1GB
+    files: 1, // Only 1 file
   },
-});
+  fileFilter: (req, file, cb) => {
+    console.log("Received file:", {
+      originalname: file.originalname,
+      mimetype: file.mimetype,
+      size: file.size,
+    });
+
+    if (file.mimetype.startsWith("video/")) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only video files are allowed"), false);
+    }
+  },
+}).single("video");
+
+// Wrapper middleware to handle multer errors
+const uploadVideoMiddleware = (req, res, next) => {
+  videoUpload(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      console.error("Multer error:", err);
+      if (err.code === "LIMIT_FILE_SIZE") {
+        return res.status(400).json({
+          success: false,
+          error: "File size exceeds 1GB limit",
+        });
+      }
+      return res.status(400).json({
+        success: false,
+        error: err.message,
+      });
+    } else if (err) {
+      console.error("Upload error:", err);
+      return res.status(400).json({
+        success: false,
+        error: err.message,
+      });
+    }
+    next();
+  });
+};
 
 // -------------------------------------------
 // Authentication Middleware
@@ -987,23 +1034,50 @@ app.delete("/api/admin/course/content/:contentId", async (req, res) => {
 // Upload Video - Updated with slides_id
 app.post(
   "/api/admin/course/subtopics/:subtopicId/video",
-  videoUpload.single("video"),
+  uploadVideoMiddleware,
   async (req, res) => {
     try {
+      console.log("Video upload request received");
+      console.log("Params:", req.params);
+      console.log("Body:", req.body);
+      console.log("File:", req.file);
+
+      // Check if file was uploaded
+      if (!req.file) {
+        return res.status(400).json({
+          success: false,
+          error: "No video file uploaded",
+        });
+      }
+
       const {
         title,
         description,
         duration,
+        slides_id,
         learning_objectives,
         resources,
         thumbnail_url,
-        slides_id, // Changed from slides_url
       } = req.body;
 
+      // Validate required fields
+      if (!title) {
+        // Delete uploaded file if validation fails
+        fs.unlinkSync(req.file.path);
+        return res.status(400).json({
+          success: false,
+          error: "Title is required",
+        });
+      }
+
+      // Generate video URL path
       const videoUrl = `/uploads/videos/${req.file.filename}`;
       const uuid = crypto.randomUUID();
       const token = crypto.randomUUID();
 
+      console.log("Inserting into database with slides_id:", slides_id);
+
+      // Insert into database
       const result = await pool.query(
         `INSERT INTO subtopic_content (
           subtopic_id, 
@@ -1014,29 +1088,50 @@ app.post(
           video_description, 
           video_duration, 
           video_url,
+          slides_id,
           learning_objectives,
           resources,
-          thumbnail_url,
-          slides_id  // Changed from slides_url
+          thumbnail_url
         ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
         [
           req.params.subtopicId,
           uuid,
           token,
           title,
-          description,
-          duration || 0,
+          description || "",
+          duration ? parseInt(duration) : 0,
           videoUrl,
+          slides_id || null,
           JSON.stringify(learning_objectives || []),
           JSON.stringify(resources || []),
           thumbnail_url || null,
-          slides_id || null, // Changed from slides_url
         ]
       );
-      res.json({ success: true, data: result.rows[0] });
+
+      console.log("Video uploaded successfully:", result.rows[0].id);
+
+      res.json({
+        success: true,
+        data: result.rows[0],
+        message: "Video uploaded successfully",
+      });
     } catch (e) {
-      if (req.file) fs.unlinkSync(req.file.path);
-      res.status(500).json({ error: e.message });
+      console.error("Video upload error:", e);
+
+      // Delete uploaded file if database insert fails
+      if (req.file) {
+        try {
+          fs.unlinkSync(req.file.path);
+          console.log("Deleted file due to error:", req.file.path);
+        } catch (unlinkErr) {
+          console.error("Error deleting file:", unlinkErr);
+        }
+      }
+
+      res.status(500).json({
+        success: false,
+        error: e.message || "Failed to upload video",
+      });
     }
   }
 );

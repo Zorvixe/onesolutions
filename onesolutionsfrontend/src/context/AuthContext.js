@@ -277,6 +277,8 @@ export const AuthProvider = ({ children }) => {
   // ✅ UPDATED: Mark Digital Marketing Content Complete
   const markSubtopicComplete = async (
     contentId,
+    goalName,
+    courseName,
     goalId,
     moduleId,
     subtopicId,
@@ -285,6 +287,8 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log(`[PROGRESS] Marking subtopic complete:`, {
         contentId,
+        goalName,
+        courseName,
         goalId,
         moduleId,
         subtopicId,
@@ -301,6 +305,8 @@ export const AuthProvider = ({ children }) => {
 
       const res = await progressAPI.markContentComplete(
         contentId,
+        goalName,
+        courseName,
         goalId,
         moduleId,
         subtopicId,
