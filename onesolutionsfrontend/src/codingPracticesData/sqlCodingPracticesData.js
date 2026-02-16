@@ -446,12 +446,12 @@ SELECT * FROM table_name;
           ],
         },
         {
-          id: "sql-query-4",
+          id: "sql-query-5",
           title: "Create Customer Table",
           description:
             "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data. Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
           difficulty: "Medium",
-          score: 75,
+          score: 35,
           type: "sql",
           defaultCode: {
             sql: ``,
@@ -470,8 +470,9 @@ SELECT * FROM table_name;
 
           descriptionDetails: `
             <div class="desc-question-details">
-              <p class="desc-que-blue">Questions</p>
-              <p>1. Create a student table to store name, age and score of students.</p>
+              <p class="desc-que-blue">Question</p>
+              <p>
+              In a typical e-commerce application, we need to store the following customer details. Create acustomertable to store the data.</p>
               <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: student</div>
                 <table>
@@ -485,85 +486,39 @@ SELECT * FROM table_name;
                   <tbody>
                    
                     <tr>
-                      <td>name</td>
+                      <td>customer_id</td>
+                      <td>integer</td>
+                      
+                    </tr>
+                    <tr>
+                      <td>first_name</td>
                       <td>string of max length 200</td>
                       
                     </tr>
                     <tr>
-                      <td>age</td>
-                      <td>integer</td>
-                      
-                    </tr>
-                    <tr>
-                      <td>score</td>
-                      <td>integer</td>
-                     
-                    </tr>
-                   
-                  </tbody>
-                </table>
-              </div>
-
-              //
-              <p>1. Create astudenttable to store name, age and score of students.</p>
-              <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: student</div>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>details</th>
-                      <th>datatype</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>
-                   
-                    <tr>
-                      <td>name</td>
+                      <td>last_name</td>
                       <td>string of max length 200</td>
-                      
-                    </tr>
-                    <tr>
-                      <td>age</td>
-                      <td>integer</td>
-                      
-                    </tr>
-                    <tr>
-                      <td>score</td>
-                      <td>integer</td>
                      
                     </tr>
+                    <tr>
+                    <td>date_of_birth</td>
+                    <td>date</td> 
+                  </tr>
+                  <tr>
+                    <td>address</td>
+                    <td>text</td> 
+                  </tr>
+                  <tr>
+                  <td>phone_number</td>
+                  <td>integer</td> 
+                </tr>
                    
                   </tbody>
                 </table>
-              </div>
-              
-              
+              </div> 
             </div>
           `,
-          testCases: [
-            {
-              id: 2,
-              description: "Table should contain columns name, age, and score",
-              type: "syntax-validation",
-              expectedKeywords: ["name", "age", "score"],
-              visible: true,
-            },
-            {
-              id: 3,
-              description: "Column name should be VARCHAR(200)",
-              type: "syntax-validation",
-              expectedKeywords: ["varchar(200)"],
-              visible: false,
-            },
-            {
-              id: 4,
-              description: "Columns age and score should be INTEGER",
-              type: "syntax-validation",
-              expectedKeywords: ["age integer", "score integer"],
-              visible: false,
-            },
-          ],
+          testCases: [],
         },
       ],
     },
