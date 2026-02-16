@@ -413,7 +413,7 @@ SELECT * FROM table_name;
           id: "sql-query-5",
           title: "Create Customer Table",
           description:
-            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data. Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.\n Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
           difficulty: "Medium",
           score: 35,
           type: "sql",
@@ -488,7 +488,7 @@ SELECT * FROM table_name;
           id: "sql-query-6",
           title: "Create Order Details Table",
           description:
-            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data. Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.\n Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
           difficulty: "Medium",
           score: 35,
           type: "sql",
@@ -554,6 +554,64 @@ SELECT * FROM table_name;
                    
                   </tbody>
                 </table>
+              </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-7",
+          title: "Storing Details",
+          description:
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.\n Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+             
+We're storing the details of players who are a part of a tournament.<br/> The database contains aplayertable that stores the name, age and score of players.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>details</th>
+                    <th>value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>name</td>
+                    <td>Ram</td>
+                  </tr>
+                  <tr>
+                    <td>age</td>
+                    <td>28</td>
+                  </tr>
+                  <tr>
+                    <td>score</td>
+                    <td>30</td>
+                  </tr>
+                </tbody>
+              </table
               </div> 
             </div>
           `,

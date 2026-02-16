@@ -189,7 +189,7 @@ const CoursesToggle = () => {
             navigate("/web-courses");
           }}
         >
-          🌐 Web Development
+          Web Development
         </button>
 
         <button
@@ -199,7 +199,7 @@ const CoursesToggle = () => {
             navigate("/digital-courses");
           }}
         >
-          📱 Digital Marketing
+          Digital Marketing
         </button>
       </div>
     </div>
