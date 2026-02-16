@@ -1595,7 +1595,7 @@ app.get(
   }
 );
 
-// Get ALL goals with complete structure for student portal - FIXED
+// Get ALL goals with complete structure for student portal
 app.get(
   "/api/student/courses/all-structure",
   authenticate,
@@ -1603,121 +1603,145 @@ app.get(
     try {
       const studentId = req.student.id;
 
+      // Get all goals
       const goalsResult = await pool.query(
-        `SELECT cg.*, 
-                sce.enrolled_at, 
-                sce.progress_percentage,
-                sce.status as enrollment_status,
-                CASE WHEN sce.id IS NOT NULL THEN true ELSE false END as is_enrolled
-         FROM course_goals cg 
-         LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
-         WHERE cg.is_active = true
-         ORDER BY cg.order_number`,
+        `SELECT 
+        cg.id,
+        cg.name,
+        cg.description,
+        cg.duration_months,
+        cg.certificate_name,
+        cg.order_number,
+        cg.is_active,
+        cg.created_at,
+        CASE WHEN sce.id IS NOT NULL THEN true ELSE false END as is_enrolled,
+        sce.enrolled_at,
+        sce.progress_percentage as enrollment_progress,
+        sce.status as enrollment_status
+      FROM course_goals cg 
+      LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
+      WHERE cg.is_active = true
+      ORDER BY cg.order_number`,
         [studentId]
       );
 
       const goalsWithStructure = [];
 
       for (const goal of goalsResult.rows) {
+        // Get modules for this goal
         const modulesResult = await pool.query(
           `SELECT 
-            cm.id,
-            cm.name,
-            cm.description,
-            cm.order_number,
-            COALESCE(
-              (
-                SELECT json_agg(
-                  json_build_object(
-                    'id', ct.id,
-                    'name', ct.name,
-                    'description', ct.description,
-                    'order_number', ct.order_number,
-                    'subtopics', COALESCE(
-                      (
-                        SELECT json_agg(
-                          json_build_object(
-                            'id', cs.id,
-                            'name', cs.name,
-                            'description', cs.description,
-                            'order_number', cs.order_number,
-                            'content', COALESCE(
-                              (
-                                SELECT json_agg(
-                                  json_build_object(
-                                    'id', sc.id,
-                                    'content_type', sc.content_type,
-                                    'content_uuid', sc.content_uuid,
-                                    'video_title', sc.video_title,
-                                    'video_description', sc.video_description,
-                                    'video_duration', sc.video_duration,
-                                    'video_url', sc.video_url,
-                                    'thumbnail_url', sc.thumbnail_url,
-                                    'slides_id', sc.slides_id,
-                                    'cheatsheet_title', sc.cheatsheet_title,
-                                    'cheatsheet_content', sc.cheatsheet_content,
-                                    'file_url', sc.file_url,
-                                    'mcq_title', sc.mcq_title,
-                                    'questions', sc.questions,
-                                    'learning_objectives', sc.learning_objectives,
-                                    'resources', sc.resources,
-                                    'key_takeaways', sc.key_takeaways,
-                                    'table_of_contents', sc.table_of_contents,
-                                    'time_limit', sc.time_limit,
-                                    'passing_score', sc.passing_score,
-                                    'progress_status', scp.status,
-                                    'completed_at', scp.completed_at,
-                                    'quiz_score', scp.quiz_score,
-                                    'is_completed', CASE WHEN scp.id IS NOT NULL THEN true ELSE false END
-                                  )
-                                  ORDER BY sc.id
-                                )
-                                FROM subtopic_content sc
-                                LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
-                                WHERE sc.subtopic_id = cs.id
-                              ),
-                              '[]'::json
-                            )
-                          )
-                          ORDER BY cs.order_number
-                        )
-                        FROM course_subtopics cs 
-                        WHERE cs.topic_id = ct.id
-                      ),
-                      '[]'::json
-                    )
-                  )
-                  ORDER BY ct.order_number
-                )
-                FROM course_topics ct 
-                WHERE ct.module_id = cm.id
-              ),
-              '[]'::json
-            ) as topics
-          FROM course_modules cm 
-          WHERE cm.goal_id = $2 
-          ORDER BY cm.order_number`,
-          [studentId, goal.id]
+          cm.id,
+          cm.name,
+          cm.description,
+          cm.order_number
+        FROM course_modules cm 
+        WHERE cm.goal_id = $1 
+        ORDER BY cm.order_number`,
+          [goal.id]
         );
 
+        const modules = [];
+
+        for (const module of modulesResult.rows) {
+          // Get topics for this module
+          const topicsResult = await pool.query(
+            `SELECT 
+            ct.id,
+            ct.name,
+            ct.description,
+            ct.order_number
+          FROM course_topics ct 
+          WHERE ct.module_id = $1 
+          ORDER BY ct.order_number`,
+            [module.id]
+          );
+
+          const topics = [];
+
+          for (const topic of topicsResult.rows) {
+            // Get subtopics for this topic
+            const subtopicsResult = await pool.query(
+              `SELECT 
+              cs.id,
+              cs.name,
+              cs.description,
+              cs.order_number
+            FROM course_subtopics cs 
+            WHERE cs.topic_id = $1 
+            ORDER BY cs.order_number`,
+              [topic.id]
+            );
+
+            const subtopics = [];
+
+            for (const subtopic of subtopicsResult.rows) {
+              // Get content for this subtopic
+              const contentResult = await pool.query(
+                `SELECT 
+                sc.id,
+                sc.content_type,
+                sc.content_uuid,
+                sc.video_title,
+                sc.cheatsheet_title,
+                sc.mcq_title,
+                sc.video_description,
+                sc.video_duration,
+                sc.thumbnail_url,
+                sc.learning_objectives,
+                sc.resources,
+                sc.key_takeaways,
+                sc.table_of_contents,
+                sc.time_limit,
+                sc.passing_score,
+                sc.slides_id,
+                CASE WHEN scp.id IS NOT NULL THEN true ELSE false END as is_completed
+              FROM subtopic_content sc
+              LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $2
+              WHERE sc.subtopic_id = $1
+              ORDER BY sc.id`,
+                [subtopic.id, studentId]
+              );
+
+              subtopics.push({
+                id: subtopic.id,
+                name: subtopic.name,
+                description: subtopic.description,
+                order_number: subtopic.order_number,
+                content: contentResult.rows,
+              });
+            }
+
+            topics.push({
+              id: topic.id,
+              name: topic.name,
+              description: topic.description,
+              order_number: topic.order_number,
+              subtopics: subtopics,
+            });
+          }
+
+          modules.push({
+            id: module.id,
+            name: module.name,
+            description: module.description,
+            order_number: module.order_number,
+            topics: topics,
+          });
+        }
+
+        // Calculate progress for this goal
         let totalContent = 0;
         let completedContent = 0;
 
-        modulesResult.rows.forEach((module) => {
-          if (module.topics) {
-            module.topics.forEach((topic) => {
-              if (topic.subtopics) {
-                topic.subtopics.forEach((subtopic) => {
-                  if (subtopic.content) {
-                    totalContent += subtopic.content.length;
-                    completedContent += subtopic.content.filter(
-                      (c) => c.is_completed
-                    ).length;
-                  }
-                });
-              }
+        modules.forEach((module) => {
+          module.topics?.forEach((topic) => {
+            topic.subtopics?.forEach((subtopic) => {
+              totalContent += subtopic.content?.length || 0;
+              completedContent +=
+                subtopic.content?.filter((c) => c.is_completed).length || 0;
             });
-          }
+          });
         });
 
         const progressPercentage =
@@ -1726,8 +1750,14 @@ app.get(
             : 0;
 
         goalsWithStructure.push({
-          ...goal,
-          modules: modulesResult.rows,
+          id: goal.id,
+          name: goal.name,
+          title: goal.name,
+          description: goal.description,
+          color: getGoalColor(goal.order_number), // Add this function or use a default
+          is_enrolled: goal.is_enrolled,
+          enrolled_at: goal.enrolled_at,
+          modules: modules,
           stats: {
             total_content: totalContent,
             completed_content: completedContent,
@@ -1749,6 +1779,19 @@ app.get(
     }
   }
 );
+
+// Helper function for goal colors
+function getGoalColor(orderNumber) {
+  const colors = [
+    "#9c27b0",
+    "#2196f3",
+    "#4caf50",
+    "#ff9800",
+    "#f44336",
+    "#009688",
+  ];
+  return colors[orderNumber % colors.length];
+}
 
 // Get student progress for a specific content
 app.get(
