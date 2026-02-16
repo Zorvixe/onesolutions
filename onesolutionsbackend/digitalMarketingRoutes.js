@@ -1595,8 +1595,9 @@ app.get(
   }
 );
 
+// In your backend file, replace the /api/student/courses/all-structure route with this:
+
 // Get ALL goals with complete structure for student portal - FIXED
-// Get ALL goals with complete structure for student portal - FIXED AND IMPROVED
 app.get(
   "/api/student/courses/all-structure",
   authenticate,
@@ -1604,133 +1605,115 @@ app.get(
     try {
       const studentId = req.student.id;
 
-      // First get all goals with enrollment status
+      // First get all goals the student is enrolled in or available
       const goalsResult = await pool.query(
         `SELECT cg.*, 
-                sce.enrolled_at, 
-                sce.progress_percentage as enrollment_progress,
-                sce.status as enrollment_status,
-                CASE WHEN sce.id IS NOT NULL THEN true ELSE false END as is_enrolled
-         FROM course_goals cg 
-         LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
-         WHERE cg.is_active = true
-         ORDER BY cg.order_number`,
+              sce.enrolled_at, 
+              sce.progress_percentage,
+              sce.status as enrollment_status,
+              CASE WHEN sce.id IS NOT NULL THEN true ELSE false END as is_enrolled
+       FROM course_goals cg 
+       LEFT JOIN student_course_enrollments sce ON cg.id = sce.goal_id AND sce.student_id = $1
+       WHERE cg.is_active = true
+       ORDER BY cg.order_number`,
         [studentId]
       );
 
       const goalsWithStructure = [];
 
       for (const goal of goalsResult.rows) {
-        // Get modules for this goal with all nested structure
+        // Get modules with all their nested structure
         const modulesResult = await pool.query(
           `SELECT 
-            cm.id,
-            cm.name,
-            cm.description,
-            cm.order_number
-          FROM course_modules cm 
-          WHERE cm.goal_id = $1 
-          ORDER BY cm.order_number`,
+          cm.id,
+          cm.name,
+          cm.description,
+          cm.order_number
+        FROM course_modules cm 
+        WHERE cm.goal_id = $1 
+        ORDER BY cm.order_number`,
           [goal.id]
         );
 
-        // For each module, get topics with full structure
-        const modulesWithTopics = [];
-
+        // For each module, get topics
         for (const module of modulesResult.rows) {
           const topicsResult = await pool.query(
             `SELECT 
-              ct.id,
-              ct.name,
-              ct.description,
-              ct.order_number
-            FROM course_topics ct 
-            WHERE ct.module_id = $1 
-            ORDER BY ct.order_number`,
+            ct.id,
+            ct.name,
+            ct.description,
+            ct.order_number
+          FROM course_topics ct 
+          WHERE ct.module_id = $1 
+          ORDER BY ct.order_number`,
             [module.id]
           );
 
-          const topicsWithSubtopics = [];
+          module.topics = [];
 
+          // For each topic, get subtopics
           for (const topic of topicsResult.rows) {
             const subtopicsResult = await pool.query(
               `SELECT 
-                cs.id,
-                cs.name,
-                cs.description,
-                cs.order_number
-              FROM course_subtopics cs 
-              WHERE cs.topic_id = $1 
-              ORDER BY cs.order_number`,
+              cs.id,
+              cs.name,
+              cs.description,
+              cs.order_number
+            FROM course_subtopics cs 
+            WHERE cs.topic_id = $1 
+            ORDER BY cs.order_number`,
               [topic.id]
             );
 
-            const subtopicsWithContent = [];
+            topic.subtopics = [];
 
+            // For each subtopic, get content
             for (const subtopic of subtopicsResult.rows) {
               const contentResult = await pool.query(
                 `SELECT 
-                  sc.id,
-                  sc.content_type,
-                  sc.content_uuid,
-                  sc.video_title,
-                  sc.video_description,
-                  sc.video_duration,
-                  sc.video_url,
-                  sc.thumbnail_url,
-                  sc.slides_id,
-                  sc.cheatsheet_title,
-                  sc.cheatsheet_content,
-                  sc.file_url,
-                  sc.mcq_title,
-                  sc.questions,
-                  sc.learning_objectives,
-                  sc.resources,
-                  sc.key_takeaways,
-                  sc.table_of_contents,
-                  sc.time_limit,
-                  sc.passing_score,
-                  sc.created_at,
-                  scp.status as progress_status,
-                  scp.completed_at,
-                  scp.quiz_score,
-                  CASE WHEN scp.id IS NOT NULL THEN true ELSE false END as is_completed
-                FROM subtopic_content sc
-                LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
-                WHERE sc.subtopic_id = $2
-                ORDER BY sc.id`,
+                sc.id,
+                sc.content_type,
+                sc.content_uuid,
+                sc.video_title,
+                sc.cheatsheet_title,
+                sc.mcq_title,
+                sc.video_description,
+                sc.video_duration,
+                sc.thumbnail_url,
+                sc.learning_objectives,
+                sc.resources,
+                sc.key_takeaways,
+                sc.table_of_contents,
+                sc.time_limit,
+                sc.passing_score,
+                sc.slides_id,
+                CASE WHEN scp.id IS NOT NULL THEN true ELSE false END as is_completed
+              FROM subtopic_content sc
+              LEFT JOIN student_course_progress scp ON sc.id = scp.content_id AND scp.student_id = $1
+              WHERE sc.subtopic_id = $2
+              ORDER BY sc.id`,
                 [studentId, subtopic.id]
               );
 
-              subtopicsWithContent.push({
-                ...subtopic,
-                content: contentResult.rows || [],
-              });
+              subtopic.content = contentResult.rows;
             }
 
-            topicsWithSubtopics.push({
-              ...topic,
-              subtopics: subtopicsWithContent,
-            });
+            topic.subtopics = subtopicsResult.rows;
           }
 
-          modulesWithTopics.push({
-            ...module,
-            topics: topicsWithSubtopics,
-          });
+          module.topics = topicsResult.rows;
         }
 
-        // Calculate progress for this goal
+        // Calculate stats
         let totalContent = 0;
         let completedContent = 0;
 
-        modulesWithTopics.forEach((module) => {
-          module.topics.forEach((topic) => {
-            topic.subtopics.forEach((subtopic) => {
-              totalContent += subtopic.content.length;
-              completedContent += subtopic.content.filter(
-                (c) => c.is_completed
-              ).length;
+        modulesResult.rows.forEach((module) => {
+          module.topics?.forEach((topic) => {
+            topic.subtopics?.forEach((subtopic) => {
+              totalContent += subtopic.content?.length || 0;
+              completedContent +=
+                subtopic.content?.filter((c) => c.is_completed).length || 0;
             });
           });
         });
@@ -1741,8 +1724,14 @@ app.get(
             : 0;
 
         goalsWithStructure.push({
-          ...goal,
-          modules: modulesWithTopics,
+          id: goal.id,
+          name: goal.name,
+          title: goal.name,
+          description: goal.description,
+          color: goal.color || "#9c27b0",
+          is_enrolled: goal.is_enrolled,
+          enrolled_at: goal.enrolled_at,
+          modules: modulesResult.rows,
           stats: {
             total_content: totalContent,
             completed_content: completedContent,
@@ -1764,7 +1753,6 @@ app.get(
     }
   }
 );
-
 // Get student progress for a specific content
 app.get(
   "/api/student/courses/content/:contentId/progress",
