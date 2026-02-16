@@ -611,7 +611,8 @@ We're storing the details of players who are a part of a tournament.<br/> The da
                     <td>30</td>
                   </tr>
                 </tbody>
-              </table
+              </table>
+              <p>We have to add a new player to the player table.</p>
               </div> 
             </div>
           `,
