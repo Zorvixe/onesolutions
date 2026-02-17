@@ -327,7 +327,7 @@ SELECT * FROM table_name;
         },
         {
           id: "sql-query-4",
-          title: "Create Table",
+          title: "Create Student Table",
           description:
             "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data. Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
           difficulty: "Medium",
@@ -614,6 +614,125 @@ We're storing the details of players who are a part of a tournament.<br/> The da
                   </tr>
                 </tbody>
               </table>
+             
+              </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-8",
+          title: "Store Data",
+          description:
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.\n Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>The database contains aplayertable that stores the name, age and score of players.<p>Get all the players from theplayertable in the following format.</p> 
+              <p class="desc-que-blue">Expected Output Format:</p>             
+<div class="sql-table-desc">
+              
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Suresh</td>
+                    <td>21</td>
+                    <td>70</td>
+                  </tr>
+                  <tr>
+                    <td>Venkat</td>
+                    <td>21</td>
+                    <td>43</td>
+                  </tr>
+                  <tr>
+                  <td>---</td>
+                  <td>---</td>
+                  <td>---</td>
+                </tr>
+                </tbody>
+              </table>
+              
+             
+              </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-9",
+          title: "Get Details",
+          description:
+            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.\n Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get all the details of "Suresh" from the 'player' table in the following format.</p> 
+              <p class="desc-que-blue">Expected Output Format:</p>             
+<div class="sql-table-desc">
+              
+                <div class="sql-table-caption">Table: student</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Suresh</td>
+                    <td>21</td>
+                    <td>70</td>
+                  </tr>
+                </tbody>
+              </table>
+              
              
               </div> 
             </div>

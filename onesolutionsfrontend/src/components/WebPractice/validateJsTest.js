@@ -1803,6 +1803,107 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         };
       }
 
+      //coding test -1
+      case "check-heading-text": {
+        const el = iframeDoc.getElementById("mainHeading");
+        return { passed: el !== null && el.textContent === "Welcome to JS" };
+      }
+
+      case "check-heading-bg": {
+        const el = iframeDoc.getElementById("mainHeading");
+        return {
+          passed:
+            el !== null &&
+            (el.style.backgroundColor === "rgb(0, 0, 0)" ||
+              el.style.backgroundColor === "#000000"),
+        };
+      }
+
+      case "check-heading-style": {
+        const el = iframeDoc.getElementById("mainHeading");
+        return {
+          passed:
+            el !== null &&
+            (el.style.color === "rgb(185, 66, 245)" ||
+              el.style.color === "#b942f5") &&
+            el.style.fontFamily.toLowerCase().includes("roboto"),
+        };
+      }
+
+      //coding test 2
+      case "check-subscribe-checkbox": {
+        const el = iframeDoc.getElementById("subscribe");
+        return {
+          passed:
+            el !== null && el.tagName === "INPUT" && el.type === "checkbox",
+        };
+      }
+
+      case "check-subscribe-label": {
+        const label = iframeDoc.querySelector('label[for="subscribe"]');
+        return {
+          passed: label !== null,
+        };
+      }
+
+      //coding test- 3
+      case "check-form5": {
+        const form = iframeDoc.getElementById("favPlaces");
+        return { passed: form !== null && form.tagName === "FORM" };
+      }
+      
+      case "check-radio-buttons2": {
+        const lucknow = iframeDoc.getElementById("lucknow");
+        const agra = iframeDoc.getElementById("agra");
+        const varanasi = iframeDoc.getElementById("varanasi");
+      
+        return {
+          passed:
+            lucknow !== null &&
+            agra !== null &&
+            varanasi !== null &&
+            lucknow.type === "radio" &&
+            agra.type === "radio" &&
+            varanasi.type === "radio",
+        };
+      }
+      
+      case "check-submit-btn": {
+        const btn = iframeDoc.getElementById("submitBtn");
+        return { passed: btn !== null && btn.tagName === "BUTTON" };
+      }
+      
+      case "check-message": {
+        const msg = iframeDoc.getElementById("message");
+        return { passed: msg !== null && msg.tagName === "P" };
+      }
+      
+      case "check-submit-functionality": {
+        const lucknow = iframeDoc.getElementById("lucknow");
+        const agra = iframeDoc.getElementById("agra");
+        const varanasi = iframeDoc.getElementById("varanasi");
+        const btn = iframeDoc.getElementById("submitBtn");
+        const msg = iframeDoc.getElementById("message");
+      
+        // Test Lucknow
+        lucknow.checked = true;
+        btn.click();
+        const lucknowCheck = msg.textContent.includes("Lucknow");
+      
+        // Test Agra
+        agra.checked = true;
+        btn.click();
+        const agraCheck = msg.textContent.includes("Agra");
+      
+        // Test Varanasi
+        varanasi.checked = true;
+        btn.click();
+        const varanasiCheck = msg.textContent.includes("Varanasi");
+      
+        return { passed: lucknowCheck && agraCheck && varanasiCheck };
+      }
+      
+
       default:
         return {
           passed: false,

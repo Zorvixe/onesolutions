@@ -83,7 +83,7 @@ const Coding_Test_1 = () => {
   // Load practice
   useEffect(() => {
     const Coding_Test_1 = javascriptCodingPracticesData.javascript.find(
-      (p) => p.id === "javascript-JS_Coding_Test_2"
+      (p) => p.id === "javascript-JS_Coding_Test_1"
     );
     if (Coding_Test_1) {
       setSelectedPractice(Coding_Test_1);
@@ -388,5 +388,4 @@ const Coding_Test_1 = () => {
     </div>
   );
 };
-
 export default Coding_Test_1;

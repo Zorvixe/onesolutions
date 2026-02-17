@@ -9310,6 +9310,270 @@ getProduct(myArray);
       ],
     },
 
+    //coding test -1
+    {
+      id: "javascript-JS_Coding_Test_1",
+      title: "javascript Coding Test 1",
+      description: "",
+      questions: [
+        {
+          id: "e01agx2-avkqtiq638467hy-0qme21cvddb",
+          title: "DOM Manipulations",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with DOM Manipulations.",
+          difficulty: "Easy",
+          score: 30,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+              <head></head>
+              <body>
+                <h1 id="mainHeading">Welcome to HTML</h1>
+              </body>
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Use the below reference image</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1771310948/dom-manipulations-op_o55jz6.png" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Achieve the given design using JS.</p>
+                     <ul class="ordered-unordered-lists">
+                        <li><span>The heading text should be changed to Welcome to JS.</span></li>
+                        <li><span>Background color should be applied to heading using JS.</span></li>
+                        <li><span>Text color should be applied to heading using JS.</span></li>
+                        <li><span>Font family should be applied to heading using JS.</span></li>
+                    </ul>
+
+
+                    <p class="desc-que-blue">Resources</p>
+                    <p class="desc-que-blue"><h2>CSS Colors used:</h2></p>
+                    <p class="desc-que-blue">Text colors Hex code values used:</p>
+                    <div  class="desc-colors cb942f5">#b942f5</div>
+
+                    <p class="desc-que-blue">Background colors Hex code values used:</p>
+                    <div  class="desc-colors c000000">#000000</div>
+                  
+                    <p class="desc-que-blue">CSS Font families used::</p>
+                    <ul>
+                    <li>Roboto</li>
+                    </ul>
+                     
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Heading text content should be changed to Welcome to JS",
+              type: "js-validation",
+              input: "check-heading-text",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Heading background color should be changed to #000000",
+              type: "js-validation",
+              input: "check-heading-bg",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Heading text color and font family should be applied",
+              type: "js-validation",
+              input: "check-heading-style",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding test - 2
+    {
+      id: "javascript-JS_Coding_Test_2",
+      title: "javascript Coding Test 2",
+      description: "",
+      questions: [
+        {
+          id: "e04agx2-avkqtyq638467hy-0qme21cvddb",
+          title: "HTML Checkbox Input Element",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with the HTML Checkbox Input Element.",
+          difficulty: "Easy",
+          score: 40,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+              <head></head>
+              <body>
+                #Write your code here.
+              </body>
+            </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Use the below reference image</p>
+                    
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1771313519/checkbox-dynamic_unmywi_qlidyn.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">When the <code>checkbox</code> is clicked it should be checked and when it is clicked again it should be unchecked.</p>
+                         
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML input element with the id subscribe",
+              type: "js-validation",
+              input: "check-subscribe-checkbox",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of an HTML label element with for attribute value subscribe",
+              type: "js-validation",
+              input: "check-subscribe-label",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
+    //coding test -3
+    {
+      id: "javascript-JS_Coding_Test_3",
+      title: "javascript Coding Test 3",
+      description: "",
+      questions: [
+        {
+          id: "e40agx2-avzrtiq638467hy-0qso1cvddb",
+          title: "Favourite Place",
+          description:
+            "The goal of this coding exam is to quickly get you off the ground with HTML radio input elements",
+          difficulty: "Easy",
+          score: 70,
+          type: "web",
+          defaultCode: {
+            html: `<!DOCTYPE html>
+            <html>
+            
+            <head>
+            </head>
+            <body>
+             #Write your code here
+            </body>
+            
+        </html>`,
+            css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");`,
+            javascript: ``,
+          },
+          descriptionDetails: `
+                  <div class="desc-question-details">
+
+                    <p class="desc-que-blue">Use the below reference image</p>
+                    
+                    <img src="https://res.cloudinary.com/dawpjwhoh/image/upload/v1770981706/keyboard-event-op_xxv80j.gif" class="desc-que-img" />
+
+                    <p class="desc-que-blue">Achieve the design with HTML, CSS, and functionality with JS</p>
+                     <ul class="ordered-unordered-lists">
+                        <li><span>When the Submit button is clicked</span></li>
+                        <ul class="ordered-unordered-lists">
+                        <li><span>Text content in the HTML paragraph element should contain the value of the checked HTML radio input element.</span></li>
+                        </ul>
+                    </ul>
+
+                    <div class="Note-container">
+                    <div class="icon-note">
+                      <h6>
+                        <i class="bi bi-journal-text"></i>Note
+                      </h6>
+                    </div>
+                    <p>
+                      <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                       
+                        <li>
+                        The HTML radio input element with value Agra, should have checked atrribute by default.
+                        </li>
+                        <li>
+                        You can use HTML form element.
+                        </li>
+                      </ul>
+                    </p>
+                  </div> 
+                  
+              </div>
+                `,
+          testCases: [
+            {
+              id: 1,
+              description:
+                "Page should consist of an HTML form element with the id favPlaces",
+              type: "js-validation",
+              input: "check-form",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Page should consist of radio buttons with the ids lucknow, agra and varanasi",
+              type: "js-validation",
+              input: "check-radio-buttons",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Page should consist of an HTML button element with the id submitBtn",
+              type: "js-validation",
+              input: "check-submit-btn",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Page should consist of an HTML paragraph element with the id message",
+              type: "js-validation",
+              input: "check-message",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "When the HTML button with id submitBtn is clicked, the selected place should be displayed in the HTML paragraph element with id message",
+              type: "js-validation",
+              input: "check-submit-functionality",
+              output: "true",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+
     //Coding Test -4
     {
       id: "javascript-JS_Coding_Test_4",

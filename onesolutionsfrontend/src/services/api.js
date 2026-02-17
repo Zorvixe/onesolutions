@@ -107,7 +107,6 @@ export const authAPI = {
 };
 
 export const progressAPI = {
-  // ✅ UPDATED: Digital Marketing progress tracking
   markContentComplete: (
     contentId,
     goalName,
@@ -117,14 +116,14 @@ export const progressAPI = {
     subtopicId,
     quizScore
   ) =>
-    api.post("/api/student/courses/content/complete", {
-      content_id: contentId,
+    api.post("/api/progress/content/complete", {
+      contentId,
       goalName: goalName || "Goal 1",
       courseName: courseName || "Static Website: HTML CSS & Bootstrap",
-      goal_id: goalId,
-      module_id: moduleId,
-      subtopic_id: subtopicId,
-      quiz_score: quizScore,
+      goalId,
+      moduleId,
+      subtopicId,
+      quizScore,
     }),
 
   markContentIncomplete: (contentId) =>
