@@ -5048,7 +5048,7 @@ export const javascriptCodingPracticesData = {
             css: `@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
 
             .bg-container {
-                background-image: url("https://assets.ccbp.in/frontend/dynamic-webapps/time-converter-bg.png");
+                background-image: url("https://res.cloudinary.com/dlwlkg2h7/image/upload/v1771331344/time-converter-bg_1_ifugtc.png");
                 background-size: cover;
                 height: 100vh;
                 width: 100vw;
@@ -5775,7 +5775,7 @@ export const javascriptCodingPracticesData = {
                             <h1 class="container-heading">Speed Typing Test</h1>
                             <p class="description">On your fingers lets sey Go!</p>
                             <div class="d-flex flex-row">
-                                <img class="clock-image mr-3" src="https://assets.ccbp.in/frontend/dynamic-webapps/clock-img.png" />
+                                <img class="clock-image mr-3" src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1771331443/clock-img_1_yl9l3u.png" />
                                 <p id="timer">0</p>
                                 <p class="description ml-2 mt-4">Seconds</p>
                             </div>

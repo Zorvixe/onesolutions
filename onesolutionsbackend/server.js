@@ -3879,7 +3879,8 @@ RETURNING *
         parsedData.bachelorInstituteDistrict,
         parsedData.occupationStatus,
         parsedData.hasWorkExperience,
-        studentId,
+        parsedData.courseSelection, // 🔥 ADD THIS LINE - Parameter $54
+        studentId, // Parameter $55
       ]);
 
       console.log("✅ Student record updated successfully");

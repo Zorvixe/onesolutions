@@ -739,7 +739,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
       description: "Practice basic SQL queries",
       questions: [
         {
-          id: "sql-query-1",
+          id: "sql-query-01",
           title: "Add Player",
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
@@ -785,22 +785,19 @@ We're storing the details of players who are a part of a tournament.<br/> The da
                   </tr>
                 </tbody>
               </table>
-              
-              
-             
               </div> 
             </div>
           `,
           testCases: [],
         },
         {
-          id: "sql-query-2",
-          title: "Add Playefghr",
+          id: "sql-query-02",
+          title: "Add Player",
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
           difficulty: "Medium",
-          score: 35,
+          score: 45,
           type: "sql",
           defaultCode: {
             sql: ``,
@@ -821,7 +818,8 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>
-              A new player has joined the tournament. Write an SQL query to add the the following details to the player table.</p>              
+              Three new players have joined the tournament.
+              Write a SQL query to add the the following details of players to theplayertable.</p>              
          <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player</div>
                 <table>
