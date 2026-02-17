@@ -12,7 +12,10 @@ const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const { router: digitalMarketingRouter, createDigitalMarketingTables } = require('./digitalMarketingRoutes');
+const {
+  router: digitalMarketingRouter,
+  createDigitalMarketingTables,
+} = require("./digitalMarketingRoutes");
 
 // -------------------------------------------
 // 🔹 Database Connection
@@ -125,8 +128,6 @@ const videoUpload = multer({
     fileSize: 1024 * 1024 * 1024, // 1GB
   },
 });
-
-
 
 // Add this helper function to check file validity
 const validateVideoFile = (file) => {
@@ -429,8 +430,8 @@ CHECK (student_type IN (
   'zorvixe_elite'
 ));
 `);
-// In the students table creation query, add this field after student_type:
-await pool.query(`
+  // In the students table creation query, add this field after student_type:
+  await pool.query(`
 ALTER TABLE students
 ADD COLUMN IF NOT EXISTS course_selection VARCHAR(250)
 DEFAULT 'web_development'
@@ -440,7 +441,7 @@ CHECK (course_selection IN (
 ));
 `);
 
-console.log("✅ Added course_selection column");
+  console.log("✅ Added course_selection column");
 
   const aiChatSessions = `
   CREATE TABLE IF NOT EXISTS ai_chat_sessions (
@@ -655,9 +656,6 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     );
   `;
 
- 
-
-
   try {
     await pool.query(aiContentTableQuery);
     console.log("✅ AI Learning Content table ready");
@@ -850,7 +848,9 @@ const auth = async (req, res, next) => {
 
     req.student = result.rows[0];
     console.log(`✅ Auth successful for: ${req.student.email}`);
-    console.log(`📊 Student Type: ${req.student.student_type}, Course: ${req.student.course_selection}`);
+    console.log(
+      `📊 Student Type: ${req.student.student_type}, Course: ${req.student.course_selection}`
+    );
     next();
   } catch (error) {
     console.error("🔐 Auth middleware error:", error.message);
@@ -1769,7 +1769,7 @@ app.post(
 
       // 🔥 FIXED: Include student_type and course_selection in JWT
       const token = jwt.sign(
-        { 
+        {
           id: student.id,
           studentId: student.student_id,
           email: student.email,
@@ -1778,9 +1778,10 @@ app.post(
           studentType: student.student_type,
           courseSelection: student.course_selection,
           batchMonth: student.batch_month,
-          batchYear: student.batch_year
+          batchYear: student.batch_year,
         },
-        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        process.env.JWT_SECRET ||
+          "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -2890,10 +2891,10 @@ app.post(
       );
 
       const student = result.rows[0];
-      
+
       // 🔥 FIXED: Include course_selection in JWT
       const token = jwt.sign(
-        { 
+        {
           id: student.id,
           studentId: student.student_id,
           email: student.email,
@@ -2902,9 +2903,10 @@ app.post(
           studentType: student.student_type,
           courseSelection: student.course_selection,
           batchMonth: student.batch_month,
-          batchYear: student.batch_year
+          batchYear: student.batch_year,
         },
-        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        process.env.JWT_SECRET ||
+          "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -3005,7 +3007,7 @@ app.post(
 
       // 🔥 FIXED: Include student_type and course_selection in JWT
       const token = jwt.sign(
-        { 
+        {
           id: student.id,
           studentId: student.student_id,
           email: student.email,
@@ -3014,9 +3016,10 @@ app.post(
           studentType: student.student_type,
           courseSelection: student.course_selection,
           batchMonth: student.batch_month,
-          batchYear: student.batch_year
+          batchYear: student.batch_year,
         },
-        process.env.JWT_SECRET || "your-fallback-secret-key-for-development-only-change-in-production",
+        process.env.JWT_SECRET ||
+          "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -3647,6 +3650,8 @@ app.put(
         // Projects & Achievements
         projects,
         achievements,
+
+        courseSelection,
       } = req.body;
 
       // Handle file uploads
@@ -3750,10 +3755,10 @@ app.put(
 
         courseSelection: parseValue(courseSelection),
 
-
         // Work Experience
         occupationStatus: parseValue(occupationStatus),
         hasWorkExperience: parseValue(hasWorkExperience, "boolean"),
+        courseSelection: parseValue(courseSelection),
       };
 
       console.log("🔄 Updating student record in database...");
@@ -5513,7 +5518,9 @@ app.get("/api/admin/students", async (req, res) => {
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1}`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -7527,7 +7534,7 @@ app.get("/api/ai/categories", auth, async (req, res) => {
 });
 
 // Add the router (somewhere before your 404 handler)
-app.use('/', digitalMarketingRouter);
+app.use("/", digitalMarketingRouter);
 
 // Handle 404 routes
 app.use("*", (req, res) => {
@@ -7567,10 +7574,10 @@ const PORT = process.env.PORT || 5002;
 (async () => {
   try {
     await createTables();
-     // Add digital marketing tables
-     await createDigitalMarketingTables();
-    
-     console.log("✅ All database tables initialized");
+    // Add digital marketing tables
+    await createDigitalMarketingTables();
+
+    console.log("✅ All database tables initialized");
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`🌍 Environment: ${process.env.NODE_ENV || "development"}`);

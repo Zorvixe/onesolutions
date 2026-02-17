@@ -732,5 +732,123 @@ We're storing the details of players who are a part of a tournament.<br/> The da
         },
       ],
     },
+    // SQL Practice 2
+    {
+      id: "sql-coding-practice-2",
+      title: "Introduction to SQL",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-1",
+          title: "Add Player",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              A new player has joined the tournament. Write an SQL query to add the the following details to the player table.</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Raj</td>
+                    <td>26</td>
+                    <td>120</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+             
+              </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-2",
+          title: "Add Playefghr",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              A new player has joined the tournament. Write an SQL query to add the the following details to the player table.</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Raj</td>
+                    <td>26</td>
+                    <td>120</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+             
+              </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+      ],
+    },
   ],
 };

@@ -4191,6 +4191,7 @@ export const javascriptCodingPracticesData = {
         },
       ],
     },
+
     //coding practice - 17
     {
       id: "javascript-coding-practice-17",
@@ -4219,7 +4220,7 @@ export const javascriptCodingPracticesData = {
             <body>
                 <div class="main-container">
                     <div class="wiki-search-header text-center">
-                        <img class="wiki-logo" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/wiki-logo-img.png" />
+                        <img class="wiki-logo" src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1771325296/wikipedia-logo-vector-11574231719rcq8ctr2bv_okb6ke.png" />
                         <br />
                         <input placeholder="Type a keyword and press Enter to search" type="search" class="search-input w-100" id="searchInput" />
                     </div>
@@ -4323,7 +4324,7 @@ export const javascriptCodingPracticesData = {
                       <li>Practice adding loading status with Bootstrap component spinner while making an HTTP request.</li>   
                       <li>When we enter text in HTML input element with the id searchInput and press Enter,
                          <ul>
-                          <li>Get link, title, description (HTTP response with key search_results) by making HTTP request using <code>fetch</code> with URL <code>https://apis.ccbp.in/wiki-search?search=</code></li>
+                          <li>Get link, title, description (HTTP response with key search_results) by making HTTP request using <code>fetch</code> with URL <code>https://res.cloudinary.com/dlwlkg2h7/raw/upload/v1771325553/wiki-search_tviasn.json</code></li>
                           <li>Set title, link in the HTML a element and set description in the HTML paragraph element.</li>
                           </ul>
                         </li>
@@ -4488,7 +4489,7 @@ export const javascriptCodingPracticesData = {
                   <ul>
                       <li>when the page is opened,
                          <ul>
-                          <li>Make an HTTP GET Request using Fetch with URL https://apis.ccbp.in/countries-data</li>
+                          <li>Make an HTTP GET Request using Fetch with URL <code>https://res.cloudinary.com/dlwlkg2h7/raw/upload/v1771325870/countries-data_t76nyf.json</code></li>
                           <li>Loader should be displayed using the Bootstrap component spinner while making an HTTP request</li>
                           <li>Create HTML elements dynamically and append the created elements to the HTML container element with the id resultCountries</li>
                           </ul>
@@ -4750,7 +4751,7 @@ export const javascriptCodingPracticesData = {
                         <option value="rabbit">Rabbit</option>
                     </select>
                     <div class="mt-4">
-                        <img id="petImg" class="w-100" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-dynamic-webapps/select-your-pet-dog-img.png" />
+                        <img id="petImg" class="w-100" src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1770893265/01-domestic-dog-gallery_m6o5lf.avif" />
                     </div>
                 </div>
             </body>
@@ -5876,7 +5877,7 @@ export const javascriptCodingPracticesData = {
                       <li>
                         Make a HTTP request to get a random quotation
                         <ul>
-                          <li>URL: <code>https://apis.ccbp.in/random-quote</code></li>
+                          <li>URL: <code>https://res.cloudinary.com/dlwlkg2h7/raw/upload/v1771326853/random-quote_kgoy4y.json</code></li>
                         </ul>
                       </li>
                       <li>
