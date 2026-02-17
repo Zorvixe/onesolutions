@@ -110,12 +110,12 @@ export const progressAPI = {
   // ✅ UPDATED: Digital Marketing progress tracking
   markContentComplete: (
     contentId,
+    goalName,
+    courseName,
     goalId,
     moduleId,
     subtopicId,
-    quizScore,
-    goalName,
-    courseName
+    quizScore
   ) =>
     api.post("/api/student/courses/content/complete", {
       content_id: contentId,
