@@ -3758,7 +3758,6 @@ app.put(
         // Work Experience
         occupationStatus: parseValue(occupationStatus),
         hasWorkExperience: parseValue(hasWorkExperience, "boolean"),
-        courseSelection: parseValue(courseSelection),
       };
 
       console.log("🔄 Updating student record in database...");
