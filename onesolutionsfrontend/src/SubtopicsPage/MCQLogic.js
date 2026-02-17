@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MCQLogic.css";
 import { useAuth } from "../context/AuthContext";
+import MCQInstructions from "./MCQInstructions";
 
 const MCQLogic = ({
   title,
@@ -42,6 +43,7 @@ const MCQLogic = ({
   const [savingCompletion, setSavingCompletion] = useState(false);
   const [markedComplete, setMarkedComplete] = useState(isCompleted);
   const [error, setError] = useState("");
+  const [showInstructions, setShowInstructions] = useState(true);
 
   // Points configuration
   const POINTS_PER_QUESTION = 6.67;
@@ -59,13 +61,13 @@ const MCQLogic = ({
 
   // Timer setup
   useEffect(() => {
-    if (completed || showingReview) return;
+    if (completed || showingReview || showInstructions) return;
     setTimeLeft(20);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timerRef.current);
-  }, [currentIndex, completed, showingReview]);
+  }, [currentIndex, completed, showingReview, showInstructions]);
 
   // Validate required props
   useEffect(() => {
@@ -369,6 +371,10 @@ const MCQLogic = ({
     }
   };
 
+  const handleStartPractice = () => {
+    setShowInstructions(false);
+  };
+
   const renderReviewScreen = () => {
     return (
       <div className="mcq-review-screen">
@@ -590,7 +596,8 @@ const MCQLogic = ({
     );
   };
 
-  if (quiz.length === 0) return <p>Loading questions...</p>;
+  if (isLoading) return <p>Loading questions...</p>;
+  if (quiz.length === 0) return <p>No questions available</p>;
 
   const currentQuestion = quiz[currentIndex];
   const questionNumber = currentIndex + 1;
@@ -600,6 +607,19 @@ const MCQLogic = ({
   const timeTaken = endTime ? Math.floor((endTime - startTime) / 1000) : 0;
   const mins = String(Math.floor(timeTaken / 60)).padStart(2, "0");
   const secs = String(timeTaken % 60).padStart(2, "0");
+
+  // Show instructions first
+  if (showInstructions) {
+    return (
+      <MCQInstructions
+        onStart={handleStartPractice}
+        totalQuestions={quiz.length}
+        hasNegativeMarking={true}
+        passingScore={80}
+        timePerQuestion={20}
+      />
+    );
+  }
 
   return (
     <div className="mcq-container full-width">
@@ -736,7 +756,7 @@ const MCQLogic = ({
                       <button
                         className="btn-skip"
                         onClick={handleSkip}
-                        disabled={timeLeft > 0 || feedback !== null}
+                        disabled={feedback !== null}
                       >
                         {timeLeft > 0 ? (
                           <>

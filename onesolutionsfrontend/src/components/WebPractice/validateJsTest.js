@@ -1851,12 +1851,12 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         const form = iframeDoc.getElementById("favPlaces");
         return { passed: form !== null && form.tagName === "FORM" };
       }
-      
+
       case "check-radio-buttons2": {
         const lucknow = iframeDoc.getElementById("lucknow");
         const agra = iframeDoc.getElementById("agra");
         const varanasi = iframeDoc.getElementById("varanasi");
-      
+
         return {
           passed:
             lucknow !== null &&
@@ -1867,42 +1867,41 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
             varanasi.type === "radio",
         };
       }
-      
-      case "check-submit-btn": {
+
+      case "check-submit-btn3": {
         const btn = iframeDoc.getElementById("submitBtn");
         return { passed: btn !== null && btn.tagName === "BUTTON" };
       }
-      
+
       case "check-message": {
         const msg = iframeDoc.getElementById("message");
         return { passed: msg !== null && msg.tagName === "P" };
       }
-      
-      case "check-submit-functionality": {
+
+      case "check-submit-functionality2": {
         const lucknow = iframeDoc.getElementById("lucknow");
         const agra = iframeDoc.getElementById("agra");
         const varanasi = iframeDoc.getElementById("varanasi");
         const btn = iframeDoc.getElementById("submitBtn");
         const msg = iframeDoc.getElementById("message");
-      
+
         // Test Lucknow
         lucknow.checked = true;
         btn.click();
         const lucknowCheck = msg.textContent.includes("Lucknow");
-      
+
         // Test Agra
         agra.checked = true;
         btn.click();
         const agraCheck = msg.textContent.includes("Agra");
-      
+
         // Test Varanasi
         varanasi.checked = true;
         btn.click();
         const varanasiCheck = msg.textContent.includes("Varanasi");
-      
+
         return { passed: lucknowCheck && agraCheck && varanasiCheck };
       }
-      
 
       default:
         return {

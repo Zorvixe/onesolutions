@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import MCQInstructions from "../../SubtopicsPage/MCQInstructions";
 
 const DigitalMcqs = ({
   contentId,
@@ -49,6 +50,7 @@ const DigitalMcqs = ({
 
   const [savingCompletion, setSavingCompletion] = useState(false);
   const [markedComplete, setMarkedComplete] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(true);
 
   // Points configuration
   const POINTS_PER_QUESTION = 6.67;
@@ -111,13 +113,14 @@ const DigitalMcqs = ({
 
   // Timer setup
   useEffect(() => {
-    if (completed || showingReview || quiz.length === 0) return;
+    if (completed || showingReview || quiz.length === 0 || showInstructions)
+      return;
     setTimeLeft(20);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
     return () => clearInterval(timerRef.current);
-  }, [currentIndex, completed, showingReview, quiz.length]);
+  }, [currentIndex, completed, showingReview, quiz.length, showInstructions]);
 
   // Calculate final score when quiz is completed
   useEffect(() => {
@@ -180,13 +183,15 @@ const DigitalMcqs = ({
   };
 
   const handleNext = () => {
-    if (!selectedAnswer) return;
+    if (!selectedAnswer && selectedAnswer !== 0) return;
 
     const currentQuestion = quiz[currentIndex];
     const correctAnswer =
       currentQuestion.correctAnswer !== undefined
         ? currentQuestion.correctAnswer
         : currentQuestion.answer;
+
+    // Handle both index-based and text-based answers
     const isCorrect = selectedAnswer === correctAnswer;
 
     // Calculate points for this question
@@ -386,6 +391,10 @@ const DigitalMcqs = ({
     } finally {
       setSavingCompletion(false);
     }
+  };
+
+  const handleStartPractice = () => {
+    setShowInstructions(false);
   };
 
   const renderReviewScreen = () => {
@@ -621,6 +630,19 @@ const DigitalMcqs = ({
   if (!content) return <div>No content available</div>;
   if (quiz.length === 0) return <div>No questions available for this quiz</div>;
 
+  // Show instructions first with dynamic content
+  if (showInstructions) {
+    return (
+      <MCQInstructions
+        onStart={handleStartPractice}
+        totalQuestions={quiz.length}
+        hasNegativeMarking={true}
+        passingScore={80}
+        timePerQuestion={20}
+      />
+    );
+  }
+
   const currentQuestion = quiz[currentIndex];
   const questionNumber = currentIndex + 1;
   const totalQuestions = quiz.length;
@@ -693,15 +715,18 @@ const DigitalMcqs = ({
 
                   <div className="options-container">
                     {options.map((option, idx) => {
-                      const isSelected =
-                        selectedAnswer === idx || selectedAnswer === option;
+                      const isSelected = selectedAnswer === idx;
                       const optionLetter = String.fromCharCode(65 + idx);
 
                       return (
                         <div
                           key={idx}
                           className={`option-item ${isSelected ? "selected" : ""}`}
-                          onClick={() => !feedback && setSelectedAnswer(idx)}
+                          onClick={() => {
+                            if (!feedback) {
+                              setSelectedAnswer(idx);
+                            }
+                          }}
                         >
                           <div className="option-radio">
                             <div
@@ -767,7 +792,7 @@ const DigitalMcqs = ({
                       <button
                         className="btn-skip"
                         onClick={handleSkip}
-                        disabled={timeLeft > 0 || feedback !== null}
+                        disabled={feedback !== null}
                       >
                         {timeLeft > 0 ? (
                           <>
@@ -782,7 +807,9 @@ const DigitalMcqs = ({
 
                       <button
                         className="btn-submit"
-                        disabled={!selectedAnswer}
+                        disabled={
+                          selectedAnswer === null && selectedAnswer !== 0
+                        }
                         onClick={feedback ? nextQuestion : handleNext}
                       >
                         {feedback ? (

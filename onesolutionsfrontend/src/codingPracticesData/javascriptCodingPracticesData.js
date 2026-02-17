@@ -9492,7 +9492,7 @@ getProduct(myArray);
 
                     <p class="desc-que-blue">Use the below reference image</p>
                     
-                    <img src="https://res.cloudinary.com/dawpjwhoh/image/upload/v1770981706/keyboard-event-op_xxv80j.gif" class="desc-que-img" />
+                    <img src="https://res.cloudinary.com/dlwlkg2h7/image/upload/v1771321178/favourite-place-op_1_1_ffytk5.gif" class="desc-que-img" />
 
                     <p class="desc-que-blue">Achieve the design with HTML, CSS, and functionality with JS</p>
                      <ul class="ordered-unordered-lists">
@@ -9529,7 +9529,7 @@ getProduct(myArray);
               description:
                 "Page should consist of an HTML form element with the id favPlaces",
               type: "js-validation",
-              input: "check-form",
+              input: "check-form5",
               output: "true",
               visible: true,
             },
@@ -9538,7 +9538,7 @@ getProduct(myArray);
               description:
                 "Page should consist of radio buttons with the ids lucknow, agra and varanasi",
               type: "js-validation",
-              input: "check-radio-buttons",
+              input: "check-radio-buttons2",
               output: "true",
               visible: true,
             },
@@ -9547,7 +9547,7 @@ getProduct(myArray);
               description:
                 "Page should consist of an HTML button element with the id submitBtn",
               type: "js-validation",
-              input: "check-submit-btn",
+              input: "check-submit-btn3",
               output: "true",
               visible: true,
             },
@@ -9565,7 +9565,7 @@ getProduct(myArray);
               description:
                 "When the HTML button with id submitBtn is clicked, the selected place should be displayed in the HTML paragraph element with id message",
               type: "js-validation",
-              input: "check-submit-functionality",
+              input: "check-submit-functionality2",
               output: "true",
               visible: true,
             },

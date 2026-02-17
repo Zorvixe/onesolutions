@@ -351,7 +351,7 @@ SELECT * FROM table_name;
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p>1. Create a student table to store name, age and score of students.</p>
+              <p>Create a "student" table to store name, age and score of students.</p>
               <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: student</div>
                 <table>
@@ -436,9 +436,9 @@ SELECT * FROM table_name;
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>
-              In a typical e-commerce application, we need to store the following customer details. Create acustomertable to store the data.</p>
+              In a typical e-commerce application, we need to store the following customer details. Create a "customer" table to store the data.</p>
               <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: student</div>
+                <div class="sql-table-caption">Table: customer</div>
                 <table>
                   <thead>
                     <tr>
@@ -511,49 +511,40 @@ SELECT * FROM table_name;
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>
-              In a typical e-commerce application, we need to store the following customer details. Create acustomertable to store the data.</p>
+              We need to store the details of orders in an e-commerce application. Create an "order_details" table to store the following details.</p>
               <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: student</div>
+                <div class="sql-table-caption">Table: order_details</div>
                 <table>
-                  <thead>
-                    <tr>
-                      <th>details</th>
-                      <th>datatype</th>
-                      
-                    </tr>
-                  </thead>
-                  <tbody>
-                   
-                    <tr>
-                      <td>customer_id</td>
-                      <td>integer</td>
-                      
-                    </tr>
-                    <tr>
-                      <td>first_name</td>
-                      <td>string of max length 200</td>
-                      
-                    </tr>
-                    <tr>
-                      <td>last_name</td>
-                      <td>string of max length 200</td>
-                     
-                    </tr>
-                    <tr>
-                    <td>date_of_birth</td>
-                    <td>date</td> 
+                <thead>
+                  <tr>
+                    <th>details</th>
+                    <th>datatype</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>order_id</td>
+                    <td>integer</td>
                   </tr>
                   <tr>
-                    <td>address</td>
-                    <td>text</td> 
+                    <td>customer_id</td>
+                    <td>integer</td>
                   </tr>
                   <tr>
-                  <td>phone_number</td>
-                  <td>integer</td> 
-                </tr>
-                   
-                  </tbody>
-                </table>
+                    <td>order_datetime</td>
+                    <td>datetime</td>
+                  </tr>
+                  <tr>
+                    <td>shipped_datetime</td>
+                    <td>datetime</td>
+                  </tr>
+                  <tr>
+                    <td>total_amount</td>
+                    <td>float</td>
+                  </tr>
+                </tbody>
+              </table>
+              
               </div> 
             </div>
           `,
@@ -587,11 +578,11 @@ SELECT * FROM table_name;
               <p class="desc-que-blue">Question</p>
               <p>
              
-We're storing the details of players who are a part of a tournament.<br/> The database contains aplayertable that stores the name, age and score of players.</p>
-<p>We have to add a new player to the player table.</p>              
+We're storing the details of players who are a part of a tournament.<br/> The database contains a "player" table that stores the name, age and score of players.</p>
+<p>We have to add a new player to the 'player' table.</p>              
 <div class="sql-table-desc">
               
-                <div class="sql-table-caption">Table: student</div>
+                <div class="sql-table-caption">Table: player</div>
                 <table>
                 <thead>
                   <tr>
@@ -646,11 +637,11 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p>The database contains aplayertable that stores the name, age and score of players.<p>Get all the players from theplayertable in the following format.</p> 
+              <p>The database contains a "player" table that stores the name, age and score of players.<p>Get all the players from the "player" table in the following format.</p> 
               <p class="desc-que-blue">Expected Output Format:</p>             
 <div class="sql-table-desc">
               
-                <div class="sql-table-caption">Table: student</div>
+                <div class="sql-table-caption">Table: player</div>
                 <table>
                 <thead>
                   <tr>
@@ -715,7 +706,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               <p class="desc-que-blue">Expected Output Format:</p>             
 <div class="sql-table-desc">
               
-                <div class="sql-table-caption">Table: student</div>
+                <div class="sql-table-caption">Table: player</div>
                 <table>
                 <thead>
                   <tr>

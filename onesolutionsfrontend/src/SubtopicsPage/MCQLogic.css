@@ -287,6 +287,7 @@
 }
 
 .feedback-icon i {
+  padding-left: 15px;
   font-size: 28px;
 }
 
@@ -299,6 +300,9 @@
 }
 
 .feedback-content {
+  display: flex;
+  justify-content: space-between;
+  padding-right:10px;
   flex: 1;
 }
 
