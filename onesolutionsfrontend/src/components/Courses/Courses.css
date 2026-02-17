@@ -612,3 +612,11 @@
 .enroll-button:hover {
   opacity: 0.85;
 }
+
+.access-denied-container {
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -2406,7 +2406,7 @@ export const codingPracticesData = {
           description:
             "Write a program that reads two numbers A and B,and checks if both the given numbers are greater than 9.",
           sampleInput: "11\n20",
-          sampleOutput: "True\nTrue",
+          sampleOutput: "True",
           testCases: [
             { input: "8\n10", output: "False", visible: true },
             { input: "12\n10", output: "True", visible: true },

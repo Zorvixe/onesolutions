@@ -297,18 +297,6 @@ export default function DigitalCourses() {
             alt="Access Denied"
             className="locked_image"
           />
-          <h2>Digital Marketing Access Required</h2>
-          <p>You don't have access to Digital Marketing courses.</p>
-          <p>
-            Please upgrade to Zorvixe Digital or Zorvixe Fullstack to access
-            this content.
-          </p>
-          <button
-            className="upgrade-button"
-            onClick={() => navigate("/profile")}
-          >
-            Upgrade Now
-          </button>
         </div>
       </div>
     );
