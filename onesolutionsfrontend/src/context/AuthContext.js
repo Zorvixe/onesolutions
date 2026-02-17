@@ -275,42 +275,23 @@ export const AuthProvider = ({ children }) => {
   );
 
   // ✅ UPDATED: Mark Digital Marketing Content Complete
-  const markSubtopicComplete = async (
-    contentId,
-    goalName,
-    courseName,
-    goalId,
-    moduleId,
-    subtopicId,
-    quizScore
-  ) => {
+  const markSubtopicComplete = async (contentId, goalName, courseName) => {
     try {
       console.log(`[PROGRESS] Marking subtopic complete:`, {
         contentId,
         goalName,
         courseName,
-        goalId,
-        moduleId,
-        subtopicId,
-        quizScore,
       });
 
-      if (!contentId || !goalId) {
-        console.error("[PROGRESS] contentId and goalId are required");
-        return {
-          success: false,
-          message: "Content ID and Goal ID are required",
-        };
+      if (!contentId) {
+        console.error("[PROGRESS] contentId is required");
+        return { success: false, message: "Content ID is required" };
       }
 
       const res = await progressAPI.markContentComplete(
         contentId,
         goalName,
-        courseName,
-        goalId,
-        moduleId,
-        subtopicId,
-        quizScore
+        courseName
       );
 
       if (res.data.success) {
@@ -320,17 +301,9 @@ export const AuthProvider = ({ children }) => {
         setCompletedContent((prev) => [...new Set([...prev, contentId])]);
 
         // Reload all progress data
-        await Promise.all([
-          loadProgressSummary(),
-          loadOverallProgress(),
-          loadDigitalMarketingProgress(goalId),
-        ]);
+        await Promise.all([loadProgressSummary(), loadOverallProgress()]);
 
-        return {
-          success: true,
-          data: res.data.data,
-          progress: res.data.progress,
-        };
+        return { success: true, data: res.data.data };
       } else {
         console.error("[PROGRESS] Mark complete failed:", res.data.message);
         return { success: false, message: res.data.message };
