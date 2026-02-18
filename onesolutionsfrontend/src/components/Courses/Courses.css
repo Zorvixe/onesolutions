@@ -1,7 +1,6 @@
 .courses-container {
   margin-left: 50px;
   padding: 60px;
-  height: 100vh;
 }
 
 /* Goals */
@@ -566,7 +565,6 @@
   .courses-container {
     margin: 0;
     width: 100%;
-    max-width: 100vw;
     box-sizing: border-box;
   }
 
@@ -584,7 +582,6 @@
 @media (max-width: 1440px) {
   .courses-container {
     padding: 40px;
-    max-width: 1380px;
     margin: 0 auto;
   }
 }
@@ -592,7 +589,6 @@
 @media (min-width: 1920px) {
   .courses-container {
     padding: 60px;
-    max-width: 1600px;
     margin: 0 auto;
   }
 }

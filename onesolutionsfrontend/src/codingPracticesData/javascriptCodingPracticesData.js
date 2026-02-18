@@ -5,8 +5,10 @@ export const javascriptCodingPracticesData = {
       id: "javascript-coding-practice-1",
       title: "Javascript Coding Practice 1",
       description: "",
+      accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
       questions: [
         {
+          accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
           id: "ed912af8-2fvjfrkbnjfbvj46d9-0d95ddf8eb19",
           title: "Color Picker",
           description:
@@ -2880,7 +2882,7 @@ export const javascriptCodingPracticesData = {
                 font-size: 36px;
                 font-weight: 800;
             }`,
-            javascript: ``,
+            javascript: `let numbers = [17, 31, 77, 20, 63];`,
           },
           // FIX: Use proper string formatting for descriptionDetails
           descriptionDetails: `
@@ -3251,7 +3253,14 @@ export const javascriptCodingPracticesData = {
                 padding-left: 25px;
                 padding-right: 25px;
             }`,
-            javascript: ``,
+            javascript: `let chatbotMsgList = [
+              "Hi",
+              "Hey",
+              "Good Morning",
+              "Good Evening",
+              "How can I help you?",
+              "Thank You"
+            ];`,
           },
           // FIX: Use proper string formatting for descriptionDetails
           descriptionDetails: `
@@ -3800,9 +3809,9 @@ export const javascriptCodingPracticesData = {
             {
               id: 2,
               description:
-                "Page should consist of an HTML main heading element with the id heading",
+                "Page should consist of an HTML heading element with the id heading",
               type: "js-validation",
-              input: "check-heading2",
+              input: "check-heading6",
               output: "true",
               visible: true,
             },
@@ -3811,7 +3820,16 @@ export const javascriptCodingPracticesData = {
               description:
                 "Page should consist of an HTML input element with the id themeUserInput",
               type: "js-validation",
-              input: "check-theme-input",
+              input: "check-user-input5",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "When valid theme is entered and Enter key is pressed, the theme should change accordingly",
+              type: "js-validation",
+              input: "check-theme-functionality",
               output: "true",
               visible: true,
             },
@@ -4358,6 +4376,15 @@ export const javascriptCodingPracticesData = {
             },
             {
               id: 3,
+              description:
+                "JS code should contain addEventListener for the keydown event on the HTML input element",
+              type: "js-validation",
+              input: "check-keydown-event",
+              output: "true",
+              visible: true,
+            },
+            {
+              id: 4,
               description:
                 "When enter text in HTML input element with the id searchInput and press Enter, A GET request has to be sent to the given URL and set HTTP response title, link in the HTML anchor element, and set description in HTML paragraph element",
               type: "js-validation",
@@ -6143,8 +6170,11 @@ export const javascriptCodingPracticesData = {
       id: "js-coding-practice-1",
       title: "JS Coding Practice 1",
       description: "",
+      accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+
       questions: [
         {
+          accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
           id: "27dd4411-447dd048-96d2e4dfd38f",
           title: "Create & Log and Array",
           description:

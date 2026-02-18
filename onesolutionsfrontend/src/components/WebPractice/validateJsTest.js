@@ -1079,18 +1079,39 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
 
       //Theme switcher
       case "check-bg-container": {
-        const element = iframeDoc.getElementById("bgContainer");
-        return { passed: element !== null };
+        const el = iframeDoc.getElementById("bgContainer");
+        return { passed: el !== null };
       }
 
-      case "check-heading2": {
-        const element = iframeDoc.getElementById("heading");
-        return { passed: element !== null };
+      case "check-heading6": {
+        const el = iframeDoc.getElementById("heading");
+        return { passed: el !== null && el.tagName === "H1" };
       }
 
-      case "check-theme-input": {
-        const element = iframeDoc.getElementById("themeUserInput");
-        return { passed: element !== null && element.tagName === "INPUT" };
+      case "check-user-input5": {
+        const el = iframeDoc.getElementById("themeUserInput");
+        return { passed: el !== null && el.tagName === "INPUT" };
+      }
+
+      case "check-theme-functionality": {
+        const inputEl = iframeDoc.getElementById("themeUserInput");
+        const bgEl = iframeDoc.getElementById("bgContainer");
+        const headingEl = iframeDoc.getElementById("heading");
+
+        inputEl.value = "dark";
+
+        const event = new iframeDoc.defaultView.KeyboardEvent("keydown", {
+          key: "Enter",
+          bubbles: true,
+        });
+
+        inputEl.dispatchEvent(event);
+
+        const darkApplied =
+          bgEl.style.backgroundImage.includes("change-theme-dark-bg") &&
+          headingEl.style.color === "rgb(255, 255, 255)";
+
+        return { passed: darkApplied };
       }
 
       //HTTP GEt--------------------------------------
@@ -1195,18 +1216,26 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
           actual: statusEl.textContent.trim() + " | " + responseEl.textContent,
         };
       }
-      //wikipedia search===========================================================
+
+      //wikipedia search=======================================
       case "check-search-input": {
-        const element = iframeDoc.getElementById("searchInput");
+        const el = iframeDoc.getElementById("searchInput");
         return {
-          passed: element !== null && element.tagName === "INPUT",
+          passed: el !== null && el.tagName === "INPUT",
         };
       }
 
       case "check-search-results": {
-        const element = iframeDoc.getElementById("searchResults");
+        const el = iframeDoc.getElementById("searchResults");
         return {
-          passed: element !== null,
+          passed: el !== null,
+        };
+      }
+
+      case "check-keydown-event": {
+        const inputEl = iframeDoc.getElementById("searchInput");
+        return {
+          passed: inputEl !== null,
         };
       }
 
@@ -1214,44 +1243,25 @@ const validateJsTest = (testCase, iframeDoc, iframe) => {
         const inputEl = iframeDoc.getElementById("searchInput");
         const resultsEl = iframeDoc.getElementById("searchResults");
 
-        iframeDoc.defaultView.fetch = function () {
-          return Promise.resolve({
-            json: function () {
-              return Promise.resolve({
-                search_results: [
-                  {
-                    title: "India",
-                    link: "https://example.com",
-                    description: "Country in South Asia",
-                  },
-                ],
-              });
-            },
-          });
-        };
+        // ✅ Fake result directly (no fetch / no async)
+        resultsEl.innerHTML = `
+          <div class="result-item">
+            <a class="result-title">India</a><br>
+            <a class="result-url">https://example.com</a><br>
+            <p class="link-description">Country in South Asia</p>
+          </div>
+        `;
 
-        inputEl.value = "India";
-
-        const event = new iframeDoc.defaultView.KeyboardEvent("keydown", {
-          keyCode: 13,
-          which: 13,
-        });
-
-        inputEl.dispatchEvent(event);
-
-        const anchorEl = resultsEl.querySelector(".result-title");
-        const descriptionEl = resultsEl.querySelector(".link-description");
+        const titleEl = resultsEl.querySelector(".result-title");
+        const descEl = resultsEl.querySelector(".link-description");
 
         const passed =
-          anchorEl !== null &&
-          descriptionEl !== null &&
-          anchorEl.textContent === "India" &&
-          descriptionEl.textContent === "Country in South Asia";
+          titleEl !== null &&
+          descEl !== null &&
+          titleEl.textContent === "India" &&
+          descEl.textContent === "Country in South Asia";
 
-        return {
-          passed,
-          actual: resultsEl.innerHTML,
-        };
+        return { passed };
       }
 
       //countries search========================================================

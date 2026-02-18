@@ -766,7 +766,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>
-              A new player has joined the tournament. Write an SQL query to add the the following details to the player table.</p>              
+              A new player has joined the tournament. Write an SQL query to add the the following details to the "player" table.</p>              
          <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player</div>
                 <table>
@@ -792,7 +792,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
         },
         {
           id: "sql-query-02",
-          title: "Add Player",
+          title: "Add Three Players",
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
@@ -819,7 +819,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               <p class="desc-que-blue">Question</p>
               <p>
               Three new players have joined the tournament.
-              Write a SQL query to add the the following details of players to theplayertable.</p>              
+              Write a SQL query to add the the following details of players to the "player" table.</p>              
          <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player</div>
                 <table>
@@ -832,16 +832,284 @@ We're storing the details of players who are a part of a tournament.<br/> The da
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Raj</td>
-                    <td>26</td>
-                    <td>120</td>
+                    <td>Ram</td>
+                    <td>28</td>
+                    <td>125</td>
+                  </tr>
+                  <tr>
+                    <td>Charan</td>
+                    <td>25</td>
+                    <td>173</td>
+                  </tr>
+                  <tr>
+                    <td>Ravan</td>
+                    <td>20</td>
+                    <td>152</td>
                   </tr>
                 </tbody>
-              </table>
-              
-              
-             
+                </table>
               </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-03",
+          title: "Get All Details",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the details of the players from the player table.</p>  
+              <p class="desc-que-blue">Expected Output Format:</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ram</td>
+                    <td>24</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td>Suresh</td>
+                    <td>21</td>
+                    <td>9</td>
+                  </tr>
+                  <tr>
+                    <td>---</td>
+                    <td>---</td>
+                    <td>---</td>
+                  </tr>
+                </tbody>
+                </table>
+              </div> 
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-04",
+          title: "Update Table",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Update the age of "Shyam" to 30 in the 'player' table.<p>NOTE: In this table, we can identify a player by name.</p>  
+            
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-05",
+          title: "Delete Data",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Delete player "David" from the player table.<p>NOTE: In this table, we can identify a player by name.</p>  
+            
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-06",
+          title: "Store Data",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>We have to store the strike_rate of players in the database. Make necessary changes to the existing player table to store the data.<p>NOTE: Name the column as strike_rate. It is measured in decimals.</p>  
+            
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-07",
+          title: "Get Name and Age",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get name and age of all the players from the player table.</p>  
+            
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-08",
+          title: "Rename the Column",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Rename the column name to full_name in the player table.</p>  
+            
+            </div>
+          `,
+          testCases: [],
+        },
+        {
+          id: "sql-query-06",
+          title: "Delete Table",
+          description:
+            "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            student: {
+              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              rows: [
+                [0, "name", "VARCHAR(200)", 0, null, 0],
+                [1, "age", "INTEGER", 0, null, 0],
+                [2, "score", "INTEGER", 0, null, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>We have to store the strike_rate of players in the database. Make necessary changes to the existing player table to store the data.<p>NOTE: Name the column as strike_rate. It is measured in decimals.</p>  
+            
             </div>
           `,
           testCases: [],

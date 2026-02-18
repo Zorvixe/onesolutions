@@ -2535,7 +2535,7 @@ export const goalsData = [
           {
             id: "QW9_m4_A0 g2_H c1_7B",
             name: "Todos Application 2",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g2_7B c1_D2E",
@@ -2582,7 +2582,7 @@ export const goalsData = [
           {
             id: "QW9_m5_A0 g2_H c1_7B",
             name: "Todos Application 3",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m5_H g2_7B c1_D2E",
@@ -2631,7 +2631,7 @@ export const goalsData = [
           {
             id: "QW9_m6_A0 g2_H c1_7B",
             name: "Todos Application 4",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m6_H g2_7B c1_D2E",
@@ -2913,7 +2913,7 @@ export const goalsData = [
           {
             id: "QW9_m12_A0 g2_H c1_7B",
             name: "Build Your Own Dynamic Web Application Course Exam",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: [],
             topic: [
               {
                 id: "QW9_s1_A0 m12_H g2_7B c1_D2E",
@@ -3431,16 +3431,17 @@ export const goalsData = [
               },
             ],
           },
-          // {
-          //   id: "QW9_m11_A0 g2_H c2_7B",
-          //   name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
-          //   topic: [
-          //     {
-          //       id: "QW9_s1_A0 m11_H g2_7B c2_D2E",
-          //       name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
-          //     },
-          //   ],
-          // },
+          {
+            id: "QW9_m11_A0 g2_H c2_7B",
+            name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m11_H g2_7B c2_D2E",
+                name: "SQL Syntax Differences Between SQLite, MySQL, and Oracle",
+              },
+            ],
+          },
           {
             id: "QW9_m12_A0 g2_H c2_7B",
             name: "MileStone 2",
@@ -3461,7 +3462,7 @@ export const goalsData = [
           {
             id: "QW9_m13_A0 g2_H c2_7B",
             name: "Introduction to Databases Course Exam",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: [],
             topic: [
               {
                 id: "QW9_s1_A0 m13_H g2_7B c2_D2E",

@@ -4,6 +4,7 @@ export const codingPracticesData = {
       id: "practice-python-1",
       title: "Coding Practice - 1",
       description: "Introduction to Python basic concepts",
+      accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
       questions: [
         {
           id: "q-python-1-001",
@@ -19,6 +20,7 @@ export const codingPracticesData = {
           score: 5,
           status: "unsolved",
           attempts: [],
+          accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
         },
         {
           id: "q-python-1-002",
@@ -33,6 +35,7 @@ export const codingPracticesData = {
           score: 5,
           status: "unsolved",
           attempts: [],
+          accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
         },
         {
           id: "q-python-1-003",
