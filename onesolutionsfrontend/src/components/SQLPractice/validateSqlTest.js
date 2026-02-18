@@ -1,20 +1,21 @@
 // validateSqlTest.js
-const validateSqlTest = (testCase, userCode, executionResult) => {
+const validateSqlTest = (testCase, userCode, executionResult, questionData) => {
   try {
     console.log("Validating test case:", testCase.id, "type:", testCase.type);
     console.log("User code:", userCode);
     console.log("Execution result:", executionResult);
+    console.log("Question data:", questionData);
 
     // Parse the test case based on type
     switch (testCase.type) {
       case "syntax-validation":
-        return validateSyntax(testCase, userCode);
+        return validateSyntax(testCase, userCode, questionData);
       case "query-validation":
-        return validateQuery(testCase, userCode);
+        return validateQuery(testCase, userCode, questionData);
       case "result-validation":
-        return validateResult(testCase, executionResult);
+        return validateResult(testCase, executionResult, questionData);
       case "functionality-validation":
-        return validateFunctionality(testCase, userCode);
+        return validateFunctionality(testCase, userCode, questionData);
       default:
         return {
           passed: false,
@@ -32,7 +33,7 @@ const validateSqlTest = (testCase, userCode, executionResult) => {
   }
 };
 
-const validateQuery = (testCase, userCode) => {
+const validateQuery = (testCase, userCode, questionData) => {
   // Clean and normalize the user code
   const cleanUserCode = userCode
     .replace(/--.*$/gm, "") // Remove single line comments
@@ -74,6 +75,11 @@ const validateQuery = (testCase, userCode) => {
     }
   }
 
+  // For CREATE TABLE statements, check column definitions
+  if (cleanUserCode.includes("create table")) {
+    return validateCreateTable(testCase, cleanUserCode, questionData);
+  }
+
   console.log("Query validation passed");
   return {
     passed: true,
@@ -82,7 +88,69 @@ const validateQuery = (testCase, userCode) => {
   };
 };
 
-const validateResult = (testCase, executionResult) => {
+const validateCreateTable = (testCase, cleanUserCode, questionData) => {
+  // Extract table name and columns from CREATE TABLE statement
+  const createTableMatch = cleanUserCode.match(/create\s+table\s+(\w+)\s*\(([^;]+)\)/i);
+  if (!createTableMatch) {
+    return {
+      passed: false,
+      actual: "Invalid CREATE TABLE syntax",
+      expected: "Proper CREATE TABLE statement",
+    };
+  }
+
+  const tableName = createTableMatch[1];
+  const columnDefinitions = createTableMatch[2].split(',').map(col => col.trim());
+
+  // Check if table name matches expected
+  if (testCase.expectedTableName && tableName !== testCase.expectedTableName.toLowerCase()) {
+    return {
+      passed: false,
+      actual: `Table name: ${tableName}`,
+      expected: `Table name should be: ${testCase.expectedTableName}`,
+    };
+  }
+
+  // Check required columns
+  const expectedColumns = testCase.expectedColumns || [];
+  for (const expectedCol of expectedColumns) {
+    const found = columnDefinitions.some(def => 
+      def.startsWith(expectedCol.name.toLowerCase())
+    );
+    if (!found) {
+      return {
+        passed: false,
+        actual: `Missing column: ${expectedCol.name}`,
+        expected: `Should include column: ${expectedCol.name}`,
+      };
+    }
+  }
+
+  // Check column data types
+  for (const expectedCol of expectedColumns) {
+    const columnDef = columnDefinitions.find(def => 
+      def.startsWith(expectedCol.name.toLowerCase())
+    );
+    if (columnDef) {
+      const dataType = columnDef.split(/\s+/)[1];
+      if (!dataType.includes(expectedCol.type.toLowerCase())) {
+        return {
+          passed: false,
+          actual: `Column ${expectedCol.name} has type: ${dataType}`,
+          expected: `Column ${expectedCol.name} should be: ${expectedCol.type}`,
+        };
+      }
+    }
+  }
+
+  return {
+    passed: true,
+    actual: "CREATE TABLE statement is valid",
+    expected: "Valid table structure",
+  };
+};
+
+const validateResult = (testCase, executionResult, questionData) => {
   console.log("Validating result for test case:", testCase.id);
   console.log("Execution result:", executionResult);
 
@@ -133,14 +201,17 @@ const validateResult = (testCase, executionResult) => {
 
   // Check column names if specified
   if (testCase.expectedColumns && Array.isArray(testCase.expectedColumns)) {
-    const missingColumns = testCase.expectedColumns.filter(
+    const columnNames = testCase.expectedColumns.map(col => 
+      typeof col === 'string' ? col : col.name
+    );
+    const missingColumns = columnNames.filter(
       (col) => !columns.includes(col)
     );
     if (missingColumns.length > 0) {
       return {
         passed: false,
         actual: `Columns: ${columns.join(", ")}`,
-        expected: `Should include columns: ${testCase.expectedColumns.join(", ")}`,
+        expected: `Should include columns: ${columnNames.join(", ")}`,
       };
     }
   }
@@ -153,7 +224,7 @@ const validateResult = (testCase, executionResult) => {
   };
 };
 
-const validateSyntax = (testCase, userCode) => {
+const validateSyntax = (testCase, userCode, questionData) => {
   console.log("Validating syntax for test case:", testCase.id);
   console.log("User code:", userCode);
 
@@ -179,34 +250,28 @@ const validateSyntax = (testCase, userCode) => {
   const firstStatement = sqlStatements[0].toLowerCase().trim();
 
   // Test case specific validations
-  switch (testCase.id) {
-    case 1: // "Query should start with SELECT"
-      console.log("Checking if query starts with SELECT");
-      console.log("First statement:", firstStatement);
-      if (!firstStatement.startsWith("select")) {
-        return {
-          passed: false,
-          actual: `Query starts with: "${firstStatement.split(" ")[0] || "nothing"}"`,
-          expected: "Query should start with SELECT",
-        };
-      }
-      break;
+  if (testCase.id === 1) {
+    const validStartKeywords = ['select', 'create', 'insert', 'update', 'delete', 'alter', 'drop'];
+    const startsWithValid = validStartKeywords.some(keyword => firstStatement.startsWith(keyword));
+    if (!startsWithValid) {
+      return {
+        passed: false,
+        actual: `Query starts with: "${firstStatement.split(" ")[0] || "nothing"}"`,
+        expected: `Query should start with one of: ${validStartKeywords.join(', ')}`,
+      };
+    }
+  }
 
-    case 4: // "Query should end with semicolon"
-      console.log("Checking if query ends with semicolon");
-      const trimmedCode = userCode.trim();
-      if (!trimmedCode.endsWith(";")) {
-        return {
-          passed: false,
-          actual: "Query does not end with semicolon",
-          expected: "Query should end with semicolon",
-        };
-      }
-      break;
-
-    default:
-      // For other syntax tests
-      break;
+  if (testCase.id === 4) {
+    console.log("Checking if query ends with semicolon");
+    const trimmedCode = userCode.trim();
+    if (!trimmedCode.endsWith(";")) {
+      return {
+        passed: false,
+        actual: "Query does not end with semicolon",
+        expected: "Query should end with semicolon",
+      };
+    }
   }
 
   console.log("Syntax validation passed");
@@ -217,7 +282,7 @@ const validateSyntax = (testCase, userCode) => {
   };
 };
 
-const validateFunctionality = (testCase, userCode) => {
+const validateFunctionality = (testCase, userCode, questionData) => {
   console.log("Validating functionality for test case:", testCase.id);
 
   // Clean the code
@@ -238,12 +303,15 @@ const validateFunctionality = (testCase, userCode) => {
 
   const firstStatement = sqlStatements[0];
 
-  // Check if it's a SELECT query
-  if (!firstStatement.startsWith("select")) {
+  // Check if it's a valid SQL statement type
+  const validTypes = ['select', 'create', 'insert', 'update', 'delete', 'alter', 'drop'];
+  const isValidType = validTypes.some(type => firstStatement.startsWith(type));
+  
+  if (!isValidType) {
     return {
       passed: false,
-      actual: "Not a SELECT query",
-      expected: "SELECT query expected",
+      actual: "Not a valid SQL statement",
+      expected: "Valid SQL statement expected",
     };
   }
 
@@ -272,35 +340,6 @@ const validateFunctionality = (testCase, userCode) => {
     };
   }
 
-  // Check for correct column order if specified
-  if (testCase.expectedColumns && Array.isArray(testCase.expectedColumns)) {
-    const selectMatch = firstStatement.match(/select\s+(.+?)\s+from/i);
-    if (selectMatch) {
-      const selectedPart = selectMatch[1];
-      if (selectedPart !== "*") {
-        const selectedColumns = selectedPart
-          .split(",")
-          .map((col) => col.trim().replace(/\s+as\s+.+$/, ""))
-          .filter((col) => col);
-
-        const expectedColumns = testCase.expectedColumns.map((col) =>
-          col.toLowerCase()
-        );
-
-        // Check if all expected columns are present
-        for (const expectedCol of expectedColumns) {
-          if (!selectedColumns.includes(expectedCol)) {
-            return {
-              passed: false,
-              actual: `Missing column: ${expectedCol}`,
-              expected: `Should include column: ${expectedCol}`,
-            };
-          }
-        }
-      }
-    }
-  }
-
   console.log("Functionality validation passed");
   return {
     passed: true,
@@ -309,9 +348,10 @@ const validateFunctionality = (testCase, userCode) => {
   };
 };
 
-// Mock SQL execution function
-export const mockExecuteSql = async (sql, databaseSchema = null) => {
+// Enhanced SQL execution function with dynamic table support
+export const mockExecuteSql = async (sql, databaseSchema = null, questionData = null) => {
   console.log("Executing SQL:", sql);
+  console.log("Question data for execution:", questionData);
 
   // Simulate execution delay
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -320,252 +360,561 @@ export const mockExecuteSql = async (sql, databaseSchema = null) => {
   const sqlWithoutComments = sql
     .replace(/--.*$/gm, "")
     .replace(/\/\*[\s\S]*?\*\//g, "")
-    .trim()
-    .toLowerCase();
+    .trim();
 
-  // Mock employees table data
-  const employeesData = {
-    columns: [
-      "employee_id",
-      "first_name",
-      "last_name",
-      "department",
-      "salary",
-      "hire_date",
-    ],
-    results: [
-      {
-        employee_id: 1,
-        first_name: "John",
-        last_name: "Doe",
-        department: "Engineering",
-        salary: 75000.0,
-        hire_date: "2022-01-15",
-      },
-      {
-        employee_id: 2,
-        first_name: "Jane",
-        last_name: "Smith",
-        department: "Marketing",
-        salary: 65000.0,
-        hire_date: "2022-03-20",
-      },
-      {
-        employee_id: 3,
-        first_name: "Bob",
-        last_name: "Johnson",
-        department: "Engineering",
-        salary: 80000.0,
-        hire_date: "2021-11-10",
-      },
-      {
-        employee_id: 4,
-        first_name: "Alice",
-        last_name: "Williams",
-        department: "Sales",
-        salary: 70000.0,
-        hire_date: "2023-02-01",
-      },
-      {
-        employee_id: 5,
-        first_name: "Charlie",
-        last_name: "Brown",
-        department: "Marketing",
-        salary: 60000.0,
-        hire_date: "2023-05-15",
-      },
-    ],
-    rowCount: 5,
-  };
+  const sqlLower = sqlWithoutComments.toLowerCase();
 
-  // Parse the SQL to understand what's being requested
-  console.log("Parsing SQL:", sqlWithoutComments);
-
-  // Check for SELECT * FROM employees (basic query)
-  if (
-    sqlWithoutComments.includes("select") &&
-    sqlWithoutComments.includes("from employees")
-  ) {
-    // Check for specific columns
-    if (
-      sqlWithoutComments.includes(
-        "select first_name, last_name, department from employees"
-      )
-    ) {
-      return {
-        success: true,
-        output: "Query executed successfully. Returned 5 rows.",
-        data: {
-          columns: ["first_name", "last_name", "department"],
-          results: employeesData.results.map((row) => ({
-            first_name: row.first_name,
-            last_name: row.last_name,
-            department: row.department,
-          })),
-          rowCount: 5,
-        },
-      };
+  try {
+    // Handle CREATE TABLE statements
+    if (sqlLower.includes('create table')) {
+      return handleCreateTable(sqlWithoutComments, questionData);
+    }
+    
+    // Handle INSERT statements
+    if (sqlLower.includes('insert into')) {
+      return handleInsert(sqlWithoutComments, questionData);
+    }
+    
+    // Handle SELECT statements
+    if (sqlLower.includes('select')) {
+      return handleSelect(sqlWithoutComments, questionData);
+    }
+    
+    // Handle UPDATE statements
+    if (sqlLower.includes('update')) {
+      return handleUpdate(sqlWithoutComments, questionData);
+    }
+    
+    // Handle DELETE statements
+    if (sqlLower.includes('delete')) {
+      return handleDelete(sqlWithoutComments, questionData);
+    }
+    
+    // Handle ALTER TABLE statements
+    if (sqlLower.includes('alter table')) {
+      return handleAlterTable(sqlWithoutComments, questionData);
+    }
+    
+    // Handle DROP TABLE statements
+    if (sqlLower.includes('drop table')) {
+      return handleDropTable(sqlWithoutComments, questionData);
     }
 
-    // Check for WHERE clause
-    if (sqlWithoutComments.includes("where")) {
-      // WHERE department = 'engineering'
-      if (sqlWithoutComments.includes("department = 'engineering'")) {
-        const filteredData = employeesData.results.filter(
-          (row) => row.department.toLowerCase() === "engineering"
-        );
-        return {
-          success: true,
-          output: "Query executed successfully. Returned 2 rows.",
-          data: {
-            columns: employeesData.columns,
-            results: filteredData,
-            rowCount: filteredData.length,
-          },
-        };
-      }
-
-      // WHERE salary > 70000
-      if (sqlWithoutComments.includes("salary > 70000")) {
-        const filteredData = employeesData.results.filter(
-          (row) => row.salary > 70000
-        );
-        return {
-          success: true,
-          output: "Query executed successfully. Returned 2 rows.",
-          data: {
-            columns: ["first_name", "last_name", "salary"],
-            results: filteredData.map((row) => ({
-              first_name: row.first_name,
-              last_name: row.last_name,
-              salary: row.salary,
-            })),
-            rowCount: filteredData.length,
-          },
-        };
-      }
-    }
-
-    // Check for ORDER BY
-    if (sqlWithoutComments.includes("order by")) {
-      const sortedData = [...employeesData.results];
-
-      if (sqlWithoutComments.includes("salary desc")) {
-        sortedData.sort((a, b) => b.salary - a.salary);
-
-        // Check for LIMIT
-        if (sqlWithoutComments.includes("limit 3")) {
-          const limitedData = sortedData.slice(0, 3);
-          return {
-            success: true,
-            output: "Query executed successfully. Returned 3 rows.",
-            data: {
-              columns: ["first_name", "last_name", "salary"],
-              results: limitedData.map((row) => ({
-                first_name: row.first_name,
-                last_name: row.last_name,
-                salary: row.salary,
-              })),
-              rowCount: 3,
-            },
-          };
-        }
-
-        return {
-          success: true,
-          output: "Query executed successfully. Returned 5 rows.",
-          data: {
-            columns: ["first_name", "last_name", "salary"],
-            results: sortedData.map((row) => ({
-              first_name: row.first_name,
-              last_name: row.last_name,
-              salary: row.salary,
-            })),
-            rowCount: 5,
-          },
-        };
-      }
-    }
-
-    // Check for GROUP BY
-    if (sqlWithoutComments.includes("group by")) {
-      // GROUP BY department with COUNT(*)
-      if (sqlWithoutComments.includes("count(*)")) {
-        const departmentCounts = {};
-        employeesData.results.forEach((row) => {
-          departmentCounts[row.department] =
-            (departmentCounts[row.department] || 0) + 1;
-        });
-
-        const results = Object.entries(departmentCounts).map(
-          ([dept, count]) => ({
-            department: dept,
-            employee_count: count,
-          })
-        );
-
-        return {
-          success: true,
-          output: "Query executed successfully. Returned 3 rows.",
-          data: {
-            columns: ["department", "employee_count"],
-            results: results,
-            rowCount: results.length,
-          },
-        };
-      }
-
-      // GROUP BY department with AVG(salary)
-      if (sqlWithoutComments.includes("avg(salary)")) {
-        const departmentStats = {};
-        employeesData.results.forEach((row) => {
-          if (!departmentStats[row.department]) {
-            departmentStats[row.department] = { total: 0, count: 0 };
-          }
-          departmentStats[row.department].total += row.salary;
-          departmentStats[row.department].count += 1;
-        });
-
-        const results = Object.entries(departmentStats).map(
-          ([dept, stats]) => ({
-            department: dept,
-            avg_salary: Math.round(stats.total / stats.count),
-          })
-        );
-
-        // Sort if ORDER BY is present
-        if (sqlWithoutComments.includes("order by avg_salary desc")) {
-          results.sort((a, b) => b.avg_salary - a.avg_salary);
-        }
-
-        return {
-          success: true,
-          output: "Query executed successfully. Returned 3 rows.",
-          data: {
-            columns: ["department", "avg_salary"],
-            results: results,
-            rowCount: results.length,
-          },
-        };
-      }
-    }
-
-    // Default SELECT response
+    // Default response
     return {
       success: true,
-      output: "Query executed successfully. Returned 5 rows.",
-      data: employeesData,
+      output: "Query executed successfully",
+      data: {
+        columns: ["result"],
+        results: [{ result: "Query completed" }],
+        rowCount: 1,
+      },
+    };
+
+  } catch (error) {
+    console.error("SQL execution error:", error);
+    return {
+      success: false,
+      error: error.message,
+      output: `Error: ${error.message}`,
+    };
+  }
+};
+
+const handleCreateTable = (sql, questionData) => {
+  // Parse CREATE TABLE statement
+  const createTableMatch = sql.match(/create\s+table\s+(\w+)\s*\(([^;]+)\)/i);
+  if (!createTableMatch) {
+    throw new Error("Invalid CREATE TABLE syntax");
+  }
+
+  const tableName = createTableMatch[1];
+  const columnDefinitions = createTableMatch[2].split(',').map(col => col.trim());
+
+  // Parse column definitions
+  const columns = [];
+  const dataTypes = {};
+  
+  columnDefinitions.forEach(def => {
+    const parts = def.split(/\s+/);
+    const columnName = parts[0];
+    const dataType = parts[1];
+    columns.push(columnName);
+    dataTypes[columnName] = dataType;
+  });
+
+  // Create table structure
+  const tableData = {
+    name: tableName,
+    columns: columns,
+    dataTypes: dataTypes,
+    rows: []
+  };
+
+  // Store in question data
+  if (questionData) {
+    if (!questionData.tables) questionData.tables = {};
+    questionData.tables[tableName] = tableData;
+  }
+
+  // Format the table structure for display
+  const tableStructure = [];
+  columns.forEach(col => {
+    tableStructure.push({
+      Column: col,
+      Type: dataTypes[col],
+      Null: "YES",
+      Default: null
+    });
+  });
+
+  return {
+    success: true,
+    output: `✅ Table '${tableName}' created successfully`,
+    data: {
+      columns: ["Column", "Type", "Null", "Default"],
+      results: tableStructure,
+      rowCount: tableStructure.length,
+      tableInfo: {
+        name: tableName,
+        columns: columns,
+        dataTypes: dataTypes,
+        rows: []
+      },
+      message: `Table '${tableName}' has been created with the following structure:`
+    },
+  };
+};
+
+const handleInsert = (sql, questionData) => {
+  // Parse INSERT statement
+  const insertMatch = sql.match(/insert\s+into\s+(\w+)\s*(?:\(([^)]+)\))?\s*values\s*\(([^)]+)\)/i);
+  if (!insertMatch) {
+    throw new Error("Invalid INSERT syntax");
+  }
+
+  const tableName = insertMatch[1];
+  const columnsPart = insertMatch[2] ? insertMatch[2].split(',').map(c => c.trim()) : null;
+  const valuesPart = insertMatch[3].split(',').map(v => v.trim().replace(/'/g, ''));
+
+  // Check if table exists
+  if (!questionData?.tables?.[tableName]) {
+    throw new Error(`Table '${tableName}' does not exist`);
+  }
+
+  const table = questionData.tables[tableName];
+  
+  // Create new row
+  const newRow = {};
+  if (columnsPart) {
+    columnsPart.forEach((col, index) => {
+      newRow[col] = valuesPart[index];
+    });
+  } else {
+    table.columns.forEach((col, index) => {
+      newRow[col] = valuesPart[index];
+    });
+  }
+
+  table.rows.push(newRow);
+
+  return {
+    success: true,
+    output: `✅ 1 row inserted into '${tableName}'`,
+    data: {
+      columns: table.columns,
+      results: table.rows,
+      rowCount: table.rows.length,
+      tableInfo: {
+        name: tableName,
+        columns: table.columns,
+        dataTypes: table.dataTypes,
+        rows: table.rows
+      },
+      message: `Data inserted successfully. Current table '${tableName}' data:`
+    },
+  };
+};
+
+const handleSelect = (sql, questionData) => {
+  // Parse SELECT statement
+  const selectMatch = sql.match(/select\s+(.+?)\s+from\s+(\w+)(?:\s+where\s+(.+))?/i);
+  if (!selectMatch) {
+    throw new Error("Invalid SELECT syntax");
+  }
+
+  const selectPart = selectMatch[1].trim();
+  const tableName = selectMatch[2];
+  const whereClause = selectMatch[3];
+
+  // Check if table exists in our dynamic tables first
+  if (questionData?.tables?.[tableName]) {
+    const table = questionData.tables[tableName];
+    let results = [...table.rows];
+
+    // Apply WHERE clause if present
+    if (whereClause) {
+      results = results.filter(row => {
+        // Simple WHERE parsing for demonstration
+        const whereParts = whereClause.match(/(\w+)\s*=\s*'?([^'\s]+)'?/i);
+        if (whereParts) {
+          const [_, col, val] = whereParts;
+          return row[col] == val;
+        }
+        return true;
+      });
+    }
+
+    // Determine columns to return
+    let columns = table.columns;
+    let filteredResults = results;
+
+    if (selectPart !== '*') {
+      const selectedColumns = selectPart.split(',').map(c => c.trim());
+      columns = selectedColumns;
+      filteredResults = results.map(row => {
+        const newRow = {};
+        selectedColumns.forEach(col => {
+          newRow[col] = row[col];
+        });
+        return newRow;
+      });
+    }
+
+    return {
+      success: true,
+      output: `✅ Query executed successfully. Returned ${filteredResults.length} rows.`,
+      data: {
+        columns: columns,
+        results: filteredResults,
+        rowCount: filteredResults.length,
+        tableInfo: {
+          name: tableName,
+          columns: table.columns,
+          dataTypes: table.dataTypes,
+          rows: table.rows
+        },
+        message: `Showing data from '${tableName}' table:`
+      },
     };
   }
 
-  // Default response for other queries
+  // If table doesn't exist in dynamic tables, return mock data
+  return getMockDataForTable(tableName, questionData);
+};
+
+const handleUpdate = (sql, questionData) => {
+  // Parse UPDATE statement
+  const updateMatch = sql.match(/update\s+(\w+)\s+set\s+(.+?)(?:\s+where\s+(.+))?/i);
+  if (!updateMatch) {
+    throw new Error("Invalid UPDATE syntax");
+  }
+
+  const tableName = updateMatch[1];
+  const setClause = updateMatch[2];
+  const whereClause = updateMatch[3];
+
+  // Check if table exists
+  if (!questionData?.tables?.[tableName]) {
+    throw new Error(`Table '${tableName}' does not exist`);
+  }
+
+  const table = questionData.tables[tableName];
+  
+  // Parse SET clause
+  const setParts = setClause.match(/(\w+)\s*=\s*'?([^,]+)'?/);
+  if (!setParts) {
+    throw new Error("Invalid SET clause");
+  }
+
+  const [_, setCol, setVal] = setParts;
+
+  // Parse WHERE clause
+  let whereCol, whereVal;
+  if (whereClause) {
+    const whereParts = whereClause.match(/(\w+)\s*=\s*'?([^'\s]+)'?/i);
+    if (whereParts) {
+      [_, whereCol, whereVal] = whereParts;
+    }
+  }
+
+  // Update rows
+  let updatedCount = 0;
+  table.rows = table.rows.map(row => {
+    if (!whereClause || (whereCol && row[whereCol] == whereVal)) {
+      updatedCount++;
+      return { ...row, [setCol]: setVal.replace(/'/g, '') };
+    }
+    return row;
+  });
+
   return {
     success: true,
-    output: "Query executed successfully",
+    output: `✅ ${updatedCount} row(s) updated in '${tableName}'`,
+    data: {
+      columns: table.columns,
+      results: table.rows,
+      rowCount: table.rows.length,
+      tableInfo: {
+        name: tableName,
+        columns: table.columns,
+        dataTypes: table.dataTypes,
+        rows: table.rows
+      },
+      message: `Updated table '${tableName}' data:`
+    },
+  };
+};
+
+const handleDelete = (sql, questionData) => {
+  // Parse DELETE statement
+  const deleteMatch = sql.match(/delete\s+from\s+(\w+)(?:\s+where\s+(.+))?/i);
+  if (!deleteMatch) {
+    throw new Error("Invalid DELETE syntax");
+  }
+
+  const tableName = deleteMatch[1];
+  const whereClause = deleteMatch[2];
+
+  // Check if table exists
+  if (!questionData?.tables?.[tableName]) {
+    throw new Error(`Table '${tableName}' does not exist`);
+  }
+
+  const table = questionData.tables[tableName];
+  
+  // Parse WHERE clause
+  let whereCol, whereVal;
+  if (whereClause) {
+    const whereParts = whereClause.match(/(\w+)\s*=\s*'?([^'\s]+)'?/i);
+    if (whereParts) {
+      [_, whereCol, whereVal] = whereParts;
+    }
+  }
+
+  // Delete rows
+  const initialCount = table.rows.length;
+  table.rows = table.rows.filter(row => {
+    if (whereClause && whereCol) {
+      return row[whereCol] != whereVal;
+    }
+    return false; // DELETE without WHERE deletes all rows
+  });
+
+  const deletedCount = initialCount - table.rows.length;
+
+  return {
+    success: true,
+    output: `✅ ${deletedCount} row(s) deleted from '${tableName}'`,
+    data: {
+      columns: table.columns,
+      results: table.rows,
+      rowCount: table.rows.length,
+      tableInfo: {
+        name: tableName,
+        columns: table.columns,
+        dataTypes: table.dataTypes,
+        rows: table.rows
+      },
+      message: `Table '${tableName}' after deletion:`
+    },
+  };
+};
+
+const handleAlterTable = (sql, questionData) => {
+  // Parse ALTER TABLE statement
+  const alterMatch = sql.match(/alter\s+table\s+(\w+)\s+(\w+)\s+(.+)/i);
+  if (!alterMatch) {
+    throw new Error("Invalid ALTER TABLE syntax");
+  }
+
+  const tableName = alterMatch[1];
+  const action = alterMatch[2].toLowerCase();
+  const rest = alterMatch[3];
+
+  // Check if table exists
+  if (!questionData?.tables?.[tableName]) {
+    throw new Error(`Table '${tableName}' does not exist`);
+  }
+
+  const table = questionData.tables[tableName];
+  let actionMessage = "";
+
+  if (action === 'add') {
+    // Add column
+    const columnMatch = rest.match(/(\w+)\s+(\w+)/);
+    if (columnMatch) {
+      const [_, colName, colType] = columnMatch;
+      table.columns.push(colName);
+      table.dataTypes[colName] = colType;
+      // Add column to existing rows with null value
+      table.rows = table.rows.map(row => ({ ...row, [colName]: null }));
+      actionMessage = `Added column '${colName}' with type ${colType}`;
+    }
+  } else if (action === 'drop') {
+    // Drop column
+    const colName = rest.trim();
+    const colIndex = table.columns.indexOf(colName);
+    if (colIndex !== -1) {
+      table.columns.splice(colIndex, 1);
+      delete table.dataTypes[colName];
+      // Remove column from existing rows
+      table.rows = table.rows.map(row => {
+        const newRow = { ...row };
+        delete newRow[colName];
+        return newRow;
+      });
+      actionMessage = `Dropped column '${colName}'`;
+    }
+  } else if (action === 'rename') {
+    // Rename column
+    const renameMatch = rest.match(/(\w+)\s+to\s+(\w+)/i);
+    if (renameMatch) {
+      const [_, oldName, newName] = renameMatch;
+      const colIndex = table.columns.indexOf(oldName);
+      if (colIndex !== -1) {
+        table.columns[colIndex] = newName;
+        table.dataTypes[newName] = table.dataTypes[oldName];
+        delete table.dataTypes[oldName];
+        // Rename column in existing rows
+        table.rows = table.rows.map(row => {
+          const newRow = { ...row };
+          newRow[newName] = newRow[oldName];
+          delete newRow[oldName];
+          return newRow;
+        });
+        actionMessage = `Renamed column '${oldName}' to '${newName}'`;
+      }
+    }
+  }
+
+  return {
+    success: true,
+    output: `✅ Table '${tableName}' altered successfully. ${actionMessage}`,
+    data: {
+      columns: table.columns,
+      results: table.rows,
+      rowCount: table.rows.length,
+      tableInfo: {
+        name: tableName,
+        columns: table.columns,
+        dataTypes: table.dataTypes,
+        rows: table.rows
+      },
+      message: `Updated table structure and data for '${tableName}':`
+    },
+  };
+};
+
+const handleDropTable = (sql, questionData) => {
+  // Parse DROP TABLE statement
+  const dropMatch = sql.match(/drop\s+table\s+(\w+)/i);
+  if (!dropMatch) {
+    throw new Error("Invalid DROP TABLE syntax");
+  }
+
+  const tableName = dropMatch[1];
+
+  // Check if table exists
+  if (!questionData?.tables?.[tableName]) {
+    throw new Error(`Table '${tableName}' does not exist`);
+  }
+
+  // Store table info before deletion
+  const tableInfo = { ...questionData.tables[tableName] };
+  
+  // Delete table
+  delete questionData.tables[tableName];
+
+  return {
+    success: true,
+    output: `✅ Table '${tableName}' dropped successfully`,
+    data: {
+      columns: ["result"],
+      results: [{ result: `Table ${tableName} has been dropped` }],
+      rowCount: 1,
+      message: `Table '${tableName}' has been removed from the database.`,
+      droppedTable: tableInfo
+    },
+  };
+};
+
+const getMockDataForTable = (tableName, questionData) => {
+  // Provide mock data based on table name and question data
+  const mockTables = {
+    employees: {
+      columns: ["employee_id", "first_name", "last_name", "department", "salary", "hire_date"],
+      results: [
+        { employee_id: 1, first_name: "John", last_name: "Doe", department: "Engineering", salary: 75000, hire_date: "2022-01-15" },
+        { employee_id: 2, first_name: "Jane", last_name: "Smith", department: "Marketing", salary: 65000, hire_date: "2022-03-20" },
+        { employee_id: 3, first_name: "Bob", last_name: "Johnson", department: "Engineering", salary: 80000, hire_date: "2021-11-10" },
+        { employee_id: 4, first_name: "Alice", last_name: "Williams", department: "Sales", salary: 70000, hire_date: "2023-02-01" },
+        { employee_id: 5, first_name: "Charlie", last_name: "Brown", department: "Marketing", salary: 60000, hire_date: "2023-05-15" },
+      ],
+      rowCount: 5,
+    },
+    student: {
+      columns: ["id", "name", "age", "score"],
+      results: [
+        { id: 1, name: "Ram", age: 24, score: 10 },
+        { id: 2, name: "Suresh", age: 21, score: 9 },
+        { id: 3, name: "Venkat", age: 21, score: 43 },
+        { id: 4, name: "Raj", age: 26, score: 120 },
+        { id: 5, name: "Shyam", age: 28, score: 125 },
+      ],
+      rowCount: 5,
+    },
+    player: {
+      columns: ["name", "age", "score"],
+      results: [
+        { name: "Ram", age: 28, score: 125 },
+        { name: "Suresh", age: 21, score: 70 },
+        { name: "Venkat", age: 21, score: 43 },
+        { name: "Raj", age: 26, score: 120 },
+        { name: "Charan", age: 25, score: 173 },
+        { name: "Ravan", age: 20, score: 152 },
+      ],
+      rowCount: 6,
+    },
+    customer: {
+      columns: ["customer_id", "first_name", "last_name", "date_of_birth", "address", "phone_number"],
+      results: [
+        { customer_id: 1, first_name: "John", last_name: "Doe", date_of_birth: "1990-01-15", address: "123 Main St", phone_number: 5551234 },
+        { customer_id: 2, first_name: "Jane", last_name: "Smith", date_of_birth: "1985-05-20", address: "456 Oak Ave", phone_number: 5555678 },
+      ],
+      rowCount: 2,
+    },
+    order_details: {
+      columns: ["order_id", "customer_id", "order_datetime", "shipped_datetime", "total_amount"],
+      results: [
+        { order_id: 101, customer_id: 1, order_datetime: "2024-01-15 10:30:00", shipped_datetime: "2024-01-16 14:20:00", total_amount: 299.99 },
+        { order_id: 102, customer_id: 2, order_datetime: "2024-01-16 11:45:00", shipped_datetime: "2024-01-17 09:30:00", total_amount: 149.50 },
+      ],
+      rowCount: 2,
+    },
+  };
+
+  const mockData = mockTables[tableName];
+  if (mockData) {
+    return {
+      success: true,
+      output: `✅ Query executed successfully. Returned ${mockData.rowCount} rows.`,
+      data: {
+        ...mockData,
+        message: `Showing data from '${tableName}' table:`
+      },
+    };
+  }
+
+  // Default mock data
+  return {
+    success: true,
+    output: "✅ Query executed successfully",
     data: {
       columns: ["result"],
       results: [{ result: "Query completed" }],
       rowCount: 1,
+      message: "Query result:"
     },
   };
 };

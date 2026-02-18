@@ -6205,6 +6205,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
           id: "ba5f7b86-fc8078e65-a3395dc7cc36",
           title: "Update the values of an array",
           description:
@@ -6277,6 +6278,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "93b1de13-80759428-b8466cb75e9a",
           title: "Find the length of the array",
           description:
@@ -6334,6 +6336,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "893940c6-7486682a6-15c67a3f4491",
           title: "Add a value to the end of the array",
           description:
@@ -6396,6 +6399,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "59db7b86-3de18900-389d2c2115c2",
           title: "Delete the last value of the array",
           description:
@@ -6564,6 +6568,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "5d28a093cbb3-4402b16d-29409791a240",
           title: "Create a Function",
           description:
@@ -6606,6 +6611,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "8c4bad15-52fa4bf5943f-d25df3018003",
           title: "Passing an Argument to the Function",
           description:
@@ -6650,6 +6656,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "d813742e-f8f5-41d992d3-1178dc1659ea",
           title: "Creating a Function with Parameters",
           description:
@@ -6717,6 +6724,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "d813742e-f8fnjuv4992d3-1178dc1659ea",
           title: "Creating a Function Expression",
           description:
@@ -6899,6 +6907,7 @@ export const javascriptCodingPracticesData = {
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "b7c721a6-2b114fa78534-ba1de99e546b",
           title: "Access the values of an object",
           description:
@@ -6972,6 +6981,7 @@ let objectKey = prompt();
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "7c5c1c8d-6a3d4a7fbd68-d7e0f6172c26",
           title: "Update the values of an object",
           description:
@@ -7049,6 +7059,7 @@ let val = eval(prompt()); // value can be string, array, or object
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "ccf99d4e-8a2346e9b7e0-9fec95863684",
           title: "Add a property to an object",
           description:
@@ -7282,6 +7293,7 @@ console.log(calculateTotalScore(arrayOfScores));
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "883b7ef2-60cd4b2ca2bb-ffe195444ccd",
           title: "Make an Array",
           description:
@@ -7355,6 +7367,7 @@ console.log(makeArray(num1, num2, num3));
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "1dd93f45-6b8c4fecb697-832fca4cb321",
           title: "Eligibility to play the next level of a game",
           description:
@@ -7421,6 +7434,7 @@ console.log(makeArray(num1, num2, num3));
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "0c7a2439-d9554c0f863f-4c1f5d7aa851",
           title: "Game Mode",
           description:
@@ -7657,6 +7671,7 @@ let objectKey = prompt();
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "1839d6c4-fa5f48d0be88-9f8606f58b76",
           title: "Eligibility to Vote",
           description:
@@ -7733,6 +7748,7 @@ logEligibleVoters(arrayOfPersons);
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "47d6bda7-14e94f2c90ff-b201f9340c8a",
           title: "Indian Car Brand Names",
           description:
@@ -8894,6 +8910,7 @@ findDuplicate(myArray);
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "7232feb4-ccd9-b5ed-065b4850f407",
           title: "Sports Data",
           description:
@@ -8956,6 +8973,8 @@ findDuplicate(myArray);
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "7232feb4-ccd9-44ed-b5ed-065b4850f407",
           title: "Cumulative Sum",
           description:
@@ -9013,6 +9032,8 @@ findDuplicate(myArray);
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "7232feb4-ccd9-065b4850f407",
           title: "Common Items in Three Arrays",
           description:
@@ -9214,6 +9235,8 @@ replaceArrayItem(myArray, targetItem, replaceItem);
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "e8f49aad-a233-b71b6d1ab82d",
           title: "Find the First Value",
           description:
@@ -9282,6 +9305,8 @@ findFirstValue(myArray);
         },
 
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "e8f49aad-a235783-b71b6d1ab82d",
           title: "Product of Array Items",
           description:

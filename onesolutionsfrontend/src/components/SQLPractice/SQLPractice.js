@@ -47,7 +47,8 @@ const SQLPractice = () => {
   const [isPracticeCompleted, setIsPracticeCompleted] = useState(false);
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
+  const [tableData, setTableData] = useState(null);
+  const [databaseTables, setDatabaseTables] = useState({});
   // Editor state for SQL
   const [code, setCode] = useState("");
   const [theme] = useState("monokai");
@@ -424,6 +425,49 @@ const SQLPractice = () => {
 
         setSelectedQuestion(question);
 
+        // Initialize tables from question data
+        const tables = {};
+        if (question.tableData) {
+          Object.entries(question.tableData).forEach(
+            ([tableName, tableInfo]) => {
+              tables[tableName] = {
+                name: tableName,
+                columns: tableInfo.columns,
+                dataTypes: tableInfo.columns.reduce((acc, col) => {
+                  // Try to infer data types from column names
+                  if (
+                    col.toLowerCase().includes("id") ||
+                    col.toLowerCase().includes("age") ||
+                    col.toLowerCase().includes("score")
+                  ) {
+                    acc[col] = "INTEGER";
+                  } else if (col.toLowerCase().includes("date")) {
+                    acc[col] = "DATE";
+                  } else if (
+                    col.toLowerCase().includes("amount") ||
+                    col.toLowerCase().includes("salary")
+                  ) {
+                    acc[col] = "DECIMAL";
+                  } else {
+                    acc[col] = "VARCHAR";
+                  }
+                  return acc;
+                }, {}),
+                rows: tableInfo.rows
+                  ? tableInfo.rows.map((row) => {
+                      const rowObj = {};
+                      tableInfo.columns.forEach((col, idx) => {
+                        rowObj[col] = row[idx];
+                      });
+                      return rowObj;
+                    })
+                  : [],
+              };
+            }
+          );
+        }
+        setDatabaseTables(tables);
+
         const progressMap = await loadProgress();
         const savedProgress = progressMap[question.id];
         let initialCode = "";
@@ -547,12 +591,26 @@ const SQLPractice = () => {
     setTestResults([]);
 
     try {
-      const result = await mockExecuteSql(code);
+      // Prepare question data with tables
+      const questionData = {
+        ...selectedQuestion,
+        tables: { ...databaseTables },
+      };
+
+      const result = await mockExecuteSql(code, null, questionData);
       console.log("SQL execution result:", result);
 
       if (result.success) {
         setOutput(result.output || "Query executed successfully");
         setQueryResult(result.data);
+
+        // Update database tables if they were modified
+        if (result.data && selectedQuestion?.tableData) {
+          // In a real implementation, you would update the tables based on the query
+          // For now, we'll just log that tables might have been modified
+          console.log("Tables may have been modified by query");
+        }
+
         return result.data;
       } else {
         setExecutionError(result.error);
@@ -589,12 +647,23 @@ const SQLPractice = () => {
         return;
       }
 
+      // Prepare question data with tables for validation
+      const questionData = {
+        ...selectedQuestion,
+        tables: { ...databaseTables },
+      };
+
       for (let i = 0; i < selectedQuestion.testCases.length; i++) {
         const testCase = selectedQuestion.testCases[i];
         let testResult;
 
         try {
-          testResult = validateSqlTest(testCase, code, executionResult);
+          testResult = validateSqlTest(
+            testCase,
+            code,
+            executionResult,
+            questionData
+          );
         } catch (error) {
           console.error(`Test ${testCase.id} error:`, error);
           testResult = {
@@ -962,18 +1031,69 @@ const SQLPractice = () => {
     return null;
   };
 
-  const renderQueryResult = () => {
+  const renderResultTable = () => {
     if (!queryResult) return null;
 
-    if (queryResult.error) {
+    // Show table structure for CREATE TABLE
+    if (queryResult.tableInfo && queryResult.columns.includes("Column")) {
       return (
-        <div className="sql-error-output">
-          <h4>Error:</h4>
-          <pre>{queryResult.error}</pre>
+        <div className="sql-result-output">
+          <div className="sql-table-structure">
+            <h4>Table: {queryResult.tableInfo.name}</h4>
+            <div className="sql-result-table">
+              <table>
+                <thead>
+                  <tr>
+                    {queryResult.columns?.map((col, idx) => (
+                      <th key={idx}>{col}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {queryResult.results.map((row, rowIdx) => (
+                    <tr key={rowIdx}>
+                      {queryResult.columns?.map((col, colIdx) => (
+                        <td key={colIdx}>{row[col]}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Show table data if available */}
+          {queryResult.tableInfo.rows &&
+            queryResult.tableInfo.rows.length > 0 && (
+              <div className="sql-table-data">
+                <h4>Table Data:</h4>
+                <div className="sql-result-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        {queryResult.tableInfo.columns?.map((col, idx) => (
+                          <th key={idx}>{col}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {queryResult.tableInfo.rows.map((row, rowIdx) => (
+                        <tr key={rowIdx}>
+                          {queryResult.tableInfo.columns?.map((col, colIdx) => (
+                            <td key={colIdx}>{row[col]}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
         </div>
       );
     }
 
+    // Regular query results
     if (queryResult.results && queryResult.results.length > 0) {
       return (
         <div className="sql-result-output">
@@ -997,16 +1117,40 @@ const SQLPractice = () => {
               </tbody>
             </table>
           </div>
+          <div className="sql-row-count">
+            <p>{queryResult.rowCount || 0} row(s) returned</p>
+          </div>
         </div>
       );
     }
 
+    // Success message without data
     return (
       <div className="sql-success-output">
         <p>✓ Query executed successfully.</p>
         <p>{queryResult.rowCount || 0} row(s) affected.</p>
       </div>
     );
+  };
+
+  const renderQueryResult = () => {
+    if (!queryResult) return null;
+
+    if (queryResult.error) {
+      return (
+        <div className="sql-error-output">
+          <h4>Error:</h4>
+          <pre>{queryResult.error}</pre>
+        </div>
+      );
+    }
+
+    // Show message if present
+    if (queryResult.message) {
+      return <div className="sql-result-output">{renderResultTable()}</div>;
+    }
+
+    return renderResultTable();
   };
 
   if (isLoading) {

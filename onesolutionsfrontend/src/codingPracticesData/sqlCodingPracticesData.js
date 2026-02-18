@@ -387,25 +387,52 @@ SELECT * FROM table_name;
           `,
           testCases: [
             {
-              id: 2,
-              description: "Table should contain columns name, age, and score",
+              id: 1,
+              description: "Query should start with CREATE TABLE",
               type: "syntax-validation",
-              expectedKeywords: ["name", "age", "score"],
+              expectedKeywords: ["create", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table should be named 'student'",
+              type: "query-validation",
+              expectedTableName: "student",
+              expectedKeywords: ["student"],
               visible: true,
             },
             {
               id: 3,
-              description: "Column name should be VARCHAR(200)",
-              type: "syntax-validation",
-              expectedKeywords: ["varchar(200)"],
-              visible: false,
+              description: "Table should contain column 'name' as VARCHAR(200)",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "name", type: "varchar(200)" }
+              ],
+              visible: true,
             },
             {
               id: 4,
-              description: "Columns age and score should be INTEGER",
+              description: "Table should contain column 'age' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "age", type: "integer" }
+              ],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table should contain column 'score' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "score", type: "integer" }
+              ],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
               type: "syntax-validation",
-              expectedKeywords: ["age integer", "score integer"],
-              visible: false,
+              visible: true,
             },
           ],
         },
@@ -482,7 +509,56 @@ SELECT * FROM table_name;
               </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table should be named 'student'",
+              type: "query-validation",
+              expectedTableName: "student",
+              expectedKeywords: ["student"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table should contain column 'name' as VARCHAR(200)",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "name", type: "varchar(200)" }
+              ],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table should contain column 'age' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "age", type: "integer" }
+              ],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table should contain column 'score' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "score", type: "integer" }
+              ],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-6",
@@ -548,7 +624,56 @@ SELECT * FROM table_name;
               </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table should be named 'student'",
+              type: "query-validation",
+              expectedTableName: "student",
+              expectedKeywords: ["student"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table should contain column 'name' as VARCHAR(200)",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "name", type: "varchar(200)" }
+              ],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table should contain column 'age' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "age", type: "integer" }
+              ],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table should contain column 'score' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [
+                { name: "score", type: "integer" }
+              ],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-7",

@@ -459,3 +459,67 @@
   word-wrap: break-word;
   margin-top: -15px;
 }
+
+/* SQL Table Structure Styles */
+.sql-table-structure {
+  padding: 1rem;
+  background: #1e293b;
+  border-radius: 8px;
+}
+
+.sql-table-structure h4 {
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sql-table-data {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #1e293b;
+  border-radius: 8px;
+}
+
+.sql-table-data h4 {
+  color: #e2e8f0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sql-success-output {
+  padding: 1rem;
+  background: #1e293b;
+  border-radius: 8px;
+  color: #4caf50;
+}
+
+.sql-error-output {
+  padding: 1rem;
+  background: #2d1f1f;
+  border-radius: 8px;
+  color: #ff6b6b;
+  border-left: 4px solid #ff4444;
+}
+
+.sql-error-output pre {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: #1a1a1a;
+  border-radius: 4px;
+  color: #ff9999;
+  font-family: "Fira Code", monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.sql-row-count {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: #2d3a4f;
+  border-radius: 4px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: right;
+}
