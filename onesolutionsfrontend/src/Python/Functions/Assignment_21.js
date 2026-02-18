@@ -12,49 +12,73 @@ const Assignment_21 = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Use Auth context for progress tracking
+  // Use Auth context for progress tracking and student type
   const {
     codingPracticeProgress,
     loadProgressSummary,
     markSubtopicComplete,
     completedContent,
     loadProgressSummary: refreshProgress,
+    user, // Get user from auth context
   } = useAuth();
 
   const [selectedPractice, setSelectedPractice] = useState(null);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
+
+  // Get student type from user context - default to "zorvixe_core" if not specified
+  const studentType = user?.studentType || "zorvixe_core";
 
   // Get goalName and courseName from navigation state with fallbacks
   const {
     goalName: stateGoalName,
     courseName: stateCourseName,
     subtopicId: codingPracticeSubtopicId,
+    topicId: codingPracticeTopicId,
   } = location.state || {};
 
   // Extract goal and course names from practice data
   const goalName = stateGoalName;
   const courseName = stateCourseName;
-
-  // Use provided subtopicId or fallback
   const finalSubtopicId = codingPracticeSubtopicId;
+  const finalTopicId = codingPracticeTopicId;
 
-  // Load "Coding Practice - 1" from codingPracticesData
+  // Load "Coding Practice - 1" from codingPracticesData and filter questions based on student type
   useEffect(() => {
     const practice1 = codingPracticesData.python.find(
       (p) => p.id === "Codingpractice-python-Assignment-21"
     );
+    
     if (practice1) {
-      setSelectedPractice(practice1);
+      // Filter questions based on student type
+      const accessibleQuestions = practice1.questions.filter(
+        (question) => 
+          !question.accessibleTo || 
+          question.accessibleTo.includes(studentType)
+      );
+      
+      // Create a new practice object with filtered questions
+      const filteredPractice = {
+        ...practice1,
+        questions: accessibleQuestions
+      };
+      
+      setSelectedPractice(filteredPractice);
+      setFilteredQuestions(accessibleQuestions);
+      
       console.log("📝 Loaded practice with details:", {
         practiceId: practice1.id,
         goalName,
         courseName,
         subtopicId: finalSubtopicId,
+        studentType,
+        totalQuestions: practice1.questions.length,
+        accessibleQuestions: accessibleQuestions.length
       });
     }
     setLoading(false);
-  }, [goalName, courseName, finalSubtopicId]);
+  }, [goalName, courseName, finalSubtopicId, studentType]);
 
   // Load progress data when component mounts or when progress updates
   useEffect(() => {
@@ -142,7 +166,7 @@ const Assignment_21 = () => {
     [getQuestionStatus]
   );
 
-  // ✅ FIXED: Auto-mark practice as complete when all questions are solved
+  // Auto-mark practice as complete when all questions are solved
   useEffect(() => {
     const autoCompletePractice = async () => {
       if (
@@ -169,7 +193,6 @@ const Assignment_21 = () => {
           );
 
           // Method 2: ALSO mark the subtopic as complete in the main progress system
-          // This is crucial for goal and course progress tracking
           const result = await markSubtopicComplete(
             finalSubtopicId,
             goalName,
@@ -221,14 +244,44 @@ const Assignment_21 = () => {
   const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
 
   const handleQuestionSelect = (question) => {
+    // Double-check accessibility before allowing navigation
+    if (question.accessibleTo && !question.accessibleTo.includes(studentType)) {
+      alert("You don't have access to this question.");
+      return;
+    }
+    
     navigate(`/practice/${selectedPractice.id}/${question.id}`, {
       state: {
         subtopicId: finalSubtopicId,
         goalName,
         courseName,
+        topicId: finalTopicId,
       },
     });
   };
+
+  // Show message if no accessible questions
+  if (!loading && selectedPractice && filteredQuestions.length === 0) {
+    return (
+      <div className="coding-practice-container-cod">
+        <div className="coding-header-cod">
+          <div className="header-left-cod">
+            <h3>{selectedPractice.title}</h3>
+            <p className="practice-description-cod">
+              {selectedPractice.description}
+            </p>
+          </div>
+        </div>
+        <div className="coding-practice-content-cod">
+          <div className="no-questions-message" style={{ textAlign: 'center', padding: '50px' }}>
+            <h4>No Accessible Questions</h4>
+            <p>You don't have access to any questions in this practice based on your student type: {studentType}</p>
+            <p>Please contact your administrator for access to more questions.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -248,7 +301,7 @@ const Assignment_21 = () => {
 
   const practiceCompleted = isPracticeCompleted(selectedPractice.id);
   const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
-  const solvedCount = selectedPractice.questions.filter(
+  const solvedCount = filteredQuestions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
 
@@ -265,7 +318,12 @@ const Assignment_21 = () => {
             </p>
             <div className="practice-cod-right-header">
               <span className="total-questions-cod">
-                {selectedPractice.questions.length} questions
+                {filteredQuestions.length} accessible questions
+                {filteredQuestions.length < (codingPracticesData.python.find(p => p.id === "practice-python-1")?.questions.length || 0) && (
+                  <span className="filtered-badge" style={{ marginLeft: '10px', fontSize: '12px', color: '#666' }}>
+                    (filtered for {studentType})
+                  </span>
+                )}
               </span>
               <span className="solved-questions-cod">{solvedCount} solved</span>
             </div>
@@ -289,7 +347,7 @@ const Assignment_21 = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedPractice.questions.map((question) => {
+                  {filteredQuestions.map((question) => {
                     const status = getQuestionStatus(question.id);
                     const score = getQuestionScore(question.id);
                     const attempts = getQuestionAttempts(question.id);
@@ -394,18 +452,18 @@ const Assignment_21 = () => {
                 <div className="progress-stat-cod">
                   <span className="stat-label-cod">Questions Solved:</span>
                   <span className="stat-value-cod">
-                    {solvedCount} / {selectedPractice.questions.length}
+                    {solvedCount} / {filteredQuestions.length}
                   </span>
                 </div>
                 <div className="progress-stat-cod">
                   <span className="stat-label-cod">Total Score:</span>
                   <span className="stat-value-cod">
-                    {selectedPractice.questions.reduce(
+                    {filteredQuestions.reduce(
                       (total, q) => total + (getQuestionScore(q.id) || 0),
                       0
                     )}{" "}
                     /{" "}
-                    {selectedPractice.questions.reduce(
+                    {filteredQuestions.reduce(
                       (total, q) => total + q.score,
                       0
                     )}{" "}
@@ -418,7 +476,9 @@ const Assignment_21 = () => {
                   className="overall-progress-fill-cod"
                   style={{
                     width: `${
-                      (solvedCount / selectedPractice.questions.length) * 100
+                      filteredQuestions.length > 0 
+                        ? (solvedCount / filteredQuestions.length) * 100 
+                        : 0
                     }%`,
                   }}
                 ></div>
