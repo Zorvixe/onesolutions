@@ -1865,7 +1865,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
         },
       ],
     },
-    // SQL Practice 2
+    // SQL Practice 3
     {
       id: "sql-coding-practice-3",
       title: "Introduction to SQL",
@@ -1875,7 +1875,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           id: "sql-query-2-1",
           title: "Get All Products",
           description:
-            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe",
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe\n Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.\n Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\n NOTE: Expected output format for all the queries, unless specified.",
 
           difficulty: "Easy",
           score: 35,
@@ -1886,72 +1886,87 @@ We're storing the details of players who are a part of a tournament.<br/> The da
 
           tableData: {
             player: {
-              columns: ["name", "age", "score"],
-              rows: [["Ram", 24, 10], ["Shyam", 25, 15], ["Suresh", 21, 9], ,],
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 900, "Puma", 4.8],
+                ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
+                ["Smart Watch", "Electronics", 3000, "Noise", 4.2],
+                ["Cap", "Accessories", 500, "Adidas", 4.0],
+              ],
             },
           },
 
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p>
-              A new player has joined the tournament. Write an SQL query to add the the following details to the "player" table.</p>              
+              <p> Get all the products whosepriceis less than or equal to 1000.</p>              
          <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player</div>
                 <table>
-                <thead>
-                  <tr>
-                    <th>name</th>
-                    <th>age</th>
-                    <th>score</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Raj</td>
-                    <td>26</td>
-                    <td>120</td>
-                  </tr>
-                </tbody>
-              </table>
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>category</th>
+      <th>price</th>
+      <th>brand</th>
+      <th>rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Black Shirt</td>
+      <td>Clothing</td>
+      <td>900</td>
+      <td>Puma</td>
+      <td>4.8</td>
+    </tr>
+    <tr>
+      <td>---</td>
+      <td>---</td>
+      <td>---</td>
+      <td>---</td>
+      <td>---</td>
+    </tr>
+  </tbody>
+</table>
               </div> 
             </div>
           `,
           testCases: [
             {
               id: 1,
-              description: "Query should start with CREATE TABLE",
+              description: "Query should start with SELECT",
               type: "syntax-validation",
-              expectedKeywords: ["create", "table"],
+              expectedKeywords: ["select"],
               visible: true,
             },
             {
               id: 2,
-              description: "Table should be named 'player'",
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'player'",
               type: "query-validation",
               expectedTableName: "player",
               expectedKeywords: ["player"],
               visible: true,
             },
             {
-              id: 3,
-              description: "Table should contain column 'name' as VARCHAR(200)",
-              type: "query-validation",
-              expectedColumns: [{ name: "name", type: "varchar(200)" }],
-              visible: true,
-            },
-            {
               id: 4,
-              description: "Table should contain column 'age' as INTEGER",
+              description: "Query should contain WHERE clause",
               type: "query-validation",
-              expectedColumns: [{ name: "age", type: "integer" }],
+              expectedKeywords: ["where"],
               visible: true,
             },
             {
               id: 5,
-              description: "Table should contain column 'score' as INTEGER",
+              description: "Query should filter price using <= operator",
               type: "query-validation",
-              expectedColumns: [{ name: "score", type: "integer" }],
+              expectedKeywords: ["price", "<=", "1000"],
               visible: true,
             },
             {
