@@ -97,7 +97,7 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">SQL Concepts Review</p>
               <p><strong>SELECT statement syntax:</strong></p>
               <pre style="background: #1e293b; padding: 10px; border-radius: 6px; color: #cbd5e1; margin: 10px 0;">
-SELECT * FROM table_name;
+        SELECT * FROM table_name;
               </pre>
             </div>
           `,
