@@ -1117,9 +1117,7 @@ const SQLPractice = () => {
               </tbody>
             </table>
           </div>
-          <div className="sql-row-count">
-            <p>{queryResult.rowCount || 0} row(s) returned</p>
-          </div>
+         
         </div>
       );
     }
@@ -1416,7 +1414,7 @@ const SQLPractice = () => {
 
           {output && (
             <div className="sql-output-section">
-              <div className="output-header-prac">
+              <div className="output-header-prac-sql">
                 <h4>Output</h4>
               </div>
               <div className="output-content-prac-sql">
@@ -1426,12 +1424,7 @@ const SQLPractice = () => {
                     <pre>{output}</pre>
                   </div>
                 )}
-                {executionError && (
-                  <div className="sql-error-message">
-                    <h4>Error:</h4>
-                    <pre>{executionError}</pre>
-                  </div>
-                )}
+              
               </div>
             </div>
           )}

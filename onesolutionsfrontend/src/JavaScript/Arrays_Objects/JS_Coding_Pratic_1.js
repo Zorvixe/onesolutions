@@ -6,8 +6,8 @@ import { javascriptCodingPracticesData } from "../../codingPracticesData/javascr
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const JS_Coding_Pratic_1 = () => {
-  const { topicId, subtopicId } = useParams();
+const JS_Coding_Pratic_1 = () =>  {
+  const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -87,13 +87,13 @@ const JS_Coding_Pratic_1 = () => {
 
   // Load practice and filter questions based on student type
   useEffect(() => {
-    const practice5 = javascriptCodingPracticesData.javascript.find(
+    const practice1 = javascriptCodingPracticesData.javascript.find(
       (p) => p.id === "js-coding-practice-1"
     );
     
-    if (practice5) {
+    if (practice1) {
       // Filter questions based on student type
-      const accessibleQuestions = practice5.questions.filter(
+      const accessibleQuestions = practice1.questions.filter(
         (question) => 
           !question.accessibleTo || 
           question.accessibleTo.includes(studentType)
@@ -101,7 +101,7 @@ const JS_Coding_Pratic_1 = () => {
       
       // Create a new practice object with filtered questions
       const filteredPractice = {
-        ...practice5,
+        ...practice1,
         questions: accessibleQuestions
       };
       
@@ -109,12 +109,12 @@ const JS_Coding_Pratic_1 = () => {
       setFilteredQuestions(accessibleQuestions);
       
       console.log("✅ Loaded practice with details:", {
-        practiceId: practice5.id,
+        practiceId: practice1.id,
         goalName,
         courseName,
         subtopicId: finalSubtopicId,
         studentType,
-        totalQuestions: practice5.questions.length,
+        totalQuestions: practice1.questions.length,
         accessibleQuestions: accessibleQuestions.length
       });
     }
@@ -240,19 +240,29 @@ const JS_Coding_Pratic_1 = () => {
       return;
     }
     
-    navigate(`/practice/${selectedPractice.id}/${question.id}`, {
-      state: {
-        subtopicId: finalSubtopicId,
-        goalName,
-        courseName,
-      },
-    });
+    if (question.type === "web") {
+      navigate(`/web-practice/${selectedPractice.id}/${question.id}`, {
+        state: {
+          subtopicId: finalSubtopicId,
+          goalName,
+          courseName,
+        },
+      });
+    } else {
+      navigate(`/practice/${selectedPractice.id}/${question.id}`, {
+        state: {
+          subtopicId: finalSubtopicId,
+          goalName,
+          courseName,
+        },
+      });
+    }
   };
 
   // Show message if no accessible questions
   if (!loading && selectedPractice && filteredQuestions.length === 0) {
     const originalPractice = javascriptCodingPracticesData.javascript.find(
-      (p) => p.id === "js-coding-practice-1"
+      (p) => p.id === "javascript-coding-practice-1"
     );
     
     return (
@@ -298,7 +308,7 @@ const JS_Coding_Pratic_1 = () => {
   ).length;
 
   const originalPractice = javascriptCodingPracticesData.javascript.find(
-    (p) => p.id === "js-coding-practice-1"
+    (p) => p.id === "javascript-coding-practice-1"
   );
   const totalOriginalQuestions = originalPractice?.questions.length || 0;
 

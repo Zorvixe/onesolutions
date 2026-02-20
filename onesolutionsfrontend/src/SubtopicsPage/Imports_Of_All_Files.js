@@ -714,6 +714,9 @@ import SQL_Coding_Pratice_6 from "../SQL_Database/Aggregations/SQL_Coding_Pratic
 import SQL_Coding_Pratice_7 from "../SQL_Database/Common_Concepts/SQL_Coding_Pratice_7.js";
 import SQL_Coding_Pratice_8 from "../SQL_Database/Modelling_Databases/SQL_Coding_Pratice_8.js";
 
+//Nodejs cheat sheets
+import Introductionto_Nodejs_CS from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_CS.js";
+
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
@@ -1369,6 +1372,9 @@ export const subtopicComponents = {
   "MCQ Practice - 2": MCQWrapper,
 
   //Python End
+
+  //Nodejs cheat-sheets
+  "Introduction to Node JS | Cheat Sheet": Introductionto_Nodejs_CS,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":

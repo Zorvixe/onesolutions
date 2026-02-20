@@ -46,294 +46,594 @@ const Miscellaneous_Python_Library_CheeatSheet = ({
 
   return (
     <div className="intro-container">
-      <h1>Python Inheritance & Libraries | Cheat Sheet</h1>
-
-      {/* 1. Why Inheritance */}
-      <section>
-        <h2>1. Why Inheritance?</h2>
-        <p>
-          Inheritance is used when multiple classes share common properties and
-          behavior. Instead of writing the same code again, we create a parent
-          class and reuse it in child classes.
-        </p>
-        <p>This makes programs easier to maintain, extend, and understand.</p>
-        <ul>
-          <li>Common attributes: name, price</li>
-          <li>Specific attributes: warranty, expiry date</li>
-          <li>Reduces code duplication</li>
-          <li>Makes systems easy to extend</li>
-        </ul>
-      </section>
-
-      {/* 2. Base Class */}
-      <section>
-        <h2>2. Base / Parent Class</h2>
-        <p>
-          A parent (base) class contains common attributes and methods that are
-          shared by multiple child classes.
-        </p>
-        <p>
-          In this example, the <b>Product</b> class stores general product
-          details like price and ratings.
-        </p>
-
-        <CodeBlock
-          language="python"
-          code={`class Product:
-    def __init__(self, name, price, deal_price, ratings):
-        self.name = name
-        self.price = price
-        self.deal_price = deal_price
-        self.ratings = ratings
-
-    def display_product(self):
-        return f"""Product:{self.name}
-Price: ₹{self.price}
-Deal Price: ₹{self.deal_price}
-You Save: ₹{self.price - self.deal_price}
-Ratings:{self.ratings}"""`}
-        />
-      </section>
-
-      {/* 3. Child Classes */}
-      <section>
-        <h2>3. Child Classes (Inheritance)</h2>
-        <p>
-          Child classes inherit properties and methods from the parent class.
-          They can also add new features or override existing behavior.
-        </p>
-        <p>
-          Here, electronic and grocery products reuse product details but add
-          their own specific information.
-        </p>
-
-        <CodeBlock
-          language="python"
-          code={`class ElectronicItem(Product):  # Inherits from Product
-    def set_warranty(self, months):
-        self.warranty_months = months
-
-    def display_product(self):  # Method overriding
-        base_info = super().display_product()
-        return f"{base_info}\\nWarranty:{self.warranty_months} months"
-
-class GroceryItem(Product):
-    def set_expiry(self, date):
-        self.expiry_date = date
-
-# Usage
-tv = ElectronicItem("Smart TV", 45000, 40000, 4.2)
-tv.set_warranty(24)
-print(tv.display_product())`}
-        />
-      </section>
-
-      {/* 4. Multi-Level Inheritance */}
-      <section>
-        <h2>4. Multi-Level Inheritance</h2>
-        <p>
-          Multi-level inheritance occurs when a class is derived from another
-          child class, forming a chain of inheritance.
-        </p>
-        <p>Each level adds more functionality to the existing class.</p>
-
-        <CodeBlock
-          language="python"
-          code={`class SpecialElectronic(ElectronicItem):
-    def display_special_offer(self):
-        print("Special offer: 10% extra discount!")`}
-        />
-      </section>
-
-      {/* Composition */}
-      <section>
-        <h2>5. Composition (HAS-A Relationship)</h2>
-        <p>
-          Composition represents a <b>HAS-A</b> relationship where one class
-          contains objects of another class.
-        </p>
-        <p>
-          This approach is more flexible than inheritance and promotes better
-          design.
-        </p>
-        <CodeBlock
-          language="python"
-          code={`class Product:
-    def __init__(self, name, price):
-        self.name = name
-        self.price = price
-
-class Order:
-    def __init__(self, order_id):
-        self.order_id = order_id
-        self.products = []  # HAS-A relationship
-
-    def add_product(self, product):
-        self.products.append(product)
-
-    def total_amount(self):
-        return sum(product.price for product in self.products)
-
-# Usage
-order1 = Order("ORD001")
-order1.add_product(Product("Laptop", 50000))
-order1.add_product(Product("Mouse", 500))
-print(order1.total_amount())`}
-        />
-      </section>
+      <h1>Python Standard Library  | Cheat Sheet</h1>
 
       {/* Python Standard Library */}
       <section>
-        <h2>6. Python Standard Library</h2>
-        <p>
-          Python provides built-in modules that help perform common tasks
-          without writing extra code.
-        </p>
+        <h2>1.Python Standard Library</h2>
+          <h3>Built-in Functions</h3>
+          <p>Built-in functions are readily available for reuse.</p>
+          <ul>
+            <li>print()</li>
+            <li>max()</li>
+            <li>min()</li>
+            <li>len()</li>
+          </ul>
+        </section>
 
-        <CodeBlock
-          language="python"
-          code={`import math
-print(math.sqrt(25))
+        <section>
+          <h2>Python Standard Library</h2>
+          <p>
+            A collection of predefined constants, classes and functions provided by
+            Python.
+          </p>
 
-import random
-print(random.randint(1, 10))
+          <ul>
+            <li>Organized into <b>modules</b></li>
+            <li>Modules are grouped into <b>packages</b></li>
+          </ul>
 
-from datetime import datetime
-today = datetime.now()
-print(today.strftime("%d-%m-%Y"))`}
+          <p><b>Examples of modules:</b></p>
+          <ul>
+            <li>math</li>
+            <li>random</li>
+            <li>datetime</li>
+            <li>collections</li>
+          </ul>
+          <img
+          src="/assets/img/math.png"
+          alt="software"
+          style={{ width: "100%", height: "400px" }}
         />
-      </section>
 
-      {/* Functional Programming */}
+          <h3>Importing a Module</h3>
+          <CodeBlock language="python" code={`import module_name`} />
+        </section>
+
+        <section>
+          <h2>Math Module</h2>
+
+          <CodeBlock
+            language="python"
+            code={`import math
+        print(math.factorial(5))
+        print(math.pi)`}
+          />
+
+          <h3>Aliasing</h3>
+          <CodeBlock
+            language="python"
+            code={`import math as m
+        print(m.factorial(5))`}
+          />
+
+          <h3>Import Specific Function</h3>
+          <CodeBlock
+            language="python"
+            code={`from math import factorial
+        print(factorial(5))`}
+          />
+
+          <h3>Alias Specific Function</h3>
+          <CodeBlock
+            language="python"
+            code={`from math import factorial as fact
+        print(fact(5))`}
+          />
+        </section>
+
+        <section>
+          <h2>Random Module</h2>
+
+          <h3>randint()</h3>
+          <p>Returns a random integer in a given range.</p>
+
+          <CodeBlock
+            language="python"
+            code={`import random
+        print(random.randint(1, 10))`}
+          />
+
+          <h3>choice()</h3>
+          <p>Returns a random element from a sequence.</p>
+
+          <CodeBlock
+            language="python"
+            code={`import random
+        print(random.choice(["A","B","C"]))`}
+          />
+        </section>
+
+        <section>
+          <h2>map()</h2>
+          <p>Applies a function to every element of a sequence.</p>
+
+          <CodeBlock
+            language="python"
+            code={`def square(n):
+            return n*n
+
+        numbers = [1,2,3,4]
+        print(list(map(square, numbers)))`}
+          />
+
+          <CodeBlock
+            language="python"
+            code={`numbers = list(map(int, input().split()))`}
+          />
+        </section>
+
+        <section>
+          <h2>filter()</h2>
+          <p>Filters elements based on True/False condition.</p>
+
+          <CodeBlock
+            language="python"
+            code={`def is_positive(n):
+            return n > 0
+
+        nums = [1, -2, 3, -4]
+        print(list(filter(is_positive, nums)))`}
+          />
+        </section>
+
+        <section>
+          <h2>reduce()</h2>
+          <p>Performs cumulative operation on a sequence.</p>
+
+          <CodeBlock
+            language="python"
+            code={`from functools import reduce
+
+        def sum_of_num(a, b):
+            return a + b
+
+        nums = [1,2,3,4]
+        print(reduce(sum_of_num, nums))`}
+          />
+        </section>
+
       <section>
-        <h2>7. Functional Programming Tools</h2>
+          <h2>2.Scope & Namespaces</h2>
+          <h3>Object</h3>
+          <p>
+            Anything that can be assigned to a variable in Python is called an object.
+          </p>
+          <ul>
+            <li>int, float, string</li>
+            <li>list, function, module</li>
+          </ul>
+        </section>
 
-        <p>
-          Python supports functional programming concepts such as map, filter,
-          and reduce to process data efficiently.
-        </p>
-        <CodeBlock
-          language="python"
-          code={`numbers = [1, 2, 3]
+        <section>
+          <h2>Identity of an Object</h2>
+          <ul>
+            <li>Every object has a unique id</li>
+            <li>Represents memory location</li>
+            <li>Use <b>id()</b> to get identity</li>
+          </ul>
+        </section>
 
-squared = list(map(lambda x: x**2, numbers))
-even = list(filter(lambda x: x % 2 == 0, numbers))
+        <section>
+          <h2>Name of an Object</h2>
+          <p>Name (identifier) is the reference given to an object.</p>
+        </section>
 
-from functools import reduce
-total = reduce(lambda x, y: x + y, numbers)`}
+        <section>
+          <h2>Namespace</h2>
+          <p>
+            A namespace is a collection of names and the objects they reference.
+          </p>
+          <img
+          src="/assets/img/namespace.png"
+          alt="software"
+          style={{ width: "90%", height: "400px" }}
         />
+
+          <ul>
+            <li>Avoids naming conflicts</li>
+            <li>Same name can exist in different namespaces</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Types of Namespaces</h2>
+          <ul>
+            <li><b>Built-in</b></li>
+            <li><b>Global</b></li>
+            <li><b>Local</b></li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Built-in Namespace</h3>
+          <p>Created when the program starts.</p>
+          <p>Contains functions like <b>print(), id(), len()</b></p>
+        </section>
+
+        <section>
+          <h3>Global Namespace</h3>
+          <p>
+            Created when a module loads.  
+            Contains variables defined outside functions.
+          </p>
+          <img
+          src="/assets/img/global.png"
+          alt="software"
+          style={{ width: "90%", height: "400px" }}
+        />
+        </section>
+
+        <section>
+          <h3>Local Namespace</h3>
+          <p>
+            Created when a function is called.  
+            Exists until the function ends.
+          </p>
+          <img
+          src="/assets/img/local.png"
+          alt="software"
+          style={{ width: "90%", height: "400px" }}
+        />
+        </section>
+
+        <section>
+          <h2>Scope of a Name</h2>
+          <p>Region where a name is accessible.</p>
+          <p><b>Search Order → Local → Global → Built-in</b></p>
+          <img
+          src="/assets/img/scope-name.png"
+          alt="software"
+          style={{ width: "100%", height: "400px" }}
+        />
+        </section>
+
+        <section>
+          <h2>Global Variable</h2>
+
+          <CodeBlock
+            language="python"
+            code={`x = "Global"
+
+        def foo():
+            print(x)
+
+        foo()`}
+          />
+        </section>
+
+        <section>
+          <h2>Local Variable</h2>
+
+          <CodeBlock
+            language="python"
+            code={`def foo():
+            x = "Local"
+            print(x)
+
+        foo()
+        print(x)   # Error`}
+          />
+        </section>
+
+        <section>
+          <h2>Local vs Global</h2>
+
+          <CodeBlock
+            language="python"
+            code={`x = "Global"
+
+        def foo():
+            x = "Local"
+            print(x)
+
+        print(x)
+        foo()
+        print(x)`}
+          />
+        </section>
+
+        <section>
+          <h2>Modifying Global Variable</h2>
+
+          <CodeBlock
+            language="python"
+            code={`x = "Global"
+
+        def foo():
+            global x
+            x = "Changed"
+
+        foo()
+        print(x)`}
+          />
+        </section>
+
+        <section>
+          <h2>Local Import</h2>
+
+          <CodeBlock
+            language="python"
+            code={`def foo():
+            import math
+            print(math.pi)
+
+        foo()
+        print(math.pi)   # Error`}
+          />
+        </section>
+
+
+
+
+     <section>
+        <h2>3.Errors & Exceptions</h2>
+        <h3>Types of Errors</h3>
+        <p>There are two major kinds of errors in Python:</p>
+        <ul>
+          <li><b>Syntax Errors:</b> Parsing errors due to incorrect Python syntax.</li>
+          <li><b>Exceptions:</b> Errors detected during execution.</li>
+        </ul>
       </section>
 
-      {/* Scope */}
+      {/* Syntax Errors */}
       <section>
-        <h2>8. Scope & Namespaces</h2>
+        <h2>Syntax Errors</h2>
         <p>
-          Scope defines where a variable is accessible. Python supports local,
-          global, and built-in scopes.
+          Syntax errors prevent the program from executing, even if the code with the error is not used.
         </p>
-
-        <CodeBlock
-          language="python"
-          code={`x = 10  # Global variable
-
-def my_function():
-    y = 5  # Local variable
-    print(x + y)
-
-def modify_global():
-    global x
-    x += 5
-
-my_function()
-modify_global()
-print(x)`}
-        />
+        <CodeBlock language="python" code={`def greet()\n    print("Hello")`} />
       </section>
 
-      {/* Error Handling */}
+      {/* Exceptions */}
       <section>
-        <h2>9. Error Handling</h2>
-
+        <h2>Exceptions</h2>
         <p>
-          Error handling allows programs to manage runtime errors without
-          crashing and improves user experience.
+          Exceptions occur during execution even if the code is syntactically correct.
         </p>
-
-        <CodeBlock
-          language="python"
-          code={`try:
-    num = int(input("Enter number: "))
-    result = 10 / num
-    print(result)
-except ValueError:
-    print("Invalid number")
-except ZeroDivisionError:
-    print("Cannot divide by zero")
-finally:
-    print("Execution completed")`}
-        />
+        <p>Example scenarios:</p>
+        <ul>
+          <li>Internet disconnected while downloading a video.</li>
+          <li>Insufficient storage space to download a file.</li>
+        </ul>
+        <CodeBlock language="python" code={`x = 5 / 0  # Raises ZeroDivisionError`} />
       </section>
 
-      {/* Date & Time */}
+      {/* Working With Exceptions */}
       <section>
-        <h2>10. Date & Time Operations</h2>
+        <h2>Working With Exceptions</h2>
         <p>
-          Python provides powerful tools to work with dates and time, including
-          formatting and date calculations.
+          Without handling, exceptions crash the program. Proper handling ensures robustness in:
         </p>
-
+        <ul>
+          <li>End-user applications</li>
+          <li>Reusable modules</li>
+        </ul>
         <CodeBlock
-          language="python"
-          code={`from datetime import datetime, timedelta
+            language="python"
+            code={`class BankAccount:
+            def __init__(self, account_number):
+                self.account_number = str(account_number)
+                self.balance = 0
+        
+            def get_balance(self):
+                return self.balance
+        
+            def withdraw(self, amount):
+                if self.balance >= amount:
+                    self.balance -= amount
+                else:
+                    print("Insufficient Funds")
+        
+            def deposit(self, amount):
+                self.balance += amount
+        
+        
+        def transfer_amount(acc_1, acc_2, amount):
+            acc_1.withdraw(amount)
+            acc_2.deposit(amount)
+        
+        
+        user_1 = BankAccount("001")
+        user_2 = BankAccount("002")
+        user_1.deposit(250)
+        user_2.deposit(100)
+        
+        print("User 1 Balance: {}/-".format(user_1.get_balance()))
+        print("User 2 Balance: {}/-".format(user_2.get_balance()))
+        transfer_amount(user_1, user_2, 50)
+        print("Transferring 50/- from User 1 to User 2")
+        print("User 1 Balance: {}/-".format(user_1.get_balance()))
+        print("User 2 Balance: {}/-".format(user_2.get_balance()))`}
+          />
 
-now = datetime.now()
-next_week = now + timedelta(days=7)
-
-print(now)
-print(next_week)
-print((next_week - now).days)`}
+        <p>Money Transfer App Scenario</p>
+  
+         <img
+          src="/assets/img/bank-trans.png"
+          alt="software"
+          style={{ width: "100%", height: "400px" }}
         />
       </section>
 
-      {/* Comprehensive Example */}
+      {/* Raising Exceptions */}
       <section>
-        <h2>11. Comprehensive E-Commerce Example</h2>
-
+        <h2>Raising Exceptions</h2>
         <p>
-          This example combines multiple concepts like classes, inheritance,
-          collections, and methods into a real-world application.
+          Raise exceptions to communicate unexpected states in your code.
         </p>
+        <img
+          src="/assets/img/rising-ex.png"
+          alt="software"
+          style={{ width: "100%", height: "360px" }}
+        />
+        <CodeBlock language="python" code={`raise ValueError("Invalid input")`} />
+      </section>
 
+      {/* Handling Exceptions */}
+      <section>
+        <h2>Handling Exceptions</h2>
+        <p>
+          Use <b>try-except</b> blocks to handle exceptions.
+        </p>
+        <CodeBlock language="python" code={`try:\n    x = int(input("Enter number: "))\nexcept ValueError as e:\n    print("Invalid input", e)`} />
+      </section>
+
+      {/* Handling Specific Exceptions */}
+      <section>
+        <h2>Handling Specific Exceptions</h2>
+        <p>You can catch specific exceptions by naming them:</p>
+        <CodeBlock language="python" code={`try:\n    x = 5 / 0\nexcept ZeroDivisionError:\n    print("Cannot divide by zero")`} />
+      </section>
+
+      {/* Handling Multiple Exceptions */}
+      <section>
+        <h2>Handling Multiple Exceptions</h2>
+        <p>Multiple <b>except</b> blocks can handle different types of exceptions:</p>
+        <CodeBlock language="python" code={`try:\n    x = int(input())\n    y = 10 / x\nexcept ValueError:\n    print("Invalid input")\nexcept ZeroDivisionError:\n    print("Division by zero")`} />
+      </section>
+
+     
+
+{/* Datetime Module */}
+      <section>
+      <h1>4.Working With Dates & Times</h1>
+        <h2>Datetime Module</h2>
+        <p>
+          Python provides the built-in <b>datetime</b> module for working with
+          dates and times.
+        </p>
+        <p>Commonly used classes in datetime:</p>
+        <ul>
+          <li>date</li>
+          <li>time</li>
+          <li>datetime</li>
+          <li>timedelta</li>
+        </ul>
+      </section>
+
+      {/* Working with date class */}
+      <section>
+        <h2>Working with date class</h2>
+        <p>Creating a date object:</p>
         <CodeBlock
           language="python"
-          code={`class ECommerceSystem:
-    def __init__(self):
-        self.products = []
-        self.carts = {}
+          code={`from datetime import date\nmy_date = date(2025, 10, 14)\nprint(my_date)`}
+        />
 
-    def add_product(self, name, price, category):
-        product = {
-            "name": name,
-            "price": price,
-            "category": category,
-            "id": len(self.products) + 1
-        }
-        self.products.append(product)
-        return product
+        <p>
+          Today's date using <code>today()</code>:
+        </p>
+        <CodeBlock
+          language="python"
+          code={`today = date.today()\nprint(today)`}
+        />
 
-    def create_cart(self, user_id):
-        self.carts[user_id] = Cart()
-        return self.carts[user_id]
-
-    def checkout(self, user_id):
-        cart = self.carts.get(user_id)
-        if cart and cart.items:
-            total = cart.total_price()
-            return f"Order placed! Total: ₹{total}"
-        return "Cart is empty"`}
+        <p>Date attributes:</p>
+        <CodeBlock
+          language="python"
+          code={`print(today.year)\nprint(today.month)\nprint(today.day)`}
         />
       </section>
 
+{/* Working with time class */}
+        <section>
+          <h2>Working with time class</h2>
+          <p>Creating a time object:</p>
+          <CodeBlock
+            language="python"
+            code={`from datetime import time\nmy_time = time(14, 30, 45)\nprint(my_time)`}
+          />
+
+          <p>Time attributes:</p>
+          <CodeBlock
+            language="python"
+            code={`print(my_time.hour)\nprint(my_time.minute)\nprint(my_time.second)`}
+          />
+        </section>
+
+{/* Working with datetime class */}
+      <section>
+        <h2>Working with datetime class</h2>
+        <p>Creating a datetime object:</p>
+        <CodeBlock
+          language="python"
+          code={`from datetime import datetime\ndt = datetime(2025, 10, 14, 14, 30, 0)\nprint(dt)`}
+        />
+
+        <p>Current date and time:</p>
+        <CodeBlock
+          language="python"
+          code={`now = datetime.now()\nprint(now)`}
+        />
+
+        <p>Datetime attributes:</p>
+        <CodeBlock
+          language="python"
+          code={`print(now.year)\nprint(now.month)\nprint(now.day)\nprint(now.hour)\nprint(now.minute)\nprint(now.second)`}
+        />
+      </section>
+
+      {/* Formatting datetime */}
+      <section>
+        <h2>Formatting Datetime</h2>
+        <p>
+          Use <code>strftime(format)</code> to format datetime:
+        </p>
+        <CodeBlock
+          language="python"
+          code={`formatted = now.strftime("%d-%m-%Y %H:%M:%S")\nprint(formatted)`}
+        />
+
+        <p>Common format specifiers:</p>
+        <ul>
+          <li>%Y - Year with century</li>
+          <li>%m - Month (01-12)</li>
+          <li>%d - Day of month (01-31)</li>
+          <li>%H - Hour (24-hour)</li>
+          <li>%M - Minute (00-59)</li>
+          <li>%S - Second (00-59)</li>
+          <li>%b/%B - Month name short/full</li>
+          <li>%a/%A - Weekday short/full</li>
+          <li>%p - AM/PM</li>
+        </ul>
+      </section>
+
+      {/* Parsing datetime */}
+      <section>
+        <h2>Parsing Datetime</h2>
+        <p>
+          Create a datetime object from a string using <code>strptime()</code>:
+        </p>
+        <CodeBlock
+          language="python"
+          code={`dt_str = "14-10-2025 14:30:00"\ndt_obj = datetime.strptime(dt_str, "%d-%m-%Y %H:%M:%S")\nprint(dt_obj)`}
+        />
+      </section>
+
+      {/* Working with timedelta */}
+      <section>
+        <h2>Working with timedelta</h2>
+        <p>Timedelta represents duration or difference between dates:</p>
+        <CodeBlock
+          language="python"
+          code={`from datetime import timedelta\ndelta = timedelta(days=5, hours=3)\nprint(delta)`}
+        />
+
+        <p>Calculate new date/time:</p>
+        <CodeBlock
+          language="python"
+          code={`future_date = today + timedelta(days=10)\nprint(future_date)`}
+        />
+
+        <p>Time difference between two dates:</p>
+        <CodeBlock
+          language="python"
+          code={`diff = datetime(2025,10,20) - datetime(2025,10,14)\nprint(diff.days, "days")`}
+        />
+      </section>
+
+   
       {/* Continue Button */}
       <div className="view-continue">
         <button

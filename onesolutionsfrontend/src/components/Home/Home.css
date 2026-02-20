@@ -906,3 +906,336 @@ hr {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* Add these styles for handling long text */
+.class-text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 600;
+  flex: 1;
+  min-width: 0; /* Important for text truncation to work */
+  max-width: 100%; /* Limit width to leave space for status badge */
+}
+
+.class-text h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.class-text p {
+  margin: 0;
+  color: #555;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Status badge with fixed width */
+.class-info .status {
+  flex-shrink: 0; /* Prevent status badge from shrinking */
+  min-width: 100px; /* Fixed minimum width */
+  width: auto; /* Allow it to grow if needed */
+  max-width: 100%; /* Limit width to leave space for status badge */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 8px !important;
+  font-size: 13px;
+}
+
+/* For the letter tag - keep it fixed */
+.letter-tag {
+  width: 40px;
+  height: 40px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Update class-info layout */
+.class-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  white-space: nowrap;
+  padding: 0 20px;
+  width: 100%;
+}
+
+/* Responsive adjustments for tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .class-text {
+    max-width: 100%; /* Limit width to leave space for status badge */
+  }
+  
+  .class-info .status {
+    min-width: 90px;
+    max-width: 100%; /* Limit width to leave space for status badge */
+    font-size: 12px;
+    padding: 4px 6px !important;
+  }
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+  .class-text {
+    max-width: 100%; /* Limit width to leave space for status badge */
+  }
+  
+  .class-text h3 {
+    font-size: 14px;
+  }
+  
+  .class-info .status {
+    min-width: 80px;
+    max-width: 100%; /* Limit width to leave space for status badge */
+    font-size: 11px;
+    padding: 3px 5px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .class-text {
+    max-width: 100%; /* Limit width to leave space for status badge */
+  }
+  
+  .class-text h3 {
+    font-size: 13px;
+  }
+  
+  .class-info .status {
+    min-width: 70px;
+    max-width: 100%; /* Limit width to leave space for status badge */
+    font-size: 10px;
+    padding: 2px 4px !important;
+  }
+}
+
+/* Calendar dropdown styles */
+.calendar-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.calendar-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 200px;
+  margin-top: 5px;
+  animation: fadeIn 0.2s ease;
+}
+
+.calendar-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+.calendar-dropdown-item:hover {
+  background-color: #f5f5f5;
+}
+
+.calendar-dropdown-item:first-child {
+  border-radius: 8px 8px 0 0;
+}
+
+.calendar-dropdown-item:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.calendar-dropdown-item i {
+  font-size: 18px;
+  width: 24px;
+  color: #666;
+}
+
+.calendar-dropdown-item.google i {
+  color: #4285f4;
+}
+
+.calendar-dropdown-item.apple i {
+  color: #555;
+}
+
+.calendar-dropdown-item.outlook i {
+  color: #0078d4;
+}
+
+.calendar-dropdown-item.other i {
+  color: #666;
+}
+
+/* Class time display */
+.class-time {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.class-time i {
+  font-size: 12px;
+}
+
+/* Tooltip for calendar button */
+.calendar-tooltip {
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  background: #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.calendar-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 10px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.calendar-dropdown-container:hover .calendar-tooltip {
+  opacity: 1;
+}
+
+/* Success message for calendar add */
+.calendar-success-message {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  animation: slideInRight 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-success-message i {
+  font-size: 20px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive styles for calendar actions */
+@media (max-width: 768px) {
+  .actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .calendar-dropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 20px 20px 0 0;
+    margin: 0;
+    animation: slideUp 0.3s ease;
+  }
+  
+  .calendar-dropdown-item {
+    padding: 16px;
+    justify-content: center;
+  }
+  
+  .calendar-tooltip {
+    display: none;
+  }
+}
+
+/* Animation for dropdown */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Update the actions button styles */
+.actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.actions button:hover {
+  opacity: 0.8;
+}
+
+.actions button:active {
+  transform: scale(0.98);
+}

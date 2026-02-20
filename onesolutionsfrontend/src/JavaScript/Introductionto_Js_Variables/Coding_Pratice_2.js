@@ -6,7 +6,7 @@ import { javascriptCodingPracticesData } from "../../codingPracticesData/javascr
 import CodingPracticeService from "../../services/codingPracticeService";
 import { useAuth } from "../../context/AuthContext";
 
-const Coding_Pratice_2 = () => {
+const Coding_Pratice_2 = () =>  {
   const { questionId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,12 +16,17 @@ const Coding_Pratice_2 = () => {
     loadProgressSummary,
     markSubtopicComplete,
     loadProgressSummary: refreshProgress,
+    user, // Get user from auth context
   } = useAuth();
 
   const [selectedPractice, setSelectedPractice] = useState(null);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
   const [progressData, setProgressData] = useState({});
+
+  // Get student type from user context - default to "zorvixe_core" if not specified
+  const studentType = user?.studentType || "zorvixe_core";
 
   const {
     goalName: stateGoalName,
@@ -80,17 +85,41 @@ const Coding_Pratice_2 = () => {
     }
   }, [loadProgressSummary]);
 
-  // Load practice
+  // Load practice and filter questions based on student type
   useEffect(() => {
-    const practice2 = javascriptCodingPracticesData.javascript.find(
+    const practice1 = javascriptCodingPracticesData.javascript.find(
       (p) => p.id === "javascript-coding-practice-2"
     );
-    if (practice2) {
-      setSelectedPractice(practice2);
-      console.log("✅ Loaded practice:", practice2.id);
+    
+    if (practice1) {
+      // Filter questions based on student type
+      const accessibleQuestions = practice1.questions.filter(
+        (question) => 
+          !question.accessibleTo || 
+          question.accessibleTo.includes(studentType)
+      );
+      
+      // Create a new practice object with filtered questions
+      const filteredPractice = {
+        ...practice1,
+        questions: accessibleQuestions
+      };
+      
+      setSelectedPractice(filteredPractice);
+      setFilteredQuestions(accessibleQuestions);
+      
+      console.log("✅ Loaded practice with details:", {
+        practiceId: practice1.id,
+        goalName,
+        courseName,
+        subtopicId: finalSubtopicId,
+        studentType,
+        totalQuestions: practice1.questions.length,
+        accessibleQuestions: accessibleQuestions.length
+      });
     }
     setLoading(false);
-  }, [goalName, courseName, finalSubtopicId]);
+  }, [goalName, courseName, finalSubtopicId, studentType]);
 
   // Load progress on mount and when practice changes
   useEffect(() => {
@@ -205,6 +234,12 @@ const Coding_Pratice_2 = () => {
   ]);
 
   const handleQuestionSelect = (question) => {
+    // Double-check accessibility before allowing navigation
+    if (question.accessibleTo && !question.accessibleTo.includes(studentType)) {
+      alert("You don't have access to this question.");
+      return;
+    }
+    
     if (question.type === "web") {
       navigate(`/web-practice/${selectedPractice.id}/${question.id}`, {
         state: {
@@ -224,11 +259,39 @@ const Coding_Pratice_2 = () => {
     }
   };
 
+  // Show message if no accessible questions
+  if (!loading && selectedPractice && filteredQuestions.length === 0) {
+    const originalPractice = javascriptCodingPracticesData.javascript.find(
+      (p) => p.id === "javascript-coding-practice-1"
+    );
+    
+    return (
+      <div className="coding-practice-container-cod">
+        <div className="coding-header-cod">
+          <div className="header-left-cod">
+            <h3>{selectedPractice.title}</h3>
+            <p className="practice-description-cod">
+              {selectedPractice.description}
+            </p>
+          </div>
+        </div>
+        <div className="coding-practice-content-cod">
+          <div className="no-questions-message" style={{ textAlign: 'center', padding: '50px' }}>
+            <h4>No Accessible Questions</h4>
+            <p>You don't have access to any questions in this practice based on your student type: <strong>{studentType}</strong></p>
+            <p>This practice has {originalPractice?.questions.length || 0} total questions, but none are accessible to {studentType}.</p>
+            <p>Please contact your administrator for access to more questions.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (loading) {
     return (
       <div className="loading-container">
-      <div className="spinner"></div>
-    </div>
+        <div className="spinner"></div>
+      </div>
     );
   }
 
@@ -240,9 +303,14 @@ const Coding_Pratice_2 = () => {
     );
   }
 
-  const solvedCount = selectedPractice.questions.filter(
+  const solvedCount = filteredQuestions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
+
+  const originalPractice = javascriptCodingPracticesData.javascript.find(
+    (p) => p.id === "javascript-coding-practice-1"
+  );
+  const totalOriginalQuestions = originalPractice?.questions.length || 0;
 
   return (
     <div className="coding-practice-container-cod">
@@ -255,7 +323,12 @@ const Coding_Pratice_2 = () => {
             </p>
             <div className="practice-cod-right-header">
               <span className="total-questions-cod">
-                {selectedPractice.questions.length} questions
+                {filteredQuestions.length} accessible questions
+                {filteredQuestions.length < totalOriginalQuestions && (
+                  <span className="filtered-badge" style={{ marginLeft: '10px', fontSize: '12px', color: '#666', backgroundColor: '#f0f0f0', padding: '2px 8px', borderRadius: '12px' }}>
+                    filtered for {studentType}
+                  </span>
+                )}
               </span>
               <span className="solved-questions-cod">{solvedCount} solved</span>
             </div>
@@ -278,7 +351,7 @@ const Coding_Pratice_2 = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedPractice.questions.map((question) => {
+                  {filteredQuestions.map((question) => {
                     const status = getQuestionStatus(question.id);
                     const score = getQuestionScore(question.id);
                     const attempts = getQuestionAttempts(question.id);
@@ -293,8 +366,8 @@ const Coding_Pratice_2 = () => {
                           status === "solved"
                             ? "solved-cod"
                             : status === "attempted"
-                            ? "attempted-cod"
-                            : ""
+                              ? "attempted-cod"
+                              : ""
                         }`}
                         onClick={() => handleQuestionSelect(question)}
                       >
@@ -371,12 +444,37 @@ const Coding_Pratice_2 = () => {
               <h4>Practice Progress</h4>
             </div>
             <div className="progress-summary-cod">
+              <div className="progress-stats-cod">
+                <div className="progress-stat-cod">
+                  <span className="stat-label-cod">Questions Solved:</span>
+                  <span className="stat-value-cod">
+                    {solvedCount} / {filteredQuestions.length}
+                  </span>
+                </div>
+                <div className="progress-stat-cod">
+                  <span className="stat-label-cod">Total Score:</span>
+                  <span className="stat-value-cod">
+                    {filteredQuestions.reduce(
+                      (total, q) => total + (getQuestionScore(q.id) || 0),
+                      0
+                    )}{" "}
+                    /{" "}
+                    {filteredQuestions.reduce(
+                      (total, q) => total + q.score,
+                      0
+                    )}{" "}
+                    pts
+                  </span>
+                </div>
+              </div>
               <div className="overall-progress-bar-cod">
                 <div
                   className="overall-progress-fill-cod"
                   style={{
                     width: `${
-                      (solvedCount / selectedPractice.questions.length) * 100
+                      filteredQuestions.length > 0 
+                        ? (solvedCount / filteredQuestions.length) * 100 
+                        : 0
                     }%`,
                   }}
                 ></div>

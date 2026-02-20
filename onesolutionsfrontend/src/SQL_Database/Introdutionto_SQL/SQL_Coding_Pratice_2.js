@@ -18,11 +18,16 @@ const SQL_Coding_Pratice_2 = () => {
     markSubtopicComplete,
     completedContent,
     loadProgressSummary: refreshProgress,
+    user, // Get user from auth context
   } = useAuth();
 
   const [selectedPractice, setSelectedPractice] = useState(null);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [practiceCompletionStatus, setPracticeCompletionStatus] = useState({});
+
+  // Get student type from user context - default to "zorvixe_core" if not specified
+  const studentType = user?.studentType || "zorvixe_core";
 
   // Get goalName and courseName from navigation state with fallbacks
   const {
@@ -38,22 +43,40 @@ const SQL_Coding_Pratice_2 = () => {
   // Use provided subtopicId or fallback
   const finalSubtopicId = codingPracticeSubtopicId;
 
-  // Load "Coding Practice - 1" from sqlCodingPracticesData
+  // Load "Coding Practice - 1" from sqlCodingPracticesData and filter questions based on student type
   useEffect(() => {
-    const practice2 = sqlCodingPracticesData.sql.find(
+    const practice1 = sqlCodingPracticesData.sql.find(
       (p) => p.id === "sql-coding-practice-2"
     );
-    if (practice2) {
-      setSelectedPractice(practice2);
+
+    if (practice1) {
+      // Filter questions based on student type
+      const accessibleQuestions = practice1.questions.filter(
+        (question) =>
+          !question.accessibleTo || question.accessibleTo.includes(studentType)
+      );
+
+      // Create a new practice object with filtered questions
+      const filteredPractice = {
+        ...practice1,
+        questions: accessibleQuestions,
+      };
+
+      setSelectedPractice(filteredPractice);
+      setFilteredQuestions(accessibleQuestions);
+
       console.log("📝 Loaded practice with details:", {
-        practiceId: practice2.id,
+        practiceId: practice1.id,
         goalName,
         courseName,
         subtopicId: finalSubtopicId,
+        studentType,
+        totalQuestions: practice1.questions.length,
+        accessibleQuestions: accessibleQuestions.length,
       });
     }
     setLoading(false);
-  }, [goalName, courseName, finalSubtopicId]);
+  }, [goalName, courseName, finalSubtopicId, studentType]);
 
   // Load progress data when component mounts or when progress updates
   useEffect(() => {
@@ -141,7 +164,7 @@ const SQL_Coding_Pratice_2 = () => {
     [getQuestionStatus]
   );
 
-  // ✅ FIXED: Auto-mark practice as complete when all questions are solved
+  // Auto-mark practice as complete when all questions are solved
   useEffect(() => {
     const autoCompletePractice = async () => {
       if (
@@ -168,7 +191,6 @@ const SQL_Coding_Pratice_2 = () => {
           );
 
           // Method 2: ALSO mark the subtopic as complete in the main progress system
-          // This is crucial for goal and course progress tracking
           const result = await markSubtopicComplete(
             finalSubtopicId,
             goalName,
@@ -220,6 +242,12 @@ const SQL_Coding_Pratice_2 = () => {
   const isSubtopicCompleted = completedContent.includes(finalSubtopicId);
 
   const handleQuestionSelect = (question) => {
+    // Double-check accessibility before allowing navigation
+    if (question.accessibleTo && !question.accessibleTo.includes(studentType)) {
+      alert("You don't have access to this question.");
+      return;
+    }
+
     navigate(`/sql-practice/${selectedPractice.id}/${question.id}`, {
       state: {
         subtopicId: finalSubtopicId,
@@ -228,6 +256,45 @@ const SQL_Coding_Pratice_2 = () => {
       },
     });
   };
+
+  // Show message if no accessible questions
+  if (!loading && selectedPractice && filteredQuestions.length === 0) {
+    const originalPractice = sqlCodingPracticesData.sql.find(
+      (p) => p.id === "sql-coding-practice-1"
+    );
+
+    return (
+      <div className="coding-practice-container-cod">
+        <div className="coding-header-cod">
+          <div className="header-left-cod">
+            <h3>{selectedPractice.title}</h3>
+            <p className="practice-description-cod">
+              {selectedPractice.description}
+            </p>
+          </div>
+        </div>
+        <div className="coding-practice-content-cod">
+          <div
+            className="no-questions-message"
+            style={{ textAlign: "center", padding: "50px" }}
+          >
+            <h4>No Accessible Questions</h4>
+            <p>
+              You don't have access to any questions in this practice based on
+              your student type: <strong>{studentType}</strong>
+            </p>
+            <p>
+              This practice has {originalPractice?.questions.length || 0} total
+              questions, but none are accessible to {studentType}.
+            </p>
+            <p>
+              Please contact your administrator for access to more questions.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (loading) {
     return (
@@ -245,11 +312,14 @@ const SQL_Coding_Pratice_2 = () => {
     );
   }
 
-  const practiceCompleted = isPracticeCompleted(selectedPractice.id);
-  const allQuestionsSolved = areAllQuestionsSolved(selectedPractice);
-  const solvedCount = selectedPractice.questions.filter(
+  const solvedCount = filteredQuestions.filter(
     (q) => getQuestionStatus(q.id) === "solved"
   ).length;
+
+  const originalPractice = sqlCodingPracticesData.sql.find(
+    (p) => p.id === "sql-coding-practice-1"
+  );
+  const totalOriginalQuestions = originalPractice?.questions.length || 0;
 
   return (
     <div className="coding-practice-container-cod">
@@ -264,7 +334,22 @@ const SQL_Coding_Pratice_2 = () => {
             </p>
             <div className="practice-cod-right-header">
               <span className="total-questions-cod">
-                {selectedPractice.questions.length} questions
+                {filteredQuestions.length} accessible questions
+                {filteredQuestions.length < totalOriginalQuestions && (
+                  <span
+                    className="filtered-badge"
+                    style={{
+                      marginLeft: "10px",
+                      fontSize: "12px",
+                      color: "#666",
+                      backgroundColor: "#f0f0f0",
+                      padding: "2px 8px",
+                      borderRadius: "12px",
+                    }}
+                  >
+                    filtered for {studentType}
+                  </span>
+                )}
               </span>
               <span className="solved-questions-cod">{solvedCount} solved</span>
             </div>
@@ -288,7 +373,7 @@ const SQL_Coding_Pratice_2 = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedPractice.questions.map((question) => {
+                  {filteredQuestions.map((question) => {
                     const status = getQuestionStatus(question.id);
                     const score = getQuestionScore(question.id);
                     const attempts = getQuestionAttempts(question.id);
@@ -393,21 +478,18 @@ const SQL_Coding_Pratice_2 = () => {
                 <div className="progress-stat-cod">
                   <span className="stat-label-cod">Questions Solved:</span>
                   <span className="stat-value-cod">
-                    {solvedCount} / {selectedPractice.questions.length}
+                    {solvedCount} / {filteredQuestions.length}
                   </span>
                 </div>
                 <div className="progress-stat-cod">
                   <span className="stat-label-cod">Total Score:</span>
                   <span className="stat-value-cod">
-                    {selectedPractice.questions.reduce(
+                    {filteredQuestions.reduce(
                       (total, q) => total + (getQuestionScore(q.id) || 0),
                       0
                     )}{" "}
                     /{" "}
-                    {selectedPractice.questions.reduce(
-                      (total, q) => total + q.score,
-                      0
-                    )}{" "}
+                    {filteredQuestions.reduce((total, q) => total + q.score, 0)}{" "}
                     pts
                   </span>
                 </div>
@@ -417,7 +499,9 @@ const SQL_Coding_Pratice_2 = () => {
                   className="overall-progress-fill-cod"
                   style={{
                     width: `${
-                      (solvedCount / selectedPractice.questions.length) * 100
+                      filteredQuestions.length > 0
+                        ? (solvedCount / filteredQuestions.length) * 100
+                        : 0
                     }%`,
                   }}
                 ></div>

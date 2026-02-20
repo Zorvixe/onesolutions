@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import Footer from "../Footer/Footer";
@@ -21,6 +21,8 @@ const Home = () => {
   const [achievementsLoading, setAchievementsLoading] = useState(true);
   const [isAiAppOpen, setIsAiAppOpen] = useState(false);
   const [filterDebug, setFilterDebug] = useState(null);
+  const [hasInitialLiveClasses, setHasInitialLiveClasses] = useState(false);
+  const [liveClassesError, setLiveClassesError] = useState(null);
 
   // --- Web Development State ---
   const [practiceData, setPracticeData] = useState([]);
@@ -29,9 +31,15 @@ const Home = () => {
   const [lastProgressUpdate, setLastProgressUpdate] = useState(null);
   const [webDataInitialized, setWebDataInitialized] = useState(false);
 
+  const [activeCalendarDropdown, setActiveCalendarDropdown] = useState(null);
+
   // --- Digital Marketing State ---
   const [digitalProgress, setDigitalProgress] = useState({});
   const [digitalDataInitialized, setDigitalDataInitialized] = useState(false);
+
+  // Refs for cache and retry
+  const fetchRetryCount = useRef(0);
+  const maxRetries = 3;
 
   const navigate = useNavigate();
   const {
@@ -45,10 +53,154 @@ const Home = () => {
 
   const isDigitalUser = user?.courseSelection === "digital_marketing";
 
+
+  // Helper function to generate Google Calendar URL
+const generateGoogleCalendarUrl = (classItem) => {
+  // Parse the start time and calculate end time (assuming 1 hour duration)
+  const startTime = new Date(classItem.start_time);
+  const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 1 hour
+  
+  // Format dates for Google Calendar (YYYYMMDDTHHMMSSZ)
+  const formatDateForGoogle = (date) => {
+    return date.toISOString().replace(/-|:|\.\d+/g, '');
+  };
+  
+  const startDate = formatDateForGoogle(startTime);
+  const endDate = formatDateForGoogle(endTime);
+  
+  // Create event details
+  const eventTitle = encodeURIComponent(`Live Class: ${classItem.name}`);
+  const eventDetails = encodeURIComponent(
+    `Mentor: ${classItem.mentor}\nDescription: ${classItem.description || 'No description provided'}`
+  );
+  const eventLocation = encodeURIComponent(classItem.zoom_link || 'Online');
+  
+  // Build Google Calendar URL
+  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${eventTitle}&dates=${startDate}/${endDate}&details=${eventDetails}&location=${eventLocation}&sf=true&output=xml`;
+};
+
+// Helper function to generate ICS file for calendar
+const generateICSFile = (classItem) => {
+  // Parse the start time and calculate end time (assuming 1 hour duration)
+  const startTime = new Date(classItem.start_time);
+  const endTime = new Date(startTime.getTime() + 60 * 60 * 1000); // Add 1 hour
+  
+  // Format dates for ICS (YYYYMMDDTHHMMSSZ)
+  const formatDateForICS = (date) => {
+    return date.toISOString().replace(/-|:|\.\d+/g, '');
+  };
+  
+  const startDate = formatDateForICS(startTime);
+  const endDate = formatDateForICS(endTime);
+  
+  // Create ICS content
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//OneSolutions//Live Class//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${classItem.id}@onesolutions.com`,
+    `DTSTART:${startDate}`,
+    `DTEND:${endDate}`,
+    `SUMMARY:Live Class: ${classItem.name}`,
+    `DESCRIPTION:Mentor: ${classItem.mentor}\\n\\n${classItem.description || 'No description provided'}`,
+    `LOCATION:${classItem.zoom_link || 'Online'}`,
+    'STATUS:CONFIRMED',
+    'SEQUENCE:0',
+    'BEGIN:VALARM',
+    'TRIGGER:-PT15M',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Reminder',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  
+  return icsContent;
+};
+
+// Handler for Add to Calendar
+const handleAddToCalendar = (classItem, e) => {
+  e.stopPropagation(); // Prevent card click
+  
+  // Create a dropdown or options
+  const calendarOptions = [
+    { name: 'Google Calendar', action: () => addToGoogleCalendar(classItem) },
+    { name: 'Apple Calendar', action: () => downloadICSFile(classItem) },
+    { name: 'Outlook Calendar', action: () => downloadICSFile(classItem) },
+    { name: 'Other Calendar', action: () => downloadICSFile(classItem) }
+  ];
+  
+  // For mobile, we can show a simple confirm dialog
+  if (window.innerWidth <= 768) {
+    const choice = window.confirm(
+      'Add to calendar:\n' +
+      'OK for Google Calendar\n' +
+      'Cancel for ICS file (Apple/Outlook)'
+    );
+    
+    if (choice) {
+      addToGoogleCalendar(classItem);
+    } else {
+      downloadICSFile(classItem);
+    }
+  } else {
+    // For desktop, you might want to create a custom dropdown
+    // For simplicity, we'll just use Google Calendar
+    addToGoogleCalendar(classItem);
+  }
+};
+
+// Add to Google Calendar
+const addToGoogleCalendar = (classItem) => {
+  const url = generateGoogleCalendarUrl(classItem);
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
+// Download ICS file
+const downloadICSFile = (classItem) => {
+  const icsContent = generateICSFile(classItem);
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `live-class-${classItem.name.replace(/\s+/g, '-')}.ics`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
+};
+
+// Format date for display
+const formatClassTime = (startTime) => {
+  const date = new Date(startTime);
+  return date.toLocaleString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  });
+};
+
+const toggleCalendarDropdown = (classId, e) => {
+  e.stopPropagation();
+  setActiveCalendarDropdown(activeCalendarDropdown === classId ? null : classId);
+};
+
   // ==========================================
   // 1. FETCH LIVE CLASSES & ACHIEVEMENTS
   // ==========================================
-  const fetchLiveClasses = async () => {
+  const fetchLiveClasses = useCallback(async (isRetry = false) => {
+    // Don't retry more than maxRetries
+    if (isRetry && fetchRetryCount.current >= maxRetries) {
+      console.log("Max retries reached for live classes");
+      setLiveClassesError("Unable to fetch live classes after multiple attempts");
+      return;
+    }
+
     try {
       const batchMonth = user?.batchMonth || "";
       const batchYear = user?.batchYear || "";
@@ -80,7 +232,12 @@ const Home = () => {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        setLiveClasses([]);
+        // Check cache first
+        const cachedData = checkLiveClassesCache();
+        if (cachedData) {
+          setLiveClasses(cachedData);
+          setHasInitialLiveClasses(true);
+        }
         return;
       }
 
@@ -106,18 +263,111 @@ const Home = () => {
           return new Date(a.start_time) - new Date(b.start_time);
         });
 
+        // Update state and cache
         setLiveClasses(sortedData);
+        setHasInitialLiveClasses(true);
+        setLiveClassesError(null);
+        fetchRetryCount.current = 0; // Reset retry count on success
+        
+        // Save to cache
+        localStorage.setItem('cachedLiveClasses', JSON.stringify(sortedData));
+        localStorage.setItem('cachedLiveClassesTimestamp', Date.now().toString());
+        
+        // Save batch info to cache for comparison
+        localStorage.setItem('lastBatchInfo', JSON.stringify({
+          batchMonth,
+          batchYear,
+          courseSelection
+        }));
+      } else if (response.status === 429) {
+        // Rate limited - retry with exponential backoff
+        console.log("Rate limited, retrying...");
+        fetchRetryCount.current += 1;
+        const delay = Math.pow(2, fetchRetryCount.current) * 1000; // Exponential backoff
+        setTimeout(() => fetchLiveClasses(true), delay);
       } else {
-        setLiveClasses([]);
+        // Check cache if available
+        const cachedData = checkLiveClassesCache();
+        if (cachedData) {
+          setLiveClasses(cachedData);
+          setHasInitialLiveClasses(true);
+        } else if (!hasInitialLiveClasses) {
+          setLiveClasses([]);
+        }
+        
+        setLiveClassesError(`Failed to fetch: ${response.status}`);
+        console.warn("Failed to fetch live classes, keeping existing data");
       }
     } catch (error) {
       console.error("❌ Error fetching live classes:", error);
-      setLiveClasses([]);
+      
+      // Check cache on error
+      const cachedData = checkLiveClassesCache();
+      if (cachedData) {
+        setLiveClasses(cachedData);
+        setHasInitialLiveClasses(true);
+      } else if (!hasInitialLiveClasses) {
+        setLiveClasses([]);
+      }
+      
+      setLiveClassesError(error.message);
+      
+      // Retry on network errors
+      if (!hasInitialLiveClasses && fetchRetryCount.current < maxRetries) {
+        fetchRetryCount.current += 1;
+        const delay = Math.pow(2, fetchRetryCount.current) * 1000;
+        setTimeout(() => fetchLiveClasses(true), delay);
+      }
     }
-  };
+  }, [user, hasInitialLiveClasses]);
+
+  // Helper function to check cache
+  const checkLiveClassesCache = useCallback(() => {
+    try {
+      const cached = localStorage.getItem('cachedLiveClasses');
+      const timestamp = localStorage.getItem('cachedLiveClassesTimestamp');
+      const lastBatchInfo = localStorage.getItem('lastBatchInfo');
+      
+      // Check if cache is valid (less than 30 minutes old)
+      if (cached && timestamp) {
+        const cacheAge = Date.now() - parseInt(timestamp);
+        const isValidCache = cacheAge < 30 * 60 * 1000; // 30 minutes
+        
+        // Also check if batch info matches current user
+        let batchMatch = true;
+        if (lastBatchInfo && user) {
+          const savedBatch = JSON.parse(lastBatchInfo);
+          batchMatch = 
+            savedBatch.batchMonth === (user.batchMonth || "") &&
+            savedBatch.batchYear === (user.batchYear || "") &&
+            savedBatch.courseSelection === (user.courseSelection || "web_development");
+        }
+        
+        if (isValidCache && batchMatch) {
+          return JSON.parse(cached);
+        }
+      }
+    } catch (error) {
+      console.error("Error checking cache:", error);
+    }
+    return null;
+  }, [user]);
 
   const fetchPlacementAchievements = async () => {
     try {
+      // Check cache first
+      const cachedPlacements = localStorage.getItem('cachedPlacements');
+      const placementsTimestamp = localStorage.getItem('cachedPlacementsTimestamp');
+      
+      if (cachedPlacements && placementsTimestamp) {
+        const cacheAge = Date.now() - parseInt(placementsTimestamp);
+        if (cacheAge < 60 * 60 * 1000) { // 1 hour cache
+          setPlacementAchievements(JSON.parse(cachedPlacements));
+          setAchievementsLoading(false);
+          return;
+        }
+      }
+
       const response = await fetch(`${API_OSE_URL}api/placement-achievements`);
       if (response.ok) {
         const data = await response.json();
@@ -131,9 +381,19 @@ const Home = () => {
           return 0;
         });
         setPlacementAchievements(sortedData);
+        
+        // Cache placements
+        localStorage.setItem('cachedPlacements', JSON.stringify(sortedData));
+        localStorage.setItem('cachedPlacementsTimestamp', Date.now().toString());
       }
     } catch (error) {
       console.error("Error fetching placement achievements:", error);
+      
+      // Fallback to cache on error
+      const cachedPlacements = localStorage.getItem('cachedPlacements');
+      if (cachedPlacements) {
+        setPlacementAchievements(JSON.parse(cachedPlacements));
+      }
     } finally {
       setAchievementsLoading(false);
     }
@@ -380,7 +640,14 @@ const Home = () => {
   // ==========================================
   useEffect(() => {
     if (user) {
-      // Fetch live classes and achievements for all users
+      // Check cache for live classes before fetching
+      const cachedLiveClasses = checkLiveClassesCache();
+      if (cachedLiveClasses) {
+        setLiveClasses(cachedLiveClasses);
+        setHasInitialLiveClasses(true);
+      }
+
+      // Fetch fresh data
       fetchLiveClasses();
       fetchPlacementAchievements();
 
@@ -389,12 +656,16 @@ const Home = () => {
         fetchUserProgress();
       }
 
-      const liveClassesInterval = setInterval(fetchLiveClasses, 60000);
+      // Set up interval for live classes (increased to 5 minutes)
+      const liveClassesInterval = setInterval(() => {
+        fetchLiveClasses();
+      }, 300000); // 5 minutes instead of 1 minute
+
       return () => {
         clearInterval(liveClassesInterval);
       };
     }
-  }, [user, isDigitalUser]);
+  }, [user, isDigitalUser, fetchLiveClasses, checkLiveClassesCache]);
 
   // Listen for storage events (Web Dev)
   useEffect(() => {
@@ -507,6 +778,13 @@ const Home = () => {
   const toggleAiApp = () => setIsAiAppOpen(!isAiAppOpen);
   const closeAiApp = () => setIsAiAppOpen(false);
 
+  // Manual refresh handler for live classes
+  const handleRefreshLiveClasses = () => {
+    setLiveClassesError(null);
+    fetchRetryCount.current = 0;
+    fetchLiveClasses();
+  };
+
   // Loading Screen - Show loading until data is initialized for respective user type
   if (!user) {
     return (
@@ -559,7 +837,26 @@ const Home = () => {
       </div>
 
       {/* Live Classes Section */}
-      <h1>Live Classes</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '8%' }}>
+        <h1>Live Classes</h1>
+        {liveClassesError && (
+          <button 
+            onClick={handleRefreshLiveClasses}
+            style={{
+              padding: '5px 10px',
+              backgroundColor: '#f0f0f0',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px'
+            }}
+          >
+            <i className="bi bi-arrow-repeat" style={{ marginRight: '5px' }}></i>
+            Refresh
+          </button>
+        )}
+      </div>
+      
       <div className="live">
         {liveClasses.length > 0 ? (
           liveClasses.map((classItem) => (
@@ -576,35 +873,19 @@ const Home = () => {
                 }}
               ></div>
               <div className="information">
-                <div className="class-info">
-                  <button className="letter-tag">{classItem.letter}</button>
-                  <div className="class-text">
-                    <h3>{classItem.name}</h3>
-                    <p>Mentor: {classItem.mentor}</p>
-                    {classItem.batch_month && classItem.batch_year && (
-                      <p className="batch-info">
-                        Batch: {classItem.batch_month} {classItem.batch_year}
-                      </p>
-                    )}
+              <div className="class-info">
+                    <button className="letter-tag">{classItem.letter}</button>
+                    <div className="class-text">
+                      <h3 title={classItem.name}>{classItem.name}</h3>
+                      <p title={`Mentor: ${classItem.mentor}`}>Mentor: {classItem.mentor}</p>
+                      {classItem.batch_month && classItem.batch_year && (
+                        <p className="batch-info" title={`Batch: ${classItem.batch_month} ${classItem.batch_year}`}>
+                          Batch: {classItem.batch_month} {classItem.batch_year}
+                        </p>
+                      )}
+                    </div>
+                   
                   </div>
-                  <button
-                    className="status"
-                    style={{
-                      backgroundColor: getStatusColor(classItem.status),
-                      color: "white",
-                      border: "none",
-                      padding: "5px",
-                      borderRadius: "8px",
-                    }}
-                  >
-                    <i
-                      className={getStatusIcon(classItem.status)}
-                      style={{ marginRight: "8px" }}
-                    ></i>
-                    {classItem.status.charAt(0).toUpperCase() +
-                      classItem.status.slice(1)}
-                  </button>
-                </div>
                 <div className="progress-time">
                   <div className="row">
                     <p>Progress</p>
@@ -622,67 +903,160 @@ const Home = () => {
                   </div>
                 </div>
                 <div className="actions">
-                  <p>
-                    <i
-                      className="bi bi-question-circle"
-                      style={{ marginRight: "8px" }}
-                    ></i>
-                    Help Desk
-                  </p>
-                  {classItem.status === "live" && classItem.zoom_link && (
-                    <a
-                      href={classItem.zoom_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                <button
+                      className="status"
                       style={{
-                        color: "#28a745",
-                        fontWeight: "bold",
-                        textDecoration: "none",
+                        backgroundColor: getStatusColor(classItem.status),
+                        color: "white",
+                        border: "none",
+                        borderRadius: "8px",
                       }}
-                      onClick={(e) => e.stopPropagation()}
+                      title={`${classItem.status.charAt(0).toUpperCase() + classItem.status.slice(1)}`}
                     >
                       <i
-                        className="bi bi-box-arrow-right"
-                        style={{ marginRight: "8px" }}
+                        className={getStatusIcon(classItem.status)}
+                        style={{ marginRight: "5px" }}
                       ></i>
-                      Join Class
-                    </a>
-                  )}
-                  {classItem.status === "live" && !classItem.zoom_link && (
-                    <p style={{ color: "#ff6b6b", fontWeight: "bold" }}>
-                      <i
-                        className="bi bi-exclamation-triangle"
-                        style={{ marginRight: "8px" }}
-                      ></i>
-                      No Zoom Link
-                    </p>
-                  )}
-                  {classItem.status === "upcoming" && (
-                    <p>
-                      <i
-                        className="bi bi-calendar-plus"
-                        style={{ marginRight: "8px" }}
-                      ></i>
-                      Add to Calendar
-                    </p>
-                  )}
-                  {classItem.status === "completed" && (
-                    <p>
-                      <i
-                        className="bi bi-play-circle"
-                        style={{ marginRight: "8px" }}
-                      ></i>
-                      Watch Recording
-                    </p>
-                  )}
-                </div>
+                      {classItem.status.charAt(0).toUpperCase() + classItem.status.slice(1)}
+                    </button>
+          {classItem.status === "live" && classItem.zoom_link && (
+            <a
+              href={classItem.zoom_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "#28a745",
+                fontWeight: "bold",
+                textDecoration: "none",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <i
+                className="bi bi-box-arrow-right"
+                style={{ marginRight: "8px" }}
+              ></i>
+              Join Class
+            </a>
+          )}
+          {classItem.status === "live" && !classItem.zoom_link && (
+            <p style={{ color: "#ff6b6b", fontWeight: "bold" }}>
+              <i
+                className="bi bi-exclamation-triangle"
+                style={{ marginRight: "8px" }}
+              ></i>
+              No Zoom Link
+            </p>
+          )}
+          {classItem.status === "upcoming" && (
+              <div className="calendar-dropdown-container">
+                <button
+                  onClick={(e) => toggleCalendarDropdown(classItem.id, e)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#ffa500",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: "5px",
+                  }}
+                  title="Add to Calendar"
+                >
+                  <i
+                    className="bi bi-calendar-plus"
+                    style={{ marginRight: "8px" }}
+                  ></i>
+                  Add to Calendar
+                </button>
+                
+                {activeCalendarDropdown === classItem.id && (
+                  <div className="calendar-dropdown">
+                    <button
+                      className="calendar-dropdown-item google"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToGoogleCalendar(classItem);
+                        setActiveCalendarDropdown(null);
+                      }}
+                    >
+                      <i className="bi bi-google"></i>
+                      Google Calendar
+                    </button>
+                    <button
+                      className="calendar-dropdown-item apple"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        downloadICSFile(classItem);
+                        setActiveCalendarDropdown(null);
+                      }}
+                    >
+                      <i className="bi bi-apple"></i>
+                      Apple Calendar
+                    </button>
+                    <button
+                      className="calendar-dropdown-item outlook"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        downloadICSFile(classItem);
+                        setActiveCalendarDropdown(null);
+                      }}
+                    >
+                      <i className="bi bi-microsoft"></i>
+                      Outlook Calendar
+                    </button>
+                    <button
+                      className="calendar-dropdown-item other"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        downloadICSFile(classItem);
+                        setActiveCalendarDropdown(null);
+                      }}
+                    >
+                      <i className="bi bi-calendar"></i>
+                      Other Calendar
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+              {classItem.status === "completed" && (
+                <p>
+                  <i
+                    className="bi bi-play-circle"
+                    style={{ marginRight: "8px" }}
+                  ></i>
+                  Watch Recording
+                </p>
+              )}
+            </div>
               </div>
               <DescriptionToggle text={classItem.description} />
             </div>
           ))
         ) : (
           <div className="no-classes">
-            <p>No live classes available for your batch and course.</p>
+            <p>
+              {liveClassesError 
+                ? `Error loading classes: ${liveClassesError}. ` 
+                : "No live classes available for your batch and course."}
+              {liveClassesError && (
+                <button 
+                  onClick={handleRefreshLiveClasses}
+                  style={{
+                    marginLeft: '10px',
+                    padding: '2px 8px',
+                    backgroundColor: '#007bff',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Try Again
+                </button>
+              )}
+            </p>
           </div>
         )}
       </div>

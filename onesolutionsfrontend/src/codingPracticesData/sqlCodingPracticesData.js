@@ -339,7 +339,7 @@ SELECT * FROM table_name;
 
           tableData: {
             student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+              columns: ["id", "name", "type", "notnull"],
               rows: [
                 [0, "name", "VARCHAR(200)", 0, null, 0],
                 [1, "age", "INTEGER", 0, null, 0],
@@ -405,27 +405,21 @@ SELECT * FROM table_name;
               id: 3,
               description: "Table should contain column 'name' as VARCHAR(200)",
               type: "query-validation",
-              expectedColumns: [
-                { name: "name", type: "varchar(200)" }
-              ],
+              expectedColumns: [{ name: "name", type: "varchar(200)" }],
               visible: true,
             },
             {
               id: 4,
               description: "Table should contain column 'age' as INTEGER",
               type: "query-validation",
-              expectedColumns: [
-                { name: "age", type: "integer" }
-              ],
+              expectedColumns: [{ name: "age", type: "integer" }],
               visible: true,
             },
             {
               id: 5,
               description: "Table should contain column 'score' as INTEGER",
               type: "query-validation",
-              expectedColumns: [
-                { name: "score", type: "integer" }
-              ],
+              expectedColumns: [{ name: "score", type: "integer" }],
               visible: true,
             },
             {
@@ -448,16 +442,7 @@ SELECT * FROM table_name;
             sql: ``,
           },
 
-          tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
-              rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
-              ],
-            },
-          },
+          tableData: {},
 
           descriptionDetails: `
             <div class="desc-question-details">
@@ -519,41 +504,63 @@ SELECT * FROM table_name;
             },
             {
               id: 2,
-              description: "Table should be named 'student'",
+              description: "Table name should be 'customer'",
               type: "query-validation",
-              expectedTableName: "student",
-              expectedKeywords: ["student"],
+              expectedTableName: "customer",
+              expectedKeywords: ["customer"],
               visible: true,
             },
             {
               id: 3,
-              description: "Table should contain column 'name' as VARCHAR(200)",
+              description: "Query should contain 'customer_id' column",
               type: "query-validation",
-              expectedColumns: [
-                { name: "name", type: "varchar(200)" }
-              ],
+              expectedKeywords: ["customer_id"],
               visible: true,
             },
             {
               id: 4,
-              description: "Table should contain column 'age' as INTEGER",
+              description: "Query should contain 'first_name' column",
               type: "query-validation",
-              expectedColumns: [
-                { name: "age", type: "integer" }
-              ],
+              expectedKeywords: ["first_name"],
               visible: true,
             },
             {
               id: 5,
-              description: "Table should contain column 'score' as INTEGER",
+              description: "Query should contain 'last_name' column",
               type: "query-validation",
-              expectedColumns: [
-                { name: "score", type: "integer" }
-              ],
+              expectedKeywords: ["last_name"],
               visible: true,
             },
             {
               id: 6,
+              description: "Query should contain 'date_of_birth' column",
+              type: "query-validation",
+              expectedKeywords: ["date_of_birth"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain 'address' column",
+              type: "query-validation",
+              expectedKeywords: ["address"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should contain 'phone_number' column",
+              type: "query-validation",
+              expectedKeywords: ["phone_number"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should contain VARCHAR(200) for name fields",
+              type: "query-validation",
+              expectedKeywords: ["varchar(200)"],
+              visible: true,
+            },
+            {
+              id: 10,
               description: "Query should end with semicolon",
               type: "syntax-validation",
               visible: true,
@@ -634,41 +641,72 @@ SELECT * FROM table_name;
             },
             {
               id: 2,
-              description: "Table should be named 'student'",
+              description: "Table name should be 'order_details'",
               type: "query-validation",
-              expectedTableName: "student",
-              expectedKeywords: ["student"],
+              expectedTableName: "order_details",
+              expectedKeywords: ["order_details"],
               visible: true,
             },
             {
               id: 3,
-              description: "Table should contain column 'name' as VARCHAR(200)",
+              description: "Query should contain 'order_id' column",
               type: "query-validation",
-              expectedColumns: [
-                { name: "name", type: "varchar(200)" }
-              ],
+              expectedKeywords: ["order_id"],
               visible: true,
             },
             {
               id: 4,
-              description: "Table should contain column 'age' as INTEGER",
+              description: "Query should contain 'customer_id' column",
               type: "query-validation",
-              expectedColumns: [
-                { name: "age", type: "integer" }
-              ],
+              expectedKeywords: ["customer_id"],
               visible: true,
             },
             {
               id: 5,
-              description: "Table should contain column 'score' as INTEGER",
+              description: "Query should contain 'order_datetime' column",
               type: "query-validation",
-              expectedColumns: [
-                { name: "score", type: "integer" }
-              ],
+              expectedKeywords: ["order_datetime"],
               visible: true,
             },
             {
               id: 6,
+              description: "Query should contain 'shipped_datetime' column",
+              type: "query-validation",
+              expectedKeywords: ["shipped_datetime"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain 'total_amount' column",
+              type: "query-validation",
+              expectedKeywords: ["total_amount"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "order_id and customer_id should use INTEGER datatype",
+              type: "query-validation",
+              expectedKeywords: ["integer"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description:
+                "order_datetime and shipped_datetime should use DATETIME datatype",
+              type: "query-validation",
+              expectedKeywords: ["datetime"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "total_amount should use FLOAT datatype",
+              type: "query-validation",
+              expectedKeywords: ["float"],
+              visible: true,
+            },
+            {
+              id: 11,
               description: "Query should end with semicolon",
               type: "syntax-validation",
               visible: true,
@@ -688,13 +726,9 @@ SELECT * FROM table_name;
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
-              rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
-              ],
+            player: {
+              columns: ["name", "age", "score"],
+              rows: [["Suresh", 21, 70]],
             },
           },
 
@@ -734,7 +768,50 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with INSERT INTO",
+              type: "syntax-validation",
+              expectedKeywords: ["insert", "into"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain columns name, age, score",
+              type: "query-validation",
+              expectedKeywords: ["name", "age", "score"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should insert values Ram, 28, 30",
+              type: "query-validation",
+              expectedKeywords: ["ram", "28", "30"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use VALUES keyword",
+              type: "query-validation",
+              expectedKeywords: ["values"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-8",
@@ -749,12 +826,13 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Suresh", 21, 70],
+                ["Venkat", 21, 43],
+                ["Raj", 25, 80],
+                ["Ram", 30, 60],
               ],
             },
           },
@@ -798,62 +876,43 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               </div> 
             </div>
           `,
-          testCases: [],
-        },
-        {
-          id: "sql-query-9",
-          title: "Get Details",
-          description:
-            "With this practice set, you will get to tweak the database by creating new tables, and inserting and retrieving the data.\n Here’s to your first step for playing around with databases! Put your thinking hats on and get your hands dirty.",
-          difficulty: "Medium",
-          score: 35,
-          type: "sql",
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
-              rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
-              ],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
             },
-          },
-
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Question</p>
-              <p>
-              Get all the details of "Suresh" from the 'player' table in the following format.</p> 
-              <p class="desc-que-blue">Expected Output Format:</p>             
-<div class="sql-table-desc">
-              
-                <div class="sql-table-caption">Table: player</div>
-                <table>
-                <thead>
-                  <tr>
-                    <th>name</th>
-                    <th>age</th>
-                    <th>score</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>Suresh</td>
-                    <td>21</td>
-                    <td>70</td>
-                  </tr>
-                </tbody>
-              </table>
-              
-             
-              </div> 
-            </div>
-          `,
-          testCases: [],
+            {
+              id: 2,
+              description: "Query should contain '*' to select all columns",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
       ],
     },
@@ -869,7 +928,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
-          difficulty: "Medium",
+          difficulty: "Easy",
           score: 35,
           type: "sql",
           defaultCode: {
@@ -877,13 +936,9 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
-              rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
-              ],
+            player: {
+              columns: ["name", "age", "score"],
+              rows: [["Ram", 24, 10], ["Shyam", 25, 15], ["Suresh", 21, 9], ,],
             },
           },
 
@@ -913,7 +968,50 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table should be named 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table should contain column 'name' as VARCHAR(200)",
+              type: "query-validation",
+              expectedColumns: [{ name: "name", type: "varchar(200)" }],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table should contain column 'age' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [{ name: "age", type: "integer" }],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table should contain column 'score' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [{ name: "score", type: "integer" }],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-02",
@@ -921,7 +1019,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
-          difficulty: "Medium",
+          difficulty: "Easy",
           score: 45,
           type: "sql",
           defaultCode: {
@@ -929,12 +1027,12 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["Shyam", 25, 15],
+                ["Suresh", 21, 9],
               ],
             },
           },
@@ -976,7 +1074,50 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table should be named 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table should contain column 'name' as VARCHAR(200)",
+              type: "query-validation",
+              expectedColumns: [{ name: "name", type: "varchar(200)" }],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table should contain column 'age' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [{ name: "age", type: "integer" }],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table should contain column 'score' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [{ name: "score", type: "integer" }],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-03",
@@ -984,7 +1125,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
-          difficulty: "Medium",
+          difficulty: "Easy",
           score: 45,
           type: "sql",
           defaultCode: {
@@ -992,12 +1133,14 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["Shyam", 25, 15],
+                ["Suresh", 21, 9],
+                ["jay", 25, 15],
+                ["sam", 18, 10],
               ],
             },
           },
@@ -1038,7 +1181,50 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select all columns using '*'",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM clause",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should not contain WHERE clause",
+              type: "query-validation",
+              forbiddenKeywords: ["where"],
+              visible: false,
+            },
+            {
+              id: 6,
+              description: "Query should end with a semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-04",
@@ -1046,20 +1232,20 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
-          difficulty: "Medium",
-          score: 45,
+          difficulty: "Easy",
+          score: 50,
           type: "sql",
           defaultCode: {
             sql: ``,
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["Shyam", 25, 15],
+                ["Suresh", 21, 9],
               ],
             },
           },
@@ -1068,10 +1254,95 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>Update the age of "Shyam" to 30 in the 'player' table.<p>NOTE: In this table, we can identify a player by name.</p>  
-            
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Ram</td>
+                    <td>24</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td>Shyam</td>
+                    <td>25</td>
+                    <td>15</td>
+                  </tr>
+                  <tr>
+                    <td>Suresh</td>
+                    <td>21</td>
+                    <td>9</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with UPDATE",
+              type: "syntax-validation",
+              expectedKeywords: ["update"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain SET clause",
+              type: "syntax-validation",
+              expectedKeywords: ["set"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should update column 'age'",
+              type: "query-validation",
+              expectedKeywords: ["age"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Age should be updated to 30",
+              type: "query-validation",
+              expectedKeywords: ["30"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should contain WHERE clause",
+              type: "syntax-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "WHERE clause should identify name as 'Shyam'",
+              type: "query-validation",
+              expectedKeywords: ["name", "shyam"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-05",
@@ -1079,20 +1350,19 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
 
-          difficulty: "Medium",
+          difficulty: "Easy",
           score: 45,
           type: "sql",
           defaultCode: {
             sql: ``,
           },
-
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["Shyam", 25, 15],
+                ["Suresh", 21, 9],
               ],
             },
           },
@@ -1101,11 +1371,89 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>
-              Delete player "David" from the player table.<p>NOTE: In this table, we can identify a player by name.</p>  
-            
+              Delete player "Suresh" from the player table.<p>NOTE: In this table, we can identify a player by name.</p>  
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: player</div>
+              <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ram</td>
+                  <td>24</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>Shyam</td>
+                  <td>25</td>
+                  <td>15</td>
+                </tr>
+                <tr>
+                  <td>Suresh</td>
+                  <td>21</td>
+                  <td>9</td>
+                </tr>
+              </tbody>
+            </table>
+            </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with DELETE",
+              type: "syntax-validation",
+              expectedKeywords: ["delete"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain WHERE clause",
+              type: "syntax-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "WHERE clause should filter by name",
+              type: "query-validation",
+              expectedKeywords: ["name"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should delete player 'suresh'",
+              type: "query-validation",
+              expectedKeywords: ["suresh"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-06",
@@ -1121,12 +1469,12 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["Suresh", 21, 9],
+                ["David", 26, 12],
               ],
             },
           },
@@ -1138,7 +1486,50 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with ALTER TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["alter", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain ADD keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["add"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Column name should be 'strike_rate'",
+              type: "query-validation",
+              expectedKeywords: ["strike_rate"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Data type should be FLOAT",
+              type: "query-validation",
+              expectedKeywords: ["float"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-07",
@@ -1154,12 +1545,14 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["Shyam", 25, 15],
+                ["Suresh", 21, 9],
+                ["jay", 25, 15],
+                ["sam", 18, 10],
               ],
             },
           },
@@ -1168,10 +1561,88 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>Get name and age of all the players from the player table.</p>  
-            
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: player</div>
+              <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ram</td>
+                  <td>24</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>Suresh</td>
+                  <td>21</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>---</td>
+                  <td>---</td>
+                  <td>---</td>
+                </tr>
+              </tbody>
+              </table>
+            </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select 'name' column",
+              type: "query-validation",
+              expectedKeywords: ["name"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should select 'age' column",
+              type: "query-validation",
+              expectedKeywords: ["age"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should NOT select all columns (*)",
+              type: "query-validation",
+              forbiddenKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-08",
@@ -1187,12 +1658,13 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["David", 26, 12],
+                ["Suresh", 21, 9],
+                ["Shyam", 25, 15],
               ],
             },
           },
@@ -1201,13 +1673,95 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
               <p>Rename the column name to full_name in the player table.</p>  
-            
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: player</div>
+              <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ram</td>
+                  <td>24</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>David</td>
+                  <td>26</td>
+                  <td>12</td>
+                </tr>
+                <tr>
+                  <td>Suresh</td>
+                  <td>21</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>Shyam</td>
+                  <td>25</td>
+                  <td>15</td>
+                </tr>
+              </tbody>
+            </table>
+            </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with ALTER TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["alter", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain RENAME keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["rename"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should rename column 'name'",
+              type: "query-validation",
+              expectedKeywords: ["name"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should rename to 'full_name'",
+              type: "query-validation",
+              expectedKeywords: ["full_name"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should contain TO keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["to"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
         {
-          id: "sql-query-06",
+          id: "sql-query-09",
           title: "Delete Table",
           description:
             "The database consists of a player table that stores the name, age and score of players.\n In a real-world scenario, during a tournament, we often have to insert the details of multiple players at once, update already existing details, or retrieve specific player’s details to analyze.\n This practice set helps you get a hang of all such queries. Let’s dive in!",
@@ -1220,12 +1774,13 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            student: {
-              columns: ["id", "name", "type", "notnull", "dflt_value", "pk"],
+            player: {
+              columns: ["name", "age", "score"],
               rows: [
-                [0, "name", "VARCHAR(200)", 0, null, 0],
-                [1, "age", "INTEGER", 0, null, 0],
-                [2, "score", "INTEGER", 0, null, 0],
+                ["Ram", 24, 10],
+                ["David", 26, 12],
+                ["Suresh", 21, 9],
+                ["Shyam", 25, 15],
               ],
             },
           },
@@ -1233,11 +1788,179 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p>We have to store the strike_rate of players in the database. Make necessary changes to the existing player table to store the data.<p>NOTE: Name the column as strike_rate. It is measured in decimals.</p>  
-            
+              <p>Delete player table from the database.</p>  
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: player</div>
+              <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ram</td>
+                  <td>24</td>
+                  <td>10</td>
+                </tr>
+                <tr>
+                  <td>David</td>
+                  <td>26</td>
+                  <td>12</td>
+                </tr>
+                <tr>
+                  <td>Suresh</td>
+                  <td>21</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td>Shyam</td>
+                  <td>25</td>
+                  <td>15</td>
+                </tr>
+              </tbody>
+            </table>
+            </div> 
             </div>
           `,
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with DROP",
+              type: "syntax-validation",
+              expectedKeywords: ["drop"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain TABLE keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["table"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should NOT contain WHERE clause",
+              type: "query-validation",
+              forbiddenKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    // SQL Practice 2
+    {
+      id: "sql-coding-practice-3",
+      title: "Introduction to SQL",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-2-1",
+          title: "Get All Products",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            player: {
+              columns: ["name", "age", "score"],
+              rows: [["Ram", 24, 10], ["Shyam", 25, 15], ["Suresh", 21, 9], ,],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              A new player has joined the tournament. Write an SQL query to add the the following details to the "player" table.</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Raj</td>
+                    <td>26</td>
+                    <td>120</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div> 
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create", "table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table should be named 'player'",
+              type: "query-validation",
+              expectedTableName: "player",
+              expectedKeywords: ["player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table should contain column 'name' as VARCHAR(200)",
+              type: "query-validation",
+              expectedColumns: [{ name: "name", type: "varchar(200)" }],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Table should contain column 'age' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [{ name: "age", type: "integer" }],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table should contain column 'score' as INTEGER",
+              type: "query-validation",
+              expectedColumns: [{ name: "score", type: "integer" }],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
         },
       ],
     },
