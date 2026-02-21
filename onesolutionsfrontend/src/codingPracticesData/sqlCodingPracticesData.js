@@ -3,7 +3,7 @@ export const sqlCodingPracticesData = {
     // SQL Practice 1 - Basic SELECT queries
     {
       id: "sql-coding-practice-1",
-      title: "Introduction to SQL",
+      title: "Introduction to SQL - SQL Coding Practice 1",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -714,6 +714,7 @@ export const sqlCodingPracticesData = {
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "sql-query-7",
           title: "Storing Details",
           description:
@@ -814,6 +815,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "sql-query-8",
           title: "Store Data",
           description:
@@ -919,7 +921,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
     // SQL Practice 2
     {
       id: "sql-coding-practice-2",
-      title: "Introduction to SQL",
+      title: "Introduction to SQL - SQL Coding Practice 2",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -1645,6 +1647,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "sql-query-08",
           title: "Rename the Column",
           description:
@@ -1761,6 +1764,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "sql-query-09",
           title: "Delete Table",
           description:
@@ -1868,12 +1872,128 @@ We're storing the details of players who are a part of a tournament.<br/> The da
     // SQL Practice 3
     {
       id: "sql-coding-practice-3",
-      title: "Introduction to SQL",
+      title: "Querying with SQL - SQL Coding Practice 3",
       description: "Practice basic SQL queries",
       questions: [
         {
           id: "sql-query-2-1",
-          title: "Get All Products",
+          title: "Get All Products based on Price",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\nComparison operators such as LIKE, equal to (=), greater than (>) help us fetch data for such queries.\nSimilar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\nNOTE: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 900, "Puma", 4.8],
+                ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
+                ["Sports Cap", "Accessories", 700, "Puma", 4.2],
+                ["Bourbon Jeans", "Clothing", 1800, "Levis", 4.3],
+                ["Bourbon Blue Jeans", "Clothing", 2000, "Wrangler", 4.4],
+                ["Salted Chips", "Snacks", 50, "Lays", 4.1],
+                ["Potato Chips Classic", "Snacks", 60, "Pringles", 4.6],
+                ["Crunchy Chips", "Snacks", 45, "Bingo", 4.0],
+                ["Blue Shirt", "Clothing", 1200, "Puma", 3.9],
+                ["Flashgear", "Accessories", 1500, "Adidas", 4.5],
+                ["Freshwear", "Clothing", 2200, "Zara", 4.2],
+                ["Techgear", "Electronics", 3500, "Sony", 4.7],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the products whose price is less than or equal to 1000.</p>
+        
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: products</div>
+        
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>category</th>
+                      <th>price</th>
+                      <th>brand</th>
+                      <th>rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Black Shirt</td><td>Clothing</td><td>900</td><td>Puma</td><td>4.8</td></tr>
+                    <tr><td>Running Shoes</td><td>Footwear</td><td>2500</td><td>Nike</td><td>4.5</td></tr>
+                    <tr><td>Sports Cap</td><td>Accessories</td><td>700</td><td>Puma</td><td>4.2</td></tr>
+                    <tr><td>Bourbon Jeans</td><td>Clothing</td><td>1800</td><td>Levis</td><td>4.3</td></tr>
+                    <tr><td>Bourbon Blue Jeans</td><td>Clothing</td><td>2000</td><td>Wrangler</td><td>4.4</td></tr>
+                    <tr><td>Salted Chips</td><td>Snacks</td><td>50</td><td>Lays</td><td>4.1</td></tr>
+                    <tr><td>Potato Chips Classic</td><td>Snacks</td><td>60</td><td>Pringles</td><td>4.6</td></tr>
+                    <tr><td>Crunchy Chips</td><td>Snacks</td><td>45</td><td>Bingo</td><td>4.0</td></tr>
+                    <tr><td>Blue Shirt</td><td>Clothing</td><td>1200</td><td>Puma</td><td>3.9</td></tr>
+                    <tr><td>Flashgear</td><td>Accessories</td><td>1500</td><td>Adidas</td><td>4.5</td></tr>
+                    <tr><td>Freshwear</td><td>Clothing</td><td>2200</td><td>Zara</td><td>4.2</td></tr>
+                    <tr><td>Techgear</td><td>Electronics</td><td>3500</td><td>Sony</td><td>4.7</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should filter price using <= operator",
+              type: "query-validation",
+              expectedKeywords: ["price", "<=", "1000"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-2-2",
+          title: "Get All Products based on Rating",
           description:
             "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe\n Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.\n Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\n NOTE: Expected output format for all the queries, unless specified.",
 
@@ -1885,13 +2005,21 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           },
 
           tableData: {
-            player: {
+            product: {
               columns: ["name", "category", "price", "brand", "rating"],
               rows: [
                 ["Black Shirt", "Clothing", 900, "Puma", 4.8],
                 ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
-                ["Smart Watch", "Electronics", 3000, "Noise", 4.2],
-                ["Cap", "Accessories", 500, "Adidas", 4.0],
+                ["Sports Cap", "Accessories", 700, "Puma", 4.2],
+                ["Bourbon Jeans", "Clothing", 1800, "Levis", 4.3],
+                ["Bourbon Blue Jeans", "Clothing", 2000, "Wrangler", 4.4],
+                ["Salted Chips", "Snacks", 50, "Lays", 4.1],
+                ["Potato Chips Classic", "Snacks", 60, "Pringles", 4.6],
+                ["Crunchy Chips", "Snacks", 45, "Bingo", 4.0],
+                ["Blue Shirt", "Clothing", 1200, "Puma", 3.9],
+                ["Flashgear", "Accessories", 1500, "Adidas", 4.5],
+                ["Freshwear", "Clothing", 2200, "Zara", 4.2],
+                ["Techgear", "Electronics", 3500, "Sony", 4.7],
               ],
             },
           },
@@ -1899,9 +2027,196 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p> Get all the products whosepriceis less than or equal to 1000.</p>              
+              <p> 
+              Get all the best rated products.<br />
+              NOTE: Products whose rating is above 4.0 are considered as best rated products.</p>              
          <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: player</div>
+                <div class="sql-table-caption">Table: products</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>category</th>
+                    <th>price</th>
+                    <th>brand</th>
+                    <th>rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Black Shirt</td>
+                    <td>Clothing</td>
+                    <td>900</td>
+                    <td>Puma</td>
+                    <td>4.8</td>
+                  </tr>
+                  <tr>
+                    <td>Running Shoes</td>
+                    <td>Footwear</td>
+                    <td>2500</td>
+                    <td>Nike</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Sports Cap</td>
+                    <td>Accessories</td>
+                    <td>700</td>
+                    <td>Puma</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Bourbon Jeans</td>
+                    <td>Clothing</td>
+                    <td>1800</td>
+                    <td>Levis</td>
+                    <td>4.3</td>
+                  </tr>
+                  <tr>
+                    <td>Bourbon Blue Jeans</td>
+                    <td>Clothing</td>
+                    <td>2000</td>
+                    <td>Wrangler</td>
+                    <td>4.4</td>
+                  </tr>
+                  <tr>
+                    <td>Salted Chips</td>
+                    <td>Snacks</td>
+                    <td>50</td>
+                    <td>Lays</td>
+                    <td>4.1</td>
+                  </tr>
+                  <tr>
+                    <td>Potato Chips Classic</td>
+                    <td>Snacks</td>
+                    <td>60</td>
+                    <td>Pringles</td>
+                    <td>4.6</td>
+                  </tr>
+                  <tr>
+                    <td>Crunchy Chips</td>
+                    <td>Snacks</td>
+                    <td>45</td>
+                    <td>Bingo</td>
+                    <td>4.0</td>
+                  </tr>
+                  <tr>
+                    <td>Blue Shirt</td>
+                    <td>Clothing</td>
+                    <td>1200</td>
+                    <td>Puma</td>
+                    <td>3.9</td>
+                  </tr>
+                  <tr>
+                    <td>Flashgear</td>
+                    <td>Accessories</td>
+                    <td>1500</td>
+                    <td>Adidas</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Freshwear</td>
+                    <td>Clothing</td>
+                    <td>2200</td>
+                    <td>Zara</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Techgear</td>
+                    <td>Electronics</td>
+                    <td>3500</td>
+                    <td>Sony</td>
+                    <td>4.7</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div> 
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should filter rating using > operator",
+              type: "query-validation",
+              expectedKeywords: ["rating", ">", "4.0"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-2-3",
+          title: "Get All Products based on Brand",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe\n Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.\n Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\n NOTE: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 900, "Puma", 4.8],
+                ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
+                ["Sports Cap", "Accessories", 700, "Puma", 4.2],
+                ["Bourbon Jeans", "Clothing", 1800, "Levis", 4.3],
+                ["Bourbon Blue Jeans", "Clothing", 2000, "Wrangler", 4.4],
+                ["Salted Chips", "Snacks", 50, "Lays", 4.1],
+                ["Potato Chips Classic", "Snacks", 60, "Pringles", 4.6],
+                ["Crunchy Chips", "Snacks", 45, "Bingo", 4.0],
+                ["Blue Shirt", "Clothing", 1200, "Puma", 3.9],
+                ["Flashgear", "Accessories", 1500, "Adidas", 4.5],
+                ["Freshwear", "Clothing", 2200, "Zara", 4.2],
+                ["Techgear", "Electronics", 3500, "Sony", 4.7],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p> 
+              Get all details of products from the "Puma" brand.</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: products</div>
                 <table>
   <thead>
     <tr>
@@ -1921,11 +2236,81 @@ We're storing the details of players who are a part of a tournament.<br/> The da
       <td>4.8</td>
     </tr>
     <tr>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
-      <td>---</td>
+      <td>Running Shoes</td>
+      <td>Footwear</td>
+      <td>2500</td>
+      <td>Nike</td>
+      <td>4.5</td>
+    </tr>
+    <tr>
+      <td>Sports Cap</td>
+      <td>Accessories</td>
+      <td>700</td>
+      <td>Puma</td>
+      <td>4.2</td>
+    </tr>
+    <tr>
+      <td>Bourbon Jeans</td>
+      <td>Clothing</td>
+      <td>1800</td>
+      <td>Levis</td>
+      <td>4.3</td>
+    </tr>
+    <tr>
+      <td>Bourbon Blue Jeans</td>
+      <td>Clothing</td>
+      <td>2000</td>
+      <td>Wrangler</td>
+      <td>4.4</td>
+    </tr>
+    <tr>
+      <td>Salted Chips</td>
+      <td>Snacks</td>
+      <td>50</td>
+      <td>Lays</td>
+      <td>4.1</td>
+    </tr>
+    <tr>
+      <td>Potato Chips Classic</td>
+      <td>Snacks</td>
+      <td>60</td>
+      <td>Pringles</td>
+      <td>4.6</td>
+    </tr>
+    <tr>
+      <td>Crunchy Chips</td>
+      <td>Snacks</td>
+      <td>45</td>
+      <td>Bingo</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>Blue Shirt</td>
+      <td>Clothing</td>
+      <td>1200</td>
+      <td>Puma</td>
+      <td>3.9</td>
+    </tr>
+    <tr>
+      <td>Flashgear</td>
+      <td>Accessories</td>
+      <td>1500</td>
+      <td>Adidas</td>
+      <td>4.5</td>
+    </tr>
+    <tr>
+      <td>Freshwear</td>
+      <td>Clothing</td>
+      <td>2200</td>
+      <td>Zara</td>
+      <td>4.2</td>
+    </tr>
+    <tr>
+      <td>Techgear</td>
+      <td>Electronics</td>
+      <td>3500</td>
+      <td>Sony</td>
+      <td>4.7</td>
     </tr>
   </tbody>
 </table>
@@ -1949,28 +2334,1801 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             },
             {
               id: 3,
-              description: "Table name should be 'player'",
+              description: "Table name should be 'product'",
               type: "query-validation",
-              expectedTableName: "player",
-              expectedKeywords: ["player"],
+              expectedTableName: "Product",
+              expectedKeywords: ["product"],
               visible: true,
             },
             {
               id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
               description: "Query should contain WHERE clause",
               type: "query-validation",
               expectedKeywords: ["where"],
               visible: true,
             },
             {
+              id: 6,
+              description: "Query should filter brand as 'Puma'",
+              type: "query-validation",
+              expectedKeywords: ["brand", "puma"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-2-4",
+          title: "Get All Products of Jeans",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe\n Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.\n Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\n NOTE: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 900, "Puma", 4.8],
+                ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
+                ["Sports Cap", "Accessories", 700, "Puma", 4.2],
+                ["Bourbon Jeans", "Clothing", 1800, "Levis", 4.3],
+                ["Bourbon Blue Jeans", "Clothing", 2000, "Wrangler", 4.4],
+                ["Salted Chips", "Snacks", 50, "Lays", 4.1],
+                ["Potato Chips Classic", "Snacks", 60, "Pringles", 4.6],
+                ["Crunchy Chips", "Snacks", 45, "Bingo", 4.0],
+                ["Blue Shirt", "Clothing", 1200, "Puma", 3.9],
+                ["Flashgear", "Accessories", 1500, "Adidas", 4.5],
+                ["Freshwear", "Clothing", 2200, "Zara", 4.2],
+                ["Techgear", "Electronics", 3500, "Sony", 4.7],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p> 
+              User would like to shop for "Jeans". A common pattern in all the jeans products is that their name ends with "Jeans". Help the user get the details of required products.</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: products</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>category</th>
+                    <th>price</th>
+                    <th>brand</th>
+                    <th>rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Black Shirt</td>
+                    <td>Clothing</td>
+                    <td>900</td>
+                    <td>Puma</td>
+                    <td>4.8</td>
+                  </tr>
+                  <tr>
+                    <td>Running Shoes</td>
+                    <td>Footwear</td>
+                    <td>2500</td>
+                    <td>Nike</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Sports Cap</td>
+                    <td>Accessories</td>
+                    <td>700</td>
+                    <td>Puma</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Bourbon Jeans</td>
+                    <td>Clothing</td>
+                    <td>1800</td>
+                    <td>Levis</td>
+                    <td>4.3</td>
+                  </tr>
+                  <tr>
+                    <td>Bourbon Blue Jeans</td>
+                    <td>Clothing</td>
+                    <td>2000</td>
+                    <td>Wrangler</td>
+                    <td>4.4</td>
+                  </tr>
+                  <tr>
+                    <td>Salted Chips</td>
+                    <td>Snacks</td>
+                    <td>50</td>
+                    <td>Lays</td>
+                    <td>4.1</td>
+                  </tr>
+                  <tr>
+                    <td>Potato Chips Classic</td>
+                    <td>Snacks</td>
+                    <td>60</td>
+                    <td>Pringles</td>
+                    <td>4.6</td>
+                  </tr>
+                  <tr>
+                    <td>Crunchy Chips</td>
+                    <td>Snacks</td>
+                    <td>45</td>
+                    <td>Bingo</td>
+                    <td>4.0</td>
+                  </tr>
+                  <tr>
+                    <td>Blue Shirt</td>
+                    <td>Clothing</td>
+                    <td>1200</td>
+                    <td>Puma</td>
+                    <td>3.9</td>
+                  </tr>
+                  <tr>
+                    <td>Flashgear</td>
+                    <td>Accessories</td>
+                    <td>1500</td>
+                    <td>Adidas</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Freshwear</td>
+                    <td>Clothing</td>
+                    <td>2200</td>
+                    <td>Zara</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Techgear</td>
+                    <td>Electronics</td>
+                    <td>3500</td>
+                    <td>Sony</td>
+                    <td>4.7</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div> 
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
               id: 5,
-              description: "Query should filter price using <= operator",
+              description: "Query should use WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use LIKE operator",
+              type: "query-validation",
+              expectedKeywords: ["like"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should search for names ending with 'Jeans'",
+              type: "query-validation",
+              expectedKeywords: ["%jeans"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          id: "sql-query-2-5",
+          title: "Retrive all Details",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe\n Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.\n Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\n NOTE: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 900, "Puma", 4.8],
+                ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
+                ["Sports Cap", "Accessories", 700, "Puma", 4.2],
+                ["Bourbon Small", "Food", 10, "Britannia", 3.9],
+                ["Bourbon Special", "Food", 15, "Britannia", 4.6],
+                ["Salted Chips", "Snacks", 50, "Lays", 4.1],
+                ["Potato Chips Classic", "Snacks", 60, "Pringles", 4.6],
+                ["Crunchy Chips", "Snacks", 45, "Bingo", 4.0],
+                ["Blue Shirt", "Clothing", 1200, "Puma", 3.9],
+                ["Flashgear", "Accessories", 1500, "Adidas", 4.5],
+                ["Freshwear", "Clothing", 2200, "Zara", 4.2],
+                ["Techgear", "Electronics", 3500, "Sony", 4.7],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p> 
+              User wants to purchase "Bourbon Small", "Bourbon With Extra Cookies", or products from bourbon. Retrieve all details of such products accordingly.<br/> HINT: All the product whosenamestarts with "Bourbon".</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: products</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>category</th>
+                    <th>price</th>
+                    <th>brand</th>
+                    <th>rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Black Shirt</td>
+                    <td>Clothing</td>
+                    <td>900</td>
+                    <td>Puma</td>
+                    <td>4.8</td>
+                  </tr>
+                  <tr>
+                    <td>Running Shoes</td>
+                    <td>Footwear</td>
+                    <td>2500</td>
+                    <td>Nike</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Sports Cap</td>
+                    <td>Accessories</td>
+                    <td>700</td>
+                    <td>Puma</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                  <td>Bourbon Small</td>
+                  <td>Food</td>
+                  <td>10</td>
+                  <td>Britannia</td>
+                  <td>3.9</td>
+                </tr>
+                <tr>
+                  <td>Bourbon Special</td>
+                  <td>Food</td>
+                  <td>15</td>
+                  <td>Britannia</td>
+                  <td>4.6</td>
+                </tr>
+                <tr>
+                  <td>Bourbon With Extra Cookies</td>
+                  <td>Food</td>
+                  <td>30</td>
+                  <td>Britannia</td>
+                  <td>4.4</td>
+                </tr>
+                  <tr>
+                    <td>Salted Chips</td>
+                    <td>Snacks</td>
+                    <td>50</td>
+                    <td>Lays</td>
+                    <td>4.1</td>
+                  </tr>
+                  <tr>
+                    <td>Potato Chips Classic</td>
+                    <td>Snacks</td>
+                    <td>60</td>
+                    <td>Pringles</td>
+                    <td>4.6</td>
+                  </tr>
+                  <tr>
+                    <td>Crunchy Chips</td>
+                    <td>Snacks</td>
+                    <td>45</td>
+                    <td>Bingo</td>
+                    <td>4.0</td>
+                  </tr>
+                  <tr>
+                    <td>Blue Shirt</td>
+                    <td>Clothing</td>
+                    <td>1200</td>
+                    <td>Puma</td>
+                    <td>3.9</td>
+                  </tr>
+                  <tr>
+                    <td>Flashgear</td>
+                    <td>Accessories</td>
+                    <td>1500</td>
+                    <td>Adidas</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Freshwear</td>
+                    <td>Clothing</td>
+                    <td>2200</td>
+                    <td>Zara</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Techgear</td>
+                    <td>Electronics</td>
+                    <td>3500</td>
+                    <td>Sony</td>
+                    <td>4.7</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div> 
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use LIKE operator",
+              type: "query-validation",
+              expectedKeywords: ["like"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter names starting with 'Bourbon'",
+              type: "query-validation",
+              expectedKeywords: ["bourbon%"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should NOT use '=' operator for exact match",
+              type: "query-validation",
+              forbiddenKeywords: ["= 'bourbon'"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          id: "sql-query-2-6",
+          title: "Products of Chips",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. While shopping online, we often search for the product or brand with a partial name over giving the exact name of the product. And, while applying filters, we tend to select if the price/rating is greater than a certain number over mentioning the exact number.\n is greater than a certain number over mentioning the exact numbe\n Comparison operators such as LIKE, equal to(=), greater than(>) help us fetch data for such queries.\n Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements.\n NOTE: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 900, "Puma", 4.8],
+                ["Running Shoes", "Footwear", 2500, "Nike", 4.5],
+                ["Sports Cap", "Accessories", 700, "Puma", 4.2],
+                ["Bourbon Small", "Food", 10, "Britannia", 3.9],
+                ["Bourbon Special", "Food", 15, "Britannia", 4.6],
+                ["Salted Chips", "Snacks", 50, "Lays", 4.1],
+                ["Potato Chips Classic", "Snacks", 60, "Pringles", 4.6],
+                ["Crunchy Chips", "Snacks", 45, "Bingo", 4.0],
+                ["Blue Shirt", "Clothing", 1200, "Puma", 3.9],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p> 
+              List all the "Chips" in the database.
+NOTE: Consider the products that have "Chips" in thename.</p>              
+         <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: products</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>category</th>
+                    <th>price</th>
+                    <th>brand</th>
+                    <th>rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Black Shirt</td>
+                    <td>Clothing</td>
+                    <td>900</td>
+                    <td>Puma</td>
+                    <td>4.8</td>
+                  </tr>
+                  <tr>
+                    <td>Running Shoes</td>
+                    <td>Footwear</td>
+                    <td>2500</td>
+                    <td>Nike</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Sports Cap</td>
+                    <td>Accessories</td>
+                    <td>700</td>
+                    <td>Puma</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                  <td>Bourbon Small</td>
+                  <td>Food</td>
+                  <td>10</td>
+                  <td>Britannia</td>
+                  <td>3.9</td>
+                </tr>
+                <tr>
+                  <td>Bourbon Special</td>
+                  <td>Food</td>
+                  <td>15</td>
+                  <td>Britannia</td>
+                  <td>4.6</td>
+                </tr>
+                <tr>
+                  <td>Bourbon With Extra Cookies</td>
+                  <td>Food</td>
+                  <td>30</td>
+                  <td>Britannia</td>
+                  <td>4.4</td>
+                </tr>
+                  <tr>
+                    <td>Salted Chips</td>
+                    <td>Snacks</td>
+                    <td>50</td>
+                    <td>Lays</td>
+                    <td>4.1</td>
+                  </tr>
+                  <tr>
+                    <td>Potato Chips Classic</td>
+                    <td>Snacks</td>
+                    <td>60</td>
+                    <td>Pringles</td>
+                    <td>4.6</td>
+                  </tr>
+                  <tr>
+                    <td>Crunchy Chips</td>
+                    <td>Snacks</td>
+                    <td>45</td>
+                    <td>Bingo</td>
+                    <td>4.0</td>
+                  </tr>
+                  <tr>
+                    <td>Blue Shirt</td>
+                    <td>Clothing</td>
+                    <td>1200</td>
+                    <td>Puma</td>
+                    <td>3.9</td>
+                  </tr>
+                  <tr>
+                    <td>Flashgear</td>
+                    <td>Accessories</td>
+                    <td>1500</td>
+                    <td>Adidas</td>
+                    <td>4.5</td>
+                  </tr>
+                  <tr>
+                    <td>Freshwear</td>
+                    <td>Clothing</td>
+                    <td>2200</td>
+                    <td>Zara</td>
+                    <td>4.2</td>
+                  </tr>
+                  <tr>
+                    <td>Techgear</td>
+                    <td>Electronics</td>
+                    <td>3500</td>
+                    <td>Sony</td>
+                    <td>4.7</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div> 
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use LIKE operator",
+              type: "query-validation",
+              expectedKeywords: ["like"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter products containing 'Chips'",
+              type: "query-validation",
+              expectedKeywords: ["%chips%"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    // SQL Practice 4
+    {
+      id: "sql-coding-practice-4",
+      title: "Querying with SQL - SQL Coding Practice 4",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-4-1",
+          title: "Get Products belongs to clothing",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the details of products that belong to "Clothing" category and price less than 700.
+
+
+              </p>
+        
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+        
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter category as 'Clothing'",
+              type: "query-validation",
+              expectedKeywords: ["category", "clothing"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter price less than 700",
+              type: "query-validation",
+              expectedKeywords: ["price", "<", "700"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-4-2",
+          title: "Get Products belongs to brand",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the details of products that belong to "Denim" brand with rating greater than 4.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter brand as 'Denim'",
+              type: "query-validation",
+              expectedKeywords: ["brand", "denim"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter rating greater than 4",
+              type: "query-validation",
+              expectedKeywords: ["rating", ">", "4"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-4-3",
+          title: "Get Products based on Rating",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the best-rated products with price less than or equal to 1000.
+              NOTE: Assume that the products with rating greater than 4.0 as best rated products.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter rating greater than 4",
+              type: "query-validation",
+              expectedKeywords: ["rating", ">", "4"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Query should filter price less than or equal to 1000",
               type: "query-validation",
               expectedKeywords: ["price", "<=", "1000"],
               visible: true,
             },
             {
+              id: 9,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-4-4",
+          title: "Get Products based on Conditions",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the products that satisfy all the given conditions
+
+              <br/> rating is above 3.6 and
+              <br/>price is less than 1000 and
+              <br/>belongs to "Puma" brand</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
               id: 6,
+              description: "Query should filter rating greater than 3.6",
+              type: "query-validation",
+              expectedKeywords: ["rating", ">", "3.6"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter price less than 1000",
+              type: "query-validation",
+              expectedKeywords: ["price", "<", "1000"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter brand as 'Puma'",
+              type: "query-validation",
+              expectedKeywords: ["brand", "puma"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should use AND condition for all filters",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-4-5",
+          title: "Get Products any Brand",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get all the products that belong to any of the following brands.
+              
+              <br/>Puma
+              <br/>Denim
+              <br/>Nike</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter brand as 'Puma'",
+              type: "query-validation",
+              expectedKeywords: ["brand", "puma"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter brand as 'Denim'",
+              type: "query-validation",
+              expectedKeywords: ["denim"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter brand as 'Nike'",
+              type: "query-validation",
+              expectedKeywords: ["nike"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should use OR condition or IN operator",
+              type: "query-validation",
+              expectedKeywords: ["or"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-4-6",
+          title: "Get Products based in Condition",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get all the details of products that follow any of the below conditions
+
+              <br/>brand is "Redmi" with a rating greater than 4
+              <br/>products that belong to the "OnePlus" brand.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter brand as 'Redmi'",
+              type: "query-validation",
+              expectedKeywords: ["brand", "redmi"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter rating greater than 4",
+              type: "query-validation",
+              expectedKeywords: ["rating", ">", "4"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should use OR condition",
+              type: "query-validation",
+              expectedKeywords: ["or"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should filter brand as 'OnePlus'",
+              type: "query-validation",
+              expectedKeywords: ["brand", "oneplus"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          id: "sql-query-4-7",
+          title: "Get Cakes",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the cakes from any of the following brands with a rating greater than 4.0.
+
+              <br/>Cadbury
+              <br/>Britannia
+              <br/>NOTE: Consider the products that have "Cake" in name as cakes.</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter products with 'Cake' in name",
+              type: "query-validation",
+              expectedKeywords: ["name", "like", "cake"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter brand as Cadbury",
+              type: "query-validation",
+              expectedKeywords: ["cadbury"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter brand as Britannia",
+              type: "query-validation",
+              expectedKeywords: ["britannia"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should filter rating greater than 4",
+              type: "query-validation",
+              expectedKeywords: ["rating", ">", "4"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          id: "sql-query-4-8",
+          title: "Bases on Condition",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              
+Get all the shirts available in any of the following brands, excluding the black color shirts.
+
+<br/>Puma
+<br/>Nike
+<br/>Levi's
+<br/>Note: 
+You can assume that:
+<br/>1. Products containing “Shirt” in the name are considered as shirts.
+<br/>2. Black color shirts contain "Black" in their names.
+
+</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+                <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter products containing 'Shirt'",
+              type: "query-validation",
+              expectedKeywords: ["name", "like", "%shirt%"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should exclude black shirts",
+              type: "query-validation",
+              expectedKeywords: ["not", "black"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter brand as Puma",
+              type: "query-validation",
+              expectedKeywords: ["puma"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should filter brand as Nike",
+              type: "query-validation",
+              expectedKeywords: ["nike"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should filter brand as Levi's",
+              type: "query-validation",
+              expectedKeywords: ["levi"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 12,
               description: "Query should end with semicolon",
               type: "syntax-validation",
               visible: true,

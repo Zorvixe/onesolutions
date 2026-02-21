@@ -233,9 +233,11 @@ const Introductionto_Nodejs_CS = ({
 
       <section>
         <h2>Modern JS Module Exports</h2>
-        <p>Modern JS Modules are known as <b>ES6 Modules.</b>
-
-          The export and import keywords are introduced for exporting and importing one or more members in a module.</p>
+        <p>
+          Modern JS Modules are known as <b>ES6 Modules.</b>
+          The export and import keywords are introduced for exporting and
+          importing one or more members in a module.
+        </p>
 
         <h4>4.2.1 Default Export</h4>
 
@@ -258,6 +260,14 @@ const Introductionto_Nodejs_CS = ({
   
   console.log(add(6, 3));`}
         />
+        <p>
+          <b>Output:</b>
+        </p>
+        <CodeBlock
+          language="bash"
+          code={` root@123# node index.js
+          9 `}
+        />
 
         <h4>4.2.2 Named Exports</h4>
 
@@ -279,6 +289,15 @@ const Introductionto_Nodejs_CS = ({
   console.log(add(6, 3));
   console.log(sub(6, 3));`}
         />
+        <p>
+          <b>Output:</b>
+        </p>
+        <CodeBlock
+          language="bash"
+          code={` root@123# node index.js
+          9
+          3 `}
+        />
 
         <div className="Note-container">
           <div className="icon-note">
@@ -292,6 +311,17 @@ const Introductionto_Nodejs_CS = ({
           </p>
         </div>
       </section>
+
+      {/* Continue Button */}
+      <div className="view-continue">
+        <button
+          className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
+          onClick={handleContinue}
+          disabled={isSubtopicCompleted}
+        >
+          {isSubtopicCompleted ? "Completed" : "Continue"}
+        </button>
+      </div>
     </div>
   );
 };

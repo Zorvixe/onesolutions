@@ -562,52 +562,44 @@ export const mockExecuteSql = async (
 };
 
 const executeSingleStatement = async (sql, questionData) => {
-  const sqlLower = sql.toLowerCase();
-
-  // Handle CREATE TABLE statements
-  if (sqlLower.includes("create table")) {
-    return handleCreateTable(sql, questionData);
+  if (!sql || typeof sql !== "string") {
+    throw new Error("Invalid SQL");
   }
 
-  // Handle INSERT statements
-  if (sqlLower.includes("insert into")) {
-    return handleInsert(sql, questionData);
+  const cleanedSql = sql.trim();
+  const sqlLower = cleanedSql.toLowerCase();
+
+  if (sqlLower.startsWith("create table")) {
+    return handleCreateTable(cleanedSql, questionData);
   }
 
-  // Handle SELECT statements
-  if (sqlLower.includes("select")) {
-    return handleSelect(sql, questionData);
+  if (sqlLower.startsWith("insert into")) {
+    return handleInsert(cleanedSql, questionData);
   }
 
-  // Handle UPDATE statements
-  if (sqlLower.includes("update")) {
-    return handleUpdate(sql, questionData);
+  if (sqlLower.startsWith("select")) {
+    return handleSelect(cleanedSql, questionData);
   }
 
-  // Handle DELETE statements
-  if (sqlLower.includes("delete")) {
-    return handleDelete(sql, questionData);
+  if (sqlLower.startsWith("update")) {
+    return handleUpdate(cleanedSql, questionData);
   }
 
-  // Handle ALTER TABLE statements
-  if (sqlLower.includes("alter table")) {
-    return handleAlterTable(sql, questionData);
+  if (sqlLower.startsWith("delete from")) {
+    return handleDelete(cleanedSql, questionData);
   }
 
-  // Handle DROP TABLE statements
-  if (sqlLower.includes("drop table")) {
-    return handleDropTable(sql, questionData);
+  if (sqlLower.startsWith("alter table")) {
+    return handleAlterTable(cleanedSql, questionData);
   }
 
-  // Default response
+  if (sqlLower.startsWith("drop table")) {
+    return handleDropTable(cleanedSql, questionData);
+  }
+
   return {
-    success: true,
-    output: "Query executed successfully",
-    data: {
-      columns: ["result"],
-      results: [{ result: "Query completed" }],
-      rowCount: 1,
-    },
+    success: false,
+    output: "Unsupported SQL statement",
   };
 };
 
@@ -873,18 +865,16 @@ const handleSelect = (sql, questionData) => {
     throw new Error("Invalid SELECT syntax");
   }
 
-  // Normalize SQL (VERY IMPORTANT FIX)
-  const cleanedSql = sql
-    .replace(/\s+/g, " ")     // Replace multiple spaces/newlines with single space
-    .trim()
-    .replace(/;$/, "");       // Remove ending semicolon
+  // -----------------------------
+  // Normalize SQL
+  // -----------------------------
+  const cleanedSql = sql.replace(/\s+/g, " ").trim().replace(/;$/, "");
 
   const selectMatch = cleanedSql.match(
     /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:where\s+(.+))?$/i
   );
 
   if (!selectMatch) {
-    console.log("DEBUG SQL:", cleanedSql); // Helpful for debugging
     throw new Error("Invalid SELECT syntax");
   }
 
@@ -893,7 +883,7 @@ const handleSelect = (sql, questionData) => {
   const whereClause = selectMatch[3];
 
   // -----------------------------
-  // Initialize table from tableData if needed
+  // Initialize table from tableData
   // -----------------------------
   if (!questionData?.tables?.[tableName]) {
     if (questionData?.tableData?.[tableName]) {
@@ -909,7 +899,9 @@ const handleSelect = (sql, questionData) => {
         dataTypes: tableInfo.columns.reduce((acc, col) => {
           if (
             col.toLowerCase().includes("age") ||
-            col.toLowerCase().includes("score")
+            col.toLowerCase().includes("score") ||
+            col.toLowerCase().includes("price") ||
+            col.toLowerCase().includes("rating")
           ) {
             acc[col] = "INTEGER";
           } else {
@@ -928,7 +920,6 @@ const handleSelect = (sql, questionData) => {
     }
   }
 
-  // Final check
   if (!questionData?.tables?.[tableName]) {
     throw new Error(`Table '${tableName}' does not exist`);
   }
@@ -937,46 +928,72 @@ const handleSelect = (sql, questionData) => {
   let results = [...table.rows];
 
   // -----------------------------
-  // WHERE clause handling
+  // WHERE clause handling (FIXED)
+  // -----------------------------
+  // -----------------------------
+  // WHERE clause handling (FIXED WITH OR SUPPORT)
   // -----------------------------
   if (whereClause) {
+    // Split by OR first
+    const orConditions = whereClause.split(/\s+or\s+/i);
+
     results = results.filter((row) => {
-      const match = whereClause.match(
-        /(\w+)\s*([=<>!]+)\s*['"]?([^'"]+)['"]?/i
-      );
+      return orConditions.some((orCondition) => {
+        // Split each OR part by AND
+        const andConditions = orCondition.split(/\s+and\s+/i);
 
-      if (!match) return true;
+        return andConditions.every((condition) => {
+          const match = condition.match(
+            /(\w+)\s*(>=|<=|!=|<>|=|>|<|like)\s*['"]?([^'"]+)['"]?/i
+          );
 
-      const col = match[1];
-      const operator = match[2];
-      let value = match[3];
+          if (!match) return true;
 
-      if (!isNaN(value)) value = Number(value);
+          const col = match[1];
+          const operator = match[2].toLowerCase();
+          let value = match[3];
 
-      const rowValue = row[col];
+          const rowValue = row[col];
 
-      switch (operator) {
-        case "=":
-          return rowValue == value;
-        case "!=":
-        case "<>":
-          return rowValue != value;
-        case ">":
-          return rowValue > value;
-        case "<":
-          return rowValue < value;
-        case ">=":
-          return rowValue >= value;
-        case "<=":
-          return rowValue <= value;
-        default:
-          return true;
-      }
+          // Convert numeric value if needed
+          if (!isNaN(value) && value.trim() !== "") {
+            value = Number(value);
+          }
+
+          switch (operator) {
+            case "=":
+              return rowValue == value;
+
+            case "!=":
+            case "<>":
+              return rowValue != value;
+
+            case ">":
+              return rowValue > value;
+
+            case "<":
+              return rowValue < value;
+
+            case ">=":
+              return rowValue >= value;
+
+            case "<=":
+              return rowValue <= value;
+
+            case "like":
+              const pattern = value.toLowerCase().replace(/%/g, "");
+              return rowValue?.toString().toLowerCase().includes(pattern);
+
+            default:
+              return true;
+          }
+        });
+      });
     });
   }
 
   // -----------------------------
-  // Column selection
+  // Column Selection
   // -----------------------------
   let columns = table.columns;
   let filteredResults = results;
@@ -1309,7 +1326,7 @@ const handleAlterTable = (sql, questionData) => {
 
   if (action === "add") {
     // Add column
-    
+
     const columnMatch = rest.match(/(?:column\s+)?(\w+)\s+(\w+)/i);
     if (columnMatch) {
       const [_, colName, colType] = columnMatch;
@@ -1337,7 +1354,7 @@ const handleAlterTable = (sql, questionData) => {
   } else if (action === "rename" || action === "rename column") {
     // Rename column
     const renameMatch = rest.match(/(\w+)\s+to\s+(\w+)/i);
-    
+
     if (renameMatch) {
       const [_, oldName, newName] = renameMatch;
       const colIndex = table.columns.indexOf(oldName);

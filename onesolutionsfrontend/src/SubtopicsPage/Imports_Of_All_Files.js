@@ -716,6 +716,9 @@ import SQL_Coding_Pratice_8 from "../SQL_Database/Modelling_Databases/SQL_Coding
 
 //Nodejs cheat sheets
 import Introductionto_Nodejs_CS from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_CS.js";
+import Introductionto_Nodejs_MCQ from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_MCQ.js";
+import Commojs_Module_Readig_Material_CS from "../Nodejs/Intoductionto_Nodejs/Commojs_Module_Readig_Material_CS.js";
+import Commojs_Module_Readig_Material_MCQ from "../Nodejs/Intoductionto_Nodejs/Commojs_Module_Readig_Material_MCQ.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -1375,6 +1378,10 @@ export const subtopicComponents = {
 
   //Nodejs cheat-sheets
   "Introduction to Node JS | Cheat Sheet": Introductionto_Nodejs_CS,
+  "MCQ Pratice - Introduction to Node JS": Introductionto_Nodejs_MCQ,
+  "Common JS Module Exports | Reading Material":
+    Commojs_Module_Readig_Material_CS,
+    "MCQ Pratice - Common JS Module Exports":Commojs_Module_Readig_Material_MCQ,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":
