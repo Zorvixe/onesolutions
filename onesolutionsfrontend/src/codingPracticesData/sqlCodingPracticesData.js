@@ -4290,28 +4290,33 @@ You can assume that:
           id: "sql-query-6-1",
           title: "Total Score",
           description:
-            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table:The score, fours, and sixes may have NULL values if the player has not played the match.A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.This practice set helps you get well versed with GROUP BY and HAVING clauses. Let’s dive in!",
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
 
-          difficulty: "Easy",
+          difficulty: "Medium",
           score: 35,
           type: "sql",
 
           defaultCode: {
-            sql: ``,
+            sql: "",
           },
 
+          // ✅ CORRECT RAW TABLE DATA
           tableData: {
             player_match_details: {
-              columns: ["name", "total_score"],
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
               rows: [
-                ["Ram", 221],
-                ["Lokesh", 186],
-                ["Joseph", 116],
-                ["David", 105],
-                ["Stark", 75],
-                ["Shyam", 75],
-                ["Viraj", 53],
-                ["Ramesh", 9],
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2023, 12, 3],
+                ["Lokesh", "Match1", 90, 2023, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2023, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2023, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
               ],
             },
           },
@@ -4319,23 +4324,270 @@ You can assume that:
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p>Get the total score of each player.<br/>NOTE: Output must contain rows in the descending order of total_score </p>
+              <p>
+                Get the total score of each player.<br/>
+                NOTE: Output must contain rows in the descending order of total_score
+              </p>
               <p class="desc-que-blue">Expected Output Format :</p>
               <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player_match_details</div>
-        
-             <table>
-            <thead>
-            <tr>
-            <th>name</th>
-            <th>total_score</th>
-           </tr>
-            </thead>
-            <tbody>
-           <tr><td>--</td><td>--</td></tr>
-            <tr><td>--</td><td>--</td></tr>
-           </tbody>
-            </table>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>total_score</th>
+                    </tr>
+                  </thead>
+                  <tr><td>--</td><td>--</td></tr> <tr><td>--</td><td>--</td></tr>
+                </table>
+              </div>
+            </div>
+          `,
+
+          // ✅ CORRECTED TEST CASES
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use SUM(score)",
+              type: "query-validation",
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "SUM(score) must be aliased as total_score",
+              type: "query-validation",
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table name should be player_match_details",
+              type: "query-validation",
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should contain GROUP BY name",
+              type: "query-validation",
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain ORDER BY total_score DESC",
+              type: "query-validation",
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-6-2",
+          title: "Get half centuries scored",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2023, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2023, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2023, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2023, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the number of half centuries scored by each player.<br/> NOTE: Output must contain rows in the descending order of half_centuries
+              </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>half_centuries</th>
+                    </tr>
+                  </thead>
+                  <tr><td>--</td><td>--</td></tr> 
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain COUNT function",
+              type: "query-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should alias COUNT as half_centuries",
+              type: "query-validation",
+              expectedKeywords: ["half_centuries"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Table name should be player_match_details",
+              type: "query-validation",
+              expectedKeywords: ["player_match_details"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter scores between 50 and 99",
+              type: "query-validation",
+              expectedKeywords: ["score", ">=", "50"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain GROUP BY clause",
+              type: "query-validation",
+              expectedKeywords: ["group", "by"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should group by name",
+              type: "query-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should contain ORDER BY clause",
+              type: "query-validation",
+              expectedKeywords: ["order", "by"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should sort in descending order",
+              type: "query-validation",
+              expectedKeywords: ["desc"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-6-3",
+          title: "Total number of 4's hit",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2023, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2023, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2023, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2023, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the total number of 4's hit by each player as no_of_fours.
+
+          NOTE: Output must contain rows in the descending order of no_of_fours
+
+
+              </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>no_of_fours</th>
+                    </tr>
+                  </thead>
+                  <tr><td>--</td><td>--</td></tr> 
+                </table>
               </div>
             </div>
           `,
@@ -4357,56 +4609,841 @@ You can assume that:
             },
             {
               id: 3,
-              description: "Query should alias SUM(score) as total_score",
+              description: "Query should use SUM(fours)",
               type: "query-validation",
-              expectedKeywords: ["total_score"],
+              expectedKeywords: ["sum", "fours"],
               visible: true,
             },
             {
               id: 4,
+              description: "SUM(fours) should be aliased as no_of_fours",
+              type: "query-validation",
+              expectedKeywords: ["no_of_fours"],
+              visible: true,
+            },
+            {
+              id: 5,
               description: "Query should contain FROM keyword",
               type: "syntax-validation",
               expectedKeywords: ["from"],
               visible: true,
             },
             {
-              id: 5,
-              description: "Table name should be 'player'",
+              id: 6,
+              description: "Table name should be 'player_match_details'",
               type: "query-validation",
-              expectedTableName: "player",
-              expectedKeywords: ["player"],
+              expectedTableName: "player_match_details",
+              expectedKeywords: ["player_match_details"],
               visible: true,
             },
             {
-              id: 6,
+              id: 7,
               description: "Query should contain GROUP BY clause",
               type: "query-validation",
               expectedKeywords: ["group", "by"],
               visible: true,
             },
             {
-              id: 7,
+              id: 8,
               description: "Query should group by name",
               type: "query-validation",
               expectedKeywords: ["group by name"],
               visible: true,
             },
             {
-              id: 8,
+              id: 9,
               description: "Query should contain ORDER BY clause",
               type: "query-validation",
               expectedKeywords: ["order", "by"],
               visible: true,
             },
             {
-              id: 9,
+              id: 10,
               description: "Query should sort in descending order",
               type: "query-validation",
               expectedKeywords: ["desc"],
               visible: true,
             },
             {
+              id: 11,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-6-4",
+          title: "Highest score of each player",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2023, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2023, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2023, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2023, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the highest score of every player as max_score.
+
+              NOTE: Output must contain rows in the descending order ofmax_scoreof the player. </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>max_score</th>
+                    </tr>
+                  </thead>
+                  <tr><td>--</td><td>--</td></tr> 
+                </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedRegex: "^\\s*select\\b",
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain MAX function",
+              type: "query-validation",
+              expectedRegex: "\\bmax\\s*\\(",
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use MAX(score)",
+              type: "query-validation",
+              expectedRegex: "max\\s*\\(\\s*score\\s*\\)",
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "MAX(score) should be aliased as max_score",
+              type: "query-validation",
+              expectedRegex: "max\\s*\\(\\s*score\\s*\\)\\s+as\\s+max_score",
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedRegex: "\\bfrom\\b",
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Table name should be 'player_match_details'",
+              type: "query-validation",
+              expectedRegex: "\\bfrom\\s+player_match_details\\b",
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain GROUP BY clause",
+              type: "query-validation",
+              expectedRegex: "\\bgroup\\s+by\\b",
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should group by name",
+              type: "query-validation",
+              expectedRegex: "group\\s+by\\s+name",
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should contain ORDER BY clause",
+              type: "query-validation",
+              expectedRegex: "\\border\\s+by\\b",
+              visible: true,
+            },
+            {
               id: 10,
+              description: "Query should sort in descending order",
+              type: "query-validation",
+              expectedRegex: "order\\s+by\\s+max_score\\s+desc",
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              expectedRegex: ";\\s*$",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-6-5",
+          title: "Get player name",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2023, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2023, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2023, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2023, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get player name and the total number of matches played as no_of_matches by each player in the year 2023.<br/> NOTE: Output must contain rows in the descending order of no_of_matches of each player. </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>no_of_matches</th>
+                    </tr>
+                  </thead>
+                  <tr><td>--</td><td>--</td></tr> 
+                </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain COUNT function",
+              type: "query-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use COUNT(*)",
+              type: "query-validation",
+              expectedKeywords: ["count", "*"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "COUNT(*) should be aliased as no_of_matches",
+              type: "query-validation",
+              expectedKeywords: ["no_of_matches"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Table name should be 'player_match_details'",
+              type: "query-validation",
+              expectedTableName: "player_match_details",
+              expectedKeywords: ["player_match_details"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter year 2023 using WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where", "year", "2023"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should contain GROUP BY clause",
+              type: "query-validation",
+              expectedKeywords: ["group", "by"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should group by name",
+              type: "query-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should contain ORDER BY clause",
+              type: "query-validation",
+              expectedKeywords: ["order", "by"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should sort in descending order",
+              type: "query-validation",
+              expectedKeywords: ["desc"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-6-6",
+          title: "Year wise performance",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2024, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2024, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2024, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2024, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the year-wise performance, i.e., no_of_matches and runs_scored by each player.NOTE: Output must contain rows in the ascending order of name & year </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>year</th>
+                    <th>no_of_matches</th>
+                    <th>runs_scored</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain COUNT function",
+              type: "query-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use COUNT(*)",
+              type: "query-validation",
+              expectedKeywords: ["count", "*"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "COUNT(*) should be aliased as no_of_matches",
+              type: "query-validation",
+              expectedKeywords: ["no_of_matches"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain SUM function",
+              type: "query-validation",
+              expectedKeywords: ["sum"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use SUM(score)",
+              type: "query-validation",
+              expectedKeywords: ["sum(score)"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "SUM(score) should be aliased as runs_scored",
+              type: "query-validation",
+              expectedKeywords: ["runs_scored"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Table name should be 'player_match_details'",
+              type: "query-validation",
+              expectedTableName: "player_match_details",
+              expectedKeywords: ["player_match_details"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should contain GROUP BY clause",
+              type: "query-validation",
+              expectedKeywords: ["group", "by"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should group by name and year",
+              type: "query-validation",
+              expectedKeywords: ["group by name, year"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should contain ORDER BY clause",
+              type: "query-validation",
+              expectedKeywords: ["order", "by"],
+              visible: true,
+            },
+            {
+              id: 13,
+              description:
+                "Query should sort by name and year in ascending order",
+              type: "query-validation",
+              expectedKeywords: ["order by name", "year"],
+              visible: true,
+            },
+            {
+              id: 14,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          id: "sql-query-6-7",
+          title: "Score greater than 50",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2024, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2024, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2024, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2024, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the details of all players whose average score is greater than 50 , along with the number of sixes they have scored.<br/>NOTE: Output must contain rows in the ascending order ofnameof the player.</p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>avg_score</th>
+                    <th>total_sixes</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain AVG function",
+              type: "query-validation",
+              expectedKeywords: ["avg"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use AVG(score)",
+              type: "query-validation",
+              expectedKeywords: ["avg(score)"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "AVG(score) should be aliased as avg_score",
+              type: "query-validation",
+              expectedKeywords: ["avg_score"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain SUM function",
+              type: "query-validation",
+              expectedKeywords: ["sum"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use SUM(sixes)",
+              type: "query-validation",
+              expectedKeywords: ["sum(sixes)"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "SUM(sixes) should be aliased as total_sixes",
+              type: "query-validation",
+              expectedKeywords: ["total_sixes"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Table name should be 'player_match_details'",
+              type: "query-validation",
+              expectedTableName: "player_match_details",
+              expectedKeywords: ["player_match_details"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should contain GROUP BY clause",
+              type: "query-validation",
+              expectedKeywords: ["group", "by"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should group by name",
+              type: "query-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should contain HAVING clause",
+              type: "query-validation",
+              expectedKeywords: ["having"],
+              visible: true,
+            },
+            {
+              id: 13,
+              description: "HAVING clause should filter avg_score > 50",
+              type: "query-validation",
+              expectedKeywords: ["avg_score >", "50"],
+              visible: true,
+            },
+            {
+              id: 14,
+              description: "Query should contain ORDER BY clause",
+              type: "query-validation",
+              expectedKeywords: ["order", "by"],
+              visible: true,
+            },
+            {
+              id: 15,
+              description: "Query should sort by name in ascending order",
+              type: "query-validation",
+              expectedKeywords: ["order by name asc"],
+              visible: true,
+            },
+            {
+              id: 16,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-6-8",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Scored more than 50 in 2 matches",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table: The score, fours, and sixes may have NULL values if the player has not played the match. A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: "",
+          },
+
+          tableData: {
+            player_match_details: {
+              columns: ["name", "match", "score", "year", "fours", "sixes"],
+              rows: [
+                ["Ram", "Match1", 100, 2023, 10, 2],
+                ["Ram", "Match2", 121, 2024, 12, 3],
+                ["Ram", "Match3", 127, 2023, 12, 4],
+                ["Lokesh", "Match1", 90, 2024, 8, 1],
+                ["Lokesh", "Match2", 96, 2023, 7, 2],
+                ["Joseph", "Match1", 50, 2024, 4, 1],
+                ["Joseph", "Match2", 66, 2023, 6, 2],
+                ["David", "Match1", 45, 2024, 3, 1],
+                ["David", "Match2", 60, 2023, 5, 1],
+                ["Stark", "Match1", 75, 2023, 7, 3],
+                ["Shyam", "Match1", 75, 2023, 6, 2],
+                ["Viraj", "Match1", 53, 2023, 5, 1],
+                ["Ramesh", "Match1", 9, 2023, 1, 0],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Get the player wise total number of matches where the players scored more than 50 and in at least 2 matches.<br/> NOTE: Output must contain rows in the ascending order ofnameof the player.
+
+.</p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>name</th>
+                    <th>no_of_matches</th>
+                    </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+          `,
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain COUNT function",
+              type: "query-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use COUNT(*)",
+              type: "query-validation",
+              expectedKeywords: ["count", "*"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "COUNT(*) should be aliased as no_of_matches",
+              type: "query-validation",
+              expectedKeywords: ["no_of_matches"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Table name should be 'player_match_details'",
+              type: "query-validation",
+              expectedTableName: "player_match_details",
+              expectedKeywords: ["player_match_details"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain GROUP BY clause",
+              type: "query-validation",
+              expectedKeywords: ["group", "by"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should group by name",
+              type: "query-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should contain HAVING clause",
+              type: "query-validation",
+              expectedKeywords: ["having"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "HAVING clause should filter no_of_matches >= 2",
+              type: "query-validation",
+              expectedKeywords: ["no_of_matches >=", "2"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should contain ORDER BY clause",
+              type: "query-validation",
+              expectedKeywords: ["order", "by"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should sort by name in ascending order",
+              type: "query-validation",
+              expectedKeywords: ["order by name asc"],
+              visible: true,
+            },
+            {
+              id: 13,
               description: "Query should end with semicolon",
               type: "syntax-validation",
               visible: true,

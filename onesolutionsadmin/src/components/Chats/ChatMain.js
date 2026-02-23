@@ -21,9 +21,12 @@ const Chatted = () => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`https://ose.onesolutionsekam.in/api/admin/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          `https://ose.onesolutionsekam.in/api/admin/me`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUserPhone(response.data.phone);
         setAdminUser(response.data);
       } catch (error) {
@@ -82,7 +85,7 @@ const Chatted = () => {
 
   return (
     <div className="chat-app">
-      <div className="sidebar">
+      <div className="sidebar-app">
         <ChatRoomsList user={currentUser} onSelectChat={handleSelectChat} />
       </div>
       <div className="main">

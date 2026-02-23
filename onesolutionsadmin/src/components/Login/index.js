@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaEye, FaEyeSlash, FaUser, FaLock } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaUser, FaLock, FaShieldAlt } from "react-icons/fa";
 import { assests } from "../../assests/assests";
 import "./login.css";
 
@@ -112,29 +112,37 @@ const Login = () => {
   };
 
   return (
-    <div className="admin-login-container-adlog">
-      <div className="login-background-adlog">
-        <div className="background-overlay-adlog"></div>
-        {assests.login_bg && (
-          <img
-            src={assests.login_bg || "/placeholder.svg"}
-            alt=""
-            className="background-image-adlog"
-          />
-        )}
-      </div>
-
-      <div className="login-content-adlog">
-        <div className="login-main-adlog">
-          <div className="login-card-adlog">
-            <div className="card-header-adlog">
+    <div className="login-container-adlog">
+      <div className="login-wrapper-adlog">
+        <div className="login-left-adlog">
+          <div className="login-left-content-adlog">
+            <div className="brand-container-adlog">
               {assests.one_solutions && (
                 <img
                   src={assests.one_solutions || "/placeholder.svg"}
                   alt="One Solutions"
-                  className="company-logo-adlog"
+                  className="brand-logo-adlog"
                 />
               )}
+            </div>
+
+            {assests.login_image && (
+              <div className="illustration-wrapper-adlog">
+                <img
+                  src={assests.login_image || "/placeholder.svg"}
+                  alt="Admin Dashboard"
+                  className="illustration-image-adlog"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="login-right-adlog">
+          <div className="login-card-adlog">
+            <div className="login-card-header-adlog">
+              <h2>Sign In</h2>
+              <p>Please enter your credentials to continue</p>
             </div>
 
             <form onSubmit={handleLogin} className="login-form-adlog">
@@ -142,7 +150,7 @@ const Login = () => {
                 <label htmlFor="username" className="form-label-adlog">
                   Username
                 </label>
-                <div className="input-container-adlog">
+                <div className="input-group-adlog">
                   <FaUser className="input-icon-adlog" />
                   <input
                     id="username"
@@ -159,10 +167,15 @@ const Login = () => {
               </div>
 
               <div className="form-group-adlog">
-                <label htmlFor="password" className="form-label-adlog">
-                  Password
-                </label>
-                <div className="input-container-adlog">
+                <div className="password-label-row-adlog">
+                  <label htmlFor="password" className="form-label-adlog">
+                    Password
+                  </label>
+                  <a href="/reset-password" className="forgot-password-adlog">
+                    Forgot Password?
+                  </a>
+                </div>
+                <div className="input-group-adlog">
                   <FaLock className="input-icon-adlog" />
                   <input
                     id="password"
@@ -188,51 +201,43 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="form-options-adlog">
-                <a href="/reset-password" className="forgot-password-adlog">
-                  Forgot Password?
-                </a>
-              </div>
-
               <button
                 type="submit"
-                className="login-btn-adlog"
+                className="login-button-adlog"
                 disabled={loading}
               >
                 {loading ? (
                   <>
-                    <div className="btn-loader-adlog"></div>
-                    Signing In...
+                    <div className="button-loader-adlog"></div>
+                    <span>Signing In...</span>
                   </>
                 ) : (
                   "Sign In"
                 )}
               </button>
 
-              <div className="message-area-adlog">
-                {error && (
-                  <div className="alert-adlog alert-error-adlog">
-                    <span className="alert-text-adlog">{error}</span>
-                  </div>
-                )}
-                {successMessage && (
-                  <div className="alert-adlog alert-success-adlog">
-                    <span className="alert-text-adlog">{successMessage}</span>
-                  </div>
-                )}
-              </div>
+              {(error || successMessage) && (
+                <div className="message-container-adlog">
+                  {error && (
+                    <div className="message-adlog error-message-adlog">
+                      <span>{error}</span>
+                    </div>
+                  )}
+                  {successMessage && (
+                    <div className="message-adlog success-message-adlog">
+                      <span>{successMessage}</span>
+                    </div>
+                  )}
+                </div>
+              )}
             </form>
-          </div>
 
-          {assests.login_image && (
-            <div className="login-illustration-adlog">
-              <img
-                src={assests.login_image || "/placeholder.svg"}
-                alt="Admin Dashboard"
-                className="illustration-image-adlog"
-              />
+            <div className="login-footer-adlog">
+              <p className="copyright-text-adlog">
+                © {new Date().getFullYear()} One Solutions. All rights reserved.
+              </p>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

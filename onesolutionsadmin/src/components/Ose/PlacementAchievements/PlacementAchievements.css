@@ -5,7 +5,6 @@
   max-width: 1200px;
   margin: 0 auto;
   font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background: #f8fafc;
   min-height: 100vh;
 }
 
@@ -17,7 +16,7 @@
   padding: 20px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f3f4f6;
 }
 
 .pa-admin-title {

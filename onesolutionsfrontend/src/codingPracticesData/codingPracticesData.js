@@ -16884,7 +16884,7 @@ second_matrix = read_matrix_inputs(m)
       description: "Introduction to Object Oriented Programming",
       questions: [
         {
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-32-001",
           title: "Car",
           difficulty: "Easy",

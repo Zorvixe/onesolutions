@@ -1,23 +1,577 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --primary-color: #1e40af;
-  --primary-dark: #1e3a8a;
-  --primary-light: #3b82f6;
-  --secondary-color: #f8fafc;
+  --primary-gradient-adlog: linear-gradient(145deg, #2563eb, #1e40af);
+  --secondary-gradient-adlog: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --dark-bg-adlog: #0f172a;
+  --light-bg-adlog: #f8fafc;
+  --card-bg-adlog: #ffffff;
+  --text-primary-adlog: #1e293b;
+  --text-secondary-adlog: #64748b;
+  --text-light-adlog: #94a3b8;
+  --border-color-adlog: #e2e8f0;
+  --input-bg-adlog: #f8fafc;
+  --success-color-adlog: #10b981;
+  --error-color-adlog: #ef4444;
+  --shadow-sm-adlog: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md-adlog: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg-adlog: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl-adlog: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --shadow-2xl-adlog: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+.login-container-adlog {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--light-bg-adlog);
+  font-family: "Inter", sans-serif;
+}
+
+.login-wrapper-adlog {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Left Side - Branding Section */
+.login-left-adlog {
+  flex: 1;
+  background: var(--primary-gradient-adlog);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.login-left-adlog::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  top: -50%;
+  left: -50%;
+  animation: rotate-adlog 30s linear infinite;
+}
+
+@keyframes rotate-adlog {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-left-content-adlog {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  width: 100%;
+  color: white;
+}
+
+.brand-container-adlog {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.brand-logo-adlog {
+  height: 60px;
+  width: auto;
+}
+
+.brand-title-adlog {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-subtitle-adlog {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.features-container-adlog {
+  margin-bottom: 3rem;
+}
+
+.feature-item-adlog {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.feature-item-adlog:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.feature-icon-wrapper-adlog {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-adlog {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.feature-text-adlog h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.feature-text-adlog p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.illustration-wrapper-adlog {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.illustration-image-adlog {
+  max-width: 100%;
+  height: auto;
+  max-height: 250px;
+  border-radius: 16px;
+}
+
+/* Right Side - Login Form */
+.login-right-adlog {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--light-bg-adlog);
+}
+
+.login-card-adlog {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card-bg-adlog);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: var(--shadow-xl-adlog);
+  animation: slideUp-adlog 0.5s ease-out;
+}
+
+@keyframes slideUp-adlog {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card-header-adlog {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-card-header-adlog h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary-adlog);
+  margin-bottom: 0.5rem;
+}
+
+.login-card-header-adlog p {
+  color: var(--text-secondary-adlog);
+  font-size: 0.95rem;
+}
+
+.login-form-adlog {
+  margin-bottom: 1.5rem;
+}
+
+.form-group-adlog {
+  margin-bottom: 1.5rem;
+}
+
+.form-label-adlog {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary-adlog);
+  margin-bottom: 0.5rem;
+}
+
+.password-label-row-adlog {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.forgot-password-adlog {
+  color: var(--text-secondary-adlog);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password-adlog:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.input-group-adlog {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon-adlog {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-light-adlog);
+  font-size: 1rem;
+  transition: color 0.2s ease;
+  z-index: 1;
+}
+
+.form-input-adlog {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  border: 2px solid var(--border-color-adlog);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary-adlog);
+  background: var(--input-bg-adlog);
+  transition: all 0.3s ease;
+}
+
+.form-input-adlog:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: var(--card-bg-adlog);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.form-input-adlog:focus + .input-icon-adlog {
+  color: #2563eb;
+}
+
+.form-input-adlog::placeholder {
+  color: var(--text-light-adlog);
+  font-weight: 400;
+}
+
+.password-toggle-adlog {
+  position: absolute;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text-light-adlog);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.password-toggle-adlog:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
+}
+
+.login-button-adlog {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: var(--primary-gradient-adlog);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: var(--shadow-md-adlog);
+  margin-top: 1rem;
+}
+
+.login-button-adlog:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl-adlog);
+  background: linear-gradient(145deg, #1e40af, #2563eb);
+}
+
+.login-button-adlog:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.button-loader-adlog {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
+  border-radius: 50%;
+  animation: spin-adlog 0.8s linear infinite;
+}
+
+@keyframes spin-adlog {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.message-container-adlog {
+  margin-top: 1rem;
+}
+
+.message-adlog {
+  padding: 0.875rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  animation: fadeIn-adlog 0.3s ease-out;
+}
+
+@keyframes fadeIn-adlog {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.error-message-adlog {
+  background: #fef2f2;
+  color: var(--error-color-adlog);
+  border: 1px solid #fee2e2;
+}
+
+.success-message-adlog {
+  background: #f0fdf4;
+  color: var(--success-color-adlog);
+  border: 1px solid #dcfce7;
+}
+
+.login-footer-adlog {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.copyright-text-adlog {
+  color: var(--text-light-adlog);
+  font-size: 0.8rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .login-wrapper-adlog {
+    flex-direction: column;
+  }
+
+  .login-left-adlog {
+    padding: 2rem;
+  }
+
+  .login-left-content-adlog {
+    max-width: 100%;
+  }
+
+  .brand-title-adlog {
+    font-size: 2rem;
+  }
+
+  .illustration-image-adlog {
+    max-height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .login-card-adlog {
+    padding: 2rem;
+  }
+
+  .login-card-header-adlog h2 {
+    font-size: 1.5rem;
+  }
+
+  .feature-item-adlog {
+    padding: 0.75rem;
+  }
+
+  .feature-icon-wrapper-adlog {
+    width: 40px;
+    height: 40px;
+  }
+
+  .feature-icon-adlog {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-left-adlog {
+    padding: 1.5rem;
+  }
+
+  .login-right-adlog {
+    padding: 1rem;
+  }
+
+  .login-card-adlog {
+    padding: 1.5rem;
+  }
+
+  .brand-logo-adlog {
+    height: 50px;
+  }
+
+  .brand-title-adlog {
+    font-size: 1.5rem;
+  }
+
+  .brand-subtitle-adlog {
+    font-size: 0.9rem;
+  }
+
+  .form-input-adlog {
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .login-container-adlog {
+    background: var(--dark-bg-adlog);
+  }
+
+  .login-right-adlog {
+    background: var(--dark-bg-adlog);
+  }
+
+  .login-card-adlog {
+    background: #1e293b;
+  }
+
+  .login-card-header-adlog h2 {
+    color: #f1f5f9;
+  }
+
+  .login-card-header-adlog p {
+    color: #94a3b8;
+  }
+
+  .form-label-adlog {
+    color: #e2e8f0;
+  }
+
+  .form-input-adlog {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+
+  .form-input-adlog:focus {
+    background: #1e293b;
+  }
+
+  .input-icon-adlog,
+  .password-toggle-adlog {
+    color: #64748b;
+  }
+
+  .copyright-text-adlog {
+    color: #64748b;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.form-input-adlog:focus-visible,
+.login-button-adlog:focus-visible,
+.password-toggle-adlog:focus-visible,
+.forgot-password-adlog:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .login-button-adlog {
+    border: 2px solid #000;
+  }
+
+  .form-input-adlog {
+    border-width: 2px;
+  }
+}
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --primary-gradient: linear-gradient(145deg, #2563eb, #1e40af);
+  --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --dark-bg: #0f172a;
+  --light-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-light: #94a3b8;
+  --border-color: #e2e8f0;
+  --input-bg: #f8fafc;
   --success-color: #10b981;
   --error-color: #ef4444;
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
-  --text-light: #9ca3af;
-  --border-color: #e5e7eb;
-  --border-light: #f3f4f6;
-  --white: #ffffff;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-  --radius-md: 12px;
-  --radius-lg: 16px;
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 }
 
 * {
@@ -26,207 +580,305 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  line-height: 1.5;
-  color: var(--text-primary);
-  background-color: var(--secondary-color);
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  background: var(--light-bg);
+  font-family: "Inter", sans-serif;
 }
 
-.admin-login-container-adlog {
-  height: 100vh;
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Left Side - Branding Section */
+.login-left {
+  flex: 1;
+  background: var(--primary-gradient);
   position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  overflow: hidden;
+  padding: 3rem;
 }
 
-.login-background-adlog {
+.login-left::before {
+  content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-}
-
-.background-image-adlog {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.background-overlay-adlog {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(30, 64, 175, 0.9) 0%,
-    rgba(59, 130, 246, 0.85) 50%,
-    rgba(14, 165, 233, 0.8) 100%
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0) 70%
   );
-  z-index: 1;
+  top: -50%;
+  left: -50%;
+  animation: rotate 30s linear infinite;
 }
 
-.login-content-adlog {
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-left-content {
   position: relative;
-  z-index: 2;
+  z-index: 1;
+  max-width: 500px;
   width: 100%;
-  max-width: 1000px;
-  height: 100%;
+  color: white;
+}
+
+.brand-container {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.brand-logo {
+  height: 60px;
+  width: auto;
+  margin-bottom: 1.5rem;
+  filter: brightness(0) invert(1);
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.features-container {
+  margin-bottom: 3rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+  transform: translateX(10px);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.feature-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.login-main-adlog {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 2rem;
-  align-items: center;
-  width: 100%;
-  height: fit-content;
+.feature-icon {
+  font-size: 1.5rem;
+  color: white;
 }
 
-.login-card-adlog {
-  background: var(--white);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
-  overflow: hidden;
+.feature-text h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.feature-text p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.illustration-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.illustration-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 250px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-2xl);
+}
+
+/* Right Side - Login Form */
+.login-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--light-bg);
+}
+
+.login-card {
   width: 100%;
   max-width: 400px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.5s ease-out;
 }
 
-.card-header-adlog {
-  padding: 1rem 1rem 0.5rem;
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card-header {
   text-align: center;
-  background: linear-gradient(135deg, var(--secondary-color), var(--white));
-  border-bottom: 1px solid var(--border-light);
+  margin-bottom: 2rem;
 }
 
-.company-logo-adlog {
-  height: 50px;
-  width: auto;
-  margin-bottom: 1rem;
-}
-
-.card-title-adlog {
-  font-size: 1.5rem;
+.login-card-header h2 {
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0;
-}
-
-.login-form-adlog {
-  padding: 1.5rem 2rem 2rem;
-}
-
-.form-group-adlog {
   margin-bottom: 0.5rem;
 }
 
-.form-label-adlog {
+.login-card-header p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.login-form {
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
   display: block;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
-.input-container-adlog {
+.password-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.forgot-password {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.input-group {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.input-icon-adlog {
+.input-icon {
   position: absolute;
-  left: 0.875rem;
+  left: 1rem;
   color: var(--text-light);
-  font-size: 0.875rem;
+  font-size: 1rem;
+  transition: color 0.2s ease;
   z-index: 1;
 }
 
-.form-input-adlog {
+.form-input {
   width: 100%;
-  padding: 0.875rem 0.875rem 0.875rem 2.5rem;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
   border: 2px solid var(--border-color);
-  border-radius: var(--radius-md);
+  border-radius: 12px;
   font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-primary);
-  background: var(--white);
-  transition: all 0.2s ease;
+  background: var(--input-bg);
+  transition: all 0.3s ease;
 }
 
-.form-input-adlog:focus {
+.form-input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+  border-color: #2563eb;
+  background: var(--card-bg);
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
-.form-input-adlog::placeholder {
+.form-input:focus + .input-icon {
+  color: #2563eb;
+}
+
+.form-input::placeholder {
   color: var(--text-light);
   font-weight: 400;
 }
 
-.password-toggle-adlog {
+.password-toggle {
   position: absolute;
-  right: 0.875rem;
+  right: 1rem;
   background: transparent;
   border: none;
   color: var(--text-light);
   cursor: pointer;
   padding: 0.5rem;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
 }
 
-.password-toggle-adlog:hover {
-  color: var(--primary-color);
-  background: rgba(30, 64, 175, 0.1);
+.password-toggle:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.1);
 }
 
-.form-options-adlog {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1.5rem;
-}
-
-.forgot-password-adlog {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-.forgot-password-adlog:hover {
-  color: var(--primary-dark);
-}
-
-.login-btn-adlog {
+.login-button {
   width: 100%;
   padding: 0.875rem 1.5rem;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-light)
-  );
-  color: var(--white);
+  background: var(--primary-gradient);
+  color: white;
   border: none;
-  border-radius: var(--radius-md);
-  font-size: 0.95rem;
+  border-radius: 12px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -235,32 +887,27 @@ body {
   justify-content: center;
   gap: 0.5rem;
   box-shadow: var(--shadow-md);
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
-.login-btn-adlog:hover:not(:disabled) {
-  background: linear-gradient(
-    135deg,
-    var(--primary-dark),
-    var(--primary-color)
-  );
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+.login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-xl);
+  background: linear-gradient(145deg, #1e40af, #2563eb);
 }
 
-.login-btn-adlog:disabled {
+.login-button:disabled {
   opacity: 0.7;
   cursor: not-allowed;
-  transform: none;
 }
 
-.btn-loader-adlog {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid var(--white);
+.button-loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid white;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
@@ -272,43 +919,23 @@ body {
   }
 }
 
-.message-area-adlog {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.message-container {
+  margin-top: 1rem;
 }
 
-.alert-adlog {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
+.message {
+  padding: 0.875rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
-  animation: slideIn 0.3s ease-out;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.alert-error-adlog {
-  background: #fef2f2;
-  color: var(--error-color);
-  border: 1px solid #fecaca;
-}
-
-.alert-success-adlog {
-  background: #f0fdf4;
-  color: var(--success-color);
-  border: 1px solid #bbf7d0;
-}
-
-.alert-text-adlog {
-  display: block;
-}
-
-@keyframes slideIn {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
   to {
     opacity: 1;
@@ -316,154 +943,175 @@ body {
   }
 }
 
-.login-illustration-adlog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.error-message {
+  background: #fef2f2;
+  color: var(--error-color);
+  border: 1px solid #fee2e2;
 }
 
-.illustration-image-adlog {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xl);
+.success-message {
+  background: #f0fdf4;
+  color: var(--success-color);
+  border: 1px solid #dcfce7;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.copyright-text {
+  color: var(--text-light);
+  font-size: 0.8rem;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .login-main-adlog {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .login-wrapper {
+    flex-direction: column;
   }
 
-  .login-illustration-adlog {
-    order: -1;
+  .login-left {
+    padding: 2rem;
   }
 
-  .illustration-image-adlog {
-    max-width: 250px;
+  .login-left-content {
+    max-width: 100%;
+  }
+
+  .brand-title {
+    font-size: 2rem;
+  }
+
+  .illustration-image {
+    max-height: 200px;
   }
 }
 
 @media (max-width: 768px) {
-  .admin-login-container-adlog {
-    padding: 0.5rem;
+  .login-card {
+    padding: 2rem;
   }
 
-  .login-card-adlog {
-    max-width: 100%;
+  .login-card-header h2 {
+    font-size: 1.5rem;
   }
 
-  .card-header-adlog {
-    padding: 1.25rem 1.5rem 0.75rem;
+  .feature-item {
+    padding: 0.75rem;
   }
 
-  .login-form-adlog {
-    padding: 1.25rem 1.5rem 1.5rem;
+  .feature-icon-wrapper {
+    width: 40px;
+    height: 40px;
   }
 
-  .illustration-image-adlog {
-    max-width: 200px;
+  .feature-icon {
+    font-size: 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
-  .login-main-adlog {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .login-left {
+    padding: 1.5rem;
   }
 
-  .card-header-adlog {
-    padding: 1rem 1.25rem 0.5rem;
+  .login-right {
+    padding: 1rem;
   }
 
-  .login-form-adlog {
-    padding: 1rem 1.25rem 1.25rem;
+  .login-card {
+    padding: 1.5rem;
   }
 
-  .card-title-adlog {
-    font-size: 1.25rem;
+  .brand-logo {
+    height: 50px;
   }
 
-  .company-logo-adlog {
-    height: 40px;
+  .brand-title {
+    font-size: 1.5rem;
   }
 
-  .form-input-adlog {
-    padding: 0.75rem 0.75rem 0.75rem 2.25rem;
+  .brand-subtitle {
     font-size: 0.9rem;
   }
 
-  .input-icon-adlog {
-    left: 0.75rem;
-  }
-
-  .password-toggle-adlog {
-    right: 0.75rem;
-  }
-
-  .illustration-image-adlog {
-    max-width: 180px;
+  .form-input {
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    font-size: 0.9rem;
   }
 }
 
-@media (max-height: 600px) {
-  .admin-login-container-adlog {
-    padding: 0.5rem;
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .login-container {
+    background: var(--dark-bg);
   }
 
-  .card-header-adlog {
-    padding: 1rem 2rem 0.5rem;
+  .login-right {
+    background: var(--dark-bg);
   }
 
-  .login-form-adlog {
-    padding: 1rem 2rem 1.5rem;
+  .login-card {
+    background: #1e293b;
   }
 
-  .form-group-adlog {
-    margin-bottom: 1rem;
+  .login-card-header h2 {
+    color: #f1f5f9;
   }
 
-  .company-logo-adlog {
-    height: 40px;
-    margin-bottom: 0.5rem;
+  .login-card-header p {
+    color: #94a3b8;
   }
 
-  .card-title-adlog {
-    font-size: 1.25rem;
+  .form-label {
+    color: #e2e8f0;
   }
 
-  .message-area-adlog {
-    min-height: 30px;
-  }
-}
-
-/* Focus and Accessibility */
-.form-input-adlog:focus,
-.login-btn-adlog:focus,
-.password-toggle-adlog:focus,
-.forgot-password-adlog:focus {
-  outline: 2px solid var(--primary-color);
-  outline-offset: 2px;
-}
-
-/* High Contrast Mode */
-@media (prefers-contrast: high) {
-  .login-btn-adlog {
-    border: 2px solid var(--primary-dark);
+  .form-input {
+    background: #0f172a;
+    border-color: #334155;
+    color: #f1f5f9;
   }
 
-  .form-input-adlog {
-    border-width: 2px;
+  .form-input:focus {
+    background: #1e293b;
+  }
+
+  .input-icon,
+  .password-toggle {
+    color: #64748b;
+  }
+
+  .copyright-text {
+    color: #64748b;
   }
 }
 
-/* Reduced Motion */
+/* Accessibility */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+.form-input:focus-visible,
+.login-button:focus-visible,
+.password-toggle:focus-visible,
+.forgot-password:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .login-button {
+    border: 2px solid #000;
+  }
+
+  .form-input {
+    border-width: 2px;
   }
 }

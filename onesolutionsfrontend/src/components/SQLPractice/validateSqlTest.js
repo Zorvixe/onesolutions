@@ -865,48 +865,45 @@ const handleSelect = (sql, questionData) => {
     throw new Error("Invalid SELECT syntax");
   }
 
+  // Clean SQL
   const cleanedSql = sql.replace(/\s+/g, " ").trim().replace(/;$/, "");
 
+  // Regex to parse SELECT ... FROM ... [WHERE ...] [GROUP BY ...] [HAVING ...] [ORDER BY ...]
   const selectRegex =
-    /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\s+where\s+(.+?))?(?:\s+group\s+by\s+(.+?))?(?:\s+order\s+by\s+(.+?))?$/i;
+    /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\s+where\s+(.+?))?(?:\s+group\s+by\s+(.+?))?(?:\s+having\s+(.+?))?(?:\s+order\s+by\s+(.+?))?$/i;
 
   const match = cleanedSql.match(selectRegex);
-
-  if (!match) {
-    console.log("DEBUG SQL:", cleanedSql);
-    throw new Error("Invalid SELECT syntax");
-  }
+  if (!match) throw new Error("Invalid SELECT syntax");
 
   const selectPart = match[1].trim();
   const tableName = match[2].trim();
   const whereClause = match[3];
   const groupByClause = match[4];
-  const orderByClause = match[5];
+  const havingClause = match[5];
+  const orderByClause = match[6];
 
+  // -----------------------------
+  // Get table data
+  // -----------------------------
   if (!questionData?.tableData?.[tableName]) {
     throw new Error(`Table '${tableName}' does not exist`);
   }
 
   const tableInfo = questionData.tableData[tableName];
-
-  // Convert rows into objects
-  const rows = tableInfo.rows.map((row) => {
+  let rows = tableInfo.rows.map((row) => {
     const obj = {};
-    tableInfo.columns.forEach((col, i) => {
-      obj[col] = row[i];
-    });
+    tableInfo.columns.forEach((col, i) => (obj[col] = row[i]));
     return obj;
   });
 
-  let results = [...rows];
-
-  // ---------------- WHERE ----------------
+  // -----------------------------
+  // WHERE filtering
+  // -----------------------------
   if (whereClause) {
     const conditions = whereClause.split(/\s+and\s+/i);
-
-    results = results.filter((row) => {
-      return conditions.every((condition) => {
-        const m = condition.match(
+    rows = rows.filter((row) => {
+      return conditions.every((cond) => {
+        const m = cond.match(
           /(\w+)\s*(>=|<=|!=|<>|=|>|<)\s*['"]?([^'"]+)['"]?/i
         );
         if (!m) return true;
@@ -914,11 +911,9 @@ const handleSelect = (sql, questionData) => {
         const col = m[1];
         const op = m[2];
         let value = m[3];
-
         if (!isNaN(value)) value = Number(value);
 
         const rowValue = row[col];
-
         switch (op) {
           case "=":
             return rowValue == value;
@@ -940,57 +935,128 @@ const handleSelect = (sql, questionData) => {
     });
   }
 
-  // ---------------- GROUP BY + SUM ----------------
+  // -----------------------------
+  // GROUP BY & Aggregates
+  // -----------------------------
   if (groupByClause) {
-    const groupColumn = groupByClause.trim();
+    const groupColumns = groupByClause.split(",").map((c) => c.trim());
     const grouped = {};
 
-    const sumMatch = selectPart.match(/sum\((\w+)\)/i);
-    const sumColumn = sumMatch ? sumMatch[1] : null;
+    // Detect aggregates
+    const sumMatch = selectPart.match(
+      /sum\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+    const countMatch = selectPart.match(
+      /count\s*\(\s*(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+    const avgMatch = selectPart.match(
+      /avg\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
 
-    results.forEach((row) => {
-      const key = row[groupColumn];
+    const sumColumn = sumMatch ? sumMatch[1] : null;
+    const sumAlias = sumMatch ? sumMatch[2] || "sum" : null;
+
+    const countColumn = countMatch ? countMatch[1] : null;
+    const countAlias = countMatch ? countMatch[2] || "count" : null;
+
+    const avgColumn = avgMatch ? avgMatch[1] : null;
+    const avgAlias = avgMatch ? avgMatch[2] || "avg" : null;
+
+    rows.forEach((row) => {
+      const key = groupColumns.map((col) => row[col]).join("|");
 
       if (!grouped[key]) {
-        grouped[key] = {
-          [groupColumn]: key,
-          total_score: 0,
-        };
+        grouped[key] = {};
+        groupColumns.forEach((col) => (grouped[key][col] = row[col]));
+
+        if (sumColumn) grouped[key][sumAlias] = 0;
+        if (countColumn) grouped[key][countAlias] = 0;
+        if (avgColumn) {
+          grouped[key]._total = 0;
+          grouped[key]._count = 0;
+        }
       }
 
-      if (sumColumn) {
-        const value = Number(row[sumColumn]) || 0;
-        grouped[key].total_score += value;
+      if (sumColumn) grouped[key][sumAlias] += Number(row[sumColumn] || 0);
+      if (countColumn) grouped[key][countAlias] += 1;
+      if (avgColumn) {
+        grouped[key]._total += Number(row[avgColumn] || 0);
+        grouped[key]._count += 1;
       }
     });
 
-    results = Object.values(grouped);
+    // Finalize AVG
+    Object.values(grouped).forEach((g) => {
+      if (avgColumn) {
+        g[avgAlias] = g._total / g._count;
+        delete g._total;
+        delete g._count;
+      }
+    });
+
+    rows = Object.values(grouped);
   }
 
-  // ---------------- ORDER BY ----------------
+  // -----------------------------
+  // HAVING clause
+  // -----------------------------
+  if (havingClause) {
+    const havingMatch = havingClause.match(/(\w+)\s*(>=|<=|>|<|=)\s*(\d+)/i);
+    if (havingMatch) {
+      const col = havingMatch[1];
+      const op = havingMatch[2];
+      const value = Number(havingMatch[3]);
+
+      rows = rows.filter((r) => {
+        switch (op) {
+          case "=":
+            return r[col] == value;
+          case ">":
+            return r[col] > value;
+          case "<":
+            return r[col] < value;
+          case ">=":
+            return r[col] >= value;
+          case "<=":
+            return r[col] <= value;
+          default:
+            return true;
+        }
+      });
+    }
+  }
+
+  // -----------------------------
+  // ORDER BY clause
+  // -----------------------------
   if (orderByClause) {
-    const parts = orderByClause.split(" ");
-    const orderColumn = parts[0];
-    const direction = parts[1]?.toLowerCase();
+    const parts = orderByClause.split(/\s+/);
+    const column = parts[0];
+    const direction = parts[1]?.toLowerCase() || "asc";
 
-    results.sort((a, b) => {
-      const valA = Number(a[orderColumn]) || 0;
-      const valB = Number(b[orderColumn]) || 0;
+    rows.sort((a, b) => {
+      const valA = a[column];
+      const valB = b[column];
 
-      if (direction === "desc") {
-        return valB - valA;
+      if (!isNaN(valA) && !isNaN(valB)) {
+        return direction === "desc" ? valB - valA : valA - valB;
       }
-      return valA - valB;
+      return direction === "desc"
+        ? String(valB).localeCompare(String(valA))
+        : String(valA).localeCompare(String(valB));
     });
   }
 
+  // -----------------------------
+  // Return
+  // -----------------------------
   return {
     success: true,
-    output: `✅ Query executed successfully. Returned ${results.length} rows.`,
+    output: `✅ Query executed successfully. Returned ${rows.length} rows.`,
     data: {
-      columns: Object.keys(results[0] || {}),
-      results,
-      rowCount: results.length,
+      columns: Object.keys(rows[0] || {}),
+      results: rows,
+      rowCount: rows.length,
     },
   };
 };
@@ -1400,4 +1466,94 @@ const handleDropTable = (sql, questionData) => {
   };
 };
 
+const validateSelectQuery = (sql, config) => {
+  if (!sql || typeof sql !== "string") {
+    throw new Error("SQL query is required");
+  }
+
+  const trimmedSql = sql.trim();
+
+  // 1️⃣ Must end with semicolon
+  if (!trimmedSql.endsWith(";")) {
+    throw new Error("Query must end with a semicolon (;)");
+  }
+
+  const cleanedSql = trimmedSql
+    .replace(/\s+/g, " ")
+    .replace(/;$/, "")
+    .toLowerCase();
+
+  // 2️⃣ Must start with SELECT
+  if (!cleanedSql.startsWith("select")) {
+    throw new Error("Query should start with SELECT");
+  }
+
+  // 3️⃣ Must contain FROM table
+  if (!cleanedSql.includes(`from ${config.table}`)) {
+    throw new Error(`Table name should be '${config.table}'`);
+  }
+
+  // 4️⃣ Aggregate validation (SUM / COUNT / MAX / AVG)
+  if (config.aggregate) {
+    const aggRegex = new RegExp(
+      `${config.aggregate}\\s*\\(\\s*${config.column}\\s*\\)`,
+      "i"
+    );
+
+    if (!aggRegex.test(cleanedSql)) {
+      throw new Error(
+        `Query must use ${config.aggregate.toUpperCase()}(${config.column})`
+      );
+    }
+  }
+
+  // 5️⃣ Alias validation
+  if (config.alias) {
+    const aliasRegex = new RegExp(
+      `${config.aggregate}\\s*\\(\\s*${config.column}\\s*\\)\\s+as\\s+${config.alias}`,
+      "i"
+    );
+
+    if (!aliasRegex.test(cleanedSql)) {
+      throw new Error(
+        `${config.aggregate.toUpperCase()}(${config.column}) must be aliased as ${config.alias}`
+      );
+    }
+  }
+
+  // 6️⃣ GROUP BY validation
+  if (config.groupBy) {
+    if (!cleanedSql.includes(`group by ${config.groupBy}`)) {
+      throw new Error(`Query must contain GROUP BY ${config.groupBy}`);
+    }
+  }
+
+  // 7️⃣ WHERE validation (optional)
+  if (config.mustContain) {
+    config.mustContain.forEach((keyword) => {
+      if (!cleanedSql.includes(keyword)) {
+        throw new Error(`Query must contain '${keyword}'`);
+      }
+    });
+  }
+
+  // 8️⃣ ORDER BY validation
+  if (config.orderBy) {
+    const orderRegex = new RegExp(
+      `order\\s+by\\s+${config.orderBy}\\s+${config.orderDirection}`,
+      "i"
+    );
+
+    if (!orderRegex.test(cleanedSql)) {
+      throw new Error(
+        `Query must order by ${config.orderBy} ${config.orderDirection.toUpperCase()}`
+      );
+    }
+  }
+
+  return {
+    success: true,
+    message: "✅ All validations passed",
+  };
+};
 export default validateSqlTest;

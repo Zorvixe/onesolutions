@@ -121,10 +121,13 @@ const AdminPanel = () => {
   const performDelete = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`https://ose.onesolutionsekam.in/api/jobs/${jobToDelete}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        `https://ose.onesolutionsekam.in/api/jobs/${jobToDelete}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       if (response.ok) {
         await fetchJobs(token);
         toast.success("🗑️ Job deleted successfully!");

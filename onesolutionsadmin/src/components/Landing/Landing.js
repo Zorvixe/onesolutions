@@ -31,7 +31,7 @@ function Landing() {
     todayTotal: 0,
     currentSessionStart: null,
   });
-  const [open, setOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -289,187 +289,129 @@ function Landing() {
       <div className="dashboard-content-land">
         {/* Left Column */}
         <div className="dashboard-left-land">
-          {/* Session Tracker */}
-          <div className="dashboard-card-land session-card-land">
-            <div className="card-header-land">
-              <h3>Session Tracker</h3>
-              <div className="card-badge-land session-badge-land">Active</div>
-            </div>
-            <div className="session-stats-land">
-              <div className="session-time-land">
-                <span className="time-label-land">Today's Total:</span>
-                <span className="time-value-land">
-                  {formatTime(sessionStats.todayTotal)}
-                </span>
+          {/* Right Column */}
+          <div className="dashboard-right-land">
+            {/* Performance Chart */}
+            <div className="dashboard-card-land quick-actions-land">
+              <div className="card-header-land">
+                <h3>Quick Actions</h3>
               </div>
-              <div className="session-controls-land">
-                <button
-                  onClick={handleOnline}
-                  className={`session-btn-land online-btn-land ${
-                    isOnline ? "active" : ""
-                  }`}
-                  disabled={isOnline}
+              <div className="action-buttons-land">
+                <a
+                  href="/ojb/admin/dashboard"
+                  className="action-btn-land primary-land"
                 >
-                  🟢 Go Online
-                </button>
+                  <img
+                    src={ojbassests.ojb_logo || "/placeholder.svg"}
+                    alt="OJB"
+                    className="action-icon-land"
+                  />
+                  <span>OJB Dashboard</span>
+                  <span className="action-arrow-land">→</span>
+                </a>
+
                 <button
-                  onClick={handleOffline}
-                  className={`session-btn-land offline-btn-land ${
-                    !isOnline ? "active" : ""
-                  }`}
-                  disabled={!isOnline}
+                  className="action-btn-land secondary-land"
+                  onClick={() => setShowModal(true)}
                 >
-                  🔴 Go Offline
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="dashboard-card-land quick-actions-land">
-            <div className="card-header-land">
-              <h3>Quick Actions</h3>
-            </div>
-            <div className="action-buttons-land">
-              <a
-                href="/ojb/admin/dashboard"
-                className="action-btn-land primary-land"
-              >
-                <img
-                  src={ojbassests.ojb_logo || "/placeholder.svg"}
-                  alt="OJB"
-                  className="action-icon-land"
-                />
-                <span>OJB Dashboard</span>
-                <span className="action-arrow-land">→</span>
-              </a>
-
-              <div className="dropdown-land" onClick={() => setOpen(!open)}>
-                <button className="dropdown-toggle-land">
                   <img
                     src={assests.Logo || "/placeholder.svg"}
                     alt="Zorvixe"
                     className="action-icon-land"
                   />
                   <span>OSE Management</span>
-                  <span className="action-arrow-land">{open ? "▲" : "▼"}</span>
+                  <span className="action-arrow-land">→</span>
                 </button>
-
-                <div
-                  className="dropdown-menu-land"
-                  style={{ display: open ? "block" : "none" }}
-                >
-                  <a href="/discussions">Discussions</a>
-                  <a href="/feedbacks">Feedbacks</a>
-                  <a href="/student_list">Student List</a>
-                  <a href="/enrollments">Enrollments</a>
-                  <a href="/contacts">Contacts</a>
-                  <a href="/AdminStudentQuestions">Admin Student Questions</a>
-                  <a href="/AdminAIContent">Admin AI Content</a>
-
-                  <a href="/digital-marketing/courses">
-                    Digital Marketing Courses
-                  </a>
-                </div>
               </div>
-            </div>
-          </div>
-
-          {/* Recent Activities */}
-          <div className="dashboard-card-land activities-card-land">
-            <div className="card-header-land">
-              <h3>Recent Activities</h3>
-              <a href="#" className="view-all-link-land">
-                View All
-              </a>
-            </div>
-            <div className="activities-list-land">
-              {recentActivities.map((activity) => (
-                <div key={activity.id} className="activity-item-land">
-                  <div className={`activity-icon-land ${activity.type}`}>
-                    {activity.type === "job" && "💼"}
-                    {activity.type === "resume" && "📄"}
-                    {activity.type === "admin" && "👤"}
-                    {activity.type === "application" && "📝"}
-                  </div>
-                  <div className="activity-content-land">
-                    <p>{activity.action}</p>
-                    <span className="activity-time-land">{activity.time}</span>
-                  </div>
-                </div>
-              ))}
             </div>
           </div>
         </div>
 
-        {/* Right Column */}
-        <div className="dashboard-right-land">
-          {/* Performance Chart */}
-          <div className="dashboard-card-land chart-card-land">
-            <div className="card-header-land">
-              <h3>Performance Overview</h3>
-              <div className="time-filter-land">
-                <select className="filter-select-land">
-                  <option>Last 7 days</option>
-                  <option>Last 30 days</option>
-                  <option>Last 90 days</option>
-                </select>
-              </div>
-            </div>
-            <div className="chart-container-land">
-              <div className="chart-bars-land">
-                <div className="chart-bar-land" style={{ height: "60%" }}>
-                  <span className="bar-value-land">60%</span>
-                  <span className="bar-label-land">Jobs</span>
-                </div>
-                <div className="chart-bar-land" style={{ height: "80%" }}>
-                  <span className="bar-value-land">80%</span>
-                  <span className="bar-label-land">Resumes</span>
-                </div>
-                <div className="chart-bar-land" style={{ height: "45%" }}>
-                  <span className="bar-value-land">45%</span>
-                  <span className="bar-label-land">Admins</span>
-                </div>
-                <div className="chart-bar-land" style={{ height: "70%" }}>
-                  <span className="bar-value-land">70%</span>
-                  <span className="bar-label-land">Views</span>
-                </div>
-              </div>
-            </div>
+        {/* Top Jobs */}
+        <div className="dashboard-card-land top-jobs-land">
+          <div className="card-header-land">
+            <h3>Recent Jobs</h3>
+            <a href="#" className="view-all-link-land">
+              View All
+            </a>
           </div>
-
-          {/* Top Jobs */}
-          <div className="dashboard-card-land top-jobs-land">
-            <div className="card-header-land">
-              <h3>Recent Jobs</h3>
-              <a href="#" className="view-all-link-land">
-                View All
-              </a>
-            </div>
-            <div className="jobs-list-land">
-              {topJobs.map((job) => (
-                <div key={job.id} className="job-item-land">
-                  <img
-                    src={job.image_link || "/placeholder.svg"}
-                    alt={job.companyname}
-                    className="company-logo-land"
-                  />
-                  <div className="job-info-land">
-                    <h4>{job.title}</h4>
-                    <p>{job.companyname}</p>
-                    <span className={`job-status-land ${job.status}`}>
-                      {job.status}
-                    </span>
-                  </div>
-                  <div className="job-meta-land">
-                    <span className="job-time-land">2h ago</span>
-                  </div>
+          <div className="jobs-list-land">
+            {topJobs.map((job) => (
+              <div key={job.id} className="job-item-land">
+                <img
+                  src={job.image_link || "/placeholder.svg"}
+                  alt={job.companyname}
+                  className="company-logo-land"
+                />
+                <div className="job-info-land">
+                  <h4>{job.title}</h4>
+                  <p>{job.companyname}</p>
+                  <span className={`job-status-land ${job.status}`}>
+                    {job.status}
+                  </span>
                 </div>
-              ))}
-            </div>
+                <div className="job-meta-land">
+                  <span className="job-time-land">2h ago</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      {/* Modal Dialog */}
+      {showModal && (
+        <div className="modal-overlay-land" onClick={() => setShowModal(false)}>
+          <div
+            className="modal-content-land"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-header-land">
+              <h3>OSE Management</h3>
+              <button
+                className="modal-close-land"
+                onClick={() => setShowModal(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body-land">
+              <a href="/discussions" className="modal-item-land">
+                <span className="modal-icon-land">💬</span>
+                <span>Discussions</span>
+              </a>
+              <a href="/feedbacks" className="modal-item-land">
+                <span className="modal-icon-land">⭐</span>
+                <span>Feedbacks</span>
+              </a>
+              <a href="/student_list" className="modal-item-land">
+                <span className="modal-icon-land">👥</span>
+                <span>Student List</span>
+              </a>
+              <a href="/enrollments" className="modal-item-land">
+                <span className="modal-icon-land">📝</span>
+                <span>Enrollments</span>
+              </a>
+              <a href="/contacts" className="modal-item-land">
+                <span className="modal-icon-land">📞</span>
+                <span>Contacts</span>
+              </a>
+              <a href="/AdminStudentQuestions" className="modal-item-land">
+                <span className="modal-icon-land">❓</span>
+                <span>Admin Student Questions</span>
+              </a>
+              <a href="/AdminAIContent" className="modal-item-land">
+                <span className="modal-icon-land">🤖</span>
+                <span>Admin AI Content</span>
+              </a>
+              <a href="/digital-marketing/courses" className="modal-item-land">
+                <span className="modal-icon-land">📚</span>
+                <span>Digital Marketing Courses</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Floating Action Button */}
       <div className="floating-actions-land">

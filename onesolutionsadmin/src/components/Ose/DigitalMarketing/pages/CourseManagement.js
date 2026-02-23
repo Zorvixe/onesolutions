@@ -382,131 +382,131 @@ const CourseManagement = () => {
 
   // Update the handleDrop function - find the "content" case and modify it:
 
-const handleDrop = async (e, targetType, targetId, targetParentId = null) => {
-  e.preventDefault();
-  e.stopPropagation();
+  const handleDrop = async (e, targetType, targetId, targetParentId = null) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  if (!draggedItem || !dragOverItem) {
-    handleDragEnd();
-    return;
-  }
-
-  // Only allow reordering within the same type and same parent
-  if (
-    draggedItem.type !== targetType ||
-    draggedItem.parentId !== targetParentId
-  ) {
-    alert(`Cannot move ${draggedItem.type} to a different parent`);
-    handleDragEnd();
-    return;
-  }
-
-  // Don't do anything if dropped on itself
-  if (draggedItem.item.id === targetId) {
-    handleDragEnd();
-    return;
-  }
-
-  try {
-    // Get the current list
-    let currentList = [];
-    if (targetType === "goal") {
-      currentList = [...goals];
-    } else if (targetType === "module") {
-      currentList = [...(modulesByGoal[targetParentId] || [])];
-    } else if (targetType === "topic") {
-      currentList = [...(topicsByModule[targetParentId] || [])];
-    } else if (targetType === "subtopic") {
-      currentList = [...(subtopicsByTopic[targetParentId] || [])];
-    } else if (targetType === "content") {
-      currentList = [...(contentBySubtopic[targetParentId] || [])];
-    }
-
-    // Find indices
-    const draggedIndex = currentList.findIndex(
-      (item) => item.id === draggedItem.item.id
-    );
-    const targetIndex = currentList.findIndex((item) => item.id === targetId);
-
-    if (draggedIndex === -1 || targetIndex === -1) {
+    if (!draggedItem || !dragOverItem) {
       handleDragEnd();
       return;
     }
 
-    // Reorder the array
-    const [removed] = currentList.splice(draggedIndex, 1);
-    currentList.splice(targetIndex, 0, removed);
-
-    // Update the UI immediately for better UX
-    if (targetType === "goal") {
-      setGoals(currentList);
-    } else if (targetType === "module") {
-      setModulesByGoal((prev) => ({
-        ...prev,
-        [targetParentId]: currentList,
-      }));
-    } else if (targetType === "topic") {
-      setTopicsByModule((prev) => ({
-        ...prev,
-        [targetParentId]: currentList,
-      }));
-    } else if (targetType === "subtopic") {
-      setSubtopicsByTopic((prev) => ({
-        ...prev,
-        [targetParentId]: currentList,
-      }));
-    } else if (targetType === "content") {
-      setContentBySubtopic((prev) => ({
-        ...prev,
-        [targetParentId]: currentList,
-      }));
+    // Only allow reordering within the same type and same parent
+    if (
+      draggedItem.type !== targetType ||
+      draggedItem.parentId !== targetParentId
+    ) {
+      alert(`Cannot move ${draggedItem.type} to a different parent`);
+      handleDragEnd();
+      return;
     }
 
-    // Call API to save the new order
-    const orderedIds = currentList.map((item) => item.id);
-
-    let endpoint = "";
-    let body = {};
-
-    if (targetType === "goal") {
-      endpoint = "/api/admin/course/goals/reorder";
-      body = { orderedIds };
-    } else if (targetType === "module") {
-      endpoint = "/api/admin/course/modules/reorder";
-      body = { goalId: targetParentId, orderedIds };
-    } else if (targetType === "topic") {
-      endpoint = "/api/admin/course/topics/reorder";
-      body = { moduleId: targetParentId, orderedIds };
-    } else if (targetType === "subtopic") {
-      endpoint = "/api/admin/course/subtopics/reorder";
-      body = { topicId: targetParentId, orderedIds };
-    } else if (targetType === "content") {
-      // NEW: Use the content reorder endpoint
-      endpoint = "/api/admin/course/content/reorder";
-      body = { subtopicId: targetParentId, orderedIds };
+    // Don't do anything if dropped on itself
+    if (draggedItem.item.id === targetId) {
+      handleDragEnd();
+      return;
     }
 
-    const res = await fetch(`https://api.onesolutionsekam.in${endpoint}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
-      },
-      body: JSON.stringify(body),
-    });
+    try {
+      // Get the current list
+      let currentList = [];
+      if (targetType === "goal") {
+        currentList = [...goals];
+      } else if (targetType === "module") {
+        currentList = [...(modulesByGoal[targetParentId] || [])];
+      } else if (targetType === "topic") {
+        currentList = [...(topicsByModule[targetParentId] || [])];
+      } else if (targetType === "subtopic") {
+        currentList = [...(subtopicsByTopic[targetParentId] || [])];
+      } else if (targetType === "content") {
+        currentList = [...(contentBySubtopic[targetParentId] || [])];
+      }
 
-    const data = await res.json();
-    if (!data.success) {
-      alert("Failed to save new order. Please refresh and try again.");
-      // Optionally revert the UI change here
+      // Find indices
+      const draggedIndex = currentList.findIndex(
+        (item) => item.id === draggedItem.item.id
+      );
+      const targetIndex = currentList.findIndex((item) => item.id === targetId);
+
+      if (draggedIndex === -1 || targetIndex === -1) {
+        handleDragEnd();
+        return;
+      }
+
+      // Reorder the array
+      const [removed] = currentList.splice(draggedIndex, 1);
+      currentList.splice(targetIndex, 0, removed);
+
+      // Update the UI immediately for better UX
+      if (targetType === "goal") {
+        setGoals(currentList);
+      } else if (targetType === "module") {
+        setModulesByGoal((prev) => ({
+          ...prev,
+          [targetParentId]: currentList,
+        }));
+      } else if (targetType === "topic") {
+        setTopicsByModule((prev) => ({
+          ...prev,
+          [targetParentId]: currentList,
+        }));
+      } else if (targetType === "subtopic") {
+        setSubtopicsByTopic((prev) => ({
+          ...prev,
+          [targetParentId]: currentList,
+        }));
+      } else if (targetType === "content") {
+        setContentBySubtopic((prev) => ({
+          ...prev,
+          [targetParentId]: currentList,
+        }));
+      }
+
+      // Call API to save the new order
+      const orderedIds = currentList.map((item) => item.id);
+
+      let endpoint = "";
+      let body = {};
+
+      if (targetType === "goal") {
+        endpoint = "/api/admin/course/goals/reorder";
+        body = { orderedIds };
+      } else if (targetType === "module") {
+        endpoint = "/api/admin/course/modules/reorder";
+        body = { goalId: targetParentId, orderedIds };
+      } else if (targetType === "topic") {
+        endpoint = "/api/admin/course/topics/reorder";
+        body = { moduleId: targetParentId, orderedIds };
+      } else if (targetType === "subtopic") {
+        endpoint = "/api/admin/course/subtopics/reorder";
+        body = { topicId: targetParentId, orderedIds };
+      } else if (targetType === "content") {
+        // NEW: Use the content reorder endpoint
+        endpoint = "/api/admin/course/content/reorder";
+        body = { subtopicId: targetParentId, orderedIds };
+      }
+
+      const res = await fetch(`https://api.onesolutionsekam.in${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify(body),
+      });
+
+      const data = await res.json();
+      if (!data.success) {
+        alert("Failed to save new order. Please refresh and try again.");
+        // Optionally revert the UI change here
+      }
+    } catch (error) {
+      console.error("Error reordering:", error);
+      alert("Error saving new order");
+    } finally {
+      handleDragEnd();
     }
-  } catch (error) {
-    console.error("Error reordering:", error);
-    alert("Error saving new order");
-  } finally {
-    handleDragEnd();
-  }
-};
+  };
 
   const createGoal = async () => {
     if (!newGoalName.trim()) return;
@@ -1989,13 +1989,17 @@ const handleDrop = async (e, targetType, targetId, targetParentId = null) => {
                       <h3>Lesson Content</h3>
                       <div className="course-content-view-options">
                         <button
-                          className={`view-mode-btn ${viewMode === "grid" ? "active" : ""}`}
+                          className={`view-mode-btn ${
+                            viewMode === "grid" ? "active" : ""
+                          }`}
                           onClick={() => setViewMode("grid")}
                         >
                           <Grid size={16} />
                         </button>
                         <button
-                          className={`view-mode-btn ${viewMode === "list" ? "active" : ""}`}
+                          className={`view-mode-btn ${
+                            viewMode === "list" ? "active" : ""
+                          }`}
                           onClick={() => setViewMode("list")}
                         >
                           <List size={16} />

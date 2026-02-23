@@ -27,13 +27,15 @@ const RichTextEditor = ({ value, onChange }) => {
   };
 
   return (
-    <ReactQuill
-      theme="snow"
-      value={value || ''}
-      onChange={handleChange}
-      modules={modules}
-      className="quill-editor"
-    />
+    <div className="rich-editor-wrapper">
+      <ReactQuill
+        theme="snow"
+        value={value || ''}
+        onChange={handleChange}
+        modules={modules}
+        className="quill-editor"
+      />
+    </div>
   );
 };
 

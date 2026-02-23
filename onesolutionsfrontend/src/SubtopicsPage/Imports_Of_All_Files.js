@@ -721,7 +721,8 @@ import Commojs_Module_Readig_Material_CS from "../Nodejs/Intoductionto_Nodejs/Co
 import Commojs_Module_Readig_Material_MCQ from "../Nodejs/Intoductionto_Nodejs/Commojs_Module_Readig_Material_MCQ.js";
 import ES6_Module_CS from "../Nodejs/Intoductionto_Nodejs/ES6_Module_CS.js";
 import ES6_Module_MCQ from "../Nodejs/Intoductionto_Nodejs/ES6_Module_MCQ.js";
-
+import Introductionto_Nodejs_CS_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_CS_2.js";
+import Introductionto_Nodejs_MCQ_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_MCQ_2.js";
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
@@ -1383,9 +1384,11 @@ export const subtopicComponents = {
   "MCQ Pratice - Introduction to Node JS": Introductionto_Nodejs_MCQ,
   "Common JS Module Exports | Reading Material":
     Commojs_Module_Readig_Material_CS,
-    "MCQ Pratice - Common JS Module Exports":Commojs_Module_Readig_Material_MCQ,
-    "ES6 Module Exports | Reading Material":ES6_Module_CS,
-    "MCQ Pratice - ES6 Module Exports":ES6_Module_MCQ,
+  "MCQ Pratice - Common JS Module Exports": Commojs_Module_Readig_Material_MCQ,
+  "ES6 Module Exports | Reading Material": ES6_Module_CS,
+  "MCQ Pratice - ES6 Module Exports": ES6_Module_MCQ,
+  "Introduction to Node JS | Part 2 | Cheat Sheet": Introductionto_Nodejs_CS_2,
+  "MCQ Pratice - Introduction to Node JS | Part 2":Introductionto_Nodejs_MCQ_2,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":

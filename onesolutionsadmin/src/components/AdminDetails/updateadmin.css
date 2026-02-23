@@ -1,5 +1,4 @@
 .profile-body {
-  background-color: rgb(230, 239, 241);
   height: auto;
   width: 100%;
   display: flex;
@@ -8,7 +7,6 @@
 }
 
 .profile-container {
-  background-color: #fff;
   width: 100%;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -31,7 +29,7 @@
   margin: 8px 0px;
   margin-left: 8px;
 }
-.input-lable-container{
+.input-lable-container {
   margin-top: 8px;
 }
 
@@ -52,7 +50,6 @@
   padding: 10px;
   font-size: 14px;
 }
-
 
 .save-button-container {
   display: flex;
@@ -97,7 +94,7 @@
   display: none;
 }
 
-@media (max-width:480px) {
+@media (max-width: 480px) {
   .profile-side-image {
     display: none;
   }
