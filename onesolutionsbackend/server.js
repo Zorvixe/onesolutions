@@ -62,10 +62,18 @@ app.use(
 // -------------------------------------------
 // 🔹 Multer Configuration for Video Uploads (FIXED)
 // -------------------------------------------
-const uploadsDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+// -------------------------------------------
+// 🔹 PRODUCTION SAFE UPLOAD CONFIGURATION
+// -------------------------------------------
+const UPLOAD_BASE_PATH = process.env.UPLOAD_PATH || path.join(__dirname, 'uploads');
+console.log(`📁 Uploads will be stored in: ${UPLOAD_BASE_PATH}`);
+
+// Ensure directories exist
+if (!fs.existsSync(UPLOAD_BASE_PATH)) {
+  fs.mkdirSync(UPLOAD_BASE_PATH, { recursive: true });
 }
+
+const uploadsDir = UPLOAD_BASE_PATH; // Keep for backward compatibility
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -176,8 +184,7 @@ app.options("*", cors());
 app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.use("/uploads", express.static(UPLOAD_BASE_PATH));
 // -------------------------------------------
 // 🔹 Database Table Creation
 // -------------------------------------------
@@ -3157,7 +3164,7 @@ app.put(
         oldProfileImage &&
         oldProfileImage !== "/uploads/default-profile.png"
       ) {
-        const oldImagePath = path.join(__dirname, oldProfileImage);
+        const oldImagePath = path.join(UPLOAD_BASE_PATH, oldProfileImage.replace('/uploads/', '')); // ✓ CORRECT
         if (fs.existsSync(oldImagePath)) {
           try {
             fs.unlinkSync(oldImagePath);
@@ -6305,7 +6312,8 @@ app.delete("/api/admin/class-videos/:subtopicId", async (req, res) => {
 
     const video = result.rows[0];
     if (video.video_type === "uploaded" && video.video_url) {
-      const videoPath = path.join(__dirname, video.video_url);
+      const filename = video.video_url.replace('/uploads/videos/', '');
+    const videoPath = path.join(UPLOAD_BASE_PATH, 'videos', filename); 
       if (fs.existsSync(videoPath)) {
         fs.unlinkSync(videoPath);
       }
@@ -6369,8 +6377,7 @@ app.patch(
 app.get("/uploads/videos/:filename", async (req, res) => {
   try {
     const { filename } = req.params;
-    const videoPath = path.join(__dirname, "uploads", "videos", filename);
-
+    const videoPath = path.join(UPLOAD_BASE_PATH, "videos", filename);
     if (!fs.existsSync(videoPath)) {
       return res.status(404).json({
         success: false,

@@ -32,18 +32,21 @@ app.use(express.json({ limit: "2gb" }));
 app.use(express.urlencoded({ limit: "2gb", extended: true }));
 
 // Upload Directories
-const uploadsDir = path.join(__dirname, "uploads");
-const videosDir = path.join(uploadsDir, "videos");
+// Use same environment variable
+const UPLOAD_BASE_PATH = process.env.UPLOAD_PATH || path.join(__dirname, 'uploads');
+const videosDir = path.join(UPLOAD_BASE_PATH, 'videos');
 
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+console.log(`📁 Digital Marketing - Upload path: ${UPLOAD_BASE_PATH}`);
+
+// Ensure directories exist
+if (!fs.existsSync(UPLOAD_BASE_PATH)) {
+  fs.mkdirSync(UPLOAD_BASE_PATH, { recursive: true });
 }
 if (!fs.existsSync(videosDir)) {
   fs.mkdirSync(videosDir, { recursive: true });
 }
 
-// Static files
-app.use("/uploads", express.static(uploadsDir));
+app.use("/uploads", express.static(UPLOAD_BASE_PATH));
 
 // -------------------------------------------
 // Multer Config
@@ -1002,6 +1005,7 @@ app.put("/api/admin/course/content/:contentId", async (req, res) => {
 });
 
 // DELETE Content - Update this to be more robust
+// DELETE Content - UPDATED for production storage
 app.delete("/api/admin/course/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
@@ -1023,11 +1027,19 @@ app.delete("/api/admin/course/content/:contentId", async (req, res) => {
       });
     }
 
-    // Delete physical video file if exists
+    // Delete physical video file if exists - FIX THIS PART
     if (content.rows[0].content_type === "video" && content.rows[0].video_url) {
-      const videoPath = path.join(__dirname, content.rows[0].video_url);
+      // OLD CODE (WRONG):
+      // const videoPath = path.join(__dirname, content.rows[0].video_url);
+      
+      // NEW CODE (CORRECT):
+      const filename = content.rows[0].video_url.replace('/uploads/videos/', '');
+      const videoPath = path.join(UPLOAD_BASE_PATH, 'videos', filename);
+      
+      console.log(`🗑️ Deleting video file: ${videoPath}`);
       if (fs.existsSync(videoPath)) {
         fs.unlinkSync(videoPath);
+        console.log(`✅ Video file deleted successfully`);
       }
     }
 
@@ -1051,7 +1063,7 @@ app.delete("/api/admin/course/content/:contentId", async (req, res) => {
     });
   } catch (e) {
     await pool.query("ROLLBACK");
-    console.error("Delete content error:", e);
+    console.error("❌ Delete content error:", e);
     res.status(500).json({
       success: false,
       error: e.message,
@@ -1642,6 +1654,7 @@ app.get(
 );
 
 // Video Stream
+// Video Stream - UPDATED for production storage
 app.get("/api/content/:contentUuid/stream", verifyContentAccess, (req, res) => {
   try {
     const content = req.content;
@@ -1653,7 +1666,11 @@ app.get("/api/content/:contentUuid/stream", verifyContentAccess, (req, res) => {
       });
     }
 
-    const videoPath = path.join(__dirname, content.video_url);
+    // Get filename from video_url (which is stored as "/uploads/videos/filename.mp4")
+    const filename = content.video_url.replace('/uploads/videos/', '');
+    const videoPath = path.join(UPLOAD_BASE_PATH, 'videos', filename);
+
+    console.log(`🎥 Streaming video from: ${videoPath}`);
 
     if (!fs.existsSync(videoPath)) {
       return res.status(404).json({
@@ -1689,6 +1706,7 @@ app.get("/api/content/:contentUuid/stream", verifyContentAccess, (req, res) => {
       fs.createReadStream(videoPath).pipe(res);
     }
   } catch (e) {
+    console.error("❌ Video stream error:", e);
     res.status(500).json({
       success: false,
       error: e.message,
