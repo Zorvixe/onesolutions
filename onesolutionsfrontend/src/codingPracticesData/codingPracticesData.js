@@ -16884,6 +16884,7 @@ second_matrix = read_matrix_inputs(m)
       description: "Introduction to Object Oriented Programming",
       questions: [
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-32-001",
           title: "Car",
           difficulty: "Easy",
@@ -16898,6 +16899,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-32-002",
           title: "Car - 2",
           difficulty: "Easy",
@@ -16914,6 +16916,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-32-003",
           title: "Car - 3",
           difficulty: "Easy",
@@ -16963,6 +16966,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-33-002",
           title: "Race Car",
           difficulty: "Easy",
@@ -17062,6 +17066,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-34-003",
           title: "Print Dates",
           difficulty: "Easy",
@@ -17102,6 +17107,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-34-004",
           title: "Name of the Weekday",
           difficulty: "Easy",
@@ -17121,6 +17127,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Codingpractice-34-005",
           title: "Count of Mondays",
           difficulty: "Medium",
@@ -17187,6 +17194,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Grand-Assignment-5-002",
           title: "New Year countdown",
           difficulty: "Easy",
@@ -17227,6 +17235,7 @@ second_matrix = read_matrix_inputs(m)
           attempts: [],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "q-python-Grand-Assignment-5-003",
           title: "smallest missing number",
           difficulty: "Easy",
@@ -17247,8 +17256,8 @@ second_matrix = read_matrix_inputs(m)
       ],
     },
 
-    //Core
     {
+      accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
       id: "Coding-practice-python-OOPCore-01",
       title: "Coding Practice OOP Core 01",
       description: "Foundations of Object-Oriented Programming",

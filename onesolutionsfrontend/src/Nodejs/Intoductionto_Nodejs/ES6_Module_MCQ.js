@@ -3,242 +3,207 @@ import { useAuth } from "../../context/AuthContext";
 import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
-const questionsData = [ 
-  
-    {
-      question: <p>In CommonJS, which object is used for default export?</p>,
-      options: ["exports", "module.exports", "require()", "import"],
-      answer: "module.exports",
-    },
-    {
-      question: <p>How many default exports are allowed per file?</p>,
-      options: ["Only one", "Two", "Unlimited", "Five"],
-      answer: "Only one",
-    },
-    {
-      question: <p>Which keyword is used to import a CommonJS module?</p>,
-      options: ["import", "require", "include", "fetch"],
-      answer: "require",
-    },
-    {
-      question: <p>Named exports are accessed using ______.</p>,
-      options: [
-        "Object destructuring",
-        "Dot operator only",
-        "Array destructuring",
-        "Default import",
-      ],
-      answer: "Object destructuring",
-    },
-    {
-      question: <p>What does require() return?</p>,
-      options: [
-        "The exported value",
-        "A promise",
-        "A function always",
-        "An empty object",
-      ],
-      answer: "The exported value",
-    },
-  
-    // ✅ CODE BASED MCQs (10)
-  
-    {
-      question: (
-        <div>
-          <p>What will happen?</p>
-          <CodeBlock
-            language="javascript"
-            code={`module.exports = let value = 5;`}
-          />
-        </div>
-      ),
-      options: [
-        "SyntaxError",
-        "5",
-        "undefined",
-        "null",
-      ],
-      answer: "SyntaxError",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What is the output?</p>
-          <CodeBlock
-            language="javascript"
-            code={`let value = 5;
-  module.exports = value;`}
-          />
-        </div>
-      ),
-      options: ["5", "undefined", "Error", "value"],
-      answer: "5",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What will be printed?</p>
-          <CodeBlock
-            language="javascript"
-            code={`module.exports = 5 * 3;`}
-          />
-        </div>
-      ),
-      options: ["15", "5", "3", "Error"],
-      answer: "15",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What is exported here?</p>
-          <CodeBlock
-            language="javascript"
-            code={`module.exports = function (a, b) {
-    return a + b;
-  };`}
-          />
-        </div>
-      ),
-      options: [
-        "A function",
-        "An object",
-        "A number",
-        "Nothing",
-      ],
-      answer: "A function",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What will be the output?</p>
-          <CodeBlock
-            language="javascript"
-            code={`function sum(a, b) {
-    return a + b;
+const questionsData = [
+  {
+    question: <p>Which keyword is used for default export in ES6?</p>,
+    options: ["export default", "module.exports", "exports", "default export"],
+    answer: "export default",
+  },
+  {
+    question: <p>How many default exports are allowed per ES6 module?</p>,
+    options: ["One", "Two", "Unlimited", "Five"],
+    answer: "One",
+  },
+  {
+    question: <p>Named exports are imported using ______.</p>,
+    options: ["{}", "()", "[]", "<>"],
+    answer: "{}",
+  },
+  {
+    question: <p>Which extension is commonly used for ES modules in Node?</p>,
+    options: [".js", ".mjs", ".node", ".es"],
+    answer: ".mjs",
+  },
+  {
+    question: <p>Default exports can be imported with ______.</p>,
+    options: [
+      "Any name",
+      "Same exported name only",
+      "Curly braces",
+      "require()",
+    ],
+    answer: "Any name",
+  },
+
+  // ✅ CODE BASED MCQs (10)
+
+  {
+    question: (
+      <div>
+        <p>What happens here?</p>
+        <CodeBlock
+          language="javascript"
+          code={`export default let value = 5;`}
+        />
+      </div>
+    ),
+    options: ["SyntaxError", "5", "undefined", "null"],
+    answer: "SyntaxError",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`let a = 5;
+export default a;`}
+        />
+      </div>
+    ),
+    options: ["5", "Error", "undefined", "a"],
+    answer: "5",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be printed?</p>
+        <CodeBlock language="javascript" code={`export default 5 * 3;`} />
+      </div>
+    ),
+    options: ["15", "5", "3", "Error"],
+    answer: "15",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What is exported here?</p>
+        <CodeBlock
+          language="javascript"
+          code={`export default function (a, b) {
+  return a + b;
+}`}
+        />
+      </div>
+    ),
+    options: ["A function", "A number", "An object", "Nothing"],
+    answer: "A function",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`function sum(a, b) {
+  return a + b;
+}
+export default sum;`}
+        />
+      </div>
+    ),
+    options: ["Function exported", "Error", "undefined", "0"],
+    answer: "Function exported",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What is exported?</p>
+        <CodeBlock
+          language="javascript"
+          code={`export default class Student {
+  constructor(name) {
+    this.name = name;
   }
-  module.exports = sum;`}
-          />
-        </div>
-      ),
-      options: ["Function sum exported", "Error", "undefined", "0"],
-      answer: "Function sum exported",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What is exported in this code?</p>
-          <CodeBlock
-            language="javascript"
-            code={`module.exports = class Student {
-    constructor(name) {
-      this.name = name;
-    }
-  };`}
-          />
-        </div>
-      ),
-      options: [
-        "A class",
-        "An object",
-        "A function",
-        "A string",
-      ],
-      answer: "A class",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>Identify the type of export:</p>
-          <CodeBlock
-            language="javascript"
-            code={`exports.value = value;
-  exports.name = "Rahul";`}
-          />
-        </div>
-      ),
-      options: [
-        "Named export",
-        "Default export",
-        "ES module",
-        "Invalid export",
-      ],
-      answer: "Named export",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>How do you import these exports?</p>
-          <CodeBlock
-            language="javascript"
-            code={`exports.sum = 2 + 3;
-  exports.sub = 3 - 2;`}
-          />
-        </div>
-      ),
-      options: [
-        `const { sum, sub } = require("./file")`,
-        `const sum = require("./file")`,
-        `import sum from "./file"`,
-        `require("./file").sum`,
-      ],
-      answer: `const { sum, sub } = require("./file")`,
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What will be exported?</p>
-          <CodeBlock
-            language="javascript"
-            code={`exports.sum = function(a, b) {
-    return a + b;
-  };`}
-          />
-        </div>
-      ),
-      options: [
-        "A named function",
-        "Default function",
-        "An object",
-        "Nothing",
-      ],
-      answer: "A named function",
-    },
-  
-    {
-      question: (
-        <div>
-          <p>What is wrong in this import?</p>
-          <CodeBlock
-            language="javascript"
-            code={`const { studentDetails } = require("./sample");`}
-          />
-        </div>
-      ),
-      options: [
-        "Case mismatch with exported class",
-        "require is invalid",
-        "Destructuring is wrong",
-        "Nothing is wrong",
-      ],
-      answer: "Case mismatch with exported class",
-    },
+}`}
+        />
+      </div>
+    ),
+    options: ["A class", "An object", "A function", "A string"],
+    answer: "A class",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Identify the type of export:</p>
+        <CodeBlock
+          language="javascript"
+          code={`export let value = 5;
+export let name = "Rahul";`}
+        />
+      </div>
+    ),
+    options: [
+      "Named export",
+      "Default export",
+      "CommonJS export",
+      "Invalid export",
+    ],
+    answer: "Named export",
+  },
+
+  {
+    question: (
+      <div>
+        <p>How do you import these?</p>
+        <CodeBlock
+          language="javascript"
+          code={`export function sum(a, b) {
+  return a + b;
+}`}
+        />
+      </div>
+    ),
+    options: [
+      `import { sum } from "./sample.mjs"`,
+      `import sum from "./sample.mjs"`,
+      `require("./sample.mjs")`,
+      `import * as sum from "./sample.mjs"`,
+    ],
+    answer: `import { sum } from "./sample.mjs"`,
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will be the output?</p>
+        <CodeBlock
+          language="javascript"
+          code={`export { value, studentName };`}
+        />
+      </div>
+    ),
+    options: ["Named export", "Default export", "Error", "Nothing"],
+    answer: "Named export",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What is wrong in this import?</p>
+        <CodeBlock
+          language="javascript"
+          code={`import { studentdetails } from "./sample.mjs";`}
+        />
+      </div>
+    ),
+    options: [
+      "Case mismatch",
+      "import keyword is wrong",
+      "Curly braces not allowed",
+      "Nothing is wrong",
+    ],
+    answer: "Case mismatch",
+  },
 ];
 
-const ES6_Module_MCQ = ({
-  subtopicId,
-  goalName,
-  courseName,
-  onComplete,
-}) => {
+const ES6_Module_MCQ = ({ subtopicId, goalName, courseName, onComplete }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent } =
     useAuth();
 

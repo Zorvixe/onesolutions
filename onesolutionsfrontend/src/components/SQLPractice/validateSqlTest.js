@@ -865,167 +865,123 @@ const handleSelect = (sql, questionData) => {
     throw new Error("Invalid SELECT syntax");
   }
 
-  // -----------------------------
-  // Normalize SQL
-  // -----------------------------
   const cleanedSql = sql.replace(/\s+/g, " ").trim().replace(/;$/, "");
 
-  const selectMatch = cleanedSql.match(
-    /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*(?:where\s+(.+))?$/i
-  );
+  const selectRegex =
+    /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\s+where\s+(.+?))?(?:\s+group\s+by\s+(.+?))?(?:\s+order\s+by\s+(.+?))?$/i;
 
-  if (!selectMatch) {
+  const match = cleanedSql.match(selectRegex);
+
+  if (!match) {
+    console.log("DEBUG SQL:", cleanedSql);
     throw new Error("Invalid SELECT syntax");
   }
 
-  const selectPart = selectMatch[1].trim();
-  const tableName = selectMatch[2].trim();
-  const whereClause = selectMatch[3];
+  const selectPart = match[1].trim();
+  const tableName = match[2].trim();
+  const whereClause = match[3];
+  const groupByClause = match[4];
+  const orderByClause = match[5];
 
-  // -----------------------------
-  // Initialize table from tableData
-  // -----------------------------
-  if (!questionData?.tables?.[tableName]) {
-    if (questionData?.tableData?.[tableName]) {
-      const tableInfo = questionData.tableData[tableName];
-
-      if (!questionData.tables) {
-        questionData.tables = {};
-      }
-
-      questionData.tables[tableName] = {
-        name: tableName,
-        columns: tableInfo.columns,
-        dataTypes: tableInfo.columns.reduce((acc, col) => {
-          if (
-            col.toLowerCase().includes("age") ||
-            col.toLowerCase().includes("score") ||
-            col.toLowerCase().includes("price") ||
-            col.toLowerCase().includes("rating")
-          ) {
-            acc[col] = "INTEGER";
-          } else {
-            acc[col] = "VARCHAR";
-          }
-          return acc;
-        }, {}),
-        rows: tableInfo.rows.map((row) => {
-          const rowObj = {};
-          tableInfo.columns.forEach((col, index) => {
-            rowObj[col] = row[index];
-          });
-          return rowObj;
-        }),
-      };
-    }
-  }
-
-  if (!questionData?.tables?.[tableName]) {
+  if (!questionData?.tableData?.[tableName]) {
     throw new Error(`Table '${tableName}' does not exist`);
   }
 
-  const table = questionData.tables[tableName];
-  let results = [...table.rows];
+  const tableInfo = questionData.tableData[tableName];
 
-  // -----------------------------
-  // WHERE clause handling (FIXED)
-  // -----------------------------
-  // -----------------------------
-  // WHERE clause handling (FIXED WITH OR SUPPORT)
-  // -----------------------------
+  const rows = tableInfo.rows.map((row) => {
+    const obj = {};
+    tableInfo.columns.forEach((col, i) => {
+      obj[col] = row[i];
+    });
+    return obj;
+  });
+
+  let results = [...rows];
+
+  // ---------------- WHERE ----------------
   if (whereClause) {
-    // Split by OR first
-    const orConditions = whereClause.split(/\s+or\s+/i);
+    const conditions = whereClause.split(/\s+and\s+/i);
 
     results = results.filter((row) => {
-      return orConditions.some((orCondition) => {
-        // Split each OR part by AND
-        const andConditions = orCondition.split(/\s+and\s+/i);
+      return conditions.every((condition) => {
+        const m = condition.match(
+          /(\w+)\s*(>=|<=|!=|<>|=|>|<)\s*['"]?([^'"]+)['"]?/i
+        );
+        if (!m) return true;
 
-        return andConditions.every((condition) => {
-          const match = condition.match(
-            /(\w+)\s*(>=|<=|!=|<>|=|>|<|like)\s*['"]?([^'"]+)['"]?/i
-          );
+        const col = m[1];
+        const op = m[2];
+        let value = m[3];
 
-          if (!match) return true;
+        if (!isNaN(value)) value = Number(value);
 
-          const col = match[1];
-          const operator = match[2].toLowerCase();
-          let value = match[3];
+        const rowValue = row[col];
 
-          const rowValue = row[col];
-
-          // Convert numeric value if needed
-          if (!isNaN(value) && value.trim() !== "") {
-            value = Number(value);
-          }
-
-          switch (operator) {
-            case "=":
-              return rowValue == value;
-
-            case "!=":
-            case "<>":
-              return rowValue != value;
-
-            case ">":
-              return rowValue > value;
-
-            case "<":
-              return rowValue < value;
-
-            case ">=":
-              return rowValue >= value;
-
-            case "<=":
-              return rowValue <= value;
-
-            case "like":
-              const pattern = value.toLowerCase().replace(/%/g, "");
-              return rowValue?.toString().toLowerCase().includes(pattern);
-
-            default:
-              return true;
-          }
-        });
+        switch (op) {
+          case "=":
+            return rowValue == value;
+          case ">":
+            return rowValue > value;
+          case "<":
+            return rowValue < value;
+          case ">=":
+            return rowValue >= value;
+          case "<=":
+            return rowValue <= value;
+          case "!=":
+          case "<>":
+            return rowValue != value;
+          default:
+            return true;
+        }
       });
     });
   }
 
-  // -----------------------------
-  // Column Selection
-  // -----------------------------
-  let columns = table.columns;
-  let filteredResults = results;
+  // ---------------- GROUP BY + SUM ----------------
+  if (groupByClause) {
+    const groupColumn = groupByClause.trim();
 
-  if (selectPart !== "*") {
-    const selectedColumns = selectPart.split(",").map((c) => c.trim());
+    const grouped = {};
 
-    columns = selectedColumns;
+    results.forEach((row) => {
+      const key = row[groupColumn];
 
-    filteredResults = results.map((row) => {
-      const newRow = {};
-      selectedColumns.forEach((col) => {
-        newRow[col] = row[col];
-      });
-      return newRow;
+      if (!grouped[key]) {
+        grouped[key] = { [groupColumn]: key };
+      }
+
+      const sumMatch = selectPart.match(/sum\((\w+)\)/i);
+      if (sumMatch) {
+        const sumColumn = sumMatch[1];
+        grouped[key].total_score =
+          (grouped[key].total_score || 0) + Number(row[sumColumn]);
+      }
+    });
+
+    results = Object.values(grouped);
+  }
+
+  // ---------------- ORDER BY ----------------
+  if (orderByClause) {
+    const [orderColumn, direction] = orderByClause.split(" ");
+
+    results.sort((a, b) => {
+      if (direction?.toLowerCase() === "desc") {
+        return b[orderColumn] - a[orderColumn];
+      }
+      return a[orderColumn] - b[orderColumn];
     });
   }
 
   return {
     success: true,
-    output: `✅ Query executed successfully. Returned ${filteredResults.length} rows.`,
+    output: `✅ Query executed successfully. Returned ${results.length} rows.`,
     data: {
-      columns: columns,
-      results: filteredResults,
-      rowCount: filteredResults.length,
-      tableInfo: {
-        name: tableName,
-        columns: table.columns,
-        dataTypes: table.dataTypes,
-        rows: table.rows,
-      },
-      message: `Showing data from '${tableName}' table:`,
+      columns: Object.keys(results[0] || {}),
+      results,
+      rowCount: results.length,
     },
   };
 };
