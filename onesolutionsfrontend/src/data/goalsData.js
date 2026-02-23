@@ -3478,7 +3478,6 @@ export const goalsData = [
           },
         ],
       },
-
       {
         id: "g2 c3",
         title: "JavaScript Essentials: JAVASCRIPT",

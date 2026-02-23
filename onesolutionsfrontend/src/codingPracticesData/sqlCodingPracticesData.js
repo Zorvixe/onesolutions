@@ -4137,5 +4137,217 @@ You can assume that:
         },
       ],
     },
+    // SQL Practice 5
+    {
+      id: "sql-coding-practice-5",
+      title: "Querying with SQL - SQL Coding Practice 5",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-5-1",
+          title: "Get Products belongs to clothing",
+          description:
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the details of products that belong to "Clothing" category and price less than 700.
+
+
+              </p>
+        
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: product</div>
+        
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter category as 'Clothing'",
+              type: "query-validation",
+              expectedKeywords: ["category", "clothing"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter price less than 700",
+              type: "query-validation",
+              expectedKeywords: ["price", "<", "700"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should end with semicolon",
+              type: "syntax-validation",
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    // SQL Practice 6
+    {
+      id: "sql-coding-practice-6",
+      title: "Aggregations and Group By  - SQL Coding Practice 6",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-6-1",
+          title: "Total Score",
+          description:
+            "The database consists of player_match_details table that stores the information of player's details like name, match, score, year, number of fours and sixes scored. In the table:The score, fours, and sixes may have NULL values if the player has not played the match.A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.This practice set helps you get well versed with GROUP BY and HAVING clauses. Let’s dive in!",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get the total score of each player.<br/>NOTE: Output must contain rows in the descending order of total_score </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player_match_details</div>
+        
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>total_score</th>
+           </tr>
+            </thead>
+            <tbody>
+           <tr><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--</td></tr>
+           </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+      ],
+    },
   ],
 };
