@@ -1935,7 +1935,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2A-004",
           title: "equal to",
@@ -1956,7 +1957,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2A-005",
           title: "Sunday",
@@ -1977,7 +1979,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2A-006",
           title: "Not Equal to",
@@ -1998,7 +2001,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2A-007",
           title: "Greater than or equal to",
@@ -2019,7 +2023,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2A-008",
           title: "Less than or equal to",
@@ -2127,7 +2132,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2B-005",
           title: "Validate Password",
@@ -2148,7 +2154,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2B-006",
           title: "Check Last Part of a String",
@@ -2169,7 +2176,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2B-007",
           title: "Check Part of a String",
@@ -2190,7 +2198,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2B-008",
           title: "Compare first three characters",
@@ -2298,7 +2307,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2A-005",
           title: "Compare area and perimeter",
@@ -2319,7 +2329,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2A-006",
           title: "Less than or equal to - 2",
@@ -2360,7 +2371,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2A-007",
           title: "Profit",
@@ -2401,7 +2413,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2A-008",
           title: "Check first part of a string",
@@ -2442,7 +2455,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2A-009",
           title: "Compare first N and Last N characters",
@@ -2531,7 +2545,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2C-004",
           title: "Not greater than 100",
@@ -2552,7 +2567,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2C-005",
           title: "Compare numbers",
@@ -2573,7 +2589,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2C-006",
           title: "Compare numbers - 2",
@@ -2594,7 +2611,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2C-007",
           title: "Compare numbers - 3",
@@ -2615,7 +2633,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2C-008",
           title: "Compare numbers - 4",
@@ -2723,7 +2742,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2D-005",
           title: "Not Less than 15",
@@ -2744,7 +2764,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2D-006",
           title: "Entrance",
@@ -2765,7 +2786,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2D-007",
           title: "Compare numbers - 5",
@@ -2786,7 +2808,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2D-008",
           title: "Eligibility criteria",
@@ -2807,7 +2830,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2D-009",
           title: "Greater than Five",
@@ -2828,7 +2852,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2D-0010",
           title: "Compare with 10",
@@ -2935,7 +2960,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-005",
           title: "Digit zero",
@@ -2956,7 +2982,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-006",
           title: "Compare with Ten - 2",
@@ -2977,7 +3004,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-007",
           title: "Compares number - 6",
@@ -2998,7 +3026,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-008",
           title: "Eligibility criteria - 2",
@@ -3019,7 +3048,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-009",
           title: "Compares number - 7",
@@ -3040,7 +3070,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-0010",
           title: "Compares number - 8",
@@ -3061,7 +3092,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-2E-0011",
           title: "Compares number - 9",
@@ -3150,7 +3182,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2B-004",
           title: "Required number",
@@ -3171,7 +3204,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2B-005",
           title: "Compare Numbers - 10",
@@ -3192,7 +3226,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2B-006",
           title: "Eligibility criteria - 3",
@@ -3213,7 +3248,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-2B-007",
           title: "Eligibility criteria - 4",
@@ -3361,7 +3397,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-007",
           title: "Square or Rectangle",
@@ -3382,7 +3419,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-008",
           title: "Go for a walk",
@@ -3403,7 +3441,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-009",
           title: "Buy a Book",
@@ -3436,7 +3475,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-0010",
           title: "Pair of Numbers",
@@ -3457,7 +3497,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-0011",
           title: "Team Up",
@@ -3478,7 +3519,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-0012",
           title: "Zero or Positive",
@@ -3499,7 +3541,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3A-0013",
           title: "Zero or Positive or negative",
@@ -3663,7 +3706,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-005",
           title: "Valid string",
@@ -3704,7 +3748,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-006",
           title: "Between 40 and 140",
@@ -3745,7 +3790,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-007",
           title: "Bonous salary",
@@ -3786,7 +3832,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-008",
           title: "Difference of two numbers",
@@ -3827,7 +3874,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-009",
           title: "Valid Triangle - 3",
@@ -3848,7 +3896,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-0010",
           title: "sum or numbers",
@@ -3869,7 +3918,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-0011",
           title: "Lucky number",
@@ -3889,7 +3939,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-0012",
           title: "Greatest Among three numbers",
@@ -3910,7 +3961,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-3B-0013",
           title: "Valid Triangle",
@@ -3983,7 +4035,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-3A-003",
           title: "Discount",
@@ -4004,7 +4057,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-3A-004",
           title: "qualified or not qualified",
@@ -4025,7 +4079,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-3A-005",
           title: "between 9 and 21",
@@ -4046,7 +4101,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Assignment-3A-006",
           title: "Valid number",
@@ -4154,7 +4210,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Codingpractice-4A-005",
           title: "Greatest Among Remainders",
@@ -4175,7 +4232,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Codingpractice-4A-006",
           title: "special eleven",
@@ -4196,7 +4254,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Codingpractice-4A-007",
           title: "special string",
@@ -4217,7 +4276,8 @@ export const codingPracticesData = {
           status: "unsolved",
           attempts: [],
         },
-        {          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
           id: "q-python-Codingpractice-4A-008",
           title: "special number",
@@ -16701,122 +16761,122 @@ second_matrix = read_matrix_inputs(m)
       ],
     },
 
-    //OOPS CORE START
-    {
-      id: "Coding-practice-python-oops",
-      title: "Coding practice OOPS",
-      description: "Introduction to Object Oriented Programming",
-      questions: [
-        {
-          id: "q-python-Codingpractice-32-001",
-          title: "Car",
-          difficulty: "Easy",
-          description:
-            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
-          sampleInput: "Checking default Tests",
-          sampleOutput: "Red\n250\n10\n3",
-          testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
-          defaultCode: ``,
-          score: 40,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "q-python-Codingpractice-32-002",
-          title: "Car - 2",
-          difficulty: "Easy",
-          description:
-            "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
-          sampleInput: "Checking default Tests",
-          sampleOutput: "False\nTrue\nFalse",
-          testCases: [
-            { input: "", output: "False\nTrue\nFalse", visible: true },
-          ],
-          defaultCode: ``,
-          score: 40,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "q-python-Codingpractice-32-003",
-          title: "Car - 3",
-          difficulty: "Easy",
-          description:
-            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
-          sampleInput: "Checking default Tests",
-          sampleOutput: "Car has not started yet\n0\n10\n20\n30\n40\n50",
-          testCases: [
-            {
-              input: "",
-              output: "Car has not started yet\n0\n10\n20\n30\n40\n50",
-              visible: true,
-            },
-          ],
-          defaultCode: ``,
-          score: 40,
-          status: "unsolved",
-          attempts: [],
-        },
-      ],
-    },
-    {
-      id: "Coding-practice-python-Miscellaneous",
-      title: "Coding Practice Miscellaneous",
-      description: "Introduction to Object Oriented Programming",
-      questions: [
-        {
-          id: "q-python-Codingpractice-32-001",
-          title: "Car",
-          difficulty: "Easy",
-          description:
-            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
-          sampleInput: "Checking default Tests",
-          sampleOutput: "Red\n250\n10\n3",
-          testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
-          defaultCode: ``,
-          score: 40,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "q-python-Codingpractice-32-002",
-          title: "Car - 2",
-          difficulty: "Easy",
-          description:
-            "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
-          sampleInput: "Checking default Tests",
-          sampleOutput: "False\nTrue\nFalse",
-          testCases: [
-            { input: "", output: "False\nTrue\nFalse", visible: true },
-          ],
-          defaultCode: ``,
-          score: 40,
-          status: "unsolved",
-          attempts: [],
-        },
-        {
-          id: "q-python-Codingpractice-32-003",
-          title: "Car - 3",
-          difficulty: "Easy",
-          description:
-            "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
-          sampleInput: "Checking default Tests",
-          sampleOutput: "Car has not started yet\n0\n10\n20\n30\n40\n50",
-          testCases: [
-            {
-              input: "",
-              output: "Car has not started yet\n0\n10\n20\n30\n40\n50",
-              visible: true,
-            },
-          ],
-          defaultCode: ``,
-          score: 40,
-          status: "unsolved",
-          attempts: [],
-        },
-      ],
-    },
-    //OOPS CORE END
+    // //OOPS CORE START
+    // {
+    //   id: "Coding-practice-python-oops",
+    //   title: "Coding practice OOPS",
+    //   description: "Introduction to Object Oriented Programming",
+    //   questions: [
+    //     {
+    //       id: "q-python-Codingpractice-32-001",
+    //       title: "Car",
+    //       difficulty: "Easy",
+    //       description:
+    //         "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
+    //       sampleInput: "Checking default Tests",
+    //       sampleOutput: "Red\n250\n10\n3",
+    //       testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
+    //       defaultCode: ``,
+    //       score: 40,
+    //       status: "unsolved",
+    //       attempts: [],
+    //     },
+    //     {
+    //       id: "q-python-Codingpractice-32-002",
+    //       title: "Car - 2",
+    //       difficulty: "Easy",
+    //       description:
+    //         "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+    //       sampleInput: "Checking default Tests",
+    //       sampleOutput: "False\nTrue\nFalse",
+    //       testCases: [
+    //         { input: "", output: "False\nTrue\nFalse", visible: true },
+    //       ],
+    //       defaultCode: ``,
+    //       score: 40,
+    //       status: "unsolved",
+    //       attempts: [],
+    //     },
+    //     {
+    //       id: "q-python-Codingpractice-32-003",
+    //       title: "Car - 3",
+    //       difficulty: "Easy",
+    //       description:
+    //         "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+    //       sampleInput: "Checking default Tests",
+    //       sampleOutput: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+    //       testCases: [
+    //         {
+    //           input: "",
+    //           output: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+    //           visible: true,
+    //         },
+    //       ],
+    //       defaultCode: ``,
+    //       score: 40,
+    //       status: "unsolved",
+    //       attempts: [],
+    //     },
+    //   ],
+    // },
+    // {
+    //   id: "Coding-practice-python-Miscellaneous",
+    //   title: "Coding Practice Miscellaneous",
+    //   description: "Introduction to Object Oriented Programming",
+    //   questions: [
+    //     {
+    //       id: "q-python-Codingpractice-32-001",
+    //       title: "Car",
+    //       difficulty: "Easy",
+    //       description:
+    //         "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nThe existing Car class has only a pass Statement.Remove pass statement and add the new features as mentioned in the given Instructions.\nFeatures to be added to car class.\nPoints to Note:\nThe output of the testCase checking default Tests is given by the default_test function in the prefilled code.\nThis coding question does not have the usual input/output testcases.The class defined by you will be tested internally whether the attributes are present or not.So in testcases results you will be shown the rough description of the tests that will be verified.",
+    //       sampleInput: "Checking default Tests",
+    //       sampleOutput: "Red\n250\n10\n3",
+    //       testCases: [{ input: "", output: "Red\n250\n10\n3", visible: true }],
+    //       defaultCode: ``,
+    //       score: 40,
+    //       status: "unsolved",
+    //       attempts: [],
+    //     },
+    //     {
+    //       id: "q-python-Codingpractice-32-002",
+    //       title: "Car - 2",
+    //       difficulty: "Easy",
+    //       description:
+    //         "complete the given Car class by adding new features according to the Instructions provided.\nExisting car Class:\nIn the Previous question,you added the attributes below to the Car class:\ncolor,\nmax_speed,\nacceleration,\ntyre_friction.\nNow,let's add a few more new features to the car class.\nFeatures to be added to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+    //       sampleInput: "Checking default Tests",
+    //       sampleOutput: "False\nTrue\nFalse",
+    //       testCases: [
+    //         { input: "", output: "False\nTrue\nFalse", visible: true },
+    //       ],
+    //       defaultCode: ``,
+    //       score: 40,
+    //       status: "unsolved",
+    //       attempts: [],
+    //     },
+    //     {
+    //       id: "q-python-Codingpractice-32-003",
+    //       title: "Car - 3",
+    //       difficulty: "Easy",
+    //       description:
+    //         "complete the given Car class by adding new features by following the given Instructions.\nExisting car Class:\nIn the Previous question,you have added the attributes and methods below in the car class.\nATTRIBUTES:\ncolor\nmax_speed\nacceleration\ntyre_friction\nis_engine_started\nMETHODS\nstart_engine\nstop_engine\nNowc,let's add a few new features to the car class.\nNote:You can copy the code from the Previous question and add new features on top of that code.",
+    //       sampleInput: "Checking default Tests",
+    //       sampleOutput: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+    //       testCases: [
+    //         {
+    //           input: "",
+    //           output: "Car has not started yet\n0\n10\n20\n30\n40\n50",
+    //           visible: true,
+    //         },
+    //       ],
+    //       defaultCode: ``,
+    //       score: 40,
+    //       status: "unsolved",
+    //       attempts: [],
+    //     },
+    //   ],
+    // },
+    // //OOPS CORE END
 
     {
       id: "Codingpractice-python-32",

@@ -1963,270 +1963,270 @@ export const goalsData = [
               },
             ],
           },
-          //OOPS CORE START
-          {
-            id: "QW9_m40_A0 g1_H c3_7B",
-            name: "Introduction to Object Oriented Programming",
-            accessibleTo: ["zorvixe_core"],
-            topic: [
-              {
-                id: "QW9_41_A0 m13_H g1_7B c3_D2E",
-                name: "Introduction to Object Oriented Programming",
-                accessibleTo: ["zorvixe_core"],
-              },
-              {
-                id: "QW9_42_A0 m13_H g1_7B c3_D2E",
-                name: "Foundations of Object Oriented Programming | Cheat Sheet",
-                accessibleTo: ["zorvixe_core"],
-              },
-              {
-                id: "QW9_43_A0 m13_H g1_7B c3_D2E",
-                name: "Foundations of Object Oriented Programming | Cheat Sheet 2",
-                accessibleTo: ["zorvixe_core"],
-              },
-              {
-                id: "QW9_44_A0 m13_H g1_7B c3_D2E",
-                name: "MCQ Practice - Intro_OOP",
-                accessibleTo: ["zorvixe_core"],
-              },
+          // //OOPS CORE START
+          // {
+          //   id: "QW9_m40_A0 g1_H c3_7B",
+          //   name: "Introduction to Object Oriented Programming",
+          //   accessibleTo: ["zorvixe_core"],
+          //   topic: [
+          //     {
+          //       id: "QW9_41_A0 m13_H g1_7B c3_D2E",
+          //       name: "Introduction to Object Oriented Programming",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //     {
+          //       id: "QW9_42_A0 m13_H g1_7B c3_D2E",
+          //       name: "Foundations of Object Oriented Programming | Cheat Sheet",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //     {
+          //       id: "QW9_43_A0 m13_H g1_7B c3_D2E",
+          //       name: "Foundations of Object Oriented Programming | Cheat Sheet 2",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //     {
+          //       id: "QW9_44_A0 m13_H g1_7B c3_D2E",
+          //       name: "MCQ Practice - Intro_OOP",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
 
-              {
-                id: "QW9_s45_A0 m13_H g1_7B c3_D2E",
-                name: "Python Coding Practice 32",
-                accessibleTo: ["zorvixe_core"],
-              },
-            ],
-          },
-          {
-            id: "QW9_m50_A0 g1_H c3_7B",
-            name: "Miscellaneous Topics",
-            accessibleTo: ["zorvixe_core"],
-            topic: [
-              {
-                id: "QW9_s51_A0 m14_H g1_7B c3_D2E",
-                name: "Python Standard Library",
-                accessibleTo: ["zorvixe_core"],
-              },
-              {
-                id: "QW9_s52_A0 m14_H g1_7B c3_D2E",
-                name: "Standard Library | Cheat Sheet",
-                accessibleTo: ["zorvixe_core"],
-              },
-              {
-                id: "QW9_s53_A0 m14_H g1_7B c3_D2E",
-                name: "MCQ Practice - Standard Library",
-                accessibleTo: ["zorvixe_core"],
-              },
+          //     {
+          //       id: "QW9_s45_A0 m13_H g1_7B c3_D2E",
+          //       name: "Python Coding Practice 32",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //   ],
+          // },
+          // {
+          //   id: "QW9_m50_A0 g1_H c3_7B",
+          //   name: "Miscellaneous Topics",
+          //   accessibleTo: ["zorvixe_core"],
+          //   topic: [
+          //     {
+          //       id: "QW9_s51_A0 m14_H g1_7B c3_D2E",
+          //       name: "Python Standard Library",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //     {
+          //       id: "QW9_s52_A0 m14_H g1_7B c3_D2E",
+          //       name: "Standard Library | Cheat Sheet",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //     {
+          //       id: "QW9_s53_A0 m14_H g1_7B c3_D2E",
+          //       name: "MCQ Practice - Standard Library",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
 
-              {
-                id: "QW9_s54_A0 m14_H g1_7B c3_D2E",
-                name: "Python Coding Practice 33",
-                accessibleTo: ["zorvixe_core"],
-              },
-            ],
-          },
-          //OOPS CORE END
+          //     {
+          //       id: "QW9_s54_A0 m14_H g1_7B c3_D2E",
+          //       name: "Python Coding Practice 33",
+          //       accessibleTo: ["zorvixe_core"],
+          //     },
+          //   ],
+          // },
+          // //OOPS CORE END
           {
             id: "QW9_m13_A0 g1_H c3_7B",
             name: "Introduction to Object Oriented Programming",
-            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m13_H g1_7B c3_D2E",
                 name: "Introduction to Object Oriented Programming",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m13_H g1_7B c3_D2E",
                 name: "Introduction to Object Oriented Programming | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Intro_OOP",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m13_H g1_7B c3_D2E",
                 name: "Object Oriented Programming",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m13_H g1_7B c3_D2E",
                 name: "Object Oriented Programming | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - OOP",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m13_H g1_7B c3_D2E",
                 name: "Classes & Objects",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m13_H g1_7B c3_D2E",
                 name: "Classes & Objects | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Classes_Obj",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m13_H g1_7B c3_D2E",
                 name: "Coding Practice 32",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m13_H g1_7B c3_D2E",
                 name: "Attribute Methods",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m13_H g1_7B c3_D2E",
                 name: "Attribute Methods | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Att_Meth",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m13_H g1_7B c3_D2E",
                 name: "Inheritance Part 1",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m13_H g1_7B c3_D2E",
                 name: "Inheritance Part1 | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s16_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Inheritance1",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s17_A0 m13_H g1_7B c3_D2E",
                 name: "Inheritance Part 2",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s18_A0 m13_H g1_7B c3_D2E",
                 name: "Inheritance Part2 | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s19_A0 m13_H g1_7B c3_D2E",
                 name: "MCQ Practice - Inheritance2",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s20_A0 m13_H g1_7B c3_D2E",
                 name: "Coding Practice 33",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s21_A0 m13_H g1_7B c3_D2E",
                 name: "OOP: On Demand Session",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m14_A0 g1_H c3_7B",
             name: "Miscellaneous Topics",
-            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m14_H g1_7B c3_D2E",
                 name: "Python Standard Library",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m14_H g1_7B c3_D2E",
                 name: "Python Standard Library | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m14_H g1_7B c3_D2E",
                 name: "MCQ Practice - PythonLibrary",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m14_H g1_7B c3_D2E",
                 name: "Scope & Namespaces",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m14_H g1_7B c3_D2E",
                 name: "Scope & Namespaces | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m14_H g1_7B c3_D2E",
                 name: "MCQ Practice - Scope_Namespaces",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m14_H g1_7B c3_D2E",
                 name: "Errors & Exceptions",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m14_H g1_7B c3_D2E",
                 name: "Errors & Exceptions | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m14_H g1_7B c3_D2E",
                 name: "MCQ Practice - Errors_Excep",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m14_H g1_7B c3_D2E",
                 name: "Dates & Time",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m14_H g1_7B c3_D2E",
                 name: "Dates & Time | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m14_H g1_7B c3_D2E",
                 name: "MCQ Practice - Dates_Time",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m14_H g1_7B c3_D2E",
                 name: "Working with Dates & Times",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m14_H g1_7B c3_D2E",
                 name: "Working with Dates & Times | Cheat Sheet",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m14_H g1_7B c3_D2E",
                 name: "MCQ Practice - Working with Dates & Times",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s16_A0 m14_H g1_7B c3_D2E",
                 name: "Coding Practice 34",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s17_A0 m14_H g1_7B c3_D2E",
                 name: "Grand Assignment 5",
-                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },

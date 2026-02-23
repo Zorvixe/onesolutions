@@ -719,6 +719,7 @@ import Introductionto_Nodejs_CS from "../Nodejs/Intoductionto_Nodejs/Introductio
 import Introductionto_Nodejs_MCQ from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_MCQ.js";
 import Commojs_Module_Readig_Material_CS from "../Nodejs/Intoductionto_Nodejs/Commojs_Module_Readig_Material_CS.js";
 import Commojs_Module_Readig_Material_MCQ from "../Nodejs/Intoductionto_Nodejs/Commojs_Module_Readig_Material_MCQ.js";
+import ES6_Module_CS from "../Nodejs/Intoductionto_Nodejs/ES6_Module_CS.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -1382,6 +1383,7 @@ export const subtopicComponents = {
   "Common JS Module Exports | Reading Material":
     Commojs_Module_Readig_Material_CS,
     "MCQ Pratice - Common JS Module Exports":Commojs_Module_Readig_Material_MCQ,
+    "ES6 Module Exports | Reading Material":ES6_Module_CS,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":
