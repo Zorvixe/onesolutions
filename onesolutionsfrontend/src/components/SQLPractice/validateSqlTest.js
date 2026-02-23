@@ -889,6 +889,7 @@ const handleSelect = (sql, questionData) => {
 
   const tableInfo = questionData.tableData[tableName];
 
+  // Convert rows into objects
   const rows = tableInfo.rows.map((row) => {
     const obj = {};
     tableInfo.columns.forEach((col, i) => {
@@ -922,13 +923,13 @@ const handleSelect = (sql, questionData) => {
           case "=":
             return rowValue == value;
           case ">":
-            return rowValue > value;
+            return Number(rowValue) > value;
           case "<":
-            return rowValue < value;
+            return Number(rowValue) < value;
           case ">=":
-            return rowValue >= value;
+            return Number(rowValue) >= value;
           case "<=":
-            return rowValue <= value;
+            return Number(rowValue) <= value;
           case "!=":
           case "<>":
             return rowValue != value;
@@ -942,21 +943,24 @@ const handleSelect = (sql, questionData) => {
   // ---------------- GROUP BY + SUM ----------------
   if (groupByClause) {
     const groupColumn = groupByClause.trim();
-
     const grouped = {};
+
+    const sumMatch = selectPart.match(/sum\((\w+)\)/i);
+    const sumColumn = sumMatch ? sumMatch[1] : null;
 
     results.forEach((row) => {
       const key = row[groupColumn];
 
       if (!grouped[key]) {
-        grouped[key] = { [groupColumn]: key };
+        grouped[key] = {
+          [groupColumn]: key,
+          total_score: 0,
+        };
       }
 
-      const sumMatch = selectPart.match(/sum\((\w+)\)/i);
-      if (sumMatch) {
-        const sumColumn = sumMatch[1];
-        grouped[key].total_score =
-          (grouped[key].total_score || 0) + Number(row[sumColumn]);
+      if (sumColumn) {
+        const value = Number(row[sumColumn]) || 0;
+        grouped[key].total_score += value;
       }
     });
 
@@ -965,13 +969,18 @@ const handleSelect = (sql, questionData) => {
 
   // ---------------- ORDER BY ----------------
   if (orderByClause) {
-    const [orderColumn, direction] = orderByClause.split(" ");
+    const parts = orderByClause.split(" ");
+    const orderColumn = parts[0];
+    const direction = parts[1]?.toLowerCase();
 
     results.sort((a, b) => {
-      if (direction?.toLowerCase() === "desc") {
-        return b[orderColumn] - a[orderColumn];
+      const valA = Number(a[orderColumn]) || 0;
+      const valB = Number(b[orderColumn]) || 0;
+
+      if (direction === "desc") {
+        return valB - valA;
       }
-      return a[orderColumn] - b[orderColumn];
+      return valA - valB;
     });
   }
 
