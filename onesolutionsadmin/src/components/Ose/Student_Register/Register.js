@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import registerBanner from "../../../assests/register_banner.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import "./Register.css";
 
 const Register = () => {
@@ -20,31 +21,10 @@ const Register = () => {
     isCurrentBatch: false,
   });
 
-  // Course options with enhanced details
+  // Course options
   const courseOptions = [
-    {
-      value: "web_development",
-      label: "Web Development",
-      icon: "💻",
-      description:
-        "Full-stack development with React, Node.js, and modern frameworks",
-      color: "#2563eb",
-    },
-    {
-      value: "digital_marketing",
-      label: "Digital Marketing",
-      icon: "📱",
-      description: "SEO, social media, content strategy, and analytics",
-      color: "#7c3aed",
-    },
-    {
-      value: "data_science",
-      label: "Data Science",
-      icon: "📊",
-      description:
-        "Machine learning, Python, data visualization, and analytics",
-      color: "#059669",
-    },
+    { value: "web_development", label: "Web Development" },
+    { value: "digital_marketing", label: "Digital Marketing" },
   ];
 
   const [profileImage, setProfileImage] = useState(null);
@@ -52,54 +32,14 @@ const Register = () => {
   const [validationErrors, setValidationErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [passwordStrength, setPasswordStrength] = useState(0);
 
   const navigate = useNavigate();
 
-  // Student type options with enhanced details
+  // Student type options
   const studentTypes = [
-    {
-      value: "zorvixe_core",
-      label: "Zorvixe Core",
-      icon: "🌱",
-      description: "Essential features for beginners",
-      price: "Free",
-      features: [
-        "Basic courses",
-        "Community access",
-        "Certificate of completion",
-      ],
-      color: "#2563eb",
-    },
-    {
-      value: "zorvixe_pro",
-      label: "Zorvixe Pro",
-      icon: "⚡",
-      description: "Advanced features for professionals",
-      price: "$49/month",
-      features: [
-        "All Core features",
-        "Priority support",
-        "Project reviews",
-        "Career guidance",
-      ],
-      color: "#7c3aed",
-    },
-    {
-      value: "zorvixe_elite",
-      label: "Zorvixe Elite",
-      icon: "👑",
-      description: "Premium access with mentorship",
-      price: "$99/month",
-      features: [
-        "All Pro features",
-        "1-on-1 mentorship",
-        "Job placement assistance",
-        "Exclusive workshops",
-      ],
-      color: "#b45309",
-    },
+    { value: "zorvixe_core", label: "Zorvixe Core" },
+    { value: "zorvixe_pro", label: "Zorvixe Pro" },
+    { value: "zorvixe_elite", label: "Zorvixe Elite" },
   ];
 
   // Batch month options
@@ -118,7 +58,7 @@ const Register = () => {
     "December",
   ];
 
-  // Batch year options
+  // Batch year options (last 5 years and next 2 years)
   const currentYear = new Date().getFullYear();
   const batchYears = Array.from({ length: 8 }, (_, i) => currentYear - 5 + i);
 
@@ -129,44 +69,16 @@ const Register = () => {
       [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Password strength calculation
-    if (name === "password") {
-      calculatePasswordStrength(value);
-    }
-
+    // Clear validation error for this field when user starts typing
     if (validationErrors[name]) {
       setValidationErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
-  const calculatePasswordStrength = (password) => {
-    let strength = 0;
-    if (password.length >= 8) strength += 25;
-    if (password.match(/[a-z]+/)) strength += 25;
-    if (password.match(/[A-Z]+/)) strength += 25;
-    if (password.match(/[0-9]+/)) strength += 25;
-    if (password.match(/[$@#&!]+/)) strength += 25;
-    setPasswordStrength(Math.min(strength, 100));
-  };
-
-  const getPasswordStrengthColor = () => {
-    if (passwordStrength < 25) return "#ef4444";
-    if (passwordStrength < 50) return "#f59e0b";
-    if (passwordStrength < 75) return "#3b82f6";
-    return "#10b981";
-  };
-
-  const getPasswordStrengthText = () => {
-    if (passwordStrength < 25) return "Very Weak";
-    if (passwordStrength < 50) return "Weak";
-    if (passwordStrength < 75) return "Medium";
-    if (passwordStrength < 100) return "Strong";
-    return "Very Strong";
-  };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file type
       if (!file.type.startsWith("image/")) {
         setValidationErrors((prev) => ({
           ...prev,
@@ -175,6 +87,7 @@ const Register = () => {
         return;
       }
 
+      // Validate file size (5MB)
       if (file.size > 5 * 1024 * 1024) {
         setValidationErrors((prev) => ({
           ...prev,
@@ -195,6 +108,7 @@ const Register = () => {
   const validateForm = () => {
     const errors = {};
 
+    // Student ID validation
     if (!formData.studentId) {
       errors.studentId = "Student ID is required";
     } else if (formData.studentId.length < 3) {
@@ -204,38 +118,65 @@ const Register = () => {
         "Student ID can only contain letters, numbers, underscores and hyphens";
     }
 
+    // Email validation
     if (!formData.email) {
       errors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = "Email is invalid";
     }
 
+    // Password validation
     if (!formData.password) {
       errors.password = "Password is required";
     } else if (formData.password.length < 6) {
       errors.password = "Password must be at least 6 characters";
-    } else if (passwordStrength < 50) {
-      errors.password = "Password is too weak. Please make it stronger.";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
+      errors.password =
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number";
     }
 
+    // First name validation
     if (!formData.firstName) {
       errors.firstName = "First name is required";
     } else if (formData.firstName.length < 2) {
       errors.firstName = "First name must be at least 2 characters";
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.firstName)) {
+      errors.firstName = "First name can only contain letters and spaces";
     }
 
+    // Last name validation
     if (!formData.lastName) {
       errors.lastName = "Last name is required";
     } else if (formData.lastName.length < 2) {
       errors.lastName = "Last name must be at least 2 characters";
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName)) {
+      errors.lastName = "Last name can only contain letters and spaces";
     }
 
+    // Phone validation (optional but if provided, must be valid)
     if (formData.phone && !/^[0-9+\-\s()]{10,15}$/.test(formData.phone)) {
       errors.phone = "Please enter a valid phone number";
     }
 
+    // Batch month validation
     if (!formData.batchMonth) {
       errors.batchMonth = "Batch month is required";
+    }
+
+    // Student type validation
+    const validTypes = ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"];
+    if (!formData.studentType) {
+      errors.studentType = "Student type is required";
+    } else if (!validTypes.includes(formData.studentType)) {
+      errors.studentType = "Please select a valid student type";
+    }
+
+    // Course selection validation
+    const validCourses = ["web_development", "digital_marketing"];
+    if (!formData.courseSelection) {
+      errors.courseSelection = "Course selection is required";
+    } else if (!validCourses.includes(formData.courseSelection)) {
+      errors.courseSelection = "Please select a valid course";
     }
 
     setValidationErrors(errors);
@@ -245,6 +186,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
+      // Scroll to first error
       const firstError = Object.keys(validationErrors)[0];
       if (firstError) {
         const errorElement = document.querySelector(`[name="${firstError}"]`);
@@ -259,24 +201,44 @@ const Register = () => {
     setIsSubmitting(true);
 
     try {
+      // Create FormData for file upload
       const submitData = new FormData();
 
+      // Append all form fields
       Object.keys(formData).forEach((key) => {
+        // Ensure all fields are properly appended
         const value = formData[key];
         if (value !== null && value !== undefined) {
           submitData.append(key, value.toString());
         }
       });
 
+      // Append profile image if exists
       if (profileImage) {
         submitData.append("profileImage", profileImage);
       }
 
+      // Log the data being sent (for debugging)
+      console.log("📝 Registration Data:", {
+        studentId: formData.studentId,
+        email: formData.email,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        studentType: formData.studentType,
+        courseSelection: formData.courseSelection,
+        batchMonth: formData.batchMonth,
+        batchYear: formData.batchYear,
+        isCurrentBatch: formData.isCurrentBatch,
+        hasProfileImage: !!profileImage,
+      });
+
+      // Direct API call to register endpoint
       const response = await fetch(
         "https://api.onesolutionsekam.in/api/auth/register",
         {
           method: "POST",
           body: submitData,
+          // Don't set Content-Type header - browser will set it with boundary for FormData
         }
       );
 
@@ -291,8 +253,10 @@ const Register = () => {
       if (responseData.success) {
         const { student, token } = responseData.data;
 
+        // Store token in localStorage
         localStorage.setItem("token", token);
 
+        // Store user data in localStorage for AuthContext
         const userData = {
           id: student.id,
           studentId: student.studentId || student.student_id,
@@ -319,6 +283,7 @@ const Register = () => {
 
         localStorage.setItem("user", JSON.stringify(userData));
 
+        // Show success toast
         toast.success("🎉 Registration successful! Redirecting to login...", {
           position: "top-center",
           autoClose: 3000,
@@ -326,9 +291,15 @@ const Register = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          className: "reg-toast-success",
         });
 
+        console.log("✅ Registration successful:", {
+          email: userData.email,
+          studentType: userData.studentType,
+          courseSelection: userData.courseSelection,
+        });
+
+        // Redirect to login after a short delay
         setTimeout(() => {
           navigate("/login");
         }, 2000);
@@ -340,9 +311,11 @@ const Register = () => {
     } catch (err) {
       console.error("❌ Registration error:", err);
 
+      // Show specific error message
       let errorMessage =
         err.message || "Registration failed. Please try again.";
 
+      // Handle specific error cases
       if (
         errorMessage.includes("duplicate key") ||
         errorMessage.includes("already exists")
@@ -365,7 +338,6 @@ const Register = () => {
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
-        className: "reg-toast-error",
       });
     } finally {
       setIsSubmitting(false);
@@ -385,606 +357,503 @@ const Register = () => {
     setShowPassword(!showPassword);
   };
 
-  const nextStep = () => {
-    if (currentStep === 1) {
-      // Validate step 1 fields
-      if (!formData.firstName || !formData.lastName || !formData.email) {
-        toast.warning("Please fill in all required fields", {
-          className: "reg-toast-warning",
-        });
-        return;
-      }
+  const getStudentTypeDescription = (type) => {
+    switch (type) {
+      case "zorvixe_core":
+        return "Basic access with essential features";
+      case "zorvixe_pro":
+        return "Advanced features with priority support";
+      case "zorvixe_elite":
+        return "Full access with premium features";
+      default:
+        return "";
     }
-    setCurrentStep(currentStep + 1);
   };
 
-  const prevStep = () => {
-    setCurrentStep(currentStep - 1);
+  const getStudentTypeColor = (type) => {
+    switch (type) {
+      case "zorvixe_core":
+        return "#4a6bff";
+      case "zorvixe_pro":
+        return "#10b981";
+      case "zorvixe_elite":
+        return "#f59e0b";
+      default:
+        return "#4a6bff";
+    }
+  };
+
+  const getCourseDescription = (course) => {
+    switch (course) {
+      case "web_development":
+        return "Full stack web development with React, Node.js, and databases";
+      case "digital_marketing":
+        return "SEO, Social Media Marketing, Content Strategy, and Analytics";
+      default:
+        return "";
+    }
+  };
+
+  const getCourseColor = (course) => {
+    switch (course) {
+      case "web_development":
+        return "#0d9488";
+      case "digital_marketing":
+        return "#b45309";
+      default:
+        return "#0d9488";
+    }
   };
 
   return (
-    <div className="reg-container">
+    <div className="register-page">
       <ToastContainer
         position="top-right"
         autoClose={3000}
         hideProgressBar={false}
-        newestOnTop
+        newestOnTop={false}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="colored"
+        theme="light"
       />
 
-      {/* Left Side - Banner */}
-      <div className="reg-banner">
-        <button className="reg-back-btn" onClick={handleBack} type="button">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-          Back to Home
+      <div className="image-section-register">
+        <button className="back-button" onClick={handleBack} type="button">
+          ← Back
         </button>
-
-        <div className="reg-banner-content">
-          <div className="reg-banner-image-wrapper">
-            <img
-              src={registerBanner}
-              alt="Registration Banner"
-              className="reg-banner-image"
-            />
-            <div className="reg-banner-overlay"></div>
-          </div>
-        </div>
+        <img src={registerBanner} alt="Register Banner" />
       </div>
 
-      {/* Right Side - Registration Form */}
-      <div className="reg-form-section">
-        <div className="reg-form-card">
-          <div className="reg-form-header">
-            <h2>Create Account</h2>
-            <p>Fill in your details to get started</p>
-          </div>
+      <div className="form-section-register">
+        <div className="card-register">
+          <h2>Student Registration</h2>
 
-          {/* Progress Steps */}
-          <div className="reg-progress-steps">
-            <div
-              className={`reg-step ${
-                currentStep >= 1 ? "reg-step-active" : ""
-              }`}
-            >
-              <div className="reg-step-number">1</div>
-              <span className="reg-step-label">Personal</span>
-            </div>
-            <div
-              className={`reg-step-line ${
-                currentStep >= 2 ? "reg-step-line-active" : ""
-              }`}
-            ></div>
-            <div
-              className={`reg-step ${
-                currentStep >= 2 ? "reg-step-active" : ""
-              }`}
-            >
-              <div className="reg-step-number">2</div>
-              <span className="reg-step-label">Education</span>
-            </div>
-            <div
-              className={`reg-step-line ${
-                currentStep >= 3 ? "reg-step-line-active" : ""
-              }`}
-            ></div>
-            <div
-              className={`reg-step ${
-                currentStep >= 3 ? "reg-step-active" : ""
-              }`}
-            >
-              <div className="reg-step-number">3</div>
-              <span className="reg-step-label">Plan</span>
-            </div>
-          </div>
-
-          <form
-            onSubmit={handleSubmit}
-            encType="multipart/form-data"
-            className="reg-form"
-          >
-            {/* Step 1: Personal Information */}
-            {currentStep === 1 && (
-              <div className="reg-step-content">
-                {/* Profile Image Upload */}
-                <div className="reg-form-group reg-profile-upload">
-                  <div className="reg-image-upload-container">
-                    <input
-                      type="file"
-                      id="reg-profileImage"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                      className="reg-file-input"
-                      disabled={isSubmitting}
-                    />
-                    <label
-                      htmlFor="reg-profileImage"
-                      className="reg-file-input-label"
-                    >
-                      {profileImagePreview ? (
-                        <div className="reg-preview-wrapper">
-                          <img
-                            src={profileImagePreview}
-                            alt="Profile preview"
-                            className="reg-preview-image"
-                          />
-                          <button
-                            type="button"
-                            className="reg-remove-image"
-                            onClick={removeImage}
-                            disabled={isSubmitting}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ) : (
-                        <div className="reg-upload-placeholder">
-                          <svg
-                            className="reg-upload-icon"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                          >
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                            <circle cx="12" cy="7" r="4" />
-                          </svg>
-                        </div>
-                      )}
-                    </label>
-                  </div>
-                  {validationErrors.profileImage && (
-                    <span className="reg-error-text">
-                      {validationErrors.profileImage}
-                    </span>
-                  )}
-                </div>
-
-                <div className="reg-form-row">
-                  <div className="reg-form-group">
-                    <label className="reg-label">
-                      First Name <span className="reg-required">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      className={`reg-input ${
-                        validationErrors.firstName ? "reg-input-error" : ""
-                      }`}
-                      placeholder="Enter first name"
-                      disabled={isSubmitting}
-                    />
-                    {validationErrors.firstName && (
-                      <span className="reg-error-text">
-                        {validationErrors.firstName}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="reg-form-group">
-                    <label className="reg-label">
-                      Last Name <span className="reg-required">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      className={`reg-input ${
-                        validationErrors.lastName ? "reg-input-error" : ""
-                      }`}
-                      placeholder="Enter last name"
-                      disabled={isSubmitting}
-                    />
-                    {validationErrors.lastName && (
-                      <span className="reg-error-text">
-                        {validationErrors.lastName}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="reg-form-group">
-                  <label className="reg-label">
-                    Email Address <span className="reg-required">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`reg-input ${
-                      validationErrors.email ? "reg-input-error" : ""
-                    }`}
-                    placeholder="you@example.com"
-                    disabled={isSubmitting}
-                  />
-                  {validationErrors.email && (
-                    <span className="reg-error-text">
-                      {validationErrors.email}
-                    </span>
-                  )}
-                </div>
-
-                <div className="reg-form-group">
-                  <label className="reg-label">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className={`reg-input ${
-                      validationErrors.phone ? "reg-input-error" : ""
-                    }`}
-                    placeholder="+1 (555) 000-0000"
-                    disabled={isSubmitting}
-                  />
-                  {validationErrors.phone && (
-                    <span className="reg-error-text">
-                      {validationErrors.phone}
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Step 2: Education Information */}
-            {currentStep === 2 && (
-              <div className="reg-step-content">
-                <div className="reg-form-group">
-                  <label className="reg-label">
-                    Student ID <span className="reg-required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="studentId"
-                    value={formData.studentId}
-                    onChange={handleChange}
-                    className={`reg-input ${
-                      validationErrors.studentId ? "reg-input-error" : ""
-                    }`}
-                    placeholder="Enter your student ID"
-                    disabled={isSubmitting}
-                  />
-                  {validationErrors.studentId && (
-                    <span className="reg-error-text">
-                      {validationErrors.studentId}
-                    </span>
-                  )}
-                </div>
-
-                <div className="reg-form-group">
-                  <label className="reg-label">
-                    Password <span className="reg-required">*</span>
-                  </label>
-                  <div className="reg-password-container">
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      className={`reg-input ${
-                        validationErrors.password ? "reg-input-error" : ""
-                      }`}
-                      placeholder="Create a strong password"
-                      disabled={isSubmitting}
-                    />
-                    <button
-                      type="button"
-                      className="reg-password-toggle"
-                      onClick={togglePasswordVisibility}
-                      disabled={isSubmitting}
-                    >
-                      {showPassword ? "👁️" : "👁️‍🗨️"}
-                    </button>
-                  </div>
-
-                  {formData.password && (
-                    <div className="reg-password-strength">
-                      <div className="reg-strength-bar">
-                        <div
-                          className="reg-strength-bar-fill"
-                          style={{
-                            width: `${passwordStrength}%`,
-                            backgroundColor: getPasswordStrengthColor(),
-                          }}
-                        ></div>
-                      </div>
-                      <span
-                        className="reg-strength-text"
-                        style={{ color: getPasswordStrengthColor() }}
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
+            {/* Profile Image Upload */}
+            <div className="form-group">
+              <div className="image-upload-container">
+                <input
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="file-input"
+                  disabled={isSubmitting}
+                />
+                <label htmlFor="profileImage" className="file-input-label">
+                  {profileImagePreview ? (
+                    <div className="preview-with-remove">
+                      <img src={profileImagePreview} alt="Profile preview" />
+                      <button
+                        type="button"
+                        className="remove-image-btn"
+                        onClick={removeImage}
+                        disabled={isSubmitting}
                       >
-                        {getPasswordStrengthText()}
-                      </span>
+                        ×
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="upload-placeholder">
+                      <svg
+                        className="profile-icon with-badge"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        width="56"
+                        height="56"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="8" r="3.2" fill="currentColor" />
+                        <path
+                          d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"
+                          fill="currentColor"
+                        />
+                        <circle cx="19" cy="5" r="3" fill="currentColor" />
+                        <path
+                          d="M19 4v2M18 5h2"
+                          stroke="#fff"
+                          strokeWidth="0.9"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                   )}
-
-                  {validationErrors.password && (
-                    <span className="reg-error-text">
-                      {validationErrors.password}
-                    </span>
-                  )}
-                  <span className="reg-hint-text">
-                    Use at least 8 characters with uppercase, lowercase, and
-                    numbers
-                  </span>
-                </div>
-
-                <div className="reg-form-row">
-                  <div className="reg-form-group">
-                    <label className="reg-label">
-                      Batch Month <span className="reg-required">*</span>
-                    </label>
-                    <select
-                      name="batchMonth"
-                      value={formData.batchMonth}
-                      onChange={handleChange}
-                      className={`reg-select ${
-                        validationErrors.batchMonth ? "reg-input-error" : ""
-                      }`}
-                      disabled={isSubmitting}
-                    >
-                      <option value="">Select Month</option>
-                      {batchMonths.map((month) => (
-                        <option key={month} value={month}>
-                          {month}
-                        </option>
-                      ))}
-                    </select>
-                    {validationErrors.batchMonth && (
-                      <span className="reg-error-text">
-                        {validationErrors.batchMonth}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="reg-form-group">
-                    <label className="reg-label">Batch Year</label>
-                    <select
-                      name="batchYear"
-                      value={formData.batchYear}
-                      onChange={handleChange}
-                      className="reg-select"
-                      disabled={isSubmitting}
-                    >
-                      {batchYears.map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="reg-checkbox-group">
-                  <label className="reg-checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="isCurrentBatch"
-                      checked={formData.isCurrentBatch}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                    />
-                    <span className="reg-checkbox-custom"></span>
-                    <span className="reg-checkbox-text">
-                      This is my current batch
-                    </span>
-                  </label>
-                </div>
+                </label>
               </div>
-            )}
+              {validationErrors.profileImage && (
+                <span className="error-text">
+                  {validationErrors.profileImage}
+                </span>
+              )}
+            </div>
 
-            {/* Step 3: Course & Plan Selection */}
-            {currentStep === 3 && (
-              <div className="reg-step-content">
-                {/* Course Selection */}
-                <div className="reg-form-group">
-                  <label className="reg-label">
-                    Select Course <span className="reg-required">*</span>
-                  </label>
-                  <div className="reg-course-grid">
-                    {courseOptions.map((course) => (
-                      <div
-                        key={course.value}
-                        className={`reg-course-card ${
-                          formData.courseSelection === course.value
-                            ? "reg-course-selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          if (!isSubmitting) {
-                            setFormData((prev) => ({
-                              ...prev,
-                              courseSelection: course.value,
-                            }));
-                          }
-                        }}
-                      >
-                        <div
-                          className="reg-course-icon"
-                          style={{ backgroundColor: `${course.color}15` }}
-                        >
-                          <span style={{ color: course.color }}>
-                            {course.icon}
-                          </span>
-                        </div>
-                        <h4 className="reg-course-title">{course.label}</h4>
-                        <p className="reg-course-description">
-                          {course.description}
-                        </p>
-                        <div className="reg-course-radio">
-                          <input
-                            type="radio"
-                            name="courseSelection"
-                            value={course.value}
-                            checked={formData.courseSelection === course.value}
-                            onChange={handleChange}
-                            disabled={isSubmitting}
-                          />
-                          <span
-                            className="reg-radio-custom"
-                            style={{ borderColor: course.color }}
-                          ></span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  {validationErrors.courseSelection && (
-                    <span className="reg-error-text">
-                      {validationErrors.courseSelection}
-                    </span>
+            <div className="form-group">
+              <label>Student ID *</label>
+              <input
+                type="text"
+                name="studentId"
+                value={formData.studentId}
+                onChange={handleChange}
+                className={validationErrors.studentId ? "error" : ""}
+                placeholder="Enter your student ID"
+                disabled={isSubmitting}
+              />
+              {validationErrors.studentId && (
+                <span className="error-text">{validationErrors.studentId}</span>
+              )}
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>First Name *</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className={validationErrors.firstName ? "error" : ""}
+                  placeholder="Enter your first name"
+                  disabled={isSubmitting}
+                />
+                {validationErrors.firstName && (
+                  <span className="error-text">
+                    {validationErrors.firstName}
+                  </span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Last Name *</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className={validationErrors.lastName ? "error" : ""}
+                  placeholder="Enter your last name"
+                  disabled={isSubmitting}
+                />
+                {validationErrors.lastName && (
+                  <span className="error-text">
+                    {validationErrors.lastName}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Email *</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={validationErrors.email ? "error" : ""}
+                placeholder="Enter your email"
+                disabled={isSubmitting}
+              />
+              {validationErrors.email && (
+                <span className="error-text">{validationErrors.email}</span>
+              )}
+            </div>
+
+            <div className="form-group password-field">
+              <label>Password *</label>
+              <div className="password-input-container">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={validationErrors.password ? "error" : ""}
+                  placeholder="Enter your password"
+                  disabled={isSubmitting}
+                />
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={togglePasswordVisibility}
+                  disabled={isSubmitting}
+                >
+                  {showPassword ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
                   )}
-                </div>
+                </button>
+              </div>
+              {validationErrors.password && (
+                <span className="error-text">{validationErrors.password}</span>
+              )}
+              <span className="hint-text">
+                Password must be at least 6 characters with uppercase, lowercase
+                and number
+              </span>
+            </div>
 
-                {/* Student Type Selection */}
-                <div className="reg-form-group">
-                  <label className="reg-label">
-                    Choose Your Plan <span className="reg-required">*</span>
-                  </label>
-                  <div className="reg-plan-grid">
-                    {studentTypes.map((type) => (
-                      <div
-                        key={type.value}
-                        className={`reg-plan-card ${
-                          formData.studentType === type.value
-                            ? "reg-plan-selected"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          if (!isSubmitting) {
-                            setFormData((prev) => ({
-                              ...prev,
-                              studentType: type.value,
-                            }));
-                          }
+            <div className="form-group">
+              <label>Phone (Optional)</label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className={validationErrors.phone ? "error" : ""}
+                placeholder="Enter your phone number"
+                disabled={isSubmitting}
+              />
+              {validationErrors.phone && (
+                <span className="error-text">{validationErrors.phone}</span>
+              )}
+            </div>
+
+            {/* Course Selection */}
+            <div className="form-group">
+              <label>Select Course *</label>
+              <div className="course-selector">
+                {courseOptions.map((course) => (
+                  <div
+                    key={course.value}
+                    className={`course-option ${
+                      formData.courseSelection === course.value
+                        ? "selected"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      if (!isSubmitting) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          courseSelection: course.value,
+                        }));
+                        if (validationErrors.courseSelection) {
+                          setValidationErrors((prev) => ({
+                            ...prev,
+                            courseSelection: "",
+                          }));
+                        }
+                      }
+                    }}
+                    style={{
+                      borderColor:
+                        formData.courseSelection === course.value
+                          ? getCourseColor(course.value)
+                          : "#e0e0e0",
+                    }}
+                  >
+                    <div className="course-radio">
+                      <input
+                        type="radio"
+                        name="courseSelection"
+                        value={course.value}
+                        checked={formData.courseSelection === course.value}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        id={`course-${course.value}`}
+                      />
+                      <span
+                        className="radio-custom"
+                        style={{
+                          borderColor:
+                            formData.courseSelection === course.value
+                              ? getCourseColor(course.value)
+                              : "#ccc",
                         }}
+                      ></span>
+                    </div>
+                    <label
+                      htmlFor={`course-${course.value}`}
+                      className="course-label"
+                    >
+                      <span className="course-name">{course.label}</span>
+                      <span className="course-description">
+                        {getCourseDescription(course.value)}
+                      </span>
+                    </label>
+                  </div>
+                ))}
+              </div>
+              {validationErrors.courseSelection && (
+                <span className="error-text">
+                  {validationErrors.courseSelection}
+                </span>
+              )}
+            </div>
+
+            {/* Student Type Selection */}
+            <div className="form-group">
+              <label>Student Type *</label>
+              <div className="student-type-selector">
+                {studentTypes.map((type) => (
+                  <div
+                    key={type.value}
+                    className={`student-type-option ${
+                      formData.studentType === type.value ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      if (!isSubmitting) {
+                        setFormData((prev) => ({
+                          ...prev,
+                          studentType: type.value,
+                        }));
+                        if (validationErrors.studentType) {
+                          setValidationErrors((prev) => ({
+                            ...prev,
+                            studentType: "",
+                          }));
+                        }
+                      }
+                    }}
+                    style={{
+                      borderColor:
+                        formData.studentType === type.value
+                          ? getStudentTypeColor(type.value)
+                          : "#e0e0e0",
+                    }}
+                  >
+                    <div className="type-radio">
+                      <input
+                        type="radio"
+                        name="studentType"
+                        value={type.value}
+                        checked={formData.studentType === type.value}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        id={`type-${type.value}`}
+                      />
+                      <span
+                        className="radio-custom"
                         style={{
                           borderColor:
                             formData.studentType === type.value
-                              ? type.color
-                              : "#e5e7eb",
+                              ? getStudentTypeColor(type.value)
+                              : "#ccc",
                         }}
-                      >
-                        <div
-                          className="reg-plan-header"
-                          style={{ backgroundColor: `${type.color}10` }}
-                        >
-                          <span
-                            className="reg-plan-icon"
-                            style={{ color: type.color }}
-                          >
-                            {type.icon}
-                          </span>
-                          <h4
-                            className="reg-plan-name"
-                            style={{ color: type.color }}
-                          >
-                            {type.label}
-                          </h4>
-                          <span className="reg-plan-price">{type.price}</span>
-                        </div>
-                        <div className="reg-plan-body">
-                          <p className="reg-plan-description">
-                            {type.description}
-                          </p>
-                          <ul className="reg-plan-features">
-                            {type.features.map((feature, index) => (
-                              <li key={index} className="reg-plan-feature">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke={type.color}
-                                  strokeWidth="2"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                        <div className="reg-plan-radio">
-                          <input
-                            type="radio"
-                            name="studentType"
-                            value={type.value}
-                            checked={formData.studentType === type.value}
-                            onChange={handleChange}
-                            disabled={isSubmitting}
-                          />
-                          <span
-                            className="reg-radio-custom"
-                            style={{ borderColor: type.color }}
-                          ></span>
-                        </div>
-                      </div>
-                    ))}
+                      ></span>
+                    </div>
+                    <label
+                      htmlFor={`type-${type.value}`}
+                      className="type-label"
+                    >
+                      <span className="type-name">{type.label}</span>
+                      <span className="type-description">
+                        {getStudentTypeDescription(type.value)}
+                      </span>
+                    </label>
                   </div>
-                  {validationErrors.studentType && (
-                    <span className="reg-error-text">
-                      {validationErrors.studentType}
-                    </span>
-                  )}
-                </div>
+                ))}
               </div>
-            )}
-
-            {/* Form Navigation Buttons */}
-            <div className="reg-form-actions">
-              {currentStep > 1 && (
-                <button
-                  type="button"
-                  onClick={prevStep}
-                  className="reg-btn reg-btn-secondary"
-                  disabled={isSubmitting}
-                >
-                  ← Previous
-                </button>
-              )}
-
-              {currentStep < 3 ? (
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="reg-btn reg-btn-primary"
-                  disabled={isSubmitting}
-                >
-                  Next Step →
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  className="reg-btn reg-btn-primary reg-btn-submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <>
-                      <span className="reg-spinner"></span>
-                      Creating Account...
-                    </>
-                  ) : (
-                    "Complete Registration"
-                  )}
-                </button>
+              {validationErrors.studentType && (
+                <span className="error-text">
+                  {validationErrors.studentType}
+                </span>
               )}
             </div>
+
+            {/* Batch Information */}
+            <div className="form-row">
+              <div className="form-group">
+                <label>Batch Month *</label>
+                <select
+                  name="batchMonth"
+                  value={formData.batchMonth}
+                  onChange={handleChange}
+                  className={validationErrors.batchMonth ? "error" : ""}
+                  disabled={isSubmitting}
+                >
+                  <option value="">Select Month</option>
+                  {batchMonths.map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+                {validationErrors.batchMonth && (
+                  <span className="error-text">
+                    {validationErrors.batchMonth}
+                  </span>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>Batch Year</label>
+                <select
+                  name="batchYear"
+                  value={formData.batchYear}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                >
+                  {batchYears.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="form-group checkbox-group">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="isCurrentBatch"
+                  checked={formData.isCurrentBatch}
+                  onChange={handleChange}
+                  disabled={isSubmitting}
+                />
+                <span className="checkmark"></span>
+                This is my current batch
+              </label>
+            </div>
+
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+              style={{
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? "not-allowed" : "pointer",
+              }}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="spinner"></span>
+                  Registering...
+                </>
+              ) : (
+                "Register"
+              )}
+            </button>
           </form>
         </div>
       </div>
