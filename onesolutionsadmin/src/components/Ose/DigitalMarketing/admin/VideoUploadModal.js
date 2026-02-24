@@ -211,16 +211,7 @@ const VideoUploadModal = ({
                 />
               </div>
 
-              <div className="video-upload-field">
-                <label className="video-upload-label">Description</label>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="video-upload-textarea"
-                  placeholder="Brief summary of this lesson..."
-                  rows="3"
-                />
-              </div>
+             
 
               {!isEditing && (
                 <div className="video-upload-field">
@@ -243,7 +234,7 @@ const VideoUploadModal = ({
 
               {/* Slides ID Field */}
               <div className="video-upload-field">
-                <label className="video-upload-label">Google Slides ID</label>
+                <label className="video-upload-label">Google Slides ID *</label>
                 <div className="video-upload-duration-wrapper">
                   <Link className="video-upload-duration-icon" />
                   <input
