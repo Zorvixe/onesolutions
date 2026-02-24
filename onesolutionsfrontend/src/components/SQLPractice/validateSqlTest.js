@@ -367,16 +367,33 @@ const validateSyntax = (testCase, userCode, questionData) => {
     }
   }
 
-  if (testCase.id === 4) {
-    console.log("Checking if query ends with semicolon");
-    const trimmedCode = userCode.trim();
-    if (!trimmedCode.endsWith(";")) {
-      return {
-        passed: false,
-        actual: "Query does not end with semicolon",
-        expected: "Query should end with semicolon",
-      };
-    }
+  const trimmedCode = userCode.trim();
+
+  // 1️⃣ Must end with semicolon
+  if (!trimmedCode.endsWith(";")) {
+    return {
+      passed: false,
+      actual: "Query does not end with semicolon",
+      expected: "Query must end with a semicolon (;)",
+    };
+  }
+  
+  // 2️⃣ Must NOT end with comma before semicolon
+  if (/,;\s*$/.test(trimmedCode)) {
+    return {
+      passed: false,
+      actual: "Trailing comma found before semicolon",
+      expected: "Remove trailing comma before semicolon",
+    };
+  }
+  
+  // 3️⃣ Must NOT end with comma only
+  if (trimmedCode.endsWith(",")) {
+    return {
+      passed: false,
+      actual: "Query ends with comma",
+      expected: "Query must not end with comma",
+    };
   }
 
   console.log("Syntax validation passed");
@@ -686,8 +703,12 @@ const handleInsert = (sql, questionData) => {
     : null;
 
   // Get the values part (everything after VALUES)
-  const valuesPart = insertMatch[3].trim();
+  let valuesPart = insertMatch[3].trim();
 
+  // Remove ending semicolon if exists
+  if (valuesPart.endsWith(";")) {
+    valuesPart = valuesPart.slice(0, -1);
+  }
   // Parse multiple value sets
   const valueSets = [];
   let currentSet = "";

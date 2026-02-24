@@ -35,11 +35,13 @@ function Landing() {
 
   const navigate = useNavigate();
 
-  const admintoken = localStorage.getItem("token");
-
-  if (!admintoken) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+  
+    if (!token) {
+      navigate("/login", { replace: true });
+    }
+  }, [navigate]);
 
   // Fetch admin details on component mount
   useEffect(() => {

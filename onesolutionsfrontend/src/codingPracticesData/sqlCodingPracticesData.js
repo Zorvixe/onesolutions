@@ -3,7 +3,7 @@ export const sqlCodingPracticesData = {
     // SQL Practice 1 - Basic SELECT queries
     {
       id: "sql-coding-practice-1",
-      title: "Introduction to SQL - SQL Coding Practice 1",
+      title: "SQL Coding Practice 1",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -431,6 +431,8 @@ export const sqlCodingPracticesData = {
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-5",
           title: "Create Customer Table",
           description:
@@ -568,6 +570,8 @@ export const sqlCodingPracticesData = {
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-6",
           title: "Create Order Details Table",
           description:
@@ -921,7 +925,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
     // SQL Practice 2
     {
       id: "sql-coding-practice-2",
-      title: "Introduction to SQL - SQL Coding Practice 2",
+      title: "SQL Coding Practice 2",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -1077,13 +1081,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             </div>
           `,
           testCases: [
-            {
-              id: 1,
-              description: "Query should start with CREATE TABLE",
-              type: "syntax-validation",
-              expectedKeywords: ["create", "table"],
-              visible: true,
-            },
+           
             {
               id: 2,
               description: "Table should be named 'player'",
@@ -1229,6 +1227,8 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-04",
           title: "Update Table",
           description:
@@ -1458,6 +1458,8 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-06",
           title: "Store Data",
           description:
@@ -1534,6 +1536,8 @@ We're storing the details of players who are a part of a tournament.<br/> The da
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-07",
           title: "Get Name and Age",
           description:
@@ -1872,7 +1876,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
     // SQL Practice 3
     {
       id: "sql-coding-practice-3",
-      title: "Querying with SQL - SQL Coding Practice 3",
+      title: "SQL Coding Practice 3",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -2992,7 +2996,7 @@ NOTE: Consider the products that have "Chips" in thename.</p>
     // SQL Practice 4
     {
       id: "sql-coding-practice-4",
-      title: "Querying with SQL - SQL Coding Practice 4",
+      title: "SQL Coding Practice 4",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -3534,6 +3538,8 @@ NOTE: Consider the products that have "Chips" in thename.</p>
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-4-5",
           title: "Get Products any Brand",
           description:
@@ -3676,6 +3682,8 @@ NOTE: Consider the products that have "Chips" in thename.</p>
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-4-6",
           title: "Get Products based in Condition",
           description:
@@ -4013,7 +4021,7 @@ NOTE: Consider the products that have "Chips" in thename.</p>
               <p class="desc-que-blue">Question</p>
               <p>
               
-Get all the shirts available in any of the following brands, excluding the black color shirts.
+   Get all the shirts available in any of the following brands, excluding the black color shirts.
 
 <br/>Puma
 <br/>Nike
@@ -4140,7 +4148,7 @@ You can assume that:
     // SQL Practice 5
     {
       id: "sql-coding-practice-5",
-      title: "Querying with SQL - SQL Coding Practice 5",
+      title: "SQL Coding Practice 5",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -4283,7 +4291,7 @@ You can assume that:
     // SQL Practice 6
     {
       id: "sql-coding-practice-6",
-      title: "Aggregations and Group By  - SQL Coding Practice 6",
+      title: "SQL Coding Practice 6",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -4673,6 +4681,8 @@ You can assume that:
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-6-4",
           title: "Highest score of each player",
           description:
@@ -4810,6 +4820,8 @@ You can assume that:
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-6-5",
           title: "Get player name",
           description:
@@ -4952,6 +4964,8 @@ You can assume that:
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-6-6",
           title: "Year wise performance",
           description:
@@ -5336,7 +5350,7 @@ You can assume that:
               <p>
               Get the player wise total number of matches where the players scored more than 50 and in at least 2 matches.<br/> NOTE: Output must contain rows in the ascending order ofnameof the player.
 
-.</p>
+     .</p>
               <p class="desc-que-blue">Expected Output Format :</p>
               <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player_match_details</div>
@@ -5455,7 +5469,7 @@ You can assume that:
     // SQL Practice 7
     {
       id: "sql-coding-practice-7",
-      title: "Common Concepts - SQL Coding Practice 7",
+      title: "SQL Coding Practice 7",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -6057,6 +6071,8 @@ You can assume that:
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-7-5",
           title: "Based on strike rate",
           description:
@@ -6254,6 +6270,8 @@ You can assume that:
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-7-6",
           title: "CSK and RCB",
           description:
@@ -6313,7 +6331,7 @@ You can assume that:
               <p class="desc-que-blue">Question</p>
               <p>
               
-Get all the player/s who played for both CSK and RCB.</p>
+          Get all the player/s who played for both CSK and RCB.</p>
               <div class="Note-container">
                   <div class="icon-note">
                     <h6>
@@ -6365,7 +6383,7 @@ Get all the player/s who played for both CSK and RCB.</p>
             },
             {
               id: 4,
-              description: "Query should filter played_for_team = \"CSK\"",
+              description: 'Query should filter played_for_team = "CSK"',
               type: "syntax-validation",
               expectedKeywords: ['played_for_team = "CSK"'],
               visible: true,
@@ -6379,7 +6397,7 @@ Get all the player/s who played for both CSK and RCB.</p>
             },
             {
               id: 6,
-              description: "Query should filter played_for_team = \"RCB\"",
+              description: 'Query should filter played_for_team = "RCB"',
               type: "syntax-validation",
               expectedKeywords: ['played_for_team = "RCB"'],
               visible: true,
@@ -6390,10 +6408,12 @@ Get all the player/s who played for both CSK and RCB.</p>
               type: "syntax-validation",
               expectedKeywords: ["order by name asc"],
               visible: true,
-            }
+            },
           ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-7-7",
           title: "SRH",
           description:
@@ -6408,22 +6428,42 @@ Get all the player/s who played for both CSK and RCB.</p>
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
               ],
             },
           },
@@ -6464,9 +6504,70 @@ Get all the player/s who played for both CSK and RCB.</p>
             </div>
           `,
 
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select name column",
+              type: "syntax-validation",
+              expectedKeywords: ["select name"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM player",
+              type: "syntax-validation",
+              expectedKeywords: ["from player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: 'Query should filter played_for_team = "SRH"',
+              type: "syntax-validation",
+              expectedKeywords: ['played_for_team = "SRH"'],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should ensure players played only for SRH using GROUP BY",
+              type: "syntax-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Query should use HAVING clause to ensure only SRH team",
+              type: "syntax-validation",
+              expectedKeywords: ["having"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should convert names to capital letters",
+              type: "syntax-validation",
+              expectedKeywords: ["upper(name)"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should use ORDER BY name ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by name asc"],
+              visible: true,
+            },
+          ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
           id: "sql-query-7-8",
           title: "SRH, CSK, or MI",
           description:
@@ -6481,22 +6582,42 @@ Get all the player/s who played for both CSK and RCB.</p>
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
               ],
             },
           },
@@ -6537,9 +6658,60 @@ Get all the player/s who played for both CSK and RCB.</p>
             </div>
           `,
 
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select name column",
+              type: "syntax-validation",
+              expectedKeywords: ["select name"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM player",
+              type: "syntax-validation",
+              expectedKeywords: ["from player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should filter team for SRH, CSK, or MI",
+              type: "syntax-validation",
+              expectedKeywords: ["where team in"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should return unique players",
+              type: "syntax-validation",
+              expectedKeywords: ["distinct"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should convert names to uppercase",
+              type: "syntax-validation",
+              expectedKeywords: ["upper(name)"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use ORDER BY name ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by name asc"],
+              visible: true,
+            },
+          ],
         },
         {
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           id: "sql-query-7-9",
           title: "Highest and lowest scores",
           description:
@@ -6554,22 +6726,42 @@ Get all the player/s who played for both CSK and RCB.</p>
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
               ],
             },
           },
@@ -6598,7 +6790,57 @@ Get all the player/s who played for both CSK and RCB.</p>
             </div>
           `,
 
-          testCases: [],
+          testcases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Query should select name, MAX(score) as highest_score, and MIN(score) as lowest_score",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "select name",
+                "max(score) as highest_score",
+                "min(score) as lowest_score",
+              ],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM player",
+              type: "syntax-validation",
+              expectedKeywords: ["from player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Query should filter only matches where strike rate > 50.0",
+              type: "syntax-validation",
+              expectedKeywords: ["where", "/ no_of_balls", "> 50"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should group results by name",
+              type: "syntax-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Output should have columns: name, highest_score, lowest_score",
+              type: "output-validation",
+              expectedColumns: ["name", "highest_score", "lowest_score"],
+              visible: true,
+            },
+          ],
         },
       ],
     },
