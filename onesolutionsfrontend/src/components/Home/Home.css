@@ -903,8 +903,12 @@ hr {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Add these styles for handling long text */
@@ -989,7 +993,7 @@ hr {
   .class-text {
     max-width: 100%; /* Limit width to leave space for status badge */
   }
-  
+
   .class-info .status {
     min-width: 90px;
     max-width: 100%; /* Limit width to leave space for status badge */
@@ -1003,11 +1007,11 @@ hr {
   .class-text {
     max-width: 100%; /* Limit width to leave space for status badge */
   }
-  
+
   .class-text h3 {
     font-size: 14px;
   }
-  
+
   .class-info .status {
     min-width: 80px;
     max-width: 100%; /* Limit width to leave space for status badge */
@@ -1020,11 +1024,11 @@ hr {
   .class-text {
     max-width: 100%; /* Limit width to leave space for status badge */
   }
-  
+
   .class-text h3 {
     font-size: 13px;
   }
-  
+
   .class-info .status {
     min-width: 70px;
     max-width: 100%; /* Limit width to leave space for status badge */
@@ -1135,7 +1139,7 @@ hr {
 }
 
 .calendar-tooltip::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   right: 10px;
@@ -1186,7 +1190,7 @@ hr {
     flex-wrap: wrap;
     gap: 8px;
   }
-  
+
   .calendar-dropdown {
     position: fixed;
     top: auto;
@@ -1199,12 +1203,12 @@ hr {
     margin: 0;
     animation: slideUp 0.3s ease;
   }
-  
+
   .calendar-dropdown-item {
     padding: 16px;
     justify-content: center;
   }
-  
+
   .calendar-tooltip {
     display: none;
   }

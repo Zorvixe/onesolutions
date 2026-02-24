@@ -1040,6 +1040,28 @@ const handleSelect = (sql, questionData) => {
     }
   }
   // ==========================
+  // CASE (Performance Badge)
+  // ==========================
+  if (selectPart.toLowerCase().includes("case")) {
+    rows = rows.map((row) => {
+      const totalScore = row.total_score;
+
+      let badge = "BELOW AVERAGE";
+
+      if (totalScore >= 150) {
+        badge = "GOOD";
+      } else if (totalScore >= 100 && totalScore < 150) {
+        badge = "AVERAGE";
+      }
+
+      return {
+        name: row.name,
+        total_score: totalScore,
+        badge: badge,
+      };
+    });
+  }
+  // ==========================
   // ORDERBY
   // ==========================
   if (orderByClause) {

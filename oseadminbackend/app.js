@@ -3255,7 +3255,7 @@ app.post(
       student_type,
       course_selection,
     } = req.body;
-    
+
     const mentor_id = req.user.id;
 
     try {
@@ -3274,10 +3274,12 @@ app.post(
       // ✅ CRITICAL FIX: Set default values for student_type and course_selection
       const finalStudentType = student_type || "all";
       const finalCourseSelection = course_selection || "all";
-      
+
       // ✅ Handle empty strings for batch fields - set to NULL
-      const finalBatchMonth = batch_month && batch_month.trim() !== "" ? batch_month : null;
-      const finalBatchYear = batch_year && batch_year.trim() !== "" ? batch_year : null;
+      const finalBatchMonth =
+        batch_month && batch_month.trim() !== "" ? batch_month : null;
+      const finalBatchYear =
+        batch_year && batch_year.trim() !== "" ? batch_year : null;
 
       // Check for scheduling conflicts
       const conflictCheck = await pool.query(
@@ -3334,7 +3336,7 @@ app.post(
       ]);
 
       console.log("✅ Live class created successfully:", result.rows[0].id);
-      
+
       res.status(201).json({
         message: "Live class created successfully",
         class: result.rows[0],
@@ -3342,9 +3344,9 @@ app.post(
     } catch (error) {
       console.error(`❌ Error creating live class: ${error.message}`);
       console.error(error.stack);
-      res.status(500).json({ 
+      res.status(500).json({
         error: "Failed to create live class",
-        details: error.message 
+        details: error.message,
       });
     }
   }
@@ -3354,157 +3356,160 @@ app.post(
 // ==========================================
 // 🔹 UPDATED: Update live class
 // ==========================================
-app.put(
-  "/api/live-classes/:id",
-  authenticateToken,
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty())
-      return res.status(400).json({ errors: errors.array() });
+app.put("/api/live-classes/:id", authenticateToken, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty())
+    return res.status(400).json({ errors: errors.array() });
 
-    const { id } = req.params;
-    const {
-      class_name,
-      start_time,
-      end_time,
-      description,
-      zoom_link,
-      batch_month,
-      batch_year,
-      status,
-      progress,
-      student_type,
-      course_selection,
-    } = req.body;
-    const mentor_id = req.user.id;
+  const { id } = req.params;
+  const {
+    class_name,
+    start_time,
+    end_time,
+    description,
+    zoom_link,
+    batch_month,
+    batch_year,
+    status,
+    progress,
+    student_type,
+    course_selection,
+  } = req.body;
+  const mentor_id = req.user.id;
 
-    try {
-      // Check if class exists
-      const classCheck = await pool.query(
-        "SELECT * FROM live_classes WHERE id = $1",
-        [id]
-      );
+  try {
+    // Check if class exists
+    const classCheck = await pool.query(
+      "SELECT * FROM live_classes WHERE id = $1",
+      [id]
+    );
 
-      if (!classCheck.rows.length) {
-        return res.status(404).json({ error: "Live class not found" });
-      }
+    if (!classCheck.rows.length) {
+      return res.status(404).json({ error: "Live class not found" });
+    }
 
-      const liveClass = classCheck.rows[0];
+    const liveClass = classCheck.rows[0];
 
-      // Allow update only if user is the creator or an admin
-      if (liveClass.mentor_id !== mentor_id && req.user.role !== "admin") {
-        return res
-          .status(403)
-          .json({ error: "Not authorized to update this class" });
-      }
+    // Allow update only if user is the creator or an admin
+    if (liveClass.mentor_id !== mentor_id && req.user.role !== "admin") {
+      return res
+        .status(403)
+        .json({ error: "Not authorized to update this class" });
+    }
 
-      // ✅ CRITICAL FIX: Build dynamic update query with proper NULL handling
-      const updates = [];
-      const values = [];
-      let paramCount = 1;
+    // ✅ CRITICAL FIX: Build dynamic update query with proper NULL handling
+    const updates = [];
+    const values = [];
+    let paramCount = 1;
 
-      if (class_name !== undefined) {
-        updates.push(`class_name = $${paramCount++}`);
-        values.push(class_name);
-      }
-      if (start_time !== undefined) {
-        updates.push(`start_time = $${paramCount++}`);
-        values.push(start_time);
-      }
-      if (end_time !== undefined) {
-        updates.push(`end_time = $${paramCount++}`);
-        values.push(end_time);
-      }
-      if (description !== undefined) {
-        updates.push(`description = $${paramCount++}`);
-        values.push(description || null);
-      }
-      if (zoom_link !== undefined) {
-        updates.push(`zoom_link = $${paramCount++}`);
-        values.push(zoom_link || null);
-      }
-      
-      // ✅ Handle batch fields - convert empty strings to NULL
-      if (batch_month !== undefined) {
-        const finalBatchMonth = batch_month && batch_month.trim() !== "" ? batch_month : null;
-        updates.push(`batch_month = $${paramCount++}`);
-        values.push(finalBatchMonth);
-      }
-      if (batch_year !== undefined) {
-        const finalBatchYear = batch_year && batch_year.trim() !== "" ? batch_year : null;
-        updates.push(`batch_year = $${paramCount++}`);
-        values.push(finalBatchYear);
-      }
-      
-      if (status !== undefined) {
-        updates.push(`status = $${paramCount++}`);
-        values.push(status);
-      }
-      if (progress !== undefined) {
-        updates.push(`progress = $${paramCount++}`);
-        values.push(progress);
-      }
-      
-      // ✅ Handle student_type and course_selection
-      if (student_type !== undefined) {
-        updates.push(`student_type = $${paramCount++}`);
-        values.push(student_type || "all");
-      }
-      if (course_selection !== undefined) {
-        updates.push(`course_selection = $${paramCount++}`);
-        values.push(course_selection || "all");
-      }
+    if (class_name !== undefined) {
+      updates.push(`class_name = $${paramCount++}`);
+      values.push(class_name);
+    }
+    if (start_time !== undefined) {
+      updates.push(`start_time = $${paramCount++}`);
+      values.push(start_time);
+    }
+    if (end_time !== undefined) {
+      updates.push(`end_time = $${paramCount++}`);
+      values.push(end_time);
+    }
+    if (description !== undefined) {
+      updates.push(`description = $${paramCount++}`);
+      values.push(description || null);
+    }
+    if (zoom_link !== undefined) {
+      updates.push(`zoom_link = $${paramCount++}`);
+      values.push(zoom_link || null);
+    }
 
-      updates.push(`updated_at = $${paramCount++}`);
-      values.push(new Date().toISOString());
+    // ✅ Handle batch fields - convert empty strings to NULL
+    if (batch_month !== undefined) {
+      const finalBatchMonth =
+        batch_month && batch_month.trim() !== "" ? batch_month : null;
+      updates.push(`batch_month = $${paramCount++}`);
+      values.push(finalBatchMonth);
+    }
+    if (batch_year !== undefined) {
+      const finalBatchYear =
+        batch_year && batch_year.trim() !== "" ? batch_year : null;
+      updates.push(`batch_year = $${paramCount++}`);
+      values.push(finalBatchYear);
+    }
 
-      values.push(id);
+    if (status !== undefined) {
+      updates.push(`status = $${paramCount++}`);
+      values.push(status);
+    }
+    if (progress !== undefined) {
+      updates.push(`progress = $${paramCount++}`);
+      values.push(progress);
+    }
 
-      const updateQuery = `
+    // ✅ Handle student_type and course_selection
+    if (student_type !== undefined) {
+      updates.push(`student_type = $${paramCount++}`);
+      values.push(student_type || "all");
+    }
+    if (course_selection !== undefined) {
+      updates.push(`course_selection = $${paramCount++}`);
+      values.push(course_selection || "all");
+    }
+
+    updates.push(`updated_at = $${paramCount++}`);
+    values.push(new Date().toISOString());
+
+    values.push(id);
+
+    const updateQuery = `
         UPDATE live_classes 
         SET ${updates.join(", ")}
         WHERE id = $${paramCount}
         RETURNING *;
       `;
 
-      const result = await pool.query(updateQuery, values);
+    const result = await pool.query(updateQuery, values);
 
-      console.log(`✅ Live class ${id} updated successfully`);
-      
-      res.json({
-        message: "Live class updated successfully",
-        class: result.rows[0],
-      });
-    } catch (error) {
-      console.error(`❌ Error updating live class: ${error.message}`);
-      console.error(error.stack);
-      res.status(500).json({ 
-        error: "Failed to update live class",
-        details: error.message 
-      });
-    }
+    console.log(`✅ Live class ${id} updated successfully`);
+
+    res.json({
+      message: "Live class updated successfully",
+      class: result.rows[0],
+    });
+  } catch (error) {
+    console.error(`❌ Error updating live class: ${error.message}`);
+    console.error(error.stack);
+    res.status(500).json({
+      error: "Failed to update live class",
+      details: error.message,
+    });
   }
-);
+});
 
 // Update the GET route for live classes to include zoom_link
 // GET live classes for students with filtering by student_type and course_selection
 // ==========================================
 // 🔹 UPDATED: GET live classes for students with proper filtering
 // ==========================================
+// ==========================================
+// 🔹 UPDATED: GET live classes for students with proper filtering - INCLUDES COMPLETED CLASSES
+// ==========================================
 app.get("/api/live-classes", async (req, res) => {
   try {
-    const { 
-      batch_month, 
-      batch_year, 
-      student_type, 
-      course_selection 
+    const {
+      batch_month,
+      batch_year,
+      student_type,
+      course_selection,
+      include_completed = "true", // New parameter to optionally filter completed
     } = req.query;
 
     console.log("📚 Fetching live classes with filters:", {
       batch_month,
       batch_year,
       student_type,
-      course_selection
+      course_selection,
+      include_completed,
     });
 
     let query = `
@@ -3519,24 +3524,26 @@ app.get("/api/live-classes", async (req, res) => {
     const queryParams = [];
     let paramCount = 1;
 
-    // ✅ CRITICAL FIX: Filter by student type - matches EXACT or 'all' or NULL
+    // Filter by student type - matches EXACT or 'all' or NULL
     if (student_type) {
       query += ` AND (lc.student_type = $${paramCount} OR lc.student_type = 'all' OR lc.student_type IS NULL)`;
       queryParams.push(student_type);
       paramCount++;
     }
 
-    // ✅ CRITICAL FIX: Filter by course selection - matches EXACT or 'all' or NULL
+    // Filter by course selection - matches EXACT or 'all' or NULL
     if (course_selection) {
       query += ` AND (lc.course_selection = $${paramCount} OR lc.course_selection = 'all' OR lc.course_selection IS NULL)`;
       queryParams.push(course_selection);
       paramCount++;
     }
 
-    // ✅ CRITICAL FIX: Filter by batch - if both are provided
+    // Filter by batch - if both are provided
     if (batch_month && batch_year) {
       query += ` AND (
-        (lc.batch_month = $${paramCount} AND lc.batch_year = $${paramCount + 1}) 
+        (lc.batch_month = $${paramCount} AND lc.batch_year = $${
+        paramCount + 1
+      }) 
         OR lc.batch_month IS NULL 
         OR lc.batch_year IS NULL
       )`;
@@ -3552,14 +3559,20 @@ app.get("/api/live-classes", async (req, res) => {
       paramCount++;
     }
 
-    // ✅ Only show upcoming and live classes to students
-    query += ` AND lc.status IN ('upcoming', 'live')`;
+    // 🔥 FIXED: Include completed classes based on parameter
+    // Default to showing all statuses (including completed)
+    if (include_completed === "false") {
+      // Only show upcoming and live when explicitly requested
+      query += ` AND lc.status IN ('upcoming', 'live')`;
+    }
+    // If include_completed is 'true' or not specified, show all statuses
 
     query += ` ORDER BY 
       CASE 
         WHEN lc.status = 'live' THEN 1
         WHEN lc.status = 'upcoming' THEN 2
-        ELSE 3
+        WHEN lc.status = 'completed' THEN 3
+        ELSE 4
       END,
       lc.start_time ASC;
     `;
@@ -3568,18 +3581,21 @@ app.get("/api/live-classes", async (req, res) => {
     console.log("📦 Query Params:", queryParams);
 
     const result = await pool.query(query, queryParams);
-    
+
     console.log(`✅ Found ${result.rows.length} live classes`);
 
     // Format the response
     const formattedClasses = result.rows.map((cls) => ({
       id: cls.id,
-      letter: cls.class_name?.charAt(0)?.toUpperCase() || 'C',
+      letter: cls.class_name?.charAt(0)?.toUpperCase() || "C",
       name: cls.class_name,
       mentor: cls.mentor_display_name,
       status: cls.status,
       progress: `${Math.min(100, Math.max(0, Math.round(cls.progress || 0)))}%`,
-      numericProgress: Math.min(100, Math.max(0, Math.round(cls.progress || 0))),
+      numericProgress: Math.min(
+        100,
+        Math.max(0, Math.round(cls.progress || 0))
+      ),
       time: `${new Date(cls.start_time).toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
@@ -3604,9 +3620,9 @@ app.get("/api/live-classes", async (req, res) => {
   } catch (error) {
     console.error("❌ Error fetching live classes:", error.message);
     console.error("Error stack:", error.stack);
-    res.status(500).json({ 
+    res.status(500).json({
       error: "Failed to fetch live classes",
-      details: error.message 
+      details: error.message,
     });
   }
 });
@@ -3614,13 +3630,8 @@ app.get("/api/live-classes", async (req, res) => {
 // GET admin live classes with filtering
 app.get("/api/admin/live-classes", authenticateToken, async (req, res) => {
   try {
-    const { 
-      batch_month, 
-      batch_year, 
-      status, 
-      student_type, 
-      course_selection 
-    } = req.query;
+    const { batch_month, batch_year, status, student_type, course_selection } =
+      req.query;
 
     let query = `
       SELECT lc.*, 
@@ -3708,8 +3719,6 @@ app.delete("/api/live-classes/:id", authenticateToken, async (req, res) => {
     res.status(500).json({ error: "Failed to delete live class" });
   }
 });
-
-
 
 // Placement Achievements Routes
 

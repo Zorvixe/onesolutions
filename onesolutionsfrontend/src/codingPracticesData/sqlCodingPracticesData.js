@@ -5896,22 +5896,42 @@ You can assume that:
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
               ],
             },
           },
@@ -5981,7 +6001,60 @@ You can assume that:
             </div>
           `,
 
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description:
+                "Query should select name, total_score and badge columns",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "total_score", "badge"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should calculate SUM(score) as total_score",
+              type: "syntax-validation",
+              expectedKeywords: ["sum", "score", "total_score"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should filter records for the year 2006",
+              type: "syntax-validation",
+              expectedKeywords: ["where", "2006"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should use CASE statement for performance grading",
+              type: "syntax-validation",
+              expectedKeywords: ["case", "when", "then", "end"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should group results by player name",
+              type: "syntax-validation",
+              expectedKeywords: ["group by", "name"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Results should be ordered by total_score in descending order",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "total_score", "desc"],
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-7-5",
@@ -5998,22 +6071,42 @@ You can assume that:
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
               ],
             },
           },
@@ -6059,7 +6152,106 @@ You can assume that:
             </div>
           `,
 
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select from player table",
+              type: "syntax-validation",
+              expectedKeywords: ["from", "player"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should select name column",
+              type: "syntax-validation",
+              expectedKeywords: ["name"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Query should calculate strike rate using score and no_of_balls",
+              type: "syntax-validation",
+              expectedKeywords: ["score", "no_of_balls", "100"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use CAST to convert score to FLOAT",
+              type: "syntax-validation",
+              expectedKeywords: ["cast", "float"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use CASE statement",
+              type: "syntax-validation",
+              expectedKeywords: ["case", "when", "then", "end"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should count matches with strike rate < 80.0",
+              type: "syntax-validation",
+              expectedKeywords: ["< 80.0", "strike_rate_less_than_80"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Query should count matches with strike rate >= 80.0",
+              type: "syntax-validation",
+              expectedKeywords: [
+                ">= 80.0",
+                "strike_rate_greater_than_or_equal_to_80",
+              ],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should use COUNT function",
+              type: "syntax-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should group results by name",
+              type: "syntax-validation",
+              expectedKeywords: ["group by", "name"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description:
+                "Query should order results by name in ascending order",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "name", "asc"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should define alias strike_rate_less_than_80",
+              type: "syntax-validation",
+              expectedKeywords: ["as strike_rate_less_than_80"],
+              visible: true,
+            },
+            {
+              id: 13,
+              description:
+                "Query should define alias strike_rate_greater_than_or_equal_to_80",
+              type: "syntax-validation",
+              expectedKeywords: ["as strike_rate_greater_than_or_equal_to_80"],
+              visible: true,
+            },
+          ],
         },
         {
           id: "sql-query-7-6",
