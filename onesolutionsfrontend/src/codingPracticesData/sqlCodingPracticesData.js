@@ -5452,5 +5452,893 @@ You can assume that:
         },
       ],
     },
+    // SQL Practice 7
+    {
+      id: "sql-coding-practice-7",
+      title: "Common Concepts - SQL Coding Practice 7",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-7-1",
+          title: "Boundaries scored",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
+              rows: [
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Calculate the overall number of boundaries scored by each batsman in the tournament
+
+             <br/> number of boundaries = fours + sixes
+              
+             <br/> NOTE: Output must contain rows in the descending order of number_of_boundaries and name.
+
+              </p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+        
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>number_of_boundaries</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should calculate fours + sixes",
+              type: "query-validation",
+              expectedKeywords: ["fours", "+", "sixes"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use SUM function",
+              type: "query-validation",
+              expectedKeywords: ["sum"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should use GROUP BY name",
+              type: "query-validation",
+              expectedKeywords: ["group by", "name"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should sort by number_of_boundaries in descending order",
+              type: "query-validation",
+              expectedKeywords: ["order by", "number_of_boundaries", "desc"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should also sort by name in descending order",
+              type: "query-validation",
+              expectedKeywords: ["name", "desc"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-7-2",
+          title: "Highest scores",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
+              rows: [
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get the highest score of each player who played in the year 2006.
+
+              <br/>NOTE: Output must contain rows in the descending order of highest_score.
+
+              </p>
+             
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+        
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>highest_score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use MAX function",
+              type: "syntax-validation",
+              expectedKeywords: ["max"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should filter year 2006",
+              type: "syntax-validation",
+              expectedKeywords: ["2006"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should group by name",
+              type: "syntax-validation",
+              expectedKeywords: ["group by name"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should order by highest_score in descending order",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "desc"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should alias MAX(score) as highest_score",
+              type: "syntax-validation",
+              expectedKeywords: ["highest_score"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-7-3",
+          title: "Calculate strike rate",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
+              rows: [
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Calculate the strike rate of all the players in every match.
+              
+              <br/>strike_rate = (score of the player / no_of_balls)*100
+
+              <br/>NOTE: Strike rate in the output should be a float value.
+              <br/>In SQL, when an integer is divided by another integer, it results in another integer value, i.e, 3/2 = 1 which is an integer instead of 1.5 which is of float type. So we need to convert either the numerator or denominator to float to get more accurate results, i.e 3.0/2 or 3/2.0, to get 1.5 as output.
+              <br/>Let's apply the same while calculating the strike_rate to get accurate results.
+
+
+
+              </p>
+              <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                   
+                   
+                    The use of parentheses allows us to modify the default operator precedence, ensuring operations inside the braces are executed first.
+                    <li>(a/b) * 100 : The parentheses prioritize the division operation (a/b), ensuring it's calculated first before multiplying the result by 100.</li>
+                    <li>(a * 100)/b : The parentheses prioritize the multiplication operation (a * 100), ensuring it's calculated first before dividing the result by b.</li>
+                  </ul>
+                </p>
+                
+                  </div>
+                  <p>NOTE: Output must contain rows in the descending order of strike_rate</p>
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: player</div>
+        
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>match</th>
+            <th>strike_rate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select name, match and strike_rate",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "match", "strike_rate"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should calculate strike rate using division",
+              type: "syntax-validation",
+              expectedKeywords: ["/"],
+              visible: false,
+            },
+            {
+              id: 4,
+              description: "Query should multiply by 100",
+              type: "syntax-validation",
+              expectedKeywords: ["100"],
+              visible: false,
+            },
+            {
+              id: 5,
+              description: "Query should convert score to FLOAT using CAST",
+              type: "syntax-validation",
+              expectedKeywords: ["cast", "float"],
+              visible: false,
+            },
+            {
+              id: 6,
+              description: "Query should use ORDER BY clause",
+              type: "syntax-validation",
+              expectedKeywords: ["order by"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Query should sort results in descending order of strike_rate",
+              type: "syntax-validation",
+              expectedKeywords: ["desc"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-7-4",
+          title: "performance report",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              Let's generate a performance report for all the players who played in the year 2006.
+
+              <br/> Apply the below logic to grade the player's performance. </p>
+              
+              <div class="sql-table-desc">
+               
+        
+                <table>
+                <thead>
+                  <tr>
+                    <th>Total Score</th>
+                    <th>Performance Report</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>>= 150</td>
+                    <td>GOOD</td>
+                  </tr>
+                  <tr>
+                    <td>100 <= score < 150</td>
+                    <td>AVERAGE</td>
+                  </tr>
+                  <tr>
+                    <td>< 100</td>
+                    <td>BELOW AVERAGE</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            
+            <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <p>
+            NOTE: Output must be in the descending order of total_score
+          </p>
+          
+            </div>
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+              <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>total_score</th>
+            <th>badge</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+        {
+          id: "sql-query-7-5",
+          title: "Based on strike rate",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              For each player, get the number of matches in which their strike rate is less than 80.0, and the number of matches with strike rate greater than or equal to 80.0.
+
+              <br/>strike_rate = (score of the player / no_of_balls)*100</p>
+              <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+                  <li>Strike rate should always be a float value.</li>
+                    <li>Output must be in the ascending order of name</li>
+                  </ul>
+                </p>
+                </div>
+                 
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+               
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>strike_rate_less_than_80	</th>
+            <th>strike_rate_greater_than_or_equal_to_80</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+        {
+          id: "sql-query-7-6",
+          title: "CSK and RCB",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>
+              
+Get all the player/s who played for both CSK and RCB.</p>
+              <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <p>
+                  Output must be in the ascending order of name </p>
+                </div>
+                 
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+               
+             <table>
+            <thead>
+            <tr>
+            <th>name</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+        {
+          id: "sql-query-7-7",
+          title: "SRH",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the player/s who played only for SRH.</p>
+              <div class="Note-container">
+              <div class="icon-note">
+                <h6>
+                  <i class="bi bi-journal-text"></i>Note
+                </h6>
+              </div>
+              <p>
+              <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+              <li>Names in the output must be in capital letters.</li>
+                <li>Output must be in the ascending order of name</li>
+              </ul>
+            </p>
+            </div>
+                </div>
+                 
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+               
+             <table>
+            <thead>
+            <tr>
+            <th>name</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+        {
+          id: "sql-query-7-8",
+          title: "SRH, CSK, or MI",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Get all the player/s who played either for SRH, CSK, or MI.</p>
+              <div class="Note-container">
+              <div class="icon-note">
+                <h6>
+                  <i class="bi bi-journal-text"></i>Note
+                </h6>
+              </div>
+              <p>
+              <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+              <li>Get unique players.</li>
+              <li>Output must be in the ascending order of name</li>
+              </ul>
+            </p>
+            </div>
+                </div>
+                 
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+               
+             <table>
+            <thead>
+            <tr>
+            <th>name</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+        {
+          id: "sql-query-7-9",
+          title: "Highest and lowest scores",
+          description:
+            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
+              rows: [
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Fetch the name, highest and lowest scores of player/s for the matches in which strike rate is greater than 50.0.</p>
+              
+                 
+              <p class="desc-que-blue">Expected Output Format :</p>
+        
+              <div class="sql-table-desc">
+               
+             <table>
+            <thead>
+            <tr><th>name</th><th>highest_score</th><th>lowest_score</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td>
+            <td>--</td>
+            <td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [],
+        },
+      ],
+    },
   ],
 };

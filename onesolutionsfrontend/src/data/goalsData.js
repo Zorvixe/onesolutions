@@ -2083,12 +2083,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m13_H g1_7B c3_D2E",
-                name: "Attribute Methods",
+                name: "Attributes and Methods",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m13_H g1_7B c3_D2E",
-                name: "Attribute Methods | Cheat Sheet",
+                name: "Attributes and Methods | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
