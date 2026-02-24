@@ -6268,22 +6268,42 @@ You can assume that:
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            player: {
+              columns: [
+                "name",
+                "match_date",
+                "team",
+                "score",
+                "match",
+                "no_of_balls",
+                "fours",
+                "sixes",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
               ],
             },
           },
@@ -6321,7 +6341,57 @@ Get all the player/s who played for both CSK and RCB.</p>
             </div>
           `,
 
-          testCases: [],
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select name column",
+              type: "syntax-validation",
+              expectedKeywords: ["select name"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM player",
+              type: "syntax-validation",
+              expectedKeywords: ["from player"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should filter played_for_team = \"CSK\"",
+              type: "syntax-validation",
+              expectedKeywords: ['played_for_team = "CSK"'],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use INTERSECT operator",
+              type: "syntax-validation",
+              expectedKeywords: ["intersect"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter played_for_team = \"RCB\"",
+              type: "syntax-validation",
+              expectedKeywords: ['played_for_team = "RCB"'],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use ORDER BY name ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by name asc"],
+              visible: true,
+            }
+          ],
         },
         {
           id: "sql-query-7-7",

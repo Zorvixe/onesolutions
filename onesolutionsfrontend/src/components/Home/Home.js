@@ -196,8 +196,6 @@ const Home = () => {
   // ==========================================
   // 1. FETCH LIVE CLASSES & ACHIEVEMENTS
   // ==========================================
-  // Replace your existing fetchLiveClasses function with this
-  // Update the fetchLiveClasses function in Home.js
   const fetchLiveClasses = useCallback(
     async (isRetry = false) => {
       // Don't retry more than maxRetries
@@ -233,14 +231,9 @@ const Home = () => {
         params.append("student_type", studentType);
         params.append("course_selection", courseSelection);
 
-        // 🔥 FIXED: Include completed classes
-        params.append("include_completed", "true");
-
         if (params.toString()) {
           url += `?${params.toString()}`;
         }
-
-        console.log("📡 Fetching live classes from:", url);
 
         const token = localStorage.getItem("token");
 
@@ -263,7 +256,6 @@ const Home = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log("✅ Live classes fetched:", data.length);
 
           // Sort live classes
           const sortedData = data.sort((a, b) => {
@@ -342,6 +334,7 @@ const Home = () => {
     },
     [user, hasInitialLiveClasses]
   );
+
   // Helper function to check cache
   const checkLiveClassesCache = useCallback(() => {
     try {
@@ -962,7 +955,6 @@ const Home = () => {
                     {classItem.status.charAt(0).toUpperCase() +
                       classItem.status.slice(1)}
                   </button>
-
                   {classItem.status === "live" && classItem.zoom_link && (
                     <a
                       href={classItem.zoom_link}
@@ -982,7 +974,6 @@ const Home = () => {
                       Join Class
                     </a>
                   )}
-
                   {classItem.status === "live" && !classItem.zoom_link && (
                     <p style={{ color: "#ff6b6b", fontWeight: "bold" }}>
                       <i
@@ -992,7 +983,6 @@ const Home = () => {
                       No Zoom Link
                     </p>
                   )}
-
                   {classItem.status === "upcoming" && (
                     <div className="calendar-dropdown-container">
                       <button
@@ -1067,32 +1057,13 @@ const Home = () => {
                     </div>
                   )}
                   {classItem.status === "completed" && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // Navigate to recording or show recording options
-                        if (classItem.zoom_link) {
-                          window.open(classItem.zoom_link, "_blank");
-                        }
-                      }}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        color: "#6c757d",
-                        fontWeight: "bold",
-                        cursor: "pointer",
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "5px",
-                      }}
-                      title="Watch Recording"
-                    >
+                    <p>
                       <i
                         className="bi bi-play-circle"
                         style={{ marginRight: "8px" }}
                       ></i>
                       Watch Recording
-                    </button>
+                    </p>
                   )}
                 </div>
               </div>

@@ -891,25 +891,6 @@ const handleSelect = (sql, questionData) => {
     tableInfo.columns.forEach((col, i) => (obj[col] = row[i]));
     return obj;
   });
-  // ==========================
-  // HANDLE CALCULATED strike_rate
-  // ==========================
-  if (
-    selectPart.toLowerCase().includes("score") &&
-    selectPart.toLowerCase().includes("no_of_balls") &&
-    selectPart.toLowerCase().includes("100")
-  ) {
-    rows = rows.map((row) => {
-      const strikeRate =
-        ((Number(row.score) * 1.0) / Number(row.no_of_balls)) * 100;
-
-      return {
-        name: row.name,
-        match: row.match,
-        strike_rate: strikeRate,
-      };
-    });
-  }
 
   // ==========================
   // WHERE
@@ -917,7 +898,7 @@ const handleSelect = (sql, questionData) => {
   if (whereClause) {
     rows = rows.filter((row) => {
       if (whereClause.includes("2006")) {
-        return row.match_date.startsWith("2006");
+        return row.match_date?.startsWith("2006");
       }
       return true;
     });
@@ -943,6 +924,13 @@ const handleSelect = (sql, questionData) => {
     const maxMatch = selectPart.match(
       /max\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
     );
+
+    // ✅ Detect COUNT(CASE WHEN ...)
+    const countCaseMatches = [
+      ...selectPart.matchAll(
+        /count\s*\(\s*case\s+when\s+(.+?)\s+then\s+1\s+end\s*\)\s*(?:as\s+(\w+))?/gi
+      ),
+    ];
 
     const sumColumn = sumMatch ? sumMatch[1] : null;
     const sumAlias = sumMatch ? sumMatch[2] || "sum" : null;
@@ -970,15 +958,48 @@ const handleSelect = (sql, questionData) => {
           grouped[key]._count = 0;
         }
         if (maxColumn) grouped[key][maxAlias] = -Infinity;
+
+        // initialize CASE counts
+        countCaseMatches.forEach((match) => {
+          const alias = match[2] || "count";
+          grouped[key][alias] = 0;
+        });
       }
 
+      // ==========================
+      // HANDLE COUNT(CASE WHEN ...)
+      // ==========================
+      countCaseMatches.forEach((match) => {
+        const condition = match[1];
+        const alias = match[2] || "count";
+
+        const strikeRate =
+          ((Number(row.score) * 1.0) / Number(row.no_of_balls)) * 100;
+
+        let conditionMet = false;
+
+        if (condition.includes("< 80.0")) {
+          conditionMet = strikeRate < 80.0;
+        } else if (condition.includes(">= 80.0")) {
+          conditionMet = strikeRate >= 80.0;
+        }
+
+        if (conditionMet) {
+          grouped[key][alias] += 1;
+        }
+      });
+
+      // ==========================
+      // NORMAL AGGREGATES
+      // ==========================
       if (sumColumn) {
         let value = 0;
         if (sumColumn.includes("+")) {
           const parts = sumColumn.split("+");
-          value = parts.reduce((total, col) => {
-            return total + (Number(row[col.trim()]) || 0);
-          }, 0);
+          value = parts.reduce(
+            (total, col) => total + (Number(row[col.trim()]) || 0),
+            0
+          );
         } else {
           value = Number(row[sumColumn]) || 0;
         }
@@ -1039,12 +1060,16 @@ const handleSelect = (sql, questionData) => {
       });
     }
   }
+
   // ==========================
   // CASE (Performance Badge)
   // ==========================
-  if (selectPart.toLowerCase().includes("case")) {
+  if (
+    selectPart.toLowerCase().includes("case") &&
+    selectPart.toLowerCase().includes("total_score")
+  ) {
     rows = rows.map((row) => {
-      const totalScore = row.total_score;
+      const totalScore = Number(row.total_score) || 0;
 
       let badge = "BELOW AVERAGE";
 
@@ -1061,8 +1086,9 @@ const handleSelect = (sql, questionData) => {
       };
     });
   }
+
   // ==========================
-  // ORDERBY
+  // ORDER BY
   // ==========================
   if (orderByClause) {
     const parts = orderByClause.split(/\s+/);
@@ -1082,6 +1108,7 @@ const handleSelect = (sql, questionData) => {
         : String(valA).localeCompare(String(valB));
     });
   }
+
   return {
     success: true,
     output: `✅ Query executed successfully. Returned ${rows.length} rows.`,
