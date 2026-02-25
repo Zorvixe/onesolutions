@@ -403,9 +403,9 @@ Cart.greet()`}
         <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead>
             <tr>
-              <th>Instance Methods</th>
-              <th>Class Methods</th>
-              <th>Static Methods</th>
+              <th style={{ background: "skyblue" }}>Instance Methods</th>
+              <th style={{ background: "skyblue" }}>Class Methods</th>
+              <th style={{ background: "skyblue" }}>Static Methods</th>
             </tr>
           </thead>
           <tbody>
