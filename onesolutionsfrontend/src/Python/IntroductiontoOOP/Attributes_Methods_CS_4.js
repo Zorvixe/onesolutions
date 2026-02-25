@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-
 import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Attributes_Methods_CS_4 = ({
@@ -15,14 +14,11 @@ const Attributes_Methods_CS_4 = ({
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
-
- 
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
@@ -58,82 +54,210 @@ const Attributes_Methods_CS_4 = ({
     <div className="intro-container">
       <h1>Attributes & Methods | Cheat Sheet</h1>
 
+      {/* Shopping Cart Example */}
+      <section>
+        <h2>Shopping Cart Example</h2>
+        <ul>
+          <li>Users can add different items to their shopping cart and checkout.</li>
+          <li>The total value of the cart should be more than a minimum amount (Rs. 100/-) for the checkout.</li>
+          <li>During Offer Sales, all users get a flat discount on their cart and the minimum cart value will be Rs. 200/-.</li>
+        </ul>
+      </section>
+
       {/* Attributes */}
       <section>
         <h2>Attributes</h2>
+        <p>Broadly, attributes can be categorized as:</p>
+        <ul>
+          <li>Instance Attributes</li>
+          <li>Class Attributes</li>
+        </ul>
+
+        <h3>Instance Attributes</h3>
         <p>
-          Attributes represent the data or properties associated with an object.
+          Attributes whose value can differ for each instance of class. Example:
+          Items in Cart
         </p>
-        <h3>Example Code</h3>
+
+        <h3>Class Attributes</h3>
+        <p>
+          Attributes whose values stay common for all objects. Example: Minimum
+          Cart Bill, Flat Discount
+        </p>
+
+        <h3>Accessing Instance Attributes</h3>
         <CodeBlock
           language="python"
-          code={`class Product:
-    def __init__(self, name, price):
-        self.name = name
-        self.price = price
+          code={`class Cart:
+    flat_discount = 0
+    min_bill = 100
+    def __init__(self):
+        self.items = {}
 
-product1 = Product("Shoes", 500)
-print(product1.name)
-print(product1.price)`}
+    def add_item(self, item_name, quantity):
+        self.items[item_name] = quantity
+
+    def display_items(self):
+        print(items)
+
+a = Cart()
+a.display_items()`}
         />
-        <h3>Output</h3>
-        <OutputBlock output={["Shoes", 500]} />
+        <OutputBlock output={["NameError: name 'items' is not defined"]} />
+
+        <p>
+          Instance attributes can only be accessed using the instance of class.
+        </p>
+
+        <h3>Using self</h3>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+    flat_discount = 0
+    min_bill = 100
+    def __init__(self):
+        self.items = {}
+
+    def add_item(self, item_name, quantity):
+        self.items[item_name] = quantity
+
+    def display_items(self):
+        print(self.items)
+
+a = Cart()
+a.add_item("book", 3)
+a.display_items()`}
+        />
+        <OutputBlock output={["{'book': 3}"]} />
+
+        <h3>Accessing Class Attributes</h3>
+        <p>Example:</p>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+    flat_discount = 0
+    min_bill = 100
+
+print(Cart.min_bill)`}
+        />
+        <OutputBlock output={["100"]} />
+
+        <h3>Updating Class Attributes</h3>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+    flat_discount = 0
+    min_bill = 100
+
+    def print_min_bill(self):
+        print(Cart.min_bill)
+
+a = Cart()
+b = Cart()
+Cart.min_bill = 200
+print(a.print_min_bill())
+print(b.print_min_bill())`}
+        />
+        <OutputBlock output={["200", "200"]} />
       </section>
 
       {/* Methods */}
       <section>
         <h2>Methods</h2>
+        <p>Broadly, methods can be categorized as:</p>
+        <ul>
+          <li>Instance Methods</li>
+          <li>Class Methods</li>
+          <li>Static Methods</li>
+        </ul>
+
+        <h3>Instance Methods</h3>
         <p>
-          Methods are functions defined inside a class that describe the
-          behavior of an object.
+          Instance methods can access all attributes of the instance and have{" "}
+          <code>self</code> as parameter.
         </p>
-        <h3>Example Code</h3>
         <CodeBlock
           language="python"
-          code={`class Product:
-    def __init__(self, name, price):
-        self.name = name
-        self.price = price
+          code={`class Cart:
+    def __init__(self):
+        self.items = {}
 
-    def apply_discount(self, discount):
-        self.price -= discount
-        return self.price
+    def add_item(self, item_name, quantity):
+        self.items[item_name] = quantity
 
-product1 = Product("Shoes", 500)
-print(product1.apply_discount(50))`}
+    def display_items(self):
+        print(self.items)
+
+a = Cart()
+a.add_item("book", 3)
+a.display_items()`}
         />
-        <h3>Output</h3>
-        <OutputBlock output={[450]} />
-      </section>
+        <OutputBlock output={["{'book': 3}"]} />
 
-      {/* Combining Attributes & Methods */}
-      <section>
-        <h2>Combining Attributes & Methods</h2>
+        <h3>Class Methods</h3>
         <p>
-          Attributes store the data, and methods operate on the data within the
-          object.
+          Methods that access class attributes but not instance attributes. Use{" "}
+          <code>cls</code> as parameter and decorate with{" "}
+          <code>@classmethod</code>.
         </p>
-        <h3>Example Code</h3>
         <CodeBlock
           language="python"
-          code={`class Product:
-    def __init__(self, name, price, rating):
-        self.name = name
-        self.price = price
-        self.rating = rating
+          code={`class Cart:
+    flat_discount = 0
+    min_bill = 100
 
-    def apply_discount(self, discount):
-        self.price -= discount
+    @classmethod
+    def update_flat_discount(cls, new_flat_discount):
+        cls.flat_discount = new_flat_discount
 
-    def show_product(self):
-        return f"Product: {self.name}, Price: {self.price}, Rating: {self.rating}"
-
-product1 = Product("Shoes", 500, 4.5)
-product1.apply_discount(50)
-print(product1.show_product())`}
+Cart.update_flat_discount(25)
+print(Cart.flat_discount)`}
         />
-        <h3>Output</h3>
-        <OutputBlock output={["Product: Shoes, Price: 450, Rating: 4.5"]} />
+        <OutputBlock output={["25"]} />
+
+        <h3>Static Methods</h3>
+        <p>
+          Methods that don’t need access to instance or class attributes.
+          Decorate with <code>@staticmethod</code>.
+        </p>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+    @staticmethod
+    def greet():
+        print("Have a Great Shopping")
+
+Cart.greet()`}
+        />
+        <OutputBlock output={["Have a Great Shopping"]} />
+
+        <h3>Overview of Methods</h3>
+        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th>Instance Methods</th>
+              <th>Class Methods</th>
+              <th>Static Methods</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>self as parameter</td>
+              <td>cls as parameter</td>
+              <td>No cls or self as parameters</td>
+            </tr>
+            <tr>
+              <td>No decorator required</td>
+              <td>Need decorator @classmethod</td>
+              <td>Need decorator @staticmethod</td>
+            </tr>
+            <tr>
+              <td>Accessed through object (instance)</td>
+              <td>Accessed through class</td>
+              <td>Accessed through class</td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       {/* Continue Button */}
@@ -146,8 +270,8 @@ print(product1.show_product())`}
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
-            : "Continue"}
+              ? "✓ Completed"
+              : "Continue"}
         </button>
       </div>
     </div>
