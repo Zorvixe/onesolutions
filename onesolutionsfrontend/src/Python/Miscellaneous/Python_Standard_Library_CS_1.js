@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock } from "../../CodeOutputBlocks"; 
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Python_Standard_Library_CS_1 = ({
   subtopicId,
@@ -63,12 +63,23 @@ const Python_Standard_Library_CS_1 = ({
       {/* Built-in Functions */}
       <section>
         <h2>Built-in Functions</h2>
-        <p>Built-in functions are readily available for reuse. Some of the built-in functions are:</p>
+        <p>
+          Built-in functions are readily available for reuse.
+          <br /> Some of the built-in functions are:
+        </p>
         <ul>
-          <li><b>print()</b></li>
-          <li><b>max()</b></li>
-          <li><b>min()</b></li>
-          <li><b>len()</b> and many more...</li>
+          <li>
+            <b>print()</b>
+          </li>
+          <li>
+            <b>max()</b>
+          </li>
+          <li>
+            <b>min()</b>
+          </li>
+          <li>
+            <b>len()</b> and many more...
+          </li>
         </ul>
       </section>
 
@@ -76,13 +87,26 @@ const Python_Standard_Library_CS_1 = ({
       <section>
         <h2>Standard Library</h2>
         <p>
-          Python provides several useful values (constants), classes, and functions.
-          This collection of predefined utilities is referred to as the <b>Python Standard Library</b>.
+          Python provides several useful values (constants), classes, and
+          functions.
         </p>
         <p>
-          These functionalities are organized into different modules. In Python context, 
-          any file containing Python code is called a <b>module</b>. Modules are further organized into folders known as <b>packages</b>.
+          {" "}
+          This collection of predefined utilities is referred to as the{" "}
+          <b>Python Standard Library</b>.
         </p>
+
+        <p>All these functionalities are organized into different modules.</p>
+        <ul>
+          <li>
+            In Python context, any file containing a Python code is called a
+            <b> module</b>
+          </li>
+          <li>
+            These modules are further organized into folders known as{" "}
+            <b>packages</b>
+          </li>
+        </ul>
         <p>Different modules include:</p>
         <ul>
           <li>collections</li>
@@ -96,51 +120,207 @@ const Python_Standard_Library_CS_1 = ({
       {/* Working with Standard Library */}
       <section>
         <h2>Working with Standard Library</h2>
-        <p>To use a functionality defined in a module, we need to <b>import</b> that module in our program.</p>
+        <p>
+          To use a functionality defined in a module, we need to <b>import</b>{" "}
+          that module in our program.
+        </p>
+        <CodeBlock language="python" code={`import module_name`} />
 
         <h3>Math Module</h3>
-        <p>The <b>math</b> module provides access to common math functions and constants.</p>
-        <CodeBlock language="python" code={`import math\nprint(math.pi)`} />
+        <p>
+          <code>math</code> module provides us to access some common math
+          functions and constants.
+        </p>
+        <img
+          src="/assets/img/math_img.png"
+          alt="software"
+          style={{ width: "75%", height: "400px" }}
+        />
+        <CodeBlock
+          language="python"
+          code={`import math
+print(math.factorial(5))
+print(math.pi)`}
+        />
+        <OutputBlock output={["120\n3.14159265358979"]} />
+        <section>
+          <h3>Importing Module</h3>
+          <p>Importing a module and giving it a new name (aliasing)</p>
 
-        <h3>Importing Module</h3>
-        <CodeBlock language="python" code={`import math as m\nprint(m.sqrt(16))`} />
+          <CodeBlock
+            language="python"
+            code={`import math as m1
+print(m1.factorial(5))`}
+          />
 
-        <h3>Importing from a Module</h3>
-        <CodeBlock language="python" code={`from math import sqrt\nprint(sqrt(25))`} />
+          <OutputBlock output={["120"]} />
 
-        <h3>Aliasing Imports</h3>
-        <CodeBlock language="python" code={`from math import sqrt as sq\nprint(sq(36))`} />
+          <h3>Importing from a Module</h3>
+          <p>We can import just a specific definition from a module.</p>
 
-        <h3>Random Module</h3>
-        <p>The <b>random</b> module provides utilities to generate randomness, useful for dice rolls, coin flips, etc.</p>
+          <CodeBlock
+            language="python"
+            code={`from math import factorial
+print(factorial(5))`}
+          />
 
-        <h4>randint()</h4>
-        <CodeBlock language="python" code={`import random\nprint(random.randint(1, 6))`} />
+          <OutputBlock output={["120"]} />
 
-        <h4>choice()</h4>
-        <CodeBlock language="python" code={`import random\nitems = [1,2,3,4,5]\nprint(random.choice(items))`} />
-      </section>
+          <h3>Aliasing Imports</h3>
+          <p>
+            We can also import a specific definition from a module and alias it
+          </p>
 
-      {/* Map, Filter and Reduce */}
-      <section>
-        <h2>Map, Filter and Reduce</h2>
-        <p>These functions simplify working with sequences like lists and tuples.</p>
+          <CodeBlock
+            language="python"
+            code={`from math import factorial as fact
+print(fact(5))`}
+          />
 
-        <h3>Map</h3>
-        <CodeBlock language="python" code={`nums = [1,2,3]\nsquared = list(map(lambda x: x**2, nums))\nprint(squared)`} />
+          <OutputBlock output={["120"]} />
+        </section>
 
-        <h3>Filter</h3>
-        <CodeBlock language="python" code={`nums = [1,2,3,4,5]\neven_nums = list(filter(lambda x: x%2==0, nums))\nprint(even_nums)`} />
-
-        <h3>Reduce</h3>
-        <CodeBlock language="python" code={`from functools import reduce\nnums = [1,2,3,4]\nsum_all = reduce(lambda x,y: x+y, nums)\nprint(sum_all)`} />
+        <h2>Random Module</h2>
+        <p>Randomness is useful in whenever uncertainty is required. </p>
+        <p>For example: Rolling a dice, flipping a coin, etc., </p>
 
         <p>
-          To know more about Python Standard Library, go through the official documentation: <br/>
-          <a href="https://docs.python.org/3/library/" target="_blank" rel="noopener noreferrer">
-            Python Standard Library Docs
-          </a>
+          The <b>random</b> module provides utilities to generate randomness,
+          useful for dice rolls, coin flips, etc.
         </p>
+        <img
+          src="/assets/img/Random.png"
+          alt="software"
+          style={{ width: "75%", height: "400px" }}
+        />
+
+        <h3>Randint</h3>
+        <p>
+          <code>randint()</code> is a function in random module which returns a
+          random integer in the given interval.
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import random
+random_integer = random.randint(1, 10)
+print(random_integer)`}
+        />
+
+        <OutputBlock output={["8"]} />
+
+        <h3>Choice</h3>
+        <p>
+          <code>choice()</code> is a function in random module which returns a
+          random element from the sequence.
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`import random
+random_ele = random.choice(["A","B","C"])
+print(random_ele)`}
+        />
+
+        <OutputBlock output={["B"]} />
+      </section>
+
+      <section>
+        <h2>Map, Filter and Reduce</h2>
+        <p>We worked with different sequences (list, tuples, etc.)</p>
+        <p>
+          To simplify working with sequences we can use <code>map()</code>,{" "}
+          <code>filter()</code> and
+          <code>reduce()</code> functions.
+        </p>
+
+        <h2>Map</h2>
+        <p>
+          <code>map()</code> applies a given function to each item of a sequence
+          (list, tuple etc.) and returns a sequence of the results.
+        </p>
+        <img
+          src="/assets/img/map_img.png"
+          alt="software"
+          style={{ width: "75%", height: "400px" }}
+        />
+
+        <h3>Example - 1</h3>
+
+        <CodeBlock
+          language="python"
+          code={`def square(n):
+    return n * n
+
+numbers = [1, 2, 3, 4]
+result = map(square, numbers)
+numbers_square = list(result)
+print(numbers_square)`}
+        />
+
+        <OutputBlock output={["[1, 4, 9, 16]"]} />
+
+        <h3>Example - 2</h3>
+
+        <CodeBlock
+          language="python"
+          code={`numbers = list(map(int, input().split()))
+print(numbers)`}
+        />
+
+        <h4>Input</h4>
+        <OutputBlock output={["1 2 3 4"]} />
+
+        <h4>Output</h4>
+        <OutputBlock output={["[1, 2, 3, 4]"]} />
+
+        <h2>Filter</h2>
+        <p>
+          <code>filter()</code> method filters the elements of a given sequence
+          based on the result of given function.
+        </p>
+        <p>The function should return True/False</p>
+        <img
+          src="/assets/img/filter.png"
+          alt="software"
+          style={{ width: "75%", height: "400px" }}
+        />
+
+        <CodeBlock
+          language="python"
+          code={`def is_positive_number(num):
+    return num > 0
+
+list_a = [1, -2, 3, -4]
+positive_nums = filter(is_positive_number, list_a)
+print(list(positive_nums))`}
+        />
+
+        <OutputBlock output={["[1, 3]"]} />
+
+        <h2>Reduce</h2>
+        <p>
+          <code>reduce()</code> function is defined in the functools module.
+        </p>
+        <img
+          src="/assets/img/reduce_img.png"
+          alt="software"
+          style={{ width: "75%", height: "450px" }}
+        />
+
+        <CodeBlock
+          language="python"
+          code={`from functools import reduce
+
+def sum_of_num(a, b):
+    return a + b
+
+list_a = [1, 2, 3, 4]
+sum_of_list = reduce(sum_of_num, list_a)
+print(sum_of_list)`}
+        />
+
+        <OutputBlock output={["10"]} />
       </section>
 
       {/* Continue Button */}
@@ -153,8 +333,8 @@ const Python_Standard_Library_CS_1 = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
-            : "Continue"}
+              ? "✓ Completed"
+              : "Continue"}
         </button>
       </div>
     </div>

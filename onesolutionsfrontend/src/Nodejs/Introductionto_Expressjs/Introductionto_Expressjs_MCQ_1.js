@@ -4,205 +4,195 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ✅ Simple MCQs (5)
+  // ✅ THEORY (5)
 
   {
-    question: <p>What does MERN stand for?</p>,
+    question: <p>Express JS is a ______.</p>,
     options: [
-      "MongoDB, Express, React, Node",
-      "MySQL, Express, React, Node",
-      "MongoDB, Express, Redux, Node",
-      "MongoDB, Electron, React, Node",
-    ],
-    answer: "MongoDB, Express, React, Node",
-  },
-  {
-    question: <p>Node JS is a ______.</p>,
-    options: [
-      "Frontend framework",
       "Database",
-      "JavaScript runtime environment",
-      "CSS library",
+      "Frontend framework",
+      "Server-side web framework for Node.js",
+      "Programming language",
     ],
-    answer: "JavaScript runtime environment",
+    answer: "Server-side web framework for Node.js",
   },
   {
-    question: <p>Which command starts Node REPL?</p>,
-    options: ["node", "node start", "npm start", "run node"],
-    answer: "node",
+    question: <p>Which command installs Express?</p>,
+    options: [
+      "npm start express",
+      "node install express",
+      "npm install express --save",
+      "npm express install",
+    ],
+    answer: "npm install express --save",
   },
   {
-    question: (
-      <p>Which of the following is used to install third-party packages?</p>
-    ),
-    options: ["Node", "REPL", "NPM", "CLI"],
-    answer: "NPM",
+    question: <p>Which method handles GET request?</p>,
+    options: ["app.post()", "app.get()", "app.put()", "app.delete()"],
+    answer: "app.get()",
   },
   {
-    question: <p>Each file in Node JS is treated as a ______.</p>,
-    options: ["function", "module", "package", "class"],
-    answer: "module",
+    question: <p>The app.listen(3000) is used to ______.</p>,
+    options: [
+      "Create database",
+      "Send response",
+      "Handle request",
+      "Start server on port 3000",
+    ],
+    answer: "Start server on port 3000",
+  },
+  {
+    question: <p>Which tool is used to test network calls?</p>,
+    options: ["Browser network tab", "Node CLI", "VS Code terminal", "NPM"],
+    answer: "Browser network tab",
   },
 
-  // ✅ Code Based MCQs (10)
-
-  {
-    question: (
-      <div>
-        <p>What will be the output?</p>
-        <CodeBlock
-          language="javascript"
-          code={`const a = 5;
-  const b = 3;
-  console.log(a + b);`}
-        />
-      </div>
-    ),
-    options: ["8", "53", "undefined", "Error"],
-    answer: "8",
-  },
+  // ✅ CODE BASED (10)
 
   {
     question: (
       <div>
-        <p>How do you exit from Node REPL?</p>
-        <CodeBlock language="bash" code={`.exit`} />
-      </div>
-    ),
-    options: ["Ctrl + C", ".exit", "exit()", "close()"],
-    answer: ".exit",
-  },
-
-  {
-    question: (
-      <div>
-        <p>Identify the correct way to run this file:</p>
-        <CodeBlock
-          language="javascript"
-          code={`// app.js
-  console.log("Hello Node");`}
-        />
-      </div>
-    ),
-    options: ["node app.js", "npm app.js", "run app.js", "start app.js"],
-    answer: "node app.js",
-  },
-
-  {
-    question: (
-      <div>
-        <p>What is exported here?</p>
-        <CodeBlock
-          language="javascript"
-          code={`const add = (a, b) => a + b;
-  module.exports = add;`}
-        />
-      </div>
-    ),
-    options: ["Named export", "Default export", "No export", "Class export"],
-    answer: "Default export",
-  },
-
-  {
-    question: (
-      <div>
-        <p>How do you import this module?</p>
-        <CodeBlock language="javascript" code={`module.exports = add;`} />
+        <p>What does this line do?</p>
+        <CodeBlock language="javascript" code={`const app = express();`} />
       </div>
     ),
     options: [
-      `const add = require("./file")`,
-      `import add from "./file"`,
-      `require add from "./file"`,
-      `const { add } = require("./file")`,
+      "Starts server",
+      "Creates Express application",
+      "Handles GET request",
+      "Imports module",
     ],
-    answer: `const add = require("./file")`,
+    answer: "Creates Express application",
   },
 
   {
     question: (
       <div>
-        <p>What type of export is this?</p>
+        <p>What will be the output in browser?</p>
         <CodeBlock
           language="javascript"
-          code={`exports.add = add;
-  exports.sub = sub;`}
+          code={`app.get("/", (req, res) => {
+  res.send("Hello World!");
+});`}
         />
       </div>
     ),
-    options: ["Default export", "Named export", "ES module", "Invalid export"],
-    answer: "Named export",
+    options: ["Hello World!", "Cannot GET /", "undefined", "Server Error"],
+    answer: "Hello World!",
   },
 
   {
     question: (
       <div>
-        <p>How do you import named exports in CommonJS?</p>
+        <p>Which URL should be opened for this API?</p>
+        <CodeBlock language="javascript" code={`app.listen(3000);`} />
+      </div>
+    ),
+    options: [
+      "http://localhost:8000",
+      "http://localhost:3000",
+      "http://127.0.0.1:5000",
+      "http://3000",
+    ],
+    answer: "http://localhost:3000",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What will this API return?</p>
         <CodeBlock
           language="javascript"
-          code={`exports.add = add;
-  exports.sub = sub;`}
+          code={`app.get("/date", (req, res) => {
+  let date = new Date();
+  res.send(\`Today's date is \${date}\`);
+});`}
         />
       </div>
     ),
-    options: [
-      `const { add, sub } = require("./file")`,
-      `const add = require("./file")`,
-      `import add from "./file"`,
-      `require("./file")`,
-    ],
-    answer: `const { add, sub } = require("./file")`,
+    options: ["HTML page", "JSON data", "Current date string", "Error"],
+    answer: "Current date string",
   },
 
   {
     question: (
       <div>
-        <p>Identify ES6 default export:</p>
-        <CodeBlock language="javascript" code={`export default add;`} />
-      </div>
-    ),
-    options: [
-      "Default export",
-      "Named export",
-      "CommonJS export",
-      "Invalid syntax",
-    ],
-    answer: "Default export",
-  },
-
-  {
-    question: (
-      <div>
-        <p>How to import ES6 default export?</p>
-        <CodeBlock language="javascript" code={`export default add;`} />
-      </div>
-    ),
-    options: [
-      `import add from "./file.mjs"`,
-      `const add = require("./file")`,
-      `import { add } from "./file.mjs"`,
-      `require("./file.mjs")`,
-    ],
-    answer: `import add from "./file.mjs"`,
-  },
-
-  {
-    question: (
-      <div>
-        <p>Why is .mjs used?</p>
+        <p>Which method sends HTML file?</p>
         <CodeBlock
           language="javascript"
-          code={`import add from "./calculator.mjs";`}
+          code={`res.sendFile("./page.html", { root: __dirname });`}
         />
       </div>
     ),
+    options: ["send()", "render()", "json()", "sendFile()"],
+    answer: "sendFile()",
+  },
+
+  {
+    question: (
+      <div>
+        <p>What does __dirname represent?</p>
+        <CodeBlock language="javascript" code={`{ root: __dirname }`} />
+      </div>
+    ),
     options: [
-      "To enable ES6 modules",
-      "To run REPL",
-      "To install npm",
-      "To create server",
+      "Project name",
+      "Current folder path",
+      "Server URL",
+      "Database path",
     ],
-    answer: "To enable ES6 modules",
+    answer: "Current folder path",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which part is HANDLER?</p>
+        <CodeBlock
+          language="javascript"
+          code={`app.get("/", (req, res) => {});`}
+        />
+      </div>
+    ),
+    options: ["(req, res) => {}", "app.get", "/", "get"],
+    answer: "(req, res) => {}",
+  },
+
+  {
+    question: (
+      <div>
+        <p>If server code changes, what should you do?</p>
+        <CodeBlock language="javascript" code={`app.listen(3000);`} />
+      </div>
+    ),
+    options: [
+      "Restart the server",
+      "Refresh browser only",
+      "Run npm install",
+      "Clear cache",
+    ],
+    answer: "Restart the server",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which HTTP method is used to fetch data?</p>
+        <CodeBlock language="javascript" code={`app.METHOD(PATH, HANDLER)`} />
+      </div>
+    ),
+    options: ["POST", "PUT", "GET", "DELETE"],
+    answer: "GET",
+  },
+
+  {
+    question: (
+      <div>
+        <p>Which framework uses Java?</p>
+      </div>
+    ),
+    options: ["Django", "Spring Boot", "Express", "Ruby on Rails"],
+    answer: "Spring Boot",
   },
 ];
 

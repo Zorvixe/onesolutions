@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock } from "../../CodeOutputBlocks";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Scope_Namespaces_CS_2 = ({
   subtopicId,
@@ -70,104 +70,307 @@ const Scope_Namespaces_CS_2 = ({
           Strings, Integers, Floats, Lists, Functions, Modules, etc. are all
           objects.
         </p>
+        <img
+          src="/assets/img/object.png"
+          alt="software"
+          style={{ width: "75%", height: "450px" }}
+        />
       </section>
 
       {/* Identity of an Object */}
       <section>
         <h2>Identity of an Object</h2>
         <p>
-          Every object created in Python is given a unique identifier (id). This
-          unique id can be different each time you run the program.
+          Every object created in Python is given a{" "}
+          <b>unique identifier (id)</b>. This unique id can be different each
+          time you run the program.
         </p>
         <p>
           The id relates to the location where the object is stored in memory.
+        </p>
+        <img
+          src="/assets/img/identify_obj.png"
+          alt="software"
+          style={{ width: "75%", height: "450px" }}
+        />
+        <p>
+          Every object that you use in a Python Program will be stored in
+          Computer Memory
+        </p>
+        <p>
+          The unique id will be related to the location where the object is
+          stored in the <b>Computer Memory</b>.
         </p>
       </section>
 
       {/* Name of an Object */}
       <section>
         <h2>Name of an Object</h2>
-        <p>Name or Identifier is simply a name given to an object.</p>
+        <p>
+          <b>Name</b> or <b>Identifier</b> is simply a name given to an object.
+        </p>
+        <img
+          src="/assets/img/name_object.png"
+          alt="software"
+          style={{ width: "100%", height: "450px" }}
+        />
       </section>
 
       {/* Namespaces */}
       <section>
         <h2>Namespaces</h2>
         <p>
-          A <b>namespace</b> is a collection of currently defined names along
-          with the objects they reference. Namespaces ensure that names are
-          unique and don’t conflict.
+          A <b>namespace</b>is a collection of currently defined names along
+          with information about the object that the name references.
         </p>
         <p>
-          Namespaces allow the same name to refer to different things in
-          different contexts.
+          It ensures that names are <b>unique</b> and won’t lead to any
+          conflict.
         </p>
+        <img
+          src="/assets/img/name_object_1.png"
+          alt="software"
+          style={{ width: "80%", height: "400px" }}
+        />
+        <p>
+          Namespaces allow us to have the same name referring different things
+          in <b>different namespaces</b>.
+        </p>
+        <img
+          src="/assets/img/name_object_2.png"
+          alt="software"
+          style={{ width: "80%", height: "400px" }}
+        />
+        <b>code:</b>
+        <CodeBlock
+          language="python"
+          code={`def greet_1():
+    a = "Hello"
+    print(a)
+    print(id(a))
+
+def greet_2():
+    a = "Hey"
+    print(a)
+    print(id(a))
+
+print("Namespace - 1")
+greet_1()
+print("Namespace - 2")
+greet_2()`}
+        />
+        <OutputBlock
+          output={[
+            "[1, 4, 9, 16]",
+            "Namespace - 1",
+            "Hello",
+            "140639382368176",
+            "Namespace - 2",
+            "Hey",
+            "14063938257060",
+          ]}
+        />
       </section>
 
       {/* Types of Namespaces */}
       <section>
         <h2>Types of Namespaces</h2>
-        <p>Different namespaces created during execution:</p>
+
+        <p>
+          As Python executes a program, it creates namespaces as necessary and
+          forgets them when they are no longer needed.
+        </p>
+
+        <p>Different namespaces are:</p>
         <ul>
-          <li>
-            <b>Built-in:</b> Exists while program is running, provides built-in
-            functions like <b>id()</b> and <b>print()</b>.
-          </li>
-          <li>
-            <b>Global:</b> Names defined directly in a module (outside
-            functions), exists until program ends.
-          </li>
-          <li>
-            <b>Local:</b> Created when a function is called, lasts until
-            function returns.
-          </li>
+          <li>Built-in</li>
+          <li>Global</li>
+          <li>Local</li>
         </ul>
-      </section>
 
-      {/* Scope */}
-      <section>
-        <h2>Scope of a Name</h2>
+        <h3>Built-in Namespace</h3>
         <p>
-          The <b>scope</b> of a name is the region of a program where that name
-          has meaning. Python searches from inside out: Local → Global →
-          Built-in.
+          Created when we start executing a Python program and exists as long as
+          the program is running.
         </p>
-      </section>
+        <p>
+          This is the reason that built-in functions like <code>id()</code>,
+          <code>print()</code> etc. are always available to us from any part of
+          the program.
+        </p>
 
-      {/* Global Variables */}
-      <section>
-        <h2>Global Variables</h2>
+        <h3>Global Namespace</h3>
         <p>
-          A variable defined outside all functions is a <b>global variable</b>.
-          Its name is part of the Global Namespace.
+          This namespace includes all names defined directly in a module
+          (outside of all functions).
         </p>
-        <CodeBlock language="python" code={`x = 10\nprint(x)`} />
-      </section>
-
-      {/* Local Variables */}
-      <section>
-        <h2>Local Variables</h2>
         <p>
-          A variable defined inside a function is a <b>local variable</b>. It is
-          part of the Local Namespace, created when function is called and
-          destroyed when it returns.
+          It is created when the module is loaded, and it lasts until the
+          program ends.
         </p>
-        <CodeBlock
-          language="python"
-          code={`def func():\n  x = 5\n  print(x)\nfunc()`}
+        <img
+          src="/assets/img/global_img.png"
+          alt="software"
+          style={{ width: "80%", height: "450px" }}
         />
-      </section>
 
-      {/* Modifying Global Variables */}
-      <section>
-        <h2>Modifying Global Variables</h2>
+        <h3>Local Namespace</h3>
+        <p>Modules can have various functions and classes.</p>
         <p>
-          Use the <b>global</b> keyword to modify global variables inside a
-          function.
+          A new local namespace is created when a function is called, which
+          lasts until the function returns.
         </p>
+        <img
+          src="/assets/img/Local_img.png"
+          alt="software"
+          style={{ width: "80%", height: "450px" }}
+        />
+
+        <h3>Scope of a Name</h3>
+        <p>
+          The scope of a name is the region of a program in which that name has
+          meaning.
+        </p>
+        <p>
+          Python searches for a name from the inside out, looking in the local,
+          global, and finally the built-in namespaces.
+        </p>
+        <img
+          src="/assets/img/scope_img.png"
+          alt="software"
+          style={{ width: "70%", height: "450px" }}
+        />
+
+        <h3>Global Variables</h3>
+        <p>
+          In Python, a variable defined outside of all functions is known as a
+          global variable.
+        </p>
+        <p>This variable name will be part of Global Namespace.</p>
+
+        <h4>Example 1</h4>
+        <b>Code</b>
         <CodeBlock
           language="python"
-          code={`x = 10\n\ndef modify():\n  global x\n  x += 5\nmodify()\nprint(x)`}
+          code={`x = "Global Variable"
+print(x)
+
+def foo():
+    print(x)
+
+foo()`}
+        />
+
+        <OutputBlock output={["Global Variable", "Global Variable"]} />
+
+        <h4>Example 2</h4>
+        <b>Code</b>
+        <CodeBlock
+          language="python"
+          code={`def foo():
+    print(x)
+
+x = "Global Variable"
+foo()`}
+        />
+
+        <OutputBlock output={["Global Variable"]} />
+
+        <h3>Local Variables</h3>
+        <p>
+          In Python, a variable defined inside a function is a local variable.
+        </p>
+        <p>
+          This variable name will be part of the Local Namespace which will be
+          created when the function is called and lasts until the function
+          returns.
+        </p>
+        <img
+          src="/assets/img/local_var.png"
+          alt="software"
+          style={{ width: "70%", height: "450px" }}
+        />
+
+        <b>Code</b>
+        <CodeBlock
+          language="python"
+          code={`def foo():
+    x = "Local Variable"
+    print(x)
+
+foo()
+print(x)`}
+        />
+
+        <OutputBlock
+          output={["Local Variable", "NameError: name 'x' is not defined"]}
+        />
+
+        <p>As, x is not declared before assignment, python throws an error.</p>
+
+        <h3>Local Import</h3>
+
+        <b>Code</b>
+        <CodeBlock
+          language="python"
+          code={`def foo():
+    import math
+    print(math.pi)
+
+foo()
+print(math.pi)`}
+        />
+
+        <OutputBlock
+          output={[
+            "3.141592653589793",
+            "NameError: name 'math' is not defined",
+          ]}
+        />
+
+        <h3>Local Variables & Global Variables</h3>
+
+        <b>Code</b>
+        <CodeBlock
+          language="python"
+          code={`x = "Global Variable"
+
+def foo():
+    x = "Local Variable"
+    print(x)
+
+print(x)
+foo()
+print(x)`}
+        />
+
+        <OutputBlock
+          output={["Global Variable", "Local Variable", "Global Variable"]}
+        />
+
+        <h3>Modifying Global Variables</h3>
+        <p>
+          <code>global</code> keyword is used to define a name to refer to the
+          value in Global Namespace.
+        </p>
+
+        <b>Code</b>
+        <CodeBlock
+          language="python"
+          code={`x = "Global Variable"
+
+def foo():
+    global x
+    x = "Global Change"
+    print(x)
+
+print(x)
+foo()
+print(x)`}
+        />
+
+        <OutputBlock
+          output={["Global Variable", "Global Change", "Global Change"]}
         />
       </section>
 
@@ -181,8 +384,8 @@ const Scope_Namespaces_CS_2 = ({
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
-            : "Continue"}
+              ? "✓ Completed"
+              : "Continue"}
         </button>
       </div>
     </div>

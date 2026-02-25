@@ -724,6 +724,12 @@ import ES6_Module_MCQ from "../Nodejs/Intoductionto_Nodejs/ES6_Module_MCQ.js";
 import Introductionto_Nodejs_CS_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_CS_2.js";
 import Introductionto_Nodejs_MCQ_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_MCQ_2.js";
 import Introductionto_Expressjs_CS_1 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_CS_1.js";
+import Introductionto_Expressjs_MCQ_1 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_MCQ_1.js";
+import Introductionto_Expressjs_CS_2 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_CS_2.js";
+import Introductionto_Expressjs_MCQ_2 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_MCQ_2.js";
+import Introductionto_Expressjs_CS_3 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_CS_3.js";
+import Introductionto_Expressjs_MCQ_3 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_MCQ_3.js";
+
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
@@ -1391,6 +1397,15 @@ export const subtopicComponents = {
   "Introduction to Node JS | Part 2 | Cheat Sheet": Introductionto_Nodejs_CS_2,
   "MCQ Pratice - Introduction to Node JS | Part 2": Introductionto_Nodejs_MCQ_2,
   "Introduction to Express JS | Cheat Sheet": Introductionto_Expressjs_CS_1,
+  "MCQ Pratice - Introduction to Express JS": Introductionto_Expressjs_MCQ_1,
+  "Introduction to Express JS | Part 2 | Cheat Sheet":
+    Introductionto_Expressjs_CS_2,
+  "MCQ Pratice - Introduction to Express JS | Part 2":
+    Introductionto_Expressjs_MCQ_2,
+  "Introduction to Express JS | Part 3 | Cheat Sheet":
+    Introductionto_Expressjs_CS_3,
+  "MCQ Pratice - Introduction to Express JS | Part 3":
+    Introductionto_Expressjs_MCQ_3,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":

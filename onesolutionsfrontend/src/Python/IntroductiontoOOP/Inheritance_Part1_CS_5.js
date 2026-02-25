@@ -22,8 +22,6 @@ const Inheritance_Part1_CS_5 = ({
     }
   }, [completedContent, subtopicId]);
 
- 
-
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
 
@@ -71,6 +69,11 @@ const Inheritance_Part1_CS_5 = ({
       <section>
         <h2>Electronic Item</h2>
         <p>Few attributes & methods for an Electronic product:</p>
+        <img
+          src="/assets/img/Electronic_Item.png"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
         <CodeBlock
           language="python"
           code={`class ElectronicItem:
@@ -87,6 +90,11 @@ const Inheritance_Part1_CS_5 = ({
       <section>
         <h2>Grocery Item</h2>
         <p>Attributes & methods for a Grocery item:</p>
+        <img
+          src="/assets/img/Grocerys_Item.png"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
         <CodeBlock
           language="python"
           code={`class GroceryItem:
@@ -101,16 +109,41 @@ const Inheritance_Part1_CS_5 = ({
 
       {/* Common vs Specific */}
       <section>
-        <h2>Common & Specific Attributes</h2>
+        <h2>Common Attributes & Methods</h2>
         <p>
-          All products (Electronics, Kids Wear, Grocery) have common attributes
-          & methods. Each product also has specific attributes & methods of its
-          own.
+          All these products Electronics, Kids Wear, Grocery etc.. have few
+          common attributes & methods.
         </p>
+        <img
+          src="/assets/img/Electronic_Grocerys.png"
+          alt="software"
+          style={{ width: "85%", height: "450px" }}
+        />
+        <h2>Specific Attributes & Methods</h2>
+        <p>Also, each product has specific attributes & methods of its own.</p>
+        <img
+          src="/assets/img/Specific_Attribute.png"
+          alt="software"
+          style={{ width: "85%", height: "450px" }}
+        />
+        <h2>Electronic & Grocery Items</h2>
         <p>
-          ElectronicItem & GroceryItem can inherit common attributes from a base
-          Product class.
+          Electronic Item & Grocery Item will have all attributes & methods
+          which are common to all products.
         </p>
+        <p>Lets Separate the common attributes & methods as Product</p>
+        <img
+          src="/assets/img/prod_Ele_Gro.jpg"
+          alt="software"
+          style={{ width: "95%", height: "450px" }}
+        />
+        <h2>Modelling Classes</h2>
+
+        <img
+          src="/assets/img/prod_Ele_Gro_2.jpg"
+          alt="software"
+          style={{ width: "95%", height: "450px" }}
+        />
       </section>
 
       {/* Advantages */}
@@ -127,15 +160,28 @@ const Inheritance_Part1_CS_5 = ({
       <section>
         <h2>Inheritance</h2>
         <p>
-          Inheritance allows a class to inherit attributes and methods from
-          another class. Product is the Super/Base/Parent class and
-          ElectronicItem is Sub/Derived/Child class.
+          Inheritance is a mechanism by which a class inherits attributes and
+          methods from another class.
         </p>
+        <p>
+          With Inheritance, we can have <code>ElectronicItem</code> inherit the
+          attributes & methods from <code>Product</code> instead of defining
+          them again.
+        </p>
+        <p>
+          Product is Super/Base/Parent Class and ElectronicItem is
+          Sub/Derived/Child Class.
+        </p>
+        <img
+          src="/assets/img/Ele_Gro_Pro.jpg"
+          alt="software"
+          style={{ width: "95%", height: "450px" }}
+        />
       </section>
 
-      {/* Super Class */}
       <section>
         <h2>Super Class</h2>
+
         <CodeBlock
           language="python"
           code={`class Product:
@@ -144,10 +190,19 @@ const Inheritance_Part1_CS_5 = ({
         self.price = price
         self.deal_price = deal_price
         self.ratings = ratings
+        self.you_save = price - deal_price
 
-    def display_product(self):
-        return f"Product: {self.name}\\nPrice: {self.price}\\nDeal Price: {self.deal_price}\\nYou Saved: {self.price - self.deal_price}\\nRatings: {self.ratings}"`}
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+p = Product("Shoes",500, 250, 3.5)
+p.display_product_details()`}
         />
+
         <OutputBlock
           output={[
             "Product: Shoes",
@@ -157,25 +212,41 @@ const Inheritance_Part1_CS_5 = ({
             "Ratings: 3.5",
           ]}
         />
-      </section>
 
-      {/* Sub Class */}
-      <section>
         <h2>Sub Class</h2>
         <p>
-          The subclass automatically inherits all attributes & methods from its
-          superclass.
+          The subclass automatically inherits all the attributes & methods from
+          its superclass.
         </p>
+
+        <h3>Example 1</h3>
         <CodeBlock
           language="python"
-          code={`class ElectronicItem(Product):
-    def set_warranty(self, months):
-        self.warranty_in_months = months
+          code={`class Product:
+    def __init__(self, name, price, deal_price, ratings):
+        self.name = name
+        self.price = price
+        self.deal_price = deal_price
+        self.ratings = ratings
+        self.you_save = price - deal_price
 
-tv = ElectronicItem("TV", 45000, 40000, 3.5)
-tv.set_warranty(24)
-print(tv.display_product())`}
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+class ElectronicItem(Product):
+    pass
+
+class GroceryItem(Product):
+    pass
+
+e = ElectronicItem("TV",45000, 40000, 3.5)
+e.display_product_details()`}
         />
+
         <OutputBlock
           output={[
             "Product: TV",
@@ -185,19 +256,196 @@ print(tv.display_product())`}
             "Ratings: 3.5",
           ]}
         />
-      </section>
 
-      {/* Super Class Method in Sub Class */}
-      <section>
-        <h2>Calling Super Class Method</h2>
-        <p>
-          Methods defined in the superclass can be called from the subclass:
-        </p>
+        <h3>Example 2</h3>
         <CodeBlock
           language="python"
-          code={`print(tv.display_product())
-print("Warranty", tv.warranty_in_months, "months")`}
+          code={`class Product:
+    def __init__(self, name, price, deal_price, ratings):
+        self.name = name
+        self.price = price
+        self.deal_price = deal_price
+        self.ratings = ratings
+        self.you_save = price - deal_price
+
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+class ElectronicItem(Product):
+    pass
+
+class GroceryItem(Product):
+    pass
+
+e = GroceryItem("milk", 25, 20, 3)
+e.display_product_details()`}
         />
+
+        <OutputBlock
+          output={[
+            "Product: milk",
+            "Price: 25",
+            "Deal Price: 20",
+            "You Saved: 5",
+            "Ratings: 3",
+          ]}
+        />
+
+        <h3>Example 3</h3>
+        <CodeBlock
+          language="python"
+          code={`class Product:
+    def __init__(self, name, price, deal_price, ratings):
+        self.name = name
+        self.price = price
+        self.deal_price = deal_price
+        self.ratings = ratings
+        self.you_save = price - deal_price
+
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+class ElectronicItem(Product):
+    def set_warranty(self, warranty_in_months):
+        self.warranty_in_months = warranty_in_months
+
+    def get_warranty(self):
+        return self.warranty_in_months
+
+e = ElectronicItem("TV",45000, 40000, 3.5)
+e.set_warranty(24)
+print(e.get_warranty())`}
+        />
+
+        <OutputBlock output={["24"]} />
+
+        <h2>Super Class & Sub Class</h2>
+        <p>
+          Superclass cannot access the methods and attributes of the subclass.
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`class Product:
+    def __init__(self, name, price, deal_price, ratings):
+        self.name = name
+        self.price = price
+        self.deal_price = deal_price
+        self.ratings = ratings
+        self.you_save = price - deal_price
+
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+class ElectronicItem(Product):
+    def set_warranty(self, warranty_in_months):
+        self.warranty_in_months = warranty_in_months
+
+    def get_warranty(self):
+        return self.warranty_in_months
+
+p = Product("TV",45000, 40000, 3.5)
+p.set_warranty(24)`}
+        />
+
+        <OutputBlock
+          output={[
+            "AttributeError: 'Product' object has no attribute 'set_warranty'",
+          ]}
+        />
+
+        <h2>Sub Class Method</h2>
+
+        <CodeBlock
+          language="python"
+          code={`class Product:
+    def __init__(self, name, price, deal_price, ratings):
+        self.name = name
+        self.price = price
+        self.deal_price = deal_price
+        self.ratings = ratings
+        self.you_save = price - deal_price
+
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+class ElectronicItem(Product):
+    def set_warranty(self, warranty_in_months):
+        self.warranty_in_months = warranty_in_months
+
+    def get_warranty(self):
+        return self.warranty_in_months
+
+e = ElectronicItem("TV",45000, 40000, 3.5)
+e.set_warranty(24)
+e.display_product_details()`}
+        />
+
+        <OutputBlock
+          output={[
+            "Product: TV",
+            "Price: 45000",
+            "Deal Price: 40000",
+            "You Saved: 5000",
+            "Ratings: 3.5",
+          ]}
+        />
+
+        <h2>Calling Super Class Method</h2>
+        <p>
+          We can call methods defined in superclass from the methods in the
+          subclass.
+        </p>
+
+        <CodeBlock
+          language="python"
+          code={`class Product:
+    def __init__(self, name, price, deal_price, ratings):
+        self.name = name
+        self.price = price
+        self.deal_price = deal_price
+        self.ratings = ratings
+        self.you_save = price - deal_price
+
+    def display_product_details(self):
+        print("Product: {}".format(self.name))
+        print("Price: {}".format(self.price))
+        print("Deal Price: {}".format(self.deal_price))
+        print("You Saved: {}".format(self.you_save))
+        print("Ratings: {}".format(self.ratings))
+
+class ElectronicItem(Product):
+    def set_warranty(self, warranty_in_months):
+        self.warranty_in_months = warranty_in_months
+
+    def get_warranty(self):
+        return self.warranty_in_months
+
+    def display_electronic_product_details(self):
+        self.display_product_details()
+        print("Warranty {} months".format(self.warranty_in_months))
+
+e = ElectronicItem("TV",45000, 40000, 3.5)
+e.set_warranty(24)
+e.display_electronic_product_details()`}
+        />
+
         <OutputBlock
           output={[
             "Product: TV",
@@ -220,8 +468,8 @@ print("Warranty", tv.warranty_in_months, "months")`}
           {isLoading
             ? "Marking..."
             : isSubtopicCompleted
-            ? "✓ Completed"
-            : "Continue"}
+              ? "✓ Completed"
+              : "Continue"}
         </button>
       </div>
     </div>

@@ -1081,7 +1081,6 @@ We're storing the details of players who are a part of a tournament.<br/> The da
             </div>
           `,
           testCases: [
-           
             {
               id: 2,
               description: "Table should be named 'player'",
@@ -6070,205 +6069,205 @@ You can assume that:
             },
           ],
         },
-        {
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        // {
+        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
-          id: "sql-query-7-5",
-          title: "Based on strike rate",
-          description:
-            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+        //   id: "sql-query-7-5",
+        //   title: "Based on strike rate",
+        //   description:
+        //     "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
 
-          difficulty: "Medium",
-          score: 45,
-          type: "sql",
+        //   difficulty: "Medium",
+        //   score: 45,
+        //   type: "sql",
 
-          defaultCode: {
-            sql: ``,
-          },
+        //   defaultCode: {
+        //     sql: ``,
+        //   },
 
-          tableData: {
-            player: {
-              columns: [
-                "name",
-                "match_date",
-                "team",
-                "score",
-                "match",
-                "no_of_balls",
-                "fours",
-                "sixes",
-              ],
-              rows: [
-                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+        //   tableData: {
+        //     player: {
+        //       columns: [
+        //         "name",
+        //         "match_date",
+        //         "team",
+        //         "score",
+        //         "match",
+        //         "no_of_balls",
+        //         "fours",
+        //         "sixes",
+        //       ],
+        //       rows: [
+        //         ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+        //         ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+        //         ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+        //         ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
 
-                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+        //         ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+        //         ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+        //         ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
 
-                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+        //         ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+        //         ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
 
-                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+        //         ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+        //         ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
 
-                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+        //         ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
 
-                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+        //         ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
 
-                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+        //         ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
 
-                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+        //         ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
 
-                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
-              ],
-            },
-          },
+        //         ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+        //       ],
+        //     },
+        //   },
 
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Question</p>
-              <p>
-              For each player, get the number of matches in which their strike rate is less than 80.0, and the number of matches with strike rate greater than or equal to 80.0.
+        //   descriptionDetails: `
+        //     <div class="desc-question-details">
+        //       <p class="desc-que-blue">Question</p>
+        //       <p>
+        //       For each player, get the number of matches in which their strike rate is less than 80.0, and the number of matches with strike rate greater than or equal to 80.0.
 
-              <br/>strike_rate = (score of the player / no_of_balls)*100</p>
-              <div class="Note-container">
-                  <div class="icon-note">
-                    <h6>
-                      <i class="bi bi-journal-text"></i>Note
-                    </h6>
-                  </div>
-                  <p>
-                  <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-                  <li>Strike rate should always be a float value.</li>
-                    <li>Output must be in the ascending order of name</li>
-                  </ul>
-                </p>
-                </div>
-                 
-              <p class="desc-que-blue">Expected Output Format :</p>
-        
-              <div class="sql-table-desc">
-               
-             <table>
-            <thead>
-            <tr>
-            <th>name</th>
-            <th>strike_rate_less_than_80	</th>
-            <th>strike_rate_greater_than_or_equal_to_80</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr><td>--</td><td>--</td><td>--</td></tr>
-            </tbody>
-            </table>
-              </div>
-            </div>
-          `,
+        //       <br/>strike_rate = (score of the player / no_of_balls)*100</p>
+        //       <div class="Note-container">
+        //           <div class="icon-note">
+        //             <h6>
+        //               <i class="bi bi-journal-text"></i>Note
+        //             </h6>
+        //           </div>
+        //           <p>
+        //           <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+        //           <li>Strike rate should always be a float value.</li>
+        //             <li>Output must be in the ascending order of name</li>
+        //           </ul>
+        //         </p>
+        //         </div>
 
-          testCases: [
-            {
-              id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
-              visible: true,
-            },
-            {
-              id: 2,
-              description: "Query should select from player table",
-              type: "syntax-validation",
-              expectedKeywords: ["from", "player"],
-              visible: true,
-            },
-            {
-              id: 3,
-              description: "Query should select name column",
-              type: "syntax-validation",
-              expectedKeywords: ["name"],
-              visible: true,
-            },
-            {
-              id: 4,
-              description:
-                "Query should calculate strike rate using score and no_of_balls",
-              type: "syntax-validation",
-              expectedKeywords: ["score", "no_of_balls", "100"],
-              visible: true,
-            },
-            {
-              id: 5,
-              description: "Query should use CAST to convert score to FLOAT",
-              type: "syntax-validation",
-              expectedKeywords: ["cast", "float"],
-              visible: true,
-            },
-            {
-              id: 6,
-              description: "Query should use CASE statement",
-              type: "syntax-validation",
-              expectedKeywords: ["case", "when", "then", "end"],
-              visible: true,
-            },
-            {
-              id: 7,
-              description: "Query should count matches with strike rate < 80.0",
-              type: "syntax-validation",
-              expectedKeywords: ["< 80.0", "strike_rate_less_than_80"],
-              visible: true,
-            },
-            {
-              id: 8,
-              description:
-                "Query should count matches with strike rate >= 80.0",
-              type: "syntax-validation",
-              expectedKeywords: [
-                ">= 80.0",
-                "strike_rate_greater_than_or_equal_to_80",
-              ],
-              visible: true,
-            },
-            {
-              id: 9,
-              description: "Query should use COUNT function",
-              type: "syntax-validation",
-              expectedKeywords: ["count"],
-              visible: true,
-            },
-            {
-              id: 10,
-              description: "Query should group results by name",
-              type: "syntax-validation",
-              expectedKeywords: ["group by", "name"],
-              visible: true,
-            },
-            {
-              id: 11,
-              description:
-                "Query should order results by name in ascending order",
-              type: "syntax-validation",
-              expectedKeywords: ["order by", "name", "asc"],
-              visible: true,
-            },
-            {
-              id: 12,
-              description: "Query should define alias strike_rate_less_than_80",
-              type: "syntax-validation",
-              expectedKeywords: ["as strike_rate_less_than_80"],
-              visible: true,
-            },
-            {
-              id: 13,
-              description:
-                "Query should define alias strike_rate_greater_than_or_equal_to_80",
-              type: "syntax-validation",
-              expectedKeywords: ["as strike_rate_greater_than_or_equal_to_80"],
-              visible: true,
-            },
-          ],
-        },
+        //       <p class="desc-que-blue">Expected Output Format :</p>
+
+        //       <div class="sql-table-desc">
+
+        //      <table>
+        //     <thead>
+        //     <tr>
+        //     <th>name</th>
+        //     <th>strike_rate_less_than_80	</th>
+        //     <th>strike_rate_greater_than_or_equal_to_80</th>
+        //     </tr>
+        //     </thead>
+        //     <tbody>
+        //     <tr><td>--</td><td>--</td><td>--</td></tr>
+        //     </tbody>
+        //     </table>
+        //       </div>
+        //     </div>
+        //   `,
+
+        //   testCases: [
+        //     {
+        //       id: 1,
+        //       description: "Query should start with SELECT",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["select"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 2,
+        //       description: "Query should select from player table",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["from", "player"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 3,
+        //       description: "Query should select name column",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["name"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 4,
+        //       description:
+        //         "Query should calculate strike rate using score and no_of_balls",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["score", "no_of_balls", "100"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 5,
+        //       description: "Query should use CAST to convert score to FLOAT",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["cast", "float"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 6,
+        //       description: "Query should use CASE statement",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["case", "when", "then", "end"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 7,
+        //       description: "Query should count matches with strike rate < 80.0",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["< 80.0", "strike_rate_less_than_80"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 8,
+        //       description:
+        //         "Query should count matches with strike rate >= 80.0",
+        //       type: "syntax-validation",
+        //       expectedKeywords: [
+        //         ">= 80.0",
+        //         "strike_rate_greater_than_or_equal_to_80",
+        //       ],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 9,
+        //       description: "Query should use COUNT function",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["count"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 10,
+        //       description: "Query should group results by name",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["group by", "name"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 11,
+        //       description:
+        //         "Query should order results by name in ascending order",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["order by", "name", "asc"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 12,
+        //       description: "Query should define alias strike_rate_less_than_80",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["as strike_rate_less_than_80"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 13,
+        //       description:
+        //         "Query should define alias strike_rate_greater_than_or_equal_to_80",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["as strike_rate_greater_than_or_equal_to_80"],
+        //       visible: true,
+        //     },
+        //   ],
+        // },
         {
           accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
 
@@ -6565,16 +6564,298 @@ You can assume that:
             },
           ],
         },
+        // {
+        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+
+        //   id: "sql-query-7-8",
+        //   title: "SRH, CSK, or MI",
+        //   description:
+        //     "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+        //   difficulty: "Medium",
+        //   score: 45,
+        //   type: "sql",
+
+        //   defaultCode: {
+        //     sql: ``,
+        //   },
+
+        //   tableData: {
+        //     player: {
+        //       columns: [
+        //         "name",
+        //         "match_date",
+        //         "team",
+        //         "score",
+        //         "match",
+        //         "no_of_balls",
+        //         "fours",
+        //         "sixes",
+        //       ],
+        //       rows: [
+        //         ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+        //         ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+        //         ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+        //         ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+        //         ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+        //         ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+        //         ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+        //         ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+        //         ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+        //         ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+        //         ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+        //         ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+        //         ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+        //         ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+        //         ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+        //         ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+        //       ],
+        //     },
+        //   },
+
+        //   descriptionDetails: `
+        //     <div class="desc-question-details">
+        //       <p class="desc-que-blue">Question</p>
+        //       <p>Get all the player/s who played either for SRH, CSK, or MI.</p>
+        //       <div class="Note-container">
+        //       <div class="icon-note">
+        //         <h6>
+        //           <i class="bi bi-journal-text"></i>Note
+        //         </h6>
+        //       </div>
+        //       <p>
+        //       <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
+        //       <li>Get unique players.</li>
+        //       <li>Output must be in the ascending order of name</li>
+        //       </ul>
+        //     </p>
+        //     </div>
+        //         </div>
+
+        //       <p class="desc-que-blue">Expected Output Format :</p>
+
+        //       <div class="sql-table-desc">
+
+        //      <table>
+        //     <thead>
+        //     <tr>
+        //     <th>name</th></tr>
+        //     </thead>
+        //     <tbody>
+        //     <tr><td>--</td></tr>
+        //     </tbody>
+        //     </table>
+        //       </div>
+        //     </div>
+        //   `,
+
+        //   testCases: [
+        //     {
+        //       id: 1,
+        //       description: "Query should start with SELECT",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["select"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 2,
+        //       description: "Query should select name column",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["select name"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 3,
+        //       description: "Query should contain FROM player",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["from player"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 4,
+        //       description: "Query should filter team for SRH, CSK, or MI",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["where team in"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 5,
+        //       description: "Query should return unique players",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["distinct"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 6,
+        //       description: "Query should convert names to uppercase",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["upper(name)"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 7,
+        //       description: "Query should use ORDER BY name ASC",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["order by name asc"],
+        //       visible: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        //   id: "sql-query-7-9",
+        //   title: "Highest and lowest scores",
+        //   description:
+        //     "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+
+        //   difficulty: "Medium",
+        //   score: 45,
+        //   type: "sql",
+
+        //   defaultCode: {
+        //     sql: ``,
+        //   },
+
+        //   tableData: {
+        //     player: {
+        //       columns: [
+        //         "name",
+        //         "match_date",
+        //         "team",
+        //         "score",
+        //         "match",
+        //         "no_of_balls",
+        //         "fours",
+        //         "sixes",
+        //       ],
+        //       rows: [
+        //         ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
+        //         ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
+        //         ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
+        //         ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
+
+        //         ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
+        //         ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
+        //         ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
+
+        //         ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
+        //         ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
+
+        //         ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
+        //         ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
+
+        //         ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
+
+        //         ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
+
+        //         ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
+
+        //         ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
+
+        //         ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+        //       ],
+        //     },
+        //   },
+
+        //   descriptionDetails: `
+        //     <div class="desc-question-details">
+        //       <p class="desc-que-blue">Question</p>
+        //       <p>Fetch the name, highest and lowest scores of player/s for the matches in which strike rate is greater than 50.0.</p>
+
+        //       <p class="desc-que-blue">Expected Output Format :</p>
+
+        //       <div class="sql-table-desc">
+
+        //      <table>
+        //     <thead>
+        //     <tr><th>name</th><th>highest_score</th><th>lowest_score</th></tr>
+        //     </thead>
+        //     <tbody>
+        //     <tr><td>--</td>
+        //     <td>--</td>
+        //     <td>--</td></tr>
+        //     </tbody>
+        //     </table>
+        //       </div>
+        //     </div>
+        //   `,
+
+        //   testcases: [
+        //     {
+        //       id: 1,
+        //       description: "Query should start with SELECT",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["select"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 2,
+        //       description:
+        //         "Query should select name, MAX(score) as highest_score, and MIN(score) as lowest_score",
+        //       type: "syntax-validation",
+        //       expectedKeywords: [
+        //         "select name",
+        //         "max(score) as highest_score",
+        //         "min(score) as lowest_score",
+        //       ],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 3,
+        //       description: "Query should contain FROM player",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["from player"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 4,
+        //       description:
+        //         "Query should filter only matches where strike rate > 50.0",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["where", "/ no_of_balls", "> 50"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 5,
+        //       description: "Query should group results by name",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["group by name"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 6,
+        //       description:
+        //         "Output should have columns: name, highest_score, lowest_score",
+        //       type: "output-validation",
+        //       expectedColumns: ["name", "highest_score", "lowest_score"],
+        //       visible: true,
+        //     },
+        //   ],
+        // },
+      ],
+    },
+    // SQL Practice 8
+    {
+      id: "sql-Assignment-1",
+      title: "SQL Coding Practice 8",
+      description: "Practice basic SQL queries",
+      questions: [
         {
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-
-          id: "sql-query-7-8",
-          title: "SRH, CSK, or MI",
+          id: "sql-query-5-1",
+          title: "Get Products belongs to clothing",
           description:
-            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
+            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
 
-          difficulty: "Medium",
-          score: 45,
+          difficulty: "Easy",
+          score: 35,
           type: "sql",
 
           defaultCode: {
@@ -6582,42 +6863,22 @@ You can assume that:
           },
 
           tableData: {
-            player: {
-              columns: [
-                "name",
-                "match_date",
-                "team",
-                "score",
-                "match",
-                "no_of_balls",
-                "fours",
-                "sixes",
-              ],
+            product: {
+              columns: ["name", "category", "price", "brand", "rating"],
               rows: [
-                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
-
-                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
-
-                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
-
-                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
-
-                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
-
-                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
-
-                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
-
-                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
-
-                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
+                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
+                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
+                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
+                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
+                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
+                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
+                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
+                ["White Shirt", "Clothing", 700, "Denim", 4.3],
+                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
+                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
+                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
+                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
+                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
               ],
             },
           },
@@ -6625,33 +6886,31 @@ You can assume that:
           descriptionDetails: `
             <div class="desc-question-details">
               <p class="desc-que-blue">Question</p>
-              <p>Get all the player/s who played either for SRH, CSK, or MI.</p>
-              <div class="Note-container">
-              <div class="icon-note">
-                <h6>
-                  <i class="bi bi-journal-text"></i>Note
-                </h6>
-              </div>
-              <p>
-              <ul style={{ margin: "1rem 0 1rem 1.5rem", lineHeight: "1.6" }}>
-              <li>Get unique players.</li>
-              <li>Output must be in the ascending order of name</li>
-              </ul>
-            </p>
-            </div>
-                </div>
-                 
-              <p class="desc-que-blue">Expected Output Format :</p>
+              <p>Get all the details of products that belong to "Clothing" category and price less than 700.
+
+
+              </p>
         
               <div class="sql-table-desc">
-               
+                <div class="sql-table-caption">Table: product</div>
+        
              <table>
             <thead>
             <tr>
-            <th>name</th></tr>
+            <th>name</th>
+            <th>category</th>
+            <th>price</th>
+            <th>brand</th>
+            <th>rating</th>
+            </tr>
             </thead>
             <tbody>
-            <tr><td>--</td></tr>
+            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
+            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
+            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+            <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
+
             </tbody>
             </table>
               </div>
@@ -6668,176 +6927,58 @@ You can assume that:
             },
             {
               id: 2,
-              description: "Query should select name column",
+              description: "Query should contain FROM keyword",
               type: "syntax-validation",
-              expectedKeywords: ["select name"],
+              expectedKeywords: ["from"],
               visible: true,
             },
             {
               id: 3,
-              description: "Query should contain FROM player",
-              type: "syntax-validation",
-              expectedKeywords: ["from player"],
+              description: "Table name should be 'product'",
+              type: "query-validation",
+              expectedTableName: "product",
+              expectedKeywords: ["product"],
               visible: true,
             },
             {
               id: 4,
-              description: "Query should filter team for SRH, CSK, or MI",
-              type: "syntax-validation",
-              expectedKeywords: ["where team in"],
+              description: "Query should select all columns using *",
+              type: "query-validation",
+              expectedKeywords: ["*"],
               visible: true,
             },
             {
               id: 5,
-              description: "Query should return unique players",
-              type: "syntax-validation",
-              expectedKeywords: ["distinct"],
+              description: "Query should contain WHERE clause",
+              type: "query-validation",
+              expectedKeywords: ["where"],
               visible: true,
             },
             {
               id: 6,
-              description: "Query should convert names to uppercase",
-              type: "syntax-validation",
-              expectedKeywords: ["upper(name)"],
+              description: "Query should filter category as 'Clothing'",
+              type: "query-validation",
+              expectedKeywords: ["category", "clothing"],
               visible: true,
             },
             {
               id: 7,
-              description: "Query should use ORDER BY name ASC",
-              type: "syntax-validation",
-              expectedKeywords: ["order by name asc"],
-              visible: true,
-            },
-          ],
-        },
-        {
-          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-          id: "sql-query-7-9",
-          title: "Highest and lowest scores",
-          description:
-            "In this practice set, you will get thorough with using SQL expressions, functions, case statements and set operations, that can be used perform much finer analysis.\nThe database consists of a player table that stores the information of name, match date, team, score, match, number of balls, number of fours and sixes scored.\n NOTE: A single player can participate in multiple matches in a year. So, there can be multiple entries for each player.Let’s get started!",
-
-          difficulty: "Medium",
-          score: 45,
-          type: "sql",
-
-          defaultCode: {
-            sql: ``,
-          },
-
-          tableData: {
-            player: {
-              columns: [
-                "name",
-                "match_date",
-                "team",
-                "score",
-                "match",
-                "no_of_balls",
-                "fours",
-                "sixes",
-              ],
-              rows: [
-                ["Ravi", "2006-01-10", "CSK", 92, "CSK vs RCB", 69, 8, 3],
-                ["Ravi", "2006-02-12", "RCB", 35, "RCB vs SRH", 34, 4, 1],
-                ["Ravi", "2006-03-15", "SRH", 50, "SRH vs MI", 49, 5, 1],
-                ["Ravi", "2006-04-18", "MI", 40, "MI vs RR", 57, 3, 1],
-
-                ["Sai", "2006-01-11", "MI", 80, "MI vs RCB", 70, 6, 2],
-                ["Sai", "2006-02-14", "RR", 45, "RR vs SRH", 40, 4, 1],
-                ["Sai", "2006-03-20", "SRH", 50, "SRH vs RCB", 50, 5, 1],
-
-                ["Jadhav", "2006-01-15", "CSK", 54, "CSK vs SRH", 40, 4, 1],
-                ["Jadhav", "2006-02-17", "CSK", 50, "CSK vs MI", 40, 4, 1],
-
-                ["Manoj", "2006-01-18", "MI", 68, "MI vs RCB", 60, 5, 2],
-                ["Manoj", "2006-02-20", "RR", 45, "RR vs CSK", 72, 4, 1],
-
-                ["Raghav", "2006-01-21", "SRH", 36, "SRH vs MI", 25, 3, 1],
-
-                ["Karthik", "2006-01-25", "MI", 32, "MI vs RR", 28, 3, 0],
-
-                ["Sanjay", "2006-01-28", "SRH", 45, "SRH vs RR", 60, 4, 0],
-
-                ["Madhu", "2006-01-30", "MI", 40, "MI vs RCB", 55, 3, 0],
-
-                ["Vijay", "2006-02-02", "RR", 92, "RR vs SRH", 92, 8, 2],
-              ],
-            },
-          },
-
-          descriptionDetails: `
-            <div class="desc-question-details">
-              <p class="desc-que-blue">Question</p>
-              <p>Fetch the name, highest and lowest scores of player/s for the matches in which strike rate is greater than 50.0.</p>
-              
-                 
-              <p class="desc-que-blue">Expected Output Format :</p>
-        
-              <div class="sql-table-desc">
-               
-             <table>
-            <thead>
-            <tr><th>name</th><th>highest_score</th><th>lowest_score</th></tr>
-            </thead>
-            <tbody>
-            <tr><td>--</td>
-            <td>--</td>
-            <td>--</td></tr>
-            </tbody>
-            </table>
-              </div>
-            </div>
-          `,
-
-          testcases: [
-            {
-              id: 1,
-              description: "Query should start with SELECT",
-              type: "syntax-validation",
-              expectedKeywords: ["select"],
+              description: "Query should use AND condition",
+              type: "query-validation",
+              expectedKeywords: ["and"],
               visible: true,
             },
             {
-              id: 2,
-              description:
-                "Query should select name, MAX(score) as highest_score, and MIN(score) as lowest_score",
-              type: "syntax-validation",
-              expectedKeywords: [
-                "select name",
-                "max(score) as highest_score",
-                "min(score) as lowest_score",
-              ],
+              id: 8,
+              description: "Query should filter price less than 700",
+              type: "query-validation",
+              expectedKeywords: ["price", "<", "700"],
               visible: true,
             },
             {
-              id: 3,
-              description: "Query should contain FROM player",
+              id: 9,
+              description: "Query should end with semicolon",
               type: "syntax-validation",
-              expectedKeywords: ["from player"],
-              visible: true,
-            },
-            {
-              id: 4,
-              description:
-                "Query should filter only matches where strike rate > 50.0",
-              type: "syntax-validation",
-              expectedKeywords: ["where", "/ no_of_balls", "> 50"],
-              visible: true,
-            },
-            {
-              id: 5,
-              description: "Query should group results by name",
-              type: "syntax-validation",
-              expectedKeywords: ["group by name"],
-              visible: true,
-            },
-            {
-              id: 6,
-              description:
-                "Output should have columns: name, highest_score, lowest_score",
-              type: "output-validation",
-              expectedColumns: ["name", "highest_score", "lowest_score"],
               visible: true,
             },
           ],

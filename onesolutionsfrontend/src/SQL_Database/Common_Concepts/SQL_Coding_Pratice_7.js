@@ -46,7 +46,7 @@ const SQL_Coding_Pratice_7 = () => {
   // Load "Coding Practice - 1" from sqlCodingPracticesData and filter questions based on student type
   useEffect(() => {
     const practice1 = sqlCodingPracticesData.sql.find(
-      (p) => p.id === "sql-coding-practice-7"
+      (p) => p.id === "sql-Assignment-1"
     );
 
     if (practice1) {
