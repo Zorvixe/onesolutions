@@ -723,7 +723,7 @@ import ES6_Module_CS from "../Nodejs/Intoductionto_Nodejs/ES6_Module_CS.js";
 import ES6_Module_MCQ from "../Nodejs/Intoductionto_Nodejs/ES6_Module_MCQ.js";
 import Introductionto_Nodejs_CS_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_CS_2.js";
 import Introductionto_Nodejs_MCQ_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_MCQ_2.js";
-import Introductionto_Expressjs_CS_1 from "../Nodejs/Introduction_Expressjs/Introductionto_Expressjs_CS_1.js";
+import Introductionto_Expressjs_CS_1 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_CS_1.js";
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
@@ -1390,7 +1390,7 @@ export const subtopicComponents = {
   "MCQ Pratice - ES6 Module Exports": ES6_Module_MCQ,
   "Introduction to Node JS | Part 2 | Cheat Sheet": Introductionto_Nodejs_CS_2,
   "MCQ Pratice - Introduction to Node JS | Part 2": Introductionto_Nodejs_MCQ_2,
-  // "Introduction to Express JS | Cheat Sheet": Introductionto_Expressjs_CS_1,
+  "Introduction to Express JS | Cheat Sheet": Introductionto_Expressjs_CS_1,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":

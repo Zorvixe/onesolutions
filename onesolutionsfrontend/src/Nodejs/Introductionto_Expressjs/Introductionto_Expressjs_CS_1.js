@@ -52,265 +52,195 @@ const Introductionto_Expressjs_CS_1 = ({
 
   return (
     <div className="intro-container">
-      <h1>Introduction to Node JS | Cheat Sheet</h1>
-
-      <section>
-        <h2>1. MERN Stack</h2>
-        <p>
-          MERN stands for <b>MongoDB, Express JS, React JS and Node JS.</b>
-          It is a JavaScript stack used for easier and faster deployment of
-          full-stack web applications.
-        </p>
-
-        <ul>
-          <li>MongoDB → Database</li>
-          <li>Express JS → Backend Framework</li>
-          <li>React JS → Frontend Library</li>
-          <li>Node JS → Runtime Environment</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>2. Node JS</h2>
-        <p>
-          Node JS is a JavaScript runtime environment that executes JavaScript
-          code outside the browser.
-        </p>
-
-        <h3>Why Node JS?</h3>
-        <ul>
-          <li>Cross-platform (Windows, Linux, macOS)</li>
-          <li>Huge number of third-party packages (NPM)</li>
-          <li>Open source</li>
-          <li>Massive community support</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>3. Running JavaScript Using Node JS</h2>
-        <p>We can run JavaScript using Node in two ways:</p>
-
-        <ul>
-          <li>Node REPL</li>
-          <li>Node CLI</li>
-        </ul>
-
-        <h3>3.1 Node REPL (Read-Eval-Print-Loop)</h3>
-        <p>
-          Type <code>node</code> in the terminal and press Enter.
-        </p>
-
-        <CodeBlock
-          language="bash"
-          code={`root@123# node
-          Welcome to Node.js v12.18.3.
-          Type ".help" for more information.
-          > const a = 1
-          undefined
-          > const b = 2
-          undefined
-          > a+b
-          3
-          >`}
-        />
-
-        <div className="Note-container">
+    <h1>Introduction to Express JS | Cheat Sheet</h1>
+  
+    {/* HTTP SERVER */}
+  
+    <section>
+      <h2>1. HTTP Server</h2>
+  
+      <ul>
+        <li>Works with HTTP requests and responses</li>
+        <li>Handles different paths</li>
+        <li>Handles query parameters</li>
+        <li>Sends HTML, CSS, etc. as response</li>
+        <li>Works with databases</li>
+      </ul>
+  
+      <h3>1.1 Server-side Web Frameworks</h3>
+  
+      <p>These frameworks handle all server operations.</p>
+  
+      <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
+        <thead>
+          <tr>
+            <th>Framework</th>
+            <th>Language</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Express</td>
+            <td>Node JS</td>
+          </tr>
+          <tr>
+            <td>Django</td>
+            <td>Python</td>
+          </tr>
+          <tr>
+            <td>Ruby on Rails</td>
+            <td>Ruby</td>
+          </tr>
+          <tr>
+            <td>Spring Boot</td>
+            <td>Java</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  
+    {/* EXPRESS */}
+  
+    <section>
+      <h2>2. Express JS</h2>
+  
+      <p>
+        Express is a free and open-source server-side web application
+        framework for Node JS.
+      </p>
+  
+      <p>It helps to build web and mobile applications quickly.</p>
+  
+      <h3>Installation</h3>
+  
+      <CodeBlock language="bash" code={`npm install express --save`} />
+    </section>
+  
+    {/* SERVER CREATION */}
+  
+    <section>
+      <h2>3. Network Call using Express JS</h2>
+  
+      <h3>Creating Server</h3>
+  
+      <CodeBlock
+        language="javascript"
+        code={`const express = require("express");
+  const app = express();`}
+      />
+  
+      <h3>Assigning Port</h3>
+  
+      <CodeBlock language="javascript" code={`app.listen(3000);`} />
+  
+      <p>The server listens on port 3000.</p>
+  
+      <h3>3.1 Handling HTTP Request</h3>
+  
+      <CodeBlock
+        language="javascript"
+        code={`app.METHOD(PATH, HANDLER)`}
+      />
+  
+      <ul>
+        <li>METHOD → get, post, put, delete</li>
+        <li>PATH → URL path</li>
+        <li>HANDLER → function executed</li>
+      </ul>
+  
+      <h4>3.1.1 GET Request</h4>
+  
+      <CodeBlock
+        language="javascript"
+        code={`const express = require("express");
+  const app = express();
+  
+  app.get("/", (request, response) => {
+    response.send("Hello World!");
+  });
+  
+  app.listen(3000);`}
+      />
+  
+  <div className="Note-container">
           <div className="icon-note">
             <h6>
               <i class="bi bi-journal-text"></i>Note
             </h6>
           </div>
-          <p>
-            Use <code>.exit</code> to leave the REPL.
-          </p>
-        </div>
-
-        <h3>3.2 Node CLI</h3>
-        <p>Write JavaScript in a file and run using Node.</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`// index.js
-  const greetings = (name) => {
-    console.log(\`Hello \${name}\`);
-  };
+        <p> Restart the server whenever code changes.
+      </p>
+      </div>
+    </section>
   
-  greetings("Raju");
-  greetings("Abhi");`}
-        />
-
-        <CodeBlock language="bash" code={`node index.js`} />
-        <div className="Note-container">
-          <div className="icon-note">
-            <h6>
-              <i class="bi bi-journal-text"></i>Note
-            </h6>
-          </div>
-          <p>Save the file whenever the code changes.</p>
-        </div>
-      </section>
-
-      <section>
-        <h2>4. Modules in Node JS</h2>
-        <p>
-          Each JavaScript file in Node JS is treated as a separate module. To
-          access one module from another, we use exports and imports.
-        </p>
-
-        <ul>
-          <li>Common JS Modules</li>
-          <li>ES6 (Modern JS) Modules</li>
-        </ul>
-
-        <h3>4.1 Common JS Modules</h3>
-
-        <h4>4.1.1 Default Export</h4>
-
-        <p>Exporting:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`// calculator.js
-  const add = (a, b) => {
-    return a + b;
-  };
+    {/* TESTING */}
   
-  module.exports = add;`}
-        />
-
-        <p>Importing:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`// index.js
-  const add = require("./calculator");
+    <section>
+      <h2>4. Testing Network Calls</h2>
   
-  console.log(add(6, 3));`}
-        />
-        <p>
-          <b>Output:</b>
-        </p>
-        <CodeBlock
-          language="bash"
-          code={` root@123# node index.js
-          9 `}
-        />
+      <ul>
+        <li>Browser Network Tab</li>
+        <li>app.http file → Click Send Request</li>
+      </ul>
 
-        <h4>4.1.2 Named Exports</h4>
 
-        <p>Exporting:</p>
 
-        <CodeBlock
-          language="javascript"
-          code={`// calculator.js
-  const add = (a, b) => a + b;
-  const sub = (a, b) => a - b;
+
+    </section>
   
-  exports.add = add;
-  exports.sub = sub;`}
-        />
-
-        <p>Importing:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`const { add, sub } = require("./calculator");
+    {/* DATE API */}
   
-  console.log(add(6, 3));
-  console.log(sub(6, 3));`}
-        />
-
-        <p>
-          <b>Output:</b>
-        </p>
-        <CodeBlock
-          language="bash"
-          code={` root@123# node index.js
-          9
-          3 `}
-        />
-      </section>
-
-      <section>
-        <h2>Modern JS Module Exports</h2>
-        <p>
-          Modern JS Modules are known as <b>ES6 Modules.</b>
-          The export and import keywords are introduced for exporting and
-          importing one or more members in a module.
-        </p>
-
-        <h4>4.2.1 Default Export</h4>
-
-        <p>Exporting:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`// calculator.mjs
-  const add = (a, b) => a + b;
+    <section>
+      <h2>5. Network Call to get Today’s Date</h2>
   
-  export default add;`}
-        />
-
-        <p>Importing:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`// index.mjs
-  import add from "./calculator.mjs";
+      <CodeBlock
+        language="javascript"
+        code={`const express = require("express");
+  const app = express();
   
-  console.log(add(6, 3));`}
-        />
-        <p>
-          <b>Output:</b>
-        </p>
-        <CodeBlock
-          language="bash"
-          code={` root@123# node index.js
-          9 `}
-        />
-
-        <h4>4.2.2 Named Exports</h4>
-
-        <p>Exporting:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`// calculator.mjs
-  export const add = (a, b) => a + b;
-  export const sub = (a, b) => a - b;`}
-        />
-
-        <p>Importing:</p>
-
-        <CodeBlock
-          language="javascript"
-          code={`import { add, sub } from "./calculator.mjs";
+  app.get("/date", (request, response) => {
+    let date = new Date();
+    response.send(\`Today's date is \${date}\`);
+  });
   
-  console.log(add(6, 3));
-  console.log(sub(6, 3));`}
-        />
-        <p>
-          <b>Output:</b>
-        </p>
-        <CodeBlock
-          language="bash"
-          code={` root@123# node index.js
-          9
-          3 `}
-        />
-
-        <div className="Note-container">
-          <div className="icon-note">
-            <h6>
-              <i class="bi bi-journal-text"></i>Note
-            </h6>
-          </div>
-          <p>
-            We must specify <code>.mjs</code> extension for ES6 modules. For
-            Common JS, <code>.js</code> is optional.
-          </p>
-        </div>
-      </section>
+  app.listen(3000);`}
+      />
+    </section>
+  
+    {/* SEND HTML */}
+  
+    <section>
+      <h2>6. Sending HTML as HTTP Response</h2>
+  
+      <h3>6.1 Sending File as Response</h3>
+  
+      <CodeBlock
+        language="javascript"
+        code={`response.sendFile(PATH, { root: __dirname });`}
+      />
+  
+      <ul>
+        <li>PATH → File path</li>
+        <li>__dirname → Current folder path</li>
+      </ul>
+  
+      <CodeBlock
+        language="javascript"
+        code={`const express = require("express");
+  const app = express();
+  
+  app.get("/page", (request, response) => {
+    response.sendFile("./page.html", { root: __dirname });
+  });
+  
+  app.listen(3000);`}
+      />
+    </section>
+  
 
       {/* Continue Button */}
       <div className="view-continue">

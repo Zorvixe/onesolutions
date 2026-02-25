@@ -58,9 +58,17 @@ const Attributes_Methods_CS_4 = ({
       <section>
         <h2>Shopping Cart Example</h2>
         <ul>
-          <li>Users can add different items to their shopping cart and checkout.</li>
-          <li>The total value of the cart should be more than a minimum amount (Rs. 100/-) for the checkout.</li>
-          <li>During Offer Sales, all users get a flat discount on their cart and the minimum cart value will be Rs. 200/-.</li>
+          <li>
+            Users can add different items to their shopping cart and checkout.
+          </li>
+          <li>
+            The total value of the cart should be more than a minimum amount
+            (Rs. 100/-) for the checkout.
+          </li>
+          <li>
+            During Offer Sales, all users get a flat discount on their cart and
+            the minimum cart value will be Rs. 200/-.
+          </li>
         </ul>
       </section>
 
@@ -72,18 +80,34 @@ const Attributes_Methods_CS_4 = ({
           <li>Instance Attributes</li>
           <li>Class Attributes</li>
         </ul>
+        <img
+          src="/assets/img/Attributes.jpg"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
 
         <h3>Instance Attributes</h3>
         <p>
-          Attributes whose value can differ for each instance of class. Example:
-          Items in Cart
+          Attributes whose value can differ for each instance of class are
+          modeled as instance attributes. <br /> Example: Items in Cart
         </p>
+        <img
+          src="/assets/img/Instance_Attribute.png"
+          alt="software"
+          style={{ width: "75%", height: "400px" }}
+        />
 
         <h3>Class Attributes</h3>
         <p>
-          Attributes whose values stay common for all objects. Example: Minimum
-          Cart Bill, Flat Discount
+          Attributes whose values stay common for all the objects are modelled
+          as Class Attributes.
+          <br /> Example: Minimum Cart Bill, Flat Discount
         </p>
+        <img
+          src="/assets/img/class_Attribute.jpg"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
 
         <h3>Accessing Instance Attributes</h3>
         <CodeBlock
@@ -109,56 +133,105 @@ a.display_items()`}
           Instance attributes can only be accessed using the instance of class.
         </p>
 
-        <h3>Using self</h3>
+        <h2>Self</h2>
+        <p>
+          <code>self</code> passed to method contains the object, which is an
+          instance of class.
+        </p>
         <CodeBlock
           language="python"
           code={`class Cart:
-    flat_discount = 0
-    min_bill = 100
-    def __init__(self):
-        self.items = {}
-
-    def add_item(self, item_name, quantity):
-        self.items[item_name] = quantity
-
-    def display_items(self):
-        print(self.items)
-
-a = Cart()
-a.add_item("book", 3)
-a.display_items()`}
+          flat_discount = 0
+          min_bill = 100
+          def __init__(self):
+              self.items = {}
+          def add_item(self,item_name, quantity):
+              self.items[item_name] = quantity
+          def display_items(self):
+              print(self)
+        
+        a = Cart()
+        a.display_items()
+        print(a) 
+        # Output will be something like:
+        # <__main__.Cart object at 0x7f6f83c9dfd0>
+        # <__main__.Cart object at 0x7f6f83c9dfd0>`}
         />
-        <OutputBlock output={["{'book': 3}"]} />
 
-        <h3>Accessing Class Attributes</h3>
+        <h2>Accessing Using Self</h2>
         <p>Example:</p>
         <CodeBlock
           language="python"
           code={`class Cart:
-    flat_discount = 0
-    min_bill = 100
-
-print(Cart.min_bill)`}
+          flat_discount = 0
+          min_bill = 100
+          def __init__(self):
+              self.items = {}
+          def add_item(self, item_name,quantity):
+              self.items[item_name] = quantity
+          def display_items(self):
+              print(self.items)
+       a = Cart()
+       a.add_item("book", 3)
+       a.display_items()
+       # Output :
+        # {"book": 3}`}
         />
-        <OutputBlock output={["100"]} />
 
-        <h3>Updating Class Attributes</h3>
+        <h3>Accessing Using Object</h3>
         <CodeBlock
           language="python"
           code={`class Cart:
-    flat_discount = 0
-    min_bill = 100
-
-    def print_min_bill(self):
-        print(Cart.min_bill)
-
-a = Cart()
-b = Cart()
-Cart.min_bill = 200
-print(a.print_min_bill())
-print(b.print_min_bill())`}
+          flat_discount = 0
+          min_bill = 100
+          def __init__(self):
+              self.items = {}
+          def add_item(self, item_name,quantity):
+              self.items[item_name] = quantity
+          def display_items(self):
+              print(self.items)
+       a = Cart()
+       a.add_item("book", 3)
+       print(a.items)
+       # Output :
+        # {'book': 3}`}
         />
-        <OutputBlock output={["200", "200"]} />
+        <h3>Accessing Using Class</h3>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+          flat_discount = 0
+          min_bill = 100
+          def __init__(self):
+              self.items = {}
+          def add_item(self, item_name,quantity):
+              self.items[item_name] = quantity
+          def display_items(self):
+              print(self.items)
+       print(Cart.items)
+       `}
+        />
+        <OutputBlock
+          output={["AttributeError: type object 'Cart' has no attribute 'it"]}
+        />
+        <h3>Accessing Class Attribute</h3>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+          flat_discount = 0
+          min_bill = 100
+          def __init__(self):
+              self.items = {}
+          def add_item(self, item_name,quantity):
+              self.items[item_name] = quantity
+          def display_items(self):
+              print(self.items)
+       print(Cart.items)
+       `}
+        />
+        <OutputBlock
+          output={["AttributeError: type object 'Cart' has no attribute 'it"]}
+        />
       </section>
 
       {/* Methods */}
