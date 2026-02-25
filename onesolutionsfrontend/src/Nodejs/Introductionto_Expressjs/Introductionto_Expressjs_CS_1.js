@@ -52,111 +52,108 @@ const Introductionto_Expressjs_CS_1 = ({
 
   return (
     <div className="intro-container">
-    <h1>Introduction to Express JS | Cheat Sheet</h1>
-  
-    {/* HTTP SERVER */}
-  
-    <section>
-      <h2>1. HTTP Server</h2>
-  
-      <ul>
-        <li>Works with HTTP requests and responses</li>
-        <li>Handles different paths</li>
-        <li>Handles query parameters</li>
-        <li>Sends HTML, CSS, etc. as response</li>
-        <li>Works with databases</li>
-      </ul>
-  
-      <h3>1.1 Server-side Web Frameworks</h3>
-  
-      <p>These frameworks handle all server operations.</p>
-  
-      <table
+      <h1>Introduction to Express JS | Cheat Sheet</h1>
+
+      {/* HTTP SERVER */}
+
+      <section>
+        <h2>1. HTTP Server</h2>
+
+        <ul>
+          <li>Works with HTTP requests and responses</li>
+          <li>Handles different paths</li>
+          <li>Handles query parameters</li>
+          <li>Sends HTML, CSS, etc. as response</li>
+          <li>Works with databases</li>
+        </ul>
+
+        <h3>1.1 Server-side Web Frameworks</h3>
+
+        <p>These frameworks handle all server operations.</p>
+
+        <table
           border="1"
           cellPadding="6"
           style={{ borderCollapse: "collapse", width: "100%" }}
         >
-        <thead>
-          <tr>
-            <th>Framework</th>
-            <th>Language</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Express</td>
-            <td>Node JS</td>
-          </tr>
-          <tr>
-            <td>Django</td>
-            <td>Python</td>
-          </tr>
-          <tr>
-            <td>Ruby on Rails</td>
-            <td>Ruby</td>
-          </tr>
-          <tr>
-            <td>Spring Boot</td>
-            <td>Java</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  
-    {/* EXPRESS */}
-  
-    <section>
-      <h2>2. Express JS</h2>
-  
-      <p>
-        Express is a free and open-source server-side web application
-        framework for Node JS.
-      </p>
-  
-      <p>It helps to build web and mobile applications quickly.</p>
-  
-      <h3>Installation</h3>
-  
-      <CodeBlock language="bash" code={`npm install express --save`} />
-    </section>
-  
-    {/* SERVER CREATION */}
-  
-    <section>
-      <h2>3. Network Call using Express JS</h2>
-  
-      <h3>Creating Server</h3>
-  
-      <CodeBlock
-        language="javascript"
-        code={`const express = require("express");
+          <thead>
+            <tr>
+              <th>Framework</th>
+              <th>Language</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Express</td>
+              <td>Node JS</td>
+            </tr>
+            <tr>
+              <td>Django</td>
+              <td>Python</td>
+            </tr>
+            <tr>
+              <td>Ruby on Rails</td>
+              <td>Ruby</td>
+            </tr>
+            <tr>
+              <td>Spring Boot</td>
+              <td>Java</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      {/* EXPRESS */}
+
+      <section>
+        <h2>2. Express JS</h2>
+
+        <p>
+          Express is a free and open-source server-side web application
+          framework for Node JS.
+        </p>
+
+        <p>It helps to build web and mobile applications quickly.</p>
+
+        <h3>Installation</h3>
+
+        <CodeBlock language="bash" code={`npm install express --save`} />
+      </section>
+
+      {/* SERVER CREATION */}
+
+      <section>
+        <h2>3. Network Call using Express JS</h2>
+
+        <h3>Creating Server</h3>
+
+        <CodeBlock
+          language="javascript"
+          code={`const express = require("express");
   const app = express();`}
-      />
-  
-      <h3>Assigning Port</h3>
-  
-      <CodeBlock language="javascript" code={`app.listen(3000);`} />
-  
-      <p>The server listens on port 3000.</p>
-  
-      <h3>3.1 Handling HTTP Request</h3>
-  
-      <CodeBlock
-        language="javascript"
-        code={`app.METHOD(PATH, HANDLER)`}
-      />
-  
-      <ul>
-        <li>METHOD → get, post, put, delete</li>
-        <li>PATH → URL path</li>
-        <li>HANDLER → function executed</li>
-      </ul>
-  
-      <h4>3.1.1 GET Request</h4>
-  
-      <CodeBlock
-        language="javascript"
-        code={`const express = require("express");
+        />
+
+        <h3>Assigning Port</h3>
+
+        <CodeBlock language="javascript" code={`app.listen(3000);`} />
+
+        <p>The server listens on port 3000.</p>
+
+        <h3>3.1 Handling HTTP Request</h3>
+
+        <CodeBlock language="javascript" code={`app.METHOD(PATH, HANDLER)`} />
+
+        <ul>
+          <li>METHOD → get, post, put, delete</li>
+          <li>PATH → URL path</li>
+          <li>HANDLER → function executed</li>
+        </ul>
+
+        <h4>3.1.1 GET Request</h4>
+
+        <CodeBlock
+          language="javascript"
+          code={`const express = require("express");
   const app = express();
   
   app.get("/", (request, response) => {
@@ -164,42 +161,47 @@ const Introductionto_Expressjs_CS_1 = ({
   });
   
   app.listen(3000);`}
-      />
-  
-  <div className="Note-container">
+        />
+
+        <div className="Note-container">
           <div className="icon-note">
             <h6>
               <i class="bi bi-journal-text"></i>Note
             </h6>
           </div>
-        <p> Restart the server whenever code changes.
-      </p>
-      </div>
-    </section>
-  
-    {/* TESTING */}
-  
-    <section>
-      <h2>4. Testing Network Calls</h2>
-  
-      <ul>
-        <li>Browser Network Tab</li>
-        <li>app.http file → Click Send Request</li>
-      </ul>
+          <p> Restart the server whenever code changes.</p>
+        </div>
+      </section>
 
+      {/* TESTING */}
 
+      <section>
+        <h2>4. Testing Network Calls</h2>
 
+        <ul>
+          <li>Browser Network Tab</li>
+          <li>app.http file → Click Send Request</li>
+        </ul>
+        <img
+          src="/assets/img/network-call.png"
+          alt="software"
+          style={{ width: "100%", height: "300px" }}
+        />
+        <img
+          src="/assets/img/network-sender.png"
+          alt="software"
+          style={{ width: "100%", height: "300px" }}
+        />
+      </section>
 
-    </section>
-  
-    {/* DATE API */}
-  
-    <section>
-      <h2>5. Network Call to get Today’s Date</h2>
-  
-      <CodeBlock
-        language="javascript"
-        code={`const express = require("express");
+      {/* DATE API */}
+
+      <section>
+        <h2>5. Network Call to get Today’s Date</h2>
+
+        <CodeBlock
+          language="javascript"
+          code={`const express = require("express");
   const app = express();
   
   app.get("/date", (request, response) => {
@@ -208,29 +210,29 @@ const Introductionto_Expressjs_CS_1 = ({
   });
   
   app.listen(3000);`}
-      />
-    </section>
-  
-    {/* SEND HTML */}
-  
-    <section>
-      <h2>6. Sending HTML as HTTP Response</h2>
-  
-      <h3>6.1 Sending File as Response</h3>
-  
-      <CodeBlock
-        language="javascript"
-        code={`response.sendFile(PATH, { root: __dirname });`}
-      />
-  
-      <ul>
-        <li>PATH → File path</li>
-        <li>__dirname → Current folder path</li>
-      </ul>
-  
-      <CodeBlock
-        language="javascript"
-        code={`const express = require("express");
+        />
+      </section>
+
+      {/* SEND HTML */}
+
+      <section>
+        <h2>6. Sending HTML as HTTP Response</h2>
+
+        <h3>6.1 Sending File as Response</h3>
+
+        <CodeBlock
+          language="javascript"
+          code={`response.sendFile(PATH, { root: __dirname });`}
+        />
+
+        <ul>
+          <li>PATH → File path</li>
+          <li>__dirname → Current folder path</li>
+        </ul>
+
+        <CodeBlock
+          language="javascript"
+          code={`const express = require("express");
   const app = express();
   
   app.get("/page", (request, response) => {
@@ -238,9 +240,8 @@ const Introductionto_Expressjs_CS_1 = ({
   });
   
   app.listen(3000);`}
-      />
-    </section>
-  
+        />
+      </section>
 
       {/* Continue Button */}
       <div className="view-continue">

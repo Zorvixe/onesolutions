@@ -141,21 +141,21 @@ a.display_items()`}
         <CodeBlock
           language="python"
           code={`class Cart:
-          flat_discount = 0
-          min_bill = 100
-          def __init__(self):
-              self.items = {}
-          def add_item(self,item_name, quantity):
-              self.items[item_name] = quantity
-          def display_items(self):
-              print(self)
-        
-        a = Cart()
-        a.display_items()
-        print(a) 
-        # Output will be something like:
-        # <__main__.Cart object at 0x7f6f83c9dfd0>
-        # <__main__.Cart object at 0x7f6f83c9dfd0>`}
+flat_discount = 0
+min_bill = 100
+def __init__(self):
+    self.items = {}
+def add_item(self,item_name, quantity):
+    self.items[item_name] = quantity
+def display_items(self):
+    print(self)
+
+a = Cart()
+a.display_items()
+print(a) 
+# Output will be something like:
+# <__main__.Cart object at 0x7f6f83c9dfd0>
+# <__main__.Cart object at 0x7f6f83c9dfd0>`}
         />
 
         <h2>Accessing Using Self</h2>
@@ -163,75 +163,105 @@ a.display_items()`}
         <CodeBlock
           language="python"
           code={`class Cart:
-          flat_discount = 0
-          min_bill = 100
-          def __init__(self):
-              self.items = {}
-          def add_item(self, item_name,quantity):
-              self.items[item_name] = quantity
-          def display_items(self):
-              print(self.items)
-       a = Cart()
-       a.add_item("book", 3)
-       a.display_items()
-       # Output :
-        # {"book": 3}`}
+flat_discount = 0
+min_bill = 100
+def __init__(self):
+    self.items = {}
+def add_item(self, item_name,quantity):
+    self.items[item_name] = quantity
+def display_items(self):
+    print(self.items)
+a = Cart()
+a.add_item("book", 3)
+a.display_items()
+# Output :
+# {"book": 3}`}
         />
 
         <h3>Accessing Using Object</h3>
         <CodeBlock
           language="python"
           code={`class Cart:
-          flat_discount = 0
-          min_bill = 100
-          def __init__(self):
-              self.items = {}
-          def add_item(self, item_name,quantity):
-              self.items[item_name] = quantity
-          def display_items(self):
-              print(self.items)
-       a = Cart()
-       a.add_item("book", 3)
-       print(a.items)
-       # Output :
-        # {'book': 3}`}
+flat_discount = 0
+min_bill = 100
+def __init__(self):
+    self.items = {}
+def add_item(self, item_name,quantity):
+    self.items[item_name] = quantity
+def display_items(self):
+    print(self.items)
+a = Cart()
+a.add_item("book", 3)
+print(a.items)
+# Output :
+# {'book': 3}`}
         />
         <h3>Accessing Using Class</h3>
         <CodeBlock
           language="python"
           code={`class Cart:
-          flat_discount = 0
-          min_bill = 100
-          def __init__(self):
-              self.items = {}
-          def add_item(self, item_name,quantity):
-              self.items[item_name] = quantity
-          def display_items(self):
-              print(self.items)
-       print(Cart.items)
-       `}
+flat_discount = 0
+min_bill = 100
+def __init__(self):
+    self.items = {}
+def add_item(self, item_name,quantity):
+    self.items[item_name] = quantity
+def display_items(self):
+    print(self.items)
+print(Cart.items)
+`}
         />
         <OutputBlock
           output={["AttributeError: type object 'Cart' has no attribute 'it"]}
         />
-        <h3>Accessing Class Attribute</h3>
+        <h3>Accessing Class Attributes</h3>
+        <p>Example: 1</p>
         <CodeBlock
           language="python"
           code={`class Cart:
-          flat_discount = 0
-          min_bill = 100
-          def __init__(self):
-              self.items = {}
-          def add_item(self, item_name,quantity):
-              self.items[item_name] = quantity
-          def display_items(self):
-              print(self.items)
-       print(Cart.items)
-       `}
+flat_discount = 0
+min_bill = 100
+def __init__(self):
+    self.items = {}
+
+print(Cart.min_bill)
+`}
         />
-        <OutputBlock
-          output={["AttributeError: type object 'Cart' has no attribute 'it"]}
+        <OutputBlock output={["100"]} />
+        <h3>Accessing Class Attributes</h3>
+        <p>Example: 2</p>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+flat_discount = 0
+min_bill = 100
+def __init__(self):
+    self.items = {}
+def print_min_bill(self):
+    print(Cart.min_bill)
+
+a = Cart()
+a.print_min_bill()
+`}
         />
+        <OutputBlock output={["100"]} />
+        <h3>Updating Class Attribute</h3>
+
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+  flat_discount = 0
+  min_bill = 100
+  def print_min_bill(self):
+      print(Cart.min_bill)
+a = Cart()
+b = Cart()
+Cart.min_bill = 200
+print(a.print_min_bill())
+print(b.print_min_bill())
+`}
+        />
+        <OutputBlock output={["200\n200"]} />
       </section>
 
       {/* Methods */}
@@ -243,21 +273,31 @@ a.display_items()`}
           <li>Class Methods</li>
           <li>Static Methods</li>
         </ul>
+        <img
+          src="/assets/img/Methods.jpg"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
 
         <h3>Instance Methods</h3>
         <p>
           Instance methods can access all attributes of the instance and have{" "}
-          <code>self</code> as parameter.
+          <code>self</code> as a parameter.
         </p>
+        <img
+          src="/assets/img/Instance_Methods.jpg"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
+
+        <h4>Example 1</h4>
         <CodeBlock
           language="python"
           code={`class Cart:
     def __init__(self):
         self.items = {}
-
     def add_item(self, item_name, quantity):
         self.items[item_name] = quantity
-
     def display_items(self):
         print(self.items)
 
@@ -267,12 +307,35 @@ a.display_items()`}
         />
         <OutputBlock output={["{'book': 3}"]} />
 
+        <h4>Example 2</h4>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+    def __init__(self):
+        self.items = {}
+    def add_item(self, item_name, quantity):
+        self.items[item_name] = quantity
+        self.display_items()
+    def display_items(self):
+        print(self.items)
+
+a = Cart()
+a.add_item("book", 3)`}
+        />
+        <OutputBlock output={["{'book': 3}"]} />
+
         <h3>Class Methods</h3>
         <p>
-          Methods that access class attributes but not instance attributes. Use{" "}
-          <code>cls</code> as parameter and decorate with{" "}
-          <code>@classmethod</code>.
+          Methods which need access to class attributes but not instance
+          attributes are marked as Class Methods. For class methods, we send{" "}
+          <code>cls</code> as a parameter indicating we are passing the class.
         </p>
+        <img
+          src="/assets/img/Class_Method.jpg"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
+
         <CodeBlock
           language="python"
           code={`class Cart:
@@ -288,11 +351,43 @@ print(Cart.flat_discount)`}
         />
         <OutputBlock output={["25"]} />
 
-        <h3>Static Methods</h3>
+        <h4>Accessing Class Method</h4>
+        <CodeBlock
+          language="python"
+          code={`class Cart:
+    flat_discount = 0
+    min_bill = 100
+
+    @classmethod
+    def update_flat_discount(cls, new_flat_discount):
+        cls.flat_discount = new_flat_discount
+
+    @classmethod
+    def increase_flat_discount(cls, amount):
+        new_flat_discount = cls.flat_discount + amount
+        cls.update_flat_discount(new_flat_discount)
+
+Cart.increase_flat_discount(50)
+print(Cart.flat_discount)`}
+        />
+        <OutputBlock output={["50"]} />
+
+        <h3>Static Method</h3>
         <p>
-          Methods that don’t need access to instance or class attributes.
-          Decorate with <code>@staticmethod</code>.
+          We might need some generic methods that don’t need access to either
+          instance or class attributes. These type of methods are called Static
+          Methods.
         </p>
+        <p>
+          Usually, static methods are used to create utility functions which
+          make more sense to be part of the class.
+        </p>
+        <img
+          src="/assets/img/Static_Method.jpg"
+          alt="software"
+          style={{ width: "85%", height: "400px" }}
+        />
+
         <CodeBlock
           language="python"
           code={`class Cart:
@@ -304,7 +399,7 @@ Cart.greet()`}
         />
         <OutputBlock output={["Have a Great Shopping"]} />
 
-        <h3>Overview of Methods</h3>
+        <h3>Overview of Instance, Class & Static Methods</h3>
         <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead>
             <tr>
@@ -325,9 +420,9 @@ Cart.greet()`}
               <td>Need decorator @staticmethod</td>
             </tr>
             <tr>
-              <td>Accessed through object (instance)</td>
-              <td>Accessed through class</td>
-              <td>Accessed through class</td>
+              <td>Can be accessed through object (instance of class)</td>
+              <td>Can be accessed through class</td>
+              <td>Can be accessed through class</td>
             </tr>
           </tbody>
         </table>
