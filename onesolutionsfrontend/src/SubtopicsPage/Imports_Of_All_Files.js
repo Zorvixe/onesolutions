@@ -734,6 +734,12 @@ import Rest_API_MCQ from "../Nodejs/REST_APIs/Rest_API_MCQ.js";
 import Debug_Cmmn_Errors_CS from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_CS.js";
 import Debug_Cmmn_Errors_P2_CS from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_P2_CS.js";
 import Debug_Cmmn_Errors_MCQ from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_MCQ.js";
+import Athantication_CS_1 from "../Nodejs/Athantication/Athantication_CS_1.js";
+import Athantication_MCQ_1 from "../Nodejs/Athantication/Athantication_MCQ_1.js";
+import Athantication_CS_2 from "../Nodejs/Athantication/Athantication_CS_2.js";
+import Athantication_MCQ_2 from "../Nodejs/Athantication/Athantication_MCQ_2.js";
+import Athantication_CS_3 from "../Nodejs/Athantication/Athantication_CS_3.js";
+import Athantication_MCQ_3 from "../Nodejs/Athantication/Athantication_MCQ_3.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -1416,6 +1422,12 @@ export const subtopicComponents = {
   "Debugging Common Errors | Cheat Sheet": Debug_Cmmn_Errors_CS,
   "Debugging Common Errors | Part 2 | Cheat Sheet": Debug_Cmmn_Errors_P2_CS,
   "MCQ Pratice - Debugging Common Errors": Debug_Cmmn_Errors_MCQ,
+  "Authentication | Cheat Sheet":Athantication_CS_1,
+  "MCQ Pratice - Authentication":Athantication_MCQ_1,
+  "Authentication | Part 2 | Cheat Sheet":Athantication_CS_2,
+  "MCQ Pratice - Authentication | Part 2": Athantication_MCQ_2,
+  "Authentication | Part 3 | Cheat Sheet":Athantication_CS_3,
+  "MCQ Pratice - Authentication | Part 3": Athantication_MCQ_3,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":

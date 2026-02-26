@@ -234,9 +234,15 @@ const Debug_Cmmn_Errors_P2_CS = ({
   
       <p><b>Reason:</b> Wrong database file name.</p>
   
-      <p className="note">
-        <b>Note:</b> SQLite creates a new empty DB if file not found.
+      <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+        <p>SQLite creates a new empty DB if file not found.
       </p>
+      </div>
     </section>
   
     {/* WRONG PORT */}

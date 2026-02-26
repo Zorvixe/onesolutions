@@ -196,76 +196,98 @@ print(date_time_obj)`}
         <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
           <thead>
             <tr>
-              <th style={{ background: "skyblue" }}>Format Specifier</th>
-              <th style={{ background: "skyblue" }}>Meaning</th>
-              <th style={{ background: "skyblue" }}>Example</th>
+              <th style={{ background: "#7fb3c8", padding: "10px" }}>
+                Format Specifier
+              </th>
+              <th style={{ background: "#7fb3c8", padding: "10px" }}>
+                Meaning
+              </th>
+              <th style={{ background: "#7fb3c8", padding: "10px" }}>
+                Example
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>%y</td>
-              <td>Year without century as a zero-padded decimal number</td>
-              <td>19, 20, ...</td>
+              <td style={{ padding: "10px" }}>%y</td>
+              <td style={{ padding: "10px" }}>
+                Year without century as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>19, 20, ...</td>
             </tr>
             <tr>
-              <td>%Y</td>
-              <td>Year with century as a decimal number</td>
-              <td>2019, 2020, ...</td>
+              <td style={{ padding: "10px" }}>%Y</td>
+              <td style={{ padding: "10px" }}>
+                Year with century as a decimal number
+              </td>
+              <td style={{ padding: "10px" }}>2019, 2020, ...</td>
             </tr>
             <tr>
-              <td>%b</td>
-              <td>Month as abbreviated name</td>
-              <td>Jan, Feb, ...</td>
+              <td style={{ padding: "10px" }}>%b</td>
+              <td style={{ padding: "10px" }}>Month as abbreviated name</td>
+              <td style={{ padding: "10px" }}>Jan, Feb, ...</td>
             </tr>
             <tr>
-              <td>%B</td>
-              <td>Month as full name</td>
-              <td>January, February</td>
+              <td style={{ padding: "10px" }}>%B</td>
+              <td style={{ padding: "10px" }}>Month as full name</td>
+              <td style={{ padding: "10px" }}>January, February</td>
             </tr>
             <tr>
-              <td>%m</td>
-              <td>Month as a zero-padded decimal number</td>
-              <td>01, 02, …, 12</td>
+              <td style={{ padding: "10px" }}>%m</td>
+              <td style={{ padding: "10px" }}>
+                Month as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>01, 02, ..., 12</td>
             </tr>
             <tr>
-              <td>%d</td>
-              <td>Day of the month as a zero-padded decimal number</td>
-              <td>01, 02, …, 31</td>
+              <td style={{ padding: "10px" }}>%d</td>
+              <td style={{ padding: "10px" }}>
+                Day of the month as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>01, 02, ..., 31</td>
             </tr>
             <tr>
-              <td>%a</td>
-              <td>Weekday as abbreviated name</td>
-              <td>Sun, Mon, ...</td>
+              <td style={{ padding: "10px" }}>%a</td>
+              <td style={{ padding: "10px" }}>Weekday as abbreviated name</td>
+              <td style={{ padding: "10px" }}>Sun, Mon, ...</td>
             </tr>
             <tr>
-              <td>%A</td>
-              <td>Weekday as full name</td>
-              <td>Sunday, Monday</td>
+              <td style={{ padding: "10px" }}>%A</td>
+              <td style={{ padding: "10px" }}>Weekday as full name</td>
+              <td style={{ padding: "10px" }}>Sunday, Monday</td>
             </tr>
             <tr>
-              <td>%H</td>
-              <td>Hour (24-hour clock) as a zero-padded decimal number</td>
-              <td>00, 01, …, 23</td>
+              <td style={{ padding: "10px" }}>%H</td>
+              <td style={{ padding: "10px" }}>
+                Hour (24-hour clock) as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>00, 01, ..., 23</td>
             </tr>
             <tr>
-              <td>%I</td>
-              <td>Hour (12-hour clock) as a zero-padded decimal number</td>
-              <td>01, 02, …, 12</td>
+              <td style={{ padding: "10px" }}>%I</td>
+              <td style={{ padding: "10px" }}>
+                Hour (12-hour clock) as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>01, 02, ..., 12</td>
             </tr>
             <tr>
-              <td>%p</td>
-              <td>AM or PM</td>
-              <td>AM, PM</td>
+              <td style={{ padding: "10px" }}>%p</td>
+              <td style={{ padding: "10px" }}>AM or PM</td>
+              <td style={{ padding: "10px" }}>AM, PM</td>
             </tr>
             <tr>
-              <td>%M</td>
-              <td>Minute as a zero-padded decimal number</td>
-              <td>00, 01, …, 59</td>
+              <td style={{ padding: "10px" }}>%M</td>
+              <td style={{ padding: "10px" }}>
+                Minute as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>00, 01, ..., 59</td>
             </tr>
             <tr>
-              <td>%S</td>
-              <td>Second as a zero-padded decimal number</td>
-              <td>00, 01, …, 59</td>
+              <td style={{ padding: "10px" }}>%S</td>
+              <td style={{ padding: "10px" }}>
+                Second as a zero-padded decimal number
+              </td>
+              <td style={{ padding: "10px" }}>00, 01, ..., 59</td>
             </tr>
           </tbody>
         </table>

@@ -742,9 +742,9 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">Question</p>
               <p>
              
-We're storing the details of players who are a part of a tournament.<br/> The database contains a "player" table that stores the name, age and score of players.</p>
-<p>We have to add a new player to the 'player' table.</p>              
-<div class="sql-table-desc">
+      We're storing the details of players who are a part of a tournament.<br/> The database contains a "player" table that stores the name, age and score of players.</p>
+      <p>We have to add a new player to the 'player' table.</p>              
+      <div class="sql-table-desc">
               
                 <div class="sql-table-caption">Table: player</div>
                 <table>
@@ -848,7 +848,7 @@ We're storing the details of players who are a part of a tournament.<br/> The da
               <p class="desc-que-blue">Question</p>
               <p>The database contains a "player" table that stores the name, age and score of players.<p>Get all the players from the "player" table in the following format.</p> 
               <p class="desc-que-blue">Expected Output Format:</p>             
-<div class="sql-table-desc">
+    <div class="sql-table-desc">
               
                 <div class="sql-table-caption">Table: player</div>
                 <table>
@@ -6849,10 +6849,10 @@ You can assume that:
       description: "Practice basic SQL queries",
       questions: [
         {
-          id: "sql-query-5-1",
-          title: "Get Products belongs to clothing",
+          id: "sql-query-8-1",
+          title: "1 lakh views",
           description:
-            "Consider an e-commerce company like Amazon that holds the data of a wide variety of products. On such platforms, users often search for products by appling multiple conditions at once.For example, user could ask for shoes from Puma brand, that have ratings greater than 4.0 (and price less than 5000).With logical operators, we can perform queries based on multiple conditions. Similar to the e-commerce scenario, we have a database that contains a range of products with details like the name of the product, category it belongs to, price, brand and rating. Help the user get the desired products by writing SQL queries satisfying user requirements. Note: Expected output format for all the queries, unless specified.",
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
 
           difficulty: "Easy",
           score: 35,
@@ -6863,58 +6863,232 @@ You can assume that:
           },
 
           tableData: {
-            product: {
-              columns: ["name", "category", "price", "brand", "rating"],
+            VIDEO: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
               rows: [
-                ["Black Shirt", "Clothing", 600, "Puma", 4.8],
-                ["Black T-Shirt", "Clothing", 600, "Roadster", 4.2],
-                ["Blue T-Shirt", "Clothing", 600, "Nike", 4.7],
-                ["Black Jeans", "Clothing", 750, "Denim", 4.5],
-                ["Blue Shirt", "Clothing", 750, "Denim", 3.8],
-                ["Blue Jeans", "Clothing", 800, "Puma", 3.6],
-                ["Blue Shirt", "Clothing", 1000, "Puma", 4.3],
-                ["White Shirt", "Clothing", 700, "Denim", 4.3],
-                ["White T-Shirt", "Clothing", 700, "Levi's", 4.0],
-                ["OnePlus 6T", "Smartphone", 32990, "OnePlus", 4.5],
-                ["Redmi K20", "Smartphone", 24999, "Redmi", 4.1],
-                ["Strawberry Cake", "Food", 60, "Cadbury", 4.1],
-                ["Strawberry Cake", "Food", 10, "Britannia", 4.6],
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
               ],
             },
           },
 
           descriptionDetails: `
             <div class="desc-question-details">
-              <p class="desc-que-blue">Question</p>
-              <p>Get all the details of products that belong to "Clothing" category and price less than 700.
-
-
-              </p>
-        
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
               <div class="sql-table-desc">
-                <div class="sql-table-caption">Table: product</div>
-        
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get all the videos with more than 1 lakh views.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Output must be in the alphabetical order of video <b>name</b></p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
              <table>
             <thead>
             <tr>
+            <th>video_id</th>
             <th>name</th>
-            <th>category</th>
-            <th>price</th>
-            <th>brand</th>
-            <th>rating</th>
+            <th>duration_in_secs</th>
+            <th>published_datetime</th>
+            <th>no_of_views</th>
+            <th>channel_id</th>
             </tr>
             </thead>
             <tbody>
-            <tr><td>Black Shirt</td><td>Clothing</td><td>600</td><td>Puma</td><td>4.8</td></tr>
-            <tr><td>Black T-Shirt</td><td>Clothing</td><td>600</td><td>Roadster</td><td>4.2</td></tr>
-            <tr><td>Blue T-Shirt</td><td>Clothing</td><td>600</td><td>Nike</td><td>4.7</td></tr>
             <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
             <tr><td>--</td><td>--<td>--</td><td>--</td><td>--</td></tr>
-
             </tbody>
             </table>
               </div>
-            </div>
+             </div>
           `,
 
           testCases: [
@@ -6927,58 +7101,2948 @@ You can assume that:
             },
             {
               id: 2,
-              description: "Query should contain FROM keyword",
+              description: "Query should select all required columns",
               type: "syntax-validation",
-              expectedKeywords: ["from"],
+              expectedKeywords: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
               visible: true,
             },
             {
               id: 3,
-              description: "Table name should be 'product'",
-              type: "query-validation",
-              expectedTableName: "product",
-              expectedKeywords: ["product"],
+              description:
+                "Query should filter videos with more than 100000 views",
+              type: "syntax-validation",
+              expectedKeywords: ["where", "no_of_views", ">"],
               visible: true,
             },
             {
               id: 4,
-              description: "Query should select all columns using *",
-              type: "query-validation",
-              expectedKeywords: ["*"],
+              description: "Query should order results alphabetically by name",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "name", "asc"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-2",
+          title: "TEDx channel views.",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            VIDEO: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+                [
+                  1501,
+                  "Behind The Scenes with David Letterman",
+                  2500,
+                  "2020-03-10 18:00",
+                  180000,
+                  353,
+                ],
+                [
+                  1502,
+                  "Top 10 David Letterman Moments",
+                  3200,
+                  "2021-07-21 20:15",
+                  220000,
+                  353,
+                ],
+                [
+                  1503,
+                  "Late Night Highlights Compilation",
+                  2100,
+                  "2018-09-12 14:45",
+                  95000,
+                  353,
+                ],
+                [
+                  1504,
+                  "Interview with Hollywood Star",
+                  2800,
+                  "2022-01-11 16:30",
+                  305000,
+                  353,
+                ],
+                [
+                  1505,
+                  "Comedy Monologue Special",
+                  1900,
+                  "2019-11-25 19:10",
+                  120000,
+                  353,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>10</td>
+                  <td>LIKE</td>
+                  <td>2020-12-10 10:30:45</td>
+                </tr>
+                <tr>
+                  <td>7</td>
+                  <td>10</td>
+                  <td>DISLIKE</td>
+                  <td>2020-10-10 11:30:45</td>
+                </tr>
+                <tr>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                  <td>--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+              <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>10</td>
+                  <td>201</td>
+                </tr>
+                <tr>
+                  <td>10</td>
+                  <td>202</td>
+                </tr>
+                <tr>
+                  <td>--</td>
+                  <td>--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+              <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get videos from TEDx channel (id=353) with more than 50 thousand views.
+
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the output in the descending order of <b>no_of_views</b> and in the ascending order of video <b>name</b></p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>video_id</th>
+            <th>name</th>
+            <th>duration_in_secs</th>
+            <th>no_of_views</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--<td>--</td><td>--</td></tr>
+             </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select required columns",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "no_of_views",
+              ],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should select from video table",
+              type: "syntax-validation",
+              expectedKeywords: ["from video"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Query should filter TEDx channel (channel_id = 353)",
+              type: "syntax-validation",
+              expectedKeywords: ["channel_id = 353"],
               visible: true,
             },
             {
               id: 5,
-              description: "Query should contain WHERE clause",
-              type: "query-validation",
-              expectedKeywords: ["where"],
+              description:
+                "Query should filter videos with more than 50000 views",
+              type: "syntax-validation",
+              expectedKeywords: ["no_of_views > 50000"],
               visible: true,
             },
             {
               id: 6,
-              description: "Query should filter category as 'Clothing'",
-              type: "query-validation",
-              expectedKeywords: ["category", "clothing"],
+              description: "Query should contain ORDER BY clause",
+              type: "syntax-validation",
+              expectedKeywords: ["order by"],
               visible: true,
             },
             {
               id: 7,
-              description: "Query should use AND condition",
-              type: "query-validation",
-              expectedKeywords: ["and"],
+              description:
+                "Query should sort by no_of_views in descending order",
+              type: "syntax-validation",
+              expectedKeywords: ["no_of_views desc"],
               visible: true,
             },
             {
               id: 8,
-              description: "Query should filter price less than 700",
-              type: "query-validation",
-              expectedKeywords: ["price", "<", "700"],
+              description: "Query should sort by name in ascending order",
+              type: "syntax-validation",
+              expectedKeywords: ["name asc"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-3",
+          title: "Top 10 most viewed videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            VIDEO: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the top 10 most viewed videos till date.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the videos by <b>no_of_views</b> from highest to lowest. For videos with the same number of views, order them by <b>published_datetime</b>, with the most recent video first.
+
+             </p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>channel_id</th>
+            <th>no_of_views</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--<td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
               visible: true,
             },
             {
-              id: 9,
-              description: "Query should end with semicolon",
+              id: 2,
+              description: "Query should select required columns",
               type: "syntax-validation",
+              expectedKeywords: ["name", "channel_id", "no_of_views"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should fetch data from VIDEO table",
+              type: "syntax-validation",
+              expectedKeywords: ["from", "video"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Query should order by no_of_views in descending order",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "no_of_views", "desc"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should order by published_datetime in descending order for tie-breaking",
+              type: "syntax-validation",
+              expectedKeywords: ["published_datetime", "desc"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should limit results to top 10",
+              type: "syntax-validation",
+              expectedKeywords: ["limit", "10"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-4",
+          title: "Recent movie trailers",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            VIDEO: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get all the recent movie trailers that have more than 1 lakh views.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Consider the videos that have "trailer" in theirnameas trailers.</li>
+             <li>Sort the output in the descending order of <b>no_of_views</b> and <b>published_date</b> time</li>
+             </ul>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>name</th>
+            <th>channel_id</th>
+            <th>no_of_views</th>
+            <th>published_datetime</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--<td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select required columns",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "name",
+                "channel_id",
+                "no_of_views",
+                "published_datetime",
+              ],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should fetch data from VIDEO table",
+              type: "syntax-validation",
+              expectedKeywords: ["from", "video"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Query should filter videos with more than 100000 views",
+              type: "syntax-validation",
+              expectedKeywords: ["where", "no_of_views", ">", "100000"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should filter videos having 'trailer' in name",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "like", "%trailer%"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Query should sort by no_of_views in descending order",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "no_of_views", "desc"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Query should sort by published_datetime in descending order",
+              type: "syntax-validation",
+              expectedKeywords: ["published_datetime", "desc"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-5",
+          title: "Released in 2018",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            VIDEO: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get all the videos that are released in the year 2018. </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the output in the descending order of <b>published_date</b> time and then in the alphabetical order of <b>name</b></p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+             <th>video_id</th>
+            <th>name</th>
+            <th>duration_in_secs</th>
+            <th>no_of_views</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--<td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should select required columns",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "no_of_views",
+              ],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should filter videos released in 2018",
+              type: "syntax-validation",
+              expectedKeywords: ["strftime", "2018"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should sort by published_datetime DESC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "published_datetime", "desc"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should sort by name ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "asc"],
+              visible: true,
+            },
+          ],
+        },
+        // {
+        //   id: "sql-query-8-6",
+        //   title: "Distinct ids",
+        //   description:
+        //     "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+        //   difficulty: "Easy",
+        //   score: 35,
+        //   type: "sql",
+
+        //   defaultCode: {
+        //     sql: ``,
+        //   },
+
+        //   tableData: {
+        //     video_genre: {
+        //       columns: ["video_id", "genre_id"],
+        //       rows: [
+        //         [1100, 201],
+        //         [1316, 202],
+        //         [1488, 203],
+        //         [1089, 211],
+        //         [1009, 201],
+        //         [1348, 202],
+        //         [1003, 203],
+        //         [1289, 211],
+        //         [1038, 201],
+        //         [1322, 202],
+        //         [1100, 202], // duplicate video in another allowed genre
+        //         [1488, 211], // duplicate video in another allowed genre
+        //         [1009, 203], // duplicate video in another allowed genre
+        //         [1348, 205], // not required genre
+        //         [1322, 210], // not required genre
+        //       ],
+        //     },
+        //   },
+
+        //   descriptionDetails: `
+        //     <div class="desc-question-details">
+        //       <p class="desc-que-blue">Database</p>
+        //       <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        // <p>NOTE:</p>
+        //       <div class="sql-table-desc">
+        //         <div class="sql-table-caption">Table: channel_user table
+        //         </div>
+        //         <table>
+        //         <thead>
+        //           <tr>
+        //             <th>channel_id</th>
+        //             <th>user_id</th>
+        //             <th>subscribed_datetime</th>
+        //           </tr>
+        //         </thead>
+        //         <tbody>
+        //           <tr>
+        //             <td>100</td>
+        //             <td>1</td>
+        //             <td>2020-12-10 10:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>100</td>
+        //             <td>7</td>
+        //             <td>2020-10-10 11:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>--</td>
+        //             <td>--</td>
+        //             <td>--</td>
+        //           </tr>
+        //         </tbody>
+        //       </table>
+        //       </div>
+        //       <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+        //       <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+        //       <div class="sql-table-desc">
+        //       <div class="sql-table-caption">Table: user_likes table
+        //       </div>
+        //       <table>
+        //         <thead>
+        //           <tr>
+        //             <th>user_id</th>
+        //             <th>video_id</th>
+        //             <th>reaction_type</th>
+        //             <th>reacted_at</th>
+        //           </tr>
+        //         </thead>
+        //         <tbody>
+        //           <tr>
+        //             <td>1</td>
+        //             <td>10</td>
+        //             <td>LIKE</td>
+        //             <td>2020-12-10 10:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>7</td>
+        //             <td>10</td>
+        //             <td>DISLIKE</td>
+        //             <td>2020-10-10 11:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>--</td>
+        //             <td>--</td>
+        //             <td>--</td>
+        //             <td>--</td>
+        //           </tr>
+        //         </tbody>
+        //       </table>
+        //     </div>
+
+        //       <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+        //             <div class="sql-table-desc">
+        //   <div class="sql-table-caption">Table: video_genre table
+        //   </div>
+        //   <table>
+        //   <thead>
+        //     <tr>
+        //       <th>video_id</th>
+        //       <th>genre_id</th>
+        //     </tr>
+        //   </thead>
+        //   <tbody>
+        //     <tr>
+        //       <td>10</td>
+        //       <td>201</td>
+        //     </tr>
+        //     <tr>
+        //       <td>10</td>
+        //       <td>202</td>
+        //     </tr>
+        //     <tr>
+        //       <td>--</td>
+        //       <td>--</td>
+        //     </tr>
+        //   </tbody>
+        //   </table>
+        //   </div>
+        //             <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+        //       <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+
+        //       <p class="desc-que-blue">Question</p>
+        //      <p>Get the distinct ids of videos that belong to the following genres.</p>
+        //      <div class="sql-table-desc">
+        //      <table>
+        //        <thead>
+        //          <tr>
+        //            <th>genre_id</th>
+        //            <th>genre</th>
+        //          </tr>
+        //        </thead>
+        //        <tbody>
+        //          <tr>
+        //            <td>201</td>
+        //            <td>Comedy</td>
+        //          </tr>
+        //          <tr>
+        //            <td>202</td>
+        //            <td>Action</td>
+        //          </tr>
+        //          <tr>
+        //            <td>203</td>
+        //            <td>Thriller</td>
+        //          </tr>
+        //          <tr>
+        //            <td>211</td>
+        //            <td>Scifi</td>
+        //          </tr>
+        //        </tbody>
+        //      </table>
+        //    </div>
+        //    <div class="Note-container">
+        //    <div class="icon-note">
+        //      <h6>
+        //        <i class="bi bi-journal-text"></i>Note
+        //      </h6>
+        //    </div>
+        //    <p>Sort the output in the descending order of <b>video_id</b></p>
+        //    </div>
+        //    <p class="desc-que-blue">Expected Output Format</p>
+        //    <div class="sql-table-desc">
+        //    <table>
+        //   <thead>
+        //   <tr>
+        //   <th>name</th>
+        //   </tr>
+        //   </thead>
+        //   <tbody>
+        //   <tr><td>--</td></tr>
+        //   </tbody>
+        //   </table>
+        //     </div>
+        //      </div>
+        //   `,
+
+        //   testCases: [
+        //     {
+        //       id: 1,
+        //       description: "Query should select DISTINCT video_id",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["SELECT", "DISTINCT", "video_id"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 2,
+        //       description: "Query should select data from video_genre table",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["FROM", "video_genre"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 3,
+        //       description: "Query should filter using genre_id",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["WHERE", "genre_id"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 4,
+        //       description:
+        //         "Query should use IN operator with required genre IDs",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["IN", "201", "202", "203", "211"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 5,
+        //       description:
+        //         "Query should sort the result in descending order of video_id",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["ORDER BY", "video_id", "DESC"],
+        //       visible: true,
+        //     },
+        //   ],
+        // },
+        // {
+        //   id: "sql-query-8-7",
+        //   title: "Distinct ids",
+        //   description:
+        //     "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+        //   difficulty: "Easy",
+        //   score: 35,
+        //   type: "sql",
+
+        //   defaultCode: {
+        //     sql: ``,
+        //   },
+
+        //   tableData: {
+        //     VIDEO: {
+        //       columns: [
+        //         "video_id",
+        //         "name",
+        //         "duration_in_secs",
+        //         "published_datetime",
+        //         "no_of_views",
+        //         "channel_id",
+        //       ],
+        //       rows: [
+        //         [
+        //           1100,
+        //           "#VeteransDay: Thank You for Everything",
+        //           4830,
+        //           "2018-05-05 19:00",
+        //           137261,
+        //           367,
+        //         ],
+        //         [
+        //           1316,
+        //           "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+        //           4654,
+        //           "2017-06-10 12:32",
+        //           130574,
+        //           366,
+        //         ],
+        //         [
+        //           1488,
+        //           "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+        //           3389,
+        //           "2021-01-19 21:19",
+        //           201187,
+        //           366,
+        //         ],
+        //         [
+        //           1089,
+        //           "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+        //           1867,
+        //           "2019-05-05 17:32",
+        //           133738,
+        //           350,
+        //         ],
+        //         [
+        //           1009,
+        //           "100 People Hold Their Breath for as Long as They Can",
+        //           2885,
+        //           "2015-05-17 19:32",
+        //           272102,
+        //           354,
+        //         ],
+        //         [
+        //           1348,
+        //           "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+        //           1312,
+        //           "2017-06-10 12:32",
+        //           154370,
+        //           360,
+        //         ],
+        //         [
+        //           1003,
+        //           "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+        //           1751,
+        //           "2017-05-05 17:32",
+        //           279351,
+        //           350,
+        //         ],
+        //         [
+        //           1289,
+        //           "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+        //           4019,
+        //           "2019-11-10 12:32",
+        //           293255,
+        //           362,
+        //         ],
+        //         [
+        //           1038,
+        //           "A Day in The Life of David Letterman",
+        //           2949,
+        //           "2019-02-05 17:32",
+        //           298876,
+        //           353,
+        //         ],
+        //         [
+        //           1322,
+        //           "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+        //           1225,
+        //           "2015-02-10 12:32",
+        //           286795,
+        //           366,
+        //         ],
+        //       ],
+        //     },
+        //   },
+
+        //   descriptionDetails: `
+        //     <div class="desc-question-details">
+        //       <p class="desc-que-blue">Database</p>
+        //       <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        // <p>NOTE:</p>
+        //       <div class="sql-table-desc">
+        //         <div class="sql-table-caption">Table: channel_user table
+        //         </div>
+        //         <table>
+        //         <thead>
+        //           <tr>
+        //             <th>channel_id</th>
+        //             <th>user_id</th>
+        //             <th>subscribed_datetime</th>
+        //           </tr>
+        //         </thead>
+        //         <tbody>
+        //           <tr>
+        //             <td>100</td>
+        //             <td>1</td>
+        //             <td>2020-12-10 10:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>100</td>
+        //             <td>7</td>
+        //             <td>2020-10-10 11:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>--</td>
+        //             <td>--</td>
+        //             <td>--</td>
+        //           </tr>
+        //         </tbody>
+        //       </table>
+        //       </div>
+        //       <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+        //       <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+        //       <div class="sql-table-desc">
+        //       <div class="sql-table-caption">Table: user_likes table
+        //       </div>
+        //       <table>
+        //         <thead>
+        //           <tr>
+        //             <th>user_id</th>
+        //             <th>video_id</th>
+        //             <th>reaction_type</th>
+        //             <th>reacted_at</th>
+        //           </tr>
+        //         </thead>
+        //         <tbody>
+        //           <tr>
+        //             <td>1</td>
+        //             <td>10</td>
+        //             <td>LIKE</td>
+        //             <td>2020-12-10 10:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>7</td>
+        //             <td>10</td>
+        //             <td>DISLIKE</td>
+        //             <td>2020-10-10 11:30:45</td>
+        //           </tr>
+        //           <tr>
+        //             <td>--</td>
+        //             <td>--</td>
+        //             <td>--</td>
+        //             <td>--</td>
+        //           </tr>
+        //         </tbody>
+        //       </table>
+        //     </div>
+
+        //       <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+        //             <div class="sql-table-desc">
+        //   <div class="sql-table-caption">Table: video_genre table
+        //   </div>
+        //   <table>
+        //   <thead>
+        //     <tr>
+        //       <th>video_id</th>
+        //       <th>genre_id</th>
+        //     </tr>
+        //   </thead>
+        //   <tbody>
+        //     <tr>
+        //       <td>10</td>
+        //       <td>201</td>
+        //     </tr>
+        //     <tr>
+        //       <td>10</td>
+        //       <td>202</td>
+        //     </tr>
+        //     <tr>
+        //       <td>--</td>
+        //       <td>--</td>
+        //     </tr>
+        //   </tbody>
+        //   </table>
+        //   </div>
+        //             <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+        //       <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+
+        //       <p class="desc-que-blue">Question</p>
+        //      <p>
+        //      Get all the esport videos that crossed one lakh views and were released between 2018 and 2020.</p>
+
+        //    <div class="Note-container">
+        //    <div class="icon-note">
+        //      <h6>
+        //        <i class="bi bi-journal-text"></i>Note
+        //      </h6>
+        //    </div>
+        //    <ul>
+        //    <li>Consider the videos that have "esport" in theirname as gaming videos.<\li>
+        //    <li>Sort the output in the descending order of no_of_views and published_date time</li>
+        //    </ul>
+        //    </div>
+        //    <p class="desc-que-blue">Expected Output Format</p>
+        //    <div class="sql-table-desc">
+        //    <table>
+        //   <thead>
+        //   <tr>
+        //   <th>name</th>
+        //   <th>published_datetime</th>
+        //   <th>no_of_viewse</th>
+        //   </tr>
+        //   </thead>
+        //   <tbody>
+        //   <tr><td>--</td><td>--</td><td>--</td></tr>
+        //   </tbody>
+        //   </table>
+        //     </div>
+        //      </div>
+        //   `,
+
+        //   testCases: [
+        //     {
+        //       id: 1,
+        //       description: "Query should start with SELECT",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["select"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 2,
+        //       description:
+        //         "Query should select name, published_datetime and no_of_views",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["name", "published_datetime", "no_of_views"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 3,
+        //       description: "Query should use FROM VIDEO",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["from video"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 4,
+        //       description:
+        //         "Query should filter videos with more than 100000 views",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["no_of_views > 100000"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 5,
+        //       description:
+        //         "Query should filter name containing 'esport' using LIKE",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["name like", "esport"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 6,
+        //       description:
+        //         "Query should filter published year between 2018 and 2020",
+        //       type: "syntax-validation",
+        //       expectedKeywords: ["strftime", "2018", "2020"],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 7,
+        //       description:
+        //         "Query should use ORDER BY with no_of_views DESC and published_datetime DESC",
+        //       type: "syntax-validation",
+        //       expectedKeywords: [
+        //         "order by",
+        //         "no_of_views desc",
+        //         "published_datetime desc",
+        //       ],
+        //       visible: true,
+        //     },
+        //     {
+        //       id: 8,
+        //       description: "Query should not use GROUP BY",
+        //       type: "negative-validation",
+        //       forbiddenKeywords: ["group by"],
+        //       visible: false,
+        //     },
+        //     {
+        //       id: 9,
+        //       description: "Query should not use JOIN",
+        //       type: "negative-validation",
+        //       forbiddenKeywords: ["join"],
+        //       visible: false,
+        //     },
+        //     {
+        //       id: 10,
+        //       description: "Query should not use DISTINCT",
+        //       type: "negative-validation",
+        //       forbiddenKeywords: ["distinct"],
+        //       visible: false,
+        //     },
+        //   ],
+        // },
+        {
+          id: "sql-query-8-8",
+          title: "Number of channels",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            channel: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the total number of channels in the database as channels_count</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the output in the descending order of <b>published_date</b> time and then in the alphabetical order of <b>name</b></p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+             <th>channels_count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use COUNT function",
+              type: "syntax-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should count channel_id",
+              type: "syntax-validation",
+              expectedKeywords: ["count(channel_id)"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should use alias as channels_count",
+              type: "syntax-validation",
+              expectedKeywords: ["as channels_count"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use FROM channel",
+              type: "syntax-validation",
+              expectedKeywords: ["from channel"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-9",
+          title: "highest and least views ",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the highest and least number of views for the videos in the database.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the output in the descending order of <b>published_date</b> time and then in the alphabetical order of <b>name</b></p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+             <th>highest_number_of_views</th>
+             <th>least_number_of_views</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use MAX function",
+              type: "syntax-validation",
+              expectedKeywords: ["max"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use MIN function",
+              type: "syntax-validation",
+              expectedKeywords: ["min"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should calculate MAX on no_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["max(no_of_views)"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should calculate MIN on no_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["min(no_of_views)"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use alias as highest_number_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["as highest_number_of_views"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should use alias as least_number_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["as least_number_of_views"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should use FROM VIDEO",
+              type: "syntax-validation",
+              expectedKeywords: ["from video"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-10",
+          title: "Average number of views",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes.</p>
+        <p>NOTE:</p>
+              <div class="sql-table-desc">
+                <div class="sql-table-caption">Table: channel_user table
+                </div>
+                <table>
+                <thead>
+                  <tr>
+                    <th>channel_id</th>
+                    <th>user_id</th>
+                    <th>subscribed_datetime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>100</td>
+                    <td>1</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>7</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video. A user can either like or dislike a video. He cannot like or dislike a video multiple times (similar to how youtube works)</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to. A single video can belong to multiple genres</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the average number of views for the videos released by the "Single Shot" Channel (id = 373)</p>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+             <th>avg_views</th></tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use AVG function",
+              type: "syntax-validation",
+              expectedKeywords: ["avg"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should calculate AVG on no_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["avg(no_of_views)"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should use alias as avg_views",
+              type: "syntax-validation",
+              expectedKeywords: ["as avg_views"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use FROM VIDEO",
+              type: "syntax-validation",
+              expectedKeywords: ["from video"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter using WHERE clause",
+              type: "syntax-validation",
+              expectedKeywords: ["where"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter channel_id = 373",
+              type: "syntax-validation",
+              expectedKeywords: ["channel_id = 373"],
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    // SQL Practice 9
+    {
+      id: "sql-Assignment-2",
+      title: "SQL Coding Practice 9",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-9-1",
+          title: "1 lakh views",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            VIDEO: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes. 
+
+              </p>
+        <p>NOTE:</p>
+              
+        <div class="sql-table-desc">
+        <div class="sql-table-caption">Table: channel_user table
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>channel_id</th>
+              <th>user_id</th>
+              <th>subscribed_datetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100</td>
+              <td>1</td>
+              <td>2020-12-10 10:30:45</td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>7</td>
+              <td>2020-10-10 11:30:45</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, user_likestable stores the data of video_id and the user_ids who reacted to the video.</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly,video_genretable stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the total number of users in the platform as users_count.
+
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Use USER Table to fetch the data.</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>users_count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select all required columns",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              visible: true,
+            },
+            {
+              id: 3,
+              description:
+                "Query should filter videos with more than 100000 views",
+              type: "syntax-validation",
+              expectedKeywords: ["where", "no_of_views", ">"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should order results alphabetically by name",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "name", "asc"],
               visible: true,
             },
           ],

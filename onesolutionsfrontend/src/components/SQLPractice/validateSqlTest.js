@@ -377,7 +377,7 @@ const validateSyntax = (testCase, userCode, questionData) => {
       expected: "Query must end with a semicolon (;)",
     };
   }
-  
+
   // 2️⃣ Must NOT end with comma before semicolon
   if (/,;\s*$/.test(trimmedCode)) {
     return {
@@ -386,7 +386,7 @@ const validateSyntax = (testCase, userCode, questionData) => {
       expected: "Remove trailing comma before semicolon",
     };
   }
-  
+
   // 3️⃣ Must NOT end with comma only
   if (trimmedCode.endsWith(",")) {
     return {
@@ -912,16 +912,140 @@ const handleSelect = (sql, questionData) => {
     tableInfo.columns.forEach((col, i) => (obj[col] = row[i]));
     return obj;
   });
+  // ==========================
+  // AGGREGATES WITHOUT GROUP BY
+  // ==========================
+  if (!groupByClause) {
+    const countMatch = selectPart.match(
+      /count\s*\(\s*(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
 
+    const maxMatch = selectPart.match(
+      /max\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    const minMatch = selectPart.match(
+      /min\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    const sumMatch = selectPart.match(
+      /sum\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    const avgMatch = selectPart.match(
+      /avg\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    // If any aggregate exists
+    if (countMatch || maxMatch || minMatch || sumMatch || avgMatch) {
+      const result = {};
+
+      if (countMatch) {
+        const alias = countMatch[2] || "count";
+        result[alias] = rows.length;
+      }
+
+      if (maxMatch) {
+        const column = maxMatch[1];
+        const alias = maxMatch[2] || "max";
+        result[alias] = Math.max(...rows.map((r) => Number(r[column])));
+      }
+
+      if (minMatch) {
+        const column = minMatch[1];
+        const alias = minMatch[2] || "min";
+        result[alias] = Math.min(...rows.map((r) => Number(r[column])));
+      }
+
+      if (sumMatch) {
+        const column = sumMatch[1];
+        const alias = sumMatch[2] || "sum";
+        result[alias] = rows.reduce((acc, r) => acc + Number(r[column]), 0);
+      }
+
+      if (avgMatch) {
+        const column = avgMatch[1];
+        const alias = avgMatch[2] || "avg";
+        result[alias] =
+          rows.reduce((acc, r) => acc + Number(r[column]), 0) / rows.length;
+      }
+
+      return {
+        success: true,
+        output: `✅ Query executed successfully. Returned 1 row.`,
+        data: {
+          columns: Object.keys(result),
+          results: [result],
+          rowCount: 1,
+        },
+      };
+    }
+  }
   // ==========================
   // WHERE
   // ==========================
   if (whereClause) {
     rows = rows.filter((row) => {
-      if (whereClause.includes("2006")) {
-        return row.match_date?.startsWith("2006");
-      }
-      return true;
+      const conditions = whereClause.split(/and/i).map((c) => c.trim());
+
+      return conditions.every((condition) => {
+        // ----------------------------------
+        // 1️⃣ Handle strftime("%Y", column) = "2018"
+        // ----------------------------------
+        const yearMatch = condition.match(
+          /strftime\("%Y",\s*(\w+)\)\s*=\s*["'](\d{4})["']/i
+        );
+
+        if (yearMatch) {
+          const col = yearMatch[1];
+          const year = yearMatch[2];
+
+          const rowYear = new Date(row[col]).getFullYear().toString();
+
+          return rowYear === year;
+        }
+
+        // ----------------------------------
+        // 2️⃣ Handle LIKE "%text%"
+        // ----------------------------------
+        const likeMatch = condition.match(/(\w+)\s+like\s+["'](.+)["']/i);
+
+        if (likeMatch) {
+          const col = likeMatch[1];
+          const value = likeMatch[2].toLowerCase().replace(/%/g, "");
+
+          return String(row[col]).toLowerCase().includes(value);
+        }
+
+        // ----------------------------------
+        // 3️⃣ Handle numeric comparisons
+        // ----------------------------------
+        const match = condition.match(/(\w+)\s*(>=|<=|>|<|=)\s*(\d+)/);
+
+        if (match) {
+          const col = match[1];
+          const op = match[2];
+          const value = Number(match[3]);
+
+          switch (op) {
+            case "=":
+              return row[col] == value;
+            case ">":
+              return row[col] > value;
+            case "<":
+              return row[col] < value;
+            case ">=":
+              return row[col] >= value;
+            case "<=":
+              return row[col] <= value;
+            default:
+              return true;
+          }
+        }
+
+        // If condition not recognized, ignore it
+        return true;
+      });
     });
   }
 
@@ -1107,26 +1231,49 @@ const handleSelect = (sql, questionData) => {
       };
     });
   }
+  // ==========================
+  // APPLY SELECT COLUMN FILTERING
+  // ==========================
+  if (selectPart !== "*") {
+    const selectedColumns = selectPart.split(",").map((col) => col.trim());
+
+    rows = rows.map((row) => {
+      const filteredRow = {};
+      selectedColumns.forEach((col) => {
+        filteredRow[col] = row[col];
+      });
+      return filteredRow;
+    });
+  }
 
   // ==========================
-  // ORDER BY
+  // ORDER BY (multi-column)
   // ==========================
   if (orderByClause) {
-    const parts = orderByClause.split(/\s+/);
-    const column = parts[0];
-    const direction = parts[1]?.toLowerCase() || "asc";
+    const orderColumns = orderByClause.split(",").map((c) => c.trim());
 
     rows.sort((a, b) => {
-      const valA = a[column];
-      const valB = b[column];
+      for (let col of orderColumns) {
+        const parts = col.split(/\s+/);
+        const column = parts[0];
+        const direction = parts[1]?.toLowerCase() || "asc";
 
-      if (typeof valA === "number" && typeof valB === "number") {
-        return direction === "desc" ? valB - valA : valA - valB;
+        const valA = a[column];
+        const valB = b[column];
+
+        let comparison = 0;
+
+        if (typeof valA === "number" && typeof valB === "number") {
+          comparison = valA - valB;
+        } else {
+          comparison = String(valA).localeCompare(String(valB));
+        }
+
+        if (comparison !== 0) {
+          return direction === "desc" ? -comparison : comparison;
+        }
       }
-
-      return direction === "desc"
-        ? String(valB).localeCompare(String(valA))
-        : String(valA).localeCompare(String(valB));
+      return 0;
     });
   }
 

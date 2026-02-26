@@ -17,6 +17,11 @@ const {
   createDigitalMarketingTables,
 } = require("./digitalMarketingRoutes");
 
+const {
+  javaProgrammingApp,
+  createJavaTables,
+} = require("./javaProgrammingRoutes");
+
 // -------------------------------------------
 // 🔹 Database Connection
 // -------------------------------------------
@@ -7543,6 +7548,7 @@ app.get("/api/ai/categories", auth, async (req, res) => {
 
 // Add the router (somewhere before your 404 handler)
 app.use("/", digitalMarketingRouter);
+app.use("/", javaProgrammingApp);
 
 // Handle 404 routes
 app.use("*", (req, res) => {
@@ -7584,6 +7590,7 @@ const PORT = process.env.PORT || 5002;
     await createTables();
     // Add digital marketing tables
     await createDigitalMarketingTables();
+    await createJavaTables();
 
     console.log("✅ All database tables initialized");
     app.listen(PORT, () => {

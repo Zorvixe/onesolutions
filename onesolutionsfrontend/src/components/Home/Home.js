@@ -854,7 +854,7 @@ const Home = () => {
           </p>
           <button onClick={toggleAiApp}>Chat with BroOne</button>
         </div>
-        <img src="/assets/BroOneImg.png" alt="BroOne" className="broone_img" />
+        <img src="/assets/manlaptop.png" alt="BroOne" className="broone_img" />
       </div>
 
       {/* Live Classes Section */}
@@ -867,25 +867,7 @@ const Home = () => {
         }}
       >
         <h1>Live Classes</h1>
-        {liveClassesError && (
-          <button
-            onClick={handleRefreshLiveClasses}
-            style={{
-              padding: "5px 10px",
-              backgroundColor: "#f0f0f0",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontSize: "12px",
-            }}
-          >
-            <i
-              className="bi bi-arrow-repeat"
-              style={{ marginRight: "5px" }}
-            ></i>
-            Refresh
-          </button>
-        )}
+       
       </div>
 
       <div className="live">
