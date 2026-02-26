@@ -61,7 +61,7 @@ const DiscussionThreadDetail = () => {
       console.log("🔍 Fetching admin details...");
 
       const response = await axios.get(
-        `https://ose.onesolutionsekam.in/api/admin/me`,
+        `https://apiose.onesolutionsekam.in/api/admin/me`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

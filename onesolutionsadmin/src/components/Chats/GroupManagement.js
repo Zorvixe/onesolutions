@@ -18,7 +18,7 @@ const GroupManagement = () => {
 
   const fetchGroups = async () => {
     try {
-      const response = await fetch(`https://ose.onesolutionsekam.in/api/chat/rooms`);
+      const response = await fetch(`https://apiose.onesolutionsekam.in/api/chat/rooms`);
       const data = await response.json();
       setGroups(data);
     } catch (error) {
@@ -34,7 +34,7 @@ const GroupManagement = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`https://ose.onesolutionsekam.in/api/chat/rooms/${editingGroup.id}`, {
+      const response = await fetch(`https://apiose.onesolutionsekam.in/api/chat/rooms/${editingGroup.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ const GroupManagement = () => {
 
   const handleDelete = async (groupId) => {
     try {
-      const response = await fetch(`https://ose.onesolutionsekam.in/api/chat/rooms/${groupId}`, {
+      const response = await fetch(`https://apiose.onesolutionsekam.in/api/chat/rooms/${groupId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

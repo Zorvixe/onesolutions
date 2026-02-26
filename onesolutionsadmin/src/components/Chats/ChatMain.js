@@ -22,7 +22,7 @@ const Chatted = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `https://ose.onesolutionsekam.in/api/admin/me`,
+          `https://apiose.onesolutionsekam.in/api/admin/me`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -39,7 +39,7 @@ const Chatted = () => {
   // Connect socket after userPhone is available
   useEffect(() => {
     if (userPhone) {
-      const newSocket = io(`https://ose.onesolutionsekam.in/`, {
+      const newSocket = io(`https://apiose.onesolutionsekam.in/`, {
         query: { phone: userPhone },
         reconnection: true,
         transports: ["websocket"],

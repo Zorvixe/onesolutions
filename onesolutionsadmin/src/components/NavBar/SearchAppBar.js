@@ -117,7 +117,7 @@ export default function SearchAppBar() {
       }
 
       try {
-        const response = await fetch(`https://ose.onesolutionsekam.in/api/admin/me`, {
+        const response = await fetch(`https://apiose.onesolutionsekam.in/api/admin/me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

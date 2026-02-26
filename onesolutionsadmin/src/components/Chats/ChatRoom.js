@@ -48,7 +48,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `https://ose.onesolutionsekam.in/api/chat/messages/${roomId}`,
+          `https://apiose.onesolutionsekam.in/api/chat/messages/${roomId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMessages(response.data);
@@ -83,7 +83,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `https://ose.onesolutionsekam.in/api/chat/messages`,
+        `https://apiose.onesolutionsekam.in/api/chat/messages`,
         message,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -117,7 +117,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `https://ose.onesolutionsekam.in/api/chat/messages/${messageId}`,
+        `https://apiose.onesolutionsekam.in/api/chat/messages/${messageId}`,
         { message: newText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -138,7 +138,7 @@ const ChatRoom = ({ roomId, roomName, user, socket, onBack }) => {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `https://ose.onesolutionsekam.in/api/chat/messages/${messageId}`,
+        `https://apiose.onesolutionsekam.in/api/chat/messages/${messageId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

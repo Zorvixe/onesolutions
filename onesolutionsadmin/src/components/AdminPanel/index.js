@@ -74,7 +74,7 @@ const AdminPanel = () => {
     async (token) => {
       setLoading(true);
       try {
-        const url = `https://ose.onesolutionsekam.in/api/jobs/adminpanel${
+        const url = `https://apiose.onesolutionsekam.in/api/jobs/adminpanel${
           viewAllJobs ? "?view=all" : ""
         }`;
         const response = await fetch(url, {
@@ -165,7 +165,7 @@ const AdminPanel = () => {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/jobs/${jobToDelete}`,
+        `https://apiose.onesolutionsekam.in/api/jobs/${jobToDelete}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -209,8 +209,8 @@ const AdminPanel = () => {
     setIsSubmitting(true);
     const token = localStorage.getItem("token");
     const url = editJobId
-      ? `https://ose.onesolutionsekam.in/api/jobs/${editJobId}`
-      : `https://ose.onesolutionsekam.in/api/jobs`;
+      ? `https://apiose.onesolutionsekam.in/api/jobs/${editJobId}`
+      : `https://apiose.onesolutionsekam.in/api/jobs`;
 
     try {
       const response = await fetch(url, {

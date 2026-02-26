@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./LiveClasses.css";
 
 const API_BASE_URL =
-  process.env.REACT_APP_API_URL || "https://ose.onesolutionsekam.in";
+  process.env.REACT_APP_API_URL || "https://apiose.onesolutionsekam.in";
 
 const LiveClasses = () => {
   const [classes, setClasses] = useState([]);

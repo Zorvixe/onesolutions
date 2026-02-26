@@ -170,7 +170,7 @@ const PopUp = () => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     const method = popup.id ? "PUT" : "POST";
-    const url = popup.id ? `https://ose.onesolutionsekam.in/${popup.id}` : API_BASE_URL;
+    const url = popup.id ? `https://apiose.onesolutionsekam.in/${popup.id}` : API_BASE_URL;
 
     if (
       !popup.popup_heading ||
@@ -216,7 +216,7 @@ const PopUp = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch(`https://ose.onesolutionsekam.in/${id}`, {
+      const response = await fetch(`https://apiose.onesolutionsekam.in/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

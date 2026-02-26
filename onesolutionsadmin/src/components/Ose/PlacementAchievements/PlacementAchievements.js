@@ -31,7 +31,7 @@ const PlacementAchievements = () => {
   const fetchAchievements = async () => {
     try {
       const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/admin/placement-achievements`,
+        `https://apiose.onesolutionsekam.in/api/admin/placement-achievements`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -90,8 +90,8 @@ const PlacementAchievements = () => {
     e.preventDefault();
     try {
       const url = editingAchievement
-        ? `https://ose.onesolutionsekam.in/api/placement-achievements/${editingAchievement.id}`
-        : `https://ose.onesolutionsekam.in/api/placement-achievements`;
+        ? `https://apiose.onesolutionsekam.in/api/placement-achievements/${editingAchievement.id}`
+        : `https://apiose.onesolutionsekam.in/api/placement-achievements`;
 
       const method = editingAchievement ? "PUT" : "POST";
 
@@ -229,7 +229,7 @@ const PlacementAchievements = () => {
     if (window.confirm("Are you sure you want to delete this achievement?")) {
       try {
         const response = await fetch(
-          `https://ose.onesolutionsekam.in/api/placement-achievements/${id}`,
+          `https://apiose.onesolutionsekam.in/api/placement-achievements/${id}`,
           {
             method: "DELETE",
             headers: {

@@ -59,7 +59,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        `https://ose.onesolutionsekam.in/api/admin/login`,
+        `https://apiose.onesolutionsekam.in/api/admin/login`,
         {
           method: "POST",
           headers: {

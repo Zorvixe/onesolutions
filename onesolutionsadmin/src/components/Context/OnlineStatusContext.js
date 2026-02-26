@@ -15,7 +15,7 @@ export const OnlineStatusProvider = ({ children }) => {
     
     const fetchInitialStatus = async () => {
       try {
-        const response = await fetch(`https://ose.onesolutionsekam.in/api/session/status`, {
+        const response = await fetch(`https://apiose.onesolutionsekam.in/api/session/status`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         const data = await response.json();
@@ -60,7 +60,7 @@ export const OnlineStatusProvider = ({ children }) => {
   
   const persistTimeToBackend = async (time) => {
     try {
-      await fetch(`https://ose.onesolutionsekam.in/api/session/update`, {
+      await fetch(`https://apiose.onesolutionsekam.in/api/session/update`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -77,7 +77,7 @@ export const OnlineStatusProvider = ({ children }) => {
   const handleOnline = async () => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`https://ose.onesolutionsekam.in/api/session/start`, {
+      await fetch(`https://apiose.onesolutionsekam.in/api/session/start`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -93,7 +93,7 @@ export const OnlineStatusProvider = ({ children }) => {
   const handleOffline = async () => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`https://ose.onesolutionsekam.in/api/session/end`, {
+      await fetch(`https://apiose.onesolutionsekam.in/api/session/end`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` }
       });

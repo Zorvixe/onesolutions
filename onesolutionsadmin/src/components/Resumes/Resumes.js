@@ -17,8 +17,8 @@ const Resumes = () => {
       setLoading(true);
       try {
         const [pubResp, atsResp] = await Promise.all([
-          fetch(`https://ose.onesolutionsekam.in/api/public/resumes`),
-          fetch(`https://ose.onesolutionsekam.in/api/analyzed-resumes`),
+          fetch(`https://apiose.onesolutionsekam.in/api/public/resumes`),
+          fetch(`https://apiose.onesolutionsekam.in/api/analyzed-resumes`),
         ]);
         if (!pubResp.ok) throw new Error("Failed to fetch uploaded resumes");
         if (!atsResp.ok) throw new Error("Failed to fetch ATS resumes");
@@ -91,7 +91,7 @@ const Resumes = () => {
                     <td>{Math.round(resume.match_percentage)}%</td>
                     <td>
                       <a
-                        href={`https://ose.onesolutionsekam.in/api/public/resumes/${resume.id}/download`}
+                        href={`https://apiose.onesolutionsekam.in/api/public/resumes/${resume.id}/download`}
                         className="download-link"
                       >
                         📄 Download
@@ -130,7 +130,7 @@ const Resumes = () => {
                       <td>{Math.round(match_percentage)}%</td>
                       <td>
                         <a
-                          href={`https://ose.onesolutionsekam.in/api/analyzed-resumes/${id}/download`}
+                          href={`https://apiose.onesolutionsekam.in/api/analyzed-resumes/${id}/download`}
                           className="download-link"
                         >
                           📄 Download

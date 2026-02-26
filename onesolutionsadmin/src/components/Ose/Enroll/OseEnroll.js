@@ -48,7 +48,7 @@ const OseEnroll = () => {
       }
 
       const response = await axios.post(
-        "https://ose.onesolutionsekam.in/api/auth/refresh",
+        "https://apiose.onesolutionsekam.in/api/auth/refresh",
         { refreshToken }
       );
 
@@ -133,7 +133,7 @@ const OseEnroll = () => {
 
       const params = new URLSearchParams(cleanFilters).toString();
       const response = await axios.get(
-        `https://ose.onesolutionsekam.in/api/admin/enrollments?${params}`,
+        `https://apiose.onesolutionsekam.in/api/admin/enrollments?${params}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -182,7 +182,7 @@ const OseEnroll = () => {
       }
 
       const response = await axios.get(
-        "https://ose.onesolutionsekam.in/api/admin/enrollments/stats",
+        "https://apiose.onesolutionsekam.in/api/admin/enrollments/stats",
         {
           headers: {
             "Content-Type": "application/json",
@@ -243,7 +243,7 @@ const OseEnroll = () => {
   const handleStatusUpdate = async (id) => {
     try {
       await axios.put(
-        `https://ose.onesolutionsekam.in/api/admin/enrollments/${id}/status`,
+        `https://apiose.onesolutionsekam.in/api/admin/enrollments/${id}/status`,
         updateStatus,
         {
           headers: {
@@ -265,7 +265,7 @@ const OseEnroll = () => {
   const handleExport = async () => {
     try {
       const response = await axios.get(
-        "https://ose.onesolutionsekam.in/api/admin/enrollments/export",
+        "https://apiose.onesolutionsekam.in/api/admin/enrollments/export",
         {
           headers: {
             "Content-Type": "application/json",
@@ -321,7 +321,7 @@ const OseEnroll = () => {
 
     try {
       await axios.delete(
-        `https://ose.onesolutionsekam.in/api/admin/enrollments/${id}`,
+        `https://apiose.onesolutionsekam.in/api/admin/enrollments/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

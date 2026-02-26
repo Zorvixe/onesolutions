@@ -45,7 +45,7 @@ const OseContacts = () => {
       }
 
       const response = await axios.post(
-        "https://ose.onesolutionsekam.in/api/auth/refresh",
+        "https://apiose.onesolutionsekam.in/api/auth/refresh",
         { refreshToken }
       );
 
@@ -118,7 +118,7 @@ const OseContacts = () => {
       setLoading(true);
       const params = new URLSearchParams(filters).toString();
       const response = await axios.get(
-        `https://ose.onesolutionsekam.in/api/admin/contacts?${params}`,
+        `https://apiose.onesolutionsekam.in/api/admin/contacts?${params}`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
           timeout: 10000,
@@ -143,7 +143,7 @@ const OseContacts = () => {
     try {
       setStatsLoading(true);
       const response = await axios.get(
-        "https://ose.onesolutionsekam.in/api/admin/contacts/stats",
+        "https://apiose.onesolutionsekam.in/api/admin/contacts/stats",
         {
           headers: { Authorization: `Bearer ${getToken()}` },
           timeout: 5000,
@@ -174,7 +174,7 @@ const OseContacts = () => {
   const handleStatusUpdate = async (id, status) => {
     try {
       await axios.put(
-        `https://ose.onesolutionsekam.in/api/admin/contacts/${id}`,
+        `https://apiose.onesolutionsekam.in/api/admin/contacts/${id}`,
         { status },
         {
           headers: { Authorization: `Bearer ${getToken()}` },
@@ -192,7 +192,7 @@ const OseContacts = () => {
   const handleSendResponse = async (id) => {
     try {
       await axios.put(
-        `https://ose.onesolutionsekam.in/api/admin/contacts/${id}`,
+        `https://apiose.onesolutionsekam.in/api/admin/contacts/${id}`,
         {
           response: responseText,
           status: "responded",
@@ -215,7 +215,7 @@ const OseContacts = () => {
   const handleExport = async () => {
     try {
       const response = await axios.get(
-        "https://ose.onesolutionsekam.in/api/admin/contacts/export",
+        "https://apiose.onesolutionsekam.in/api/admin/contacts/export",
         {
           headers: { Authorization: `Bearer ${getToken()}` },
           responseType: "blob",
@@ -249,7 +249,7 @@ const OseContacts = () => {
 
     try {
       await axios.delete(
-        `https://ose.onesolutionsekam.in/api/admin/contacts/${id}`,
+        `https://apiose.onesolutionsekam.in/api/admin/contacts/${id}`,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
         }
