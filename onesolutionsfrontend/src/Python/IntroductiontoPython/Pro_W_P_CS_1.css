@@ -1,5 +1,5 @@
 .intro-container {
-  width: 85%;
+  width: 100%;
   margin: 20px auto;
   font-family: Arial, sans-serif;
   line-height: 1.8;
@@ -351,4 +351,10 @@ code {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
+}
+
+@media (max-width: 576px) {
+  .intro-container {
+    width: 100%;
+  }
 }

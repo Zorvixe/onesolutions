@@ -30,6 +30,9 @@ const DigitalSubtopicPage = () => {
   const [goalModules, setGoalModules] = useState([]);
   const [goalIndex, setGoalIndex] = useState(0);
 
+  // ✅ ADDED: UI State to control sliding up on mobile
+  const [isMobileContentVisible, setIsMobileContentVisible] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -181,6 +184,9 @@ const DigitalSubtopicPage = () => {
           setContent(contentFromState);
           setIsAccessible(true);
 
+          // ✅ Trigger slide up when loaded directly via URL/state on mobile
+          setIsMobileContentVisible(true);
+
           // Set navigation context from state
           if (location.state.goalId) {
             setSelectedGoal({
@@ -235,6 +241,9 @@ const DigitalSubtopicPage = () => {
 
             setContent(contentData);
             setIsAccessible(true);
+
+            // ✅ Trigger slide up when loaded directly via URL on mobile
+            setIsMobileContentVisible(true);
 
             if (contentData.goal_id) {
               setSelectedGoal({
@@ -313,6 +322,9 @@ const DigitalSubtopicPage = () => {
       else contentType = "video";
     }
     contentItem.content_type = contentType;
+
+    // ✅ Trigger sliding overlay on Mobile device
+    setIsMobileContentVisible(true);
 
     navigate(`/digital/content/${contentItem.content_uuid}`, {
       state: {
@@ -455,8 +467,30 @@ const DigitalSubtopicPage = () => {
         )}
       </div>
 
-      {/* RIGHT PANEL - Content */}
-      <div className="subtopic-page-sub__right-panel-sub">
+      {/* RIGHT PANEL - Content - Conditional class attached for sliding animation */}
+      <div
+        className={`subtopic-page-sub__right-panel-sub ${isMobileContentVisible ? "mobile-visible" : ""}`}
+      >
+        {/* ✅ ADDED: Back to topics button (Only shows on mobile) */}
+        <button
+          className="mobile-back-button"
+          onClick={() => setIsMobileContentVisible(false)}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to Topics
+        </button>
+
         {content && isAccessible ? (
           <div className="digital-content-container">
             {renderContentComponent()}

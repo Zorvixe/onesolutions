@@ -24,6 +24,9 @@ const SubtopicPage = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isAccessible, setIsAccessible] = useState(true);
 
+  // ✅ ADDED: UI State to control sliding up on mobile
+  const [isMobileContentVisible, setIsMobileContentVisible] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -227,6 +230,9 @@ const SubtopicPage = () => {
           setSelectedGoalSub(foundGoalSub);
           setExpandedModuleSub(topicId);
 
+          // ✅ Trigger slide up when loaded directly via URL on mobile
+          setIsMobileContentVisible(true);
+
           console.log(
             `SubtopicPage loaded: ${foundSubtopicSub.name} (${subtopicId})`
           );
@@ -316,6 +322,9 @@ const SubtopicPage = () => {
       isModuleAccessible &&
       isSubtopicAccessible
     ) {
+      // ✅ Trigger sliding overlay on Mobile device
+      setIsMobileContentVisible(true);
+
       navigate(`/topic/${module.id}/subtopic/${subtopic.id}`, {
         state: {
           subtopicName: subtopic.name,
@@ -458,8 +467,30 @@ const SubtopicPage = () => {
         ) : null}
       </div>
 
-      {/* RIGHT PANEL */}
-      <div className="subtopic-page-sub__right-panel-sub">
+      {/* RIGHT PANEL - Conditional class attached for sliding animation */}
+      <div
+        className={`subtopic-page-sub__right-panel-sub ${isMobileContentVisible ? "mobile-visible" : ""}`}
+      >
+        {/* ✅ ADDED: Back to topics button (Only shows on mobile) */}
+        <button
+          className="mobile-back-button"
+          onClick={() => setIsMobileContentVisible(false)}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          Back to Topics
+        </button>
+
         {selectedSubtopicSub && isAccessible ? (
           isContentInCurrentContext(selectedSubtopicSub) ? (
             <div>

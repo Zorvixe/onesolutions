@@ -495,23 +495,42 @@
   border: 1px solid #e0e0e0;
 }
 
-/* Responsive */
+/* ===== ENHANCED MOBILE UI ===== */
 @media (max-width: 480px) {
   .courses-container {
     margin-left: 0px !important;
-    padding: 20px !important;
+    padding: 15px !important;
     padding-top: 30px !important;
-    padding-bottom: 65px !important;
+    padding-bottom: 50px !important;
+  }
+
+  .goals-wrapper {
+    gap: 30px;
+  }
+
+  .goal-group {
+    padding: 15px 12px 10px 16px; /* slightly smaller padding, keep rail room */
   }
 
   .goal-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
+    gap: 12px;
+  }
+
+  .goal-meta {
+    width: 100%;
+  }
+
+  .progress-section {
+    width: 100%;
+    justify-content: space-between;
   }
 
   .progress {
-    width: 160px;
+    width: 100%; /* take available space */
+    flex: 1;
+    margin-right: 10px;
   }
 
   .courses {
@@ -519,45 +538,103 @@
     gap: 12px;
   }
 
+  .couses-and-status {
+    flex-direction: row;
+    gap: 10px;
+    align-items: flex-start; /* Keep progress circle aligned near the top */
+  }
+
   .couses-and-status h4 {
     font-size: 15px;
-    max-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.4;
+    max-width: none; /* remove rigid truncation */
+    white-space: normal; /* wrap gracefully instead of cutting off */
+    overflow: visible;
+  }
+
+  .highlight-after {
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 4px;
+  }
+
+  .active-module_course {
+    justify-content: flex-start; /* Align left for mobile */
+  }
+
+  .module-details {
+    padding: 10px;
   }
 
   .module-single-div {
-    padding: 10px 15px;
-    flex-direction: column;
+    padding: 12px 10px;
+    flex-direction: row; /* RESTORE desktop-like clean row structure */
+    align-items: flex-start;
   }
 
   .timeline {
-    width: 100%;
-    flex-direction: row;
-    justify-content: flex-start;
-    padding-top: 0;
-    margin-bottom: 10px;
-  }
-
-  .circle-row {
-    width: auto;
-    margin-right: 15px;
+    width: 30px; /* Thinner timeline */
+    flex-direction: column; /* Keep circles vertical */
+    margin-bottom: 0;
   }
 
   .vertical-line {
-    display: none;
+    display: block; /* Restore vertical tracking line */
+    left: 14px; /* Center perfectly beneath the 30px timeline column */
+    top: 35px;
+    bottom: 15px;
+  }
+
+  .module-circle-row,
+  .subtopic-circle-row {
+    height: 35px; /* Spacing between circles */
+  }
+
+  .module-circle {
+    width: 24px;
+    height: 24px;
+  }
+
+  .module-circle::after {
+    width: 10px;
+    height: 10px;
+  }
+
+  .subtopic-circle {
+    width: 16px;
+    height: 16px;
+    font-size: 8px;
   }
 
   .content-area {
-    margin-left: 0;
-    width: 100%;
+    margin-left: 10px;
+    width: calc(100% - 40px); /* Fill remaining space safely */
   }
 
   .module-header-row {
-    flex-direction: column;
-    gap: 5px;
+    flex-direction: column; /* Stack topic tag and title */
     align-items: flex-start;
+    gap: 4px;
+  }
+
+  .topic-label h6 {
+    font-size: 10px;
+  }
+
+  .module-title h5 {
+    font-size: 14px;
+  }
+
+  .module_topic_names {
+    align-items: flex-start;
+  }
+
+  .subtopic-content-row {
+    min-height: 35px;
+  }
+
+  .subtopic-text {
+    font-size: 13px;
   }
 }
 

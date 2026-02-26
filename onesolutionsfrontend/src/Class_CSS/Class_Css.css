@@ -1253,6 +1253,12 @@
   }
 }
 
+@media (max-width: 576px) {
+  .subtopic-container-clss {
+    width: 100%;
+  }
+}
+
 @media (max-width: 480px) {
   .video-container-clss {
     height: 250px;
@@ -1632,28 +1638,28 @@
   .video-tracker-header-clss {
     padding: 12px 15px;
   }
-  
+
   .progress-display-clss {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .progress-bar-container-clss {
     width: 100%;
   }
-  
+
   .completion-buttons-clss {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .feedback-button-clss,
   .complete-button-clss {
     width: 100%;
     justify-content: center;
   }
-  
+
   .progress-status-message-clss,
   .ready-to-complete-clss {
     font-size: 13px;
@@ -1665,12 +1671,12 @@
   .video-tracker-header-clss {
     padding: 10px 12px;
   }
-  
+
   .progress-label-clss,
   .time-label-clss {
     font-size: 12px;
   }
-  
+
   .progress-percentage-clss,
   .time-value-clss {
     font-size: 14px;
