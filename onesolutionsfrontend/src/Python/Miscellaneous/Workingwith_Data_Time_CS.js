@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { CodeBlock } from "../../CodeOutputBlocks";
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
 const Workingwith_Data_Time_CS = ({
   subtopicId,
@@ -13,18 +13,12 @@ const Workingwith_Data_Time_CS = ({
 
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [mcqAnswers, setMcqAnswers] = useState({});
 
-  // Check if subtopic is already completed
   useEffect(() => {
     if (completedContent.includes(subtopicId)) {
       setIsSubtopicCompleted(true);
     }
   }, [completedContent, subtopicId]);
-
-  const handleAnswer = (question, option) => {
-    setMcqAnswers((prev) => ({ ...prev, [question]: option }));
-  };
 
   const handleContinue = async () => {
     if (isLoading || isSubtopicCompleted) return;
@@ -40,16 +34,10 @@ const Workingwith_Data_Time_CS = ({
       if (result.success) {
         await loadProgressSummary();
         setIsSubtopicCompleted(true);
-        console.log("✅ Cheat sheet marked as completed");
       } else {
-        console.error(
-          "❌ Failed to mark cheat sheet complete:",
-          result.message
-        );
         alert("Failed to mark as complete. Please try again.");
       }
     } catch (error) {
-      console.error("❌ Failed to mark cheat sheet complete:", error);
       alert("Failed to mark as complete. Please try again.");
     } finally {
       setIsLoading(false);
@@ -60,144 +48,305 @@ const Workingwith_Data_Time_CS = ({
     <div className="intro-container">
       <h1>Working With Dates & Times | Cheat Sheet</h1>
 
-      {/* Datetime Module */}
       <section>
-        <h2>Datetime Module</h2>
+        <h2>Datetime</h2>
         <p>
-          Python provides the built-in <b>datetime</b> module for working with
-          dates and times.
+          Python has a built-in <b>datetime</b> module which provides convenient
+          objects to work with dates and times.
         </p>
-        <p>Commonly used classes in datetime:</p>
+
+        <CodeBlock language="python" code={`import datetime`} />
+
+        <h3>Datetime classes</h3>
         <ul>
-          <li>date</li>
-          <li>time</li>
-          <li>datetime</li>
-          <li>timedelta</li>
+          <li>date class</li>
+          <li>time class</li>
+          <li>datetime class</li>
+          <li>timedelta class</li>
         </ul>
       </section>
 
-      {/* Working with date class */}
       <section>
-        <h2>Working with date class</h2>
-        <p>Creating a date object:</p>
-        <CodeBlock
-          language="python"
-          code={`from datetime import date\nmy_date = date(2025, 10, 14)\nprint(my_date)`}
-        />
+        <h2>Working with 'date' class</h2>
 
+        <h3>Representing Date</h3>
         <p>
-          Today's date using <code>today()</code>:
+          A date object can be used to represent any valid <b>date</b> (year,
+          month and day).
         </p>
         <CodeBlock
           language="python"
-          code={`today = date.today()\nprint(today)`}
+          code={`import datetime
+date_object = datetime.date(2019, 4, 13)
+print(date_object)`}
         />
+        <OutputBlock output={["2019-04-13"]} />
 
-        <p>Date attributes:</p>
+        <h3>Date Object</h3>
         <CodeBlock
           language="python"
-          code={`print(today.year)\nprint(today.month)\nprint(today.day)`}
+          code={`from datetime import date
+date_obj = date(2022, 2, 31)
+print(date_obj)`}
         />
+        <OutputBlock output={["ValueError: day is out of range for month"]} />
+
+        <h3>Today’s Date</h3>
+        <p>
+          Class method <code>today()</code> returns a date object with{" "}
+          <b>today’s date</b>.
+        </p>
+        <CodeBlock
+          language="python"
+          code={`import datetime
+date_object = datetime.date.today()
+print(date_object)`}
+        />
+        <OutputBlock output={["2021-02-05"]} />
+
+        <h3>Attributes of Date Object</h3>
+        <CodeBlock
+          language="python"
+          code={`from datetime import date
+date_object = date(2019, 4, 13)
+print(date_object.year)
+print(date_object.month)
+print(date_object.day)`}
+        />
+        <OutputBlock output={["2019", "4", "13"]} />
       </section>
 
-      {/* Working with time class */}
       <section>
-        <h2>Working with time class</h2>
-        <p>Creating a time object:</p>
-        <CodeBlock
-          language="python"
-          code={`from datetime import time\nmy_time = time(14, 30, 45)\nprint(my_time)`}
-        />
+        <h2>Working with ‘time’ Class</h2>
 
-        <p>Time attributes:</p>
+        <h3>Representing Time</h3>
+        <p>
+          A time object can be used to represent any valid <b>time</b> (hours,
+          minutes and seconds).
+        </p>
         <CodeBlock
           language="python"
-          code={`print(my_time.hour)\nprint(my_time.minute)\nprint(my_time.second)`}
+          code={`from datetime import time
+time_object = time(11, 34, 56)
+print(time_object)`}
         />
+        <OutputBlock output={["11:34:56"]} />
+
+        <h3>Attributes of Time Object</h3>
+        <CodeBlock
+          language="python"
+          code={`from datetime import time
+time_object = time(11, 34, 56)
+print(time_object)
+print(time_object.hour)
+print(time_object.minute)
+print(time_object.second)`}
+        />
+        <OutputBlock output={["11:34:56", "11", "34", "56"]} />
       </section>
 
-      {/* Working with datetime class */}
       <section>
-        <h2>Working with datetime class</h2>
-        <p>Creating a datetime object:</p>
-        <CodeBlock
-          language="python"
-          code={`from datetime import datetime\ndt = datetime(2025, 10, 14, 14, 30, 0)\nprint(dt)`}
-        />
+        <h2>Working with ‘datetime’ Class</h2>
+        <p>
+          The datetime class represents a valid <b>date and time</b> together.
+        </p>
 
-        <p>Current date and time:</p>
+        <h3>Example - 1</h3>
         <CodeBlock
           language="python"
-          code={`now = datetime.now()\nprint(now)`}
+          code={`from datetime import datetime
+date_time_obj = datetime(2018, 11, 28, 10, 15, 26)
+print(date_time_obj.year)
+print(date_time_obj.month)
+print(date_time_obj.hour)
+print(date_time_obj.minute)`}
         />
+        <OutputBlock output={["2018", "11", "10", "15"]} />
 
-        <p>Datetime attributes:</p>
+        <h3>Example - 2</h3>
+        <p>It gives the current date and time</p>
         <CodeBlock
           language="python"
-          code={`print(now.year)\nprint(now.month)\nprint(now.day)\nprint(now.hour)\nprint(now.minute)\nprint(now.second)`}
+          code={`import datetime
+datetime_object = datetime.datetime.now()
+print(datetime_object)`}
         />
+        <OutputBlock output={["2021-02-05 09:26:08.077473"]} />
+
+        <h3>DateTime object</h3>
+        <CodeBlock
+          language="python"
+          code={`from datetime import datetime
+date_time_obj = datetime(2018, 11, 28)
+print(date_time_obj)`}
+        />
+        <OutputBlock output={["2018-11-28 00:00:00"]} />
       </section>
 
-      {/* Formatting datetime */}
       <section>
         <h2>Formatting Datetime</h2>
         <p>
-          Use <code>strftime(format)</code> to format datetime:
+          The datetime classes have <code>strftime(format)</code> method to
+          format the datetime into any required format like{" "}
         </p>
+        <ul>
+          <li>mm/dd/yyyy</li>
+          <li>dd-mm-yyyy</li>
+        </ul>
+        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+          <thead>
+            <tr>
+              <th style={{ background: "skyblue" }}>Format Specifier</th>
+              <th style={{ background: "skyblue" }}>Meaning</th>
+              <th style={{ background: "skyblue" }}>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>%y</td>
+              <td>Year without century as a zero-padded decimal number</td>
+              <td>19, 20, ...</td>
+            </tr>
+            <tr>
+              <td>%Y</td>
+              <td>Year with century as a decimal number</td>
+              <td>2019, 2020, ...</td>
+            </tr>
+            <tr>
+              <td>%b</td>
+              <td>Month as abbreviated name</td>
+              <td>Jan, Feb, ...</td>
+            </tr>
+            <tr>
+              <td>%B</td>
+              <td>Month as full name</td>
+              <td>January, February</td>
+            </tr>
+            <tr>
+              <td>%m</td>
+              <td>Month as a zero-padded decimal number</td>
+              <td>01, 02, …, 12</td>
+            </tr>
+            <tr>
+              <td>%d</td>
+              <td>Day of the month as a zero-padded decimal number</td>
+              <td>01, 02, …, 31</td>
+            </tr>
+            <tr>
+              <td>%a</td>
+              <td>Weekday as abbreviated name</td>
+              <td>Sun, Mon, ...</td>
+            </tr>
+            <tr>
+              <td>%A</td>
+              <td>Weekday as full name</td>
+              <td>Sunday, Monday</td>
+            </tr>
+            <tr>
+              <td>%H</td>
+              <td>Hour (24-hour clock) as a zero-padded decimal number</td>
+              <td>00, 01, …, 23</td>
+            </tr>
+            <tr>
+              <td>%I</td>
+              <td>Hour (12-hour clock) as a zero-padded decimal number</td>
+              <td>01, 02, …, 12</td>
+            </tr>
+            <tr>
+              <td>%p</td>
+              <td>AM or PM</td>
+              <td>AM, PM</td>
+            </tr>
+            <tr>
+              <td>%M</td>
+              <td>Minute as a zero-padded decimal number</td>
+              <td>00, 01, …, 59</td>
+            </tr>
+            <tr>
+              <td>%S</td>
+              <td>Second as a zero-padded decimal number</td>
+              <td>00, 01, …, 59</td>
+            </tr>
+          </tbody>
+        </table>
+
         <CodeBlock
           language="python"
-          code={`formatted = now.strftime("%d-%m-%Y %H:%M:%S")\nprint(formatted)`}
+          code={`from datetime import datetime
+now = datetime.now()
+formatted_datetime_1 = now.strftime("%d %b %Y %I:%M:%S %p")
+print(formatted_datetime_1)
+formatted_datetime_2 = now.strftime("%d/%m/%Y, %H:%M:%S")
+print(formatted_datetime_2)`}
         />
-
-        <p>Common format specifiers:</p>
-        <ul>
-          <li>%Y - Year with century</li>
-          <li>%m - Month (01-12)</li>
-          <li>%d - Day of month (01-31)</li>
-          <li>%H - Hour (24-hour)</li>
-          <li>%M - Minute (00-59)</li>
-          <li>%S - Second (00-59)</li>
-          <li>%b/%B - Month name short/full</li>
-          <li>%a/%A - Weekday short/full</li>
-          <li>%p - AM/PM</li>
-        </ul>
+        <OutputBlock
+          output={["05 Feb 2021 09:26:50 AM", "05/02/2021, 09:26:50"]}
+        />
       </section>
 
-      {/* Parsing datetime */}
       <section>
         <h2>Parsing Datetime</h2>
         <p>
-          Create a datetime object from a string using <code>strptime()</code>:
+          The class method <code>strptime()</code> creates a{" "}
+          <b>datetime object</b>
+          from a given string representing date and time.
         </p>
+
         <CodeBlock
           language="python"
-          code={`dt_str = "14-10-2025 14:30:00"\ndt_obj = datetime.strptime(dt_str, "%d-%m-%Y %H:%M:%S")\nprint(dt_obj)`}
+          code={`from datetime import datetime
+date_string = "28 November, 2018"
+print(date_string)
+date_object = datetime.strptime(date_string, "%d %B, %Y")
+print(date_object)`}
         />
+        <OutputBlock output={["28 November, 2018", "2018-11-28 00:00:00"]} />
       </section>
 
-      {/* Working with timedelta */}
       <section>
-        <h2>Working with timedelta</h2>
-        <p>Timedelta represents duration or difference between dates:</p>
+        <h2>Working with ‘timedelta’ Class</h2>
+        <p>
+          Timedelta object represents <b>duration</b>.
+        </p>
+
+        <h3>Example 1</h3>
         <CodeBlock
           language="python"
-          code={`from datetime import timedelta\ndelta = timedelta(days=5, hours=3)\nprint(delta)`}
+          code={`from datetime import timedelta
+delta = timedelta(days=365, hours=4)
+print(delta)`}
+        />
+        <OutputBlock output={["365 days, 4:00:00"]} />
+
+        <h3>Example 2</h3>
+        <CodeBlock
+          language="python"
+          code={`from datetime import timedelta, datetime
+delta = timedelta(days=365)
+current_datetime = datetime.now()
+print(current_datetime)
+next_year_datetime = current_datetime + delta
+print(next_year_datetime)`}
+        />
+        <OutputBlock
+          output={["2021-02-05 09:28:30.239095", "2022-02-05 09:28:30.239095"]}
         />
 
-        <p>Calculate new date/time:</p>
+        <h3>Calculating Time Difference</h3>
         <CodeBlock
           language="python"
-          code={`future_date = today + timedelta(days=10)\nprint(future_date)`}
+          code={`import datetime
+dt1 = datetime.datetime(2021, 2, 5)
+dt2 = datetime.datetime(2022, 1, 1)
+duration = dt2 - dt1
+print(duration)
+print(type(duration))`}
         />
-
-        <p>Time difference between two dates:</p>
-        <CodeBlock
-          language="python"
-          code={`diff = datetime(2025,10,20) - datetime(2025,10,14)\nprint(diff.days, "days")`}
+        <OutputBlock
+          output={["330 days, 0:00:00", "<class 'datetime.timedelta'>"]}
         />
       </section>
 
-      {/* Continue Button */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}

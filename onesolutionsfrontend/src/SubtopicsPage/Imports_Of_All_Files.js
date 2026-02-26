@@ -729,6 +729,11 @@ import Introductionto_Expressjs_CS_2 from "../Nodejs/Introductionto_Expressjs/In
 import Introductionto_Expressjs_MCQ_2 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_MCQ_2.js";
 import Introductionto_Expressjs_CS_3 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_CS_3.js";
 import Introductionto_Expressjs_MCQ_3 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_MCQ_3.js";
+import Rest_API_CS from "../Nodejs/REST_APIs/Rest_API_CS.js";
+import Rest_API_MCQ from "../Nodejs/REST_APIs/Rest_API_MCQ.js";
+import Debug_Cmmn_Errors_CS from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_CS.js";
+import Debug_Cmmn_Errors_P2_CS from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_P2_CS.js";
+import Debug_Cmmn_Errors_MCQ from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_MCQ.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -1175,7 +1180,7 @@ export const subtopicComponents = {
     Introductionto_OPP_Part_1_Class,
   "Object Oriented Programming": Introductionto_OPP_Part_2_Class,
   "Classes & Objects": Classes_Object_Class,
-  "Attribute Methods": Attributes_Methods_Class,
+  "Attributes and Methods": Attributes_Methods_Class,
   "Inheritance Part 1": Inheritance_Part_1_Class,
   "Inheritance Part 2": Inheritance_Part_2_Class,
   "Coding Practice 32": Coding_Pratice_32,
@@ -1406,6 +1411,11 @@ export const subtopicComponents = {
     Introductionto_Expressjs_CS_3,
   "MCQ Pratice - Introduction to Express JS | Part 3":
     Introductionto_Expressjs_MCQ_3,
+  "REST APIs | Cheat Sheet": Rest_API_CS,
+  "MCQ Pratice - REST APIs": Rest_API_MCQ,
+  "Debugging Common Errors | Cheat Sheet": Debug_Cmmn_Errors_CS,
+  "Debugging Common Errors | Part 2 | Cheat Sheet": Debug_Cmmn_Errors_P2_CS,
+  "MCQ Pratice - Debugging Common Errors": Debug_Cmmn_Errors_MCQ,
 
   //JavaScript Class
   "Introduction to Dynamic Web Applications":
