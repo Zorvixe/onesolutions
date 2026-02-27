@@ -18,7 +18,7 @@ const {
 } = require("./digitalMarketingRoutes");
 
 const {
-  javaProgrammingApp,
+  app: javaProgrammingApp,
   createJavaTables,
 } = require("./javaProgrammingRoutes");
 
@@ -70,7 +70,8 @@ app.use(
 // -------------------------------------------
 // 🔹 PRODUCTION SAFE UPLOAD CONFIGURATION
 // -------------------------------------------
-const UPLOAD_BASE_PATH = process.env.UPLOAD_PATH || path.join(__dirname, 'uploads');
+const UPLOAD_BASE_PATH =
+  process.env.UPLOAD_PATH || path.join(__dirname, "uploads");
 console.log(`📁 Uploads will be stored in: ${UPLOAD_BASE_PATH}`);
 
 // Ensure directories exist
@@ -3170,7 +3171,10 @@ app.put(
         oldProfileImage &&
         oldProfileImage !== "/uploads/default-profile.png"
       ) {
-        const oldImagePath = path.join(UPLOAD_BASE_PATH, oldProfileImage.replace('/uploads/', '')); // ✓ CORRECT
+        const oldImagePath = path.join(
+          UPLOAD_BASE_PATH,
+          oldProfileImage.replace("/uploads/", "")
+        ); // ✓ CORRECT
         if (fs.existsSync(oldImagePath)) {
           try {
             fs.unlinkSync(oldImagePath);
@@ -5728,7 +5732,11 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
 
     // Validate course_selection if provided
     if (updateData.course_selection) {
-      const validCourses = ["web_development", "digital_marketing", "java_programming"];
+      const validCourses = [
+        "web_development",
+        "digital_marketing",
+        "java_programming",
+      ];
       if (!validCourses.includes(updateData.course_selection)) {
         return res.status(400).json({
           success: false,
@@ -6318,8 +6326,8 @@ app.delete("/api/admin/class-videos/:subtopicId", async (req, res) => {
 
     const video = result.rows[0];
     if (video.video_type === "uploaded" && video.video_url) {
-      const filename = video.video_url.replace('/uploads/videos/', '');
-    const videoPath = path.join(UPLOAD_BASE_PATH, 'videos', filename); 
+      const filename = video.video_url.replace("/uploads/videos/", "");
+      const videoPath = path.join(UPLOAD_BASE_PATH, "videos", filename);
       if (fs.existsSync(videoPath)) {
         fs.unlinkSync(videoPath);
       }
