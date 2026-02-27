@@ -156,7 +156,12 @@ class MyComponent extends Component {
           </li>
         </ul>
 
-        <table className="table-diff">
+       
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
           <thead>
             <tr>
               <th>HTML</th>
@@ -331,7 +336,12 @@ state = { key1: value3, key2: value2 };`}
         />
 
         <h3>3.3 Functional Components vs Class Components</h3>
-        <table className="table-diff">
+       
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
           <thead>
             <tr>
               <th>Functional Components</th>

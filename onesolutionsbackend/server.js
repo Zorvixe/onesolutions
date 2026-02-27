@@ -444,14 +444,15 @@ CHECK (student_type IN (
 `);
   // In the students table creation query, add this field after student_type:
   await pool.query(`
-ALTER TABLE students
-ADD COLUMN IF NOT EXISTS course_selection VARCHAR(250)
-DEFAULT 'web_development'
-CHECK (course_selection IN (
-  'web_development',
-  'digital_marketing'
-));
-`);
+  ALTER TABLE students
+  ADD COLUMN IF NOT EXISTS course_selection VARCHAR(250)
+  DEFAULT 'web_development'
+  CHECK (course_selection IN (
+    'web_development',
+    'digital_marketing',
+    'java_programming'
+  ));
+  `);
 
   console.log("✅ Added course_selection column");
 
@@ -2804,7 +2805,7 @@ app.post(
       .withMessage("Invalid student type"),
     body("courseSelection")
       .optional()
-      .isIn(["web_development", "digital_marketing"])
+      .isIn(["web_development", "digital_marketing", "java_programming"])
       .withMessage("Invalid course selection"),
   ],
   async (req, res) => {
@@ -3831,7 +3832,7 @@ UPDATE students SET
   bachelor_institute_district = COALESCE($51, bachelor_institute_district),
   occupation_status = COALESCE($52, occupation_status),
   has_work_experience = COALESCE($53, has_work_experience),
-  course_selection = COALESCE($54, course_selection),
+  course_selection = COALESCE($54, course_selection), // ✅ This is correct
   updated_at = CURRENT_TIMESTAMP
 WHERE id = $55
 RETURNING *
@@ -5727,12 +5728,12 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
 
     // Validate course_selection if provided
     if (updateData.course_selection) {
-      const validCourses = ["web_development", "digital_marketing"];
+      const validCourses = ["web_development", "digital_marketing", "java_programming"];
       if (!validCourses.includes(updateData.course_selection)) {
         return res.status(400).json({
           success: false,
           message:
-            "Invalid course selection. Must be one of: web_development, digital_marketing",
+            "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming", // ✅ FIXED
         });
       }
     }

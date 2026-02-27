@@ -33,6 +33,7 @@ const StudentList = () => {
   const courseOptions = [
     { value: "web_development", label: "Web Development" },
     { value: "digital_marketing", label: "Digital Marketing" },
+    { value: "java_programming", label: "Java Programming" },
   ];
 
   const [editingStudent, setEditingStudent] = useState(null);
@@ -210,11 +211,14 @@ const StudentList = () => {
     );
   };
 
+  const validCourses = ["web_development", "digital_marketing", "java_programming"];
+
   // 🔥 NEW: Get course badge
   const getCourseBadge = (course) => {
     const courseConfig = {
       web_development: { color: "#0d9488", bg: "#f0fdfa", label: "Web Dev" },
       digital_marketing: { color: "#b45309", bg: "#fff7ed", label: "Digi Mkt" },
+      java_programming: { color: "#ea580c", bg: "#fff7ed", label: "Java" },
     };
     const config = courseConfig[course] || courseConfig.web_development;
     return (
@@ -464,17 +468,18 @@ const StudentList = () => {
   };
 
   // 🔥 NEW: Course statistics
-  const getCourseStats = () => {
-    const stats = {
-      web_development: 0,
-      digital_marketing: 0,
-    };
-    students.forEach((student) => {
-      const course = student.course_selection || "web_development";
-      if (stats[course] !== undefined) stats[course]++;
-    });
-    return stats;
+ const getCourseStats = () => {
+  const stats = {
+    web_development: 0,
+    digital_marketing: 0,
+    java_programming: 0,
   };
+  students.forEach((student) => {
+    const course = student.course_selection || "web_development";
+    if (stats[course] !== undefined) stats[course]++;
+  });
+  return stats;
+};
 
   // Pagination component
   const Pagination = () => {
@@ -667,29 +672,41 @@ const StudentList = () => {
 
       {/* 🔥 NEW: Course Stats Row */}
       <div className="stats-overview-stud" style={{ marginTop: '20px' }}>
-        <div className="stat-card-stud">
-          <div className="stat-icon-stud" style={{ backgroundColor: "#f0fdfa" }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="#0d9488">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-6h2v6zm0-8h-2V6h2v2z" />
-            </svg>
-          </div>
-          <div className="stat-info-stud">
-            <h3>{courseStats.web_development}</h3>
-            <p>Web Development</p>
-          </div>
-        </div>
-        <div className="stat-card-stud">
-          <div className="stat-icon-stud" style={{ backgroundColor: "#fff7ed" }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="#b45309">
-              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2h6v2h-6V6zm0 4h6v2h-6v-2zm0 4h6v2h-6v-2zM8 6v2H4V6h4zm0 4v2H4v-2h4zm0 4v2H4v-2h4z" />
-            </svg>
-          </div>
-          <div className="stat-info-stud">
-            <h3>{courseStats.digital_marketing}</h3>
-            <p>Digital Marketing</p>
-          </div>
-        </div>
-      </div>
+  <div className="stat-card-stud">
+    <div className="stat-icon-stud" style={{ backgroundColor: "#f0fdfa" }}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#0d9488">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-6h2v6zm0-8h-2V6h2v2z" />
+      </svg>
+    </div>
+    <div className="stat-info-stud">
+      <h3>{courseStats.web_development}</h3>
+      <p>Web Development</p>
+    </div>
+  </div>
+  <div className="stat-card-stud">
+    <div className="stat-icon-stud" style={{ backgroundColor: "#fff7ed" }}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#b45309">
+        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2h6v2h-6V6zm0 4h6v2h-6v-2zm0 4h6v2h-6v-2zM8 6v2H4V6h4zm0 4v2H4v-2h4zm0 4v2H4v-2h4z" />
+      </svg>
+    </div>
+    <div className="stat-info-stud">
+      <h3>{courseStats.digital_marketing}</h3>
+      <p>Digital Marketing</p>
+    </div>
+  </div>
+  {/* 🔥 NEW: Java Programming Stat Card */}
+  <div className="stat-card-stud">
+    <div className="stat-icon-stud" style={{ backgroundColor: "#fff7ed" }}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="#ea580c">
+        <path d="M18 9v4H6V9H4v6h16V9h-2z" />
+      </svg>
+    </div>
+    <div className="stat-info-stud">
+      <h3>{courseStats.java_programming}</h3>
+      <p>Java Programming</p>
+    </div>
+  </div>
+</div>
 
       {/* Filters Section */}
       <div className="filters-section-stud">

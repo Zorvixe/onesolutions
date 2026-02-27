@@ -123,9 +123,14 @@ const Introductionto_Reactjs_CS = ({
           code={`<script type="text/javascript" src="PATH_TO_JS_FILE.js"></script>`}
         />
 
-        <p>
-          {" "}
-          <b>Note: </b>
+        
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
           When the browser comes across a script element while loading the HTML,
           it must wait for the script to download, execute it, and only then can
           it process the rest of the page.
@@ -139,6 +144,7 @@ const Introductionto_Reactjs_CS = ({
           If more than one script elements are in the HTML, the script elements
           will be executed in the order they appear.
         </p>
+        </div>
       </section>
 
       {/* 3. Creating Elements using React JS */}
@@ -181,12 +187,17 @@ const Introductionto_Reactjs_CS = ({
 </script>`}
         />
 
-        <p>
-          {" "}
-          <b>Note: </b>
+          <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>
           The <code>type</code> attribute value of the HTML script element
           should be <b>module</b> to run React JS.
         </p>
+        </div>
 
         <h3>3.3 ReactDOM.render()</h3>
         <p>
@@ -240,11 +251,17 @@ const Introductionto_Reactjs_CS = ({
 const element = React.createElement("h1", elementProps);`}
         />
 
-        <h3>Warning</h3>
+          <div className="Warning-container">
+                <div>
+                  <h5>
+                    <i class="bi bi-exclamation-triangle"></i>Warning
+                  </h5>
+                </div>
         <p>
           In JSX, HTML tags always need to be closed. For example,{" "}
           <code>&lt;br /&gt;</code>, <code>&lt;img /&gt;</code>.
         </p>
+        </div>
 
         <h3>4.1 Babel</h3>
         <p>
@@ -266,7 +283,12 @@ const element = React.createElement("h1", elementProps);`}
 </script>`}
         />
 
-        <h3>Note</h3>
+<div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
         <ul>
           <li>
             For JSX, the <code>type</code> attribute value of the HTML script
@@ -277,9 +299,15 @@ const element = React.createElement("h1", elementProps);`}
             <code>className</code>.
           </li>
         </ul>
+   </div>
 
         <h3>Differences between HTML and JSX:</h3>
-        <table className="table-diff">
+     
+        <table
+          border="1"
+          cellPadding="6"
+          style={{ borderCollapse: "collapse", width: "100%" }}
+        >
           <thead>
             <tr>
               <th>HTML</th>
@@ -340,6 +368,20 @@ const element = React.createElement("h1", elementProps);`}
           render. So, we need to wrap the elements in parenthesis when writing
           nested elements.
         </p>
+        <CodeBlock
+          language="html"
+          code={`<body>
+          <script type="text/babel">
+            const element = (
+              <div>
+                <h1 className="greeting">Hello!</h1>
+                <p>Good to see you here.</p>
+              </div>
+            );
+            ReactDOM.render(element, document.getElementById("root"));
+          </script>
+        </body>`}
+        />
       </section>
 
       {/* Continue Button */}

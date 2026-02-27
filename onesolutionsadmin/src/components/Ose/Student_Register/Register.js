@@ -25,6 +25,7 @@ const Register = () => {
   const courseOptions = [
     { value: "web_development", label: "Web Development" },
     { value: "digital_marketing", label: "Digital Marketing" },
+    { value: "java_programming", label: "Java Programming" },
   ];
 
   const [profileImage, setProfileImage] = useState(null);
@@ -172,7 +173,7 @@ const Register = () => {
     }
 
     // Course selection validation
-    const validCourses = ["web_development", "digital_marketing"];
+    const validCourses = ["web_development", "digital_marketing", "java_programming"]; // 🔥 UPDATE THIS
     if (!formData.courseSelection) {
       errors.courseSelection = "Course selection is required";
     } else if (!validCourses.includes(formData.courseSelection)) {
@@ -389,6 +390,8 @@ const Register = () => {
         return "Full stack web development with React, Node.js, and databases";
       case "digital_marketing":
         return "SEO, Social Media Marketing, Content Strategy, and Analytics";
+      case "java_programming":
+        return "Core Java, Spring Boot, Hibernate, and backend development";
       default:
         return "";
     }
@@ -400,6 +403,8 @@ const Register = () => {
         return "#0d9488";
       case "digital_marketing":
         return "#b45309";
+      case "java_programming":
+        return "#ea580c"; // Orange color for Java
       default:
         return "#0d9488";
     }

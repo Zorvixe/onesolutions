@@ -6842,7 +6842,7 @@ You can assume that:
         // },
       ],
     },
-    // SQL Practice 8
+    // SQL Assignment 1
     {
       id: "sql-Assignment-1",
       title: "SQL Coding Practice 8",
@@ -7769,6 +7769,7 @@ You can assume that:
         },
         {
           id: "sql-query-8-4",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Recent movie trailers",
           description:
             "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
@@ -8073,6 +8074,7 @@ You can assume that:
         },
         {
           id: "sql-query-8-5",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Released in 2018",
           description:
             "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
@@ -8908,6 +8910,7 @@ You can assume that:
         // },
         {
           id: "sql-query-8-8",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Number of channels",
           description:
             "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
@@ -9183,6 +9186,7 @@ You can assume that:
         },
         {
           id: "sql-query-8-9",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "highest and least views ",
           description:
             "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
@@ -9480,6 +9484,7 @@ You can assume that:
         },
         {
           id: "sql-query-8-10",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Average number of views",
           description:
             "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
@@ -9760,7 +9765,7 @@ You can assume that:
         },
       ],
     },
-    // SQL Practice 9
+    // SQL Assignment 2
     {
       id: "sql-Assignment-2",
       title: "SQL Coding Practice 9",
@@ -9768,7 +9773,7 @@ You can assume that:
       questions: [
         {
           id: "sql-query-9-1",
-          title: "1 lakh views",
+          title: "Number of users",
           description:
             "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
 
@@ -9781,7 +9786,521 @@ You can assume that:
           },
 
           tableData: {
-            VIDEO: {
+            user: {
+              columns: ["user_id", "name", "email", "country", "created_at"],
+              rows: [
+                [
+                  1,
+                  "Arjun Reddy",
+                  "arjun@gmail.com",
+                  "India",
+                  "2018-01-10 10:00",
+                ],
+                [
+                  2,
+                  "Sneha Sharma",
+                  "sneha@gmail.com",
+                  "India",
+                  "2018-02-15 12:30",
+                ],
+                [
+                  3,
+                  "Rahul Verma",
+                  "rahul@gmail.com",
+                  "USA",
+                  "2018-03-20 09:45",
+                ],
+                [4, "Priya Nair", "priya@gmail.com", "UK", "2018-04-05 14:10"],
+                [
+                  5,
+                  "Karan Mehta",
+                  "karan@gmail.com",
+                  "USA",
+                  "2018-05-18 16:25",
+                ],
+                [
+                  6,
+                  "Anjali Rao",
+                  "anjali@gmail.com",
+                  "Canada",
+                  "2018-06-22 18:40",
+                ],
+                [
+                  7,
+                  "Vikram Singh",
+                  "vikram@gmail.com",
+                  "India",
+                  "2018-07-30 20:15",
+                ],
+                [
+                  8,
+                  "Neha Kapoor",
+                  "neha@gmail.com",
+                  "Australia",
+                  "2018-08-11 11:05",
+                ],
+                [
+                  9,
+                  "Rohit Das",
+                  "rohit@gmail.com",
+                  "Canada",
+                  "2018-09-09 13:50",
+                ],
+                [
+                  10,
+                  "Meera Iyer",
+                  "meera@gmail.com",
+                  "Germany",
+                  "2018-10-25 17:35",
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes. 
+
+              </p>
+        <p>NOTE:</p>
+              
+        <div class="sql-table-desc">
+        <div class="sql-table-caption">Table: channel_user table
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>channel_id</th>
+              <th>user_id</th>
+              <th>subscribed_datetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100</td>
+              <td>1</td>
+              <td>2020-12-10 10:30:45</td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>7</td>
+              <td>2020-10-10 11:30:45</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video.</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the total number of users in the platform as users_count.
+
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Use <b>user</b> Table to fetch the data.</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>users_count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use COUNT function",
+              type: "syntax-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should count user_id column",
+              type: "syntax-validation",
+              expectedKeywords: ["count(user_id)"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should use alias users_count",
+              type: "syntax-validation",
+              expectedKeywords: ["as users_count"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use USER table",
+              type: "syntax-validation",
+              expectedKeywords: ["from user"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-2",
+          title: "Distinct countries ",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["user_id", "name", "email", "country", "created_at"],
+              rows: [
+                [
+                  1,
+                  "Arjun Reddy",
+                  "arjun@gmail.com",
+                  "India",
+                  "2018-01-10 10:00",
+                ],
+                [
+                  2,
+                  "Sneha Sharma",
+                  "sneha@gmail.com",
+                  "India",
+                  "2018-02-15 12:30",
+                ],
+                [
+                  3,
+                  "Rahul Verma",
+                  "rahul@gmail.com",
+                  "USA",
+                  "2018-03-20 09:45",
+                ],
+                [4, "Priya Nair", "priya@gmail.com", "UK", "2018-04-05 14:10"],
+                [
+                  5,
+                  "Karan Mehta",
+                  "karan@gmail.com",
+                  "USA",
+                  "2018-05-18 16:25",
+                ],
+                [
+                  6,
+                  "Anjali Rao",
+                  "anjali@gmail.com",
+                  "Canada",
+                  "2018-06-22 18:40",
+                ],
+                [
+                  7,
+                  "Vikram Singh",
+                  "vikram@gmail.com",
+                  "India",
+                  "2018-07-30 20:15",
+                ],
+                [
+                  8,
+                  "Neha Kapoor",
+                  "neha@gmail.com",
+                  "Australia",
+                  "2018-08-11 11:05",
+                ],
+                [
+                  9,
+                  "Rohit Das",
+                  "rohit@gmail.com",
+                  "Canada",
+                  "2018-09-09 13:50",
+                ],
+                [
+                  10,
+                  "Meera Iyer",
+                  "meera@gmail.com",
+                  "Germany",
+                  "2018-10-25 17:35",
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes. 
+
+              </p>
+        <p>NOTE:</p>
+              
+        <div class="sql-table-desc">
+        <div class="sql-table-caption">Table: channel_user table
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>channel_id</th>
+              <th>user_id</th>
+              <th>subscribed_datetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100</td>
+              <td>1</td>
+              <td>2020-12-10 10:30:45</td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>7</td>
+              <td>2020-10-10 11:30:45</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video.</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the total number of distinct countries where the users are located. Country of the user is present in the user table.
+
+             </p>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>countries_count</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use COUNT function",
+              type: "syntax-validation",
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use DISTINCT keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["distinct"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should count DISTINCT country column",
+              type: "syntax-validation",
+              expectedKeywords: ["count(distinct country)"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use alias countries_count",
+              type: "syntax-validation",
+              expectedKeywords: ["as countries_count"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use USER table",
+              type: "syntax-validation",
+              expectedKeywords: ["from user"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-3",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Number of videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 25,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
               columns: [
                 "video_id",
                 "name",
@@ -9950,7 +10469,7 @@ You can assume that:
               </table>
             </div>
 
-              <p>Similarly, user_likestable stores the data of video_id and the user_ids who reacted to the video.</p>
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video.</p>
                     <div class="sql-table-desc">
           <div class="sql-table-caption">Table: video_genre table
           </div>
@@ -9977,31 +10496,23 @@ You can assume that:
           </tbody>
           </table>
           </div>
-                    <p>Similarly,video_genretable stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
               <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
               
               <p class="desc-que-blue">Question</p>
-             <p>Get the total number of users in the platform as users_count.
-
-             </p>
-             <div class="Note-container">
-             <div class="icon-note">
-               <h6>
-                 <i class="bi bi-journal-text"></i>Note
-               </h6>
-             </div>
-             <p>Use USER Table to fetch the data.</p>
-             </div>
+             <p>Get the number of videos uploaded by each channel.</p>
              <p class="desc-que-blue">Expected Output Format</p>
              <div class="sql-table-desc">
              <table>
             <thead>
             <tr>
-            <th>users_count</th>
+            <th>channel_id</th>
+            <th>videos_count</th>
             </tr>
             </thead>
             <tbody>
-            <tr><td>--</td></tr>
+            <tr><td>--</td>
+            <td>--</td></tr>
             </tbody>
             </table>
               </div>
@@ -10018,9 +10529,38 @@ You can assume that:
             },
             {
               id: 2,
-              description: "Query should select all required columns",
+              description: "Query should contain COUNT function",
               type: "syntax-validation",
-              expectedKeywords: [
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain GROUP BY clause",
+              type: "syntax-validation",
+              expectedKeywords: ["group by"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-4",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "All the channels",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
+              columns: [
                 "video_id",
                 "name",
                 "duration_in_secs",
@@ -10028,21 +10568,1328 @@ You can assume that:
                 "no_of_views",
                 "channel_id",
               ],
+              rows: [
+                [
+                  1100,
+                  "#VeteransDay: Thank You for Everything",
+                  4830,
+                  "2018-05-05 19:00",
+                  137261,
+                  367,
+                ],
+                [
+                  1316,
+                  "'Lord of the Rings' TV Series Gets Multi-Season Order At Amazon | News Flash | Entertainment Weekly",
+                  4654,
+                  "2017-06-10 12:32",
+                  130574,
+                  366,
+                ],
+                [
+                  1488,
+                  "(HD VERSION) Kelly Clarkson & P!nk Everybody Hurts LIVE at the 2017 American Music Awards!",
+                  3389,
+                  "2021-01-19 21:19",
+                  201187,
+                  366,
+                ],
+                [
+                  1089,
+                  "10 LIFE HACKS YOU NEED TO KNOW with TEENS (REACT)",
+                  1867,
+                  "2019-05-05 17:32",
+                  133738,
+                  350,
+                ],
+                [
+                  1009,
+                  "100 People Hold Their Breath for as Long as They Can",
+                  2885,
+                  "2015-05-17 19:32",
+                  272102,
+                  354,
+                ],
+                [
+                  1348,
+                  "2CELLOS - Cinema Paradiso [OFFICIAL VIDEO]",
+                  1312,
+                  "2017-06-10 12:32",
+                  154370,
+                  360,
+                ],
+                [
+                  1003,
+                  "4 Reasons I Don't Like Thanksgiving || Mayim Bialik",
+                  1751,
+                  "2017-05-05 17:32",
+                  279351,
+                  350,
+                ],
+                [
+                  1289,
+                  "7.3 Magnitude Earthquake Along Iraq-Iran Border Leaves At Least 400 Dead, 7,200 Injured | TIME",
+                  4019,
+                  "2019-11-10 12:32",
+                  293255,
+                  362,
+                ],
+                [
+                  1038,
+                  "A Day in The Life of David Letterman",
+                  2949,
+                  "2019-02-05 17:32",
+                  298876,
+                  353,
+                ],
+                [
+                  1322,
+                  "A Quiet Place (2018) - Official Teaser Trailer - Paramount Pictures",
+                  1225,
+                  "2015-02-10 12:32",
+                  286795,
+                  366,
+                ],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes. 
+
+              </p>
+        <p>NOTE:</p>
+              
+        <div class="sql-table-desc">
+        <div class="sql-table-caption">Table: channel_user table
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>channel_id</th>
+              <th>user_id</th>
+              <th>subscribed_datetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100</td>
+              <td>1</td>
+              <td>2020-12-10 10:30:45</td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>7</td>
+              <td>2020-10-10 11:30:45</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video.</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get the ids of all the channels that have uploaded at least 50 videos.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the output in the ascending order of the <b>channel_id</b>
+             </p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>channel_id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should use GROUP BY clause",
+              type: "syntax-validation",
+              expectedKeywords: ["group by"],
               visible: true,
             },
             {
               id: 3,
-              description:
-                "Query should filter videos with more than 100000 views",
+              description: "Query should use HAVING clause",
               type: "syntax-validation",
-              expectedKeywords: ["where", "no_of_views", ">"],
+              expectedKeywords: ["having"],
               visible: true,
             },
             {
               id: 4,
-              description: "Query should order results alphabetically by name",
+              description: "Query should use COUNT aggregate",
               type: "syntax-validation",
-              expectedKeywords: ["order by", "name", "asc"],
+              expectedKeywords: ["count"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use ORDER BY channel_id ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "asc"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-6",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "AI/ML Videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 50,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
+              columns: [
+                "video_id",
+                "name",
+                "duration_in_secs",
+                "published_datetime",
+                "no_of_views",
+                "channel_id",
+              ],
+              rows: [
+                [
+                  2001,
+                  "Introduction to AI/ML Basics",
+                  1200,
+                  "2019-03-10 10:00",
+                  50000,
+                  101,
+                ],
+                [
+                  2002,
+                  "Robotics for Beginners",
+                  1500,
+                  "2020-07-15 14:00",
+                  60000,
+                  102,
+                ],
+                [
+                  2003,
+                  "Advanced AI/ML Techniques",
+                  1800,
+                  "2018-11-20 09:30",
+                  70000,
+                  101,
+                ],
+                [2004, "Cooking Tutorial", 900, "2019-05-05 17:32", 20000, 103],
+                [
+                  2005,
+                  "Robotics in 2022",
+                  1600,
+                  "2022-01-01 10:00",
+                  80000,
+                  104,
+                ],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The sample database consists of tables that store the information of users, channels, videos, genres and likes/dislikes. 
+
+              </p>
+        <p>NOTE:</p>
+              
+        <div class="sql-table-desc">
+        <div class="sql-table-caption">Table: channel_user table
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>channel_id</th>
+              <th>user_id</th>
+              <th>subscribed_datetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>100</td>
+              <td>1</td>
+              <td>2020-12-10 10:30:45</td>
+            </tr>
+            <tr>
+              <td>100</td>
+              <td>7</td>
+              <td>2020-10-10 11:30:45</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+              <p><b>channel_user</b> table stores the data of the channel_ids and their subscribers' user_ids.</p>
+              <p>First row in the table represents that the user with user_id = 1 is subscribed to the channel with channel_id = 100 at <b>2020-12-10 10:30:45</b></p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: user_likes table
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>video_id</th>
+                    <th>reaction_type</th>
+                    <th>reacted_at</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>10</td>
+                    <td>LIKE</td>
+                    <td>2020-12-10 10:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>10</td>
+                    <td>DISLIKE</td>
+                    <td>2020-10-10 11:30:45</td>
+                  </tr>
+                  <tr>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td>--</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+              <p>Similarly, <b>user_likes</b> table stores the data of video_id and the user_ids who reacted to the video.</p>
+                    <div class="sql-table-desc">
+          <div class="sql-table-caption">Table: video_genre table
+          </div>
+          <table>
+          <thead>
+            <tr>
+              <th>video_id</th>
+              <th>genre_id</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>10</td>
+              <td>201</td>
+            </tr>
+            <tr>
+              <td>10</td>
+              <td>202</td>
+            </tr>
+            <tr>
+              <td>--</td>
+              <td>--</td>
+            </tr>
+          </tbody>
+          </table>
+          </div>
+                    <p>Similarly, <b>video_genre</b> table stores the data of video_id and the ids of the genres that the corresponding video belongs to.</p>
+              <p>Let’s dive in to analyze the in and outs of each part of the data. Here we go!</p>
+              
+              <p class="desc-que-blue">Question</p>
+             <p>Get all the channel_ids that uploaded at least one video in "AI/ML" technologies between 2018.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul><li>Consider all the videos that have any of the technologies mentioned above in their <b>name</b></li>
+             <li>Sort the output in the ascending order of <b>channel_id</b></li></ul>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>channel_id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should select channel_id",
+              type: "syntax-validation",
+              expectedKeywords: ["select", "channel_id"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should fetch from video table",
+              type: "syntax-validation",
+              expectedKeywords: ["from video"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should filter AI/ML videos",
+              type: "syntax-validation",
+              expectedKeywords: ["ai/ml"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should filter Robotics videos",
+              type: "syntax-validation",
+              expectedKeywords: ["robotics"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should filter year >= 2018",
+              type: "syntax-validation",
+              expectedKeywords: ["2018"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter year <= 2021",
+              type: "syntax-validation",
+              expectedKeywords: ["2021"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should group by channel_id",
+              type: "syntax-validation",
+              expectedKeywords: ["group by", "channel_id"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should order by channel_id ascending",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "asc"],
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    // SQL Practice 10
+    {
+      id: "sql-coding-practice-8",
+      title: "SQL Coding Practice 8",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-8-01",
+          title: "user entity type",
+          description:
+            "In this practice set, let's build a relational database for a typical social networking site.In a social networking site, we have user, post, group, and comment entities.Use Case: user can create multiple posts. Each post can have only one user.A user can make multiple comments to a post. Each comment can have only one user.A post can have multiple comments. Each comment can have only one post.A user can be in multiple groups. Each group can have multiple users.",
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["id", "name", "gender", "email_id"],
+              rows: [
+                [1, "Prathibha", "Female", "prathibha@gmail.com"],
+                [2, "Ramesh", "Male", "ramesh@gmail.com"],
+                [3, "Sneha", "Female", "sneha@gmail.com"],
+                [4, "Arjun", "Male", "arjun@gmail.com"],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "published_at", "user_id"],
+              rows: [
+                [101, "Learning SQL is interesting!", "2026-02-20 10:30:00", 1],
+                [102, "Database design concepts", "2026-02-21 11:00:00", 2],
+                [
+                  103,
+                  "Frontend vs Backend discussion",
+                  "2026-02-22 09:15:00",
+                  1,
+                ],
+                [104, "React Hooks explanation", "2026-02-23 04:45:00", 3],
+              ],
+            },
+
+            comment: {
+              columns: [
+                "comment_id",
+                "content",
+                "commented_at",
+                "user_id",
+                "post_id",
+              ],
+              rows: [
+                [1001, "Very useful post!", "2026-02-20 11:00:00", 2, 101],
+                [1002, "Thanks for sharing!", "2026-02-21 12:10:00", 3, 102],
+                [1003, "Great explanation", "2026-02-22 10:00:00", 4, 103],
+                [1004, "Helpful content", "2026-02-23 05:00:00", 1, 104],
+              ],
+            },
+
+            group_details: {
+              columns: ["id", "name"],
+              rows: [
+                [201, "SQL Learners"],
+                [202, "React Developers"],
+                [203, "Full Stack Engineers"],
+              ],
+            },
+
+            user_group: {
+              columns: ["user_id", "group_id", "joined_at", "is_admin"],
+              rows: [
+                [1, 201, "2026-02-01 09:00:00", true],
+                [2, 201, "2026-02-02 10:00:00", false],
+                [3, 202, "2026-02-03 11:00:00", true],
+                [4, 203, "2026-02-04 12:00:00", false],
+                [1, 202, "2026-02-05 01:00:00", false],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Write a query to represent the user entity type in the relational database. Below are the attributes of a user entity type. </p>
+        
+              <div class="sql-table-desc">
+               
+                <table>
+              <thead>
+                <tr>
+                  <th>attribute</th>
+                  <th>description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>id</td><td>an integer to uniquely identify a user - key attribute</td></tr>
+                <tr><td>name</td><td>a string of max length 250 characters</td></tr>
+                <tr><td>gender</td><td>a string of max length 50 characters</td></tr>
+                <tr><td>email_id</td><td>a string of max length 500 characters</td></tr>
+              </tbody>
+            </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM keyword",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should not have syntax errors",
+              type: "syntax-validation",
+              expectedKeywords: ["select", "from", "user"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-02",
+          title: "Created a user table",
+          description:
+            "In this practice set, let's build a relational database for a typical social networking site.In a social networking site, we have user, post, group, and comment entities.Use Case: user can create multiple posts. Each post can have only one user.A user can make multiple comments to a post. Each comment can have only one user.A post can have multiple comments. Each comment can have only one post.A user can be in multiple groups. Each group can have multiple users.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["id", "name", "gender", "email_id"],
+              rows: [
+                [1, "Prathibha", "Female", "prathibha@gmail.com"],
+                [2, "Ramesh", "Male", "ramesh@gmail.com"],
+                [3, "Sneha", "Female", "sneha@gmail.com"],
+                [4, "Arjun", "Male", "arjun@gmail.com"],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "published_at", "user_id"],
+              rows: [
+                [101, "Learning SQL is interesting!", "2026-02-20 10:30:00", 1],
+                [102, "Database design concepts", "2026-02-21 11:00:00", 2],
+                [
+                  103,
+                  "Frontend vs Backend discussion",
+                  "2026-02-22 09:15:00",
+                  1,
+                ],
+                [104, "React Hooks explanation", "2026-02-23 04:45:00", 3],
+              ],
+            },
+
+            comment: {
+              columns: [
+                "comment_id",
+                "content",
+                "commented_at",
+                "user_id",
+                "post_id",
+              ],
+              rows: [
+                [1001, "Very useful post!", "2026-02-20 11:00:00", 2, 101],
+                [1002, "Thanks for sharing!", "2026-02-21 12:10:00", 3, 102],
+                [1003, "Great explanation", "2026-02-22 10:00:00", 4, 103],
+                [1004, "Helpful content", "2026-02-23 05:00:00", 1, 104],
+              ],
+            },
+
+            group_details: {
+              columns: ["id", "name"],
+              rows: [
+                [201, "SQL Learners"],
+                [202, "React Developers"],
+                [203, "Full Stack Engineers"],
+              ],
+            },
+
+            user_group: {
+              columns: ["user_id", "group_id", "joined_at", "is_admin"],
+              rows: [
+                [1, 201, "2026-02-01 09:00:00", true],
+                [2, 201, "2026-02-02 10:00:00", false],
+                [3, 202, "2026-02-03 11:00:00", true],
+                [4, 203, "2026-02-04 12:00:00", false],
+                [1, 202, "2026-02-05 01:00:00", false],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>We have created a user table in the database.</p>
+              <p>Now, let's write a query to represent the post entity type and its relation with user entity type.</p>
+              <p>Below are the attributes of the post entity type.</p>
+        
+              <div class="sql-table-desc"><table>
+              <thead>
+                <tr>
+                  <th>attribute</th>
+                  <th>description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>post_id</td><td>an integer to uniquely identify a post - key attribute</td></tr>
+                <tr><td>content</td><td>a text field</td></tr>
+                <tr><td>published_at</td><td>a datetime field</td></tr>
+              </tbody>
+            </table>
+              </div>
+              <div class="Note-container">
+              <div class="icon-note">
+                <h6>
+                  <i class="bi bi-journal-text"></i>Note
+                </h6>
+              </div>
+              <p>Create a table in such a way that if we delete a user from the user table, then the related posts in the post table must be automatically deleted.</p>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be post",
+              type: "syntax-validation",
+              expectedKeywords: ["post"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "post_id should be PRIMARY KEY",
+              type: "syntax-validation",
+              expectedKeywords: ["post_id", "primary key"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain FOREIGN KEY constraint",
+              type: "syntax-validation",
+              expectedKeywords: ["foreign key"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Foreign key should reference user table",
+              type: "syntax-validation",
+              expectedKeywords: ["references user"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should contain ON DELETE CASCADE",
+              type: "syntax-validation",
+              expectedKeywords: ["on delete cascade"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-03",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Created comment posts",
+          description:
+            "In this practice set, let's build a relational database for a typical social networking site.In a social networking site, we have user, post, group, and comment entities.Use Case: user can create multiple posts. Each post can have only one user.A user can make multiple comments to a post. Each comment can have only one user.A post can have multiple comments. Each comment can have only one post.A user can be in multiple groups. Each group can have multiple users.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["id", "name", "gender", "email_id"],
+              rows: [
+                [1, "Prathibha", "Female", "prathibha@gmail.com"],
+                [2, "Ramesh", "Male", "ramesh@gmail.com"],
+                [3, "Sneha", "Female", "sneha@gmail.com"],
+                [4, "Arjun", "Male", "arjun@gmail.com"],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "published_at", "user_id"],
+              rows: [
+                [101, "Learning SQL is interesting!", "2026-02-20 10:30:00", 1],
+                [102, "Database design concepts", "2026-02-21 11:00:00", 2],
+                [
+                  103,
+                  "Frontend vs Backend discussion",
+                  "2026-02-22 09:15:00",
+                  1,
+                ],
+                [104, "React Hooks explanation", "2026-02-23 04:45:00", 3],
+              ],
+            },
+
+            comment: {
+              columns: [
+                "comment_id",
+                "content",
+                "commented_at",
+                "user_id",
+                "post_id",
+              ],
+              rows: [
+                [1001, "Very useful post!", "2026-02-20 11:00:00", 2, 101],
+                [1002, "Thanks for sharing!", "2026-02-21 12:10:00", 3, 102],
+                [1003, "Great explanation", "2026-02-22 10:00:00", 4, 103],
+                [1004, "Helpful content", "2026-02-23 05:00:00", 1, 104],
+              ],
+            },
+
+            group_details: {
+              columns: ["id", "name"],
+              rows: [
+                [201, "SQL Learners"],
+                [202, "React Developers"],
+                [203, "Full Stack Engineers"],
+              ],
+            },
+
+            user_group: {
+              columns: ["user_id", "group_id", "joined_at", "is_admin"],
+              rows: [
+                [1, 201, "2026-02-01 09:00:00", true],
+                [2, 201, "2026-02-02 10:00:00", false],
+                [3, 202, "2026-02-03 11:00:00", true],
+                [4, 203, "2026-02-04 12:00:00", false],
+                [1, 202, "2026-02-05 01:00:00", false],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+              <div class="desc-question-details">
+                <p class="desc-que-blue">Question</p>
+                <p>We have created user and post tables in the database.</p>
+                <p>Now, users want to comment on the posts. So, let's create a comment table.</p>
+                <p>Write a query to represent the comment entity type, and its relation with user and post entity types.</p>
+                <p>Below are the attributes of the comment entity type.</p>
+
+                <div class="sql-table-desc">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>attribute</th>
+                        <th>description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>comment_id</td><td>an integer to uniquely identify a comment - key attribute</td></tr>
+                      <tr><td>content</td><td>a text field</td></tr>
+                      <tr><td>commented_at</td><td>a datetime field</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="Note-container">
+                  <div class="icon-note">
+                    <h6>
+                      <i class="bi bi-journal-text"></i>Note
+                    </h6>
+                  </div>
+                  <ul>
+                    <li>If we delete a user from the user table, then the related comments in the comment table must be automatically deleted.</li>
+                    <li>If we delete a post from the post table, then the related comments in the comment table must be automatically deleted.</li>
+                  </ul>
+                </div>
+              </div>
+            `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be comment",
+              type: "syntax-validation",
+              expectedKeywords: ["comment"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "comment_id should be PRIMARY KEY",
+              type: "syntax-validation",
+              expectedKeywords: ["comment_id", "primary key"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain FOREIGN KEY constraint",
+              type: "syntax-validation",
+              expectedKeywords: ["foreign key"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Foreign key should reference user table",
+              type: "syntax-validation",
+              expectedKeywords: ["references user"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Foreign key should reference post table",
+              type: "syntax-validation",
+              expectedKeywords: ["references post"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain ON DELETE CASCADE for user",
+              type: "syntax-validation",
+              expectedKeywords: ["references user", "on delete cascade"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should contain ON DELETE CASCADE for post",
+              type: "syntax-validation",
+              expectedKeywords: ["references post", "on delete cascade"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-04",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Group details table",
+          description:
+            "In this practice set, let's build a relational database for a typical social networking site.In a social networking site, we have user, post, group, and comment entities.Use Case: user can create multiple posts. Each post can have only one user.A user can make multiple comments to a post. Each comment can have only one user.A post can have multiple comments. Each comment can have only one post.A user can be in multiple groups. Each group can have multiple users.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["id", "name", "gender", "email_id"],
+              rows: [
+                [1, "Prathibha", "Female", "prathibha@gmail.com"],
+                [2, "Ramesh", "Male", "ramesh@gmail.com"],
+                [3, "Sneha", "Female", "sneha@gmail.com"],
+                [4, "Arjun", "Male", "arjun@gmail.com"],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "published_at", "user_id"],
+              rows: [
+                [101, "Learning SQL is interesting!", "2026-02-20 10:30:00", 1],
+                [102, "Database design concepts", "2026-02-21 11:00:00", 2],
+                [
+                  103,
+                  "Frontend vs Backend discussion",
+                  "2026-02-22 09:15:00",
+                  1,
+                ],
+                [104, "React Hooks explanation", "2026-02-23 04:45:00", 3],
+              ],
+            },
+
+            comment: {
+              columns: [
+                "comment_id",
+                "content",
+                "commented_at",
+                "user_id",
+                "post_id",
+              ],
+              rows: [
+                [1001, "Very useful post!", "2026-02-20 11:00:00", 2, 101],
+                [1002, "Thanks for sharing!", "2026-02-21 12:10:00", 3, 102],
+                [1003, "Great explanation", "2026-02-22 10:00:00", 4, 103],
+                [1004, "Helpful content", "2026-02-23 05:00:00", 1, 104],
+              ],
+            },
+
+            group_details: {
+              columns: ["id", "name"],
+              rows: [
+                [201, "SQL Learners"],
+                [202, "React Developers"],
+                [203, "Full Stack Engineers"],
+              ],
+            },
+
+            user_group: {
+              columns: ["user_id", "group_id", "joined_at", "is_admin"],
+              rows: [
+                [1, 201, "2026-02-01 09:00:00", true],
+                [2, 201, "2026-02-02 10:00:00", false],
+                [3, 202, "2026-02-03 11:00:00", true],
+                [4, 203, "2026-02-04 12:00:00", false],
+                [1, 202, "2026-02-05 01:00:00", false],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Question</p>
+              <p>Any social network application has groups with users of similar interests.</p>
+              <p>Now, let’s create a group_details table that stores the information about a group.</p>
+              <p>Write a query to represent the group_details entity type in the relational database.</p>
+              <p>Below are the attributes of the group_details entity type.</p>
+
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>attribute</th>
+                      <th>description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>id</td>
+                      <td>an integer to uniquely identify a group - key attribute</td>
+                    </tr>
+                    <tr>
+                      <td>name</td>
+                      <td>a string of max length 500 characters</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>The id should be the PRIMARY KEY of the table.</li>
+                  <li>The name attribute should support a maximum of 500 characters.</li>
+                </ul>
+              </div>
+            </div>
+            `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be group_details",
+              type: "syntax-validation",
+              expectedKeywords: ["group_details"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "id should be PRIMARY KEY",
+              type: "syntax-validation",
+              expectedKeywords: ["id", "primary key"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "id should be INTEGER",
+              type: "syntax-validation",
+              expectedKeywords: ["id integer"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "name should be VARCHAR(500)",
+              type: "syntax-validation",
+              expectedKeywords: ["name varchar(500)"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "id should be NOT NULL",
+              type: "syntax-validation",
+              expectedKeywords: ["id", "not null"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-8-05",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Create user group table",
+          description:
+            "In this practice set, let's build a relational database for a typical social networking site.In a social networking site, we have user, post, group, and comment entities.Use Case: user can create multiple posts. Each post can have only one user.A user can make multiple comments to a post. Each comment can have only one user.A post can have multiple comments. Each comment can have only one post.A user can be in multiple groups. Each group can have multiple users.",
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["id", "name", "gender", "email_id"],
+              rows: [
+                [1, "Prathibha", "Female", "prathibha@gmail.com"],
+                [2, "Ramesh", "Male", "ramesh@gmail.com"],
+                [3, "Sneha", "Female", "sneha@gmail.com"],
+                [4, "Arjun", "Male", "arjun@gmail.com"],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "published_at", "user_id"],
+              rows: [
+                [101, "Learning SQL is interesting!", "2026-02-20 10:30:00", 1],
+                [102, "Database design concepts", "2026-02-21 11:00:00", 2],
+                [
+                  103,
+                  "Frontend vs Backend discussion",
+                  "2026-02-22 09:15:00",
+                  1,
+                ],
+                [104, "React Hooks explanation", "2026-02-23 04:45:00", 3],
+              ],
+            },
+
+            comment: {
+              columns: [
+                "comment_id",
+                "content",
+                "commented_at",
+                "user_id",
+                "post_id",
+              ],
+              rows: [
+                [1001, "Very useful post!", "2026-02-20 11:00:00", 2, 101],
+                [1002, "Thanks for sharing!", "2026-02-21 12:10:00", 3, 102],
+                [1003, "Great explanation", "2026-02-22 10:00:00", 4, 103],
+                [1004, "Helpful content", "2026-02-23 05:00:00", 1, 104],
+              ],
+            },
+
+            group_details: {
+              columns: ["id", "name"],
+              rows: [
+                [201, "SQL Learners"],
+                [202, "React Developers"],
+                [203, "Full Stack Engineers"],
+              ],
+            },
+
+            user_group: {
+              columns: ["user_id", "group_id", "joined_at", "is_admin"],
+              rows: [
+                [1, 201, "2026-02-01 09:00:00", true],
+                [2, 201, "2026-02-02 10:00:00", false],
+                [3, 202, "2026-02-03 11:00:00", true],
+                [4, 203, "2026-02-04 12:00:00", false],
+                [1, 202, "2026-02-05 01:00:00", false],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+          <p class="desc-que-blue">Question</p>
+          <p>A user can be in multiple groups, and a group can contain many users.</p>
+          <p>Now, let’s create user_group table to capture the many-to-many relationship between user and group entity types.</p>
+          <p>Write a query to represent this relationship in the relational database.</p>
+          <p>Below are the attributes of the relationship.</p>
+
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>attribute</th>
+                  <th>description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>joined_at</td>
+                  <td>a datetime field</td>
+                </tr>
+                <tr>
+                  <td>is_admin</td>
+                  <td>a boolean field</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <ul>
+              <li>This table should act as a junction table between user and group_details tables.</li>
+              <li>If a user is deleted, then the related records in user_group must be automatically deleted.</li>
+              <li>If a group is deleted, then the related records in user_group must be automatically deleted.</li>
+              <li>Use appropriate FOREIGN KEY constraints with ON DELETE CASCADE.</li>
+            </ul>
+          </div>
+        </div>
+      `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with CREATE TABLE",
+              type: "syntax-validation",
+              expectedKeywords: ["create table"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Table name should be user_group",
+              type: "syntax-validation",
+              expectedKeywords: ["user_group"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain user_id column",
+              type: "syntax-validation",
+              expectedKeywords: ["user_id"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should contain group_id column",
+              type: "syntax-validation",
+              expectedKeywords: ["group_id"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description:
+                "Query should contain joined_at column with DATETIME type",
+              type: "syntax-validation",
+              expectedKeywords: ["joined_at", "datetime"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description:
+                "Query should contain is_admin column with BOOLEAN type",
+              type: "syntax-validation",
+              expectedKeywords: ["is_admin", "bool"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Foreign key should reference user table with ON DELETE CASCADE",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "foreign key",
+                "references user",
+                "on delete cascade",
+              ],
+              visible: true,
+            },
+            {
+              id: 8,
+              description:
+                "Foreign key should reference group_details table with ON DELETE CASCADE",
+              type: "syntax-validation",
+              expectedKeywords: [
+                "foreign key",
+                "references group_details",
+                "on delete cascade",
+              ],
               visible: true,
             },
           ],

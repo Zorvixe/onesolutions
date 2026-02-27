@@ -917,7 +917,7 @@ const handleSelect = (sql, questionData) => {
   // ==========================
   if (!groupByClause) {
     const countMatch = selectPart.match(
-      /count\s*\(\s*(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
+      /count\s*\(\s*(distinct\s+)?(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
     );
 
     const maxMatch = selectPart.match(
@@ -941,8 +941,19 @@ const handleSelect = (sql, questionData) => {
       const result = {};
 
       if (countMatch) {
-        const alias = countMatch[2] || "count";
-        result[alias] = rows.length;
+        const isDistinct = !!countMatch[1]; // DISTINCT detected
+        const column = countMatch[2]; // column or *
+        const alias = countMatch[3] || "count";
+
+        if (column === "*") {
+          result[alias] = rows.length;
+        } else if (isDistinct) {
+          result[alias] = new Set(rows.map((r) => r[column])).size;
+        } else {
+          result[alias] = rows.filter(
+            (r) => r[column] !== null && r[column] !== undefined
+          ).length;
+        }
       }
 
       if (maxMatch) {
@@ -993,16 +1004,30 @@ const handleSelect = (sql, questionData) => {
         // 1️⃣ Handle strftime("%Y", column) = "2018"
         // ----------------------------------
         const yearMatch = condition.match(
-          /strftime\("%Y",\s*(\w+)\)\s*=\s*["'](\d{4})["']/i
+          /strftime\("%Y",\s*(\w+)\)\s*(>=|<=|>|<|=)\s*["'](\d{4})["']/i
         );
 
         if (yearMatch) {
           const col = yearMatch[1];
-          const year = yearMatch[2];
+          const operator = yearMatch[2];
+          const year = yearMatch[3];
 
-          const rowYear = new Date(row[col]).getFullYear().toString();
+          const rowYear = new Date(row[col]).getFullYear();
 
-          return rowYear === year;
+          switch (operator) {
+            case "=":
+              return rowYear == Number(year);
+            case ">":
+              return rowYear > Number(year);
+            case "<":
+              return rowYear < Number(year);
+            case ">=":
+              return rowYear >= Number(year);
+            case "<=":
+              return rowYear <= Number(year);
+            default:
+              return true;
+          }
         }
 
         // ----------------------------------
@@ -1061,7 +1086,7 @@ const handleSelect = (sql, questionData) => {
       /sum\s*\(\s*([^)]+)\s*\)\s*(?:as\s+(\w+))?/i
     );
     const countMatch = selectPart.match(
-      /count\s*\(\s*(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
+      /count\s*\(\s*(distinct\s+)?(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
     );
     const avgMatch = selectPart.match(
       /avg\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
@@ -1080,8 +1105,8 @@ const handleSelect = (sql, questionData) => {
     const sumColumn = sumMatch ? sumMatch[1] : null;
     const sumAlias = sumMatch ? sumMatch[2] || "sum" : null;
 
-    const countColumn = countMatch ? countMatch[1] : null;
-    const countAlias = countMatch ? countMatch[2] || "count" : null;
+    const countColumn = countMatch ? countMatch[2] : null;
+    const countAlias = countMatch ? countMatch[3] || "count" : null;
 
     const avgColumn = avgMatch ? avgMatch[1] : null;
     const avgAlias = avgMatch ? avgMatch[2] || "avg" : null;
@@ -1232,16 +1257,26 @@ const handleSelect = (sql, questionData) => {
     });
   }
   // ==========================
-  // APPLY SELECT COLUMN FILTERING
+  // APPLY SELECT COLUMN FILTERING (Improved)
   // ==========================
   if (selectPart !== "*") {
     const selectedColumns = selectPart.split(",").map((col) => col.trim());
 
     rows = rows.map((row) => {
       const filteredRow = {};
+
       selectedColumns.forEach((col) => {
-        filteredRow[col] = row[col];
+        // Handle aliases
+        const aliasMatch = col.match(/.+\s+as\s+(\w+)/i);
+
+        if (aliasMatch) {
+          const alias = aliasMatch[1];
+          filteredRow[alias] = row[alias];
+        } else {
+          filteredRow[col] = row[col];
+        }
       });
+
       return filteredRow;
     });
   }

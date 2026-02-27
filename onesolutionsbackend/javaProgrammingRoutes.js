@@ -1,16 +1,3 @@
-PS C:\Users\ekmgb\Desktop\Projects\ose> node javaProgrammingRoutes.js
-[dotenv@17.3.1] injecting env (6) from .env -- tip: ⚡️ secrets for agents: https://dotenvx.com/as2
-❌ Error creating Java tables: Error: read ECONNRESET
-    at C:\Users\ekmgb\Desktop\Projects\ose\node_modules\pg-pool\index.js:45:11
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async createJavaTables (C:\Users\ekmgb\Desktop\Projects\ose\javaProgrammingRoutes.js:73:5) {
-  errno: -4077,
-  code: 'ECONNRESET',
-  syscall: 'read'
-}
-PS C:\Users\ekmgb\Desktop\Projects\ose> 
-
-// javaProgrammingRoutes.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -33,10 +20,11 @@ const app = express();
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
+
 // ----------------------------------------------------------------------
-// Authentication middleware (assumes you have JWT_SECRET in env)
+// Enhanced Authentication Middleware (fetches full student record)
 // ----------------------------------------------------------------------
-const authenticate = (req, res, next) => {
+const authenticate = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
@@ -44,10 +32,23 @@ const authenticate = (req, res, next) => {
     }
     const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
     const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-    req.student = { id: decoded.id };
+
+    // Fetch full student details including student_type and course_selection
+    const result = await pool.query(
+      `SELECT id, student_id, email, first_name, last_name, phone, 
+              profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch
+       FROM students WHERE id = $1 AND status = 'active'`,
+      [decoded.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ success: false, message: "User not found or inactive" });
+    }
+
+    req.student = result.rows[0];
     next();
   } catch (error) {
+    console.error("Auth error:", error.message);
     return res.status(401).json({ success: false, message: "Invalid token" });
   }
 };
@@ -78,7 +79,7 @@ const videoUpload = multer({
 }).single("video");
 
 // ----------------------------------------------------------------------
-// Database table creation
+// Database table creation (with allowed_student_types column and coding practices)
 // ----------------------------------------------------------------------
 const createJavaTables = async () => {
   try {
@@ -128,15 +129,31 @@ const createJavaTables = async () => {
       )
     `);
 
+    // NEW TABLE: java_coding_practices to group multiple coding problems
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS java_coding_practices (
+        id SERIAL PRIMARY KEY,
+        subtopic_id INTEGER REFERENCES java_subtopics(id) ON DELETE CASCADE,
+        title VARCHAR(500) NOT NULL,
+        description TEXT,
+        order_number INTEGER DEFAULT 0,
+        allowed_student_types TEXT[] DEFAULT ARRAY['zorvixe_core','zorvixe_pro','zorvixe_elite'],
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS java_content (
         id SERIAL PRIMARY KEY,
         subtopic_id INTEGER REFERENCES java_subtopics(id) ON DELETE CASCADE,
+        practice_id INTEGER REFERENCES java_coding_practices(id) ON DELETE SET NULL, -- NEW: link to practice (only for coding problems)
         content_type VARCHAR(50) NOT NULL CHECK (content_type IN ('video', 'cheatsheet', 'mcq', 'coding')),
         content_uuid UUID DEFAULT gen_random_uuid(),
         access_token UUID DEFAULT gen_random_uuid(),
         order_number INTEGER DEFAULT 0,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        allowed_student_types TEXT[] DEFAULT ARRAY['zorvixe_core','zorvixe_pro','zorvixe_elite'],
 
         -- Video specific
         video_title VARCHAR(500),
@@ -204,12 +221,22 @@ const createJavaTables = async () => {
       )
     `);
 
+    // NEW TABLE: Track completion of entire coding practices
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS java_practice_progress (
+        id SERIAL PRIMARY KEY,
+        student_id INTEGER NOT NULL,
+        practice_id INTEGER REFERENCES java_coding_practices(id) ON DELETE CASCADE,
+        completed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(student_id, practice_id)
+      )
+    `);
+
     console.log("✅ Java Programming tables created/verified");
   } catch (err) {
     console.error("❌ Error creating Java tables:", err);
   }
 };
-
 
 // ----------------------------------------------------------------------
 // Helper: get goal ID for a content item
@@ -496,6 +523,103 @@ app.delete("/admin/java/subtopics/:subtopicId", async (req, res) => {
   }
 });
 
+// ---------- Coding Practice Routes (NEW) ----------
+// Get all coding practices for a subtopic
+app.get("/admin/java/subtopics/:subtopicId/coding-practices", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM java_coding_practices WHERE subtopic_id = $1 ORDER BY order_number",
+      [req.params.subtopicId]
+    );
+    res.json({ success: true, data: result.rows });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Create a new coding practice
+app.post("/admin/java/subtopics/:subtopicId/coding-practices", authenticate, async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+    const { title, description, allowed_student_types } = req.body;
+    const result = await pool.query(
+      `INSERT INTO java_coding_practices (subtopic_id, title, description, allowed_student_types, order_number)
+       VALUES ($1, $2, $3, $4, (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_coding_practices WHERE subtopic_id = $1))
+       RETURNING *`,
+      [subtopicId, title, description, allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Update a coding practice
+app.put("/admin/java/coding-practices/:practiceId", authenticate, async (req, res) => {
+  try {
+    const { practiceId } = req.params;
+    const { title, description, allowed_student_types } = req.body;
+    const result = await pool.query(
+      `UPDATE java_coding_practices 
+       SET title = COALESCE($1, title), 
+           description = COALESCE($2, description),
+           allowed_student_types = COALESCE($3, allowed_student_types),
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $4 RETURNING *`,
+      [title, description, allowed_student_types, practiceId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Practice not found" });
+    }
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Delete a coding practice (will set practice_id to NULL in linked content)
+app.delete("/admin/java/coding-practices/:practiceId", authenticate, async (req, res) => {
+  const { practiceId } = req.params;
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    // First, detach all coding problems from this practice
+    await client.query("UPDATE java_content SET practice_id = NULL WHERE practice_id = $1", [practiceId]);
+    // Then delete the practice
+    const result = await client.query("DELETE FROM java_coding_practices WHERE id = $1 RETURNING *", [practiceId]);
+    if (result.rows.length === 0) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ success: false, message: "Practice not found" });
+    }
+    await client.query("COMMIT");
+    res.json({ success: true, message: "Practice deleted" });
+  } catch (e) {
+    await client.query("ROLLBACK");
+    res.status(500).json({ success: false, error: e.message });
+  } finally {
+    client.release();
+  }
+});
+
+// Reorder coding practices
+app.post("/admin/java/coding-practices/reorder", authenticate, async (req, res) => {
+  try {
+    const { subtopicId, orderedIds } = req.body;
+    await pool.query("BEGIN");
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE java_coding_practices SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
+        [i, orderedIds[i], subtopicId]
+      );
+    }
+    await pool.query("COMMIT");
+    res.json({ success: true, message: "Practices reordered" });
+  } catch (e) {
+    await pool.query("ROLLBACK");
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 // ---------- Content (All types) ----------
 app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
   try {
@@ -517,7 +641,7 @@ app.post("/admin/java/subtopics/:subtopicId/video", authenticate, (req, res) => 
     }
     try {
       const { subtopicId } = req.params;
-      const { title, description, duration, slides_id } = req.body;
+      const { title, description, duration, slides_id, allowed_student_types } = req.body;
       if (!req.file) {
         return res.status(400).json({ success: false, error: "No video file" });
       }
@@ -534,11 +658,12 @@ app.post("/admin/java/subtopics/:subtopicId/video", authenticate, (req, res) => 
         `INSERT INTO java_content (
           subtopic_id, content_type, content_uuid, access_token,
           video_title, video_description, video_duration, video_url, slides_id,
-          order_number
-        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8,
+          allowed_student_types, order_number
+        ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9,
           (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
         RETURNING *`,
-        [subtopicId, uuid, token, title, description || "", duration || 0, videoUrl, slides_id || null]
+        [subtopicId, uuid, token, title, description || "", duration || 0, videoUrl, slides_id || null,
+         allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
       );
 
       res.json({ success: true, data: result.rows[0] });
@@ -553,18 +678,18 @@ app.post("/admin/java/subtopics/:subtopicId/video", authenticate, (req, res) => 
 app.post("/admin/java/subtopics/:subtopicId/cheatsheet", authenticate, async (req, res) => {
   try {
     const { subtopicId } = req.params;
-    const { title, content } = req.body;
+    const { title, content, allowed_student_types } = req.body;
     const uuid = crypto.randomUUID();
     const token = crypto.randomUUID();
     const result = await pool.query(
       `INSERT INTO java_content (
         subtopic_id, content_type, content_uuid, access_token,
         cheatsheet_title, cheatsheet_content,
-        order_number
-      ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5,
+        allowed_student_types, order_number
+      ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6,
         (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-      [subtopicId, uuid, token, title, content]
+      [subtopicId, uuid, token, title, content, allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
     );
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -576,18 +701,19 @@ app.post("/admin/java/subtopics/:subtopicId/cheatsheet", authenticate, async (re
 app.post("/admin/java/subtopics/:subtopicId/mcq", authenticate, async (req, res) => {
   try {
     const { subtopicId } = req.params;
-    const { title, questions, time_limit, passing_score } = req.body;
+    const { title, questions, time_limit, passing_score, allowed_student_types } = req.body;
     const uuid = crypto.randomUUID();
     const token = crypto.randomUUID();
     const result = await pool.query(
       `INSERT INTO java_content (
         subtopic_id, content_type, content_uuid, access_token,
         mcq_title, questions, time_limit, passing_score,
-        order_number
-      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7,
+        allowed_student_types, order_number
+      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7, $8,
         (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-      [subtopicId, uuid, token, title, JSON.stringify(questions), time_limit || null, passing_score || 70]
+      [subtopicId, uuid, token, title, JSON.stringify(questions), time_limit || null, passing_score || 70,
+       allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
     );
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -595,12 +721,12 @@ app.post("/admin/java/subtopics/:subtopicId/mcq", authenticate, async (req, res)
   }
 });
 
-// ----- Coding Problem -----
+// ----- Coding Problem (can optionally belong to a practice) -----
 app.post("/admin/java/subtopics/:subtopicId/coding", authenticate, async (req, res) => {
   const client = await pool.connect();
   try {
     const { subtopicId } = req.params;
-    const { title, description, starterCode, testCases, time_limit, memory_limit } = req.body;
+    const { title, description, starterCode, testCases, time_limit, memory_limit, allowed_student_types, practice_id } = req.body;
     // testCases = [{ input, expectedOutput, isSample }, ...]
 
     await client.query("BEGIN");
@@ -609,13 +735,14 @@ app.post("/admin/java/subtopics/:subtopicId/coding", authenticate, async (req, r
     const token = crypto.randomUUID();
     const contentResult = await client.query(
       `INSERT INTO java_content (
-        subtopic_id, content_type, content_uuid, access_token,
+        subtopic_id, practice_id, content_type, content_uuid, access_token,
         coding_title, coding_description, starter_code, coding_time_limit, coding_memory_limit,
-        order_number
-      ) VALUES ($1, 'coding', $2, $3, $4, $5, $6, $7, $8,
+        allowed_student_types, order_number
+      ) VALUES ($1, $2, 'coding', $3, $4, $5, $6, $7, $8, $9, $10,
         (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-      [subtopicId, uuid, token, title, description, starterCode, time_limit, memory_limit]
+      [subtopicId, practice_id || null, uuid, token, title, description, starterCode, time_limit, memory_limit,
+       allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
     );
     const contentId = contentResult.rows[0].id;
 
@@ -639,7 +766,6 @@ app.post("/admin/java/subtopics/:subtopicId/coding", authenticate, async (req, r
   }
 });
 
-
 // ----- Update content (any type) -----
 app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
   const client = await pool.connect();
@@ -647,6 +773,8 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
     const { contentId } = req.params;
     const {
       content_type,
+      allowed_student_types,
+      practice_id,  // NEW: allow reassigning to a different practice
       // video
       video_title, video_description, video_duration, slides_id,
       // cheatsheet
@@ -662,6 +790,15 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
     const updates = [];
     const values = [];
     let paramIndex = 1;
+
+    if (allowed_student_types !== undefined) {
+      updates.push(`allowed_student_types = $${paramIndex++}`);
+      values.push(allowed_student_types);
+    }
+    if (practice_id !== undefined) {
+      updates.push(`practice_id = $${paramIndex++}`);
+      values.push(practice_id);
+    }
 
     if (content_type === 'video') {
       if (video_title !== undefined) { updates.push(`video_title = $${paramIndex++}`); values.push(video_title); }
@@ -736,7 +873,7 @@ app.delete("/admin/java/content/:contentId", authenticate, async (req, res) => {
   }
 });
 
-// ----- Reorder content -----
+// ----- Reorder content (within a subtopic) -----
 app.post("/admin/java/content/reorder", authenticate, async (req, res) => {
   try {
     const { subtopicId, orderedIds } = req.body;
@@ -795,10 +932,12 @@ app.post("/student/java/courses/enroll/:goalId", authenticate, async (req, res) 
   }
 });
 
-// Get full structure of all goals (with progress)
+// Get full structure of all goals (with progress) - FILTERED BY STUDENT TYPE, includes coding practices
 app.get("/student/java/courses/all-structure", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
+    const studentType = req.student.student_type;
+
     const goalsResult = await pool.query(
       `SELECT jg.*, je.enrolled_at, je.progress_percentage, je.status as enrollment_status,
               CASE WHEN je.id IS NOT NULL THEN true ELSE false END as is_enrolled
@@ -837,11 +976,43 @@ app.get("/student/java/courses/all-structure", authenticate, async (req, res) =>
                                   'cheatsheet_title', jc.cheatsheet_title,
                                   'mcq_title', jc.mcq_title,
                                   'coding_title', jc.coding_title,
+                                  'practice_id', jc.practice_id,
                                   'is_completed', CASE WHEN jp.id IS NOT NULL THEN true ELSE false END
                                 ) ORDER BY jc.order_number
                               ) FROM java_content jc
                               LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
-                              WHERE jc.subtopic_id = js.id
+                              WHERE jc.subtopic_id = js.id AND jc.allowed_student_types @> ARRAY[$3]
+                              ), '[]'::json
+                            ),
+                            'coding_practices', COALESCE(
+                              (SELECT json_agg(
+                                json_build_object(
+                                  'id', jcp.id,
+                                  'title', jcp.title,
+                                  'description', jcp.description,
+                                  'order_number', jcp.order_number,
+                                  'problems', COALESCE(
+                                    (SELECT json_agg(
+                                      json_build_object(
+                                        'id', jc2.id,
+                                        'content_uuid', jc2.content_uuid,
+                                        'coding_title', jc2.coding_title,
+                                        'coding_description', jc2.coding_description,
+                                        'is_completed', CASE WHEN jp2.id IS NOT NULL THEN true ELSE false END
+                                      ) ORDER BY jc2.order_number
+                                    ) FROM java_content jc2
+                                    LEFT JOIN java_progress jp2 ON jc2.id = jp2.content_id AND jp2.student_id = $1
+                                    WHERE jc2.practice_id = jcp.id AND jc2.allowed_student_types @> ARRAY[$3]
+                                    ), '[]'::json
+                                  ),
+                                  'is_completed', CASE 
+                                    WHEN (SELECT COUNT(*) FROM java_content WHERE practice_id = jcp.id AND allowed_student_types @> ARRAY[$3]) > 0
+                                         AND (SELECT COUNT(*) FROM java_content WHERE practice_id = jcp.id AND allowed_student_types @> ARRAY[$3])
+                                         = (SELECT COUNT(*) FROM java_progress jp3 WHERE jp3.content_id IN (SELECT id FROM java_content WHERE practice_id = jcp.id) AND jp3.student_id = $1)
+                                    THEN true ELSE false END
+                                ) ORDER BY jcp.order_number
+                              ) FROM java_coding_practices jcp
+                              WHERE jcp.subtopic_id = js.id AND jcp.allowed_student_types @> ARRAY[$3]
                               ), '[]'::json
                             )
                           ) ORDER BY js.order_number
@@ -854,10 +1025,10 @@ app.get("/student/java/courses/all-structure", authenticate, async (req, res) =>
          FROM java_modules jm
          WHERE jm.goal_id = $2
          ORDER BY jm.order_number`,
-        [studentId, goal.id]
+        [studentId, goal.id, studentType]
       );
 
-      // Calculate progress for the goal
+      // Calculate progress for the goal (based on visible content only, including practices)
       let total = 0, completed = 0;
       for (const mod of modulesResult.rows) {
         if (mod.topics) {
@@ -867,6 +1038,12 @@ app.get("/student/java/courses/all-structure", authenticate, async (req, res) =>
                 if (sub.content) {
                   total += sub.content.length;
                   completed += sub.content.filter(c => c.is_completed).length;
+                }
+                if (sub.coding_practices) {
+                  for (const practice of sub.coding_practices) {
+                    if (practice.is_completed) completed += 1;
+                    total += 1;
+                  }
                 }
               }
             }
@@ -893,10 +1070,117 @@ app.get("/student/java/courses/all-structure", authenticate, async (req, res) =>
   }
 });
 
-// Get content by UUID (with sample test cases for coding)
+// Get a specific coding practice with its problems
+app.get("/student/java/coding-practice/:practiceId", authenticate, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const studentType = req.student.student_type;
+    const { practiceId } = req.params;
+
+    // Get practice details
+    const practiceResult = await pool.query(
+      `SELECT * FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
+      [practiceId, studentType]
+    );
+    if (practiceResult.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Practice not found or access denied" });
+    }
+    const practice = practiceResult.rows[0];
+
+    // Get all coding problems in this practice
+    const problemsResult = await pool.query(
+      `SELECT jc.id, jc.content_uuid, jc.coding_title, jc.coding_description, jc.starter_code,
+              jc.coding_time_limit, jc.coding_memory_limit,
+              CASE WHEN jp.id IS NOT NULL THEN true ELSE false END as is_completed
+       FROM java_content jc
+       LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
+       WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]
+       ORDER BY jc.order_number`,
+      [studentId, practiceId, studentType]
+    );
+
+    // For each problem, fetch sample test cases
+    const problemsWithTestCases = await Promise.all(
+      problemsResult.rows.map(async (problem) => {
+        const testCases = await pool.query(
+          `SELECT input, expected_output FROM java_test_cases
+           WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
+          [problem.id]
+        );
+        return {
+          ...problem,
+          sample_test_cases: testCases.rows,
+        };
+      })
+    );
+
+    res.json({
+      success: true,
+      data: {
+        practice,
+        problems: problemsWithTestCases,
+      },
+    });
+  } catch (e) {
+    console.error("Error fetching coding practice:", e);
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Mark an entire practice as completed (if all problems are completed)
+app.post("/student/java/coding-practice/:practiceId/complete", authenticate, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const studentType = req.student.student_type;
+    const { practiceId } = req.params;
+
+    // Check if practice exists and is accessible
+    const practiceCheck = await pool.query(
+      `SELECT id FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
+      [practiceId, studentType]
+    );
+    if (practiceCheck.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Practice not found or access denied" });
+    }
+
+    // Check if all problems in the practice are completed
+    const progressCheck = await pool.query(
+      `SELECT 
+         COUNT(*) as total,
+         SUM(CASE WHEN jp.id IS NOT NULL THEN 1 ELSE 0 END) as completed
+       FROM java_content jc
+       LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
+       WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
+      [studentId, practiceId, studentType]
+    );
+    const { total, completed } = progressCheck.rows[0];
+    if (total === 0) {
+      return res.status(400).json({ success: false, message: "No problems in this practice" });
+    }
+    if (parseInt(completed) < parseInt(total)) {
+      return res.status(400).json({ success: false, message: "Not all problems are completed yet" });
+    }
+
+    // Insert into practice progress
+    await pool.query(
+      `INSERT INTO java_practice_progress (student_id, practice_id)
+       VALUES ($1, $2)
+       ON CONFLICT (student_id, practice_id) DO NOTHING`,
+      [studentId, practiceId]
+    );
+
+    res.json({ success: true, message: "Practice marked as completed" });
+  } catch (e) {
+    console.error("Error completing practice:", e);
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Get content by UUID (with sample test cases for coding) - CHECK STUDENT TYPE
 app.get("/student/java/content/:contentUuid", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
+    const studentType = req.student.student_type;
     const { contentUuid } = req.params;
 
     // Verify enrollment
@@ -929,6 +1213,11 @@ app.get("/student/java/content/:contentUuid", authenticate, async (req, res) => 
     }
     const content = contentResult.rows[0];
 
+    // Check student type access
+    if (!content.allowed_student_types || !content.allowed_student_types.includes(studentType)) {
+      return res.status(403).json({ success: false, message: "You do not have access to this content" });
+    }
+
     const baseUrl = process.env.BACKEND_URL || "http://localhost:5002";
     let responseData = {
       id: content.id,
@@ -938,6 +1227,7 @@ app.get("/student/java/content/:contentUuid", authenticate, async (req, res) => 
       module_id: content.module_id,
       topic_id: content.topic_id,
       subtopic_id: content.subtopic_id,
+      practice_id: content.practice_id,
     };
 
     if (content.content_type === 'video') {
@@ -989,6 +1279,8 @@ app.get("/student/java/content/:contentUuid", authenticate, async (req, res) => 
     res.status(500).json({ success: false, error: e.message });
   }
 });
+
+// Mark content as completed
 app.post("/student/java/content/:contentId/complete", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
@@ -1018,12 +1310,15 @@ app.post("/student/java/content/:contentId/complete", authenticate, async (req, 
     });
   }
 });
+
+// Run code (sample test cases only)
 app.post("/student/java/coding/run", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
+    const studentType = req.student.student_type;
     const { contentId, code } = req.body;
 
-    // Verify enrollment (optional, but good)
+    // Verify enrollment and access
     const enrollmentCheck = await pool.query(
       `SELECT 1 FROM java_enrollments je
        JOIN java_goals jg ON je.goal_id = jg.id
@@ -1031,11 +1326,11 @@ app.post("/student/java/coding/run", authenticate, async (req, res) => {
        JOIN java_topics jt ON jm.id = jt.module_id
        JOIN java_subtopics js ON jt.id = js.topic_id
        JOIN java_content jc ON js.id = jc.subtopic_id
-       WHERE je.student_id = $1 AND jc.id = $2`,
-      [studentId, contentId]
+       WHERE je.student_id = $1 AND jc.id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
+      [studentId, contentId, studentType]
     );
     if (enrollmentCheck.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "Not enrolled" });
+      return res.status(403).json({ success: false, message: "Not enrolled or no access" });
     }
 
     // Fetch sample test cases only
@@ -1055,8 +1350,8 @@ app.post("/student/java/coding/run", authenticate, async (req, res) => {
       testCaseId: tc.id,
       input: tc.input,
       expected: tc.expected_output,
-      output: "Simulated output", // In real implementation, run the code with tc.input
-      passed: true, // Simulate all pass for now
+      output: "Simulated output",
+      passed: true,
     }));
 
     res.json({ success: true, results });
@@ -1081,6 +1376,12 @@ app.get("/api/java/content/:contentUuid/stream", authenticate, async (req, res) 
     const content = contentResult.rows[0];
     if (content.content_type !== 'video') {
       return res.status(400).json({ success: false, message: "Not a video" });
+    }
+
+    // Also check student type (optional but good)
+    const studentType = req.student.student_type;
+    if (!content.allowed_student_types || !content.allowed_student_types.includes(studentType)) {
+      return res.status(403).json({ success: false, message: "Access denied" });
     }
 
     const filename = content.video_url.replace('/uploads_java/videos/', '');
@@ -1118,14 +1419,24 @@ app.get("/api/java/content/:contentUuid/stream", authenticate, async (req, res) 
   }
 });
 
-// ----- Progress marking for video/cheatsheet/mcq -----
+// Progress marking for video/cheatsheet/mcq (legacy endpoint)
 app.post("/student/java/content/complete", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
+    const studentType = req.student.student_type;
     const { contentId, goalId, quizScore } = req.body;
 
     if (!contentId || !goalId) {
       return res.status(400).json({ success: false, message: "Content ID and Goal ID required" });
+    }
+
+    // Check access
+    const accessCheck = await pool.query(
+      `SELECT 1 FROM java_content WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
+      [contentId, studentType]
+    );
+    if (accessCheck.rows.length === 0) {
+      return res.status(403).json({ success: false, message: "You do not have access to this content" });
     }
 
     await pool.query(
@@ -1145,13 +1456,13 @@ app.post("/student/java/content/complete", authenticate, async (req, res) => {
                   JOIN java_subtopics js ON jc.subtopic_id = js.id
                   JOIN java_topics jt ON js.topic_id = jt.id
                   JOIN java_modules jm ON jt.module_id = jm.id
-                  WHERE jm.goal_id = $1),
+                  WHERE jm.goal_id = $1 AND jc.allowed_student_types @> ARRAY[$3]),
         completed AS (SELECT COUNT(*) as completed FROM java_progress
                       WHERE student_id = $2 AND goal_id = $1)
        SELECT total.total, completed.completed,
               CASE WHEN total.total > 0 THEN ROUND((completed.completed::DECIMAL / total.total) * 100) ELSE 0 END as percentage
        FROM total, completed`,
-      [goalId, studentId]
+      [goalId, studentId, studentType]
     );
     const percent = progressCalc.rows[0]?.percentage || 0;
     await pool.query(
@@ -1169,13 +1480,14 @@ app.post("/student/java/content/complete", authenticate, async (req, res) => {
   }
 });
 
-// ----- Coding submission and evaluation (placeholder) -----
+// Coding submission and evaluation (placeholder) with access check
 app.post("/student/java/coding/submit", authenticate, async (req, res) => {
   try {
     const studentId = req.student.id;
+    const studentType = req.student.student_type;
     const { contentId, code } = req.body;
 
-    // Verify enrollment
+    // Verify enrollment and access
     const enrollmentCheck = await pool.query(
       `SELECT 1 FROM java_enrollments je
        JOIN java_goals jg ON je.goal_id = jg.id
@@ -1183,11 +1495,11 @@ app.post("/student/java/coding/submit", authenticate, async (req, res) => {
        JOIN java_topics jt ON jm.id = jt.module_id
        JOIN java_subtopics js ON jt.id = js.topic_id
        JOIN java_content jc ON js.id = jc.subtopic_id
-       WHERE je.student_id = $1 AND jc.id = $2`,
-      [studentId, contentId]
+       WHERE je.student_id = $1 AND jc.id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
+      [studentId, contentId, studentType]
     );
     if (enrollmentCheck.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "Not enrolled" });
+      return res.status(403).json({ success: false, message: "Not enrolled or no access" });
     }
 
     // Fetch all test cases
@@ -1234,7 +1546,6 @@ app.post("/student/java/coding/submit", authenticate, async (req, res) => {
   }
 });
 
-
 // Get completed content IDs for a student
 app.get("/student/java/completed-content", authenticate, async (req, res) => {
   try {
@@ -1260,5 +1571,4 @@ app.get("/health", (req, res) => {
 // ----------------------------------------------------------------------
 // Initialize tables when this module is loaded
 // ----------------------------------------------------------------------
-
-module.exports = { app, createJavaTables:  createJavaTables };
+module.exports = { app, createJavaTables };

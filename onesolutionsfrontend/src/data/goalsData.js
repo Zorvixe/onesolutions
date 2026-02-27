@@ -4095,12 +4095,47 @@ export const goalsData = [
         modules: [
           {
             id: "QW9_m1_A0 g3_H c1_7B",
-            name: "Git",
+            name: "Fundamentals of Computer Science",
             accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m1_H g3_7B c1_D2E",
-                name: "Commandline",
+                name: "Understanding Binary",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c1_D2E",
+                name: "Understanding Binary | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Understanding Binary",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m1_H g3_7B c1_D2E",
+                name: "Overview of Computer Hardware",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s5_A0 m1_H g3_7B c1_D2E",
+                name: " Overview of Computer Hardware | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s6_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Overview of Computer Hardware",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s7_A0 m1_H g3_7B c1_D2E",
+                name: "Introduction to Operating Systems",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s8_A0 m1_H g3_7B c1_D2E",
+                name: "Introduction to Operating System | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],

@@ -91,6 +91,13 @@ userDetailsList.map(user => (
   <UserProfile key={user.uniqueNo} userDetails={user} />
 ));`}
         />
+          <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <p>Keys used within arrays should be unique among their siblings. However, they don't need to be unique in the entire application.</p></div>
       </section>
 
       {/* 1.1 Keys as Props */}
@@ -186,31 +193,57 @@ export default App;`}
 
 export default UserProfile;`}
         />
+
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i className="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+
+          <h2>
+            React Error – ENOSPC: System limit for the number of file watchers reached
+          </h2>
+
+          <p>
+            Since <b>create-react-app</b> live-reloads and recompiles files on save,
+            it needs to keep track of all project files. In some systems the default
+            watcher limit is low, which causes this error.
+          </p>
+
+          <p>To fix the error, run the following commands:</p>
+
+          <ol>
+            <li>
+              Insert the new value into the system configuration
+              <CodeBlock
+                language="bash"
+                code={`echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p`}
+              />
+            </li>
+
+            <li>
+              Verify that the new value has been applied
+              <CodeBlock
+                language="bash"
+                code={`cat /proc/sys/fs/inotify/max_user_watches`}
+              />
+            </li>
+          </ol>
+
+          <p>
+            The following is only the configuration variable name and not a runnable
+            command.
+          </p>
+
+          <CodeBlock
+            language="bash"
+            code={`fs.inotify.max_user_watches=524288`}
+          />
+        </div>
       </section>
 
-      {/* 3. Common Issues */}
-      <section>
-        <h2>3. Common Issues</h2>
-
-        <h3>Using Index as Key (Avoid)</h3>
-        <CodeBlock
-          language="jsx"
-          code={`// Avoid: Causes re-rendering issues on reorder/delete
-userDetailsList.map((user, index) => (
-  <UserProfile key={index} userDetails={user} />
-));`}
-        />
-
-        <h3>Fix: ENOSPC Error (Linux)</h3>
-        <CodeBlock
-          language="bash"
-          code={`# Increase file watchers limit
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-
-# Verify
-cat /proc/sys/fs/inotify/max_user_watches`}
-        />
-      </section>
+ 
 
       {/* Continue Button */}
       <div className="view-continue">

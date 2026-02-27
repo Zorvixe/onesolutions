@@ -249,8 +249,14 @@ ReactDOM.render(<Greetings />, document.getElementById("root"));`}
           Open <b>http://localhost:3000</b> to view your application.
         </p>
 
-        <h3>Note</h3>
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
         <p>All ES6 Modules should have a .js extension.</p>
+       </div>
 
         <h3>2.2 Pre-Configured Tools</h3>
         <ul>
