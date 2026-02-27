@@ -1265,3 +1265,20 @@
 .course-content-grid.list .course-content-meta {
   margin-left: auto;
 }
+/* Coding Action Card */
+.course-action-card.coding {
+  background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+}
+
+.course-action-card.coding::before {
+  background: #3b82f6;
+}
+
+.course-action-card.coding .course-action-icon-wrapper {
+  background: #3b82f6;
+  color: white;
+}
+
+.course-action-card.coding h4 {
+  color: #1e40af;
+}

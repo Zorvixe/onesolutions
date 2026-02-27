@@ -13,13 +13,17 @@ const jwt = require("jsonwebtoken");
 // ----------------------------------------------------------------------
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
+  ssl:
+    process.env.NODE_ENV === "production"
+      ? { rejectUnauthorized: false }
+      : false,
 });
 
 const app = express();
 app.use(cors({ origin: "*", credentials: true }));
 app.use(express.json({ limit: "1000mb" }));
 app.use(express.urlencoded({ limit: "1000mb", extended: true }));
+app.use("/uploads_java", express.static(path.join(__dirname, "uploads_java")));
 
 // ----------------------------------------------------------------------
 // Enhanced Authentication Middleware (fetches full student record)
@@ -28,12 +32,13 @@ const authenticate = async (req, res, next) => {
   try {
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) {
-      return res.status(401).json({ success: false, message: "No token provided" });
+      return res
+        .status(401)
+        .json({ success: false, message: "No token provided" });
     }
     const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // Fetch full student details including student_type and course_selection
     const result = await pool.query(
       `SELECT id, student_id, email, first_name, last_name, phone, 
               profile_image, student_type, course_selection, batch_month, batch_year, is_current_batch
@@ -42,7 +47,9 @@ const authenticate = async (req, res, next) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(401).json({ success: false, message: "User not found or inactive" });
+      return res
+        .status(401)
+        .json({ success: false, message: "User not found or inactive" });
     }
 
     req.student = result.rows[0];
@@ -56,11 +63,15 @@ const authenticate = async (req, res, next) => {
 // ----------------------------------------------------------------------
 // Multer configuration for video uploads (if needed)
 // ----------------------------------------------------------------------
-const UPLOAD_BASE_PATH = process.env.JAVA_UPLOAD_PATH || path.join(__dirname, "uploads_java");
+const UPLOAD_BASE_PATH =
+  process.env.JAVA_UPLOAD_PATH || path.join(__dirname, "uploads_java");
 const videosDir = path.join(UPLOAD_BASE_PATH, "videos");
+const imagesDir = path.join(UPLOAD_BASE_PATH, "images");
 
-if (!fs.existsSync(UPLOAD_BASE_PATH)) fs.mkdirSync(UPLOAD_BASE_PATH, { recursive: true });
+if (!fs.existsSync(UPLOAD_BASE_PATH))
+  fs.mkdirSync(UPLOAD_BASE_PATH, { recursive: true });
 if (!fs.existsSync(videosDir)) fs.mkdirSync(videosDir, { recursive: true });
+if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
 
 const videoStorage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, videosDir),
@@ -77,6 +88,39 @@ const videoUpload = multer({
     else cb(new Error("Only video files are allowed"));
   },
 }).single("video");
+
+// Image upload configuration
+const imageStorage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, imagesDir),
+  filename: (req, file, cb) => {
+    const unique = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "image-" + unique + path.extname(file.originalname));
+  },
+});
+const imageUpload = multer({
+  storage: imageStorage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) cb(null, true);
+    else cb(new Error("Only image files are allowed"));
+  },
+}).single("image");
+
+// ----------------------------------------------------------------------
+// Image upload endpoint (for rich text editors)
+// ----------------------------------------------------------------------
+app.post("/admin/java/upload-image", authenticate, (req, res) => {
+  imageUpload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err.message });
+    }
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: "No image file" });
+    }
+    const imageUrl = `/uploads_java/images/${req.file.filename}`;
+    res.json({ success: true, url: imageUrl });
+  });
+});
 
 // ----------------------------------------------------------------------
 // Database table creation (with allowed_student_types column and coding practices)
@@ -184,6 +228,12 @@ const createJavaTables = async () => {
     `);
 
     await pool.query(`
+    ALTER TABLE IF NOT EXISTS java_content 
+ADD COLUMN difficulty VARCHAR(50) DEFAULT 'easy',
+ADD COLUMN score INTEGER DEFAULT 0;
+    `);
+
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS java_test_cases (
         id SERIAL PRIMARY KEY,
         content_id INTEGER REFERENCES java_content(id) ON DELETE CASCADE,
@@ -262,7 +312,9 @@ const getGoalIdForContent = async (contentId) => {
 // ---------- Goals ----------
 app.get("/admin/java/goals", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM java_goals ORDER BY order_number");
+    const result = await pool.query(
+      "SELECT * FROM java_goals ORDER BY order_number"
+    );
     res.json({ success: true, data: result.rows });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -297,7 +349,9 @@ app.put("/admin/java/goals/:goalId", async (req, res) => {
       [name, description, duration_months, certificate_name, goalId]
     );
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Goal not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Goal not found" });
     }
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -310,10 +364,15 @@ app.delete("/admin/java/goals/:goalId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query("DELETE FROM java_goals WHERE id = $1 RETURNING *", [goalId]);
+    const result = await client.query(
+      "DELETE FROM java_goals WHERE id = $1 RETURNING *",
+      [goalId]
+    );
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ success: false, message: "Goal not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Goal not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Goal deleted" });
@@ -363,7 +422,9 @@ app.put("/admin/java/modules/:moduleId", async (req, res) => {
       [name, description, moduleId]
     );
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Module not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Module not found" });
     }
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -376,10 +437,15 @@ app.delete("/admin/java/modules/:moduleId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query("DELETE FROM java_modules WHERE id = $1 RETURNING *", [moduleId]);
+    const result = await client.query(
+      "DELETE FROM java_modules WHERE id = $1 RETURNING *",
+      [moduleId]
+    );
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ success: false, message: "Module not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Module not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Module deleted" });
@@ -429,7 +495,9 @@ app.put("/admin/java/topics/:topicId", async (req, res) => {
       [name, description, topicId]
     );
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Topic not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Topic not found" });
     }
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -442,10 +510,15 @@ app.delete("/admin/java/topics/:topicId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query("DELETE FROM java_topics WHERE id = $1 RETURNING *", [topicId]);
+    const result = await client.query(
+      "DELETE FROM java_topics WHERE id = $1 RETURNING *",
+      [topicId]
+    );
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ success: false, message: "Topic not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Topic not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Topic deleted" });
@@ -495,7 +568,9 @@ app.put("/admin/java/subtopics/:subtopicId", async (req, res) => {
       [name, description, subtopicId]
     );
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Subtopic not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subtopic not found" });
     }
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
@@ -508,10 +583,15 @@ app.delete("/admin/java/subtopics/:subtopicId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query("DELETE FROM java_subtopics WHERE id = $1 RETURNING *", [subtopicId]);
+    const result = await client.query(
+      "DELETE FROM java_subtopics WHERE id = $1 RETURNING *",
+      [subtopicId]
+    );
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ success: false, message: "Subtopic not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Subtopic not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Subtopic deleted" });
@@ -525,100 +605,138 @@ app.delete("/admin/java/subtopics/:subtopicId", async (req, res) => {
 
 // ---------- Coding Practice Routes (NEW) ----------
 // Get all coding practices for a subtopic
-app.get("/admin/java/subtopics/:subtopicId/coding-practices", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM java_coding_practices WHERE subtopic_id = $1 ORDER BY order_number",
-      [req.params.subtopicId]
-    );
-    res.json({ success: true, data: result.rows });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+app.get(
+  "/admin/java/subtopics/:subtopicId/coding-practices",
+  async (req, res) => {
+    try {
+      const result = await pool.query(
+        "SELECT * FROM java_coding_practices WHERE subtopic_id = $1 ORDER BY order_number",
+        [req.params.subtopicId]
+      );
+      res.json({ success: true, data: result.rows });
+    } catch (e) {
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // Create a new coding practice
-app.post("/admin/java/subtopics/:subtopicId/coding-practices", authenticate, async (req, res) => {
-  try {
-    const { subtopicId } = req.params;
-    const { title, description, allowed_student_types } = req.body;
-    const result = await pool.query(
-      `INSERT INTO java_coding_practices (subtopic_id, title, description, allowed_student_types, order_number)
+app.post(
+  "/admin/java/subtopics/:subtopicId/coding-practices",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { subtopicId } = req.params;
+      const { title, description, allowed_student_types } = req.body;
+      const result = await pool.query(
+        `INSERT INTO java_coding_practices (subtopic_id, title, description, allowed_student_types, order_number)
        VALUES ($1, $2, $3, $4, (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_coding_practices WHERE subtopic_id = $1))
        RETURNING *`,
-      [subtopicId, title, description, allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
-    );
-    res.json({ success: true, data: result.rows[0] });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+        [
+          subtopicId,
+          title,
+          description,
+          allowed_student_types || [
+            "zorvixe_core",
+            "zorvixe_pro",
+            "zorvixe_elite",
+          ],
+        ]
+      );
+      res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // Update a coding practice
-app.put("/admin/java/coding-practices/:practiceId", authenticate, async (req, res) => {
-  try {
-    const { practiceId } = req.params;
-    const { title, description, allowed_student_types } = req.body;
-    const result = await pool.query(
-      `UPDATE java_coding_practices 
+app.put(
+  "/admin/java/coding-practices/:practiceId",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { practiceId } = req.params;
+      const { title, description, allowed_student_types } = req.body;
+      const result = await pool.query(
+        `UPDATE java_coding_practices 
        SET title = COALESCE($1, title), 
            description = COALESCE($2, description),
            allowed_student_types = COALESCE($3, allowed_student_types),
            updated_at = CURRENT_TIMESTAMP
        WHERE id = $4 RETURNING *`,
-      [title, description, allowed_student_types, practiceId]
-    );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Practice not found" });
+        [title, description, allowed_student_types, practiceId]
+      );
+      if (result.rows.length === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Practice not found" });
+      }
+      res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+      res.status(500).json({ success: false, error: e.message });
     }
-    res.json({ success: true, data: result.rows[0] });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
   }
-});
+);
 
 // Delete a coding practice (will set practice_id to NULL in linked content)
-app.delete("/admin/java/coding-practices/:practiceId", authenticate, async (req, res) => {
-  const { practiceId } = req.params;
-  const client = await pool.connect();
-  try {
-    await client.query("BEGIN");
-    // First, detach all coding problems from this practice
-    await client.query("UPDATE java_content SET practice_id = NULL WHERE practice_id = $1", [practiceId]);
-    // Then delete the practice
-    const result = await client.query("DELETE FROM java_coding_practices WHERE id = $1 RETURNING *", [practiceId]);
-    if (result.rows.length === 0) {
+app.delete(
+  "/admin/java/coding-practices/:practiceId",
+  authenticate,
+  async (req, res) => {
+    const { practiceId } = req.params;
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+      // First, detach all coding problems from this practice
+      await client.query(
+        "UPDATE java_content SET practice_id = NULL WHERE practice_id = $1",
+        [practiceId]
+      );
+      // Then delete the practice
+      const result = await client.query(
+        "DELETE FROM java_coding_practices WHERE id = $1 RETURNING *",
+        [practiceId]
+      );
+      if (result.rows.length === 0) {
+        await client.query("ROLLBACK");
+        return res
+          .status(404)
+          .json({ success: false, message: "Practice not found" });
+      }
+      await client.query("COMMIT");
+      res.json({ success: true, message: "Practice deleted" });
+    } catch (e) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ success: false, message: "Practice not found" });
+      res.status(500).json({ success: false, error: e.message });
+    } finally {
+      client.release();
     }
-    await client.query("COMMIT");
-    res.json({ success: true, message: "Practice deleted" });
-  } catch (e) {
-    await client.query("ROLLBACK");
-    res.status(500).json({ success: false, error: e.message });
-  } finally {
-    client.release();
   }
-});
+);
 
 // Reorder coding practices
-app.post("/admin/java/coding-practices/reorder", authenticate, async (req, res) => {
-  try {
-    const { subtopicId, orderedIds } = req.body;
-    await pool.query("BEGIN");
-    for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        "UPDATE java_coding_practices SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
-        [i, orderedIds[i], subtopicId]
-      );
+app.post(
+  "/admin/java/coding-practices/reorder",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { subtopicId, orderedIds } = req.body;
+      await pool.query("BEGIN");
+      for (let i = 0; i < orderedIds.length; i++) {
+        await pool.query(
+          "UPDATE java_coding_practices SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
+          [i, orderedIds[i], subtopicId]
+        );
+      }
+      await pool.query("COMMIT");
+      res.json({ success: true, message: "Practices reordered" });
+    } catch (e) {
+      await pool.query("ROLLBACK");
+      res.status(500).json({ success: false, error: e.message });
     }
-    await pool.query("COMMIT");
-    res.json({ success: true, message: "Practices reordered" });
-  } catch (e) {
-    await pool.query("ROLLBACK");
-    res.status(500).json({ success: false, error: e.message });
   }
-});
+);
 
 // ---------- Content (All types) ----------
 app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
@@ -634,137 +752,228 @@ app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
 });
 
 // ----- Video upload -----
-app.post("/admin/java/subtopics/:subtopicId/video", authenticate, (req, res) => {
-  videoUpload(req, res, async (err) => {
-    if (err) {
-      return res.status(400).json({ success: false, error: err.message });
-    }
-    try {
-      const { subtopicId } = req.params;
-      const { title, description, duration, slides_id, allowed_student_types } = req.body;
-      if (!req.file) {
-        return res.status(400).json({ success: false, error: "No video file" });
+app.post(
+  "/admin/java/subtopics/:subtopicId/video",
+  authenticate,
+  (req, res) => {
+    videoUpload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({ success: false, error: err.message });
       }
-      if (!title) {
-        fs.unlinkSync(req.file.path);
-        return res.status(400).json({ success: false, error: "Title required" });
-      }
+      try {
+        const { subtopicId } = req.params;
+        const {
+          title,
+          description,
+          duration,
+          slides_id,
+          allowed_student_types,
+        } = req.body;
+        if (!req.file) {
+          return res
+            .status(400)
+            .json({ success: false, error: "No video file" });
+        }
+        if (!title) {
+          fs.unlinkSync(req.file.path);
+          return res
+            .status(400)
+            .json({ success: false, error: "Title required" });
+        }
 
-      const videoUrl = `/uploads_java/videos/${req.file.filename}`;
-      const uuid = crypto.randomUUID();
-      const token = crypto.randomUUID();
+        const videoUrl = `/uploads_java/videos/${req.file.filename}`;
+        const uuid = crypto.randomUUID();
+        const token = crypto.randomUUID();
 
-      const result = await pool.query(
-        `INSERT INTO java_content (
+        const result = await pool.query(
+          `INSERT INTO java_content (
           subtopic_id, content_type, content_uuid, access_token,
           video_title, video_description, video_duration, video_url, slides_id,
           allowed_student_types, order_number
         ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9,
           (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
         RETURNING *`,
-        [subtopicId, uuid, token, title, description || "", duration || 0, videoUrl, slides_id || null,
-         allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
-      );
+          [
+            subtopicId,
+            uuid,
+            token,
+            title,
+            description || "",
+            duration || 0,
+            videoUrl,
+            slides_id || null,
+            allowed_student_types || [
+              "zorvixe_core",
+              "zorvixe_pro",
+              "zorvixe_elite",
+            ],
+          ]
+        );
 
-      res.json({ success: true, data: result.rows[0] });
-    } catch (e) {
-      if (req.file) fs.unlinkSync(req.file.path);
-      res.status(500).json({ success: false, error: e.message });
-    }
-  });
-});
+        res.json({ success: true, data: result.rows[0] });
+      } catch (e) {
+        if (req.file) fs.unlinkSync(req.file.path);
+        res.status(500).json({ success: false, error: e.message });
+      }
+    });
+  }
+);
 
 // ----- Cheatsheet -----
-app.post("/admin/java/subtopics/:subtopicId/cheatsheet", authenticate, async (req, res) => {
-  try {
-    const { subtopicId } = req.params;
-    const { title, content, allowed_student_types } = req.body;
-    const uuid = crypto.randomUUID();
-    const token = crypto.randomUUID();
-    const result = await pool.query(
-      `INSERT INTO java_content (
+app.post(
+  "/admin/java/subtopics/:subtopicId/cheatsheet",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { subtopicId } = req.params;
+      const { title, content, allowed_student_types } = req.body;
+      const uuid = crypto.randomUUID();
+      const token = crypto.randomUUID();
+      const result = await pool.query(
+        `INSERT INTO java_content (
         subtopic_id, content_type, content_uuid, access_token,
         cheatsheet_title, cheatsheet_content,
         allowed_student_types, order_number
       ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6,
         (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-      [subtopicId, uuid, token, title, content, allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
-    );
-    res.json({ success: true, data: result.rows[0] });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+        [
+          subtopicId,
+          uuid,
+          token,
+          title,
+          content,
+          allowed_student_types || [
+            "zorvixe_core",
+            "zorvixe_pro",
+            "zorvixe_elite",
+          ],
+        ]
+      );
+      res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // ----- MCQ -----
-app.post("/admin/java/subtopics/:subtopicId/mcq", authenticate, async (req, res) => {
-  try {
-    const { subtopicId } = req.params;
-    const { title, questions, time_limit, passing_score, allowed_student_types } = req.body;
-    const uuid = crypto.randomUUID();
-    const token = crypto.randomUUID();
-    const result = await pool.query(
-      `INSERT INTO java_content (
+app.post(
+  "/admin/java/subtopics/:subtopicId/mcq",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { subtopicId } = req.params;
+      const {
+        title,
+        questions,
+        time_limit,
+        passing_score,
+        allowed_student_types,
+      } = req.body;
+      const uuid = crypto.randomUUID();
+      const token = crypto.randomUUID();
+      const result = await pool.query(
+        `INSERT INTO java_content (
         subtopic_id, content_type, content_uuid, access_token,
         mcq_title, questions, time_limit, passing_score,
         allowed_student_types, order_number
       ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7, $8,
         (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-      [subtopicId, uuid, token, title, JSON.stringify(questions), time_limit || null, passing_score || 70,
-       allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
-    );
-    res.json({ success: true, data: result.rows[0] });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+        [
+          subtopicId,
+          uuid,
+          token,
+          title,
+          JSON.stringify(questions),
+          time_limit || null,
+          passing_score || 70,
+          allowed_student_types || [
+            "zorvixe_core",
+            "zorvixe_pro",
+            "zorvixe_elite",
+          ],
+        ]
+      );
+      res.json({ success: true, data: result.rows[0] });
+    } catch (e) {
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // ----- Coding Problem (can optionally belong to a practice) -----
-app.post("/admin/java/subtopics/:subtopicId/coding", authenticate, async (req, res) => {
-  const client = await pool.connect();
-  try {
-    const { subtopicId } = req.params;
-    const { title, description, starterCode, testCases, time_limit, memory_limit, allowed_student_types, practice_id } = req.body;
-    // testCases = [{ input, expectedOutput, isSample }, ...]
+app.post(
+  "/admin/java/subtopics/:subtopicId/coding",
+  authenticate,
+  async (req, res) => {
+    const client = await pool.connect();
+    try {
+      const { subtopicId } = req.params;
+      const {
+        title,
+        description,
+        starterCode,
+        testCases,
+        time_limit,
+        memory_limit,
+        allowed_student_types,
+        practice_id,
+      } = req.body;
+      // testCases = [{ input, expectedOutput, isSample }, ...]
 
-    await client.query("BEGIN");
+      await client.query("BEGIN");
 
-    const uuid = crypto.randomUUID();
-    const token = crypto.randomUUID();
-    const contentResult = await client.query(
-      `INSERT INTO java_content (
+      const uuid = crypto.randomUUID();
+      const token = crypto.randomUUID();
+      const contentResult = await client.query(
+        `INSERT INTO java_content (
         subtopic_id, practice_id, content_type, content_uuid, access_token,
         coding_title, coding_description, starter_code, coding_time_limit, coding_memory_limit,
         allowed_student_types, order_number
       ) VALUES ($1, $2, 'coding', $3, $4, $5, $6, $7, $8, $9, $10,
         (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-      [subtopicId, practice_id || null, uuid, token, title, description, starterCode, time_limit, memory_limit,
-       allowed_student_types || ['zorvixe_core','zorvixe_pro','zorvixe_elite']]
-    );
-    const contentId = contentResult.rows[0].id;
-
-    for (let i = 0; i < testCases.length; i++) {
-      const tc = testCases[i];
-      await client.query(
-        `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [contentId, tc.input, tc.expectedOutput, tc.isSample || false, i]
+        [
+          subtopicId,
+          practice_id || null,
+          uuid,
+          token,
+          title,
+          description,
+          starterCode,
+          time_limit,
+          memory_limit,
+          allowed_student_types || [
+            "zorvixe_core",
+            "zorvixe_pro",
+            "zorvixe_elite",
+          ],
+        ]
       );
-    }
+      const contentId = contentResult.rows[0].id;
 
-    await client.query("COMMIT");
-    res.json({ success: true, data: contentResult.rows[0] });
-  } catch (e) {
-    await client.query("ROLLBACK");
-    console.error("Create coding problem error:", e);
-    res.status(500).json({ success: false, error: e.message });
-  } finally {
-    client.release();
+      for (let i = 0; i < testCases.length; i++) {
+        const tc = testCases[i];
+        await client.query(
+          `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
+         VALUES ($1, $2, $3, $4, $5)`,
+          [contentId, tc.input, tc.expectedOutput, tc.isSample || false, i]
+        );
+      }
+
+      await client.query("COMMIT");
+      res.json({ success: true, data: contentResult.rows[0] });
+    } catch (e) {
+      await client.query("ROLLBACK");
+      console.error("Create coding problem error:", e);
+      res.status(500).json({ success: false, error: e.message });
+    } finally {
+      client.release();
+    }
   }
-});
+);
 
 // ----- Update content (any type) -----
 app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
@@ -774,15 +983,27 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
     const {
       content_type,
       allowed_student_types,
-      practice_id,  // NEW: allow reassigning to a different practice
+      practice_id, // NEW: allow reassigning to a different practice
       // video
-      video_title, video_description, video_duration, slides_id,
+      video_title,
+      video_description,
+      video_duration,
+      slides_id,
       // cheatsheet
-      cheatsheet_title, cheatsheet_content,
+      cheatsheet_title,
+      cheatsheet_content,
       // mcq
-      mcq_title, questions, time_limit, passing_score,
+      mcq_title,
+      questions,
+      time_limit,
+      passing_score,
       // coding
-      coding_title, coding_description, starter_code, coding_time_limit, coding_memory_limit, testCases
+      coding_title,
+      coding_description,
+      starter_code,
+      coding_time_limit,
+      coding_memory_limit,
+      testCases,
     } = req.body;
 
     await client.query("BEGIN");
@@ -800,28 +1021,75 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
       values.push(practice_id);
     }
 
-    if (content_type === 'video') {
-      if (video_title !== undefined) { updates.push(`video_title = $${paramIndex++}`); values.push(video_title); }
-      if (video_description !== undefined) { updates.push(`video_description = $${paramIndex++}`); values.push(video_description); }
-      if (video_duration !== undefined) { updates.push(`video_duration = $${paramIndex++}`); values.push(video_duration); }
-      if (slides_id !== undefined) { updates.push(`slides_id = $${paramIndex++}`); values.push(slides_id); }
-    } else if (content_type === 'cheatsheet') {
-      if (cheatsheet_title !== undefined) { updates.push(`cheatsheet_title = $${paramIndex++}`); values.push(cheatsheet_title); }
-      if (cheatsheet_content !== undefined) { updates.push(`cheatsheet_content = $${paramIndex++}`); values.push(cheatsheet_content); }
-    } else if (content_type === 'mcq') {
-      if (mcq_title !== undefined) { updates.push(`mcq_title = $${paramIndex++}`); values.push(mcq_title); }
-      if (questions !== undefined) { updates.push(`questions = $${paramIndex++}`); values.push(JSON.stringify(questions)); }
-      if (time_limit !== undefined) { updates.push(`time_limit = $${paramIndex++}`); values.push(time_limit); }
-      if (passing_score !== undefined) { updates.push(`passing_score = $${paramIndex++}`); values.push(passing_score); }
-    } else if (content_type === 'coding') {
-      if (coding_title !== undefined) { updates.push(`coding_title = $${paramIndex++}`); values.push(coding_title); }
-      if (coding_description !== undefined) { updates.push(`coding_description = $${paramIndex++}`); values.push(coding_description); }
-      if (starter_code !== undefined) { updates.push(`starter_code = $${paramIndex++}`); values.push(starter_code); }
-      if (coding_time_limit !== undefined) { updates.push(`coding_time_limit = $${paramIndex++}`); values.push(coding_time_limit); }
-      if (coding_memory_limit !== undefined) { updates.push(`coding_memory_limit = $${paramIndex++}`); values.push(coding_memory_limit); }
+    if (content_type === "video") {
+      if (video_title !== undefined) {
+        updates.push(`video_title = $${paramIndex++}`);
+        values.push(video_title);
+      }
+      if (video_description !== undefined) {
+        updates.push(`video_description = $${paramIndex++}`);
+        values.push(video_description);
+      }
+      if (video_duration !== undefined) {
+        updates.push(`video_duration = $${paramIndex++}`);
+        values.push(video_duration);
+      }
+      if (slides_id !== undefined) {
+        updates.push(`slides_id = $${paramIndex++}`);
+        values.push(slides_id);
+      }
+    } else if (content_type === "cheatsheet") {
+      if (cheatsheet_title !== undefined) {
+        updates.push(`cheatsheet_title = $${paramIndex++}`);
+        values.push(cheatsheet_title);
+      }
+      if (cheatsheet_content !== undefined) {
+        updates.push(`cheatsheet_content = $${paramIndex++}`);
+        values.push(cheatsheet_content);
+      }
+    } else if (content_type === "mcq") {
+      if (mcq_title !== undefined) {
+        updates.push(`mcq_title = $${paramIndex++}`);
+        values.push(mcq_title);
+      }
+      if (questions !== undefined) {
+        updates.push(`questions = $${paramIndex++}`);
+        values.push(JSON.stringify(questions));
+      }
+      if (time_limit !== undefined) {
+        updates.push(`time_limit = $${paramIndex++}`);
+        values.push(time_limit);
+      }
+      if (passing_score !== undefined) {
+        updates.push(`passing_score = $${paramIndex++}`);
+        values.push(passing_score);
+      }
+    } else if (content_type === "coding") {
+      if (coding_title !== undefined) {
+        updates.push(`coding_title = $${paramIndex++}`);
+        values.push(coding_title);
+      }
+      if (coding_description !== undefined) {
+        updates.push(`coding_description = $${paramIndex++}`);
+        values.push(coding_description);
+      }
+      if (starter_code !== undefined) {
+        updates.push(`starter_code = $${paramIndex++}`);
+        values.push(starter_code);
+      }
+      if (coding_time_limit !== undefined) {
+        updates.push(`coding_time_limit = $${paramIndex++}`);
+        values.push(coding_time_limit);
+      }
+      if (coding_memory_limit !== undefined) {
+        updates.push(`coding_memory_limit = $${paramIndex++}`);
+        values.push(coding_memory_limit);
+      }
 
       // Replace test cases: delete old, insert new
-      await client.query("DELETE FROM java_test_cases WHERE content_id = $1", [contentId]);
+      await client.query("DELETE FROM java_test_cases WHERE content_id = $1", [
+        contentId,
+      ]);
       if (testCases && Array.isArray(testCases)) {
         for (let i = 0; i < testCases.length; i++) {
           const tc = testCases[i];
@@ -836,16 +1104,22 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
 
     if (updates.length === 0) {
       await client.query("ROLLBACK");
-      return res.status(400).json({ success: false, message: "No fields to update" });
+      return res
+        .status(400)
+        .json({ success: false, message: "No fields to update" });
     }
 
-    const query = `UPDATE java_content SET ${updates.join(", ")} WHERE id = $${paramIndex} RETURNING *`;
+    const query = `UPDATE java_content SET ${updates.join(
+      ", "
+    )} WHERE id = $${paramIndex} RETURNING *`;
     values.push(contentId);
     const result = await client.query(query, values);
 
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res.status(404).json({ success: false, message: "Content not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Content not found" });
     }
 
     await client.query("COMMIT");
@@ -863,9 +1137,14 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
 app.delete("/admin/java/content/:contentId", authenticate, async (req, res) => {
   try {
     const { contentId } = req.params;
-    const result = await pool.query("DELETE FROM java_content WHERE id = $1 RETURNING *", [contentId]);
+    const result = await pool.query(
+      "DELETE FROM java_content WHERE id = $1 RETURNING *",
+      [contentId]
+    );
     if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Content not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Content not found" });
     }
     res.json({ success: true, message: "Content deleted" });
   } catch (e) {
@@ -916,42 +1195,49 @@ app.get("/student/java/courses", authenticate, async (req, res) => {
 });
 
 // Enroll in a goal
-app.post("/student/java/courses/enroll/:goalId", authenticate, async (req, res) => {
-  try {
-    const studentId = req.student.id;
-    const goalId = req.params.goalId;
-    await pool.query(
-      `INSERT INTO java_enrollments (student_id, goal_id)
+app.post(
+  "/student/java/courses/enroll/:goalId",
+  authenticate,
+  async (req, res) => {
+    try {
+      const studentId = req.student.id;
+      const goalId = req.params.goalId;
+      await pool.query(
+        `INSERT INTO java_enrollments (student_id, goal_id)
        VALUES ($1, $2)
        ON CONFLICT (student_id, goal_id) DO NOTHING`,
-      [studentId, goalId]
-    );
-    res.json({ success: true, message: "Enrolled successfully" });
-  } catch (e) {
-    res.status(500).json({ success: false, error: e.message });
+        [studentId, goalId]
+      );
+      res.json({ success: true, message: "Enrolled successfully" });
+    } catch (e) {
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // Get full structure of all goals (with progress) - FILTERED BY STUDENT TYPE, includes coding practices
-app.get("/student/java/courses/all-structure", authenticate, async (req, res) => {
-  try {
-    const studentId = req.student.id;
-    const studentType = req.student.student_type;
+app.get(
+  "/student/java/courses/all-structure",
+  authenticate,
+  async (req, res) => {
+    try {
+      const studentId = req.student.id;
+      const studentType = req.student.student_type;
 
-    const goalsResult = await pool.query(
-      `SELECT jg.*, je.enrolled_at, je.progress_percentage, je.status as enrollment_status,
+      const goalsResult = await pool.query(
+        `SELECT jg.*, je.enrolled_at, je.progress_percentage, je.status as enrollment_status,
               CASE WHEN je.id IS NOT NULL THEN true ELSE false END as is_enrolled
        FROM java_goals jg
        LEFT JOIN java_enrollments je ON jg.id = je.goal_id AND je.student_id = $1
        WHERE jg.is_active = true
        ORDER BY jg.order_number`,
-      [studentId]
-    );
+        [studentId]
+      );
 
-    const goalsWithStructure = [];
-    for (const goal of goalsResult.rows) {
-      const modulesResult = await pool.query(
-        `SELECT jm.id, jm.name, jm.description, jm.order_number,
+      const goalsWithStructure = [];
+      for (const goal of goalsResult.rows) {
+        const modulesResult = await pool.query(
+          `SELECT jm.id, jm.name, jm.description, jm.order_number,
                 COALESCE(
                   (SELECT json_agg(
                     json_build_object(
@@ -1025,291 +1311,331 @@ app.get("/student/java/courses/all-structure", authenticate, async (req, res) =>
          FROM java_modules jm
          WHERE jm.goal_id = $2
          ORDER BY jm.order_number`,
-        [studentId, goal.id, studentType]
-      );
+          [studentId, goal.id, studentType]
+        );
 
-      // Calculate progress for the goal (based on visible content only, including practices)
-      let total = 0, completed = 0;
-      for (const mod of modulesResult.rows) {
-        if (mod.topics) {
-          for (const topic of mod.topics) {
-            if (topic.subtopics) {
-              for (const sub of topic.subtopics) {
-                if (sub.content) {
-                  total += sub.content.length;
-                  completed += sub.content.filter(c => c.is_completed).length;
-                }
-                if (sub.coding_practices) {
-                  for (const practice of sub.coding_practices) {
-                    if (practice.is_completed) completed += 1;
-                    total += 1;
+        // Calculate progress for the goal (based on visible content only, including practices)
+        let total = 0,
+          completed = 0;
+        for (const mod of modulesResult.rows) {
+          if (mod.topics) {
+            for (const topic of mod.topics) {
+              if (topic.subtopics) {
+                for (const sub of topic.subtopics) {
+                  if (sub.content) {
+                    total += sub.content.length;
+                    completed += sub.content.filter(
+                      (c) => c.is_completed
+                    ).length;
+                  }
+                  if (sub.coding_practices) {
+                    for (const practice of sub.coding_practices) {
+                      if (practice.is_completed) completed += 1;
+                      total += 1;
+                    }
                   }
                 }
               }
             }
           }
         }
+        const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+        goalsWithStructure.push({
+          ...goal,
+          modules: modulesResult.rows,
+          stats: {
+            total_content: total,
+            completed_content: completed,
+            progress_percentage: progress,
+          },
+        });
       }
-      const progress = total > 0 ? Math.round((completed / total) * 100) : 0;
 
-      goalsWithStructure.push({
-        ...goal,
-        modules: modulesResult.rows,
-        stats: {
-          total_content: total,
-          completed_content: completed,
-          progress_percentage: progress,
-        },
-      });
+      res.json({ success: true, data: goalsWithStructure });
+    } catch (e) {
+      console.error("Error fetching all Java structure:", e);
+      res.status(500).json({ success: false, error: e.message });
     }
-
-    res.json({ success: true, data: goalsWithStructure });
-  } catch (e) {
-    console.error("Error fetching all Java structure:", e);
-    res.status(500).json({ success: false, error: e.message });
   }
-});
+);
 
 // Get a specific coding practice with its problems
-app.get("/student/java/coding-practice/:practiceId", authenticate, async (req, res) => {
-  try {
-    const studentId = req.student.id;
-    const studentType = req.student.student_type;
-    const { practiceId } = req.params;
+app.get(
+  "/student/java/coding-practice/:practiceId",
+  authenticate,
+  async (req, res) => {
+    try {
+      const studentId = req.student.id;
+      const studentType = req.student.student_type;
+      const { practiceId } = req.params;
 
-    // Get practice details
-    const practiceResult = await pool.query(
-      `SELECT * FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
-      [practiceId, studentType]
-    );
-    if (practiceResult.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Practice not found or access denied" });
-    }
-    const practice = practiceResult.rows[0];
+      // Get practice details
+      const practiceResult = await pool.query(
+        `SELECT * FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
+        [practiceId, studentType]
+      );
+      if (practiceResult.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Practice not found or access denied",
+        });
+      }
+      const practice = practiceResult.rows[0];
 
-    // Get all coding problems in this practice
-    const problemsResult = await pool.query(
-      `SELECT jc.id, jc.content_uuid, jc.coding_title, jc.coding_description, jc.starter_code,
+      // Get all coding problems in this practice
+      const problemsResult = await pool.query(
+        `SELECT jc.id, jc.content_uuid, jc.coding_title, jc.coding_description, jc.starter_code,
               jc.coding_time_limit, jc.coding_memory_limit,
               CASE WHEN jp.id IS NOT NULL THEN true ELSE false END as is_completed
        FROM java_content jc
        LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
        WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]
        ORDER BY jc.order_number`,
-      [studentId, practiceId, studentType]
-    );
+        [studentId, practiceId, studentType]
+      );
 
-    // For each problem, fetch sample test cases
-    const problemsWithTestCases = await Promise.all(
-      problemsResult.rows.map(async (problem) => {
-        const testCases = await pool.query(
-          `SELECT input, expected_output FROM java_test_cases
+      // For each problem, fetch sample test cases
+      const problemsWithTestCases = await Promise.all(
+        problemsResult.rows.map(async (problem) => {
+          const testCases = await pool.query(
+            `SELECT input, expected_output FROM java_test_cases
            WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
-          [problem.id]
-        );
-        return {
-          ...problem,
-          sample_test_cases: testCases.rows,
-        };
-      })
-    );
+            [problem.id]
+          );
+          return {
+            ...problem,
+            sample_test_cases: testCases.rows,
+          };
+        })
+      );
 
-    res.json({
-      success: true,
-      data: {
-        practice,
-        problems: problemsWithTestCases,
-      },
-    });
-  } catch (e) {
-    console.error("Error fetching coding practice:", e);
-    res.status(500).json({ success: false, error: e.message });
+      res.json({
+        success: true,
+        data: {
+          practice,
+          problems: problemsWithTestCases,
+        },
+      });
+    } catch (e) {
+      console.error("Error fetching coding practice:", e);
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // Mark an entire practice as completed (if all problems are completed)
-app.post("/student/java/coding-practice/:practiceId/complete", authenticate, async (req, res) => {
-  try {
-    const studentId = req.student.id;
-    const studentType = req.student.student_type;
-    const { practiceId } = req.params;
+app.post(
+  "/student/java/coding-practice/:practiceId/complete",
+  authenticate,
+  async (req, res) => {
+    try {
+      const studentId = req.student.id;
+      const studentType = req.student.student_type;
+      const { practiceId } = req.params;
 
-    // Check if practice exists and is accessible
-    const practiceCheck = await pool.query(
-      `SELECT id FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
-      [practiceId, studentType]
-    );
-    if (practiceCheck.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Practice not found or access denied" });
-    }
+      // Check if practice exists and is accessible
+      const practiceCheck = await pool.query(
+        `SELECT id FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
+        [practiceId, studentType]
+      );
+      if (practiceCheck.rows.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Practice not found or access denied",
+        });
+      }
 
-    // Check if all problems in the practice are completed
-    const progressCheck = await pool.query(
-      `SELECT 
+      // Check if all problems in the practice are completed
+      const progressCheck = await pool.query(
+        `SELECT 
          COUNT(*) as total,
          SUM(CASE WHEN jp.id IS NOT NULL THEN 1 ELSE 0 END) as completed
        FROM java_content jc
        LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
        WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
-      [studentId, practiceId, studentType]
-    );
-    const { total, completed } = progressCheck.rows[0];
-    if (total === 0) {
-      return res.status(400).json({ success: false, message: "No problems in this practice" });
-    }
-    if (parseInt(completed) < parseInt(total)) {
-      return res.status(400).json({ success: false, message: "Not all problems are completed yet" });
-    }
+        [studentId, practiceId, studentType]
+      );
+      const { total, completed } = progressCheck.rows[0];
+      if (total === 0) {
+        return res
+          .status(400)
+          .json({ success: false, message: "No problems in this practice" });
+      }
+      if (parseInt(completed) < parseInt(total)) {
+        return res.status(400).json({
+          success: false,
+          message: "Not all problems are completed yet",
+        });
+      }
 
-    // Insert into practice progress
-    await pool.query(
-      `INSERT INTO java_practice_progress (student_id, practice_id)
+      // Insert into practice progress
+      await pool.query(
+        `INSERT INTO java_practice_progress (student_id, practice_id)
        VALUES ($1, $2)
        ON CONFLICT (student_id, practice_id) DO NOTHING`,
-      [studentId, practiceId]
-    );
+        [studentId, practiceId]
+      );
 
-    res.json({ success: true, message: "Practice marked as completed" });
-  } catch (e) {
-    console.error("Error completing practice:", e);
-    res.status(500).json({ success: false, error: e.message });
+      res.json({ success: true, message: "Practice marked as completed" });
+    } catch (e) {
+      console.error("Error completing practice:", e);
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // Get content by UUID (with sample test cases for coding) - CHECK STUDENT TYPE
-app.get("/student/java/content/:contentUuid", authenticate, async (req, res) => {
-  try {
-    const studentId = req.student.id;
-    const studentType = req.student.student_type;
-    const { contentUuid } = req.params;
+app.get(
+  "/student/java/content/:contentUuid",
+  authenticate,
+  async (req, res) => {
+    try {
+      const studentId = req.student.id;
+      const studentType = req.student.student_type;
+      const { contentUuid } = req.params;
 
-    // Verify enrollment
-    const enrollmentCheck = await pool.query(
-      `SELECT je.* FROM java_enrollments je
+      // Verify enrollment
+      const enrollmentCheck = await pool.query(
+        `SELECT je.* FROM java_enrollments je
        JOIN java_goals jg ON je.goal_id = jg.id
        JOIN java_modules jm ON jg.id = jm.goal_id
        JOIN java_topics jt ON jm.id = jt.module_id
        JOIN java_subtopics js ON jt.id = js.topic_id
        JOIN java_content jc ON js.id = jc.subtopic_id
        WHERE je.student_id = $1 AND jc.content_uuid = $2`,
-      [studentId, contentUuid]
-    );
-    if (enrollmentCheck.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "Not enrolled in this course" });
-    }
+        [studentId, contentUuid]
+      );
+      if (enrollmentCheck.rows.length === 0) {
+        return res
+          .status(403)
+          .json({ success: false, message: "Not enrolled in this course" });
+      }
 
-    const contentResult = await pool.query(
-      `SELECT jc.*, js.id as subtopic_id, jt.id as topic_id, jm.id as module_id, jg.id as goal_id
+      const contentResult = await pool.query(
+        `SELECT jc.*, js.id as subtopic_id, jt.id as topic_id, jm.id as module_id, jg.id as goal_id
        FROM java_content jc
        JOIN java_subtopics js ON jc.subtopic_id = js.id
        JOIN java_topics jt ON js.topic_id = jt.id
        JOIN java_modules jm ON jt.module_id = jm.id
        JOIN java_goals jg ON jm.goal_id = jg.id
        WHERE jc.content_uuid = $1`,
-      [contentUuid]
-    );
-    if (contentResult.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Content not found" });
-    }
-    const content = contentResult.rows[0];
-
-    // Check student type access
-    if (!content.allowed_student_types || !content.allowed_student_types.includes(studentType)) {
-      return res.status(403).json({ success: false, message: "You do not have access to this content" });
-    }
-
-    const baseUrl = process.env.BACKEND_URL || "http://localhost:5002";
-    let responseData = {
-      id: content.id,
-      content_type: content.content_type,
-      content_uuid: content.content_uuid,
-      goal_id: content.goal_id,
-      module_id: content.module_id,
-      topic_id: content.topic_id,
-      subtopic_id: content.subtopic_id,
-      practice_id: content.practice_id,
-    };
-
-    if (content.content_type === 'video') {
-      responseData = {
-        ...responseData,
-        video_title: content.video_title,
-        video_description: content.video_description,
-        video_duration: content.video_duration,
-        video_url: `${baseUrl}/api/java/content/${content.content_uuid}/stream?token=${content.access_token}`,
-        thumbnail_url: content.thumbnail_url,
-        slides_id: content.slides_id,
-      };
-    } else if (content.content_type === 'cheatsheet') {
-      responseData = {
-        ...responseData,
-        cheatsheet_title: content.cheatsheet_title,
-        cheatsheet_content: content.cheatsheet_content,
-        file_url: content.file_url,
-      };
-    } else if (content.content_type === 'mcq') {
-      responseData = {
-        ...responseData,
-        mcq_title: content.mcq_title,
-        questions: content.questions || [],
-        time_limit: content.time_limit,
-        passing_score: content.passing_score,
-      };
-    } else if (content.content_type === 'coding') {
-      // Fetch ONLY sample test cases
-      const sampleTestCases = await pool.query(
-        `SELECT input, expected_output FROM java_test_cases
-         WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
-        [content.id]
+        [contentUuid]
       );
-      responseData = {
-        ...responseData,
-        coding_title: content.coding_title,
-        coding_description: content.coding_description,
-        starter_code: content.starter_code,
-        coding_time_limit: content.coding_time_limit,
-        coding_memory_limit: content.coding_memory_limit,
-        sample_test_cases: sampleTestCases.rows,
-      };
-    }
+      if (contentResult.rows.length === 0) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Content not found" });
+      }
+      const content = contentResult.rows[0];
 
-    res.json({ success: true, data: responseData });
-  } catch (e) {
-    console.error("Error fetching Java content:", e);
-    res.status(500).json({ success: false, error: e.message });
+      // Check student type access
+      if (
+        !content.allowed_student_types ||
+        !content.allowed_student_types.includes(studentType)
+      ) {
+        return res.status(403).json({
+          success: false,
+          message: "You do not have access to this content",
+        });
+      }
+
+      const baseUrl = process.env.BACKEND_URL || "http://localhost:5002";
+      let responseData = {
+        id: content.id,
+        content_type: content.content_type,
+        content_uuid: content.content_uuid,
+        goal_id: content.goal_id,
+        module_id: content.module_id,
+        topic_id: content.topic_id,
+        subtopic_id: content.subtopic_id,
+        practice_id: content.practice_id,
+      };
+
+      if (content.content_type === "video") {
+        responseData = {
+          ...responseData,
+          video_title: content.video_title,
+          video_description: content.video_description,
+          video_duration: content.video_duration,
+          video_url: `${baseUrl}/api/java/content/${content.content_uuid}/stream?token=${content.access_token}`,
+          thumbnail_url: content.thumbnail_url,
+          slides_id: content.slides_id,
+        };
+      } else if (content.content_type === "cheatsheet") {
+        responseData = {
+          ...responseData,
+          cheatsheet_title: content.cheatsheet_title,
+          cheatsheet_content: content.cheatsheet_content,
+          file_url: content.file_url,
+        };
+      } else if (content.content_type === "mcq") {
+        responseData = {
+          ...responseData,
+          mcq_title: content.mcq_title,
+          questions: content.questions || [],
+          time_limit: content.time_limit,
+          passing_score: content.passing_score,
+        };
+      } else if (content.content_type === "coding") {
+        // Fetch ONLY sample test cases
+        const sampleTestCases = await pool.query(
+          `SELECT input, expected_output FROM java_test_cases
+         WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
+          [content.id]
+        );
+        responseData = {
+          ...responseData,
+          coding_title: content.coding_title,
+          coding_description: content.coding_description,
+          starter_code: content.starter_code,
+          coding_time_limit: content.coding_time_limit,
+          coding_memory_limit: content.coding_memory_limit,
+          sample_test_cases: sampleTestCases.rows,
+        };
+      }
+
+      res.json({ success: true, data: responseData });
+    } catch (e) {
+      console.error("Error fetching Java content:", e);
+      res.status(500).json({ success: false, error: e.message });
+    }
   }
-});
+);
 
 // Mark content as completed
-app.post("/student/java/content/:contentId/complete", authenticate, async (req, res) => {
-  try {
-    const studentId = req.student.id;
-    const { contentId } = req.params;
-    const { quiz_score } = req.body;
+app.post(
+  "/student/java/content/:contentId/complete",
+  authenticate,
+  async (req, res) => {
+    try {
+      const studentId = req.student.id;
+      const { contentId } = req.params;
+      const { quiz_score } = req.body;
 
-    const goalId = await getGoalIdForContent(contentId);
+      const goalId = await getGoalIdForContent(contentId);
 
-    await pool.query(
-      `INSERT INTO java_progress (student_id, goal_id, content_id, quiz_score)
+      await pool.query(
+        `INSERT INTO java_progress (student_id, goal_id, content_id, quiz_score)
        VALUES ($1, $2, $3, $4)
        ON CONFLICT (student_id, content_id)
        DO UPDATE SET quiz_score = $4`,
-      [studentId, goalId, contentId, quiz_score || null]
-    );
+        [studentId, goalId, contentId, quiz_score || null]
+      );
 
-    res.json({
-      success: true,
-      message: "Content marked as completed",
-    });
-
-  } catch (error) {
-    console.error("Complete content error:", error);
-    res.status(500).json({
-      success: false,
-      error: error.message,
-    });
+      res.json({
+        success: true,
+        message: "Content marked as completed",
+      });
+    } catch (error) {
+      console.error("Complete content error:", error);
+      res.status(500).json({
+        success: false,
+        error: error.message,
+      });
+    }
   }
-});
+);
 
 // Run code (sample test cases only)
 app.post("/student/java/coding/run", authenticate, async (req, res) => {
@@ -1330,7 +1656,9 @@ app.post("/student/java/coding/run", authenticate, async (req, res) => {
       [studentId, contentId, studentType]
     );
     if (enrollmentCheck.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "Not enrolled or no access" });
+      return res
+        .status(403)
+        .json({ success: false, message: "Not enrolled or no access" });
     }
 
     // Fetch sample test cases only
@@ -1341,12 +1669,16 @@ app.post("/student/java/coding/run", authenticate, async (req, res) => {
     );
 
     if (testCases.rows.length === 0) {
-      return res.json({ success: true, results: [], message: "No sample test cases" });
+      return res.json({
+        success: true,
+        results: [],
+        message: "No sample test cases",
+      });
     }
 
     // ---- Placeholder for actual code execution ----
     // Replace with real sandbox execution.
-    const results = testCases.rows.map(tc => ({
+    const results = testCases.rows.map((tc) => ({
       testCaseId: tc.id,
       input: tc.input,
       expected: tc.expected_output,
@@ -1362,62 +1694,75 @@ app.post("/student/java/coding/run", authenticate, async (req, res) => {
 });
 
 // Stream video
-app.get("/api/java/content/:contentUuid/stream", authenticate, async (req, res) => {
-  try {
-    const { contentUuid } = req.params;
-    const token = req.query.token;
-    const contentResult = await pool.query(
-      "SELECT * FROM java_content WHERE content_uuid = $1 AND access_token = $2",
-      [contentUuid, token]
-    );
-    if (contentResult.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "Invalid access" });
-    }
-    const content = contentResult.rows[0];
-    if (content.content_type !== 'video') {
-      return res.status(400).json({ success: false, message: "Not a video" });
-    }
+app.get(
+  "/api/java/content/:contentUuid/stream",
+  authenticate,
+  async (req, res) => {
+    try {
+      const { contentUuid } = req.params;
+      const token = req.query.token;
+      const contentResult = await pool.query(
+        "SELECT * FROM java_content WHERE content_uuid = $1 AND access_token = $2",
+        [contentUuid, token]
+      );
+      if (contentResult.rows.length === 0) {
+        return res
+          .status(403)
+          .json({ success: false, message: "Invalid access" });
+      }
+      const content = contentResult.rows[0];
+      if (content.content_type !== "video") {
+        return res.status(400).json({ success: false, message: "Not a video" });
+      }
 
-    // Also check student type (optional but good)
-    const studentType = req.student.student_type;
-    if (!content.allowed_student_types || !content.allowed_student_types.includes(studentType)) {
-      return res.status(403).json({ success: false, message: "Access denied" });
-    }
+      // Also check student type (optional but good)
+      const studentType = req.student.student_type;
+      if (
+        !content.allowed_student_types ||
+        !content.allowed_student_types.includes(studentType)
+      ) {
+        return res
+          .status(403)
+          .json({ success: false, message: "Access denied" });
+      }
 
-    const filename = content.video_url.replace('/uploads_java/videos/', '');
-    const videoPath = path.join(UPLOAD_BASE_PATH, 'videos', filename);
-    if (!fs.existsSync(videoPath)) {
-      return res.status(404).json({ success: false, message: "Video file not found" });
-    }
+      const filename = content.video_url.replace("/uploads_java/videos/", "");
+      const videoPath = path.join(UPLOAD_BASE_PATH, "videos", filename);
+      if (!fs.existsSync(videoPath)) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Video file not found" });
+      }
 
-    const stat = fs.statSync(videoPath);
-    const fileSize = stat.size;
-    const range = req.headers.range;
-    if (range) {
-      const parts = range.replace(/bytes=/, "").split("-");
-      const start = parseInt(parts[0], 10);
-      const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
-      const chunksize = end - start + 1;
-      const file = fs.createReadStream(videoPath, { start, end });
-      res.writeHead(206, {
-        "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-        "Accept-Ranges": "bytes",
-        "Content-Length": chunksize,
-        "Content-Type": "video/mp4",
-      });
-      file.pipe(res);
-    } else {
-      res.writeHead(200, {
-        "Content-Length": fileSize,
-        "Content-Type": "video/mp4",
-      });
-      fs.createReadStream(videoPath).pipe(res);
+      const stat = fs.statSync(videoPath);
+      const fileSize = stat.size;
+      const range = req.headers.range;
+      if (range) {
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+        const chunksize = end - start + 1;
+        const file = fs.createReadStream(videoPath, { start, end });
+        res.writeHead(206, {
+          "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+          "Accept-Ranges": "bytes",
+          "Content-Length": chunksize,
+          "Content-Type": "video/mp4",
+        });
+        file.pipe(res);
+      } else {
+        res.writeHead(200, {
+          "Content-Length": fileSize,
+          "Content-Type": "video/mp4",
+        });
+        fs.createReadStream(videoPath).pipe(res);
+      }
+    } catch (e) {
+      console.error("Stream error:", e);
+      res.status(500).json({ success: false, error: e.message });
     }
-  } catch (e) {
-    console.error("Stream error:", e);
-    res.status(500).json({ success: false, error: e.message });
   }
-});
+);
 
 // Progress marking for video/cheatsheet/mcq (legacy endpoint)
 app.post("/student/java/content/complete", authenticate, async (req, res) => {
@@ -1427,7 +1772,9 @@ app.post("/student/java/content/complete", authenticate, async (req, res) => {
     const { contentId, goalId, quizScore } = req.body;
 
     if (!contentId || !goalId) {
-      return res.status(400).json({ success: false, message: "Content ID and Goal ID required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Content ID and Goal ID required" });
     }
 
     // Check access
@@ -1436,7 +1783,10 @@ app.post("/student/java/content/complete", authenticate, async (req, res) => {
       [contentId, studentType]
     );
     if (accessCheck.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "You do not have access to this content" });
+      return res.status(403).json({
+        success: false,
+        message: "You do not have access to this content",
+      });
     }
 
     await pool.query(
@@ -1499,7 +1849,9 @@ app.post("/student/java/coding/submit", authenticate, async (req, res) => {
       [studentId, contentId, studentType]
     );
     if (enrollmentCheck.rows.length === 0) {
-      return res.status(403).json({ success: false, message: "Not enrolled or no access" });
+      return res
+        .status(403)
+        .json({ success: false, message: "Not enrolled or no access" });
     }
 
     // Fetch all test cases
@@ -1510,13 +1862,15 @@ app.post("/student/java/coding/submit", authenticate, async (req, res) => {
     );
 
     if (testCases.rows.length === 0) {
-      return res.status(400).json({ success: false, error: "No test cases found" });
+      return res
+        .status(400)
+        .json({ success: false, error: "No test cases found" });
     }
 
     // ---- Placeholder for actual code execution ----
     // Replace with real sandbox.
     const allPassed = code.includes("PASS"); // Dummy condition
-    const results = testCases.rows.map(tc => ({
+    const results = testCases.rows.map((tc) => ({
       testCaseId: tc.id,
       input: tc.input,
       expected: tc.expected_output,

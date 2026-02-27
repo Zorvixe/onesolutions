@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   X,
   Plus,
@@ -10,12 +10,26 @@ import {
   Clock,
   HardDrive,
 } from "lucide-react";
+import Editor from "react-simple-code-editor";
+import ReactQuill from "react-quill";
+// Changed to bubble theme for Notion-style selection toolbar
+import "react-quill/dist/quill.bubble.css";
+import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-java";
+import "prismjs/themes/prism-tomorrow.css";
 import "./CodingPractice.css";
 
 const studentTypeOptions = [
   { value: "zorvixe_core", label: "Zorvixe Core" },
   { value: "zorvixe_pro", label: "Zorvixe Pro" },
   { value: "zorvixe_elite", label: "Zorvixe Elite" },
+];
+
+const difficultyOptions = [
+  { value: "easy", label: "Easy" },
+  { value: "medium", label: "Medium" },
+  { value: "hard", label: "Hard" },
 ];
 
 const JavaCodingPractice = ({
@@ -35,6 +49,65 @@ const JavaCodingPractice = ({
   const [saving, setSaving] = useState(false);
 
   const isEditing = !!practiceId || !!editData;
+
+  // Wrapped in useMemo to prevent ReactQuill from remounting on every keystroke
+  const quillModules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike", "blockquote", "code-block"],
+          [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+          [{ color: [] }, { background: [] }],
+          ["link", "image"],
+          ["clean"],
+        ],
+        handlers: {
+          image: function () {
+            const input = document.createElement("input");
+            input.setAttribute("type", "file");
+            input.setAttribute("accept", "image/*");
+            input.click();
+
+            input.onchange = async () => {
+              const file = input.files[0];
+              const formData = new FormData();
+              formData.append("image", file);
+
+              try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(
+                  "https://api.onesolutionsekam.in/admin/java/upload-image",
+                  {
+                    method: "POST",
+                    headers: {
+                      Authorization: `Bearer ${token}`,
+                    },
+                    body: formData,
+                  }
+                );
+                const data = await res.json();
+                if (data.success) {
+                  // 'this.quill' gets the specific editor instance you are typing in
+                  const quill = this.quill;
+                  const range = quill.getSelection();
+                  const position = range ? range.index : 0;
+                  quill.insertEmbed(position, "image", data.url);
+                } else {
+                  alert("Image upload failed");
+                }
+              } catch (error) {
+                console.error("Upload error:", error);
+                alert("Image upload failed");
+              }
+            };
+          },
+        },
+      },
+      clipboard: { matchVisual: false },
+    }),
+    []
+  );
 
   useEffect(() => {
     if (practiceId) {
@@ -88,7 +161,6 @@ const JavaCodingPractice = ({
         const codingProblems = data.data.filter(
           (c) => c.content_type === "coding"
         );
-        // Ensure each problem has an allowed_student_types field
         const problemsWithAccess = codingProblems.map((p) => ({
           ...p,
           allowed_student_types: p.allowed_student_types || [
@@ -96,6 +168,8 @@ const JavaCodingPractice = ({
             "zorvixe_pro",
             "zorvixe_elite",
           ],
+          difficulty: p.difficulty || "easy",
+          score: p.score || 0,
         }));
         setProblems(problemsWithAccess);
       }
@@ -112,10 +186,12 @@ const JavaCodingPractice = ({
         coding_title: "",
         coding_description: "",
         starter_code: "",
+        difficulty: "easy",
+        score: 0,
         test_cases: [{ input: "", expected_output: "", is_sample: true }],
         coding_time_limit: 2,
         coding_memory_limit: 256,
-        allowed_student_types: [...practice.allowed_student_types], // default to practice's types
+        allowed_student_types: [...practice.allowed_student_types],
       },
     ]);
   };
@@ -193,14 +269,13 @@ const JavaCodingPractice = ({
       return;
     }
 
-    // Validate each problem
     for (let i = 0; i < problems.length; i++) {
       const p = problems[i];
       if (!p.coding_title.trim()) {
         alert(`Problem ${i + 1} title is required`);
         return;
       }
-      if (!p.coding_description.trim()) {
+      if (!p.coding_description || p.coding_description === "<p><br></p>") {
         alert(`Problem ${i + 1} description is required`);
         return;
       }
@@ -286,6 +361,8 @@ const JavaCodingPractice = ({
                 coding_time_limit: problem.coding_time_limit,
                 coding_memory_limit: problem.coding_memory_limit,
                 allowed_student_types: problem.allowed_student_types,
+                difficulty: problem.difficulty,
+                score: problem.score,
               }),
             }
           );
@@ -307,6 +384,8 @@ const JavaCodingPractice = ({
                 time_limit: problem.coding_time_limit,
                 memory_limit: problem.coding_memory_limit,
                 allowed_student_types: problem.allowed_student_types,
+                difficulty: problem.difficulty,
+                score: problem.score,
                 practice_id: finalPracticeId,
               }),
             }
@@ -332,7 +411,6 @@ const JavaCodingPractice = ({
           <ArrowLeft size={16} />
           Back
         </button>
-        <h2>{isEditing ? "Edit Coding Practice" : "Create Coding Practice"}</h2>
         <button
           onClick={handleSubmit}
           className="coddd-coding-practice-save-btn"
@@ -344,35 +422,43 @@ const JavaCodingPractice = ({
       </div>
 
       <div className="coddd-coding-practice-form">
-        <div className="coddd-coding-practice-field">
-          <label>Practice Title *</label>
+        {/* Practice Title */}
+        <div className="coddd-coding-practice-field coddd-title-field">
           <input
             type="text"
             value={practice.title}
             onChange={(e) =>
               setPractice({ ...practice, title: e.target.value })
             }
-            placeholder="e.g., Java Loops Practice"
+            placeholder="Untitled Practice..."
+            className="coddd-notion-title-input"
           />
         </div>
 
+        {/* Practice Description (Rich Text - Notion Style Bubble) */}
         <div className="coddd-coding-practice-field">
-          <label>Description</label>
-          <textarea
-            value={practice.description}
-            onChange={(e) =>
-              setPractice({ ...practice, description: e.target.value })
+          <ReactQuill
+            theme="bubble"
+            value={practice.description || ""}
+            onChange={(value) =>
+              setPractice({ ...practice, description: value })
             }
-            placeholder="Brief description of this practice"
-            rows="3"
+            modules={quillModules}
+            placeholder="Add a description... (Highlight text for options)"
+            className="coddd-quill-editor coddd-notion-body-input"
           />
         </div>
 
-        <div className="coddd-coding-practice-field">
-          <label>Practice Access for Student Types *</label>
+        {/* Practice Access */}
+        <div className="coddd-coding-practice-field coddd-access-block">
+          <label className="coddd-notion-label">Practice Access</label>
           <div className="coddd-student-type-checkboxes">
             {studentTypeOptions.map((option) => (
-              <label key={option.value} className="coddd-student-type-checkbox">
+              <label
+                style={{ display: "flex", alignItems: "center" }}
+                key={option.value}
+                className="coddd-student-type-checkbox"
+              >
                 <input
                   type="checkbox"
                   checked={practice.allowed_student_types.includes(
@@ -385,76 +471,117 @@ const JavaCodingPractice = ({
               </label>
             ))}
           </div>
-          <p className="coddd-field-hint">
-            This applies to the practice container, not individual problems.
-          </p>
         </div>
 
+        <div className="coddd-divider"></div>
+
+        {/* Coding Problems Section */}
         <div className="coddd-coding-problems-section">
           <div className="coddd-coding-problems-header">
-            <h3>Coding Problems</h3>
-            <button
-              onClick={addProblem}
-              className="coddd-coding-add-problem-btn"
-            >
-              <Plus size={16} />
-              Add Problem
-            </button>
+            <h3 className="coddd-notion-heading">Problems</h3>
           </div>
 
           {problems.map((problem, pIndex) => (
             <div key={problem.id} className="coddd-coding-problem-card">
               <div className="coddd-coding-problem-header">
-                <h4>Problem {pIndex + 1}</h4>
+                <div className="coddd-problem-badge">Problem {pIndex + 1}</div>
                 {problems.length > 1 && (
                   <button
                     onClick={() => removeProblem(pIndex)}
                     className="coddd-coding-remove-problem-btn"
+                    title="Delete Problem"
                   >
                     <Trash2 size={16} />
                   </button>
                 )}
               </div>
 
+              {/* Problem Title */}
               <div className="coddd-coding-problem-field">
-                <label>Title *</label>
                 <input
                   type="text"
                   value={problem.coding_title}
                   onChange={(e) =>
                     updateProblem(pIndex, "coding_title", e.target.value)
                   }
-                  placeholder="e.g., Sum of Two Numbers"
+                  placeholder="Problem Title"
+                  className="coddd-notion-subtitle-input"
                 />
               </div>
 
+              {/* Problem Description (Rich Text - Notion Style Bubble) */}
               <div className="coddd-coding-problem-field">
-                <label>Description *</label>
-                <textarea
-                  value={problem.coding_description}
-                  onChange={(e) =>
-                    updateProblem(pIndex, "coding_description", e.target.value)
+                <ReactQuill
+                  theme="bubble"
+                  value={problem.coding_description || ""}
+                  onChange={(value) =>
+                    updateProblem(pIndex, "coding_description", value)
                   }
-                  placeholder="Describe the problem..."
-                  rows="3"
+                  modules={quillModules}
+                  placeholder="Type problem description here... (Highlight text to format)"
+                  className="coddd-quill-editor coddd-notion-body-input"
                 />
               </div>
 
-              <div className="coddd-coding-problem-field">
-                <label>Starter Code (Optional)</label>
-                <textarea
-                  value={problem.starter_code}
-                  onChange={(e) =>
-                    updateProblem(pIndex, "starter_code", e.target.value)
-                  }
-                  placeholder="public class Main { ... }"
-                  rows="5"
-                  className="coddd-coding-code-textarea"
-                />
+              {/* Difficulty and Score */}
+              <div className="coddd-coding-difficulty-row">
+                <div className="coddd-coding-difficulty-field">
+                  <label className="coddd-notion-label">Difficulty</label>
+                  <select
+                    className="coddd-notion-select"
+                    value={problem.difficulty || "easy"}
+                    onChange={(e) =>
+                      updateProblem(pIndex, "difficulty", e.target.value)
+                    }
+                  >
+                    {difficultyOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="coddd-coding-score-field">
+                  <label className="coddd-notion-label">Score (points)</label>
+                  <input
+                    type="number"
+                    value={problem.score || 0}
+                    onChange={(e) =>
+                      updateProblem(
+                        pIndex,
+                        "score",
+                        parseInt(e.target.value) || 0
+                      )
+                    }
+                    min="0"
+                    className="coddd-notion-number-input"
+                  />
+                </div>
               </div>
 
-              <div className="coddd-coding-problem-field">
-                <label>Access for Student Types *</label>
+              {/* Starter Code Editor */}
+              <div className="coddd-coding-problem-field-code">
+                <label className="coddd-notion-label">
+                  <Code size={14} style={{ marginRight: "4px" }} />
+                  Starter Code
+                </label>
+                <div className="coddd-notion-code-block">
+                  <Editor
+                    value={problem.starter_code || ""}
+                    onValueChange={(code) =>
+                      updateProblem(pIndex, "starter_code", code)
+                    }
+                    highlight={(code) => highlight(code, languages.java)}
+                    padding={15}
+                    textareaClassName="coddd-editor-textarea"
+                    className="coddd-editor"
+                  />
+                </div>
+              </div>
+
+              {/* Problem Access */}
+              <div className="coddd-coding-problem-field coddd-access-block">
+                <label className="coddd-notion-label">Student Access</label>
                 <div className="coddd-student-type-checkboxes">
                   {studentTypeOptions.map((option) => (
                     <label
@@ -478,10 +605,11 @@ const JavaCodingPractice = ({
                 </div>
               </div>
 
+              {/* Time and Memory Limits */}
               <div className="coddd-coding-limits-row">
                 <div className="coddd-coding-limit-field">
-                  <label>
-                    <Clock size={14} /> Time Limit (seconds)
+                  <label className="coddd-notion-label">
+                    <Clock size={14} /> Time Limit (s)
                   </label>
                   <input
                     type="number"
@@ -494,10 +622,11 @@ const JavaCodingPractice = ({
                       )
                     }
                     min="1"
+                    className="coddd-notion-number-input"
                   />
                 </div>
                 <div className="coddd-coding-limit-field">
-                  <label>
+                  <label className="coddd-notion-label">
                     <HardDrive size={14} /> Memory Limit (MB)
                   </label>
                   <input
@@ -511,32 +640,38 @@ const JavaCodingPractice = ({
                       )
                     }
                     min="16"
+                    className="coddd-notion-number-input"
                   />
                 </div>
               </div>
 
+              {/* Test Cases */}
               <div className="coddd-coding-testcases-section">
                 <div className="coddd-coding-testcases-header">
-                  <h5>Test Cases</h5>
-                  <button
-                    onClick={() => addTestCase(pIndex, true)}
-                    className="coddd-coding-add-testcase-btn"
-                  >
-                    <Plus size={14} />
-                    Add Sample
-                  </button>
-                  <button
-                    onClick={() => addTestCase(pIndex, false)}
-                    className="coddd-coding-add-testcase-btn"
-                  >
-                    <Plus size={14} />
-                    Add Hidden
-                  </button>
+                  <label className="coddd-notion-label">Test Cases</label>
+                  <div className="coddd-testcase-actions">
+                    <button
+                      onClick={() => addTestCase(pIndex, true)}
+                      className="coddd-notion-text-btn"
+                    >
+                      <Plus size={14} /> Sample
+                    </button>
+                    <button
+                      onClick={() => addTestCase(pIndex, false)}
+                      className="coddd-notion-text-btn"
+                    >
+                      <Plus size={14} /> Hidden
+                    </button>
+                  </div>
                 </div>
 
                 {problem.test_cases?.map((tc, tIndex) => (
                   <div key={tIndex} className="coddd-coding-testcase-row">
-                    <span className="coddd-coding-testcase-badge">
+                    <span
+                      className={`coddd-coding-testcase-badge ${
+                        tc.is_sample ? "sample" : "hidden"
+                      }`}
+                    >
                       {tc.is_sample ? "Sample" : "Hidden"}
                     </span>
                     <input
@@ -548,6 +683,7 @@ const JavaCodingPractice = ({
                       placeholder="Input"
                       className="coddd-coding-testcase-input"
                     />
+                    <div className="coddd-testcase-arrow">→</div>
                     <input
                       type="text"
                       value={tc.expected_output}
@@ -573,6 +709,11 @@ const JavaCodingPractice = ({
               </div>
             </div>
           ))}
+
+          <button onClick={addProblem} className="coddd-coding-add-problem-btn">
+            <Plus size={16} />
+            <span>Add another problem</span>
+          </button>
         </div>
       </div>
     </div>
