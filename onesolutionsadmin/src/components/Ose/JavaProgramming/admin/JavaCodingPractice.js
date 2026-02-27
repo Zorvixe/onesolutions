@@ -85,7 +85,19 @@ const JavaCodingPractice = ({
       );
       const data = await res.json();
       if (data.success) {
-        setProblems(data.data.filter((c) => c.content_type === "coding"));
+        const codingProblems = data.data.filter(
+          (c) => c.content_type === "coding"
+        );
+        // Ensure each problem has an allowed_student_types field
+        const problemsWithAccess = codingProblems.map((p) => ({
+          ...p,
+          allowed_student_types: p.allowed_student_types || [
+            "zorvixe_core",
+            "zorvixe_pro",
+            "zorvixe_elite",
+          ],
+        }));
+        setProblems(problemsWithAccess);
       }
     } catch (error) {
       console.error("Error fetching problems:", error);
@@ -103,6 +115,7 @@ const JavaCodingPractice = ({
         test_cases: [{ input: "", expected_output: "", is_sample: true }],
         coding_time_limit: 2,
         coding_memory_limit: 256,
+        allowed_student_types: [...practice.allowed_student_types], // default to practice's types
       },
     ]);
   };
@@ -110,6 +123,17 @@ const JavaCodingPractice = ({
   const updateProblem = (index, field, value) => {
     const updated = [...problems];
     updated[index][field] = value;
+    setProblems(updated);
+  };
+
+  const updateProblemAccess = (index, type) => {
+    const updated = [...problems];
+    const current = updated[index].allowed_student_types || [];
+    if (current.includes(type)) {
+      updated[index].allowed_student_types = current.filter((t) => t !== type);
+    } else {
+      updated[index].allowed_student_types = [...current, type];
+    }
     setProblems(updated);
   };
 
@@ -146,7 +170,7 @@ const JavaCodingPractice = ({
     }
   };
 
-  const handleTypeToggle = (type) => {
+  const handlePracticeTypeToggle = (type) => {
     setPractice((prev) => ({
       ...prev,
       allowed_student_types: prev.allowed_student_types.includes(type)
@@ -161,12 +185,44 @@ const JavaCodingPractice = ({
       return;
     }
     if (practice.allowed_student_types.length === 0) {
-      alert("Please select at least one student type");
+      alert("Please select at least one student type for the practice");
       return;
     }
     if (problems.length === 0) {
       alert("Please add at least one coding problem");
       return;
+    }
+
+    // Validate each problem
+    for (let i = 0; i < problems.length; i++) {
+      const p = problems[i];
+      if (!p.coding_title.trim()) {
+        alert(`Problem ${i + 1} title is required`);
+        return;
+      }
+      if (!p.coding_description.trim()) {
+        alert(`Problem ${i + 1} description is required`);
+        return;
+      }
+      if (!p.allowed_student_types || p.allowed_student_types.length === 0) {
+        alert(`Please select at least one student type for Problem ${i + 1}`);
+        return;
+      }
+      if (!p.test_cases || p.test_cases.length === 0) {
+        alert(`Problem ${i + 1} must have at least one test case`);
+        return;
+      }
+      for (let j = 0; j < p.test_cases.length; j++) {
+        const tc = p.test_cases[j];
+        if (!tc.input.trim() || !tc.expected_output.trim()) {
+          alert(
+            `Test case ${j + 1} in Problem ${
+              i + 1
+            } must have both input and expected output`
+          );
+          return;
+        }
+      }
     }
 
     setSaving(true);
@@ -212,6 +268,7 @@ const JavaCodingPractice = ({
 
       for (const problem of problems) {
         if (problem.id && !problem.id.toString().startsWith("temp-")) {
+          // Update existing problem
           await fetch(
             `https://api.onesolutionsekam.in/admin/java/content/${problem.id}`,
             {
@@ -228,11 +285,12 @@ const JavaCodingPractice = ({
                 test_cases: problem.test_cases,
                 coding_time_limit: problem.coding_time_limit,
                 coding_memory_limit: problem.coding_memory_limit,
-                allowed_student_types: practice.allowed_student_types,
+                allowed_student_types: problem.allowed_student_types,
               }),
             }
           );
         } else {
+          // Create new problem under this practice
           await fetch(
             `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/coding`,
             {
@@ -248,7 +306,7 @@ const JavaCodingPractice = ({
                 testCases: problem.test_cases,
                 time_limit: problem.coding_time_limit,
                 memory_limit: problem.coding_memory_limit,
-                allowed_student_types: practice.allowed_student_types,
+                allowed_student_types: problem.allowed_student_types,
                 practice_id: finalPracticeId,
               }),
             }
@@ -311,7 +369,7 @@ const JavaCodingPractice = ({
         </div>
 
         <div className="coddd-coding-practice-field">
-          <label>Access for Student Types *</label>
+          <label>Practice Access for Student Types *</label>
           <div className="coddd-student-type-checkboxes">
             {studentTypeOptions.map((option) => (
               <label key={option.value} className="coddd-student-type-checkbox">
@@ -320,13 +378,16 @@ const JavaCodingPractice = ({
                   checked={practice.allowed_student_types.includes(
                     option.value
                   )}
-                  onChange={() => handleTypeToggle(option.value)}
+                  onChange={() => handlePracticeTypeToggle(option.value)}
                 />
                 <Users size={14} />
                 <span>{option.label}</span>
               </label>
             ))}
           </div>
+          <p className="coddd-field-hint">
+            This applies to the practice container, not individual problems.
+          </p>
         </div>
 
         <div className="coddd-coding-problems-section">
@@ -392,6 +453,31 @@ const JavaCodingPractice = ({
                 />
               </div>
 
+              <div className="coddd-coding-problem-field">
+                <label>Access for Student Types *</label>
+                <div className="coddd-student-type-checkboxes">
+                  {studentTypeOptions.map((option) => (
+                    <label
+                      key={option.value}
+                      className="coddd-student-type-checkbox"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={(
+                          problem.allowed_student_types ||
+                          practice.allowed_student_types
+                        ).includes(option.value)}
+                        onChange={() =>
+                          updateProblemAccess(pIndex, option.value)
+                        }
+                      />
+                      <Users size={14} />
+                      <span>{option.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <div className="coddd-coding-limits-row">
                 <div className="coddd-coding-limit-field">
                   <label>
@@ -404,7 +490,7 @@ const JavaCodingPractice = ({
                       updateProblem(
                         pIndex,
                         "coding_time_limit",
-                        parseInt(e.target.value)
+                        parseInt(e.target.value) || 2
                       )
                     }
                     min="1"
@@ -421,7 +507,7 @@ const JavaCodingPractice = ({
                       updateProblem(
                         pIndex,
                         "coding_memory_limit",
-                        parseInt(e.target.value)
+                        parseInt(e.target.value) || 256
                       )
                     }
                     min="16"
