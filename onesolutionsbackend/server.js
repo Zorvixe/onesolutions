@@ -7556,8 +7556,7 @@ app.get("/api/ai/categories", auth, async (req, res) => {
 });
 
 // Add the router (somewhere before your 404 handler)
-app.use("/", digitalMarketingRouter);
-app.use("/", javaProgrammingApp);
+app.use("/", digitalMarketingRouter, javaProgrammingApp);
 
 // Handle 404 routes
 app.use("*", (req, res) => {
