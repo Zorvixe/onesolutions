@@ -1,15 +1,19 @@
+/* Main container – light, clean background */
 .coddd-coding-practice-container {
   padding: 2rem;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+/* Header – simple, no extra styling */
 .coddd-coding-practice-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 2rem;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1rem;
 }
 
 .coddd-coding-practice-back-btn {
@@ -17,10 +21,17 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: white;
+  border: none;
+  background: transparent;
+  color: #666;
   cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.coddd-coding-practice-back-btn:hover {
+  background: #f5f5f5;
+  border-radius: 6px;
 }
 
 .coddd-coding-practice-save-btn {
@@ -33,6 +44,8 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 0.95rem;
+  transition: opacity 0.2s;
 }
 
 .coddd-coding-practice-save-btn:disabled {
@@ -40,6 +53,7 @@
   cursor: not-allowed;
 }
 
+/* Form fields – borderless, with focus indicator */
 .coddd-coding-practice-form {
   display: flex;
   flex-direction: column;
@@ -50,28 +64,52 @@
   display: block;
   font-weight: 500;
   margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 0.9rem;
 }
 
 .coddd-coding-practice-field input,
 .coddd-coding-practice-field textarea {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  resize: vertical;
 }
 
+.coddd-coding-practice-field input:focus,
+.coddd-coding-practice-field textarea:focus {
+  outline: none;
+  border-bottom-color: #3b82f6;
+}
+
+/* Student type checkboxes – minimal */
 .coddd-student-type-checkboxes {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
 .coddd-student-type-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
+  color: #555;
+  font-size: 0.95rem;
 }
 
+.coddd-student-type-checkbox input[type="checkbox"] {
+  width: auto;
+  border: none;
+  accent-color: #3b82f6;
+}
+
+/* Coding problems section – clean cards */
 .coddd-coding-problems-section {
   margin-top: 2rem;
 }
@@ -88,19 +126,31 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: #10b981;
-  color: white;
-  border: none;
+  background: transparent;
+  color: #3b82f6;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
   cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.coddd-coding-add-problem-btn:hover {
+  background: #f8fafc;
+  border-color: #3b82f6;
 }
 
 .coddd-coding-problem-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  padding: 1.5rem;
   margin-bottom: 1.5rem;
-  background: #f9fafb;
+  padding: 1.5rem;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  transition: box-shadow 0.2s;
+}
+
+.coddd-coding-problem-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .coddd-coding-problem-header {
@@ -110,26 +160,70 @@
   margin-bottom: 1rem;
 }
 
+.coddd-coding-problem-header h4 {
+  font-weight: 500;
+  color: #333;
+}
+
 .coddd-coding-remove-problem-btn {
   background: none;
   border: none;
-  color: #ef4444;
+  color: #999;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
 }
 
+.coddd-coding-remove-problem-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* Problem fields – borderless inside cards */
 .coddd-coding-problem-field {
   margin-bottom: 1rem;
+}
+
+.coddd-coding-problem-field label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.coddd-coding-problem-field input,
+.coddd-coding-problem-field textarea {
+  width: 100%;
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 1px solid #eaeaea;
+  background: transparent;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.coddd-coding-problem-field input:focus,
+.coddd-coding-problem-field textarea:focus {
+  outline: none;
+  border-bottom-color: #3b82f6;
 }
 
 .coddd-coding-code-textarea {
   font-family: monospace;
   background: #1e293b;
   color: #e2e8f0;
+  border-radius: 6px;
+  padding: 0.75rem;
+  border: none;
 }
 
+.coddd-coding-code-textarea:focus {
+  outline: 1px solid #3b82f6;
+}
+
+/* Limits row – inline */
 .coddd-coding-limits-row {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   margin-bottom: 1rem;
 }
 
@@ -137,9 +231,33 @@
   flex: 1;
 }
 
+.coddd-coding-limit-field label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.coddd-coding-limit-field input {
+  width: 100%;
+  padding: 0.5rem 0;
+  border: none;
+  border-bottom: 1px solid #eaeaea;
+  background: transparent;
+  font-size: 0.95rem;
+}
+
+.coddd-coding-limit-field input:focus {
+  outline: none;
+  border-bottom-color: #3b82f6;
+}
+
+/* Test cases section – minimal */
 .coddd-coding-testcases-section {
-  margin-top: 1rem;
-  border-top: 1px solid #e2e8f0;
+  margin-top: 1.5rem;
+  border-top: 1px solid #eaeaea;
   padding-top: 1rem;
 }
 
@@ -154,28 +272,34 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
-  background: #3b82f6;
-  color: white;
-  border: none;
+  padding: 0.25rem 0.75rem;
+  background: transparent;
+  color: #3b82f6;
+  border: 1px solid #e0e0e0;
   border-radius: 4px;
   font-size: 0.8rem;
   cursor: pointer;
+}
+
+.coddd-coding-add-testcase-btn:hover {
+  background: #f8fafc;
+  border-color: #3b82f6;
 }
 
 .coddd-coding-testcase-row {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .coddd-coding-testcase-badge {
-  background: #e2e8f0;
+  background: #f0f0f0;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #555;
   min-width: 60px;
   text-align: center;
 }
@@ -183,14 +307,29 @@
 .coddd-coding-testcase-input,
 .coddd-coding-testcase-output {
   flex: 1;
-  padding: 0.4rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
+  padding: 0.4rem 0;
+  border: none;
+  border-bottom: 1px solid #eaeaea;
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+.coddd-coding-testcase-input:focus,
+.coddd-coding-testcase-output:focus {
+  outline: none;
+  border-bottom-color: #3b82f6;
 }
 
 .coddd-coding-remove-testcase-btn {
   background: none;
   border: none;
-  color: #ef4444;
+  color: #999;
   cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.coddd-coding-remove-testcase-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
 }

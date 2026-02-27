@@ -10,7 +10,7 @@ import {
   Clock,
   HardDrive,
 } from "lucide-react";
-import "./CodingPractice.css"
+import "./CodingPractice.css";
 
 const studentTypeOptions = [
   { value: "zorvixe_core", label: "Zorvixe Core" },
@@ -18,7 +18,13 @@ const studentTypeOptions = [
   { value: "zorvixe_elite", label: "Zorvixe Elite" },
 ];
 
-const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editData = null }) => {
+const JavaCodingPractice = ({
+  subtopicId,
+  practiceId,
+  onCancel,
+  onSuccess,
+  editData = null,
+}) => {
   const [practice, setPractice] = useState({
     title: "",
     description: "",
@@ -34,7 +40,6 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
     if (practiceId) {
       fetchPractice();
     } else if (editData) {
-      // If editData is passed directly (from list view)
       setPractice({
         title: editData.title || "",
         description: editData.description || "",
@@ -44,7 +49,6 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
           "zorvixe_elite",
         ],
       });
-      // Also fetch problems for this practice
       fetchProblems(editData.id);
     }
   }, [practiceId, editData]);
@@ -81,7 +85,7 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
       );
       const data = await res.json();
       if (data.success) {
-        setProblems(data.data.filter(c => c.content_type === "coding"));
+        setProblems(data.data.filter((c) => c.content_type === "coding"));
       }
     } catch (error) {
       console.error("Error fetching problems:", error);
@@ -169,12 +173,12 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
     try {
       const token = localStorage.getItem("token");
 
-      // First, save or update the practice
       let practiceResult;
       if (isEditing) {
-        // Update practice
         const res = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/coding-practices/${practiceId || editData.id}`,
+          `https://api.onesolutionsekam.in/admin/java/coding-practices/${
+            practiceId || editData.id
+          }`,
           {
             method: "PUT",
             headers: {
@@ -186,7 +190,6 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
         );
         practiceResult = await res.json();
       } else {
-        // Create practice
         const res = await fetch(
           `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/coding-practices`,
           {
@@ -207,10 +210,8 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
 
       const finalPracticeId = practiceResult.data.id;
 
-      // Now handle problems: for each, create or update
       for (const problem of problems) {
         if (problem.id && !problem.id.toString().startsWith("temp-")) {
-          // Update existing problem
           await fetch(
             `https://api.onesolutionsekam.in/admin/java/content/${problem.id}`,
             {
@@ -232,7 +233,6 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
             }
           );
         } else {
-          // Create new problem under this practice
           await fetch(
             `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/coding`,
             {
@@ -291,7 +291,9 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
           <input
             type="text"
             value={practice.title}
-            onChange={(e) => setPractice({ ...practice, title: e.target.value })}
+            onChange={(e) =>
+              setPractice({ ...practice, title: e.target.value })
+            }
             placeholder="e.g., Java Loops Practice"
           />
         </div>
@@ -300,7 +302,9 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
           <label>Description</label>
           <textarea
             value={practice.description}
-            onChange={(e) => setPractice({ ...practice, description: e.target.value })}
+            onChange={(e) =>
+              setPractice({ ...practice, description: e.target.value })
+            }
             placeholder="Brief description of this practice"
             rows="3"
           />
@@ -313,7 +317,9 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
               <label key={option.value} className="coddd-student-type-checkbox">
                 <input
                   type="checkbox"
-                  checked={practice.allowed_student_types.includes(option.value)}
+                  checked={practice.allowed_student_types.includes(
+                    option.value
+                  )}
                   onChange={() => handleTypeToggle(option.value)}
                 />
                 <Users size={14} />
@@ -326,7 +332,10 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
         <div className="coddd-coding-problems-section">
           <div className="coddd-coding-problems-header">
             <h3>Coding Problems</h3>
-            <button onClick={addProblem} className="coddd-coding-add-problem-btn">
+            <button
+              onClick={addProblem}
+              className="coddd-coding-add-problem-btn"
+            >
               <Plus size={16} />
               Add Problem
             </button>
@@ -351,7 +360,9 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
                 <input
                   type="text"
                   value={problem.coding_title}
-                  onChange={(e) => updateProblem(pIndex, "coding_title", e.target.value)}
+                  onChange={(e) =>
+                    updateProblem(pIndex, "coding_title", e.target.value)
+                  }
                   placeholder="e.g., Sum of Two Numbers"
                 />
               </div>
@@ -360,7 +371,9 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
                 <label>Description *</label>
                 <textarea
                   value={problem.coding_description}
-                  onChange={(e) => updateProblem(pIndex, "coding_description", e.target.value)}
+                  onChange={(e) =>
+                    updateProblem(pIndex, "coding_description", e.target.value)
+                  }
                   placeholder="Describe the problem..."
                   rows="3"
                 />
@@ -370,7 +383,9 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
                 <label>Starter Code (Optional)</label>
                 <textarea
                   value={problem.starter_code}
-                  onChange={(e) => updateProblem(pIndex, "starter_code", e.target.value)}
+                  onChange={(e) =>
+                    updateProblem(pIndex, "starter_code", e.target.value)
+                  }
                   placeholder="public class Main { ... }"
                   rows="5"
                   className="coddd-coding-code-textarea"
@@ -385,7 +400,13 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
                   <input
                     type="number"
                     value={problem.coding_time_limit}
-                    onChange={(e) => updateProblem(pIndex, "coding_time_limit", parseInt(e.target.value))}
+                    onChange={(e) =>
+                      updateProblem(
+                        pIndex,
+                        "coding_time_limit",
+                        parseInt(e.target.value)
+                      )
+                    }
                     min="1"
                   />
                 </div>
@@ -396,7 +417,13 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
                   <input
                     type="number"
                     value={problem.coding_memory_limit}
-                    onChange={(e) => updateProblem(pIndex, "coding_memory_limit", parseInt(e.target.value))}
+                    onChange={(e) =>
+                      updateProblem(
+                        pIndex,
+                        "coding_memory_limit",
+                        parseInt(e.target.value)
+                      )
+                    }
                     min="16"
                   />
                 </div>
@@ -429,14 +456,23 @@ const JavaCodingPractice = ({ subtopicId, practiceId, onCancel, onSuccess, editD
                     <input
                       type="text"
                       value={tc.input}
-                      onChange={(e) => updateTestCase(pIndex, tIndex, "input", e.target.value)}
+                      onChange={(e) =>
+                        updateTestCase(pIndex, tIndex, "input", e.target.value)
+                      }
                       placeholder="Input"
                       className="coddd-coding-testcase-input"
                     />
                     <input
                       type="text"
                       value={tc.expected_output}
-                      onChange={(e) => updateTestCase(pIndex, tIndex, "expected_output", e.target.value)}
+                      onChange={(e) =>
+                        updateTestCase(
+                          pIndex,
+                          tIndex,
+                          "expected_output",
+                          e.target.value
+                        )
+                      }
                       placeholder="Expected Output"
                       className="coddd-coding-testcase-output"
                     />
