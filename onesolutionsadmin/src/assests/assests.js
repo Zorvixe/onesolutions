@@ -13,6 +13,7 @@ import job_uploader_image from "./job_uploader_image.png"
 import reset_image from "./reset_image.jpg"
 import whatsapp_chat_bg from "./whatsapp_chat_bg.jpg"
 import Logo from "./Logo.png"
+import digital_marketing from "./digital_marketing.png"
 
 export const assests = {
     login_image,
@@ -29,5 +30,6 @@ export const assests = {
     job_uploader_image,
     reset_image,
     whatsapp_chat_bg, 
-    Logo
+    Logo,
+    digital_marketing
 }

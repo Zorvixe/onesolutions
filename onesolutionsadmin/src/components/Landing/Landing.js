@@ -407,8 +407,12 @@ function Landing() {
                 <span>Admin AI Content</span>
               </a>
               <a href="/digital-marketing/courses" className="modal-item-land">
-                <span className="modal-icon-land">📚</span>
+                <span className="modal-icon-land"><img className="digital_marketing_icon" src={assests.digital_marketing || "/placeholder.svg"}/></span>
                 <span>Digital Marketing Courses</span>
+              </a>
+              <a href="/java-programming/courses" className="modal-item-land">
+                <span className="modal-icon-land"><i class="fa-brands fa-java"></i></span>
+                <span>Java Programming Courses</span>
               </a>
             </div>
           </div>

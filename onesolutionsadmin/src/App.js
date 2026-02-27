@@ -40,6 +40,7 @@ import AdminAIContent from "./components/Ose/Ai/AdminAIContent";
 
 // Course Management Components //
 import DigitalCourseManagement from "./components/Ose/DigitalMarketing/pages/CourseManagement";
+import JavaCourseManagement from "./components/Ose/JavaProgramming/pages/JavaCourseManagement";
 
 import "./App.css";
 
@@ -125,6 +126,10 @@ function App() {
               <Route
                 path="/digital-marketing/courses"
                 element={<DigitalCourseManagement />}
+              />
+              <Route
+                path="/java-programming/courses"
+                element={<JavaCourseManagement />}
               />
             </Route>
 
