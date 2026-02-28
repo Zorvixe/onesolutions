@@ -386,7 +386,7 @@ const LiveClasses = () => {
     const config = {
       web_development: { color: "#0d9488", bg: "#f0fdfa", label: "Web Dev" },
       digital_marketing: { color: "#b45309", bg: "#fff7ed", label: "Digi Mkt" },
-      java_programming: { color: "#b91c1c", bg: "#fee2e2", label: "Java" },  // 🔥 ADD THIS
+      java_programming: { color: "#b91c1c", bg: "#fee2e2", label: "Java" }, // 🔥 ADD THIS
       all: { color: "#6b7280", bg: "#f3f4f6", label: "All Courses" },
     };
     return config[course] || config.all;
@@ -505,7 +505,8 @@ const LiveClasses = () => {
             <option value="all">All Courses</option>
             <option value="web_development">Web Development</option>
             <option value="digital_marketing">Digital Marketing</option>
-            <option value="java_programming">Java Programming</option>  {/* 🔥 ADD THIS */}
+            <option value="java_programming">Java Programming</option>{" "}
+            {/* This matches DB */}
           </select>
           <select
             name="status"
@@ -844,7 +845,10 @@ const LiveClasses = () => {
                     <option value="all">All Courses</option>
                     <option value="web_development">Web Development</option>
                     <option value="digital_marketing">Digital Marketing</option>
-                    <option value="java_programming">Java Programming</option>  {/* 🔥 ADD THIS */}
+                    <option value="java_programming">
+                      Java Programming
+                    </option>{" "}
+                    {/* This matches DB */}
                   </select>
                 </div>
               </div>
