@@ -19,11 +19,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const crypto = require("crypto");
 const path = require("path");
-const {
-  router: OseRoutesRouter,
-  createOseTables,
-} = require("./oseRoutes");
-
+const { router: OseRoutesRouter, createOseTables } = require("./oseRoutes");
 
 // Initialize OpenAI client
 defaults = {};
@@ -52,9 +48,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(generateNonce);
-
-
-
 
 // Create WebSocket server
 const wss = new WebSocket.Server({ noServer: true });
@@ -120,41 +113,40 @@ const authorizeAdmin = (req, res, next) => {
   next();
 };
 
-
 // -------------------------------------------
 // 🔹 Production Upload Configuration
 // -------------------------------------------
-const UPLOAD_BASE_PATH = process.env.UPLOAD_PATH || path.join(__dirname, 'uploads');
+const UPLOAD_BASE_PATH =
+  process.env.UPLOAD_PATH || path.join(__dirname, "uploads");
 console.log(`📁 OSE Admin - Upload path: ${UPLOAD_BASE_PATH}`);
 
 // Ensure directories exist
 if (!fs.existsSync(UPLOAD_BASE_PATH)) {
   fs.mkdirSync(UPLOAD_BASE_PATH, { recursive: true });
 }
-if (!fs.existsSync(path.join(UPLOAD_BASE_PATH, 'profiles'))) {
-  fs.mkdirSync(path.join(UPLOAD_BASE_PATH, 'profiles'), { recursive: true });
+if (!fs.existsSync(path.join(UPLOAD_BASE_PATH, "profiles"))) {
+  fs.mkdirSync(path.join(UPLOAD_BASE_PATH, "profiles"), { recursive: true });
 }
-if (!fs.existsSync(path.join(UPLOAD_BASE_PATH, 'resumes'))) {
-  fs.mkdirSync(path.join(UPLOAD_BASE_PATH, 'resumes'), { recursive: true });
+if (!fs.existsSync(path.join(UPLOAD_BASE_PATH, "resumes"))) {
+  fs.mkdirSync(path.join(UPLOAD_BASE_PATH, "resumes"), { recursive: true });
 }
-if (!fs.existsSync(path.join(UPLOAD_BASE_PATH, 'videos'))) {
-  fs.mkdirSync(path.join(UPLOAD_BASE_PATH, 'videos'), { recursive: true });
+if (!fs.existsSync(path.join(UPLOAD_BASE_PATH, "videos"))) {
+  fs.mkdirSync(path.join(UPLOAD_BASE_PATH, "videos"), { recursive: true });
 }
 
 // Serve static files
-app.use('/uploads', express.static(UPLOAD_BASE_PATH));
-
+app.use("/uploads", express.static(UPLOAD_BASE_PATH));
 
 // Disk storage for resumes
 const resumeStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const resumeDir = path.join(UPLOAD_BASE_PATH, 'resumes');
+    const resumeDir = path.join(UPLOAD_BASE_PATH, "resumes");
     cb(null, resumeDir);
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     const ext = path.extname(file.originalname);
-    cb(null, 'resume-' + uniqueSuffix + ext);
+    cb(null, "resume-" + uniqueSuffix + ext);
   },
 });
 
@@ -163,13 +155,14 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     if (
-      file.mimetype === 'application/pdf' ||
-      file.mimetype === 'application/msword' ||
-      file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      file.mimetype === "application/pdf" ||
+      file.mimetype === "application/msword" ||
+      file.mimetype ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ) {
       cb(null, true);
     } else {
-      cb(new Error('Invalid file type'), false);
+      cb(new Error("Invalid file type"), false);
     }
   },
 });
@@ -180,7 +173,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://apiose.onesolutionsekam.in/api/auth/google/callback",
+      callbackURL:
+        "https://apiose.onesolutionsekam.in/api/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -636,13 +630,16 @@ const initializeDbAndServer = async () => {
   );
 `);
 
-try{
-  await pool.query(`
-      ALTER TABLE IF NOT EXISTS resumes DROP COLUMN resume_file;
-      ALTER TABLE IF NOT EXISTS resumes ADD COLUMN file_path VARCHAR(500);
-      ALTER TABLE IF NOT EXISTS resumes ADD COLUMN file_name VARCHAR(255);
-  `)
-}
+    try {
+      await pool.query(`
+    ALTER TABLE IF NOT EXISTS resumes DROP COLUMN resume_file;
+    ALTER TABLE IF NOT EXISTS resumes ADD COLUMN file_path VARCHAR(500);
+    ALTER TABLE IF NOT EXISTS resumes ADD COLUMN file_name VARCHAR(255);
+  `);
+    } catch (alterError) {
+      console.error("Error altering resumes table:", alterError.message);
+      // Continue even if alteration fails (e.g., columns already exist)
+    }
 
     await pool.query(`
 CREATE TABLE IF NOT EXISTS enrollments (
@@ -698,13 +695,11 @@ CREATE TABLE IF NOT EXISTS contacts (
       console.error("Error initializing users table:", error.message);
     }
 
-
     // Mount OSE routes
     app.use("/", OseRoutesRouter);
-    
+
     // Create OSE tables
     await createOseTables();
-
 
     const popUpCountResult = await pool.query(
       "SELECT COUNT(*) as count FROM popup_content"
@@ -2169,8 +2164,6 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Job Card Details API!");
 });
 
-
-
 // Get Resumes Public Endpoint
 app.get("/api/public/resumes", async (req, res) => {
   try {
@@ -2199,7 +2192,10 @@ app.get("/api/public/resumes/:id/download", async (req, res) => {
     if (!result.rows.length) return res.status(404).send("Resume not found");
 
     const { file_path, file_name, file_type } = result.rows[0];
-    const fullPath = path.join(UPLOAD_BASE_PATH, file_path.replace('/uploads/', ''));
+    const fullPath = path.join(
+      UPLOAD_BASE_PATH,
+      file_path.replace("/uploads/", "")
+    );
 
     if (!fs.existsSync(fullPath)) {
       return res.status(404).send("File not found on disk");
@@ -2225,7 +2221,10 @@ app.get("/api/resumes/:id/download", async (req, res) => {
     if (!result.rows.length) return res.status(404).send("Resume not found");
 
     const { file_path, file_name, file_type } = result.rows[0];
-    const fullPath = path.join(UPLOAD_BASE_PATH, file_path.replace('/uploads/', ''));
+    const fullPath = path.join(
+      UPLOAD_BASE_PATH,
+      file_path.replace("/uploads/", "")
+    );
 
     if (!fs.existsSync(fullPath)) {
       return res.status(404).send("File not found on disk");
@@ -2245,11 +2244,11 @@ app.get("/api/resumes/:id/download", async (req, res) => {
 // Profile image storage
 const profileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(UPLOAD_BASE_PATH, 'profiles'));
+    cb(null, path.join(UPLOAD_BASE_PATH, "profiles"));
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    cb(null, 'profile-' + uniqueSuffix + path.extname(file.originalname));
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "profile-" + uniqueSuffix + path.extname(file.originalname));
   },
 });
 const profileUpload = multer({ storage: profileStorage });
@@ -2264,7 +2263,10 @@ app.post(
       const imageUrl = `/uploads/profiles/${req.file.filename}`;
 
       // Update admin record
-      await pool.query("UPDATE admin SET admin_image_link = $1 WHERE id = $2", [imageUrl, adminId]);
+      await pool.query("UPDATE admin SET admin_image_link = $1 WHERE id = $2", [
+        imageUrl,
+        adminId,
+      ]);
 
       res.json({ success: true, imageUrl });
     } catch (error) {
@@ -2608,17 +2610,17 @@ app.post(
         return res.status(400).json({ error: "No file uploaded" });
       }
 
-     // Read file from disk
-const fileContent = await fs.promises.readFile(file.path);
+      // Read file from disk
+      const fileContent = await fs.promises.readFile(file.path);
 
-let text = "";
-if (file.mimetype === "application/pdf") {
-  const pdfData = await pdfParse(fileContent);
-  text = pdfData.text;
-} else {
-  const result = await mammoth.extractRawText({ buffer: fileContent });
-  text = result.value;
-}
+      let text = "";
+      if (file.mimetype === "application/pdf") {
+        const pdfData = await pdfParse(fileContent);
+        text = pdfData.text;
+      } else {
+        const result = await mammoth.extractRawText({ buffer: fileContent });
+        text = result.value;
+      }
 
       // Get job requirements
       const job = await pool.query("SELECT * FROM job WHERE id = $1", [jobId]);
@@ -2717,17 +2719,17 @@ app.post("/api/analyze-resume", upload.single("resume"), async (req, res) => {
       return res.status(400).json({ error: "Name and email are required" });
 
     // Existing analysis logic
-   // Read file from disk
-const fileContent = await fs.promises.readFile(file.path);
+    // Read file from disk
+    const fileContent = await fs.promises.readFile(file.path);
 
-let text = "";
-if (file.mimetype === "application/pdf") {
-  const pdfData = await pdfParse(fileContent);
-  text = pdfData.text;
-} else {
-  const result = await mammoth.extractRawText({ buffer: fileContent });
-  text = result.value;
-}
+    let text = "";
+    if (file.mimetype === "application/pdf") {
+      const pdfData = await pdfParse(fileContent);
+      text = pdfData.text;
+    } else {
+      const result = await mammoth.extractRawText({ buffer: fileContent });
+      text = result.value;
+    }
 
     const { rows: jobs } = await pool.query(
       "SELECT id, companyname, title, description FROM job"
@@ -2797,7 +2799,10 @@ app.get("/api/analyzed-resumes/:id/download", async (req, res) => {
     if (!result.rows.length) return res.status(404).send("Resume not found");
 
     const { file_path, file_name, file_type } = result.rows[0];
-    const fullPath = path.join(UPLOAD_BASE_PATH, file_path.replace('/uploads/', ''));
+    const fullPath = path.join(
+      UPLOAD_BASE_PATH,
+      file_path.replace("/uploads/", "")
+    );
 
     if (!fs.existsSync(fullPath)) {
       return res.status(404).send("File not found on disk");
@@ -2982,7 +2987,6 @@ app.use(
     },
   })
 );
-
 
 // Increment job view count
 app.post("/:id/view", async (req, res) => {
@@ -3178,9 +3182,15 @@ app.delete("/api/resumes/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     // Get file path first
-    const fileResult = await pool.query("SELECT file_path FROM resumes WHERE id = $1", [id]);
+    const fileResult = await pool.query(
+      "SELECT file_path FROM resumes WHERE id = $1",
+      [id]
+    );
     if (fileResult.rows.length) {
-      const filePath = path.join(UPLOAD_BASE_PATH, fileResult.rows[0].file_path.replace('/uploads/', ''));
+      const filePath = path.join(
+        UPLOAD_BASE_PATH,
+        fileResult.rows[0].file_path.replace("/uploads/", "")
+      );
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
@@ -3299,10 +3309,6 @@ app.put("/:id/edit", async (req, res) => {
     client.release();
   }
 });
-
-
-
-
 
 // Add these new routes after the existing routes (before the export statement)
 
