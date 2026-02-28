@@ -889,17 +889,19 @@ const handleSelect = (sql, questionData) => {
   const cleanedSql = sql.replace(/\s+/g, " ").trim().replace(/;$/, "");
 
   const selectRegex =
-    /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\s+where\s+(.+?))?(?:\s+group\s+by\s+(.+?))?(?:\s+having\s+(.+?))?(?:\s+order\s+by\s+(.+?))?$/i;
-
+    /^select\s+(.+?)\s+from\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\s+(natural|inner|left|right)\s+join\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\s+on\s+(.+?))?)?(?:\s+where\s+(.+?))?(?:\s+group\s+by\s+(.+?))?(?:\s+having\s+(.+?))?(?:\s+order\s+by\s+(.+?))?$/i;
   const match = cleanedSql.match(selectRegex);
   if (!match) throw new Error("Invalid SELECT syntax");
 
   const selectPart = match[1].trim();
   const tableName = match[2].trim();
-  const whereClause = match[3];
-  const groupByClause = match[4];
-  const havingClause = match[5];
-  const orderByClause = match[6];
+  const joinType = match[3]?.toLowerCase();
+  const joinTable = match[4];
+  const joinCondition = match[5];
+  const whereClause = match[6];
+  const groupByClause = match[7];
+  const havingClause = match[8];
+  const orderByClause = match[9];
 
   if (!questionData?.tableData?.[tableName]) {
     throw new Error(`Table '${tableName}' does not exist`);
@@ -912,6 +914,120 @@ const handleSelect = (sql, questionData) => {
     tableInfo.columns.forEach((col, i) => (obj[col] = row[i]));
     return obj;
   });
+  // ==========================
+  // ==========================
+  // JOIN SUPPORT (ALL TYPES)
+  // ==========================
+  if (joinType) {
+    if (!questionData?.tableData?.[joinTable]) {
+      throw new Error(`Table '${joinTable}' does not exist`);
+    }
+
+    const joinTableInfo = questionData.tableData[joinTable];
+
+    const joinRows = joinTableInfo.rows.map((row) => {
+      const obj = {};
+      joinTableInfo.columns.forEach((col, i) => {
+        obj[col] = row[i];
+      });
+      return obj;
+    });
+
+    const resultRows = [];
+
+    // =====================
+    // NATURAL JOIN
+    // =====================
+    if (joinType === "natural") {
+      const commonColumns = tableInfo.columns.filter((col) =>
+        joinTableInfo.columns.includes(col)
+      );
+
+      rows.forEach((row1) => {
+        joinRows.forEach((row2) => {
+          const isMatch = commonColumns.every((col) => row1[col] === row2[col]);
+
+          if (isMatch) {
+            const merged = { ...row1 };
+
+            Object.keys(row2).forEach((col) => {
+              if (!commonColumns.includes(col)) {
+                merged[col] = row2[col];
+              }
+            });
+
+            resultRows.push(merged);
+          }
+        });
+      });
+
+      rows = resultRows;
+    }
+
+    // =====================
+    // INNER / LEFT / RIGHT
+    // =====================
+    else {
+      if (!joinCondition) {
+        throw new Error("JOIN requires ON condition");
+      }
+
+      const conditionMatch = joinCondition.match(
+        /(\w+)\.(\w+)\s*=\s*(\w+)\.(\w+)/i
+      );
+
+      if (!conditionMatch) {
+        throw new Error("Invalid JOIN condition");
+      }
+
+      const leftTable = conditionMatch[1];
+      const leftCol = conditionMatch[2];
+      const rightTable = conditionMatch[3];
+      const rightCol = conditionMatch[4];
+
+      const isLeftJoin = joinType === "left";
+      const isRightJoin = joinType === "right";
+
+      if (isRightJoin) {
+        // Swap logic for RIGHT JOIN
+        [rows, joinRows] = [joinRows, rows];
+      }
+
+      rows.forEach((row1) => {
+        let matchFound = false;
+
+        joinRows.forEach((row2) => {
+          const val1 = leftTable === tableName ? row1[leftCol] : row2[leftCol];
+
+          const val2 =
+            rightTable === joinTable ? row2[rightCol] : row1[rightCol];
+
+          if (val1 === val2) {
+            matchFound = true;
+
+            resultRows.push({
+              ...row1,
+              ...row2, // duplicate column names allowed
+            });
+          }
+        });
+
+        if (isLeftJoin && !matchFound) {
+          const nullObj = {};
+          joinTableInfo.columns.forEach((col) => {
+            nullObj[col] = null;
+          });
+
+          resultRows.push({
+            ...row1,
+            ...nullObj,
+          });
+        }
+      });
+
+      rows = resultRows;
+    }
+  }
   // ==========================
   // AGGREGATES WITHOUT GROUP BY
   // ==========================
@@ -1257,7 +1373,7 @@ const handleSelect = (sql, questionData) => {
     });
   }
   // ==========================
-  // APPLY SELECT COLUMN FILTERING (Improved)
+  // APPLY SELECT COLUMN FILTERING (FIXED)
   // ==========================
   if (selectPart !== "*") {
     const selectedColumns = selectPart.split(",").map((col) => col.trim());
@@ -1266,14 +1382,21 @@ const handleSelect = (sql, questionData) => {
       const filteredRow = {};
 
       selectedColumns.forEach((col) => {
-        // Handle aliases
-        const aliasMatch = col.match(/.+\s+as\s+(\w+)/i);
+        const aliasMatch = col.match(/(.+)\s+as\s+(\w+)/i);
 
         if (aliasMatch) {
-          const alias = aliasMatch[1];
-          filteredRow[alias] = row[alias];
+          const originalColumn = aliasMatch[1].trim();
+          const alias = aliasMatch[2];
+
+          const columnName = originalColumn.includes(".")
+            ? originalColumn.split(".")[1]
+            : originalColumn;
+
+          filteredRow[alias] = row[columnName];
         } else {
-          filteredRow[col] = row[col];
+          const columnName = col.includes(".") ? col.split(".")[1] : col;
+
+          filteredRow[columnName] = row[columnName];
         }
       });
 
@@ -1311,7 +1434,39 @@ const handleSelect = (sql, questionData) => {
       return 0;
     });
   }
+  if (selectPart === "*") {
+    let columns = [];
 
+    if (joinType === "natural") {
+      const commonColumns = tableInfo.columns.filter((col) =>
+        questionData.tableData[joinTable].columns.includes(col)
+      );
+
+      columns = [
+        ...tableInfo.columns,
+        ...questionData.tableData[joinTable].columns.filter(
+          (col) => !commonColumns.includes(col)
+        ),
+      ];
+    } else if (joinType) {
+      columns = [
+        ...tableInfo.columns,
+        ...questionData.tableData[joinTable].columns,
+      ];
+    } else {
+      columns = tableInfo.columns;
+    }
+
+    return {
+      success: true,
+      output: `✅ Query executed successfully. Returned ${rows.length} rows.`,
+      data: {
+        columns,
+        results: rows,
+        rowCount: rows.length,
+      },
+    };
+  }
   return {
     success: true,
     output: `✅ Query executed successfully. Returned ${rows.length} rows.`,

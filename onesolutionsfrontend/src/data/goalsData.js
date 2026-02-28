@@ -4138,6 +4138,251 @@ export const goalsData = [
                 name: "Introduction to Operating System | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
+              {
+                id: "QW9_s9_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Introduction to Operating System",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s10_A0 m1_H g3_7B c1_D2E",
+                name: "Overview of Process Management",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s11_A0 m1_H g3_7B c1_D2E",
+                name: "Overview of Process Management | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s12_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Overview of Process Management",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s13_A0 m1_H g3_7B c1_D2E",
+                name: "Threads and Concurrency",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s14_A0 m1_H g3_7B c1_D2E",
+                name: "Threads & Concurrency | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s15_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Threads & Concurrency",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s16_A0 m1_H g3_7B c1_D2E",
+                name: "Memory Management",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s17_A0 m1_H g3_7B c1_D2E",
+                name: "Memory Management | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s18_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Memory Management",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s19_A0 m1_H g3_7B c1_D2E",
+                name: "Understanding Computer Networks",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s20_A0 m1_H g3_7B c1_D2E",
+                name: "Understanding Computer Networks | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s21_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Understanding Computer Networks",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s22_A0 m1_H g3_7B c1_D2E",
+                name: "Network Layer",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s23_A0 m1_H g3_7B c1_D2E",
+                name: "Network Layer | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s24_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Network Layer",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s25_A0 m1_H g3_7B c1_D2E",
+                name: "Transport Layer",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s26_A0 m1_H g3_7B c1_D2E",
+                name: "Transport Layer | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s27_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Transport Layer",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s28_A0 m1_H g3_7B c1_D2E",
+                name: "Application Layer",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s29_A0 m1_H g3_7B c1_D2E",
+                name: "Application Layer | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s30_A0 m1_H g3_7B c1_D2E",
+                name: "MCQ Pratice -Application Layer",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
+          },
+          {
+            id: "QW9_m2_A0 g3_H c1_7B",
+            name: "Working With Command Line",
+            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m2_H g3_7B c1_D2E",
+                name: "Getting Started with Command Line",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m2_H g3_7B c1_D2E",
+                name: "Getting Started with Command Line | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m2_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Getting Started with Command Line",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m2_H g3_7B c1_D2E",
+                name: " Google Cloud Shell",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s5_A0 m2_H g3_7B c1_D2E",
+                name: " Setting Up WSL2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s6_A0 m2_H g3_7B c1_D2E",
+                name: "Setting Up WSL2 Manual",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s7_A0 m2_H g3_7B c1_D2E",
+                name: "Working with File System",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s8_A0 m2_H g3_7B c1_D2E",
+                name: "Working with File System | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s9_A0 m2_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Working with File System",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s10_A0 m2_H g3_7B c1_D2E",
+                name: "Working with Files",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s11_A0 m2_H g3_7B c1_D2E",
+                name: "Working with Files | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s12_A0 m2_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Working with Files",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s13_A0 m2_H g3_7B c1_D2E",
+                name: "Miscellaneous Commands - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s14_A0 m2_H g3_7B c1_D2E",
+                name: "Miscellaneous Commands - 1 | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s15_A0 m2_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Miscellaneous Commands - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s16_A0 m2_H g3_7B c1_D2E",
+                name: "Miscellaneous Commands - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s17_A0 m2_H g3_7B c1_D2E",
+                name: "Miscellaneous Commands - 2 | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s18_A0 m2_H g3_7B c1_D2E",
+                name: "MCQ Pratice -Miscellaneous Commands - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+           
+            ],
+          },
+          {
+            id: "QW9_m3_A0 g3_H c1_7B",
+            name: "Collaborating With Git",
+            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m3_H g3_7B c1_D2E",
+                name: "Getting Started with Git",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m3_H g3_7B c1_D2E",
+                name: "Getting Started with Git | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m3_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Getting Started with Git",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m3_H g3_7B c1_D2E",
+                name: "Staging Area and Commits",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s5_A0 m3_H g3_7B c1_D2E",
+                name: "Staging Area & Commits | Cheat Sheet",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s6_A0 m3_H g3_7B c1_D2E",
+                name: "MCQ Pratice - Staging Area & Commits",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
             ],
           },
         ],

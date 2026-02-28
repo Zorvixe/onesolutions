@@ -97,7 +97,7 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">SQL Concepts Review</p>
               <p><strong>SELECT statement syntax:</strong></p>
               <pre style="background: #1e293b; padding: 10px; border-radius: 6px; color: #cbd5e1; margin: 10px 0;">
-        SELECT * FROM table_name;
+          SELECT * FROM table_name;
               </pre>
             </div>
           `,
@@ -742,9 +742,9 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">Question</p>
               <p>
              
-      We're storing the details of players who are a part of a tournament.<br/> The database contains a "player" table that stores the name, age and score of players.</p>
-      <p>We have to add a new player to the 'player' table.</p>              
-      <div class="sql-table-desc">
+          We're storing the details of players who are a part of a tournament.<br/> The database contains a "player" table that stores the name, age and score of players.</p>
+          <p>We have to add a new player to the 'player' table.</p>              
+          <div class="sql-table-desc">
               
                 <div class="sql-table-caption">Table: player</div>
                 <table>
@@ -848,7 +848,7 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">Question</p>
               <p>The database contains a "player" table that stores the name, age and score of players.<p>Get all the players from the "player" table in the following format.</p> 
               <p class="desc-que-blue">Expected Output Format:</p>             
-    <div class="sql-table-desc">
+            <div class="sql-table-desc">
               
                 <div class="sql-table-caption">Table: player</div>
                 <table>
@@ -2221,105 +2221,105 @@ export const sqlCodingPracticesData = {
          <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: products</div>
                 <table>
-  <thead>
-    <tr>
-      <th>name</th>
-      <th>category</th>
-      <th>price</th>
-      <th>brand</th>
-      <th>rating</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Black Shirt</td>
-      <td>Clothing</td>
-      <td>900</td>
-      <td>Puma</td>
-      <td>4.8</td>
-    </tr>
-    <tr>
-      <td>Running Shoes</td>
-      <td>Footwear</td>
-      <td>2500</td>
-      <td>Nike</td>
-      <td>4.5</td>
-    </tr>
-    <tr>
-      <td>Sports Cap</td>
-      <td>Accessories</td>
-      <td>700</td>
-      <td>Puma</td>
-      <td>4.2</td>
-    </tr>
-    <tr>
-      <td>Bourbon Jeans</td>
-      <td>Clothing</td>
-      <td>1800</td>
-      <td>Levis</td>
-      <td>4.3</td>
-    </tr>
-    <tr>
-      <td>Bourbon Blue Jeans</td>
-      <td>Clothing</td>
-      <td>2000</td>
-      <td>Wrangler</td>
-      <td>4.4</td>
-    </tr>
-    <tr>
-      <td>Salted Chips</td>
-      <td>Snacks</td>
-      <td>50</td>
-      <td>Lays</td>
-      <td>4.1</td>
-    </tr>
-    <tr>
-      <td>Potato Chips Classic</td>
-      <td>Snacks</td>
-      <td>60</td>
-      <td>Pringles</td>
-      <td>4.6</td>
-    </tr>
-    <tr>
-      <td>Crunchy Chips</td>
-      <td>Snacks</td>
-      <td>45</td>
-      <td>Bingo</td>
-      <td>4.0</td>
-    </tr>
-    <tr>
-      <td>Blue Shirt</td>
-      <td>Clothing</td>
-      <td>1200</td>
-      <td>Puma</td>
-      <td>3.9</td>
-    </tr>
-    <tr>
-      <td>Flashgear</td>
-      <td>Accessories</td>
-      <td>1500</td>
-      <td>Adidas</td>
-      <td>4.5</td>
-    </tr>
-    <tr>
-      <td>Freshwear</td>
-      <td>Clothing</td>
-      <td>2200</td>
-      <td>Zara</td>
-      <td>4.2</td>
-    </tr>
-    <tr>
-      <td>Techgear</td>
-      <td>Electronics</td>
-      <td>3500</td>
-      <td>Sony</td>
-      <td>4.7</td>
-    </tr>
-  </tbody>
-</table>
-              </div> 
-            </div>
-          `,
+          <thead>
+            <tr>
+              <th>name</th>
+              <th>category</th>
+              <th>price</th>
+              <th>brand</th>
+              <th>rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Black Shirt</td>
+              <td>Clothing</td>
+              <td>900</td>
+              <td>Puma</td>
+              <td>4.8</td>
+            </tr>
+            <tr>
+              <td>Running Shoes</td>
+              <td>Footwear</td>
+              <td>2500</td>
+              <td>Nike</td>
+              <td>4.5</td>
+            </tr>
+            <tr>
+              <td>Sports Cap</td>
+              <td>Accessories</td>
+              <td>700</td>
+              <td>Puma</td>
+              <td>4.2</td>
+            </tr>
+            <tr>
+              <td>Bourbon Jeans</td>
+              <td>Clothing</td>
+              <td>1800</td>
+              <td>Levis</td>
+              <td>4.3</td>
+            </tr>
+            <tr>
+              <td>Bourbon Blue Jeans</td>
+              <td>Clothing</td>
+              <td>2000</td>
+              <td>Wrangler</td>
+              <td>4.4</td>
+            </tr>
+            <tr>
+              <td>Salted Chips</td>
+              <td>Snacks</td>
+              <td>50</td>
+              <td>Lays</td>
+              <td>4.1</td>
+            </tr>
+            <tr>
+              <td>Potato Chips Classic</td>
+              <td>Snacks</td>
+              <td>60</td>
+              <td>Pringles</td>
+              <td>4.6</td>
+            </tr>
+            <tr>
+              <td>Crunchy Chips</td>
+              <td>Snacks</td>
+              <td>45</td>
+              <td>Bingo</td>
+              <td>4.0</td>
+            </tr>
+            <tr>
+              <td>Blue Shirt</td>
+              <td>Clothing</td>
+              <td>1200</td>
+              <td>Puma</td>
+              <td>3.9</td>
+            </tr>
+            <tr>
+              <td>Flashgear</td>
+              <td>Accessories</td>
+              <td>1500</td>
+              <td>Adidas</td>
+              <td>4.5</td>
+            </tr>
+            <tr>
+              <td>Freshwear</td>
+              <td>Clothing</td>
+              <td>2200</td>
+              <td>Zara</td>
+              <td>4.2</td>
+            </tr>
+            <tr>
+              <td>Techgear</td>
+              <td>Electronics</td>
+              <td>3500</td>
+              <td>Sony</td>
+              <td>4.7</td>
+            </tr>
+          </tbody>
+        </table>
+                      </div> 
+                    </div>
+                  `,
           testCases: [
             {
               id: 1,
@@ -2821,7 +2821,7 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">Question</p>
               <p> 
               List all the "Chips" in the database.
-NOTE: Consider the products that have "Chips" in thename.</p>              
+      NOTE: Consider the products that have "Chips" in thename.</p>              
          <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: products</div>
                 <table>
@@ -4020,17 +4020,17 @@ NOTE: Consider the products that have "Chips" in thename.</p>
               <p class="desc-que-blue">Question</p>
               <p>
               
-   Get all the shirts available in any of the following brands, excluding the black color shirts.
+                  Get all the shirts available in any of the following brands, excluding the black color shirts.
 
-<br/>Puma
-<br/>Nike
-<br/>Levi's
-<br/>Note: 
-You can assume that:
-<br/>1. Products containing “Shirt” in the name are considered as shirts.
-<br/>2. Black color shirts contain "Black" in their names.
+                <br/>Puma
+                <br/>Nike
+                <br/>Levi's
+                <br/>Note: 
+                You can assume that:
+                <br/>1. Products containing “Shirt” in the name are considered as shirts.
+                <br/>2. Black color shirts contain "Black" in their names.
 
-</p>
+                </p>
               <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: product</div>
                 <table>
@@ -11078,7 +11078,7 @@ You can assume that:
         },
       ],
     },
-    // SQL Practice 10
+    // SQL Practice 8
     {
       id: "sql-coding-practice-8",
       title: "SQL Coding Practice 8",
@@ -11894,6 +11894,1462 @@ You can assume that:
             },
           ],
         },
+      ],
+    },
+    // SQL Practice 9
+    {
+      id: "sql-coding-practice-9",
+      title: "SQL Coding Practice 9",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-9-01",
+          title: "Natural join",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+
+            instructor: {
+              columns: ["instructor_id", "full_name", "gender"],
+              rows: [
+                [101, "Alex", "M"],
+                [102, "Arun", "M"],
+                [103, "Robert A. Iyer", "M"],
+                [104, "Bhavani", "F"],
+                [105, "Bentlee", "M"],
+                [108, "Nihonbashi", "M"],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Perform natural join between course and instructor table.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Do not apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>duration</th>
+            <th>instructor_id</th>
+            <th>full_name</th>
+            <th>gender</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select all columns using *",
+              type: "syntax-validation",
+              expectedKeywords: ["select *"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should contain FROM course",
+              type: "syntax-validation",
+              expectedKeywords: ["from course"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should use NATURAL JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["natural join"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should join instructor table",
+              type: "syntax-validation",
+              expectedKeywords: ["instructor"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-02",
+          title: "Inner join",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 11, "Excellent course", "2024-01-10", 201],
+                [2, 12, "Very informative", "2024-01-15", 202],
+                [3, 13, "Good explanation", "2024-02-01", 203],
+                [4, 15, "Loved the examples", "2024-02-05", 201],
+                [5, 20, "Needs improvement", "2024-02-10", 204],
+                [6, 18, "Well structured", "2024-02-20", 205],
+              ],
+            },
+
+            student: {
+              columns: ["id", "full_name", "age", "gender"],
+              rows: [
+                [201, "Rahul Sharma", 21, "M"],
+                [202, "Sneha Kapoor", 22, "F"],
+                [203, "Arjun Verma", 20, "M"],
+                [204, "Meera Iyer", 23, "F"],
+                [205, "Karan Mehta", 24, "M"],
+                [206, "Priya Singh", 22, "F"],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Perform inner join betweenreviewandstudenttable.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Do not apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>id</th>
+            <th>course_id</th>
+            <th>content</th>
+            <th>created_at</th>
+            <th>student_id</th>
+            <th>id</th>
+            <th>full_name</th>
+            <th>age</th>
+            <th>gender</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM clause",
+              type: "syntax-validation",
+              expectedKeywords: ["from"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should reference review table",
+              type: "syntax-validation",
+              expectedKeywords: ["review"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should reference student table",
+              type: "syntax-validation",
+              expectedKeywords: ["student"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should use INNER JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use ON condition",
+              type: "syntax-validation",
+              expectedKeywords: ["on"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description:
+                "Query should join on student.id = review.student_id",
+              type: "syntax-validation",
+              expectedKeywords: ["student.id", "review.student_id"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-03",
+          title: "course names",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 11, "Excellent course", "2024-01-10", 201],
+                [2, 12, "Very informative", "2024-01-15", 202],
+                [3, 13, "Good explanation", "2024-02-01", 203],
+                [4, 15, "Loved the examples", "2024-02-05", 201],
+                [5, 20, "Needs improvement", "2024-02-10", 204],
+                [6, 18, "Well structured", "2024-02-20", 205],
+              ],
+            },
+
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Get all the reviews along with the course names.
+             Every review is associated with a course. So, we can perform an inner join on review and course tables.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Do not apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>id</th>
+            <th>course_id</th>
+            <th>content</th>
+            <th>created_at</th>
+            <th>student_id</th>
+            <th>id</th>
+            <th>name</th>
+            <th>duration</th>
+            <th>instructor_id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM review",
+              type: "syntax-validation",
+              expectedKeywords: ["from review"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use INNER JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should join course table",
+              type: "syntax-validation",
+              expectedKeywords: ["join course"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain ON condition",
+              type: "syntax-validation",
+              expectedKeywords: ["on course.id = review.course_id"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-04",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Cyber Security",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 30,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 11, "Excellent course", "2024-01-10", 201],
+                [2, 12, "Very informative", "2024-01-15", 202],
+                [3, 13, "Good explanation", "2024-02-01", 203],
+                [4, 15, "Loved the examples", "2024-02-05", 201],
+                [5, 20, "Needs improvement", "2024-02-10", 204],
+                [6, 18, "Well structured", "2024-02-20", 205],
+              ],
+            },
+
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Continuation of question course names</p>
+             <p>Get all the reviews on the “Cyber Security” course.
+             
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Do not apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
+            <li>We can perform inner join onreviewandcoursetable.</li></ul>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+               <thead>
+                 <tr>
+                   <th>id</th>
+                   <th>course_id</th>
+                   <th>content</th>
+                   <th>created_at</th>
+                   <th>student_id</th>
+                   <th>id</th>
+                   <th>name</th>
+                   <th>duration</th>
+                   <th>instructor_id</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                   <td>--</td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM review",
+              type: "syntax-validation",
+              expectedKeywords: ["from review"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use INNER JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should join course table",
+              type: "syntax-validation",
+              expectedKeywords: ["join course"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain ON condition",
+              type: "syntax-validation",
+              expectedKeywords: ["on course.id = review.course_id"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter for 'Cyber Security' course",
+              type: "syntax-validation",
+              expectedKeywords: ['where course.name like "cyber security"'],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-05",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Get all the courses ",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 11, "Excellent course", "2024-01-10", 201],
+                [2, 12, "Very informative", "2024-01-15", 202],
+                [3, 13, "Good explanation", "2024-02-01", 203],
+                [4, 15, "Loved the examples", "2024-02-05", 201],
+                [5, 20, "Needs improvement", "2024-02-10", 204],
+                [6, 18, "Well structured", "2024-02-20", 205],
+              ],
+            },
+
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Continuation of question course names</p>
+             <p>Get all the reviews on the “Cyber Security” course.
+             
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+            <p>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+               <thead>
+                 <tr>
+                   <th>id</th>
+                   <th>name</th>
+                   <th>duration</th>
+                   <th>instructor_id</th>
+                   <th>id</th>
+                   <th>course_id</th>
+                   <th>content</th>
+                   <th>created_at</th>
+                   <th>student_id</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                   <td>...</td>
+                 </tr>
+               </tbody>
+             </table>
+           </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM course",
+              type: "syntax-validation",
+              expectedKeywords: ["from course"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use LEFT JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["left join"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should join review table",
+              type: "syntax-validation",
+              expectedKeywords: ["join review"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain ON condition for joining",
+              type: "syntax-validation",
+              expectedKeywords: ["on review.course_id = course.id"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-06",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Left join",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 11, "Excellent course", "2024-01-10", 201],
+                [2, 12, "Very informative", "2024-01-15", 202],
+                [3, 13, "Good explanation", "2024-02-01", 203],
+                [4, 15, "Loved the examples", "2024-02-05", 201],
+                [5, 20, "Needs improvement", "2024-02-10", 204],
+                [6, 18, "Well structured", "2024-02-20", 205],
+              ],
+            },
+
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Continuation of question course names</p>
+             <p>
+             For the “Cyber Security” course, get all the reviews using the left join between the course and review tables.
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+            <p>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>name</th>
+                  <th>duration</th>
+                  <th>instructor_id</th>
+                  <th>id</th>
+                  <th>course_id</th>
+                  <th>content</th>
+                  <th>created_at</th>
+                  <th>student_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+                      </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM course",
+              type: "syntax-validation",
+              expectedKeywords: ["from course"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use LEFT JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["left join"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should join review table",
+              type: "syntax-validation",
+              expectedKeywords: ["join review"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain proper ON condition",
+              type: "syntax-validation",
+              expectedKeywords: ["on review.course_id = course.id"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter for Cyber Security course",
+              type: "syntax-validation",
+              expectedKeywords: ['where course.name like "cyber security"'],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should not contain ORDER BY clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["order by"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should not contain LIMIT clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["limit"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should not contain OFFSET clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["offset"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-9-07",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Left join Linux course",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 11, "Excellent course", "2024-01-10", 201],
+                [2, 12, "Very informative", "2024-01-15", 202],
+                [3, 13, "Good explanation", "2024-02-01", 203],
+                [4, 15, "Loved the examples", "2024-02-05", 201],
+                [5, 20, "Needs improvement", "2024-02-10", 204],
+                [6, 18, "Well structured", "2024-02-20", 205],
+              ],
+            },
+
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Continuation of question course names</p>
+             <p>
+             For the “Linux” course, get all the reviews using the left join between the course and review tables.
+             </p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+            <p>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem</p>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>name</th>
+                  <th>duration</th>
+                  <th>instructor_id</th>
+                  <th>id</th>
+                  <th>course_id</th>
+                  <th>content</th>
+                  <th>created_at</th>
+                  <th>student_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+                      </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should contain FROM course",
+              type: "syntax-validation",
+              expectedKeywords: ["from course"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should use LEFT JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["left join"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should join review table",
+              type: "syntax-validation",
+              expectedKeywords: ["join review"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain proper ON condition",
+              type: "syntax-validation",
+              expectedKeywords: ["on review.course_id = course.id"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should filter for Linux course",
+              type: "syntax-validation",
+              expectedKeywords: ['where course.name like "linux"'],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should not contain ORDER BY clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["order by"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should not contain LIMIT clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["limit"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should not contain OFFSET clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["offset"],
+              visible: true,
+            },
+          ],
+        },
+      ],
+    },
+    // SQL Practice 10
+    {
+      id: "sql-coding-practice-10",
+      title: "SQL Coding Practice 9",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-10-1",
+          title: "All courses Alex",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+
+            instructor: {
+              columns: ["instructor_id", "full_name", "gender"],
+              rows: [
+                [101, "Alex", "M"],
+                [102, "Arun", "M"],
+                [103, "Robert A. Iyer", "M"],
+                [104, "Bhavani", "F"],
+                [105, "Bentlee", "M"],
+                [108, "Nihonbashi", "M"],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Fetch all the courses that are being taught by “Alex”.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Fetch all the courses that are being taught by “Alex”.</li>
+             <li>As we only want the courses taught by "Alex", we have to apply filter condition.</li>
+             <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
+             </ul>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>course_id</th>
+            <th>course_name</th>
+            <th>instructor_name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select course.id as course_id",
+              type: "syntax-validation",
+              expectedKeywords: ["course.id as course_id"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should select course.name as course_name",
+              type: "syntax-validation",
+              expectedKeywords: ["course.name as course_name"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description:
+                "Query should select instructor.full_name as instructor_name",
+              type: "syntax-validation",
+              expectedKeywords: ["instructor.full_name as instructor_name"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain FROM course",
+              type: "syntax-validation",
+              expectedKeywords: ["from course"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use NATURAL JOIN instructor",
+              type: "syntax-validation",
+              expectedKeywords: ["natural join instructor"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should filter instructor.full_name = 'Alex'",
+              type: "syntax-validation",
+              expectedKeywords: ["where instructor.full_name ="],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should not contain ORDER BY clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["order by"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should not contain LIMIT clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["limit"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should not contain OFFSET clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["offset"],
+              visible: true,
+            },
+          ],
+        },
+        {
+          id: "sql-query-10-2",
+          title: "Cyber Security course",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+
+            instructor: {
+              columns: ["instructor_id", "full_name", "gender"],
+              rows: [
+                [101, "Alex", "M"],
+                [102, "Arun", "M"],
+                [103, "Robert A. Iyer", "M"],
+                [104, "Bhavani", "F"],
+                [105, "Bentlee", "M"],
+                [108, "Nihonbashi", "M"],
+              ],
+            },
+
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 15, "Very informative course", "2023-01-10", 201],
+                [2, 15, "Excellent security concepts", "2023-02-12", 202],
+                [3, 11, "Great ML explanations", "2023-03-01", 203],
+                [4, 20, "Good cloud basics", "2023-03-15", 204],
+              ],
+            },
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>Get all the reviews of “Cyber Security” course .</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Solving this problem involves performing inner join onreviewandcoursetables.</li>
+             <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
+             </ul>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+             <table>
+            <thead>
+            <tr>
+            <th>course_name</th>
+            <th>student_id</th>
+            <th>content</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td>--</td><td>--</td><td>--</td></tr>
+            </tbody>
+            </table>
+              </div>
+             </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select course.name as course_name",
+              type: "syntax-validation",
+              expectedKeywords: ["course.name as course_name"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should select review.student_id",
+              type: "syntax-validation",
+              expectedKeywords: ["review.student_id"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select review.content",
+              type: "syntax-validation",
+              expectedKeywords: ["review.content"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should contain FROM review",
+              type: "syntax-validation",
+              expectedKeywords: ["from review"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should use INNER JOIN course",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join course"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should join on review.course_id = course.id",
+              type: "syntax-validation",
+              expectedKeywords: ["review.course_id = course.id"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should filter course.name = 'Cyber Security'",
+              type: "syntax-validation",
+              expectedKeywords: ["where course.name ="],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should not contain ORDER BY",
+              type: "syntax-validation",
+              unexpectedKeywords: ["order by"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should not contain LIMIT",
+              type: "syntax-validation",
+              unexpectedKeywords: ["limit"],
+              visible: true,
+            },
+          ],
+        },
+        
       ],
     },
   ],
