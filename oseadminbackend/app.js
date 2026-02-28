@@ -6,7 +6,7 @@ const helmet = require("helmet");
 const { body, validationResult } = require("express-validator");
 const morgan = require("morgan");
 const jwt = require("jsonwebtoken");
-const fs = require("fs").promises;
+const fs = require("fs");
 const bcrypt = require("bcrypt");
 const WebSocket = require("ws"); // Add WebSocket support
 require("dotenv").config(); // Load environment variables
