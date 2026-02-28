@@ -43,49 +43,71 @@ const authorizeAdmin = (req, res, next) => {
 
 const createTables = async () => {
   try {
-    // Add this after your existing table creations in initializeDbAndServer
+    // Create live_classes table
     await pool.query(`
-        CREATE TABLE IF NOT EXISTS live_classes (
-          id SERIAL PRIMARY KEY,
-          class_name TEXT NOT NULL,
-          mentor_name TEXT NOT NULL,
-          mentor_id INT REFERENCES admin(id),
-          start_time TIMESTAMP NOT NULL,
-          end_time TIMESTAMP NOT NULL,
-          description TEXT,
-          batch_month TEXT,
-          batch_year TEXT,
-          zoom_link TEXT,
-          status VARCHAR(20) DEFAULT 'upcoming',
-          progress FLOAT DEFAULT 0,
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
+      CREATE TABLE IF NOT EXISTS live_classes (
+        id SERIAL PRIMARY KEY,
+        class_name TEXT NOT NULL,
+        mentor_name TEXT NOT NULL,
+        mentor_id INT REFERENCES admin(id),
+        start_time TIMESTAMP NOT NULL,
+        end_time TIMESTAMP NOT NULL,
+        description TEXT,
+        batch_month TEXT,
+        batch_year TEXT,
+        zoom_link TEXT,
+        status VARCHAR(20) DEFAULT 'upcoming',
+        progress FLOAT DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log("✅ live_classes table created/verified");
+
+    // Add columns to live_classes table
+    await pool.query(`
+      ALTER TABLE live_classes 
+      ADD COLUMN IF NOT EXISTS student_type VARCHAR(50) 
+      DEFAULT 'all',
+      ADD COLUMN IF NOT EXISTS course_selection VARCHAR(50) 
+      DEFAULT 'all';
+    `);
+    console.log("✅ Columns added to live_classes table");
+
+    // Drop and recreate constraints separately
+    try {
+      // Drop existing constraints if they exist
+      await pool.query(`
+        ALTER TABLE live_classes 
+        DROP CONSTRAINT IF EXISTS live_classes_student_type_check;
       `);
 
-    // Add these columns to the live_classes table
-    await pool.query(`
-        ALTER TABLE  live_classes 
-        ADD COLUMN IF NOT EXISTS student_type VARCHAR(50) 
-        CHECK (student_type IN ('zorvixe_core', 'zorvixe_pro', 'zorvixe_elite', 'all')) 
-        DEFAULT 'all',
-        ADD COLUMN IF NOT EXISTS course_selection VARCHAR(50) 
-        CHECK (course_selection IN ('web_development', 'digital_marketing', 'java_programming', 'all')) 
-        DEFAULT 'all';
+      await pool.query(`
+        ALTER TABLE live_classes 
+        DROP CONSTRAINT IF EXISTS live_classes_course_selection_check;
       `);
+      console.log("✅ Existing constraints dropped");
+    } catch (constraintError) {
+      console.log(
+        "No existing constraints to drop or error dropping:",
+        constraintError.message
+      );
+    }
+
+    // Add new constraints
     await pool.query(`
-    SELECT conname, consrc 
-    FROM pg_constraint 
-    WHERE conrelid = 'live_classes'::regclass 
-    AND contype = 'c';
-    
-    ALTER TABLE live_classes 
-    DROP CONSTRAINT IF EXISTS live_classes_course_selection_check;
-    
-    ALTER TABLE live_classes 
-    ADD CONSTRAINT IF NOT EXISTS live_classes_course_selection_check 
-    CHECK (course_selection IN ('web_development', 'digital_marketing', 'java_programming', 'all'));
-      `);
+      ALTER TABLE live_classes 
+      ADD CONSTRAINT live_classes_student_type_check 
+      CHECK (student_type IN ('zorvixe_core', 'zorvixe_pro', 'zorvixe_elite', 'all'));
+    `);
+    console.log("✅ student_type constraint added");
+
+    await pool.query(`
+      ALTER TABLE live_classes 
+      ADD CONSTRAINT live_classes_course_selection_check 
+      CHECK (course_selection IN ('web_development', 'digital_marketing', 'java_programming', 'all'));
+    `);
+    console.log("✅ course_selection constraint added");
 
     // Create placement_achievements table
     await pool.query(`
@@ -105,6 +127,7 @@ const createTables = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
+    console.log("✅ placement_achievements table created/verified");
   } catch (error) {
     console.error("Error creating OSE tables:", error);
     throw error; // Re-throw to handle in calling function
@@ -289,140 +312,152 @@ router.post(
 // ==========================================
 // 🔹 UPDATED: Update live class
 // ==========================================
-router.put("/api/live-classes/:id", authenticateToken,
-[
-  body("class_name").notEmpty().withMessage("Class name is required"),
-  body("start_time").isISO8601().withMessage("Valid start time is required"),
-  body("end_time").isISO8601().withMessage("Valid end time is required"),
-  body("student_type").optional().isIn(['zorvixe_core', 'zorvixe_pro', 'zorvixe_elite', 'all']),
-  body("course_selection").optional().isIn(['web_development', 'digital_marketing', 'java_programming', 'all']),
-],
- async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty())
-    return res.status(400).json({ errors: errors.array() });
+router.put(
+  "/api/live-classes/:id",
+  authenticateToken,
+  [
+    body("class_name").notEmpty().withMessage("Class name is required"),
+    body("start_time").isISO8601().withMessage("Valid start time is required"),
+    body("end_time").isISO8601().withMessage("Valid end time is required"),
+    body("student_type")
+      .optional()
+      .isIn(["zorvixe_core", "zorvixe_pro", "zorvixe_elite", "all"]),
+    body("course_selection")
+      .optional()
+      .isIn([
+        "web_development",
+        "digital_marketing",
+        "java_programming",
+        "all",
+      ]),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
 
-  const { id } = req.params;
-  const {
-    class_name,
-    start_time,
-    end_time,
-    description,
-    zoom_link,
-    batch_month,
-    batch_year,
-    status,
-    progress,
-    student_type,
-    course_selection,
-  } = req.body;
-  const mentor_id = req.user.id;
+    const { id } = req.params;
+    const {
+      class_name,
+      start_time,
+      end_time,
+      description,
+      zoom_link,
+      batch_month,
+      batch_year,
+      status,
+      progress,
+      student_type,
+      course_selection,
+    } = req.body;
+    const mentor_id = req.user.id;
 
-  try {
-    // Check if class exists
-    const classCheck = await pool.query(
-      "SELECT * FROM live_classes WHERE id = $1",
-      [id]
-    );
+    try {
+      // Check if class exists
+      const classCheck = await pool.query(
+        "SELECT * FROM live_classes WHERE id = $1",
+        [id]
+      );
 
-    if (!classCheck.rows.length) {
-      return res.status(404).json({ error: "Live class not found" });
-    }
+      if (!classCheck.rows.length) {
+        return res.status(404).json({ error: "Live class not found" });
+      }
 
-    const liveClass = classCheck.rows[0];
+      const liveClass = classCheck.rows[0];
 
-    // Allow update only if user is the creator or an admin
-    if (liveClass.mentor_id !== mentor_id && req.user.role !== "admin") {
-      return res
-        .status(403)
-        .json({ error: "Not authorized to update this class" });
-    }
+      // Allow update only if user is the creator or an admin
+      if (liveClass.mentor_id !== mentor_id && req.user.role !== "admin") {
+        return res
+          .status(403)
+          .json({ error: "Not authorized to update this class" });
+      }
 
-    const updates = [];
-    const values = [];
-    let paramCount = 1;
+      const updates = [];
+      const values = [];
+      let paramCount = 1;
 
-    if (class_name !== undefined) {
-      updates.push(`class_name = $${paramCount++}`);
-      values.push(class_name);
-    }
-    if (start_time !== undefined) {
-      updates.push(`start_time = $${paramCount++}`);
-      values.push(start_time);
-    }
-    if (end_time !== undefined) {
-      updates.push(`end_time = $${paramCount++}`);
-      values.push(end_time);
-    }
-    if (description !== undefined) {
-      updates.push(`description = $${paramCount++}`);
-      values.push(description || null);
-    }
-    if (zoom_link !== undefined) {
-      updates.push(`zoom_link = $${paramCount++}`);
-      values.push(zoom_link || null);
-    }
+      if (class_name !== undefined) {
+        updates.push(`class_name = $${paramCount++}`);
+        values.push(class_name);
+      }
+      if (start_time !== undefined) {
+        updates.push(`start_time = $${paramCount++}`);
+        values.push(start_time);
+      }
+      if (end_time !== undefined) {
+        updates.push(`end_time = $${paramCount++}`);
+        values.push(end_time);
+      }
+      if (description !== undefined) {
+        updates.push(`description = $${paramCount++}`);
+        values.push(description || null);
+      }
+      if (zoom_link !== undefined) {
+        updates.push(`zoom_link = $${paramCount++}`);
+        values.push(zoom_link || null);
+      }
 
-    if (batch_month !== undefined) {
-      const finalBatchMonth =
-        batch_month && batch_month.trim() !== "" ? batch_month : null;
-      updates.push(`batch_month = $${paramCount++}`);
-      values.push(finalBatchMonth);
-    }
-    if (batch_year !== undefined) {
-      const finalBatchYear =
-        batch_year && batch_year.trim() !== "" ? batch_year : null;
-      updates.push(`batch_year = $${paramCount++}`);
-      values.push(finalBatchYear);
-    }
+      if (batch_month !== undefined) {
+        const finalBatchMonth =
+          batch_month && batch_month.trim() !== "" ? batch_month : null;
+        updates.push(`batch_month = $${paramCount++}`);
+        values.push(finalBatchMonth);
+      }
+      if (batch_year !== undefined) {
+        const finalBatchYear =
+          batch_year && batch_year.trim() !== "" ? batch_year : null;
+        updates.push(`batch_year = $${paramCount++}`);
+        values.push(finalBatchYear);
+      }
 
-    if (status !== undefined) {
-      updates.push(`status = $${paramCount++}`);
-      values.push(status);
-    }
-    if (progress !== undefined) {
-      updates.push(`progress = $${paramCount++}`);
-      values.push(progress);
-    }
+      if (status !== undefined) {
+        updates.push(`status = $${paramCount++}`);
+        values.push(status);
+      }
+      if (progress !== undefined) {
+        updates.push(`progress = $${paramCount++}`);
+        values.push(progress);
+      }
 
-    if (student_type !== undefined) {
-      updates.push(`student_type = $${paramCount++}`);
-      values.push(student_type || "all");
-    }
-    if (course_selection !== undefined) {
-      updates.push(`course_selection = $${paramCount++}`);
-      values.push(course_selection || "all");
-    }
+      if (student_type !== undefined) {
+        updates.push(`student_type = $${paramCount++}`);
+        values.push(student_type || "all");
+      }
+      if (course_selection !== undefined) {
+        updates.push(`course_selection = $${paramCount++}`);
+        values.push(course_selection || "all");
+      }
 
-    updates.push(`updated_at = $${paramCount++}`);
-    values.push(new Date().toISOString());
+      updates.push(`updated_at = $${paramCount++}`);
+      values.push(new Date().toISOString());
 
-    values.push(id);
+      values.push(id);
 
-    const updateQuery = `
+      const updateQuery = `
           UPDATE live_classes 
           SET ${updates.join(", ")}
           WHERE id = $${paramCount}
           RETURNING *;
         `;
 
-    const result = await pool.query(updateQuery, values);
+      const result = await pool.query(updateQuery, values);
 
-    console.log(`✅ Live class ${id} updated successfully`);
+      console.log(`✅ Live class ${id} updated successfully`);
 
-    res.json({
-      message: "Live class updated successfully",
-      class: result.rows[0],
-    });
-  } catch (error) {
-    console.error(`❌ Error updating live class: ${error.message}`);
-    console.error(error.stack);
-    res.status(500).json({
-      error: "Failed to update live class",
-      details: error.message,
-    });
+      res.json({
+        message: "Live class updated successfully",
+        class: result.rows[0],
+      });
+    } catch (error) {
+      console.error(`❌ Error updating live class: ${error.message}`);
+      console.error(error.stack);
+      res.status(500).json({
+        error: "Failed to update live class",
+        details: error.message,
+      });
+    }
   }
-});
+);
 
 // ==========================================
 // 🔹 UPDATED: GET live classes for students with proper filtering
