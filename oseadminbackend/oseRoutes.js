@@ -73,6 +73,19 @@ const createTables = async () => {
         CHECK (course_selection IN ('web_development', 'digital_marketing', 'java_programming', 'all')) 
         DEFAULT 'all';
       `);
+    await pool.query(`
+    SELECT conname, consrc 
+    FROM pg_constraint 
+    WHERE conrelid = 'live_classes'::regclass 
+    AND contype = 'c';
+    
+    ALTER TABLE live_classes 
+    DROP CONSTRAINT IF EXISTS live_classes_course_selection_check;
+    
+    ALTER TABLE live_classes 
+    ADD CONSTRAINT IF NOT EXISTS live_classes_course_selection_check 
+    CHECK (course_selection IN ('web_development', 'digital_marketing', 'java_programming', 'all'));
+      `);
 
     // Create placement_achievements table
     await pool.query(`
