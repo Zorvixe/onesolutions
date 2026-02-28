@@ -37,7 +37,7 @@ function Landing() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-  
+
     if (!token) {
       navigate("/login", { replace: true });
     }
@@ -117,39 +117,45 @@ function Landing() {
           ),
         ]);
 
-        const jobs = await jobsResponse.json();
-        const admins = await adminsResponse.json();
-        const resumes = await resumesResponse.json();
-        const session = await sessionResponse.json();
-        const adminStatuses = await adminStatusResponse.json();
+        // Parse only if response is ok, otherwise use fallback values
+        const jobs = jobsResponse.ok ? await jobsResponse.json() : [];
+        const admins = adminsResponse.ok ? await adminsResponse.json() : [];
+        const resumes = resumesResponse.ok ? await resumesResponse.json() : [];
+        const session = sessionResponse.ok
+          ? await sessionResponse.json()
+          : { isOnline: false, todayTotal: 0 };
+        const adminStatuses = adminStatusResponse.ok
+          ? await adminStatusResponse.json()
+          : [];
 
-        // Calculate stats
-        const onlineCount = adminStatuses.filter(
-          (admin) => admin.is_online
-        ).length;
-        const pendingJobs = jobs.filter(
-          (job) => job.status === "pending"
-        ).length;
-        const todayJobs = jobs.filter((job) => {
-          const jobDate = new Date(job.createdat);
-          const today = new Date();
-          return jobDate.toDateString() === today.toDateString();
-        }).length;
+        // Calculate stats safely
+        const onlineCount = Array.isArray(adminStatuses)
+          ? adminStatuses.filter((admin) => admin.is_online).length
+          : 0;
+        const pendingJobs = Array.isArray(jobs)
+          ? jobs.filter((job) => job.status === "pending").length
+          : 0;
+        const todayJobs = Array.isArray(jobs)
+          ? jobs.filter((job) => {
+              const jobDate = new Date(job.createdat);
+              const today = new Date();
+              return jobDate.toDateString() === today.toDateString();
+            }).length
+          : 0;
 
         setDashboardStats({
-          totalJobs: jobs.length,
-          totalAdmins: admins.length,
+          totalJobs: Array.isArray(jobs) ? jobs.length : 0,
+          totalAdmins: Array.isArray(admins) ? admins.length : 0,
           onlineAdmins: onlineCount,
-          totalResumes: resumes.length,
+          totalResumes: Array.isArray(resumes) ? resumes.length : 0,
           pendingApprovals: pendingJobs,
           todayViews: todayJobs,
           monthlyGrowth: Math.floor(Math.random() * 25) + 5,
         });
 
         setSessionStats(session);
-        setTopJobs(jobs.slice(0, 5));
+        setTopJobs(Array.isArray(jobs) ? jobs.slice(0, 5) : []);
 
-        // Mock recent activities
         setRecentActivities([
           { id: 1, action: "New job posted", time: "2 mins ago", type: "job" },
           {
@@ -407,11 +413,18 @@ function Landing() {
                 <span>Admin AI Content</span>
               </a>
               <a href="/digital-marketing/courses" className="modal-item-land">
-                <span className="modal-icon-land"><img className="digital_marketing_icon" src={assests.digital_marketing || "/placeholder.svg"}/></span>
+                <span className="modal-icon-land">
+                  <img
+                    className="digital_marketing_icon"
+                    src={assests.digital_marketing || "/placeholder.svg"}
+                  />
+                </span>
                 <span>Digital Marketing Courses</span>
               </a>
               <a href="/java-programming/courses" className="modal-item-land">
-                <span className="modal-icon-land"><i class="fa-brands fa-java"></i></span>
+                <span className="modal-icon-land">
+                  <i class="fa-brands fa-java"></i>
+                </span>
                 <span>Java Programming Courses</span>
               </a>
             </div>
