@@ -454,12 +454,19 @@ CHECK (student_type IN (
     'java_programming'
   ));
   `);
-
-   await pool.query(`
+  await pool.query(`
   ALTER TABLE students
-DROP CONSTRAINT IF EXISTS students_course_selection_check;
+ADD CONSTRAINT students_course_selection_check
+CHECK (
+  course_selection IN (
+    'web_development',
+    'digital_marketing',
+    'java_programming'
+  )
+);
   `);
 
+  
 
   await pool.query(`
        SELECT id, student_id, course_selection 
