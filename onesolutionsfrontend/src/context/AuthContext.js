@@ -47,6 +47,18 @@ export const AuthProvider = ({ children }) => {
   const [currentSubtopic, setCurrentSubtopic] = useState(null);
   const [currentContent, setCurrentContent] = useState(null);
 
+
+  // ✅ NEW: Java Programming Course Structure States
+  const [javaGoals, setJavaGoals] = useState([]);
+  const [javaStructure, setJavaStructure] = useState({});
+  const [javaLoading, setJavaLoading] = useState(false);
+  const [currentJavaGoal, setCurrentJavaGoal] = useState(null);
+  const [currentJavaModule, setCurrentJavaModule] = useState(null);
+  const [currentJavaTopic, setCurrentJavaTopic] = useState(null);
+  const [currentJavaSubtopic, setCurrentJavaSubtopic] = useState(null);
+  const [currentJavaPractice, setCurrentJavaPractice] = useState(null);
+  const [currentJavaContent, setCurrentJavaContent] = useState(null);
+
   useEffect(() => {
     checkAuthStatus();
   }, []);
@@ -166,24 +178,21 @@ export const AuthProvider = ({ children }) => {
     try {
       const responses = await Promise.all([
         fetch(
-          `${
-            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          `${process.env.REACT_APP_API_URL || "http://localhost:5002"
           }/progress/completed`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         ),
         fetch(
-          `${
-            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          `${process.env.REACT_APP_API_URL || "http://localhost:5002"
           }/progress/summary`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         ),
         fetch(
-          `${
-            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          `${process.env.REACT_APP_API_URL || "http://localhost:5002"
           }/coding-practice/progress`,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -244,8 +253,7 @@ export const AuthProvider = ({ children }) => {
 
       try {
         const response = await fetch(
-          `${
-            process.env.REACT_APP_API_URL || "http://localhost:5002"
+          `${process.env.REACT_APP_API_URL || "http://localhost:5002"
           }/api/coding-practice/complete-practice`,
           {
             method: "POST",
@@ -786,6 +794,117 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
+  // ✅ NEW: Java Programming Course Functions
+  const loadJavaCourses = async () => {
+    try {
+      setJavaLoading(true);
+      const res = await javaAPI.getStudentCourses();
+      if (res.data.success) {
+        setJavaGoals(res.data.data);
+      }
+    } catch (err) {
+      console.error("[JAVA] Load courses failed:", err);
+    } finally {
+      setJavaLoading(false);
+    }
+  };
+
+  const loadJavaAllStructure = async () => {
+    try {
+      setJavaLoading(true);
+      console.log("[JAVA] Loading all course structure...");
+      const res = await javaAPI.getAllCoursesStructure();
+      if (res.data.success) {
+        console.log("[JAVA] Loaded goals:", res.data.data.length);
+        setJavaGoals(res.data.data);
+        return { success: true, data: res.data.data };
+      } else {
+        console.error("[JAVA] Failed to load structure:", res.data.message);
+        return { success: false, message: res.data.message };
+      }
+    } catch (err) {
+      console.error("[JAVA] Load all structure failed:", err);
+      throw err;
+    } finally {
+      setJavaLoading(false);
+    }
+  };
+
+  const enrollInJavaCourse = async (goalId) => {
+    try {
+      const res = await javaAPI.enrollInCourse(goalId);
+      if (res.data.success) {
+        await loadJavaAllStructure();
+        return { success: true, message: "Successfully enrolled in course" };
+      }
+      return { success: false, message: res.data.message };
+    } catch (err) {
+      console.error("[JAVA] Enroll failed:", err);
+      return {
+        success: false,
+        message: err.response?.data?.message || "Enrollment failed",
+      };
+    }
+  };
+
+  const loadJavaProgress = async (goalId) => {
+    try {
+      const res = await javaAPI.getGoalProgress(goalId);
+      if (res.data.success) {
+        setGoalProgress((prev) => ({
+          ...prev,
+          [goalId]: res.data.data.progress_percentage,
+        }));
+        return res.data.data;
+      }
+    } catch (err) {
+      console.error(`[JAVA] Load progress for goal ${goalId} failed:`, err);
+    }
+  };
+
+  const getJavaContentByUuid = async (contentUuid) => {
+    try {
+      const res = await javaAPI.getContentByUuid(contentUuid);
+      if (res.data.success) {
+        setCurrentJavaContent(res.data.data);
+        return res.data;
+      }
+    } catch (err) {
+      console.error(`[JAVA] Get content ${contentUuid} failed:`, err);
+      throw err;
+    }
+  };
+
+  const getJavaCodingPractice = async (practiceId) => {
+    try {
+      const res = await javaAPI.getCodingPractice(practiceId);
+      if (res.data.success) {
+        setCurrentJavaPractice(res.data.data);
+        return res.data;
+      }
+    } catch (err) {
+      console.error(`[JAVA] Get practice ${practiceId} failed:`, err);
+      throw err;
+    }
+  };
+
+  const markJavaContentComplete = async (contentId, goalId, quizScore) => {
+    try {
+      const res = await javaAPI.markContentComplete(contentId, goalId, quizScore);
+      if (res.data.success) {
+        setCompletedContent((prev) => [...new Set([...prev, contentId])]);
+        await loadProgressSummary(); // reuse existing progress summary
+        await loadOverallProgress();
+        return { success: true, data: res.data };
+      }
+      return { success: false, message: res.data.message };
+    } catch (err) {
+      console.error("[JAVA] Mark complete failed:", err);
+      return { success: false, message: err.message };
+    }
+  };
+
   // 🔥 FIXED: Enhanced logout - clear all user data including digital marketing
   const logout = () => {
     localStorage.removeItem("token");
@@ -808,6 +927,14 @@ export const AuthProvider = ({ children }) => {
     setCurrentTopic(null);
     setCurrentSubtopic(null);
     setCurrentContent(null);
+    setJavaGoals([]);
+    setJavaStructure({});
+    setCurrentJavaGoal(null);
+    setCurrentJavaModule(null);
+    setCurrentJavaTopic(null);
+    setCurrentJavaSubtopic(null);
+    setCurrentJavaPractice(null);
+    setCurrentJavaContent(null);
     console.log("[AUTH] Logout successful - all user data cleared");
   };
 
@@ -1253,6 +1380,29 @@ export const AuthProvider = ({ children }) => {
     getContentByUuid,
     calculateDigitalMarketingGoalProgress: calculateGoalProgress,
     overallDigitalMarketingProgress: calculateOverallDigitalMarketingProgress,
+    // ✅ NEW: Java exports
+    javaGoals,
+    javaStructure,
+    javaLoading,
+    currentJavaGoal,
+    currentJavaModule,
+    currentJavaTopic,
+    currentJavaSubtopic,
+    currentJavaPractice,
+    currentJavaContent,
+    setCurrentJavaGoal,
+    setCurrentJavaModule,
+    setCurrentJavaTopic,
+    setCurrentJavaSubtopic,
+    setCurrentJavaPractice,
+    setCurrentJavaContent,
+    loadJavaCourses,
+    loadJavaAllStructure,
+    enrollInJavaCourse,
+    loadJavaProgress,
+    getJavaContentByUuid,
+    getJavaCodingPractice,
+    markJavaContentComplete,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

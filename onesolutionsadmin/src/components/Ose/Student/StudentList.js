@@ -30,11 +30,12 @@ const StudentList = () => {
   });
 
   // 🔥 Course options
-  const courseOptions = [
-    { value: "web_development", label: "Web Development" },
-    { value: "digital_marketing", label: "Digital Marketing" },
-    { value: "java_programming", label: "Java Programming" },
-  ];
+  // In StudentList.js - around line 62
+const courseOptions = [
+  { value: "web_development", label: "Web Development" },
+  { value: "digital_marketing", label: "Digital Marketing" },
+  { value: "java_programming", label: "Java Programming" },
+];
 
   const [editingStudent, setEditingStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -240,64 +241,89 @@ const StudentList = () => {
   };
 
   // 🔥 FIXED: Handle form submit with course_selection
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+// In StudentList.js - Update handleSubmit function around line 280
 
-    try {
-      const url = editingStudent
-        ? `${API_BASE_URL}/api/admin/students/${editingStudent.id}`
-        : `${API_BASE_URL}/api/admin/students`;
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      const method = editingStudent ? "PUT" : "POST";
-
-      // Ensure course_selection is always set
-      const submitData = {
-        ...formData,
-        course_selection: formData.course_selection || "web_development"
-      };
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submitData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        toast.success(
-          editingStudent
-            ? "Student updated successfully"
-            : "Student created successfully"
-        );
-        closeModal();
-        setFormData({
-          student_id: "",
-          email: "",
-          first_name: "",
-          last_name: "",
-          phone: "",
-          student_type: "zorvixe_core",
-          course_selection: "web_development",
-          batch_month: "",
-          batch_year: "",
-          password: "",
-          status: "active",
-        });
-        setEditingStudent(null);
-        fetchStudents();
-      } else {
-        throw new Error(
-          result.message || result.error || "Failed to save student"
-        );
-      }
-    } catch (error) {
-      console.error("Error saving student:", error);
-      toast.error(error.message || "Failed to save student");
+  try {
+    // Add detailed debugging
+    console.log("🔍 Form Data before submission:", {
+      ...formData,
+      password: formData.password ? "[HIDDEN]" : ""
+    });
+    
+    console.log("🔍 Course Selection value:", formData.course_selection);
+    
+    // Validate course_selection before sending
+    const validCourses = ["web_development", "digital_marketing", "java_programming"];
+    if (!validCourses.includes(formData.course_selection)) {
+      console.error("❌ Invalid course_selection value:", formData.course_selection);
+      toast.error(`Invalid course selection: "${formData.course_selection}". Please select a valid course.`);
+      return;
     }
-  };
+
+    const url = editingStudent
+      ? `${API_BASE_URL}/api/admin/students/${editingStudent.id}`
+      : `${API_BASE_URL}/api/admin/students`;
+
+    const method = editingStudent ? "PUT" : "POST";
+
+    // Ensure course_selection is always set
+    const submitData = {
+      ...formData,
+      course_selection: formData.course_selection || "web_development"
+    };
+
+    console.log("📤 Sending data to server:", {
+      url,
+      method,
+      course_selection: submitData.course_selection
+    });
+
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(submitData),
+    });
+
+    const result = await response.json();
+    console.log("📥 Server response:", result);
+
+    if (response.ok && result.success) {
+      toast.success(
+        editingStudent
+          ? "Student updated successfully"
+          : "Student created successfully"
+      );
+      closeModal();
+      setFormData({
+        student_id: "",
+        email: "",
+        first_name: "",
+        last_name: "",
+        phone: "",
+        student_type: "zorvixe_core",
+        course_selection: "web_development",
+        batch_month: "",
+        batch_year: "",
+        password: "",
+        status: "active",
+      });
+      setEditingStudent(null);
+      fetchStudents();
+    } else {
+      throw new Error(
+        result.message || result.error || "Failed to save student"
+      );
+    }
+  } catch (error) {
+    console.error("❌ Error saving student:", error);
+    toast.error(error.message || "Failed to save student");
+  }
+};
 
   const showCreateModal = () => {
     setEditingStudent(null);
@@ -322,24 +348,41 @@ const StudentList = () => {
   };
 
   // 🔥 FIXED: Handle edit with course_selection
-  const handleEdit = (student) => {
-    console.log("Editing student:", student);
-    setEditingStudent(student);
-    setFormData({
-      student_id: student.student_id,
-      email: student.email,
-      first_name: student.first_name,
-      last_name: student.last_name,
-      phone: student.phone || "",
-      student_type: student.student_type || "zorvixe_core",
-      course_selection: student.course_selection || "web_development", // 🔥 FIXED
-      batch_month: student.batch_month || "",
-      batch_year: student.batch_year || "",
-      password: "",
-      status: student.status || "active",
-    });
-    setIsModalOpen(true);
-  };
+  // In StudentList.js - Update handleEdit function
+
+const handleEdit = (student) => {
+  console.log("✏️ Editing student with data:", student);
+  
+  // Log the course_selection value specifically
+  console.log("📚 Student course_selection value:", student.course_selection);
+  console.log("📚 Student course_selection type:", typeof student.course_selection);
+  
+  // Check if it's one of the valid values
+  const validCourses = ["web_development", "digital_marketing", "java_programming"];
+  const isValid = validCourses.includes(student.course_selection);
+  console.log("✅ Is valid course_selection?", isValid);
+  
+  // If not valid, what is it?
+  if (!isValid) {
+    console.log("⚠️ Invalid course_selection found, value:", student.course_selection);
+  }
+  
+  setEditingStudent(student);
+  setFormData({
+    student_id: student.student_id,
+    email: student.email,
+    first_name: student.first_name,
+    last_name: student.last_name,
+    phone: student.phone || "",
+    student_type: student.student_type || "zorvixe_core",
+    course_selection: student.course_selection || "web_development", // 🔥 FIXED
+    batch_month: student.batch_month || "",
+    batch_year: student.batch_year || "",
+    password: "",
+    status: student.status || "active",
+  });
+  setIsModalOpen(true);
+};
 
   const closeModal = () => {
     setIsModalOpen(false);

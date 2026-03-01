@@ -22,11 +22,13 @@ const Register = () => {
   });
 
   // Course options
-  const courseOptions = [
-    { value: "web_development", label: "Web Development" },
-    { value: "digital_marketing", label: "Digital Marketing" },
-    { value: "java_programming", label: "Java Programming" },
-  ];
+  // In Register.js - Line around 20-25
+// In Register.js - around line 20-25
+const courseOptions = [
+  { value: "web_development", label: "Web Development" },
+  { value: "digital_marketing", label: "Digital Marketing" },
+  { value: "java_programming", label: "Java Programming" }, // Make sure this is exactly "java_programming"
+];
 
   const [profileImage, setProfileImage] = useState(null);
   const [profileImagePreview, setProfileImagePreview] = useState("");

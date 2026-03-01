@@ -455,7 +455,24 @@ CHECK (student_type IN (
   ));
   `);
 
-  console.log("✅ Added course_selection column");
+  await pool.query(`
+       SELECT id, student_id, course_selection 
+FROM students 
+WHERE course_selection IS NULL 
+   OR course_selection NOT IN ('web_development', 'digital_marketing', 'java_programming');
+
+   -- Update NULL values to default
+UPDATE students 
+SET course_selection = 'web_development' 
+WHERE course_selection IS NULL;
+
+-- Update any other invalid values
+UPDATE students 
+SET course_selection = 'web_development' 
+WHERE course_selection NOT IN ('web_development', 'digital_marketing', 'java_programming');
+      `);
+
+
 
   const aiChatSessions = `
   CREATE TABLE IF NOT EXISTS ai_chat_sessions (
@@ -5731,20 +5748,23 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     }
 
     // Validate course_selection if provided
-    if (updateData.course_selection) {
-      const validCourses = [
-        "web_development",
-        "digital_marketing",
-        "java_programming",
-      ];
-      if (!validCourses.includes(updateData.course_selection)) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming", // ✅ FIXED
-        });
-      }
-    }
+  // In server.js - around line 2280 in the admin update student endpoint
+// The validation should be:
+
+if (updateData.course_selection) {
+  const validCourses = [
+    "web_development",
+    "digital_marketing",
+    "java_programming",
+  ];
+  if (!validCourses.includes(updateData.course_selection)) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming",
+    });
+  }
+}
 
     // Use for...of loop instead of forEach to handle async operations
     for (const field of allowedFields) {

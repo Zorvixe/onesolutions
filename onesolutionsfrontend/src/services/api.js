@@ -167,6 +167,28 @@ export const threadsAPI = {
   createReply: (replyData) => api.post("/api/threads/reply", replyData),
 };
 
+
+// ✅ NEW: Java Programming API methods
+export const javaAPI = {
+  // Student endpoints
+  getStudentCourses: () => api.get("/student/java/courses"),
+  enrollInCourse: (goalId) => api.post(`/student/java/courses/enroll/${goalId}`),
+  getAllCoursesStructure: () => api.get("/student/java/courses/all-structure"),
+
+  // Content endpoints
+  getContentByUuid: (contentUuid) => api.get(`/student/java/content/${contentUuid}`),
+  getCodingPractice: (practiceId) => api.get(`/student/java/coding-practice/${practiceId}`),
+  markContentComplete: (contentId, goalId, quizScore) =>
+    api.post("/student/java/content/complete", { contentId, goalId, quizScore }),
+  getCompletedContent: () => api.get("/student/java/completed-content"),
+  getGoalProgress: (goalId) => api.get(`/student/java/progress/goal/${goalId}`), // if needed
+
+  // Coding endpoints
+  runCode: (contentId, code) => api.post("/student/java/coding/run", { contentId, code }),
+  submitCode: (contentId, code) => api.post("/student/java/coding/submit", { contentId, code }),
+  completePractice: (practiceId) => api.post(`/student/java/coding-practice/${practiceId}/complete`),
+};
+
 // ✅ Health Check API
 export const healthCheck = () => api.get("/api/health");
 
