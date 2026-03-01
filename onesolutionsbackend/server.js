@@ -455,6 +455,12 @@ CHECK (student_type IN (
   ));
   `);
 
+   await pool.query(`
+  ALTER TABLE students
+DROP CONSTRAINT IF EXISTS students_course_selection_check;
+  `);
+
+
   await pool.query(`
        SELECT id, student_id, course_selection 
 FROM students 
