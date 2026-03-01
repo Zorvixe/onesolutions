@@ -16,7 +16,7 @@ export default function Courses() {
     calculateCourseProgress,
     calculateGoalProgress,
     refreshProgress,
-    user, // Assuming user object contains studentType
+    user, // Assuming user object contains studentType and selectedCourses
   } = useAuth();
 
   const [expandedGoal, setExpandedGoal] = useState(goalsData[0]?.id || null);
@@ -30,20 +30,27 @@ export default function Courses() {
   });
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
-  // Get student type from user context
+  // Get student type and selected courses from user context
   const studentType = user?.studentType || "zorvixe_core"; // Default to core if not specified
+  const selectedCourses = user?.selectedCourses || ["web_development"]; // Default selection
 
   // ✅ Filter goals based on student type
   const filteredGoals = goalsData.filter(
     (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
   );
 
-  // ✅ Filter courses based on student type
+  // ✅ Filter courses based on student type AND course selection
   const getFilteredCourses = (courses) => {
-    return courses.filter(
-      (course) =>
-        !course.accessibleTo || course.accessibleTo.includes(studentType)
-    );
+    return courses.filter((course) => {
+      // First check if course is accessible based on student type
+      const isAccessibleByType = !course.accessibleTo || course.accessibleTo.includes(studentType);
+      
+      // Then check if course is selected based on course_selection (if it exists)
+      const isSelectedByCourse = !course.course_selection || 
+        course.course_selection.some(selection => selectedCourses.includes(selection));
+      
+      return isAccessibleByType && isSelectedByCourse;
+    });
   };
 
   // ✅ Filter modules based on student type
@@ -324,14 +331,15 @@ export default function Courses() {
     alert("This content is locked.");
   };
 
-  // Debug info for student type
+  // Debug info for student type and selected courses
   console.log("Current student type:", studentType);
+  console.log("Current selected courses:", selectedCourses);
 
   return (
     <div
       className="courses-container"
       style={{ marginTop: "50px" }}
-      key={`courses-${lastUpdateTime}-${studentType}`}
+      key={`courses-${lastUpdateTime}-${studentType}-${selectedCourses.join("-")}`}
     >
       {/* Debug info */}
       <div style={{ display: "none" }}>
@@ -340,6 +348,8 @@ export default function Courses() {
         Completed count: {completedContent?.length || 0}
         <br />
         Student type: {studentType}
+        <br />
+        Selected courses: {selectedCourses.join(", ")}
       </div>
 
       {/* Goals List */}
@@ -396,7 +406,7 @@ export default function Courses() {
                 {!locked && accessibleCourses.length === 0 ? (
                   <div className="no-courses">
                     <h4>No courses found</h4>
-                    <p>You don't have any accessible courses in this goal.</p>
+                    <p>You don't have any accessible courses in this goal based on your student type and course selections.</p>
                   </div>
                 ) : (
                   accessibleCourses.map((course) => {

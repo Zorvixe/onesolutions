@@ -825,6 +825,7 @@ export const goalsData = [
         title: "Programming Foundations: Python",
         progress: 0,
         accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+        course_selection:["web_development"],
         modules: [
           {
             id: "QW9_m1_A0 g1_H c3_7B",
