@@ -454,17 +454,7 @@ CHECK (student_type IN (
     'java_programming'
   ));
   `);
-  await pool.query(`
-  ALTER TABLE students
-ADD CONSTRAINT students_course_selection_check
-CHECK (
-  course_selection IN (
-    'web_development',
-    'digital_marketing',
-    'java_programming'
-  )
-);
-  `);
+  
 
   
 
