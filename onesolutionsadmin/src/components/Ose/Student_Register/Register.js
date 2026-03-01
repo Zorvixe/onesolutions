@@ -15,7 +15,7 @@ const Register = () => {
     lastName: "",
     phone: "",
     studentType: "zorvixe_core",
-    courseSelection: "web_development",
+    course_selection: "web_development",
     batchMonth: "",
     batchYear: new Date().getFullYear(),
     isCurrentBatch: false,
@@ -176,10 +176,10 @@ const courseOptions = [
 
     // Course selection validation
     const validCourses = ["web_development", "digital_marketing", "java_programming"]; // 🔥 UPDATE THIS
-    if (!formData.courseSelection) {
-      errors.courseSelection = "Course selection is required";
-    } else if (!validCourses.includes(formData.courseSelection)) {
-      errors.courseSelection = "Please select a valid course";
+    if (!formData.course_selection) {
+      errors.course_selection = "Course selection is required";
+    } else if (!validCourses.includes(formData.course_selection)) {
+      errors.course_selection = "Please select a valid course";
     }
 
     setValidationErrors(errors);
@@ -228,7 +228,7 @@ const courseOptions = [
         firstName: formData.firstName,
         lastName: formData.lastName,
         studentType: formData.studentType,
-        courseSelection: formData.courseSelection,
+        course_selection: formData.course_selection,
         batchMonth: formData.batchMonth,
         batchYear: formData.batchYear,
         isCurrentBatch: formData.isCurrentBatch,
@@ -270,10 +270,10 @@ const courseOptions = [
           profileImage: student.profileImage || student.profile_image,
           studentType:
             student.studentType || student.student_type || formData.studentType,
-          courseSelection:
-            student.courseSelection ||
+          course_selection:
             student.course_selection ||
-            formData.courseSelection,
+            student.course_selection ||
+            formData.course_selection,
           batchMonth:
             student.batchMonth || student.batch_month || formData.batchMonth,
           batchYear:
@@ -299,7 +299,7 @@ const courseOptions = [
         console.log("✅ Registration successful:", {
           email: userData.email,
           studentType: userData.studentType,
-          courseSelection: userData.courseSelection,
+          course_selection: userData.course_selection,
         });
 
         // Redirect to login after a short delay
@@ -653,7 +653,7 @@ const courseOptions = [
                   <div
                     key={course.value}
                     className={`course-option ${
-                      formData.courseSelection === course.value
+                      formData.course_selection === course.value
                         ? "selected"
                         : ""
                     }`}
@@ -661,19 +661,19 @@ const courseOptions = [
                       if (!isSubmitting) {
                         setFormData((prev) => ({
                           ...prev,
-                          courseSelection: course.value,
+                          course_selection: course.value,
                         }));
-                        if (validationErrors.courseSelection) {
+                        if (validationErrors.course_selection) {
                           setValidationErrors((prev) => ({
                             ...prev,
-                            courseSelection: "",
+                            course_selection: "",
                           }));
                         }
                       }
                     }}
                     style={{
                       borderColor:
-                        formData.courseSelection === course.value
+                        formData.course_selection === course.value
                           ? getCourseColor(course.value)
                           : "#e0e0e0",
                     }}
@@ -681,9 +681,9 @@ const courseOptions = [
                     <div className="course-radio">
                       <input
                         type="radio"
-                        name="courseSelection"
+                        name="course_selection"
                         value={course.value}
-                        checked={formData.courseSelection === course.value}
+                        checked={formData.course_selection === course.value}
                         onChange={handleChange}
                         disabled={isSubmitting}
                         id={`course-${course.value}`}
@@ -692,7 +692,7 @@ const courseOptions = [
                         className="radio-custom"
                         style={{
                           borderColor:
-                            formData.courseSelection === course.value
+                            formData.course_selection === course.value
                               ? getCourseColor(course.value)
                               : "#ccc",
                         }}
@@ -710,9 +710,9 @@ const courseOptions = [
                   </div>
                 ))}
               </div>
-              {validationErrors.courseSelection && (
+              {validationErrors.course_selection && (
                 <span className="error-text">
-                  {validationErrors.courseSelection}
+                  {validationErrors.course_selection}
                 </span>
               )}
             </div>

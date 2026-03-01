@@ -981,8 +981,9 @@ async function sendOtpEmail(email, otp, purpose) {
 
     try {
       const mailOptions = {
-        from: `"OneSolutians" <${process.env.SMTP_USER || "onesolutionsekam@gmail.com"
-          }>`,
+        from: `"OneSolutians" <${
+          process.env.SMTP_USER || "onesolutionsekam@gmail.com"
+        }>`,
         to: email,
         subject: `${purpose} OTP Verification - OneSolutians`,
         html: `
@@ -1811,7 +1812,7 @@ app.post(
           batchYear: student.batch_year,
         },
         process.env.JWT_SECRET ||
-        "your-fallback-secret-key-for-development-only-change-in-production",
+          "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -2185,8 +2186,8 @@ app.get("/api/progress/summary", auth, async (req, res) => {
       const progressPercentage =
         row.total_content > 0
           ? Math.round(
-            (Number(row.completed_content) / Number(row.total_content)) * 100
-          )
+              (Number(row.completed_content) / Number(row.total_content)) * 100
+            )
           : 0;
 
       if (row.goal_name) {
@@ -2338,10 +2339,10 @@ app.get("/api/progress/summary", auth, async (req, res) => {
       progressPercentage:
         Number.parseInt(row.total_content) > 0
           ? Math.round(
-            (Number.parseInt(row.completed_content) /
-              Number.parseInt(row.total_content)) *
-            100
-          )
+              (Number.parseInt(row.completed_content) /
+                Number.parseInt(row.total_content)) *
+                100
+            )
           : 0,
     }));
 
@@ -2936,7 +2937,7 @@ app.post(
           batchYear: student.batch_year,
         },
         process.env.JWT_SECRET ||
-        "your-fallback-secret-key-for-development-only-change-in-production",
+          "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -3049,7 +3050,7 @@ app.post(
           batchYear: student.batch_year,
         },
         process.env.JWT_SECRET ||
-        "your-fallback-secret-key-for-development-only-change-in-production",
+          "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -3937,8 +3938,8 @@ RETURNING *
               const skillsArray = Array.isArray(project.skills)
                 ? project.skills
                 : project.skills
-                  ? [project.skills]
-                  : [];
+                ? [project.skills]
+                : [];
 
               await pool.query(
                 `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
@@ -5167,8 +5168,9 @@ app.get("/api/admin/feedback", async (req, res) => {
       paramCount++;
     }
 
-    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
-      }`;
+    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(limit, offset);
 
     const result = await pool.query(query, queryParams);
@@ -5217,7 +5219,7 @@ app.get("/api/admin/feedback", async (req, res) => {
 
     const avgResult = await pool.query(
       avgRatingsQuery.split("WHERE")[0] +
-      (countParams.length > 0 ? "WHERE " + countQuery.split("WHERE")[1] : ""),
+        (countParams.length > 0 ? "WHERE " + countQuery.split("WHERE")[1] : ""),
       countParams
     );
 
@@ -5551,8 +5553,9 @@ app.get("/api/admin/students", async (req, res) => {
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
-      }`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -5694,11 +5697,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     const { studentId } = req.params;
     const updateData = req.body;
 
-    // 🔥 Normalize camelCase → snake_case
-    if (updateData.courseSelection !== undefined) {
-      updateData.course_selection = updateData.courseSelection;
-      delete updateData.courseSelection;
-    }
+    console.log(`Updating student ${studentId} with data:`, updateData);
 
     // Check if student exists
     const existingStudent = await pool.query(
@@ -5713,10 +5712,12 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       });
     }
 
+    // Build dynamic update query
     const updateFields = [];
     const updateValues = [];
     let paramCount = 1;
 
+    // 🔥 FIXED: Add course_selection to allowed fields
     const allowedFields = [
       "student_id",
       "email",
@@ -5734,7 +5735,7 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       "password",
     ];
 
-    // Validate student_type
+    // Validate student_type if provided
     if (updateData.student_type) {
       const validTypes = ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"];
       if (!validTypes.includes(updateData.student_type)) {
@@ -5746,25 +5747,29 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       }
     }
 
-    // Validate course_selection
-    if (updateData.course_selection !== undefined) {
-      const validCourses = [
-        "web_development",
-        "digital_marketing",
-        "java_programming",
-      ];
+    // Validate course_selection if provided
+  // In server.js - around line 2280 in the admin update student endpoint
+// The validation should be:
 
-      if (!validCourses.includes(updateData.course_selection)) {
-        return res.status(400).json({
-          success: false,
-          message:
-            "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming",
-        });
-      }
-    }
+if (updateData.course_selection) {
+  const validCourses = [
+    "web_development",
+    "digital_marketing",
+    "java_programming",
+  ];
+  if (!validCourses.includes(updateData.course_selection)) {
+    return res.status(400).json({
+      success: false,
+      message:
+        "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming",
+    });
+  }
+}
 
+    // Use for...of loop instead of forEach to handle async operations
     for (const field of allowedFields) {
       if (updateData[field] !== undefined) {
+        // Hash password if it's being updated
         if (field === "password" && updateData[field]) {
           const hashedPassword = await bcrypt.hash(updateData[field], 10);
           updateFields.push(`${field} = $${paramCount}`);
@@ -5784,11 +5789,14 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
       });
     }
 
+    // Add updated_at timestamp
     updateFields.push(`updated_at = CURRENT_TIMESTAMP`);
+
+    // Add student ID as the last parameter
     updateValues.push(studentId);
 
     const updateQuery = `
-      UPDATE students
+      UPDATE students 
       SET ${updateFields.join(", ")}
       WHERE id = $${paramCount}
       RETURNING *
@@ -5798,15 +5806,15 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     const updatedStudent = result.rows[0];
 
     const baseUrl =
-      process.env.BACKEND_URL ||
-      `http://localhost:${process.env.PORT || 5002}`;
+      process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5002}`;
 
     const studentResponse = {
       ...updatedStudent,
       profileImage: updatedStudent.profile_image
         ? `${baseUrl}${updatedStudent.profile_image}`
         : null,
-      fullName: `${updatedStudent.first_name} ${updatedStudent.last_name}`.trim(),
+      fullName:
+        `${updatedStudent.first_name} ${updatedStudent.last_name}`.trim(),
     };
 
     res.json({
@@ -5962,8 +5970,9 @@ app.get("/api/admin/class-videos", async (req, res) => {
       paramCount++;
     }
 
-    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
-      }`;
+    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${
+      paramCount + 1
+    }`;
     queryParams.push(Number.parseInt(limit), offset);
 
     const videosResult = await pool.query(baseQuery, queryParams);
@@ -6381,8 +6390,9 @@ app.patch(
 
       res.json({
         success: true,
-        message: `Video ${result.rows[0].is_active ? "activated" : "deactivated"
-          } successfully`,
+        message: `Video ${
+          result.rows[0].is_active ? "activated" : "deactivated"
+        } successfully`,
         data: { video: result.rows[0] },
       });
     } catch (error) {
@@ -6907,23 +6917,29 @@ function detectCategory(message) {
 
 function prepareAIContext(content, questions, student) {
   let context = `STUDENT CONTEXT:\n`;
-  context += `- Name: ${student?.first_name || "Student"} ${student?.last_name || ""
-    }\n`;
-  context += `- Batch: ${student?.batch_month || ""} ${student?.batch_year || ""
-    }\n`;
-  context += `- Current Level: ${student?.current_coding_level || "Not specified"
-    }\n`;
-  context += `- Technical Skills: ${student?.technical_skills?.join(", ") || "Not specified"
-    }\n`;
-  context += `- Job Search Status: ${student?.job_search_status || "Not specified"
-    }\n\n`;
+  context += `- Name: ${student?.first_name || "Student"} ${
+    student?.last_name || ""
+  }\n`;
+  context += `- Batch: ${student?.batch_month || ""} ${
+    student?.batch_year || ""
+  }\n`;
+  context += `- Current Level: ${
+    student?.current_coding_level || "Not specified"
+  }\n`;
+  context += `- Technical Skills: ${
+    student?.technical_skills?.join(", ") || "Not specified"
+  }\n`;
+  context += `- Job Search Status: ${
+    student?.job_search_status || "Not specified"
+  }\n\n`;
 
   context += `RELEVANT LEARNING CONTENT:\n`;
 
   if (content && content.length > 0) {
     content.forEach((item, index) => {
-      context += `${index + 1}. [${item.category}] ${item.title
-        }: ${item.content.substring(0, 200)}...\n`;
+      context += `${index + 1}. [${item.category}] ${
+        item.title
+      }: ${item.content.substring(0, 200)}...\n`;
     });
   } else {
     context += "No direct content matches found.\n";
@@ -6932,8 +6948,9 @@ function prepareAIContext(content, questions, student) {
   context += "\nSIMILAR PREVIOUS QUESTIONS:\n";
   if (questions && questions.length > 0) {
     questions.forEach((q, index) => {
-      context += `${index + 1}. Q: ${q.question}\n   A: ${q.answer?.substring(0, 150) || "No answer yet"
-        }...\n`;
+      context += `${index + 1}. Q: ${q.question}\n   A: ${
+        q.answer?.substring(0, 150) || "No answer yet"
+      }...\n`;
     });
   } else {
     context += "No similar questions found.\n";
@@ -7149,8 +7166,8 @@ app.post("/api/admin/ai-content", async (req, res) => {
     const keywordsArray = Array.isArray(keywords)
       ? keywords
       : keywords
-        ? keywords.split(",").map((k) => k.trim())
-        : [];
+      ? keywords.split(",").map((k) => k.trim())
+      : [];
 
     let result;
     if (id) {
@@ -7614,7 +7631,8 @@ const PORT = process.env.PORT || 5002;
         `🔗 CORS Origin: ${process.env.FRONTEND_URL || "http://localhost:3000"}`
       );
       console.log(
-        `📧 Email Service: ${process.env.SMTP_USER ? "Configured" : "Not configured"
+        `📧 Email Service: ${
+          process.env.SMTP_USER ? "Configured" : "Not configured"
         }`
       );
       console.log(`📁 Upload directory: ${uploadsDir}`);
