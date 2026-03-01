@@ -35,6 +35,14 @@ import DigitalClasses from "./DigitalMarketing/Pages/digitalClasses";
 import DigitalCheatsheet from "./DigitalMarketing/Pages/digitalCheatSheet";
 import DigitalMcqs from "./DigitalMarketing/Pages/digitalMcqs";
 
+// Java Programming Imports
+import JavaCourses from "./JavaProgramming/JavaCourses/javaCourses";
+import JavaSubtopicPage from "./JavaProgramming/JavaSubtopicPage/javaSubtopicPage";
+import JavaClasses from "./JavaProgramming/Pages/javaClasses";
+import JavaCheatsheet from "./JavaProgramming/Pages/javaCheatSheet";
+import JavaMcqs from "./JavaProgramming/Pages/javaMcqs";
+import JavaCodingPractice from "./JavaProgramming/Pages/javaCodingPractice";
+
 import "./App.css";
 
 /* -------------------------
@@ -58,6 +66,7 @@ function AppWrapper() {
   const getCoursesLanding = () => {
     if (courseSelection === "web_development") return "/web-courses";
     if (courseSelection === "digital_marketing") return "/digital-courses";
+    if (courseSelection === "java_programming") return "/java-courses";
     return "/courses-toggle"; // for "all"
   };
 
@@ -82,18 +91,23 @@ function AppWrapper() {
           {/* Direct course routes */}
           <Route path="/web-courses" element={<Courses />} />
           <Route path="/digital-courses" element={<DigitalCourses />} />
+          <Route path="/java-courses" element={<JavaCourses />} />
 
           {/* Toggle ONLY for "all" users */}
           <Route path="/courses-toggle" element={<CoursesToggle />} />
 
-          {/* UUID Content Routes - Both Web and Digital */}
+          {/* UUID Content Routes - Web, Digital, Java */}
           <Route path="/content/:contentUuid" element={<SubtopicPage />} />
           <Route
             path="/digital/content/:contentUuid"
             element={<DigitalSubtopicPage />}
           />
+          <Route
+            path="/java/content/:contentUuid"
+            element={<JavaSubtopicPage />}
+          />
 
-          {/* Legacy Routes - Both Web and Digital */}
+          {/* Legacy Routes - Web, Digital, Java */}
           <Route
             path="/topic/:topicId/subtopic/:subtopicId"
             element={<SubtopicPage />}
@@ -101,6 +115,10 @@ function AppWrapper() {
           <Route
             path="/digital/topic/:topicId/subtopic/:subtopicId"
             element={<DigitalSubtopicPage />}
+          />
+          <Route
+            path="/java/topic/:topicId/subtopic/:subtopicId"
+            element={<JavaSubtopicPage />}
           />
 
           {/* Digital Content Type Routes */}
@@ -113,6 +131,18 @@ function AppWrapper() {
             element={<DigitalCheatsheet />}
           />
           <Route path="/digital/mcq/:contentUuid" element={<DigitalMcqs />} />
+
+          {/* Java Content Type Routes */}
+          <Route path="/java/class/:contentUuid" element={<JavaClasses />} />
+          <Route
+            path="/java/cheatsheet/:contentUuid"
+            element={<JavaCheatsheet />}
+          />
+          <Route path="/java/mcq/:contentUuid" element={<JavaMcqs />} />
+          <Route
+            path="/java/coding/:contentUuid"
+            element={<JavaCodingPractice />}
+          />
 
           <Route path="/practice" element={<Practice />} />
           <Route path="/practice/:practiceId" element={<Practice />} />
@@ -146,15 +176,6 @@ function AppWrapper() {
           <Route path="/codeGround" element={<CodeGround />} />
           <Route path="/thread/:threadId" element={<ThreadDetail />} />
           <Route path="/BroOne" element={<AiApp />} />
-
-          <Route
-            path="/web-practice-exam/:practiceId"
-            element={<WebPracticeExam />}
-          />
-          <Route
-            path="/web-practice-exam/:practiceId/:questionId"
-            element={<WebPracticeExamQuestion />}
-          />
 
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
@@ -200,6 +221,16 @@ const CoursesToggle = () => {
           }}
         >
           📱 Digital Marketing
+        </button>
+
+        <button
+          className={`tab-button ${activeTab === "java" ? "active" : ""}`}
+          onClick={() => {
+            setActiveTab("java");
+            navigate("/java-courses");
+          }}
+        >
+          ☕ Java Programming
         </button>
       </div>
     </div>

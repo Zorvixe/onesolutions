@@ -7,8 +7,7 @@ import {
   useEffect,
   useCallback,
 } from "react";
-import { authAPI, progressAPI, digitalMarketingAPI } from "../services/api";
-
+import { authAPI, progressAPI, digitalMarketingAPI, javaAPI } from "../services/api";
 const AuthContext = createContext();
 
 export const useAuth = () => {

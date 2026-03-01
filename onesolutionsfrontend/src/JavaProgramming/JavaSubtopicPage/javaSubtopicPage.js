@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "../../SubtopicsPage/SubtopicPage.css";
-import JavaClasses from "./javaClasses";
-import JavaCheatSheet from "./javaCheatSheet";
-import JavaMcqs from "./javaMcqs";
-import JavaCodingPractice from "./javaCodingPractice";
+import JavaClasses from "../Pages/javaClasses";
+import JavaCheatSheet from "../Pages/javaCheatSheet";
+import JavaMcqs from "../Pages/javaMcqs";
+import JavaCodingPractice from "../Pages/javaCodingPractice";
 
 const JavaSubtopicPage = () => {
   const { contentUuid, practiceId } = useParams();

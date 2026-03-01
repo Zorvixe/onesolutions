@@ -192,6 +192,7 @@ const JavaVideoUploadModal = ({
 
         <form onSubmit={handleSubmit} className="video-upload-form">
           <div className="video-upload-two-column">
+            {/* Left Column - Form Fields */}
             <div className="video-upload-left">
               <div className="video-upload-field">
                 <label className="video-upload-label">Video Title *</label>
@@ -211,14 +212,16 @@ const JavaVideoUploadModal = ({
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="video-upload-textarea"
-                  placeholder="Brief description of this video..."
+                  placeholder="Describe what this video covers..."
                   rows="3"
                 />
               </div>
 
               {!isEditing && (
                 <div className="video-upload-field">
-                  <label className="video-upload-label">Duration (minutes)</label>
+                  <label className="video-upload-label">
+                    Duration (minutes)
+                  </label>
                   <div className="video-upload-duration-wrapper">
                     <Clock className="video-upload-duration-icon" />
                     <input
@@ -271,6 +274,7 @@ const JavaVideoUploadModal = ({
               </div>
             </div>
 
+            {/* Right Column - Video Uploader */}
             <div className="video-upload-right">
               {isEditing ? (
                 <div

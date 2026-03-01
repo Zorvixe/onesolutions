@@ -41,7 +41,7 @@ const Navbar = () => {
     return typeConfig[studentType] || typeConfig.zorvixe_core;
   };
 
-  // 🔥 NEW: Get course badge
+  // 🔥 UPDATED: Get course badge (added Java Programming)
   const getCourseBadge = (course) => {
     const courseConfig = {
       web_development: {
@@ -55,6 +55,12 @@ const Navbar = () => {
         bg: "#fff7ed",
         label: "Digital Marketing",
         shortLabel: "Digi Mkt",
+      },
+      java_programming: {
+        color: "#b91c1c",
+        bg: "#fee2e2",
+        label: "Java Programming",
+        shortLabel: "Java",
       },
     };
     return courseConfig[course] || courseConfig.web_development;
@@ -178,8 +184,9 @@ const Navbar = () => {
           </NavLink>
         </li>
 
+        {/* Only show Practice for Web Dev (existing logic) */}
         {courseInfo.shortLabel === "Web Dev" && (
-            <li>
+          <li>
             <NavLink
               to="/practice"
               className={({ isActive }) =>
@@ -190,7 +197,6 @@ const Navbar = () => {
             </NavLink>
           </li>
         )}
-      
       </ul>
 
       {showMobileMenu && (
@@ -227,17 +233,20 @@ const Navbar = () => {
                 <i className="bi bi-journal-bookmark"></i> Courses
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/practice"
-                className={({ isActive }) =>
-                  isActive ? "active practice" : "practice"
-                }
-                onClick={() => setShowMobileMenu(false)}
-              >
-                <i className="bi bi-pencil-square"></i> Practice
-              </NavLink>
-            </li>
+            {/* Practice link in mobile - still only for Web Dev (you may adjust later) */}
+            {courseInfo.shortLabel === "Web Dev" && (
+              <li>
+                <NavLink
+                  to="/practice"
+                  className={({ isActive }) =>
+                    isActive ? "active practice" : "practice"
+                  }
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <i className="bi bi-pencil-square"></i> Practice
+                </NavLink>
+              </li>
+            )}
             <li>
               <NavLink
                 to="/codeGround"
@@ -258,7 +267,7 @@ const Navbar = () => {
               </button>
             </li>
 
-            {/* 🔥 FIXED: Display both Student Type and Course in mobile menu */}
+            {/* 🔥 UPDATED: Display both Student Type and Course in mobile menu (includes Java) */}
             <li className="mobile-student-type-badge">
               <div className="student-type-mobile">
                 <span
@@ -314,14 +323,13 @@ const Navbar = () => {
       )}
 
       <div className="nav_right">
-
-        
-      {courseInfo.shortLabel === "Web Dev" && (
-           <li className="nav_c_btn">
-           <Link to="/codeGround">Code Playground</Link>
-         </li>
+        {/* Code Playground link - only for Web Dev (existing logic) */}
+        {courseInfo.shortLabel === "Web Dev" && (
+          <li className="nav_c_btn">
+            <Link to="/codeGround">Code Playground</Link>
+          </li>
         )}
-        
+
         <div className="help-earn">
           <div className="help-earn-wrapper">
             <button
@@ -405,7 +413,7 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* 🔥 FIXED: Profile header with both badges */}
+          {/* 🔥 UPDATED: Profile header with both badges (Java automatically included) */}
           <div className="profile-header-wrapper">
             {user.profileImage ? (
               <img
@@ -488,7 +496,7 @@ const Navbar = () => {
                   <p className="status">
                     {user.batchMonth} {user.batchYear}
                   </p>
-                  {/* 🔥 FIXED: Display both Student Type and Course in profile dropdown */}
+                  {/* 🔥 UPDATED: Display both Student Type and Course in profile dropdown (with Java icon) */}
                   <div
                     className="profile-student-type"
                     style={{
@@ -534,14 +542,18 @@ const Navbar = () => {
                           style={{ marginRight: "4px" }}
                         ></i>
                       )}
-
                       {courseInfo.shortLabel === "Digi Mkt" && (
                         <i
                           className="bi bi-shop-window"
                           style={{ marginRight: "4px" }}
                         ></i>
                       )}
-
+                      {courseInfo.shortLabel === "Java" && (
+                        <i
+                          className="bi bi-cpu"
+                          style={{ marginRight: "4px" }}
+                        ></i>
+                      )}
                       {courseInfo.shortLabel}
                     </span>
                   </div>

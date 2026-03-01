@@ -455,9 +455,6 @@ CHECK (student_type IN (
   ));
   `);
   
-
-  
-
   await pool.query(`
        SELECT id, student_id, course_selection 
 FROM students 
@@ -474,8 +471,6 @@ UPDATE students
 SET course_selection = 'web_development' 
 WHERE course_selection NOT IN ('web_development', 'digital_marketing', 'java_programming');
       `);
-
-
 
   const aiChatSessions = `
   CREATE TABLE IF NOT EXISTS ai_chat_sessions (

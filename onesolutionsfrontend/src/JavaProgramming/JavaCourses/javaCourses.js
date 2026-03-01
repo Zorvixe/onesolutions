@@ -21,9 +21,8 @@ export default function JavaCourses() {
   const [localProgress, setLocalProgress] = useState({});
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
-  const courseSelection = user?.courseSelection || "web_development";
-  const hasJavaAccess = courseSelection === "web_development" || courseSelection === "all";
-
+  const courseSelection = user?.courseSelection;
+  const hasJavaAccess = courseSelection === "java_programming" || courseSelection === "all";
   useEffect(() => {
     if (hasJavaAccess) {
       loadJavaAllStructure().catch(console.error);
@@ -233,7 +232,7 @@ export default function JavaCourses() {
                         <h4>{module.name}</h4>
                         <div className="progress-section_module">
                           <div className={`circular-progress ${moduleProgress >= 100 ? "completed" : ""}`}
-                               style={{ "--progress": moduleProgress }}>
+                            style={{ "--progress": moduleProgress }}>
                             <span className="progress-value">{moduleProgress.toFixed(1)}%</span>
                           </div>
                         </div>
@@ -256,7 +255,7 @@ export default function JavaCourses() {
                                   <div className="timeline">
                                     <div className="circle-row module-circle-row">
                                       <div className={`circle module-circle ${topicProgress >= 100 ? "completed" : ""}`}
-                                           style={{ "--progress": `${topicProgress}%` }}>
+                                        style={{ "--progress": `${topicProgress}%` }}>
                                         {topicProgress >= 100 ? "✓" : ""}
                                       </div>
                                     </div>
@@ -266,7 +265,7 @@ export default function JavaCourses() {
                                           ...(sub.content || []).map((c) => (
                                             <div className="circle-row subtopic-circle-row" key={c.id}>
                                               <div className={`circle subtopic-circle ${checkIsContentCompleted(c) ? "completed" : ""}`}
-                                                   onClick={(e) => { e.stopPropagation(); handleContentClick(c, goal, module, topic, sub); }}>
+                                                onClick={(e) => { e.stopPropagation(); handleContentClick(c, goal, module, topic, sub); }}>
                                                 {checkIsContentCompleted(c) ? "✓" : ""}
                                               </div>
                                             </div>
@@ -274,7 +273,7 @@ export default function JavaCourses() {
                                           ...(sub.coding_practices || []).map((p) => (
                                             <div className="circle-row practice-circle-row" key={p.id}>
                                               <div className={`circle practice-circle ${p.is_completed ? "completed" : ""}`}
-                                                   onClick={(e) => { e.stopPropagation(); handlePracticeClick(p, goal, module, topic, sub); }}>
+                                                onClick={(e) => { e.stopPropagation(); handlePracticeClick(p, goal, module, topic, sub); }}>
                                                 {p.is_completed ? "✓" : "⚙"}
                                               </div>
                                             </div>
@@ -306,8 +305,8 @@ export default function JavaCourses() {
                                           <div key={sub.id}>
                                             {sub.content?.map((c) => (
                                               <div className={`subtopic-content-row ${checkIsContentCompleted(c) ? "completed" : ""}`}
-                                                   key={c.id}
-                                                   onClick={() => handleContentClick(c, goal, module, topic, sub)}>
+                                                key={c.id}
+                                                onClick={() => handleContentClick(c, goal, module, topic, sub)}>
                                                 <span className="subtopic-text">
                                                   {c.video_title || c.cheatsheet_title || c.mcq_title || c.coding_title || sub.name}
                                                 </span>
@@ -315,8 +314,8 @@ export default function JavaCourses() {
                                             ))}
                                             {sub.coding_practices?.map((p) => (
                                               <div className={`subtopic-content-row practice-row ${p.is_completed ? "completed" : ""}`}
-                                                   key={p.id}
-                                                   onClick={() => handlePracticeClick(p, goal, module, topic, sub)}>
+                                                key={p.id}
+                                                onClick={() => handlePracticeClick(p, goal, module, topic, sub)}>
                                                 <span className="subtopic-text practice-title">
                                                   {p.title} (Practice)
                                                 </span>
