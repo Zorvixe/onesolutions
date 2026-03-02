@@ -43,7 +43,7 @@ export default function Pricing() {
               <div className="pricing_card_digital_marketing">
                 <div className="pricing_header_digital_marketing">
                   <h3>Offline Program</h3>
-                  <div className="price_amount_digital_marketing">₹24,999</div>
+                  <div className="price_amount_digital_marketing">₹20,999</div>
                   <p className="price_description_digital_marketing">
                     Classroom-based intensive training
                   </p>
@@ -77,7 +77,7 @@ export default function Pricing() {
                 <div className="featured_badge_digital_marketing">Most Popular</div>
                 <div className="pricing_header_digital_marketing">
                   <h3>Online Program</h3>
-                  <div className="price_amount_digital_marketing">₹19,999</div>
+                  <div className="price_amount_digital_marketing">₹15,999</div>
                   <p className="price_description_digital_marketing">
                     Flexible online learning experience
                   </p>
@@ -141,7 +141,7 @@ export default function Pricing() {
               <div className="pricing_card_full_stack">
                 <div className="pricing_header_full_stack">
                   <h3>Offline Program</h3>
-                  <div className="price_amount_full_stack">₹31,999</div>
+                  <div className="price_amount_full_stack">₹25,999</div>
                   <p className="price_description_full_stack">
                     Classroom-based intensive training
                   </p>
@@ -175,7 +175,7 @@ export default function Pricing() {
                 <div className="featured_badge_full_stack">Most Popular</div>
                 <div className="pricing_header_full_stack">
                   <h3>Online Program</h3>
-                  <div className="price_amount_full_stack">₹26,999</div>
+                  <div className="price_amount_full_stack">₹22,999</div>
                   <p className="price_description_full_stack">
                     Flexible online learning experience
                   </p>
@@ -239,7 +239,7 @@ export default function Pricing() {
               <div className="pricing_card_data_analyst">
                 <div className="pricing_header_data_analyst">
                   <h3>Offline Program</h3>
-                  <div className="price_amount_data_analyst">₹28,999</div>
+                  <div className="price_amount_data_analyst">₹15,999</div>
                   <p className="price_description_data_analyst">
                     Classroom-based intensive training
                   </p>
@@ -273,7 +273,7 @@ export default function Pricing() {
                 <div className="featured_badge_data_analyst">Most Popular</div>
                 <div className="pricing_header_data_analyst">
                   <h3>Online Program</h3>
-                  <div className="price_amount_data_analyst">₹22,999</div>
+                  <div className="price_amount_data_analyst">₹12,499</div>
                   <p className="price_description_data_analyst">
                     Flexible online learning experience
                   </p>

@@ -713,7 +713,7 @@ const DigitalMarketingStrategy = {
             <div className="pricing_card_digital_marketing">
               <div className="pricing_header_digital_marketing">
                 <h3>Offline Program</h3>
-                <div className="price_amount_digital_marketing">₹24,999</div>
+                <div className="price_amount_digital_marketing">₹20,999</div>
                 <p className="price_description_digital_marketing">
                   Classroom-based intensive training
                 </p>
@@ -751,7 +751,7 @@ const DigitalMarketingStrategy = {
               </div>
               <div className="pricing_header_digital_marketing">
                 <h3>Online Program</h3>
-                <div className="price_amount_digital_marketing">₹19,999</div>
+                <div className="price_amount_digital_marketing">₹15,999</div>
                 <p className="price_description_digital_marketing">
                   Flexible online learning experience
                 </p>
@@ -886,7 +886,7 @@ const DigitalMarketingStrategy = {
               Ready to Launch Your Marketing Career?
             </h2>
             <p className="cta_subtitle_digital_marketing">
-              Join the next batch starting <strong>November 15th, 2025</strong>
+              Join the next batch starting <strong>March 25th, 2026</strong>
             </p>
             <div className="cta_urgency_digital_marketing">
               <span className="urgency_text_digital_marketing">

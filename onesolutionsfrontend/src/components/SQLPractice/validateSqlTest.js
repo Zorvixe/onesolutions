@@ -1120,7 +1120,7 @@ const handleSelect = (sql, questionData) => {
         // 1️⃣ Handle strftime("%Y", column) = "2018"
         // ----------------------------------
         const yearMatch = condition.match(
-          /strftime\("%Y",\s*(\w+)\)\s*(>=|<=|>|<|=)\s*["'](\d{4})["']/i
+          /strftime\("%Y",\s*(?:\w+\.)?(\w+)\)\s*(>=|<=|>|<|=)\s*["'](\d{4})["']/i
         );
 
         if (yearMatch) {

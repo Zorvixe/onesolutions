@@ -673,7 +673,7 @@ print(result)`}
             <div className="pricing_card_data_analyst">
               <div className="pricing_header_data_analyst">
                 <h3>Offline Program</h3>
-                <div className="price_amount_data_analyst">₹28,999</div>
+                <div className="price_amount_data_analyst">₹15,999</div>
                 <p className="price_description_data_analyst">
                   Classroom-based intensive training
                 </p>
@@ -709,7 +709,7 @@ print(result)`}
               <div className="featured_badge_data_analyst">Most Popular</div>
               <div className="pricing_header_data_analyst">
                 <h3>Online Program</h3>
-                <div className="price_amount_data_analyst">₹22,999</div>
+                <div className="price_amount_data_analyst">₹10,999</div>
                 <p className="price_description_data_analyst">
                   Flexible online learning experience
                 </p>
@@ -843,7 +843,7 @@ print(result)`}
               Ready to Launch Your Data Career?
             </h2>
             <p className="cta_subtitle_data_analyst">
-              Join the next batch starting <strong>December 10th, 2025</strong>
+              Join the next batch starting <strong>March 25th, 2026</strong>
             </p>
             <div className="cta_urgency_data_analyst">
               <span className="urgency_text_data_analyst">

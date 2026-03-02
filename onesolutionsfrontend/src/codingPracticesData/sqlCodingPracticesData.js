@@ -13254,7 +13254,7 @@ export const sqlCodingPracticesData = {
                </h6>
              </div>
              <ul>
-             <li>Solving this problem involves performing inner join onreviewandcoursetables.</li>
+             <li>Solving this problem involves performing inner join on review and course tables.</li>
              <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
              </ul>
              </div>
@@ -13348,6 +13348,348 @@ export const sqlCodingPracticesData = {
               visible: true,
             },
           ],
+        },
+        {
+          id: "sql-query-10-3",
+          title: "Student ID",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            course: {
+              columns: ["id", "name", "duration", "instructor_id"],
+              rows: [
+                [11, "Machine Learning", 90, 102],
+                [12, "Artificial Intelligence", 90, 102],
+                [13, "Data Science", 60, 103],
+                [14, "Augmented Reality", 80, 104],
+                [15, "Cyber Security", 60, 101],
+                [16, "Virtual Reality", 80, 105],
+                [18, "Big Data", 20, 108],
+                [20, "Cloud Computing", 15, 101],
+                [22, "Linux", 20, 102],
+              ],
+            },
+
+            instructor: {
+              columns: ["instructor_id", "full_name", "gender"],
+              rows: [
+                [101, "Alex", "M"],
+                [102, "Arun", "M"],
+                [103, "Robert A. Iyer", "M"],
+                [104, "Bhavani", "F"],
+                [105, "Bentlee", "M"],
+                [108, "Nihonbashi", "M"],
+              ],
+            },
+
+            review: {
+              columns: [
+                "id",
+                "course_id",
+                "content",
+                "created_at",
+                "student_id",
+              ],
+              rows: [
+                [1, 15, "Very informative course", "2023-01-10", 201],
+                [2, 15, "Excellent security concepts", "2023-02-12", 202],
+                [3, 11, "Great ML explanations", "2023-03-01", 203],
+                [4, 20, "Good cloud basics", "2023-03-15", 204],
+              ],
+            },
+            student_course: {
+            columns: ["id", "student_id", "course_id", "score", "enrollment_date"],
+            rows: [
+              [1, 1, 11, 85, "2021-01-15"],
+              [2, 1, 12, 90, "2021-06-10"],
+              [3, 1, 15, 88, "2020-03-05"],  
+              [4, 2, 13, 75, "2021-04-20"],  
+              [5, 1, 20, 92, "2022-02-12"],  
+            ],
+          }
+          },
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+              <img
+              src="/assets/img/joins_db_diagram_coding_pratice.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <ul>
+            <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+            <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+            <li>A student can give multiple reviews.</li>
+            <li>A course can have multiple reviews</li>
+            </ul>
+            <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+       
+              <p class="desc-que-blue">Question</p>
+             <p>For a student with student (id = 1), get all the courses and the scores she/he secured in the year 2021.</p>
+             <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Solving this question involves performing inner join on student_course and course tables.</li>
+             <li>You can get the year from the enrollment date.</li>
+             <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
+             </ul>
+             </div>
+             <p class="desc-que-blue">Expected Output Format</p>
+             <div class="sql-table-desc">
+              <table>
+                <thead>
+                  <tr>
+                    <th>student_id</th>
+                    <th>name</th>
+                    <th>score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+             </div>
+          `,
+
+          testCases: [
+          {
+            id: 1,
+            description: "Query should start with SELECT",
+            type: "syntax-validation",
+            expectedKeywords: ["select"],
+            visible: true,
+          },
+          {
+            id: 2,
+            description: "Query should select student_course.student_id",
+            type: "syntax-validation",
+            expectedKeywords: ["student_course.student_id"],
+            visible: true,
+          },
+          {
+            id: 3,
+            description: "Query should select course.name",
+            type: "syntax-validation",
+            expectedKeywords: ["course.name"],
+            visible: true,
+          },
+          {
+            id: 4,
+            description: "Query should select student_course.score",
+            type: "syntax-validation",
+            expectedKeywords: ["student_course.score"],
+            visible: true,
+          },
+          {
+            id: 5,
+            description: "Query should contain FROM course",
+            type: "syntax-validation",
+            expectedKeywords: ["from course"],
+            visible: true,
+          },
+          {
+            id: 6,
+            description: "Query should use INNER JOIN student_course",
+            type: "syntax-validation",
+            expectedKeywords: ["inner join student_course"],
+            visible: true,
+          },
+          {
+            id: 7,
+            description: "Query should join on course.id = student_course.course_id",
+            type: "syntax-validation",
+            expectedKeywords: ["course.id = student_course.course_id"],
+            visible: true,
+          },
+          {
+            id: 8,
+            description: "Query should filter student_id = 1",
+            type: "syntax-validation",
+            expectedKeywords: ["student_course.student_id = 1"],
+            visible: true,
+          },
+          {
+            id: 9,
+            description: "Query should filter year 2021 using strftime",
+            type: "syntax-validation",
+            expectedKeywords: ['strftime("%Y", enrollment_date) = \'2021\''],
+            visible: true,
+          },
+          {
+            id: 10,
+            description: "Query should not contain ORDER BY",
+            type: "syntax-validation",
+            unexpectedKeywords: ["order by"],
+            visible: true,
+          },
+        ],
+        },
+        {
+          id: "sql-query-10-4",
+          title: "Scored more than 70 in Cyber Security",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+        course: {
+          columns: ["id", "name", "duration", "instructor_id"],
+          rows: [
+            [11, "Machine Learning", 90, 102],
+            [12, "Artificial Intelligence", 90, 102],
+            [13, "Data Science", 60, 103],
+            [14, "Augmented Reality", 80, 104],
+            [15, "Cyber Security", 60, 101],
+            [16, "Virtual Reality", 80, 105],
+            [18, "Big Data", 20, 108],
+            [20, "Cloud Computing", 15, 101],
+            [22, "Linux", 20, 102],
+          ],
+        },
+
+        student: {
+          columns: ["id", "full_name", "email"],
+          rows: [
+            [1, "John Carter", "john@gmail.com"],
+            [2, "Emma Watson", "emma@gmail.com"],
+            [3, "David Miller", "david@gmail.com"],
+            [4, "Sophia Brown", "sophia@gmail.com"],
+            [5, "Liam Anderson", "liam@gmail.com"],
+          ],
+        },
+
+        student_course: {
+          columns: ["student_id", "course_id", "score", "enrollment_date"],
+          rows: [
+            [1, 15, 75, "2020-03-15"],  // ✅ Should appear
+            [2, 15, 82, "2020-07-20"],  // ✅ Should appear
+            [3, 15, 69, "2020-05-10"],  // ❌ score < 70
+            [4, 15, 90, "2021-01-10"],  // ❌ wrong year
+            [5, 11, 88, "2020-08-12"],  // ❌ wrong course
+            [1, 15, 65, "2020-11-11"],  // ❌ score < 70
+          ],
+        },
+      },
+      descriptionDetails: `
+        <div class="desc-question-details">
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+          <img
+          src="/assets/img/joins_db_diagram_coding_pratice.png"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "300px" }}
+        />
+        <ul>
+        <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+        <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+        <li>A student can give multiple reviews.</li>
+        <li>A course can have multiple reviews</li>
+        </ul>
+        <p>Refer the tables in the code playground for a better understanding of the database.</p>
+        <p class="desc-que-blue">Question</p>
+          <p>Get all the student details who scored more than 70 in Cyber Security course (course_id = 15) in the year 2020.</p>
+          <div class="Note-container">
+          <div class="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+          <li>Solving this question involves performing inner join on student_course and student tables.</li>
+          <li>You can get the year from the enrollment date.</li>
+          <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
+          </ul>
+          </div>
+          <p class="desc-que-blue">Expected Output Format</p>
+        <div class="sql-table-desc">
+          <table>
+            <thead>
+              <tr>
+                <th>student_id</th>
+                <th>student_name</th>
+                <th>score</th>
+                <th>course_id</th>
+                <th>enrollment_date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      `,
+
+         testCases: [
+          {
+            id: 1,
+            description: "Query should start with SELECT",
+            type: "syntax-validation",
+            expectedKeywords: ["select"],
+            visible: true,
+          },
+          {
+            id: 2,
+            description: "Should use INNER JOIN between student_course and student tables",
+            type: "syntax-validation",
+            expectedKeywords: ["inner join student"],
+            visible: true,
+          },
+          {
+            id: 3,
+            description: "Should filter for course_id = 15 (Cyber Security)",
+            type: "syntax-validation",
+            expectedKeywords: ["course_id = 15"],
+            visible: true,
+          },
+          {
+            id: 4,
+            description: "Should filter year 2020 using strftime function",
+            type: "syntax-validation",
+            expectedKeywords: ["strftime", "2020"],
+            visible: true,
+          },
+          {
+            id: 5,
+            description: "Should filter score greater than or equal to 70",
+            type: "syntax-validation",
+            expectedKeywords: ["score >= 70"],
+            visible: true,
+          },
+        ]
         },
         
       ],

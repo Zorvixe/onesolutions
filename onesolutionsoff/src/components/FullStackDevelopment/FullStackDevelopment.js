@@ -642,7 +642,7 @@ const OneSolutionsPlacement = {
             <div className="pricing_card_full_stack">
               <div className="pricing_header_full_stack">
                 <h3>Offline Program</h3>
-                <div className="price_amount_full_stack">₹31,999</div>
+                <div className="price_amount_full_stack">₹25,999</div>
                 <p className="price_description_full_stack">
                   Classroom-based intensive training
                 </p>
@@ -678,7 +678,7 @@ const OneSolutionsPlacement = {
               <div className="featured_badge_full_stack">Most Popular</div>
               <div className="pricing_header_full_stack">
                 <h3>Online Program</h3>
-                <div className="price_amount_full_stack">₹26,999</div>
+                <div className="price_amount_full_stack">₹22,999</div>
                 <p className="price_description_full_stack">
                   Flexible online learning experience
                 </p>
@@ -810,7 +810,7 @@ const OneSolutionsPlacement = {
               Ready to Transform Your Career?
             </h2>
             <p className="cta_subtitle_full_stack">
-              Join the next batch starting <strong>October 5th, 2025</strong>
+              Join the next batch starting <strong>March 25th, 2026</strong>
             </p>
             <div className="cta_urgency_full_stack">
               <span className="urgency_text_full_stack">
