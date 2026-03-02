@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import Editor from "react-simple-code-editor";
 import ReactQuill from "react-quill";
-// Changed to bubble theme for Notion-style selection toolbar
 import "react-quill/dist/quill.bubble.css";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -33,7 +32,7 @@ const difficultyOptions = [
 ];
 
 const JavaCodingPractice = ({
-  subtopicId,
+  subtopicId: propSubtopicId,
   practiceId,
   onCancel,
   onSuccess,
@@ -47,10 +46,10 @@ const JavaCodingPractice = ({
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const isEditing = !!practiceId || !!editData;
 
-  // Wrapped in useMemo to prevent ReactQuill from remounting on every keystroke
   const quillModules = useMemo(
     () => ({
       toolbar: {
@@ -84,7 +83,6 @@ const JavaCodingPractice = ({
                 );
                 const data = await res.json();
                 if (data.success) {
-                  // 'this.quill' gets the specific editor instance you are typing in
                   const quill = this.quill;
                   const range = quill.getSelection();
                   const position = range ? range.index : 0;
@@ -118,9 +116,11 @@ const JavaCodingPractice = ({
           "zorvixe_elite",
         ],
       });
-      fetchProblems(editData.id);
+      // Use editData subtopic ID fallback to prevent breaking if prop is missing
+      const effectiveSid = editData.subtopic_id || propSubtopicId;
+      fetchProblems(editData.id, effectiveSid);
     }
-  }, [practiceId, editData]);
+  }, [practiceId, editData, propSubtopicId]);
 
   const fetchPractice = async () => {
     setLoading(true);
@@ -131,25 +131,35 @@ const JavaCodingPractice = ({
       const data = await res.json();
       if (data.success) {
         setPractice(data.data);
+        await fetchProblems(practiceId, data.data.subtopic_id);
+      } else {
+        alert("Failed to load practice");
       }
     } catch (error) {
       console.error("Error fetching practice:", error);
+      alert("Error loading practice");
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchProblems = async (pid) => {
+  const fetchProblems = async (pid, sid) => {
+    const effectiveSid = sid || propSubtopicId;
+    if (!effectiveSid) {
+      console.error("No subtopic ID available to fetch problems");
+      return;
+    }
     try {
       const res = await fetch(
-      `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/content`
+        `https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/content`
       );
       const data = await res.json();
       if (data.success) {
-      // Filter by content_type = 'coding' AND practice_id = pid
-      const codingProblems = data.data.filter(
-        (c) => c.content_type === "coding" && c.practice_id === pid
-      );
+        // FIX: Enforce string comparison to prevent ID type mismatch (Number vs String)
+        const codingProblems = data.data.filter(
+          (c) => c.content_type === "coding" && String(c.practice_id) === String(pid)
+        );
+        
         const problemsWithAccess = codingProblems.map((p) => ({
           ...p,
           allowed_student_types: p.allowed_student_types || [
@@ -159,6 +169,10 @@ const JavaCodingPractice = ({
           ],
           difficulty: p.difficulty || "easy",
           score: p.score || 0,
+          // Ensure at least 1 empty testcase row is generated if none are found
+          test_cases: p.test_cases && p.test_cases.length > 0 
+            ? p.test_cases 
+            : [{ input: "", expected_output: "", is_sample: true }],
         }));
         setProblems(problemsWithAccess);
       }
@@ -227,11 +241,37 @@ const JavaCodingPractice = ({
     setProblems(updated);
   };
 
-  const removeProblem = (index) => {
-    if (problems.length > 1) {
+  const removeProblem = async (index) => {
+    const problem = problems[index];
+    if (problem.id && problem.id.toString().startsWith("temp-")) {
       const updated = [...problems];
       updated.splice(index, 1);
       setProblems(updated);
+      return;
+    }
+
+    if (!window.confirm("Delete this problem? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `https://api.onesolutionsekam.in/admin/java/content/${problem.id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (data.success) {
+        const updated = [...problems];
+        updated.splice(index, 1);
+        setProblems(updated);
+      } else {
+        alert("Failed to delete problem");
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Error deleting problem");
     }
   };
 
@@ -242,6 +282,34 @@ const JavaCodingPractice = ({
         ? prev.allowed_student_types.filter((t) => t !== type)
         : [...prev.allowed_student_types, type],
     }));
+  };
+
+  const handleDeletePractice = async () => {
+    if (!isEditing) return;
+    if (!window.confirm("Delete this entire practice? All problems will be detached (not deleted).")) {
+      return;
+    }
+    setDeleting(true);
+    try {
+      const effectivePracticeId = practiceId || editData?.id;
+      const res = await fetch(
+        `https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await res.json();
+      if (data.success) {
+        onSuccess();
+      } else {
+        alert("Failed to delete practice");
+      }
+    } catch (error) {
+      console.error("Delete practice error:", error);
+      alert("Error deleting practice");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -292,11 +360,12 @@ const JavaCodingPractice = ({
     setSaving(true);
     try {
       let practiceResult;
+      const effectivePracticeId = practiceId || editData?.id;
+      const effectiveSid = editData?.subtopic_id || propSubtopicId;
+
       if (isEditing) {
         const res = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/coding-practices/${
-            practiceId || editData.id
-          }`,
+          `https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`,
           {
             method: "PUT",
             headers: {
@@ -308,7 +377,7 @@ const JavaCodingPractice = ({
         practiceResult = await res.json();
       } else {
         const res = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/coding-practices`,
+          `https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding-practices`,
           {
             method: "POST",
             headers: {
@@ -341,7 +410,7 @@ const JavaCodingPractice = ({
                 coding_title: problem.coding_title,
                 coding_description: problem.coding_description,
                 starter_code: problem.starter_code,
-                test_cases: problem.test_cases,
+                testCases: problem.test_cases,
                 coding_time_limit: problem.coding_time_limit,
                 coding_memory_limit: problem.coding_memory_limit,
                 allowed_student_types: problem.allowed_student_types,
@@ -353,7 +422,7 @@ const JavaCodingPractice = ({
         } else {
           // Create new problem under this practice
           await fetch(
-            `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/coding`,
+            `https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding`,
             {
               method: "POST",
               headers: {
@@ -394,14 +463,27 @@ const JavaCodingPractice = ({
           <ArrowLeft size={16} />
           Back
         </button>
-        <button
-          onClick={handleSubmit}
-          className="coddd-coding-practice-save-btn"
-          disabled={saving}
-        >
-          <Save size={16} />
-          {saving ? "Saving..." : "Save Practice"}
-        </button>
+        <div style={{ display: "flex", gap: "8px" }}>
+          {isEditing && (
+            <button
+              onClick={handleDeletePractice}
+              className="coddd-coding-practice-delete-btn"
+              disabled={deleting}
+              style={{ backgroundColor: "#dc2626", color: "white", padding: "8px 14px", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "14px", display: "flex", alignItems: "center", gap: "6px" }}
+            >
+              <Trash2 size={16} />
+              {deleting ? "Deleting..." : "Delete Practice"}
+            </button>
+          )}
+          <button
+            onClick={handleSubmit}
+            className="coddd-coding-practice-save-btn"
+            disabled={saving}
+          >
+            <Save size={16} />
+            {saving ? "Saving..." : "Save Practice"}
+          </button>
+        </div>
       </div>
 
       <div className="coddd-coding-practice-form">
@@ -418,7 +500,7 @@ const JavaCodingPractice = ({
           />
         </div>
 
-        {/* Practice Description (Rich Text - Notion Style Bubble) */}
+        {/* Practice Description */}
         <div className="coddd-coding-practice-field">
           <ReactQuill
             theme="bubble"
@@ -468,15 +550,13 @@ const JavaCodingPractice = ({
             <div key={problem.id} className="coddd-coding-problem-card">
               <div className="coddd-coding-problem-header">
                 <div className="coddd-problem-badge">Problem {pIndex + 1}</div>
-                {problems.length > 1 && (
-                  <button
-                    onClick={() => removeProblem(pIndex)}
-                    className="coddd-coding-remove-problem-btn"
-                    title="Delete Problem"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                )}
+                <button
+                  onClick={() => removeProblem(pIndex)}
+                  className="coddd-coding-remove-problem-btn"
+                  title="Delete Problem"
+                >
+                  <Trash2 size={16} />
+                </button>
               </div>
 
               {/* Problem Title */}
@@ -492,7 +572,7 @@ const JavaCodingPractice = ({
                 />
               </div>
 
-              {/* Problem Description (Rich Text - Notion Style Bubble) */}
+              {/* Problem Description */}
               <div className="coddd-coding-problem-field">
                 <ReactQuill
                   theme="bubble"
@@ -501,7 +581,7 @@ const JavaCodingPractice = ({
                     updateProblem(pIndex, "coding_description", value)
                   }
                   modules={quillModules}
-                  placeholder="Type problem description here... (Highlight text to format)"
+                  placeholder="Type problem description here..."
                   className="coddd-quill-editor coddd-notion-body-input"
                 />
               </div>

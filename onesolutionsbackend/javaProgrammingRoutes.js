@@ -751,13 +751,27 @@ app.post(
 );
 
 // ---------- Content (All types) ----------
+// REPLACE THIS ROUTE IN YOUR NODE.JS BACKEND
 app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
   try {
     const result = await pool.query(
       "SELECT * FROM java_content WHERE subtopic_id = $1 ORDER BY order_number",
       [req.params.subtopicId]
     );
-    res.json({ success: true, data: result.rows });
+    
+    // NEW: Fetch and attach test cases for coding problems
+    const contentWithTestCases = await Promise.all(result.rows.map(async (content) => {
+      if (content.content_type === 'coding') {
+        const testCasesResult = await pool.query(
+          "SELECT input, expected_output, is_sample FROM java_test_cases WHERE content_id = $1 ORDER BY order_number",
+          [content.id]
+        );
+        return { ...content, test_cases: testCasesResult.rows };
+      }
+      return content;
+    }));
+
+    res.json({ success: true, data: contentWithTestCases });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
   }
