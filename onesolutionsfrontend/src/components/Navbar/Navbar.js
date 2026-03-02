@@ -185,7 +185,7 @@ const Navbar = () => {
         </li>
 
         {/* Only show Practice for Web Dev (existing logic) */}
-        {courseInfo.shortLabel === "Web Dev" && (
+        {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
           <li>
             <NavLink
               to="/practice"
@@ -234,7 +234,7 @@ const Navbar = () => {
               </NavLink>
             </li>
             {/* Practice link in mobile - still only for Web Dev (you may adjust later) */}
-            {courseInfo.shortLabel === "Web Dev" && (
+            {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
               <li>
                 <NavLink
                   to="/practice"
@@ -247,15 +247,19 @@ const Navbar = () => {
                 </NavLink>
               </li>
             )}
-            <li>
-              <NavLink
-                to="/codeGround"
-                className={({ isActive }) => (isActive ? "active" : "")}
-                onClick={() => setShowMobileMenu(false)}
-              >
-                <i className="bi bi-code-slash"></i> Code Playground
-              </NavLink>
-            </li>
+            {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
+
+              <li>
+                <NavLink
+                  to="/codeGround"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                  onClick={() => setShowMobileMenu(false)}
+                >
+                  <i className="bi bi-code-slash"></i> Code Playground
+                </NavLink>
+              </li>
+            )}
+
             <li>
               <button
                 onClick={() => {
@@ -324,7 +328,7 @@ const Navbar = () => {
 
       <div className="nav_right">
         {/* Code Playground link - only for Web Dev (existing logic) */}
-        {courseInfo.shortLabel === "Web Dev" && (
+        {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
           <li className="nav_c_btn">
             <Link to="/codeGround">Code Playground</Link>
           </li>
@@ -465,13 +469,16 @@ const Navbar = () => {
               <i className="bi bi-journal-bookmark"></i>
               <span>Courses</span>
             </NavLink>
-            <NavLink
-              to="/practice"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              <i className="bi bi-pencil-square"></i>
-              <span>Practice</span>
-            </NavLink>
+            {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
+
+              <NavLink
+                to="/practice"
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                <i className="bi bi-pencil-square"></i>
+                <span>Practice</span>
+              </NavLink>
+            )}
           </div>
 
           {showProfile && (
@@ -566,11 +573,14 @@ const Navbar = () => {
                     <i className="bi bi-person"></i>My Account
                   </Link>
                 </li>
-                <li className="profile_list_li">
-                  <Link to="/saved-snippets">
-                    <i className="bi bi-code-slash"></i>My Snippets
-                  </Link>
-                </li>
+                {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
+
+                  <li className="profile_list_li">
+                    <Link to="/saved-snippets">
+                      <i className="bi bi-code-slash"></i>My Snippets
+                    </Link>
+                  </li>
+                )}
                 <li className="profile_list_li">
                   <Link to="/leave">
                     <i className="bi bi-chat-left"></i>Apply for Leave

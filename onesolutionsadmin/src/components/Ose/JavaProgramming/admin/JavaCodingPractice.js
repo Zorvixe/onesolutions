@@ -142,13 +142,14 @@ const JavaCodingPractice = ({
   const fetchProblems = async (pid) => {
     try {
       const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/content?practice_id=${pid}`
+      `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/content`
       );
       const data = await res.json();
       if (data.success) {
-        const codingProblems = data.data.filter(
-          (c) => c.content_type === "coding"
-        );
+      // Filter by content_type = 'coding' AND practice_id = pid
+      const codingProblems = data.data.filter(
+        (c) => c.content_type === "coding" && c.practice_id === pid
+      );
         const problemsWithAccess = codingProblems.map((p) => ({
           ...p,
           allowed_student_types: p.allowed_student_types || [

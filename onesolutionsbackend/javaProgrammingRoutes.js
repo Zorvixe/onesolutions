@@ -649,6 +649,22 @@ app.post(
   }
 );
 
+app.get("/admin/java/coding-practices/:practiceId", async (req, res) => {
+  try {
+    const { practiceId } = req.params;
+    const result = await pool.query(
+      "SELECT * FROM java_coding_practices WHERE id = $1",
+      [practiceId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Practice not found" });
+    }
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
 // Update a coding practice
 app.put(
   "/admin/java/coding-practices/:practiceId",

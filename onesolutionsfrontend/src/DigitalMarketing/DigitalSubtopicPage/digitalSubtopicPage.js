@@ -15,6 +15,7 @@ const DigitalSubtopicPage = () => {
     getContentByUuid,
     loadDigitalMarketingAllStructure,
     digitalMarketingGoals,
+    loadUserProgress, // ✅ Add this
   } = useAuth();
 
   const [content, setContent] = useState(null);
@@ -51,6 +52,7 @@ const DigitalSubtopicPage = () => {
     return isRx || isDb;
   };
 
+  // In DigitalSubtopicPage.jsx, update the markAsCompleted function:
   const markAsCompleted = async () => {
     if (!content?.id || checkIsItemCompleted(content)) {
       return;
@@ -67,12 +69,16 @@ const DigitalSubtopicPage = () => {
       const timestamp = Date.now();
       localStorage.setItem("lastProgressUpdate", timestamp.toString());
 
+      // Dispatch multiple events to ensure all components update
       const events = [
         new CustomEvent("subtopicCompleted", {
           detail: { subtopicId: content.id, timestamp, isDigital: true },
         }),
         new CustomEvent("markSubtopicCompleted", {
           detail: { subtopicId: content.id, isDigital: true },
+        }),
+        new CustomEvent("progressUpdated", { 
+          detail: { timestamp: Date.now(), contentId: content.id } 
         }),
       ];
 
@@ -82,6 +88,10 @@ const DigitalSubtopicPage = () => {
 
       // Update local state immediately
       setContent((prev) => ({ ...prev, is_completed: true }));
+      
+      // Also reload user progress to ensure completedContent is updated
+      await loadUserProgress();
+      
     } catch (error) {
       console.error("Error marking digital content as completed:", error);
     }

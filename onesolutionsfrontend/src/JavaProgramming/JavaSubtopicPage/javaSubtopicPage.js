@@ -34,7 +34,6 @@ const JavaSubtopicPage = () => {
   const [expandedTopic, setExpandedTopic] = useState(null);
   const [goalModules, setGoalModules] = useState([]);
   const [isMobileContentVisible, setIsMobileContentVisible] = useState(false);
-  const [goalIndex, setGoalIndex] = useState(0);
 
   const courseSelection = user?.courseSelection;
   const hasJavaAccess = courseSelection === "java_programming" || courseSelection === "all";
@@ -80,49 +79,6 @@ const JavaSubtopicPage = () => {
     }
   };
 
-  const loadModuleStructure = async (moduleId, contentData = null) => {
-    if (!moduleId) return;
-
-    try {
-      if (!javaGoals?.length) {
-        await loadJavaAllStructure();
-      }
-
-      for (const goal of javaGoals) {
-        const foundModule = goal.modules?.find((m) => m.id === moduleId);
-        if (foundModule) {
-          setSelectedGoal(goal);
-          setGoalModules([foundModule]);
-
-          if (contentData) {
-            // Find and set current path within this module
-            for (const topic of foundModule.topics || []) {
-              for (const subtopic of topic.subtopics || []) {
-                const foundContent = subtopic.content?.find(
-                  (c) =>
-                    String(c.id) === String(contentData.id) ||
-                    c.content_uuid === contentData.content_uuid
-                );
-                if (foundContent) {
-                  setExpandedModule(foundModule.id);
-                  setExpandedTopic(topic.id);
-                  setSelectedModule({ id: foundModule.id, name: foundModule.name });
-                  setSelectedTopic({ id: topic.id, name: topic.name });
-                  setSelectedSubtopic({ id: subtopic.id, name: subtopic.name });
-                  return;
-                }
-              }
-            }
-          }
-          return;
-        }
-      }
-      console.warn("Module not found");
-    } catch (err) {
-      console.error("Module load failed:", err);
-    }
-  };
-
   useEffect(() => {
     if (!hasJavaAccess) {
       setError("Access denied");
@@ -134,9 +90,8 @@ const JavaSubtopicPage = () => {
     const loadData = async () => {
       setLoading(true);
       try {
+        // 1. ALWAYS fetch the FULL content from backend so we have video_url, cheatsheet_content, etc.
         let fetchedContent = null;
-
-        // 1. ALWAYS fetch full content from backend to get video_url, cheatsheet_content, questions etc.
         if (contentUuid) {
           const res = await getJavaContentByUuid(contentUuid);
           if (res?.success) {
@@ -145,11 +100,6 @@ const JavaSubtopicPage = () => {
             setContent(fetchedContent);
             setIsAccessible(true);
             setIsMobileContentVisible(true);
-            if (fetchedContent.goal_id) {
-              setSelectedGoal({ id: fetchedContent.goal_id, name: "Java Programming" });
-              const goalIdx = javaGoals?.findIndex((g) => g.id === fetchedContent.goal_id);
-              if (goalIdx !== -1) setGoalIndex(goalIdx);
-            }
           } else {
             setError("Content not found");
             setIsAccessible(false);
@@ -166,31 +116,53 @@ const JavaSubtopicPage = () => {
           }
         }
 
-        // 2. Maintain UI State (Breadcrumbs/Expansion) from location.state if it exists
-        if (location.state) {
-          if (location.state.goalId) {
-            setSelectedGoal({ id: location.state.goalId, name: location.state.goalName || "Java Programming" });
-          }
-          if (location.state.moduleId) {
-            setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
-            setExpandedModule(location.state.moduleId);
-          }
-          if (location.state.topicId) {
-            setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
-            setExpandedTopic(location.state.topicId);
-          }
-          if (location.state.subtopicId) {
-            setSelectedSubtopic({ id: location.state.subtopicId, name: location.state.subtopicName });
-          }
-
-          // Use the fetched full content to map out UI location
-          await loadModuleStructure(location.state.moduleId, fetchedContent || location.state.contentItem);
-        } else if (fetchedContent) {
-           await loadModuleStructure(fetchedContent.module_id, fetchedContent);
+        // 2. Load the sidebar structure if it isn't loaded yet
+        let currentGoals = javaGoals;
+        if (!currentGoals || currentGoals.length === 0) {
+          const structRes = await loadJavaAllStructure();
+          if (structRes?.success) currentGoals = structRes.data;
         }
 
+        // 3. Setup the Sidebar UI state (Breadcrumbs & Expanding menus)
+        if (location.state && location.state.moduleId) {
+          // Fast Path: Used if user clicked from the course menu
+          setSelectedGoal({ id: location.state.goalId, name: location.state.goalName || "Java Programming" });
+          setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
+          setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
+          setSelectedSubtopic({ id: location.state.subtopicId, name: location.state.subtopicName });
+          setExpandedModule(location.state.moduleId);
+          setExpandedTopic(location.state.topicId);
+
+          if (currentGoals) {
+            const g = currentGoals.find(g => g.id === location.state.goalId) || currentGoals[0];
+            const m = g?.modules?.find(m => m.id === location.state.moduleId);
+            if (m) setGoalModules([m]);
+          }
+        } else if (fetchedContent && currentGoals) {
+          // Hard Refresh Path: User refreshed the page, rebuild sidebar from fetched IDs
+          const g = currentGoals.find(g => g.id === fetchedContent.goal_id) || currentGoals[0];
+          if (g) {
+            setSelectedGoal(g);
+            const m = g.modules?.find(m => m.id === fetchedContent.module_id);
+            if (m) {
+              setGoalModules([m]);
+              setSelectedModule({ id: m.id, name: m.name });
+              setExpandedModule(m.id);
+              const t = m.topics?.find(t => t.id === fetchedContent.topic_id);
+              if (t) {
+                setSelectedTopic({ id: t.id, name: t.name });
+                setExpandedTopic(t.id);
+                const s = t.subtopics?.find(s => s.id === fetchedContent.subtopic_id);
+                if (s) {
+                  setSelectedSubtopic({ id: s.id, name: s.name });
+                }
+              }
+            }
+          }
+        }
       } catch (err) {
-        setError(err.message);
+        console.error("Load Error:", err);
+        setError(err.message || "Failed to load content");
         setIsAccessible(false);
       } finally {
         setLoading(false);
@@ -198,62 +170,8 @@ const JavaSubtopicPage = () => {
     };
 
     loadData();
-  }, [contentUuid, practiceId, hasJavaAccess, location.state]);
-
-  // Load full structure if needed
-  useEffect(() => {
-    if (javaGoals.length === 0) {
-      loadJavaAllStructure().catch(console.error);
-    }
-  }, []);
-
-  // After modules loaded, find path from content if not set via state
-  useEffect(() => {
-    if (!content || !javaGoals.length || selectedModule) return;
-
-    for (const goal of javaGoals) {
-      for (const module of goal.modules || []) {
-        for (const topic of module.topics || []) {
-          for (const subtopic of topic.subtopics || []) {
-            const found = subtopic.content?.find(
-              (c) => String(c.id) === String(content.id) || c.content_uuid === content.content_uuid
-            );
-            if (found) {
-              setSelectedGoal(goal);
-              setSelectedModule({ id: module.id, name: module.name });
-              setSelectedTopic({ id: topic.id, name: topic.name });
-              setSelectedSubtopic({ id: subtopic.id, name: subtopic.name });
-              setExpandedModule(module.id);
-              setExpandedTopic(topic.id);
-              setGoalModules([module]);
-              return;
-            }
-          }
-        }
-      }
-    }
-  }, [content, javaGoals]);
-
-  // For practice, use state if available
-  useEffect(() => {
-    if (!practice || !javaGoals.length || selectedModule) return;
-    if (location.state?.moduleId) {
-      setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
-      setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
-      setSelectedSubtopic({ id: location.state.subtopicId, name: location.state.subtopicName });
-      setExpandedModule(location.state.moduleId);
-      setExpandedTopic(location.state.topicId);
-
-      for (const goal of javaGoals) {
-        const mod = goal.modules?.find(m => m.id === location.state.moduleId);
-        if (mod) {
-          setSelectedGoal(goal);
-          setGoalModules([mod]);
-          break;
-        }
-      }
-    }
-  }, [practice, javaGoals, location.state]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentUuid, practiceId, hasJavaAccess]);
 
   const handleTopicClick = (topicId) => {
     setExpandedTopic(expandedTopic === topicId ? null : topicId);
@@ -267,7 +185,6 @@ const JavaSubtopicPage = () => {
 
       navigate(`/java/content/${item.content_uuid}`, {
         state: {
-          contentItem,
           goalId: selectedGoal?.id,
           goalName: selectedGoal?.name,
           moduleId: module.id,
@@ -281,11 +198,9 @@ const JavaSubtopicPage = () => {
         },
       });
     } else if (item.id && item.title) {
-      // it's a practice
       setIsMobileContentVisible(true);
       navigate(`/java/practice/${item.id}`, {
         state: {
-          practice: item,
           moduleId: module.id,
           moduleName: module.name,
           topicId: topic.id,
@@ -394,7 +309,7 @@ const JavaSubtopicPage = () => {
                           );
                         })}
                         {subtopic.coding_practices?.map((p) => {
-                          const isActive = practice && p.id === practice.practice?.id;
+                          const isActive = practice && p.id === practice.id;
                           const isCompleted = p.is_completed;
                           return (
                             <div className="subtopic-page-sub__topics-sub" key={`practice-${p.id}`}>
@@ -403,7 +318,7 @@ const JavaSubtopicPage = () => {
                                 onClick={() => handleSubtopicClick(module, topic, subtopic, p)}
                               >
                                 <span className="subtopic-page-sub__item-text-sub">
-                                  {p.title} (Practice)
+                                  {p.title}
                                 </span>
                               </div>
                             </div>

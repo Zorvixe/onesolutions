@@ -241,7 +241,7 @@ export default function JavaCourses() {
                         <button onClick={() => setExpandedModule(isExpandedModule ? null : module.id)}>
                           {isExpandedModule ? "−" : "+"}
                         </button>
-                        <p>Active Modules</p>
+                        <p onClick={() => setExpandedModule(isExpandedModule ? null : module.id)}>Active Modules</p>
                       </div>
 
                       {isExpandedModule && (
@@ -271,8 +271,8 @@ export default function JavaCourses() {
                                             </div>
                                           )),
                                           ...(sub.coding_practices || []).map((p) => (
-                                            <div className="circle-row practice-circle-row" key={`practice-${p.id}`}>
-                                              <div className={`circle practice-circle ${p.is_completed ? "completed" : ""}`}
+                                            <div className="circle-row subtopic-circle-row" key={`practice-${p.id}`}>
+                                              <div className={`circle subtopic-circle ${p.is_completed ? "completed" : ""}`}
                                                 onClick={(e) => { e.stopPropagation(); handlePracticeClick(p, goal, module, topic, sub); }}>
                                                 {p.is_completed ? "✓" : "⚙"}
                                               </div>
@@ -287,7 +287,7 @@ export default function JavaCourses() {
                                   </div>
 
                                   <div className="content-area">
-                                    <div className="module_topic_names">
+                                    <div className="module_topic_names" onClick={() => setExpandedTopic(isExpandedTopic ? null : topic.id)}>
                                       <div className="module-header-row">
                                         <div className="topic-label"><h6>JAVA TOPIC</h6></div>
                                         <div className="module-title"><h5>{topic.name}</h5></div>
@@ -313,11 +313,11 @@ export default function JavaCourses() {
                                               </div>
                                             ))}
                                             {sub.coding_practices?.map((p) => (
-                                              <div className={`subtopic-content-row practice-row ${p.is_completed ? "completed" : ""}`}
+                                              <div className={`subtopic-content-row ${p.is_completed ? "completed" : ""}`}
                                                 key={`practice-${p.id}`}
                                                 onClick={() => handlePracticeClick(p, goal, module, topic, sub)}>
                                                 <span className="subtopic-text practice-title">
-                                                  {p.title} (Practice)
+                                                  {p.title}
                                                 </span>
                                               </div>
                                             ))}

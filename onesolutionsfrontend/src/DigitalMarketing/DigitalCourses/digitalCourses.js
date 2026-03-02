@@ -11,7 +11,6 @@ export default function DigitalCourses() {
     digitalMarketingLoading,
     loadDigitalMarketingAllStructure,
     completedContent,
-    loadDigitalMarketingProgress,
     enrollInDigitalMarketingCourse,
   } = useAuth();
 
@@ -28,6 +27,7 @@ export default function DigitalCourses() {
 
   // Check if user has digital marketing access
   const hasDigitalAccess = courseSelection === "digital_marketing";
+
   // Load digital marketing courses from backend
   useEffect(() => {
     if (hasDigitalAccess) {
@@ -36,14 +36,6 @@ export default function DigitalCourses() {
       });
     }
   }, [hasDigitalAccess]);
-
-  // Calculate progress whenever completedContent changes
-  useEffect(() => {
-    if (hasDigitalAccess && digitalMarketingGoals.length > 0) {
-      calculateAllProgress();
-      setLastUpdateTime(Date.now());
-    }
-  }, [completedContent, digitalMarketingGoals, hasDigitalAccess]);
 
   // Helper: Robust completion check (Checks ID in array AND internal flag)
   const checkIsContentCompleted = useCallback(
@@ -61,53 +53,114 @@ export default function DigitalCourses() {
     [completedContent]
   );
 
-  // Calculate progress for all goals
-  const calculateAllProgress = useCallback(() => {
-    const progressMap = {};
+  // Calculate progress for a single goal
+  const calculateGoalProgress = useCallback((goal) => {
+    if (!goal || !goal.modules) return 0;
 
-    digitalMarketingGoals.forEach((goal) => {
-      // If we have calculated stats from backend, use them, otherwise calculate manually
-      if (goal.stats) {
-        progressMap[goal.id] = goal.stats.progress_percentage || 0;
-      } else {
-        progressMap[goal.id] = calculateGoalProgressManual(goal);
-      }
-    });
-
-    setLocalProgress(progressMap);
-  }, [digitalMarketingGoals, completedContent]);
-
-  const calculateGoalProgressManual = (goal) => {
-    if (!goal.modules) return 0;
     let total = 0;
     let completed = 0;
-    goal.modules.forEach((m) => {
-      m.topics?.forEach((t) => {
-        t.subtopics?.forEach((s) => {
-          s.content?.forEach((c) => {
+
+    goal.modules.forEach((module) => {
+      module.topics?.forEach((topic) => {
+        topic.subtopics?.forEach((subtopic) => {
+          subtopic.content?.forEach((content) => {
             total++;
-            if (checkIsContentCompleted(c)) completed++;
+            if (checkIsContentCompleted(content)) {
+              completed++;
+            }
           });
         });
       });
     });
+
     return total === 0 ? 0 : (completed / total) * 100;
-  };
+  }, [checkIsContentCompleted]);
+
+  // Calculate progress for all goals strictly using local content state
+  const calculateAllProgress = useCallback(() => {
+    if (!digitalMarketingGoals || digitalMarketingGoals.length === 0) return;
+
+    const progressMap = {};
+
+    digitalMarketingGoals.forEach((goal) => {
+      // Always calculate dynamically to ensure real-time local updates
+      progressMap[goal.id] = calculateGoalProgress(goal);
+    });
+
+    setLocalProgress(progressMap);
+    setLastUpdateTime(Date.now());
+  }, [digitalMarketingGoals, calculateGoalProgress]);
+
+  // Calculate progress whenever completedContent or goals change
+  useEffect(() => {
+    if (hasDigitalAccess && digitalMarketingGoals.length > 0) {
+      calculateAllProgress();
+    }
+  }, [completedContent, digitalMarketingGoals, hasDigitalAccess, calculateAllProgress]);
+
+  // Get goal progress 
+  const getGoalProgress = useCallback((goal) => {
+    if (localProgress[goal.id] !== undefined) {
+      return localProgress[goal.id];
+    }
+    return calculateGoalProgress(goal);
+  }, [localProgress, calculateGoalProgress]);
+
+  // Calculate module progress
+  const getModuleProgress = useCallback((module) => {
+    if (!module || !module.topics) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    module.topics.forEach((topic) => {
+      topic.subtopics?.forEach((subtopic) => {
+        subtopic.content?.forEach((content) => {
+          totalContent++;
+          if (checkIsContentCompleted(content)) {
+            completedContentCount++;
+          }
+        });
+      });
+    });
+
+    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+  }, [checkIsContentCompleted]);
+
+  // Calculate topic progress
+  const getTopicProgress = useCallback((topic) => {
+    if (!topic || !topic.subtopics) return 0;
+
+    let totalContent = 0;
+    let completedContentCount = 0;
+
+    topic.subtopics?.forEach((subtopic) => {
+      subtopic.content?.forEach((content) => {
+        totalContent++;
+        if (checkIsContentCompleted(content)) {
+          completedContentCount++;
+        }
+      });
+    });
+
+    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
+  }, [checkIsContentCompleted]);
 
   // Check if goal is locked
-  const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 0 || goalIndex === 1) return false;
+  const isGoalLocked = useCallback((goalIndex) => {
+    if (goalIndex === 0) return false;
 
     for (let i = 0; i < goalIndex; i++) {
       const previousGoal = digitalMarketingGoals[i];
-      const previousGoalProgress = getGoalProgress(previousGoal);
-
-      if (previousGoalProgress < 100) {
-        return true;
+      if (previousGoal) {
+        const previousGoalProgress = getGoalProgress(previousGoal);
+        if (previousGoalProgress < 100) {
+          return true;
+        }
       }
     }
     return false;
-  };
+  }, [digitalMarketingGoals, getGoalProgress]);
 
   const toggleGoal = (goalId, goalIndex) => {
     if (!hasDigitalAccess) {
@@ -213,57 +266,15 @@ export default function DigitalCourses() {
           goalIndex,
           fromCourse: true,
           isDigital: true,
-          contentType: contentType, // Passing correct type
+          contentType: contentType,
           video_title: videoTitle,
           cheatsheet_title: cheatsheetTitle,
           mcq_title: mcqTitle,
           contentUuid: contentUuid,
-          contentItem: contentItem, // Pass full object to avoid re-fetch
+          contentItem: contentItem,
         },
       });
     }
-  };
-
-  const getGoalProgress = (goal) => {
-    return localProgress[goal.id] || goal.stats?.progress_percentage || 0;
-  };
-
-  const getModuleProgress = (module) => {
-    if (!module.topics) return 0;
-
-    let totalContent = 0;
-    let completedContentCount = 0;
-
-    module.topics.forEach((topic) => {
-      topic.subtopics?.forEach((subtopic) => {
-        subtopic.content?.forEach((content) => {
-          totalContent++;
-          if (checkIsContentCompleted(content)) {
-            completedContentCount++;
-          }
-        });
-      });
-    });
-
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
-  };
-
-  const getTopicProgress = (topic) => {
-    if (!topic.subtopics) return 0;
-
-    let totalContent = 0;
-    let completedContentCount = 0;
-
-    topic.subtopics?.forEach((subtopic) => {
-      subtopic.content?.forEach((content) => {
-        totalContent++;
-        if (checkIsContentCompleted(content)) {
-          completedContentCount++;
-        }
-      });
-    });
-
-    return totalContent > 0 ? (completedContentCount / totalContent) * 100 : 0;
   };
 
   const showLockedMessage = () => {
@@ -328,7 +339,7 @@ export default function DigitalCourses() {
     <div
       className="courses-container"
       style={{ marginTop: "50px" }}
-      key={`digital-courses-${lastUpdateTime}-${courseSelection}`}
+      key={`digital-courses-${lastUpdateTime}-${completedContent.length}`}
     >
       {/* Goals List */}
       <div className="goals-wrapper digital-goals-wrapper">
@@ -525,11 +536,10 @@ export default function DigitalCourses() {
                                                       key={content.id}
                                                     >
                                                       <div
-                                                        className={`circle subtopic-circle ${
-                                                          isCompleted
-                                                            ? "completed"
-                                                            : ""
-                                                        }`}
+                                                        className={`circle subtopic-circle ${isCompleted
+                                                          ? "completed"
+                                                          : ""
+                                                          }`}
                                                         onClick={(e) => {
                                                           e.stopPropagation();
                                                           handleSubtopicClick(
@@ -538,7 +548,7 @@ export default function DigitalCourses() {
                                                             subtopic.name,
                                                             content.content_uuid,
                                                             goal.name ||
-                                                              goal.title,
+                                                            goal.title,
                                                             module.name,
                                                             goalIndex,
                                                             content
@@ -579,27 +589,9 @@ export default function DigitalCourses() {
                                               toggleTopic(topic.id, goalIndex);
                                             }}
                                           >
-                                            {isTopicExpanded ? (
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="22"
-                                                height="22"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                              >
-                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                                              </svg>
-                                            ) : (
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="22"
-                                                height="22"
-                                                fill="currentColor"
-                                                viewBox="0 0 16 16"
-                                              >
-                                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                                              </svg>
-                                            )}
+                                            {isTopicExpanded ? "−" :
+                                              "+"
+                                            }
                                           </button>
                                         </div>
                                       </div>
