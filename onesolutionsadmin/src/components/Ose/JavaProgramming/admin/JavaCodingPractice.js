@@ -75,14 +75,10 @@ const JavaCodingPractice = ({
               formData.append("image", file);
 
               try {
-                const token = localStorage.getItem("token");
                 const res = await fetch(
                   "https://api.onesolutionsekam.in/admin/java/upload-image",
                   {
                     method: "POST",
-                    headers: {
-                      Authorization: `Bearer ${token}`,
-                    },
                     body: formData,
                   }
                 );
@@ -129,12 +125,8 @@ const JavaCodingPractice = ({
   const fetchPractice = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/coding-practices/${practiceId}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        `https://api.onesolutionsekam.in/admin/java/coding-practices/${practiceId}`
       );
       const data = await res.json();
       if (data.success) {
@@ -149,12 +141,8 @@ const JavaCodingPractice = ({
 
   const fetchProblems = async (pid) => {
     try {
-      const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/content?practice_id=${pid}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/content?practice_id=${pid}`
       );
       const data = await res.json();
       if (data.success) {
@@ -302,8 +290,6 @@ const JavaCodingPractice = ({
 
     setSaving(true);
     try {
-      const token = localStorage.getItem("token");
-
       let practiceResult;
       if (isEditing) {
         const res = await fetch(
@@ -314,7 +300,6 @@ const JavaCodingPractice = ({
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(practice),
           }
@@ -327,7 +312,6 @@ const JavaCodingPractice = ({
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(practice),
           }
@@ -350,7 +334,6 @@ const JavaCodingPractice = ({
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
                 content_type: "coding",
@@ -374,7 +357,6 @@ const JavaCodingPractice = ({
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
                 title: problem.coding_title,

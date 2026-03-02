@@ -109,7 +109,7 @@ const imageUpload = multer({
 // ----------------------------------------------------------------------
 // Image upload endpoint (for rich text editors)
 // ----------------------------------------------------------------------
-app.post("/admin/java/upload-image", authenticate, (req, res) => {
+app.post("/admin/java/upload-image", (req, res) => {
   imageUpload(req, res, async (err) => {
     if (err) {
       return res.status(400).json({ success: false, error: err.message });
@@ -623,7 +623,6 @@ app.get(
 // Create a new coding practice
 app.post(
   "/admin/java/subtopics/:subtopicId/coding-practices",
-  authenticate,
   async (req, res) => {
     try {
       const { subtopicId } = req.params;
@@ -653,7 +652,6 @@ app.post(
 // Update a coding practice
 app.put(
   "/admin/java/coding-practices/:practiceId",
-  authenticate,
   async (req, res) => {
     try {
       const { practiceId } = req.params;
@@ -682,7 +680,6 @@ app.put(
 // Delete a coding practice (will set practice_id to NULL in linked content)
 app.delete(
   "/admin/java/coding-practices/:practiceId",
-  authenticate,
   async (req, res) => {
     const { practiceId } = req.params;
     const client = await pool.connect();
@@ -718,7 +715,6 @@ app.delete(
 // Reorder coding practices
 app.post(
   "/admin/java/coding-practices/reorder",
-  authenticate,
   async (req, res) => {
     try {
       const { subtopicId, orderedIds } = req.body;
@@ -754,7 +750,6 @@ app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
 // ----- Video upload -----
 app.post(
   "/admin/java/subtopics/:subtopicId/video",
-  authenticate,
   (req, res) => {
     videoUpload(req, res, async (err) => {
       if (err) {
@@ -822,7 +817,6 @@ app.post(
 // ----- Cheatsheet -----
 app.post(
   "/admin/java/subtopics/:subtopicId/cheatsheet",
-  authenticate,
   async (req, res) => {
     try {
       const { subtopicId } = req.params;
@@ -860,7 +854,6 @@ app.post(
 // ----- MCQ -----
 app.post(
   "/admin/java/subtopics/:subtopicId/mcq",
-  authenticate,
   async (req, res) => {
     try {
       const { subtopicId } = req.params;
@@ -906,7 +899,6 @@ app.post(
 // ----- Coding Problem (can optionally belong to a practice) -----
 app.post(
   "/admin/java/subtopics/:subtopicId/coding",
-  authenticate,
   async (req, res) => {
     const client = await pool.connect();
     try {
@@ -976,7 +968,7 @@ app.post(
 );
 
 // ----- Update content (any type) -----
-app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
+app.put("/admin/java/content/:contentId", async (req, res) => {
   const client = await pool.connect();
   try {
     const { contentId } = req.params;
@@ -1134,7 +1126,7 @@ app.put("/admin/java/content/:contentId", authenticate, async (req, res) => {
 });
 
 // ----- Delete content -----
-app.delete("/admin/java/content/:contentId", authenticate, async (req, res) => {
+app.delete("/admin/java/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
     const result = await pool.query(
@@ -1153,7 +1145,7 @@ app.delete("/admin/java/content/:contentId", authenticate, async (req, res) => {
 });
 
 // ----- Reorder content (within a subtopic) -----
-app.post("/admin/java/content/reorder", authenticate, async (req, res) => {
+app.post("/admin/java/content/reorder", async (req, res) => {
   try {
     const { subtopicId, orderedIds } = req.body;
     await pool.query("BEGIN");

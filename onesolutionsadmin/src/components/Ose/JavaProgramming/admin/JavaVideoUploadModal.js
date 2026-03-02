@@ -94,8 +94,6 @@ const JavaVideoUploadModal = ({
     }, 500);
 
     try {
-      const token = localStorage.getItem("token");
-
       if (isEditing) {
         // UPDATE MODE
         const response = await fetch(
@@ -104,7 +102,6 @@ const JavaVideoUploadModal = ({
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
               content_type: "video",
@@ -141,9 +138,6 @@ const JavaVideoUploadModal = ({
           `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/video`,
           {
             method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
             body: formData,
           }
         );

@@ -74,7 +74,6 @@ const JavaCheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = n
 
     setSaving(true);
     try {
-      const token = localStorage.getItem("token");
       let url, method, body;
 
       if (isEditing) {
@@ -100,7 +99,7 @@ const JavaCheatsheetEditor = ({ subtopicId, onCancel, onSuccess, initialData = n
         method: method,
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // No Authorization header needed for admin endpoints
         },
         body: JSON.stringify(body),
       });

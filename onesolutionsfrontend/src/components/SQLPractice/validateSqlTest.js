@@ -1033,8 +1033,8 @@ const handleSelect = (sql, questionData) => {
   // ==========================
   if (!groupByClause) {
     const countMatch = selectPart.match(
-      /count\s*\(\s*(distinct\s+)?(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
-    );
+  /count\s*\(\s*(distinct\s+)?(\*|[\w\.]+)\s*\)\s*(?:as\s+(\w+))?/i
+);
 
     const maxMatch = selectPart.match(
       /max\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
@@ -1194,7 +1194,9 @@ const handleSelect = (sql, questionData) => {
   // GROUP BY + Aggregates
   // ==========================
   if (groupByClause) {
-    const groupColumns = groupByClause.split(",").map((c) => c.trim());
+    const groupColumns = groupByClause
+  .split(",")
+  .map((c) => c.trim().includes(".") ? c.trim().split(".")[1] : c.trim());
     const grouped = {};
 
     // Detect aggregates
@@ -1292,7 +1294,15 @@ const handleSelect = (sql, questionData) => {
         grouped[key][sumAlias] += value;
       }
 
-      if (countColumn) grouped[key][countAlias] += 1;
+      if (countColumn) {
+  const colName = countColumn.includes(".")
+    ? countColumn.split(".")[1]
+    : countColumn;
+
+  if (row[colName] !== null && row[colName] !== undefined) {
+    grouped[key][countAlias] += 1;
+  }
+}
 
       if (avgColumn) {
         grouped[key]._total += Number(row[avgColumn] || 0);

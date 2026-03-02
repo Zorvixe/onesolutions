@@ -109,7 +109,6 @@ const JavaMCQCreator = ({ subtopicId, onClose, onSuccess, editData = null }) => 
 
     setSaving(true);
     try {
-      const token = localStorage.getItem('token');
       let url, method, body;
 
       const payloadQuestions = questions.map(q => ({
@@ -142,7 +141,6 @@ const JavaMCQCreator = ({ subtopicId, onClose, onSuccess, editData = null }) => 
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(body),
       });

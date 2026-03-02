@@ -12999,7 +12999,7 @@ export const sqlCodingPracticesData = {
     // SQL Practice 10
     {
       id: "sql-coding-practice-10",
-      title: "SQL Coding Practice 9",
+      title: "SQL Coding Practice 10",
       description: "Practice basic SQL queries",
       questions: [
         {
@@ -13254,7 +13254,7 @@ export const sqlCodingPracticesData = {
                </h6>
              </div>
              <ul>
-             <li>Solving this problem involves performing inner join on review and course tables.</li>
+             <li>Solving this problem involves performing inner join on review and coursetables.</li>
              <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
              </ul>
              </div>
@@ -13551,7 +13551,7 @@ export const sqlCodingPracticesData = {
             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
 
           difficulty: "Medium",
-          score: 35,
+          score: 30,
           type: "sql",
 
           defaultCode: {
@@ -13691,7 +13691,691 @@ export const sqlCodingPracticesData = {
           },
         ]
         },
-        
+        {
+          id: "sql-query-10-5",
+          title: "Machine Learning",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+        course: {
+          columns: ["id", "name", "duration", "instructor_id"],
+          rows: [
+            [11, "Machine Learning", 90, 102],
+            [12, "Artificial Intelligence", 90, 102],
+            [13, "Data Science", 60, 103],
+            [14, "Augmented Reality", 80, 104],
+            [15, "Cyber Security", 60, 101],
+            [16, "Virtual Reality", 80, 105],
+            [18, "Big Data", 20, 108],
+            [20, "Cloud Computing", 15, 101],
+            [22, "Linux", 20, 102],
+          ],
+        },
+
+        student_course: {
+          columns: ["student_id", "course_id", "score", "enrollment_date"],
+          rows: [
+            [1, 11, 85, "2021-01-15"],  // ✅ Should appear
+            [2, 11, 78, "2021-06-10"],  // ✅ Should appear
+            [4, 11, 88, "2020-03-20"],  // ❌ Wrong year
+            [6, 11, 67, "2022-04-18"],  // ❌ Wrong year
+            
+          ],
+        },
+      },
+      descriptionDetails: `
+        <div class="desc-question-details">
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-learning platform. The database consists of instructor, course, review, and student tables.</p>
+          <img
+          src="/assets/img/joins_db_diagram_coding_pratice.png"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "300px" }}
+        />
+        <ul>
+        <li>An instructor can teach many courses. A course is taught by only one instructor.</li>
+        <li>A student can enroll for multiple courses. A course can have multiple students.</li>
+        <li>A student can give multiple reviews.</li>
+        <li>A course can have multiple reviews</li>
+        </ul>
+        <p>Refer the tables in the code playground for a better understanding of the database.</p>
+        <p class="desc-que-blue">Question</p>
+          <p>
+Get all the student_ids who enrolled for the "Machine Learning" course in 2021.</p>
+          <div class="Note-container">
+          <div class="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div>
+          <ul>
+          <li>Solving this question involves performing inner join on student_course and course tables.</li>
+          <li>You can get the year from the enrollment date.</li>
+          <li>Don't apply ORDER BY, LIMIT, OFFSET clauses as it is not required for this problem.</li>
+          </ul>
+          </div>
+          <p class="desc-que-blue">Expected Output Format</p>
+        <div class="sql-table-desc">
+          <table>
+            <thead>
+              <tr>
+                <th>student_id</th>
+                <th>course_name</th>
+                <th>enrollment_date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+          </div>
+      `,
+
+         testCases: [
+        {
+          id: 1,
+          description: "Query should start with SELECT",
+          type: "syntax-validation",
+          expectedKeywords: ["select"],
+          visible: true,
+        },
+        {
+          id: 2,
+          description: "Should use INNER JOIN between student_course and course tables",
+          type: "syntax-validation",
+          expectedKeywords: ["inner join course"],
+          visible: true,
+        },
+        {
+          id: 3,
+          description: "Should filter course name as Machine Learning",
+          type: "syntax-validation",
+          expectedKeywords: ["course.name", "machine learning"],
+          visible: true,
+        },
+        {
+          id: 4,
+          description: "Should filter year 2021 using strftime function",
+          type: "syntax-validation",
+          expectedKeywords: ["strftime", "2021"],
+          visible: true,
+        }
+      ]
+        },
+      ],
+    },
+    // SQL Practice 11
+    {
+      id: "sql-coding-practice-11",
+      title: "SQL Coding Practice 11",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-11-1",
+          title: "All courses Alex",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+            tableData: {
+            user: {
+              columns: ["user_id", "name", "age"],
+              rows: [
+                [1, "Aarav", 25],
+                [2, "Bhavya", 30],
+                [3, "Charan", 22],
+                [4, "Divya", 28],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "posted_at", "posted_by"],
+              rows: [
+                [101, "Hello World!", "2023-08-01 10:30:00", 1],
+                [102, "Learning SQL is fun!", "2023-08-03 09:15:00", 2],
+                [103, "Good Morning!", "2023-07-29 07:00:00", 3],
+                [104, "Inner Join Practice", "2023-08-05 18:45:00", 1],
+                [105, "Database Concepts", "2023-08-02 14:20:00", 4],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
+              <p>The database contains user, post, comment and reaction tables.</p>
+            // <img
+            //   src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+            //   alt="DOM Tree"
+            //   style={{ width: "100%", height: "300px" }}
+            // />
+              <ul>
+                <li>1:n relation between user and comment</li>
+                <li>1:1 relation between user and reaction</li>
+                <li>1:n relation between post and comment</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>You can assume that a user may or may not post on the social media platform, i.e., a user can have zero or many posts.</li>
+                  <li>A post can have zero or many comments or reactions.</li>
+                  <li>Take care of this detail while writing various queries on the database, especially when deciding on INNER JOIN / LEFT JOIN.</li>
+                </ul>
+              </div>
+
+              <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+              <p class="desc-que-blue">Questions</p>
+
+              <p>1. Fetch all the posts along with user details.</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>Sort the posts in the descending order of posted_at.</li>
+                </ul>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>age</th>
+                      <th>post_id</th>
+                      <th>content</th>
+                      <th>posted_at</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+           testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select user.name",
+              type: "syntax-validation",
+              expectedKeywords: ["user.name"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should select user.age",
+              type: "syntax-validation",
+              expectedKeywords: ["user.age"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select post.post_id",
+              type: "syntax-validation",
+              expectedKeywords: ["post.post_id"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should select post.content",
+              type: "syntax-validation",
+              expectedKeywords: ["post.content"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should select post.posted_at",
+              type: "syntax-validation",
+              expectedKeywords: ["post.posted_at"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain FROM user",
+              type: "syntax-validation",
+              expectedKeywords: ["from user"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should use INNER JOIN post",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join post"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should join user.user_id = post.posted_by",
+              type: "syntax-validation",
+              expectedKeywords: ["user.user_id", "post.posted_by"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should contain ORDER BY posted_at DESC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "posted_at desc"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should not contain LIMIT clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["limit"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should not contain OFFSET clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["offset"],
+              visible: true,
+            },
+            ],
+        }, 
+        {
+          id: "sql-query-11-2",
+          title: "5 Recent Posts by James Williams",
+          description:
+            "In this practice set, let’s apply SQL Joins to fetch recent posts from a social networking database.",
+
+          difficulty: "Easy",
+          score: 40,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            user: {
+              columns: ["user_id", "name", "age"],
+              rows: [
+                [1, "James Williams", 29],
+                [2, "Emma Johnson", 31],
+                [3, "Liam Brown", 24],
+                [4, "Olivia Davis", 27],
+              ],
+            },
+
+            post: {
+              columns: ["post_id", "content", "posted_at", "posted_by"],
+              rows: [
+                [201, "AI is the future!", "2023-08-10 10:00:00", 1],
+                [202, "Robotics workshop today", "2023-08-12 09:30:00", 1],
+                [203, "Learning SQL joins", "2023-07-25 14:00:00", 2],
+                [204, "Machine Learning Basics", "2023-08-15 18:45:00", 1],
+                [205, "Database Optimization", "2023-08-08 12:15:00", 3],
+                [206, "Deep Learning Trends", "2023-08-18 16:20:00", 1],
+                [207, "Cloud Computing", "2023-08-05 11:10:00", 4],
+                [208, "Neural Networks Explained", "2023-08-20 08:40:00", 1],
+              ],
+            },
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
+              <p>The database contains user, post, comment and reaction tables.</p>
+            // <img
+            //   src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+            //   alt="DOM Tree"
+            //   style={{ width: "100%", height: "300px" }}
+            // />
+              <ul>
+                <li>1:n relation between user and comment</li>
+                <li>1:1 relation between user and reaction</li>
+                <li>1:n relation between post and comment</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>You can assume that a user may or may not post on the social media platform, i.e., a user can have zero or many posts.</li>
+                  <li>A post can have zero or many comments or reactions.</li>
+                  <li>Take care of this detail while writing various queries on the database, especially when deciding on INNER JOIN / LEFT JOIN.</li>
+                </ul>
+              </div>
+
+              <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+              <p class="desc-que-blue">Questions</p>
+
+              <p>Fetch the 5 recent posts posted by “James Williams”.</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>Condiser that the name of the user is “James Williams”</li>
+                  <li>Get the recent posts based on posted_at column in post table</li>
+                </ul>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>name</th>
+                      <th>age</th>
+                      <th>post_id</th>
+                      <th>content</th>
+                      <th>posted_at</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select user.name",
+              type: "syntax-validation",
+              expectedKeywords: ["user.name"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should select user.age",
+              type: "syntax-validation",
+              expectedKeywords: ["user.age"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Query should select post.post_id",
+              type: "syntax-validation",
+              expectedKeywords: ["post.post_id"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Query should select post.content",
+              type: "syntax-validation",
+              expectedKeywords: ["post.content"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should select post.posted_at",
+              type: "syntax-validation",
+              expectedKeywords: ["post.posted_at"],
+              visible: true,
+            },
+            {
+              id: 7,
+              description: "Query should contain FROM user",
+              type: "syntax-validation",
+              expectedKeywords: ["from user"],
+              visible: true,
+            },
+            {
+              id: 8,
+              description: "Query should use INNER JOIN post",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join post"],
+              visible: true,
+            },
+            {
+              id: 9,
+              description: "Query should join user.user_id = post.posted_by",
+              type: "syntax-validation",
+              expectedKeywords: ["user.user_id", "post.posted_by"],
+              visible: true,
+            },
+            {
+              id: 10,
+              description: "Query should filter by James Williams",
+              type: "syntax-validation",
+              expectedKeywords: ["where", "james williams"],
+              visible: true,
+            },
+            {
+              id: 11,
+              description: "Query should contain ORDER BY posted_at DESC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by", "posted_at desc"],
+              visible: true,
+            },
+            {
+              id: 12,
+              description: "Query should contain LIMIT 5",
+              type: "syntax-validation",
+              expectedKeywords: ["limit 5"],
+              visible: true,
+            },
+            {
+              id: 13,
+              description: "Query should not contain OFFSET clause",
+              type: "syntax-validation",
+              unexpectedKeywords: ["offset"],
+              visible: true,
+            },
+          ],
+        },
+        {
+        id: "sql-query-11-3",
+        title: "Total Posts by James Williams",
+        description:
+          "In this practice set, let’s apply SQL Joins and Aggregation to fetch the total number of posts posted by a specific user.",
+
+        difficulty: "Easy",
+        score: 40,
+        type: "sql",
+
+        defaultCode: {
+          sql: ``,
+        },
+
+        tableData: {
+          user: {
+            columns: ["user_id", "name", "age"],
+            rows: [
+              [1, "James Williams", 29],
+              [2, "Emma Johnson", 31],
+              [3, "Liam Brown", 24],
+              [4, "Olivia Davis", 27],
+            ],
+          },
+
+          post: {
+            columns: ["post_id", "content", "posted_at", "posted_by"],
+            rows: [
+              [201, "AI is the future!", "2023-08-10 10:00:00", 1],
+              [202, "Robotics workshop today", "2023-08-12 09:30:00", 1],
+              [203, "Learning SQL joins", "2023-07-25 14:00:00", 2],
+              [204, "Machine Learning Basics", "2023-08-15 18:45:00", 1],
+              [205, "Database Optimization", "2023-08-08 12:15:00", 3],
+              [206, "Deep Learning Trends", "2023-08-18 16:20:00", 1],
+              [207, "Cloud Computing", "2023-08-05 11:10:00", 4],
+              [208, "Neural Networks Explained", "2023-08-20 08:40:00", 1],
+            ],
+          },
+        },
+
+      descriptionDetails: `
+        <div class="desc-question-details">
+          <p class="desc-que-blue">Database</p>
+          <p>In this practice set, let’s apply Joins and Aggregation on a sample social networking application database.</p>
+          <p>The database contains user and post tables.</p>
+
+          <ul>
+            <li>1:n relation between user and post</li>
+            <li>A user can have zero or many posts.</li>
+          </ul>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <ul>
+              <li>Consider that the name of the user is “James Williams”.</li>
+              <li>Count all the posts posted by him till date.</li>
+              <li>Return the result as <b>posts_count</b>.</li>
+            </ul>
+          </div>
+
+          <p class="desc-que-blue">Question</p>
+          <p>Fetch the total number of posts posted by “James Williams” till date as posts_count.</p>
+
+          <p class="desc-que-blue">Expected Output Format</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>posts_count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `,
+
+      testCases: [
+        {
+          id: 1,
+          description: "Query should start with SELECT",
+          type: "syntax-validation",
+          expectedKeywords: ["select"],
+          visible: true,
+        },
+        {
+          id: 2,
+          description: "Query should use COUNT function",
+          type: "syntax-validation",
+          expectedKeywords: ["count"],
+          visible: true,
+        },
+        {
+          id: 3,
+          description: "Query should alias the count as posts_count",
+          type: "syntax-validation",
+          expectedKeywords: ["as posts_count"],
+          visible: true,
+        },
+        {
+          id: 4,
+          description: "Query should contain FROM user",
+          type: "syntax-validation",
+          expectedKeywords: ["from user"],
+          visible: true,
+        },
+        {
+          id: 5,
+          description: "Query should use INNER JOIN post",
+          type: "syntax-validation",
+          expectedKeywords: ["inner join post"],
+          visible: true,
+        },
+        {
+          id: 6,
+          description: "Query should join user.user_id = post.posted_by",
+          type: "syntax-validation",
+          expectedKeywords: ["user.user_id", "post.posted_by"],
+          visible: true,
+        },
+        {
+          id: 7,
+          description: "Query should filter by James Williams",
+          type: "syntax-validation",
+          expectedKeywords: ["where", "james williams"],
+          visible: true,
+        },
+        {
+          id: 8,
+          description: "Query should not contain GROUP BY clause",
+          type: "syntax-validation",
+          unexpectedKeywords: ["group by"],
+          visible: true,
+        },
+        {
+          id: 9,
+          description: "Query should not contain ORDER BY clause",
+          type: "syntax-validation",
+          unexpectedKeywords: ["order by"],
+          visible: true,
+        },
+      ],
+        },
       ],
     },
   ],
