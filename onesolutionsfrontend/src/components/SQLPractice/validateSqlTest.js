@@ -1028,86 +1028,7 @@ const handleSelect = (sql, questionData) => {
       rows = resultRows;
     }
   }
-  // ==========================
-  // AGGREGATES WITHOUT GROUP BY
-  // ==========================
-  if (!groupByClause) {
-    const countMatch = selectPart.match(
-  /count\s*\(\s*(distinct\s+)?(\*|[\w\.]+)\s*\)\s*(?:as\s+(\w+))?/i
-);
-
-    const maxMatch = selectPart.match(
-      /max\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
-    );
-
-    const minMatch = selectPart.match(
-      /min\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
-    );
-
-    const sumMatch = selectPart.match(
-      /sum\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
-    );
-
-    const avgMatch = selectPart.match(
-      /avg\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
-    );
-
-    // If any aggregate exists
-    if (countMatch || maxMatch || minMatch || sumMatch || avgMatch) {
-      const result = {};
-
-      if (countMatch) {
-        const isDistinct = !!countMatch[1]; // DISTINCT detected
-        const column = countMatch[2]; // column or *
-        const alias = countMatch[3] || "count";
-
-        if (column === "*") {
-          result[alias] = rows.length;
-        } else if (isDistinct) {
-          result[alias] = new Set(rows.map((r) => r[column])).size;
-        } else {
-          result[alias] = rows.filter(
-            (r) => r[column] !== null && r[column] !== undefined
-          ).length;
-        }
-      }
-
-      if (maxMatch) {
-        const column = maxMatch[1];
-        const alias = maxMatch[2] || "max";
-        result[alias] = Math.max(...rows.map((r) => Number(r[column])));
-      }
-
-      if (minMatch) {
-        const column = minMatch[1];
-        const alias = minMatch[2] || "min";
-        result[alias] = Math.min(...rows.map((r) => Number(r[column])));
-      }
-
-      if (sumMatch) {
-        const column = sumMatch[1];
-        const alias = sumMatch[2] || "sum";
-        result[alias] = rows.reduce((acc, r) => acc + Number(r[column]), 0);
-      }
-
-      if (avgMatch) {
-        const column = avgMatch[1];
-        const alias = avgMatch[2] || "avg";
-        result[alias] =
-          rows.reduce((acc, r) => acc + Number(r[column]), 0) / rows.length;
-      }
-
-      return {
-        success: true,
-        output: `✅ Query executed successfully. Returned 1 row.`,
-        data: {
-          columns: Object.keys(result),
-          results: [result],
-          rowCount: 1,
-        },
-      };
-    }
-  }
+  
   // ==========================
   // WHERE
   // ==========================
@@ -1189,6 +1110,90 @@ const handleSelect = (sql, questionData) => {
       });
     });
   }
+  // ==========================
+  // AGGREGATES WITHOUT GROUP BY
+  // ==========================
+  if (!groupByClause) {
+    const countMatch = selectPart.match(
+  /count\s*\(\s*(distinct\s+)?(\*|[\w\.]+)\s*\)\s*(?:as\s+(\w+))?/i
+);
+
+    const maxMatch = selectPart.match(
+      /max\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    const minMatch = selectPart.match(
+      /min\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    const sumMatch = selectPart.match(
+      /sum\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    const avgMatch = selectPart.match(
+      /avg\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
+    );
+
+    // If any aggregate exists
+    if (countMatch || maxMatch || minMatch || sumMatch || avgMatch) {
+      const result = {};
+
+      if (countMatch) {
+        const isDistinct = !!countMatch[1]; // DISTINCT detected
+        let column = countMatch[2];
+
+        if (column.includes(".")) {
+          column = column.split(".")[1];
+        }
+        const alias = countMatch[3] || "count";
+
+        if (column === "*") {
+          result[alias] = rows.length;
+        } else if (isDistinct) {
+          result[alias] = new Set(rows.map((r) => r[column])).size;
+        } else {
+          result[alias] = rows.filter(
+            (r) => r[column] !== null && r[column] !== undefined
+          ).length;
+        }
+      }
+
+      if (maxMatch) {
+        const column = maxMatch[1];
+        const alias = maxMatch[2] || "max";
+        result[alias] = Math.max(...rows.map((r) => Number(r[column])));
+      }
+
+      if (minMatch) {
+        const column = minMatch[1];
+        const alias = minMatch[2] || "min";
+        result[alias] = Math.min(...rows.map((r) => Number(r[column])));
+      }
+
+      if (sumMatch) {
+        const column = sumMatch[1];
+        const alias = sumMatch[2] || "sum";
+        result[alias] = rows.reduce((acc, r) => acc + Number(r[column]), 0);
+      }
+
+      if (avgMatch) {
+        const column = avgMatch[1];
+        const alias = avgMatch[2] || "avg";
+        result[alias] =
+          rows.reduce((acc, r) => acc + Number(r[column]), 0) / rows.length;
+      }
+
+      return {
+        success: true,
+        output: `✅ Query executed successfully. Returned 1 row.`,
+        data: {
+          columns: Object.keys(result),
+          results: [result],
+          rowCount: 1,
+        },
+      };
+    }
+  }
 
   // ==========================
   // GROUP BY + Aggregates
@@ -1204,7 +1209,7 @@ const handleSelect = (sql, questionData) => {
       /sum\s*\(\s*([^)]+)\s*\)\s*(?:as\s+(\w+))?/i
     );
     const countMatch = selectPart.match(
-      /count\s*\(\s*(distinct\s+)?(\*|\w+)\s*\)\s*(?:as\s+(\w+))?/i
+      /count\s*\(\s*(distinct\s+)?(\*|[\w\.]+)\s*\)\s*(?:as\s+(\w+))?/i
     );
     const avgMatch = selectPart.match(
       /avg\s*\(\s*(\w+)\s*\)\s*(?:as\s+(\w+))?/i
@@ -1395,15 +1400,20 @@ const handleSelect = (sql, questionData) => {
         const aliasMatch = col.match(/(.+)\s+as\s+(\w+)/i);
 
         if (aliasMatch) {
-          const originalColumn = aliasMatch[1].trim();
-          const alias = aliasMatch[2];
+  const originalColumn = aliasMatch[1].trim();
+  const alias = aliasMatch[2];
 
-          const columnName = originalColumn.includes(".")
-            ? originalColumn.split(".")[1]
-            : originalColumn;
+  // 🔥 If aggregate function, just take alias directly
+  if (/count|sum|avg|max|min/i.test(originalColumn)) {
+    filteredRow[alias] = row[alias];
+  } else {
+    const columnName = originalColumn.includes(".")
+      ? originalColumn.split(".")[1]
+      : originalColumn;
 
-          filteredRow[alias] = row[columnName];
-        } else {
+    filteredRow[alias] = row[columnName];
+  }
+} else {
           const columnName = col.includes(".") ? col.split(".")[1] : col;
 
           filteredRow[columnName] = row[columnName];

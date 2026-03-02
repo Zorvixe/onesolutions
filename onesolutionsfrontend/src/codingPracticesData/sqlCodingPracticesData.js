@@ -13866,11 +13866,11 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
               <p class="desc-que-blue">Database</p>
               <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
               <p>The database contains user, post, comment and reaction tables.</p>
-            // <img
-            //   src="/assets/img/joins_db_diagram_coding_pratice_2.png"
-            //   alt="DOM Tree"
-            //   style={{ width: "100%", height: "300px" }}
-            // />
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
               <ul>
                 <li>1:n relation between user and comment</li>
                 <li>1:1 relation between user and reaction</li>
@@ -14064,11 +14064,11 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
               <p class="desc-que-blue">Database</p>
               <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
               <p>The database contains user, post, comment and reaction tables.</p>
-            // <img
-            //   src="/assets/img/joins_db_diagram_coding_pratice_2.png"
-            //   alt="DOM Tree"
-            //   style={{ width: "100%", height: "300px" }}
-            // />
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
               <ul>
                 <li>1:n relation between user and comment</li>
                 <li>1:1 relation between user and reaction</li>
@@ -14240,75 +14240,270 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
         },
 
         tableData: {
-          user: {
-            columns: ["user_id", "name", "age"],
-            rows: [
-              [1, "James Williams", 29],
-              [2, "Emma Johnson", 31],
-              [3, "Liam Brown", 24],
-              [4, "Olivia Davis", 27],
-            ],
-          },
-
-          post: {
-            columns: ["post_id", "content", "posted_at", "posted_by"],
-            rows: [
-              [201, "AI is the future!", "2023-08-10 10:00:00", 1],
-              [202, "Robotics workshop today", "2023-08-12 09:30:00", 1],
-              [203, "Learning SQL joins", "2023-07-25 14:00:00", 2],
-              [204, "Machine Learning Basics", "2023-08-15 18:45:00", 1],
-              [205, "Database Optimization", "2023-08-08 12:15:00", 3],
-              [206, "Deep Learning Trends", "2023-08-18 16:20:00", 1],
-              [207, "Cloud Computing", "2023-08-05 11:10:00", 4],
-              [208, "Neural Networks Explained", "2023-08-20 08:40:00", 1],
-            ],
-          },
+        user: {
+          columns: ["user_id", "name", "age"],
+          rows: [
+            [1, "James Williams", 35],
+            [2, "Sophia Brown", 28],
+            [3, "Liam Johnson", 31],
+            [4, "Emma Davis", 26],
+          ],
         },
 
+        post: {
+          columns: ["post_id", "content", "posted_at", "posted_by"],
+          rows: [
+            [101, "Morning Workout!", "2023-08-01 08:00:00", 1],
+            [102, "Learning SQL Joins", "2023-08-02 10:30:00", 1],
+            [103, "Coffee Time ☕", "2023-08-03 09:15:00", 1],
+            [104, "Weekend Trip!", "2023-08-04 14:45:00", 1],
+            [105, "Reading a new book", "2023-08-05 19:20:00", 1],
+            [106, "Database Practice", "2023-08-06 17:10:00", 1],
+
+            [107, "Hello World!", "2023-08-02 11:00:00", 2],
+            [108, "React is awesome!", "2023-08-03 16:30:00", 3],
+            [109, "Good Evening!", "2023-08-05 18:00:00", 4],
+          ],
+        },
+      },
+
       descriptionDetails: `
-        <div class="desc-question-details">
-          <p class="desc-que-blue">Database</p>
-          <p>In this practice set, let’s apply Joins and Aggregation on a sample social networking application database.</p>
-          <p>The database contains user and post tables.</p>
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
+              <p>The database contains user, post, comment and reaction tables.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+              <ul>
+                <li>1:n relation between user and comment</li>
+                <li>1:1 relation between user and reaction</li>
+                <li>1:n relation between post and comment</li>
+              </ul>
 
-          <ul>
-            <li>1:n relation between user and post</li>
-            <li>A user can have zero or many posts.</li>
-          </ul>
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>You can assume that a user may or may not post on the social media platform, i.e., a user can have zero or many posts.</li>
+                  <li>A post can have zero or many comments or reactions.</li>
+                  <li>Take care of this detail while writing various queries on the database, especially when deciding on INNER JOIN / LEFT JOIN.</li>
+                </ul>
+              </div>
 
-          <div class="Note-container">
-            <div class="icon-note">
-              <h6>
-                <i class="bi bi-journal-text"></i>Note
-              </h6>
+              <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+              <p class="desc-que-blue">Questions</p>
+
+              <p>Fetch the total number of posts posted by “James Williams” till date asposts_count.</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>Condiser that the name of the user is “James Williams”</li>
+                </ul>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>posts_count</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <ul>
-              <li>Consider that the name of the user is “James Williams”.</li>
-              <li>Count all the posts posted by him till date.</li>
-              <li>Return the result as <b>posts_count</b>.</li>
-            </ul>
-          </div>
+          `,
 
-          <p class="desc-que-blue">Question</p>
-          <p>Fetch the total number of posts posted by “James Williams” till date as posts_count.</p>
+      testCases: [
+        {
+          id: 1,
+          description: "Query should start with SELECT",
+          type: "syntax-validation",
+          expectedKeywords: ["select"],
+          visible: true,
+        },
+        {
+          id: 2,
+          description: "Query should use COUNT function",
+          type: "syntax-validation",
+          expectedKeywords: ["count"],
+          visible: true,
+        },
+        {
+          id: 3,
+          description: "Query should alias the count as posts_count",
+          type: "syntax-validation",
+          expectedKeywords: ["as posts_count"],
+          visible: true,
+        },
+        {
+          id: 4,
+          description: "Query should contain FROM user",
+          type: "syntax-validation",
+          expectedKeywords: ["from user"],
+          visible: true,
+        },
+        {
+          id: 5,
+          description: "Query should use INNER JOIN post",
+          type: "syntax-validation",
+          expectedKeywords: ["inner join post"],
+          visible: true,
+        },
+        {
+          id: 6,
+          description: "Query should join user.user_id = post.posted_by",
+          type: "syntax-validation",
+          expectedKeywords: ["user.user_id", "post.posted_by"],
+          visible: true,
+        },
+        {
+          id: 7,
+          description: "Query should filter by James Williams",
+          type: "syntax-validation",
+          expectedKeywords: ["where", "james williams"],
+          visible: true,
+        },
+        {
+          id: 8,
+          description: "Query should not contain GROUP BY clause",
+          type: "syntax-validation",
+          unexpectedKeywords: ["group by"],
+          visible: true,
+        },
+        {
+          id: 9,
+          description: "Query should not contain ORDER BY clause",
+          type: "syntax-validation",
+          unexpectedKeywords: ["order by"],
+          visible: true,
+        },
+      ],
+        },
+        {
+        id: "sql-query-11-4",
+        title: "Total number of posts ",
+        description:
+          "In this practice set, let’s apply SQL Joins and Aggregation to fetch the total number of posts posted by a specific user.",
 
-          <p class="desc-que-blue">Expected Output Format</p>
-          <div class="sql-table-desc">
-            <table>
-              <thead>
-                <tr>
-                  <th>posts_count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `,
+        difficulty: "Easy",
+        score: 40,
+        type: "sql",
+
+        defaultCode: {
+          sql: ``,
+        },
+
+        tableData: {
+        user: {
+          columns: ["user_id", "name", "age"],
+          rows: [
+            [1, "James Williams", 35],
+            [2, "Sophia Brown", 28],
+            [3, "Liam Johnson", 31],
+            [4, "Emma Davis", 26],
+          ],
+        },
+
+        post: {
+          columns: ["post_id", "content", "posted_at", "posted_by"],
+          rows: [
+            [101, "Morning Workout!", "2023-08-01 08:00:00", 1],
+            [102, "Learning SQL Joins", "2023-08-02 10:30:00", 1],
+            [103, "Coffee Time ☕", "2023-08-03 09:15:00", 1],
+            [104, "Weekend Trip!", "2023-08-04 14:45:00", 1],
+            [105, "Reading a new book", "2023-08-05 19:20:00", 1],
+            [106, "Database Practice", "2023-08-06 17:10:00", 1],
+
+            [107, "Hello World!", "2023-08-02 11:00:00", 2],
+            [108, "React is awesome!", "2023-08-03 16:30:00", 3],
+            [109, "Good Evening!", "2023-08-05 18:00:00", 4],
+          ],
+        },
+      },
+
+      descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
+              <p>The database contains user, post, comment and reaction tables.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+              <ul>
+                <li>1:n relation between user and comment</li>
+                <li>1:1 relation between user and reaction</li>
+                <li>1:n relation between post and comment</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>You can assume that a user may or may not post on the social media platform, i.e., a user can have zero or many posts.</li>
+                  <li>A post can have zero or many comments or reactions.</li>
+                  <li>Take care of this detail while writing various queries on the database, especially when deciding on INNER JOIN / LEFT JOIN.</li>
+                </ul>
+              </div>
+
+              <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+              <p class="desc-que-blue">Questions</p>
+
+              <p>For every user, fetch the total number of posts posted so far as posts_count</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>If a user does not publish any posts, keep the posts_count as 0.</li>
+                  <li>Sort the output in the descending order of posts_count, and then in the ascending order of user_id.</li>
+                </ul>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>user_id</th>
+                      <th>user_name</th>
+                      <th>posts_count</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                      <td>...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
 
       testCases: [
         {

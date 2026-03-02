@@ -465,3 +465,12 @@
     font-size: 13px;
   }
 }
+
+.no-content-placeholder{
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  font-size: 18px;
+}

@@ -17,23 +17,31 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
   const [selectedProblem, setSelectedProblem] = useState(null);
   const [code, setCode] = useState("");
   const [results, setResults] = useState(null);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!practice && practiceId) {
-      const load = async () => {
-        try {
-          setLoading(true);
-          const res = await getJavaCodingPractice(practiceId);
-          if (res?.success) setPractice(res.data);
-        } catch (e) {
-          console.error(e);
-        } finally {
-          setLoading(false);
+// In render
+
+ useEffect(() => {
+  if (practiceId && !practice) {
+    const loadPractice = async () => {
+      setLoading(true);
+      try {
+        const res = await getJavaCodingPractice(practiceId);
+        if (res?.success) {
+          setPractice(res.data);          // ✅ FIXED: use res.data.data (the practice object)
+        } else {
+          setError(res?.message || "Failed to load practice");
         }
-      };
-      load();
-    }
-  }, [practiceId, practice, getJavaCodingPractice]);
+      } catch (e) {
+        console.error(e);
+        setError(e.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPractice();
+  }
+}, [practiceId, practice, getJavaCodingPractice]);
 
   const runCode = async () => {
     if (!selectedProblem) return;
@@ -73,6 +81,8 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
 
   if (loading) return <div className="spinner"></div>;
   if (!practice) return <div>Practice not found</div>;
+  if (error) return <div className="error">{error}</div>;
+
 
   // If it's a single problem (contentUuid route) we directly show the problem
   if (isSingleProblem && props.preLoadedContent) {

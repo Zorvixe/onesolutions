@@ -67,108 +67,111 @@ const JavaVideoUploadModal = ({
     );
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
 
-    if (!title.trim()) {
-      setError("Please provide a title");
-      return;
-    }
-    if (allowedStudentTypes.length === 0) {
-      setError("Please select at least one student type");
-      return;
-    }
-    if (!isEditing && !videoFile) {
-      setError("Please select a video file");
-      return;
-    }
+  if (!title.trim()) {
+    setError("Please provide a title");
+    return;
+  }
+  if (allowedStudentTypes.length === 0) {
+    setError("Please select at least one student type");
+    return;
+  }
+  if (!isEditing && !videoFile) {
+    setError("Please select a video file");
+    return;
+  }
 
-    setUploading(true);
+  setUploading(true);
 
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev < 70) return prev + 5;
-        return prev;
-      });
-    }, 500);
+  const interval = setInterval(() => {
+    setProgress((prev) => {
+      if (prev < 70) return prev + 5;
+      return prev;
+    });
+  }, 500);
 
-    try {
-      if (isEditing) {
-        // UPDATE MODE
-        const response = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/content/${editData.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              content_type: "video",
-              video_title: title,
-              video_description: description,
-              video_duration: duration,
-              slides_id: slidesId,
-              allowed_student_types: allowedStudentTypes,
-            }),
-          }
-        );
-
-        const responseText = await response.text();
-        if (!response.ok) {
-          let errorData;
-          try {
-            errorData = JSON.parse(responseText);
-          } catch {
-            errorData = { message: responseText };
-          }
-          throw new Error(errorData.message || errorData.error || "Update failed");
+  try {
+    if (isEditing) {
+      // UPDATE MODE – JSON request, array is sent as JavaScript array (handled automatically)
+      const response = await fetch(
+        `https://api.onesolutionsekam.in/admin/java/content/${editData.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content_type: "video",
+            video_title: title,
+            video_description: description,
+            video_duration: duration,
+            slides_id: slidesId,
+            allowed_student_types: allowedStudentTypes, // array – fine
+          }),
         }
-      } else {
-        // CREATE MODE
-        const formData = new FormData();
-        formData.append("video", videoFile);
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("duration", duration || "0");
-        formData.append("slides_id", slidesId || "");
-        formData.append("allowed_student_types", JSON.stringify(allowedStudentTypes));
+      );
 
-        const response = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/video`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const responseText = await response.text();
-        if (!response.ok) {
-          let errorData;
-          try {
-            errorData = JSON.parse(responseText);
-          } catch {
-            errorData = { message: responseText };
-          }
-          throw new Error(
-            errorData.message || errorData.error || `Upload failed with status ${response.status}`
-          );
+      const responseText = await response.text();
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = JSON.parse(responseText);
+        } catch {
+          errorData = { message: responseText };
         }
+        throw new Error(errorData.message || errorData.error || "Update failed");
       }
+    } else {
+      // CREATE MODE – multipart/form-data
+      const formData = new FormData();
+      formData.append("video", videoFile);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("duration", duration || "0");
+      formData.append("slides_id", slidesId || "");
 
-      clearInterval(interval);
-      setProgress(100);
-      setTimeout(() => {
-        onSuccess();
-      }, 500);
-    } catch (error) {
-      clearInterval(interval);
-      console.error("Action error:", error);
-      setError(error.message || (isEditing ? "Failed to update video details" : "Failed to upload video"));
-      setUploading(false);
-      setProgress(0);
+      // ✅ Fix: Convert array to PostgreSQL array literal
+      const pgArrayLiteral = `{${allowedStudentTypes.join(',')}}`;
+      formData.append("allowed_student_types", pgArrayLiteral);
+
+      const response = await fetch(
+        `https://api.onesolutionsekam.in/admin/java/subtopics/${subtopicId}/video`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const responseText = await response.text();
+      if (!response.ok) {
+        let errorData;
+        try {
+          errorData = JSON.parse(responseText);
+        } catch {
+          errorData = { message: responseText };
+        }
+        throw new Error(
+          errorData.message || errorData.error || `Upload failed with status ${response.status}`
+        );
+      }
     }
-  };
+
+    clearInterval(interval);
+    setProgress(100);
+    setTimeout(() => {
+      onSuccess();
+    }, 500);
+  } catch (error) {
+    clearInterval(interval);
+    console.error("Action error:", error);
+    setError(error.message || (isEditing ? "Failed to update video details" : "Failed to upload video"));
+    setUploading(false);
+    setProgress(0);
+  }
+};
 
   return (
     <div className="video-upload-overlay">
@@ -200,7 +203,7 @@ const JavaVideoUploadModal = ({
                 />
               </div>
 
-              <div className="video-upload-field">
+              {/* <div className="video-upload-field">
                 <label className="video-upload-label">Description</label>
                 <textarea
                   value={description}
@@ -209,9 +212,9 @@ const JavaVideoUploadModal = ({
                   placeholder="Describe what this video covers..."
                   rows="3"
                 />
-              </div>
+              </div> */}
 
-              {!isEditing && (
+              {/* {!isEditing && (
                 <div className="video-upload-field">
                   <label className="video-upload-label">
                     Duration (minutes)
@@ -228,7 +231,7 @@ const JavaVideoUploadModal = ({
                     />
                   </div>
                 </div>
-              )}
+              )} */}
 
               <div className="video-upload-field">
                 <label className="video-upload-label">Google Slides ID</label>
@@ -249,9 +252,9 @@ const JavaVideoUploadModal = ({
 
               <div className="video-upload-field">
                 <label className="video-upload-label">Access for Student Types *</label>
-                <div className="student-type-checkboxes">
+                <div className="student-type-checkboxes" style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
                   {studentTypeOptions.map((option) => (
-                    <label key={option.value} className="student-type-checkbox">
+                    <label key={option.value} className="student-type-checkbox" style={{ display: "flex", alignItems: "center", gap: "0.2rem" }}>
                       <input
                         type="checkbox"
                         checked={allowedStudentTypes.includes(option.value)}

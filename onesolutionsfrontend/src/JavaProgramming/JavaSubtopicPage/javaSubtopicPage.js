@@ -34,29 +34,95 @@ const JavaSubtopicPage = () => {
   const [expandedTopic, setExpandedTopic] = useState(null);
   const [goalModules, setGoalModules] = useState([]);
   const [isMobileContentVisible, setIsMobileContentVisible] = useState(false);
+  const [goalIndex, setGoalIndex] = useState(0);
 
-  const courseSelection = user?.courseSelection || "web_development";
-  const hasJavaAccess = courseSelection === "web_development" || courseSelection === "all";
+  const courseSelection = user?.courseSelection;
+  const hasJavaAccess = courseSelection === "java_programming" || courseSelection === "all";
+
+  const getContentType = (c) => {
+    if (c.content_type) return c.content_type;
+    if (c.video_title) return "video";
+    if (c.cheatsheet_title) return "cheatsheet";
+    if (c.mcq_title) return "mcq";
+    if (c.coding_title) return "coding";
+    return "video";
+  };
 
   const checkIsItemCompleted = (item) => {
     if (!item) return false;
-    return completedContent.some((id) => String(id) === String(item.id)) || item.is_completed === true;
+    const isInRx = completedContent.some((id) => String(id) === String(item.id));
+    const isDb = item.is_completed === true || item.is_completed === 1;
+    return isInRx || isDb;
   };
 
   const markAsCompleted = async () => {
     if (!content?.id || checkIsItemCompleted(content)) return;
+
     try {
       await markJavaContentComplete(content.id, selectedGoal?.id);
-      setContent(prev => ({ ...prev, is_completed: true }));
-      window.dispatchEvent(new CustomEvent("subtopicCompleted", { detail: { subtopicId: content.id } }));
+
+      const timestamp = Date.now();
+      localStorage.setItem("lastProgressUpdate", timestamp.toString());
+
+      const events = [
+        new CustomEvent("subtopicCompleted", {
+          detail: { subtopicId: content.id, timestamp, isJava: true },
+        }),
+        new CustomEvent("markSubtopicCompleted", {
+          detail: { subtopicId: content.id, isJava: true },
+        }),
+      ];
+      events.forEach((event) => window.dispatchEvent(event));
+
+      setContent((prev) => ({ ...prev, is_completed: true }));
     } catch (err) {
       console.error("Error marking Java content complete:", err);
     }
   };
 
-  const getContentType = (c) => c.content_type || (c.video_title ? "video" : c.cheatsheet_title ? "cheatsheet" : c.mcq_title ? "mcq" : "coding");
+  const loadModuleStructure = async (moduleId, contentData = null) => {
+    if (!moduleId) return;
 
-  // Load data based on route
+    try {
+      if (!javaGoals?.length) {
+        await loadJavaAllStructure();
+      }
+
+      for (const goal of javaGoals) {
+        const foundModule = goal.modules?.find((m) => m.id === moduleId);
+        if (foundModule) {
+          setSelectedGoal(goal);
+          setGoalModules([foundModule]);
+
+          if (contentData) {
+            // Find and set current path within this module
+            for (const topic of foundModule.topics || []) {
+              for (const subtopic of topic.subtopics || []) {
+                const foundContent = subtopic.content?.find(
+                  (c) =>
+                    String(c.id) === String(contentData.id) ||
+                    c.content_uuid === contentData.content_uuid
+                );
+                if (foundContent) {
+                  setExpandedModule(foundModule.id);
+                  setExpandedTopic(topic.id);
+                  setSelectedModule({ id: foundModule.id, name: foundModule.name });
+                  setSelectedTopic({ id: topic.id, name: topic.name });
+                  setSelectedSubtopic({ id: subtopic.id, name: subtopic.name });
+                  return;
+                }
+              }
+            }
+          }
+          return;
+        }
+      }
+      console.warn("Module not found");
+    } catch (err) {
+      console.error("Module load failed:", err);
+    }
+  };
+
   useEffect(() => {
     if (!hasJavaAccess) {
       setError("Access denied");
@@ -68,15 +134,22 @@ const JavaSubtopicPage = () => {
     const loadData = async () => {
       setLoading(true);
       try {
+        let fetchedContent = null;
+
+        // 1. ALWAYS fetch full content from backend to get video_url, cheatsheet_content, questions etc.
         if (contentUuid) {
           const res = await getJavaContentByUuid(contentUuid);
           if (res?.success) {
-            const c = res.data;
-            c.content_type = getContentType(c);
-            setContent(c);
+            fetchedContent = res.data;
+            fetchedContent.content_type = getContentType(fetchedContent);
+            setContent(fetchedContent);
             setIsAccessible(true);
             setIsMobileContentVisible(true);
-            if (c.goal_id) setSelectedGoal({ id: c.goal_id });
+            if (fetchedContent.goal_id) {
+              setSelectedGoal({ id: fetchedContent.goal_id, name: "Java Programming" });
+              const goalIdx = javaGoals?.findIndex((g) => g.id === fetchedContent.goal_id);
+              if (goalIdx !== -1) setGoalIndex(goalIdx);
+            }
           } else {
             setError("Content not found");
             setIsAccessible(false);
@@ -87,12 +160,35 @@ const JavaSubtopicPage = () => {
             setPractice(res.data);
             setIsAccessible(true);
             setIsMobileContentVisible(true);
-            // practice.goal_id etc may be in the response
           } else {
             setError("Practice not found");
             setIsAccessible(false);
           }
         }
+
+        // 2. Maintain UI State (Breadcrumbs/Expansion) from location.state if it exists
+        if (location.state) {
+          if (location.state.goalId) {
+            setSelectedGoal({ id: location.state.goalId, name: location.state.goalName || "Java Programming" });
+          }
+          if (location.state.moduleId) {
+            setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
+            setExpandedModule(location.state.moduleId);
+          }
+          if (location.state.topicId) {
+            setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
+            setExpandedTopic(location.state.topicId);
+          }
+          if (location.state.subtopicId) {
+            setSelectedSubtopic({ id: location.state.subtopicId, name: location.state.subtopicName });
+          }
+
+          // Use the fetched full content to map out UI location
+          await loadModuleStructure(location.state.moduleId, fetchedContent || location.state.contentItem);
+        } else if (fetchedContent) {
+           await loadModuleStructure(fetchedContent.module_id, fetchedContent);
+        }
+
       } catch (err) {
         setError(err.message);
         setIsAccessible(false);
@@ -100,24 +196,28 @@ const JavaSubtopicPage = () => {
         setLoading(false);
       }
     };
-    loadData();
-  }, [contentUuid, practiceId, hasJavaAccess]);
 
-  // After data loaded, load full structure to get sidebar
+    loadData();
+  }, [contentUuid, practiceId, hasJavaAccess, location.state]);
+
+  // Load full structure if needed
   useEffect(() => {
     if (javaGoals.length === 0) {
       loadJavaAllStructure().catch(console.error);
     }
   }, []);
 
-  // Find module/topic/subtopic from content
+  // After modules loaded, find path from content if not set via state
   useEffect(() => {
-    if (!content || !javaGoals.length) return;
+    if (!content || !javaGoals.length || selectedModule) return;
+
     for (const goal of javaGoals) {
       for (const module of goal.modules || []) {
         for (const topic of module.topics || []) {
           for (const subtopic of topic.subtopics || []) {
-            const found = subtopic.content?.find(c => String(c.id) === String(content.id) || c.content_uuid === content.content_uuid);
+            const found = subtopic.content?.find(
+              (c) => String(c.id) === String(content.id) || c.content_uuid === content.content_uuid
+            );
             if (found) {
               setSelectedGoal(goal);
               setSelectedModule({ id: module.id, name: module.name });
@@ -134,17 +234,16 @@ const JavaSubtopicPage = () => {
     }
   }, [content, javaGoals]);
 
-  // Find module/topic/subtopic from practice
+  // For practice, use state if available
   useEffect(() => {
-    if (!practice || !javaGoals.length) return;
-    // practice contains subtopic_id? maybe not, but we can assume it's passed via state
+    if (!practice || !javaGoals.length || selectedModule) return;
     if (location.state?.moduleId) {
       setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
       setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
       setSelectedSubtopic({ id: location.state.subtopicId, name: location.state.subtopicName });
       setExpandedModule(location.state.moduleId);
       setExpandedTopic(location.state.topicId);
-      // Find the module in goals
+
       for (const goal of javaGoals) {
         const mod = goal.modules?.find(m => m.id === location.state.moduleId);
         if (mod) {
@@ -156,15 +255,59 @@ const JavaSubtopicPage = () => {
     }
   }, [practice, javaGoals, location.state]);
 
+  const handleTopicClick = (topicId) => {
+    setExpandedTopic(expandedTopic === topicId ? null : topicId);
+  };
+
+  const handleSubtopicClick = (module, topic, subtopic, item) => {
+    if (item.content_uuid) {
+      const contentItem = { ...item };
+      contentItem.content_type = getContentType(item);
+      setIsMobileContentVisible(true);
+
+      navigate(`/java/content/${item.content_uuid}`, {
+        state: {
+          contentItem,
+          goalId: selectedGoal?.id,
+          goalName: selectedGoal?.name,
+          moduleId: module.id,
+          moduleName: module.name,
+          topicId: topic.id,
+          topicName: topic.name,
+          subtopicId: subtopic.id,
+          subtopicName: subtopic.name,
+          fromCourse: true,
+          isJava: true,
+        },
+      });
+    } else if (item.id && item.title) {
+      // it's a practice
+      setIsMobileContentVisible(true);
+      navigate(`/java/practice/${item.id}`, {
+        state: {
+          practice: item,
+          moduleId: module.id,
+          moduleName: module.name,
+          topicId: topic.id,
+          topicName: topic.name,
+          subtopicId: subtopic.id,
+          subtopicName: subtopic.name,
+          fromCourse: true,
+          isJava: true,
+        },
+      });
+    }
+  };
+
   const renderContent = () => {
     if (content) {
       const props = {
         contentId: content.id,
         contentUuid: content.content_uuid,
-        goalId: selectedGoal?.id,
-        moduleId: selectedModule?.id,
-        topicId: selectedTopic?.id,
-        subtopicId: selectedSubtopic?.id,
+        goalId: selectedGoal?.id || content.goal_id,
+        moduleId: selectedModule?.id || content.module_id,
+        topicId: selectedTopic?.id || content.topic_id,
+        subtopicId: selectedSubtopic?.id || content.subtopic_id,
         onComplete: markAsCompleted,
         preLoadedContent: content,
       };
@@ -182,27 +325,27 @@ const JavaSubtopicPage = () => {
     return null;
   };
 
-  const handleSubtopicClick = (module, topic, subtopic, item) => {
-    if (item.content_uuid) {
-      navigate(`/java/content/${item.content_uuid}`, {
-        state: { ...location.state, ...item, module, topic, subtopic }
-      });
-    } else if (item.id && item.title) { // it's a practice
-      navigate(`/java/practice/${item.id}`, {
-        state: { ...location.state, practice: item, module, topic, subtopic }
-      });
-    }
-    setIsMobileContentVisible(true);
-  };
+  if (loading) return (
+    <div className="subtopic-page-sub">
+      <div className="loading-container" style={{ width: "100%", padding: "50px" }}>
+        <div className="spinner" />
+        <p>Loading Java content...</p>
+      </div>
+    </div>
+  );
 
-  if (loading) return <div className="subtopic-page-sub"><div className="spinner" /></div>;
   if (!hasJavaAccess || !isAccessible) {
     return (
       <div className="subtopic-page-sub">
-        <div className="not-found-con">
-          <img src="/assets/img/locked_image.png" className="locked_image" alt="Access Denied" />
-          <h2>Java Access Required</h2>
-          <button onClick={() => navigate("/profile")}>Upgrade</button>
+        <div className="subtopic-page-sub__right-panel-sub" style={{ width: "100%" }}>
+          <div className="not-found-con">
+            <img src="/assets/img/locked_image.png" className="locked_image" alt="Access Denied" />
+            <h2>Java Access Required</h2>
+            <p>You don't have access to Java content.</p>
+            <button className="upgrade-button" onClick={() => navigate("/profile")}>
+              Upgrade Now
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -221,8 +364,10 @@ const JavaSubtopicPage = () => {
               module.topics?.map((topic) => (
                 <div key={topic.id} className="subtopic-page-sub__module-section-sub">
                   <h4
-                    className={`subtopic-page-sub__module-title-sub ${expandedTopic === topic.id ? "active" : ""}`}
-                    onClick={() => setExpandedTopic(expandedTopic === topic.id ? null : topic.id)}
+                    className={`subtopic-page-sub__module-title-sub ${
+                      expandedTopic === topic.id ? "subtopic-page-sub__module-title-sub--active" : ""
+                    }`}
+                    onClick={() => handleTopicClick(topic.id)}
                   >
                     {topic.name}
                   </h4>
@@ -234,13 +379,17 @@ const JavaSubtopicPage = () => {
                           const isCompleted = checkIsItemCompleted(c);
                           return (
                             <div
-                              className={`subtopic-page-sub__item-sub ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
-                              key={c.id}
-                              onClick={() => handleSubtopicClick(module, topic, subtopic, c)}
+                              className={`subtopic-page-sub__topics-sub`}
+                              key={`content-${c.id}`}
                             >
-                              <span className="subtopic-page-sub__item-text-sub">
-                                {c.video_title || c.cheatsheet_title || c.mcq_title || c.coding_title || subtopic.name}
-                              </span>
+                              <div
+                                className={`subtopic-page-sub__item-sub ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
+                                onClick={() => handleSubtopicClick(module, topic, subtopic, c)}
+                              >
+                                <span className="subtopic-page-sub__item-text-sub">
+                                  {c.video_title || c.cheatsheet_title || c.mcq_title || c.coding_title || subtopic.name}
+                                </span>
+                              </div>
                             </div>
                           );
                         })}
@@ -248,14 +397,15 @@ const JavaSubtopicPage = () => {
                           const isActive = practice && p.id === practice.practice?.id;
                           const isCompleted = p.is_completed;
                           return (
-                            <div
-                              className={`subtopic-page-sub__item-sub practice-item ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
-                              key={p.id}
-                              onClick={() => handleSubtopicClick(module, topic, subtopic, p)}
-                            >
-                              <span className="subtopic-page-sub__item-text-sub">
-                                {p.title} (Practice)
-                              </span>
+                            <div className="subtopic-page-sub__topics-sub" key={`practice-${p.id}`}>
+                              <div
+                                className={`subtopic-page-sub__item-sub practice-item ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
+                                onClick={() => handleSubtopicClick(module, topic, subtopic, p)}
+                              >
+                                <span className="subtopic-page-sub__item-text-sub">
+                                  {p.title} (Practice)
+                                </span>
+                              </div>
                             </div>
                           );
                         })}
@@ -266,14 +416,18 @@ const JavaSubtopicPage = () => {
             )}
           </div>
         ) : (
-          <p>Select a topic from the courses page</p>
+         <div className="no-content-placeholder">
+           <p>Select a topic from the courses page to start learning</p>
+         </div>
         )}
       </div>
 
       {/* RIGHT PANEL */}
       <div className={`subtopic-page-sub__right-panel-sub ${isMobileContentVisible ? "mobile-visible" : ""}`}>
         <button className="mobile-back-button" onClick={() => setIsMobileContentVisible(false)}>
-          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
           Back to Topics
         </button>
         {renderContent()}
