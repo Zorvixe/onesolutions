@@ -223,14 +223,10 @@ const createJavaTables = async () => {
         coding_description TEXT,
         starter_code TEXT,
         coding_time_limit INTEGER,
-        coding_memory_limit INTEGER
+        coding_memory_limit INTEGER,
+        difficulty VARCHAR(50) DEFAULT 'easy',
+        score INTEGER DEFAULT 0
       )
-    `);
-
-    await pool.query(`
-    ALTER TABLE IF NOT EXISTS java_content 
-ADD COLUMN difficulty VARCHAR(50) DEFAULT 'easy',
-ADD COLUMN score INTEGER DEFAULT 0;
     `);
 
     await pool.query(`
@@ -305,16 +301,11 @@ const getGoalIdForContent = async (contentId) => {
   return result.rows[0]?.goal_id;
 };
 
-// ----------------------------------------------------------------------
-// ADMIN ROUTES
-// ----------------------------------------------------------------------
 
 // ---------- Goals ----------
 app.get("/admin/java/goals", async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM java_goals ORDER BY order_number"
-    );
+    const result = await pool.query("SELECT * FROM java_goals ORDER BY order_number");
     res.json({ success: true, data: result.rows });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -341,18 +332,12 @@ app.put("/admin/java/goals/:goalId", async (req, res) => {
     const { goalId } = req.params;
     const { name, description, duration_months, certificate_name } = req.body;
     const result = await pool.query(
-      `UPDATE java_goals SET name = COALESCE($1, name),
-                             description = COALESCE($2, description),
-                             duration_months = COALESCE($3, duration_months),
-                             certificate_name = COALESCE($4, certificate_name)
+      `UPDATE java_goals SET name = COALESCE($1, name), description = COALESCE($2, description),
+                             duration_months = COALESCE($3, duration_months), certificate_name = COALESCE($4, certificate_name)
        WHERE id = $5 RETURNING *`,
       [name, description, duration_months, certificate_name, goalId]
     );
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Goal not found" });
-    }
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Goal not found" });
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -364,15 +349,10 @@ app.delete("/admin/java/goals/:goalId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query(
-      "DELETE FROM java_goals WHERE id = $1 RETURNING *",
-      [goalId]
-    );
+    const result = await client.query("DELETE FROM java_goals WHERE id = $1 RETURNING *", [goalId]);
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res
-        .status(404)
-        .json({ success: false, message: "Goal not found" });
+      return res.status(404).json({ success: false, message: "Goal not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Goal deleted" });
@@ -387,10 +367,7 @@ app.delete("/admin/java/goals/:goalId", async (req, res) => {
 // ---------- Modules ----------
 app.get("/admin/java/goals/:goalId/modules", async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM java_modules WHERE goal_id = $1 ORDER BY order_number",
-      [req.params.goalId]
-    );
+    const result = await pool.query("SELECT * FROM java_modules WHERE goal_id = $1 ORDER BY order_number", [req.params.goalId]);
     res.json({ success: true, data: result.rows });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -421,11 +398,7 @@ app.put("/admin/java/modules/:moduleId", async (req, res) => {
        WHERE id = $3 RETURNING *`,
       [name, description, moduleId]
     );
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Module not found" });
-    }
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Module not found" });
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -437,15 +410,10 @@ app.delete("/admin/java/modules/:moduleId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query(
-      "DELETE FROM java_modules WHERE id = $1 RETURNING *",
-      [moduleId]
-    );
+    const result = await client.query("DELETE FROM java_modules WHERE id = $1 RETURNING *", [moduleId]);
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res
-        .status(404)
-        .json({ success: false, message: "Module not found" });
+      return res.status(404).json({ success: false, message: "Module not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Module deleted" });
@@ -460,10 +428,7 @@ app.delete("/admin/java/modules/:moduleId", async (req, res) => {
 // ---------- Topics ----------
 app.get("/admin/java/modules/:moduleId/topics", async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM java_topics WHERE module_id = $1 ORDER BY order_number",
-      [req.params.moduleId]
-    );
+    const result = await pool.query("SELECT * FROM java_topics WHERE module_id = $1 ORDER BY order_number", [req.params.moduleId]);
     res.json({ success: true, data: result.rows });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -494,11 +459,7 @@ app.put("/admin/java/topics/:topicId", async (req, res) => {
        WHERE id = $3 RETURNING *`,
       [name, description, topicId]
     );
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Topic not found" });
-    }
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Topic not found" });
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -510,15 +471,10 @@ app.delete("/admin/java/topics/:topicId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query(
-      "DELETE FROM java_topics WHERE id = $1 RETURNING *",
-      [topicId]
-    );
+    const result = await client.query("DELETE FROM java_topics WHERE id = $1 RETURNING *", [topicId]);
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res
-        .status(404)
-        .json({ success: false, message: "Topic not found" });
+      return res.status(404).json({ success: false, message: "Topic not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Topic deleted" });
@@ -533,10 +489,7 @@ app.delete("/admin/java/topics/:topicId", async (req, res) => {
 // ---------- Subtopics ----------
 app.get("/admin/java/topics/:topicId/subtopics", async (req, res) => {
   try {
-    const result = await pool.query(
-      "SELECT * FROM java_subtopics WHERE topic_id = $1 ORDER BY order_number",
-      [req.params.topicId]
-    );
+    const result = await pool.query("SELECT * FROM java_subtopics WHERE topic_id = $1 ORDER BY order_number", [req.params.topicId]);
     res.json({ success: true, data: result.rows });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -567,11 +520,7 @@ app.put("/admin/java/subtopics/:subtopicId", async (req, res) => {
        WHERE id = $3 RETURNING *`,
       [name, description, subtopicId]
     );
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Subtopic not found" });
-    }
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Subtopic not found" });
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -583,15 +532,10 @@ app.delete("/admin/java/subtopics/:subtopicId", async (req, res) => {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
-    const result = await client.query(
-      "DELETE FROM java_subtopics WHERE id = $1 RETURNING *",
-      [subtopicId]
-    );
+    const result = await client.query("DELETE FROM java_subtopics WHERE id = $1 RETURNING *", [subtopicId]);
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res
-        .status(404)
-        .json({ success: false, message: "Subtopic not found" });
+      return res.status(404).json({ success: false, message: "Subtopic not found" });
     }
     await client.query("COMMIT");
     res.json({ success: true, message: "Subtopic deleted" });
@@ -603,155 +547,111 @@ app.delete("/admin/java/subtopics/:subtopicId", async (req, res) => {
   }
 });
 
-// ---------- Coding Practice Routes (NEW) ----------
-// Get all coding practices for a subtopic
-app.get(
-  "/admin/java/subtopics/:subtopicId/coding-practices",
-  async (req, res) => {
-    try {
-      const result = await pool.query(
-        "SELECT * FROM java_coding_practices WHERE subtopic_id = $1 ORDER BY order_number",
-        [req.params.subtopicId]
-      );
-      res.json({ success: true, data: result.rows });
-    } catch (e) {
-      res.status(500).json({ success: false, error: e.message });
-    }
+// ---------- Coding Practice Routes ----------
+app.get("/admin/java/subtopics/:subtopicId/coding-practices", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * FROM java_coding_practices WHERE subtopic_id = $1 ORDER BY order_number",
+      [req.params.subtopicId]
+    );
+    res.json({ success: true, data: result.rows });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
   }
-);
+});
 
-// Create a new coding practice
-app.post(
-  "/admin/java/subtopics/:subtopicId/coding-practices",
-  async (req, res) => {
-    try {
-      const { subtopicId } = req.params;
-      const { title, description, allowed_student_types } = req.body;
-      const result = await pool.query(
-        `INSERT INTO java_coding_practices (subtopic_id, title, description, allowed_student_types, order_number)
+app.post("/admin/java/subtopics/:subtopicId/coding-practices", async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+    const { title, description, allowed_student_types } = req.body;
+    const result = await pool.query(
+      `INSERT INTO java_coding_practices (subtopic_id, title, description, allowed_student_types, order_number)
        VALUES ($1, $2, $3, $4, (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_coding_practices WHERE subtopic_id = $1))
        RETURNING *`,
-        [
-          subtopicId,
-          title,
-          description,
-          allowed_student_types || [
-            "zorvixe_core",
-            "zorvixe_pro",
-            "zorvixe_elite",
-          ],
-        ]
-      );
-      res.json({ success: true, data: result.rows[0] });
-    } catch (e) {
-      res.status(500).json({ success: false, error: e.message });
-    }
-  }
-);
-
-app.get("/admin/java/coding-practices/:practiceId", async (req, res) => {
-  try {
-    const { practiceId } = req.params;
-    const result = await pool.query(
-      "SELECT * FROM java_coding_practices WHERE id = $1",
-      [practiceId]
+      [
+        subtopicId,
+        title,
+        description,
+        allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+      ]
     );
-    if (result.rows.length === 0) {
-      return res.status(404).json({ success: false, message: "Practice not found" });
-    }
     res.json({ success: true, data: result.rows[0] });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
   }
 });
 
-// Update a coding practice
-app.put(
-  "/admin/java/coding-practices/:practiceId",
-  async (req, res) => {
-    try {
-      const { practiceId } = req.params;
-      const { title, description, allowed_student_types } = req.body;
-      const result = await pool.query(
-        `UPDATE java_coding_practices 
+app.get("/admin/java/coding-practices/:practiceId", async (req, res) => {
+  try {
+    const { practiceId } = req.params;
+    const result = await pool.query("SELECT * FROM java_coding_practices WHERE id = $1", [practiceId]);
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Practice not found" });
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+app.put("/admin/java/coding-practices/:practiceId", async (req, res) => {
+  try {
+    const { practiceId } = req.params;
+    const { title, description, allowed_student_types } = req.body;
+    const result = await pool.query(
+      `UPDATE java_coding_practices 
        SET title = COALESCE($1, title), 
            description = COALESCE($2, description),
            allowed_student_types = COALESCE($3, allowed_student_types),
            updated_at = CURRENT_TIMESTAMP
        WHERE id = $4 RETURNING *`,
-        [title, description, allowed_student_types, practiceId]
-      );
-      if (result.rows.length === 0) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Practice not found" });
-      }
-      res.json({ success: true, data: result.rows[0] });
-    } catch (e) {
-      res.status(500).json({ success: false, error: e.message });
-    }
+      [title, description, allowed_student_types, practiceId]
+    );
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Practice not found" });
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
   }
-);
+});
 
-// Delete a coding practice (will set practice_id to NULL in linked content)
-app.delete(
-  "/admin/java/coding-practices/:practiceId",
-  async (req, res) => {
-    const { practiceId } = req.params;
-    const client = await pool.connect();
-    try {
-      await client.query("BEGIN");
-      // First, detach all coding problems from this practice
-      await client.query(
-        "UPDATE java_content SET practice_id = NULL WHERE practice_id = $1",
-        [practiceId]
-      );
-      // Then delete the practice
-      const result = await client.query(
-        "DELETE FROM java_coding_practices WHERE id = $1 RETURNING *",
-        [practiceId]
-      );
-      if (result.rows.length === 0) {
-        await client.query("ROLLBACK");
-        return res
-          .status(404)
-          .json({ success: false, message: "Practice not found" });
-      }
-      await client.query("COMMIT");
-      res.json({ success: true, message: "Practice deleted" });
-    } catch (e) {
+app.delete("/admin/java/coding-practices/:practiceId", async (req, res) => {
+  const { practiceId } = req.params;
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    await client.query("UPDATE java_content SET practice_id = NULL WHERE practice_id = $1", [practiceId]);
+    const result = await client.query("DELETE FROM java_coding_practices WHERE id = $1 RETURNING *", [practiceId]);
+    if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      res.status(500).json({ success: false, error: e.message });
-    } finally {
-      client.release();
+      return res.status(404).json({ success: false, message: "Practice not found" });
     }
+    await client.query("COMMIT");
+    res.json({ success: true, message: "Practice deleted" });
+  } catch (e) {
+    await client.query("ROLLBACK");
+    res.status(500).json({ success: false, error: e.message });
+  } finally {
+    client.release();
   }
-);
+});
 
-// Reorder coding practices
-app.post(
-  "/admin/java/coding-practices/reorder",
-  async (req, res) => {
-    try {
-      const { subtopicId, orderedIds } = req.body;
-      await pool.query("BEGIN");
-      for (let i = 0; i < orderedIds.length; i++) {
-        await pool.query(
-          "UPDATE java_coding_practices SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
-          [i, orderedIds[i], subtopicId]
-        );
-      }
-      await pool.query("COMMIT");
-      res.json({ success: true, message: "Practices reordered" });
-    } catch (e) {
-      await pool.query("ROLLBACK");
-      res.status(500).json({ success: false, error: e.message });
+app.post("/admin/java/coding-practices/reorder", async (req, res) => {
+  try {
+    const { subtopicId, orderedIds } = req.body;
+    await pool.query("BEGIN");
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        "UPDATE java_coding_practices SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
+        [i, orderedIds[i], subtopicId]
+      );
     }
+    await pool.query("COMMIT");
+    res.json({ success: true, message: "Practices reordered" });
+  } catch (e) {
+    await pool.query("ROLLBACK");
+    res.status(500).json({ success: false, error: e.message });
   }
-);
+});
 
 // ---------- Content (All types) ----------
-// REPLACE THIS ROUTE IN YOUR NODE.JS BACKEND
 app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
   try {
     const result = await pool.query(
@@ -759,7 +659,6 @@ app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
       [req.params.subtopicId]
     );
     
-    // NEW: Fetch and attach test cases for coding problems
     const contentWithTestCases = await Promise.all(result.rows.map(async (content) => {
       if (content.content_type === 'coding') {
         const testCasesResult = await pool.query(
@@ -777,225 +676,134 @@ app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
   }
 });
 
-// ----- Video upload -----
-app.post(
-  "/admin/java/subtopics/:subtopicId/video",
-  (req, res) => {
-    videoUpload(req, res, async (err) => {
-      if (err) {
-        return res.status(400).json({ success: false, error: err.message });
-      }
-      try {
-        const { subtopicId } = req.params;
-        const {
-          title,
-          description,
-          duration,
-          slides_id,
-          allowed_student_types,
-        } = req.body;
-        if (!req.file) {
-          return res
-            .status(400)
-            .json({ success: false, error: "No video file" });
-        }
-        if (!title) {
-          fs.unlinkSync(req.file.path);
-          return res
-            .status(400)
-            .json({ success: false, error: "Title required" });
-        }
+// Video, Cheatsheet, MCQ ...
+app.post("/admin/java/subtopics/:subtopicId/video", (req, res) => {
+  videoUpload(req, res, async (err) => {
+    if (err) return res.status(400).json({ success: false, error: err.message });
+    try {
+      const { subtopicId } = req.params;
+      const { title, description, duration, slides_id, allowed_student_types } = req.body;
+      if (!req.file) return res.status(400).json({ success: false, error: "No video file" });
+      if (!title) { fs.unlinkSync(req.file.path); return res.status(400).json({ success: false, error: "Title required" }); }
 
-        const videoUrl = `/uploads_java/videos/${req.file.filename}`;
-        const uuid = crypto.randomUUID();
-        const token = crypto.randomUUID();
+      const videoUrl = `/uploads_java/videos/${req.file.filename}`;
+      const uuid = crypto.randomUUID();
+      const token = crypto.randomUUID();
 
-        const result = await pool.query(
-          `INSERT INTO java_content (
+      const result = await pool.query(
+        `INSERT INTO java_content (
           subtopic_id, content_type, content_uuid, access_token,
           video_title, video_description, video_duration, video_url, slides_id,
           allowed_student_types, order_number
         ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9,
           (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
         RETURNING *`,
-          [
-            subtopicId,
-            uuid,
-            token,
-            title,
-            description || "",
-            duration || 0,
-            videoUrl,
-            slides_id || null,
-            allowed_student_types || [
-              "zorvixe_core",
-              "zorvixe_pro",
-              "zorvixe_elite",
-            ],
-          ]
-        );
-
-        res.json({ success: true, data: result.rows[0] });
-      } catch (e) {
-        if (req.file) fs.unlinkSync(req.file.path);
-        res.status(500).json({ success: false, error: e.message });
-      }
-    });
-  }
-);
-
-// ----- Cheatsheet -----
-app.post(
-  "/admin/java/subtopics/:subtopicId/cheatsheet",
-  async (req, res) => {
-    try {
-      const { subtopicId } = req.params;
-      const { title, content, allowed_student_types } = req.body;
-      const uuid = crypto.randomUUID();
-      const token = crypto.randomUUID();
-      const result = await pool.query(
-        `INSERT INTO java_content (
-        subtopic_id, content_type, content_uuid, access_token,
-        cheatsheet_title, cheatsheet_content,
-        allowed_student_types, order_number
-      ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6,
-        (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
-      RETURNING *`,
-        [
-          subtopicId,
-          uuid,
-          token,
-          title,
-          content,
-          allowed_student_types || [
-            "zorvixe_core",
-            "zorvixe_pro",
-            "zorvixe_elite",
-          ],
-        ]
+        [ subtopicId, uuid, token, title, description || "", duration || 0, videoUrl, slides_id || null, allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"] ]
       );
+
       res.json({ success: true, data: result.rows[0] });
     } catch (e) {
+      if (req.file) fs.unlinkSync(req.file.path);
       res.status(500).json({ success: false, error: e.message });
     }
-  }
-);
+  });
+});
 
-// ----- MCQ -----
-app.post(
-  "/admin/java/subtopics/:subtopicId/mcq",
-  async (req, res) => {
-    try {
-      const { subtopicId } = req.params;
-      const {
-        title,
-        questions,
-        time_limit,
-        passing_score,
-        allowed_student_types,
-      } = req.body;
-      const uuid = crypto.randomUUID();
-      const token = crypto.randomUUID();
-      const result = await pool.query(
-        `INSERT INTO java_content (
-        subtopic_id, content_type, content_uuid, access_token,
-        mcq_title, questions, time_limit, passing_score,
-        allowed_student_types, order_number
-      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7, $8,
-        (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
+app.post("/admin/java/subtopics/:subtopicId/cheatsheet", async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+    const { title, content, allowed_student_types } = req.body;
+    const uuid = crypto.randomUUID();
+    const token = crypto.randomUUID();
+    const result = await pool.query(
+      `INSERT INTO java_content (
+        subtopic_id, content_type, content_uuid, access_token, cheatsheet_title, cheatsheet_content, allowed_student_types, order_number
+      ) VALUES ($1, 'cheatsheet', $2, $3, $4, $5, $6, (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
       RETURNING *`,
-        [
-          subtopicId,
-          uuid,
-          token,
-          title,
-          JSON.stringify(questions),
-          time_limit || null,
-          passing_score || 70,
-          allowed_student_types || [
-            "zorvixe_core",
-            "zorvixe_pro",
-            "zorvixe_elite",
-          ],
-        ]
-      );
-      res.json({ success: true, data: result.rows[0] });
-    } catch (e) {
-      res.status(500).json({ success: false, error: e.message });
-    }
+      [subtopicId, uuid, token, title, content, allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"]]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
   }
-);
+});
+
+app.post("/admin/java/subtopics/:subtopicId/mcq", async (req, res) => {
+  try {
+    const { subtopicId } = req.params;
+    const { title, questions, time_limit, passing_score, allowed_student_types } = req.body;
+    const uuid = crypto.randomUUID();
+    const token = crypto.randomUUID();
+    const result = await pool.query(
+      `INSERT INTO java_content (
+        subtopic_id, content_type, content_uuid, access_token, mcq_title, questions, time_limit, passing_score, allowed_student_types, order_number
+      ) VALUES ($1, 'mcq', $2, $3, $4, $5, $6, $7, $8, (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
+      RETURNING *`,
+      [subtopicId, uuid, token, title, JSON.stringify(questions), time_limit || null, passing_score || 70, allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"]]
+    );
+    res.json({ success: true, data: result.rows[0] });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
 
 // ----- Coding Problem (can optionally belong to a practice) -----
-app.post(
-  "/admin/java/subtopics/:subtopicId/coding",
-  async (req, res) => {
-    const client = await pool.connect();
-    try {
-      const { subtopicId } = req.params;
-      const {
-        title,
-        description,
-        starterCode,
-        testCases,
-        time_limit,
-        memory_limit,
-        allowed_student_types,
-        practice_id,
-      } = req.body;
-      // testCases = [{ input, expectedOutput, isSample }, ...]
+app.post("/admin/java/subtopics/:subtopicId/coding", async (req, res) => {
+  const client = await pool.connect();
+  try {
+    const { subtopicId } = req.params;
+    // EXTRACTING difficulty and score WHICH WERE PREVIOUSLY MISSING!
+    const {
+      title, description, starterCode, testCases, time_limit, memory_limit,
+      allowed_student_types, practice_id, difficulty, score
+    } = req.body;
 
-      await client.query("BEGIN");
+    await client.query("BEGIN");
 
-      const uuid = crypto.randomUUID();
-      const token = crypto.randomUUID();
-      const contentResult = await client.query(
-        `INSERT INTO java_content (
-        subtopic_id, practice_id, content_type, content_uuid, access_token,
-        coding_title, coding_description, starter_code, coding_time_limit, coding_memory_limit,
-        allowed_student_types, order_number
-      ) VALUES ($1, $2, 'coding', $3, $4, $5, $6, $7, $8, $9, $10,
-        (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
-      RETURNING *`,
-        [
-          subtopicId,
-          practice_id || null,
-          uuid,
-          token,
-          title,
-          description,
-          starterCode,
-          time_limit,
-          memory_limit,
-          allowed_student_types || [
-            "zorvixe_core",
-            "zorvixe_pro",
-            "zorvixe_elite",
-          ],
-        ]
-      );
-      const contentId = contentResult.rows[0].id;
+    const uuid = crypto.randomUUID();
+    const token = crypto.randomUUID();
+    
+    // ADDED difficulty and score to the INSERT statement
+    const contentResult = await client.query(
+      `INSERT INTO java_content (
+      subtopic_id, practice_id, content_type, content_uuid, access_token,
+      coding_title, coding_description, starter_code, coding_time_limit, coding_memory_limit,
+      allowed_student_types, difficulty, score, order_number
+    ) VALUES ($1, $2, 'coding', $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,
+      (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
+    RETURNING *`,
+      [
+        subtopicId, practice_id || null, uuid, token, title, description, starterCode, time_limit, memory_limit,
+        allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+        difficulty || "easy", score || 0
+      ]
+    );
+    
+    const contentId = contentResult.rows[0].id;
 
-      for (let i = 0; i < testCases.length; i++) {
-        const tc = testCases[i];
-        await client.query(
-          `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
+    // FIXED: Reading from tc.expected_output / tc.is_sample to match frontend payload properly
+    for (let i = 0; i < testCases.length; i++) {
+      const tc = testCases[i];
+      const expectedOutput = tc.expected_output !== undefined ? tc.expected_output : tc.expectedOutput;
+      const isSample = tc.is_sample !== undefined ? tc.is_sample : (tc.isSample || false);
+      
+      await client.query(
+        `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
          VALUES ($1, $2, $3, $4, $5)`,
-          [contentId, tc.input, tc.expectedOutput, tc.isSample || false, i]
-        );
-      }
-
-      await client.query("COMMIT");
-      res.json({ success: true, data: contentResult.rows[0] });
-    } catch (e) {
-      await client.query("ROLLBACK");
-      console.error("Create coding problem error:", e);
-      res.status(500).json({ success: false, error: e.message });
-    } finally {
-      client.release();
+        [contentId, tc.input, expectedOutput, isSample, i]
+      );
     }
+
+    await client.query("COMMIT");
+    res.json({ success: true, data: contentResult.rows[0] });
+  } catch (e) {
+    await client.query("ROLLBACK");
+    console.error("Create coding problem error:", e);
+    res.status(500).json({ success: false, error: e.message });
+  } finally {
+    client.release();
   }
-);
+});
 
 // ----- Update content (any type) -----
 app.put("/admin/java/content/:contentId", async (req, res) => {
@@ -1003,29 +811,12 @@ app.put("/admin/java/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
     const {
-      content_type,
-      allowed_student_types,
-      practice_id, // NEW: allow reassigning to a different practice
-      // video
-      video_title,
-      video_description,
-      video_duration,
-      slides_id,
-      // cheatsheet
-      cheatsheet_title,
-      cheatsheet_content,
-      // mcq
-      mcq_title,
-      questions,
-      time_limit,
-      passing_score,
-      // coding
-      coding_title,
-      coding_description,
-      starter_code,
-      coding_time_limit,
-      coding_memory_limit,
-      testCases,
+      content_type, allowed_student_types, practice_id,
+      video_title, video_description, video_duration, slides_id,
+      cheatsheet_title, cheatsheet_content,
+      mcq_title, questions, time_limit, passing_score,
+      coding_title, coding_description, starter_code, coding_time_limit, coding_memory_limit, testCases,
+      difficulty, score // ADDED newly destructured variables
     } = req.body;
 
     await client.query("BEGIN");
@@ -1034,91 +825,45 @@ app.put("/admin/java/content/:contentId", async (req, res) => {
     const values = [];
     let paramIndex = 1;
 
-    if (allowed_student_types !== undefined) {
-      updates.push(`allowed_student_types = $${paramIndex++}`);
-      values.push(allowed_student_types);
-    }
-    if (practice_id !== undefined) {
-      updates.push(`practice_id = $${paramIndex++}`);
-      values.push(practice_id);
-    }
+    if (allowed_student_types !== undefined) { updates.push(`allowed_student_types = $${paramIndex++}`); values.push(allowed_student_types); }
+    if (practice_id !== undefined) { updates.push(`practice_id = $${paramIndex++}`); values.push(practice_id); }
+    
+    // ADDED difficulty & score check to the update dynamically
+    if (difficulty !== undefined) { updates.push(`difficulty = $${paramIndex++}`); values.push(difficulty); }
+    if (score !== undefined) { updates.push(`score = $${paramIndex++}`); values.push(score); }
 
     if (content_type === "video") {
-      if (video_title !== undefined) {
-        updates.push(`video_title = $${paramIndex++}`);
-        values.push(video_title);
-      }
-      if (video_description !== undefined) {
-        updates.push(`video_description = $${paramIndex++}`);
-        values.push(video_description);
-      }
-      if (video_duration !== undefined) {
-        updates.push(`video_duration = $${paramIndex++}`);
-        values.push(video_duration);
-      }
-      if (slides_id !== undefined) {
-        updates.push(`slides_id = $${paramIndex++}`);
-        values.push(slides_id);
-      }
+      if (video_title !== undefined) { updates.push(`video_title = $${paramIndex++}`); values.push(video_title); }
+      if (video_description !== undefined) { updates.push(`video_description = $${paramIndex++}`); values.push(video_description); }
+      if (video_duration !== undefined) { updates.push(`video_duration = $${paramIndex++}`); values.push(video_duration); }
+      if (slides_id !== undefined) { updates.push(`slides_id = $${paramIndex++}`); values.push(slides_id); }
     } else if (content_type === "cheatsheet") {
-      if (cheatsheet_title !== undefined) {
-        updates.push(`cheatsheet_title = $${paramIndex++}`);
-        values.push(cheatsheet_title);
-      }
-      if (cheatsheet_content !== undefined) {
-        updates.push(`cheatsheet_content = $${paramIndex++}`);
-        values.push(cheatsheet_content);
-      }
+      if (cheatsheet_title !== undefined) { updates.push(`cheatsheet_title = $${paramIndex++}`); values.push(cheatsheet_title); }
+      if (cheatsheet_content !== undefined) { updates.push(`cheatsheet_content = $${paramIndex++}`); values.push(cheatsheet_content); }
     } else if (content_type === "mcq") {
-      if (mcq_title !== undefined) {
-        updates.push(`mcq_title = $${paramIndex++}`);
-        values.push(mcq_title);
-      }
-      if (questions !== undefined) {
-        updates.push(`questions = $${paramIndex++}`);
-        values.push(JSON.stringify(questions));
-      }
-      if (time_limit !== undefined) {
-        updates.push(`time_limit = $${paramIndex++}`);
-        values.push(time_limit);
-      }
-      if (passing_score !== undefined) {
-        updates.push(`passing_score = $${paramIndex++}`);
-        values.push(passing_score);
-      }
+      if (mcq_title !== undefined) { updates.push(`mcq_title = $${paramIndex++}`); values.push(mcq_title); }
+      if (questions !== undefined) { updates.push(`questions = $${paramIndex++}`); values.push(JSON.stringify(questions)); }
+      if (time_limit !== undefined) { updates.push(`time_limit = $${paramIndex++}`); values.push(time_limit); }
+      if (passing_score !== undefined) { updates.push(`passing_score = $${paramIndex++}`); values.push(passing_score); }
     } else if (content_type === "coding") {
-      if (coding_title !== undefined) {
-        updates.push(`coding_title = $${paramIndex++}`);
-        values.push(coding_title);
-      }
-      if (coding_description !== undefined) {
-        updates.push(`coding_description = $${paramIndex++}`);
-        values.push(coding_description);
-      }
-      if (starter_code !== undefined) {
-        updates.push(`starter_code = $${paramIndex++}`);
-        values.push(starter_code);
-      }
-      if (coding_time_limit !== undefined) {
-        updates.push(`coding_time_limit = $${paramIndex++}`);
-        values.push(coding_time_limit);
-      }
-      if (coding_memory_limit !== undefined) {
-        updates.push(`coding_memory_limit = $${paramIndex++}`);
-        values.push(coding_memory_limit);
-      }
+      if (coding_title !== undefined) { updates.push(`coding_title = $${paramIndex++}`); values.push(coding_title); }
+      if (coding_description !== undefined) { updates.push(`coding_description = $${paramIndex++}`); values.push(coding_description); }
+      if (starter_code !== undefined) { updates.push(`starter_code = $${paramIndex++}`); values.push(starter_code); }
+      if (coding_time_limit !== undefined) { updates.push(`coding_time_limit = $${paramIndex++}`); values.push(coding_time_limit); }
+      if (coding_memory_limit !== undefined) { updates.push(`coding_memory_limit = $${paramIndex++}`); values.push(coding_memory_limit); }
 
-      // Replace test cases: delete old, insert new
-      await client.query("DELETE FROM java_test_cases WHERE content_id = $1", [
-        contentId,
-      ]);
+      await client.query("DELETE FROM java_test_cases WHERE content_id = $1", [contentId]);
       if (testCases && Array.isArray(testCases)) {
         for (let i = 0; i < testCases.length; i++) {
           const tc = testCases[i];
+          // FIXED variables
+          const expectedOutput = tc.expected_output !== undefined ? tc.expected_output : tc.expectedOutput;
+          const isSample = tc.is_sample !== undefined ? tc.is_sample : (tc.isSample || false);
+          
           await client.query(
             `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
              VALUES ($1, $2, $3, $4, $5)`,
-            [contentId, tc.input, tc.expectedOutput, tc.isSample || false, i]
+            [contentId, tc.input, expectedOutput, isSample, i]
           );
         }
       }
@@ -1126,22 +871,16 @@ app.put("/admin/java/content/:contentId", async (req, res) => {
 
     if (updates.length === 0) {
       await client.query("ROLLBACK");
-      return res
-        .status(400)
-        .json({ success: false, message: "No fields to update" });
+      return res.status(400).json({ success: false, message: "No fields to update" });
     }
 
-    const query = `UPDATE java_content SET ${updates.join(
-      ", "
-    )} WHERE id = $${paramIndex} RETURNING *`;
+    const query = `UPDATE java_content SET ${updates.join(", ")} WHERE id = $${paramIndex} RETURNING *`;
     values.push(contentId);
     const result = await client.query(query, values);
 
     if (result.rows.length === 0) {
       await client.query("ROLLBACK");
-      return res
-        .status(404)
-        .json({ success: false, message: "Content not found" });
+      return res.status(404).json({ success: false, message: "Content not found" });
     }
 
     await client.query("COMMIT");
@@ -1159,31 +898,20 @@ app.put("/admin/java/content/:contentId", async (req, res) => {
 app.delete("/admin/java/content/:contentId", async (req, res) => {
   try {
     const { contentId } = req.params;
-    const result = await pool.query(
-      "DELETE FROM java_content WHERE id = $1 RETURNING *",
-      [contentId]
-    );
-    if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Content not found" });
-    }
+    const result = await pool.query("DELETE FROM java_content WHERE id = $1 RETURNING *", [contentId]);
+    if (result.rows.length === 0) return res.status(404).json({ success: false, message: "Content not found" });
     res.json({ success: true, message: "Content deleted" });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
   }
 });
 
-// ----- Reorder content (within a subtopic) -----
 app.post("/admin/java/content/reorder", async (req, res) => {
   try {
     const { subtopicId, orderedIds } = req.body;
     await pool.query("BEGIN");
     for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        "UPDATE java_content SET order_number = $1 WHERE id = $2 AND subtopic_id = $3",
-        [i, orderedIds[i], subtopicId]
-      );
+      await pool.query("UPDATE java_content SET order_number = $1 WHERE id = $2 AND subtopic_id = $3", [i, orderedIds[i], subtopicId]);
     }
     await pool.query("COMMIT");
     res.json({ success: true, message: "Content reordered" });
@@ -1192,7 +920,6 @@ app.post("/admin/java/content/reorder", async (req, res) => {
     res.status(500).json({ success: false, error: e.message });
   }
 });
-
 // ----------------------------------------------------------------------
 // STUDENT ROUTES
 // ----------------------------------------------------------------------

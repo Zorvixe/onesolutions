@@ -1,14 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {
-  X,
-  Plus,
-  Trash2,
-  Save,
-  ArrowLeft,
-  Code,
-  Users,
-  Clock,
-  HardDrive,
+  X, Plus, Trash2, Save, ArrowLeft, Code, Users, Clock, HardDrive
 } from "lucide-react";
 import Editor from "react-simple-code-editor";
 import ReactQuill from "react-quill";
@@ -76,10 +68,7 @@ const JavaCodingPractice = ({
               try {
                 const res = await fetch(
                   "https://api.onesolutionsekam.in/admin/java/upload-image",
-                  {
-                    method: "POST",
-                    body: formData,
-                  }
+                  { method: "POST", body: formData }
                 );
                 const data = await res.json();
                 if (data.success) {
@@ -111,12 +100,9 @@ const JavaCodingPractice = ({
         title: editData.title || "",
         description: editData.description || "",
         allowed_student_types: editData.allowed_student_types || [
-          "zorvixe_core",
-          "zorvixe_pro",
-          "zorvixe_elite",
+          "zorvixe_core", "zorvixe_pro", "zorvixe_elite"
         ],
       });
-      // Use editData subtopic ID fallback to prevent breaking if prop is missing
       const effectiveSid = editData.subtopic_id || propSubtopicId;
       fetchProblems(editData.id, effectiveSid);
     }
@@ -155,7 +141,6 @@ const JavaCodingPractice = ({
       );
       const data = await res.json();
       if (data.success) {
-        // FIX: Enforce string comparison to prevent ID type mismatch (Number vs String)
         const codingProblems = data.data.filter(
           (c) => c.content_type === "coding" && String(c.practice_id) === String(pid)
         );
@@ -163,13 +148,10 @@ const JavaCodingPractice = ({
         const problemsWithAccess = codingProblems.map((p) => ({
           ...p,
           allowed_student_types: p.allowed_student_types || [
-            "zorvixe_core",
-            "zorvixe_pro",
-            "zorvixe_elite",
+            "zorvixe_core", "zorvixe_pro", "zorvixe_elite"
           ],
           difficulty: p.difficulty || "easy",
           score: p.score || 0,
-          // Ensure at least 1 empty testcase row is generated if none are found
           test_cases: p.test_cases && p.test_cases.length > 0 
             ? p.test_cases 
             : [{ input: "", expected_output: "", is_sample: true }],
@@ -194,7 +176,7 @@ const JavaCodingPractice = ({
         test_cases: [{ input: "", expected_output: "", is_sample: true }],
         coding_time_limit: 2,
         coding_memory_limit: 256,
-        allowed_student_types: [...practice.allowed_student_types],
+        allowed_student_types: [...practice.allowed_student_types], // inherit from practice
       },
     ]);
   };
@@ -250,17 +232,10 @@ const JavaCodingPractice = ({
       return;
     }
 
-    if (!window.confirm("Delete this problem? This action cannot be undone.")) {
-      return;
-    }
+    if (!window.confirm("Delete this problem? This action cannot be undone.")) return;
 
     try {
-      const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/content/${problem.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
         const updated = [...problems];
@@ -286,24 +261,15 @@ const JavaCodingPractice = ({
 
   const handleDeletePractice = async () => {
     if (!isEditing) return;
-    if (!window.confirm("Delete this entire practice? All problems will be detached (not deleted).")) {
-      return;
-    }
+    if (!window.confirm("Delete this entire practice? All problems will be detached.")) return;
+    
     setDeleting(true);
     try {
       const effectivePracticeId = practiceId || editData?.id;
-      const res = await fetch(
-        `https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`, { method: "DELETE" });
       const data = await res.json();
-      if (data.success) {
-        onSuccess();
-      } else {
-        alert("Failed to delete practice");
-      }
+      if (data.success) onSuccess();
+      else alert("Failed to delete practice");
     } catch (error) {
       console.error("Delete practice error:", error);
       alert("Error deleting practice");
@@ -313,45 +279,20 @@ const JavaCodingPractice = ({
   };
 
   const handleSubmit = async () => {
-    if (!practice.title.trim()) {
-      alert("Practice title is required");
-      return;
-    }
-    if (practice.allowed_student_types.length === 0) {
-      alert("Please select at least one student type for the practice");
-      return;
-    }
-    if (problems.length === 0) {
-      alert("Please add at least one coding problem");
-      return;
-    }
+    if (!practice.title.trim()) { alert("Practice title is required"); return; }
+    if (practice.allowed_student_types.length === 0) { alert("Please select at least one student type for the practice"); return; }
+    if (problems.length === 0) { alert("Please add at least one coding problem"); return; }
 
     for (let i = 0; i < problems.length; i++) {
       const p = problems[i];
-      if (!p.coding_title.trim()) {
-        alert(`Problem ${i + 1} title is required`);
-        return;
-      }
-      if (!p.coding_description || p.coding_description === "<p><br></p>") {
-        alert(`Problem ${i + 1} description is required`);
-        return;
-      }
-      if (!p.allowed_student_types || p.allowed_student_types.length === 0) {
-        alert(`Please select at least one student type for Problem ${i + 1}`);
-        return;
-      }
-      if (!p.test_cases || p.test_cases.length === 0) {
-        alert(`Problem ${i + 1} must have at least one test case`);
-        return;
-      }
+      if (!p.coding_title.trim()) { alert(`Problem ${i + 1} title is required`); return; }
+      if (!p.coding_description || p.coding_description === "<p><br></p>") { alert(`Problem ${i + 1} description is required`); return; }
+      if (!p.allowed_student_types || p.allowed_student_types.length === 0) { alert(`Please select at least one student type for Problem ${i + 1}`); return; }
+      if (!p.test_cases || p.test_cases.length === 0) { alert(`Problem ${i + 1} must have at least one test case`); return; }
       for (let j = 0; j < p.test_cases.length; j++) {
         const tc = p.test_cases[j];
         if (!tc.input.trim() || !tc.expected_output.trim()) {
-          alert(
-            `Test case ${j + 1} in Problem ${
-              i + 1
-            } must have both input and expected output`
-          );
+          alert(`Test case ${j + 1} in Problem ${i + 1} must have both input and expected output`);
           return;
         }
       }
@@ -364,84 +305,63 @@ const JavaCodingPractice = ({
       const effectiveSid = editData?.subtopic_id || propSubtopicId;
 
       if (isEditing) {
-        const res = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(practice),
-          }
-        );
+        const res = await fetch(`https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(practice),
+        });
         practiceResult = await res.json();
       } else {
-        const res = await fetch(
-          `https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding-practices`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(practice),
-          }
-        );
+        const res = await fetch(`https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding-practices`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(practice),
+        });
         practiceResult = await res.json();
       }
 
-      if (!practiceResult.success) {
-        throw new Error(practiceResult.error || "Failed to save practice");
-      }
+      if (!practiceResult.success) throw new Error(practiceResult.error || "Failed to save practice");
 
+      // Grab the ID of the practice, whether it was updated or newly generated.
       const finalPracticeId = practiceResult.data.id;
 
       for (const problem of problems) {
         if (problem.id && !problem.id.toString().startsWith("temp-")) {
           // Update existing problem
-          await fetch(
-            `https://api.onesolutionsekam.in/admin/java/content/${problem.id}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                content_type: "coding",
-                coding_title: problem.coding_title,
-                coding_description: problem.coding_description,
-                starter_code: problem.starter_code,
-                testCases: problem.test_cases,
-                coding_time_limit: problem.coding_time_limit,
-                coding_memory_limit: problem.coding_memory_limit,
-                allowed_student_types: problem.allowed_student_types,
-                difficulty: problem.difficulty,
-                score: problem.score,
-              }),
-            }
-          );
+          await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              content_type: "coding",
+              coding_title: problem.coding_title,
+              coding_description: problem.coding_description,
+              starter_code: problem.starter_code,
+              testCases: problem.test_cases,
+              coding_time_limit: problem.coding_time_limit,
+              coding_memory_limit: problem.coding_memory_limit,
+              allowed_student_types: problem.allowed_student_types,
+              difficulty: problem.difficulty,
+              score: problem.score,
+            }),
+          });
         } else {
-          // Create new problem under this practice
-          await fetch(
-            `https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                title: problem.coding_title,
-                description: problem.coding_description,
-                starterCode: problem.starter_code,
-                testCases: problem.test_cases,
-                time_limit: problem.coding_time_limit,
-                memory_limit: problem.coding_memory_limit,
-                allowed_student_types: problem.allowed_student_types,
-                difficulty: problem.difficulty,
-                score: problem.score,
-                practice_id: finalPracticeId,
-              }),
-            }
-          );
+          // Create new problem attached strictly to finalPracticeId
+          await fetch(`https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: problem.coding_title,
+              description: problem.coding_description,
+              starterCode: problem.starter_code,
+              testCases: problem.test_cases,
+              time_limit: problem.coding_time_limit,
+              memory_limit: problem.coding_memory_limit,
+              allowed_student_types: problem.allowed_student_types,
+              difficulty: problem.difficulty,
+              score: problem.score,
+              practice_id: finalPracticeId, // CRITICAL FIX ensures linkage
+            }),
+          });
         }
       }
 
@@ -487,51 +407,38 @@ const JavaCodingPractice = ({
       </div>
 
       <div className="coddd-coding-practice-form">
-        {/* Practice Title */}
         <div className="coddd-coding-practice-field coddd-title-field">
           <input
             type="text"
             value={practice.title}
-            onChange={(e) =>
-              setPractice({ ...practice, title: e.target.value })
-            }
+            onChange={(e) => setPractice({ ...practice, title: e.target.value })}
             placeholder="Untitled Practice..."
             className="coddd-notion-title-input"
           />
         </div>
 
-        {/* Practice Description */}
         <div className="coddd-coding-practice-field">
           <ReactQuill
             theme="bubble"
             value={practice.description || ""}
-            onChange={(value) =>
-              setPractice({ ...practice, description: value })
-            }
+            onChange={(value) => setPractice({ ...practice, description: value })}
             modules={quillModules}
             placeholder="Add a description... (Highlight text for options)"
             className="coddd-quill-editor coddd-notion-body-input"
           />
         </div>
 
-        {/* Practice Access */}
         <div className="coddd-coding-practice-field coddd-access-block">
           <label className="coddd-notion-label">Practice Access</label>
           <div className="coddd-student-type-checkboxes">
             {studentTypeOptions.map((option) => (
-              <label
-                style={{ display: "flex", alignItems: "center" }}
-                key={option.value}
-                className="coddd-student-type-checkbox"
-              >
+              <label key={option.value} className="coddd-student-type-checkbox" style={{ display: "flex", alignItems: "center" }}>
                 <input
                   type="checkbox"
-                  checked={practice.allowed_student_types.includes(
-                    option.value
-                  )}
+                  checked={practice.allowed_student_types.includes(option.value)}
                   onChange={() => handlePracticeTypeToggle(option.value)}
                 />
-                <Users size={14} />
+                <Users size={14} style={{ marginLeft: "6px", marginRight: "4px" }} />
                 <span>{option.label}</span>
               </label>
             ))}
@@ -540,7 +447,6 @@ const JavaCodingPractice = ({
 
         <div className="coddd-divider"></div>
 
-        {/* Coding Problems Section */}
         <div className="coddd-coding-problems-section">
           <div className="coddd-coding-problems-header">
             <h3 className="coddd-notion-heading">Problems</h3>
@@ -559,43 +465,34 @@ const JavaCodingPractice = ({
                 </button>
               </div>
 
-              {/* Problem Title */}
               <div className="coddd-coding-problem-field">
                 <input
                   type="text"
                   value={problem.coding_title}
-                  onChange={(e) =>
-                    updateProblem(pIndex, "coding_title", e.target.value)
-                  }
+                  onChange={(e) => updateProblem(pIndex, "coding_title", e.target.value)}
                   placeholder="Problem Title"
                   className="coddd-notion-subtitle-input"
                 />
               </div>
 
-              {/* Problem Description */}
               <div className="coddd-coding-problem-field">
                 <ReactQuill
                   theme="bubble"
                   value={problem.coding_description || ""}
-                  onChange={(value) =>
-                    updateProblem(pIndex, "coding_description", value)
-                  }
+                  onChange={(value) => updateProblem(pIndex, "coding_description", value)}
                   modules={quillModules}
                   placeholder="Type problem description here..."
                   className="coddd-quill-editor coddd-notion-body-input"
                 />
               </div>
 
-              {/* Difficulty and Score */}
               <div className="coddd-coding-difficulty-row">
                 <div className="coddd-coding-difficulty-field">
                   <label className="coddd-notion-label">Difficulty</label>
                   <select
                     className="coddd-notion-select"
                     value={problem.difficulty || "easy"}
-                    onChange={(e) =>
-                      updateProblem(pIndex, "difficulty", e.target.value)
-                    }
+                    onChange={(e) => updateProblem(pIndex, "difficulty", e.target.value)}
                   >
                     {difficultyOptions.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -609,20 +506,13 @@ const JavaCodingPractice = ({
                   <input
                     type="number"
                     value={problem.score || 0}
-                    onChange={(e) =>
-                      updateProblem(
-                        pIndex,
-                        "score",
-                        parseInt(e.target.value) || 0
-                      )
-                    }
+                    onChange={(e) => updateProblem(pIndex, "score", parseInt(e.target.value) || 0)}
                     min="0"
                     className="coddd-notion-number-input"
                   />
                 </div>
               </div>
 
-              {/* Starter Code Editor */}
               <div className="coddd-coding-problem-field-code">
                 <label className="coddd-notion-label">
                   <Code size={14} style={{ marginRight: "4px" }} />
@@ -631,9 +521,7 @@ const JavaCodingPractice = ({
                 <div className="coddd-notion-code-block">
                   <Editor
                     value={problem.starter_code || ""}
-                    onValueChange={(code) =>
-                      updateProblem(pIndex, "starter_code", code)
-                    }
+                    onValueChange={(code) => updateProblem(pIndex, "starter_code", code)}
                     highlight={(code) => highlight(code, languages.java)}
                     padding={15}
                     textareaClassName="coddd-editor-textarea"
@@ -642,33 +530,23 @@ const JavaCodingPractice = ({
                 </div>
               </div>
 
-              {/* Problem Access */}
               <div className="coddd-coding-problem-field coddd-access-block">
                 <label className="coddd-notion-label">Student Access</label>
                 <div className="coddd-student-type-checkboxes">
                   {studentTypeOptions.map((option) => (
-                    <label
-                      key={option.value}
-                      className="coddd-student-type-checkbox"
-                    >
+                    <label key={option.value} className="coddd-student-type-checkbox" style={{ display: "flex", alignItems: "center" }}>
                       <input
                         type="checkbox"
-                        checked={(
-                          problem.allowed_student_types ||
-                          practice.allowed_student_types
-                        ).includes(option.value)}
-                        onChange={() =>
-                          updateProblemAccess(pIndex, option.value)
-                        }
+                        checked={(problem.allowed_student_types || practice.allowed_student_types).includes(option.value)}
+                        onChange={() => updateProblemAccess(pIndex, option.value)}
                       />
-                      <Users size={14} />
+                      <Users size={14} style={{ marginLeft: "6px", marginRight: "4px" }} />
                       <span>{option.label}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* Time and Memory Limits */}
               <div className="coddd-coding-limits-row">
                 <div className="coddd-coding-limit-field">
                   <label className="coddd-notion-label">
@@ -677,13 +555,7 @@ const JavaCodingPractice = ({
                   <input
                     type="number"
                     value={problem.coding_time_limit}
-                    onChange={(e) =>
-                      updateProblem(
-                        pIndex,
-                        "coding_time_limit",
-                        parseInt(e.target.value) || 2
-                      )
-                    }
+                    onChange={(e) => updateProblem(pIndex, "coding_time_limit", parseInt(e.target.value) || 2)}
                     min="1"
                     className="coddd-notion-number-input"
                   />
@@ -695,34 +567,21 @@ const JavaCodingPractice = ({
                   <input
                     type="number"
                     value={problem.coding_memory_limit}
-                    onChange={(e) =>
-                      updateProblem(
-                        pIndex,
-                        "coding_memory_limit",
-                        parseInt(e.target.value) || 256
-                      )
-                    }
+                    onChange={(e) => updateProblem(pIndex, "coding_memory_limit", parseInt(e.target.value) || 256)}
                     min="16"
                     className="coddd-notion-number-input"
                   />
                 </div>
               </div>
 
-              {/* Test Cases */}
               <div className="coddd-coding-testcases-section">
                 <div className="coddd-coding-testcases-header">
                   <label className="coddd-notion-label">Test Cases</label>
                   <div className="coddd-testcase-actions">
-                    <button
-                      onClick={() => addTestCase(pIndex, true)}
-                      className="coddd-notion-text-btn"
-                    >
+                    <button onClick={() => addTestCase(pIndex, true)} className="coddd-notion-text-btn">
                       <Plus size={14} /> Sample
                     </button>
-                    <button
-                      onClick={() => addTestCase(pIndex, false)}
-                      className="coddd-notion-text-btn"
-                    >
+                    <button onClick={() => addTestCase(pIndex, false)} className="coddd-notion-text-btn">
                       <Plus size={14} /> Hidden
                     </button>
                   </div>
@@ -730,19 +589,13 @@ const JavaCodingPractice = ({
 
                 {problem.test_cases?.map((tc, tIndex) => (
                   <div key={tIndex} className="coddd-coding-testcase-row">
-                    <span
-                      className={`coddd-coding-testcase-badge ${
-                        tc.is_sample ? "sample" : "hidden"
-                      }`}
-                    >
+                    <span className={`coddd-coding-testcase-badge ${tc.is_sample ? "sample" : "hidden"}`}>
                       {tc.is_sample ? "Sample" : "Hidden"}
                     </span>
                     <input
                       type="text"
                       value={tc.input}
-                      onChange={(e) =>
-                        updateTestCase(pIndex, tIndex, "input", e.target.value)
-                      }
+                      onChange={(e) => updateTestCase(pIndex, tIndex, "input", e.target.value)}
                       placeholder="Input"
                       className="coddd-coding-testcase-input"
                     />
@@ -750,21 +603,11 @@ const JavaCodingPractice = ({
                     <input
                       type="text"
                       value={tc.expected_output}
-                      onChange={(e) =>
-                        updateTestCase(
-                          pIndex,
-                          tIndex,
-                          "expected_output",
-                          e.target.value
-                        )
-                      }
+                      onChange={(e) => updateTestCase(pIndex, tIndex, "expected_output", e.target.value)}
                       placeholder="Expected Output"
                       className="coddd-coding-testcase-output"
                     />
-                    <button
-                      onClick={() => removeTestCase(pIndex, tIndex)}
-                      className="coddd-coding-remove-testcase-btn"
-                    >
+                    <button onClick={() => removeTestCase(pIndex, tIndex)} className="coddd-coding-remove-testcase-btn">
                       <X size={14} />
                     </button>
                   </div>
