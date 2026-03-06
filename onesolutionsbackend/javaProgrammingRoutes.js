@@ -229,11 +229,6 @@ const createJavaTables = async () => {
       )
     `);
 
-    await pool.query(`
-      ALTER TABLE java_content
-      ADD COLUMN IF NOT EXISTS difficulty VARCHAR(50) DEFAULT 'easy',
-      ADD COLUMN IF NOT EXISTS score INTEGER DEFAULT 0
-    `);
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS java_test_cases (
