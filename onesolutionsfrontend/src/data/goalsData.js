@@ -4121,7 +4121,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m1_H g3_7B c1_D2E",
-                name: " Overview of Computer Hardware | Cheat Sheet",
+                name: "Overview of Computer Hardware | Cheat Sheet",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4386,6 +4386,24 @@ export const goalsData = [
               },
             ],
           },
+          {
+            id: "QW9_m4_A0 g3_H c1_7B",
+            name: "Developer Foundations Course Exam",
+            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m4_H g3_7B c1_D2E",
+                name: "Developer Foundations Course Exam | Instructions",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m4_H g3_7B c1_D2E",
+                name: "Developer Foundations Course Exam",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+           
+            ],
+          },
         ],
       },
       {
@@ -4448,7 +4466,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m2_H g3_7B c2_D2E",
-                name: "Coding Pratice 1 - Node JS",
+                name: "NodeJS Coding Practice 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4468,7 +4486,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m2_H g3_7B c2_D2E",
-                name: "Coding Pratice 2 - Node JS",
+                name: "NodeJS Coding Practice 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4500,7 +4518,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s5_A0 m3_H g3_7B c2_D2E",
-                name: "Coding Pratice 3 - Node JS",
+                name: "NodeJS Coding Practice 3",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4535,22 +4553,22 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m3_H g3_7B c2_D2E",
-                name: "Coding Pratice 4 - Node JS",
+                name: "NodeJS Coding Practice 4",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m3_H g3_7B c2_D2E",
-                name: "Coding Pratice 5 - Node JS",
+                name: "NodeJS Coding Practice 5",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m3_H g3_7B c2_D2E",
-                name: "Coding Pratice 6 - Node JS",
+                name: "NodeJS Coding Practice 6",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m3_H g3_7B c2_D2E",
-                name: "Coding Pratice 7 - Node JS",
+                name: "NodeJS Coding Practice 7",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4577,7 +4595,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m4_H g3_7B c2_D2E",
-                name: "Coding Practice 8 - Node JS",
+                name: "NodeJS Coding Practice 8",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4592,7 +4610,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m4_H g3_7B c2_D2E",
-                name: " Debugging Common Errors | Part 2",
+                name: "Debugging Common Errors | Part 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4614,7 +4632,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m5_H g3_7B c2_D2E",
-                name: "Authentication",
+                name: "Authentication | Part 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4629,7 +4647,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m5_H g3_7B c2_D2E",
-                name: "Coding Practice 9 - Node JS",
+                name: "NodeJS Coding Practice 9",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4664,7 +4682,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m5_H g3_7B c2_D2E",
-                name: "Coding Practice 10 - Node JS",
+                name: "NodeJS Coding Practice 10",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4676,12 +4694,12 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m6_H g3_7B c2_D2E",
-                name: "Coding Assignment 1 - Node JS",
+                name: "Nodejs Assignment 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m6_H g3_7B c2_D2E",
-                name: "Coding Assignment 2 - Node JS",
+                name: "Nodejs Assignment 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4693,17 +4711,17 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m7_H g3_7B c2_D2E",
-                name: "MCQ Test 1 - Node JS",
+                name: "Nodejs MCQ Test 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m7_H g3_7B c2_D2E",
-                name: "MCQ Test 2 - Node JS",
+                name: "Nodejs MCQ Test 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m7_H g3_7B c2_D2E",
-                name: "MCQ Test 3 - Node JS",
+                name: "Nodejs MCQ Test 3",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4747,12 +4765,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m1_H g3_7B c4_D2E",
-                name: "MCQ Pratice - Introduction to React JS",
+                name: "MCQ Pratice - Introduction",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m1_H g3_7B c4_D2E",
-                name: "Coding Pratice 1 - Introduction to React JS",
+                name: "ReactJs Coding Pratice 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4767,12 +4785,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s7_A0 m1_H g3_7B c4_D2E",
-                name: "MCQ Pratice - Components & Pros",
+                name: "MCQ Pratice - Part 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m1_H g3_7B c4_D2E",
-                name: "Coding Pratice 2 - Components & Pros",
+                name: "ReactJs Coding Pratice 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4792,7 +4810,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m1_H g3_7B c4_D2E",
-                name: "Coding Pratice 3 - Lists & Keys",
+                name: "ReactJs Coding Pratice 3",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4819,12 +4837,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m2_H g3_7B c4_D2E",
-                name: "MCQ Pratice - Class Component and State",
+                name: "MCQ Pratice - Class and State",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m2_H g3_7B c4_D2E",
-                name: "Coding Pratice 4- Class Component and State",
+                name: "ReactJs Coding Practice 4",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4844,7 +4862,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m2_H g3_7B c4_D2E",
-                name: "Coding Pratice 5 - Conditional Rendering",
+                name: "ReactJs Coding Practice 5",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4866,27 +4884,27 @@ export const goalsData = [
               },
               {
                 id: "QW9_s3_A0 m3_H g3_7B c4_D2E",
-                name: "MCQ Pratice - Class Component and State | Part 2",
+                name: "MCQ Pratice - Part 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m3_H g3_7B c4_D2E",
-                name: "Coding Pratice 6- Class Component and State | Part 2",
+                name: "ReactJs Coding Practice 6",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m3_H g3_7B c4_D2E",
-                name: "Coding Pratice 7- Class Component and State | Part 2",
+                name: "ReactJs Coding Practice 7",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m3_H g3_7B c4_D2E",
-                name: "Coding Pratice 8- Class Component and State | Part 2",
+                name: "ReactJs Coding Practice 8",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m3_H g3_7B c4_D2E",
-                name: "Assignment 1",
+                name: "React Assignment 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4913,12 +4931,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m4_H g3_7B c4_D2E",
-                name: "Coding Pratice 9 - Common Mistakes",
+                name: "ReactJs Coding Practice 9",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m4_H g3_7B c4_D2E",
-                name: "Coding Pratice 10 - Common Mistakes",
+                name: "ReactJs Coding Practice 10",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4945,7 +4963,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m5_H g3_7B c4_D2E",
-                name: "Coding Pratice 11 - Debugging using Developer Tools",
+                name: "ReactJs Coding Practice 11",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -4957,7 +4975,7 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m6_H g3_7B c4_D2E",
-                name: "On Demand Session",
+                name: "On Demand Session | Part 1",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -4972,22 +4990,17 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 12 - On Demand Session",
+                name: "ReactJs Coding Practice 12",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 13 - On Demand Session",
+                name: "ReactJs Coding Practice 13",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 14 - On Demand Session",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
-              },
-              {
-                id: "QW9_s7_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 15 - On Demand Session",
+                name: "ReactJs Coding Practice 14",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5007,22 +5020,22 @@ export const goalsData = [
               },
               {
                 id: "QW9_s11_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 16 - On Demand Session",
+                name: "ReactJs Coding Practice 15",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 17 - On Demand Session",
+                name: "ReactJs Coding Practice 16",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 18 - On Demand Session",
+                name: "ReactJs Coding Practice 17",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m6_H g3_7B c4_D2E",
-                name: "Coding Pratice 15 - On Demand Session",
+                name: "ReactJs Coding Practice 18",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -5049,27 +5062,27 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m7_H g3_7B c4_D2E",
-                name: "Coding Pratice 19 - Component Life Cycle",
+                name: "ReactJs Coding Practice 19",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m7_H g3_7B c4_D2E",
-                name: "Coding Pratice 20 - Component Life Cycle",
+                name: "ReactJs Coding Practice 20",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m7_H g3_7B c4_D2E",
-                name: "Coding Pratice 21 - Component Life Cycle",
+                name: "ReactJs Coding Practice 21",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m7_H g3_7B c4_D2E",
-                name: "Assignment 2",
+                name: "React Assignment 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m7_H g3_7B c4_D2E",
-                name: "Assignment 3",
+                name: "React Assignment 3",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -5096,7 +5109,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m8_H g3_7B c4_D2E",
-                name: "Coding Pratice 22 - Component Life Cycle",
+                name: "ReactJs Coding Practice 22",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5121,17 +5134,17 @@ export const goalsData = [
               },
               {
                 id: "QW9_s9_A0 m8_H g3_7B c4_D2E",
-                name: "Coding Pratice 23 - Component Life Cycle | Part 2",
+                name: "ReactJs Coding Practice 23",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m8_H g3_7B c4_D2E",
-                name: "Coding Pratice 24 - Component Life Cycle | Part 3",
+                name: "ReactJs Coding Practice 24",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m8_H g3_7B c4_D2E",
-                name: "Assignment 4",
+                name: "React Assignment 4",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5151,12 +5164,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s15_A0 m8_H g3_7B c4_D2E",
-                name: "Coding Pratice 25 - Common Mistakes | Part 2",
+                name: "ReactJs Coding Practice 25",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s16_A0 m8_H g3_7B c4_D2E",
-                name: "Coding Pratice 26 - Common Mistakes | Part 2",
+                name: "ReactJs Coding Practice 26",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],
@@ -5183,7 +5196,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m9_H g3_7B c4_D2E",
-                name: "Coding Pratice 27 - Authentication & Authorization",
+                name: "ReactJs Coding Practice 27",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5203,7 +5216,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s8_A0 m9_H g3_7B c4_D2E",
-                name: "Coding Pratice 28 - Authentication & Authorization",
+                name: "ReactJs Coding Practice 28",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5223,7 +5236,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s12_A0 m9_H g3_7B c4_D2E",
-                name: "Coding Pratice 29 - Authentication & Authorization",
+                name: "ReactJs Coding Practice 29",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
@@ -5243,12 +5256,12 @@ export const goalsData = [
               },
               {
                 id: "QW9_s16_A0 m9_H g3_7B c4_D2E",
-                name: "Coding Pratice 30 - Common Mistakes | Part 3",
+                name: "ReactJs Coding Practice 30",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s17_A0 m9_H g3_7B c4_D2E",
-                name: "Coding Pratice 31 - Common Mistakes | Part 3",
+                name: "ReactJs Coding Practice 31",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],

@@ -316,55 +316,95 @@ const LiveClasses = () => {
   };
 
   const handleStatusChange = async (classId, newStatus) => {
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/live-classes/${classId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ status: newStatus }),
-        }
-      );
+  // Find the current class data from state
+  const classItem = classes.find(c => c.id === classId);
+  if (!classItem) return;
 
-      if (response.ok) {
-        fetchClasses();
-        toast.success(`Status updated to ${newStatus}`);
-      } else {
-        toast.error("Failed to update status");
-      }
-    } catch (error) {
-      console.error("❌ Error updating status:", error);
-      toast.error("Failed to update status");
-    }
+  // Build the full update payload (same fields as in the edit form)
+  const updatePayload = {
+    class_name: classItem.class_name,
+    start_time: classItem.start_time,
+    end_time: classItem.end_time,
+    description: classItem.description || null,
+    zoom_link: classItem.zoom_link || null,
+    batch_month: classItem.batch_month || null,
+    batch_year: classItem.batch_year || null,
+    status: newStatus,                    // 👈 only this changes
+    progress: classItem.progress || 0,
+    student_type: classItem.student_type || "all",
+    course_selection: classItem.course_selection || "all",
   };
 
-  const handleProgressChange = async (classId, newProgress) => {
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/live-classes/${classId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ progress: newProgress }),
-        }
-      );
-
-      if (response.ok) {
-        fetchClasses();
-      } else {
-        toast.error("Failed to update progress");
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/live-classes/${classId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatePayload),
       }
-    } catch (error) {
-      console.error("❌ Error updating progress:", error);
-      toast.error("Failed to update progress");
+    );
+
+    if (response.ok) {
+      await fetchClasses(); // refresh list
+      toast.success(`Status updated to ${newStatus}`);
+    } else {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("❌ Status update failed:", errorData);
+      toast.error(errorData.error || "Failed to update status");
     }
+  } catch (error) {
+    console.error("❌ Error updating status:", error);
+    toast.error("Failed to update status");
+  }
+};
+
+const handleProgressChange = async (classId, newProgress) => {
+  const classItem = classes.find(c => c.id === classId);
+  if (!classItem) return;
+
+  const updatePayload = {
+    class_name: classItem.class_name,
+    start_time: classItem.start_time,
+    end_time: classItem.end_time,
+    description: classItem.description || null,
+    zoom_link: classItem.zoom_link || null,
+    batch_month: classItem.batch_month || null,
+    batch_year: classItem.batch_year || null,
+    status: classItem.status,
+    progress: newProgress,                // 👈 only this changes
+    student_type: classItem.student_type || "all",
+    course_selection: classItem.course_selection || "all",
   };
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/api/live-classes/${classId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatePayload),
+      }
+    );
+
+    if (response.ok) {
+      await fetchClasses();
+    } else {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("❌ Progress update failed:", errorData);
+      toast.error(errorData.error || "Failed to update progress");
+    }
+  } catch (error) {
+    console.error("❌ Error updating progress:", error);
+    toast.error("Failed to update progress");
+  }
+};
 
   const newClassVideo = () => {
     navigate("/Video_Management");

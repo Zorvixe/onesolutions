@@ -741,6 +741,14 @@ import Athantication_MCQ_2 from "../Nodejs/Athantication/Athantication_MCQ_2.js"
 import Athantication_CS_3 from "../Nodejs/Athantication/Athantication_CS_3.js";
 import Athantication_MCQ_3 from "../Nodejs/Athantication/Athantication_MCQ_3.js";
 
+//Git
+import Understaing_Binary_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Understaing_Binary_CS.js";
+import Understaing_Binary_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Understaing_Binary_MCQ.js";
+import Computer_Hardware_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Computer_Hardware_CS.js";
+import  Computer_Hardware_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Computer_Hardware_MCQ.js";
+import Introductionto_Operating_System_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_CS.js";
+import Introductionto_Operating_System_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_MCQ.js";
+
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
 import FoundationsOfOOP_CheatSheet_2 from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet_2.js";
@@ -748,7 +756,176 @@ import FoundationsOfOOP_Coding_Pratice from "../Python/IntroductiontoOOP/Foundat
 import Miscellaneous_Python_Library_CheeatSheet from "../Python/Miscellaneous/Miscellaneous_Python_Library_CheeatSheet.js";
 import Miscellaneous_Python_Library_MCQ from "../Python/Miscellaneous/Miscellaneous_Python_Library_MCQ.js";
 import Miscellaneous_Python_Library_Coding_Pratice from "../Python/Miscellaneous/Miscellaneous_Python_Library_Coding_Pratice.js";
+
+//Nodejs
+import Mern_Stack from "../Nodejs/Mern_Stack/Mern_Stack.js";
+import Introductionto_Nodejs from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs.js";
+import Introductionto_Nodejs_2 from "../Nodejs/Intoductionto_Nodejs/Introductionto_Nodejs_2.js";
+import Nodejs_Coding_Pratice_1 from "../Nodejs/Intoductionto_Nodejs/Nodejs_Coding_Pratice_1.js";
+import Nodejs_Coding_Pratice_2 from "../Nodejs/Intoductionto_Nodejs/Nodejs_Coding_Pratice_2.js";
+import Hyper_Text_Transfer_Protocal from "../Nodejs/Introductionto_Expressjs/Hyper_Text_Transfer_Protocal.js";
+import Introductionto_Expressjs from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs.js";
+import Introductionto_Expressjs_2 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_2.js";
+import Introductionto_Expressjs_3 from "../Nodejs/Introductionto_Expressjs/Introductionto_Expressjs_3.js";
+import Debug_Cmmn_Errors from "../Nodejs/REST_APIs/Debug_Cmmn_Errors.js";
+import Debug_Cmmn_Errors_P2 from "../Nodejs/REST_APIs/Debug_Cmmn_Errors_P2.js";
+import Rest_APIs from "../Nodejs/REST_APIs/Rest_APIs.js";
+import Nodejs_Coding_Pratice_3 from "../Nodejs/Introductionto_Expressjs/Nodejs_Coding_Pratice_3.js";
+import Nodejs_Coding_Pratice_4 from "../Nodejs/Introductionto_Expressjs/Nodejs_Coding_Pratice_4.js";
+import Nodejs_Coding_Pratice_5 from "../Nodejs/Introductionto_Expressjs/Nodejs_Coding_Pratice_5.js";
+import Nodejs_Coding_Pratice_6 from "../Nodejs/Introductionto_Expressjs/Nodejs_Coding_Pratice_6.js";
+import Nodejs_Coding_Pratice_7 from "../Nodejs/Introductionto_Expressjs/Nodejs_Coding_Pratice_7.js";
+import Nodejs_Coding_Pratice_8 from "../Nodejs/REST_APIs/Nodejs_Coding_Pratice_8.js";
+import Nodejs_Coding_Pratice_9 from "../Nodejs/Athantication/Nodejs_Coding_Pratice_9.js";
+import Nodejs_Coding_Pratice_10 from "../Nodejs/Athantication/Nodejs_Coding_Pratice_10.js";
+import Athantication_1 from "../Nodejs/Athantication/Athantication_1.js";
+import Athantication_2 from "../Nodejs/Athantication/Athantication_2.js";
+import Athantication_3 from "../Nodejs/Athantication/Athantication_3.js";
+import Nodejs_Coding_Assignmet_1 from "../Nodejs/Assignments/Nodejs_Coding_Assignmet_1.js";
+import Nodejs_Coding_Assignmet_2 from "../Nodejs/Assignments/Nodejs_Coding_Assignmet_2.js";
+import Nodejs_Mock_Test_1 from "../Nodejs/Mock_Tests/Nodejs_Mock_Test_1.js";
+import Nodejs_Mock_Test_2 from "../Nodejs/Mock_Tests/Nodejs_Mock_Test_2.js";
+import Nodejs_Mock_Test_3 from "../Nodejs/Mock_Tests/Nodejs_Mock_Test_3.js";
+
+//Reactjs class & codingPratices
+import Introductionto_Reactjs from "../Reactjs/Introductionto_Reactjs/Introductionto_Reactjs.js";
+import Components_Props from "../Reactjs/Introductionto_Reactjs/Components_Props.js";
+import List_Keys from "../Reactjs/Introductionto_Reactjs/List_Keys.js";
+import React_Coding_Practice_1 from "../Reactjs/Introductionto_Reactjs/React_Coding_Practice_1.js";
+import React_Coding_Practice_2 from "../Reactjs/Introductionto_Reactjs/React_Coding_Practice_2.js";
+import React_Coding_Practice_3 from "../Reactjs/Introductionto_Reactjs/React_Coding_Practice_3.js";
+import Class_Component_State1 from "../Reactjs/Class_Component_State1/Class_Component_State1.js";
+import Noteon_React_Versions from "../Reactjs/Class_Component_State1/Noteon_React_Versions.js";
+import Conditional_Render from "../Reactjs/Class_Component_State1/Conditional_Render.js";
+import Debugging_Dev_Tools from "../Reactjs/Debugging/Debugging_Dev_Tools.js";
+import React_Coding_Practice_4 from "../Reactjs/Class_Component_State1/React_Coding_Practice_4.js";
+import React_Coding_Practice_5 from "../Reactjs/Class_Component_State1/React_Coding_Practice_5.js";
+import Class_Component_State2 from "../Reactjs/Class_Component_State2/Class_Component_State2.js";
+import React_Coding_Practice_6 from "../Reactjs/Class_Component_State2/React_Coding_Practice_6.js";
+import React_Coding_Practice_7 from "../Reactjs/Class_Component_State2/React_Coding_Practice_7.js";
+import React_Coding_Practice_8 from "../Reactjs/Class_Component_State2/React_Coding_Practice_8.js";
+import React_Assignment_1 from "../Reactjs/Class_Component_State2/React_Assignment_1.js";
+import Common_Mistakes from "../Reactjs/Common_Mistakes/Common_Mistakes.js";
+import Ondemand_Sessions_Part1 from "../Reactjs/Working_With_Lists/Ondemand_Sessions_Part1.js";
+import Ondemand_sessions_part2 from "../Reactjs/Working_With_Lists/Ondemand_sessions_part2.js";
+import Component_Life_Cycle from "../Reactjs/Component_Life_Cycle/Component_Life_Cycle.js";
+import React_Router1 from "../Reactjs/React_Router/React_Router1.js";
+import React_Router2 from "../Reactjs/React_Router/React_Router2.js";
+import Common_M_Part_2 from "../Reactjs/React_Router/Common_M_Part_2.js";
+import Authentication from "../Reactjs/Authentication/Authentication.js";
+import Authentication_2 from "../Reactjs/Authentication/Authentication_2.js";
+import Authentication_3 from "../Reactjs/Authentication/Authentication_3.js";
+import React_Assignment_2 from "../Reactjs/Component_Life_Cycle/React_Assignment_2.js";
+import React_Assignment_3 from "../Reactjs/Component_Life_Cycle/React_Assignment_3.js";
+import React_Assignment_4 from "../Reactjs/React_Router/React_Assignment_4.js";
+import React_Coding_Practice_9 from "../Reactjs/Common_Mistakes/React_Coding_Practice_9.js";
+import React_Coding_Practice_10 from "../Reactjs/Common_Mistakes/React_Coding_Practice_10.js";
+import React_Coding_Practice_11 from "../Reactjs/Debugging/React_Coding_Practice_11.js";
+import React_Coding_Practice_12 from "../Reactjs/Working_With_Lists/React_Coding_Practice_12.js";
+import React_Coding_Practice_13 from "../Reactjs/Working_With_Lists/React_Coding_Practice_13.js";
+import React_Coding_Practice_14 from "../Reactjs/Working_With_Lists/React_Coding_Practice_14.js";
+import React_Coding_Practice_15 from "../Reactjs/Working_With_Lists/React_Coding_Practice_15.js";
+import React_Coding_Practice_16 from "../Reactjs/Working_With_Lists/React_Coding_Practice_16.js";
+import React_Coding_Practice_17 from "../Reactjs/Working_With_Lists/React_Coding_Practice_17.js";
+import React_Coding_Practice_18 from "../Reactjs/Working_With_Lists/React_Coding_Practice_18.js";
+import React_Coding_Practice_19 from "../Reactjs/Component_Life_Cycle/React_Coding_Practice_19.js";
+import React_Coding_Practice_20 from "../Reactjs/Component_Life_Cycle/React_Coding_Practice_20.js";
+import React_Coding_Practice_21 from "../Reactjs/Component_Life_Cycle/React_Coding_Practice_21.js";
+import React_Coding_Practice_22 from "../Reactjs/React_Router/React_Coding_Practice_22.js";
+import React_Coding_Practice_23 from "../Reactjs/React_Router/React_Coding_Practice_23.js";
+import React_Coding_Practice_24 from "../Reactjs/React_Router/React_Coding_Practice_24.js";
+import React_Coding_Practice_25 from "../Reactjs/React_Router/React_Coding_Practice_25.js";
+import React_Coding_Practice_26 from "../Reactjs/React_Router/React_Coding_Practice_26.js";
+import React_Coding_Practice_27 from "../Reactjs/Authentication/React_Coding_Practice_27.js";
+import React_Coding_Practice_28 from "../Reactjs/Authentication/React_Coding_Practice_28.js";
+import React_Coding_Practice_29 from "../Reactjs/Authentication/React_Coding_Practice_29.js";
+import React_Coding_Practice_30 from "../Reactjs/Authentication/React_Coding_Practice_30.js";
+import React_Coding_Practice_31 from "../Reactjs/Authentication/React_Coding_Practice_31.js";
 export const subtopicComponents = {
+  //Reactjs class & codingPratices
+ "Introduction to React JS": Introductionto_Reactjs,
+  "Components & Pros": Components_Props,
+  "Lists & Keys": List_Keys,
+  "Class Component and State": Class_Component_State1,
+  "A Note on React Versions": Noteon_React_Versions,
+  "Conditional Rendering": Conditional_Render,
+  "Class Component and State | Part 2": Class_Component_State2, 
+  "Common Mistakes": Common_Mistakes,
+  "Debugging using Developer Tools": Debugging_Dev_Tools,
+  "On Demand Session | Part 1": Ondemand_Sessions_Part1,
+  "On Demand Session | Part 2": Ondemand_sessions_part2,
+  "Component Life Cycle": Component_Life_Cycle,
+  "Routing using React Router": React_Router1,
+  "Routing using React Router | Part 2": React_Router2,
+  "Common Mistakes | Part 2": Common_M_Part_2,
+  "Authentication & Authorization": Authentication,
+  "Authentication & Authorization | Part 2": Authentication_2,
+  "Authentication & Authorization | Part 3": Authentication_3,
+  "ReactJs Coding Pratice 1": React_Coding_Practice_1,
+  "ReactJs Coding Pratice 2": React_Coding_Practice_2,
+  "ReactJs Coding Pratice 3": React_Coding_Practice_3,
+  "ReactJs Coding Practice 4": React_Coding_Practice_4,
+  "ReactJs Coding Practice 5": React_Coding_Practice_5,
+  "ReactJs Coding Practice 6": React_Coding_Practice_6,
+  "ReactJs Coding Practice 7": React_Coding_Practice_7,
+  "ReactJs Coding Practice 8":React_Coding_Practice_8,
+  "React Assignment 1": React_Assignment_1,
+  "React Assignment 2": React_Assignment_2,
+  "React Assignment 3": React_Assignment_3,
+  "React Assignment 4": React_Assignment_4,
+  "ReactJs Coding Practice 9": React_Coding_Practice_9,
+  "ReactJs Coding Practice 10":  React_Coding_Practice_10,
+  "ReactJs Coding Practice 11": React_Coding_Practice_11,
+  "ReactJs Coding Practice 12": React_Coding_Practice_12,
+  "ReactJs Coding Practice 13": React_Coding_Practice_13,
+  "ReactJs Coding Practice 14": React_Coding_Practice_14,
+  "ReactJs Coding Practice 15": React_Coding_Practice_15,
+  "ReactJs Coding Practice 16": React_Coding_Practice_16,
+  "ReactJs Coding Practice 17": React_Coding_Practice_17,
+  "ReactJs Coding Practice 18": React_Coding_Practice_18,
+  "ReactJs Coding Practice 19": React_Coding_Practice_19,
+  "ReactJs Coding Practice 20": React_Coding_Practice_20,
+  "ReactJs Coding Practice 21": React_Coding_Practice_21,
+  "ReactJs Coding Practice 22": React_Coding_Practice_22,
+  "ReactJs Coding Practice 23": React_Coding_Practice_23,
+  "ReactJs Coding Practice 24": React_Coding_Practice_24,
+  "ReactJs Coding Practice 25": React_Coding_Practice_25,
+  "ReactJs Coding Practice 26": React_Coding_Practice_26,
+  "ReactJs Coding Practice 27": React_Coding_Practice_27,
+  "ReactJs Coding Practice 28": React_Coding_Practice_28,
+  "ReactJs Coding Practice 29": React_Coding_Practice_29,
+  "ReactJs Coding Practice 30": React_Coding_Practice_30,
+  "ReactJs Coding Practice 31": React_Coding_Practice_31,
+  //Nodejs
+  "MERN Stack":Mern_Stack,
+  "Introduction to Node JS": Introductionto_Nodejs,
+  "Introduction to Node JS | Part 2":Introductionto_Nodejs_2,
+  "NodeJS Coding Practice 1": Nodejs_Coding_Pratice_1,
+  "NodeJS Coding Practice 2": Nodejs_Coding_Pratice_2,
+  "Hypertext Transfer Protocol (HTTP)": Hyper_Text_Transfer_Protocal,
+  "Introduction to Express JS": Introductionto_Expressjs,
+  "Introduction to Express JS | Part 2": Introductionto_Expressjs_2,
+  "Introduction to Express JS | Part 3": Introductionto_Expressjs_3,
+  "Debugging Common Errors": Debug_Cmmn_Errors,
+  "Debugging Common Errors | Part 2": Debug_Cmmn_Errors_P2,
+  "REST APIs":Rest_APIs,
+  "Authentication | Part 1": Athantication_1,
+  "Authentication | Part 2": Athantication_2,
+  "Authentication | Part 3": Athantication_3,
+  "NodeJS Coding Practice 3": Nodejs_Coding_Pratice_3,
+  "NodeJS Coding Practice 4": Nodejs_Coding_Pratice_4,
+  "NodeJS Coding Practice 5": Nodejs_Coding_Pratice_5,
+  "NodeJS Coding Practice 6": Nodejs_Coding_Pratice_6,
+  "NodeJS Coding Practice 7": Nodejs_Coding_Pratice_7,
+  "NodeJS Coding Practice 8": Nodejs_Coding_Pratice_8,
+  "NodeJS Coding Practice 9": Nodejs_Coding_Pratice_9,
+  "NodeJS Coding Practice 10": Nodejs_Coding_Pratice_10,
+  "Nodejs Assignment 1": Nodejs_Coding_Assignmet_1,
+  "Nodejs Assignment 2": Nodejs_Coding_Assignmet_2,
+  "Nodejs MCQ Test 1":Nodejs_Mock_Test_1,
+  "Nodejs MCQ Test 2":Nodejs_Mock_Test_2,
+  "Nodejs MCQ Test 3":Nodejs_Mock_Test_3,
+
   //Python OOPS CORE
   "Foundations of Object Oriented Programming | Cheat Sheet":
     FoundationsOfOOP_CheatSheet,
@@ -793,6 +970,10 @@ export const subtopicComponents = {
   "MCQ Practice - JS Promises | Part 2": JS_Promises_MCQ_2,
   "More JS Concepts | Cheat Sheet": More_JS_Conceptes_CS,
   "MCQ Practice - More JS Concepts": More_JS_Concepte_MCQ,
+  // "Authentication & Authorization":
+  // "Authentication & Authorization | Part 2":
+  // "Authentication & Authorization | Part 3":
+  // "Common Mistakes | Part 3":
   "JS Essentials MCQ Assignment 1": JS_Essential_MCQ_Assignment_1,
   "JS Essentials MCQ Assignment 2": JS_Essential_MCQ_Assignment_2,
   "JS Essentials MCQ Assignment 3": JS_Essential_MCQ_Assignment_3,
@@ -1237,17 +1418,16 @@ export const subtopicComponents = {
   "Styled Components | Cheat Sheet": Styled_Compo_CS,
 
   //Reactjs MCQ
-  "MCQ Pratice - Introduction to React JS": Introductionto_Reactjs_MCQ,
-  "MCQ Pratice - Components & Pros": Components_Props_MCQ,
+  "MCQ Pratice - Introduction": Introductionto_Reactjs_MCQ,
+  "MCQ Pratice - Part 1": Components_Props_MCQ,
   "MCQ Pratice - Lists & Keys": Lists_Keys_MCQ,
-  "MCQ Pratice - Class Component and State": Class_Component_State1_MCQ,
+  "MCQ Pratice - Class and State": Class_Component_State1_MCQ,
   "MCQ Pratice - Conditional Rendering": Conditional_Render_MCQ,
-  "MCQ Pratice - Class Component and State | Part 2":
-    Class_Component_State2_MCQ,
+  "MCQ Pratice - Part 2": Class_Component_State2_MCQ,
   "MCQ Pratice - Common Mistakes": Common_Mistakes_MCQ,
-  "MCQ Pratice - Debugging using Developer Tools": Debugging_Dev_Tool_MCQ,
-  "MCQ Pratice - On Demand Session1": Ondemand1_Session_MCQ,
-  "MCQ Pratice - On Demand Session | Part 2": Ondemand2_Session_MCQ,
+  "MCQ Pratice - Debugging": Debugging_Dev_Tool_MCQ,
+  "MCQ Pratice - OnDemand Part 1": Ondemand1_Session_MCQ,
+  "MCQ Pratice - OnDemand Part 2": Ondemand2_Session_MCQ,
   "MCQ Pratice - Component Life Cycle": Component_Life_Cycle_MCQ,
   "MCQ Pratice - Routing using React Router": React_Router1_MCQ,
   "MCQ Pratice - Routing using React Router | Part 2 & 3": React_Router2_3_MCQ,
@@ -1549,4 +1729,12 @@ export const subtopicComponents = {
   "MCQ Assignment 4": JS_MCQ_Assignment_4,
   "JS MCQ Test 1": JS_MCQ_Test_1,
   "JS MCQ Test 2": JS_MCQ_Test_2,
+
+  //git
+  "Understanding Binary | Cheat Sheet":Understaing_Binary_CS,
+  "MCQ Pratice - Understanding Binary":Understaing_Binary_MCQ,
+  "Overview of Computer Hardware | Cheat Sheet":Computer_Hardware_CS,
+  "MCQ Pratice - Overview of Computer Hardware": Computer_Hardware_MCQ,
+  "Introduction to Operating System | Cheat Sheet":Introductionto_Operating_System_CS,
+  "MCQ Pratice - Introduction to Operating System":Introductionto_Operating_System_MCQ,
 };

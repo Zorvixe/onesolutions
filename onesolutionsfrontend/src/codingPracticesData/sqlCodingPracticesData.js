@@ -953,7 +953,7 @@ export const sqlCodingPracticesData = {
               <p class="desc-que-blue">Question</p>
               <p>
               A new player has joined the tournament. Write an SQL query to add the the following details to the "player" table.</p>              
-         <div class="sql-table-desc">
+            <div class="sql-table-desc">
                 <div class="sql-table-caption">Table: player</div>
                 <table>
                 <thead>
@@ -13351,6 +13351,7 @@ export const sqlCodingPracticesData = {
         },
         {
           id: "sql-query-10-3",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Student ID",
           description:
             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
@@ -13546,6 +13547,7 @@ export const sqlCodingPracticesData = {
         },
         {
           id: "sql-query-10-4",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Scored more than 70 in Cyber Security",
           description:
             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
@@ -13693,6 +13695,7 @@ export const sqlCodingPracticesData = {
         },
         {
           id: "sql-query-10-5",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
           title: "Machine Learning",
           description:
             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
@@ -13894,7 +13897,7 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
 
               <p class="desc-que-blue">Questions</p>
 
-              <p>1. Fetch all the posts along with user details.</p>
+              <p>Fetch all the posts along with user details.</p>
 
               <div class="Note-container">
                 <div class="icon-note">
@@ -14231,7 +14234,7 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
         description:
           "In this practice set, let’s apply SQL Joins and Aggregation to fetch the total number of posts posted by a specific user.",
 
-        difficulty: "Easy",
+        difficulty: "Medium",
         score: 40,
         type: "sql",
 
@@ -14300,7 +14303,7 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
 
               <p class="desc-que-blue">Questions</p>
 
-              <p>Fetch the total number of posts posted by “James Williams” till date asposts_count.</p>
+              <p>Fetch the total number of posts posted by “James Williams” till date as posts_count.</p>
 
               <div class="Note-container">
                 <div class="icon-note">
@@ -14398,11 +14401,12 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
         },
         {
         id: "sql-query-11-4",
+        accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
         title: "Total number of posts ",
         description:
           "In this practice set, let’s apply SQL Joins and Aggregation to fetch the total number of posts posted by a specific user.",
 
-        difficulty: "Easy",
+        difficulty: "Medium",
         score: 40,
         type: "sql",
 
@@ -14569,6 +14573,5791 @@ Get all the student_ids who enrolled for the "Machine Learning" course in 2021.<
           unexpectedKeywords: ["order by"],
           visible: true,
         },
+      ],
+        },
+        {
+        id: "sql-query-11-5",
+         accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        title: "At least 2 posts",
+        description:
+          "In this practice set, let’s apply SQL Joins and Aggregation to fetch the total number of posts posted by a specific user.",
+
+        difficulty: "Medium",
+        score: 45,
+        type: "sql",
+
+        defaultCode: {
+          sql: ``,
+        },
+
+        tableData: {
+        user: {
+          columns: ["user_id", "name", "age", "gender"],
+          rows: [
+            [1, "James Williams", 25, "male"],
+            [2, "Sophia Brown", 22, "female"],
+            [3, "Liam Johnson", 23, "male"],
+            [4, "Emma Davis", 21, "female"],
+            [5, "Noah Wilson", 24, "male"]
+          ]
+        },
+
+        post: {
+          columns: ["post_id", "posted_by", "post_text"],
+          rows: [
+            [101, 1, "Post A"],
+            [102, 1, "Post B"],
+            [103, 1, "Post C"],
+            [104, 2, "Post D"],
+            [105, 2, "Post E"],
+            [106, 3, "Post F"],
+            [107, 1, "Post G"],
+            [108, 5, "Post H"],
+            [109, 5, "Post I"],
+            [110, 3, "Post J"],
+          ]
+        }
+      },
+
+      descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
+              <p>The database contains user, post, comment and reaction tables.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+              <ul>
+                <li>1:n relation between user and comment</li>
+                <li>1:1 relation between user and reaction</li>
+                <li>1:n relation between post and comment</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>You can assume that a user may or may not post on the social media platform, i.e., a user can have zero or many posts.</li>
+                  <li>A post can have zero or many comments or reactions.</li>
+                  <li>Take care of this detail while writing various queries on the database, especially when deciding on INNER JOIN / LEFT JOIN.</li>
+                </ul>
+              </div>
+
+              <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+              <p class="desc-que-blue">Questions</p>
+
+              <p>Get all the users details who posted at least 2 posts.</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>Sort the output in the descending order of posts_count, and then in the ascending order of user_id.</li>
+                </ul>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>user_name</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>posts_count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+          `,
+
+      testCases: [
+          {
+            id: 1,
+            description: "Query should start with SELECT",
+            type: "syntax-validation",
+            expectedKeywords: ["select"],
+            visible: true,
+          },
+          {
+            id: 2,
+            description: "Query should use INNER JOIN between user and post tables",
+            type: "syntax-validation",
+            expectedKeywords: ["inner join", "on"],
+            visible: true,
+          },
+          {
+            id: 3,
+            description: "Query should use GROUP BY clause",
+            type: "syntax-validation",
+            expectedKeywords: ["group by"],
+            visible: true,
+          },
+          {
+            id: 4,
+            description: "Query should use HAVING clause with COUNT >= 2",
+            type: "syntax-validation",
+            expectedKeywords: ["having", "count"],
+            visible: true,
+          },
+          {
+            id: 5,
+            description: "Query should sort by posts_count DESC and user_id ASC",
+            type: "syntax-validation",
+            expectedKeywords: ["order by", "desc", "asc"],
+            visible: true,
+          }
+        ],
+        },
+        {
+        id: "sql-query-11-6",
+        accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+        title: "Active users in January 2021.",
+        description:
+          "In this practice set, let’s apply SQL Joins and Aggregation to fetch the total number of posts posted by a specific user.",
+
+        difficulty: "Medium",
+        score: 45,
+        type: "sql",
+
+        defaultCode: {
+          sql: ``,
+        },
+
+       tableData: {
+        user: {
+          columns: ["user_id", "name"],
+          rows: [
+            [1, "James"],
+            [2, "Sophia"],
+            [3, "Liam"],
+            [4, "Emma"],
+            [5, "Noah"]
+          ]
+        },
+
+        post: {
+          columns: ["post_id", "posted_by", "posted_at"],
+          rows: [
+            [101, 1, "2021-01-05"],
+            [102, 1, "2021-01-10"],
+            [103, 1, "2021-01-15"],
+            [104, 2, "2021-01-07"],
+            [105, 2, "2021-01-20"],
+            [106, 3, "2021-01-25"],
+            [107, 3, "2020-01-10"],
+            [108, 4, "2021-02-01"],
+            [109, 5, "2021-01-11"],
+            [110, 5, "2021-01-18"],
+            [111, 5, "2021-01-30"]
+          ]
+        }
+      },
+
+      descriptionDetails: `
+            <div class="desc-question-details">
+              <p class="desc-que-blue">Database</p>
+              <p>In this practice set, let’s apply Joins to fetch meaningful data from a sample database of social networking application.</p>
+              <p>The database contains user, post, comment and reaction tables.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_2.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+              <ul>
+                <li>1:n relation between user and comment</li>
+                <li>1:1 relation between user and reaction</li>
+                <li>1:n relation between post and comment</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>You can assume that a user may or may not post on the social media platform, i.e., a user can have zero or many posts.</li>
+                  <li>A post can have zero or many comments or reactions.</li>
+                  <li>Take care of this detail while writing various queries on the database, especially when deciding on INNER JOIN / LEFT JOIN.</li>
+                </ul>
+              </div>
+
+              <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+              <p class="desc-que-blue">Questions</p>
+
+              <p>Fetch the active users in January 2021.</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                  <li>Consider the users as active, if they posted at least 2 posts in January 2021.</li>
+                  <li>Sort the output in the descending order of posts_count, and then in the ascending order of user_id.</li>
+                </ul>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+              <table>
+                <thead>
+                  <tr>
+                    <th>user_id</th>
+                    <th>user_name</th>
+                    <th>posts_count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            </div>
+          `,
+
+      testCases: [
+        {
+          id: 1,
+          description: "Query should start with SELECT",
+          type: "syntax-validation",
+          expectedKeywords: ["select"],
+          visible: true,
+        },
+        {
+          id: 2,
+          description: "Should use COUNT(post.post_id) AS posts_count",
+          type: "syntax-validation",
+          expectedKeywords: ["count(post.post_id) as posts_count"],
+          visible: true,
+        },
+        {
+          id: 3,
+          description: "Should filter January 2021 using strftime",
+          type: "syntax-validation",
+          expectedKeywords: ['strftime("%y", post.posted_at)', 'strftime("%m", post.posted_at)'],
+          visible: false,
+        },
+        {
+          id: 4,
+          description: "Should group by user_id and user_name",
+          type: "syntax-validation",
+          expectedKeywords: ["group by user.user_id, user.name"],
+          visible: false,
+        },
+        {
+          id: 5,
+          description: "Should filter users with at least 2 posts",
+          type: "syntax-validation",
+          expectedKeywords: ["having posts_count >= 2"],
+          visible: false,
+        },
+        {
+          id: 6,
+          description: "Should sort by posts_count DESC and user_id ASC",
+          type: "syntax-validation",
+          expectedKeywords: ["order by posts_count desc, user.user_id asc"],
+          visible: false,
+        }
+      ],
+        },
+      ],
+    },
+    // SQL Practice 12
+    {
+      id: "sql-coding-practice-12",
+      title: "SQL Coding Practice 12",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-12-1",
+          title: "Actor ids of the cast",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 30,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            actor: {
+              columns: ["id", "name"],
+              rows: [
+                [1, "Chris Evans"],
+                [2, "Robert Downey Jr."],
+                [3, "Scarlett Johansson"],
+                [4, "Tom Holland"],
+                [5, "Emma Watson"],
+                [6, "Daniel Radcliffe"]
+              ]
+            },
+
+            director: {
+              columns: ["id", "name"],
+              rows: [
+                [1, "Director A"],
+                [2, "Director B"],
+                [3, "Director C"],
+                [4, "Director D"]
+              ]
+            },
+
+            movie: {
+              columns: ["id", "name", "rating", "budget_in_cr", "collection_in_cr"],
+              rows: [
+                [101, "Movie 1", 7, 100, 170],  // profit 70 ✅
+                [102, "Movie 2", 8, 80, 140],   // profit 60 ✅
+                [103, "Movie 3", 5, 90, 120],   // profit 30 ❌
+                [104, "Movie 4", 9, 60, 130],   // profit 70 ✅
+                [105, "Movie 5", 4, 50, 90],    // profit 40 ❌
+                [106, "Movie 6", 7, 75, 140],   // profit 65 ✅
+                [107, "Movie 7", 3, 40, 95],    // profit 55 ✅
+                [108, "Movie 8", 6, 50, 120]    // profit 70 ✅ (rating not >6)
+              ]
+            },
+
+            movie_cast: {
+              columns: ["movie_id", "actor_id"],
+              rows: [
+                // Chris Evans → 5 movies
+                [101,1],[102,1],[103,1],[104,1],[105,1],
+
+                // Robert Downey Jr. → 6 movies
+                [101,2],[102,2],[104,2],[105,2],[106,2],[107,2],
+
+                // Scarlett Johansson → 3 movies
+                [101,3],[103,3],[106,3],
+
+                // Tom Holland → 1 movie
+                [104,4],
+
+                // Emma Watson → 4 movies
+                [102,5],[103,5],[104,5],[108,5],
+
+                // Daniel Radcliffe → 2 movies
+                [105,6],[107,6]
+              ]
+            },
+
+            movie_director: {
+              columns: ["movie_id", "director_id"],
+              rows: [
+                // Director 1 → 3 movies (2 rating>6, 2 profit≥50)
+                [101,1],  // rating 7, profit 70
+                [102,1],  // rating 8, profit 60
+                [103,1],  // rating 5, profit 30
+
+                // Director 2 → 3 movies (2 rating>6, 2 profit≥50)
+                [104,2],  // rating 9, profit 70
+                [106,2],  // rating 7, profit 65
+                [105,2],  // rating 4, profit 40
+
+                // Director 3 → 2 movies (only 1 qualifies)
+                [105,3],  // rating 4, profit 40
+                [107,3],  // rating 3, profit 55
+
+                // Director 4 → 2 movies (only 1 rating>6 but 2 profit≥50)
+                [101,4],  // rating 7, profit 70
+                [108,4]   // rating 6, profit 70
+              ]
+            }
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+           
+              <p class="desc-que-blue">Database</p>
+              <p>The database given is similar to IMDb, which consists data related to various movies, directors and actors.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_3.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <p>The database is designed to cover the below business requirements.</p>
+              <ul>
+                <li>A movie can have more than one actor casted and vice versa.</li>
+                <li>A movie can have more than one director and vice versa.</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>You can assume that actors in the database have acted in at least one movie (in the database), where as some directors might not have the movies they directed(in the given database). So, do take care of this detail while writing various queries on the database, especially, when deciding on INNER JOIN / LEFT JOIN.</p>
+                  </ul>
+              </div>
+              <p class="desc-que-blue">Junction Tables</p>
+
+                <p>movie_cast is a junction table which stores the many-to-many relationship between movie and actor. And role of an actor for a movie is stored in the table. Similarly movie_director table stores the many-to-many relationship between movie and director</p>
+                <p>Refer the tables in the code playground for a better understanding of the database.           </p>
+              <p class="desc-que-blue">Questions</p>
+
+              <p>For all the movies, get the actor_ids of the cast.</p>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div><p>Sort the output in the ascending order of movie_name, and then in the ascending order of the actor_id.</p>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>movie_name</th>
+                      <th>actor_id</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Should join movie and movie_cast using INNER JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join movie_cast on movie.id = movie_cast.movie_id"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Should select movie.name as movie_name",
+              type: "syntax-validation",
+              expectedKeywords: ["movie.name as movie_name"],
+              visible: false,
+            },
+            {
+              id: 4,
+              description: "Should select movie_cast.actor_id",
+              type: "syntax-validation",
+              expectedKeywords: ["movie_cast.actor_id"],
+              visible: false,
+            },
+            {
+              id: 5,
+              description: "Should sort by movie_name ASC and actor_id ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by movie.name asc, movie_cast.actor_id asc"],
+              visible: false,
+            }
+          ],
+        }, 
+        {
+          id: "sql-query-12-2",
+          title: "Daniel Radcliffe has acted.",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+      tableData: {
+      actor: {
+        columns: ["id", "name"],
+        rows: [
+          [1, "Chris Evans"],
+          [2, "Robert Downey Jr."],
+          [3, "Scarlett Johansson"],
+          [4, "Tom Holland"],
+          [5, "Emma Watson"],
+          [6, "Daniel Radcliffe"]
+        ]
+      },
+
+      director: {
+        columns: ["id", "name"],
+        rows: [
+          [1, "Director A"],
+          [2, "Director B"],
+          [3, "Director C"],
+          [4, "Director D"]
+        ]
+      },
+
+      movie: {
+        columns: ["id", "name", "rating", "budget_in_cr", "collection_in_cr"],
+        rows: [
+          [101, "Movie 1", 7, 100, 170],  // profit 70 ✅
+          [102, "Movie 2", 8, 80, 140],   // profit 60 ✅
+          [103, "Movie 3", 5, 90, 120],   // profit 30 ❌
+          [104, "Movie 4", 9, 60, 130],   // profit 70 ✅
+          [105, "Movie 5", 4, 50, 90],    // profit 40 ❌
+          [106, "Movie 6", 7, 75, 140],   // profit 65 ✅
+          [107, "Movie 7", 3, 40, 95],    // profit 55 ✅
+          [108, "Movie 8", 6, 50, 120]    // profit 70 ✅ (rating not >6)
+        ]
+      },
+
+      movie_cast: {
+        columns: ["movie_id", "actor_id"],
+        rows: [
+          // Chris Evans → 5 movies
+          [101,1],[102,1],[103,1],[104,1],[105,1],
+
+          // Robert Downey Jr. → 6 movies
+          [101,2],[102,2],[104,2],[105,2],[106,2],[107,2],
+
+          // Scarlett Johansson → 3 movies
+          [101,3],[103,3],[106,3],
+
+          // Tom Holland → 1 movie
+          [104,4],
+
+          // Emma Watson → 4 movies
+          [102,5],[103,5],[104,5],[108,5],
+
+          // Daniel Radcliffe → 2 movies
+          [105,6],[107,6]
+        ]
+      },
+
+      movie_director: {
+        columns: ["movie_id", "director_id"],
+        rows: [
+          // Director 1 → 3 movies (2 rating>6, 2 profit≥50)
+          [101,1],  // rating 7, profit 70
+          [102,1],  // rating 8, profit 60
+          [103,1],  // rating 5, profit 30
+
+          // Director 2 → 3 movies (2 rating>6, 2 profit≥50)
+          [104,2],  // rating 9, profit 70
+          [106,2],  // rating 7, profit 65
+          [105,2],  // rating 4, profit 40
+
+          // Director 3 → 2 movies (only 1 qualifies)
+          [105,3],  // rating 4, profit 40
+          [107,3],  // rating 3, profit 55
+
+          // Director 4 → 2 movies (only 1 rating>6 but 2 profit≥50)
+          [101,4],  // rating 7, profit 70
+          [108,4]   // rating 6, profit 70
+        ]
+      }
+    },
+     descriptionDetails: `
+            <div class="desc-question-details">
+           
+              <p class="desc-que-blue">Database</p>
+              <p>The database given is similar to IMDb, which consists data related to various movies, directors and actors.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_3.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <p>The database is designed to cover the below business requirements.</p>
+              <ul>
+                <li>A movie can have more than one actor casted and vice versa.</li>
+                <li>A movie can have more than one director and vice versa.</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>You can assume that actors in the database have acted in at least one movie (in the database), where as some directors might not have the movies they directed(in the given database). So, do take care of this detail while writing various queries on the database, especially, when deciding on INNER JOIN / LEFT JOIN.</p>
+                  </ul>
+              </div>
+              <p class="desc-que-blue">Junction Tables</p>
+
+                <p>movie_cast is a junction table which stores the many-to-many relationship between movie and actor. And role of an actor for a movie is stored in the table. Similarly movie_director table stores the many-to-many relationship between movie and director</p>
+                <p>Refer the tables in the code playground for a better understanding of the database.           </p>
+              
+              <p class="desc-que-blue">Questions</p>
+              <p>Get the number of movies in which "Daniel Radcliffe" has acted.</p>
+
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>no_of_movies</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+              {
+                id: 1,
+                description: "Query should start with SELECT",
+                type: "syntax-validation",
+                expectedKeywords: ["select"],
+                visible: true,
+              },
+              {
+                id: 2,
+                description: "Should use COUNT with alias no_of_movies",
+                type: "syntax-validation",
+                expectedKeywords: ["count(movie_cast.movie_id) as no_of_movies"],
+                visible: true,
+              },
+              {
+                id: 3,
+                description: "Should join actor and movie_cast",
+                type: "syntax-validation",
+                expectedKeywords: ["inner join movie_cast on actor.id = movie_cast.actor_id"],
+                visible: false,
+              },
+              {
+                id: 4,
+                description: "Should filter actor by name Daniel Radcliffe",
+                type: "syntax-validation",
+                expectedKeywords: ['where actor.name = "daniel radcliffe"'],
+                visible: false,
+              },
+            ],
+        },
+        {
+          id: "sql-query-12-3",
+          title: "Each actor casted",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+          tableData: {
+            actor: {
+              columns: ["id", "name"],
+              rows: [
+                [1, "Chris Evans"],
+                [2, "Robert Downey Jr."],
+                [3, "Scarlett Johansson"],
+                [4, "Tom Holland"],
+                [5, "Emma Watson"],
+                [6, "Daniel Radcliffe"]
+              ]
+            },
+
+            director: {
+              columns: ["id", "name"],
+              rows: [
+                [1, "Director A"],
+                [2, "Director B"],
+                [3, "Director C"],
+                [4, "Director D"]
+              ]
+            },
+
+            movie: {
+              columns: ["id", "name", "rating", "budget_in_cr", "collection_in_cr"],
+              rows: [
+                [101, "Movie 1", 7, 100, 170],  // profit 70 ✅
+                [102, "Movie 2", 8, 80, 140],   // profit 60 ✅
+                [103, "Movie 3", 5, 90, 120],   // profit 30 ❌
+                [104, "Movie 4", 9, 60, 130],   // profit 70 ✅
+                [105, "Movie 5", 4, 50, 90],    // profit 40 ❌
+                [106, "Movie 6", 7, 75, 140],   // profit 65 ✅
+                [107, "Movie 7", 3, 40, 95],    // profit 55 ✅
+                [108, "Movie 8", 6, 50, 120]    // profit 70 ✅ (rating not >6)
+              ]
+            },
+
+            movie_cast: {
+              columns: ["movie_id", "actor_id"],
+              rows: [
+                // Chris Evans → 5 movies
+                [101,1],[102,1],[103,1],[104,1],[105,1],
+
+                // Robert Downey Jr. → 6 movies
+                [101,2],[102,2],[104,2],[105,2],[106,2],[107,2],
+
+                // Scarlett Johansson → 3 movies
+                [101,3],[103,3],[106,3],
+
+                // Tom Holland → 1 movie
+                [104,4],
+
+                // Emma Watson → 4 movies
+                [102,5],[103,5],[104,5],[108,5],
+
+                // Daniel Radcliffe → 2 movies
+                [105,6],[107,6]
+              ]
+            },
+
+            movie_director: {
+              columns: ["movie_id", "director_id"],
+              rows: [
+                // Director 1 → 3 movies (2 rating>6, 2 profit≥50)
+                [101,1],  // rating 7, profit 70
+                [102,1],  // rating 8, profit 60
+                [103,1],  // rating 5, profit 30
+
+                // Director 2 → 3 movies (2 rating>6, 2 profit≥50)
+                [104,2],  // rating 9, profit 70
+                [106,2],  // rating 7, profit 65
+                [105,2],  // rating 4, profit 40
+
+                // Director 3 → 2 movies (only 1 qualifies)
+                [105,3],  // rating 4, profit 40
+                [107,3],  // rating 3, profit 55
+
+                // Director 4 → 2 movies (only 1 rating>6 but 2 profit≥50)
+                [101,4],  // rating 7, profit 70
+                [108,4]   // rating 6, profit 70
+              ]
+            }
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+           
+              <p class="desc-que-blue">Database</p>
+              <p>The database given is similar to IMDb, which consists data related to various movies, directors and actors.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_3.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <p>The database is designed to cover the below business requirements.</p>
+              <ul>
+                <li>A movie can have more than one actor casted and vice versa.</li>
+                <li>A movie can have more than one director and vice versa.</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>You can assume that actors in the database have acted in at least one movie (in the database), where as some directors might not have the movies they directed(in the given database). So, do take care of this detail while writing various queries on the database, especially, when deciding on INNER JOIN / LEFT JOIN.</p>
+                  </ul>
+              </div>
+              <p class="desc-que-blue">Junction Tables</p>
+
+              <p>movie_cast is a junction table which stores the many-to-many relationship between movie and actor. And role of an actor for a movie is stored in the table. Similarly movie_director table stores the many-to-many relationship between movie and director</p>
+              <p>Refer the tables in the code playground for a better understanding of the database.           </p>
+              
+              <p class="desc-que-blue">Questions</p>
+              <p>For each actor, get the number of movies in which they are casted. </p>
+<div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <p>Sort the output in the ascending order of the actor_name.</p>
+              </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>actor_name</th>
+                      <th>no_of_movies</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+              {
+                id: 1,
+                description: "Query should start with SELECT",
+                type: "syntax-validation",
+                expectedKeywords: ["select"],
+                visible: true,
+              },
+              {
+                id: 2,
+                description: "Should use COUNT(movie_cast.movie_id) AS no_of_movies",
+                type: "syntax-validation",
+                expectedKeywords: ["count(movie_cast.movie_id) as no_of_movies"],
+                visible: true,
+              },
+              {
+                id: 3,
+                description: "Should join actor and movie_cast using INNER JOIN",
+                type: "syntax-validation",
+                expectedKeywords: ["inner join movie_cast on actor.id = movie_cast.actor_id"],
+                visible: false,
+              },
+              {
+                id: 4,
+                description: "Should group by actor.id and actor.name",
+                type: "syntax-validation",
+                expectedKeywords: ["group by actor.id, actor.name"],
+                visible: false,
+              },
+              {
+                id: 5,
+                description: "Should sort output by actor_name ASC",
+                type: "syntax-validation",
+                expectedKeywords: ["order by actor_name asc"],
+                visible: false,
+              },
+            ],
+        },
+        {
+          id: "sql-query-12-4",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Each director have directed",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 40,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+        tableData: {
+          actor: {
+            columns: ["id", "name"],
+            rows: [
+              [1, "Chris Evans"],
+              [2, "Robert Downey Jr."],
+              [3, "Scarlett Johansson"],
+              [4, "Tom Holland"],
+              [5, "Emma Watson"],
+              [6, "Daniel Radcliffe"]
+            ]
+          },
+
+          director: {
+            columns: ["id", "name"],
+            rows: [
+              [1, "Director A"],
+              [2, "Director B"],
+              [3, "Director C"],
+              [4, "Director D"]
+            ]
+          },
+
+          movie: {
+            columns: ["id", "name", "rating", "budget_in_cr", "collection_in_cr"],
+            rows: [
+              [101, "Movie 1", 7, 100, 170],  // profit 70 ✅
+              [102, "Movie 2", 8, 80, 140],   // profit 60 ✅
+              [103, "Movie 3", 5, 90, 120],   // profit 30 ❌
+              [104, "Movie 4", 9, 60, 130],   // profit 70 ✅
+              [105, "Movie 5", 4, 50, 90],    // profit 40 ❌
+              [106, "Movie 6", 7, 75, 140],   // profit 65 ✅
+              [107, "Movie 7", 3, 40, 95],    // profit 55 ✅
+              [108, "Movie 8", 6, 50, 120]    // profit 70 ✅ (rating not >6)
+            ]
+          },
+
+          movie_cast: {
+            columns: ["movie_id", "actor_id"],
+            rows: [
+              // Chris Evans → 5 movies
+              [101,1],[102,1],[103,1],[104,1],[105,1],
+
+              // Robert Downey Jr. → 6 movies
+              [101,2],[102,2],[104,2],[105,2],[106,2],[107,2],
+
+              // Scarlett Johansson → 3 movies
+              [101,3],[103,3],[106,3],
+
+              // Tom Holland → 1 movie
+              [104,4],
+
+              // Emma Watson → 4 movies
+              [102,5],[103,5],[104,5],[108,5],
+
+              // Daniel Radcliffe → 2 movies
+              [105,6],[107,6]
+            ]
+          },
+
+          movie_director: {
+            columns: ["movie_id", "director_id"],
+            rows: [
+              // Director 1 → 3 movies (2 rating>6, 2 profit≥50)
+              [101,1],  // rating 7, profit 70
+              [102,1],  // rating 8, profit 60
+              [103,1],  // rating 5, profit 30
+
+              // Director 2 → 3 movies (2 rating>6, 2 profit≥50)
+              [104,2],  // rating 9, profit 70
+              [106,2],  // rating 7, profit 65
+              [105,2],  // rating 4, profit 40
+
+              // Director 3 → 2 movies (only 1 qualifies)
+              [105,3],  // rating 4, profit 40
+              [107,3],  // rating 3, profit 55
+
+              // Director 4 → 2 movies (only 1 rating>6 but 2 profit≥50)
+              [101,4],  // rating 7, profit 70
+              [108,4]   // rating 6, profit 70
+            ]
+          }
+        },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+           
+              <p class="desc-que-blue">Database</p>
+              <p>The database given is similar to IMDb, which consists data related to various movies, directors and actors.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_3.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <p>The database is designed to cover the below business requirements.</p>
+              <ul>
+                <li>A movie can have more than one actor casted and vice versa.</li>
+                <li>A movie can have more than one director and vice versa.</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>You can assume that actors in the database have acted in at least one movie (in the database), where as some directors might not have the movies they directed(in the given database). So, do take care of this detail while writing various queries on the database, especially, when deciding on INNER JOIN / LEFT JOIN.</p>
+                  </ul>
+              </div>
+              <p class="desc-que-blue">Junction Tables</p>
+
+              <p>movie_cast is a junction table which stores the many-to-many relationship between movie and actor. And role of an actor for a movie is stored in the table. Similarly movie_director table stores the many-to-many relationship between movie and director</p>
+              <p>Refer the tables in the code playground for a better understanding of the database.           </p>
+              
+              <p class="desc-que-blue">Questions</p>
+              <p>
+For each director in the database, get the number of movies they have directed.</p>
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <li>If a director did not direct any movie (in the database), consider the count as 0.</li>
+                <li>Sort the output in descending order of no_of_movies, and then in the ascending order of director_name.</li>
+                </ul>
+                </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>director_name</th>
+                      <th>no_of_movies</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+          testCases: [
+          {
+            id: 1,
+            description: "Query should start with SELECT",
+            type: "syntax-validation",
+            expectedKeywords: ["select"],
+            visible: true,
+          },
+          {
+            id: 2,
+            description: "Should use LEFT JOIN between director and movie_director",
+            type: "syntax-validation",
+            expectedKeywords: ["left join movie_director on director.id = movie_director.director_id"],
+            visible: true,
+          },
+          {
+            id: 3,
+            description: "Should use COUNT(movie_director.movie_id) AS no_of_movies",
+            type: "syntax-validation",
+            expectedKeywords: ["count(movie_director.movie_id) as no_of_movies"],
+            visible: false,
+          },
+          {
+            id: 4,
+            description: "Should group by director.id and director.name",
+            type: "syntax-validation",
+            expectedKeywords: ["group by director.id, director.name"],
+            visible: false,
+          },
+          {
+            id: 5,
+            description: "Should sort by no_of_movies DESC and director_name ASC",
+            type: "syntax-validation",
+            expectedKeywords: ["order by no_of_movies desc, director_name asc"],
+            visible: false,
+          }
+        ],
+        },
+        {
+          id: "sql-query-12-5",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Get all the ids of directors",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 40,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+          tableData: {
+            actor: {
+              columns: ["id", "name"],
+              rows: [
+                [1, "Chris Evans"],
+                [2, "Robert Downey Jr."],
+                [3, "Scarlett Johansson"],
+                [4, "Tom Holland"],
+                [5, "Emma Watson"],
+                [6, "Daniel Radcliffe"]
+              ]
+            },
+
+            director: {
+              columns: ["id", "name"],
+              rows: [
+                [1, "Director A"],
+                [2, "Director B"],
+                [3, "Director C"],
+                [4, "Director D"]
+              ]
+            },
+
+            movie: {
+              columns: ["id", "name", "rating", "budget_in_cr", "collection_in_cr"],
+              rows: [
+                [101, "Movie 1", 7, 100, 170],  // profit 70 ✅
+                [102, "Movie 2", 8, 80, 140],   // profit 60 ✅
+                [103, "Movie 3", 5, 90, 120],   // profit 30 ❌
+                [104, "Movie 4", 9, 60, 130],   // profit 70 ✅
+                [105, "Movie 5", 4, 50, 90],    // profit 40 ❌
+                [106, "Movie 6", 7, 75, 140],   // profit 65 ✅
+                [107, "Movie 7", 3, 40, 95],    // profit 55 ✅
+                [108, "Movie 8", 6, 50, 120]    // profit 70 ✅ (rating not >6)
+              ]
+            },
+
+            movie_cast: {
+              columns: ["movie_id", "actor_id"],
+              rows: [
+                // Chris Evans → 5 movies
+                [101,1],[102,1],[103,1],[104,1],[105,1],
+
+                // Robert Downey Jr. → 6 movies
+                [101,2],[102,2],[104,2],[105,2],[106,2],[107,2],
+
+                // Scarlett Johansson → 3 movies
+                [101,3],[103,3],[106,3],
+
+                // Tom Holland → 1 movie
+                [104,4],
+
+                // Emma Watson → 4 movies
+                [102,5],[103,5],[104,5],[108,5],
+
+                // Daniel Radcliffe → 2 movies
+                [105,6],[107,6]
+              ]
+            },
+
+            movie_director: {
+              columns: ["movie_id", "director_id"],
+              rows: [
+                // Director 1 → 3 movies (2 rating>6, 2 profit≥50)
+                [101,1],  // rating 7, profit 70
+                [102,1],  // rating 8, profit 60
+                [103,1],  // rating 5, profit 30
+
+                // Director 2 → 3 movies (2 rating>6, 2 profit≥50)
+                [104,2],  // rating 9, profit 70
+                [106,2],  // rating 7, profit 65
+                [105,2],  // rating 4, profit 40
+
+                // Director 3 → 2 movies (only 1 qualifies)
+                [105,3],  // rating 4, profit 40
+                [107,3],  // rating 3, profit 55
+
+                // Director 4 → 2 movies (only 1 rating>6 but 2 profit≥50)
+                [101,4],  // rating 7, profit 70
+                [108,4]   // rating 6, profit 70
+              ]
+            }
+          },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+           
+              <p class="desc-que-blue">Database</p>
+              <p>The database given is similar to IMDb, which consists data related to various movies, directors and actors.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_3.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <p>The database is designed to cover the below business requirements.</p>
+              <ul>
+                <li>A movie can have more than one actor casted and vice versa.</li>
+                <li>A movie can have more than one director and vice versa.</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>You can assume that actors in the database have acted in at least one movie (in the database), where as some directors might not have the movies they directed(in the given database). So, do take care of this detail while writing various queries on the database, especially, when deciding on INNER JOIN / LEFT JOIN.</p>
+                  </ul>
+              </div>
+              <p class="desc-que-blue">Junction Tables</p>
+
+              <p>movie_cast is a junction table which stores the many-to-many relationship between movie and actor. And role of an actor for a movie is stored in the table. Similarly movie_director table stores the many-to-many relationship between movie and director</p>
+              <p>Refer the tables in the code playground for a better understanding of the database.           </p>
+              
+              <p class="desc-que-blue">Questions</p>
+              <p>
+Get all the ids of directors who directed at least two movies, with rating greater than 6</p>
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <li>Sort the output in descending order of no_of_movies, and then in the ascending order of director_id</li>
+                </ul>
+                </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>director_id</th>
+                      <th>no_of_movies</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+         testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Should join movie and movie_director using INNER JOIN",
+              type: "syntax-validation",
+              expectedKeywords: ["inner join movie_director on movie.id = movie_director.movie_id"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Should filter movies with rating greater than 6",
+              type: "syntax-validation",
+              expectedKeywords: ["where movie.rating > 6"],
+              visible: false,
+            },
+            {
+              id: 4,
+              description: "Should group by movie_director.director_id",
+              type: "syntax-validation",
+              expectedKeywords: ["group by movie_director.director_id"],
+              visible: false,
+            },
+            {
+              id: 5,
+              description: "Should filter directors with at least 2 movies using HAVING",
+              type: "syntax-validation",
+              expectedKeywords: ["having count(movie_director.movie_id) >= 2"],
+              visible: false,
+            },
+            {
+              id: 6,
+              description: "Should sort by no_of_movies DESC and director_id ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by no_of_movies desc, movie_director.director_id asc"],
+              visible: false,
+            }
+          ],
+        },
+        {
+          id: "sql-query-12-6",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Profit at least 50 crores",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+        tableData: {
+          actor: {
+            columns: ["id", "name"],
+            rows: [
+              [1, "Chris Evans"],
+              [2, "Robert Downey Jr."],
+              [3, "Scarlett Johansson"],
+              [4, "Tom Holland"],
+              [5, "Emma Watson"],
+              [6, "Daniel Radcliffe"]
+            ]
+          },
+
+          director: {
+            columns: ["id", "name"],
+            rows: [
+              [1, "Director A"],
+              [2, "Director B"],
+              [3, "Director C"],
+              [4, "Director D"]
+            ]
+          },
+
+          movie: {
+            columns: ["id", "name", "rating", "budget_in_cr", "collection_in_cr"],
+            rows: [
+              [101, "Movie 1", 7, 100, 170],  // profit 70 ✅
+              [102, "Movie 2", 8, 80, 140],   // profit 60 ✅
+              [103, "Movie 3", 5, 90, 120],   // profit 30 ❌
+              [104, "Movie 4", 9, 60, 130],   // profit 70 ✅
+              [105, "Movie 5", 4, 50, 90],    // profit 40 ❌
+              [106, "Movie 6", 7, 75, 140],   // profit 65 ✅
+              [107, "Movie 7", 3, 40, 95],    // profit 55 ✅
+              [108, "Movie 8", 6, 50, 120]    // profit 70 ✅ (rating not >6)
+            ]
+          },
+
+          movie_cast: {
+            columns: ["movie_id", "actor_id"],
+            rows: [
+              // Chris Evans → 5 movies
+              [101,1],[102,1],[103,1],[104,1],[105,1],
+
+              // Robert Downey Jr. → 6 movies
+              [101,2],[102,2],[104,2],[105,2],[106,2],[107,2],
+
+              // Scarlett Johansson → 3 movies
+              [101,3],[103,3],[106,3],
+
+              // Tom Holland → 1 movie
+              [104,4],
+
+              // Emma Watson → 4 movies
+              [102,5],[103,5],[104,5],[108,5],
+
+              // Daniel Radcliffe → 2 movies
+              [105,6],[107,6]
+            ]
+          },
+
+          movie_director: {
+            columns: ["movie_id", "director_id"],
+            rows: [
+              // Director 1 → 3 movies (2 rating>6, 2 profit≥50)
+              [101,1],  // rating 7, profit 70
+              [102,1],  // rating 8, profit 60
+              [103,1],  // rating 5, profit 30
+
+              // Director 2 → 3 movies (2 rating>6, 2 profit≥50)
+              [104,2],  // rating 9, profit 70
+              [106,2],  // rating 7, profit 65
+              [105,2],  // rating 4, profit 40
+
+              // Director 3 → 2 movies (only 1 qualifies)
+              [105,3],  // rating 4, profit 40
+              [107,3],  // rating 3, profit 55
+
+              // Director 4 → 2 movies (only 1 rating>6 but 2 profit≥50)
+              [101,4],  // rating 7, profit 70
+              [108,4]   // rating 6, profit 70
+            ]
+          }
+        },
+
+          descriptionDetails: `
+            <div class="desc-question-details">
+           
+              <p class="desc-que-blue">Database</p>
+              <p>The database given is similar to IMDb, which consists data related to various movies, directors and actors.</p>
+            <img
+              src="/assets/img/joins_db_diagram_coding_pratice_3.png"
+              alt="DOM Tree"
+              style={{ width: "100%", height: "300px" }}
+            />
+            <p>The database is designed to cover the below business requirements.</p>
+              <ul>
+                <li>A movie can have more than one actor casted and vice versa.</li>
+                <li>A movie can have more than one director and vice versa.</li>
+              </ul>
+
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>You can assume that actors in the database have acted in at least one movie (in the database), where as some directors might not have the movies they directed(in the given database). So, do take care of this detail while writing various queries on the database, especially, when deciding on INNER JOIN / LEFT JOIN.</p>
+                  </ul>
+              </div>
+              <p class="desc-que-blue">Junction Tables</p>
+
+              <p>movie_cast is a junction table which stores the many-to-many relationship between movie and actor. And role of an actor for a movie is stored in the table. Similarly movie_director table stores the many-to-many relationship between movie and director</p>
+              <p>Refer the tables in the code playground for a better understanding of the database.           </p>
+              
+              <p class="desc-que-blue">Questions</p>
+              <p>Get all the director_ids who directed at least two movies that have a profit at least 50 crores.</p>
+              <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <li>Profit is the difference between collection and budget of movies</li>
+                <li>Sort the output in the descending order of no_of_movies_with_atleast_profit_50_cr and then in the ascending order of director_id.</li>
+                </ul>
+                </div>
+              <p class="desc-que-blue">Expected Output Format</p>
+              <div class="sql-table-desc">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>director_id</th>
+                      <th>no_of_movies_with_atleast_profit_50_cr</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>...</td>
+                      <td>...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `,
+
+         testCases: [
+          {
+            id: 1,
+            description: "Query should start with SELECT",
+            type: "syntax-validation",
+            expectedKeywords: ["select"],
+            visible: true
+          },
+          {
+            id: 2,
+            description: "Should join movie and movie_director using INNER JOIN",
+            type: "syntax-validation",
+            expectedKeywords: [
+              "inner join movie_director on movie.id = movie_director.movie_id"
+            ],
+            visible: true
+          },
+          {
+            id: 3,
+            description: "Should calculate profit using collection_in_cr - budget_in_cr",
+            type: "syntax-validation",
+            expectedKeywords: [
+              "(movie.collection_in_cr - movie.budget_in_cr) >= 50"
+            ],
+            visible: false
+          },
+          {
+            id: 4,
+            description: "Should group by movie_director.director_id",
+            type: "syntax-validation",
+            expectedKeywords: [
+              "group by movie_director.director_id"
+            ],
+            visible: false
+          },
+          {
+            id: 5,
+            description: "Should filter directors with at least 2 qualifying movies",
+            type: "syntax-validation",
+            expectedKeywords: [
+              "having count(movie.id) >= 2"
+            ],
+            visible: false
+          },
+          {
+            id: 6,
+            description: "Should sort correctly by count DESC and director_id ASC",
+            type: "syntax-validation",
+            expectedKeywords: [
+              "order by no_of_movies_with_atleast_profit_50_cr desc, movie_director.director_id asc"
+            ],
+            visible: false
+          },
+        ],
+        },
+      ],
+    },
+    // SQL Practice 13
+    {
+      id: "sql-coding-practice-13",
+      title: "SQL Coding Practice 13",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-13-1",
+          title: "Create a view user details",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 30,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+             user: {   // ✅ FIXED (was users)
+              columns: ["id", "name", "age", "gender", "phone_no", "address", "pincode"],
+              rows: [
+                [1, "Arjun", 28, "M", "9876543210", "Hyderabad", "500001"],
+                [2, "Sneha", 32, "F", "9876543211", "Mumbai", "500002"],
+                [3, "Rahul", 26, "M", "9876543212", "Delhi", "500003"],
+                [4, "Priya", 30, "F", "9876543213", "Chennai", "500004"]
+              ]
+            },
+
+            products: {
+              columns: ["id", "name", "category", "rating"],
+              rows: [
+                [291, "iPhone", "MOBILE", 4.5],
+                [292, "Samsung Galaxy", "MOBILE", 4.2],
+                [293, "OnePlus", "MOBILE", 4.0],
+                [294, "Realme", "MOBILE", 3.8],
+                [296, "Nokia", "MOBILE", 3.5],
+
+                [301, "Screen Guard A", "ACCESSORY", 3.0],
+                [302, "Screen Guard B", "ACCESSORY", 3.5],
+                [303, "Screen Guard C", "ACCESSORY", 2.8],
+                [304, "Screen Guard D", "ACCESSORY", 3.2],
+
+                [401, "Titan Watch", "WATCH", 4.6],
+                [402, "Fastrack Watch", "WATCH", 4.1],
+                [403, "Sonata Watch", "WATCH", 3.9]
+              ]
+            },
+
+            orders: {
+              columns: ["id", "user_id", "total_amount"],
+              rows: [
+                [1001, 1, 60000],
+                [1002, 1, 20000],
+                [1003, 2, 75000],
+                [1004, 2, 10000],
+                [1005, 3, 55000],
+                [1006, 4, 15000],
+                [1007, 4, 80000]
+              ]
+            },
+
+            order_items: {
+              columns: ["order_id", "product_id"],
+              rows: [
+                // Order 1001 → Mobile only ✅
+                [1001, 291],
+                [1001, 292],
+
+                // Order 1002 → Mobile + Screen Guard ❌
+                [1002, 291],
+                [1002, 301],
+
+                // Order 1003 → Mobile only ✅
+                [1003, 293],
+
+                // Order 1004 → Watch only
+                [1004, 401],
+
+                // Order 1005 → Mobile only ✅
+                [1005, 294],
+
+                // Order 1006 → Screen Guard only ❌
+                [1006, 302],
+
+                // Order 1007 → Mobile + Screen Guard ❌
+                [1007, 296],
+                [1007, 303]
+              ]
+            }
+
+          },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-commerce application.</p>
+          <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+          <p>The database is designed to cover the below business requirements.</p>
+          <ul>
+            <li>A user can place multiple orders.</li>
+            <li>An order can be placed by only one user.</li>
+            <li>A single order can contain multiple products.</li>
+            <li>A product can be included in multiple orders.</li>
+          </ul>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <div class="sql-table-desc">
+             <div class="sql-table-caption">Table: user table</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>phone_no</th>
+                    <th>address</th>
+                    <th>pincode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>product_id</th>
+              <th>name</th>
+              <th>price_per_unit</th>
+              <th>rating</th>
+              <th>category</th>
+              <th>brand</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+      <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_details table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+      </div>
+
+          <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Create a view <b>user_details</b> to store the following information of the user.</p>
+
+          <p class="desc-que-blue">Columns In View</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>id</th>
+                  <th>name</th>
+                  <th>age</th>
+                  <th>gender</th>
+                  <th>pincode</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+         `,
+
+          testCases: [
+              {
+                id: 1,
+                description: "Query should create a view named user_details",
+                type: "syntax-validation",
+                expectedKeywords: ["create view user_details as"],
+                visible: true
+              },
+              {
+                id: 2,
+                description: "View should select id column",
+                type: "syntax-validation",
+                expectedKeywords: ["select", "id"],
+                visible: true
+              },
+              {
+                id: 3,
+                description: "View should select name column",
+                type: "syntax-validation",
+                expectedKeywords: ["name"],
+                visible: false
+              },
+              {
+                id: 4,
+                description: "View should select age column",
+                type: "syntax-validation",
+                expectedKeywords: ["age"],
+                visible: false
+              },
+              {
+                id: 5,
+                description: "View should select gender column",
+                type: "syntax-validation",
+                expectedKeywords: ["gender"],
+                visible: false
+              },
+              {
+                id: 6,
+                description: "View should select pincode column",
+                type: "syntax-validation",
+                expectedKeywords: ["pincode"],
+                visible: false
+              },
+              {
+                id: 7,
+                description: "View should fetch data from users table",
+                type: "syntax-validation",
+                expectedKeywords: ["from users"],
+                visible: false
+              }
+            ],
+        }, 
+//         {
+//           id: "sql-query-13-2",
+//           title: "Create a view user order details",
+//           description:
+//             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+//           difficulty: "Easy",
+//           score: 35,
+//           type: "sql",
+
+//           defaultCode: {
+//             sql: ``,
+//           },
+
+//           tableData: {
+//              user: {   // ✅ FIXED (was users)
+//               columns: ["id", "name", "age", "gender", "phone_no", "address", "pincode"],
+//               rows: [
+//                 [1, "Arjun", 28, "M", "9876543210", "Hyderabad", "500001"],
+//                 [2, "Sneha", 32, "F", "9876543211", "Mumbai", "500002"],
+//                 [3, "Rahul", 26, "M", "9876543212", "Delhi", "500003"],
+//                 [4, "Priya", 30, "F", "9876543213", "Chennai", "500004"]
+//               ]
+//             },
+//              order_details: {   // ✅ MUST match query
+//                 columns: ["order_id", "customer_id", "total_amount"],
+//                 rows: [
+//                   [1001, 1, 60000],
+//                   [1002, 1, 20000],
+//                   [1003, 2, 75000],
+//                   [1004, 2, 10000],
+//                   [1005, 3, 55000],
+//                   [1006, 4, 15000],
+//                   [1007, 4, 80000]
+//                 ]
+//               },
+
+//             products: {
+//               columns: ["id", "name", "category", "rating"],
+//               rows: [
+//                 [291, "iPhone", "MOBILE", 4.5],
+//                 [292, "Samsung Galaxy", "MOBILE", 4.2],
+//                 [293, "OnePlus", "MOBILE", 4.0],
+//                 [294, "Realme", "MOBILE", 3.8],
+//                 [296, "Nokia", "MOBILE", 3.5],
+
+//                 [301, "Screen Guard A", "ACCESSORY", 3.0],
+//                 [302, "Screen Guard B", "ACCESSORY", 3.5],
+//                 [303, "Screen Guard C", "ACCESSORY", 2.8],
+//                 [304, "Screen Guard D", "ACCESSORY", 3.2],
+
+//                 [401, "Titan Watch", "WATCH", 4.6],
+//                 [402, "Fastrack Watch", "WATCH", 4.1],
+//                 [403, "Sonata Watch", "WATCH", 3.9]
+//               ]
+//             },
+
+//             orders: {
+//               columns: ["id", "user_id", "total_amount"],
+//               rows: [
+//                 [1001, 1, 60000],
+//                 [1002, 1, 20000],
+//                 [1003, 2, 75000],
+//                 [1004, 2, 10000],
+//                 [1005, 3, 55000],
+//                 [1006, 4, 15000],
+//                 [1007, 4, 80000]
+//               ]
+//             },
+
+//             order_items: {
+//               columns: ["order_id", "product_id"],
+//               rows: [
+//                 // Order 1001 → Mobile only ✅
+//                 [1001, 291],
+//                 [1001, 292],
+
+//                 // Order 1002 → Mobile + Screen Guard ❌
+//                 [1002, 291],
+//                 [1002, 301],
+
+//                 // Order 1003 → Mobile only ✅
+//                 [1003, 293],
+
+//                 // Order 1004 → Watch only
+//                 [1004, 401],
+
+//                 // Order 1005 → Mobile only ✅
+//                 [1005, 294],
+
+//                 // Order 1006 → Screen Guard only ❌
+//                 [1006, 302],
+
+//                 // Order 1007 → Mobile + Screen Guard ❌
+//                 [1007, 296],
+//                 [1007, 303]
+//               ]
+//             }
+
+//           },
+
+//           descriptionDetails: `
+//         <div class="desc-question-details">
+
+//           <p class="desc-que-blue">Database</p>
+//           <p>The database stores the sample data of an e-commerce application.</p>
+//           <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+//           <p>The database is designed to cover the below business requirements.</p>
+//           <ul>
+//             <li>A user can place multiple orders.</li>
+//             <li>An order can be placed by only one user.</li>
+//             <li>A single order can contain multiple products.</li>
+//             <li>A product can be included in multiple orders.</li>
+//           </ul>
+
+//           <div class="Note-container">
+//             <div class="icon-note">
+//               <h6>
+//                 <i class="bi bi-journal-text"></i>Note
+//               </h6>
+//             </div>
+//             <div class="sql-table-desc">
+//              <div class="sql-table-caption">Table: user table</div>
+//               <table>
+//                 <thead>
+//                   <tr>
+//                     <th>id</th>
+//                     <th>name</th>
+//                     <th>age</th>
+//                     <th>gender</th>
+//                     <th>phone_no</th>
+//                     <th>address</th>
+//                     <th>pincode</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   <tr>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                   </tr>
+//                 </tbody>
+//               </table>
+//             </div>
+//               <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+//               <div class="sql-table-desc">
+//               <div class="sql-table-caption">Table: product table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>product_id</th>
+//               <th>name</th>
+//               <th>price_per_unit</th>
+//               <th>rating</th>
+//               <th>category</th>
+//               <th>brand</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+//       <div class="sql-table-desc">
+//       <div class="sql-table-caption">Table: order_product table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>order_id</th>
+//               <th>product_id</th>
+//               <th>no_of_units</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+//       <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+//       <div class="sql-table-desc">
+//       <div class="sql-table-caption">Table: order_details table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>order_id</th>
+//               <th>product_id</th>
+//               <th>no_of_units</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+//       </div>
+
+//           <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+//           <p class="desc-que-blue">Questions</p>
+
+//           <p>Create a view <b>user_order_details</b> to store the following information of the users and their orders.</p>
+//           <p class="desc-que-blue">Columns In View</p>
+//          <div class="sql-table-desc">
+//             <table>
+//               <thead>
+//                 <tr>
+//                   <th>user_id</th>
+//                   <th>name</th>
+//                   <th>age</th>
+//                   <th>gender</th>
+//                   <th>pincode</th>
+//                   <th>order_id</th>
+//                   <th>total_amount</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 <tr>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                 </tr>
+//               </tbody>
+//             </table>
+//           </div>
+
+//         </div>
+//          `,
+
+//           testCases: [
+//           {
+//             id: 1,
+//             description: "Query should create a view named user_order_details",
+//             type: "syntax-validation",
+//             expectedKeywords: ["create view user_order_details as"],
+//             visible: true
+//           },
+//           {
+//             id: 2,
+//             description: "Query should select required columns",
+//             type: "syntax-validation",
+//             expectedKeywords: [
+//               "id as user_id",
+//               "name",
+//               "age",
+//               "gender",
+//               "pincode",
+//               "order_id",
+//               "total_amount"
+//             ],
+//             visible: true
+//           },
+//           {
+//             id: 3,
+//             description: "Query should select data from user table",
+//             type: "syntax-validation",
+//             expectedKeywords: ["from user"],
+//             visible: true
+//           },
+//           {
+//             id: 4,
+//             description: "Query should join order_details table",
+//             type: "syntax-validation",
+//             expectedKeywords: ["inner join order_details"],
+//             visible: true
+//           },
+//           {
+//             id: 5,
+//             description: "Query should join using correct condition",
+//             type: "syntax-validation",
+//             expectedKeywords: ["user.id = order_details.customer_id"],
+//             visible: true
+//           }
+//         ],
+//         },
+//         {
+//           id: "sql-query-13-3",
+//           title: "Shopped for more than 50,000 rupee",
+//           description:
+//             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+//           difficulty: "Easy",
+//           score: 35,
+//           type: "sql",
+
+//           defaultCode: {
+//             sql: ``,
+//           },
+
+//           tableData: {
+
+//   user: {
+//     columns: ["id", "name", "age", "gender", "phone_no", "address", "pincode"],
+//     rows: [
+//       [1, "Arjun", 28, "M", "9876543210", "Hyderabad", "500001"],
+//       [2, "Sneha", 32, "F", "9876543211", "Mumbai", "500002"],
+//       [3, "Rahul", 26, "M", "9876543212", "Delhi", "500003"],
+//       [4, "Priya", 30, "F", "9876543213", "Chennai", "500004"]
+//     ]
+//   },
+
+//   order_details: {
+//     columns: ["order_id", "customer_id", "total_amount"],
+//     rows: [
+//       [1001, 1, 60000],
+//       [1002, 1, 20000],
+//       [1003, 2, 75000],
+//       [1004, 2, 10000],
+//       [1005, 3, 55000],
+//       [1006, 4, 15000],
+//       [1007, 4, 80000]
+//     ]
+//   },
+
+//   // ✅ REQUIRED VIEW FOR YOUR QUESTION
+//   location_order_details: {
+//     columns: ["user_id", "pincode", "order_id", "total_amount"],
+//     rows: [
+//       [1, "500001", 1001, 60000],
+//       [1, "500001", 1002, 20000],
+//       [2, "500002", 1003, 75000],
+//       [2, "500002", 1004, 10000],
+//       [3, "500003", 1005, 55000],
+//       [4, "500004", 1006, 15000],
+//       [4, "500004", 1007, 80000]
+//     ]
+//   }
+
+// },
+
+//           descriptionDetails: `
+//         <div class="desc-question-details">
+
+//           <p class="desc-que-blue">Database</p>
+//           <p>The database stores the sample data of an e-commerce application.</p>
+//           <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+//           <p>The database is designed to cover the below business requirements.</p>
+//           <ul>
+//             <li>A user can place multiple orders.</li>
+//             <li>An order can be placed by only one user.</li>
+//             <li>A single order can contain multiple products.</li>
+//             <li>A product can be included in multiple orders.</li>
+//           </ul>
+
+//           <div class="Note-container">
+//             <div class="icon-note">
+//               <h6>
+//                 <i class="bi bi-journal-text"></i>Note
+//               </h6>
+//             </div>
+//             <div class="sql-table-desc">
+//              <div class="sql-table-caption">Table: user table</div>
+//               <table>
+//                 <thead>
+//                   <tr>
+//                     <th>id</th>
+//                     <th>name</th>
+//                     <th>age</th>
+//                     <th>gender</th>
+//                     <th>phone_no</th>
+//                     <th>address</th>
+//                     <th>pincode</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   <tr>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                   </tr>
+//                 </tbody>
+//               </table>
+//             </div>
+//               <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+//               <div class="sql-table-desc">
+//               <div class="sql-table-caption">Table: product table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>product_id</th>
+//               <th>name</th>
+//               <th>price_per_unit</th>
+//               <th>rating</th>
+//               <th>category</th>
+//               <th>brand</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+//       <div class="sql-table-desc">
+//       <div class="sql-table-caption">Table: order_product table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>order_id</th>
+//               <th>product_id</th>
+//               <th>no_of_units</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+//       <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+//       <div class="sql-table-desc">
+//       <div class="sql-table-caption">Table: order_details table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>order_id</th>
+//               <th>product_id</th>
+//               <th>no_of_units</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+//       </div>
+
+//           <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+//           <p class="desc-que-blue">Questions</p>
+
+//           <p>Get the user_id and pincode of the customers who shopped for more than 50,000 rupees from thelocation_order_detailsview present in the database.</p>
+//           <p class="desc-que-blue">Columns In View</p>
+//          <div class="sql-table-desc">
+//             <table>
+//               <thead>
+//                 <tr>
+//                   <th>user_id</th>
+//                   <th>pincode</th>
+//                   <th>order_id</th>
+//                   <th>total_amount</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 <tr>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                 </tr>
+//               </tbody>
+//             </table>
+//           </div>
+//           <p class="desc-que-blue">Expected Output Format:</p>
+//           <div class="sql-table-desc">
+//             <table>
+//               <thead>
+//                 <tr>
+//                   <th>user_id</th>
+//                   <th>pincode</th>
+//                   <th>total_amount_spent</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 <tr>
+//                   <td>...</td>
+//                   <td>...</td>
+//                   <td>...</td>
+//                 </tr>
+//               </tbody>
+//             </table>
+//           </div>
+
+//         </div>
+//          `,
+//         testCases: [
+//           {
+//             id: 1,
+//             description: "Query should select required columns",
+//             type: "syntax-validation",
+//             expectedKeywords: ["select", "user_id", "pincode", "sum(total_amount)"],
+//             visible: true
+//           },
+//           {
+//             id: 2,
+//             description: "Query should use location_order_details view",
+//             type: "syntax-validation",
+//             expectedKeywords: ["from location_order_details"],
+//             visible: true
+//           },
+//           {
+//             id: 3,
+//             description: "Query should group by user_id and pincode",
+//             type: "syntax-validation",
+//             expectedKeywords: ["group by", "user_id", "pincode"],
+//             visible: true
+//           },
+//           {
+//             id: 4,
+//             description: "Query should filter customers who spent more than 50000",
+//             type: "syntax-validation",
+//             expectedKeywords: ["having", "sum(total_amount) > 50000"],
+//             visible: true
+//           }
+//         ],
+//         },
+        {
+          id: "sql-query-13-4",
+          title: "Rating variance",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+        tableData: {
+          product: {
+            columns: ["id", "name", "rating"],
+            rows: [
+              [1, "Laptop", 4.2],
+              [2, "Smartphone", 3.8],
+              [3, "Headphones", 4.5],
+              [4, "Keyboard", 4.0],
+              [5, "Mouse", 3.5]
+            ]
+          }
+        },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-commerce application.</p>
+          <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+          <p>The database is designed to cover the below business requirements.</p>
+          <ul>
+            <li>A user can place multiple orders.</li>
+            <li>An order can be placed by only one user.</li>
+            <li>A single order can contain multiple products.</li>
+            <li>A product can be included in multiple orders.</li>
+          </ul>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <div class="sql-table-desc">
+             <div class="sql-table-caption">Table: user table</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>phone_no</th>
+                    <th>address</th>
+                    <th>pincode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>product_id</th>
+              <th>name</th>
+              <th>price_per_unit</th>
+              <th>rating</th>
+              <th>category</th>
+              <th>brand</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+      <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_details table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+      </div>
+
+          <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Get the rating variance for every product in the database.</p>
+          <div class="Note-container">
+                <div class="icon-note">
+                  <h6>
+                    <i class="bi bi-journal-text"></i>Note
+                  </h6>
+                </div>
+                <ul>
+                <p>Rating variance is the difference between average rating and rating of a product </p>
+                  </ul>
+              </div>
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>rating_variance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+         `,
+        testCases: [
+            {
+              id: 1,
+              description: "Query should select required columns: name and rating variance",
+              type: "syntax-validation",
+              expectedKeywords: ["select", "name", "avg", "rating", "-"],
+              visible: true
+            },
+            {
+              id: 2,
+              description: "Query should calculate rating variance correctly for each product",
+              type: "result-validation",
+              expectedResult: [
+                { name: "Laptop", rating_variance: 4.0 - 4.2 },      // -0.2
+                { name: "Smartphone", rating_variance: 4.0 - 3.8 },  // 0.2
+                { name: "Headphones", rating_variance: 4.0 - 4.5 },  // -0.5
+                { name: "Keyboard", rating_variance: 4.0 - 4.0 },    // 0
+                { name: "Mouse", rating_variance: 4.0 - 3.5 }        // 0.5
+              ],
+              visible: true
+            }
+          ],
+        },
+//         {
+//           id: "sql-query-13-5",
+//           title: "Rating variance MOBILE category.",
+//           description:
+//             "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+//           difficulty: "Easy",
+//           score: 35,
+//           type: "sql",
+
+//           defaultCode: {
+//             sql: ``,
+//           },
+
+//        tableData:{
+//           product: {
+//             "columns": ["id", "name", "category", "rating", "price"],
+//             "rows": [
+//               [1, "iPhone 14", "MOBILE", 4.5, 80000],
+//               [2, "Samsung Galaxy S23", "MOBILE", 4.2, 70000],
+//               [3, "OnePlus 11", "MOBILE", 4.0, 50000],
+//               [4, "iPad Pro", "TABLET", 4.6, 90000],
+//               [5, "Apple Watch Series 9", "WATCH", 4.7, 50000]
+//             ]
+//           }
+//         },
+
+//           descriptionDetails: `
+//         <div class="desc-question-details">
+
+//           <p class="desc-que-blue">Database</p>
+//           <p>The database stores the sample data of an e-commerce application.</p>
+//           <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+//           <p>The database is designed to cover the below business requirements.</p>
+//           <ul>
+//             <li>A user can place multiple orders.</li>
+//             <li>An order can be placed by only one user.</li>
+//             <li>A single order can contain multiple products.</li>
+//             <li>A product can be included in multiple orders.</li>
+//           </ul>
+
+//           <div class="Note-container">
+//             <div class="icon-note">
+//               <h6>
+//                 <i class="bi bi-journal-text"></i>Note
+//               </h6>
+//             </div>
+//             <div class="sql-table-desc">
+//              <div class="sql-table-caption">Table: user table</div>
+//               <table>
+//                 <thead>
+//                   <tr>
+//                     <th>id</th>
+//                     <th>name</th>
+//                     <th>age</th>
+//                     <th>gender</th>
+//                     <th>phone_no</th>
+//                     <th>address</th>
+//                     <th>pincode</th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   <tr>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                     <td>...</td>
+//                   </tr>
+//                 </tbody>
+//               </table>
+//             </div>
+//               <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+//               <div class="sql-table-desc">
+//               <div class="sql-table-caption">Table: product table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>product_id</th>
+//               <th>name</th>
+//               <th>price_per_unit</th>
+//               <th>rating</th>
+//               <th>category</th>
+//               <th>brand</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+//       <div class="sql-table-desc">
+//       <div class="sql-table-caption">Table: order_product table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>order_id</th>
+//               <th>product_id</th>
+//               <th>no_of_units</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+//       <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+//       <div class="sql-table-desc">
+//       <div class="sql-table-caption">Table: order_details table</div>
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>order_id</th>
+//               <th>product_id</th>
+//               <th>no_of_units</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             <tr>
+//               <td>...</td>
+//               <td>...</td>
+//               <td>...</td>
+//             </tr>
+//           </tbody>
+//         </table>
+//       </div>
+//       <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+//       </div>
+
+//           <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+//           <p class="desc-que-blue">Questions</p>
+
+//           <p>
+// Let's now calculate the rating variance of products in the "MOBILE" category.</p>
+//           <div class="Note-container">
+//                 <div class="icon-note">
+//                   <h6>
+//                     <i class="bi bi-journal-text"></i>Note
+//                   </h6>
+//                 </div>
+//                 <ul>
+//                 <p>Rating variance is the difference between average rating and rating of a product </p>
+//                   </ul>
+//               </div>
+//           <p class="desc-que-blue">Expected Output Format:</p>
+//           <div class="sql-table-desc">
+//             <table>
+//               <thead>
+//                 <tr>
+//                   <th>name</th>
+//                   <th>rating_variance</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 <tr>
+//                   <td>...</td>
+//                   <td>...</td>
+//                 </tr>
+//               </tbody>
+//             </table>
+//           </div>
+
+//         </div>
+//          `,
+//         testCases:[
+//           {
+//             "id": 1,
+//             "description": "Query should select name and rating_variance for MOBILE products",
+//             "type": "syntax-validation",
+//             "expectedKeywords": ["select", "avg", "from", "where"],
+//             "visible": true
+//           }
+//         ],
+//         },
+        {
+          id: "sql-query-13-6",
+          title: "WATCH category",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 40,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+       tableData: {
+          product: {
+            "columns": ["name", "category", "rating"],
+            "rows": [
+              ["Apple Watch Series 8", "WATCH", 4.5],
+              ["Samsung Galaxy Watch 5", "WATCH", 4.0],
+              ["Fossil Gen 6", "WATCH", 3.8],
+              ["Garmin Venu 2", "WATCH", 4.3],
+              ["iPhone 13", "MOBILE", 4.5],
+              ["Samsung Galaxy S22", "MOBILE", 4.2],
+              ["MacBook Pro", "LAPTOP", 4.7]
+            ]
+          }
+        },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-commerce application.</p>
+          <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+          <p>The database is designed to cover the below business requirements.</p>
+          <ul>
+            <li>A user can place multiple orders.</li>
+            <li>An order can be placed by only one user.</li>
+            <li>A single order can contain multiple products.</li>
+            <li>A product can be included in multiple orders.</li>
+          </ul>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <div class="sql-table-desc">
+             <div class="sql-table-caption">Table: user table</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>phone_no</th>
+                    <th>address</th>
+                    <th>pincode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>product_id</th>
+              <th>name</th>
+              <th>price_per_unit</th>
+              <th>rating</th>
+              <th>category</th>
+              <th>brand</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+      <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_details table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+      </div>
+
+          <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+          <p class="desc-que-blue">Questions</p>
+          <p>Get all the products from the "WATCH" category, where rating is greater than average rating</p>
+          <div class="Note-container">
+                
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+         `,
+        testCases: [
+          {
+            "id": 1,
+            "description": "Query should select name and rating of products in WATCH category with rating above average",
+            "type": "syntax-validation",
+            "expectedKeywords": ["select", "name", "rating", "from", "where", "avg"],
+            "visible": true
+          }
+        ],
+        }, 
+        {
+          id: "sql-query-13-7",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Average amount spent",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+       tableData: {
+          order_details: {
+            "columns": ["order_id", "customer_id", "total_amount"],
+            "rows": [
+              [1001, 1, 60000],
+              [1002, 1, 20000],
+              [1003, 2, 75000],
+              [1004, 2, 10000],
+              [1005, 3, 55000],
+              [1006, 4, 15000],
+              [1007, 4, 80000]
+            ]
+          }
+        },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-commerce application.</p>
+          <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+          <p>The database is designed to cover the below business requirements.</p>
+          <ul>
+            <li>A user can place multiple orders.</li>
+            <li>An order can be placed by only one user.</li>
+            <li>A single order can contain multiple products.</li>
+            <li>A product can be included in multiple orders.</li>
+          </ul>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <div class="sql-table-desc">
+             <div class="sql-table-caption">Table: user table</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>phone_no</th>
+                    <th>address</th>
+                    <th>pincode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>product_id</th>
+              <th>name</th>
+              <th>price_per_unit</th>
+              <th>rating</th>
+              <th>category</th>
+              <th>brand</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+      <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_details table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+      </div>
+
+          <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+          <p class="desc-que-blue">Questions</p>
+          <p>
+Get the  users where average amount spent by the user is greater than the average amount spent on all the orders on the platform</p>
+          <div class="Note-container">
+                
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>customer_id</th>
+                  <th>avg_amount_spent</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+         `,
+        testCases: [
+          {
+            "id": 1,
+            "description": "Query should select customer_id and avg_amount_spent for users with above-average spending",
+            "type": "syntax-validation",
+            "expectedKeywords": ["select", "avg", "from", "group by", "having"],
+            "visible": true
+          }
+        ],
+        },
+        {
+          id: "sql-query-13-8",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Get order ids",
+          description:
+            "In this practice set, let’s get the hold of SQL Joins operations using the following database.",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+       tableData: {
+          order_details: {
+            "columns": ["order_id", "customer_id", "total_amount"],
+            "rows": [
+              [1001, 1, 60000],
+              [1002, 1, 20000],
+              [1003, 2, 75000],
+              [1004, 2, 10000],
+              [1005, 3, 55000],
+              [1006, 4, 15000],
+              [1007, 4, 80000]
+            ]
+          },
+          order_product: {
+            "columns": ["order_id", "product_id", "quantity"],
+            "rows": [
+              [1001, 291, 1],  // mobile
+              [1001, 301, 1],  // screen guard
+              [1002, 292, 2],  // mobile
+              [1003, 293, 1],  // mobile
+              [1004, 304, 1],  // screen guard
+              [1005, 294, 1],  // mobile
+              [1005, 302, 1],  // screen guard
+              [1006, 296, 1],  // mobile
+              [1007, 305, 1]   // other product
+            ]
+          }
+        },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+          <p>The database stores the sample data of an e-commerce application.</p>
+          <p>The database consists of <b>user</b>, <b>product</b>, <b>order_product</b> and <b>order_details</b> tables that store the information of users, orders placed, and the products available on the platform.</p>
+
+          <p>The database is designed to cover the below business requirements.</p>
+          <ul>
+            <li>A user can place multiple orders.</li>
+            <li>An order can be placed by only one user.</li>
+            <li>A single order can contain multiple products.</li>
+            <li>A product can be included in multiple orders.</li>
+          </ul>
+
+          <div class="Note-container">
+            <div class="icon-note">
+              <h6>
+                <i class="bi bi-journal-text"></i>Note
+              </h6>
+            </div>
+            <div class="sql-table-desc">
+             <div class="sql-table-caption">Table: user table</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>age</th>
+                    <th>gender</th>
+                    <th>phone_no</th>
+                    <th>address</th>
+                    <th>pincode</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                    <td>...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <p>user table stores the data of the user details i.e., id,name,age,gender,phone_no,address and pincode</p>
+              <div class="sql-table-desc">
+              <div class="sql-table-caption">Table: product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>product_id</th>
+              <th>name</th>
+              <th>price_per_unit</th>
+              <th>rating</th>
+              <th>category</th>
+              <th>brand</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>product table stores the data of the product details i.e., product_id,name,price_per_unit,rating,category and brand.</p>
+                
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_product table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>order_producttable stores the data of  order_id, product_id and  no_of_units ordered.</p>
+      <p>First row in the table represents that the order with order_id= 611 has contain the product with product_id=236 and the ordered no_of_units = 1.</p>
+      <div class="sql-table-desc">
+      <div class="sql-table-caption">Table: order_details table</div>
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>product_id</th>
+              <th>no_of_units</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>...</td>
+              <td>...</td>
+              <td>...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Similarly, order_detailstable stores the data of order_id , customer_id , order_date, shipped_date , shipped_id and total_amount.</p>
+      </div>
+
+          <p>Refer the tables in the code playground for a better understanding of the database.</p>
+
+          <p class="desc-que-blue">Questions</p>
+          <p>Get order ids in which order consists of mobile (product_ids: 291, 292, 293, 294, 296). Exclude the orders that consists of screen guard (product_ids: 301, 302, 303, 304).</p>
+          
+                
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                  <th>order\_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+         `,
+        testCases: [
+          {
+            "id": 1,
+            "description": "Query should select only order_id where order contains mobile products",
+            "type": "syntax-validation",
+            "expectedKeywords": ["select", "order_id", "in", "not in"],
+            "visible": true
+          }
+        ],
+        },
+      ],
+    },
+    // SQL Assignment 3
+    {
+      id: "sql-Assignment-3",
+      title: "SQL Coding Practice 3",
+      description: "Practice basic SQL queries",
+      questions: [
+        {
+          id: "sql-query-14-1",
+          title: "Top 10 videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
+              "columns": ["video_id", "name", "duration_in_secs", "published_datetime", "no_of_views", "channel_id"],
+              "rows": [
+                [1000, "Getting My Driver's License", 3652, "2011-12-05 19:00", 10619, 367],
+                [1001, "Apple iPhone X Review: The Best Yet!", 4556, "2021-01-19 20:12", 140012, 362],
+                [1002, "Top 10 Coding Tricks", 1200, "2020-05-12 15:00", 95000, 350],
+                [1003, "React JS Tutorial", 3600, "2022-03-15 18:00", 95000, 351],
+                [1004, "Marvel Movie Analysis", 2400, "2019-11-11 12:00", 50000, 351],
+                [1005, "Motivational Speech Compilation", 1800, "2018-08-10 09:00", 75000, 350],
+                [1006, "Comedy Skits 2021", 1500, "2021-06-01 10:00", 75000, 352],
+                [1007, "Fitness Tips", 2100, "2020-01-05 07:00", 85000, 353],
+                [1008, "Music Video 2021", 2000, "2021-09-09 14:00", 85000, 354],
+                [1009, "Advanced Python Tricks", 2700, "2022-01-12 17:00", 120000, 355],
+                [1010, "AI/ML Basics", 3300, "2021-07-15 16:00", 95000, 356]
+              ]
+            }
+          },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Fetch the top 10 videos having more number of views</p>
+          <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Output must contain rows with the highest no_of_views first.</li>
+             <li>If two videos have the same no_of_views, then sort by name in alphabetical order.</li>
+             </ul>
+             </div>
+          <p class="desc-que-blue">Columns In View</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr><th>name</th>
+                  <th>no_of_views</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should select video.name and video.no_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["video.name", "video.no_of_views"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should fetch from video table",
+              type: "syntax-validation",
+              expectedKeywords: ["from video"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Should sort videos by no_of_views DESC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by no_of_views desc"],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Should break ties on no_of_views by sorting name ASC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by no_of_views desc, name asc"],
+              visible: true,
+            },
+            {
+              id: 6,
+              description: "Query should limit the output to top 10 videos",
+              type: "syntax-validation",
+              expectedKeywords: ["limit 10"],
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "sql-query-14-2",
+          title: "Get all the review videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Easy",
+          score: 35,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+            video: {
+              columns: ["video_id", "name", "duration_in_secs", "published_datetime", "no_of_views", "channel_id"],
+              rows: [
+                [1000, "Getting My Driver's License", 3652, "2011-12-05 19:00", 10619, 367],
+                [1001, "Apple iPhone X Review: The Best Yet!", 4556, "2021-01-19 20:12", 140012, 362],
+                [1002, "Samsung Galaxy S20 Review", 3987, "2020-03-15 18:00", 98000, 361],
+                [1003, "Top 10 Movie Reviews", 2900, "2019-11-10 16:45", 75000, 359],
+                [1004, "Daily Vlog: My Day in LA", 1200, "2021-05-05 12:00", 15000, 368],
+                [1005, "MacBook Pro 2021 Review", 4200, "2021-06-10 14:30", 120000, 362],
+                [1006, "Comedy Skit: Funniest Moments", 1800, "2020-08-20 19:00", 80000, 360],
+                [1007, "iPhone Accessories Review", 2100, "2021-02-20 10:00", 90000, 362],
+                [1008, "Gadget Review: Best Laptops", 3600, "2020-12-15 11:00", 110000, 362],
+                [1009, "Travel Guide to Paris", 2500, "2018-06-10 09:00", 50000, 365]
+              ]
+            }
+          },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Get all the review videos i.e., videos which contain "review" in their name.</p>
+          <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Output must contain rows with the highest no_of_views first.</li></ul>
+             </div>
+          <p class="desc-que-blue">Columns In View</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr><th>name</th>
+                  <th>no_of_views</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+         testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Should select video.name and video.no_of_views",
+              type: "syntax-validation",
+              expectedKeywords: ["name", "no_of_views"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should fetch from video table",
+              type: "syntax-validation",
+              expectedKeywords: ["from video"],
+              visible: true,
+            },
+            {
+              id: 4,
+              description: "Should filter videos containing 'review' in name",
+              type: "syntax-validation",
+              expectedKeywords: ["where name like \"%review%\""],
+              visible: true,
+            },
+            {
+              id: 5,
+              description: "Should sort videos by no_of_views DESC",
+              type: "syntax-validation",
+              expectedKeywords: ["order by no_of_views desc"],
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "sql-query-14-3",
+          title: "Total number of channels",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+         tableData: {
+            channel: {
+              columns: ["channel_id", "name", "owner_id", "created_datetime"],
+              rows: [
+                [350, "Motivation grid", 1011, "2014-10-05 17:32"],
+                [351, "Marvel", 1011, "2014-10-05 17:32"],
+                [352, "Tech Guru", 1012, "2015-01-12 10:00"],
+                [353, "Daily Vlogs", 1013, "2016-07-20 09:30"],
+                [354, "Movie Mania", 1014, "2017-03-15 14:45"],
+                [355, "Gaming Hub", 1015, "2018-05-10 11:15"],
+                [356, "Fitness Freak", 1016, "2019-08-22 18:00"]
+              ]
+            }
+          },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Get the total number of channels in the database.</p>
+          
+          <p class="desc-que-blue">Columns In View</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>no_of_channels</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+          testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Should count all channels",
+              type: "syntax-validation",
+              expectedKeywords: ["count() as no_of_channels"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should fetch from channel table",
+              type: "syntax-validation",
+              expectedKeywords: ["from channel"],
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "sql-query-14-4",
+          title: "Music videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+         tableData: {
+          video: {
+            columns: ["video_id", "name", "channel_id", "no_of_views", "published_datetime"],
+            rows: [
+              [1, "Top Hits Music 2015", 350, 5000, "2015-08-12 10:00"],
+              [2, "Relaxing Music Playlist", 351, 3000, "2014-03-22 12:30"],
+              [3, "Workout Music", 352, 4500, "2013-11-05 08:20"],
+              [4, "Gaming Highlights", 355, 6000, "2015-07-19 14:15"], // not music
+              [5, "Classical Music Collection", 356, 7000, "2012-06-30 09:00"],
+              [6, "Music Mix 2016", 354, 4000, "2016-01-01 07:50"], // after 2016, should be excluded
+              [7, "Daily Vlog", 353, 2000, "2015-09-10 18:40"], // not music
+              [8, "Jazz Music Hits", 350, 3200, "2014-12-15 11:10"]
+            ]
+          }
+        },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Get all the music videos released before the year 2016.</p>
+            <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>You can consider the videos which contain "music" in name as music videos.</li>
+             <li>Get the year in the integer format</li>
+             <li>Sort the output in the descending order of year, and then in the ascending order of name.</li>
+             </ul>
+             
+             </div>
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>name</th>
+                <th>no_of_views</th>
+                <th>year</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+         testCases: [
+          {
+            id: 1,
+            description: "Query should start with SELECT",
+            type: "syntax-validation",
+            expectedKeywords: ["select"],
+            visible: true,
+          },
+          {
+            id: 2,
+            description: "Query should select name, no_of_views and extract year",
+            type: "syntax-validation",
+            expectedKeywords: [
+              "name",
+              "no_of_views",
+              'cast(strftime("%y", published_datetime) as integer) as year'
+            ],
+            visible: true,
+          },
+          {
+            id: 3,
+            description: "Query should fetch data from video table",
+            type: "syntax-validation",
+            expectedKeywords: ["from video"],
+            visible: true,
+          },
+          {
+            id: 4,
+            description: "Query should filter videos containing music in name",
+            type: "syntax-validation",
+            expectedKeywords: ['name like "%music%"'],
+            visible: true,
+          },
+          {
+            id: 5,
+            description: "Query should filter videos released before 2016",
+            type: "syntax-validation",
+            expectedKeywords: ['cast(strftime("%y", published_datetime) as integer) < 2016'],
+            visible: true,
+          },
+          {
+            id: 6,
+            description: "Query should sort by year DESC and name ASC",
+            type: "syntax-validation",
+            expectedKeywords: ["order by year desc, name asc"],
+            visible: true,
+          }
+        ],
+        },
+        {
+          id: "sql-query-14-5",
+          title: "Total number of countries",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+         tableData: {
+            user: {
+              columns: [
+                "user_id",
+                "name",
+                "gender",
+                "age",
+                "country",
+                "created_datetime"
+              ],
+              rows: [
+                [1, "Rahul", "Male", 25, "India", "2019-05-10 10:30"],
+                [2, "John", "Male", 30, "USA", "2018-07-21 11:15"],
+                [3, "Priya", "Female", 22, "India", "2020-01-12 09:40"],
+                [4, "David", "Male", 28, "Canada", "2017-03-05 14:20"],
+                [5, "Sophia", "Female", 26, "UK", "2021-06-18 16:00"],
+                [6, "Anita", "Female", 24, "Australia", "2022-02-25 12:10"],
+                [7, "Michael", "Male", 31, "USA", "2019-11-30 18:45"]
+              ]
+            }
+          },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+
+          <p>Get the total number of countries where the users of the platform are present.</p>
+            
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>country_count</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+         testCases: [
+            {
+              id: 1,
+              description: "Query should start with SELECT",
+              type: "syntax-validation",
+              expectedKeywords: ["select"],
+              visible: true,
+            },
+            {
+              id: 2,
+              description: "Query should count distinct countries",
+              type: "syntax-validation",
+              expectedKeywords: ["count(distinct country) as country_count"],
+              visible: true,
+            },
+            {
+              id: 3,
+              description: "Query should fetch from user table",
+              type: "syntax-validation",
+              expectedKeywords: ["from user"],
+              visible: true,
+            }
+          ],
+        },
+        {
+          id: "sql-query-14-6",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Top 10 videos",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+       tableData: {
+  video: {
+    columns: [
+      "video_id",
+      "channel_id",
+      "name",
+      "published_datetime",
+      "no_of_views"
+    ],
+    rows: [
+      [1, 350, "Tech Review", "2018-03-12 10:30", 12000],
+      [2, 351, "Marvel Trailer", "2019-06-10 11:20", 50000],
+      [3, 352, "Python Tutorial", "2020-01-15 09:45", 30000],
+      [4, 353, "Daily Vlog Episode 1", "2021-02-18 14:00", 15000],
+      [5, 354, "Movie Review", "2019-08-05 17:30", 22000],
+      [6, 355, "Gaming Highlights", "2020-11-11 20:10", 40000],
+      [7, 356, "Fitness Workout", "2021-03-25 07:50", 18000],
+      [8, 350, "Motivation Speech", "2018-12-12 16:00", 25000],
+      [9, 352, "JavaScript Basics", "2022-05-05 13:30", 35000],
+      [10, 351, "Marvel Behind Scenes", "2023-01-01 10:10", 28000],
+      [11, 355, "Gaming Tips", "2022-04-14 21:00", 26000]
+    ]
+  },
+
+  channel: {
+    columns: ["channel_id", "name", "owner_id", "created_datetime"],
+    rows: [
+      [350, "Motivation Grid", 1011, "2014-10-05 17:32"],
+      [351, "Marvel", 1011, "2014-10-05 17:32"],
+      [352, "Tech Guru", 1012, "2015-01-12 10:00"],
+      [353, "Daily Vlogs", 1013, "2016-07-20 09:30"],
+      [354, "Movie Mania", 1014, "2017-03-15 14:45"],
+      [355, "Gaming Hub", 1015, "2018-05-10 11:15"],
+      [356, "Fitness Freak", 1016, "2019-08-22 18:00"]
+    ]
+  }
+},
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+
+          <p>
+Fetch the top 10 videos having more number of views, along with the channel details.</p>
+            <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <p>Sort the output in the descending order of no_of_views, and then in the ascending order of channel_name.</p>
+             
+             </div>
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>video_name</th>
+                <th>no_of_views</th>
+                <th>channel_name</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+         testCases: [
+  {
+    id: 1,
+    description: "Query should start with SELECT",
+    type: "syntax-validation",
+    expectedKeywords: ["select"],
+    visible: true,
+  },
+  {
+    id: 2,
+    description: "Query should select video name, no_of_views and channel name",
+    type: "syntax-validation",
+    expectedKeywords: [
+      "video.name as video_name",
+      "video.no_of_views",
+      "channel.name as channel_name"
+    ],
+    visible: true,
+  },
+  {
+    id: 3,
+    description: "Query should fetch data from video table",
+    type: "syntax-validation",
+    expectedKeywords: ["from video"],
+    visible: true,
+  },
+  {
+    id: 4,
+    description: "Query should join channel table",
+    type: "syntax-validation",
+    expectedKeywords: ["join channel"],
+    visible: true,
+  },
+  {
+    id: 5,
+    description: "Query should join tables using channel_id",
+    type: "syntax-validation",
+    expectedKeywords: ["video.channel_id = channel.channel_id"],
+    visible: true,
+  },
+  {
+    id: 6,
+    description: "Query should sort by no_of_views DESC and channel_name ASC",
+    type: "syntax-validation",
+    expectedKeywords: ["order by no_of_views desc, channel_name asc"],
+    visible: true,
+  },
+  {
+    id: 7,
+    description: "Query should limit output to top 10 videos",
+    type: "syntax-validation",
+    expectedKeywords: ["limit 10"],
+    visible: true,
+  }
+],
+        },
+        {
+          id: "sql-query-14-7",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Number of subscribers",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+    tableData: {
+  channel_user: {
+    columns: [
+      "channel_id",
+      "user_id",
+      "subscribed_datetime"
+    ],
+    rows: [
+      [376, 101, "2018-01-10 10:30"],
+      [376, 102, "2018-03-15 11:00"],
+      [376, 103, "2017-05-20 09:45"],
+      [376, 104, "2018-07-25 14:20"],
+      [376, 105, "2019-02-18 16:40"],
+      [377, 106, "2018-06-10 12:10"],
+      [376, 107, "2018-11-30 18:25"],
+      [376, 108, "2020-01-01 08:15"],
+      [378, 109, "2018-09-09 13:35"],
+      [376, 110, "2016-12-12 15:50"]
+    ]
+  }
+},
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+       <p>Get the total number of users subscribed for the channel "Tyler Oakley" (channel_id = 376) in the year 2018.</p>
+           
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>no_of_subscribers</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+  testCases: [
+  {
+    id: 1,
+    description: "Query should start with SELECT",
+    type: "syntax-validation",
+    expectedKeywords: ["select"],
+    visible: true,
+  },
+  {
+    id: 2,
+    description: "Query should count subscribers",
+    type: "syntax-validation",
+    expectedKeywords: ["count() as no_of_subscribers"],
+    visible: true,
+  },
+  {
+    id: 3,
+    description: "Query should fetch from channel_user table",
+    type: "syntax-validation",
+    expectedKeywords: ["from channel_user"],
+    visible: true,
+  },
+  {
+    id: 4,
+    description: "Query should filter channel_id 376",
+    type: "syntax-validation",
+    expectedKeywords: ["channel_id = 376"],
+    visible: true,
+  },
+  {
+    id: 5,
+    description: "Query should filter subscriptions in the year 2018",
+    type: "syntax-validation",
+    expectedKeywords: ["strftime(\"%y\", subscribed_datetime)"],
+    visible: false,
+  },
+  {
+    id: 6,
+    description: "Query should check year equals 2018",
+    type: "syntax-validation",
+    expectedKeywords: ["2018"],
+    visible: true,
+  }
+],
+        },
+        {
+          id: "sql-query-14-7",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Number of subscribers",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+        channel_user: {
+          columns: [
+            "channel_id",
+            "user_id",
+            "subscribed_datetime"
+          ],
+          rows: [
+            [376, 101, "2018-01-10 10:30"],
+            [376, 102, "2018-03-15 11:00"],
+            [376, 103, "2017-05-20 09:45"],
+            [376, 104, "2018-07-25 14:20"],
+            [376, 105, "2019-02-18 16:40"],
+            [377, 106, "2018-06-10 12:10"],
+            [376, 107, "2018-11-30 18:25"],
+            [376, 108, "2020-01-01 08:15"],
+            [378, 109, "2018-09-09 13:35"],
+            [376, 110, "2016-12-12 15:50"]
+          ]
+        }
+      },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+       <p>Get the total number of users subscribed for the channel "Tyler Oakley" (channel_id = 376) in the year 2018.</p>
+           
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>no_of_subscribers</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+  testCases: [
+  {
+    id: 1,
+    description: "Query should start with SELECT",
+    type: "syntax-validation",
+    expectedKeywords: ["select"],
+    visible: true,
+  },
+  {
+    id: 2,
+    description: "Query should count subscribers",
+    type: "syntax-validation",
+    expectedKeywords: ["count() as no_of_subscribers"],
+    visible: true,
+  },
+  {
+    id: 3,
+    description: "Query should fetch from channel_user table",
+    type: "syntax-validation",
+    expectedKeywords: ["from channel_user"],
+    visible: true,
+  },
+  {
+    id: 4,
+    description: "Query should filter channel_id 376",
+    type: "syntax-validation",
+    expectedKeywords: ["channel_id = 376"],
+    visible: true,
+  },
+  {
+    id: 5,
+    description: "Query should filter subscriptions in the year 2018",
+    type: "syntax-validation",
+    expectedKeywords: ["strftime(\"%y\", subscribed_datetime)"],
+    visible: false,
+  },
+  {
+    id: 6,
+    description: "Query should check year equals 2018",
+    type: "syntax-validation",
+    expectedKeywords: ["2018"],
+    visible: true,
+  }
+],
+        },
+        {
+          id: "sql-query-14-8",
+          accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+          title: "Indian users details",
+          description:
+            "Consider an online video-sharing platform like YouTube which hosts tens of thousands of channels and crores of users.You have to analyse the data and provide meaningful insights on the type of content that drives engagement, users growth, and many more to all the stakeholders. Let’s roll our sleeves up for an insightful analysis!",
+
+          difficulty: "Medium",
+          score: 45,
+          type: "sql",
+
+          defaultCode: {
+            sql: ``,
+          },
+
+          tableData: {
+          user: {
+            columns: [
+              "user_id",
+              "name",
+              "gender",
+              "age",
+              "country",
+              "premium_membership"
+            ],
+            rows: [
+              [1, "Akhil", "MALE", 25, "INDIA", "TRUE"],
+              [2, "Bhavana", "FEMALE", 28, "INDIA", "FALSE"],
+              [3, "Charan", "MALE", 32, "INDIA", "TRUE"],
+              [4, "Divya", "FEMALE", 24, "INDIA", "FALSE"],
+              [5, "Ethan", "MALE", 27, "USA", "TRUE"],
+              [6, "Farhan", "MALE", 29, "INDIA", "TRUE"],
+              [7, "Gauri", "FEMALE", 22, "INDIA", "FALSE"],
+              [8, "Henry", "MALE", 26, "UK", "FALSE"]
+            ]
+          },
+
+          user_likes: {
+            columns: [
+              "user_id",
+              "video_id",
+              "reaction_type",
+              "reacted_at"
+            ],
+            rows: [
+              [1, 1011, "LIKE", "2020-01-15 10:30"],
+              [2, 1011, "LIKE", "2020-03-10 12:10"],
+              [3, 1011, "LIKE", "2020-04-18 09:45"],
+              [4, 1011, "DISLIKE", "2020-06-20 14:30"],
+              [5, 1011, "LIKE", "2020-07-25 16:00"],
+              [6, 1011, "LIKE", "2020-08-30 11:50"],
+              [7, 1011, "LIKE", "2020-10-05 18:40"],
+              [2, 1005, "LIKE", "2020-09-09 13:10"],
+              [4, 1011, "LIKE", "2019-12-01 08:20"]
+            ]
+          }
+        },
+
+          descriptionDetails: `
+        <div class="desc-question-details">
+
+          <p class="desc-que-blue">Database</p>
+         <p>The given database consists of tables that stores the information of online video-sharing platform. </p>
+         <p class="desc-que-blue">Tables</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>name</th>
+                  <th>gender</th>
+                  <th>age</th>
+                  <th>country</th>
+                  <th>premium_membership</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <p>user table stores the data of users including user_id, name, gender, age, country and premium_membership status.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>name</th>
+                  <th>owner_id</th>
+                  <th>created_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+            <p>channel table stores the data of channels including channel_id, name, owner_id and created_datetime.</p>
+
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>name</th>
+                  <th>duration_in_secs</th>
+                  <th>published_datetime</th>
+                  <th>no_of_views</th>
+                  <th>channel_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>video table stores the data of videos including video_id, name, duration_in_secs, published_datetime, no_of_views, and associated channel_id.</p>
+          
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>genre_id</th>
+                  <th>genre_type</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>genre table stores the data of genres including genre_id and genre_type.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: channel_user table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>channel_id</th>
+                  <th>user_id</th>
+                  <th>subscribed_datetime</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>channel_user table stores the data of channel subscriptions including channel_id, user_id and subscribed_datetime.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: user_likes table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>user_id</th>
+                  <th>video_id</th>
+                  <th>reaction_type</th>
+                  <th>reacted_at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+            <p>user_likes table stores the data of user reactions including user_id, video_id, reaction_type, and reacted_at.</p>
+          <div class="sql-table-desc">
+            <div class="sql-table-caption">Table: video_genre table</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>video_id</th>
+                  <th>genre_id</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                </tr>
+              </tbody>
+            </table>
+             </div>
+             <p>video_genre table stores the data of video-genre mapping including video_id and genre_id.</p>
+         <p>Refer the tables in the code playground for a better understanding of the database.</p>
+          <p class="desc-que-blue">Questions</p>
+       <p>Get all the Indian users details whose age is below 30 years and liked the video (video_id = 1011) in the year 2020.</p>
+            <div class="Note-container">
+             <div class="icon-note">
+               <h6>
+                 <i class="bi bi-journal-text"></i>Note
+               </h6>
+             </div>
+             <ul>
+             <li>Consider the name of the country as "INDIA"</li>
+             <li>Consider reaction_type LIKE as liked.</li>
+             <li>Sort the output in the ascending order of name.</li>
+             </ul>
+             
+             </div>
+          <p class="desc-que-blue">Expected Output Format:</p>
+          <div class="sql-table-desc">
+            <table>
+              <thead>
+                <tr>
+                <th>name</th>
+                <th>gender</th>
+                <th>age</th>
+                <th>country</th>
+                <th>premium_membership</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  <td>...</td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         `,
+
+      testCases: [
+        {
+          id: 1,
+          description: "Query should start with SELECT",
+          type: "syntax-validation",
+          expectedKeywords: ["select"],
+          visible: true,
+        },
+        {
+          id: 2,
+          description: "Query should select required user columns",
+          type: "syntax-validation",
+          expectedKeywords: ["user.name", "gender", "age", "country", "premium_membership"],
+          visible: true,
+        },
+        {
+          id: 3,
+          description: "Query should fetch data from user table",
+          type: "syntax-validation",
+          expectedKeywords: ["from user"],
+          visible: true,
+        },
+        {
+          id: 4,
+          description: "Query should join user_likes table",
+          type: "syntax-validation",
+          expectedKeywords: ["join user_likes"],
+          visible: true,
+        },
+        {
+          id: 5,
+          description: "Query should filter users from INDIA",
+          type: "syntax-validation",
+          expectedKeywords: ["country = \"india\""],
+          visible: true,
+        },
+        {
+          id: 6,
+          description: "Query should filter users age below 30",
+          type: "syntax-validation",
+          expectedKeywords: ["age < 30"],
+          visible: true,
+        },
+        {
+          id: 7,
+          description: "Query should filter likes for video_id 1011",
+          type: "syntax-validation",
+          expectedKeywords: ["video_id = 1011"],
+          visible: true,
+        },
+        {
+          id: 8,
+          description: "Query should check reaction_type LIKE",
+          type: "syntax-validation",
+          expectedKeywords: ["reaction_type like"],
+          visible: true,
+        },
+        {
+          id: 9,
+          description: "Query should sort results by user.name ASC",
+          type: "syntax-validation",
+          expectedKeywords: ["order by user.name asc"],
+          visible: true,
+        }
       ],
         },
       ],

@@ -589,6 +589,9 @@ const executeSingleStatement = async (sql, questionData) => {
   if (sqlLower.startsWith("create table")) {
     return handleCreateTable(cleanedSql, questionData);
   }
+  if (sqlLower.startsWith("create view")) {
+  return handleCreateView(cleanedSql, questionData);
+  }
 
   if (sqlLower.startsWith("insert into")) {
     return handleInsert(cleanedSql, questionData);
@@ -617,6 +620,39 @@ const executeSingleStatement = async (sql, questionData) => {
   return {
     success: false,
     output: "Unsupported SQL statement",
+  };
+};
+const handleCreateView = (sql, questionData) => {
+  // Remove ending semicolon safely
+  const cleanedSql = sql.trim().replace(/;$/, "");
+
+  const match = cleanedSql.match(
+    /^create\s+view\s+(\w+)\s+as\s+(select[\s\S]+)$/i
+  );
+
+  if (!match) {
+    console.log("SQL received:", cleanedSql); // debug line
+    throw new Error("Invalid CREATE VIEW syntax");
+  }
+
+  const viewName = match[1];
+  const selectQuery = match[2];
+
+  // 🔥 ALWAYS use handleSelect (do not manually parse)
+  const result = handleSelect(selectQuery, questionData);
+
+  if (!result.success) return result;
+
+  // Store view
+  questionData.tableData[viewName] = {
+    columns: result.columns,
+    rows: result.rows,
+  };
+
+  return {
+    success: true,
+    columns: result.columns,
+    rows: result.rows,
   };
 };
 
@@ -914,6 +950,7 @@ const handleSelect = (sql, questionData) => {
     tableInfo.columns.forEach((col, i) => (obj[col] = row[i]));
     return obj;
   });
+  
   // ==========================
   // ==========================
   // JOIN SUPPORT (ALL TYPES)
@@ -1388,41 +1425,63 @@ const handleSelect = (sql, questionData) => {
     });
   }
   // ==========================
-  // APPLY SELECT COLUMN FILTERING (FIXED)
-  // ==========================
-  if (selectPart !== "*") {
-    const selectedColumns = selectPart.split(",").map((col) => col.trim());
+// APPLY SELECT COLUMN FILTERING (FIXED)
+// ==========================
+if (selectPart !== "*") {
+  const selectedColumns = selectPart
+    .split(/,(?![^(]*\))/)
+    .map((col) => col.trim());
 
-    rows = rows.map((row) => {
-      const filteredRow = {};
+  rows = rows.map((row) => {
+    const filteredRow = {};
 
-      selectedColumns.forEach((col) => {
-        const aliasMatch = col.match(/(.+)\s+as\s+(\w+)/i);
+    selectedColumns.forEach((col) => {
 
-        if (aliasMatch) {
-  const originalColumn = aliasMatch[1].trim();
-  const alias = aliasMatch[2];
+      // ==========================
+      // HANDLE CAST(strftime("%Y", column) AS INTEGER) AS alias
+      // ==========================
+      const yearMatch = col.match(
+        /cast\s*\(\s*strftime\("%Y",\s*(\w+)\)\s*as\s*integer\s*\)\s*as\s*(\w+)/i
+      );
 
-  // 🔥 If aggregate function, just take alias directly
-  if (/count|sum|avg|max|min/i.test(originalColumn)) {
-    filteredRow[alias] = row[alias];
-  } else {
-    const columnName = originalColumn.includes(".")
-      ? originalColumn.split(".")[1]
-      : originalColumn;
+      if (yearMatch) {
+        const column = yearMatch[1];
+        const alias = yearMatch[2];
 
-    filteredRow[alias] = row[columnName];
-  }
-} else {
-          const columnName = col.includes(".") ? col.split(".")[1] : col;
+        const dateValue = row[column];
+        const year = dateValue
+          ? new Date(dateValue).getFullYear()
+          : null;
 
-          filteredRow[columnName] = row[columnName];
+        filteredRow[alias] = year;
+        return;
+      }
+
+      const aliasMatch = col.match(/(.+)\s+as\s+(\w+)/i);
+
+      if (aliasMatch) {
+        const originalColumn = aliasMatch[1].trim();
+        const alias = aliasMatch[2];
+
+        // aggregate functions
+        if (/count|sum|avg|max|min/i.test(originalColumn)) {
+          filteredRow[alias] = row[alias];
+        } else {
+          const columnName = originalColumn.includes(".")
+            ? originalColumn.split(".")[1]
+            : originalColumn;
+
+          filteredRow[alias] = row[columnName];
         }
-      });
-
-      return filteredRow;
+      } else {
+        const columnName = col.includes(".") ? col.split(".")[1] : col;
+        filteredRow[columnName] = row[columnName];
+      }
     });
-  }
+
+    return filteredRow;
+  });
+}
 
   // ==========================
   // ORDER BY (multi-column)
