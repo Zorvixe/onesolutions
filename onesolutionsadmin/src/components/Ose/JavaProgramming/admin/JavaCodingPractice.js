@@ -106,6 +106,7 @@ const JavaCodingPractice = ({
       const effectiveSid = editData.subtopic_id || propSubtopicId;
       fetchProblems(editData.id, effectiveSid);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [practiceId, editData, propSubtopicId]);
 
   const fetchPractice = async () => {
@@ -164,8 +165,8 @@ const JavaCodingPractice = ({
   };
 
   const addProblem = () => {
-    setProblems([
-      ...problems,
+    setProblems((prev) => [
+      ...prev,
       {
         id: `temp-${Date.now()}`,
         coding_title: "",
@@ -176,59 +177,77 @@ const JavaCodingPractice = ({
         test_cases: [{ input: "", expected_output: "", is_sample: true }],
         coding_time_limit: 2,
         coding_memory_limit: 256,
-        allowed_student_types: [...practice.allowed_student_types], // inherit from practice
+        allowed_student_types: [...practice.allowed_student_types],
       },
     ]);
   };
 
   const updateProblem = (index, field, value) => {
-    const updated = [...problems];
-    updated[index][field] = value;
-    setProblems(updated);
+    setProblems((prev) => 
+      prev.map((prob, i) => (i === index ? { ...prob, [field]: value } : prob))
+    );
   };
 
   const updateProblemAccess = (index, type) => {
-    const updated = [...problems];
-    const current = updated[index].allowed_student_types || [];
-    if (current.includes(type)) {
-      updated[index].allowed_student_types = current.filter((t) => t !== type);
-    } else {
-      updated[index].allowed_student_types = [...current, type];
-    }
-    setProblems(updated);
+    setProblems((prev) =>
+      prev.map((prob, i) => {
+        if (i !== index) return prob;
+        const current = prob.allowed_student_types || [];
+        return {
+          ...prob,
+          allowed_student_types: current.includes(type)
+            ? current.filter((t) => t !== type)
+            : [...current, type],
+        };
+      })
+    );
   };
 
   const addTestCase = (problemIndex, isSample = true) => {
-    const updated = [...problems];
-    if (!updated[problemIndex].test_cases) {
-      updated[problemIndex].test_cases = [];
-    }
-    updated[problemIndex].test_cases.push({
-      input: "",
-      expected_output: "",
-      is_sample: isSample,
-    });
-    setProblems(updated);
+    setProblems((prev) =>
+      prev.map((prob, i) => {
+        if (i !== problemIndex) return prob;
+        return {
+          ...prob,
+          test_cases: [
+            ...(prob.test_cases || []),
+            { input: "", expected_output: "", is_sample: isSample },
+          ],
+        };
+      })
+    );
   };
 
   const updateTestCase = (problemIndex, testIndex, field, value) => {
-    const updated = [...problems];
-    updated[problemIndex].test_cases[testIndex][field] = value;
-    setProblems(updated);
+    setProblems((prev) =>
+      prev.map((prob, i) => {
+        if (i !== problemIndex) return prob;
+        return {
+          ...prob,
+          test_cases: prob.test_cases.map((tc, j) =>
+            j === testIndex ? { ...tc, [field]: value } : tc
+          ),
+        };
+      })
+    );
   };
 
   const removeTestCase = (problemIndex, testIndex) => {
-    const updated = [...problems];
-    updated[problemIndex].test_cases.splice(testIndex, 1);
-    setProblems(updated);
+    setProblems((prev) =>
+      prev.map((prob, i) => {
+        if (i !== problemIndex) return prob;
+        return {
+          ...prob,
+          test_cases: prob.test_cases.filter((_, j) => j !== testIndex),
+        };
+      })
+    );
   };
 
   const removeProblem = async (index) => {
     const problem = problems[index];
     if (problem.id && problem.id.toString().startsWith("temp-")) {
-      const updated = [...problems];
-      updated.splice(index, 1);
-      setProblems(updated);
+      setProblems((prev) => prev.filter((_, i) => i !== index));
       return;
     }
 
@@ -238,9 +257,7 @@ const JavaCodingPractice = ({
       const res = await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, { method: "DELETE" });
       const data = await res.json();
       if (data.success) {
-        const updated = [...problems];
-        updated.splice(index, 1);
-        setProblems(updated);
+        setProblems((prev) => prev.filter((_, i) => i !== index));
       } else {
         alert("Failed to delete problem");
       }
@@ -304,6 +321,7 @@ const JavaCodingPractice = ({
       const effectivePracticeId = practiceId || editData?.id;
       const effectiveSid = editData?.subtopic_id || propSubtopicId;
 
+      // 1. Save or Update the Practice details
       if (isEditing) {
         const res = await fetch(`https://api.onesolutionsekam.in/admin/java/coding-practices/${effectivePracticeId}`, {
           method: "PUT",
@@ -321,14 +339,13 @@ const JavaCodingPractice = ({
       }
 
       if (!practiceResult.success) throw new Error(practiceResult.error || "Failed to save practice");
-
-      // Grab the ID of the practice, whether it was updated or newly generated.
       const finalPracticeId = practiceResult.data.id;
 
-      for (const problem of problems) {
+      // 2. Map problems to fetch promises so they save reliably
+      const problemPromises = problems.map(async (problem) => {
         if (problem.id && !problem.id.toString().startsWith("temp-")) {
-          // Update existing problem
-          await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, {
+          // UPDATE EXISTING PROBLEM
+          const res = await fetch(`https://api.onesolutionsekam.in/admin/java/content/${problem.id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -342,11 +359,14 @@ const JavaCodingPractice = ({
               allowed_student_types: problem.allowed_student_types,
               difficulty: problem.difficulty,
               score: problem.score,
+              practice_id: finalPracticeId // ensure it remains linked
             }),
           });
+          const result = await res.json();
+          if(!result.success) throw new Error(`Problem Update failed: ${result.message || result.error}`);
         } else {
-          // Create new problem attached strictly to finalPracticeId
-          await fetch(`https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding`, {
+          // CREATE NEW PROBLEM
+          const res = await fetch(`https://api.onesolutionsekam.in/admin/java/subtopics/${effectiveSid}/coding`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -359,16 +379,21 @@ const JavaCodingPractice = ({
               allowed_student_types: problem.allowed_student_types,
               difficulty: problem.difficulty,
               score: problem.score,
-              practice_id: finalPracticeId, // CRITICAL FIX ensures linkage
+              practice_id: finalPracticeId, 
             }),
           });
+          const result = await res.json();
+          if(!result.success) throw new Error(`Problem Create failed: ${result.message || result.error}`);
         }
-      }
+      });
+
+      // Execute all problem updates simultaneously 
+      await Promise.all(problemPromises);
 
       onSuccess();
     } catch (error) {
       console.error("Save error:", error);
-      alert("Failed to save coding practice");
+      alert(error.message || "Failed to save coding practice and problems");
     } finally {
       setSaving(false);
     }
