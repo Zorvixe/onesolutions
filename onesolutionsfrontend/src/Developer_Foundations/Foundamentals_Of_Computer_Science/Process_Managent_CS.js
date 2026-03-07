@@ -69,8 +69,8 @@ const Process_Managent_CS= ({
     </ul>
 
       <img
-          src="/assets/img/OS-kernel.png"
-          alt="software"
+          src="/assets/img/process.png"
+          alt="process"
           style={{ width: "90%", height: "400px" }}
         />
   </section>
@@ -102,7 +102,7 @@ const Process_Managent_CS= ({
     </ul>
 
       <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/text.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -161,7 +161,7 @@ const Process_Managent_CS= ({
     </ul>
 
       <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/terminate.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -181,7 +181,7 @@ const Process_Managent_CS= ({
       details, and process ID (PID).
     </p>
       <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/control-block.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -202,7 +202,7 @@ const Process_Managent_CS= ({
       <li>Ensures fast response time</li>
     </ul>
       <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/cpu-scheduling.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -296,7 +296,7 @@ const Process_Managent_CS= ({
 
     <p>The process p1, p2, p3, and p4 are schedule with First Come First Serve are as follows.</p>
       <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/first-come.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -347,7 +347,7 @@ const Process_Managent_CS= ({
     </table>
     <p>The shortest job first scheduling for process p1, p2, p3, and p4 is as follows.</p>
      <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/SJF.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -414,8 +414,15 @@ const Process_Managent_CS= ({
       </tr>
     </tbody>
   </table>
+  <p>The processes(p1, p2, p3, and p4) scheduled based on Priority Scheduling are as follows.</p>
+    <img
+          src="/assets/img/priority.png"
+          alt="software"
+          style={{ width: "80%", height: "400px" }}
+        />
 </section>
-<p>The processes(p1, p2, p3, and p4) scheduled based on Priority Scheduling are as follows.</p>
+
+
 
 {/* ROUND ROBIN */}
 
@@ -479,7 +486,7 @@ const Process_Managent_CS= ({
     5 units before the CPU switches to the next process.
   </p>
     <img
-          src="/assets/img/OS-kernel.png"
+          src="/assets/img/round-robbin.png"
           alt="software"
           style={{ width: "80%", height: "400px" }}
         />
@@ -511,6 +518,11 @@ const Process_Managent_CS= ({
     <p>
       Processes exchange messages to communicate with each other.
     </p>
+      <img
+          src="/assets/img/mess-pass.png"
+          alt="software"
+          style={{ width: "60%", height: "400px" }}
+        />
   </section>
 </div>
   

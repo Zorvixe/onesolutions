@@ -749,6 +749,7 @@ import  Computer_Hardware_MCQ from "../Developer_Foundations/Foundamentals_Of_Co
 import Introductionto_Operating_System_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_CS.js";
 import Introductionto_Operating_System_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_MCQ.js";
 import Process_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent_CS.js";
+import Process_Managent_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent_MCQ.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -1773,4 +1774,5 @@ export const subtopicComponents = {
   "Introduction to Operating System | Cheat Sheet":Introductionto_Operating_System_CS,
   "MCQ Pratice - Introduction to Operating System":Introductionto_Operating_System_MCQ,
   "Overview of Process Management | Cheat Sheet": Process_Managent_CS,
+  "MCQ Pratice - Overview of Process Management":Process_Managent_MCQ,
 };

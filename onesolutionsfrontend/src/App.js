@@ -142,9 +142,9 @@ function AppWrapper() {
           {/* Single coding problem */}
           <Route
             path="/java/coding/:contentUuid"
-            element={<JavaSubtopicPage />}
+            element={<JavaCodingPractice isSingleProblem />}
           />
-          {/* Coding practice (multiple problems) */}
+          {/* 🔁 FIXED: Coding practice now opens inside JavaSubtopicPage with left panel */}
           <Route
             path="/java/practice/:practiceId"
             element={<JavaSubtopicPage />}

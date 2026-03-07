@@ -187,6 +187,16 @@ const createJavaTables = async () => {
       )
     `);
 
+      await pool.query(`
+        ALTER TABLE java_coding_practices
+ADD COLUMN  IF NOT EXISTS practice_uuid UUID DEFAULT gen_random_uuid();
+    `);
+      await pool.query(`
+        CREATE UNIQUE INDEX  IF NOT EXISTS idx_java_practice_uuid
+ON java_coding_practices(practice_uuid);
+    `);
+
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS java_content (
         id SERIAL PRIMARY KEY,
@@ -229,6 +239,8 @@ const createJavaTables = async () => {
       )
     `);
 
+
+  
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS java_test_cases (
