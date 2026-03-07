@@ -748,6 +748,7 @@ import Computer_Hardware_CS from "../Developer_Foundations/Foundamentals_Of_Comp
 import  Computer_Hardware_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Computer_Hardware_MCQ.js";
 import Introductionto_Operating_System_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_CS.js";
 import Introductionto_Operating_System_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_MCQ.js";
+import Process_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent_CS.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -818,6 +819,9 @@ import Authentication_3 from "../Reactjs/Authentication/Authentication_3.js";
 import React_Assignment_2 from "../Reactjs/Component_Life_Cycle/React_Assignment_2.js";
 import React_Assignment_3 from "../Reactjs/Component_Life_Cycle/React_Assignment_3.js";
 import React_Assignment_4 from "../Reactjs/React_Router/React_Assignment_4.js";
+import React_Assignment_5 from "../Reactjs/Jobby_App/React_Assignment_5.js";
+import React_Assignment_6 from "../Reactjs/Assignments/React_Assignment_6.js";
+import React_Assignment_7 from "../Reactjs/Assignments/React_Assignment_7.js";
 import React_Coding_Practice_9 from "../Reactjs/Common_Mistakes/React_Coding_Practice_9.js";
 import React_Coding_Practice_10 from "../Reactjs/Common_Mistakes/React_Coding_Practice_10.js";
 import React_Coding_Practice_11 from "../Reactjs/Debugging/React_Coding_Practice_11.js";
@@ -841,6 +845,20 @@ import React_Coding_Practice_28 from "../Reactjs/Authentication/React_Coding_Pra
 import React_Coding_Practice_29 from "../Reactjs/Authentication/React_Coding_Practice_29.js";
 import React_Coding_Practice_30 from "../Reactjs/Authentication/React_Coding_Practice_30.js";
 import React_Coding_Practice_31 from "../Reactjs/Authentication/React_Coding_Practice_31.js";
+import React_Coding_Practice_32 from "../Reactjs/Authentication2/React_Coding_Practice_32.js";
+import React_Coding_Practice_33 from "../Reactjs/Authentication2/React_Coding_Practice_33.js";
+import React_Coding_Practice_34 from "../Reactjs/Authentication2/React_Coding_Practice_34.js";
+import React_Coding_Practice_35 from "../Reactjs/Authentication2/React_Coding_Practice_35.js";
+import React_Coding_Practice_36 from "../Reactjs/More_React_Concepts/React_Coding_Practice_36.js";
+import React_Coding_Practice_37 from "../Reactjs/Third_Party/React_Coding_Practice_37.js";
+import React_Coding_Practice_38 from "../Reactjs/Third_Party/React_Coding_Practice_38.js";
+import React_Coding_Practice_39 from "../Reactjs/Third_Party/React_Coding_Practice_39.js";
+import React_Coding_Practice_40 from "../Reactjs/Third_Party/React_Coding_Practice_40.js";
+import React_Coding_Practice_41 from "../Reactjs/React_Context/React_Coding_Practice_41.js";
+import React_Coding_Practice_42 from "../Reactjs/React_Context/React_Coding_Practice_42.js";
+import React_Coding_Practice_43 from "../Reactjs/React_Context/React_Coding_Practice_43.js";
+import React_Coding_Practice_44 from "../Reactjs/Styled_Components/React_Coding_Practice_44.js";
+import React_Coding_Practice_45 from "../Reactjs/Styled_Components/React_Coding_Practice_45.js";
 export const subtopicComponents = {
   //Reactjs class & codingPratices
  "Introduction to React JS": Introductionto_Reactjs,
@@ -873,6 +891,9 @@ export const subtopicComponents = {
   "React Assignment 2": React_Assignment_2,
   "React Assignment 3": React_Assignment_3,
   "React Assignment 4": React_Assignment_4,
+  "React Assignment 5": React_Assignment_5,
+  "React Assignment 6": React_Assignment_6,
+  "React Assignment 7": React_Assignment_7,
   "ReactJs Coding Practice 9": React_Coding_Practice_9,
   "ReactJs Coding Practice 10":  React_Coding_Practice_10,
   "ReactJs Coding Practice 11": React_Coding_Practice_11,
@@ -896,6 +917,21 @@ export const subtopicComponents = {
   "ReactJs Coding Practice 29": React_Coding_Practice_29,
   "ReactJs Coding Practice 30": React_Coding_Practice_30,
   "ReactJs Coding Practice 31": React_Coding_Practice_31,
+  "ReactJs Coding Practice 32": React_Coding_Practice_32,
+  "ReactJs Coding Practice 33": React_Coding_Practice_33,
+  "ReactJs Coding Practice 34": React_Coding_Practice_34,
+  "ReactJs Coding Practice 35": React_Coding_Practice_35,
+  "ReactJs Coding Practice 36": React_Coding_Practice_36,
+  "ReactJs Coding Practice 37": React_Coding_Practice_37,
+  "ReactJs Coding Practice 38": React_Coding_Practice_38,
+  "ReactJs Coding Practice 39": React_Coding_Practice_39,
+  "ReactJs Coding Practice 40": React_Coding_Practice_40,
+  "ReactJs Coding Practice 41": React_Coding_Practice_41,
+  "ReactJs Coding Practice 42": React_Coding_Practice_42,
+  "ReactJs Coding Practice 43": React_Coding_Practice_43,
+  "ReactJs Coding Practice 44": React_Coding_Practice_44,
+  "ReactJs Coding Practice 45": React_Coding_Practice_45,
+  
   //Nodejs
   "MERN Stack":Mern_Stack,
   "Introduction to Node JS": Introductionto_Nodejs,
@@ -1429,15 +1465,14 @@ export const subtopicComponents = {
   "MCQ Pratice - OnDemand Part 1": Ondemand1_Session_MCQ,
   "MCQ Pratice - OnDemand Part 2": Ondemand2_Session_MCQ,
   "MCQ Pratice - Component Life Cycle": Component_Life_Cycle_MCQ,
-  "MCQ Pratice - Routing using React Router": React_Router1_MCQ,
-  "MCQ Pratice - Routing using React Router | Part 2 & 3": React_Router2_3_MCQ,
+  "MCQ Pratice - React Router": React_Router1_MCQ,
+  "MCQ Pratice - React Router | Part 2 & 3": React_Router2_3_MCQ,
   "MCQ Pratice - Common Mistakes | Part 2": Common_M_Part2_MCQ,
-  "MCQ Pratice - Authentication & Authorization": Authentication_MCQ,
-  "MCQ Pratice - Authentication & Authorization | Part 2": Authentication_2_MCQ,
-  "MCQ Pratice - Authentication & Authorization | Part 3": Authentication_3_MCQ,
+  "MCQ Pratice - Authentication": Authentication_MCQ,
+  "MCQ Pratice - Authentication | Part 2": Authentication_2_MCQ,
+  "MCQ Pratice - Authentication | Part 3": Authentication_3_MCQ,
   "MCQ Pratice - Common Mistakes | Part 3": Common_Mistake_3_MCQ,
-  "MCQ Pratice - Authentication & Authorization | Part 4":
-    Authentication_P4_MCQ,
+  "MCQ Pratice - Authentication | Part 4":Authentication_P4_MCQ,
   "MCQ Pratice - Sorting Products": SortingProducts_MCQ,
   "MCQ Pratice - More React Concepts": More_React_MCQ,
   "MCQ Pratice - Third Party Packages": Third_Party_MCQ,
@@ -1737,4 +1772,5 @@ export const subtopicComponents = {
   "MCQ Pratice - Overview of Computer Hardware": Computer_Hardware_MCQ,
   "Introduction to Operating System | Cheat Sheet":Introductionto_Operating_System_CS,
   "MCQ Pratice - Introduction to Operating System":Introductionto_Operating_System_MCQ,
+  "Overview of Process Management | Cheat Sheet": Process_Managent_CS,
 };

@@ -6,6 +6,7 @@ import JavaClasses from "../Pages/javaClasses";
 import JavaCheatSheet from "../Pages/javaCheatSheet";
 import JavaMcqs from "../Pages/javaMcqs";
 import JavaCodingPractice from "../Pages/javaCodingPractice";
+import JavaPractice from "../../components/JavaPractice/JavaPractice"; // NEW import
 
 const JavaSubtopicPage = () => {
   const { contentUuid, practiceId } = useParams();
@@ -90,8 +91,10 @@ const JavaSubtopicPage = () => {
     const loadData = async () => {
       setLoading(true);
       try {
-        // 1. ALWAYS fetch the FULL content from backend so we have video_url, cheatsheet_content, etc.
         let fetchedContent = null;
+        let fetchedPractice = null;
+
+        // 1. Load primary data based on URL param
         if (contentUuid) {
           const res = await getJavaContentByUuid(contentUuid);
           if (res?.success) {
@@ -107,7 +110,8 @@ const JavaSubtopicPage = () => {
         } else if (practiceId) {
           const res = await getJavaCodingPractice(practiceId);
           if (res?.success) {
-            setPractice(res.data);
+            fetchedPractice = res.data; // { practice, problems }
+            setPractice(fetchedPractice);
             setIsAccessible(true);
             setIsMobileContentVisible(true);
           } else {
@@ -116,16 +120,16 @@ const JavaSubtopicPage = () => {
           }
         }
 
-        // 2. Load the sidebar structure if it isn't loaded yet
+        // 2. Load the sidebar structure if needed
         let currentGoals = javaGoals;
         if (!currentGoals || currentGoals.length === 0) {
           const structRes = await loadJavaAllStructure();
           if (structRes?.success) currentGoals = structRes.data;
         }
 
-        // 3. Setup the Sidebar UI state (Breadcrumbs & Expanding menus)
+        // 3. Set up sidebar state
         if (location.state && location.state.moduleId) {
-          // Fast Path: Used if user clicked from the course menu
+          // Fast path from navigation (clicked from courses)
           setSelectedGoal({ id: location.state.goalId, name: location.state.goalName || "Java Programming" });
           setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
           setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
@@ -139,7 +143,7 @@ const JavaSubtopicPage = () => {
             if (m) setGoalModules([m]);
           }
         } else if (fetchedContent && currentGoals) {
-          // Hard Refresh Path: User refreshed the page, rebuild sidebar from fetched IDs
+          // Hard refresh for content item
           const g = currentGoals.find(g => g.id === fetchedContent.goal_id) || currentGoals[0];
           if (g) {
             setSelectedGoal(g);
@@ -153,6 +157,28 @@ const JavaSubtopicPage = () => {
                 setSelectedTopic({ id: t.id, name: t.name });
                 setExpandedTopic(t.id);
                 const s = t.subtopics?.find(s => s.id === fetchedContent.subtopic_id);
+                if (s) {
+                  setSelectedSubtopic({ id: s.id, name: s.name });
+                }
+              }
+            }
+          }
+        } else if (fetchedPractice && fetchedPractice.practice && currentGoals) {
+          // Hard refresh for practice set – use practice metadata
+          const p = fetchedPractice.practice;
+          const g = currentGoals.find(g => g.id === p.goalId) || currentGoals[0];
+          if (g) {
+            setSelectedGoal(g);
+            const m = g.modules?.find(m => m.id === p.moduleId);
+            if (m) {
+              setGoalModules([m]);
+              setSelectedModule({ id: m.id, name: m.name });
+              setExpandedModule(m.id);
+              const t = m.topics?.find(t => t.id === p.topicId);
+              if (t) {
+                setSelectedTopic({ id: t.id, name: t.name });
+                setExpandedTopic(t.id);
+                const s = t.subtopics?.find(s => s.id === p.subtopicId);
                 if (s) {
                   setSelectedSubtopic({ id: s.id, name: s.name });
                 }
@@ -177,11 +203,13 @@ const JavaSubtopicPage = () => {
     setExpandedTopic(expandedTopic === topicId ? null : topicId);
   };
 
-  const handleSubtopicClick = (module, topic, subtopic, item) => {
+  const handleSubtopicClick = async (module, topic, subtopic, item) => {
     if (item.content_uuid) {
+      // Single content item (video, cheatsheet, mcq, or single coding problem)
       const contentItem = { ...item };
       contentItem.content_type = getContentType(item);
       setIsMobileContentVisible(true);
+      setPractice(null);
 
       navigate(`/java/content/${item.content_uuid}`, {
         state: {
@@ -198,19 +226,24 @@ const JavaSubtopicPage = () => {
         },
       });
     } else if (item.id && item.title) {
+      // Coding practice set – load it
       setIsMobileContentVisible(true);
-      navigate(`/java/practice/${item.id}`, {
-        state: {
-          moduleId: module.id,
-          moduleName: module.name,
-          topicId: topic.id,
-          topicName: topic.name,
-          subtopicId: subtopic.id,
-          subtopicName: subtopic.name,
-          fromCourse: true,
-          isJava: true,
-        },
-      });
+      setContent(null);
+      setPractice(null);
+      setLoading(true);
+      try {
+        const res = await getJavaCodingPractice(item.id);
+        if (res?.success) {
+          setPractice(res.data);
+        } else {
+          setError("Failed to load practice");
+        }
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -230,7 +263,7 @@ const JavaSubtopicPage = () => {
         case "video": return <JavaClasses {...props} />;
         case "cheatsheet": return <JavaCheatSheet {...props} />;
         case "mcq": return <JavaMcqs {...props} />;
-        case "coding": return <JavaCodingPractice {...props} isSingleProblem={true} />;
+        case "coding": return <JavaPractice {...props} />;
         default: return <JavaClasses {...props} />;
       }
     }
@@ -289,27 +322,26 @@ const JavaSubtopicPage = () => {
                   {expandedTopic === topic.id &&
                     topic.subtopics?.map((subtopic) => (
                       <div key={subtopic.id}>
-                        {subtopic.content?.map((c) => {
+                        {/* Content items */}
+                        {subtopic.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title).map((c) => {
                           const isActive = content && (String(c.id) === String(content.id) || c.content_uuid === content.content_uuid);
                           const isCompleted = checkIsItemCompleted(c);
                           return (
-                            <div
-                              className={`subtopic-page-sub__topics-sub`}
-                              key={`content-${c.id}`}
-                            >
+                            <div className="subtopic-page-sub__topics-sub" key={`content-${c.id}`}>
                               <div
                                 className={`subtopic-page-sub__item-sub ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
                                 onClick={() => handleSubtopicClick(module, topic, subtopic, c)}
                               >
                                 <span className="subtopic-page-sub__item-text-sub">
-                                  {c.video_title || c.cheatsheet_title || c.mcq_title || c.coding_title || subtopic.name}
+                                  {c.video_title || c.cheatsheet_title || c.mcq_title}
                                 </span>
                               </div>
                             </div>
                           );
                         })}
+                        {/* Coding practices */}
                         {subtopic.coding_practices?.map((p) => {
-                          const isActive = practice && p.id === practice.id;
+                          const isActive = practice && p.id === practice.practice?.id;
                           const isCompleted = p.is_completed;
                           return (
                             <div className="subtopic-page-sub__topics-sub" key={`practice-${p.id}`}>
@@ -331,9 +363,9 @@ const JavaSubtopicPage = () => {
             )}
           </div>
         ) : (
-         <div className="no-content-placeholder">
-           <p>Select a topic from the courses page to start learning</p>
-         </div>
+          <div className="no-content-placeholder">
+            <p>Select a topic from the courses page to start learning</p>
+          </div>
         )}
       </div>
 

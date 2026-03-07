@@ -139,9 +139,15 @@ function AppWrapper() {
             element={<JavaCheatsheet />}
           />
           <Route path="/java/mcq/:contentUuid" element={<JavaMcqs />} />
+          {/* Single coding problem */}
           <Route
             path="/java/coding/:contentUuid"
-            element={<JavaCodingPractice />}
+            element={<JavaSubtopicPage />}
+          />
+          {/* Coding practice (multiple problems) */}
+          <Route
+            path="/java/practice/:practiceId"
+            element={<JavaSubtopicPage />}
           />
 
           <Route path="/practice" element={<Practice />} />

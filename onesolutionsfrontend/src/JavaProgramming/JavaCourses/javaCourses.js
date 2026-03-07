@@ -64,7 +64,9 @@ export default function JavaCourses() {
     goal.modules.forEach((m) => {
       m.topics?.forEach((t) => {
         t.subtopics?.forEach((s) => {
-          s.content?.forEach((c) => { total++; if (checkIsContentCompleted(c)) completed++; });
+          // Only count content items that have a valid title
+          const validContent = s.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title) || [];
+          validContent.forEach((c) => { total++; if (checkIsContentCompleted(c)) completed++; });
           s.coding_practices?.forEach((p) => {
             total++;
             if (p.is_completed) completed++;
@@ -79,7 +81,8 @@ export default function JavaCourses() {
     let total = 0, completed = 0;
     module.topics?.forEach((t) => {
       t.subtopics?.forEach((s) => {
-        s.content?.forEach((c) => { total++; if (checkIsContentCompleted(c)) completed++; });
+        const validContent = s.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title) || [];
+        validContent.forEach((c) => { total++; if (checkIsContentCompleted(c)) completed++; });
         s.coding_practices?.forEach((p) => {
           total++;
           if (p.is_completed) completed++;
@@ -92,7 +95,8 @@ export default function JavaCourses() {
   const getTopicProgress = (topic) => {
     let total = 0, completed = 0;
     topic.subtopics?.forEach((s) => {
-      s.content?.forEach((c) => { total++; if (checkIsContentCompleted(c)) completed++; });
+      const validContent = s.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title) || [];
+      validContent.forEach((c) => { total++; if (checkIsContentCompleted(c)) completed++; });
       s.coding_practices?.forEach((p) => {
         total++;
         if (p.is_completed) completed++;
@@ -261,25 +265,33 @@ export default function JavaCourses() {
                                     </div>
                                     {isExpandedTopic && (
                                       <>
-                                        {topic.subtopics?.flatMap((sub) => [
-                                          ...(sub.content || []).map((c) => (
-                                            <div className="circle-row subtopic-circle-row" key={`content-${c.id}`}>
-                                              <div className={`circle subtopic-circle ${checkIsContentCompleted(c) ? "completed" : ""}`}
-                                                onClick={(e) => { e.stopPropagation(); handleContentClick(c, goal, module, topic, sub); }}>
-                                                {checkIsContentCompleted(c) ? "✓" : ""}
+                                        {topic.subtopics?.flatMap((sub) => {
+                                          // Filter content items that have a valid title
+                                          const validContent = sub.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title) || [];
+                                          return [
+                                            ...validContent.map((c) => (
+                                              <div className="circle-row subtopic-circle-row" key={`content-${c.id}`}>
+                                                <div className={`circle subtopic-circle ${checkIsContentCompleted(c) ? "completed" : ""}`}
+                                                  onClick={(e) => { e.stopPropagation(); handleContentClick(c, goal, module, topic, sub); }}>
+                                                  {checkIsContentCompleted(c) ? "✓" : ""}
+                                                </div>
                                               </div>
-                                            </div>
-                                          )),
-                                          ...(sub.coding_practices || []).map((p) => (
-                                            <div className="circle-row subtopic-circle-row" key={`practice-${p.id}`}>
-                                              <div className={`circle subtopic-circle ${p.is_completed ? "completed" : ""}`}
-                                                onClick={(e) => { e.stopPropagation(); handlePracticeClick(p, goal, module, topic, sub); }}>
-                                                {p.is_completed ? "✓" : "⚙"}
+                                            )),
+                                            ...(sub.coding_practices || []).map((p) => (
+                                              <div className="circle-row subtopic-circle-row" key={`practice-${p.id}`}>
+                                                <div className={`circle subtopic-circle ${p.is_completed ? "completed" : ""}`}
+                                                  onClick={(e) => { e.stopPropagation(); handlePracticeClick(p, goal, module, topic, sub); }}>
+                                                  {p.is_completed ? "✓" : "⚙"}
+                                                </div>
                                               </div>
-                                            </div>
-                                          ))
-                                        ])}
-                                        {(topic.subtopics?.some(s => s.content?.length || s.coding_practices?.length)) && (
+                                            ))
+                                          ];
+                                        })}
+                                        {/* Only show vertical line if there are any visible items */}
+                                        {topic.subtopics?.some(sub => {
+                                          const validContent = sub.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title) || [];
+                                          return validContent.length > 0 || (sub.coding_practices?.length || 0) > 0;
+                                        }) && (
                                           <div className="vertical-line"></div>
                                         )}
                                       </>
@@ -301,28 +313,31 @@ export default function JavaCourses() {
 
                                     {isExpandedTopic && (
                                       <div className="subtopics-section">
-                                        {topic.subtopics?.map((sub) => (
-                                          <div key={sub.id}>
-                                            {sub.content?.map((c) => (
-                                              <div className={`subtopic-content-row ${checkIsContentCompleted(c) ? "completed" : ""}`}
-                                                key={`content-${c.id}`}
-                                                onClick={() => handleContentClick(c, goal, module, topic, sub)}>
-                                                <span className="subtopic-text">
-                                                  {c.video_title || c.cheatsheet_title || c.mcq_title || c.coding_title || sub.name}
-                                                </span>
-                                              </div>
-                                            ))}
-                                            {sub.coding_practices?.map((p) => (
-                                              <div className={`subtopic-content-row ${p.is_completed ? "completed" : ""}`}
-                                                key={`practice-${p.id}`}
-                                                onClick={() => handlePracticeClick(p, goal, module, topic, sub)}>
-                                                <span className="subtopic-text practice-title">
-                                                  {p.title}
-                                                </span>
-                                              </div>
-                                            ))}
-                                          </div>
-                                        ))}
+                                        {topic.subtopics?.map((sub) => {
+                                          const validContent = sub.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title) || [];
+                                          return (
+                                            <div key={sub.id}>
+                                              {validContent.map((c) => (
+                                                <div className={`subtopic-content-row ${checkIsContentCompleted(c) ? "completed" : ""}`}
+                                                  key={`content-${c.id}`}
+                                                  onClick={() => handleContentClick(c, goal, module, topic, sub)}>
+                                                  <span className="subtopic-text">
+                                                    {c.video_title || c.cheatsheet_title || c.mcq_title}
+                                                  </span>
+                                                </div>
+                                              ))}
+                                              {sub.coding_practices?.map((p) => (
+                                                <div className={`subtopic-content-row ${p.is_completed ? "completed" : ""}`}
+                                                  key={`practice-${p.id}`}
+                                                  onClick={() => handlePracticeClick(p, goal, module, topic, sub)}>
+                                                  <span className="subtopic-text practice-title">
+                                                    {p.title}
+                                                  </span>
+                                                </div>
+                                              ))}
+                                            </div>
+                                          );
+                                        })}
                                       </div>
                                     )}
                                   </div>

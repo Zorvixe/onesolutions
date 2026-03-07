@@ -1111,6 +1111,7 @@ app.get(
 );
 
 // Get a specific coding practice with its problems
+// Get a specific coding practice with its problems
 app.get(
   "/student/java/coding-practice/:practiceId",
   authenticate,
@@ -1120,9 +1121,24 @@ app.get(
       const studentType = req.student.student_type;
       const { practiceId } = req.params;
 
-      // Get practice details
+      // Get practice details including the full hierarchy IDs
       const practiceResult = await pool.query(
-        `SELECT * FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
+        `SELECT 
+           jcp.*,
+           js.id as subtopic_id,
+           js.name as subtopic_name,
+           jt.id as topic_id,
+           jt.name as topic_name,
+           jm.id as module_id,
+           jm.name as module_name,
+           jg.id as goal_id,
+           jg.name as goal_name
+         FROM java_coding_practices jcp
+         JOIN java_subtopics js ON jcp.subtopic_id = js.id
+         JOIN java_topics jt ON js.topic_id = jt.id
+         JOIN java_modules jm ON jt.module_id = jm.id
+         JOIN java_goals jg ON jm.goal_id = jg.id
+         WHERE jcp.id = $1 AND jcp.allowed_student_types @> ARRAY[$2]`,
         [practiceId, studentType]
       );
       if (practiceResult.rows.length === 0) {
@@ -1136,12 +1152,12 @@ app.get(
       // Get all coding problems in this practice
       const problemsResult = await pool.query(
         `SELECT jc.id, jc.content_uuid, jc.coding_title, jc.coding_description, jc.starter_code,
-              jc.coding_time_limit, jc.coding_memory_limit,
-              CASE WHEN jp.id IS NOT NULL THEN true ELSE false END as is_completed
-       FROM java_content jc
-       LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
-       WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]
-       ORDER BY jc.order_number`,
+                jc.coding_time_limit, jc.coding_memory_limit,
+                CASE WHEN jp.id IS NOT NULL THEN true ELSE false END as is_completed
+         FROM java_content jc
+         LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
+         WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]
+         ORDER BY jc.order_number`,
         [studentId, practiceId, studentType]
       );
 
@@ -1150,7 +1166,7 @@ app.get(
         problemsResult.rows.map(async (problem) => {
           const testCases = await pool.query(
             `SELECT input, expected_output FROM java_test_cases
-           WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
+             WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
             [problem.id]
           );
           return {
@@ -1163,7 +1179,19 @@ app.get(
       res.json({
         success: true,
         data: {
-          practice,
+          practice: {
+            id: practice.id,
+            title: practice.title,
+            description: practice.description,
+            goalId: practice.goal_id,
+            goalName: practice.goal_name,
+            moduleId: practice.module_id,
+            moduleName: practice.module_name,
+            topicId: practice.topic_id,
+            topicName: practice.topic_name,
+            subtopicId: practice.subtopic_id,
+            subtopicName: practice.subtopic_name,
+          },
           problems: problemsWithTestCases,
         },
       });
