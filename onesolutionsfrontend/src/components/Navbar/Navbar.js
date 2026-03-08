@@ -16,7 +16,7 @@ const Navbar = () => {
   const helpEarnButtonRef = useRef(null);
   const mobileMenuRef = useRef(null);
 
-  // 🔥 FIXED: Enhanced student type badge with course info
+  // Student type badge configuration
   const getStudentTypeBadge = (studentType) => {
     const typeConfig = {
       zorvixe_core: {
@@ -41,7 +41,7 @@ const Navbar = () => {
     return typeConfig[studentType] || typeConfig.zorvixe_core;
   };
 
-  // 🔥 UPDATED: Get course badge (added Java Programming)
+  // Course badge configuration
   const getCourseBadge = (course) => {
     const courseConfig = {
       web_development: {
@@ -147,6 +147,11 @@ const Navbar = () => {
     return "/assets/img/man_profile_icon.jpg";
   };
 
+  // Helper to check if course is Web Dev or Java
+  const showCodingFeatures = () => {
+    return courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java";
+  };
+
   return (
     <div className="container">
       <button
@@ -184,8 +189,8 @@ const Navbar = () => {
           </NavLink>
         </li>
 
-        {/* Only show Practice for Web Dev (existing logic) */}
-        {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
+        {/* Show Practice only for Web Dev or Java */}
+        {showCodingFeatures() && (
           <li>
             <NavLink
               to="/practice"
@@ -233,8 +238,9 @@ const Navbar = () => {
                 <i className="bi bi-journal-bookmark"></i> Courses
               </NavLink>
             </li>
-            {/* Practice link in mobile - still only for Web Dev (you may adjust later) */}
-            {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
+
+            {/* Practice link in mobile – only for Web Dev or Java */}
+            {showCodingFeatures() && (
               <li>
                 <NavLink
                   to="/practice"
@@ -247,8 +253,9 @@ const Navbar = () => {
                 </NavLink>
               </li>
             )}
-            {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
 
+            {/* Code Playground link in mobile – only for Web Dev or Java */}
+            {showCodingFeatures() && (
               <li>
                 <NavLink
                   to="/codeGround"
@@ -271,7 +278,7 @@ const Navbar = () => {
               </button>
             </li>
 
-            {/* 🔥 UPDATED: Display both Student Type and Course in mobile menu (includes Java) */}
+            {/* Student Type and Course badges in mobile */}
             <li className="mobile-student-type-badge">
               <div className="student-type-mobile">
                 <span
@@ -327,8 +334,8 @@ const Navbar = () => {
       )}
 
       <div className="nav_right">
-        {/* Code Playground link - only for Web Dev (existing logic) */}
-        {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
+        {/* Code Playground link – only for Web Dev or Java */}
+        {showCodingFeatures() && (
           <li className="nav_c_btn">
             <Link to="/codeGround">Code Playground</Link>
           </li>
@@ -417,7 +424,7 @@ const Navbar = () => {
             </a>
           </div>
 
-          {/* 🔥 UPDATED: Profile header with both badges (Java automatically included) */}
+          {/* Profile header with badges */}
           <div className="profile-header-wrapper">
             {user.profileImage ? (
               <img
@@ -469,8 +476,8 @@ const Navbar = () => {
               <i className="bi bi-journal-bookmark"></i>
               <span>Courses</span>
             </NavLink>
-            {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
-
+            {/* Practice in footer – only for Web Dev or Java */}
+            {showCodingFeatures() && (
               <NavLink
                 to="/practice"
                 className={({ isActive }) => (isActive ? "active" : "")}
@@ -503,7 +510,7 @@ const Navbar = () => {
                   <p className="status">
                     {user.batchMonth} {user.batchYear}
                   </p>
-                  {/* 🔥 UPDATED: Display both Student Type and Course in profile dropdown (with Java icon) */}
+                  {/* Student Type and Course badges in profile dropdown */}
                   <div
                     className="profile-student-type"
                     style={{
@@ -573,8 +580,8 @@ const Navbar = () => {
                     <i className="bi bi-person"></i>My Account
                   </Link>
                 </li>
-                {courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java" && (
-
+                {/* My Snippets – only for Web Dev or Java */}
+                {showCodingFeatures() && (
                   <li className="profile_list_li">
                     <Link to="/saved-snippets">
                       <i className="bi bi-code-slash"></i>My Snippets
