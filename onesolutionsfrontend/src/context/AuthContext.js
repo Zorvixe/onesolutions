@@ -875,15 +875,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const getJavaCodingPractice = async (practiceId) => {
+  const getJavaCodingPractice = async (uuid) => {
     try {
-      const res = await javaAPI.getCodingPractice(practiceId);
+      const res = await javaAPI.getCodingPractice(uuid);
       if (res.data.success) {
         setCurrentJavaPractice(res.data.data);
         return res.data;
       }
     } catch (err) {
-      console.error(`[JAVA] Get practice ${practiceId} failed:`, err);
+      console.error(`[JAVA] Get practice ${uuid} failed:`, err);
       throw err;
     }
   };

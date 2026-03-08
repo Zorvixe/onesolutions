@@ -140,10 +140,11 @@ export default function JavaCourses() {
     });
   };
 
+  // 🔥 UPDATED: Use unified /java/content/:uuid with practice_uuid
   const handlePracticeClick = (practice, goal, module, topic, subtopic) => {
-    navigate(`/java/practice/${practice.id}`, {
+    navigate(`/java/content/${practice.practice_uuid}`, {
       state: {
-        practice,
+        practiceItem: practice,
         goalId: goal.id,
         goalName: goal.name,
         moduleId: module.id,
@@ -280,7 +281,7 @@ export default function JavaCourses() {
                                             ...(sub.coding_practices || []).map((p) => (
                                               <div className="circle-row subtopic-circle-row" key={`practice-${p.id}`}>
                                                 <div className={`circle subtopic-circle ${p.is_completed ? "completed" : ""}`}
-                                                  onClick={(e) => { e.stopPropagation(); handleContentClick(p, goal, module, topic, sub); }}>
+                                                  onClick={(e) => { e.stopPropagation(); handlePracticeClick(p, goal, module, topic, sub); }}>
                                                   {p.is_completed ? "✓" : "⚙"}
                                                 </div>
                                               </div>

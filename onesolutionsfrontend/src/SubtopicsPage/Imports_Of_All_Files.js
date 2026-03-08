@@ -750,6 +750,8 @@ import Introductionto_Operating_System_CS from "../Developer_Foundations/Foundam
 import Introductionto_Operating_System_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System_MCQ.js";
 import Process_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent_CS.js";
 import Process_Managent_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent_MCQ.js";
+import Threads_Courrency_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency_CS.js";
+import  Threads_Courrency_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency_MCQ.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -817,6 +819,10 @@ import Common_M_Part_2 from "../Reactjs/React_Router/Common_M_Part_2.js";
 import Authentication from "../Reactjs/Authentication/Authentication.js";
 import Authentication_2 from "../Reactjs/Authentication/Authentication_2.js";
 import Authentication_3 from "../Reactjs/Authentication/Authentication_3.js";
+import Authentication_P4 from "../Reactjs/Authentication2/Authentication_P4.js";
+import SortingProducts from "../Reactjs/Authentication2/SortingProducts.js";
+import More_React from "../Reactjs/More_React_Concepts/More_React.js";
+import Third_Party from "../Reactjs/Third_Party/Third_Party.js";
 import React_Assignment_2 from "../Reactjs/Component_Life_Cycle/React_Assignment_2.js";
 import React_Assignment_3 from "../Reactjs/Component_Life_Cycle/React_Assignment_3.js";
 import React_Assignment_4 from "../Reactjs/React_Router/React_Assignment_4.js";
@@ -880,6 +886,10 @@ export const subtopicComponents = {
   "Authentication & Authorization": Authentication,
   "Authentication & Authorization | Part 2": Authentication_2,
   "Authentication & Authorization | Part 3": Authentication_3,
+  "Authentication & Authorization | Part 4": Authentication_P4,
+  "Sorting Products": SortingProducts,
+  "More React Concepts": More_React,
+  "Third Party Packages": Third_Party,
   "ReactJs Coding Pratice 1": React_Coding_Practice_1,
   "ReactJs Coding Pratice 2": React_Coding_Practice_2,
   "ReactJs Coding Pratice 3": React_Coding_Practice_3,
@@ -1775,4 +1785,6 @@ export const subtopicComponents = {
   "MCQ Pratice - Introduction to Operating System":Introductionto_Operating_System_MCQ,
   "Overview of Process Management | Cheat Sheet": Process_Managent_CS,
   "MCQ Pratice - Overview of Process Management":Process_Managent_MCQ,
+  "Threads & Concurrency | Cheat Sheet":Threads_Courrency_CS,
+  "MCQ Pratice - Threads & Concurrency": Threads_Courrency_MCQ,
 };

@@ -41,7 +41,7 @@ import JavaSubtopicPage from "./JavaProgramming/JavaSubtopicPage/javaSubtopicPag
 import JavaClasses from "./JavaProgramming/Pages/javaClasses";
 import JavaCheatsheet from "./JavaProgramming/Pages/javaCheatSheet";
 import JavaMcqs from "./JavaProgramming/Pages/javaMcqs";
-import JavaCodingPractice from "./JavaProgramming/Pages/javaCodingPractice";
+import JavaPractice from "./components/JavaPractice/JavaPractice";
 
 import "./App.css";
 
@@ -102,6 +102,7 @@ function AppWrapper() {
             path="/digital/content/:contentUuid"
             element={<DigitalSubtopicPage />}
           />
+          {/* 🔥 UNIFIED JAVA ROUTE – handles both single content and practice collections */}
           <Route
             path="/java/content/:contentUuid"
             element={<JavaSubtopicPage />}
@@ -139,16 +140,7 @@ function AppWrapper() {
             element={<JavaCheatsheet />}
           />
           <Route path="/java/mcq/:contentUuid" element={<JavaMcqs />} />
-          {/* Single coding problem */}
-          <Route
-            path="/java/coding/:contentUuid"
-            element={<JavaCodingPractice isSingleProblem />}
-          />
-          {/* 🔁 FIXED: Coding practice now opens inside JavaSubtopicPage with left panel */}
-          <Route
-            path="/java/practice/:practiceId"
-            element={<JavaSubtopicPage />}
-          />
+          {/* 🔥 REMOVED: /java/coding/:contentUuid and /java/practice/:practiceId */}
 
           <Route path="/practice" element={<Practice />} />
           <Route path="/practice/:practiceId" element={<Practice />} />
@@ -175,6 +167,13 @@ function AppWrapper() {
           <Route
             path="/web-practice-exam/:practiceId/:questionId"
             element={<WebPracticeExamQuestion />}
+          />
+
+           <Route path="/java-practice" element={<JavaPractice />} />
+          <Route path="/java-practice/:practiceId" element={<JavaPractice />} />
+          <Route
+            path="/java-practice/:practiceId/:questionId"
+            element={<JavaPractice />}
           />
 
           {/* Misc */}

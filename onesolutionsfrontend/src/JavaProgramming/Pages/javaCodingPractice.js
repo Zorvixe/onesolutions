@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...props }) => {
-  const { practiceId } = useParams();
+  const { contentUuid } = useParams();
   const navigate = useNavigate();
   const {
     getJavaCodingPractice,
@@ -22,11 +22,11 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
 
   // Load practice data if not provided
   useEffect(() => {
-    if (practiceId && !practice) {
+    if (contentUuid && !practice) {
       const loadPractice = async () => {
         setLoading(true);
         try {
-          const res = await getJavaCodingPractice(practiceId);
+          const res = await getJavaCodingPractice(contentUuid);
           if (res?.success) {
             setPractice(res.data);
           } else {
@@ -41,7 +41,7 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
       };
       loadPractice();
     }
-  }, [practiceId, practice, getJavaCodingPractice]);
+  }, [contentUuid, practice, getJavaCodingPractice]);
 
   // Problem status helpers
   const getProblemStatus = useCallback(
@@ -69,7 +69,7 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
     [localProgress]
   );
 
-  // Run code
+  // Run code (only used in single problem mode)
   const runCode = async () => {
     if (!selectedProblem) return;
     try {
@@ -88,7 +88,7 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
     }
   };
 
-  // Submit code and update progress
+  // Submit code and update progress (only used in single problem mode)
   const submitCode = async () => {
     if (!selectedProblem) return;
     try {
@@ -129,11 +129,25 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
     }
   };
 
-  // Handle problem row click (inline view)
+  // ✅ Navigate to JavaPractice with the correct practice ID and question ID
   const handleProblemSelect = (problem) => {
-    setSelectedProblem(problem);
-    setCode("");
-    setResults(null);
+  const practiceUuid = practice?.practice?.practice_uuid;   // use UUID
+  if (!practiceUuid) {
+    console.error("Practice UUID is missing", practice);
+    return;
+  }
+
+    // Preserve navigation state (subtopic, goal, etc.)
+    const navigationState = {
+      subtopicId: props.subtopicId,
+      goalName: props.goalName,
+      courseName: props.courseName,
+      topicId: props.topicId,
+    };
+
+  navigate(`/java-practice/${practiceUuid}/${problem.content_uuid}`, {
+      state: navigationState,
+    });
   };
 
   if (loading) {
@@ -256,7 +270,6 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
                               __html: problem.coding_description?.slice(0, 60),
                             }}
                           ></div>
-
                         </td>
                         <td className="difficulty-cell-cod">
                           <span className={`difficulty-badge-cod ${problem.difficulty?.toLowerCase() || "easy"}`}>
@@ -325,37 +338,6 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
           </div>
         </div>
       </div>
-
-      {/* Selected Problem Detail (inline) */}
-      {selectedProblem && (
-        <div className="problem-detail-cod">
-          <h4>{selectedProblem.coding_title}</h4>
-          <div
-            className="question-description-html"
-            dangerouslySetInnerHTML={{
-              __html: selectedProblem.coding_description,
-            }}
-          ></div>
-          <textarea
-            rows={10}
-            cols={80}
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-            placeholder="Write your Java code here..."
-            className="code-editor-cod"
-          />
-          <div className="action-buttons-cod">
-            <button onClick={runCode} className="run-btn-cod">Run</button>
-            <button onClick={submitCode} className="submit-btn-cod">Submit</button>
-          </div>
-          {results && (
-            <div className="results-cod">
-              <h5>Results</h5>
-              <pre>{JSON.stringify(results, null, 2)}</pre>
-            </div>
-          )}
-        </div>
-      )}
     </div>
   );
 };

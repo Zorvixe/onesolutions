@@ -104,7 +104,7 @@ const Process_Managent_CS= ({
       <img
           src="/assets/img/text.png"
           alt="software"
-          style={{ width: "80%", height: "400px" }}
+          style={{ width: "60%", height: "400px" }}
         />
   </section>
 
@@ -258,7 +258,7 @@ const Process_Managent_CS= ({
       The process that arrives first gets executed first.
     </p>
 
-    <table border="1" cellPadding="6" style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table border="1" cellPadding="6" style={{ width: "80%", borderCollapse: "collapse" }}>
       <thead>
         <tr>
           <th>Process</th>
@@ -298,7 +298,7 @@ const Process_Managent_CS= ({
       <img
           src="/assets/img/first-come.png"
           alt="software"
-          style={{ width: "80%", height: "400px" }}
+          style={{ width: "70%", height: "400px" }}
         />
   </section>
 
@@ -349,7 +349,7 @@ const Process_Managent_CS= ({
      <img
           src="/assets/img/SJF.png"
           alt="software"
-          style={{ width: "80%", height: "400px" }}
+          style={{ width: "70%", height: "400px" }}
         />
   </section>
 
@@ -418,7 +418,7 @@ const Process_Managent_CS= ({
     <img
           src="/assets/img/priority.png"
           alt="software"
-          style={{ width: "80%", height: "400px" }}
+          style={{ width: "70%", height: "400px" }}
         />
 </section>
 
@@ -488,7 +488,7 @@ const Process_Managent_CS= ({
     <img
           src="/assets/img/round-robbin.png"
           alt="software"
-          style={{ width: "80%", height: "400px" }}
+          style={{ width: "70%", height: "400px" }}
         />
 </section>
   {/* IPC */}
@@ -521,7 +521,7 @@ const Process_Managent_CS= ({
       <img
           src="/assets/img/mess-pass.png"
           alt="software"
-          style={{ width: "60%", height: "400px" }}
+          style={{ width: "80%", height: "400px" }}
         />
   </section>
 </div>

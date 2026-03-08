@@ -8,7 +8,7 @@ import JavaMcqs from "../Pages/javaMcqs";
 import JavaCodingPractice from "../Pages/javaCodingPractice";
 
 const JavaSubtopicPage = () => {
-  const { contentUuid, practiceId } = useParams();
+  const { contentUuid } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const {
@@ -89,51 +89,60 @@ const JavaSubtopicPage = () => {
 
     const loadData = async () => {
       setLoading(true);
+      // 🔥 Reset states before loading new data
+      setContent(null);
+      setPractice(null);
+      setError(null);
+
       try {
-        // 1. ALWAYS fetch the FULL content from backend so we have video_url, cheatsheet_content, etc.
         let fetchedContent = null;
+        let fetchedPractice = null;
+
+        // 1. Try to fetch as content first
         if (contentUuid) {
-          const res = await getJavaContentByUuid(contentUuid);
-          if (res?.success) {
-            fetchedContent = res.data;
-            fetchedContent.content_type = getContentType(fetchedContent);
-            setContent(fetchedContent);
-            setIsAccessible(true);
-            setIsMobileContentVisible(true);
-          } else {
-            setError("Content not found");
-            setIsAccessible(false);
+          try {
+            const res = await getJavaContentByUuid(contentUuid);
+            if (res?.success) {
+              fetchedContent = res.data;
+              fetchedContent.content_type = getContentType(fetchedContent);
+              setContent(fetchedContent);
+              setIsAccessible(true);
+              setIsMobileContentVisible(true);
+            }
+          } catch (err) {
+            console.log("Content not found, trying practice...");
           }
-        } else if (practiceId) {
-          const res = await getJavaCodingPractice(practiceId);
-          if (res?.success) {
-            setPractice(res.data);
-            setIsAccessible(true);
-            setIsMobileContentVisible(true);
-          } else {
-            setError("Practice not found");
-            setIsAccessible(false);
+
+          // 2. If content not found, try as practice
+          if (!fetchedContent) {
+            try {
+              const res = await getJavaCodingPractice(contentUuid);
+              if (res?.success) {
+                fetchedPractice = res.data;
+                setPractice(fetchedPractice);
+                setIsAccessible(true);
+                setIsMobileContentVisible(true);
+              } else {
+                setError("Content or practice not found");
+                setIsAccessible(false);
+              }
+            } catch (err) {
+              setError("Content or practice not found");
+              setIsAccessible(false);
+            }
           }
         }
 
-        // In loadData, after fetching content by uuid:
-if (fetchedContent && fetchedContent.content_type === "practice") {
-  // It's a practice – load the problems
-  const practiceRes = await getJavaCodingPractice(fetchedContent.id);
-  if (practiceRes?.success) setPractice(practiceRes.data);
-  else setError("Practice not found");
-}
-
-        // 2. Load the sidebar structure if it isn't loaded yet
+        // 3. Load the sidebar structure if needed
         let currentGoals = javaGoals;
         if (!currentGoals || currentGoals.length === 0) {
           const structRes = await loadJavaAllStructure();
           if (structRes?.success) currentGoals = structRes.data;
         }
 
-        // 3. Setup the Sidebar UI state (Breadcrumbs & Expanding menus)
+        // 4. Setup sidebar UI state (Breadcrumbs & Expanding menus)
         if (location.state && location.state.moduleId) {
-          // Fast Path: Used if user clicked from the course menu
+          // Fast Path: user clicked from course menu
           setSelectedGoal({ id: location.state.goalId, name: location.state.goalName || "Java Programming" });
           setSelectedModule({ id: location.state.moduleId, name: location.state.moduleName });
           setSelectedTopic({ id: location.state.topicId, name: location.state.topicName });
@@ -147,7 +156,7 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
             if (m) setGoalModules([m]);
           }
         } else if (fetchedContent && currentGoals) {
-          // Hard Refresh Path: User refreshed the page, rebuild sidebar from fetched IDs
+          // Hard Refresh Path: rebuild from fetched content IDs
           const g = currentGoals.find(g => g.id === fetchedContent.goal_id) || currentGoals[0];
           if (g) {
             setSelectedGoal(g);
@@ -167,6 +176,33 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
               }
             }
           }
+        } else if (fetchedPractice && currentGoals) {
+          // Practice path: use subtopic_id from practice object to locate in tree
+          const practiceRecord = fetchedPractice.practice;
+          if (practiceRecord && practiceRecord.subtopic_id) {
+            const targetSubtopicId = String(practiceRecord.subtopic_id);
+            for (const g of currentGoals) {
+              if (!g.modules) continue;
+              for (const m of g.modules) {
+                if (!m.topics) continue;
+                for (const t of m.topics) {
+                  if (!t.subtopics) continue;
+                  for (const s of t.subtopics) {
+                    if (String(s.id) === targetSubtopicId) {
+                      setSelectedGoal(g);
+                      setSelectedModule({ id: m.id, name: m.name });
+                      setSelectedTopic({ id: t.id, name: t.name });
+                      setSelectedSubtopic({ id: s.id, name: s.name });
+                      setExpandedModule(m.id);
+                      setExpandedTopic(t.id);
+                      setGoalModules([m]);
+                      break;
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       } catch (err) {
         console.error("Load Error:", err);
@@ -179,19 +215,18 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
 
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contentUuid, practiceId, hasJavaAccess]);
-
+  }, [contentUuid, hasJavaAccess]);
   const handleTopicClick = (topicId) => {
     setExpandedTopic(expandedTopic === topicId ? null : topicId);
   };
 
   const handleSubtopicClick = async (module, topic, subtopic, item) => {
     if (item.content_uuid) {
-      // Single content item (video, cheatsheet, mcq, or single coding problem)
+      // Single content item
       const contentItem = { ...item };
       contentItem.content_type = getContentType(item);
       setIsMobileContentVisible(true);
-      setPractice(null); // clear any practice if open
+      setPractice(null);
 
       navigate(`/java/content/${item.content_uuid}`, {
         state: {
@@ -208,13 +243,13 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
         },
       });
     } else if (item.id && item.title) {
-      // This is a coding practice (multiple problems) – load inline without navigation
+      // Coding practice (multiple problems)
       setIsMobileContentVisible(true);
-      setContent(null); // clear any single content
-      setPractice(null); // clear previous practice
+      setContent(null);
+      setPractice(null);
       setLoading(true);
       try {
-        const res = await getJavaCodingPractice(item.id);
+        const res = await getJavaCodingPractice(item.practice_uuid);
         if (res?.success) {
           setPractice(res.data);
         } else {
@@ -227,6 +262,30 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
         setLoading(false);
       }
     }
+  };
+
+  const handlePracticeClick = (module, topic, subtopic, item) => {
+    if (!item?.practice_uuid) {
+      console.error("Practice UUID missing in item:", item);
+      alert("Cannot open practice: missing identifier.");
+      return;
+    }
+
+    navigate(`/java/content/${item.practice_uuid}`, {
+      state: {
+        practiceItem: item,
+        goalId: selectedGoal?.id,
+        goalName: selectedGoal?.name,
+        moduleId: module.id,
+        moduleName: module.name,
+        topicId: topic.id,
+        topicName: topic.name,
+        subtopicId: subtopic.id,
+        subtopicName: subtopic.name,
+        fromCourse: true,
+        isJava: true,
+      },
+    });
   };
 
   const renderContent = () => {
@@ -294,9 +353,8 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
               module.topics?.map((topic) => (
                 <div key={topic.id} className="subtopic-page-sub__module-section-sub">
                   <h4
-                    className={`subtopic-page-sub__module-title-sub ${
-                      expandedTopic === topic.id ? "subtopic-page-sub__module-title-sub--active" : ""
-                    }`}
+                    className={`subtopic-page-sub__module-title-sub ${expandedTopic === topic.id ? "subtopic-page-sub__module-title-sub--active" : ""
+                      }`}
                     onClick={() => handleTopicClick(topic.id)}
                   >
                     {topic.name}
@@ -304,15 +362,12 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
                   {expandedTopic === topic.id &&
                     topic.subtopics?.map((subtopic) => (
                       <div key={subtopic.id}>
-                        {/* Only render content items that have a valid title */}
+                        {/* Content items */}
                         {subtopic.content?.filter(c => c.video_title || c.cheatsheet_title || c.mcq_title).map((c) => {
                           const isActive = content && (String(c.id) === String(content.id) || c.content_uuid === content.content_uuid);
                           const isCompleted = checkIsItemCompleted(c);
                           return (
-                            <div
-                              className={`subtopic-page-sub__topics-sub`}
-                              key={`content-${c.id}`}
-                            >
+                            <div className="subtopic-page-sub__topics-sub" key={`content-${c.id}`}>
                               <div
                                 className={`subtopic-page-sub__item-sub ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
                                 onClick={() => handleSubtopicClick(module, topic, subtopic, c)}
@@ -326,13 +381,13 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
                         })}
                         {/* Coding practices */}
                         {subtopic.coding_practices?.map((p) => {
-                          const isActive = practice && p.id === practice.id;
+                          const isActive = practice?.practice && p.id === practice.practice.id;
                           const isCompleted = p.is_completed;
                           return (
                             <div className="subtopic-page-sub__topics-sub" key={`practice-${p.id}`}>
                               <div
                                 className={`subtopic-page-sub__item-sub practice-item ${isActive ? "active-sub" : ""} ${isCompleted ? "completed-sub" : ""}`}
-                                onClick={() => handleSubtopicClick(module, topic, subtopic, p)}
+                                onClick={() => handlePracticeClick(module, topic, subtopic, p)}
                               >
                                 <span className="subtopic-page-sub__item-text-sub">
                                   {p.title}
@@ -362,6 +417,17 @@ if (fetchedContent && fetchedContent.content_type === "practice") {
           </svg>
           Back to Topics
         </button>
+
+        {error && !content && !practice && (
+          <div className="error-container" style={{ padding: '20px', textAlign: 'center', color: '#f44336' }}>
+            <h3>⚠️ Error Loading Content</h3>
+            <p>{error}</p>
+            <button onClick={() => navigate('/java')} style={{ marginTop: '10px', padding: '8px 16px' }}>
+              Go Back to Courses
+            </button>
+          </div>
+        )}
+
         {renderContent()}
       </div>
     </div>

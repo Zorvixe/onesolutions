@@ -177,7 +177,7 @@ export const javaAPI = {
 
   // Content endpoints
   getContentByUuid: (contentUuid) => api.get(`/student/java/content/${contentUuid}`),
-  getCodingPractice: (practiceId) => api.get(`/student/java/coding-practice/${practiceId}`),
+  getCodingPractice: (contentUuid) => api.get(`/student/java/coding-practice/${contentUuid}`),
   markContentComplete: (contentId, goalId, quizScore) =>
     api.post("/student/java/content/complete", { contentId, goalId, quizScore }),
   getCompletedContent: () => api.get("/student/java/completed-content"),

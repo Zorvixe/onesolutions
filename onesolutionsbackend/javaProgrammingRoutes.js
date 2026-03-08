@@ -187,11 +187,11 @@ const createJavaTables = async () => {
       )
     `);
 
-      await pool.query(`
+    await pool.query(`
         ALTER TABLE java_coding_practices
 ADD COLUMN  IF NOT EXISTS practice_uuid UUID DEFAULT gen_random_uuid();
     `);
-      await pool.query(`
+    await pool.query(`
         CREATE UNIQUE INDEX  IF NOT EXISTS idx_java_practice_uuid
 ON java_coding_practices(practice_uuid);
     `);
@@ -240,7 +240,7 @@ ON java_coding_practices(practice_uuid);
     `);
 
 
-  
+
 
     await pool.query(`
       CREATE TABLE IF NOT EXISTS java_test_cases (
@@ -671,7 +671,7 @@ app.get("/admin/java/subtopics/:subtopicId/content", async (req, res) => {
       "SELECT * FROM java_content WHERE subtopic_id = $1 ORDER BY order_number",
       [req.params.subtopicId]
     );
-    
+
     const contentWithTestCases = await Promise.all(result.rows.map(async (content) => {
       if (content.content_type === 'coding') {
         const testCasesResult = await pool.query(
@@ -711,7 +711,7 @@ app.post("/admin/java/subtopics/:subtopicId/video", (req, res) => {
         ) VALUES ($1, 'video', $2, $3, $4, $5, $6, $7, $8, $9,
           (SELECT COALESCE(MAX(order_number), -1) + 1 FROM java_content WHERE subtopic_id = $1))
         RETURNING *`,
-        [ subtopicId, uuid, token, title, description || "", duration || 0, videoUrl, slides_id || null, allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"] ]
+        [subtopicId, uuid, token, title, description || "", duration || 0, videoUrl, slides_id || null, allowed_student_types || ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"]]
       );
 
       res.json({ success: true, data: result.rows[0] });
@@ -775,7 +775,7 @@ app.post("/admin/java/subtopics/:subtopicId/coding", async (req, res) => {
 
     const uuid = crypto.randomUUID();
     const token = crypto.randomUUID();
-    
+
     // ADDED difficulty and score to the INSERT statement
     const contentResult = await client.query(
       `INSERT INTO java_content (
@@ -791,7 +791,7 @@ app.post("/admin/java/subtopics/:subtopicId/coding", async (req, res) => {
         difficulty || "easy", score || 0
       ]
     );
-    
+
     const contentId = contentResult.rows[0].id;
 
     // FIXED: Reading from tc.expected_output / tc.is_sample to match frontend payload properly
@@ -799,7 +799,7 @@ app.post("/admin/java/subtopics/:subtopicId/coding", async (req, res) => {
       const tc = testCases[i];
       const expectedOutput = tc.expected_output !== undefined ? tc.expected_output : tc.expectedOutput;
       const isSample = tc.is_sample !== undefined ? tc.is_sample : (tc.isSample || false);
-      
+
       await client.query(
         `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
          VALUES ($1, $2, $3, $4, $5)`,
@@ -840,7 +840,7 @@ app.put("/admin/java/content/:contentId", async (req, res) => {
 
     if (allowed_student_types !== undefined) { updates.push(`allowed_student_types = $${paramIndex++}`); values.push(allowed_student_types); }
     if (practice_id !== undefined) { updates.push(`practice_id = $${paramIndex++}`); values.push(practice_id); }
-    
+
     // ADDED difficulty & score check to the update dynamically
     if (difficulty !== undefined) { updates.push(`difficulty = $${paramIndex++}`); values.push(difficulty); }
     if (score !== undefined) { updates.push(`score = $${paramIndex++}`); values.push(score); }
@@ -872,7 +872,7 @@ app.put("/admin/java/content/:contentId", async (req, res) => {
           // FIXED variables
           const expectedOutput = tc.expected_output !== undefined ? tc.expected_output : tc.expectedOutput;
           const isSample = tc.is_sample !== undefined ? tc.is_sample : (tc.isSample || false);
-          
+
           await client.query(
             `INSERT INTO java_test_cases (content_id, input, expected_output, is_sample, order_number)
              VALUES ($1, $2, $3, $4, $5)`,
@@ -1036,6 +1036,7 @@ app.get(
                               (SELECT json_agg(
                                 json_build_object(
                                   'id', jcp.id,
+                                        'practice_uuid', jcp.practice_uuid,
                                   'title', jcp.title,
                                   'description', jcp.description,
                                   'order_number', jcp.order_number,
@@ -1124,95 +1125,50 @@ app.get(
 
 // Get a specific coding practice with its problems
 // Get a specific coding practice with its problems
-app.get(
-  "/student/java/coding-practice/:practiceId",
-  authenticate,
-  async (req, res) => {
-    try {
-      const studentId = req.student.id;
-      const studentType = req.student.student_type;
-      const { practiceId } = req.params;
+app.get("/student/java/coding-practice/:practiceUuid", authenticate, async (req, res) => {
+  try {
+    const { practiceUuid } = req.params;
 
-      // Get practice details including the full hierarchy IDs
-      const practiceResult = await pool.query(
-        `SELECT 
-           jcp.*,
-           js.id as subtopic_id,
-           js.name as subtopic_name,
-           jt.id as topic_id,
-           jt.name as topic_name,
-           jm.id as module_id,
-           jm.name as module_name,
-           jg.id as goal_id,
-           jg.name as goal_name
-         FROM java_coding_practices jcp
-         JOIN java_subtopics js ON jcp.subtopic_id = js.id
-         JOIN java_topics jt ON js.topic_id = jt.id
-         JOIN java_modules jm ON jt.module_id = jm.id
-         JOIN java_goals jg ON jm.goal_id = jg.id
-         WHERE jcp.id = $1 AND jcp.allowed_student_types @> ARRAY[$2]`,
-        [practiceId, studentType]
-      );
-      if (practiceResult.rows.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "Practice not found or access denied",
-        });
-      }
-      const practice = practiceResult.rows[0];
+    const practiceResult = await pool.query(
+      `SELECT * FROM java_coding_practices 
+       WHERE practice_uuid = $1`,
+      [practiceUuid]
+    );
 
-      // Get all coding problems in this practice
-      const problemsResult = await pool.query(
-        `SELECT jc.id, jc.content_uuid, jc.coding_title, jc.coding_description, jc.starter_code,
-                jc.coding_time_limit, jc.coding_memory_limit,
-                CASE WHEN jp.id IS NOT NULL THEN true ELSE false END as is_completed
-         FROM java_content jc
-         LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
-         WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]
-         ORDER BY jc.order_number`,
-        [studentId, practiceId, studentType]
-      );
-
-      // For each problem, fetch sample test cases
-      const problemsWithTestCases = await Promise.all(
-        problemsResult.rows.map(async (problem) => {
-          const testCases = await pool.query(
-            `SELECT input, expected_output FROM java_test_cases
-             WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
-            [problem.id]
-          );
-          return {
-            ...problem,
-            sample_test_cases: testCases.rows,
-          };
-        })
-      );
-
-      res.json({
-        success: true,
-        data: {
-          practice: {
-            id: practice.id,
-            title: practice.title,
-            description: practice.description,
-            goalId: practice.goal_id,
-            goalName: practice.goal_name,
-            moduleId: practice.module_id,
-            moduleName: practice.module_name,
-            topicId: practice.topic_id,
-            topicName: practice.topic_name,
-            subtopicId: practice.subtopic_id,
-            subtopicName: practice.subtopic_name,
-          },
-          problems: problemsWithTestCases,
-        },
+    if (practiceResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Practice not found"
       });
-    } catch (e) {
-      console.error("Error fetching coding practice:", e);
-      res.status(500).json({ success: false, error: e.message });
     }
+
+    const practice = practiceResult.rows[0];
+
+    const problemsResult = await pool.query(
+      `SELECT *
+       FROM java_content
+       WHERE practice_id = $1
+       AND content_type = 'coding'
+       ORDER BY order_number`,
+      [practice.id]
+    );
+
+    res.json({
+      success: true,
+      data: {
+        practice,
+        problems: problemsResult.rows
+      }
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
-);
+});
 
 // Mark an entire practice as completed (if all problems are completed)
 app.post(
@@ -1490,10 +1446,10 @@ app.get(
   async (req, res) => {
     try {
       const { contentUuid } = req.params;
-      
+
       // We authenticate manually using the token provided in the URL query string
       const token = req.query.token;
-      
+
       if (!token) {
         return res.status(403).json({ success: false, message: "No access token provided in query" });
       }
@@ -1502,11 +1458,11 @@ app.get(
         "SELECT * FROM java_content WHERE content_uuid = $1 AND access_token = $2",
         [contentUuid, token]
       );
-      
+
       if (contentResult.rows.length === 0) {
         return res.status(403).json({ success: false, message: "Invalid access token" });
       }
-      
+
       const content = contentResult.rows[0];
       if (content.content_type !== "video") {
         return res.status(400).json({ success: false, message: "Not a video" });
@@ -1515,7 +1471,7 @@ app.get(
       // Rest of your video streaming logic remains identical
       const filename = content.video_url.replace("/uploads_java/videos/", "");
       const videoPath = path.join(UPLOAD_BASE_PATH, "videos", filename);
-      
+
       if (!fs.existsSync(videoPath)) {
         return res.status(404).json({ success: false, message: "Video file not found" });
       }
@@ -1523,7 +1479,7 @@ app.get(
       const stat = fs.statSync(videoPath);
       const fileSize = stat.size;
       const range = req.headers.range;
-      
+
       if (range) {
         const parts = range.replace(/bytes=/, "").split("-");
         const start = parseInt(parts[0], 10);
