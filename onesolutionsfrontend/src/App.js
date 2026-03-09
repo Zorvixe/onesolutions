@@ -41,6 +41,7 @@ import JavaSubtopicPage from "./JavaProgramming/JavaSubtopicPage/javaSubtopicPag
 import JavaClasses from "./JavaProgramming/Pages/javaClasses";
 import JavaCheatsheet from "./JavaProgramming/Pages/javaCheatSheet";
 import JavaMcqs from "./JavaProgramming/Pages/javaMcqs";
+import JavaPracticeList from "./JavaProgramming/Pages/javaPracticeList";
 import JavaPractice from "./components/JavaPractice/JavaPractice";
 
 import "./App.css";
@@ -142,12 +143,30 @@ function AppWrapper() {
           <Route path="/java/mcq/:contentUuid" element={<JavaMcqs />} />
           {/* 🔥 REMOVED: /java/coding/:contentUuid and /java/practice/:practiceId */}
 
-          <Route path="/practice" element={<Practice />} />
-          <Route path="/practice/:practiceId" element={<Practice />} />
-          <Route
-            path="/practice/:practiceId/:questionId"
-            element={<Practice />}
-          />
+          {/* ===== CONDITIONAL PRACTICE ROUTES ===== */}
+          {courseSelection === "java_programming" ? (
+            <>
+              {/* Java‑specific practice routes */}
+              <Route path="/practice" element={<JavaPracticeList />} />
+              <Route path="/java-practice/:practiceId" element={<JavaPractice />} />
+              <Route
+                path="/java-practice/:practiceId/:questionId"
+                element={<JavaPractice />}
+              />
+            </>
+          ) : (
+            <>
+              {/* Default practice routes for other courses */}
+              <Route path="/practice" element={<Practice />} />
+              <Route path="/practice/:practiceId" element={<Practice />} />
+              <Route
+                path="/practice/:practiceId/:questionId"
+                element={<Practice />}
+              />
+            </>
+          )}
+
+          {/* SQL Practice (same for all) */}
           <Route path="/sql-practice" element={<SQLPractice />} />
           <Route path="/sql-practice/:practiceId" element={<SQLPractice />} />
           <Route
@@ -155,11 +174,11 @@ function AppWrapper() {
             element={<SQLPractice />}
           />
 
+          {/* Web Practice */}
           <Route
             path="/web-practice/:practiceId/:questionId"
             element={<WebPractice />}
           />
-
           <Route
             path="/web-practice-exam/:practiceId"
             element={<WebPracticeExam />}
@@ -169,11 +188,18 @@ function AppWrapper() {
             element={<WebPracticeExamQuestion />}
           />
 
-           <Route path="/java-practice" element={<JavaPractice />} />
-          <Route path="/java-practice/:practiceId" element={<JavaPractice />} />
+          {/* Java Practice (legacy routes – redirect to unified /practice for consistency) */}
+          <Route
+            path="/java-practice"
+            element={<Navigate to="/practice" replace />}
+          />
+          <Route
+            path="/java-practice/:practiceId"
+            element={<Navigate to="/practice/:practiceId" replace />}
+          />
           <Route
             path="/java-practice/:practiceId/:questionId"
-            element={<JavaPractice />}
+            element={<Navigate to="/practice/:practiceId/:questionId" replace />}
           />
 
           {/* Misc */}

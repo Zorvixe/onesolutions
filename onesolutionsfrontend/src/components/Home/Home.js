@@ -8,10 +8,11 @@ import { javascriptCodingPracticesData } from "../../codingPracticesData/javascr
 import { useAuth } from "../../context/AuthContext";
 import DescriptionToggle from "../DescriptionToggle/DescriptionToggle";
 import CodingPracticeService from "../../services/codingPracticeService";
+import { javaAPI } from "../../services/api";
 import AiApp from "../AiApp/AiApp";
 
 const API_OSE_URL =
-  process.env.REACT_APP_API_OSE_URL || "https://ose.onesolutionsekam.in/";
+  process.env.REACT_APP_API_OSE_URL || "https://apiose.onesolutionsekam.in/";
 
 const Home = () => {
   // --- General State ---
@@ -31,6 +32,13 @@ const Home = () => {
   const [lastProgressUpdate, setLastProgressUpdate] = useState(null);
   const [webDataInitialized, setWebDataInitialized] = useState(false);
 
+  // --- Java Programming State ---
+  const [javaPractices, setJavaPractices] = useState([]);
+  const [javaPracticeData, setJavaPracticeData] = useState([]);
+  const [javaUserProgress, setJavaUserProgress] = useState({});
+  const [javaProgressLoading, setJavaProgressLoading] = useState(false);
+  const [javaDataInitialized, setJavaDataInitialized] = useState(false);
+
   const [activeCalendarDropdown, setActiveCalendarDropdown] = useState(null);
 
   // --- Digital Marketing State ---
@@ -39,6 +47,8 @@ const Home = () => {
 
   // Refs for cache and retry
   const fetchRetryCount = useRef(0);
+  const hasLoadedDigitalData = useRef(false);
+
   const maxRetries = 3;
 
   const navigate = useNavigate();
@@ -52,6 +62,7 @@ const Home = () => {
   } = useAuth();
 
   const isDigitalUser = user?.courseSelection === "digital_marketing";
+  const isJavaUser = user?.courseSelection === "java_programming";
 
   // Helper function to generate Google Calendar URL
   const generateGoogleCalendarUrl = (classItem) => {
@@ -136,8 +147,8 @@ const Home = () => {
     if (window.innerWidth <= 768) {
       const choice = window.confirm(
         "Add to calendar:\n" +
-          "OK for Google Calendar\n" +
-          "Cancel for ICS file (Apple/Outlook)"
+        "OK for Google Calendar\n" +
+        "Cancel for ICS file (Apple/Outlook)"
       );
 
       if (choice) {
@@ -355,7 +366,7 @@ const Home = () => {
             savedBatch.batchMonth === (user.batchMonth || "") &&
             savedBatch.batchYear === (user.batchYear || "") &&
             savedBatch.courseSelection ===
-              (user.courseSelection || "web_development");
+            (user.courseSelection || "web_development");
         }
 
         if (isValidCache && batchMatch) {
@@ -459,6 +470,165 @@ const Home = () => {
     }
   };
 
+  // ==========================================
+  // 3. JAVA PROGRAMMING LOGIC
+  // ==========================================
+
+  const fetchJavaPractices = async () => {
+    try {
+      setJavaProgressLoading(true);
+      const res = await javaAPI.getAllCodingPractices();
+      if (res.data.success) {
+        setJavaPractices(res.data.data);
+        processJavaPracticeData(res.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching Java practices:", error);
+    } finally {
+      setJavaProgressLoading(false);
+    }
+  };
+
+  const fetchJavaUserProgress = async () => {
+    try {
+      const response = await CodingPracticeService.getAllProgress();
+      if (response.success) {
+        const progressMap = {};
+        response.data.progress.forEach((prog) => {
+          progressMap[prog.question_id] = {
+            status: prog.status,
+            code: prog.code,
+            score: prog.score,
+            attempts: prog.attempts || [],
+            lastAttempt: prog.last_attempt,
+          };
+        });
+        setJavaUserProgress(progressMap);
+      }
+    } catch (error) {
+      console.error("Error fetching Java progress:", error);
+    }
+  };
+
+  // Helper function to get Java difficulty colors (same as web dev)
+  const getJavaDifficultyColors = (difficulty) => {
+    const colors = {
+      easy: {
+        backgroundColor: "#c0c9ee4a",
+        iconColor: "#7272fcff",
+        progressColor: "#7272fcff",
+      },
+      medium: {
+        backgroundColor: "#f5d0e458",
+        iconColor: "#d43b8cff",
+        progressColor: "#d43b8cff",
+      },
+      hard: {
+        backgroundColor: "#cdf9ed75",
+        iconColor: "#078866ff",
+        progressColor: "#078866ff",
+      },
+    };
+    return colors[difficulty?.toLowerCase()] || colors.easy;
+  };
+
+  const processJavaPracticeData = (practices) => {
+    if (!practices || practices.length === 0) {
+      setJavaPracticeData([]);
+      setJavaDataInitialized(true);
+      return;
+    }
+
+    // Group problems by difficulty
+    const difficultyGroups = {
+      easy: { problems: [], totalSolved: 0, totalProblems: 0 },
+      medium: { problems: [], totalSolved: 0, totalProblems: 0 },
+      hard: { problems: [], totalSolved: 0, totalProblems: 0 },
+    };
+
+    // Collect all problems from all practices and group by difficulty
+    practices.forEach((practice) => {
+      if (practice.problems && practice.problems.length > 0) {
+        practice.problems.forEach((problem) => {
+          const difficulty = problem.difficulty?.toLowerCase() || "medium";
+          if (difficultyGroups[difficulty]) {
+            difficultyGroups[difficulty].problems.push({
+              ...problem,
+              practiceId: practice.id,
+              practiceUuid: practice.practice_uuid,
+            });
+            difficultyGroups[difficulty].totalProblems++;
+
+            // Check if problem is solved
+            if (javaUserProgress[problem.id]?.status === "solved") {
+              difficultyGroups[difficulty].totalSolved++;
+            }
+          }
+        });
+      }
+    });
+
+    // Create practice cards for each difficulty that has problems
+    const practiceCards = Object.keys(difficultyGroups)
+      .filter((difficulty) => difficultyGroups[difficulty].problems.length > 0)
+      .map((difficulty) => {
+        const group = difficultyGroups[difficulty];
+        const totalProblems = group.totalProblems;
+        const solvedCount = group.totalSolved;
+        const progress = totalProblems > 0
+          ? Math.round((solvedCount / totalProblems) * 100)
+          : 0;
+        const colors = getJavaDifficultyColors(difficulty);
+
+        return {
+          id: `java-${difficulty}-challenge`,
+          title: `Java ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Challenge`,
+          challenge: `${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} Challenge`,
+          progress: `${progress}%`,
+          numericProgress: progress,
+          problems: totalProblems,
+          solvedCount: solvedCount,
+          backgroundColor: colors.backgroundColor,
+          iconColor: colors.iconColor,
+          progressColor: colors.progressColor,
+          difficulty: difficulty,
+          language: "java",
+          problemsList: group.problems,
+          // For backward compatibility with existing code
+          practice: {
+            problems: group.problems,
+            practice_uuid: group.problems[0]?.practiceUuid
+          }
+        };
+      });
+
+    setJavaPracticeData(practiceCards);
+    setJavaDataInitialized(true);
+  };
+
+  // Update Java progress when javaUserProgress changes
+  useEffect(() => {
+    if (isJavaUser && javaPractices.length > 0) {
+      processJavaPracticeData(javaPractices);
+    }
+  }, [javaUserProgress, isJavaUser, javaPractices]);
+
+  useEffect(() => {
+    if (isDigitalUser && user && !hasLoadedDigitalData.current) {
+      const loadDigitalData = async () => {
+        try {
+          console.log("🔍 Loading digital marketing data for user:", user.email);
+          await loadDigitalMarketingAllStructure();
+          hasLoadedDigitalData.current = true;
+        } catch (e) {
+          console.error("Error loading digital data:", e);
+          setDigitalDataInitialized(true);
+        }
+      };
+      loadDigitalData();
+    }
+  }, [isDigitalUser, user, loadDigitalMarketingAllStructure]);
+
   const allCodingPracticesData = React.useMemo(() => {
     const mergedData = { ...codingPracticesData };
     if (javascriptCodingPracticesData?.javascript) {
@@ -500,9 +670,9 @@ const Home = () => {
     return colors[difficulty] || colors.easy;
   };
 
-  // Web Dev useEffect - Only run if NOT digital user
+  // Web Dev useEffect - Only run if web development user
   useEffect(() => {
-    if (!isDigitalUser && user) {
+    if (!isDigitalUser && !isJavaUser && user) {
       const processPracticeData = () => {
         if (!allCodingPracticesData[selectedLanguage]) {
           setPracticeData([]);
@@ -571,11 +741,12 @@ const Home = () => {
     selectedLanguage,
     allCodingPracticesData,
     isDigitalUser,
+    isJavaUser,
     user,
   ]);
 
   // ==========================================
-  // 3. DIGITAL MARKETING LOGIC
+  // 4. DIGITAL MARKETING LOGIC
   // ==========================================
 
   // Check content completion helper
@@ -601,11 +772,10 @@ const Home = () => {
     const progressMap = {};
     digitalMarketingGoals.forEach((goal) => {
       // Use backend stats if available, else calculate manually
-      if (goal.stats && goal.stats.progress_percentage !== undefined) {
-        progressMap[goal.id] = goal.stats.progress_percentage;
-      } else if (goal.modules) {
+      if (goal.modules) {
         let total = 0;
         let completed = 0;
+
         goal.modules.forEach((m) => {
           m.topics?.forEach((t) => {
             t.subtopics?.forEach((s) => {
@@ -616,7 +786,10 @@ const Home = () => {
             });
           });
         });
+
         progressMap[goal.id] = total === 0 ? 0 : (completed / total) * 100;
+      } else if (goal.stats && goal.stats.progress_percentage !== undefined) {
+        progressMap[goal.id] = goal.stats.progress_percentage;
       } else {
         progressMap[goal.id] = 0;
       }
@@ -630,19 +803,16 @@ const Home = () => {
     if (isDigitalUser && user) {
       const loadDigitalData = async () => {
         try {
-          console.log(
-            "🔍 Loading digital marketing data for user:",
-            user.email
-          );
+          console.log("🔍 Loading digital marketing data for user:", user.email);
           await loadDigitalMarketingAllStructure();
         } catch (e) {
           console.error("Error loading digital data:", e);
-          setDigitalDataInitialized(true); // Still set initialized to true to prevent infinite loading
+          setDigitalDataInitialized(true);
         }
       };
       loadDigitalData();
     }
-  }, [isDigitalUser, user, loadDigitalMarketingAllStructure]);
+  }, [isDigitalUser, user]); // Removed loadDigitalMarketingAllStructure
 
   // Update Digital Stats when completed content changes or goals change
   useEffect(() => {
@@ -657,7 +827,7 @@ const Home = () => {
   ]);
 
   // ==========================================
-  // 4. INITIALIZATION
+  // 5. INITIALIZATION
   // ==========================================
   useEffect(() => {
     if (user) {
@@ -673,8 +843,14 @@ const Home = () => {
       fetchPlacementAchievements();
 
       // For web dev users, fetch progress
-      if (!isDigitalUser) {
+      if (!isDigitalUser && !isJavaUser) {
         fetchUserProgress();
+      }
+
+      // For Java users, fetch Java practices and progress
+      if (isJavaUser) {
+        fetchJavaPractices();
+        fetchJavaUserProgress();
       }
 
       // Set up interval for live classes (increased to 5 minutes)
@@ -686,11 +862,11 @@ const Home = () => {
         clearInterval(liveClassesInterval);
       };
     }
-  }, [user, isDigitalUser, fetchLiveClasses, checkLiveClassesCache]);
+  }, [user, isDigitalUser, isJavaUser, fetchLiveClasses, checkLiveClassesCache]);
 
   // Listen for storage events (Web Dev)
   useEffect(() => {
-    if (!isDigitalUser) {
+    if (!isDigitalUser && !isJavaUser) {
       const handleStorageChange = (e) => {
         if (e.key === "codingPracticeProgress") {
           try {
@@ -705,10 +881,10 @@ const Home = () => {
       window.addEventListener("storage", handleStorageChange);
       return () => window.removeEventListener("storage", handleStorageChange);
     }
-  }, [isDigitalUser]);
+  }, [isDigitalUser, isJavaUser]);
 
   // ==========================================
-  // 5. EVENT HANDLERS
+  // 6. EVENT HANDLERS
   // ==========================================
 
   const handleWebDevPracticeClick = (difficulty) => {
@@ -745,6 +921,40 @@ const Home = () => {
       } else if (difficultyGroup.questions.length > 0) {
         const firstQuestion = difficultyGroup.questions[0];
         navigate(`/practice/${firstQuestion.practiceId}/${firstQuestion.id}`);
+      }
+    }
+  };
+
+  const handleJavaPracticeClick = (difficulty) => {
+    const difficultyGroup = javaPracticeData.find(
+      (p) => p.difficulty === difficulty
+    );
+    if (difficultyGroup?.problemsList.length > 0) {
+      // Find the first practice UUID from the problems list
+      const firstProblem = difficultyGroup.problemsList[0];
+      if (firstProblem?.practiceUuid) {
+        navigate(`/java-practice/${firstProblem.practiceUuid}`);
+      }
+    }
+  };
+
+  const handleJavaContinue = (difficulty, e) => {
+    e.stopPropagation();
+    const difficultyGroup = javaPracticeData.find(
+      (p) => p.difficulty === difficulty
+    );
+    if (difficultyGroup?.problemsList.length > 0) {
+      // Find first unsolved problem
+      const unsolvedProblem = difficultyGroup.problemsList.find(
+        (problem) => javaUserProgress[problem.id]?.status !== "solved"
+      );
+
+      if (unsolvedProblem) {
+        navigate(`/java-practice/${unsolvedProblem.practiceUuid}/${unsolvedProblem.content_uuid}`);
+      } else {
+        // If all solved, go to first problem
+        const firstProblem = difficultyGroup.problemsList[0];
+        navigate(`/java-practice/${firstProblem.practiceUuid}/${firstProblem.content_uuid}`);
       }
     }
   };
@@ -825,8 +1035,17 @@ const Home = () => {
     );
   }
 
+  // For Java users, wait for Java data
+  if (isJavaUser && !javaDataInitialized) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   // For web dev users, wait for web data
-  if (!isDigitalUser && !webDataInitialized) {
+  if (!isDigitalUser && !isJavaUser && !webDataInitialized) {
     return (
       <div className="loading-container">
         <div className="spinner"></div>
@@ -867,7 +1086,7 @@ const Home = () => {
         }}
       >
         <h1>Live Classes</h1>
-       
+
       </div>
 
       <div className="live">
@@ -1207,6 +1426,149 @@ const Home = () => {
             ) : (
               <div className="no-classes">
                 <p>No courses available. Please contact support.</p>
+              </div>
+            )}
+          </div>
+        </>
+      ) : isJavaUser ? (
+        /* JAVA PROGRAMMING VIEW - GROUPED BY DIFFICULTY */
+        <>
+          <div className="practice-container-header">
+            <h1>
+              Java Practice
+              <i
+                className="bi bi-info-circle"
+                style={{ marginLeft: "10px", fontSize: "0.8em" }}
+              ></i>
+            </h1>
+          </div>
+
+          <div className="live">
+            {javaPracticeData.length > 0 ? (
+              javaPracticeData.map((item) => (
+                <div
+                  key={item.id}
+                  className="liveclasses-container card"
+                  onClick={() => handleJavaPracticeClick(item.difficulty)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="information">
+                    <div
+                      className="class-info"
+                      style={{
+                        backgroundColor: item.backgroundColor,
+                        minHeight: "80px",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <i
+                          className="bi bi-trophy"
+                          style={{
+                            backgroundColor: "white",
+                            fontSize: "15px",
+                            fontWeight: "900",
+                            color: item.iconColor,
+                            padding: "10px",
+                            borderRadius: "50%",
+                            display: "inline-block",
+                          }}
+                        ></i>
+                      </div>
+                      <div className="class-text">
+                        <h3>{item.title}</h3>
+                        <p style={{ color: item.iconColor }}>
+                          {item.challenge}
+                        </p>
+                      </div>
+                      <div>
+                        <h3>{item.progress}</h3>
+                        <p>Progress</p>
+                      </div>
+                    </div>
+                    <div className="progress-time">
+                      <div className="row">
+                        <p>Total Problems</p>
+                        <p className="highlight">{item.problems}</p>
+                      </div>
+                      <div
+                        className="progress-bar-container"
+                        style={{
+                          backgroundColor: "#e0e0e0b0",
+                          borderRadius: "4px",
+                          height: "4px",
+                        }}
+                      >
+                        <div
+                          className="progress-bar-fill"
+                          style={{
+                            width: item.progress,
+                            backgroundColor: item.progressColor,
+                            height: "100%",
+                            transition: "width 0.4s ease-in-out",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div
+                      className="actions"
+                      style={{ backgroundColor: "white" }}
+                    >
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          // Navigate to the practice list view
+                          if (item.problemsList && item.problemsList.length > 0) {
+                            navigate(`/java-practice/${item.problemsList[0].practiceUuid}`);
+                          }
+                        }}
+                        style={{
+                          backgroundColor: "white",
+                          padding: "10px 20px",
+                          borderRadius: "5px",
+                          display: "flex",
+                          border: "1px solid #ccc",
+                          alignItems: "center",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <i
+                          className="bi bi-book"
+                          style={{ marginRight: "8px" }}
+                        ></i>
+                        View Problems
+                      </button>
+                      <button
+                        onClick={(e) => handleJavaContinue(item.difficulty, e)}
+                        style={{
+                          backgroundColor: "black",
+                          color: "white",
+                          padding: "10px 20px",
+                          border: "none",
+                          borderRadius: "5px",
+                          display: "flex",
+                          alignItems: "center",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <i
+                          className="bi bi-arrow-right"
+                          style={{ marginRight: "8px" }}
+                        ></i>
+                        {item.numericProgress > 0 ? "Continue" : "Start"}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="no-classes">
+                <p>No Java practice challenges available.</p>
               </div>
             )}
           </div>

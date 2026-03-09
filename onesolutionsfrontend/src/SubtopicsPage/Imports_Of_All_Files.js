@@ -752,6 +752,10 @@ import Process_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Compu
 import Process_Managent_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent_MCQ.js";
 import Threads_Courrency_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency_CS.js";
 import  Threads_Courrency_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency_MCQ.js";
+import Memory_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent_CS.js";
+import Memory_Managent_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent_MCQ.js";
+import Compter_Networks_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks_CS.js";
+import  Compter_Networks_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks_MCQ.js";
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -823,6 +827,11 @@ import Authentication_P4 from "../Reactjs/Authentication2/Authentication_P4.js";
 import SortingProducts from "../Reactjs/Authentication2/SortingProducts.js";
 import More_React from "../Reactjs/More_React_Concepts/More_React.js";
 import Third_Party from "../Reactjs/Third_Party/Third_Party.js";
+import React_Context_1 from "../Reactjs/React_Context/React_Context_1.js";
+import React_Context_2 from "../Reactjs/React_Context/React_Context_2.js";
+import React_Context_3 from "../Reactjs/React_Context/React_Context_3.js";
+import React_Context_4 from "../Reactjs/React_Context/React_Context_4.js";
+import Styled_Components from "../Reactjs/Styled_Components/Styled_Components.js";
 import React_Assignment_2 from "../Reactjs/Component_Life_Cycle/React_Assignment_2.js";
 import React_Assignment_3 from "../Reactjs/Component_Life_Cycle/React_Assignment_3.js";
 import React_Assignment_4 from "../Reactjs/React_Router/React_Assignment_4.js";
@@ -866,7 +875,31 @@ import React_Coding_Practice_42 from "../Reactjs/React_Context/React_Coding_Prac
 import React_Coding_Practice_43 from "../Reactjs/React_Context/React_Coding_Practice_43.js";
 import React_Coding_Practice_44 from "../Reactjs/Styled_Components/React_Coding_Practice_44.js";
 import React_Coding_Practice_45 from "../Reactjs/Styled_Components/React_Coding_Practice_45.js";
+import Interview_Mock_Test_1A from "../Reactjs/Mock_Tests/Interview_Mock_Test_1A.js";
+import Interview_Mock_Test_1B from "../Reactjs/Mock_Tests/Interview_Mock_Test_1B.js";
+import Interview_Mock_Test_1C from "../Reactjs/Mock_Tests/Interview_Mock_Test_1C.js";
+import Interview_Mock_Test_1D from "../Reactjs/Mock_Tests/Interview_Mock_Test_1D.js";
+import Interview_Mock_Test_1E from "../Reactjs/Mock_Tests/Interview_Mock_Test_1E.js";
+
+//Git
+import Understaing_Binary from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Understaing_Binary.js";
+import OverViewof_Hardware from "../Developer_Foundations/Foundamentals_Of_Computer_Science/OverViewof_Hardware.js";
+import Application_Layer from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Application_Layer.js";
+import Introductionto_Operating_System from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Introductionto_Operating_System.js";
+import Process_Managent from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent.js";
+import Memory_Managent from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent.js";
+import Threads_Courrency from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency.js";
 export const subtopicComponents = {
+  //Git
+  "Understanding Binary": Understaing_Binary,
+  "Overview of Computer Hardware": OverViewof_Hardware,
+  "Introduction to Operating Systems": Introductionto_Operating_System,
+  "Overview of Process Management": Process_Managent,
+  "Threads and Concurrency": Threads_Courrency,
+  "Memory Management": Memory_Managent,
+  "Application Layer": Application_Layer,
+
+
   //Reactjs class & codingPratices
  "Introduction to React JS": Introductionto_Reactjs,
   "Components & Pros": Components_Props,
@@ -890,6 +923,11 @@ export const subtopicComponents = {
   "Sorting Products": SortingProducts,
   "More React Concepts": More_React,
   "Third Party Packages": Third_Party,
+  "React Context": React_Context_1,
+  "React Context | Part 2":React_Context_2,
+  "React Context | Part 3": React_Context_3,
+  "React Context | Part 4": React_Context_4,
+  "Styled Components": Styled_Components,
   "ReactJs Coding Pratice 1": React_Coding_Practice_1,
   "ReactJs Coding Pratice 2": React_Coding_Practice_2,
   "ReactJs Coding Pratice 3": React_Coding_Practice_3,
@@ -942,6 +980,11 @@ export const subtopicComponents = {
   "ReactJs Coding Practice 43": React_Coding_Practice_43,
   "ReactJs Coding Practice 44": React_Coding_Practice_44,
   "ReactJs Coding Practice 45": React_Coding_Practice_45,
+  "Interview Mock Test 1A": Interview_Mock_Test_1A,
+  "Interview Mock Test 1B": Interview_Mock_Test_1B,
+  "Interview Mock Test 1C": Interview_Mock_Test_1C,
+  "Interview Mock Test 1D": Interview_Mock_Test_1D,
+  "Interview Mock Test 1E": Interview_Mock_Test_1E,
   
   //Nodejs
   "MERN Stack":Mern_Stack,
@@ -1787,4 +1830,8 @@ export const subtopicComponents = {
   "MCQ Pratice - Overview of Process Management":Process_Managent_MCQ,
   "Threads & Concurrency | Cheat Sheet":Threads_Courrency_CS,
   "MCQ Pratice - Threads & Concurrency": Threads_Courrency_MCQ,
+  "Memory Management | Cheat Sheet":Memory_Managent_CS,
+  "MCQ Pratice - Memory Management":Memory_Managent_MCQ,
+  "Understanding Computer Networks | Cheat Sheet":Compter_Networks_CS,
+  "MCQ Pratice - Understanding Computer Networks": Compter_Networks_MCQ,
 };

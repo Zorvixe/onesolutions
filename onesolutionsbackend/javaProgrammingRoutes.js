@@ -1658,6 +1658,92 @@ app.get("/student/java/completed-content", authenticate, async (req, res) => {
   }
 });
 
+
+// ----------------------------------------------------------------------
+// Get all coding practices with their problems (for list view)
+// ----------------------------------------------------------------------
+app.get("/student/java/coding-practices", authenticate, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const studentType = req.student.student_type;
+
+    const query = `
+      SELECT 
+        jcp.id,
+        jcp.practice_uuid,
+        jcp.title,
+        jcp.description,
+        jcp.subtopic_id,
+        js.name as subtopic_name,
+        jt.name as topic_name,
+        jm.name as module_name,
+        jg.name as goal_name,
+        jcp.order_number,
+        COALESCE(
+          (SELECT json_agg(
+            json_build_object(
+              'id', jc.id,
+              'content_uuid', jc.content_uuid,
+              'title', jc.coding_title,
+              'description', jc.coding_description,
+              'difficulty', jc.difficulty,
+              'score', jc.score,
+              'order_number', jc.order_number,
+              'test_case_count', (SELECT COUNT(*) FROM java_test_cases WHERE content_id = jc.id),
+              'is_completed', CASE WHEN jp.id IS NOT NULL THEN true ELSE false END
+            ) ORDER BY jc.order_number
+          ) FROM java_content jc
+          LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
+          WHERE jc.practice_id = jcp.id 
+            AND jc.content_type = 'coding' 
+            AND jc.allowed_student_types @> ARRAY[$2]
+          ), '[]'::json
+        ) as problems,
+        CASE 
+          WHEN (
+            SELECT COUNT(*) FROM java_content 
+            WHERE practice_id = jcp.id 
+              AND content_type = 'coding' 
+              AND allowed_student_types @> ARRAY[$2]
+          ) > 0 
+          AND (
+            SELECT COUNT(*) FROM java_content 
+            WHERE practice_id = jcp.id 
+              AND content_type = 'coding' 
+              AND allowed_student_types @> ARRAY[$2]
+          ) = (
+            SELECT COUNT(*) FROM java_content jc
+            LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
+            WHERE jc.practice_id = jcp.id 
+              AND jc.content_type = 'coding' 
+              AND jc.allowed_student_types @> ARRAY[$2] 
+              AND jp.id IS NOT NULL
+          ) THEN true ELSE false END as is_completed
+      FROM java_coding_practices jcp
+      JOIN java_subtopics js ON jcp.subtopic_id = js.id
+      JOIN java_topics jt ON js.topic_id = jt.id
+      JOIN java_modules jm ON jt.module_id = jm.id
+      JOIN java_goals jg ON jm.goal_id = jg.id
+      WHERE jcp.allowed_student_types @> ARRAY[$2]
+        AND jg.is_active = true
+      ORDER BY jg.order_number, jm.order_number, jt.order_number, js.order_number, jcp.order_number
+    `;
+
+    const result = await pool.query(query, [studentId, studentType]);
+
+    res.json({
+      success: true,
+      data: result.rows
+    });
+  } catch (error) {
+    console.error("Error fetching practices with problems:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 // ----------------------------------------------------------------------
 // Health check
 // ----------------------------------------------------------------------

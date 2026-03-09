@@ -187,6 +187,8 @@ export const javaAPI = {
   runCode: (contentId, code) => api.post("/student/java/coding/run", { contentId, code }),
   submitCode: (contentId, code) => api.post("/student/java/coding/submit", { contentId, code }),
   completePractice: (practiceId) => api.post(`/student/java/coding-practice/${practiceId}/complete`),
+    getAllCodingPractices: () => api.get("/student/java/coding-practices"),
+
 };
 
 // ✅ Health Check API

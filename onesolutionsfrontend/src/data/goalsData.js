@@ -5563,7 +5563,27 @@ export const goalsData = [
             topic: [
               {
                 id: "QW9_s1_A0 m17_H g3_7B c4_D2E",
-                name: "Introduction to React JS",
+                name: "Interview Mock Test 1A",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m17_H g3_7B c4_D2E",
+                name: "Interview Mock Test 1B",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m17_H g3_7B c4_D2E",
+                name: "Interview Mock Test 1C",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m17_H g3_7B c4_D2E",
+                name: "Interview Mock Test 1D",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s5_A0 m17_H g3_7B c4_D2E",
+                name: "Interview Mock Test 1E",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
             ],

@@ -4,7 +4,7 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Understaing_Binary = ({
+const OverViewof_Hardware = ({
   subtopicId,
   goalName,
   courseName,
@@ -766,4 +766,4 @@ const Understaing_Binary = ({
   );
 };
 
-export default Understaing_Binary
+export default OverViewof_Hardware

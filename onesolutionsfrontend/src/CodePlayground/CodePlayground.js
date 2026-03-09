@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; // Adjust the path as needed
 
 import AceEditor from "react-ace";
 // Import Ace modes & themes
@@ -32,6 +33,7 @@ export default function CodePlayground({
 }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
 
   // Add these state variables at the top of your component
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -56,7 +58,17 @@ export default function CodePlayground({
   const internalIframeRef = useRef(null);
   const iframeRef = externalIframeRef || internalIframeRef;
   const editorRef = useRef(null);
-  const [language, setLanguage] = useState(initialLanguage);
+
+
+
+ const [language, setLanguage] = useState(() => {
+    // Check if user is enrolled in Java programming
+    if (user?.courseSelection === 'java_programming') {
+      return "java";
+    }
+    return initialLanguage;
+  });  
+  
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
   const [theme, setTheme] = useState("monokai");

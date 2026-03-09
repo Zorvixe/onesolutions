@@ -152,6 +152,11 @@ const Navbar = () => {
     return courseInfo.shortLabel === "Web Dev" || courseInfo.shortLabel === "Java";
   };
 
+  // Helper to get the appropriate name for the code playground/compiler link
+  const getCodePlaygroundName = () => {
+    return courseInfo.shortLabel === "Java" ? "Compiler" : "Code Playground";
+  };
+
   return (
     <div className="container">
       <button
@@ -254,7 +259,7 @@ const Navbar = () => {
               </li>
             )}
 
-            {/* Code Playground link in mobile – only for Web Dev or Java */}
+            {/* Code Playground/Compiler link in mobile – only for Web Dev or Java */}
             {showCodingFeatures() && (
               <li>
                 <NavLink
@@ -262,7 +267,7 @@ const Navbar = () => {
                   className={({ isActive }) => (isActive ? "active" : "")}
                   onClick={() => setShowMobileMenu(false)}
                 >
-                  <i className="bi bi-code-slash"></i> Code Playground
+                  <i className="bi bi-code-slash"></i> {getCodePlaygroundName()}
                 </NavLink>
               </li>
             )}
@@ -334,10 +339,10 @@ const Navbar = () => {
       )}
 
       <div className="nav_right">
-        {/* Code Playground link – only for Web Dev or Java */}
+        {/* Code Playground/Compiler link – only for Web Dev or Java */}
         {showCodingFeatures() && (
           <li className="nav_c_btn">
-            <Link to="/codeGround">Code Playground</Link>
+            <Link to="/codeGround">{getCodePlaygroundName()}</Link>
           </li>
         )}
 
