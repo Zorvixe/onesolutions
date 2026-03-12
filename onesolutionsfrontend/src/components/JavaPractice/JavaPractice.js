@@ -59,6 +59,11 @@ const JavaPractice = ({
   const [saving, setSaving] = useState(false);
   const [mySnippets, setMySnippets] = useState([]);
 
+  // Compiler / Console State
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false);
+  const [consoleTab, setConsoleTab] = useState("output"); // 'output' | 'input'
+  const [customInput, setCustomInput] = useState("");
+
   // Resize state
   const [editorWidth, setEditorWidth] = useState(70);
   const isResizing = useRef(false);
@@ -96,8 +101,8 @@ const JavaPractice = ({
 
   const handleResize = useCallback((e) => {
     if (!isResizing.current) return;
-    const deltaX = startX.current - e.clientX;
     const containerWidth = document.querySelector(".full-question-content-prac")?.offsetWidth || window.innerWidth;
+    const deltaX = startX.current - e.clientX;
     const deltaPercent = (deltaX / containerWidth) * 100;
     let newWidth = startWidth.current + deltaPercent;
     newWidth = Math.max(30, Math.min(70, newWidth));
@@ -121,10 +126,10 @@ const JavaPractice = ({
     description: content.coding_description,
     sampleInput: content.sample_test_cases?.[0]?.input || "",
     sampleOutput: content.sample_test_cases?.[0]?.expected_output || "",
-    testCases: (content.test_cases || []).map((tc, idx) => ({
+    testCases: (content.sample_test_cases || []).map((tc, idx) => ({
       input: tc.input,
       output: tc.expected_output,
-      visible: tc.visible !== false,
+      visible: true,
       id: idx,
     })),
     difficulty: content.difficulty || "Medium",
@@ -134,11 +139,9 @@ const JavaPractice = ({
 
   // ---------- Data fetching ----------
   useEffect(() => {
-    // Prevent double fetching
     if (initialDataLoaded.current) return;
-    
+
     const loadInitialData = async () => {
-      // Single content mode (pre-loaded)
       if (preLoadedContent) {
         const question = transformContentToQuestion(preLoadedContent);
         setSelectedQuestion(question);
@@ -152,7 +155,6 @@ const JavaPractice = ({
         return;
       }
 
-      // Single content mode (by UUID)
       if (propContentUuid) {
         setLoadingQuestion(true);
         try {
@@ -175,7 +177,6 @@ const JavaPractice = ({
         return;
       }
 
-      // Practice mode
       if (practiceId) {
         setLoadingPractice(true);
         setError(null);
@@ -188,7 +189,6 @@ const JavaPractice = ({
             };
             setPracticeMetadata(metadata);
 
-            // If no questionId, redirect to first problem's UUID
             if (!questionId && metadata.problems.length > 0) {
               const firstUuid = metadata.problems[0].content_uuid;
               navigate(`/java-practice/${practiceId}/${firstUuid}`, {
@@ -211,11 +211,9 @@ const JavaPractice = ({
     loadInitialData();
   }, [practiceId, preLoadedContent, propContentUuid, questionId, navigate, getJavaCodingPractice, transformContentToQuestion, location.state]);
 
-  // Fetch question details when questionId changes
   useEffect(() => {
-    // Skip if already loading or conditions not met
     if (questionFetchInProgress.current) return;
-    
+
     if (propContentUuid || preLoadedContent || !questionId || selectedQuestion?.content_uuid === questionId) {
       return;
     }
@@ -224,13 +222,12 @@ const JavaPractice = ({
       questionFetchInProgress.current = true;
       setLoadingQuestion(true);
       setError(null);
-      
+
       try {
         const res = await getJavaContentByUuid(questionId);
         if (res?.success) {
           const question = transformContentToQuestion(res.data);
           setSelectedQuestion(question);
-          // Load saved code if available
           const savedCode = userProgress?.[question.id]?.code;
           setCode(savedCode || question.defaultCode || "");
           setTestResults([]);
@@ -246,11 +243,10 @@ const JavaPractice = ({
         questionFetchInProgress.current = false;
       }
     };
-    
+
     fetchQuestion();
   }, [questionId, getJavaContentByUuid, transformContentToQuestion, selectedQuestion, userProgress, propContentUuid, preLoadedContent]);
 
-  // Fetch user's saved snippets
   const fetchMySnippets = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -269,13 +265,12 @@ const JavaPractice = ({
     fetchMySnippets();
   }, [fetchMySnippets]);
 
-  // Check if the entire practice is completed
   const checkPracticeCompletion = useCallback(async () => {
     if (!practiceMetadata?.practice?.id || practiceMetadata.practice.id === "single" || isPracticeCompleted) {
       setHasCheckedCompletion(true);
       return;
     }
-    
+
     try {
       const response = await CodingPracticeService.getCompletionStatus(practiceMetadata.practice.id);
       if (response.success) {
@@ -294,7 +289,6 @@ const JavaPractice = ({
     }
   }, [practiceMetadata, hasCheckedCompletion, checkPracticeCompletion]);
 
-  // Determine if all questions are solved
   const areAllQuestionsSolved = useMemo(() => {
     if (!practiceMetadata || !practiceMetadata.problems) return false;
     return practiceMetadata.problems.every(
@@ -302,8 +296,7 @@ const JavaPractice = ({
     );
   }, [practiceMetadata, userProgress]);
 
-  // Automatically mark practice as complete when all solved
-    useEffect(() => {
+  useEffect(() => {
     const markComplete = async () => {
       if (
         hasMarkedPracticeComplete.current ||
@@ -321,18 +314,16 @@ const JavaPractice = ({
       setIsMarkingComplete(true);
 
       try {
-        // Pass the hierarchical IDs to the completion service (if needed)
         await CodingPracticeService.completePractice(
           practiceMetadata.practice.id,
           location.state?.goalName,
           location.state?.courseName,
-          { goalId, moduleId, topicId, subtopicId } // optionally include these
+          { goalId, moduleId, topicId, subtopicId }
         );
 
         await loadProgressSummary();
         setIsPracticeCompleted(true);
 
-        // Call the onComplete callback if provided
         if (onComplete) {
           onComplete({ practiceId: practiceMetadata.practice.id, goalId, moduleId, topicId, subtopicId });
         }
@@ -369,7 +360,10 @@ const JavaPractice = ({
   ]);
 
   // ---------- Code Execution ----------
-  const executeJavaCode = async (userCode, input) => {
+  const normalizeOutput = (str) => str?.replace(/\r\n/g, "\n").replace(/\n+$/, "") || "";
+
+  // Enhanced output extraction
+  const executeJavaCode = async (userCode, inputStr) => {
     if (!selectedQuestion) return "";
     try {
       const response = await fetch(`${API_URL}/student/java/coding/run`, {
@@ -381,29 +375,119 @@ const JavaPractice = ({
         body: JSON.stringify({
           contentId: selectedQuestion.id,
           code: userCode,
-          input: input,
+          input: inputStr,
+          stdin: inputStr
         }),
       });
       const data = await response.json();
+      
+      // Log for debugging (remove in production)
+      console.log("Run response:", data);
+
       if (data.success) {
-        return data.output || data.results?.stdout || "";
+        // Helper to extract output from various possible paths
+        const extractOutput = (obj) => {
+          if (!obj) return undefined;
+          // Common top-level keys
+          if (obj.output !== undefined) return obj.output;
+          if (obj.stdout !== undefined) return obj.stdout;
+          if (obj.actualOutput !== undefined) return obj.actualOutput;
+          // Nested in data
+          if (obj.data) {
+            if (obj.data.output !== undefined) return obj.data.output;
+            if (obj.data.stdout !== undefined) return obj.data.stdout;
+          }
+          // Nested in result
+          if (obj.result) {
+            if (obj.result.output !== undefined) return obj.result.output;
+            if (obj.result.stdout !== undefined) return obj.result.stdout;
+          }
+          // In results array (maybe first element)
+          if (Array.isArray(obj.results) && obj.results.length > 0) {
+            const first = obj.results[0];
+            if (first.output !== undefined) return first.output;
+            if (first.stdout !== undefined) return first.stdout;
+            if (first.actualOutput !== undefined) return first.actualOutput;
+          }
+          // If we have a string, return it
+          if (typeof obj === 'string') return obj;
+          // Otherwise undefined
+          return undefined;
+        };
+
+        let extractedOut = extractOutput(data);
+        
+        // If still not found, try to stringify whole response (if it's not huge)
+        if (extractedOut === undefined || extractedOut === null) {
+          if (typeof data === 'string') extractedOut = data;
+          else if (data.message) extractedOut = data.message;
+        }
+
+        // Check for error output (stderr, compile error)
+        let extractedErr = 
+          data.stderr ?? 
+          data.errorOutput ?? 
+          data.data?.stderr ?? 
+          data.compileOutput ??
+          data.error ??
+          data.message;
+
+        // If standard output is completely empty, but there's an error, return error
+        if ((!extractedOut || extractedOut === "") && extractedErr) {
+          return `[Compiler Error / Exception]:\n${extractedErr}`;
+        }
+
+        return extractedOut !== undefined && extractedOut !== null ? String(extractedOut) : "";
       } else {
-        return data.error || "Execution failed";
+        // If success false, return error from response
+        return data.error || data.message || data.stderr || "Execution failed or compilation error.";
       }
     } catch (error) {
-      return `Error: ${error.message}`;
+      return `Network Error: ${error.message}`;
+    }
+  };
+
+  // Dedicated function for Compile & Run functionality with custom input
+  const handleCompile = async () => {
+    if (!selectedQuestion) return;
+    if (isEmptyCode(code)) {
+      setIsConsoleOpen(true);
+      setConsoleTab("output");
+      setOutput("❌ No code to execute. Please write your solution.");
+      return;
+    }
+
+    setIsRunning(true);
+    setIsConsoleOpen(true);
+    setConsoleTab("output");
+    setOutput("Compiling and running code...\n");
+
+    try {
+      const actualOutput = await executeJavaCode(code, customInput);
+      
+      if (actualOutput && actualOutput.trim() !== "") {
+        setOutput(actualOutput);
+      } else {
+        setOutput("Program executed successfully (no output).\nMake sure you have a print statement like System.out.println() in your code!");
+      }
+    } catch (error) {
+      setOutput(`Error: ${error.message}`);
+    } finally {
+      setIsRunning(false);
     }
   };
 
   const handleRunCode = async () => {
     if (!selectedQuestion) return;
     if (isEmptyCode(code)) {
+      setIsConsoleOpen(true);
+      setConsoleTab("output");
       setOutput("❌ No code to execute. Please write your solution.");
       return;
     }
 
     setIsRunning(true);
-    setOutput("Running code...");
+    setOutput("Running tests...\n");
     setTestResults([]);
     setExecutionResult(null);
 
@@ -415,9 +499,8 @@ const JavaPractice = ({
         const testCase = selectedQuestion.testCases[i];
         const actualOutput = await executeJavaCode(code, testCase.input);
 
-        const normalize = (str) => str?.replace(/\r\n/g, "\n").replace(/\n+$/, "") || "";
-        const cleanActual = normalize(actualOutput);
-        const cleanExpected = normalize(testCase.output);
+        const cleanActual = normalizeOutput(actualOutput);
+        const cleanExpected = normalizeOutput(testCase.output);
 
         const passed = cleanActual === cleanExpected;
         if (passed) passedCount++;
@@ -437,9 +520,93 @@ const JavaPractice = ({
         passed: passedCount,
         failed: selectedQuestion.testCases.length - passedCount,
       });
-      setOutput(`Execution completed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed`);
+      
+      if (passedCount === selectedQuestion.testCases.length) {
+          setOutput(`✅ Execution completed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed`);
+      } else {
+          setOutput(`❌ Execution completed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed.\nCheck the compiler output for potential errors.`);
+      }
     } catch (error) {
       setOutput(`Error: ${error.message}`);
+      setIsConsoleOpen(true);
+      setConsoleTab("output");
+    } finally {
+      setIsRunning(false);
+    }
+  };
+
+  const handleSubmitCode = async () => {
+    if (!selectedQuestion) return;
+    setIsRunning(true);
+    setOutput("Submitting code...");
+    setTestResults([]);
+    setExecutionResult(null);
+
+    try {
+      const response = await fetch(`${API_URL}/student/java/coding/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          contentId: selectedQuestion.id,
+          code: code,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && Array.isArray(data.results)) {
+        // Map backend results to component format with fallback checking
+        const results = data.results.map((res, idx) => {
+          const testCase = selectedQuestion.testCases[idx] || { input: "", output: "" };
+          
+          let actualOut = 
+            res.actualOutput ?? 
+            res.stdout ?? 
+            res.output ?? "";
+            
+          // Check if there was a compiler error instead
+          let errorOut = res.stderr ?? res.error ?? res.compileOutput;
+          if (!actualOut && errorOut) {
+              actualOut = `[Error]: ${errorOut}`;
+          }
+            
+          return {
+            ...testCase,
+            passed: res.passed,
+            actualOutput: normalizeOutput(actualOut),
+            expectedOutput: normalizeOutput(testCase.output),
+            id: idx,
+          };
+        });
+
+        const passedCount = results.filter(r => r.passed).length;
+        setTestResults(results);
+        setExecutionResult({
+          total: results.length,
+          passed: passedCount,
+          failed: results.length - passedCount,
+        });
+        setOutput(data.allPassed ? "✅ All tests passed!" : "❌ Some tests failed.\n" + (data.error || data.stderr || ""));
+        
+        // Trigger celebration if all passed
+        if (data.allPassed) {
+          celebrateSuccess();
+        }
+
+        // Update progress
+        await updateQuestionStatus(selectedQuestion.id, data.allPassed, selectedQuestion.score);
+      } else {
+        setOutput(`Error: ${data.error || data.stderr || "Submission failed"}`);
+        setIsConsoleOpen(true);
+        setConsoleTab("output");
+      }
+    } catch (error) {
+      setOutput(`Error: ${error.message}`);
+      setIsConsoleOpen(true);
+      setConsoleTab("output");
     } finally {
       setIsRunning(false);
     }
@@ -485,75 +652,6 @@ const JavaPractice = ({
     }
   };
 
-  const handleSubmitCode = async () => {
-    if (!selectedQuestion) return;
-    if (isEmptyCode(code)) {
-      setOutput("❌ Cannot submit empty code.");
-      return;
-    }
-
-    setIsRunning(true);
-    setOutput("Submitting code...");
-    setTestResults([]);
-    setExecutionResult(null);
-
-    try {
-      const results = [];
-      let passedCount = 0;
-
-      for (let i = 0; i < selectedQuestion.testCases.length; i++) {
-        const testCase = selectedQuestion.testCases[i];
-        const actualOutput = await executeJavaCode(code, testCase.input);
-
-        const normalize = (str) => str?.replace(/\r\n/g, "\n").replace(/\n+$/, "") || "";
-        const cleanActual = normalize(actualOutput);
-        const cleanExpected = normalize(testCase.output);
-
-        const passed = cleanActual === cleanExpected;
-        if (passed) passedCount++;
-
-        results.push({
-          ...testCase,
-          passed,
-          actualOutput: cleanActual,
-          expectedOutput: cleanExpected,
-          id: i,
-        });
-      }
-
-      const allPassed = passedCount === selectedQuestion.testCases.length;
-      setTestResults(results);
-      setExecutionResult({
-        total: selectedQuestion.testCases.length,
-        passed: passedCount,
-        failed: selectedQuestion.testCases.length - passedCount,
-      });
-
-      await updateQuestionStatus(selectedQuestion.id, allPassed, selectedQuestion.score);
-
-      if (allPassed) {
-        setOutput(`✅ All test cases passed!`);
-        celebrateSuccess();
-        setToastMessage(`✅ Hurrah! ${passedCount}/${selectedQuestion.testCases.length} Test Cases Passed`);
-        setShowSuccessToast(true);
-        setTimeout(() => setShowSuccessToast(false), 2200);
-
-        // Force completion check after successful submission
-        if (practiceMetadata?.practice?.id && practiceMetadata.practice.id !== "single") {
-          await loadProgressSummary();
-          await checkPracticeCompletion();
-        }
-      } else {
-        setOutput(`❌ Submission failed: ${passedCount}/${selectedQuestion.testCases.length} test cases passed.`);
-      }
-    } catch (error) {
-      setOutput(`Error: ${error.message}`);
-    } finally {
-      setIsRunning(false);
-    }
-  };
-
-  // Reset code to default
   const resetToDefault = useCallback(() => {
     if (selectedQuestion) {
       const savedCode = userProgress?.[selectedQuestion.id]?.code;
@@ -564,7 +662,6 @@ const JavaPractice = ({
     }
   }, [selectedQuestion, userProgress]);
 
-  // Save snippet
   const handleSaveSnippet = async () => {
     if (!snippetName.trim()) {
       alert("Please enter a name");
@@ -603,7 +700,6 @@ const JavaPractice = ({
 
   const getQuestionStatus = useCallback((qId) => userProgress?.[qId]?.status || "unsolved", [userProgress]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       initialDataLoaded.current = false;
@@ -671,11 +767,11 @@ const JavaPractice = ({
             <div className="description-content-prac">
               <span className="practice-name-prac">{selectedQuestion.title}</span>
               <div
-            className="practice-description-cod"
-            dangerouslySetInnerHTML={{
-              __html: selectedQuestion.description,
-            }}
-          ></div>
+                className="practice-description-cod"
+                dangerouslySetInnerHTML={{
+                  __html: selectedQuestion.description,
+                }}
+              ></div>
             </div>
             <hr />
             <div className="sample-io-section-prac">
@@ -751,11 +847,14 @@ const JavaPractice = ({
         {/* Resizer */}
         <div className="resizer-prac" onMouseDown={startResize} />
 
-        {/* Editor panel */}
-        <div className="full-code-editor-section-prac" style={{ width: `${editorWidth}%` }}>
+        {/* Editor panel with integrated compiler terminal */}
+        <div 
+          className="full-code-editor-section-prac" 
+          style={{ width: `${editorWidth}%`, display: 'flex', flexDirection: 'column' }}
+        >
           <div className="editor-header-prac">
             <div className="editor-title-prac">
-              <div className="editor-info-prac">Java</div>
+              <div className="editor-info-prac">Java (OpenJDK 13.0.1)</div>
             </div>
             <button className="save-snippet-button-prac" onClick={resetToDefault} title="Reset">
               <svg width="18" height="18" fill="#64748b" viewBox="0 0 16 16">
@@ -771,7 +870,8 @@ const JavaPractice = ({
               </svg>
             </button>
           </div>
-          <div className="code-editor-container-prac">
+          
+          <div className="code-editor-container-prac" style={{ flexGrow: 1, minHeight: 0, position: 'relative' }}>
             <AceEditor
               mode="java"
               theme={theme}
@@ -803,8 +903,115 @@ const JavaPractice = ({
               editorProps={{ $blockScrolling: true }}
             />
           </div>
+
+          {/* ----- Java Compiler Console ----- */}
+          {isConsoleOpen && (
+            <div 
+              className="compiler-console-prac"
+              style={{
+                height: "250px",
+                display: "flex",
+                flexDirection: "column",
+                backgroundColor: "#1e1e1e",
+                borderTop: "2px solid #333",
+                color: "#d4d4d4",
+                fontSize: "14px",
+                fontFamily: "Consolas, 'Courier New', monospace"
+              }}
+            >
+              <div 
+                className="console-header-prac"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  backgroundColor: "#2d2d2d",
+                  padding: "0 10px",
+                  borderBottom: "1px solid #333"
+                }}
+              >
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <button
+                    onClick={() => setConsoleTab("output")}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: consoleTab === "output" ? "#fff" : "#858585",
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      borderBottom: consoleTab === "output" ? "2px solid #007acc" : "2px solid transparent",
+                      fontWeight: consoleTab === "output" ? "bold" : "normal"
+                    }}
+                  >
+                    Console Output
+                  </button>
+                  <button
+                    onClick={() => setConsoleTab("input")}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: consoleTab === "input" ? "#fff" : "#858585",
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      borderBottom: consoleTab === "input" ? "2px solid #007acc" : "2px solid transparent",
+                      fontWeight: consoleTab === "input" ? "bold" : "normal"
+                    }}
+                  >
+                    Custom Input
+                  </button>
+                </div>
+                <button
+                  onClick={() => setIsConsoleOpen(false)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "#858585",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    padding: "8px",
+                  }}
+                  title="Close Console"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <div 
+                className="console-body-prac"
+                style={{
+                  flex: 1,
+                  padding: "10px",
+                  overflowY: "auto",
+                  backgroundColor: "#1e1e1e"
+                }}
+              >
+                {consoleTab === "output" ? (
+                  <pre style={{ margin: 0, whiteSpace: "pre-wrap", fontFamily: "inherit", color: output.includes("[Error") ? "#ef4444" : "inherit" }}>
+                    {output || "Run code to see output here."}
+                  </pre>
+                ) : (
+                  <textarea
+                    value={customInput}
+                    onChange={(e) => setCustomInput(e.target.value)}
+                    placeholder="Enter custom standard input (stdin) here..."
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: "#1e1e1e",
+                      color: "#d4d4d4",
+                      border: "1px solid #333",
+                      padding: "8px",
+                      fontFamily: "inherit",
+                      resize: "none",
+                      outline: "none"
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          )}
+
           <div className="editor-controls-prac">
-            {executionResult && (
+            {executionResult && !isConsoleOpen && (
               <div className="execution-summary-prac">
                 <span className="summary-text-prac">{executionResult.passed}/{executionResult.total} test cases passed</span>
                 <div className="progress-bar-prac">
@@ -812,13 +1019,46 @@ const JavaPractice = ({
                 </div>
               </div>
             )}
-            <div className="editor-actions-prac">
-              <button className="run-button-prac" onClick={handleRunCode} disabled={isRunning}>
-                {isRunning ? <span className="loader-prac"></span> : "Run"}
+            
+            <div className="editor-actions-prac" style={{ display: "flex", gap: "10px", alignItems: "center", width: "100%", justifyContent: executionResult && !isConsoleOpen ? "flex-end" : "space-between" }}>
+              
+              {/* Compiler toggle */}
+              <button
+                className="console-toggle-btn"
+                onClick={() => setIsConsoleOpen(!isConsoleOpen)}
+                style={{
+                  background: "transparent",
+                  border: "1px solid #475569",
+                  color: "#94a3b8",
+                  padding: "8px 12px",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                  fontSize: "13px"
+                }}
+              >
+                Console {isConsoleOpen ? "▼" : "▲"}
               </button>
-              <button className="submit-button-prac" onClick={handleSubmitCode} disabled={isRunning || isEmptyCode(code)}>
-                {isRunning ? <span className="loader-prac"></span> : "Submit"}
-              </button>
+
+              <div style={{ display: "flex", gap: "10px" }}>
+                {/* Custom execution button */}
+                <button 
+                  className="run-button-prac" 
+                  onClick={handleCompile} 
+                  disabled={isRunning}
+                  style={{ backgroundColor: "#2563eb" }}
+                >
+                  {isRunning && consoleTab === "output" && isConsoleOpen ? <span className="loader-prac"></span> : "Compile & Run"}
+                </button>
+
+                <button className="run-button-prac" onClick={handleRunCode} disabled={isRunning}>
+                  {isRunning && (!isConsoleOpen || consoleTab !== "output") ? <span className="loader-prac"></span> : "Run Tests"}
+                </button>
+                
+                <button className="submit-button-prac" onClick={handleSubmitCode} disabled={isRunning || isEmptyCode(code)}>
+                  {isRunning ? <span className="loader-prac"></span> : "Submit"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -850,7 +1090,7 @@ const JavaPractice = ({
                 <label>Language</label>
                 <div className="language-display-prac">
                   <img src="/assets/java_logo.png" alt="Java" width="24" height="24" />
-                  <span className="language-name-prac">Java</span>
+                  <span className="language-name-prac">Java (OpenJDK 13.0.1)</span>
                 </div>
               </div>
               <div className="code-preview-prac">

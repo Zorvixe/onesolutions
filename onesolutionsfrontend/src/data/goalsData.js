@@ -825,7 +825,7 @@ export const goalsData = [
         title: "Programming Foundations: Python",
         progress: 0,
         accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
-        course_selection:["web_development"],
+        course_selection: ["web_development"],
         modules: [
           {
             id: "QW9_m1_A0 g1_H c3_7B",
@@ -2330,32 +2330,32 @@ export const goalsData = [
               {
                 id: "QW9_s7_A0 m1_H g2_7B c1_D2E",
                 name: "Primitive Types & Conditionals",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m1_H g2_7B c1_D2E",
                 name: "Primitive Types & Conditionals | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m1_H g2_7B c1_D2E",
                 name: "MCQ Practice - Primitive Types",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m1_H g2_7B c1_D2E",
                 name: "Input Element and Math Functions",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m1_H g2_7B c1_D2E",
                 name: "Input Element and Math Functions | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m1_H g2_7B c1_D2E",
                 name: "MCQ Practice - Input Elements",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m1_H g2_7B c1_D2E",
@@ -2422,12 +2422,12 @@ export const goalsData = [
               {
                 id: "QW9_s9_A0 m2_H g2_7B c1_D2E",
                 name: "Comments",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m2_H g2_7B c1_D2E",
                 name: "JS Coding Platform Walk through",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m2_H g2_7B c1_D2E",
@@ -2452,7 +2452,7 @@ export const goalsData = [
               {
                 id: "QW9_s15_A0 m2_H g2_7B c1_D2E",
                 name: "A Note On Software Compatibility",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -2489,17 +2489,17 @@ export const goalsData = [
               {
                 id: "QW9_s6_A0 m3_H g2_7B c1_D2E",
                 name: "On Demand Session",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m3_H g2_7B c1_D2E",
                 name: "On Demand Session | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m3_H g2_7B c1_D2E",
                 name: "MCQ Practice - On Demand Session",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m3_H g2_7B c1_D2E",
@@ -2684,17 +2684,17 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m7_H g2_7B c1_D2E",
                 name: "Event Listeners & More Events",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m7_H g2_7B c1_D2E",
                 name: "Event Listeners & More Events | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m7_H g2_7B c1_D2E",
                 name: "MCQ Practice - Event Listeners",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m7_H g2_7B c1_D2E",
@@ -2945,12 +2945,12 @@ export const goalsData = [
               {
                 id: "QW9_s1_A0 m1_H g2_7B c2_D2E",
                 name: "Introduction to Databases | Part 1",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m1_H g2_7B c2_D2E",
                 name: "Introduction to Databases | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m1_H g2_7B c2_D2E",
@@ -2977,7 +2977,7 @@ export const goalsData = [
               {
                 id: "QW9_s2_A0 m2_H g2_7B c2_D2E",
                 name: "Introduction to SQL | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m2_H g2_7B c2_D2E",
@@ -3099,7 +3099,7 @@ export const goalsData = [
               {
                 id: "QW9_s10_A0 m3_H g2_7B c2_D2E",
                 name: "Querying with SQL | Part 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m3_H g2_7B c2_D2E",
@@ -3156,7 +3156,7 @@ export const goalsData = [
               {
                 id: "QW9_s5_A0 m4_H g2_7B c2_D2E",
                 name: "Group By with Having",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m4_H g2_7B c2_D2E",
@@ -3166,7 +3166,7 @@ export const goalsData = [
               {
                 id: "QW9_s7_A0 m4_H g2_7B c2_D2E",
                 name: "MCQ Pratice - Group By with Having",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m4_H g2_7B c2_D2E",
@@ -3178,7 +3178,7 @@ export const goalsData = [
           {
             id: "QW9_m5_A0 g2_H c2_7B",
             name: "Common Concepts",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g2_7B c2_D2E",
@@ -3354,7 +3354,7 @@ export const goalsData = [
               {
                 id: "QW9_s9_A0 m8_H g2_7B c2_D2E",
                 name: "Querying with Joins | Part 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m8_H g2_7B c2_D2E",
@@ -4117,7 +4117,7 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m1_H g3_7B c1_D2E",
                 name: "Overview of Computer Hardware",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m1_H g3_7B c1_D2E",
@@ -4147,7 +4147,7 @@ export const goalsData = [
               {
                 id: "QW9_s10_A0 m1_H g3_7B c1_D2E",
                 name: "Overview of Process Management",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m1_H g3_7B c1_D2E",
@@ -4177,7 +4177,7 @@ export const goalsData = [
               {
                 id: "QW9_s16_A0 m1_H g3_7B c1_D2E",
                 name: "Memory Management",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s17_A0 m1_H g3_7B c1_D2E",
@@ -4207,7 +4207,7 @@ export const goalsData = [
               {
                 id: "QW9_s22_A0 m1_H g3_7B c1_D2E",
                 name: "Network Layer",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s23_A0 m1_H g3_7B c1_D2E",
@@ -4222,7 +4222,7 @@ export const goalsData = [
               {
                 id: "QW9_s25_A0 m1_H g3_7B c1_D2E",
                 name: "Transport Layer",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s26_A0 m1_H g3_7B c1_D2E",
@@ -4237,7 +4237,7 @@ export const goalsData = [
               {
                 id: "QW9_s28_A0 m1_H g3_7B c1_D2E",
                 name: "Application Layer",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s29_A0 m1_H g3_7B c1_D2E",
@@ -4273,13 +4273,13 @@ export const goalsData = [
               },
               {
                 id: "QW9_s4_A0 m2_H g3_7B c1_D2E",
-                name: " Google Cloud Shell",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                name: "Google Cloud Shell",
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m2_H g3_7B c1_D2E",
-                name: " Setting Up WSL2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                name: "Setting Up WSL2",
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m2_H g3_7B c1_D2E",
@@ -4289,7 +4289,7 @@ export const goalsData = [
               {
                 id: "QW9_s7_A0 m2_H g3_7B c1_D2E",
                 name: "Working with File System",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m2_H g3_7B c1_D2E",
@@ -4304,7 +4304,7 @@ export const goalsData = [
               {
                 id: "QW9_s10_A0 m2_H g3_7B c1_D2E",
                 name: "Working with Files",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m2_H g3_7B c1_D2E",
@@ -4346,7 +4346,7 @@ export const goalsData = [
                 name: "MCQ Pratice -Miscellaneous Commands - 2",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
-           
+
             ],
           },
           {
@@ -4389,19 +4389,19 @@ export const goalsData = [
           {
             id: "QW9_m4_A0 g3_H c1_7B",
             name: "Developer Foundations Course Exam",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g3_7B c1_D2E",
                 name: "Developer Foundations Course Exam | Instructions",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m4_H g3_7B c1_D2E",
                 name: "Developer Foundations Course Exam",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
-           
+
             ],
           },
         ],
@@ -4415,12 +4415,12 @@ export const goalsData = [
           {
             id: "QW9_m1_A0 g3_H c2_7B",
             name: "MERN Stack",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
                 name: "MERN Stack",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4467,7 +4467,7 @@ export const goalsData = [
               {
                 id: "QW9_s8_A0 m2_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 1",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m2_H g3_7B c2_D2E",
@@ -4487,7 +4487,7 @@ export const goalsData = [
               {
                 id: "QW9_s12_A0 m2_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4499,7 +4499,7 @@ export const goalsData = [
               {
                 id: "QW9_s1_A0 m3_H g3_7B c2_D2E",
                 name: "Hypertext Transfer Protocol (HTTP)",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m3_H g3_7B c2_D2E",
@@ -4519,12 +4519,12 @@ export const goalsData = [
               {
                 id: "QW9_s5_A0 m3_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m3_H g3_7B c2_D2E",
                 name: "Introduction to Express JS | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m3_H g3_7B c2_D2E",
@@ -4539,7 +4539,7 @@ export const goalsData = [
               {
                 id: "QW9_s9_A0 m3_H g3_7B c2_D2E",
                 name: "Introduction to Express JS | Part 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m3_H g3_7B c2_D2E",
@@ -4554,22 +4554,22 @@ export const goalsData = [
               {
                 id: "QW9_s12_A0 m3_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m3_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 5",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m3_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 6",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m3_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 7",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4596,12 +4596,12 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m4_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 8",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m4_H g3_7B c2_D2E",
                 name: "Debugging Common Errors",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m4_H g3_7B c2_D2E",
@@ -4611,7 +4611,7 @@ export const goalsData = [
               {
                 id: "QW9_s7_A0 m4_H g3_7B c2_D2E",
                 name: "Debugging Common Errors | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m4_H g3_7B c2_D2E",
@@ -4648,7 +4648,7 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m5_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 9",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m5_H g3_7B c2_D2E",
@@ -4683,46 +4683,46 @@ export const goalsData = [
               {
                 id: "QW9_s11_A0 m5_H g3_7B c2_D2E",
                 name: "NodeJS Coding Practice 10",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m6_A0 g3_H c2_7B",
             name: "Assignments",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m6_H g3_7B c2_D2E",
                 name: "Nodejs Assignment 1",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m6_H g3_7B c2_D2E",
                 name: "Nodejs Assignment 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m7_A0 g3_H c2_7B",
             name: "Mock Tests",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m7_H g3_7B c2_D2E",
                 name: "Nodejs MCQ Test 1",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m7_H g3_7B c2_D2E",
                 name: "Nodejs MCQ Test 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m7_H g3_7B c2_D2E",
                 name: "Nodejs MCQ Test 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4730,16 +4730,133 @@ export const goalsData = [
       },
       {
         id: "g3 c3",
-        title: "Python Interview Kit",
+        title: "Interview Kit",
         progress: 0,
         accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
         modules: [
           {
             id: "QW9_m1_A0 g3_H c3_7B",
-            name: "Python Interview Kit",
+            name: "HTML Practice Sets",
             accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-            topic: [],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "HTML Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "HTML Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "HTML Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "HTML Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+
+            ],
           },
+          {
+            id: "QW9_m2_A0 g3_H c3_7B",
+            name: "CSS Practice Sets",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "CSS Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "CSS Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "CSS Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "CSS Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+
+            ],
+          },
+          {
+            id: "QW9_m3_A0 g3_H c3_7B",
+            name: "SQL Practice Sets",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "SQL Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "SQL Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "SQL Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "SQL Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
+          },
+          {
+            id: "QW9_m4_A0 g3_H c3_7B",
+            name: "Python Practice Sets",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "Python Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "Python Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "Python Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "Python Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
+          },
+          {
+            id: "QW9_m4_A0 g3_H c3_7B",
+            name: "Bootstrap Practice Sets",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m4_H g3_7B c2_D2E",
+                name: "Bootstrap Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              }
+            ],
+          },
+
         ],
       },
       {
@@ -4771,7 +4888,7 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m1_H g3_7B c4_D2E",
                 name: "ReactJs Coding Pratice 1",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m1_H g3_7B c4_D2E",
@@ -4791,7 +4908,7 @@ export const goalsData = [
               {
                 id: "QW9_s8_A0 m1_H g3_7B c4_D2E",
                 name: "ReactJs Coding Pratice 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m1_H g3_7B c4_D2E",
@@ -4811,7 +4928,7 @@ export const goalsData = [
               {
                 id: "QW9_s12_A0 m1_H g3_7B c4_D2E",
                 name: "ReactJs Coding Pratice 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4833,7 +4950,7 @@ export const goalsData = [
               {
                 id: "QW9_s3_A0 m2_H g3_7B c4_D2E",
                 name: "A Note on React Versions",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m2_H g3_7B c4_D2E",
@@ -4843,7 +4960,7 @@ export const goalsData = [
               {
                 id: "QW9_s5_A0 m2_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m2_H g3_7B c4_D2E",
@@ -4863,108 +4980,108 @@ export const goalsData = [
               {
                 id: "QW9_s9_A0 m2_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 5",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m3_A0 g3_H c4_7B",
             name: "Class Component and State 2",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m3_H g3_7B c4_D2E",
                 name: "Class Component and State | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m3_H g3_7B c4_D2E",
                 name: "Class Component and State | Cheat Sheet | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m3_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m3_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 6",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m3_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 7",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m3_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 8",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m3_H g3_7B c4_D2E",
                 name: "React Assignment 1",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m4_A0 g3_H c4_7B",
             name: "Common Mistakes",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m4_H g3_7B c4_D2E",
                 name: "Common Mistakes",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m4_H g3_7B c4_D2E",
                 name: "Common Mistakes | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m4_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Common Mistakes",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m4_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 9",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m4_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 10",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m5_A0 g3_H c4_7B",
             name: "Debugging",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m5_H g3_7B c4_D2E",
                 name: "Debugging using Developer Tools",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m5_H g3_7B c4_D2E",
                 name: "Debugging using Developer Tools | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m5_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Debugging",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m5_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 11",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4991,17 +5108,17 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 12",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 13",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 14",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m6_H g3_7B c4_D2E",
@@ -5021,156 +5138,156 @@ export const goalsData = [
               {
                 id: "QW9_s11_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 15",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 16",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 17",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m6_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 18",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m7_A0 g3_H c4_7B",
             name: "Component Life Cycle",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m7_H g3_7B c4_D2E",
                 name: "Component Life Cycle",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m7_H g3_7B c4_D2E",
                 name: "Component Life Cycle | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m7_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Component Life Cycle",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m7_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 19",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m7_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 20",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m7_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 21",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m7_H g3_7B c4_D2E",
                 name: "React Assignment 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m7_H g3_7B c4_D2E",
                 name: "React Assignment 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m8_A0 g3_H c4_7B",
             name: "React Router",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m8_H g3_7B c4_D2E",
                 name: "Routing using React Router",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m8_H g3_7B c4_D2E",
                 name: "Routing using React Router | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m8_H g3_7B c4_D2E",
                 name: "MCQ Pratice - React Router",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m8_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 22",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m8_H g3_7B c4_D2E",
                 name: "Routing using React Router | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m8_H g3_7B c4_D2E",
                 name: "Routing using React Router | Part 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m8_H g3_7B c4_D2E",
                 name: "Routing using React Router | Part 2 & 3| Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m8_H g3_7B c4_D2E",
                 name: "MCQ Pratice - React Router | Part 2 & 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m8_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 23",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m8_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 24",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m8_H g3_7B c4_D2E",
                 name: "React Assignment 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m8_H g3_7B c4_D2E",
                 name: "Common Mistakes | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m8_H g3_7B c4_D2E",
                 name: "Common Mistakes | Cheat Sheet | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m8_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Common Mistakes | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m8_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 25",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s16_A0 m8_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 26",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -5197,7 +5314,7 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m9_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 27",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m9_H g3_7B c4_D2E",
@@ -5217,7 +5334,7 @@ export const goalsData = [
               {
                 id: "QW9_s8_A0 m9_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 28",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m9_H g3_7B c4_D2E",
@@ -5237,7 +5354,7 @@ export const goalsData = [
               {
                 id: "QW9_s12_A0 m9_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 29",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m9_H g3_7B c4_D2E",
@@ -5257,69 +5374,69 @@ export const goalsData = [
               {
                 id: "QW9_s16_A0 m9_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 30",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s17_A0 m9_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 31",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m10_A0 g3_H c4_7B",
             name: "Authentication & Authorization 2",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m10_H g3_7B c4_D2E",
                 name: "Authentication & Authorization | Part 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m10_H g3_7B c4_D2E",
                 name: "Authentication & Authorization | Part 4 | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m10_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Authentication | Part 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m10_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 32",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m10_H g3_7B c4_D2E",
                 name: "Sorting Products",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m10_H g3_7B c4_D2E",
                 name: "Sorting Products | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m10_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Sorting Products",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m10_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 33",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m10_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 34",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m10_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 35",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -5331,7 +5448,7 @@ export const goalsData = [
               {
                 id: "QW9_s1_A0 m11_H g3_7B c4_D2E",
                 name: "More React Concepts",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m11_H g3_7B c4_D2E",
@@ -5347,7 +5464,7 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m11_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 36",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -5359,7 +5476,7 @@ export const goalsData = [
               {
                 id: "QW9_s1_A0 m12_H g3_7B c4_D2E",
                 name: "Third Party Packages",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m12_H g3_7B c4_D2E",
@@ -5379,7 +5496,7 @@ export const goalsData = [
               {
                 id: "QW9_s5_A0 m12_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 37",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m12_H g3_7B c4_D2E",
@@ -5389,7 +5506,7 @@ export const goalsData = [
               {
                 id: "QW9_s7_A0 m12_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 38",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m12_H g3_7B c4_D2E",
@@ -5399,7 +5516,7 @@ export const goalsData = [
               {
                 id: "QW9_s9_A0 m12_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 39",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m12_H g3_7B c4_D2E",
@@ -5409,182 +5526,182 @@ export const goalsData = [
               {
                 id: "QW9_s11_A0 m12_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 40",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m13_A0 g3_H c4_7B",
             name: "Jobby App",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m13_H g3_7B c4_D2E",
                 name: "React Assignment 5",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m14_A0 g3_H c4_7B",
             name: "React Context",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m14_H g3_7B c4_D2E",
                 name: "React Context",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m14_H g3_7B c4_D2E",
                 name: "MCQ Pratice - React Context",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Part 2 | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s6_A0 m14_H g3_7B c4_D2E",
                 name: "MCQ Pratice - React Context | Part 2",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s7_A0 m14_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 41",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s8_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Part 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s9_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Part 3 | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s10_A0 m14_H g3_7B c4_D2E",
                 name: "MCQ Pratice - React Context | Part 3",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s11_A0 m14_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 42",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s12_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Part 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s13_A0 m14_H g3_7B c4_D2E",
                 name: "React Context | Part 4 | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s14_A0 m14_H g3_7B c4_D2E",
                 name: "MCQ Pratice - React Context | Part 4",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s15_A0 m14_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 43",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m15_A0 g3_H c4_7B",
             name: "Styled Components",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m15_H g3_7B c4_D2E",
                 name: "Styled Components",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m15_H g3_7B c4_D2E",
                 name: "Styled Components | Cheat Sheet",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m15_H g3_7B c4_D2E",
                 name: "MCQ Pratice - Styled Components",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m15_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 44",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m15_H g3_7B c4_D2E",
                 name: "ReactJs Coding Practice 45",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m16_A0 g3_H c4_7B",
             name: "Assignments",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m16_H g3_7B c4_D2E",
                 name: "React Assignment 6",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m16_H g3_7B c4_D2E",
                 name: "React Assignment 7",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
           {
             id: "QW9_m17_A0 g3_H c4_7B",
             name: "Mock Tests",
-            accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
               {
                 id: "QW9_s1_A0 m17_H g3_7B c4_D2E",
                 name: "Interview Mock Test 1A",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s2_A0 m17_H g3_7B c4_D2E",
                 name: "Interview Mock Test 1B",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s3_A0 m17_H g3_7B c4_D2E",
                 name: "Interview Mock Test 1C",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m17_H g3_7B c4_D2E",
                 name: "Interview Mock Test 1D",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s5_A0 m17_H g3_7B c4_D2E",
                 name: "Interview Mock Test 1E",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },

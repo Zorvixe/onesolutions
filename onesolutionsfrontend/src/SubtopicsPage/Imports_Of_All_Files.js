@@ -756,6 +756,15 @@ import Memory_Managent_CS from "../Developer_Foundations/Foundamentals_Of_Comput
 import Memory_Managent_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent_MCQ.js";
 import Compter_Networks_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks_CS.js";
 import  Compter_Networks_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Compter_Networks_MCQ.js";
+import Network_Layer_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Network_Layer_CS.js";
+import Network_Layer_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Network_Layer_MCQ.js";
+import Transport_Layers_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Transport_Layers_CS.js";
+import Transport_Layers_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Transport_Layers_MCQ.js";
+import Application_Layer_CS from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Application_Layer_CS.js";
+import Application_Layer_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Application_Layer_MCQ.js";
+import Working_Command_Line_CS from "../Developer_Foundations/Working_Command_Line/Working_Command_Line_CS.js";
+import Working_Command_Line_MCQ from "../Developer_Foundations/Working_Command_Line/Working_Command_Line_MCQ.js";
+
 
 //Python OOPS CORE
 import FoundationsOfOOP_CheatSheet from "../Python/IntroductiontoOOP/FoundationsOfOOP_CheatSheet.js";
@@ -889,7 +898,57 @@ import Introductionto_Operating_System from "../Developer_Foundations/Foundament
 import Process_Managent from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Process_Managent.js";
 import Memory_Managent from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Memory_Managent.js";
 import Threads_Courrency from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Threads_Courrency.js";
+import Network_Layer from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Network_Layer.js";
+import Transport_Layers from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Transport_Layers.js";
+import Working_File_System from "../Developer_Foundations/Working_Command_Line/Working_File_System.js";
+import Working_Command_Line from "../Developer_Foundations/Working_Command_Line/Working_Command_Line.js";
+import Working_with_Files from "../Developer_Foundations/Working_Command_Line/Working_with_Files.js";
+import Miscellaneous_Commands_1 from "../Developer_Foundations/Working_Command_Line/Miscellaneous_Commands_1.js";
+import Miscellaneous_Commands_2 from "../Developer_Foundations/Working_Command_Line/Miscellaneous_Commands_2.js";
+import Google_Cloud_Sheel from "../Developer_Foundations/Working_Command_Line/Google_Cloud_Sheel.js";
+import Getting_Started_Git from "../Developer_Foundations/Collabarating_with_Git/Getting_Started_Git.js";
+import Staging_Area_Commits from "../Developer_Foundations/Collabarating_with_Git/Staging_Area_Commits.js";
+import SettingUp_WSL2 from "../Developer_Foundations/Working_Command_Line/SettingUp_WSL2.js";
+import Developer_Foundations_Course_Exam from "../Developer_Foundations/Developer_Foundations_Course_Exam/Developer_Foundations_Course_Exam.js";
+
+//Python Interview set
+import Python_Practice_Set_1 from "../Python_Interview_Kit/Python_Practice_Set_1.js";
+import Python_Practice_Set_2 from "../Python_Interview_Kit/Python_Practice_Set_2.js";
+import Python_Practice_Set_3 from "../Python_Interview_Kit/Python_Practice_Set_3.js";
+import Python_Practice_Set_4 from "../Python_Interview_Kit/Python_Practice_Set_4.js";
+import Bootstrap_Practice_set from "../Python_Interview_Kit/Bootstrap_Practice_set.js";
+import HTML_Practice_Set_1 from "../Python_Interview_Kit/HTML_Practice_Set_1.js";
+import HTML_Practice_Set_2 from "../Python_Interview_Kit/HTML_Practice_Set_2.js";
+import HTML_Practice_Set_3 from "../Python_Interview_Kit/HTML_Practice_Set_3.js";
+import HTML_Practice_Set_4 from "../Python_Interview_Kit/HTML_Practice_Set_4.js";
+import CSS_Practice_Set_1 from "../Python_Interview_Kit/CSS_Practice_Set_1.js";
+import CSS_Practice_Set_2 from "../Python_Interview_Kit/CSS_Practice_Set_2.js";
+import CSS_Practice_Set_3 from "../Python_Interview_Kit/CSS_Practice_Set_3.js";
+import CSS_Practice_Set_4 from "../Python_Interview_Kit/CSS_Practice_Set_4.js";
+import SQL_Practice_Set_1 from "../Python_Interview_Kit/SQL_Practice_Set_1.js";
+import SQL_Practice_Set_2 from "../Python_Interview_Kit/SQL_Practice_Set_2.js";
+import SQL_Practice_Set_3 from "../Python_Interview_Kit/SQL_Practice_Set_3.js";
+import SQL_Practice_Set_4 from "../Python_Interview_Kit/SQL_Practice_Set_4.js";
 export const subtopicComponents = {
+  //Python Interview set
+   "HTML Practice Set - 1":HTML_Practice_Set_1,
+   "HTML Practice Set - 2": HTML_Practice_Set_2,
+   "HTML Practice Set - 3": HTML_Practice_Set_3,
+   "HTML Practice Set - 4": HTML_Practice_Set_4,
+   "CSS Practice Set - 1": CSS_Practice_Set_1,
+   "CSS Practice Set - 2": CSS_Practice_Set_2,
+   "CSS Practice Set - 3": CSS_Practice_Set_3,
+   "CSS Practice Set - 4": CSS_Practice_Set_4,
+   "SQL Practice Set - 1": SQL_Practice_Set_1,
+   "SQL Practice Set - 2": SQL_Practice_Set_2,
+   "SQL Practice Set - 3": SQL_Practice_Set_3,
+   "SQL Practice Set - 4": SQL_Practice_Set_4,
+   "Python Practice Set - 1": Python_Practice_Set_1,
+   "Python Practice Set - 2": Python_Practice_Set_2,
+   "Python Practice Set - 3": Python_Practice_Set_3,
+   "Python Practice Set - 4": Python_Practice_Set_4,
+   "Bootstrap Practice Set - 1": Bootstrap_Practice_set,
+
   //Git
   "Understanding Binary": Understaing_Binary,
   "Overview of Computer Hardware": OverViewof_Hardware,
@@ -898,7 +957,18 @@ export const subtopicComponents = {
   "Threads and Concurrency": Threads_Courrency,
   "Memory Management": Memory_Managent,
   "Application Layer": Application_Layer,
-
+  "Network Layer": Network_Layer,
+  "Transport Layer": Transport_Layers,
+  "Getting Started with Command Line": Working_Command_Line,
+  "Google Cloud Shell": Google_Cloud_Sheel,
+  "Working with File System": Working_File_System,
+  "Working with Files": Working_with_Files,
+  "Miscellaneous Commands - 1": Miscellaneous_Commands_1,
+  "Miscellaneous Commands - 2": Miscellaneous_Commands_2,
+  "Getting Started with Git": Getting_Started_Git,
+  "Staging Area and Commits": Staging_Area_Commits,
+  "Setting Up WSL2":SettingUp_WSL2,
+  "Developer Foundations Course Exam | Instructions": Developer_Foundations_Course_Exam,
 
   //Reactjs class & codingPratices
  "Introduction to React JS": Introductionto_Reactjs,
@@ -1834,4 +1904,12 @@ export const subtopicComponents = {
   "MCQ Pratice - Memory Management":Memory_Managent_MCQ,
   "Understanding Computer Networks | Cheat Sheet":Compter_Networks_CS,
   "MCQ Pratice - Understanding Computer Networks": Compter_Networks_MCQ,
+  "Network Layer | Cheat Sheet":Network_Layer_CS,
+  "MCQ Pratice - Network Layer": Network_Layer_MCQ,
+  "Transport Layer | Cheat Sheet":Transport_Layers_CS,
+  "MCQ Pratice - Transport Layer":Transport_Layers_MCQ,
+  "Application Layer | Cheat Sheet":Application_Layer_CS,
+  "MCQ Pratice -Application Layer":Application_Layer_MCQ,
+  "Getting Started with Command Line | Cheat Sheet": Working_Command_Line_CS,
+  "MCQ Pratice - Getting Started with Command Line" :Working_Command_Line_MCQ,
 };
