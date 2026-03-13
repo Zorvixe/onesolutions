@@ -2982,7 +2982,7 @@ export const goalsData = [
               {
                 id: "QW9_s3_A0 m2_H g2_7B c2_D2E",
                 name: "Platform Walkthrough",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
               {
                 id: "QW9_s4_A0 m2_H g2_7B c2_D2E",
@@ -4785,6 +4785,11 @@ export const goalsData = [
               {
                 id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
                 name: "CSS Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s5_A0 m1_H g3_7B c2_D2E",
+                name: "CSS Practice Set - 5",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
 

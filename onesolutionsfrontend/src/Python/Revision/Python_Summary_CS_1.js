@@ -1,13 +1,57 @@
-import React, { useState } from "react";
-import { CodeBlock } from "../../CodeOutputBlocks";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
 
-const Python_Summary_CS_1 = ({ onSubtopicComplete }) => {
-  const [completed, setCompleted] = useState(false);
+import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-  const handleContinue = () => {
-    setCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
-  };
+
+const Python_Summary_CS_1 = ({ 
+  subtopicId,
+   goalName,
+   courseName,
+   subtopic,
+ }) => {
+   const { markSubtopicComplete, loadProgressSummary, completedContent } =
+     useAuth();
+ 
+   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
+ 
+   // Check if subtopic is already completed
+   useEffect(() => {
+     if (completedContent.includes(subtopicId)) {
+       setIsSubtopicCompleted(true);
+     }
+   }, [completedContent, subtopicId]);
+ 
+   const handleContinue = async () => {
+     if (isLoading || isSubtopicCompleted) return;
+ 
+     try {
+       setIsLoading(true);
+       const result = await markSubtopicComplete(
+         subtopicId,
+         goalName,
+         courseName
+       );
+ 
+       if (result.success) {
+         await loadProgressSummary();
+         setIsSubtopicCompleted(true);
+         console.log("✅ Cheat sheet marked as completed");
+       } else {
+         console.error(
+           "❌ Failed to mark cheat sheet complete:",
+           result.message
+         );
+         alert("Failed to mark as complete. Please try again.");
+       }
+     } catch (error) {
+       console.error("❌ Failed to mark cheat sheet complete:", error);
+       alert("Failed to mark as complete. Please try again.");
+     } finally {
+       setIsLoading(false);
+     }
+   };
 
   return (
     <div
@@ -1098,23 +1142,17 @@ print(msg.format(age=age, name=name)) # Hi Raju. You are 10 years old.`}
       </section>
 
       {/* Continue Button */}
-      <div style={{ textAlign: "center", marginTop: "4rem" }}>
+      <div className="view-continue">
         <button
+          className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
           onClick={handleContinue}
-          disabled={completed}
-          style={{
-            padding: "1.2rem 3.5rem",
-            fontSize: "1.4rem",
-            backgroundColor: completed ? "#7f8c8d" : "#27ae60",
-            color: "white",
-            border: "none",
-            borderRadius: "50px",
-            cursor: completed ? "not-allowed" : "pointer",
-            boxShadow: "0 8px 25px rgba(0,0,0,0.3)",
-            transition: "all 0.4s",
-          }}
+          disabled={isSubtopicCompleted || isLoading}
         >
-          {completed ? "Completed" : "Mark as Complete & Continue"}
+          {isLoading
+            ? "Marking..."
+            : isSubtopicCompleted
+            ? "✓ Completed"
+            : "Continue"}
         </button>
       </div>
     </div>

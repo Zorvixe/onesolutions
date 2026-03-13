@@ -55,7 +55,7 @@ const HTML_Practice_Set_1 = ({
   return (
     <div className="intro-container">
       <h2>HTML Practice Set - 1</h2>
-      <h2>Practice the popular interview questions in Python using NxtMock.</h2>
+      <h2>Practice the popular interview questions in HTML using NxtMock.</h2>
 
     <section>
       <h3>1. What is HTML?</h3>

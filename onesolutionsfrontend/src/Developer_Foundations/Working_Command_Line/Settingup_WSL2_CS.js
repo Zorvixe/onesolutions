@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { CodeBlock } from "../../CodeOutputBlocks"; // Adjust path as needed
-import SettingUp_WSL2 from "./SettingUp_WSL2";
 
-const SettingUp_WSL2_CS = ({
+
+const Settingup_WSL2_CS = ({
   subtopicId,
   goalName,
   courseName,
@@ -53,120 +53,59 @@ const SettingUp_WSL2_CS = ({
   };
 
   return (
-   <div className="intro-container">
-  <h1>Getting Started with Command Line | Cheat Sheet</h1>
+ < div className="intro-container">
+  <h1>Setting Up WSL2 Manual | Cheat Sheet</h1>
 
-  {/* USER INTERFACE */}
-
-  <section>
-    <h2>1. User Interface</h2>
-
-    <h3>Graphical User Interface (GUI)</h3>
-    <p>
-      Graphical User Interface (GUI) is commonly referred to as the
-      User Interface (UI). It allows users to interact with computers
-      using graphical elements like buttons, windows, and icons.
-    </p>
-
-    <h3>Command Line Interface (CLI)</h3>
-    <p>
-      Command Line Interface (CLI) allows users to perform powerful
-      operations using text commands.
-    </p>
-
-    <p>
-      A <b>command</b> is a text instruction given to a computer program
-      to perform a specific task.
-    </p>
-     <img
-          src="/assets/img/CLI.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
-  </section>
-
-  {/* SHELL */}
+  {/* INTRO */}
 
   <section>
-    <h2>2. What is Shell?</h2>
+    <h2>1. Setting Up WSL2 Ubuntu Terminal on Windows</h2>
 
     <p>
-      A <b>Shell</b> is software that interprets and executes commands
-      provided by the user.
-    </p>
-
-    <p>
-      A <b>Terminal</b> is a text input/output environment used to
-      interact with the shell.
+      This guide explains how to install and configure
+      <b> WSL2 (Windows Subsystem for Linux)</b> on Windows 10 so that
+      you can use an Ubuntu command-line environment.
     </p>
   </section>
 
-  {/* DIFFERENT SHELLS */}
+  {/* SYSTEM REQUIREMENTS */}
 
   <section>
-    <h2>3. Different Shells</h2>
+    <h2>2. System Requirements</h2>
+
+    <p>The following hardware requirements are needed to install WSL2:</p>
 
     <ul>
-      <li>Bourne Shell (sh)</li>
-      <li>Bourne-Again Shell (bash)</li>
-      <li>C Shell (csh)</li>
-      <li>Korn Shell (ksh)</li>
-      <li>Z Shell (zsh)</li>
+      <li>64-bit processor with Second Level Address Translation (SLAT)</li>
+      <li>Intel VT-x or AMD-V virtualization support</li>
+      <li>Minimum 4 GB RAM</li>
+      <li>Virtualization enabled in BIOS settings</li>
+      <li>Windows 10 Version 1903 or later</li>
+      <li>Build 18363.1049 or higher</li>
+      <li>Minimum 15 GB free space on C: drive</li>
     </ul>
   </section>
 
-  {/* OPEN TERMINAL LINUX */}
+  {/* QUICK TIP */}
 
   <section>
-    <h2>4. Opening Terminal (Linux)</h2>
-
-    <p>
-      Bash is one of the most commonly used shells in Linux distributions.
-    </p>
-
-    <p>Steps:</p>
-
-    <ul>
-      <li>Open Applications / Dash</li>
-      <li>Search for <b>Terminal</b></li>
-    </ul>
-
-    <p>Shortcut:</p>
-
-    <CodeBlock language="text" code={`Ctrl + Alt + T`} />
-     <img
-          src="/assets/img/OT.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
+     <div className="Quick-Tip-container">
+        <div className="icon-note">
+          <h6>
+            <i class="bi bi-lightbulb"></i>Pro Tip:
+          </h6>
+        </div>
+    <p>To check Windows version and build number:</p>
+    <CodeBlock language="text" code={`Press: Windows + R`} />
+    <p>Then type:</p>
+    <CodeBlock language="text" code={`winver`} />
+    <p>Click <b>OK</b>.</p>
+     </div>
   </section>
 
-  {/* MAC */}
-
+  {/* NOTE */}
+<br/>
   <section>
-    <h2>5. Opening Terminal (Mac)</h2>
-
-    <ul>
-      <li>Open Launchpad and search for Terminal</li>
-      <li>Press Command (⌘) + Space and type "Terminal"</li>
-    </ul>
-     <img
-          src="/assets/img/MAC.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
-  </section>
-
-  {/* WINDOWS */}
-
-  <section>
-    <h2>6. Windows Operating System</h2>
-
-    <p>
-      Windows users should install <b>WSL2 (Windows Subsystem for Linux)</b>
-      to use Linux commands.
-    </p>
-  
     <div className="Note-container">
       <div className="icon-note">
         <h6>
@@ -175,265 +114,94 @@ const SettingUp_WSL2_CS = ({
       </div>
 
       <p>
-        Commands taught in Bash will not work properly in Windows
-        PowerShell or Command Prompt.
+        If your Windows version is older, open <b>Settings → Update &
+        Security → Check for Updates</b>. Install all updates and restart
+        the system if required.
       </p>
     </div>
   </section>
 
-  {/* OPEN WSL */}
+  {/* SETUP WSL */}
 
   <section>
-    <h2>7. Opening WSL2 Ubuntu Terminal</h2>
+    <h2>4. Setup WSL</h2>
 
-    <p>Click Start and search for:</p>
+    <h3>Enable WSL Feature</h3>
 
-    <CodeBlock language="text" code={`Ubuntu`} />
-     <img
-          src="/assets/img/Ubantu.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
-  </section>
-
-  {/* CLOUD */}
-
-  <section>
-    <h2>8. Using Cloud Shell</h2>
-
-    <p>
-      Alternatively, you can use <b>Google Cloud Shell</b>.
-    </p>
+    <p>Open <b>PowerShell as Administrator</b> and run:</p>
 
     <CodeBlock
-      language="text"
-      code={`https://shell.cloud.google.com/`}
+      language="powershell"
+      code={`dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart`}
     />
-     <img
-          src="/assets/img/bash.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
   </section>
 
-  {/* COMMANDS */}
+  {/* VIRTUAL MACHINE */}
 
   <section>
-    <h2>9. Commands</h2>
-
-    <h3>Listing Files and Directories</h3>
+    <h2>5. Enable Virtual Machine Platform</h2>
 
     <p>
-      The <b>ls</b> command lists files and directories.
+      Enable the <b>Virtual Machine Platform</b> feature. Make sure
+      virtualization is enabled in BIOS.
     </p>
 
-    <CodeBlock language="bash" code={`ls`} />
+    <p>You can verify virtualization in <b>Task Manager</b>.</p>
 
-    <h3>Using Additional Options</h3>
+    <p>Run the following command in PowerShell:</p>
 
-    <p>
-      The <b>-l</b> and <b>-h</b> options show detailed information in
-      human-readable format.
-    </p>
-     <img
-          src="/assets/img/L-F.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
+    <CodeBlock
+      language="powershell"
+      code={`dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart`}
+    />
 
-    <CodeBlock language="bash" code={`ls -lh`} />
-
-    <p>
-      Some options require values as arguments.
-    </p>
-
-    <p>
-      Example: <b>--block-size</b> option.
-    </p>
-
-    <CodeBlock language="bash" code={`ls --block-size=MB`} />
-     <img
-          src="/assets/img/LF-2.png"
-          alt="software"
-          style={{ width: "60%", height: "300px" }}
-        />
+    <p>Restart your computer after running the command.</p>
   </section>
 
-  {/* HELP */}
+  {/* DOWNLOAD KERNEL */}
 
   <section>
-    <h2>10. Get Options for Commands</h2>
-
-    <p>
-      The <b>--help</b> option displays available command options.
-    </p>
-
-    <CodeBlock language="bash" code={`ls --help`} />
-
-    <p>
-      This command is useful when you want to understand a command's
-      parameters and usage.
-    </p>
-  </section>
-
-  {/* CLEAR */}
-
-  <section>
-    <h2>11. Clear the Screen</h2>
-
-    <p>The <b>clear</b> command clears the terminal screen.</p>
-
-    <CodeBlock language="bash" code={`clear`} />
-
-    <p>Shortcut:</p>
-
-    <CodeBlock language="text" code={`Ctrl + L`} />
-  </section>
-
-  {/* MAN */}
-
-  <section>
-    <h2>12. User Manual for Commands</h2>
-
-    <p>
-      The <b>man</b> command displays the manual page of a command.
-    </p>
-
-    <CodeBlock language="bash" code={`man <command>`} />
-
-    <p>Example:</p>
-
-    <CodeBlock language="bash" code={`man ls`} />
-
-    <p>Press <b>q</b> to exit the manual.</p>
-  </section>
-
-  {/* DATE */}
-
-  <section>
-    <h2>13. Get System Date and Time</h2>
-
-    <CodeBlock language="bash" code={`date`} />
-  </section>
-
-  {/* WHOAMI */}
-
-  <section>
-    <h2>14. Get Current User</h2>
-
-    <CodeBlock language="bash" code={`whoami`} />
-  </section>
-
-  {/* PREVIOUS COMMAND */}
-
-  <section>
-    <h2>15. Previous Commands</h2>
-
-    <p>
-      The shell keeps track of previously executed commands.
-    </p>
+    <h2>6. Download WSL2 Kernel Package</h2>
 
     <ul>
-      <li>⬆ Up Arrow → Previous command</li>
-      <li>⬇ Down Arrow → Next command</li>
+      <li>Download the latest WSL2 Linux kernel update package</li>
+      <li>Install the package by double-clicking it</li>
+      <li>Allow elevated permissions if prompted</li>
     </ul>
   </section>
 
-  {/* HISTORY */}
+  {/* DEFAULT VERSION */}
 
   <section>
-    <h2>16. Command History</h2>
+    <h2>7. Set WSL2 as Default Version</h2>
+
+    <p>Open PowerShell and run:</p>
+
+    <CodeBlock language="powershell" code={`wsl --set-default-version 2`} />
+  </section>
+
+  {/* INSTALL UBUNTU */}
+
+  <section>
+    <h2>8. Install Linux Distribution</h2>
+
+    <p>Install <b>Ubuntu</b> from the Microsoft Store.</p>
+
+    <p>After installation:</p>
+
+    <ul>
+      <li>Open <b>Ubuntu</b> from the Start Menu</li>
+      <li>Create a username</li>
+      <li>Create a password</li>
+    </ul>
 
     <p>
-      The <b>history</b> command shows previously executed commands.
-    </p>
-
-    <CodeBlock language="bash" code={`history`} />
-
-    <p>
-      By default, it displays the last <b>500 commands</b>.
+      These credentials will be used to log in to the WSL Ubuntu
+      environment.
     </p>
   </section>
 
-  {/* BASH HISTORY */}
 
-  <section>
-    <h2>17. Bash History File</h2>
-
-    <p>
-      Bash stores command history in the <b>.bash_history</b> file.
-    </p>
-
-    <CodeBlock language="bash" code={`cat .bash_history`} />
-  </section>
-
-  {/* EXIT */}
-
-  <section>
-    <h2>18. Exit Shell</h2>
-
-    <p>The <b>exit</b> command ends the shell session.</p>
-
-    <CodeBlock language="bash" code={`exit`} />
-  </section>
-
-  {/* SUMMARY */}
-
-  <section>
-    <h2>19. Summary</h2>
-
-    <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
-    >
-      <thead>
-        <tr>
-          <th>Command</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>ls</td>
-          <td>Lists files and directories</td>
-        </tr>
-        <tr>
-          <td>date</td>
-          <td>Displays system date and time</td>
-        </tr>
-        <tr>
-          <td>whoami</td>
-          <td>Displays current logged in user</td>
-        </tr>
-        <tr>
-          <td>--help</td>
-          <td>Shows options for a command</td>
-        </tr>
-        <tr>
-          <td>man</td>
-          <td>Displays command manual</td>
-        </tr>
-        <tr>
-          <td>clear</td>
-          <td>Clears the terminal</td>
-        </tr>
-        <tr>
-          <td>history</td>
-          <td>Shows command history</td>
-        </tr>
-        <tr>
-          <td>exit</td>
-          <td>Ends the shell session</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-
-
-  
 
       {/* Continue Button */}
       <div className="view-continue">
@@ -449,4 +217,4 @@ const SettingUp_WSL2_CS = ({
   );
 };
 
-export default SettingUp_WSL2_CS;
+export default Settingup_WSL2_CS;

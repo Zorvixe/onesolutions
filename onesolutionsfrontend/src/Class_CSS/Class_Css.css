@@ -736,7 +736,6 @@
 }
 .subtopic-container-clss {
   margin: 0 auto;
-  padding: 20px;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1181,7 +1180,6 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .subtopic-container-clss {
-    padding: 15px;
   }
 
   .subtopic-tabs-clss {

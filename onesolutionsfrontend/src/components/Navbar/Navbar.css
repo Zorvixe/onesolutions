@@ -11,6 +11,12 @@
   background-color: #fff;
   border-bottom: 1px solid #ccc;
 }
+.nav-link.hirepro {
+  font-weight: 600;
+  color: #7c3aed;          /* purple-ish to stand out */
+}
+
+
 
 .logo img {
   height: 50px;

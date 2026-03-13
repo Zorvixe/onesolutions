@@ -44,6 +44,7 @@ import JavaMcqs from "./JavaProgramming/Pages/javaMcqs";
 import JavaPracticeList from "./JavaProgramming/Pages/javaPracticeList";
 import JavaPractice from "./components/JavaPractice/JavaPractice";
 
+import HirePro from "./HirePro/HirePro";
 import "./App.css";
 
 /* -------------------------
@@ -88,7 +89,7 @@ function AppWrapper() {
             path="/courses"
             element={<Navigate to={getCoursesLanding()} replace />}
           />
-
+          <Route path="/hirepro" element={<HirePro />} />
           {/* Direct course routes */}
           <Route path="/web-courses" element={<Courses />} />
           <Route path="/digital-courses" element={<DigitalCourses />} />
@@ -96,6 +97,7 @@ function AppWrapper() {
 
           {/* Toggle ONLY for "all" users */}
           <Route path="/courses-toggle" element={<CoursesToggle />} />
+
 
           {/* UUID Content Routes - Web, Digital, Java */}
           <Route path="/content/:contentUuid" element={<SubtopicPage />} />

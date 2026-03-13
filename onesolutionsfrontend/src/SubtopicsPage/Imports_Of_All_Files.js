@@ -764,6 +764,19 @@ import Application_Layer_CS from "../Developer_Foundations/Foundamentals_Of_Comp
 import Application_Layer_MCQ from "../Developer_Foundations/Foundamentals_Of_Computer_Science/Application_Layer_MCQ.js";
 import Working_Command_Line_CS from "../Developer_Foundations/Working_Command_Line/Working_Command_Line_CS.js";
 import Working_Command_Line_MCQ from "../Developer_Foundations/Working_Command_Line/Working_Command_Line_MCQ.js";
+import Settingup_WSL2_CS from "../Developer_Foundations/Working_Command_Line/Settingup_WSL2_CS.js";
+import Working_File_System_CS from "../Developer_Foundations/Working_Command_Line/Working_File_System_CS.js";
+import Working_with_Files_CS from "../Developer_Foundations/Working_Command_Line/Working_with_Files_CS.js";
+import Working_with_Files_MCQ from "../Developer_Foundations/Working_Command_Line/Working_with_Files_MCQ.js";
+import Working_File_System_MCQ from "../Developer_Foundations/Working_Command_Line/Working_File_System_MCQ.js";
+import Miscellaneous_Commands_CS_1 from "../Developer_Foundations/Working_Command_Line/Miscellaneous_Commands_CS_1.js";
+import Miscellaneous_Commands_MCQ_1 from "../Developer_Foundations/Working_Command_Line/Miscellaneous_Commands_MCQ_1.js";
+import Miscellaneous_Commands_CS_2 from "../Developer_Foundations/Working_Command_Line/Miscellaneous_Commands_CS_2.js";
+import Miscellaneous_Commands_MCQ_2 from "../Developer_Foundations/Working_Command_Line/Miscellaneous_Commands_MCQ_2.js";
+import Getting_Started_Git_CS from "../Developer_Foundations/Collabarating_with_Git/Getting_Started_Git_CS.js";
+import  Getting_Started_Git_MCQ from "../Developer_Foundations/Collabarating_with_Git/Getting_Started_Git_MCQ.js";
+import Staging_Area_Commits_CS from "../Developer_Foundations/Collabarating_with_Git/Staging_Area_Commits_CS.js";
+import Staging_Area_Commits_MCQ from "../Developer_Foundations/Collabarating_with_Git/Getting_Started_Git_MCQ.js";
 
 
 //Python OOPS CORE
@@ -925,6 +938,7 @@ import CSS_Practice_Set_1 from "../Python_Interview_Kit/CSS_Practice_Set_1.js";
 import CSS_Practice_Set_2 from "../Python_Interview_Kit/CSS_Practice_Set_2.js";
 import CSS_Practice_Set_3 from "../Python_Interview_Kit/CSS_Practice_Set_3.js";
 import CSS_Practice_Set_4 from "../Python_Interview_Kit/CSS_Practice_Set_4.js";
+import CSS_Practice_Set_5 from "../Python_Interview_Kit/CSS_Practice_Set_5.js";
 import SQL_Practice_Set_1 from "../Python_Interview_Kit/SQL_Practice_Set_1.js";
 import SQL_Practice_Set_2 from "../Python_Interview_Kit/SQL_Practice_Set_2.js";
 import SQL_Practice_Set_3 from "../Python_Interview_Kit/SQL_Practice_Set_3.js";
@@ -939,6 +953,7 @@ export const subtopicComponents = {
    "CSS Practice Set - 2": CSS_Practice_Set_2,
    "CSS Practice Set - 3": CSS_Practice_Set_3,
    "CSS Practice Set - 4": CSS_Practice_Set_4,
+   "CSS Practice Set - 5": CSS_Practice_Set_5,
    "SQL Practice Set - 1": SQL_Practice_Set_1,
    "SQL Practice Set - 2": SQL_Practice_Set_2,
    "SQL Practice Set - 3": SQL_Practice_Set_3,
@@ -1912,4 +1927,19 @@ export const subtopicComponents = {
   "MCQ Pratice -Application Layer":Application_Layer_MCQ,
   "Getting Started with Command Line | Cheat Sheet": Working_Command_Line_CS,
   "MCQ Pratice - Getting Started with Command Line" :Working_Command_Line_MCQ,
+  "Setting Up WSL2 Manual":Settingup_WSL2_CS,
+  "Working with File System | Cheat Sheet": Working_File_System_CS,
+  "Working with Files | Cheat Sheet": Working_with_Files_CS,
+  "MCQ Pratice - Working with Files": Working_with_Files_MCQ,
+  "MCQ Pratice - Working with File System": Working_File_System_MCQ,
+  "Miscellaneous Commands - 1 | Cheat Sheet": Miscellaneous_Commands_CS_1,
+  "MCQ Pratice - Miscellaneous Commands - 1": Miscellaneous_Commands_MCQ_1,
+  "Miscellaneous Commands - 2 | Cheat Sheet": Miscellaneous_Commands_CS_2,
+  "MCQ Pratice -Miscellaneous Commands - 2" :Miscellaneous_Commands_MCQ_2,
+  "Getting Started with Git | Cheat Sheet":Getting_Started_Git_CS,
+  "MCQ Pratice - Getting Started with Git": Getting_Started_Git_MCQ,
+  "Staging Area & Commits | Cheat Sheet":Staging_Area_Commits_CS ,
+   "MCQ Pratice - Staging Area & Commits":Staging_Area_Commits_MCQ,
+  
+
 };

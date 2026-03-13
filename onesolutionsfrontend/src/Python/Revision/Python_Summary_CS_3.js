@@ -1,14 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+
 import { CodeBlock, OutputBlock } from "../../CodeOutputBlocks";
 
-const Python_Summary_CS_3 = ({ onSubtopicComplete }) => {
+const Python_Summary_CS_3 = ({
+ subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
+
   const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleContinue = () => {
-    setIsSubtopicCompleted(true);
-    if (onSubtopicComplete) onSubtopicComplete();
+  // Check if subtopic is already completed
+  useEffect(() => {
+    if (completedContent.includes(subtopicId)) {
+      setIsSubtopicCompleted(true);
+    }
+  }, [completedContent, subtopicId]);
+
+  const handleContinue = async () => {
+    if (isLoading || isSubtopicCompleted) return;
+
+    try {
+      setIsLoading(true);
+      const result = await markSubtopicComplete(
+        subtopicId,
+        goalName,
+        courseName
+      );
+
+      if (result.success) {
+        await loadProgressSummary();
+        setIsSubtopicCompleted(true);
+        console.log("✅ Cheat sheet marked as completed");
+      } else {
+        console.error(
+          "❌ Failed to mark cheat sheet complete:",
+          result.message
+        );
+        alert("Failed to mark as complete. Please try again.");
+      }
+    } catch (error) {
+      console.error("❌ Failed to mark cheat sheet complete:", error);
+      alert("Failed to mark as complete. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   return (
     <div
       className="intro-container"
@@ -1036,13 +1078,18 @@ print(set_a)
       </section>
 
       {/* Continue Button */}
+       {/* Continue Button */}
       <div className="view-continue">
         <button
           className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
           onClick={handleContinue}
-          disabled={isSubtopicCompleted}
+          disabled={isSubtopicCompleted || isLoading}
         >
-          {isSubtopicCompleted ? "Completed" : "Continue"}
+          {isLoading
+            ? "Marking..."
+            : isSubtopicCompleted
+            ? "✓ Completed"
+            : "Continue"}
         </button>
       </div>
     </div>

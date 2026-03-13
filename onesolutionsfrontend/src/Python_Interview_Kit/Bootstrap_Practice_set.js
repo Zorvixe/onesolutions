@@ -56,7 +56,7 @@ const Bootstrap_Practice_set = ({
   return (
     <div className="intro-container">
       <h2>Bootstrap Practice Set - 1</h2>
-      <h2>Practice the popular interview questions in Python using NxtMock.</h2>
+      <h2>Practice the popular interview questions in Bootstrap using NxtMock.</h2>
 
     <section>
     <h3>1. What are the advantages of Bootstrap?</h3>

@@ -207,6 +207,18 @@ const Navbar = () => {
             </NavLink>
           </li>
         )}
+
+        {/*  – show for ALL courses */}
+          <li>
+            <NavLink
+              to="/hirepro"
+              className={({ isActive }) =>
+                isActive ? "nav-link active hirepro" : "nav-link hirepro"
+              }
+            >
+              
+            </NavLink>
+          </li>
       </ul>
 
       {showMobileMenu && (
@@ -258,6 +270,17 @@ const Navbar = () => {
                 </NavLink>
               </li>
             )}
+
+            {/*  in mobile – always visible */}
+            <li>
+              <NavLink
+                to="/hirepro"
+                className={({ isActive }) => (isActive ? "active" : "")}
+                onClick={() => setShowMobileMenu(false)}
+              >
+                <i className="bi bi-briefcase"></i> 
+              </NavLink>
+            </li>
 
             {/* Code Playground/Compiler link in mobile – only for Web Dev or Java */}
             {showCodingFeatures() && (
