@@ -1,0 +1,184 @@
+/* src/components/ResumeBuilder/templates/Template3.css */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+.temp-3-resume-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+.temp-3-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.temp-3-header h1 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.temp-3-header h2 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: #374151;
+}
+
+.temp-3-contact-info {
+  margin-top: 0.5rem;
+  color: #4b5563;
+  font-weight: 300;
+}
+
+.temp-3-social-links {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.temp-3-social-links a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.temp-3-social-links a:hover {
+  text-decoration: underline;
+}
+
+.temp-3-content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.temp-3-section-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-bottom: 2px solid #d1d5db;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.temp-3-education-item {
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.temp-3-education-item h4 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.temp-3-education-meta {
+  color: #4b5563;
+  font-weight: 300;
+  font-size: 0.875rem;
+}
+
+.temp-3-skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.temp-3-skill-tag {
+  padding: 0.3rem 0.8rem;
+  background: #dbeafe;
+  border-radius: 9999px;
+  font-weight: 400;
+}
+
+.temp-3-project-item {
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.temp-3-project-item h4 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+}
+
+.temp-3-project-meta {
+  color: #4b5563;
+  font-weight: 300;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.temp-3-certificate-item {
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.temp-3-certificate-item h4 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+}
+
+.temp-3-certificate-meta {
+  color: #4b5563;
+  font-weight: 300;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.temp-3-experience-item {
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.temp-3-experience-item h4 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+}
+
+.temp-3-experience-meta {
+  color: #4b5563;
+  font-weight: 300;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Additional styles for better hierarchy */
+.temp-3-resume-container p {
+  font-weight: 300;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.temp-3-custom-list li {
+  list-style-type: none;
+}
+
+.temp-3-company-name,
+.temp-3-institution-name {
+  font-weight: 400;
+  color: #1f2937;
+}
+
+.temp-3-summary-text {
+  font-weight: 300;
+  line-height: 1.6;
+  padding: 0.5rem;
+  color: #374151;
+}

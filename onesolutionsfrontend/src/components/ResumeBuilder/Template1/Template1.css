@@ -1,0 +1,94 @@
+/* src/components/ResumeBuilder/templates/Template1.css */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+    padding: 40px;
+  }
+}
+
+.temp-1-container {
+  padding: 40px;
+  line-height: 1.5;
+  background-color: #ffff;
+}
+
+.temp-1-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.temp-1-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.temp-1-contact-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.temp-1-name {
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.temp-1-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 20px 0;
+  border-bottom: 2px solid #000;
+  padding-bottom: 5px;
+}
+
+.temp-1-section-content {
+  margin-bottom: 20px;
+}
+
+.temp-1-section-content-title {
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.temp-1-section-content-description {
+  font-size: 14px;
+}
+
+.temp-1-bullet-point {
+  margin-left: 20px;
+  position: relative;
+  margin-bottom: 5px;
+}
+
+.temp-1-bullet-point::before {
+  content: "•";
+  position: absolute;
+  left: -15px;
+}
+
+.temp-1-skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.temp-1-skill-tag {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.temp-1-custom-list {
+  list-style-type: none;
+  padding-left: 0;
+}

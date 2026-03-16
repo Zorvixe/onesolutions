@@ -1,33 +1,54 @@
 // src/HirePro/HirePro.js
-
-import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';     // ← required import
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { goalsData } from "../data/goalsData";
 import './HirePro.css';
-
-
 
 const HirePro = () => {
   const navigate = useNavigate();
+
   const [showPopup, setShowPopup] = useState(false);
-const [module, setModule] = useState("");
+  const [module, setModule] = useState(''); // 'frontend' or 'backend'
+  const [expandedTopic, setExpandedTopic] = useState(null); // stores module id
+
+  // Find the courses we need
+  const frontendCourse = goalsData
+    .flatMap(goal => goal.courses)
+    .find(course => course.title === "Frontend Interview Kit");
+
+  const backendCourse = goalsData
+    .flatMap(goal => goal.courses)
+    .find(course => course.title === "Backend Interview Kit");
+
+  // Get modules (topics) from the selected course
+  const currentModules =
+    module === 'frontend' ? frontendCourse?.modules || [] :
+    module === 'backend' ? backendCourse?.modules || [] :
+    [];
+
+  const handleTopicClick = (moduleId) => {
+    setExpandedTopic(expandedTopic === moduleId ? null : moduleId);
+  };
+
+  const handleSetClick = (moduleId, topicId) => {
+    navigate(`/topic/${moduleId}/subtopic/${topicId}`);
+  };
 
   return (
     <div className="hirepro-page">
       <div className="hirepro-container">
-        
-        {/* Header / Hero section */}
+
         <header className="hirepro-header">
-          <h1>HirePro</h1>
+          <h2>HirePro</h2>
           <p className="subtitle">
-            Prepare smarter. Land faster.<br/>
+            Prepare smarter. Land faster.<br />
             Company-specific questions, interview experiences & placement readiness
           </p>
         </header>
 
-        {/* Main content area */}
         <main className="hirepro-content">
-          {/* Cards section */}
           <section className="placeholder-section">
+
             <div className="hire-card">
               <div className="hire-icon interview">🎯</div>
               <h3>Interview Questions</h3>
@@ -35,14 +56,13 @@ const [module, setModule] = useState("");
                 Practice real company interview questions from product and service companies.
                 Prepare smart and improve your placement chances.
               </p>
-              <button 
+              <button
                 className="hire-btn"
                 onClick={() => setShowPopup(true)}
               >
                 Explore Questions
               </button>
             </div>
-            
 
             <div className="hire-card">
               <div className="hire-icon resume">📄</div>
@@ -51,13 +71,16 @@ const [module, setModule] = useState("");
                 Create ATS-friendly resumes, optimize keywords and increase your chances
                 of getting shortlisted by top companies.
               </p>
-              <button className="hire-btn alt">
+              <button
+                className="hire-btn alt"
+                onClick={() => navigate('/resumes')}
+              >
                 Build Resume
               </button>
             </div>
+
           </section>
 
-          {/* How HirePro helps section */}
           <section className="info-section">
             <h2>How HirePro helps you</h2>
             <div className="features-grid">
@@ -75,10 +98,11 @@ const [module, setModule] = useState("");
               </div>
             </div>
           </section>
-        </main>
 
+        </main>
       </div>
-       {/* ✅ POPUP MUST BE HERE (outside container but inside main page) */}
+
+      {/* POPUP */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
@@ -86,55 +110,84 @@ const [module, setModule] = useState("");
             <button
               className="close-btn"
               onClick={() => {
-                setShowPopup(false)
-                setModule("")
+                setShowPopup(false);
+                setModule('');
+                setExpandedTopic(null);
               }}
             >
-              ✖
+              ×
             </button>
 
+            {/* Step 1 – Choose Frontend / Backend */}
             {!module && (
               <>
                 <h2>Select Module</h2>
+                <div className="module-buttons">
+                  <button
+                    className="module-btn"
+                    onClick={() => {
+                      setModule('frontend');
+                      setExpandedTopic(null);
+                    }}
+                  >
+                    Frontend
+                  </button>
 
-                <button
-                  className="module-btn"
-                  onClick={() => setModule("frontend")}
-                >
-                  Frontend
-                </button>
-
-                <button
-                  className="module-btn"
-                  onClick={() => setModule("backend")}
-                >
-                  Backend
-                </button>
-              </>
-            )}
-
-            {module === "frontend" && (
-              <>
-                <h2>Frontend Topics</h2>
-
-                <div className="topics">
-                  <button>HTML</button>
-                  <button>CSS</button>
-                  <button>SQL</button>
-                  <button>Python</button>
-                  <button>Bootstrap</button>
+                  <button
+                    className="module-btn"
+                    onClick={() => {
+                      setModule('backend');
+                      setExpandedTopic(null);
+                    }}
+                  >
+                    Backend
+                  </button>
                 </div>
               </>
             )}
 
-            {module === "backend" && (
+            {/* Step 2 – Accordion of modules (topics) */}
+            {module && (
               <>
-                <h2>Backend Topics</h2>
+                <h2>
+                  {module === 'frontend'
+                    ? 'Frontend Topics'
+                    : 'Backend Topics'}
+                </h2>
 
-                <div className="topics">
-                  <button>NodeJS</button>
-                  <button>ReactJS</button>
-                  <button>JavaScript</button>
+                <div className="topics-accordion">
+                  {currentModules.map((mod) => (
+                    <div key={mod.id} className="topic-card">
+
+                      <div
+                        className="topic-header"
+                        onClick={() => handleTopicClick(mod.id)}
+                      >
+                        <span>{mod.name}</span>
+                        <span className="plus">
+                          {expandedTopic === mod.id ? "−" : "+"}
+                        </span>
+                      </div>
+
+                      {expandedTopic === mod.id && (
+                        <div className="sets-column">
+                          {mod.topic.map((topicItem) => (
+                            <div
+                              key={topicItem.id}
+                              className="set-row"
+                              onClick={() =>
+                                handleSetClick(mod.id, topicItem.id)
+                              }
+                            >
+                              <div className="tick">✓</div>
+                              <span>{topicItem.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                    </div>
+                  ))}
                 </div>
               </>
             )}
@@ -142,10 +195,8 @@ const [module, setModule] = useState("");
           </div>
         </div>
       )}
-
     </div>
-  )
-    
-}
+  );
+};
 
 export default HirePro;

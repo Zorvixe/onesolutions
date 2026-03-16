@@ -1,0 +1,107 @@
+/* src/components/ResumeBuilder/templates/Template5.css */
+
+.temp-5-mainContainer {
+  width: screen;
+  height: screen;
+  padding: 40px 50px;
+}
+
+.temp-5-templateHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.temp-5-templateHeader h2 {
+  font-size: 30px;
+}
+
+.temp-5-templateHeader p {
+  font-size: 16px;
+}
+
+.temp-5-templateHeader p a {
+  color: blue;
+}
+
+.temp-5-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #000;
+  overflow: hidden;
+}
+
+.temp-5-box h3 {
+  padding: 5px 10px;
+  font-size: 20px;
+}
+
+.temp-5-tableWrapper {
+  border: 1px solid #000;
+}
+
+.temp-5-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.temp-5-table th {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  font-size: 20px;
+}
+
+.temp-5-tableHeading {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  font-size: 20px;
+}
+
+.temp-5-table td {
+  padding: 5px 10px;
+  text-align: left;
+  border: 1px solid #fff;
+  font-size: 20px;
+}
+
+.temp-5-contentHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+
+.temp-5-contentSubHeading {
+  font-size: 20px;
+  font-style: italic;
+  text-decoration: underline;
+  padding: 10px;
+}
+
+.temp-5-contentDescription {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 25px;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.temp-5-custom-list {
+  padding: 5px 10px;
+  list-style-type: none;
+}

@@ -1896,7 +1896,9 @@ const Home = () => {
           </div>
         )}
       </div>
-
+      <div className="res-build-floating-brokod">
+        BroOne
+      </div>
       <Footer />
     </div>
   );

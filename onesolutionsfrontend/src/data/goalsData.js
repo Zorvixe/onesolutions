@@ -3124,7 +3124,7 @@ export const goalsData = [
               {
                 id: "QW9_s15_A0 m3_H g2_7B c2_D2E",
                 name: "SQL Coding Practice 5",
-                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+                accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
               },
             ],
           },
@@ -4730,7 +4730,7 @@ export const goalsData = [
       },
       {
         id: "g3 c3",
-        title: "Interview Kit",
+        title: "Frontend Interview Kit",
         progress: 0,
         accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
         modules: [
@@ -4850,7 +4850,7 @@ export const goalsData = [
             ],
           },
           {
-            id: "QW9_m4_A0 g3_H c3_7B",
+            id: "QW9_m5_A0 g3_H c3_7B",
             name: "Bootstrap Practice Sets",
             accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
             topic: [
@@ -5731,18 +5731,94 @@ export const goalsData = [
       },
       {
         id: "g3 c5",
-        title: "Frontend Interview Kit",
+        title: "Backend Interview Kit",
         progress: 0,
         accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
         modules: [
           {
             id: "QW9_m1_A0 g3_H c5_7B",
-            name: "Frontend Interview Kit",
+            name: "JavaScript Interview Kit",
             accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
-            topic: [],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "JavaScript Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "JavaScript Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "JavaScript Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+               {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "JavaScript Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
+          },
+          {
+            id: "QW9_m2_A0 g3_H c5_7B",
+            name: "Node Js Interview Kit",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "Node Js Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "Node Js Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "Node Js Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+               {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "Node Js Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
+          },
+          {
+            id: "QW9_m3_A0 g3_H c5_7B",
+            name: "React Js Interview Kit",
+            accessibleTo: ["zorvixe_pro", "zorvixe_elite"],
+            topic: [
+              {
+                id: "QW9_s1_A0 m1_H g3_7B c2_D2E",
+                name: "React Js Practice Set - 1",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s2_A0 m1_H g3_7B c2_D2E",
+                name: "React Js Practice Set - 2",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+              {
+                id: "QW9_s3_A0 m1_H g3_7B c2_D2E",
+                name: "React Js Practice Set - 3",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+               {
+                id: "QW9_s4_A0 m1_H g3_7B c2_D2E",
+                name: "React Js Practice Set - 4",
+                accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
+              },
+            ],
           },
         ],
       },
+      
     ],
   },
 ];

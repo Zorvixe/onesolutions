@@ -454,7 +454,7 @@ CHECK (student_type IN (
     'java_programming'
   ));
   `);
-  
+
   await pool.query(`
        SELECT id, student_id, course_selection 
 FROM students 
@@ -485,6 +485,9 @@ WHERE course_selection NOT IN ('web_development', 'digital_marketing', 'java_pro
 CREATE INDEX IF NOT EXISTS idx_ai_sessions_student ON ai_chat_sessions(student_id);
 
   `;
+
+
+
 
   // In your createTables function, after creating the discussion_threads table:
   try {
@@ -684,6 +687,24 @@ CREATE TABLE IF NOT EXISTS student_feedback (
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
   `;
+
+
+      // Inside createTables(), after other tables
+      const resumeTableQuery = `
+      CREATE TABLE IF NOT EXISTS student_resumes (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+        title VARCHAR(255) NOT NULL,
+        target_role VARCHAR(255),
+        company VARCHAR(255),
+        resume_data JSONB NOT NULL DEFAULT '{}',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      CREATE INDEX IF NOT EXISTS idx_resumes_student ON student_resumes(student_id);
+    `;
+      await pool.query(resumeTableQuery);
+      console.log("✅ Student resumes table ready");
 
   try {
     await pool.query(aiContentTableQuery);
@@ -979,9 +1000,8 @@ async function sendOtpEmail(email, otp, purpose) {
 
     try {
       const mailOptions = {
-        from: `"OneSolutians" <${
-          process.env.SMTP_USER || "onesolutionsekam@gmail.com"
-        }>`,
+        from: `"OneSolutians" <${process.env.SMTP_USER || "onesolutionsekam@gmail.com"
+          }>`,
         to: email,
         subject: `${purpose} OTP Verification - OneSolutians`,
         html: `
@@ -1077,6 +1097,198 @@ function cleanExpiredOtps() {
 
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
+
+
+// ==========================================
+// 🔹 RESUME MANAGEMENT ROUTES
+// ==========================================
+
+// Create a new resume (optionally prefill with profile data)
+app.post("/api/resumes", auth, async (req, res) => {
+  try {
+    const { title, target_role, company, prefill = true } = req.body;
+
+    let resumeData = {};
+
+    if (prefill) {
+      // Fetch complete profile to prefill
+      const profileResult = await pool.query(
+        `SELECT * FROM students WHERE id = $1`,
+        [req.student.id]
+      );
+      const student = profileResult.rows[0];
+
+      // Get projects and achievements
+      const projectsResult = await pool.query(
+        `SELECT * FROM student_projects WHERE student_id = $1`,
+        [req.student.id]
+      );
+      const achievementsResult = await pool.query(
+        `SELECT * FROM student_achievements WHERE student_id = $1`,
+        [req.student.id]
+      );
+
+      // Structure data as per resume sections
+      resumeData = {
+        header: {
+          fullName: `${student.first_name || ''} ${student.last_name || ''}`.trim(),
+          email: student.email,
+          phone: student.phone,
+          linkedin: student.linkedin_profile_url,
+          github: student.github_profile_url,
+          portfolio: student.code_playground_username, // or separate field
+          address: student.city ? `${student.city}, ${student.state}` : '',
+        },
+        education: {
+          tenth: {
+            school: null, // not stored in profile currently – can be added later
+            marks: student.tenth_marks,
+            marksType: student.tenth_marks_type,
+            year: null,
+          },
+          twelfth: {
+            educationType: student.twelfth_education_type,
+            marks: student.twelfth_marks,
+            marksType: student.twelfth_marks_type,
+            year: null,
+          },
+          bachelor: {
+            degree: student.bachelor_degree,
+            branch: student.bachelor_branch,
+            institute: student.bachelor_institute,
+            cgpa: student.bachelor_cgpa,
+            startYear: student.bachelor_start_year,
+            endYear: student.bachelor_end_year,
+            status: student.bachelor_status,
+          },
+        },
+        experience: [], // from work experience? we don't have a separate table yet; could be filled manually
+        summary: {
+          text: '',
+        },
+        skills: student.technical_skills || [],
+        additional: {
+          certifications: achievementsResult.rows.map(a => ({
+            title: a.achievement_title,
+            description: a.achievement_description,
+            link: a.achievement_link,
+            date: a.achievement_date,
+          })),
+          websites: [], // manual
+          languages: student.preferred_languages || [],
+          projects: projectsResult.rows.map(p => ({
+            title: p.project_title,
+            description: p.project_description,
+            link: p.project_link,
+            skills: p.skills,
+          })),
+        },
+      };
+    }
+
+    const result = await pool.query(
+      `INSERT INTO student_resumes (student_id, title, target_role, company, resume_data)
+       VALUES ($1, $2, $3, $4, $5)
+       RETURNING *`,
+      [req.student.id, title || 'Untitled Resume', target_role || null, company || null, resumeData]
+    );
+
+    res.status(201).json({
+      success: true,
+      data: { resume: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("Resume creation error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to create resume" });
+  }
+});
+
+// Get all resumes for the logged-in student
+app.get("/api/resumes", auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT id, title, target_role, company, created_at, updated_at
+       FROM student_resumes
+       WHERE student_id = $1
+       ORDER BY updated_at DESC`,
+      [req.student.id]
+    );
+    res.json({ success: true, data: { resumes: result.rows } });
+  } catch (error) {
+    console.error("Fetch resumes error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to fetch resumes" });
+  }
+});
+
+// Get a single resume by ID
+app.get("/api/resumes/:resumeId", auth, async (req, res) => {
+  try {
+    const { resumeId } = req.params;
+    const result = await pool.query(
+      `SELECT * FROM student_resumes WHERE id = $1 AND student_id = $2`,
+      [resumeId, req.student.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Resume not found" });
+    }
+    res.json({ success: true, data: { resume: result.rows[0] } });
+  } catch (error) {
+    console.error("Fetch resume error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to fetch resume" });
+  }
+});
+
+// Update entire resume
+app.put("/api/resumes/:resumeId", auth, async (req, res) => {
+  try {
+    const { resumeId } = req.params;
+    const { title, target_role, company, resume_data } = req.body;
+
+    // Ensure resume belongs to student
+    const check = await pool.query(
+      `SELECT id FROM student_resumes WHERE id = $1 AND student_id = $2`,
+      [resumeId, req.student.id]
+    );
+    if (check.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Resume not found" });
+    }
+
+    const result = await pool.query(
+      `UPDATE student_resumes
+       SET title = COALESCE($1, title),
+           target_role = COALESCE($2, target_role),
+           company = COALESCE($3, company),
+           resume_data = COALESCE($4, resume_data),
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $5
+       RETURNING *`,
+      [title, target_role, company, resume_data, resumeId]
+    );
+
+    res.json({ success: true, data: { resume: result.rows[0] } });
+  } catch (error) {
+    console.error("Update resume error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to update resume" });
+  }
+});
+
+// Delete a resume
+app.delete("/api/resumes/:resumeId", auth, async (req, res) => {
+  try {
+    const { resumeId } = req.params;
+    const result = await pool.query(
+      `DELETE FROM student_resumes WHERE id = $1 AND student_id = $2 RETURNING id`,
+      [resumeId, req.student.id]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "Resume not found" });
+    }
+    res.json({ success: true, message: "Resume deleted" });
+  } catch (error) {
+    console.error("Delete resume error:", error.message);
+    res.status(500).json({ success: false, message: "Failed to delete resume" });
+  }
+});
 
 // Save code snippet
 app.post("/api/code-snippets/save", auth, async (req, res) => {
@@ -1810,7 +2022,7 @@ app.post(
           batchYear: student.batch_year,
         },
         process.env.JWT_SECRET ||
-          "your-fallback-secret-key-for-development-only-change-in-production",
+        "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -2184,8 +2396,8 @@ app.get("/api/progress/summary", auth, async (req, res) => {
       const progressPercentage =
         row.total_content > 0
           ? Math.round(
-              (Number(row.completed_content) / Number(row.total_content)) * 100
-            )
+            (Number(row.completed_content) / Number(row.total_content)) * 100
+          )
           : 0;
 
       if (row.goal_name) {
@@ -2337,10 +2549,10 @@ app.get("/api/progress/summary", auth, async (req, res) => {
       progressPercentage:
         Number.parseInt(row.total_content) > 0
           ? Math.round(
-              (Number.parseInt(row.completed_content) /
-                Number.parseInt(row.total_content)) *
-                100
-            )
+            (Number.parseInt(row.completed_content) /
+              Number.parseInt(row.total_content)) *
+            100
+          )
           : 0,
     }));
 
@@ -2935,7 +3147,7 @@ app.post(
           batchYear: student.batch_year,
         },
         process.env.JWT_SECRET ||
-          "your-fallback-secret-key-for-development-only-change-in-production",
+        "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -3048,7 +3260,7 @@ app.post(
           batchYear: student.batch_year,
         },
         process.env.JWT_SECRET ||
-          "your-fallback-secret-key-for-development-only-change-in-production",
+        "your-fallback-secret-key-for-development-only-change-in-production",
         { expiresIn: "30d" }
       );
 
@@ -3851,7 +4063,7 @@ UPDATE students SET
   bachelor_institute_district = COALESCE($51, bachelor_institute_district),
   occupation_status = COALESCE($52, occupation_status),
   has_work_experience = COALESCE($53, has_work_experience),
-  course_selection = COALESCE($54, course_selection), // ✅ This is correct
+  course_selection = COALESCE($54, course_selection), 
   updated_at = CURRENT_TIMESTAMP
 WHERE id = $55
 RETURNING *
@@ -3936,8 +4148,8 @@ RETURNING *
               const skillsArray = Array.isArray(project.skills)
                 ? project.skills
                 : project.skills
-                ? [project.skills]
-                : [];
+                  ? [project.skills]
+                  : [];
 
               await pool.query(
                 `INSERT INTO student_projects (student_id, project_title, project_description, project_link, skills)
@@ -5166,9 +5378,8 @@ app.get("/api/admin/feedback", async (req, res) => {
       paramCount++;
     }
 
-    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    query += ` ORDER BY sf.submitted_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
+      }`;
     queryParams.push(limit, offset);
 
     const result = await pool.query(query, queryParams);
@@ -5217,7 +5428,7 @@ app.get("/api/admin/feedback", async (req, res) => {
 
     const avgResult = await pool.query(
       avgRatingsQuery.split("WHERE")[0] +
-        (countParams.length > 0 ? "WHERE " + countQuery.split("WHERE")[1] : ""),
+      (countParams.length > 0 ? "WHERE " + countQuery.split("WHERE")[1] : ""),
       countParams
     );
 
@@ -5551,9 +5762,8 @@ app.get("/api/admin/students", async (req, res) => {
     }
 
     // Add ordering and pagination
-    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    baseQuery += ` ORDER BY created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
+      }`;
     queryParams.push(parseInt(limit), offset);
 
     // Execute queries
@@ -5746,23 +5956,23 @@ app.put("/api/admin/students/:studentId", async (req, res) => {
     }
 
     // Validate course_selection if provided
-  // In server.js - around line 2280 in the admin update student endpoint
-// The validation should be:
+    // In server.js - around line 2280 in the admin update student endpoint
+    // The validation should be:
 
-if (updateData.course_selection) {
-  const validCourses = [
-    "web_development",
-    "digital_marketing",
-    "java_programming",
-  ];
-  if (!validCourses.includes(updateData.course_selection)) {
-    return res.status(400).json({
-      success: false,
-      message:
-        "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming",
-    });
-  }
-}
+    if (updateData.course_selection) {
+      const validCourses = [
+        "web_development",
+        "digital_marketing",
+        "java_programming",
+      ];
+      if (!validCourses.includes(updateData.course_selection)) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "Invalid course selection. Must be one of: web_development, digital_marketing, java_programming",
+        });
+      }
+    }
 
     // Use for...of loop instead of forEach to handle async operations
     for (const field of allowedFields) {
@@ -5968,9 +6178,8 @@ app.get("/api/admin/class-videos", async (req, res) => {
       paramCount++;
     }
 
-    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${
-      paramCount + 1
-    }`;
+    baseQuery += ` ORDER BY cv.created_at DESC LIMIT $${paramCount} OFFSET $${paramCount + 1
+      }`;
     queryParams.push(Number.parseInt(limit), offset);
 
     const videosResult = await pool.query(baseQuery, queryParams);
@@ -6388,9 +6597,8 @@ app.patch(
 
       res.json({
         success: true,
-        message: `Video ${
-          result.rows[0].is_active ? "activated" : "deactivated"
-        } successfully`,
+        message: `Video ${result.rows[0].is_active ? "activated" : "deactivated"
+          } successfully`,
         data: { video: result.rows[0] },
       });
     } catch (error) {
@@ -6915,29 +7123,23 @@ function detectCategory(message) {
 
 function prepareAIContext(content, questions, student) {
   let context = `STUDENT CONTEXT:\n`;
-  context += `- Name: ${student?.first_name || "Student"} ${
-    student?.last_name || ""
-  }\n`;
-  context += `- Batch: ${student?.batch_month || ""} ${
-    student?.batch_year || ""
-  }\n`;
-  context += `- Current Level: ${
-    student?.current_coding_level || "Not specified"
-  }\n`;
-  context += `- Technical Skills: ${
-    student?.technical_skills?.join(", ") || "Not specified"
-  }\n`;
-  context += `- Job Search Status: ${
-    student?.job_search_status || "Not specified"
-  }\n\n`;
+  context += `- Name: ${student?.first_name || "Student"} ${student?.last_name || ""
+    }\n`;
+  context += `- Batch: ${student?.batch_month || ""} ${student?.batch_year || ""
+    }\n`;
+  context += `- Current Level: ${student?.current_coding_level || "Not specified"
+    }\n`;
+  context += `- Technical Skills: ${student?.technical_skills?.join(", ") || "Not specified"
+    }\n`;
+  context += `- Job Search Status: ${student?.job_search_status || "Not specified"
+    }\n\n`;
 
   context += `RELEVANT LEARNING CONTENT:\n`;
 
   if (content && content.length > 0) {
     content.forEach((item, index) => {
-      context += `${index + 1}. [${item.category}] ${
-        item.title
-      }: ${item.content.substring(0, 200)}...\n`;
+      context += `${index + 1}. [${item.category}] ${item.title
+        }: ${item.content.substring(0, 200)}...\n`;
     });
   } else {
     context += "No direct content matches found.\n";
@@ -6946,9 +7148,8 @@ function prepareAIContext(content, questions, student) {
   context += "\nSIMILAR PREVIOUS QUESTIONS:\n";
   if (questions && questions.length > 0) {
     questions.forEach((q, index) => {
-      context += `${index + 1}. Q: ${q.question}\n   A: ${
-        q.answer?.substring(0, 150) || "No answer yet"
-      }...\n`;
+      context += `${index + 1}. Q: ${q.question}\n   A: ${q.answer?.substring(0, 150) || "No answer yet"
+        }...\n`;
     });
   } else {
     context += "No similar questions found.\n";
@@ -7164,8 +7365,8 @@ app.post("/api/admin/ai-content", async (req, res) => {
     const keywordsArray = Array.isArray(keywords)
       ? keywords
       : keywords
-      ? keywords.split(",").map((k) => k.trim())
-      : [];
+        ? keywords.split(",").map((k) => k.trim())
+        : [];
 
     let result;
     if (id) {
@@ -7629,8 +7830,7 @@ const PORT = process.env.PORT || 5002;
         `🔗 CORS Origin: ${process.env.FRONTEND_URL || "http://localhost:3000"}`
       );
       console.log(
-        `📧 Email Service: ${
-          process.env.SMTP_USER ? "Configured" : "Not configured"
+        `📧 Email Service: ${process.env.SMTP_USER ? "Configured" : "Not configured"
         }`
       );
       console.log(`📁 Upload directory: ${uploadsDir}`);

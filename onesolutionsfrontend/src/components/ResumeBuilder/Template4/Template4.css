@@ -1,0 +1,197 @@
+/* src/components/ResumeBuilder/templates/Template4.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+}
+
+.temp-4-resume-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background: white;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.temp-4-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 3px double #2563eb;
+  padding-bottom: 1rem;
+}
+
+.temp-4-header h1 {
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 0.5rem;
+}
+
+.temp-4-header h2 {
+  font-family: "Playfair Display", serif;
+  font-size: 1.25rem;
+  color: #4b5563;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.temp-4-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.temp-4-section-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.5rem;
+  color: #1e40af;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.temp-4-section-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #2563eb, transparent);
+}
+
+.temp-4-experience-item {
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid #e5e7eb;
+}
+
+.temp-4-experience-item:hover {
+  border-left-color: #2563eb;
+}
+
+.temp-4-experience-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+}
+
+.temp-4-experience-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.temp-4-experience-company {
+  font-style: italic;
+  color: #4b5563;
+}
+
+.temp-4-experience-date {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 300;
+}
+
+.temp-4-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.temp-4-skill-item {
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.temp-4-contact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.temp-4-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4b5563;
+  font-weight: 400;
+}
+
+.temp-4-contact-item a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.temp-4-contact-item a:hover {
+  text-decoration: underline;
+}
+
+/* Education and Projects styles */
+.temp-4-education-item {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.temp-4-education-item h4 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.temp-4-education-meta {
+  color: #4b5563;
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+
+.temp-4-project-item {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.temp-4-project-item h4 {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.3rem;
+}
+
+.temp-4-project-meta {
+  color: #4b5563;
+  font-weight: 400;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.temp-4-section-content {
+  margin: 0 -42px;
+}
+
+.temp-4-custom-list li {
+  list-style-type: none;
+}

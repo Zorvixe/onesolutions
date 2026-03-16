@@ -924,27 +924,55 @@ import Staging_Area_Commits from "../Developer_Foundations/Collabarating_with_Gi
 import SettingUp_WSL2 from "../Developer_Foundations/Working_Command_Line/SettingUp_WSL2.js";
 import Developer_Foundations_Course_Exam from "../Developer_Foundations/Developer_Foundations_Course_Exam/Developer_Foundations_Course_Exam.js";
 
-//Python Interview set
-import Python_Practice_Set_1 from "../Python_Interview_Kit/Python_Practice_Set_1.js";
-import Python_Practice_Set_2 from "../Python_Interview_Kit/Python_Practice_Set_2.js";
-import Python_Practice_Set_3 from "../Python_Interview_Kit/Python_Practice_Set_3.js";
-import Python_Practice_Set_4 from "../Python_Interview_Kit/Python_Practice_Set_4.js";
-import Bootstrap_Practice_set from "../Python_Interview_Kit/Bootstrap_Practice_set.js";
-import HTML_Practice_Set_1 from "../Python_Interview_Kit/HTML_Practice_Set_1.js";
-import HTML_Practice_Set_2 from "../Python_Interview_Kit/HTML_Practice_Set_2.js";
-import HTML_Practice_Set_3 from "../Python_Interview_Kit/HTML_Practice_Set_3.js";
-import HTML_Practice_Set_4 from "../Python_Interview_Kit/HTML_Practice_Set_4.js";
-import CSS_Practice_Set_1 from "../Python_Interview_Kit/CSS_Practice_Set_1.js";
-import CSS_Practice_Set_2 from "../Python_Interview_Kit/CSS_Practice_Set_2.js";
-import CSS_Practice_Set_3 from "../Python_Interview_Kit/CSS_Practice_Set_3.js";
-import CSS_Practice_Set_4 from "../Python_Interview_Kit/CSS_Practice_Set_4.js";
-import CSS_Practice_Set_5 from "../Python_Interview_Kit/CSS_Practice_Set_5.js";
-import SQL_Practice_Set_1 from "../Python_Interview_Kit/SQL_Practice_Set_1.js";
-import SQL_Practice_Set_2 from "../Python_Interview_Kit/SQL_Practice_Set_2.js";
-import SQL_Practice_Set_3 from "../Python_Interview_Kit/SQL_Practice_Set_3.js";
-import SQL_Practice_Set_4 from "../Python_Interview_Kit/SQL_Practice_Set_4.js";
+//Frontend Interview set
+import Bootstrap_Practice_set from "../Frontend_Interview_Kit/Bootstrap_Practice_set.js";
+import HTML_Practice_Set_1 from "../Frontend_Interview_Kit/HTML_Practice_Set_1.js";
+import HTML_Practice_Set_2 from "../Frontend_Interview_Kit/HTML_Practice_Set_2.js";
+import HTML_Practice_Set_3 from "../Frontend_Interview_Kit/HTML_Practice_Set_3.js";
+import HTML_Practice_Set_4 from "../Frontend_Interview_Kit/HTML_Practice_Set_4.js";
+import CSS_Practice_Set_1 from "../Frontend_Interview_Kit/CSS_Practice_Set_1.js";
+import CSS_Practice_Set_2 from "../Frontend_Interview_Kit/CSS_Practice_Set_2.js";
+import CSS_Practice_Set_3 from "../Frontend_Interview_Kit/CSS_Practice_Set_3.js";
+import CSS_Practice_Set_4 from "../Frontend_Interview_Kit/CSS_Practice_Set_4.js";
+import CSS_Practice_Set_5 from "../Frontend_Interview_Kit/CSS_Practice_Set_5.js";
+import Python_Practice_Set_1 from "../Frontend_Interview_Kit/Python_Practice_Set_1.js";
+import Python_Practice_Set_2 from "../Frontend_Interview_Kit/Python_Practice_Set_2.js";
+import Python_Practice_Set_3 from "../Frontend_Interview_Kit/Python_Practice_Set_3.js";
+import Python_Practice_Set_4 from "../Frontend_Interview_Kit/Python_Practice_Set_4.js";
+import SQL_Practice_Set_1 from "../Frontend_Interview_Kit/SQL_Practice_Set_1.js";
+import SQL_Practice_Set_2 from "../Frontend_Interview_Kit/SQL_Practice_Set_2.js";
+import SQL_Practice_Set_3 from "../Frontend_Interview_Kit/SQL_Practice_Set_3.js";
+import SQL_Practice_Set_4 from "../Frontend_Interview_Kit/SQL_Practice_Set_4.js";
+
+//Backend Interview set
+import JavaScript_Practice_Set_1 from "../Backend_Interview_Kit/JavaScript_Practice_Set_1.js";
+import JavaScript_Practice_Set_2 from "../Backend_Interview_Kit/JavaScript_Practice_Set_2.js";
+import JavaScript_Practice_Set_3 from "../Backend_Interview_Kit/JavaScript_Practice_Set_3.js";
+import JavaScript_Practice_Set_4 from "../Backend_Interview_Kit/JavaScript_Practice_Set_4.js";
+import NodeJS_Practice_Set_1 from "../Backend_Interview_Kit/NodeJS_Practice_Set_1.js";
+import NodeJS_Practice_Set_2 from "../Backend_Interview_Kit/NodeJS_Practice_Set_2.js";
+import NodeJS_Practice_Set_3 from "../Backend_Interview_Kit/NodeJS_Practice_Set_3.js";
+import NodeJS_Practice_Set_4 from "../Backend_Interview_Kit/NodeJS_Practice_Set_4.js";
+import ReactJs_Practice_Set_1 from "../Backend_Interview_Kit/ReactJs_Practice_Set_1.js";
+import ReactJs_Practice_Set_2 from "../Backend_Interview_Kit/ReactJs_Practice_Set_2.js";
+import ReactJs_Practice_Set_3 from "../Backend_Interview_Kit/ReactJs_Practice_Set_3.js";
+import ReactJs_Practice_Set_4 from "../Backend_Interview_Kit/ReactJs_Practice_Set_4.js";
 export const subtopicComponents = {
-  //Python Interview set
+  //Backend Interview set
+  "JavaScript Practice Set - 1": JavaScript_Practice_Set_1,
+  "JavaScript Practice Set - 2": JavaScript_Practice_Set_2,
+  "JavaScript Practice Set - 3": JavaScript_Practice_Set_3,
+  "JavaScript Practice Set - 4": JavaScript_Practice_Set_4,
+  "Node Js Practice Set - 1": NodeJS_Practice_Set_1,
+  "Node Js Practice Set - 2": NodeJS_Practice_Set_2,
+  "Node Js Practice Set - 3": NodeJS_Practice_Set_3,
+  "Node Js Practice Set - 4": NodeJS_Practice_Set_4,
+  "React Js Practice Set - 1": ReactJs_Practice_Set_1,
+  "React Js Practice Set - 2": ReactJs_Practice_Set_2,
+  "React Js Practice Set - 3": ReactJs_Practice_Set_3,
+  "React Js Practice Set - 4": ReactJs_Practice_Set_4,
+
+  //Frontend Interview set
    "HTML Practice Set - 1":HTML_Practice_Set_1,
    "HTML Practice Set - 2": HTML_Practice_Set_2,
    "HTML Practice Set - 3": HTML_Practice_Set_3,

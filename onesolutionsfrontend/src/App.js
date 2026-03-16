@@ -45,6 +45,11 @@ import JavaPracticeList from "./JavaProgramming/Pages/javaPracticeList";
 import JavaPractice from "./components/JavaPractice/JavaPractice";
 
 import HirePro from "./HirePro/HirePro";
+
+import ResumeBuilder from './components/ResumeBuilder/ResumeBuilder';
+import ResumeList from './components/ResumeBuilder/ResumeList';
+import TemplateSelector from './components/ResumeBuilder/TemplateSelector';
+
 import "./App.css";
 
 /* -------------------------
@@ -83,6 +88,11 @@ function AppWrapper() {
           <Route path="/home" element={<Home />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/saved-snippets" element={<SavedSnippets />} />
+
+          <Route path="/resumes" element={<ResumeList />} />
+          <Route path="/resume-builder/new" element={<ResumeBuilder />} />
+          <Route path="/resume-builder/:resumeId" element={<ResumeBuilder />} />
+          <Route path="/resume-builder/preview/:resumeId?" element={<TemplateSelector />} />
 
           {/* 🎯 Courses entry */}
           <Route
