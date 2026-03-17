@@ -8,6 +8,7 @@ import {
   useCallback,
 } from "react";
 import { authAPI, progressAPI, digitalMarketingAPI, javaAPI } from "../services/api";
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -34,11 +35,9 @@ export const AuthProvider = ({ children }) => {
   const [codingPracticeProgress, setCodingPracticeProgress] = useState({});
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  // ✅ NEW: Digital Marketing Course Structure States
+  // ✅ Digital Marketing Course Structure States
   const [digitalMarketingGoals, setDigitalMarketingGoals] = useState([]);
-  const [digitalMarketingStructure, setDigitalMarketingStructure] = useState(
-    {}
-  );
+  const [digitalMarketingStructure, setDigitalMarketingStructure] = useState({});
   const [digitalMarketingLoading, setDigitalMarketingLoading] = useState(false);
   const [currentGoal, setCurrentGoal] = useState(null);
   const [currentModule, setCurrentModule] = useState(null);
@@ -46,8 +45,7 @@ export const AuthProvider = ({ children }) => {
   const [currentSubtopic, setCurrentSubtopic] = useState(null);
   const [currentContent, setCurrentContent] = useState(null);
 
-
-  // ✅ NEW: Java Programming Course Structure States
+  // ✅ Java Programming Course Structure States
   const [javaGoals, setJavaGoals] = useState([]);
   const [javaStructure, setJavaStructure] = useState({});
   const [javaLoading, setJavaLoading] = useState(false);
@@ -57,6 +55,9 @@ export const AuthProvider = ({ children }) => {
   const [currentJavaSubtopic, setCurrentJavaSubtopic] = useState(null);
   const [currentJavaPractice, setCurrentJavaPractice] = useState(null);
   const [currentJavaContent, setCurrentJavaContent] = useState(null);
+
+  // 🔥 NEW WORK EXPERIENCE: State for work experiences
+  const [workExperiences, setWorkExperiences] = useState([]);
 
   useEffect(() => {
     checkAuthStatus();
@@ -72,15 +73,11 @@ export const AuthProvider = ({ children }) => {
       const res = await digitalMarketingAPI.getContentByUuid(contentUuid);
       if (res.data.success) {
         setCurrentContent(res.data.data);
-        // Navigate to the content page with UUID in URL
         navigate(`/content/${contentUuid}`);
         return { success: true, data: res.data.data };
       }
     } catch (err) {
-      console.error(
-        `[DIGITAL_MARKETING] Navigate to content ${contentUuid} failed:`,
-        err
-      );
+      console.error(`[DIGITAL_MARKETING] Navigate to content ${contentUuid} failed:`, err);
       return { success: false, error: err };
     }
   };
@@ -92,33 +89,23 @@ export const AuthProvider = ({ children }) => {
       if (token && token !== "null" && token !== "undefined") {
         const response = await authAPI.getProfile();
 
-        // 🔥 Ensure we have complete user data with all required fields
         const userData = response.data.data.student;
 
-        // Set default values if missing
         const enrichedUserData = {
           ...userData,
-          studentType:
-            userData.studentType || userData.student_type || "zorvixe_core",
-          courseSelection:
-            userData.courseSelection ||
-            userData.course_selection ||
-            "web_development",
+          studentType: userData.studentType || userData.student_type || "zorvixe_core",
+          courseSelection: userData.courseSelection || userData.course_selection || "web_development",
           batchMonth: userData.batchMonth || userData.batch_month || "",
           batchYear: userData.batchYear || userData.batch_year || "",
         };
 
         setUser(enrichedUserData);
 
-        // Also update localStorage to ensure consistency
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
           try {
             const parsedUser = JSON.parse(storedUser);
-            const updatedStoredUser = {
-              ...parsedUser,
-              ...enrichedUserData,
-            };
+            const updatedStoredUser = { ...parsedUser, ...enrichedUserData };
             localStorage.setItem("user", JSON.stringify(updatedStoredUser));
           } catch (e) {
             localStorage.setItem("user", JSON.stringify(enrichedUserData));
@@ -129,10 +116,7 @@ export const AuthProvider = ({ children }) => {
 
         console.log("[AUTH] Auth check successful:", enrichedUserData.email);
         console.log("[AUTH] Student Type:", enrichedUserData.studentType);
-        console.log(
-          "[AUTH] Course Selection:",
-          enrichedUserData.courseSelection
-        );
+        console.log("[AUTH] Course Selection:", enrichedUserData.courseSelection);
       } else {
         setUser(null);
         setCompleteProfile(null);
@@ -615,29 +599,99 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     return courseCount > 0 ? totalCourseProgress / courseCount : 0;
   };
 
-  // 🔥 FIXED: Load complete profile with all fields
+    // 🔥 NEW WORK EXPERIENCE: Load work experiences
+  const loadWorkExperiences = async () => {
+    try {
+      const res = await authAPI.getWorkExperiences();
+      if (res.data.success) {
+        setWorkExperiences(res.data.data.workExperiences);
+        console.log("[WORK] Work experiences loaded:", res.data.data.workExperiences.length);
+      }
+    } catch (err) {
+      console.error("[WORK] Load work experiences failed:", err);
+    }
+  };
+
+  // 🔥 NEW WORK EXPERIENCE: Add a work experience
+  const addWorkExperience = async (workData) => {
+    try {
+      setError("");
+      const res = await authAPI.addWorkExperience(workData);
+      if (res.data.success) {
+        await loadWorkExperiences(); // refresh list
+        return { success: true, message: "Work experience added successfully" };
+      } else {
+        const errorMsg = res.data.message || "Failed to add work experience";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[WORK] Add work experience error:", error);
+      const errorMsg = error.response?.data?.message || "Failed to add work experience";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  // 🔥 NEW WORK EXPERIENCE: Update a work experience
+  const updateWorkExperience = async (id, workData) => {
+    try {
+      setError("");
+      const res = await authAPI.updateWorkExperience(id, workData);
+      if (res.data.success) {
+        await loadWorkExperiences(); // refresh list
+        return { success: true, message: "Work experience updated successfully" };
+      } else {
+        const errorMsg = res.data.message || "Failed to update work experience";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[WORK] Update work experience error:", error);
+      const errorMsg = error.response?.data?.message || "Failed to update work experience";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  // 🔥 NEW WORK EXPERIENCE: Delete a work experience
+  const deleteWorkExperience = async (id) => {
+    try {
+      setError("");
+      const res = await authAPI.deleteWorkExperience(id);
+      if (res.data.success) {
+        await loadWorkExperiences(); // refresh list
+        return { success: true, message: "Work experience deleted successfully" };
+      } else {
+        const errorMsg = res.data.message || "Failed to delete work experience";
+        setError(errorMsg);
+        return { success: false, message: errorMsg };
+      }
+    } catch (error) {
+      console.error("[WORK] Delete work experience error:", error);
+      const errorMsg = error.response?.data?.message || "Failed to delete work experience";
+      setError(errorMsg);
+      return { success: false, message: errorMsg };
+    }
+  };
+
+  // 🔥 FIXED: Load complete profile with all fields (including work experiences)
   const loadCompleteProfile = async () => {
     try {
       const response = await authAPI.getCompleteProfile();
       if (response.data.success) {
         const profileData = response.data.data.student;
 
-        // 🔥 Ensure studentType and courseSelection are set
         const enrichedProfile = {
           ...profileData,
-          studentType:
-            profileData.studentType ||
-            profileData.student_type ||
-            "zorvixe_core",
-          courseSelection:
-            profileData.courseSelection ||
-            profileData.course_selection ||
-            "web_development",
+          studentType: profileData.studentType || profileData.student_type || "zorvixe_core",
+          courseSelection: profileData.courseSelection || profileData.course_selection || "web_development",
         };
 
         setCompleteProfile(enrichedProfile);
+        // 🔥 NEW WORK EXPERIENCE: Also set work experiences from profile
+        setWorkExperiences(profileData.workExperiences || []);
 
-        // Also update user state with these values
         if (user) {
           setUser((prev) => ({
             ...prev,
@@ -645,7 +699,6 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
             courseSelection: enrichedProfile.courseSelection,
           }));
 
-          // Update localStorage
           const storedUser = localStorage.getItem("user");
           if (storedUser) {
             try {
@@ -653,26 +706,20 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
               parsedUser.studentType = enrichedProfile.studentType;
               parsedUser.courseSelection = enrichedProfile.courseSelection;
               localStorage.setItem("user", JSON.stringify(parsedUser));
-            } catch (e) {
-              // Ignore
-            }
+            } catch (e) {}
           }
         }
 
         console.log("[AUTH] Complete profile loaded:", enrichedProfile.email);
         console.log("[AUTH] Student Type:", enrichedProfile.studentType);
-        console.log(
-          "[AUTH] Course Selection:",
-          enrichedProfile.courseSelection
-        );
+        console.log("[AUTH] Course Selection:", enrichedProfile.courseSelection);
       }
     } catch (error) {
       console.error("[AUTH] Complete profile load failed:", error.message);
     }
   };
 
-  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
-  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET
+  // 🔥 AUTO LOAD ALL USER DATA WHEN TOKEN IS SET (includes work experiences)
   useEffect(() => {
     if (!token) {
       setLoading(false);
@@ -682,30 +729,18 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     const loadAllUserData = async () => {
       setLoading(true);
       try {
-        // First load basic user data
         console.log("[AUTH] Loading all user data...");
-
-        // Load user profile first
         await checkAuthStatus();
-
-        // Then load progress data
         await Promise.all([
           loadUserProgress(),
           loadProgressSummary(),
           loadOverallProgress(),
+          loadWorkExperiences(), // 🔥 NEW WORK EXPERIENCE
         ]);
 
-        // Then check if user is digital marketing and load their courses
-        // Get the latest user data from state after checkAuthStatus
-        const currentUser = user; // user should be set by checkAuthStatus now
-
-        if (
-          currentUser &&
-          currentUser.courseSelection === "digital_marketing"
-        ) {
-          console.log(
-            "[AUTH] Digital marketing user detected, loading digital courses..."
-          );
+        const currentUser = user;
+        if (currentUser && currentUser.courseSelection === "digital_marketing") {
+          console.log("[AUTH] Digital marketing user detected, loading digital courses...");
           await loadDigitalMarketingAllStructure();
         }
       } catch (err) {
@@ -716,7 +751,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     };
 
     loadAllUserData();
-  }, [token]); // Remove user from dependencies to prevent infinite loops
+  }, [token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ✅ Forgot Password Flow
   const forgotPasswordRequestOtp = async (email) => {
@@ -908,7 +943,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
   };
 
   // 🔥 FIXED: Enhanced logout - clear all user data including digital marketing
-  const logout = () => {
+   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
@@ -937,8 +972,11 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     setCurrentJavaSubtopic(null);
     setCurrentJavaPractice(null);
     setCurrentJavaContent(null);
+    // 🔥 NEW WORK EXPERIENCE: Clear work experiences
+    setWorkExperiences([]);
     console.log("[AUTH] Logout successful - all user data cleared");
   };
+
 
   const clearError = () => setError("");
 
@@ -1320,7 +1358,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     }
   };
 
-  const value = {
+const value = {
     user,
     setUser,
     token,
@@ -1351,6 +1389,12 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     updateCompleteProfile,
     addProject,
     addAchievement,
+    // 🔥 NEW WORK EXPERIENCE: Expose work experiences state and functions
+    workExperiences,
+    loadWorkExperiences,
+    addWorkExperience,
+    updateWorkExperience,
+    deleteWorkExperience,
     logout,
     clearError,
     forgotPasswordRequestOtp,
@@ -1358,7 +1402,7 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     isAuthenticated: !!user,
     refreshCompleteProfile: loadCompleteProfile,
 
-    // ✅ NEW: Digital Marketing Course exports
+    // Digital Marketing exports
     getContentUrl,
     navigateToContent,
     digitalMarketingGoals,
@@ -1382,7 +1426,8 @@ const loadDigitalMarketingAllStructure = useCallback(async () => {
     getContentByUuid,
     calculateDigitalMarketingGoalProgress: calculateGoalProgress,
     overallDigitalMarketingProgress: calculateOverallDigitalMarketingProgress,
-    // ✅ NEW: Java exports
+
+    // Java exports
     javaGoals,
     javaStructure,
     javaLoading,

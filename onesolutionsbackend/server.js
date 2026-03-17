@@ -277,6 +277,29 @@ const createTables = async () => {
     );
   `;
 
+  // Work Experience table
+  const workExperiencesTableQuery = `
+    CREATE TABLE IF NOT EXISTS student_work_experiences (
+      id SERIAL PRIMARY KEY,
+      student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
+      company_name VARCHAR(500) NOT NULL,
+      job_role VARCHAR(500) NOT NULL,
+      start_date DATE NOT NULL,
+      end_date DATE,
+      is_current BOOLEAN DEFAULT false,
+      job_type VARCHAR(100),
+      job_sector VARCHAR(100),
+      key_skills TEXT[],
+      work_location VARCHAR(200),
+      role_description TEXT,
+      achievements TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `;
+  await pool.query(workExperiencesTableQuery);
+  console.log("✅ Student work experiences table ready");
+
   // Student progress table
   const progressTableQuery = `
     CREATE TABLE IF NOT EXISTS student_content_progress (
@@ -486,9 +509,6 @@ CREATE INDEX IF NOT EXISTS idx_ai_sessions_student ON ai_chat_sessions(student_i
 
   `;
 
-
-
-
   // In your createTables function, after creating the discussion_threads table:
   try {
     // Ensure no null slugs exist
@@ -688,9 +708,8 @@ CREATE TABLE IF NOT EXISTS student_feedback (
     );
   `;
 
-
-      // Inside createTables(), after other tables
-      const resumeTableQuery = `
+  // Inside createTables(), after other tables
+  const resumeTableQuery = `
       CREATE TABLE IF NOT EXISTS student_resumes (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         student_id INTEGER REFERENCES students(id) ON DELETE CASCADE,
@@ -703,8 +722,8 @@ CREATE TABLE IF NOT EXISTS student_feedback (
       );
       CREATE INDEX IF NOT EXISTS idx_resumes_student ON student_resumes(student_id);
     `;
-      await pool.query(resumeTableQuery);
-      console.log("✅ Student resumes table ready");
+  await pool.query(resumeTableQuery);
+  console.log("✅ Student resumes table ready");
 
   try {
     await pool.query(aiContentTableQuery);
@@ -1097,7 +1116,6 @@ function cleanExpiredOtps() {
 
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
-
 
 // ==========================================
 // 🔹 RESUME MANAGEMENT ROUTES
@@ -3656,6 +3674,12 @@ app.get("/api/student/complete-profile", auth, async (req, res) => {
       [studentId]
     );
 
+    // 🔥 NEW: Get work experiences
+    const workExperiencesResult = await pool.query(
+      `SELECT * FROM student_work_experiences WHERE student_id = $1 ORDER BY start_date DESC, created_at DESC`,
+      [studentId]
+    );
+
     // Get progress
     const progressResult = await pool.query(
       `SELECT * FROM student_subtopic_progress WHERE student_id = $1`,
@@ -3744,6 +3768,7 @@ app.get("/api/student/complete-profile", auth, async (req, res) => {
       // Additional data
       projects: projectsResult.rows,
       achievements: achievementsResult.rows,
+      workExperiences: workExperiencesResult.rows, // 🔥 NEW
       progress: progressResult.rows,
 
       createdAt: student.created_at,
@@ -3894,6 +3919,7 @@ app.put(
         // Projects & Achievements
         projects,
         achievements,
+        workExperiences, // 🔥 NEW: work experiences array
 
         courseSelection,
       } = req.body;
@@ -4006,7 +4032,6 @@ app.put(
 
       console.log("🔄 Updating student record in database...");
 
-      // Update student record with proper null handling
       // Update student record with proper null handling
       const updateQuery = `
 UPDATE students SET
@@ -4123,7 +4148,7 @@ RETURNING *
         parsedData.bachelorInstituteDistrict,
         parsedData.occupationStatus,
         parsedData.hasWorkExperience,
-        parsedData.courseSelection, // 🔥 ADD THIS LINE - Parameter $54
+        parsedData.courseSelection, // Parameter $54
         studentId, // Parameter $55
       ]);
 
@@ -4212,6 +4237,46 @@ RETURNING *
         }
       }
 
+      // 🔥 NEW: Handle work experiences if provided
+      if (workExperiences) {
+        try {
+          const workData = typeof workExperiences === 'string' ? JSON.parse(workExperiences) : workExperiences;
+          console.log(`🔄 Processing ${workData.length} work experiences...`);
+
+          // Delete existing work experiences
+          await pool.query('DELETE FROM student_work_experiences WHERE student_id = $1', [studentId]);
+
+          // Insert new work experiences
+          for (const exp of workData) {
+            if (exp.company_name && exp.job_role && exp.start_date) {
+              await pool.query(
+                `INSERT INTO student_work_experiences 
+                 (student_id, company_name, job_role, start_date, end_date, is_current, 
+                  job_type, job_sector, key_skills, work_location, role_description, achievements)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+                [
+                  studentId,
+                  exp.company_name,
+                  exp.job_role,
+                  exp.start_date,
+                  exp.end_date || null,
+                  exp.is_current || false,
+                  exp.job_type || null,
+                  exp.job_sector || null,
+                  exp.key_skills || [],
+                  exp.work_location || null,
+                  exp.role_description || null,
+                  exp.achievements || null,
+                ]
+              );
+            }
+          }
+          console.log("✅ Work experiences updated successfully");
+        } catch (parseError) {
+          console.error("❌ Error parsing work experiences:", parseError.message);
+        }
+      }
+
       const updatedStudent = result.rows[0];
 
       // Get updated projects and achievements
@@ -4222,6 +4287,12 @@ RETURNING *
 
       const updatedAchievements = await pool.query(
         `SELECT * FROM student_achievements WHERE student_id = $1 ORDER BY created_at DESC`,
+        [studentId]
+      );
+
+      // 🔥 NEW: Get updated work experiences
+      const updatedWorkExperiences = await pool.query(
+        `SELECT * FROM student_work_experiences WHERE student_id = $1 ORDER BY start_date DESC, created_at DESC`,
         [studentId]
       );
 
@@ -4307,6 +4378,7 @@ RETURNING *
         // Additional data
         projects: updatedProjects.rows,
         achievements: updatedAchievements.rows,
+        workExperiences: updatedWorkExperiences.rows, // 🔥 NEW
 
         createdAt: updatedStudent.created_at,
       };
@@ -4330,7 +4402,7 @@ RETURNING *
 );
 
 // -------------------------------------------
-// 🔹 NEW: Projects Management Routes
+// 🔹 Projects Management Routes
 // -------------------------------------------
 app.get("/api/student/projects", auth, async (req, res) => {
   try {
@@ -4383,7 +4455,7 @@ app.post("/api/student/projects", auth, async (req, res) => {
 });
 
 // -------------------------------------------
-// 🔹 NEW: Achievements Management Routes
+// 🔹 Achievements Management Routes
 // -------------------------------------------
 app.get("/api/student/achievements", auth, async (req, res) => {
   try {
@@ -4436,6 +4508,197 @@ app.post("/api/student/achievements", auth, async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error creating achievement",
+    });
+  }
+});
+
+// ==========================================
+// 🔹 NEW: Work Experiences Management Routes
+// ==========================================
+
+app.get("/api/student/work-experiences", auth, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT * FROM student_work_experiences 
+       WHERE student_id = $1 
+       ORDER BY start_date DESC, created_at DESC`,
+      [req.student.id]
+    );
+
+    res.json({
+      success: true,
+      data: { workExperiences: result.rows },
+    });
+  } catch (error) {
+    console.error("❌ Fetch work experiences error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching work experiences",
+    });
+  }
+});
+
+app.post("/api/student/work-experiences", auth, async (req, res) => {
+  try {
+    const {
+      company_name,
+      job_role,
+      start_date,
+      end_date,
+      is_current,
+      job_type,
+      job_sector,
+      key_skills,
+      work_location,
+      role_description,
+      achievements,
+    } = req.body;
+
+    // Basic validation
+    if (!company_name || !job_role || !start_date) {
+      return res.status(400).json({
+        success: false,
+        message: "Company name, job role, and start date are required",
+      });
+    }
+
+    const result = await pool.query(
+      `INSERT INTO student_work_experiences 
+       (student_id, company_name, job_role, start_date, end_date, is_current,
+        job_type, job_sector, key_skills, work_location, role_description, achievements)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+       RETURNING *`,
+      [
+        req.student.id,
+        company_name,
+        job_role,
+        start_date,
+        end_date || null,
+        is_current || false,
+        job_type || null,
+        job_sector || null,
+        key_skills || [],
+        work_location || null,
+        role_description || null,
+        achievements || null,
+      ]
+    );
+
+    res.status(201).json({
+      success: true,
+      message: "Work experience added successfully",
+      data: { workExperience: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("❌ Add work experience error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error adding work experience",
+    });
+  }
+});
+
+app.put("/api/student/work-experiences/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      company_name,
+      job_role,
+      start_date,
+      end_date,
+      is_current,
+      job_type,
+      job_sector,
+      key_skills,
+      work_location,
+      role_description,
+      achievements,
+    } = req.body;
+
+    // Check ownership
+    const ownershipCheck = await pool.query(
+      `SELECT id FROM student_work_experiences WHERE id = $1 AND student_id = $2`,
+      [id, req.student.id]
+    );
+    if (ownershipCheck.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Work experience not found or access denied",
+      });
+    }
+
+    const result = await pool.query(
+      `UPDATE student_work_experiences 
+       SET company_name = COALESCE($1, company_name),
+           job_role = COALESCE($2, job_role),
+           start_date = COALESCE($3, start_date),
+           end_date = $4,
+           is_current = COALESCE($5, is_current),
+           job_type = $6,
+           job_sector = $7,
+           key_skills = $8,
+           work_location = $9,
+           role_description = $10,
+           achievements = $11,
+           updated_at = CURRENT_TIMESTAMP
+       WHERE id = $12 AND student_id = $13
+       RETURNING *`,
+      [
+        company_name,
+        job_role,
+        start_date,
+        end_date || null,
+        is_current,
+        job_type || null,
+        job_sector || null,
+        key_skills || [],
+        work_location || null,
+        role_description || null,
+        achievements || null,
+        id,
+        req.student.id,
+      ]
+    );
+
+    res.json({
+      success: true,
+      message: "Work experience updated successfully",
+      data: { workExperience: result.rows[0] },
+    });
+  } catch (error) {
+    console.error("❌ Update work experience error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error updating work experience",
+    });
+  }
+});
+
+app.delete("/api/student/work-experiences/:id", auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await pool.query(
+      `DELETE FROM student_work_experiences WHERE id = $1 AND student_id = $2 RETURNING id`,
+      [id, req.student.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Work experience not found or access denied",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Work experience deleted successfully",
+    });
+  } catch (error) {
+    console.error("❌ Delete work experience error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error deleting work experience",
     });
   }
 });

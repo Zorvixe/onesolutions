@@ -14,8 +14,8 @@ const CompleteProfileUpdate = () => {
   const [formData, setFormData] = useState({});
   const [projects, setProjects] = useState([]);
   const [achievements, setAchievements] = useState([]);
+  const [workExperiences, setWorkExperiences] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
   const [profileImage, setProfileImage] = useState(null);
   const [preview, setPreview] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -23,6 +23,13 @@ const CompleteProfileUpdate = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isImageUploading, setIsImageUploading] = useState(false);
   const fileInputRef = useRef(null);
+  
+  // Toast state
+  const [toast, setToast] = useState({
+    visible: false,
+    message: "",
+    type: "success"
+  });
 
   const languageOptions = ["English", "Hindi", "Telugu", "Tamil", "Kannada"];
   const technicalSkillOptions = [
@@ -51,13 +58,43 @@ const CompleteProfileUpdate = () => {
     "Pune",
   ];
 
+  const jobTypeOptions = [
+    "Full-time",
+    "Part-time",
+    "Internship",
+    "Freelance",
+    "Contract",
+  ];
+  const jobSectorOptions = [
+    "IT",
+    "Finance",
+    "Healthcare",
+    "Education",
+    "E-commerce",
+    "Manufacturing",
+    "Consulting",
+    "Other",
+  ];
+  const workLocationOptions = [...jobLocationOptions, "Other"];
+
+  // Toast functions
+  const showToast = (message, type = "success") => {
+    setToast({ visible: true, message, type });
+    setTimeout(() => {
+      setToast(prev => ({ ...prev, visible: false }));
+    }, 3000);
+  };
+
+  const hideToast = () => {
+    setToast(prev => ({ ...prev, visible: false }));
+  };
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         setIsLoading(true);
         const token = localStorage.getItem("token");
 
-        // FIX: Use the correct endpoint for complete profile
         const res = await axios.get(
           `${API_BASE_URL}/api/student/complete-profile`,
           {
@@ -70,12 +107,10 @@ const CompleteProfileUpdate = () => {
         if (res.data.success) {
           const s = res.data.data.student;
 
-          // Set preview image
           if (s.profileImage) {
             setPreview(s.profileImage);
           }
 
-          // Format date for input field (YYYY-MM-DD)
           const formatDateForInput = (dateString) => {
             if (!dateString) return "";
             try {
@@ -87,7 +122,6 @@ const CompleteProfileUpdate = () => {
             }
           };
 
-          // Set form data with all fields
           setFormData({
             firstName: s.firstName || "",
             lastName: s.lastName || "",
@@ -144,20 +178,19 @@ const CompleteProfileUpdate = () => {
             hasWorkExperience: s.hasWorkExperience || false,
           });
 
-          // Set projects and achievements
           setProjects(s.projects || []);
           setAchievements(s.achievements || []);
+          setWorkExperiences(s.workExperiences || []);
 
           console.log("Profile loaded successfully");
         } else {
-          setMessage(res.data.message || "Failed to load profile");
+          showToast(res.data.message || "Failed to load profile", "error");
         }
       } catch (err) {
         console.error("Profile fetch error:", err);
         console.error("Error response:", err.response?.data);
-        setMessage("Failed to load profile. Please try again.");
+        showToast("Failed to load profile. Please try again.", "error");
 
-        // Try fallback to basic profile endpoint if complete profile fails
         try {
           const token = localStorage.getItem("token");
           const basicRes = await axios.get(`${API_BASE_URL}/api/auth/profile`, {
@@ -200,40 +233,31 @@ const CompleteProfileUpdate = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        setMessage("Image size should be less than 5MB");
+        showToast("Image size should be less than 5MB", "error");
         return;
       }
-
-      // Check file type
       if (!file.type.startsWith("image/")) {
-        setMessage("Please select an image file");
+        showToast("Please select an image file", "error");
         return;
       }
-
       setProfileImage(file);
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
-
-      // Automatically upload the image
       await handleImageUpload(file);
     }
   };
 
-  // New function to handle image upload separately
   const handleImageUpload = async (file) => {
     if (!file) return;
-
     setIsImageUploading(true);
-    setMessage("Uploading image...");
+    showToast("Uploading image...", "info");
 
     try {
       const token = localStorage.getItem("token");
       const formData = new FormData();
       formData.append("profileImage", file);
 
-      // Upload only the image
       const response = await axios.put(
         `${API_BASE_URL}/api/student/update-profile-image`,
         formData,
@@ -246,29 +270,21 @@ const CompleteProfileUpdate = () => {
       );
 
       if (response.data.success) {
-        setMessage("Profile image updated successfully!");
-
-        // Update preview with the new image URL from server
+        showToast("Profile image updated successfully!", "success");
         if (response.data.data?.profileImage) {
           setPreview(response.data.data.profileImage);
         }
-
-        // Clear the file state since it's uploaded
         setProfileImage(null);
       } else {
-        setMessage(response.data.message || "Failed to update profile image");
+        showToast(response.data.message || "Failed to update profile image", "error");
       }
     } catch (error) {
       console.error("Image upload error:", error);
-      setMessage(
-        error.response?.data?.message ||
-          error.message ||
-          "Error uploading image"
+      showToast(
+        error.response?.data?.message || error.message || "Error uploading image",
+        "error"
       );
 
-      // Keep the preview as the local one since upload failed
-      // But note: we should revert to the previous image
-      // We'll need to reload the original image
       const token = localStorage.getItem("token");
       try {
         const res = await axios.get(
@@ -285,11 +301,6 @@ const CompleteProfileUpdate = () => {
       }
     } finally {
       setIsImageUploading(false);
-
-      // Clear message after 3 seconds
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
     }
   };
 
@@ -304,6 +315,45 @@ const CompleteProfileUpdate = () => {
       if (options[i].selected) selected.push(options[i].value);
     }
     setFormData((prev) => ({ ...prev, [name]: selected }));
+  };
+
+  const addNewWorkExperience = () => {
+    setWorkExperiences((prev) => [
+      ...prev,
+      {
+        company_name: "",
+        job_role: "",
+        start_date: "",
+        end_date: "",
+        is_current: false,
+        job_type: "",
+        job_sector: "",
+        key_skills: [],
+        work_location: "",
+        role_description: "",
+        achievements: "",
+      },
+    ]);
+  };
+
+  const updateWorkExperience = (index, field, value) => {
+    setWorkExperiences((prev) =>
+      prev.map((exp, i) => (i === index ? { ...exp, [field]: value } : exp))
+    );
+  };
+
+  const updateWorkExperienceMultiSelect = (index, event) => {
+    const options = event.target.options;
+    const selected = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) selected.push(options[i].value);
+    }
+    updateWorkExperience(index, "key_skills", selected);
+  };
+
+  const removeWorkExperience = (index) => {
+    setWorkExperiences((prev) => prev.filter((_, i) => i !== index));
+    showToast("Work experience removed", "info");
   };
 
   const addNewProject = () => {
@@ -332,6 +382,7 @@ const CompleteProfileUpdate = () => {
 
   const removeProject = (index) => {
     setProjects((prev) => prev.filter((_, i) => i !== index));
+    showToast("Project removed", "info");
   };
 
   const addNewAchievement = () => {
@@ -356,12 +407,12 @@ const CompleteProfileUpdate = () => {
 
   const removeAchievement = (index) => {
     setAchievements((prev) => prev.filter((_, i) => i !== index));
+    showToast("Achievement removed", "info");
   };
 
   const cleanFormData = (data) => {
     const cleaned = { ...data };
 
-    // Define fields that should be integers
     const integerFields = [
       "batchYear",
       "bachelorStartYear",
@@ -369,14 +420,15 @@ const CompleteProfileUpdate = () => {
       "bachelorInstitutePincode",
       "postalCode",
     ];
-
-    // Define fields that should be floats (but keep as string for marks)
     const numericFields = ["tenthMarks", "twelfthMarks", "bachelorCgpa"];
-
-    // Define date fields
     const dateFields = ["dateOfBirth"];
+    const booleanFields = ["hasLaptop", "hasWorkExperience", "isCurrentBatch"];
+    const arrayFields = [
+      "preferredLanguages",
+      "technicalSkills",
+      "preferredJobLocations",
+    ];
 
-    // Handle integer fields
     integerFields.forEach((field) => {
       if (
         cleaned[field] === "" ||
@@ -385,14 +437,12 @@ const CompleteProfileUpdate = () => {
       ) {
         cleaned[field] = null;
       } else if (typeof cleaned[field] === "string") {
-        // Remove any non-digit characters except decimal point for numeric fields
         const numericValue = cleaned[field].replace(/[^\d.]/g, "");
         const intValue = parseInt(numericValue);
         cleaned[field] = isNaN(intValue) ? null : intValue;
       }
     });
 
-    // Handle numeric fields (keep as string since they can be percentages or CGPA)
     numericFields.forEach((field) => {
       if (
         cleaned[field] === "" ||
@@ -401,10 +451,8 @@ const CompleteProfileUpdate = () => {
       ) {
         cleaned[field] = null;
       }
-      // Keep as string, don't convert to number
     });
 
-    // Handle date fields
     dateFields.forEach((field) => {
       if (
         cleaned[field] === "" ||
@@ -415,8 +463,6 @@ const CompleteProfileUpdate = () => {
       }
     });
 
-    // Handle boolean fields
-    const booleanFields = ["hasLaptop", "hasWorkExperience", "isCurrentBatch"];
     booleanFields.forEach((field) => {
       if (
         cleaned[field] === "" ||
@@ -429,12 +475,6 @@ const CompleteProfileUpdate = () => {
       }
     });
 
-    // Handle array fields - ensure they are proper arrays
-    const arrayFields = [
-      "preferredLanguages",
-      "technicalSkills",
-      "preferredJobLocations",
-    ];
     arrayFields.forEach((field) => {
       if (!cleaned[field] || cleaned[field] === "") {
         cleaned[field] = [];
@@ -443,7 +483,6 @@ const CompleteProfileUpdate = () => {
           const parsed = JSON.parse(cleaned[field]);
           cleaned[field] = Array.isArray(parsed) ? parsed : [];
         } catch (e) {
-          // If not valid JSON, treat as comma-separated string
           cleaned[field] = cleaned[field]
             .split(",")
             .map((item) => item.trim())
@@ -458,7 +497,6 @@ const CompleteProfileUpdate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("");
 
     try {
       const cleanedFormData = cleanFormData(formData);
@@ -477,12 +515,6 @@ const CompleteProfileUpdate = () => {
         }
       });
 
-      // Don't include profile image in the main form submission
-      // since it's already uploaded separately
-      // if (profileImage) {
-      //   submitData.append("profileImage", profileImage);
-      // }
-
       const cleanedProjects = projects.map((project) => ({
         ...project,
         skills: Array.isArray(project.skills) ? project.skills : [],
@@ -493,23 +525,28 @@ const CompleteProfileUpdate = () => {
         achievementDate: achievement.achievementDate || null,
       }));
 
+      const cleanedWorkExperiences = workExperiences.map((exp) => ({
+        ...exp,
+        key_skills: Array.isArray(exp.key_skills) ? exp.key_skills : [],
+      }));
+
       submitData.append("projects", JSON.stringify(cleanedProjects));
       submitData.append("achievements", JSON.stringify(cleanedAchievements));
+      submitData.append("workExperiences", JSON.stringify(cleanedWorkExperiences));
 
       console.log("Submitting form data...");
       const result = await updateCompleteProfile(submitData);
 
       if (result?.message) {
-        setMessage(result.message);
+        showToast(result.message, "success");
       } else {
-        setMessage("Profile updated successfully");
+        showToast("Profile updated successfully", "success");
       }
 
       setFormData((prev) => ({ ...prev, password: "" }));
       setEditMode(false);
       setEditingSection(null);
 
-      // Refresh the profile data after successful update
       const token = localStorage.getItem("token");
       const refreshRes = await axios.get(
         `${API_BASE_URL}/api/student/complete-profile`,
@@ -521,7 +558,6 @@ const CompleteProfileUpdate = () => {
       if (refreshRes.data.success) {
         const s = refreshRes.data.data.student;
 
-        // Format date for input field
         const formatDateForInput = (dateString) => {
           if (!dateString) return "";
           try {
@@ -533,23 +569,19 @@ const CompleteProfileUpdate = () => {
           }
         };
 
-        // Update form data
         setFormData((prev) => ({
           ...prev,
           dateOfBirth: formatDateForInput(s.dateOfBirth),
-          // Update other fields that might have changed
           firstName: s.firstName || prev.firstName,
           lastName: s.lastName || prev.lastName,
           phone: s.phone || prev.phone,
           nameOnCertificate: s.nameOnCertificate || prev.nameOnCertificate,
           gender: s.gender || prev.gender,
           preferredLanguages: s.preferredLanguages || prev.preferredLanguages,
-          codePlaygroundUsername:
-            s.codePlaygroundUsername || prev.codePlaygroundUsername,
+          codePlaygroundUsername: s.codePlaygroundUsername || prev.codePlaygroundUsername,
           linkedinProfileUrl: s.linkedinProfileUrl || prev.linkedinProfileUrl,
           githubProfileUrl: s.githubProfileUrl || prev.githubProfileUrl,
-          hackerrankProfileUrl:
-            s.hackerrankProfileUrl || prev.hackerrankProfileUrl,
+          hackerrankProfileUrl: s.hackerrankProfileUrl || prev.hackerrankProfileUrl,
           leetcodeProfileUrl: s.leetcodeProfileUrl || prev.leetcodeProfileUrl,
           parentFirstName: s.parentFirstName || prev.parentFirstName,
           parentLastName: s.parentLastName || prev.parentLastName,
@@ -565,17 +597,13 @@ const CompleteProfileUpdate = () => {
           technicalSkills: s.technicalSkills || prev.technicalSkills,
           hasLaptop: s.hasLaptop || prev.hasLaptop,
           jobSearchStatus: s.jobSearchStatus || prev.jobSearchStatus,
-          preferredJobLocations:
-            s.preferredJobLocations || prev.preferredJobLocations,
+          preferredJobLocations: s.preferredJobLocations || prev.preferredJobLocations,
           expectedCtcRange: s.expectedCtcRange || prev.expectedCtcRange,
-          preferredTeachingLanguage:
-            s.preferredTeachingLanguage || prev.preferredTeachingLanguage,
-          preferredVideoLanguage:
-            s.preferredVideoLanguage || prev.preferredVideoLanguage,
+          preferredTeachingLanguage: s.preferredTeachingLanguage || prev.preferredTeachingLanguage,
+          preferredVideoLanguage: s.preferredVideoLanguage || prev.preferredVideoLanguage,
           tenthMarksType: s.tenthMarksType || prev.tenthMarksType,
           tenthMarks: s.tenthMarks || prev.tenthMarks,
-          twelfthEducationType:
-            s.twelfthEducationType || prev.twelfthEducationType,
+          twelfthEducationType: s.twelfthEducationType || prev.twelfthEducationType,
           twelfthMarksType: s.twelfthMarksType || prev.twelfthMarksType,
           twelfthMarks: s.twelfthMarks || prev.twelfthMarks,
           bachelorDegree: s.bachelorDegree || prev.bachelorDegree,
@@ -585,27 +613,24 @@ const CompleteProfileUpdate = () => {
           bachelorEndYear: s.bachelorEndYear || prev.bachelorEndYear,
           bachelorStatus: s.bachelorStatus || prev.bachelorStatus,
           bachelorInstitute: s.bachelorInstitute || prev.bachelorInstitute,
-          bachelorInstituteState:
-            s.bachelorInstituteState || prev.bachelorInstituteState,
-          bachelorInstituteCity:
-            s.bachelorInstituteCity || prev.bachelorInstituteCity,
-          bachelorInstitutePincode:
-            s.bachelorInstitutePincode || prev.bachelorInstitutePincode,
-          bachelorInstituteDistrict:
-            s.bachelorInstituteDistrict || prev.bachelorInstituteDistrict,
+          bachelorInstituteState: s.bachelorInstituteState || prev.bachelorInstituteState,
+          bachelorInstituteCity: s.bachelorInstituteCity || prev.bachelorInstituteCity,
+          bachelorInstitutePincode: s.bachelorInstitutePincode || prev.bachelorInstitutePincode,
+          bachelorInstituteDistrict: s.bachelorInstituteDistrict || prev.bachelorInstituteDistrict,
           occupationStatus: s.occupationStatus || prev.occupationStatus,
           hasWorkExperience: s.hasWorkExperience || prev.hasWorkExperience,
         }));
 
-        // Update projects and achievements
         setProjects(s.projects || []);
         setAchievements(s.achievements || []);
+        setWorkExperiences(s.workExperiences || []);
       }
     } catch (error) {
       console.error("Profile update error:", error);
-      setMessage(
+      showToast(
         "Error updating profile: " +
-          (error.response?.data?.message || error.message)
+          (error.response?.data?.message || error.message),
+        "error"
       );
     } finally {
       setLoading(false);
@@ -1300,42 +1325,329 @@ const CompleteProfileUpdate = () => {
   );
 
   const renderWorkInfo = () => (
-    <div className="form-section">
-      <div className="section-header">
-        <h3>Work Experience</h3>
-        <p>Your professional background</p>
-        {!editMode && editingSection !== "work" && (
-          <button className="btn-edit" onClick={() => startEditSection("work")}>
-            Edit
-          </button>
-        )}
-        {editingSection === "work" && (
-          <button className="btn-cancel" onClick={cancelEdit}>
-            ✕ Cancel
-          </button>
-        )}
-      </div>
-      <div
-        className={`form-grid ${editMode && editingSection === "work" ? "edit-mode" : "view-mode"}`}
-      >
-        {renderField(
-          "Occupation Status",
-          formData.occupationStatus,
-          editMode && editingSection === "work",
-          "occupationStatus",
-          "select",
-          ["Student", "Employed", "Unemployed", "Freelancer"]
-        )}
-        {renderField(
-          "I have professional work experience",
-          formData.hasWorkExperience,
-          editMode && editingSection === "work",
-          "hasWorkExperience",
-          "checkbox"
-        )}
-      </div>
+  <div className="form-section">
+    <div className="section-header">
+      <h3>Work Experience</h3>
+      <p>Your professional background</p>
+      {!editMode && editingSection !== "work" && (
+        <button className="btn-edit" onClick={() => startEditSection("work")}>
+          Edit
+        </button>
+      )}
+      {editingSection === "work" && (
+        <button className="btn-cancel" onClick={cancelEdit}>
+          ✕ Cancel
+        </button>
+      )}
     </div>
-  );
+
+    {editMode && editingSection === "work" ? (
+      <>
+        <div className="form-gri-compd">
+         <div>
+           {renderField(
+            "Occupation Status",
+            formData.occupationStatus,
+            true,
+            "occupationStatus",
+            "select",
+            ["Student", "Employed", "Unemployed", "Freelancer"]
+          )}
+         </div>
+          
+          <div className="form-group full-width">
+            <label>Do you have professional work experience?</label>
+            <div className="radio-group">
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="hasWorkExperience"
+                  value="true"
+                  checked={formData.hasWorkExperience === true}
+                  onChange={() => 
+                    setFormData(prev => ({ ...prev, hasWorkExperience: true }))
+                  }
+                />
+                <span className="radio-mark"></span>
+                Yes, I have work experience
+              </label>
+              <label className="radio-label">
+                <input
+                  type="radio"
+                  name="hasWorkExperience"
+                  value="false"
+                  checked={formData.hasWorkExperience === false}
+                  onChange={() => 
+                    setFormData(prev => ({ ...prev, hasWorkExperience: false }))
+                  }
+                />
+                <span className="radio-mark"></span>
+                No, I don't have work experience
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {formData.hasWorkExperience ? (
+          <>
+            {workExperiences.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">💼</div>
+                <h4>No work experience added yet</h4>
+                <p>Click the button below to add your first experience.</p>
+              </div>
+            ) : (
+              <div className="items-list">
+                {workExperiences.map((exp, index) => (
+                  <div key={index} className="item-card">
+                    <div className="item-header">
+                      <h5>Experience #{index + 1}</h5>
+                      <button
+                        type="button"
+                        onClick={() => removeWorkExperience(index)}
+                        className="btn-remove"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                    <div className="form-grid">
+                      <div className="form-group">
+                        <label>Company Name</label>
+                        <input
+                          type="text"
+                          value={exp.company_name || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "company_name", e.target.value)
+                          }
+                          placeholder="e.g., Google, Internshala"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Job Role</label>
+                        <input
+                          type="text"
+                          value={exp.job_role || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "job_role", e.target.value)
+                          }
+                          placeholder="e.g., Frontend Developer"
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>Start Date</label>
+                        <input
+                          type="date"
+                          value={exp.start_date || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "start_date", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label>End Date</label>
+                        <input
+                          type="date"
+                          value={exp.end_date || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "end_date", e.target.value)
+                          }
+                          disabled={exp.is_current}
+                        />
+                      </div>
+                      <div className="checkbox-group">
+                        <label className="checkbox-label">
+                          <input
+                            type="checkbox"
+                            checked={exp.is_current || false}
+                            onChange={(e) =>
+                              updateWorkExperience(index, "is_current", e.target.checked)
+                            }
+                          />
+                          <span className="checkbox-mark"></span>
+                          I am currently working in this role
+                        </label>
+                      </div>
+                      <div className="form-group">
+                        <label>Job Type</label>
+                        <select
+                          value={exp.job_type || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "job_type", e.target.value)
+                          }
+                        >
+                          <option value="">Select</option>
+                          {jobTypeOptions.map((type) => (
+                            <option key={type} value={type}>
+                              {type}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Job Sector</label>
+                        <select
+                          value={exp.job_sector || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "job_sector", e.target.value)
+                          }
+                        >
+                          <option value="">Select</option>
+                          {jobSectorOptions.map((sector) => (
+                            <option key={sector} value={sector}>
+                              {sector}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group">
+                        <label>Work Location</label>
+                        <select
+                          value={exp.work_location || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "work_location", e.target.value)
+                          }
+                        >
+                          <option value="">Select</option>
+                          {workLocationOptions.map((loc) => (
+                            <option key={loc} value={loc}>
+                              {loc}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-group full-width">
+                        <label>Key Skills Used</label>
+                        <select
+                          multiple
+                          value={exp.key_skills || []}
+                          onChange={(e) => updateWorkExperienceMultiSelect(index, e)}
+                        >
+                          {technicalSkillOptions.map((skill) => (
+                            <option key={skill} value={skill}>
+                              {skill}
+                            </option>
+                          ))}
+                        </select>
+                        <span className="form-hint">Hold Ctrl/Cmd to select multiple</span>
+                      </div>
+                      <div className="form-group full-width">
+                        <label>Role Description</label>
+                        <textarea
+                          value={exp.role_description || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "role_description", e.target.value)
+                          }
+                          rows="3"
+                          placeholder="Describe your responsibilities and work..."
+                        />
+                      </div>
+                      <div className="form-group full-width">
+                        <label>Achievements</label>
+                        <textarea
+                          value={exp.achievements || ""}
+                          onChange={(e) =>
+                            updateWorkExperience(index, "achievements", e.target.value)
+                          }
+                          rows="2"
+                          placeholder="Mention any achievements, awards, or notable outcomes (type NA if none)"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button type="button" onClick={addNewWorkExperience} className="btn-add">
+              + Add Experience
+            </button>
+          </>
+        ) : (
+          <div className="info-message">
+            <p></p>
+          </div>
+        )}
+      </>
+    ) : (
+      <>
+        <div className="form-grid view-mode">
+          {renderField(
+            "Occupation Status",
+            formData.occupationStatus,
+            false,
+            "occupationStatus",
+            "select",
+            ["Student", "Employed", "Unemployed", "Freelancer"]
+          )}
+          {renderField(
+            "Has Work Experience",
+            formData.hasWorkExperience ? "Yes" : "No",
+            false,
+            "hasWorkExperience",
+            "text"
+          )}
+        </div>
+
+        {formData.hasWorkExperience && workExperiences.length > 0 ? (
+          <div className="work-view">
+            {workExperiences.map((exp, index) => (
+              <div key={index} className="experience-card">
+                <div className="experience-header">
+                  <h5>{exp.company_name || "Company"}</h5>
+                  <span className="experience-badge">#{index + 1}</span>
+                </div>
+                <div className="experience-details">
+                  <p className="experience-role">
+                    <strong>{exp.job_role || "Role"}</strong>
+                  </p>
+                  <p className="experience-dates">
+                    {exp.start_date ? formatDate(exp.start_date) : "Start"} –{" "}
+                    {exp.is_current ? "Present" : exp.end_date ? formatDate(exp.end_date) : "End"}
+                  </p>
+                  {exp.job_type && <p>Type: {exp.job_type}</p>}
+                  {exp.job_sector && <p>Sector: {exp.job_sector}</p>}
+                  {exp.work_location && <p>Location: {exp.work_location}</p>}
+                  {exp.key_skills && exp.key_skills.length > 0 && (
+                    <div className="experience-skills">
+                      <span className="skills-label">Skills:</span>
+                      <div className="skills-tags">
+                        {exp.key_skills.map((skill, idx) => (
+                          <span key={idx} className="skill-tag">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {exp.role_description && (
+                    <p className="experience-description">{exp.role_description}</p>
+                  )}
+                  {exp.achievements && (
+                    <div className="experience-achievements">
+                      <span className="achievements-label">Achievements:</span>
+                      <p>{exp.achievements}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : formData.hasWorkExperience ? (
+          <div className="empty-state">
+            <div className="empty-icon">💼</div>
+            <h4>No work experience details added</h4>
+            <p>Edit the section to add your experiences.</p>
+          </div>
+        ) : (
+          <div className="empty-state">
+            <div className="empty-icon">💼</div>
+            <h4>No work experience indicated</h4>
+            <p>The student has indicated no professional work experience.</p>
+          </div>
+        )}
+      </>
+    )}
+  </div>
+);
 
   const renderProjectsInfo = () => (
     <div className="form-section">
@@ -1687,6 +1999,19 @@ const CompleteProfileUpdate = () => {
 
   return (
     <div className="complete-profile-update">
+      {/* Toast Container */}
+      <div className={`toast-container ${toast.visible ? 'visible' : ''}`}>
+        <div className={`toast toast-${toast.type}`}>
+          <span className="toast-icon">
+            {toast.type === 'success' && '✅'}
+            {toast.type === 'error' && '❌'}
+            {toast.type === 'info' && 'ℹ️'}
+          </span>
+          <span className="toast-message">{toast.message}</span>
+          <button className="toast-close" onClick={hideToast}>×</button>
+        </div>
+      </div>
+
       <div className="profile-wrapper">
         <div className="profile-sidebar">
           <div className="sidebar-profile-card">
@@ -1704,7 +2029,6 @@ const CompleteProfileUpdate = () => {
                   {formData.lastName?.charAt(0) || "S"}
                 </div>
               )}
-             
             </div>
             <input
               type="file"
@@ -1742,25 +2066,6 @@ const CompleteProfileUpdate = () => {
         </div>
 
         <div className="profile-main">
-          {message && (
-            <div
-              className={`alert ${
-                message.toLowerCase().includes("success") ||
-                message.toLowerCase().includes("updated")
-                  ? "alert-success"
-                  : "alert-error"
-              }`}
-            >
-              <span className="alert-icon">
-                {message.toLowerCase().includes("success") ||
-                message.toLowerCase().includes("updated")
-                  ? "✅"
-                  : "⚠️"}
-              </span>
-              {message}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit} className="profile-form">
             {renderSection()}
             {editMode && editingSection && (

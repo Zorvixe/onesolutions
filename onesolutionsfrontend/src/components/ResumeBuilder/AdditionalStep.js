@@ -11,7 +11,7 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
 
-  
+
   // State for managing which accordion is open (null = none, or use multiple)
   const [openSections, setOpenSections] = useState({
     projects: true,
@@ -525,6 +525,15 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
     </div>
   );
 
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="res-build-step-header-row">
@@ -566,8 +575,8 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
       )}
 
       {loading && (
-        <div className="res-build-loading" style={{ padding: "1rem", textAlign: "center" }}>
-          Loading your profile...
+        <div className="loading-container">
+          <div className="spinner"></div>
         </div>
       )}
 

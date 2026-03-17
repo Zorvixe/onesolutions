@@ -157,7 +157,7 @@ const Introductionto_BootStrap_CS_2 = ({
           placed in the container.
         </p>
 
-        <table style={{ width: "70%", borderCollapse: "collapse" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Class Name</th>
@@ -238,7 +238,7 @@ const Introductionto_BootStrap_CS_2 = ({
           align the flex items at the start of the Flexbox Container either
           horizontally or vertically based on the Flex Direction.
         </p>
-        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>
@@ -275,7 +275,7 @@ const Introductionto_BootStrap_CS_2 = ({
           horizontally or vertically based on the Flex Direction.
         </p>
 
-        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>
@@ -312,7 +312,7 @@ const Introductionto_BootStrap_CS_2 = ({
           horizontally or vertically based on the Flex Direction.
         </p>
 
-        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>
@@ -330,24 +330,7 @@ const Introductionto_BootStrap_CS_2 = ({
             </tr>
           </tbody>
         </table>
-        {/* <table className="cheat-table">
-  <thead>
-    <tr>
-      <th>Flex Direction</th>
-      <th>Alignment</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>flex-row</td>
-      <td>Items align horizontally to the right</td>
-    </tr>
-    <tr>
-      <td>flex-column</td>
-      <td>Items align vertically to the bottom</td>
-    </tr>
-  </tbody>
-</table> */}
+      
 
         <CodeBlock
           language="html"
@@ -368,7 +351,7 @@ const Introductionto_BootStrap_CS_2 = ({
           the Flex Direction.
         </p>
 
-        <table style={{ width: "80%", borderCollapse: "collapse" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>

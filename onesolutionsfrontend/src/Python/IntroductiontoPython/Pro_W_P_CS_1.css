@@ -220,7 +220,7 @@ li {
   opacity: 0.7;
 }
 
-.cheat-table th {
+/* .cheat-table th {
   white-space: nowrap;
   text-align: left;
   padding: 8px;
@@ -229,21 +229,29 @@ li {
 .cheat-table td {
   padding: 8px;
 }
-/* .cheat-table {
+.cheat-table {
   width: 80%;
   border-collapse: collapse;
-}
-
-.cheat-table th {
-  white-space: nowrap;
-  text-align: left;
-  padding: 8px;
-}
-
-.cheat-table td {
-  padding: 8px;
 } */
 
+.custom-table {
+  border-collapse: collapse;
+  width: 80%;
+  margin: 1rem 0;
+}
+
+.custom-table th {
+  background-color: rgba(104, 173, 216, 0.731);
+  padding: 10px;
+  border: 1px solid black;
+  text-align: center; 
+}
+
+.custom-table td {
+  padding: 10px;
+  border: 1px solid black;
+  text-align: center; 
+}
 /* ONLY make RIGHT SIDE td smaller */
 /* .cheat-table td:nth-child(2) {
   font-size: 14px;

@@ -167,8 +167,13 @@ const ResumeBuilder = () => {
   const currentImage = stepImages[currentStepId];
 
 
-  if (loading) return <div>Loading...</div>;
-
+ if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
 
   return (
 

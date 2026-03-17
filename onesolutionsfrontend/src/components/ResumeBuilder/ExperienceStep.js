@@ -1,5 +1,5 @@
 // src/components/ResumeBuilder/ExperienceStep.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 const API_BASE_URL =
@@ -10,13 +10,14 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
   const [editingIndex, setEditingIndex] = useState(null); // index of experience being edited, null if none
+  const importedRef = useRef(false); // prevent duplicate imports
 
   const experiences = data.experience || [];
 
-  // Fetch profile on mount (if no experiences) – optional, just ensures array exists
+  // Fetch profile on mount and prefill if no experiences exist
   useEffect(() => {
-    const fetchProfile = async () => {
-      if (experiences.length > 0) return; // already have experiences
+    const importFromProfile = async () => {
+      if (importedRef.current || experiences.length > 0) return;
 
       setLoading(true);
       setFetchError("");
@@ -29,13 +30,36 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
         );
 
         if (res.data.success) {
-          // The profile does not contain work experiences, so we just ensure the array exists
-          if (!data.experience) {
+          const profile = res.data.data.student;
+          const workExps = profile.workExperiences || [];
+
+          if (workExps.length > 0) {
+            // Map profile work experiences to resume format
+            const mapped = workExps.map((exp) => ({
+              title: exp.job_role || "",
+              company: exp.company_name || "",
+              location: exp.work_location || "",
+              startDate: exp.start_date || "",
+              endDate: exp.end_date || "",
+              description: exp.role_description || "",
+              // Keep original data for potential future use
+              _original: exp,
+            }));
+
             setData((prev) => ({
               ...prev,
-              experience: [],
+              experience: mapped,
             }));
+          } else {
+            // No work experiences, ensure array exists
+            if (!data.experience) {
+              setData((prev) => ({
+                ...prev,
+                experience: [],
+              }));
+            }
           }
+          importedRef.current = true;
         }
       } catch (err) {
         console.error("Failed to load profile:", err);
@@ -45,7 +69,7 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
       }
     };
 
-    fetchProfile();
+    importFromProfile();
   }, [data.experience, setData, experiences.length]);
 
   const addExperience = () => {
@@ -57,13 +81,10 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
       endDate: "",
       description: "",
     };
-    // Add to the end and set editing to that index
     setData((prev) => ({
       ...prev,
       experience: [...(prev.experience || []), newExp],
     }));
-    // After state update, we need to know the new index. Since setData is async,
-    // we can compute the new index based on current length.
     const newIndex = experiences.length; // because we haven't updated experiences yet in this render cycle
     setEditingIndex(newIndex);
   };
@@ -82,7 +103,6 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
       ...prev,
       experience: prev.experience.filter((_, i) => i !== index),
     }));
-    // If the removed item was being edited, exit edit mode
     if (editingIndex === index) setEditingIndex(null);
   };
 
@@ -91,21 +111,15 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
   };
 
   const cancelEdit = () => {
-    // If the currently edited experience is empty (all fields blank) and it was just added,
-    // we might want to remove it. But we'll leave that decision to the user.
-    // For simplicity, just exit edit mode without saving.
     setEditingIndex(null);
   };
 
   const saveEdit = (index) => {
-    // Simply exit edit mode; data is already updated via updateExperience
     setEditingIndex(null);
   };
 
-  // Helper to format date for display (if needed)
   const formatDisplayDate = (dateStr) => {
     if (!dateStr) return "";
-    // Simple display: keep as is or format later
     return dateStr;
   };
 
@@ -218,6 +232,14 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
     </div>
   );
 
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="res-build-step-header-row">
@@ -257,12 +279,6 @@ const ExperienceStep = ({ data, setData, onNext, onPrev }) => {
               <p>Include numbers and metrics to demonstrate your impact.</p>
             </div>
           </div>
-        </div>
-      )}
-
-      {loading && (
-        <div className="res-build-loading" style={{ padding: "1rem", textAlign: "center" }}>
-          Loading your profile...
         </div>
       )}
 

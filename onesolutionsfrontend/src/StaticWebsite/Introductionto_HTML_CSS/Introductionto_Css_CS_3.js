@@ -207,32 +207,31 @@ const Introductionto_Css_CS_3 = ({
           text.
         </p>
         <p>You can use one of the below values of the font-style property,</p>
+    <table className="custom-table">
+      <thead>
+        <tr>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
+      </thead>
 
-        <table
-          border="1"
-          style={{ borderCollapse: "collapse", width: "70%", margin: "1rem 0" }}
-        >
-          <thead>
-            <tr>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>normal</td>
-              <td>Displays text normally</td>
-            </tr>
-            <tr>
-              <td>italic</td>
-              <td>Displays text in italic style</td>
-            </tr>
-            <tr>
-              <td>oblique</td>
-              <td>Displays text in an oblique (slanted) style</td>
-            </tr>
-          </tbody>
-        </table>
+      <tbody>
+        <tr>
+          <td>normal</td>
+          <td>Displays text normally</td>
+        </tr>
+
+        <tr>
+          <td>italic</td>
+          <td>Displays text in italic style</td>
+        </tr>
+
+        <tr>
+          <td>oblique</td>
+          <td>Displays text in an oblique (slanted) style</td>
+        </tr>
+      </tbody>
+    </table>
 
         <h3>Example Code</h3>
         <CodeBlock
@@ -284,73 +283,81 @@ p {
 }`}
         />
         <p>You can use one of the below values of the font-weight property,</p>
-        <table
-          border="1"
-          style={{ borderCollapse: "collapse", width: "70%", margin: "1rem 0" }}
-        >
-          <thead>
-            <tr>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>normal</td>
-              <td>Normal font weight (equivalent to 400)</td>
-            </tr>
-            <tr>
-              <td>bold</td>
-              <td>Bold text (equivalent to 700)</td>
-            </tr>
-            <tr>
-              <td>bolder</td>
-              <td>Bolder than the parent element</td>
-            </tr>
-            <tr>
-              <td>lighter</td>
-              <td>Lighter than the parent element</td>
-            </tr>
+        <table className="custom-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+        </thead>
 
-            <tr>
-              <td>100</td>
-              <td>Thin</td>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Extra Light</td>
-            </tr>
-            <tr>
-              <td>300</td>
-              <td>Light</td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Normal</td>
-            </tr>
-            <tr>
-              <td>500</td>
-              <td>Medium</td>
-            </tr>
-            <tr>
-              <td>600</td>
-              <td>Semi Bold</td>
-            </tr>
-            <tr>
-              <td>700</td>
-              <td>Bold</td>
-            </tr>
-            <tr>
-              <td>800</td>
-              <td>Extra Bold</td>
-            </tr>
-            <tr>
-              <td>900</td>
-              <td>Black (Heaviest)</td>
-            </tr>
-          </tbody>
-        </table>
+        <tbody>
+          <tr>
+            <td>normal</td>
+            <td>Normal font weight (equivalent to 400)</td>
+          </tr>
 
+          <tr>
+            <td>bold</td>
+            <td>Bold text (equivalent to 700)</td>
+          </tr>
+
+          <tr>
+            <td>bolder</td>
+            <td>Bolder than the parent element</td>
+          </tr>
+
+          <tr>
+            <td>lighter</td>
+            <td>Lighter than the parent element</td>
+          </tr>
+
+          <tr>
+            <td>100</td>
+            <td>Thin</td>
+          </tr>
+
+          <tr>
+            <td>200</td>
+            <td>Extra Light</td>
+          </tr>
+
+          <tr>
+            <td>300</td>
+            <td>Light</td>
+          </tr>
+
+          <tr>
+            <td>400</td>
+            <td>Normal</td>
+          </tr>
+
+          <tr>
+            <td>500</td>
+            <td>Medium</td>
+          </tr>
+
+          <tr>
+            <td>600</td>
+            <td>Semi Bold</td>
+          </tr>
+
+          <tr>
+            <td>700</td>
+            <td>Bold</td>
+          </tr>
+
+          <tr>
+            <td>800</td>
+            <td>Extra Bold</td>
+          </tr>
+
+          <tr>
+            <td>900</td>
+            <td>Black (Heaviest)</td>
+          </tr>
+        </tbody>
+      </table>
         <div className="Note-container">
           <div className="icon-note">
             <h6>
@@ -404,31 +411,7 @@ p {
           <code>text-decoration</code> property:
         </p>
 
-        <table
-          border="1"
-          style={{ borderCollapse: "collapse", width: "70%", margin: "1rem 0" }}
-        >
-          <thead>
-            <tr>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>underline</td>
-              <td>Underline the text</td>
-            </tr>
-            <tr>
-              <td>line-through</td>
-              <td>Strike through the text</td>
-            </tr>
-            <tr>
-              <td>overline</td>
-              <td>Overline the text</td>
-            </tr>
-          </tbody>
-        </table>
+ 
 
         <div className="Note-container">
           <div className="icon-note">

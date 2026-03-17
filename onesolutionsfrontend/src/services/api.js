@@ -104,6 +104,12 @@ export const authAPI = {
   getAchievements: () => api.get("/api/student/achievements"),
   addAchievement: (achievementData) =>
     api.post("/api/student/achievements", achievementData),
+
+  // Inside authAPI (after achievements)
+getWorkExperiences: () => api.get("/api/student/work-experiences"),
+addWorkExperience: (workData) => api.post("/api/student/work-experiences", workData),
+updateWorkExperience: (id, workData) => api.put(`/api/student/work-experiences/${id}`, workData),
+deleteWorkExperience: (id) => api.delete(`/api/student/work-experiences/${id}`),
 };
 
 export const progressAPI = {

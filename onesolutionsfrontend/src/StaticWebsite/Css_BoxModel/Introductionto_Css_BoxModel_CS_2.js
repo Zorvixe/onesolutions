@@ -185,7 +185,7 @@ const Introductionto_Css_BoxModel_CS_2 = ({
           HTML element.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Property</th>
@@ -275,7 +275,7 @@ const Introductionto_Css_BoxModel_CS_2 = ({
           You can use one of the below values of the CSS border-style property.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Value</th>
@@ -337,7 +337,7 @@ const Introductionto_Css_BoxModel_CS_2 = ({
           alternative to pick a wide variety of colors.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Color Name</th>

@@ -17,7 +17,7 @@ export const goalsData = [
             id: "QW9_m1_A0 g1_H c1_7B",
             name: "Introduction to HTML & CSS",
             accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
-            topic: [
+            topic: [  
               {
                 id: "QW9_s0_A0 m1_H g1_7B c1_D2E",
                 name: "Introduction to Your First Project - Lets Build Together",

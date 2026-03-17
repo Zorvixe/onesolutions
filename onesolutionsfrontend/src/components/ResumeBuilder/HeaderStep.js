@@ -65,6 +65,14 @@ const HeaderStep = ({ data, setData, onNext }) => {
     }));
   };
 
+   if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="res-build-step-header-row">
@@ -108,8 +116,8 @@ const HeaderStep = ({ data, setData, onNext }) => {
       )}
 
       {loading && (
-        <div className="res-build-loading" style={{ padding: "1rem", textAlign: "center" }}>
-          Loading your profile...
+        <div className="loading-container">
+          <div className="spinner"></div>
         </div>
       )}
 

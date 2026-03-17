@@ -46,8 +46,13 @@ const ResumeList = () => {
     window.location.href = '/resume-builder/new';
   }
 
-  if (loading) return <div className="res-build-loading-spinner">Loading...</div>;
-
+ if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
   return (
     <div className="res-build-list-container">
       {resumes.length === 0 ? (

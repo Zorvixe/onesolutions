@@ -216,7 +216,7 @@ const Navbar = () => {
                 isActive ? "nav-link active hirepro" : "nav-link hirepro"
               }
             >
-              
+              Hire Pro
             </NavLink>
           </li>
       </ul>
@@ -278,7 +278,7 @@ const Navbar = () => {
                 className={({ isActive }) => (isActive ? "active" : "")}
                 onClick={() => setShowMobileMenu(false)}
               >
-                <i className="bi bi-briefcase"></i> 
+                <i className="bi bi-briefcase"></i> Hire Pro
               </NavLink>
             </li>
 

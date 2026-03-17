@@ -329,6 +329,14 @@ const EducationStep = ({ data, setData, onNext, onPrev }) => {
     </div>
   );
 
+   if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="res-build-step-header-row">
@@ -372,9 +380,9 @@ const EducationStep = ({ data, setData, onNext, onPrev }) => {
       )}
 
       {loading && (
-        <div className="res-build-loading" style={{ padding: "1rem", textAlign: "center" }}>
-          Loading your education details...
-        </div>
+         <div className="loading-container">
+        <div className="spinner"></div>
+      </div>
       )}
 
       {fetchError && (

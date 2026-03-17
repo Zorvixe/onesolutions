@@ -135,27 +135,21 @@ const Introductionto_Css_BoxModel_CS_1 = ({
 }`}
         />
 
-        <table
-          border="1"
-          style={{
-            borderCollapse: "collapse",
-            width: "50%",
-            margin: "1rem 0",
-          }}
-        >
-          <thead>
-            <tr>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>url(URL)</td>
-              <td>The URL to the image.</td>
-            </tr>
-          </tbody>
-        </table>
+  <table className="custom-table">
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>url(URL)</td>
+      <td>The URL to the image.</td>
+    </tr>
+  </tbody>
+</table>
 
         <div className="Warning-container">
           <div>
@@ -185,31 +179,26 @@ const Introductionto_Css_BoxModel_CS_1 = ({
 
         <CodeBlock language="css" code={`.card {  background-size: cover; }`} />
 
-        <table
-          border="1"
-          style={{
-            borderCollapse: "collapse",
-            width: "100%",
-            margin: "1rem 0",
-          }}
-        >
-          <thead>
-            <tr>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>cover</td>
-              <td>
-                Scales the image to the smallest size while maintaining the same
-                aspect ratio (width/height) and covers the entire width and
-                height even if the image is cropped.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+   <table className="custom-table">
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>cover</td>
+      <td>
+        Scales the image to the smallest size while maintaining the same
+        aspect ratio (width/height) and covers the entire width and
+        height even if the image is cropped.
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
         <div className="Note-container">
           <div className="icon-note">
             <h6>

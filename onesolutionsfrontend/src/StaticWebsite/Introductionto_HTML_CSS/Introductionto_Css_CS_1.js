@@ -136,31 +136,31 @@ const Introductionto_Css_CS_1 = ({
           alignment of the text in an HTML element.
         </p>
 
-        <table
-          border="1"
-          style={{ borderCollapse: "collapse", width: "70%", margin: "1rem 0" }}
-        >
-          <thead>
-            <tr>
-              <th>Value</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>center</td>
-              <td>Aligns text to the center</td>
-            </tr>
-            <tr>
-              <td>left</td>
-              <td>Aligns text to the left</td>
-            </tr>
-            <tr>
-              <td>right</td>
-              <td>Aligns text to the right</td>
-            </tr>
-          </tbody>
-        </table>
+        <table className="custom-table">
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>center</td>
+            <td>Aligns text to the center</td>
+          </tr>
+
+          <tr>
+            <td>left</td>
+            <td>Aligns text to the left</td>
+          </tr>
+
+          <tr>
+            <td>right</td>
+            <td>Aligns text to the right</td>
+          </tr>
+        </tbody>
+      </table>
 
         <h3>Example Code</h3>
         <CodeBlock
