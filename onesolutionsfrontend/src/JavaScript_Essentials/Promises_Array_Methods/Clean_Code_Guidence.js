@@ -5,7 +5,7 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Prototypal_Inheritance = ({
+const Clean_Code_Guidence = ({
   subtopicId,
   goalName,
   courseName,
@@ -767,4 +767,4 @@ const Prototypal_Inheritance = ({
   );
 };
 
-export default Prototypal_Inheritance
+export default Clean_Code_Guidence

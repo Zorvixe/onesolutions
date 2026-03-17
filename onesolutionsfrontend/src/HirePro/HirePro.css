@@ -467,3 +467,31 @@
   justify-content:center;
   align-items:center;
 }
+
+.status-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #007bff; /* blue border */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  font-size: 14px;
+  color: white;
+  background: transparent;
+}
+
+.status-indicator.completed {
+  background: #28a745; /* green background */
+  border-color: #28a745;
+}
+
+.set-row.completed .status-indicator {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+.set-row.completed .status-indicator::after {
+  color: white;
+}

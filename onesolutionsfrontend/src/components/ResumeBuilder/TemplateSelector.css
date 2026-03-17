@@ -124,4 +124,35 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}.theme-select-thumbnail-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.theme-select-thumbnail-card.active {
+  border: 3px solid #007bff;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+.theme-select-thumbnail-card .template-name {
+  display: block;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.theme-select-btn-download:disabled,
+.theme-select-btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.theme-select-preview-content {
+  min-height: 800px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  background: white;
 }

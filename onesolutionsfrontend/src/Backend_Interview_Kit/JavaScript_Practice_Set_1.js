@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { CodeBlock } from "../CodeOutputBlocks";
+
 const JavaScript_Practice_Set_1 = ({
   subtopicId,
   goalName,
@@ -218,13 +219,21 @@ setTimeout(() => {
         <p><b>Inline JavaScript:</b> JavaScript code is written directly inside HTML elements using event attributes such as <b>onclick</b>.</p>
       </li>
       <li>
-        <p><b>Internal JavaScript:</b> JavaScript code is written inside <b>&lt;script&gt;</b> tags within the HTML file, usually in the <b>&lt;head&gt;</b> or <b>&lt;body&gt;</b> section.</p>
+        <p><b>Internal JavaScript:</b> JavaScript code is written inside <code>&lt;script&gt;</code> tags within the HTML file, usually in the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code> section.</p>
       </li>
       <li>
-        <p><b>External JavaScript:</b> JavaScript code is written in a separate <b>.js</b> file and linked to the HTML document using the <b>src</b> attribute of the <b>&lt;script&gt;</b> tag.</p>
+        <p><b>External JavaScript:</b> JavaScript code is written in a separate <code>.js</code> file and linked to the HTML document using the <code>src</code> attribute of the <code>&lt;script&gt;</code> tag.</p>
       </li>
     </ul>
     
+    <h3>15. How much do you rate yourself in javascript?</h3>
+    <p>I'd rate myself 8 out of 10 in JavaScript, based on 8 months of deepening my understanding of essential concepts including array methods and asynchronous operations using promises, DOM manipulation techniques, and working with local storage. I've learned to dynamically fetch and display data through API integrations. I have applied these skills in real-world scenarios through projects like to-do list, Wikipedia searches etc</p>
+    <h3>16. What are "async" and "await" functions in javascript, when will you use these functions?</h3>
+    <p>In JavaScript, <code>"async"</code> and <code>"await"</code> facilitate easier handling of asynchronous operations, allowing for more readable code. The "async" keyword defines asynchronous functions, which return promises. The "await" keyword is used within "async" functions to wait for a promise to resolve or reject. We can use "async" during network requests or when operations are dependent on the outcomes of previous asynchronous tasks.</p>
+    <h3>17. Where should we use "await" function?</h3>
+    <p>The <code>"await"</code> keyword in JavaScript is used within an <code>"async"</code> function</p>
+    <h3>18. What is an array, and how it allocates the space in the memory?</h3>
+    <p>An array is a data structure holding multiple values under a single name, identified by indexes. In JavaScript, it uses dynamic memory allocation, adjusting size as needed during runtime and storing elements contiguously.</p>
       </section>
 
 

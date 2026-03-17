@@ -49,6 +49,7 @@ import HirePro from "./HirePro/HirePro";
 import ResumeBuilder from './components/ResumeBuilder/ResumeBuilder';
 import ResumeList from './components/ResumeBuilder/ResumeList';
 import TemplateSelector from './components/ResumeBuilder/TemplateSelector';
+import ResumePreview from './components/ResumeBuilder/ResumePreview';
 
 import "./App.css";
 
@@ -93,6 +94,7 @@ function AppWrapper() {
           <Route path="/resume-builder/new" element={<ResumeBuilder />} />
           <Route path="/resume-builder/:resumeId" element={<ResumeBuilder />} />
           <Route path="/resume-builder/preview/:resumeId?" element={<TemplateSelector />} />
+          <Route path="/resume/preview/:resumeId" element={<ResumePreview />} />
 
           {/* 🎯 Courses entry */}
           <Route

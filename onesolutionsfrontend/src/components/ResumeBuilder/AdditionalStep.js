@@ -11,7 +11,6 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState("");
 
-
   // State for managing which accordion is open (null = none, or use multiple)
   const [openSections, setOpenSections] = useState({
     projects: true,
@@ -34,6 +33,25 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
     languages: []
   };
   const navigate = useNavigate();
+
+  // Mapping functions from API snake_case to frontend camelCase
+  const mapProjectsFromAPI = (projects) => {
+    return (projects || []).map(p => ({
+      title: p.project_title || "",
+      description: p.project_description || "",
+      link: p.project_link || "",
+      skills: p.skills || []
+    }));
+  };
+
+  const mapAchievementsFromAPI = (achievements) => {
+    return (achievements || []).map(a => ({
+      title: a.achievement_title || "",
+      description: a.achievement_description || "",
+      link: a.achievement_link || "",
+      date: a.achievement_date || ""
+    }));
+  };
 
   const handlePreview = () => {
     navigate('/resume-builder/preview', { state: { resumeData: data } });
@@ -65,21 +83,11 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
         if (res.data.success) {
           const profile = res.data.data.student;
 
-          // Map projects
-          const projectsFromProfile = (profile.projects || []).map(p => ({
-            title: p.projectTitle || "",
-            description: p.projectDescription || "",
-            link: p.projectLink || "",
-            skills: p.skills || []
-          }));
+          // Map projects using the mapper (API returns snake_case)
+          const projectsFromProfile = mapProjectsFromAPI(profile.projects);
 
-          // Map achievements -> certifications
-          const certificationsFromProfile = (profile.achievements || []).map(a => ({
-            title: a.achievementTitle || "",
-            description: a.achievementDescription || "",
-            link: a.achievementLink || "",
-            date: a.achievementDate || ""
-          }));
+          // Map achievements -> certifications using the mapper
+          const certificationsFromProfile = mapAchievementsFromAPI(profile.achievements);
 
           // Websites: collect relevant links if they exist
           const websitesFromProfile = [];
@@ -89,9 +97,7 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
           if (profile.githubProfileUrl) {
             websitesFromProfile.push({ label: "GitHub", url: profile.githubProfileUrl });
           }
-          if (profile.portfolioUrl) { // not in profile yet, but possible
-            websitesFromProfile.push({ label: "Portfolio", url: profile.portfolioUrl });
-          }
+          // Note: portfolioUrl not present in profile, but we could add later
           if (profile.codePlaygroundUsername) {
             websitesFromProfile.push({
               label: "Code Playground",
@@ -124,7 +130,7 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
     };
 
     fetchProfile();
-  }, [additional, setData]);
+  }, [additional, setData]); // Note: dependency on additional ensures it runs only when empty
 
   // Toggle accordion sections
   const toggleSection = (section) => {
@@ -525,7 +531,6 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
     </div>
   );
 
-
   if (loading) {
     return (
       <div className="loading-container">
@@ -571,12 +576,6 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
               <p>Instead of listing certificates without context, briefly mention what skills each certificate represents.</p>
             </div>
           </div>
-        </div>
-      )}
-
-      {loading && (
-        <div className="loading-container">
-          <div className="spinner"></div>
         </div>
       )}
 
@@ -685,7 +684,6 @@ const AdditionalStep = ({ data, setData, onPrev, onSave, isLastStep }) => {
         >
           Next: Preview
         </button>
-
       </div>
     </>
   );

@@ -9,6 +9,10 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
+const { exec } = require('child_process');
+const util = require('util');
+const execPromise = util.promisify(exec);
+const puppeteer = require('puppeteer');
 const nodemailer = require("nodemailer");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
@@ -1117,6 +1121,2212 @@ function cleanExpiredOtps() {
 // Run cleanup every minute
 setInterval(cleanExpiredOtps, 60 * 1000);
 
+
+
+// Helper to generate PDF from resume data using the selected template
+const generateResumePDF = async (resumeData, templateId = 1) => {
+  let browser = null;
+  try {
+    console.log(`📄 Generating PDF with template ID: ${templateId}`);
+    console.log('📄 Resume data received:', JSON.stringify(resumeData).substring(0, 200) + '...');
+
+    // Launch browser with better options for production
+    const launchOptions = {
+      headless: 'new',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--disable-gpu',
+        '--window-size=1920,1080'
+      ]
+    };
+
+    // Try to find Chrome in various locations
+    const possiblePaths = [
+      process.env.PUPPETEER_EXECUTABLE_PATH,
+      '/usr/bin/google-chrome',
+      '/usr/bin/google-chrome-stable',
+      '/usr/bin/chromium-browser',
+      '/usr/bin/chromium',
+      '/snap/bin/chromium',
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    ].filter(Boolean);
+
+    const fs = require('fs');
+    for (const path of possiblePaths) {
+      if (path && fs.existsSync(path)) {
+        launchOptions.executablePath = path;
+        console.log(`✅ Found Chrome at: ${path}`);
+        break;
+      }
+    }
+
+    console.log('🚀 Launching browser...');
+    browser = await puppeteer.launch(launchOptions);
+    
+    const page = await browser.newPage();
+    
+    // Set viewport
+    await page.setViewport({
+      width: 1240,
+      height: 1754,
+      deviceScaleFactor: 2
+    });
+
+    // Generate HTML
+    const htmlContent = generateTemplateHTML(resumeData, templateId);
+    
+    // Load HTML
+    await page.setContent(htmlContent, {
+      waitUntil: 'networkidle0',
+      timeout: 30000
+    });
+
+    // Generate PDF with proper settings
+    const pdfBuffer = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: {
+        top: '20px',
+        right: '20px',
+        bottom: '20px',
+        left: '20px'
+      },
+      preferCSSPageSize: true
+    });
+
+    console.log(`✅ PDF generated successfully (${pdfBuffer.length} bytes)`);
+    
+    // Ensure we're returning a proper buffer
+    return Buffer.from(pdfBuffer);
+    
+  } catch (error) {
+    console.error('❌ PDF Generation Error:', error);
+    console.error('Error stack:', error.stack);
+    throw new Error(`PDF generation failed: ${error.message}`);
+  } finally {
+    if (browser) {
+      await browser.close();
+      console.log('✅ Browser closed');
+    }
+  }
+};
+
+// Helper function to generate HTML for each template
+const generateTemplateHTML = (resumeData, templateId) => {
+  const data = resumeData;
+  
+  // Helper function to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    } catch {
+      return dateString;
+    }
+  };
+
+  // Helper function to join array
+  const joinArray = (arr, separator = ', ') => {
+    return Array.isArray(arr) ? arr.join(separator) : arr || '';
+  };
+
+  // Template 1: Classic
+  const template1HTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${data.header?.fullName || 'Resume'} - Resume</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,700;1,400&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Spectral", serif;
+        line-height: 1.4;
+        color: #000;
+        background-color: #fff;
+      }
+
+      @page {
+        size: 8.5in 11in;
+        margin: 0.6in;
+      }
+
+      .resume-container {
+        padding: 0.6in;
+        background-color: #fff;
+      }
+
+      /* Header Styles */
+      .header {
+        text-align: center;
+        margin-bottom: 20pt;
+      }
+
+      .name {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin-bottom: 4pt;
+      }
+
+      .designation {
+        font-size: 15pt;
+        font-weight: 700;
+        margin-bottom: 8pt;
+      }
+
+      .contact-info {
+        font-size: 10pt;
+        color: #000;
+      }
+
+      /* Section Styles */
+      .section {
+        margin-bottom: 16pt;
+      }
+
+      .section-title {
+        font-size: 11pt;
+        font-weight: 700;
+        border-bottom: 0.8pt solid #000;
+        padding-bottom: 1pt;
+        margin-bottom: 8pt;
+        text-transform: uppercase;
+      }
+
+      .section-content {
+        font-size: 10pt;
+        line-height: 1.2;
+      }
+
+      /* Experience Styles */
+      .experience-item {
+        margin-bottom: 12pt;
+      }
+
+      .experience-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2pt;
+      }
+
+      .company-location {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .position-dates {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4pt;
+      }
+
+      .position {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .dates {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .description {
+        margin-left: 18pt;
+        position: relative;
+      }
+
+      .description:before {
+        content: "•";
+        position: absolute;
+        left: -12pt;
+      }
+
+      /* Education Styles */
+      .education-item {
+        margin-bottom: 8pt;
+      }
+
+      .education-item h4 {
+        font-size: 10pt;
+        font-weight: 700;
+        margin-bottom: 2pt;
+      }
+
+      .education-details {
+        font-size: 10pt;
+        margin-bottom: 2pt;
+      }
+
+      .education-meta {
+        font-size: 10pt;
+        color: #666;
+      }
+
+      /* Skills Styles */
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8pt;
+      }
+
+      .skill-tag {
+        background-color: #f0f0f0;
+        padding: 4pt 8pt;
+        border-radius: 4pt;
+        font-size: 9pt;
+        border: 1pt solid #ddd;
+      }
+
+      /* List Styles */
+      .custom-list {
+        list-style: none;
+        margin-left: 18pt;
+      }
+
+      .custom-list li {
+        position: relative;
+        margin-bottom: 4pt;
+      }
+
+      .custom-list li:before {
+        content: "•";
+        position: absolute;
+        left: -12pt;
+      }
+
+      /* Project Styles */
+      .project-item {
+        margin-bottom: 12pt;
+      }
+
+      .project-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2pt;
+      }
+
+      .project-name {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .project-dates {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .project-institution {
+        font-weight: 700;
+        font-size: 10pt;
+        margin-bottom: 4pt;
+      }
+
+      /* Certification Styles */
+      .certification-item {
+        margin-bottom: 8pt;
+      }
+
+      .cert-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2pt;
+      }
+
+      .cert-name {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .cert-date {
+        font-weight: 700;
+        font-size: 10pt;
+      }
+
+      .cert-institution {
+        font-size: 10pt;
+      }
+
+      /* Utility Classes */
+      .spacer {
+        height: 8pt;
+      }
+
+      .small-spacer {
+        height: 4pt;
+      }
+    </style>
+    </head>
+    <body>
+    <div class="resume-container">
+      <!-- Header Section -->
+      <div class="header">
+        <div class="name">${data.header?.fullName || ''}</div>
+        <div class="designation">${data.header?.designation || ''}</div>
+        <div class="contact-info">
+          ${data.header?.location || ''} ${data.header?.location ? '•' : ''} ${data.header?.email || ''} ${data.header?.email && data.header?.phone ? '•' : ''} ${data.header?.phone || ''}
+        </div>
+      </div>
+
+      <!-- Summary Section (only if exists) -->
+      ${data.summary?.text ? `
+      <div class="section">
+        <div class="section-title">Summary</div>
+        <div class="section-content">${data.summary.text}</div>
+      </div>
+      ` : ''}
+
+      <!-- Professional Experience Section (only if experience exists) -->
+      ${data.experience?.length ? `
+      <div class="section">
+        <div class="section-title">Professional Experience</div>
+        <div class="section-content">
+          ${data.experience.map(exp => `
+          <div class="experience-item">
+            <div class="experience-header">
+              <span class="company-location">${exp.company || ''}</span>
+              <span class="company-location">${exp.location || ''}</span>
+            </div>
+            <div class="position-dates">
+              <span class="position">${exp.title || ''}</span>
+              <span class="dates">${formatDate(exp.startDate)} - ${exp.isCurrent ? 'Present' : formatDate(exp.endDate)}</span>
+            </div>
+            <div class="description">${exp.description || ''}</div>
+            ${exp.achievements ? `
+            <div class="description" style="margin-top: 2pt;">Achievements: ${exp.achievements}</div>
+            ` : ''}
+          </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Selected Project Experience Section (only if projects exist) -->
+      ${data.additional?.projects?.length ? `
+      <div class="section">
+        <div class="section-title">Project Experience</div>
+        <div class="section-content">
+          ${data.additional.projects.map(project => `
+          <ul class="custom-list">
+            <li><strong>${project.title || ''}</strong></li>
+            <li style="margin-left: 18pt">${project.description || ''}</li>
+            ${project.skills ? `
+            <li style="margin-left: 18pt; list-style: none; margin-top: 2pt;">Skills: ${joinArray(project.skills)}</li>
+            ` : ''}
+            ${project.link ? `
+            <li style="margin-left: 18pt; list-style: none; font-size: 9pt;">Link: ${project.link}</li>
+            ` : ''}
+          </ul>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Achievements & Certifications Section (only if exists) -->
+      ${data.additional?.certifications?.length ? `
+      <div class="section">
+        <div class="section-title">Certifications</div>
+        <div class="section-content">
+          ${data.additional.certifications.map(cert => `
+          <div class="certification-item">
+            <div class="cert-header">
+              <span class="cert-name">${cert.title || ''}</span>
+              <span class="cert-date">${cert.date || ''}</span>
+            </div>
+            <div class="cert-institution">${cert.issuer || ''}</div>
+          </div>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Education Section -->
+      <div class="section">
+        <div class="section-title">Education</div>
+        <div class="section-content">
+          ${data.education?.tenth?.marks ? `
+          <div class="education-item">
+            <h4>10th Grade</h4>
+            <div class="education-details">
+              ${data.education.tenth.school || ''} ${data.education.tenth.marksType ? ',' : ''} ${data.education.tenth.marksType || ''}: ${data.education.tenth.marks || ''}${data.education.tenth.percentage ? ` (${data.education.tenth.percentage}%)` : ''}
+            </div>
+            ${data.education.tenth.year ? `
+            <div class="education-meta">
+              Year of Passout: ${data.education.tenth.year}
+            </div>
+            ` : ''}
+          </div>
+          ` : ''}
+
+          ${data.education?.twelfth?.marks ? `
+          <div class="education-item">
+            <h4>12th Grade</h4>
+            <div class="education-details">
+              ${data.education.twelfth.institute || ''} ${data.education.twelfth.marksType ? ',' : ''} ${data.education.twelfth.marksType || ''}: ${data.education.twelfth.marks || ''}${data.education.twelfth.percentage ? ` (${data.education.twelfth.percentage}%)` : ''}
+            </div>
+            ${data.education.twelfth.year ? `
+            <div class="education-meta">
+              Year of Passout: ${data.education.twelfth.year}
+            </div>
+            ` : ''}
+          </div>
+          ` : ''}
+
+          ${data.education?.bachelor?.degree ? `
+          <div class="education-item">
+            <h4>Undergraduate</h4>
+            <div class="education-details">
+              ${data.education.bachelor.institute || ''}, ${data.education.bachelor.degree || ''}${data.education.bachelor.branch ? ` in ${data.education.bachelor.branch}` : ''}
+            </div>
+            <div class="education-meta">
+              Year of Passout: ${data.education.bachelor.endYear || ''}${data.education.bachelor.cgpa ? `, CGPA: ${data.education.bachelor.cgpa}` : ''}
+            </div>
+          </div>
+          ` : ''}
+        </div>
+      </div>
+
+      <!-- Skills Section (only if skills exist) -->
+      ${data.skills?.length ? `
+      <div class="section">
+        <div class="section-title">Skills</div>
+        <div class="section-content">
+          <div class="skills-container">
+            ${data.skills.map(skill => `
+            <span class="skill-tag">${skill}</span>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Languages Section (only if languages exist) -->
+      ${data.additional?.languages?.length ? `
+      <div class="section">
+        <div class="section-title">Languages</div>
+        <div class="section-content">
+          <ul class="custom-list">
+            ${data.additional.languages.map(lang => `
+            <li>${lang.language || ''}${lang.proficiency ? ` (${lang.proficiency})` : ''}</li>
+            `).join('')}
+          </ul>
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Websites & Links Section (only if exists) -->
+      ${data.additional?.websites?.length ? `
+      <div class="section">
+        <div class="section-title">Online Profiles</div>
+        <div class="section-content">
+          <ul class="custom-list">
+            ${data.additional.websites.map(site => `
+            <li>${site.label || ''}: ${site.url || ''}</li>
+            `).join('')}
+          </ul>
+        </div>
+      </div>
+      ` : ''}
+    </div>
+    </body>
+    </html>
+  `;
+
+  // Template 2: Modern
+  const template2HTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
+
+        body {
+          margin: 0;
+        }
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .resume-container {
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem;
+        background: white;
+        box-sizing: border-box;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+          "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 1.875rem;
+        font-weight: 600;
+        color: #111827;
+      }
+
+      .header h2 {
+        font-size: 1.25rem;
+        font-weight: 400;
+        color: #374151;
+      }
+
+      .contact-info {
+        margin-top: 0.5rem;
+        color: #4b5563;
+        font-weight: 300;
+      }
+
+      .social-links {
+        margin-top: 0.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .social-links a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 400;
+      }
+
+      .social-links a:hover {
+        text-decoration: underline;
+      }
+
+      .content-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .section-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        border-bottom: 2px solid #d1d5db;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .education-item {
+        padding: 0.5rem;
+        border-radius: 6px;
+      }
+
+      .education-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+        margin-top: 0.3rem;
+      }
+
+      .education-meta {
+        color: #4b5563;
+        font-weight: 300;
+        font-size: 0.875rem;
+      }
+
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .skill-tag {
+        padding: 0.3rem 0.8rem;
+        background: #dbeafe;
+        border-radius: 9999px;
+        font-weight: 400;
+      }
+
+      .project-item {
+        padding: 1rem;
+        border-radius: 6px;
+      }
+
+      .project-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+      }
+
+      .project-meta {
+        color: #4b5563;
+        font-weight: 300;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .certificate-item {
+        padding: 1rem;
+        border-radius: 6px;
+      }
+
+      .certificate-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+      }
+
+      .certificate-meta {
+        color: #4b5563;
+        font-weight: 300;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .experience-item {
+        padding: 1rem;
+        border-radius: 6px;
+      }
+
+      .experience-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+      }
+
+      .experience-meta {
+        color: #4b5563;
+        font-weight: 300;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Additional styles for better hierarchy */
+      p {
+        font-weight: 300;
+        line-height: 1.5;
+        color: #374151;
+      }
+
+      .custom-list {
+        list-style: none;
+        margin-left: 1rem;
+      }
+
+      .custom-list li {
+        position: relative;
+        margin-bottom: 0.3rem;
+        padding-left: 1.2rem;
+      }
+
+      .custom-list li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #374151;
+      }
+
+      .company-name,
+      .institution-name {
+        font-weight: 400;
+        color: #1f2937;
+      }
+
+      .summary-text {
+        font-weight: 300;
+        line-height: 1.6;
+        padding: 0.5rem;
+        color: #374151;
+      }
+    </style>
+    </head>
+    <body>
+
+    <div class="resume-container">
+      <header class="header">
+        <h1>${data.header?.fullName || ''}</h1>
+        ${data.header?.designation ? `
+        <h2>${data.header.designation}</h2>
+        ` : ''}
+        <p class="contact-info">
+          ${data.header?.location || ''}
+          ${data.header?.location && data.header?.phone ? ' • ' : ''}
+          ${data.header?.phone || ''}
+          ${(data.header?.phone && data.header?.email) || (data.header?.location && data.header?.email) ? ' • ' : ''}
+          ${data.header?.email || ''}
+        </p>
+        <div class="social-links">
+          ${data.header?.linkedin ? `
+          <a href="${data.header.linkedin}" target="_blank">LinkedIn</a>
+          ` : ''}
+          ${data.header?.github ? `
+          <a href="${data.header.github}" target="_blank">GitHub</a>
+          ` : ''}
+          ${data.header?.portfolio ? `
+          <a href="${data.header.portfolio}" target="_blank">Portfolio</a>
+          ` : ''}
+        </div>
+      </header>
+
+      <div class="content-grid">
+        ${data.summary?.text ? `
+        <section>
+          <h3 class="section-title">Summary</h3>
+          <p class="summary-text">${data.summary.text}</p>
+        </section>
+        ` : ''}
+
+        ${data.experience?.length ? `
+        <section>
+          <h3 class="section-title">Experience</h3>
+          ${data.experience.map(exp => `
+          <div class="experience-item">
+            <h4>${exp.title || ''}</h4>
+            <p class="company-name">${exp.company || ''}${exp.location ? `, ${exp.location}` : ''}</p>
+            <p class="experience-meta">
+              ${formatDate(exp.startDate)} - ${exp.isCurrent ? 'Present' : formatDate(exp.endDate)}
+            </p>
+            <p>${exp.description || ''}</p>
+            ${exp.achievements ? `
+            <p style="margin-top: 0.5rem; font-style: italic;">Achievements: ${exp.achievements}</p>
+            ` : ''}
+          </div>
+          `).join('')}
+        </section>
+        ` : ''}
+
+        ${data.additional?.projects?.length ? `
+        <section>
+          <h3 class="section-title">Projects</h3>
+          ${data.additional.projects.map(project => `
+          <div class="project-item">
+            <h4>${project.title || ''}</h4>
+            ${project.company ? `
+            <p class="institution-name">${project.company}</p>
+            ` : ''}
+            ${project.startDate ? `
+            <p class="project-meta">
+              ${formatDate(project.startDate)} - ${project.isCurrent ? 'Present' : formatDate(project.endDate)}
+            </p>
+            ` : ''}
+            <p>${project.description || ''}</p>
+            ${project.skills?.length ? `
+            <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #4b5563;">
+              <strong>Skills:</strong> ${joinArray(project.skills)}
+            </p>
+            ` : ''}
+            ${project.link ? `
+            <p style="margin-top: 0.3rem;">
+              <a href="${project.link}" target="_blank" style="color: #2563eb; font-size: 0.875rem;">Project Link</a>
+            </p>
+            ` : ''}
+          </div>
+          `).join('')}
+        </section>
+        ` : ''}
+
+        ${data.additional?.certifications?.length ? `
+        <section>
+          <h3 class="section-title">Certifications</h3>
+          ${data.additional.certifications.map(cert => `
+          <div class="certificate-item">
+            <h4>${cert.title || ''}</h4>
+            ${cert.issuer ? `
+            <p class="institution-name">${cert.issuer}</p>
+            ` : ''}
+            ${cert.date ? `
+            <p class="certificate-meta">${cert.date}</p>
+            ` : ''}
+            ${cert.link ? `
+            <p>
+              <a href="${cert.link}" target="_blank" style="color: #2563eb; font-size: 0.875rem;">Certificate Link</a>
+            </p>
+            ` : ''}
+          </div>
+          `).join('')}
+        </section>
+        ` : ''}
+
+        <section>
+          <h3 class="section-title">Education</h3>
+          
+          ${data.education?.tenth?.marks ? `
+          <div class="education-item">
+            <h4>10th Grade</h4>
+            <p>
+              ${data.education.tenth.school || ''}${data.education.tenth.marksType ? ` (${data.education.tenth.marksType})` : ''}: ${data.education.tenth.marks || ''}${data.education.tenth.percentage ? ` (${data.education.tenth.percentage}%)` : ''}
+            </p>
+            ${data.education.tenth.year ? `
+            <p class="education-meta">
+              Year of Passout: ${data.education.tenth.year}
+            </p>
+            ` : ''}
+          </div>
+          ` : ''}
+
+          ${data.education?.twelfth?.marks ? `
+          <div class="education-item">
+            <h4>12th Grade</h4>
+            <p>
+              ${data.education.twelfth.institute || ''}${data.education.twelfth.marksType ? ` (${data.education.twelfth.marksType})` : ''}: ${data.education.twelfth.marks || ''}${data.education.twelfth.percentage ? ` (${data.education.twelfth.percentage}%)` : ''}
+            </p>
+            ${data.education.twelfth.year ? `
+            <p class="education-meta">
+              Year of Passout: ${data.education.twelfth.year}
+            </p>
+            ` : ''}
+          </div>
+          ` : ''}
+
+          ${data.education?.bachelor?.degree ? `
+          <div class="education-item">
+            <h4>Undergraduate</h4>
+            <p>${data.education.bachelor.institute || ''}, ${data.education.bachelor.degree || ''}${data.education.bachelor.branch ? ` in ${data.education.bachelor.branch}` : ''}</p>
+            <p class="education-meta">
+              Year of Passout: ${data.education.bachelor.endYear || ''}${data.education.bachelor.cgpa ? `, CGPA: ${data.education.bachelor.cgpa}` : ''}
+            </p>
+          </div>
+          ` : ''}
+        </section>
+
+        ${data.skills?.length ? `
+        <section>
+          <h3 class="section-title">Skills</h3>
+          <div class="skills-container">
+            ${data.skills.map(skill => `
+            <span class="skill-tag">${skill}</span>
+            `).join('')}
+          </div>
+        </section>
+        ` : ''}
+
+        ${data.additional?.languages?.length ? `
+        <section>
+          <h3 class="section-title">Languages</h3>
+          <div class="section-content">
+            <ul class="custom-list">
+              ${data.additional.languages.map(lang => `
+              <li>${lang.language || ''}${lang.proficiency ? ` (${lang.proficiency})` : ''}</li>
+              `).join('')}
+            </ul>
+          </div>
+        </section>
+        ` : ''}
+
+        ${data.additional?.websites?.length ? `
+        <section>
+          <h3 class="section-title">Websites & Links</h3>
+          <div class="section-content">
+            <ul class="custom-list">
+              ${data.additional.websites.map(site => `
+              <li><a href="${site.url || '#'}" target="_blank" style="color: #2563eb;">${site.label || site.url}</a></li>
+              `).join('')}
+            </ul>
+          </div>
+        </section>
+        ` : ''}
+      </div>
+    </div>
+    </body>
+    </html>
+  `;
+
+  // Template 3: Minimal
+  const template3HTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap");
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
+
+        body {
+          margin: 0;
+        }
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .resume-container {
+        width: 100%;
+        margin: 0 auto;
+        padding: 2rem;
+        background: white;
+        box-sizing: border-box;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        font-family: "Source Sans Pro", sans-serif;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2rem;
+        border-bottom: 3px double #2563eb;
+        padding-bottom: 1rem;
+      }
+
+      .header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #1e40af;
+        margin-bottom: 0.5rem;
+      }
+
+      .header h2 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.25rem;
+        color: #4b5563;
+        font-style: italic;
+        font-weight: 500;
+      }
+
+      .content-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: #1e40af;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 600;
+      }
+
+      .section-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, #2563eb, transparent);
+      }
+
+      .experience-item {
+        margin-bottom: 1.5rem;
+        padding-left: 1rem;
+        border-left: 2px solid #e5e7eb;
+      }
+
+      .experience-item:hover {
+        border-left-color: #2563eb;
+      }
+
+      .experience-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 0.5rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .experience-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .experience-company {
+        font-style: italic;
+        color: #4b5563;
+      }
+
+      .experience-date {
+        font-size: 0.875rem;
+        color: #6b7280;
+        font-weight: 300;
+      }
+
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .skill-item {
+        background: #f3f4f6;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-align: center;
+        transition: all 0.3s ease;
+        font-weight: 400;
+        white-space: nowrap;
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #4b5563;
+        font-weight: 400;
+      }
+
+      .contact-item a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .contact-item a:hover {
+        text-decoration: underline;
+      }
+
+      /* New styles for Education and Projects */
+      .education-item {
+        margin-bottom: 1rem;
+        padding: 0.5rem;
+        background: #f8fafc;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .education-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+        margin-top: 0.3rem;
+      }
+
+      .education-meta {
+        color: #4b5563;
+        font-weight: 400;
+        font-size: 0.875rem;
+      }
+
+      .project-item {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .project-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+      }
+
+      .project-meta {
+        color: #4b5563;
+        font-weight: 400;
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .certificate-item {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .certificate-item h4 {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 0.3rem;
+      }
+
+      .section-content {
+        margin: 0 -42px;
+      }
+
+      .custom-list {
+        list-style: none;
+        margin-left: 0;
+        padding-left: 1rem;
+      }
+
+      .custom-list li {
+        position: relative;
+        margin-bottom: 0.3rem;
+        padding-left: 1.2rem;
+      }
+
+      .custom-list li:before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #2563eb;
+        font-weight: bold;
+      }
+    </style>
+    </head>
+    <body>
+
+    <div class="resume-container">
+      <header class="header">
+        <h1>${data.header?.fullName || ''}</h1>
+        ${data.header?.designation ? `
+        <h2>${data.header.designation}</h2>
+        ` : ''}
+      </header>
+      
+      <div class="content-wrapper">
+        ${data.summary?.text ? `
+        <section class="section">
+          <h3 class="section-title">Summary</h3>
+          <p>${data.summary.text}</p>
+        </section>
+        ` : ''}
+
+        <section class="section">
+          <h3 class="section-title">Contact Information</h3>
+          <div class="contact-grid">
+            ${data.header?.location ? `
+            <div class="contact-item">📍 ${data.header.location}</div>
+            ` : ''}
+            ${data.header?.phone ? `
+            <div class="contact-item">📞 ${data.header.phone}</div>
+            ` : ''}
+            ${data.header?.email ? `
+            <div class="contact-item">📧 ${data.header.email}</div>
+            ` : ''}
+            ${data.header?.linkedin ? `
+            <div class="contact-item">
+              <a href="${data.header.linkedin}" target="_blank">🔗 LinkedIn</a>
+            </div>
+            ` : ''}
+            ${data.header?.github ? `
+            <div class="contact-item">
+              <a href="${data.header.github}" target="_blank">💻 GitHub</a>
+            </div>
+            ` : ''}
+            ${data.header?.portfolio ? `
+            <div class="contact-item">
+              <a href="${data.header.portfolio}" target="_blank">🌐 Portfolio</a>
+            </div>
+            ` : ''}
+          </div>
+        </section>
+
+        ${data.experience?.length ? `
+        <section class="section">
+          <h3 class="section-title">Professional Experience</h3>
+          ${data.experience.map(exp => `
+          <div class="experience-item">
+            <div class="experience-header">
+              <div>
+                <div class="experience-title">${exp.title || ''}</div>
+                <div class="experience-company">${exp.company || ''}</div>
+              </div>
+              <div class="experience-date">
+                ${formatDate(exp.startDate)} - ${exp.isCurrent ? 'Present' : formatDate(exp.endDate)}
+              </div>
+            </div>
+            <p>${exp.description || ''}</p>
+            ${exp.achievements ? `
+            <p style="margin-top: 0.5rem; font-style: italic; color: #4b5563;">Achievements: ${exp.achievements}</p>
+            ` : ''}
+          </div>
+          `).join('')}
+        </section>
+        ` : ''}
+
+        ${data.additional?.projects?.length ? `
+        <section class="section">
+          <h3 class="section-title">Projects</h3>
+          ${data.additional.projects.map(project => `
+          <div class="project-item">
+            <h4>${project.title || ''}</h4>
+            ${project.company ? `
+            <p>${project.company}</p>
+            ` : ''}
+            ${project.startDate ? `
+            <p class="project-meta">
+              ${formatDate(project.startDate)} - ${project.isCurrent ? 'Present' : formatDate(project.endDate)}
+            </p>
+            ` : ''}
+            <p>${project.description || ''}</p>
+            ${project.skills?.length ? `
+            <p style="margin-top: 0.5rem; color: #4b5563;">
+              <strong>Skills:</strong> ${joinArray(project.skills)}
+            </p>
+            ` : ''}
+            ${project.link ? `
+            <p style="margin-top: 0.3rem;">
+              <a href="${project.link}" target="_blank" style="color: #2563eb;">Project Link →</a>
+            </p>
+            ` : ''}
+          </div>
+          `).join('')}
+        </section>
+        ` : ''}
+
+        ${data.additional?.certifications?.length ? `
+        <section class="section">
+          <h3 class="section-title">Certifications</h3>
+          ${data.additional.certifications.map(cert => `
+          <div class="certificate-item">
+            <h4>${cert.title || ''}</h4>
+            ${cert.issuer ? `
+            <p>${cert.issuer}</p>
+            ` : ''}
+            ${cert.date ? `
+            <p class="project-meta">${cert.date}</p>
+            ` : ''}
+            ${cert.link ? `
+            <p>
+              <a href="${cert.link}" target="_blank" style="color: #2563eb;">View Certificate →</a>
+            </p>
+            ` : ''}
+          </div>
+          `).join('')}
+        </section>
+        ` : ''}
+
+        <section class="section">
+          <h3 class="section-title">Education</h3>
+          
+          ${data.education?.tenth?.marks ? `
+          <div class="education-item">
+            <h4>10th Grade</h4>
+            <p>
+              ${data.education.tenth.school || ''}${data.education.tenth.marksType ? ` (${data.education.tenth.marksType})` : ''}: ${data.education.tenth.marks || ''}${data.education.tenth.percentage ? ` (${data.education.tenth.percentage}%)` : ''}
+            </p>
+            ${data.education.tenth.year ? `
+            <p class="education-meta">
+              Year of Passout: ${data.education.tenth.year}
+            </p>
+            ` : ''}
+          </div>
+          ` : ''}
+
+          ${data.education?.twelfth?.marks ? `
+          <div class="education-item">
+            <h4>12th Grade</h4>
+            <p>
+              ${data.education.twelfth.institute || ''}${data.education.twelfth.marksType ? ` (${data.education.twelfth.marksType})` : ''}: ${data.education.twelfth.marks || ''}${data.education.twelfth.percentage ? ` (${data.education.twelfth.percentage}%)` : ''}
+            </p>
+            ${data.education.twelfth.year ? `
+            <p class="education-meta">
+              Year of Passout: ${data.education.twelfth.year}
+            </p>
+            ` : ''}
+          </div>
+          ` : ''}
+
+          ${data.education?.bachelor?.degree ? `
+          <div class="education-item">
+            <h4>Undergraduate</h4>
+            <p>${data.education.bachelor.institute || ''}, ${data.education.bachelor.degree || ''}${data.education.bachelor.branch ? ` in ${data.education.bachelor.branch}` : ''}</p>
+            <p class="education-meta">
+              Year of Passout: ${data.education.bachelor.endYear || ''}${data.education.bachelor.cgpa ? `, CGPA: ${data.education.bachelor.cgpa}` : ''}
+            </p>
+          </div>
+          ` : ''}
+        </section>
+
+        ${data.skills?.length ? `
+        <section class="section">
+          <h3 class="section-title">Skills</h3>
+          <div class="skills">
+            ${data.skills.map(skill => `
+            <div class="skill-item">${skill}</div>
+            `).join('')}
+          </div>
+        </section>
+        ` : ''}
+
+        ${data.additional?.languages?.length ? `
+        <section class="section">
+          <h3 class="section-title">Languages</h3>
+          <div class="section-content">
+            <ul class="custom-list">
+              ${data.additional.languages.map(lang => `
+              <li>${lang.language || ''}${lang.proficiency ? ` (${lang.proficiency})` : ''}</li>
+              `).join('')}
+            </ul>
+          </div>
+        </section>
+        ` : ''}
+
+        ${data.additional?.websites?.length ? `
+        <section class="section">
+          <h3 class="section-title">Websites & Links</h3>
+          <div class="section-content">
+            <ul class="custom-list">
+              ${data.additional.websites.map(site => `
+              <li><a href="${site.url || '#'}" target="_blank" style="color: #2563eb;">${site.label || site.url}</a></li>
+              `).join('')}
+            </ul>
+          </div>
+        </section>
+        ` : ''}
+      </div>
+    </div>
+    </body>
+    </html>
+  `;
+
+  // Template 4: Creative
+  const template4HTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${data.header?.fullName || 'Resume'} - Resume</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+          padding: 40px;
+        }
+      }
+
+      .container {
+        padding: 40px;
+        line-height: 1.5;
+        background-color: #ffff;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+      }
+
+      .header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .contact-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+      }
+
+      .name {
+        font-size: 24px;
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .title {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 20px 0;
+        border-bottom: 2px solid #000;
+        padding-bottom: 5px;
+      }
+
+      .section-content {
+        margin-bottom: 20px;
+      }
+
+      .section-content-title {
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+      }
+
+      .section-content-description {
+        font-size: 14px;
+      }
+
+      .bullet-point {
+        margin-left: 20px;
+        position: relative;
+        margin-bottom: 5px;
+      }
+
+      .bullet-point::before {
+        content: "•";
+        position: absolute;
+        left: -15px;
+      }
+
+      .skills-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .skill-tag {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        background-color: #f0f0f0;
+      }
+
+      .custom-list {
+        list-style-type: none;
+        padding-left: 20px;
+      }
+
+      .custom-list li {
+        position: relative;
+        margin-bottom: 5px;
+      }
+
+      .custom-list li::before {
+        content: "•";
+        position: absolute;
+        left: -15px;
+      }
+
+      a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+    </head>
+    <body>
+
+    <div class="container">
+      <section class="header">
+        <div class="header-left">
+          <div class="name">${data.header?.fullName || ''}</div>
+          ${data.header?.designation ? `
+          <div>${data.header.designation}</div>
+          ` : ''}
+          ${data.education?.bachelor?.degree ? `
+          <div>${data.education.bachelor.degree}${data.education.bachelor.branch ? ` (${data.education.bachelor.branch})` : ''}</div>
+          ` : ''}
+          ${data.education?.bachelor?.institute ? `
+          <div>${data.education.bachelor.institute}</div>
+          ` : ''}
+        </div>
+        <div class="contact-info">
+          ${data.header?.location ? `
+          <div>${data.header.location}</div>
+          ` : ''}
+          ${data.header?.phone ? `
+          <div>${data.header.phone}</div>
+          ` : ''}
+          ${data.header?.email ? `
+          <div>${data.header.email}</div>
+          ` : ''}
+          ${data.header?.linkedin ? `
+          <div><a href="${data.header.linkedin}" target="_blank">${data.header.linkedin}</a></div>
+          ` : ''}
+          ${data.header?.github ? `
+          <div><a href="${data.header.github}" target="_blank">${data.header.github}</a></div>
+          ` : ''}
+          ${data.header?.portfolio ? `
+          <div><a href="${data.header.portfolio}" target="_blank">${data.header.portfolio}</a></div>
+          ` : ''}
+        </div>
+      </section>
+
+      ${data.summary?.text ? `
+      <section class="section">
+        <h3 class="title">Summary</h3>
+        <p>${data.summary.text}</p>
+      </section>
+      ` : ''}
+
+      ${data.experience?.length ? `
+      <section class="section">
+        <div class="title">PROFESSIONAL EXPERIENCE</div>
+        <div class="section-contents">
+          ${data.experience.map(exp => `
+          <div class="section-content">
+            <div class="section-content-title">
+              <div>${exp.title || ''}</div>
+              <div>${formatDate(exp.startDate)} – ${exp.isCurrent ? 'Present' : formatDate(exp.endDate)}</div>
+            </div>
+            <div class="section-content-description">
+              <div>${exp.company || ''}${exp.location ? `, ${exp.location}` : ''}</div>
+              <p>${exp.description || ''}</p>
+              ${exp.achievements ? `
+              <p style="margin-top: 5px;"><strong>Achievements:</strong> ${exp.achievements}</p>
+              ` : ''}
+            </div>
+          </div>
+          `).join('')}
+        </div>
+      </section>
+      ` : ''}
+
+      ${data.additional?.projects?.length ? `
+      <section class="section">
+        <div class="title">PROJECTS</div>
+        <div class="section-contents">
+          ${data.additional.projects.map(project => `
+          <div class="section-content">
+            <div class="section-content-title">
+              <div>${project.title || ''}</div>
+              ${project.startDate ? `
+              <div>${formatDate(project.startDate)} - ${project.isCurrent ? 'Present' : formatDate(project.endDate)}</div>
+              ` : ''}
+            </div>
+            <div class="section-content-description">
+              ${project.company ? `
+              <div>${project.company}</div>
+              ` : ''}
+              <p>${project.description || ''}</p>
+              ${project.skills?.length ? `
+              <p style="margin-top: 5px;"><strong>Skills:</strong> ${joinArray(project.skills)}</p>
+              ` : ''}
+              ${project.link ? `
+              <p style="margin-top: 5px;"><a href="${project.link}" target="_blank">Project Link →</a></p>
+              ` : ''}
+            </div>
+          </div>
+          `).join('')}
+        </div>
+      </section>
+      ` : ''}
+
+      ${data.additional?.certifications?.length ? `
+      <section class="section">
+        <div class="title">CERTIFICATIONS</div>
+        <div class="section-contents">
+          ${data.additional.certifications.map(cert => `
+          <div class="section-content">
+            <div class="section-content-title">
+              <div>${cert.title || ''}</div>
+              ${cert.date ? `
+              <div>${cert.date}</div>
+              ` : ''}
+            </div>
+            <div class="section-content-description">
+              ${cert.issuer ? `
+              <div>${cert.issuer}</div>
+              ` : ''}
+              ${cert.link ? `
+              <p><a href="${cert.link}" target="_blank">View Certificate →</a></p>
+              ` : ''}
+            </div>
+          </div>
+          `).join('')}
+        </div>
+      </section>
+      ` : ''}
+
+      <section class="section">
+        <div class="title">EDUCATION</div>
+        <div class="section-contents">
+          ${data.education?.tenth?.marks ? `
+          <div class="section-content">
+            <div class="section-content-title">
+              <div>10th Grade</div>
+            </div>
+            <div class="section-content-description">
+              <div>
+                ${data.education.tenth.school || ''}${data.education.tenth.marksType ? ` (${data.education.tenth.marksType})` : ''}: ${data.education.tenth.marks || ''}${data.education.tenth.percentage ? ` (${data.education.tenth.percentage}%)` : ''}
+              </div>
+              ${data.education.tenth.year ? `
+              <div>Year of Passout: ${data.education.tenth.year}</div>
+              ` : ''}
+            </div>
+          </div>
+          ` : ''}
+
+          ${data.education?.twelfth?.marks ? `
+          <div class="section-content">
+            <div class="section-content-title">
+              <div>12th Grade</div>
+            </div>
+            <div class="section-content-description">
+              <div>
+                ${data.education.twelfth.institute || ''}${data.education.twelfth.marksType ? ` (${data.education.twelfth.marksType})` : ''}: ${data.education.twelfth.marks || ''}${data.education.twelfth.percentage ? ` (${data.education.twelfth.percentage}%)` : ''}
+              </div>
+              ${data.education.twelfth.year ? `
+              <div>Year of Passout: ${data.education.twelfth.year}</div>
+              ` : ''}
+            </div>
+          </div>
+          ` : ''}
+
+          ${data.education?.bachelor?.degree ? `
+          <div class="section-content">
+            <div class="section-content-title">
+              <div>Undergraduate</div>
+            </div>
+            <div class="section-content-description">
+              <div>${data.education.bachelor.institute || ''}, ${data.education.bachelor.degree || ''}${data.education.bachelor.branch ? ` in ${data.education.bachelor.branch}` : ''}</div>
+              <div>
+                Year of Passout: ${data.education.bachelor.endYear || ''}${data.education.bachelor.cgpa ? `, CGPA: ${data.education.bachelor.cgpa}` : ''}
+              </div>
+            </div>
+          </div>
+          ` : ''}
+        </div>
+      </section>
+
+      ${data.skills?.length ? `
+      <section class="section">
+        <h3 class="title">Skills</h3>
+        <div class="skills-container">
+          ${data.skills.map(skill => `
+          <span class="skill-tag">${skill}</span>
+          `).join('')}
+        </div>
+      </section>
+      ` : ''}
+
+      ${data.additional?.languages?.length ? `
+      <section class="section">
+        <div class="title">Languages</div>
+        <div class="section-content">
+          <ul class="custom-list">
+            ${data.additional.languages.map(lang => `
+            <li>${lang.language || ''}${lang.proficiency ? ` (${lang.proficiency})` : ''}</li>
+            `).join('')}
+          </ul>
+        </div>
+      </section>
+      ` : ''}
+
+      ${data.additional?.websites?.length ? `
+      <section class="section">
+        <div class="title">Websites & Links</div>
+        <div class="section-content">
+          <ul class="custom-list">
+            ${data.additional.websites.map(site => `
+            <li><a href="${site.url || '#'}" target="_blank">${site.label || site.url}</a></li>
+            `).join('')}
+          </ul>
+        </div>
+      </section>
+      ` : ''}
+    </div>
+    </body>
+    </html>
+  `;
+
+  // Template 5: Professional
+  const template5HTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${data.header?.fullName || 'Resume'} - Resume</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 0;
+        }
+      }
+
+      .mainContainer {
+        width: 100%;
+        min-height: 100vh;
+        padding: 40px 50px;
+        background-color: white;
+      }
+
+      .templateHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .templateHeader h2 {
+        font-size: 30px;
+        color: #333;
+      }
+
+      .templateHeader p {
+        font-size: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .templateHeader p a {
+        color: blue;
+        text-decoration: none;
+      }
+
+      .templateHeader p a:hover {
+        text-decoration: underline;
+      }
+
+      .box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid #000;
+        overflow: hidden;
+        margin: 20px 0 10px 0;
+      }
+
+      .box h3 {
+        padding: 5px 10px;
+        font-size: 20px;
+      }
+
+      .tableWrapper {
+        border: 1px solid #000;
+        margin-bottom: 20px;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table th {
+        background-color: #f1f1f1;
+        font-weight: bold;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+        font-size: 18px;
+      }
+
+      .tableHeading {
+        background-color: #f1f1f1;
+        font-weight: bold;
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-size: 20px;
+        width: 100%;
+      }
+
+      .table td {
+        padding: 8px 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        vertical-align: top;
+      }
+
+      .contentHeading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 15px;
+        font-size: 18px;
+        font-weight: 600;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        background-color: #f9f9f9;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .contentSubHeading {
+        font-size: 18px;
+        font-style: italic;
+        text-decoration: underline;
+        padding: 10px 15px;
+        background-color: #f5f5f5;
+      }
+
+      .contentDescription {
+        padding: 15px 25px;
+        font-size: 16px;
+        line-height: 1.5;
+        list-style-type: none;
+      }
+
+      .contentDescription li {
+        margin-bottom: 8px;
+        position: relative;
+        padding-left: 20px;
+      }
+
+      .contentDescription li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .custom-list {
+        padding: 15px 25px;
+        list-style-type: none;
+      }
+
+      .custom-list li {
+        margin-bottom: 8px;
+        position: relative;
+        padding-left: 20px;
+        font-size: 16px;
+      }
+
+      .custom-list li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+        color: #333;
+        font-weight: bold;
+      }
+
+      .skills-container {
+        padding: 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .skill-tag {
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        padding: 5px 15px;
+        font-size: 15px;
+        border: 1px solid #ddd;
+      }
+
+      .company-name {
+        font-weight: 600;
+        color: #444;
+      }
+
+      .project-links {
+        margin-top: 10px;
+      }
+
+      .project-links a {
+        color: blue;
+        text-decoration: none;
+        margin-right: 15px;
+        display: inline-block;
+      }
+
+      .project-links a:hover {
+        text-decoration: underline;
+      }
+
+      .achievements-text {
+        margin-top: 8px;
+        font-style: italic;
+        color: #555;
+      }
+
+      .certification-item {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .certification-item:last-child {
+        border-bottom: none;
+      }
+
+      .certification-title {
+        font-weight: 600;
+        font-size: 17px;
+      }
+
+      .certification-meta {
+        color: #666;
+        font-size: 14px;
+        margin-top: 4px;
+      }
+    </style>
+    </head>
+    <body>
+
+    <div class="mainContainer">
+      <!-- header -->
+      <div class="templateHeader">
+        <h2>${data.header?.fullName || ''}</h2>
+        <p>
+          ${data.header?.email ? `
+          <strong>Email ID: </strong>
+          <a href="mailto:${data.header.email}">${data.header.email}</a>
+          ` : ''}
+          ${data.header?.email && data.header?.phone ? ' | ' : ''}
+          ${data.header?.phone ? `
+          <span><strong>Ph No:</strong> ${data.header.phone}</span>
+          ` : ''}
+        </p>
+      </div>
+
+      <!-- Skills Section -->
+      ${data.skills?.length ? `
+      <div class="tableWrapper">
+        <div class="tableHeading">Skills</div>
+        <div class="skills-container">
+          ${data.skills.map(skill => `
+          <span class="skill-tag">${skill}</span>
+          `).join('')}
+        </div>
+      </div>
+      ` : ''}
+
+      <!-- Work Experience Section -->
+      ${data.experience?.length ? `
+      <div class="tableWrapper">
+        <div class="tableHeading">Work Experience</div>
+        ${data.experience.map(exp => `
+        <div style="margin-bottom: 15px;">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th class="company-name">${exp.company || ''}${exp.location ? `, ${exp.location}` : ''}</th>
+              </tr>
+            </tbody>
+          </table>
+          <div class="contentHeading">
+            <span class="position-title">${exp.title || ''}</span>
+            <span class="experience-date">${formatDate(exp.startDate)} - ${exp.isCurrent ? 'Present' : formatDate(exp.endDate)}</span>
+          </div>
+          <ul class="contentDescription">
+            <li>${exp.description || ''}</li>
+            ${exp.achievements ? `
+            <li class="achievements-text"><strong>Achievements:</strong> ${exp.achievements}</li>
+            ` : ''}
+          </ul>
+        </div>
+        `).join('')}
+      </div>
+      ` : ''}
+
+      <!-- Projects Section -->
+      ${data.additional?.projects?.length ? `
+      <div class="tableWrapper">
+        <div class="tableHeading">Projects</div>
+        ${data.additional.projects.map(project => `
+        <div style="margin-bottom: 15px;">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>${project.company || project.title || ''}</th>
+              </tr>
+            </tbody>
+          </table>
+          <div class="contentHeading">
+            <span>${project.title || ''}</span>
+            ${project.startDate ? `
+            <span>${formatDate(project.startDate)} - ${project.isCurrent ? 'Present' : formatDate(project.endDate)}</span>
+            ` : ''}
+          </div>
+          <ul class="contentDescription">
+            <li>${project.description || ''}</li>
+            ${project.skills?.length ? `
+            <li><strong>Skills:</strong> ${joinArray(project.skills)}</li>
+            ` : ''}
+            ${project.link ? `
+            <li class="project-links">
+              <a href="${project.link}" target="_blank"><i class="fa-solid fa-link"></i> Project Link</a>
+            </li>
+            ` : ''}
+          </ul>
+        </div>
+        `).join('')}
+      </div>
+      ` : ''}
+
+      <!-- Certifications Section -->
+      ${data.additional?.certifications?.length ? `
+      <div class="tableWrapper">
+        <div class="tableHeading">Certifications</div>
+        ${data.additional.certifications.map(cert => `
+        <div class="certification-item">
+          <div class="certification-title">${cert.title || ''}</div>
+          <div class="certification-meta">
+            ${cert.issuer || ''}
+            ${cert.issuer && cert.date ? ' | ' : ''}
+            ${cert.date || ''}
+          </div>
+          ${cert.link ? `
+          <div class="project-links" style="margin-top: 5px;">
+            <a href="${cert.link}" target="_blank"><i class="fa-solid fa-certificate"></i> View Certificate</a>
+          </div>
+          ` : ''}
+        </div>
+        `).join('')}
+      </div>
+      ` : ''}
+
+      <!-- Education Section -->
+      <div>
+        <div class="box">
+          <h3>Education Details</h3>
+        </div>
+      </div>
+      <div class="tableWrapper">
+        <table class="table">
+          <tbody>
+            ${data.education?.bachelor?.degree ? `
+            <tr>
+              <th>Degree</th>
+              <th>Institute</th>
+              <th>Year</th>
+            </tr>
+            <tr>
+              <td>${data.education.bachelor.degree || ''}${data.education.bachelor.branch ? ` (${data.education.bachelor.branch})` : ''}</td>
+              <td>${data.education.bachelor.institute || ''}</td>
+              <td>${data.education.bachelor.endYear || ''}${data.education.bachelor.cgpa ? `<br><small>CGPA: ${data.education.bachelor.cgpa}</small>` : ''}</td>
+            </tr>
+            ` : ''}
+            
+            <tr>
+              <th>Class</th>
+              <th>School/College</th>
+              <th>Year</th>
+            </tr>
+            
+            ${data.education?.twelfth?.marks ? `
+            <tr>
+              <td>Class XII${data.education.twelfth.marksType ? ` (${data.education.twelfth.marksType})` : ''}</td>
+              <td>${data.education.twelfth.institute || ''}<br><small>Marks: ${data.education.twelfth.marks || ''}${data.education.twelfth.percentage ? ` (${data.education.twelfth.percentage}%)` : ''}</small></td>
+              <td>${data.education.twelfth.year || ''}</td>
+            </tr>
+            ` : ''}
+            
+            ${data.education?.tenth?.marks ? `
+            <tr>
+              <td>Class X${data.education.tenth.marksType ? ` (${data.education.tenth.marksType})` : ''}</td>
+              <td>${data.education.tenth.school || ''}<br><small>Marks: ${data.education.tenth.marks || ''}${data.education.tenth.percentage ? ` (${data.education.tenth.percentage}%)` : ''}</small></td>
+              <td>${data.education.tenth.year || ''}</td>
+            </tr>
+            ` : ''}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Languages Section -->
+      ${data.additional?.languages?.length ? `
+      <div>
+        <div class="box">
+          <h3>Languages</h3>
+        </div>
+      </div>
+      <div class="tableWrapper">
+        <ul class="custom-list">
+          ${data.additional.languages.map(lang => `
+          <li>${lang.language || ''}${lang.proficiency ? ` (${lang.proficiency})` : ''}</li>
+          `).join('')}
+        </ul>
+      </div>
+      ` : ''}
+
+      <!-- Websites & Links Section -->
+      ${data.additional?.websites?.length ? `
+      <div>
+        <div class="box">
+          <h3>Websites & Links</h3>
+        </div>
+      </div>
+      <div class="tableWrapper">
+        <ul class="custom-list">
+          ${data.additional.websites.map(site => `
+          <li><a href="${site.url || '#'}" target="_blank">${site.label || site.url}</a></li>
+          `).join('')}
+        </ul>
+      </div>
+      ` : ''}
+    </div>
+    </body>
+    </html>
+  `;
+
+  // Return the appropriate template based on templateId
+  switch(templateId) {
+    case 1:
+      return template1HTML;
+    case 2:
+      return template2HTML;
+    case 3:
+      return template3HTML;
+    case 4:
+      return template4HTML;
+    case 5:
+      return template5HTML;
+    default:
+      return template1HTML;
+  }
+};
+
+async function ensureChromeInstalled() {
+  try {
+    const execPath = puppeteer.executablePath();
+    console.log(`✅ Chrome found at: ${execPath}`);
+  } catch (error) {
+    console.log('⚠️ Chrome not found. Installing...');
+    try {
+      const { stdout, stderr } = await execPromise('npx puppeteer browsers install chrome');
+      console.log('Installation stdout:', stdout);
+      if (stderr) console.error('Installation stderr:', stderr);
+      console.log('✅ Chrome installed successfully.');
+    } catch (installError) {
+      console.error('❌ Failed to install Chrome:', installError.message);
+      process.exit(1);
+    }
+  }
+}
+
 // ==========================================
 // 🔹 RESUME MANAGEMENT ROUTES
 // ==========================================
@@ -1308,6 +3518,91 @@ app.delete("/api/resumes/:resumeId", auth, async (req, res) => {
   }
 });
 
+
+// Generate PDF from provided data (for unsaved resumes)
+app.post('/api/resumes/generate-pdf', auth, async (req, res) => {
+  try {
+    const { resumeData, templateId } = req.body;
+    
+    if (!resumeData) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Resume data required' 
+      });
+    }
+
+    // Get template ID from either location
+    const selectedTemplateId = templateId || resumeData.templateId || 1;
+    
+    console.log('📄 Generating PDF with template:', selectedTemplateId);
+
+    const pdfBuffer = await generateResumePDF(resumeData, selectedTemplateId);
+
+    // Set proper headers for PDF download
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="resume-${Date.now()}.pdf"`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    
+    // Send the PDF buffer
+    res.end(pdfBuffer);
+    
+  } catch (error) {
+    console.error('❌ PDF generation error:', error.message);
+    console.error('Error stack:', error.stack);
+    
+    // Send error response
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to generate PDF: ' + error.message 
+    });
+  }
+});
+
+// Generate PDF from saved resume by ID
+// Generate PDF from saved resume by ID
+app.get('/api/resumes/:resumeId/pdf', auth, async (req, res) => {
+  try {
+    const { resumeId } = req.params;
+    const result = await pool.query(
+      'SELECT resume_data FROM student_resumes WHERE id = $1 AND student_id = $2',
+      [resumeId, req.student.id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Resume not found' 
+      });
+    }
+
+    const resumeData = result.rows[0].resume_data;
+    const templateId = resumeData.templateId || 1;
+    
+    console.log(`📄 Generating PDF for saved resume ${resumeId} with template:`, templateId);
+    
+    const pdfBuffer = await generateResumePDF(resumeData, templateId);
+
+    // Set proper headers
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="resume-${resumeId}.pdf"`);
+    res.setHeader('Content-Length', pdfBuffer.length);
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    
+    res.end(pdfBuffer);
+    
+  } catch (error) {
+    console.error('❌ PDF generation error:', error.message);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to generate PDF' 
+    });
+  }
+});
 // Save code snippet
 app.post("/api/code-snippets/save", auth, async (req, res) => {
   try {
@@ -8081,6 +10376,7 @@ const PORT = process.env.PORT || 5002;
     // Add digital marketing tables
     await createDigitalMarketingTables();
     await createJavaTables();
+    await ensureChromeInstalled();
 
     console.log("✅ All database tables initialized");
     app.listen(PORT, () => {

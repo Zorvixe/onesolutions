@@ -89,6 +89,25 @@ const CompleteProfileUpdate = () => {
     setToast(prev => ({ ...prev, visible: false }));
   };
 
+  // Mapping functions for API data to frontend camelCase
+  const mapProjectsFromAPI = (projects) => {
+    return (projects || []).map(p => ({
+      projectTitle: p.project_title || "",
+      projectDescription: p.project_description || "",
+      projectLink: p.project_link || "",
+      skills: p.skills || [],
+    }));
+  };
+
+  const mapAchievementsFromAPI = (achievements) => {
+    return (achievements || []).map(a => ({
+      achievementTitle: a.achievement_title || "",
+      achievementDescription: a.achievement_description || "",
+      achievementLink: a.achievement_link || "",
+      achievementDate: a.achievement_date || "",
+    }));
+  };
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -178,9 +197,10 @@ const CompleteProfileUpdate = () => {
             hasWorkExperience: s.hasWorkExperience || false,
           });
 
-          setProjects(s.projects || []);
-          setAchievements(s.achievements || []);
-          setWorkExperiences(s.workExperiences || []);
+          // Map projects and achievements from API snake_case to frontend camelCase
+          setProjects(mapProjectsFromAPI(s.projects));
+          setAchievements(mapAchievementsFromAPI(s.achievements));
+          setWorkExperiences(s.workExperiences || []); // work experiences already use snake_case
 
           console.log("Profile loaded successfully");
         } else {
@@ -621,8 +641,9 @@ const CompleteProfileUpdate = () => {
           hasWorkExperience: s.hasWorkExperience || prev.hasWorkExperience,
         }));
 
-        setProjects(s.projects || []);
-        setAchievements(s.achievements || []);
+        // Re‑map projects and achievements after refresh
+        setProjects(mapProjectsFromAPI(s.projects));
+        setAchievements(mapAchievementsFromAPI(s.achievements));
         setWorkExperiences(s.workExperiences || []);
       }
     } catch (error) {

@@ -957,7 +957,30 @@ import ReactJs_Practice_Set_1 from "../Backend_Interview_Kit/ReactJs_Practice_Se
 import ReactJs_Practice_Set_2 from "../Backend_Interview_Kit/ReactJs_Practice_Set_2.js";
 import ReactJs_Practice_Set_3 from "../Backend_Interview_Kit/ReactJs_Practice_Set_3.js";
 import ReactJs_Practice_Set_4 from "../Backend_Interview_Kit/ReactJs_Practice_Set_4.js";
+
+//Js Essentials
+import More_Modern_JS_Concepts from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts.js";
+import More_Modern_JS_Concepts_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_2.js";
+import More_Modern_JS_Concepts_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/More_Modern_JS_Concepts_3.js";
+import Factory_Constructor_Function from "../JavaScript_Essentials/More_Modern_JS_Concepts/Factory_Constructor_Function.js";
+import JS_Promises from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises.js";
+import JS_Promises_2 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Promises_2.js";
+import More_JS_Concepte from "../JavaScript_Essentials/Promises_Array_Methods/More_JS_Concepte.js";
+import Clean_Code_Guidence from "../JavaScript_Essentials/Promises_Array_Methods/Clean_Code_Guidence.js";
+import JS_Classes from "../JavaScript_Essentials/Prototypes_Classes/JS_Classes.js";
+import Prototypal_Inheritance from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance.js";
 export const subtopicComponents = {
+  "More Modern JS Concepts": More_Modern_JS_Concepts,
+  "More Modern JS Concepts | Part 2": More_Modern_JS_Concepts_2,
+  "More Modern JS Concepts | Part 3": More_Modern_JS_Concepts_3,
+  "Factory and Constructor Function": Factory_Constructor_Function,
+  "JS Promises": JS_Promises,
+  "JS Promises 2": JS_Promises_2,
+  "More JS Concepts": More_JS_Concepte,
+  "Clean Code Guidelines": Clean_Code_Guidence,
+  "JS Classes": JS_Classes,
+  "Prototypal Inheritance": Prototypal_Inheritance,
+
   //Backend Interview set
   "JavaScript Practice Set - 1": JavaScript_Practice_Set_1,
   "JavaScript Practice Set - 2": JavaScript_Practice_Set_2,

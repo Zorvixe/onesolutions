@@ -1,11 +1,13 @@
 // src/HirePro/HirePro.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { goalsData } from "../data/goalsData";
 import './HirePro.css';
 
 const HirePro = () => {
   const navigate = useNavigate();
+  const { completedContent } = useAuth();
 
   const [showPopup, setShowPopup] = useState(false);
   const [module, setModule] = useState(''); // 'frontend' or 'backend'
@@ -25,6 +27,11 @@ const HirePro = () => {
     module === 'frontend' ? frontendCourse?.modules || [] :
     module === 'backend' ? backendCourse?.modules || [] :
     [];
+
+  // Helper to check if a subtopic is completed
+  const isSubtopicCompleted = (subtopicId) => {
+    return completedContent.includes(subtopicId);
+  };
 
   const handleTopicClick = (moduleId) => {
     setExpandedTopic(expandedTopic === moduleId ? null : moduleId);
@@ -171,18 +178,23 @@ const HirePro = () => {
 
                       {expandedTopic === mod.id && (
                         <div className="sets-column">
-                          {mod.topic.map((topicItem) => (
-                            <div
-                              key={topicItem.id}
-                              className="set-row"
-                              onClick={() =>
-                                handleSetClick(mod.id, topicItem.id)
-                              }
-                            >
-                              <div className="tick">✓</div>
-                              <span>{topicItem.name}</span>
-                            </div>
-                          ))}
+                          {mod.topic.map((topicItem) => {
+                            const completed = isSubtopicCompleted(topicItem.id);
+                            return (
+                              <div
+                                key={topicItem.id}
+                                className={`set-row ${completed ? 'completed' : ''}`}
+                                onClick={() =>
+                                  handleSetClick(mod.id, topicItem.id)
+                                }
+                              >
+                                <div className={`status-indicator ${completed ? 'completed' : ''}`}>
+                                  {completed ? '✓' : ''}
+                                </div>
+                                <span>{topicItem.name}</span>
+                              </div>
+                            );
+                          })}
                         </div>
                       )}
 
