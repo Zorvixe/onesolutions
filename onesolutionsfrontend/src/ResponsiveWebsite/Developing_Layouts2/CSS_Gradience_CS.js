@@ -164,7 +164,7 @@ const CSS_Gradience_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           <strong>to left</strong>, and <strong>to right</strong>.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Direction</th>

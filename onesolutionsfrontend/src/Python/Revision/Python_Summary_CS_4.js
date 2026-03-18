@@ -601,11 +601,7 @@ Cart.greet()  # Have a Great Shopping`}
           <h4>Method Comparison:</h4>
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr style={{ background: "#3498db", color: "white" }}>
@@ -853,11 +849,7 @@ class Laptop(ElectronicItem):
             <b>Inheritance vs Composition:</b>
           </p>
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr style={{ background: "#3498db", color: "white" }}>

@@ -129,11 +129,7 @@ const FavouritePlaces_Section_CS_1 = ({
 
         <h3>Important Attributes</h3>
         <table
-          style={{
-            width: "100%",
-            borderCollapse: "collapse",
-            margin: "16px 0",
-          }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -331,7 +327,7 @@ const FavouritePlaces_Section_CS_1 = ({
           side of an HTML element:
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Property</th>

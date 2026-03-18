@@ -148,14 +148,20 @@ const InputOutputBasics = ({ subtopicId, goalName, courseName, subtopic }) => {
         <OutputBlock output={"10"} />
         <h3>Output</h3>
         <OutputBlock output={"You are 10"} />
-        <p>
-          <b>Note:</b> Even though you can't directly combine strings and
+        <div className="Note-container">
+          <div className="icon-note">
+            <h6>
+              <i class="bi bi-journal-text"></i>Note
+            </h6>
+          </div><p>
+             Even though you can't directly combine strings and
           integers, the code works because input() returns a string. input()
           converts user-entered data (including numbers, booleans, etc.) to
           string. You will learn more about this in further sessions. In this
           case, "10" becomes a string, allowing it to concatenate and be part of
           the final message.
         </p>
+        </div>
       </section>
 
       {/* String Indexing */}

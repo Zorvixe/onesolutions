@@ -177,7 +177,7 @@ const Responsive_Summary_CS = ({
           for Five Responsive Tiers (Responsive Breakpoints).
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Device</th>
@@ -404,7 +404,7 @@ const Responsive_Summary_CS = ({
 
         <h4>1.1 Margin</h4>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "75%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS Margin property</th>
@@ -442,7 +442,7 @@ const Responsive_Summary_CS = ({
 
         <h4>1.1.1 Margin Values</h4>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Size</th>
@@ -512,7 +512,7 @@ const Responsive_Summary_CS = ({
 
         <h4>1.2 Padding</h4>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "75%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS Padding property</th>
@@ -550,7 +550,7 @@ const Responsive_Summary_CS = ({
 
         <h4>1.2.1 Padding Values</h4>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Size</th>
@@ -610,7 +610,7 @@ const Responsive_Summary_CS = ({
           HTML element in percentage.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS property and value</th>
@@ -909,7 +909,7 @@ const Responsive_Summary_CS = ({
           (extra small, small, medium, large, and extra large).
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Device</th>
@@ -1809,7 +1809,7 @@ h1 {
           their transition by specifying a direction.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Direction</th>

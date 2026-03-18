@@ -100,7 +100,7 @@ const Bootstrap_Grid_Sys_CS_1 = ({
           for Five Responsive Tiers (Responsive Breakpoints).
         </p>
 
-        <table className="default-table">
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Device</th>

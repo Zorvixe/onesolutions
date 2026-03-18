@@ -26,6 +26,7 @@ import String_Methods_Additional_Material_CS from "../Python/Loops/String_Method
 import LoopControlStmts_CS_2 from "../Python/LoopContronStmts/LoopConrolStmts_CS_2";
 import ComparingStrAndNamingVar_CS_1 from "../Python/ComparingStr&NamingVar/ComparingStr&NamingVar_CS_1";
 import List_CS_1 from "../Python/Lists/List_CS_1";
+import Workingwith_Lists_CS from "../Python/Lists/Workingwith_Lists_CS.js";
 import Workingwith_Data_Time_CS from "../Python/Miscellaneous/Workingwith_Data_Time_CS.js";
 import Lists_Strings_CS_1 from "../Python/Functions/Lists_String_CS_1";
 import Functions_CS_2 from "../Python/Functions/Functions_CS_2";
@@ -574,7 +575,7 @@ import MCQ_Exam_1 from "../SQL_Database/MileStone_2/MCQ_Exam_1.js";
 //Static Website MCQs
 import Introductionto_HTML_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_MCQ.js";
 import Introductionto_Css_BoxModel_MCQ_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_1.js";
-import Introductionto_Css_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
+// import Introductionto_Css_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
 import Introductionto_Css_MCQ_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
 import Introductionto_Css_MCQ_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_3.js";
 import Introductionto_Css_BoxModel_MCQ_2 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_2.js";
@@ -969,7 +970,41 @@ import More_JS_Concepte from "../JavaScript_Essentials/Promises_Array_Methods/Mo
 import Clean_Code_Guidence from "../JavaScript_Essentials/Promises_Array_Methods/Clean_Code_Guidence.js";
 import JS_Classes from "../JavaScript_Essentials/Prototypes_Classes/JS_Classes.js";
 import Prototypal_Inheritance from "../JavaScript_Essentials/Prototypes_Classes/Prototypal_Inheritance.js";
+import JS_Essentials_Coding_Pratice_1 from "../JavaScript_Essentials/More_Modern_JS_Concepts/JS_Essentials_Coding_Pratice_1.js";
+import JS_Essentials_Coding_Pratice_2 from "../JavaScript_Essentials/More_Modern_JS_Concepts/JS_Essentials_Coding_Pratice_2.js";
+import JS_Essentials_Coding_Pratice_3 from "../JavaScript_Essentials/More_Modern_JS_Concepts/JS_Essentials_Coding_Pratice_3.js";
+import JS_Essentials_Coding_Pratice_4 from "../JavaScript_Essentials/More_Modern_JS_Concepts/JS_Essentials_Coding_Pratice_4.js";
+import JS_Essentials_Coding_Pratice_5 from "../JavaScript_Essentials/Prototypes_Classes/JS_Essentials_Coding_Pratice_5.js";
+import JS_Essentials_Coding_Pratice_6 from "../JavaScript_Essentials/Prototypes_Classes/JS_Essentials_Coding_Pratice_6.js";
+import JS_Essentials_Coding_Pratice_7 from "../JavaScript_Essentials/Prototypes_Classes/JS_Essentials_Coding_Pratice_7.js";
+import JS_Essentials_Coding_Pratice_8 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Essentials_Coding_Pratice_8.js";
+import JS_Essentials_Coding_Pratice_9 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Essentials_Coding_Pratice_9.js";
+import JS_Essentials_Coding_Pratice_10 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Essentials_Coding_Pratice_10.js";
+import JS_Essentials_Coding_Pratice_11 from "../JavaScript_Essentials/Promises_Array_Methods/JS_Essentials_Coding_Pratice_11.js";
+import JS_Essentials_Assignment_1 from "../JavaScript_Essentials/Assignments/JS_Essentials_Assignment_1.js";
+import JS_Essentials_Assignment_2 from "../JavaScript_Essentials/Assignments/JS_Essentials_Assignment_2.js";
+import JS_Essentials_Assignment_3 from "../JavaScript_Essentials/Assignments/JS_Essentials_Assignment_3.js";
+import JS_Essentials_Assignment_4 from "../JavaScript_Essentials/Assignments/JS_Essentials_Assignment_4.js";
+import JS_Essential_Mock_Coding_Test_1 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Coding_Test_1.js";
+import JS_Essential_Mock_Coding_Test_2 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Coding_Test_2.js";
 export const subtopicComponents = {
+  "JS Essential Coding Practice 1": JS_Essentials_Coding_Pratice_1,
+  "JS Essential Coding Practice 2": JS_Essentials_Coding_Pratice_2,
+  "JS Essential Coding Practice 3": JS_Essentials_Coding_Pratice_3,
+  "JS Essential Coding Practice 4": JS_Essentials_Coding_Pratice_4,
+  "JS Essential Coding Practice 5": JS_Essentials_Coding_Pratice_5,
+  "JS Essential Coding Practice 6": JS_Essentials_Coding_Pratice_6,
+  "JS Essential Coding Practice 7": JS_Essentials_Coding_Pratice_7,
+  "JS Essential Coding Practice 8": JS_Essentials_Coding_Pratice_8,
+  "JS Essential Coding Practice 9": JS_Essentials_Coding_Pratice_9,
+  "JS Essential Coding Practice 10": JS_Essentials_Coding_Pratice_10,
+  "JS Essential Coding Practice 11": JS_Essentials_Coding_Pratice_11,
+  "JS Essentials Coding Assignment 1": JS_Essentials_Assignment_1,
+  "JS Essentials Coding Assignment 2": JS_Essentials_Assignment_2,
+  "JS Essentials Coding Assignment 3": JS_Essentials_Assignment_3,
+  "JS Essentials Coding Assignment 4": JS_Essentials_Assignment_4,
+  "JS Essentials Coding Test 1": JS_Essential_Mock_Coding_Test_1,
+  "JS Essentials Coding Test 2": JS_Essential_Mock_Coding_Test_2,
   "More Modern JS Concepts": More_Modern_JS_Concepts,
   "More Modern JS Concepts | Part 2": More_Modern_JS_Concepts_2,
   "More Modern JS Concepts | Part 3": More_Modern_JS_Concepts_3,
@@ -1263,7 +1298,6 @@ export const subtopicComponents = {
   "ER Model to Relational Database | Cheat Sheets": ER_Model_Relational_DB,
   "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
   "Modelling Database | Part 2": Modelling_Database_Class_2,
-  "MCQ Practice Modelling Database | Part 1": Modelling_Database_MCQ,
   "Createing a Relational Database | Cheat Sheets": Creating_Relation_DB_CS,
   "MCQ Practice Modelling Database | Part 2": Creating_Relational_DB_MCQ,
   "Joins | Part 1": Joins_Class_Part_1,
@@ -1732,7 +1766,6 @@ export const subtopicComponents = {
   "MCQ Practice - Prob_Sol7": Problem_sol_7_MCQ,
   "String Methods | Additional Reading Material":
     String_Methods_Additional_Material_CS,
-  "MCQ Practice - String Methods": String_Methods_MCQ,
   "Loop Control Statements | Cheat Sheet": LoopControlStmts_CS_2,
   "MCQ Practice - Loop Con Stmts": LoopControlStmts_MCQ,
   "Comparing Strings & Naming Variables | Cheat Sheet":
@@ -1752,7 +1785,7 @@ export const subtopicComponents = {
   "MCQ Practice - FunCallStack_Recursion": FunCallStack_Recursion_MCQ,
   "List Methods | Cheat Sheet": ListMethods,
   "MCQ Practice - List Methods": ListMethods_MCQ,
-  "Working with Lists | Cheat Sheet": Workingwith_Data_Time_CS,
+  "Working with Lists | Cheat Sheet": Workingwith_Lists_CS,
   "MCQ Practice - Working_Lists": Workingwith_Lists_MCQ,
   "Tuples & Sequences | Cheat Sheet": Tuples_Sequences_CS_1,
   "MCQ Practice - Tuples_Seq": Tuples_Sequences_MCQ,

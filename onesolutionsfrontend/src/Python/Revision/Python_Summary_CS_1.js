@@ -434,11 +434,7 @@ print(result) # False`}
           />
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginBottom: "1rem",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr style={{ background: "#9b59b6", color: "white" }}>
@@ -610,7 +606,7 @@ print(5 * 0.5) # 2.5`}
           </p>
 
           <CodeBlock language="python" code={`print(13 // 5) # 2`} />
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table  className="custom-table">
             <thead>
               <tr style={{ background: "#e67e22", color: "white" }}>
                 <th>Operation</th>
@@ -749,13 +745,7 @@ print(5 * 0.5) # 2.5`}
           }}
         >
           <table
-            border="1"
-            style={{
-              borderCollapse: "collapse",
-              width: "100%",
-              marginBottom: "1.5rem",
-              background: "white",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr>
@@ -932,13 +922,7 @@ print(msg.format(age=age, name=name)) # Hi Raju. You are 10 years old.`}
           </p>
 
           <table
-            border="1"
-            style={{
-              borderCollapse: "collapse",
-              width: "100%",
-              marginBottom: "1.5rem",
-              background: "white",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr>
@@ -995,13 +979,7 @@ print(msg.format(age=age, name=name)) # Hi Raju. You are 10 years old.`}
           </p>
 
           <table
-            border="1"
-            style={{
-              borderCollapse: "collapse",
-              width: "80%",
-              marginBottom: "1.5rem",
-              background: "white",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr>
@@ -1034,13 +1012,7 @@ print(msg.format(age=age, name=name)) # Hi Raju. You are 10 years old.`}
           </p>
 
           <table
-            border="1"
-            style={{
-              borderCollapse: "collapse",
-              width: "60%",
-              marginBottom: "1.5rem",
-              background: "white",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr>
@@ -1074,13 +1046,7 @@ print(msg.format(age=age, name=name)) # Hi Raju. You are 10 years old.`}
           </table>
 
           <table
-            border="1"
-            style={{
-              borderCollapse: "collapse",
-              width: "60%",
-              marginBottom: "1.5rem",
-              background: "white",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr>
@@ -1114,12 +1080,7 @@ print(msg.format(age=age, name=name)) # Hi Raju. You are 10 years old.`}
           </table>
 
           <table
-            border="1"
-            style={{
-              borderCollapse: "collapse",
-              width: "40%",
-              background: "white",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr>

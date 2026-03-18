@@ -103,11 +103,7 @@ const Python_Summary_CS_3 = ({
           }}
         >
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginBottom: "1.5rem",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr style={{ background: "#d6eaf8" }}>
@@ -394,11 +390,7 @@ World`}
           </p>
 
           <table
-            style={{
-              width: "50%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr style={{ background: "#d6eaf8" }}>
@@ -480,11 +472,7 @@ World`}
           </p>
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginBottom: "1.5rem",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr style={{ background: "#d6eaf8" }}>
@@ -1006,11 +994,7 @@ print(set_a)
           <h3 style={{ color: "#2c3e50" }}>Dictionary Views</h3>
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr>
@@ -1043,11 +1027,7 @@ print(set_a)
           </h3>
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+         className="custom-table"
           >
             <thead>
               <tr>

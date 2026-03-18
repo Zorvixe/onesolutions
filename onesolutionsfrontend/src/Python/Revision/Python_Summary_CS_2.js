@@ -323,11 +323,7 @@ print(list_b)  # [1, 2]`}
           </p>
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr style={{ background: "#3498db", color: "white" }}>
@@ -414,10 +410,7 @@ print(list_a[2][0])  # 8`}
           }}
         >
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-            }}
+          className="custom-table"
           >
             <thead>
               <tr style={{ background: "#3498db", color: "white" }}>
@@ -952,11 +945,7 @@ add_item()
           </p>
 
           <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "1rem",
-            }}
+           className="custom-table"
           >
             <thead>
               <tr style={{ background: "#d6eaf8" }}>

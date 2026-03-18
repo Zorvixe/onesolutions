@@ -64,7 +64,7 @@ const RelationOperator_CS_1 = ({
           Relational Operators are used to compare values. Gives{" "}
           <code>True</code> or <code>False</code> as the result of a comparison.
         </p>
-        <table>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Operator</th>

@@ -493,7 +493,7 @@ How I wonder what you are!
 }`}
         />
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Value</th>
@@ -548,7 +548,7 @@ How I wonder what you are!
 
         <p>Some of the Color names and their Hex Codes are:</p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Color Name</th>
@@ -793,7 +793,7 @@ How I wonder what you are!
         <p>
           You can use one of the below values of the "text-decoration" property,
         </p>
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Value</th>
@@ -887,7 +887,7 @@ How I wonder what you are!
 }`}
         />
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Value</th>
@@ -931,7 +931,7 @@ How I wonder what you are!
   background-size: cover;
 }`}
         />
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Value</th>
@@ -1442,7 +1442,7 @@ How I wonder what you are!
           Flexbox Container.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Class Name</th>
@@ -1522,7 +1522,7 @@ How I wonder what you are!
           horizontally or vertically based on the Flex Direction.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>
@@ -1559,7 +1559,7 @@ How I wonder what you are!
           horizontally or vertically based on the Flex Direction.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>
@@ -1596,7 +1596,7 @@ How I wonder what you are!
           or vertically based on the Flex Direction.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Flex Direction</th>
@@ -1648,9 +1648,9 @@ How I wonder what you are!
   <div>Centered Content</div>
 </div>`}
         />
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table className="custom-table">
           <thead>
-            <tr style={{ background: "#e67e22", color: "white" }}>
+            <tr >
               <th>Class</th>
               <th>Effect</th>
             </tr>
@@ -1744,7 +1744,7 @@ How I wonder what you are!
           <b>for example,</b>
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "70%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>button Class name</th>

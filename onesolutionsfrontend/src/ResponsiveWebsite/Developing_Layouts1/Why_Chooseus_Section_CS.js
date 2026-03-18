@@ -84,7 +84,7 @@ const Why_Chooseus_Section_CS = ({
 
         <h3>1.1 Padding</h3>
         <p>Bootstrap class names for padding:</p>
-        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS Padding Property</th>
@@ -120,7 +120,7 @@ const Why_Chooseus_Section_CS = ({
         </p>
 
         <h3>1.1.1 Padding Values</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "30%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Size</th>

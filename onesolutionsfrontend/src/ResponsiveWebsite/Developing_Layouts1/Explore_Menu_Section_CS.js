@@ -152,7 +152,7 @@ const Explore_Menu_Section_CS = ({
           You can use the below Bootstrap class names to specify the width of an
           HTML element in percentage.
         </p>
-        <table>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS Property & Value</th>
@@ -265,7 +265,7 @@ const Explore_Menu_Section_CS = ({
           <li>shadow</li>
           <li>shadow-lg</li>
         </ul>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Class Name</th>

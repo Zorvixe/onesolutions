@@ -193,7 +193,7 @@ print(date_time_obj)`}
           <li>mm/dd/yyyy</li>
           <li>dd-mm-yyyy</li>
         </ul>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th style={{ background: "#7fb3c8", padding: "10px" }}>

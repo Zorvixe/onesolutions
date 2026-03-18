@@ -231,7 +231,7 @@ const WebSite_Integration_CS_2 = ({
           <code>list-style-type</code> property to style the Unordered List.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "20%" }}>
+        <table className="custom-table" style={{ width: "60%" }}>
           <thead>
             <tr>
               <th>Value</th>
@@ -323,7 +323,7 @@ const WebSite_Integration_CS_2 = ({
           <code>list-style-type</code> property to style the Ordered List.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "20%" }}>
+        <table className="custom-table" style={{ width: "60%" }}>
           <thead>
             <tr>
               <th>Value</th>

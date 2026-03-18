@@ -142,7 +142,7 @@ const Bootstrap_Grid_Sys_CS_2 = ({
         <h3>2.1 Margin</h3>
         <p>Bootstrap class names for margin:</p>
 
-        <table>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS Margin Property</th>
@@ -180,7 +180,7 @@ const Bootstrap_Grid_Sys_CS_2 = ({
 
         <h3>2.1.1 Margin Values</h3>
 
-        <table>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Size</th>
@@ -245,7 +245,7 @@ const Bootstrap_Grid_Sys_CS_2 = ({
 
         <h3>2.2 Padding</h3>
 
-        <table>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>CSS Padding Property</th>

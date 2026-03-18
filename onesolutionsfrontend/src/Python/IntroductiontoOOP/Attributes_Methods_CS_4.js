@@ -400,7 +400,7 @@ Cart.greet()`}
         <OutputBlock output={["Have a Great Shopping"]} />
 
         <h3>Overview of Instance, Class & Static Methods</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th style={{ background: "skyblue" }}>Instance Methods</th>

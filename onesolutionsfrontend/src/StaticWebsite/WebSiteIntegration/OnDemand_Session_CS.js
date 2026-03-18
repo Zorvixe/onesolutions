@@ -220,11 +220,7 @@ const OnDemand_Session_CS = ({
 
         <h3>Common Mistakes to Avoid</h3>
         <table
-          style={{
-            width: "100%",
-            margin: "16px 0",
-            borderCollapse: "collapse",
-          }}
+          className="custom-table"
         >
           <thead>
             <tr>
