@@ -94,7 +94,7 @@ const Logical_Operators_CS = ({
       {/* 3. Logical Operators */}
       <section>
         <h2>AND, OR, NOT</h2>
-        <table className="styled-table">
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Operator</th>
@@ -149,7 +149,7 @@ FROM  product
 WHERE  category = "Clothing"  AND price <= 1000;`}
         />
         <h3>Output</h3>
-        <table className="styled-table">
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>
@@ -195,7 +195,7 @@ FROM  product
 WHERE  NOT name LIKE "%Cake%";`}
         />
         <h3>Output</h3>
-        <table className="styled-table">
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>

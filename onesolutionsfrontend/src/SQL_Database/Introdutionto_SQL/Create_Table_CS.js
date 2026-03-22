@@ -99,7 +99,7 @@ const Create_Table_CS = ({
       <section>
         <h2>Data Types</h2>
         <p>Frequently used SQL data types:</p>
-        <table>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Data Type</th>
@@ -180,7 +180,7 @@ const Create_Table_CS = ({
 
         <h3>Example: Player Table</h3>
         <p>Create a player table to store player details:</p>
-        <table>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>column_name</th>
@@ -229,7 +229,7 @@ const Create_Table_CS = ({
           of students.
         </p>
         <b>Student Table</b>
-        <table>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>details</th>
@@ -260,7 +260,7 @@ const Create_Table_CS = ({
           about exams.
         </p>
         <b>Exam Schedule Table</b>
-        <table>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>details</th>
@@ -305,12 +305,46 @@ const Create_Table_CS = ({
         <CodeBlock language="sql" code={`PRAGMA TABLE_INFO(table_name);`} />
         <p>Example: Employee table info:</p>
         <CodeBlock language="sql" code={`PRAGMA TABLE_INFO(employee);`} />
-        <OutputBlock
-          output={`cid | name        | type        | notnull | dflt_value | pk
-0   | employee_id | INTEGER     | 0       | NULL       | 0
-1   | name        | VARCHAR(200)| 0       | NULL       | 0
-2   | salary      | INTEGER     | 0       | NULL       | 0`}
-        />
+      
+          <h2>output</h2>
+<table  className="custom-table">
+  <thead>
+    <tr >
+      <th >cid</th>
+      <th >name</th>
+      <th >type</th>
+      <th >notnull</th>
+      <th >dflt_value</th>
+      <th >pk</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td >0</td>
+      <td >employee_id</td>
+      <td >INTEGER</td>
+      <td >0</td>
+      <td >NULL</td>
+      <td >0</td>
+    </tr>
+    <tr>
+      <td >1</td>
+      <td >name</td>
+      <td >VARCHAR(200)</td>
+      <td >0</td>
+      <td >NULL</td>
+      <td >0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>salary</td>
+      <td>INTEGER</td>
+      <td>0</td>
+      <td >NULL</td>
+      <td >0</td>
+    </tr>
+  </tbody>
+</table>
 
         <div className="Note-container">
           <div className="icon-note">

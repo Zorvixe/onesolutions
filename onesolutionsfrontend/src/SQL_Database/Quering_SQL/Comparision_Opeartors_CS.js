@@ -101,9 +101,7 @@ const Comparison_Operators_CS = ({
       <section>
         <h2>Comparison Operators</h2>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -154,7 +152,7 @@ WHERE category = "Food";`}
         />
 
         <h3>Output</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>
@@ -200,7 +198,7 @@ WHERE category <> "Food";`}
         />
 
         <h3>Output</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>

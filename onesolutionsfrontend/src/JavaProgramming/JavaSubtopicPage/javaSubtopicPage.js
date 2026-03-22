@@ -318,7 +318,6 @@ const JavaSubtopicPage = () => {
     <div className="subtopic-page-sub">
       <div className="loading-container" style={{ width: "100%", padding: "50px" }}>
         <div className="spinner" />
-        <p>Loading Java content...</p>
       </div>
     </div>
   );

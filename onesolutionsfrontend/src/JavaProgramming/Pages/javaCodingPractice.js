@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...props }) => {
   const { contentUuid } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     getJavaCodingPractice,
     markJavaContentComplete,
-    completedContent,
+    codingPracticeProgress = {},
+    loadProgressSummary,
     user,
   } = useAuth();
 
@@ -18,7 +21,6 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
   const [code, setCode] = useState("");
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
-  const [localProgress, setLocalProgress] = useState({});
 
   // Load practice data if not provided
   useEffect(() => {
@@ -43,30 +45,24 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
     }
   }, [contentUuid, practice, getJavaCodingPractice]);
 
-  // Problem status helpers
+  // Refresh progress on mount and when location changes (back navigation)
+  useEffect(() => {
+    loadProgressSummary();
+  }, [location.key, loadProgressSummary]);
+
+  // Problem status helpers – using codingPracticeProgress from AuthContext
   const getProblemStatus = useCallback(
     (problemId) => {
-      if (completedContent.includes(problemId)) return "solved";
-      return localProgress[problemId]?.status || "unsolved";
+      return codingPracticeProgress[problemId]?.status || "unsolved";
     },
-    [completedContent, localProgress]
+    [codingPracticeProgress]
   );
 
   const getProblemScore = useCallback(
     (problemId) => {
-      if (completedContent.includes(problemId)) {
-        return localProgress[problemId]?.score || 100;
-      }
-      return localProgress[problemId]?.score || 0;
+      return codingPracticeProgress[problemId]?.score || 0;
     },
-    [completedContent, localProgress]
-  );
-
-  const getProblemAttempts = useCallback(
-    (problemId) => {
-      return localProgress[problemId]?.attempts || [];
-    },
-    [localProgress]
+    [codingPracticeProgress]
   );
 
   // Run code (only used in single problem mode)
@@ -103,24 +99,9 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
       const data = await res.json();
       if (data.success) {
         setResults(data.results);
-
-        const newAttempt = {
-          passed: data.allPassed,
-          score: data.score || 0,
-          timestamp: new Date().toISOString(),
-        };
-
-        setLocalProgress(prev => ({
-          ...prev,
-          [selectedProblem.id]: {
-            status: data.allPassed ? "solved" : "attempted",
-            score: data.score || 0,
-            attempts: [...(prev[selectedProblem.id]?.attempts || []), newAttempt],
-          },
-        }));
-
         if (data.allPassed) {
           await markJavaContentComplete(selectedProblem.id, props.goalId);
+          await loadProgressSummary(); // Refresh context after marking complete
           alert("All tests passed! Progress saved.");
         }
       }
@@ -129,15 +110,14 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
     }
   };
 
-  // ✅ Navigate to JavaPractice with the correct practice ID and question ID
+  // Navigate to JavaPractice with the correct practice ID and question ID
   const handleProblemSelect = (problem) => {
-  const practiceUuid = practice?.practice?.practice_uuid;   // use UUID
-  if (!practiceUuid) {
-    console.error("Practice UUID is missing", practice);
-    return;
-  }
+    const practiceUuid = practice?.practice?.practice_uuid;
+    if (!practiceUuid) {
+      console.error("Practice UUID is missing", practice);
+      return;
+    }
 
-    // Preserve navigation state (subtopic, goal, etc.)
     const navigationState = {
       subtopicId: props.subtopicId,
       goalName: props.goalName,
@@ -145,7 +125,7 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
       topicId: props.topicId,
     };
 
-  navigate(`/java-practice/${practiceUuid}/${problem.content_uuid}`, {
+    navigate(`/java-practice/${practiceUuid}/${problem.content_uuid}`, {
       state: navigationState,
     });
   };
@@ -238,18 +218,17 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
                   {problems.map((problem) => {
                     const status = getProblemStatus(problem.id);
                     const score = getProblemScore(problem.id);
-                    const attempts = getProblemAttempts(problem.id);
-                    const lastAttempt = attempts.length > 0 ? attempts[attempts.length - 1] : null;
 
                     return (
                       <tr
                         key={problem.id}
-                        className={`question-row-cod ${status === "solved"
-                          ? "solved-cod"
-                          : status === "attempted"
+                        className={`question-row-cod ${
+                          status === "solved"
+                            ? "solved-cod"
+                            : status === "attempted"
                             ? "attempted-cod"
                             : ""
-                          }`}
+                        }`}
                         onClick={() => handleProblemSelect(problem)}
                       >
                         <td className="status-cell-cod">
@@ -282,17 +261,18 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
                             : `0/${problem.score || 100}`} pts
                         </td>
                         <td className="progress-cell-cod">
-                          {lastAttempt ? (
+                          {status === "solved" ? (
                             <div className="progress-info-cod">
-                              <span className={`attempt-status-cod ${lastAttempt.passed ? "passed-cod" : "failed-cod"}`}>
-                                {lastAttempt.passed ? "Passed" : "Failed"}
-                              </span>
+                              <span className="attempt-status-cod passed-cod">Solved</span>
                               <div className="progress-bar-cod">
-                                <div
-                                  className={`progress-fill-cod ${lastAttempt.passed ? "passed-fill-cod" : "failed-fill-cod"
-                                    }`}
-                                  style={{ width: lastAttempt.passed ? "100%" : "50%" }}
-                                ></div>
+                                <div className="progress-fill-cod passed-fill-cod" style={{ width: "100%" }}></div>
+                              </div>
+                            </div>
+                          ) : status === "attempted" ? (
+                            <div className="progress-info-cod">
+                              <span className="attempt-status-cod failed-cod">Attempted</span>
+                              <div className="progress-bar-cod">
+                                <div className="progress-fill-cod failed-fill-cod" style={{ width: "50%" }}></div>
                               </div>
                             </div>
                           ) : (
@@ -307,35 +287,6 @@ const JavaCodingPractice = ({ practice: initialPractice, isSingleProblem, ...pro
             </div>
           </div>
 
-          {/* Overall Practice Progress */}
-          <div className="practice-completion-status-cod">
-            <div className="completion-header-cod">
-              <h4>Practice Progress</h4>
-            </div>
-            <div className="progress-summary-cod">
-              <div className="progress-stats-cod">
-                <div className="progress-stat-cod">
-                  <span className="stat-label-cod">Problems Solved:</span>
-                  <span className="stat-value-cod">{solvedCount} / {problems.length}</span>
-                </div>
-                <div className="progress-stat-cod">
-                  <span className="stat-label-cod">Total Score:</span>
-                  <span className="stat-value-cod">
-                    {problems.reduce((total, p) => total + getProblemScore(p.id), 0)} /{" "}
-                    {problems.reduce((total, p) => total + (p.score || 100), 0)} pts
-                  </span>
-                </div>
-              </div>
-              <div className="overall-progress-bar-cod">
-                <div
-                  className="overall-progress-fill-cod"
-                  style={{
-                    width: problems.length > 0 ? (solvedCount / problems.length) * 100 : 0,
-                  }}
-                ></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

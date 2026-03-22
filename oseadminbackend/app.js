@@ -167,6 +167,22 @@ const upload = multer({
   },
 });
 
+const memoryUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype === "application/pdf" ||
+      file.mimetype === "application/msword" ||
+      file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      cb(null, true);
+    } else {
+      cb(new Error("Invalid file type"), false);
+    }
+  },
+});
+
 // Configure passport with Google strategy
 passport.use(
   new GoogleStrategy(
@@ -640,6 +656,19 @@ const initializeDbAndServer = async () => {
       console.error("Error altering resumes table:", alterError.message);
       // Continue even if alteration fails (e.g., columns already exist)
     }
+
+
+    // In initializeDbAndServer, after creating the resumes table
+try {
+  // Add original_filename column if it doesn't exist
+  await pool.query(`ALTER TABLE resumes ADD COLUMN IF NOT EXISTS original_filename VARCHAR(255);`);
+
+  // Ensure file_type exists (it should from CREATE TABLE, but just in case)
+  await pool.query(`ALTER TABLE resumes ADD COLUMN IF NOT EXISTS file_type TEXT;`);
+
+} catch (alterError) {
+  console.error("Error altering resumes table:", alterError.message);
+}
 
     await pool.query(`
 CREATE TABLE IF NOT EXISTS enrollments (
@@ -2168,7 +2197,9 @@ app.get("/", (req, res) => {
 app.get("/api/public/resumes", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT r.id, r.name, r.email, r.phone, r.file_name, r.file_type, 
+      SELECT r.id, r.name, r.email, r.phone, 
+             r.original_filename AS file_name, 
+             r.file_type,
              r.skills, r.experience, r.match_percentage, r.uploaded_at,
              j.title as job_title, j.companyname as job_companyname, j.url as job_url
       FROM resumes r
@@ -2186,31 +2217,24 @@ app.get("/api/public/resumes", async (req, res) => {
 app.get("/api/public/resumes/:id/download", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT file_path, file_name, file_type FROM resumes WHERE id = $1 AND job_id IS NOT NULL",
+      "SELECT resume_file, original_filename, file_type FROM resumes WHERE id = $1 AND job_id IS NOT NULL",
       [req.params.id]
     );
     if (!result.rows.length) return res.status(404).send("Resume not found");
 
-    const { file_path, file_name, file_type } = result.rows[0];
-    const fullPath = path.join(
-      UPLOAD_BASE_PATH,
-      file_path.replace("/uploads/", "")
-    );
-
-    if (!fs.existsSync(fullPath)) {
-      return res.status(404).send("File not found on disk");
-    }
-
+    const { resume_file, original_filename, file_type } = result.rows[0];
     res.set({
       "Content-Type": file_type,
-      "Content-Disposition": `attachment; filename="${file_name}"`,
+      "Content-Disposition": `attachment; filename="${original_filename}"`,
     });
-    fs.createReadStream(fullPath).pipe(res);
+    res.send(resume_file);
   } catch (error) {
     console.error("Public download error:", error);
     res.status(500).send("Download failed");
   }
 });
+
+
 // Download Resume Endpoint
 app.get("/api/resumes/:id/download", async (req, res) => {
   try {
@@ -2599,58 +2623,68 @@ function compareRequirementsAndSkills(requirements, skills, resumeText) {
 // Update your resume upload endpoint to use the enhanced analysis
 app.post(
   "/api/jobs/:id/upload-resume",
-  upload.single("resume"),
+  memoryUpload.single("resume"),
   async (req, res) => {
     try {
       const jobId = req.params.id;
       const { name, email, phone } = req.body;
       const file = req.file;
 
-      if (!file) {
-        return res.status(400).json({ error: "No file uploaded" });
+      if (!file) return res.status(400).json({ error: "No file uploaded" });
+      if (!name || !email) return res.status(400).json({ error: "Name and email are required" });
+
+      // Check if job exists
+      const jobResult = await pool.query("SELECT * FROM job WHERE id = $1", [jobId]);
+      if (jobResult.rows.length === 0) {
+        return res.status(404).json({ error: "Job not found" });
       }
+      const job = jobResult.rows[0];
 
-      // Read file from disk
-      const fileContent = await fs.promises.readFile(file.path);
-
+      // Parse resume content from memory buffer
       let text = "";
       if (file.mimetype === "application/pdf") {
-        const pdfData = await pdfParse(fileContent);
+        const pdfData = await pdfParse(file.buffer);
         text = pdfData.text;
       } else {
-        const result = await mammoth.extractRawText({ buffer: fileContent });
+        // DOC / DOCX
+        const result = await mammoth.extractRawText({ buffer: file.buffer });
         text = result.value;
       }
 
-      // Get job requirements
-      const job = await pool.query("SELECT * FROM job WHERE id = $1", [jobId]);
-      const analysisResult = analyzeResume(text, job.rows[0].description);
+      // Perform analysis
+      const analysisResult = analyzeResume(text, job.description);
 
-      // Store in database with file path
-      const fileUrl = `/uploads/resumes/${file.filename}`;
+      // Store resume in database (using buffer and file details)
       await pool.query(
-        `INSERT INTO resumes (job_id, name, email, phone, file_path, file_name, file_type, skills, experience, match_percentage)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-        [
-          jobId,
-          name,
-          email,
-          phone,
-          fileUrl,
-          file.originalname,
-          file.mimetype,
-          analysisResult.skills,
-          analysisResult.experience,
-          analysisResult.matchPercentage,
-        ]
-      );
+      `INSERT INTO resumes 
+        (job_id, name, email, phone, resume_file, file_type, original_filename, skills, experience, match_percentage)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+      [
+        jobId,
+        name,
+        email,
+        phone || null,
+        file.buffer,
+        file.mimetype,
+        file.originalname,          // <-- new
+        analysisResult.skills,
+        analysisResult.experience,
+        analysisResult.matchPercentage,
+      ]
+    );
 
-      // Optionally delete the temporary file after processing? If you want to keep it, don't delete.
-      // await fs.promises.unlink(file.path); // if you want to delete after processing
-
-      res.json(analysisResult);
+      // Return analysis result
+      res.json({
+        matchPercentage: analysisResult.matchPercentage,
+        skills: analysisResult.skills,
+        experience: analysisResult.experience,
+        pros: analysisResult.pros,
+        cons: analysisResult.cons,
+        summary: analysisResult.summary,
+        resumeFileName: file.originalname,
+      });
     } catch (error) {
-      console.error("Resume upload error:", error);
+      console.error("Resume upload error:", error.stack);
       res.status(500).json({ error: "Resume processing failed" });
     }
   }
@@ -3097,30 +3131,7 @@ app.put("/:id/resumes/status", async (req, res) => {
   }
 });
 
-app.get("/api/public/resumes/:id/download", async (req, res) => {
-  try {
-    const result = await pool.query(
-      "SELECT * FROM resumes WHERE id = $1 AND job_id IS NULL",
-      [req.params.id]
-    );
 
-    if (!result.rows.length) {
-      return res.status(404).send("Public resume not found");
-    }
-
-    const resume = result.rows[0];
-    res.set({
-      "Content-Type": resume.file_type,
-      "Content-Disposition": `attachment; filename="${resume.name}_resume.${
-        resume.file_type.split("/")[1]
-      }"`,
-    });
-    res.send(resume.resume_file);
-  } catch (error) {
-    console.error("Public download error:", error);
-    res.status(500).send("Download failed");
-  }
-});
 
 // Download resume
 app.get("/:id/download", async (req, res) => {

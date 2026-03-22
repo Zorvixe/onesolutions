@@ -77,7 +77,7 @@ const PrimitiveTypes_Conditionals_CS = ({
           <li>Undefined, etc.</li>
         </ul>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Primitive Type</th>

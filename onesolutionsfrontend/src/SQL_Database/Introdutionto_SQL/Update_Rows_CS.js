@@ -71,9 +71,7 @@ const Update_Rows_CS = ({
           <b>student</b> table
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -110,9 +108,7 @@ const Update_Rows_CS = ({
           <b>player</b> table
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+       className="custom-table"
         >
           <thead>
             <tr>

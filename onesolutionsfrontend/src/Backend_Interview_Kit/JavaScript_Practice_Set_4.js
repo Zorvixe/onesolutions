@@ -55,7 +55,7 @@ const JavaScript_Practice_Set_4 = ({
   return (
     <div className="intro-container">
       <h2> Practice Set - 4</h2>
-      <h2>Practice the popular interview questions in JavaScript using NxtMock.</h2>
+      <h2>Practice the popular interview questions in JavaScript using ZorMock.</h2>
 
     <section>
     <h3>1. Explain about reduce method?</h3>

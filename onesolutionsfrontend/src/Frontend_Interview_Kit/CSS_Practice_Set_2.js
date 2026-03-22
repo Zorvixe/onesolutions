@@ -56,7 +56,7 @@ const CSS_Practice_Set_2 = ({
   return (
     <div className="intro-container">
       <h2>CSS Practice Set - 2</h2>
-      <h2>Practice the popular interview questions in CSS using NxtMock.</h2>
+      <h2>Practice the popular interview questions in CSS using ZorMock.</h2>
 
     <section>
     <h3>1. Explain Inline styles?</h3>

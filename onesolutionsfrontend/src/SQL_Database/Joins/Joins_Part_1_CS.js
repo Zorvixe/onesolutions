@@ -145,9 +145,7 @@ WHERE instructor.full_name = "Alex";`}
 
         <b>Output</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -212,9 +210,7 @@ WHERE student_course.score > 70;`}
           <b>Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -250,9 +246,7 @@ WHERE student_course.score > 70;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -283,9 +277,7 @@ WHERE student_course.score > 70;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "50%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -350,9 +342,7 @@ WHERE review.course_id = 15;`}
         <b>Output</b>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "70%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -397,9 +387,7 @@ WHERE review.course_id = 15;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "50%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -434,9 +422,7 @@ WHERE review.course_id = 15;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -492,9 +478,7 @@ WHERE student_course.id IS NULL;`}
         <b>Output</b>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -525,9 +509,7 @@ WHERE student_course.id IS NULL;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -563,9 +545,7 @@ WHERE student_course.id IS NULL;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+        className="custom-table"
         >
           <thead>
             <tr>

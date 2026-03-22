@@ -44,7 +44,7 @@ import JavaMcqs from "./JavaProgramming/Pages/javaMcqs";
 import JavaPracticeList from "./JavaProgramming/Pages/javaPracticeList";
 import JavaPractice from "./components/JavaPractice/JavaPractice";
 
-import HirePro from "./HirePro/HirePro";
+import WebHirePro from "./HirePro/HirePro";
 
 import ResumeBuilder from './components/ResumeBuilder/ResumeBuilder';
 import ResumeList from './components/ResumeBuilder/ResumeList';
@@ -101,7 +101,9 @@ function AppWrapper() {
             path="/courses"
             element={<Navigate to={getCoursesLanding()} replace />}
           />
-          <Route path="/hirepro" element={<HirePro />} />
+          {courseSelection === "web_development" && (
+            <Route path="/web-hirepro" element={<WebHirePro />} />
+          )}
           {/* Direct course routes */}
           <Route path="/web-courses" element={<Courses />} />
           <Route path="/digital-courses" element={<DigitalCourses />} />

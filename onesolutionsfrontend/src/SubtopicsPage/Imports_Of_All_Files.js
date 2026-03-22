@@ -987,7 +987,69 @@ import JS_Essentials_Assignment_3 from "../JavaScript_Essentials/Assignments/JS_
 import JS_Essentials_Assignment_4 from "../JavaScript_Essentials/Assignments/JS_Essentials_Assignment_4.js";
 import JS_Essential_Mock_Coding_Test_1 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Coding_Test_1.js";
 import JS_Essential_Mock_Coding_Test_2 from "../JavaScript_Essentials/Mock_Tests/JS_Essential_Mock_Coding_Test_2.js";
+
+import Introductionto_CSS_Flexbox from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox.js";
+import Introductionto_CSS_Flexbox_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_2.js";
+import Introductionto_CSS_Flexbox_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_3.js";
+import Sizing_Ele_Handling_Overflow from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow.js";
+import CSS_Media_Queries from "../FlexBox/CSS_Media_Queries/CSS_Media_Queries.js";
+import Box_Sizing from "../FlexBox/CSS_Flexbox/Box_Sizing.js";
+import CSS_Media_Queries_CS from "../FlexBox/CSS_Media_Queries/CSS_Media_Queries_CS.js";
+import CSS_Media_Queries_MCQ from "../FlexBox/CSS_Media_Queries/CSS_Media_Queries_MCQ.js";
+import Flexbox_Sizing from "../FlexBox/CSS_Media_Queries/Flexbox_Sizing.js";
+import Flexbox_Sizing_CS from "../FlexBox/CSS_Media_Queries/Flexbox_Sizing_CS.js";
+import Flexbox_Sizing_MCQ from "../FlexBox/CSS_Media_Queries/Flexbox_Sizing_MCQ.js";
+import Media_Queries_On_Demand_Session from "../FlexBox/CSS_Media_Queries/Media_Queries_On_Demand_Session.js";
+import Flexbox_On_Demand_Session_CS from "../FlexBox/CSS_Media_Queries/Flexbox_On_Demand_Session_CS.js";
+import Flexbox_On_Demand_Session_MCQ from "../FlexBox/CSS_Media_Queries/Flexbox_On_Demand_Session_MCQ.js";
+import Flexbox_Coding_Pratice_1 from "../FlexBox/CSS_Flexbox/Flexbox_Coding_Pratice_1.js";
+import Flexbox_Coding_Pratice_2 from "../FlexBox/CSS_Flexbox/Flexbox_Coding_Pratice_2.js";
+import Flexbox_Coding_Pratice_3 from "../FlexBox/CSS_Flexbox/Flexbox_Coding_Pratice_3.js";
+import Flexbox_Coding_Pratice_4 from "../FlexBox/CSS_Flexbox/Flexbox_Coding_Pratice_4.js";
+import Flexbox_Coding_Pratice_5 from "../FlexBox/CSS_Media_Queries/Flexbox_Coding_Pratice_5.js";
+import Flexbox_Coding_Pratice_6 from "../FlexBox/CSS_Media_Queries/Flexbox_Coding_Pratice_6.js";
+import Flexbox_Coding_Pratice_7 from "../FlexBox/CSS_Media_Queries/Flexbox_Coding_Pratice_7.js";
+import Flexbox_Coding_Pratice_8 from "../FlexBox/CSS_Media_Queries/Flexbox_Coding_Pratice_8.js";
+import Flexbox_Coding_Assignment_1 from "../FlexBox/Assignments/Flexbox_Coding_Assignment_1.js";
+import Flexbox_Coding_Assignment_2 from "../FlexBox/Assignments/Flexbox_Coding_Assignment_2.js";
+import Flexbox_Coding_Assignment_3 from "../FlexBox/Assignments/Flexbox_Coding_Assignment_3.js";
+import Flexbox_Coding_Assignment_4 from "../FlexBox/Assignments/Flexbox_Coding_Assignment_4.js";
+import Flexbox_MCQ_Assignment_1 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_1.js";
+import Flexbox_MCQ_Assignment_2 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_2.js";
+import Flexbox_MCQ_Assignment_3 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_3.js";
+import Flexbox_MCQ_Assignment_4 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_4.js";
 export const subtopicComponents = {
+  "CSS Media Queries": CSS_Media_Queries,
+  "CSS Media Queries | Cheat Sheet": CSS_Media_Queries_CS,
+  "MCQ Pratice - CSS Media Queries": CSS_Media_Queries_MCQ,
+  "Flexbox Sizing": Flexbox_Sizing,
+  Box_Sizing,
+  "Flexbox Sizing | Cheat Sheet":Flexbox_Sizing_CS,
+  "MCQ Pratice - Flexbox Sizing": Flexbox_Sizing_MCQ,
+  "Media Queries OnDemand Session":Media_Queries_On_Demand_Session,
+  "Media Queries OnDemand Session | Cheat Sheet": Flexbox_On_Demand_Session_CS,
+  "MCQ Pratice - Media Queries OnDemand Session": Flexbox_On_Demand_Session_MCQ,
+  Introductionto_CSS_Flexbox,
+  Introductionto_CSS_Flexbox_2,
+  Introductionto_CSS_Flexbox_3,
+  Sizing_Ele_Handling_Overflow,
+  "Flexbox Coding Practice 1": Flexbox_Coding_Pratice_1,
+  "Flexbox Coding Practice 2": Flexbox_Coding_Pratice_2,
+  "Flexbox Coding Practice 3": Flexbox_Coding_Pratice_3,
+  "Flexbox Coding Practice 4": Flexbox_Coding_Pratice_4,
+  "Flexbox Coding Practice 5": Flexbox_Coding_Pratice_5,
+  "Flexbox Coding Practice 6": Flexbox_Coding_Pratice_6,
+  "Flexbox Coding Practice 7": Flexbox_Coding_Pratice_7,
+  "Flexbox Coding Practice 8": Flexbox_Coding_Pratice_8,
+  "Flexbox MCQ Assignment 1": Flexbox_MCQ_Assignment_1,
+  "Flexbox MCQ Assignment 2": Flexbox_MCQ_Assignment_2,
+  "Flexbox MCQ Assignment 3": Flexbox_MCQ_Assignment_3,
+  "Flexbox MCQ Assignment 4": Flexbox_MCQ_Assignment_4,
+  "Flexbox Coding Assignment 1": Flexbox_Coding_Assignment_1,
+  "Flexbox Coding Assignment 2": Flexbox_Coding_Assignment_2,
+  "Flexbox Coding Assignment 3": Flexbox_Coding_Assignment_3,
+  "Flexbox Coding Assignment 4": Flexbox_Coding_Assignment_4,
+  //Js Essentials
   "JS Essential Coding Practice 1": JS_Essentials_Coding_Pratice_1,
   "JS Essential Coding Practice 2": JS_Essentials_Coding_Pratice_2,
   "JS Essential Coding Practice 3": JS_Essentials_Coding_Pratice_3,

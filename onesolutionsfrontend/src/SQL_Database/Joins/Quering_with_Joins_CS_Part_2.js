@@ -123,9 +123,7 @@ WHERE course.instructor_id = 102;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -174,9 +172,7 @@ WHERE course.instructor_id = 102;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -197,9 +193,7 @@ WHERE course.instructor_id = 102;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -251,9 +245,7 @@ LIMIT 1;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -280,9 +272,7 @@ LIMIT 1;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "35%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -305,9 +295,7 @@ LIMIT 1;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "25%" }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -354,9 +342,7 @@ GROUP BY course.id;`}
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -390,9 +376,7 @@ GROUP BY course.id;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -423,9 +407,7 @@ GROUP BY course.id;`}
 
         <h3>Expected Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>

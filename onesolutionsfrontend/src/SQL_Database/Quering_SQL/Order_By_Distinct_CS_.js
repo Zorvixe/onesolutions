@@ -118,9 +118,7 @@ ORDER BY  price ASC;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -190,9 +188,7 @@ ORDER BY  rating DESC, price ASC;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -238,9 +234,7 @@ ORDER BY  price ASC, rating DESC;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "45%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -317,9 +311,7 @@ ORDER BY brand;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          className="custom-table"
         >
           <thead>
             <tr>

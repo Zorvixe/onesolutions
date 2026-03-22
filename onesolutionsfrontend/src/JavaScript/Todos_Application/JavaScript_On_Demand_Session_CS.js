@@ -74,7 +74,7 @@ const JavaScript_On_Demand_Session_CS = ({
           uppercase except for the first word.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Code</th>

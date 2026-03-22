@@ -5,13 +5,13 @@ import FeedbackModal from "../../FeedbackModal/FeedbackModal";
 import "../../Class_CSS/Class_Css.css";
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-const Introductionto_CSS_Flexbox_2 = ({
+const Media_Queries_On_Demand_Session = ({
   subtopicId,
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
-  topicName = "Arrays & More DOM Manipulations",
+  moduleName = "CSS Media Queries",
+  topicName = "Media Queries OnDemand Session",
   slidesUrl = "https://docs.google.com/presentation/d/1wKPfPqFsM81t0cauysKC2FVx1ZQPXlNE_FLsUY7cluc/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =
@@ -767,4 +767,4 @@ const Introductionto_CSS_Flexbox_2 = ({
   );
 };
 
-export default Introductionto_CSS_Flexbox_2
+export default Media_Queries_On_Demand_Session

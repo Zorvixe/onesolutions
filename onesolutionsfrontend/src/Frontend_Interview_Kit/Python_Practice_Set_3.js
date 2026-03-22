@@ -54,7 +54,7 @@ const Python_Practice_Set_3 = ({
   return (
     <div className="intro-container">
       <h2>Python Practice Set - 3</h2>
-      <h2>Practice the popular interview questions in Python using NxtMock.</h2>
+      <h2>Practice the popular interview questions in Python using ZorMock.</h2>
 
     <section>
       <h3>1. What is a Package in Python?</h3>

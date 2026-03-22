@@ -13,7 +13,6 @@
 }
 .nav-link.hirepro {
   font-weight: 600;
-  color: #7c3aed;          /* purple-ish to stand out */
 }
 
 .logo img {
@@ -61,7 +60,7 @@
   position: relative;
   text-decoration: none;
   color: #333;
-  font-weight: bold;
+  font-weight: 600;
   padding: 8px 0;
   transition: color 0.3s ease;
 }
@@ -404,8 +403,13 @@
 }
 
 .profile_list_li {
+  font-weight: 600;
   margin-left: -22px !important;
   margin-right: 5px !important;
+}
+
+.profile_list_li a i {
+  font-weight: 600;
 }
 
 .footer-menu {

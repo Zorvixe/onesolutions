@@ -93,47 +93,43 @@ const JavaPracticeList = () => {
     );
   }, [selectedPractice, userProgress]);
 
-  // Auto-mark practice as complete when all problems are solved
   useEffect(() => {
-    const markPracticeAsComplete = async () => {
-      if (
-        areAllProblemsSolved &&
-        selectedPractice?.practice_uuid &&
-        !isPracticeCompleted &&
-        !isMarkingComplete
-      ) {
-        try {
-          setIsMarkingComplete(true);
-          console.log("🎯 All problems solved! Marking practice as complete...");
+  const markPracticeAsComplete = async () => {
+    if (
+      areAllProblemsSolved &&
+      selectedPractice?.practice_uuid &&
+      !selectedPractice.is_completed &&    // use the flag from the practice object
+      !isMarkingComplete
+    ) {
+      try {
+        setIsMarkingComplete(true);
+        console.log("🎯 All problems solved! Marking practice as complete...");
 
-          await javaAPI.completePractice(selectedPractice.practice_uuid);
+        await javaAPI.completePractice(selectedPractice.practice_uuid);
 
-          // Refresh practice list to update is_completed status
-          const res = await javaAPI.getAllCodingPractices();
-          if (res.data.success) {
-            setPractices(res.data.data);
-            // Update selected practice with new data
-            const updatedPractice = res.data.data.find(
-              (p) => p.id === selectedPractice.id
-            );
-            if (updatedPractice) {
-              setSelectedPractice(updatedPractice);
-            }
+        // Refresh the practice list to get updated completion status
+        const res = await javaAPI.getAllCodingPractices();
+        if (res.data.success) {
+          setPractices(res.data.data);
+          const updatedPractice = res.data.data.find(
+            (p) => p.id === selectedPractice.id
+          );
+          if (updatedPractice) {
+            setSelectedPractice(updatedPractice); // now includes is_completed = true
           }
-
-          await checkPracticeCompletion();
-          console.log("✅ Practice marked as completed!");
-        } catch (error) {
-          console.error("❌ Failed to mark practice complete:", error);
-        } finally {
-          setIsMarkingComplete(false);
         }
+
+        console.log("✅ Practice marked as completed!");
+      } catch (error) {
+        console.error("❌ Failed to mark practice complete:", error);
+      } finally {
+        setIsMarkingComplete(false);
       }
-    };
+    }
+  };
 
-    markPracticeAsComplete();
-  }, [areAllProblemsSolved, selectedPractice, isPracticeCompleted, isMarkingComplete, checkPracticeCompletion]);
-
+  markPracticeAsComplete();
+}, [areAllProblemsSolved, selectedPractice, isMarkingComplete]);
   const handlePracticeSelect = (practice) => {
     setSelectedPractice(practice);
   };

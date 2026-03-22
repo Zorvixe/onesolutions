@@ -146,9 +146,7 @@ HAVING half_centuries > 1;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "35%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

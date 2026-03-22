@@ -97,9 +97,7 @@ const Subqueries_CS = ({
         {/* User Table */}
         <b>User Table</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -153,9 +151,7 @@ const Subqueries_CS = ({
         {/* Product Table */}
         <b>Product Table</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -203,9 +199,7 @@ const Subqueries_CS = ({
         {/* Order Product Table */}
         <b>Order Product Table</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -249,9 +243,7 @@ const Subqueries_CS = ({
         {/* Order Details Table */}
         <b>Order Details Table</b>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -351,9 +343,7 @@ WHERE category = "WATCH";`}
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "50%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -404,9 +394,7 @@ WHERE rating > (
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -476,9 +464,7 @@ AND order_id NOT IN (
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -574,9 +560,7 @@ WHERE price_per_unit >
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "20%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -634,9 +618,7 @@ WHERE product_id =
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -674,9 +656,7 @@ WHERE category IN
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -745,9 +725,7 @@ WHERE rating =
           <b>Expected Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -774,9 +752,7 @@ WHERE rating =
           rating of a product and make it rounded off to two decimal places.
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -806,9 +782,7 @@ WHERE rating =
           greater than average rating.
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+         className="custom-table"
         >
           <thead>
             <tr>

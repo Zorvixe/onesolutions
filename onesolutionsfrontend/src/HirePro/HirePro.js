@@ -7,11 +7,17 @@ import './HirePro.css';
 
 const HirePro = () => {
   const navigate = useNavigate();
-  const { completedContent } = useAuth();
+  const { completedContent, user } = useAuth();
 
   const [showPopup, setShowPopup] = useState(false);
   const [module, setModule] = useState(''); // 'frontend' or 'backend'
   const [expandedTopic, setExpandedTopic] = useState(null); // stores module id
+
+  // Get course selection from user context
+  const courseSelection = user?.courseSelection || "web_development";
+
+  // Check if user has web development access (since HirePro is part of web development)
+  const hasWebDevelopmentAccess = courseSelection === "web_development";
 
   // Find the courses we need
   const frontendCourse = goalsData
@@ -34,12 +40,36 @@ const HirePro = () => {
   };
 
   const handleTopicClick = (moduleId) => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
     setExpandedTopic(expandedTopic === moduleId ? null : moduleId);
   };
 
   const handleSetClick = (moduleId, topicId) => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
     navigate(`/topic/${moduleId}/subtopic/${topicId}`);
   };
+
+  const handleExploreQuestions = () => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
+    setShowPopup(true);
+  };
+
+  const showNoAccessMessage = () => {
+    alert("You don't have access to Interview Kits. Please select Web Development in your profile to access these resources.");
+  };
+
+  // Debug info
+  console.log("HirePro - Course selection:", courseSelection);
+  console.log("HirePro - Has web development access:", hasWebDevelopmentAccess);
 
   return (
     <div className="hirepro-page">
@@ -65,7 +95,7 @@ const HirePro = () => {
               </p>
               <button
                 className="hire-btn"
-                onClick={() => setShowPopup(true)}
+                onClick={handleExploreQuestions}
               >
                 Explore Questions
               </button>
@@ -80,7 +110,13 @@ const HirePro = () => {
               </p>
               <button
                 className="hire-btn alt"
-                onClick={() => navigate('/resumes')}
+                onClick={() => {
+                  if (!hasWebDevelopmentAccess) {
+                    showNoAccessMessage();
+                    return;
+                  }
+                  navigate('/resumes');
+                }}
               >
                 Build Resume
               </button>
@@ -113,26 +149,62 @@ const HirePro = () => {
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-box">
+         
+           <div className="popup-header">
 
-            <button
-              className="close-btn"
-              onClick={() => {
-                setShowPopup(false);
-                setModule('');
-                setExpandedTopic(null);
-              }}
-            >
-              ×
-            </button>
+            {/* LEFT - Back */}
+              <div className="left">
+                {module && (
+                  <button 
+                    className='popup-back-btn-hirepro' 
+                    onClick={() => {
+                      setModule('');
+                      setExpandedTopic(null);
+                    }}
+                  >
+                    ← Back
+                  </button>
+                )}
+              </div>
+
+              {/* CENTER - Title */}
+              <div className="center">
+                <h2>
+                  {!module
+                    ? 'Select Module'
+                    : module === 'frontend'
+                    ? 'Frontend Topics'
+                    : 'Backend Topics'}
+                </h2>
+              </div>
+
+              {/* RIGHT - Close */}
+              <div className="right">
+                <button
+                  className="close-btn"
+                  onClick={() => {
+                    setShowPopup(false);
+                    setModule('');
+                    setExpandedTopic(null);
+                  }}
+                >
+                  ×
+                </button>
+              </div>
+
+            </div>
 
             {/* Step 1 – Choose Frontend / Backend */}
             {!module && (
               <>
-                <h2>Select Module</h2>
                 <div className="module-buttons">
                   <button
                     className="module-btn"
                     onClick={() => {
+                      if (!hasWebDevelopmentAccess) {
+                        showNoAccessMessage();
+                        return;
+                      }
                       setModule('frontend');
                       setExpandedTopic(null);
                     }}
@@ -143,6 +215,10 @@ const HirePro = () => {
                   <button
                     className="module-btn"
                     onClick={() => {
+                      if (!hasWebDevelopmentAccess) {
+                        showNoAccessMessage();
+                        return;
+                      }
                       setModule('backend');
                       setExpandedTopic(null);
                     }}
@@ -156,12 +232,7 @@ const HirePro = () => {
             {/* Step 2 – Accordion of modules (topics) */}
             {module && (
               <>
-                <h2>
-                  {module === 'frontend'
-                    ? 'Frontend Topics'
-                    : 'Backend Topics'}
-                </h2>
-
+               
                 <div className="topics-accordion">
                   {currentModules.map((mod) => (
                     <div key={mod.id} className="topic-card">

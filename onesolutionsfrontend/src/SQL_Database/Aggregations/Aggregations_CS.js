@@ -113,9 +113,7 @@ const Aggregations_CS = ({
         </p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -182,9 +180,7 @@ WHERE name = "Ram";`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -211,9 +207,7 @@ WHERE year = 2011;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "35%" }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -294,9 +288,7 @@ SELECT COUNT(column_name) FROM player_match_details;`}
           <li>Aggregate functions on strings and their outputs</li>
           <li>
             <table
-              border="1"
-              cellPadding="6"
-              style={{ borderCollapse: "collapse", width: "60%" }}
+               className="custom-table"
             >
               <thead>
                 <tr>
@@ -331,9 +323,7 @@ SELECT COUNT(column_name) FROM player_match_details;`}
           </li>
           <li>
             <table
-              border="1"
-              cellPadding="6"
-              style={{ borderCollapse: "collapse", width: "40%" }}
+               className="custom-table"
             >
               <thead>
                 <tr>
@@ -397,9 +387,7 @@ FROM player_match_details;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "35%" }}
+           className="custom-table"
         >
           <thead>
             <tr>
@@ -427,9 +415,7 @@ FROM player_match_details;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "30%" }}
+          className="custom-table"
         >
           <thead>
             <tr>

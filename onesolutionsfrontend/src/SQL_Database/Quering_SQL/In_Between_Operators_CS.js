@@ -119,9 +119,7 @@ WHERE  brand IN ( "Puma", "Levi's", "Mufti", "Lee", "Denim");`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -213,9 +211,7 @@ WHERE  price BETWEEN 1000  AND 5000;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -262,9 +258,7 @@ WHERE  price BETWEEN 500  AND 300;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -306,9 +300,7 @@ WHERE  name BETWEEN 300  AND 500;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+        className="custom-table"
         >
           <thead>
             <tr>

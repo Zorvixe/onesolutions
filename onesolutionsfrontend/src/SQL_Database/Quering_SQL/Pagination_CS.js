@@ -135,9 +135,7 @@ LIMIT 2;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "40%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -211,9 +209,7 @@ LIMIT 5 OFFSET 6;`}
         <h3>Output</h3>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "55%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

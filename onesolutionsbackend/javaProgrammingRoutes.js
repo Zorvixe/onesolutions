@@ -8,6 +8,18 @@ const path = require("path");
 const multer = require("multer");
 const jwt = require("jsonwebtoken");
 
+// Define constants from environment variables
+const TEMP_JAVA_DIR = process.env.TEMP_JAVA_DIR || '/tmp/java-execution';
+const JAVAC_PATH = process.env.JAVAC_PATH || '/usr/bin/javac';
+const JAVA_PATH = process.env.JAVA_PATH || '/usr/bin/java';
+
+
+// Make sure the directory exists
+if (!fs.existsSync(TEMP_JAVA_DIR)) {
+  fs.mkdirSync(TEMP_JAVA_DIR, { recursive: true });
+  console.log(`Created temp directory: ${TEMP_JAVA_DIR}`);
+}
+
 // ----------------------------------------------------------------------
 // Database connection (reuse your existing pool or create a new one)
 // ----------------------------------------------------------------------
@@ -63,6 +75,10 @@ const authenticate = async (req, res, next) => {
 // ----------------------------------------------------------------------
 // Multer configuration for video uploads (if needed)
 // ----------------------------------------------------------------------
+
+
+
+
 const UPLOAD_BASE_PATH =
   process.env.JAVA_UPLOAD_PATH || path.join(__dirname, "uploads_java");
 const videosDir = path.join(UPLOAD_BASE_PATH, "videos");
@@ -1171,43 +1187,52 @@ app.get("/student/java/coding-practice/:practiceUuid", authenticate, async (req,
 });
 
 // Mark an entire practice as completed (if all problems are completed)
+// MARK PRACTICE AS COMPLETE USING UUID
 app.post(
-  "/student/java/coding-practice/:practiceId/complete",
+  "/student/java/coding-practice/:practiceUuid/complete",
   authenticate,
   async (req, res) => {
     try {
       const studentId = req.student.id;
       const studentType = req.student.student_type;
-      const { practiceId } = req.params;
+      const { practiceUuid } = req.params;
 
-      // Check if practice exists and is accessible
-      const practiceCheck = await pool.query(
-        `SELECT id FROM java_coding_practices WHERE id = $1 AND allowed_student_types @> ARRAY[$2]`,
-        [practiceId, studentType]
+      // 1️⃣ Get the practice integer ID from the UUID (and verify access)
+      const practiceResult = await pool.query(
+        `SELECT id FROM java_coding_practices 
+         WHERE practice_uuid = $1 AND allowed_student_types @> ARRAY[$2]`,
+        [practiceUuid, studentType]
       );
-      if (practiceCheck.rows.length === 0) {
+
+      if (practiceResult.rows.length === 0) {
         return res.status(404).json({
           success: false,
           message: "Practice not found or access denied",
         });
       }
 
-      // Check if all problems in the practice are completed
+      const practiceId = practiceResult.rows[0].id;
+
+      // 2️⃣ Check if all problems in the practice are completed
       const progressCheck = await pool.query(
         `SELECT 
-         COUNT(*) as total,
-         SUM(CASE WHEN jp.id IS NOT NULL THEN 1 ELSE 0 END) as completed
-       FROM java_content jc
-       LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
-       WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
+           COUNT(*) as total,
+           SUM(CASE WHEN jp.id IS NOT NULL THEN 1 ELSE 0 END) as completed
+         FROM java_content jc
+         LEFT JOIN java_progress jp ON jc.id = jp.content_id AND jp.student_id = $1
+         WHERE jc.practice_id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
         [studentId, practiceId, studentType]
       );
+
       const { total, completed } = progressCheck.rows[0];
+
       if (total === 0) {
-        return res
-          .status(400)
-          .json({ success: false, message: "No problems in this practice" });
+        return res.status(400).json({
+          success: false,
+          message: "No problems in this practice",
+        });
       }
+
       if (parseInt(completed) < parseInt(total)) {
         return res.status(400).json({
           success: false,
@@ -1215,18 +1240,24 @@ app.post(
         });
       }
 
-      // Insert into practice progress
+      // 3️⃣ Insert into practice progress table (completion record)
       await pool.query(
         `INSERT INTO java_practice_progress (student_id, practice_id)
-       VALUES ($1, $2)
-       ON CONFLICT (student_id, practice_id) DO NOTHING`,
+         VALUES ($1, $2)
+         ON CONFLICT (student_id, practice_id) DO NOTHING`,
         [studentId, practiceId]
       );
 
-      res.json({ success: true, message: "Practice marked as completed" });
+      res.json({
+        success: true,
+        message: "Practice marked as completed",
+      });
     } catch (e) {
       console.error("Error completing practice:", e);
-      res.status(500).json({ success: false, error: e.message });
+      res.status(500).json({
+        success: false,
+        error: e.message,
+      });
     }
   }
 );
@@ -1327,7 +1358,7 @@ app.get(
         // Fetch ONLY sample test cases
         const sampleTestCases = await pool.query(
           `SELECT input, expected_output FROM java_test_cases
-         WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
+     WHERE content_id = $1 AND is_sample = true ORDER BY order_number`,
           [content.id]
         );
         responseData = {
@@ -1338,6 +1369,8 @@ app.get(
           coding_time_limit: content.coding_time_limit,
           coding_memory_limit: content.coding_memory_limit,
           sample_test_cases: sampleTestCases.rows,
+          difficulty: content.difficulty,    // ✅ ADD THIS
+          score: content.score,               // ✅ ADD THIS
         };
       }
 
@@ -1659,6 +1692,74 @@ app.get("/student/java/completed-content", authenticate, async (req, res) => {
 });
 
 
+// Get full question details with ALL test cases (both sample and hidden)
+app.get("/student/java/question/:contentId", authenticate, async (req, res) => {
+  try {
+    const studentId = req.student.id;
+    const studentType = req.student.student_type;
+    const { contentId } = req.params;
+
+    // Verify enrollment and access
+    const enrollmentCheck = await pool.query(
+      `SELECT 1 FROM java_enrollments je
+       JOIN java_goals jg ON je.goal_id = jg.id
+       JOIN java_modules jm ON jg.id = jm.goal_id
+       JOIN java_topics jt ON jm.id = jt.module_id
+       JOIN java_subtopics js ON jt.id = js.topic_id
+       JOIN java_content jc ON js.id = jc.subtopic_id
+       WHERE je.student_id = $1 AND jc.id = $2 AND jc.allowed_student_types @> ARRAY[$3]`,
+      [studentId, contentId, studentType]
+    );
+
+    if (enrollmentCheck.rows.length === 0) {
+      return res.status(403).json({
+        success: false,
+        message: "Not enrolled or no access"
+      });
+    }
+
+    // Get content details
+    const contentResult = await pool.query(
+      `SELECT * FROM java_content WHERE id = $1`,
+      [contentId]
+    );
+
+    if (contentResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Content not found"
+      });
+    }
+
+    const content = contentResult.rows[0];
+
+    // Get ALL test cases (both sample and hidden)
+    const testCases = await pool.query(
+      `SELECT id, input, expected_output, is_sample 
+       FROM java_test_cases 
+       WHERE content_id = $1 
+       ORDER BY order_number`,
+      [contentId]
+    );
+
+    res.json({
+      success: true,
+      data: {
+        ...content,
+        all_test_cases: testCases.rows
+      }
+    });
+
+  } catch (error) {
+    console.error("Error fetching question details:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+
 // ----------------------------------------------------------------------
 // Get all coding practices with their problems (for list view)
 // ----------------------------------------------------------------------
@@ -1740,6 +1841,112 @@ app.get("/student/java/coding-practices", authenticate, async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message
+    });
+  }
+});
+
+app.post("/api/java/execute", async (req, res) => {
+  try {
+    const { code, input } = req.body;
+
+    // Verify token
+    const token = req.headers.authorization?.split(" ")[1];
+    if (!token) {
+      return res.status(401).json({ success: false, message: "No token provided" });
+    }
+
+    const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    // Extract class name from code
+    let className = 'Main'; // default
+    const classMatch = code.match(/class\s+(\w+)/); // Match any class (public or not)
+    if (classMatch && classMatch[1]) {
+      className = classMatch[1];
+    }
+
+    // Create a unique ID for this execution
+    const uniqueId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+
+    // IMPORTANT: For Java, the filename MUST match the class name exactly
+    // So we use the class name as the filename, not adding unique ID to it
+    const javaFileName = `${className}.java`;
+    const javaFilePath = path.join(TEMP_JAVA_DIR, javaFileName);
+
+    // Also create a unique class file path (though Java will create it with the class name)
+    const classFilePath = path.join(TEMP_JAVA_DIR, `${className}.class`);
+
+    // Backup existing file if it exists (to avoid conflicts)
+    if (fs.existsSync(javaFilePath)) {
+      const backupPath = path.join(TEMP_JAVA_DIR, `${className}_backup_${uniqueId}.java`);
+      fs.renameSync(javaFilePath, backupPath);
+    }
+
+    // Write code to file with the correct class name
+    fs.writeFileSync(javaFilePath, code);
+
+    // Compile Java code
+    const { exec } = require('child_process');
+
+    exec(`${JAVAC_PATH} "${javaFilePath}"`, { timeout: 10000 }, (compileError, stdout, stderr) => {
+      // After compilation, we can delete the backup if it exists
+      const backupPath = path.join(TEMP_JAVA_DIR, `${className}_backup_${uniqueId}.java`);
+      if (fs.existsSync(backupPath)) {
+        try { fs.unlinkSync(backupPath); } catch (e) { }
+      }
+
+      if (compileError) {
+        // Clean up
+        try { fs.unlinkSync(javaFilePath); } catch (e) { }
+        return res.json({
+          success: false,
+          output: stderr || 'Compilation error'
+        });
+      }
+
+      // Prepare run command with input - use the class name, not the filename
+      let runCommand;
+      if (input && input.trim()) {
+        // Escape input for command line
+        const escapedInput = input.replace(/"/g, '\\"').replace(/\n/g, '\\n');
+        runCommand = `echo "${escapedInput}" | ${JAVA_PATH} -cp "${TEMP_JAVA_DIR}" ${className}`;
+      } else {
+        runCommand = `${JAVA_PATH} -cp "${TEMP_JAVA_DIR}" ${className}`;
+      }
+
+      // Run the compiled code
+      exec(runCommand, { timeout: 5000 }, (runError, runStdout, runStderr) => {
+        // Clean up files
+        try { fs.unlinkSync(javaFilePath); } catch (e) { }
+        try { if (fs.existsSync(classFilePath)) fs.unlinkSync(classFilePath); } catch (e) { }
+
+        if (runError) {
+          // Check if it's a timeout error
+          if (runError.killed || runError.signal === 'SIGTERM') {
+            return res.json({
+              success: false,
+              output: 'Execution timeout (possible infinite loop)'
+            });
+          }
+          return res.json({
+            success: false,
+            output: runStderr || 'Runtime error'
+          });
+        }
+
+        // Return successful output
+        res.json({
+          success: true,
+          output: runStdout || 'Program executed successfully (no output)',
+          stderr: runStderr
+        });
+      });
+    });
+  } catch (error) {
+    console.error('Java execution error:', error);
+    res.status(500).json({
+      success: false,
+      output: `Server error: ${error.message}`
     });
   }
 });

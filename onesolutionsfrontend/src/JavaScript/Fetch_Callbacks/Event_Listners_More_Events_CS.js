@@ -137,7 +137,7 @@ greetBtn.addEventListener("click", function() {
         <h2>2. Operators</h2>
 
         <h3>2.1 Comparison Operators</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Operator</th>
@@ -211,7 +211,7 @@ greetBtn.addEventListener("click", function() {
         </table>
 
         <h3>2.2 Logical Operators</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Operator</th>
@@ -389,7 +389,7 @@ document.body.appendChild(inputElement);`}
         />
 
         <h4>Keyboard key and event.key value</h4>
-        <table className="cheatsheet-table">
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Keyboard key</th>

@@ -94,7 +94,7 @@ const String_Operators_CS = ({
           characters:
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Symbol</th>
@@ -124,7 +124,7 @@ const String_Operators_CS = ({
       {/* 4. Common Patterns */}
       <section>
         <h2>Common Patterns</h2>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Pattern</th>
@@ -196,7 +196,7 @@ FROM  product
 WHERE  category LIKE "Gadgets";`}
         />
         <h3>Output</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>
@@ -254,7 +254,7 @@ WHERE  name LIKE "Bourbon%";`}
         </p>
 
         <h3>Output</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>
@@ -305,7 +305,7 @@ WHERE  name LIKE "%Smart%";`}
         </p>
 
         <h3>Output</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>
@@ -358,7 +358,7 @@ FROM  product
 WHERE  brand LIKE "_____";`}
         />
         <h3>Output</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>name</th>

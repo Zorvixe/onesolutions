@@ -56,7 +56,7 @@ const JavaScript_Practice_Set_1 = ({
   return (
     <div className="intro-container">
       <h2> Practice Set - 1</h2>
-      <h2>Practice the popular interview questions in JavaScript using NxtMock.</h2>
+      <h2>Practice the popular interview questions in JavaScript using ZorMock.</h2>
 
     <section>
     <h3>1. What are variables?</h3>

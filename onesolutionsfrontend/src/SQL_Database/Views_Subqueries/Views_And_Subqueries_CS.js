@@ -101,9 +101,7 @@ const Views_And_Subqueries_CS = ({
         <h2>User Table</h2>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -158,9 +156,7 @@ const Views_And_Subqueries_CS = ({
         <h2>Product Table</h2>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -213,9 +209,7 @@ const Views_And_Subqueries_CS = ({
       <section>
         <h2>Order Product Table</h2>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -256,9 +250,7 @@ const Views_And_Subqueries_CS = ({
       <section>
         <h2>Order Details Table</h2>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          className="custom-table"
         >
           <thead>
             <tr>

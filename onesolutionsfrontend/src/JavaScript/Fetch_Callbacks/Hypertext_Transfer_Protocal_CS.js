@@ -195,7 +195,7 @@ const Hypertext_Transfer_Protocal_CS = ({
           The HTTP Request methods indicate the desired action to be performed
           for a given resource.
         </p>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Method</th>
@@ -226,7 +226,7 @@ const Hypertext_Transfer_Protocal_CS = ({
         </table>
 
         <h4>HTTP Version</h4>
-        <table border="1" style={{ borderCollapse: "collapse", width: "40%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Year</th>
@@ -329,7 +329,7 @@ const Hypertext_Transfer_Protocal_CS = ({
           Status codes Indicate whether an HTTP request has been successfully
           completed or not.
         </p>
-        <table border="1" style={{ borderCollapse: "collapse", width: "40%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Status Code Series</th>
@@ -368,7 +368,7 @@ const Hypertext_Transfer_Protocal_CS = ({
         </ul>
 
         <h4>Status text </h4>
-        <table border="1" style={{ borderCollapse: "collapse", width: "50%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Status Code</th>

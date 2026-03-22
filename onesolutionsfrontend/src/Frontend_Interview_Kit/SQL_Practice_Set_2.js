@@ -56,7 +56,7 @@ const SQL_Practice_Set_2 = ({
   return (
     <div className="intro-container">
       <h2>SQL Practice Set - 2</h2>
-      <h2>Practice the popular interview questions in SQL using NxtMock.</h2>
+      <h2>Practice the popular interview questions in SQL using ZorMock.</h2>
 
     <section>
     <h3>1. Define Second Normal Form (2NF) in database normalization?</h3>

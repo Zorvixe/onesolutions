@@ -55,7 +55,7 @@ const HTML_Practice_Set_3 = ({
   return (
     <div className="intro-container">
       <h2>HTML Practice Set - 3</h2>
-      <h2>Practice the popular interview questions in HTML using NxtMock.</h2>
+      <h2>Practice the popular interview questions in HTML using ZorMock.</h2>
 
     <section>
       <h3>1. What is the value assigned to the HTML href attribute?</h3>

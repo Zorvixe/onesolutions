@@ -105,9 +105,7 @@ FROM player;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -163,9 +161,7 @@ FROM player;`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -226,9 +222,7 @@ WHERE name = "Sai";`}
 
         <h3>Output</h3>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+        className="custom-table"
         >
           <thead>
             <tr>

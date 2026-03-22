@@ -209,9 +209,10 @@ const Navbar = () => {
         )}
 
         {/*  – show for ALL courses */}
+        {courseInfo.shortLabel === "Web Dev" && user.studentType !== "zorvixe_core" && (
           <li>
             <NavLink
-              to="/hirepro"
+              to="/web-hirepro"
               className={({ isActive }) =>
                 isActive ? "nav-link active hirepro" : "nav-link hirepro"
               }
@@ -219,6 +220,7 @@ const Navbar = () => {
               Hire Pro
             </NavLink>
           </li>
+        )}
       </ul>
 
       {showMobileMenu && (
@@ -272,15 +274,17 @@ const Navbar = () => {
             )}
 
             {/*  in mobile – always visible */}
+            {courseInfo.shortLabel === "Web Dev" && user.studentType !== "zorvixe_core" && (
             <li>
               <NavLink
-                to="/hirepro"
+                to="/web-hirepro"
                 className={({ isActive }) => (isActive ? "active" : "")}
                 onClick={() => setShowMobileMenu(false)}
               >
                 <i className="bi bi-briefcase"></i> Hire Pro
               </NavLink>
             </li>
+            )}
 
             {/* Code Playground/Compiler link in mobile – only for Web Dev or Java */}
             {showCodingFeatures() && (
@@ -616,6 +620,11 @@ const Navbar = () => {
                     </Link>
                   </li>
                 )}
+                <li className="profile_list_li">
+                  <Link to="/resumes">
+                    <i class="bi bi-file-earmark"></i>Build Resume
+                  </Link>
+                </li>
                 <li className="profile_list_li">
                   <Link to="/leave">
                     <i className="bi bi-chat-left"></i>Apply for Leave

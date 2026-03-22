@@ -221,9 +221,7 @@ CROSS JOIN instructor;`}
           <b>Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "70%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -300,9 +298,7 @@ WHERE sc1.student_id < sc2.student_id;`}
           <b>Output</b>
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "60%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -326,9 +322,7 @@ WHERE sc1.student_id < sc2.student_id;`}
         <h2>JOINS Summary</h2>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "80%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

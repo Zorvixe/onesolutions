@@ -55,7 +55,7 @@ const HTML_Practice_Set_4 = ({
   return (
     <div className="intro-container">
       <h2>HTML Practice Set - 4</h2>
-      <h2>Practice the popular interview questions in HTML using NxtMock.</h2>
+      <h2>Practice the popular interview questions in HTML using ZorMock.</h2>
 
     <section>
       <h3>1. Can we create dynamic web pages using only HTML?</h3>

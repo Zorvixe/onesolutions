@@ -16,7 +16,7 @@ export default function Courses() {
     calculateCourseProgress,
     calculateGoalProgress,
     refreshProgress,
-    user, // Assuming user object contains studentType and selectedCourses
+    user,
   } = useAuth();
 
   const [expandedGoal, setExpandedGoal] = useState(goalsData[0]?.id || null);
@@ -30,24 +30,34 @@ export default function Courses() {
   });
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
 
-  // Get student type and selected courses from user context
-  const studentType = user?.studentType || "zorvixe_core"; // Default to core if not specified
-  const selectedCourses = user?.selectedCourses || ["web_development"]; // Default selection
+  // Get student type and course selection from user context
+  const studentType = user?.studentType || "zorvixe_core";
+  const courseSelection = user?.courseSelection || "web_development";
 
-  // ✅ Filter goals based on student type
-  const filteredGoals = goalsData.filter(
-    (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
-  );
+  // Check if user has web development access
+  const hasWebDevelopmentAccess = courseSelection === "web_development";
 
-  // ✅ Filter courses based on student type AND course selection
+  // ✅ Filter goals based on student type AND only show if user has web development access
+  const filteredGoals = hasWebDevelopmentAccess 
+    ? goalsData.filter(
+        (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
+      )
+    : [];
+
+  // ✅ Filter courses based on student type AND course selection, AND exclude specific interview kits
   const getFilteredCourses = (courses) => {
     return courses.filter((course) => {
+      // Exclude specific courses (Frontend Interview Kit and Backend Interview Kit)
+      if (course.id === "g3 c3" || course.id === "QW9_m1_A0 g3_H c5_7B") {
+        return false;
+      }
+      
       // First check if course is accessible based on student type
       const isAccessibleByType = !course.accessibleTo || course.accessibleTo.includes(studentType);
       
       // Then check if course is selected based on course_selection (if it exists)
       const isSelectedByCourse = !course.course_selection || 
-        course.course_selection.some(selection => selectedCourses.includes(selection));
+        course.course_selection.some(selection => selection === courseSelection);
       
       return isAccessibleByType && isSelectedByCourse;
     });
@@ -71,37 +81,41 @@ export default function Courses() {
 
   // ✅ Load progress and calculate local progress on mount
   useEffect(() => {
-    console.log("Courses: Initial load progress");
-    loadProgressSummary();
-    calculateLocalProgress();
-  }, []);
+    if (hasWebDevelopmentAccess) {
+      console.log("Courses: Initial load progress");
+      loadProgressSummary();
+      calculateLocalProgress();
+    }
+  }, [hasWebDevelopmentAccess]);
 
   // ✅ Calculate local progress whenever completedContent changes
   useEffect(() => {
-    console.log("Courses: completedContent changed, recalculating progress", {
-      completedContentLength: completedContent?.length || 0,
-    });
-    calculateLocalProgress();
-    setLastUpdateTime(Date.now()); // Force re-render
-  }, [completedContent]);
+    if (hasWebDevelopmentAccess) {
+      console.log("Courses: completedContent changed, recalculating progress", {
+        completedContentLength: completedContent?.length || 0,
+      });
+      calculateLocalProgress();
+      setLastUpdateTime(Date.now());
+    }
+  }, [completedContent, hasWebDevelopmentAccess]);
 
   // ✅ Listen for global completion events
   useEffect(() => {
     const handleGlobalCompletion = () => {
-      console.log("Courses: Received global completion event");
-      // Force refresh from context
-      if (refreshProgress) {
-        refreshProgress();
+      if (hasWebDevelopmentAccess) {
+        console.log("Courses: Received global completion event");
+        if (refreshProgress) {
+          refreshProgress();
+        }
+        loadProgressSummary().then(() => {
+          calculateLocalProgress();
+          setLastUpdateTime(Date.now());
+        });
       }
-      loadProgressSummary().then(() => {
-        calculateLocalProgress();
-        setLastUpdateTime(Date.now());
-      });
     };
 
-    // Listen for storage changes
     const handleStorageChange = (e) => {
-      if (e.key === "completedContent" || e.key === "progress_update") {
+      if (hasWebDevelopmentAccess && (e.key === "completedContent" || e.key === "progress_update")) {
         console.log("Courses: Storage changed, refreshing...");
         setTimeout(() => {
           loadProgressSummary().then(() => {
@@ -112,21 +126,21 @@ export default function Courses() {
       }
     };
 
-    // Listen for custom events
     window.addEventListener("contentCompleted", handleGlobalCompletion);
     window.addEventListener("subtopicCompleted", handleGlobalCompletion);
     window.addEventListener("progressUpdated", handleGlobalCompletion);
     window.addEventListener("storage", handleStorageChange);
 
-    // Set up interval to check for updates
     const intervalId = setInterval(() => {
-      const lastUpdate = localStorage.getItem("lastProgressUpdate");
-      if (lastUpdate && parseInt(lastUpdate) > lastUpdateTime) {
-        console.log("Courses: Interval check - progress updated externally");
-        loadProgressSummary().then(() => {
-          calculateLocalProgress();
-          setLastUpdateTime(parseInt(lastUpdate));
-        });
+      if (hasWebDevelopmentAccess) {
+        const lastUpdate = localStorage.getItem("lastProgressUpdate");
+        if (lastUpdate && parseInt(lastUpdate) > lastUpdateTime) {
+          console.log("Courses: Interval check - progress updated externally");
+          loadProgressSummary().then(() => {
+            calculateLocalProgress();
+            setLastUpdateTime(parseInt(lastUpdate));
+          });
+        }
       }
     }, 1000);
 
@@ -137,35 +151,33 @@ export default function Courses() {
       window.removeEventListener("storage", handleStorageChange);
       clearInterval(intervalId);
     };
-  }, [lastUpdateTime]);
+  }, [lastUpdateTime, hasWebDevelopmentAccess]);
 
   const calculateLocalProgress = useCallback(() => {
+    if (!hasWebDevelopmentAccess) return;
+    
     console.log("Courses: Calculating local progress");
     const goalsProgress = {};
     const coursesProgress = {};
     const modulesProgress = {};
 
     filteredGoals.forEach((goal) => {
-      // Calculate goal progress - only include accessible content
       const goalProg = calculateGoalProgress(goal);
       goalsProgress[goal.id] = goalProg;
       console.log(`Goal ${goal.title}: ${goalProg}%`);
 
       const accessibleCourses = getFilteredCourses(goal.courses);
       accessibleCourses.forEach((course) => {
-        // Calculate course progress - only include accessible content
         const courseProg = calculateCourseProgress(course);
         coursesProgress[course.id] = courseProg;
         console.log(`Course ${course.title}: ${courseProg}%`);
 
         const accessibleModules = getFilteredModules(course.modules);
         accessibleModules.forEach((module) => {
-          // Calculate module progress - only include accessible content
           const moduleProg = calculateModuleProgress(module);
           modulesProgress[module.id] = moduleProg;
           console.log(`Module ${module.name}: ${moduleProg}%`);
 
-          // Log accessible subtopic completion status
           const accessibleSubtopics = getFilteredSubtopics(module.topic);
           accessibleSubtopics.forEach((subtopic) => {
             const isCompleted = completedContent.includes(subtopic.id);
@@ -191,9 +203,9 @@ export default function Courses() {
     getFilteredCourses,
     getFilteredModules,
     getFilteredSubtopics,
+    hasWebDevelopmentAccess,
   ]);
 
-  // Enhanced goal locking - checks ALL previous goals
   const isGoalLocked = (goalIndex) => {
     if (goalIndex === 0 || goalIndex === 1 || goalIndex == 2) return false;
 
@@ -210,6 +222,10 @@ export default function Courses() {
   };
 
   const toggleGoal = (goalId, goalIndex) => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -222,6 +238,10 @@ export default function Courses() {
   };
 
   const toggleCourse = (courseId, goalIndex) => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -233,6 +253,10 @@ export default function Courses() {
   };
 
   const toggleModule = (moduleName, goalIndex) => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -267,6 +291,10 @@ export default function Courses() {
     courseName,
     goalIndex
   ) => {
+    if (!hasWebDevelopmentAccess) {
+      showNoAccessMessage();
+      return;
+    }
     if (isGoalLocked(goalIndex)) {
       showLockedMessage();
       return;
@@ -318,7 +346,6 @@ export default function Courses() {
     return Math.min(100, Math.max(0, Number(progress) || 0));
   };
 
-  // ✅ REAL-TIME check if subtopic is completed
   const isSubtopicCompleted = (subtopicId) => {
     const completed = completedContent.includes(subtopicId);
     console.log(
@@ -331,17 +358,56 @@ export default function Courses() {
     alert("This content is locked.");
   };
 
-  // Debug info for student type and selected courses
+  const showNoAccessMessage = () => {
+    alert("You don't have access to Web Development courses. Please select Web Development in your profile.");
+  };
+
+  // Debug info
   console.log("Current student type:", studentType);
-  console.log("Current selected courses:", selectedCourses);
+  console.log("Current course selection:", courseSelection);
+  console.log("Has web development access:", hasWebDevelopmentAccess);
+
+  // Show access denied message if user doesn't have web development access
+  if (!hasWebDevelopmentAccess) {
+    return (
+      <div
+        className="courses-container"
+        style={{ marginTop: "50px" }}
+      >
+        <div className="access-denied-container">
+          <img
+            src="/assets/img/locked_image.png"
+            alt="Access Denied"
+            className="locked_image"
+          />
+          
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty state if no courses available
+  if (filteredGoals.length === 0) {
+    return (
+      <div
+        className="courses-container"
+        style={{ marginTop: "50px" }}
+      >
+        <div className="no-courses-container">
+          <h3>No courses available</h3>
+          <p>Please check back later or contact support.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
       className="courses-container"
       style={{ marginTop: "50px" }}
-      key={`courses-${lastUpdateTime}-${studentType}-${selectedCourses.join("-")}`}
+      key={`courses-${lastUpdateTime}-${studentType}-${courseSelection}`}
     >
-      {/* Debug info */}
+      {/* Debug info - hidden */}
       <div style={{ display: "none" }}>
         Last update: {lastUpdateTime}
         <br />
@@ -349,7 +415,7 @@ export default function Courses() {
         <br />
         Student type: {studentType}
         <br />
-        Selected courses: {selectedCourses.join(", ")}
+        Course selection: {courseSelection}
       </div>
 
       {/* Goals List */}
@@ -406,7 +472,7 @@ export default function Courses() {
                 {!locked && accessibleCourses.length === 0 ? (
                   <div className="no-courses">
                     <h4>No courses found</h4>
-                    <p>You don't have any accessible courses in this goal based on your student type and course selections.</p>
+                    <p>You don't have any accessible courses in this goal based on your student type and course selection.</p>
                   </div>
                 ) : (
                   accessibleCourses.map((course) => {

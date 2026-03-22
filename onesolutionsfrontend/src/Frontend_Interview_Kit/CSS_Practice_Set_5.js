@@ -56,7 +56,7 @@ const CSS_Practice_Set_5 = ({
   return (
     <div className="intro-container">
       <h2>CSS Practice Set - 5</h2>
-      <h2>Practice the popular interview questions in CSS using NxtMock.</h2>
+      <h2>Practice the popular interview questions in CSS using ZorMock.</h2>
 
     <section>
     <h3>1. What are the advantages and disadvantages of CSS?</h3>

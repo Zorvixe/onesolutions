@@ -64,7 +64,7 @@ const Objects_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <p>
           <b>Example: </b> A person has name, age, city, etc.
         </p>
-        <table className="cheat-table">
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Key</th>

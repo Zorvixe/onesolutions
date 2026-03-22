@@ -1,9 +1,62 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import { CodeBlock } from "../CodeOutputBlocks";
+const NodeJS_Practice_Set_2 = ({
+  subtopicId,
+  goalName,
+  courseName,
+  subtopic,
+}) => {
+  const { markSubtopicComplete, loadProgressSummary, completedContent } =
+    useAuth();
 
-const NodeJS_Practice_Set_2 = () => {
+  const [isSubtopicCompleted, setIsSubtopicCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Check if subtopic is already completed
+  useEffect(() => {
+    if (completedContent.includes(subtopicId)) {
+      setIsSubtopicCompleted(true);
+    }
+  }, [completedContent, subtopicId]);
+
+  
+
+  const handleContinue = async () => {
+    if (isLoading || isSubtopicCompleted) return;
+
+    try {
+      setIsLoading(true);
+      const result = await markSubtopicComplete(
+        subtopicId,
+        goalName,
+        courseName
+      );
+
+      if (result.success) {
+        await loadProgressSummary();
+        setIsSubtopicCompleted(true);
+        console.log("✅ Cheat sheet marked as completed");
+      } else {
+        console.error(
+          "❌ Failed to mark cheat sheet complete:",
+          result.message
+        );
+        alert("Failed to mark as complete. Please try again.");
+      }
+    } catch (error) {
+      console.error("❌ Failed to mark cheat sheet complete:", error);
+      alert("Failed to mark as complete. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
-    <div>
-      <h1>React Js 2</h1>
+    <div className="intro-container">
+      <h2> Practice Set - 2</h2>
+      <h2>Practice the popular interview questions in NodeJs using ZorMock.</h2>
+
+    <section>
       <h3>1. Explain the post() method in Node JS.</h3>
       <p>The post() method in Node JS is used to send HTTP POST requests to a specified URL. It allows you to send data to the server in the request body.</p>
       <h3>2. What is the purpose of module.exports?</h3>
@@ -33,10 +86,35 @@ const NodeJS_Practice_Set_2 = () => {
       <h3>14. How to print Hello World in Node JS?</h3>
       <p>To print "Hello World" in Node.js, write console.log("Hello World"); in a JavaScript file and run it using node filename.js in the terminal.</p>
       <h3>15. What is package.json?</h3>
-      <p></p>
-      <p></p>
+      <p>package.json is a file in NodeJS projects that holds important project details like name, version, description, and dependencies. It helps package managers (npm or yarn) manage dependencies and scripts, simplifying project sharing and collaboration.</p>
+      <h3>16. What is the function of listen in Express?</h3>
+      <p>In Express, the "listen" method is used to bind and listen for connections on the specified port. Essentially, it starts up the server and allows it to begin accepting requests from clients.</p>
+      <h3>17. What is the use of 'express.json()' in your Node.js project?</h3>
+      <p>The 'express.json()' is used to recognize the incoming request object as a JSON object and parse it, allowing you to work with it as a JavaScript object.</p>
+      <h3>18. What is Nodemon?</h3>
+      <p>The Nodemon is a tool that restarts the server automatically whenever we make changes in the Node JS application.</p>
+    
+    </section>
+
+      
+
+      {/* Continue Button */}
+      <div className="view-continue">
+        <button
+          className={`btn-continue ${isSubtopicCompleted ? "completed" : ""}`}
+          onClick={handleContinue}
+          disabled={isSubtopicCompleted || isLoading}
+        >
+          {isLoading
+            ? "Marking..."
+            : isSubtopicCompleted
+            ? "✓ Completed"
+            : "Continue"}
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
+
 
 export default NodeJS_Practice_Set_2

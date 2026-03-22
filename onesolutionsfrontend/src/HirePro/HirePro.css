@@ -224,8 +224,7 @@
 
 .close-btn {
   position: absolute;
-  right: 24px;
-  top: 24px;
+  right: 2px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -494,4 +493,59 @@
 
 .set-row.completed .status-indicator::after {
   color: white;
+}
+
+.popup-back-btn-hirepro {
+  padding: 0.5rem 1rem;
+  background-color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+
+.popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-top: -30px;
+}
+
+/* Left & Right take equal space */
+.popup-header .left,
+.popup-header .right {
+  width: 100px;
+  display: flex;
+  align-items: center;
+}
+
+/* Center perfectly centered */
+.popup-header .center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.popup-header .right {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+/* Title style fix */
+.popup-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.popup-header {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
 }

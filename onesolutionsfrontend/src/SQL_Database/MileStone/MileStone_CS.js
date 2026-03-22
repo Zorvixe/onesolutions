@@ -61,9 +61,7 @@ const MileStone_CS = ({
         <h2>Clauses</h2>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -187,9 +185,7 @@ const MileStone_CS = ({
         <h2>Operators</h2>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          className="custom-table"
         >
           <thead>
             <tr>
@@ -245,9 +241,7 @@ const MileStone_CS = ({
         <h2>Functions</h2>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

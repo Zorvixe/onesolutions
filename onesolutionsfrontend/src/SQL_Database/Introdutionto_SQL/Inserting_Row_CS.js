@@ -238,9 +238,7 @@ VALUES ("Virat", 31, "Hundred");`}
           into the <code>player</code> table.
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse" }}
+         className="custom-table"
         >
           <thead>
             <tr>

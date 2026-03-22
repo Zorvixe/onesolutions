@@ -869,163 +869,53 @@ sys.stderr = OutputCapture()
     }
   }, [code.python, inputValue]);
 
-  const runJava = useCallback(async () => {
-    setIsRunning(true);
-    setOutput("");
+  // ... (all your imports and other code remain the same until runJava function)
 
-    try {
-      const javaRunner = remoteRunners?.java;
+const runJava = useCallback(async () => {
+  setIsRunning(true);
+  setOutput("");
 
-      if (typeof javaRunner === "function") {
-        try {
-          const result = await javaRunner(code.java, inputValue);
-          setOutput(result || "Java code executed successfully");
-        } catch (err) {
-          setOutput(`Java Execution Error: ${err.message}`);
-        }
-      } else {
-        const javaCode = code.java;
-        const outputLines = [];
-
-        const inputLines = inputValue
-          .split("\n")
-          .filter((line) => line.trim() !== "");
-        let inputIndex = 0;
-
-        const interpretJavaCode = (code) => {
-          const lines = code.split("\n");
-
-          const mainMethodIndex = lines.findIndex((line) =>
-            line.includes("public static void main")
-          );
-          if (mainMethodIndex === -1) {
-            return ["Error: No main method found"];
-          }
-
-          for (let i = mainMethodIndex; i < lines.length; i++) {
-            const line = lines[i].trim();
-
-            if (line.includes("System.out.println")) {
-              const match = line.match(/System\.out\.println\((.*)\)/);
-              if (match) {
-                let content = match[1];
-
-                if (content.includes("+")) {
-                  content = content
-                    .split("+")
-                    .map((part) => {
-                      part = part.trim().replace(/["';]/g, "");
-                      if (part === "i") return "i";
-                      if (part === "num") return "num";
-                      return part;
-                    })
-                    .join(" ");
-                }
-
-                if (content === "i") {
-                  for (let i = 1; i < 10; i++) {
-                    outputLines.push(i.toString());
-                  }
-                  break;
-                } else if (content.includes("discount")) {
-                  if (inputLines.length >= 2) {
-                    const comparePrice = parseInt(inputLines[0]);
-                    const price = parseInt(inputLines[1]);
-                    const discount =
-                      ((comparePrice - price) / comparePrice) * 100;
-                    outputLines.push(discount.toFixed(2));
-                  }
-                } else {
-                  content = content.replace(/["';]/g, "");
-                  if (content && content !== '""') {
-                    outputLines.push(content);
-                  }
-                }
-              }
-            }
-
-            if (
-              line.includes("for (int i =") &&
-              line.includes("i <") &&
-              line.includes("i++")
-            ) {
-              const match = line.match(
-                /for\s*\(\s*int\s+i\s*=\s*(\d+)\s*;\s*i\s*<\s*(\d+)\s*;\s*i\+\+\s*\)/
-              );
-              if (match) {
-                const start = parseInt(match[1]);
-                const end = parseInt(match[2]);
-                for (let i = start; i < end; i++) {
-                  outputLines.push(i.toString());
-                }
-              }
-            }
-
-            if (line.includes("nextInt()") && inputIndex < inputLines.length) {
-              inputIndex++;
-            }
-          }
-        };
-
-        interpretJavaCode(javaCode);
-
-        if (outputLines.length > 0) {
-          setOutput(outputLines.join("\n"));
-        } else {
-          setOutput(`Java Code Analysis:
-
-Your Java code has been processed in simulation mode.
-
-Code Structure:
-- ${
-            javaCode.includes("public class")
-              ? "✓ Class definition found"
-              : "✗ No class definition"
-          }
-- ${
-            javaCode.includes("main(String[] args)")
-              ? "✓ Main method found"
-              : "✗ No main method"
-          }
-- ${
-            javaCode.includes("System.out.println")
-              ? `✓ ${
-                  (javaCode.match(/System\.out\.println/g) || []).length
-                } print statements`
-              : "✗ No output statements"
-          }
-- ${
-            javaCode.includes("Scanner")
-              ? "✓ Scanner input detected"
-              : "✗ No Scanner input"
-          }
-- ${
-            javaCode.includes("for (") || javaCode.includes("while (")
-              ? "✓ Loop structures detected"
-              : "✗ No loops detected"
-          }
-
-Input Provided: ${inputValue || "None"}
-
-For full Java execution, set up a remote runner:
-remoteRunners={{
-  java: async (code, input) => {
-    const response = await fetch('/api/execute-java', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code, input })
-    });
-    return await response.text();
-  }
-}}`);
-        }
-      }
-    } catch (err) {
-      setOutput(`Error: ${err.message}`);
-    } finally {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setOutput("⚠️ Please login to run Java code");
       setIsRunning(false);
+      return;
     }
-  }, [code.java, remoteRunners, inputValue]);
+
+    const response = await fetch(`${API_URL}/api/java/execute`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        code: code.java,
+        input: inputValue
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    
+    if (data.success) {
+      setOutput(data.output || "Program executed successfully (no output)");
+    } else {
+      setOutput(data.output || data.error || "Execution failed");
+    }
+  } catch (err) {
+    console.error('Java execution error:', err);
+    setOutput(`Java Execution Error: ${err.message}`);
+  } finally {
+    setIsRunning(false);
+  }
+}, [code.java, inputValue]);
+
+// ... (rest of your component remains the same)
 
   const runSQL = useCallback(async () => {
     setIsRunning(true);
@@ -1105,19 +995,18 @@ remoteRunners={{
                   "└" +
                   colWidths.map((width) => "─".repeat(width + 2)).join("┴") +
                   "┘\n";
-                outputText += `\n${values.length} row(s) returned\n\n`;
               } else {
-                outputText += "Query executed successfully (no results)\n\n";
+                outputText += "Query executed successfully\n\n";
               }
             } else {
               db.run(statement);
               const changes = db.getRowsModified();
-              outputText += `✓ ${
+              outputText += `${
                 statement.split(" ")[0]
               } executed successfully. ${changes} row(s) affected.\n\n`;
             }
           } catch (err) {
-            outputText += `✗ Error in statement: ${err.message}\n\n`;
+            outputText += `Error in statement: ${err.message}\n\n`;
           }
         }
 
