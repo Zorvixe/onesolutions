@@ -439,9 +439,7 @@ const Introductionto_Operating_System_CS = ({
     </p>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+     className="custom-table"
     >
       <thead>
         <tr>
@@ -469,9 +467,7 @@ const Introductionto_Operating_System_CS = ({
       </tbody>
     </table>
       <img
-          src="/assets/img/case-sense.png"
-          alt="software"
-          style={{ width: "90%", height: "300px" }}
+       className="custom-table"
         />
   </section>
 </div>

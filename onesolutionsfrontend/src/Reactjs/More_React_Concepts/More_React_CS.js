@@ -342,7 +342,7 @@ const More_React_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           <li>The props and state changes trigger the render method.</li>
         </ul>
 
-        <table className="table-diff" style={{ width: '100%' }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Props</th>
@@ -426,7 +426,7 @@ const More_React_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
         <p>
           <b>Which one is State in our application?</b>
         </p>
-        <table className="table-diff" style={{ width: '100%' }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Data</th>

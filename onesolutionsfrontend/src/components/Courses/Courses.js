@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { goalsData } from "../../data/goalsData";
@@ -13,8 +13,6 @@ export default function Courses() {
     courseProgress,
     loadProgressSummary,
     calculateModuleProgress,
-    calculateCourseProgress,
-    calculateGoalProgress,
     refreshProgress,
     user,
   } = useAuth();
@@ -29,6 +27,7 @@ export default function Courses() {
     modules: {},
   });
   const [lastUpdateTime, setLastUpdateTime] = useState(Date.now());
+  const isInitialMount = useRef(true);
 
   // Get student type and course selection from user context
   const studentType = user?.studentType || "zorvixe_core";
@@ -37,69 +36,158 @@ export default function Courses() {
   // Check if user has web development access
   const hasWebDevelopmentAccess = courseSelection === "web_development";
 
-  // ✅ Filter goals based on student type AND only show if user has web development access
-  const filteredGoals = hasWebDevelopmentAccess 
-    ? goalsData.filter(
-        (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
-      )
-    : [];
+  // ========== FILTER FUNCTIONS (memoized with stable dependencies) ==========
+  const getFilteredCourses = useCallback(
+    (courses) => {
+      if (!courses) return [];
+      return courses.filter((course) => {
+        // Exclude specific courses (Frontend Interview Kit and Backend Interview Kit)
+        if (course.id === "g3 c3" || course.id === "QW9_m1_A0 g3_H c5_7B") {
+          return false;
+        }
+        const isAccessibleByType =
+          !course.accessibleTo || course.accessibleTo.includes(studentType);
+        const isSelectedByCourse =
+          !course.course_selection ||
+          course.course_selection.some((selection) => selection === courseSelection);
+        return isAccessibleByType && isSelectedByCourse;
+      });
+    },
+    [studentType, courseSelection]
+  );
 
-  // ✅ Filter courses based on student type AND course selection, AND exclude specific interview kits
-  const getFilteredCourses = (courses) => {
-    return courses.filter((course) => {
-      // Exclude specific courses (Frontend Interview Kit and Backend Interview Kit)
-      if (course.id === "g3 c3" || course.id === "QW9_m1_A0 g3_H c5_7B") {
-        return false;
+  const getFilteredModules = useCallback(
+    (modules) => {
+      if (!modules) return [];
+      return modules.filter(
+        (module) => !module.accessibleTo || module.accessibleTo.includes(studentType)
+      );
+    },
+    [studentType]
+  );
+
+  const getFilteredSubtopics = useCallback(
+    (topics) => {
+      if (!topics) return [];
+      return topics.filter(
+        (topic) => !topic.accessibleTo || topic.accessibleTo.includes(studentType)
+      );
+    },
+    [studentType]
+  );
+
+  // Memoized filtered goals based on student type and access
+  const filteredGoals = useMemo(() => {
+    if (!hasWebDevelopmentAccess) return [];
+    return goalsData.filter(
+      (goal) => !goal.accessibleTo || goal.accessibleTo.includes(studentType)
+    );
+  }, [hasWebDevelopmentAccess, studentType]);
+
+  // ========== CORE PROGRESS CALCULATION (memoized with stable dependencies) ==========
+  const calculateLocalProgress = useCallback(() => {
+    if (!hasWebDevelopmentAccess) return;
+
+    console.log("Courses: Calculating local progress based on accessible items");
+    const goalsProgress = {};
+    const coursesProgress = {};
+    const modulesProgress = {};
+
+    filteredGoals.forEach((goal) => {
+      const accessibleCourses = getFilteredCourses(goal.courses);
+
+      if (accessibleCourses.length === 0) {
+        goalsProgress[goal.id] = 0;
+        return;
       }
-      
-      // First check if course is accessible based on student type
-      const isAccessibleByType = !course.accessibleTo || course.accessibleTo.includes(studentType);
-      
-      // Then check if course is selected based on course_selection (if it exists)
-      const isSelectedByCourse = !course.course_selection || 
-        course.course_selection.some(selection => selection === courseSelection);
-      
-      return isAccessibleByType && isSelectedByCourse;
+
+      let totalCourseProgress = 0;
+      accessibleCourses.forEach((course) => {
+        const accessibleModules = getFilteredModules(course.modules);
+
+        if (accessibleModules.length === 0) {
+          coursesProgress[course.id] = 0;
+          return;
+        }
+
+        let totalModuleProgress = 0;
+        accessibleModules.forEach((module) => {
+          const accessibleSubtopics = getFilteredSubtopics(module.topic);
+
+          if (accessibleSubtopics.length === 0) {
+            modulesProgress[module.id] = 0;
+            return;
+          }
+
+          let completedCount = 0;
+          accessibleSubtopics.forEach((subtopic) => {
+            if (completedContent.includes(subtopic.id)) {
+              completedCount++;
+            }
+          });
+
+          const modulePercent = (completedCount / accessibleSubtopics.length) * 100;
+          modulesProgress[module.id] = modulePercent;
+          totalModuleProgress += modulePercent;
+        });
+
+        const coursePercent = totalModuleProgress / accessibleModules.length;
+        coursesProgress[course.id] = coursePercent;
+        totalCourseProgress += coursePercent;
+      });
+
+      const goalPercent = totalCourseProgress / accessibleCourses.length;
+      goalsProgress[goal.id] = goalPercent;
+
+      console.log(`Goal ${goal.title}: ${goalPercent.toFixed(1)}% (${accessibleCourses.length} courses)`);
     });
-  };
 
-  // ✅ Filter modules based on student type
-  const getFilteredModules = (modules) => {
-    return modules.filter(
-      (module) =>
-        !module.accessibleTo || module.accessibleTo.includes(studentType)
-    );
-  };
+    setLocalProgress((prev) => {
+      // Only update if something actually changed to prevent unnecessary re-renders
+      const newState = {
+        goals: goalsProgress,
+        courses: coursesProgress,
+        modules: modulesProgress,
+      };
+      
+      // Simple comparison to avoid unnecessary updates
+      if (JSON.stringify(prev) === JSON.stringify(newState)) {
+        return prev;
+      }
+      return newState;
+    });
+  }, [
+    filteredGoals,
+    getFilteredCourses,
+    getFilteredModules,
+    getFilteredSubtopics,
+    completedContent,
+    hasWebDevelopmentAccess,
+  ]);
 
-  // ✅ Filter subtopics based on student type
-  const getFilteredSubtopics = (topics) => {
-    if (!topics) return [];
-    return topics.filter(
-      (topic) => !topic.accessibleTo || topic.accessibleTo.includes(studentType)
-    );
-  };
-
-  // ✅ Load progress and calculate local progress on mount
+  // ========== EFFECTS ==========
+  // Load initial progress only on mount
   useEffect(() => {
-    if (hasWebDevelopmentAccess) {
+    if (hasWebDevelopmentAccess && isInitialMount.current) {
       console.log("Courses: Initial load progress");
+      isInitialMount.current = false;
       loadProgressSummary();
       calculateLocalProgress();
     }
-  }, [hasWebDevelopmentAccess]);
+  }, [hasWebDevelopmentAccess, loadProgressSummary, calculateLocalProgress]);
 
-  // ✅ Calculate local progress whenever completedContent changes
+  // Recalculate when completedContent changes (but not on initial mount)
   useEffect(() => {
-    if (hasWebDevelopmentAccess) {
+    if (hasWebDevelopmentAccess && !isInitialMount.current) {
       console.log("Courses: completedContent changed, recalculating progress", {
         completedContentLength: completedContent?.length || 0,
       });
       calculateLocalProgress();
       setLastUpdateTime(Date.now());
     }
-  }, [completedContent, hasWebDevelopmentAccess]);
+  }, [completedContent, hasWebDevelopmentAccess, calculateLocalProgress]);
 
-  // ✅ Listen for global completion events
+  // Listen for global completion events
   useEffect(() => {
     const handleGlobalCompletion = () => {
       if (hasWebDevelopmentAccess) {
@@ -115,7 +203,10 @@ export default function Courses() {
     };
 
     const handleStorageChange = (e) => {
-      if (hasWebDevelopmentAccess && (e.key === "completedContent" || e.key === "progress_update")) {
+      if (
+        hasWebDevelopmentAccess &&
+        (e.key === "completedContent" || e.key === "progress_update")
+      ) {
         console.log("Courses: Storage changed, refreshing...");
         setTimeout(() => {
           loadProgressSummary().then(() => {
@@ -142,7 +233,7 @@ export default function Courses() {
           });
         }
       }
-    }, 1000);
+    }, 5000); // Increased interval to 5 seconds to reduce frequency
 
     return () => {
       window.removeEventListener("contentCompleted", handleGlobalCompletion);
@@ -151,75 +242,22 @@ export default function Courses() {
       window.removeEventListener("storage", handleStorageChange);
       clearInterval(intervalId);
     };
-  }, [lastUpdateTime, hasWebDevelopmentAccess]);
+  }, [lastUpdateTime, hasWebDevelopmentAccess, refreshProgress, loadProgressSummary, calculateLocalProgress]);
 
-  const calculateLocalProgress = useCallback(() => {
-    if (!hasWebDevelopmentAccess) return;
-    
-    console.log("Courses: Calculating local progress");
-    const goalsProgress = {};
-    const coursesProgress = {};
-    const modulesProgress = {};
-
-    filteredGoals.forEach((goal) => {
-      const goalProg = calculateGoalProgress(goal);
-      goalsProgress[goal.id] = goalProg;
-      console.log(`Goal ${goal.title}: ${goalProg}%`);
-
-      const accessibleCourses = getFilteredCourses(goal.courses);
-      accessibleCourses.forEach((course) => {
-        const courseProg = calculateCourseProgress(course);
-        coursesProgress[course.id] = courseProg;
-        console.log(`Course ${course.title}: ${courseProg}%`);
-
-        const accessibleModules = getFilteredModules(course.modules);
-        accessibleModules.forEach((module) => {
-          const moduleProg = calculateModuleProgress(module);
-          modulesProgress[module.id] = moduleProg;
-          console.log(`Module ${module.name}: ${moduleProg}%`);
-
-          const accessibleSubtopics = getFilteredSubtopics(module.topic);
-          accessibleSubtopics.forEach((subtopic) => {
-            const isCompleted = completedContent.includes(subtopic.id);
-            console.log(
-              `Subtopic ${subtopic.name} (${subtopic.id}): ${isCompleted ? "COMPLETED" : "not completed"}`
-            );
-          });
-        });
-      });
-    });
-
-    setLocalProgress({
-      goals: goalsProgress,
-      courses: coursesProgress,
-      modules: modulesProgress,
-    });
-  }, [
-    calculateGoalProgress,
-    calculateCourseProgress,
-    calculateModuleProgress,
-    completedContent,
-    filteredGoals,
-    getFilteredCourses,
-    getFilteredModules,
-    getFilteredSubtopics,
-    hasWebDevelopmentAccess,
-  ]);
-
-  const isGoalLocked = (goalIndex) => {
-    if (goalIndex === 0 || goalIndex === 1 || goalIndex == 2) return false;
+  // ========== UI HELPERS ==========
+  const isGoalLocked = useCallback((goalIndex) => {
+    if (goalIndex === 0 || goalIndex === 1 || goalIndex === 2) return false;
 
     for (let i = 0; i < goalIndex; i++) {
       const previousGoal = filteredGoals[i];
+      if (!previousGoal) continue;
       const previousGoalProgress = getGoalProgress(previousGoal);
-
       if (previousGoalProgress < 100) {
         return true;
       }
     }
-
     return false;
-  };
+  }, [filteredGoals, localProgress.goals]);
 
   const toggleGoal = (goalId, goalIndex) => {
     if (!hasWebDevelopmentAccess) {
@@ -230,7 +268,6 @@ export default function Courses() {
       showLockedMessage();
       return;
     }
-
     setExpandedGoal(expandedGoal === goalId ? null : goalId);
     setExpandedCourse(null);
     setExpandedModule(null);
@@ -246,7 +283,6 @@ export default function Courses() {
       showLockedMessage();
       return;
     }
-
     setExpandedCourse(expandedCourse === courseId ? null : courseId);
     setExpandedModule(null);
     setSelectedSubtopic(null);
@@ -261,7 +297,6 @@ export default function Courses() {
       showLockedMessage();
       return;
     }
-
     setExpandedModule(expandedModule === moduleName ? null : moduleName);
   };
 
@@ -299,9 +334,7 @@ export default function Courses() {
       showLockedMessage();
       return;
     }
-
     setSelectedSubtopic(subtopicName);
-
     navigate(`/topic/${moduleId}/subtopic/${subtopicId}`, {
       state: {
         moduleId,
@@ -319,80 +352,79 @@ export default function Courses() {
     return <p>Content for {subtopic}</p>;
   };
 
-  const getGoalProgress = (goal) => {
-    const progress =
-      localProgress.goals[goal.id] ||
-      goalProgress[goal.title] ||
-      goal.progress ||
-      0;
+  // Progress getters - memoized to prevent recreation
+  const getGoalProgress = useCallback((goal) => {
+    const progress = localProgress.goals[goal.id];
+    if (progress !== undefined) {
+      return Math.min(100, Math.max(0, Number(progress) || 0));
+    }
+    const fallbackProgress = goalProgress[goal.title] || goal.progress || 0;
+    return Math.min(100, Math.max(0, Number(fallbackProgress) || 0));
+  }, [localProgress.goals, goalProgress]);
 
-    return Math.min(100, Math.max(0, Number(progress) || 0));
-  };
+  const getCourseProgress = useCallback((course) => {
+    const progress = localProgress.courses[course.id];
+    if (progress !== undefined) {
+      return Math.min(100, Math.max(0, Number(progress) || 0));
+    }
+    const fallbackProgress = courseProgress[course.title] || course.progress || 0;
+    return Math.min(100, Math.max(0, Number(fallbackProgress) || 0));
+  }, [localProgress.courses, courseProgress]);
 
-  const getCourseProgress = (course) => {
-    const progress =
-      localProgress.courses[course.id] ||
-      courseProgress[course.title] ||
-      course.progress ||
-      0;
+  const getModuleProgress = useCallback((module) => {
+    const progress = localProgress.modules[module.id];
+    if (progress !== undefined) {
+      return Math.min(100, Math.max(0, Number(progress) || 0));
+    }
+    const fallbackProgress = calculateModuleProgress(module) || 0;
+    return Math.min(100, Math.max(0, Number(fallbackProgress) || 0));
+  }, [localProgress.modules, calculateModuleProgress]);
 
-    return Math.min(100, Math.max(0, Number(progress) || 0));
-  };
-
-  const getModuleProgress = (module) => {
-    const progress =
-      localProgress.modules[module.id] || calculateModuleProgress(module) || 0;
-
-    return Math.min(100, Math.max(0, Number(progress) || 0));
-  };
-
-  const isSubtopicCompleted = (subtopicId) => {
-    const completed = completedContent.includes(subtopicId);
-    console.log(
-      `Courses: Checking subtopic ${subtopicId}: ${completed ? "COMPLETED" : "not completed"}`
-    );
-    return completed;
-  };
+  const isSubtopicCompleted = useCallback((subtopicId) => {
+    return completedContent.includes(subtopicId);
+  }, [completedContent]);
 
   const showLockedMessage = () => {
-    alert("This content is locked.");
+    alert("This content is locked. Please complete the previous goal first.");
   };
 
   const showNoAccessMessage = () => {
-    alert("You don't have access to Web Development courses. Please select Web Development in your profile.");
+    alert(
+      "You don't have access to Web Development courses. Please select Web Development in your profile."
+    );
   };
 
-  // Debug info
-  console.log("Current student type:", studentType);
-  console.log("Current course selection:", courseSelection);
-  console.log("Has web development access:", hasWebDevelopmentAccess);
+  // Debug info - reduced logging frequency
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log("Current student type:", studentType);
+      console.log("Current course selection:", courseSelection);
+      console.log("Has web development access:", hasWebDevelopmentAccess);
+      console.log("Filtered goals count:", filteredGoals.length);
+    }
+  }, [studentType, courseSelection, hasWebDevelopmentAccess, filteredGoals.length]);
 
-  // Show access denied message if user doesn't have web development access
+  // ========== RENDERING ==========
   if (!hasWebDevelopmentAccess) {
     return (
-      <div
-        className="courses-container"
-        style={{ marginTop: "50px" }}
-      >
+      <div className="courses-container" style={{ marginTop: "50px" }}>
         <div className="access-denied-container">
           <img
             src="/assets/img/locked_image.png"
             alt="Access Denied"
             className="locked_image"
           />
-          
+          <h3>Access Denied</h3>
+          <p>You don't have access to Web Development courses.</p>
+          <p>Please update your profile to select Web Development.</p>
         </div>
       </div>
     );
   }
 
-  // Show empty state if no courses available
   if (filteredGoals.length === 0) {
     return (
-      <div
-        className="courses-container"
-        style={{ marginTop: "50px" }}
-      >
+      <div className="courses-container" style={{ marginTop: "50px" }}>
         <div className="no-courses-container">
           <h3>No courses available</h3>
           <p>Please check back later or contact support.</p>
@@ -407,18 +439,6 @@ export default function Courses() {
       style={{ marginTop: "50px" }}
       key={`courses-${lastUpdateTime}-${studentType}-${courseSelection}`}
     >
-      {/* Debug info - hidden */}
-      <div style={{ display: "none" }}>
-        Last update: {lastUpdateTime}
-        <br />
-        Completed count: {completedContent?.length || 0}
-        <br />
-        Student type: {studentType}
-        <br />
-        Course selection: {courseSelection}
-      </div>
-
-      {/* Goals List */}
       <div className="goals-wrapper">
         {filteredGoals.map((goal, goalIndex) => {
           const goalPercent = getGoalProgress(goal);
@@ -444,9 +464,9 @@ export default function Courses() {
                     {goal.title}
                     {locked && <span className="locked-tag"> 🔒</span>}
                   </h2>
-                  {goal.dateRange ? (
+                  {goal.dateRange && (
                     <span className="goal-dates">({goal.dateRange})</span>
-                  ) : null}
+                  )}
                 </div>
                 <div className="goal-meta">
                   <div className="progress-section">
@@ -463,43 +483,43 @@ export default function Courses() {
                     <span
                       className="progress-percent"
                       style={{ color: goal.color }}
-                    >{`${goalPercent.toFixed(1)}%`}</span>
+                    >
+                      {`${goalPercent.toFixed(1)}%`}
+                    </span>
                   </div>
                 </div>
               </header>
 
               <div className="goal-body">
-                {!locked && accessibleCourses.length === 0 ? (
+                {!locked && accessibleCourses.length === 0 && (
                   <div className="no-courses">
                     <h4>No courses found</h4>
-                    <p>You don't have any accessible courses in this goal based on your student type and course selection.</p>
+                    <p>
+                      You don't have any accessible courses in this goal based
+                      on your student type and course selection.
+                    </p>
                   </div>
-                ) : (
+                )}
+                {!locked &&
                   accessibleCourses.map((course) => {
                     const coursePercent = getCourseProgress(course);
-
                     return (
-                      <div className={`courses ${""}`} key={course.id}>
-                        {/* Course Header */}
+                      <div className="courses" key={course.id}>
                         <div className="couses-and-status">
                           {(() => {
                             const [before, after] = course.title.split(":");
-
                             return (
                               <h4 style={{ color: "inherit" }}>
                                 {before}
                                 {after && (
-                                  <span className="highlight-after">
-                                    {after}
-                                  </span>
+                                  <span className="highlight-after">{after}</span>
                                 )}
                               </h4>
                             );
                           })()}
-
                           <div className="progress-section_module">
                             <div
-                              className={`circular-progress ${""}`}
+                              className="circular-progress"
                               style={{ "--progress": coursePercent }}
                             >
                               <span className="progress-value">
@@ -509,7 +529,6 @@ export default function Courses() {
                           </div>
                         </div>
 
-                        {/* Expand Modules Button */}
                         <div className="active-module_course">
                           <button
                             onClick={() =>
@@ -555,17 +574,16 @@ export default function Courses() {
                           </p>
                         </div>
 
-                        {/* Modules */}
                         {expandedCourse === course.id && !locked && (
                           <div className="module-details">
-                            {(getFilteredModules(course.modules) || []).map(
+                            {getFilteredModules(course.modules).map(
                               (module) => {
-                                const accessibleSubtopics =
-                                  getFilteredSubtopics(module.topic);
+                                const accessibleSubtopics = getFilteredSubtopics(
+                                  module.topic
+                                );
                                 const isExpanded =
                                   expandedModule === module.name;
-                                const moduleProgress =
-                                  getModuleProgress(module);
+                                const moduleProgress = getModuleProgress(module);
                                 const isModuleCompleted = moduleProgress >= 100;
 
                                 return (
@@ -586,9 +604,7 @@ export default function Courses() {
                                         <div className="circle-row module-circle-row">
                                           <div
                                             className={`circle module-circle ${
-                                              isModuleCompleted
-                                                ? "completed"
-                                                : ""
+                                              isModuleCompleted ? "completed" : ""
                                             }`}
                                             style={{
                                               "--progress": `${moduleProgress}%`,
@@ -606,9 +622,6 @@ export default function Courses() {
                                                   isSubtopicCompleted(
                                                     subtopic.id
                                                   );
-                                                console.log(
-                                                  `Rendering subtopic ${subtopic.id}: ${isCompleted ? "completed" : "not completed"}`
-                                                );
                                                 return (
                                                   <div
                                                     className="circle-row subtopic-circle-row"
@@ -657,7 +670,6 @@ export default function Courses() {
                                             </div>
                                           </div>
 
-                                          {/* Expand Modules Button */}
                                           <div className="active-module_subtopic">
                                             <button
                                               onClick={(e) => {
@@ -730,8 +742,8 @@ export default function Courses() {
                                                       {isMCQ(subtopic)
                                                         ? "MCQ Practice"
                                                         : isCodingPractice(
-                                                              subtopic
-                                                            )
+                                                            subtopic
+                                                          )
                                                           ? "Coding Practice"
                                                           : subtopic.name}
                                                     </span>
@@ -744,7 +756,6 @@ export default function Courses() {
                                       </div>
                                     </div>
 
-                                    {/* Right Side Lesson Content */}
                                     {isExpanded && selectedSubtopic && (
                                       <div className="lesson-content">
                                         {getSubtopicContent(selectedSubtopic)}
@@ -758,8 +769,7 @@ export default function Courses() {
                         )}
                       </div>
                     );
-                  })
-                )}
+                  })}
               </div>
             </section>
           );

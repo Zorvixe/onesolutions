@@ -381,7 +381,7 @@ console.log(arr2.flat(2)); // [0, 1, 2, [3, 4]]`}
           Mutable methods will change the original array and Immutable methods
           won't change the original array.
         </p>
-        <table>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Mutable Methods</th>

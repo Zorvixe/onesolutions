@@ -61,9 +61,7 @@ const Introductionto_Nodejs_CS_2 = ({
         <p>The Core Modules are inbuilt in Node JS.</p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>
@@ -146,9 +144,7 @@ const Introductionto_Nodejs_CS_2 = ({
           work with third-party packages.
         </p>
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          className="custom-table"
         >
           <thead>
             <tr>

@@ -304,9 +304,7 @@ const element = React.createElement("h1", elementProps);`}
         <h3>Differences between HTML and JSX:</h3>
      
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+       className="custom-table"
         >
           <thead>
             <tr>

@@ -437,7 +437,7 @@ If the timer runs out and the sender has not yet received an ACK from the recipi
       Some IP ranges are reserved for private networks.
     </p>
 
-    <table border="1" cellPadding="6" style={{width:"100%", borderCollapse:"collapse"}}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th>Private IP Range</th>

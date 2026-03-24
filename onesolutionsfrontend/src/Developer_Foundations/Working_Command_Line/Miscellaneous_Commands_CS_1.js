@@ -140,7 +140,7 @@ const Miscellaneous_Commands_CS_1 = ({
 
     <h3>User Ownership Types</h3>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>Type</th>
@@ -172,7 +172,7 @@ const Miscellaneous_Commands_CS_1 = ({
 
     <h3>Permission Types</h3>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>Permission</th>
@@ -228,7 +228,7 @@ const Miscellaneous_Commands_CS_1 = ({
     </div>
     <br/>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>Number</th>
@@ -471,7 +471,7 @@ const Miscellaneous_Commands_CS_1 = ({
   <section>
     <h2>10. Summary</h2>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>Command</th>

@@ -286,7 +286,7 @@ const Computer_Hardware_CS = ({
   <section>
     <h2>9. RAM vs Hard Drive</h2>
 
-    <table border="1" cellPadding="6" style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th>RAM</th>
@@ -334,7 +334,7 @@ const Computer_Hardware_CS = ({
   <section>
     <h2>11. Data Access Times</h2>
 
-    <table border="1" cellPadding="6" style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th>Storage Device</th>
@@ -429,7 +429,7 @@ const Computer_Hardware_CS = ({
   <section>
     <h2>15. CPU vs GPU</h2>
 
-    <table border="1" cellPadding="6" style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th>CPU</th>

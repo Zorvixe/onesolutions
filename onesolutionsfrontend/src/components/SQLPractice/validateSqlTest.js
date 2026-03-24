@@ -623,7 +623,6 @@ const executeSingleStatement = async (sql, questionData) => {
   };
 };
 const handleCreateView = (sql, questionData) => {
-  // Remove ending semicolon safely
   const cleanedSql = sql.trim().replace(/;$/, "");
 
   const match = cleanedSql.match(
@@ -631,28 +630,36 @@ const handleCreateView = (sql, questionData) => {
   );
 
   if (!match) {
-    console.log("SQL received:", cleanedSql); // debug line
     throw new Error("Invalid CREATE VIEW syntax");
   }
 
   const viewName = match[1];
   const selectQuery = match[2];
 
-  // 🔥 ALWAYS use handleSelect (do not manually parse)
+  // Use existing SELECT logic
   const result = handleSelect(selectQuery, questionData);
 
   if (!result.success) return result;
 
-  // Store view
+  // ✅ Store view correctly
+  if (!questionData.tableData) questionData.tableData = {};
+
   questionData.tableData[viewName] = {
-    columns: result.columns,
-    rows: result.rows,
+    columns: result.data.columns,
+    rows: result.data.results.map(row =>
+      result.data.columns.map(col => row[col])
+    ),
   };
 
+  // ✅ RETURN OUTPUT (same as SELECT)
   return {
     success: true,
-    columns: result.columns,
-    rows: result.rows,
+    output: `✅ View '${viewName}' created successfully. Returned ${result.data.rowCount} rows.`,
+    data: {
+      columns: result.data.columns,
+      results: result.data.results,
+      rowCount: result.data.rowCount,
+    },
   };
 };
 

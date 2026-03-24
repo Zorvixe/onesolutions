@@ -97,7 +97,7 @@ const questionsData = [
     question: (
       <div>
         <p>What will be the text color of the paragraph?</p>
-        <CodeBlock language="css" code={`.info { color: #ff4500; }`} />
+        <CodeBlock language="css" code={`.info { color: orange; }`} />
         <CodeBlock
           language="html"
           code={`<p class="info">Important Notice</p>`}
@@ -113,7 +113,7 @@ const questionsData = [
         <p>What background color will the container have?</p>
         <CodeBlock
           language="css"
-          code={`.card { background-color: #f0f0f0; }`}
+          code={`.card { background-color: lightgray; }`}
         />
         <CodeBlock
           language="html"

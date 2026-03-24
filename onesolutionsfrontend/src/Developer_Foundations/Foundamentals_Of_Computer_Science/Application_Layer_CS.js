@@ -65,9 +65,7 @@ const Application_Layer_CS = ({
 
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%", marginTop: "10px" }}
+    className="custom-table"
     >
       <thead>
         <tr>
@@ -247,9 +245,7 @@ Domain names are organized in subordinate levels (subdomains) of the DNS root do
     <h2>9. DNS Record Types</h2>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+    className="custom-table"
     >
       <thead>
         <tr>

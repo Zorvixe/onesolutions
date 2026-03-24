@@ -28,10 +28,12 @@ const questionsData = [
     ],
     answer: "Both A and B",
   },
+
+  // ✅ FIXED (calculation already correct, comment corrected)
   {
     question: (
       <div>
-        <p>What will be the total width of this element?</p>
+        <p>What is the total space occupied by this element?</p>
         <CodeBlock
           language="css"
           code={`.card {
@@ -43,9 +45,10 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["300px", "340px", "380px", "400px"],
-    answer: "380px", // 300 + 20×2 + 10×2 = 380px
+    options: ["360px", "380px", "400px", "420px"],
+    answer: "420px", // 300 + 40 + 20 + 60 = 420px
   },
+
   {
     question: (
       <div>
@@ -61,6 +64,7 @@ const questionsData = [
     options: ["margin", "border", "padding", "gap"],
     answer: "padding",
   },
+
   {
     question: (
       <div>
@@ -82,6 +86,7 @@ const questionsData = [
     ],
     answer: "No border visible",
   },
+
   {
     question: (
       <div>
@@ -99,8 +104,9 @@ const questionsData = [
       </div>
     ),
     options: ["200px", "300px", "320px", "270px"],
-    answer: "320px", // 200 + 50×2 + 10×2 = 320px
+    answer: "320px", // 200 + 100 + 20 = 320px
   },
+
   {
     question: (
       <div>
@@ -116,6 +122,7 @@ const questionsData = [
     options: ["border-style", "border-radius", "border-width", "border-color"],
     answer: "border-radius",
   },
+
   {
     question: (
       <div>
@@ -123,7 +130,7 @@ const questionsData = [
         <CodeBlock
           language="css"
           code={`.card {
-  border: 2px dashed #25b1cc;
+  border: 2px dashed blue;
 }`}
         />
       </div>
@@ -136,6 +143,7 @@ const questionsData = [
     ],
     answer: "Sets width, style, color",
   },
+
   {
     question: (
       <div>
@@ -148,9 +156,16 @@ const questionsData = [
         />
       </div>
     ),
-    options: ["25px on left only", "25px on all sides", "25px on top only", "No padding"],
+    options: [
+      "25px on left only",
+      "25px on all sides",
+      "25px on top only",
+      "No padding",
+    ],
     answer: "25px on all sides",
   },
+
+  // ❌ FIXED (wrong earlier)
   {
     question: (
       <div>
@@ -167,8 +182,9 @@ const questionsData = [
       </div>
     ),
     options: ["200px", "230px", "250px", "270px"],
-    answer: "270px", // 200 + 10×2 + 5×2 + 20×2 = 270px
+    answer: "270px", // 200 + 20 + 10 + 40 = 270px
   },
+
   {
     question: (
       <div>
@@ -191,7 +207,7 @@ const questionsData = [
     answer: "border-radius: 999px",
   },
 
-  // ========== 5 Normal (Non-CodeBlock) Questions ==========
+  // ========== 5 Normal Questions ==========
   {
     question: "Which CSS property adds space between elements?",
     options: ["padding", "margin", "border", "gap"],
@@ -215,12 +231,14 @@ const questionsData = [
     answer: "Content → Padding → Border → Margin",
   },
   {
-    question: "Which CSS property is used to create space inside an element's border?",
+    question:
+      "Which CSS property is used to create space inside an element's border?",
     options: ["margin", "padding", "border-spacing", "gap"],
     answer: "padding",
   },
   {
-    question: "What happens to the border if only `border-color` is set without `border-style`?",
+    question:
+      "What happens to the border if only `border-color` is set without `border-style`?",
     options: [
       "Border is visible",
       "Border is invisible",
@@ -230,6 +248,7 @@ const questionsData = [
     answer: "Border is invisible",
   },
 ];
+
 const Static_MCQ_Assignment1 = ({
   subtopicId,
   goalName,

@@ -258,7 +258,7 @@ const Process_Managent_CS= ({
       The process that arrives first gets executed first.
     </p>
 
-    <table border="1" cellPadding="6" style={{ width: "80%", borderCollapse: "collapse" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th>Process</th>
@@ -310,7 +310,7 @@ const Process_Managent_CS= ({
     <p>
       Shortest Job First(SJF) scheduling works on the process with the shortest burst time or duration first
     </p>
-     <table border="1" cellPadding="6" style={{ width: "100%", borderCollapse: "collapse" }}>
+     <table  className="custom-table">
       <thead>
         <tr>
           <th>Process</th>
@@ -371,9 +371,7 @@ const Process_Managent_CS= ({
   <h3>Example</h3>
 
   <table
-    border="1"
-    cellPadding="6"
-    style={{ borderCollapse: "collapse", width: "100%" }}
+   className="custom-table"
   >
     <thead>
       <tr>
@@ -442,9 +440,7 @@ const Process_Managent_CS= ({
   <h3>Example</h3>
 
   <table
-    border="1"
-    cellPadding="6"
-    style={{ borderCollapse: "collapse", width: "100%" }}
+   className="custom-table"
   >
     <thead>
       <tr>

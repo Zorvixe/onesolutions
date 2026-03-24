@@ -65,7 +65,7 @@ const Group_By_Having_CS = ({
         <p>
           THE <code>HAVING</code> keyword is used to further refine the data by
           filtering the aggregated values. Let’s explore more about{" "}
-          <b>GROUP BY</b>
+          <b>GROUP BY </b>
           with <b>HAVING</b> clauses with the following database.
         </p>
       </section>
@@ -134,6 +134,11 @@ HAVING condition;`}
           Get the name and number of half-centuries of players who scored more
           than one half-century.
         </p>
+        <img
+          src="/assets/img/group_by_aggregation_with_having.gif"
+          alt="DOM Tree"
+          style={{ width: "100%", height: "400px" }}
+        />
 
         <CodeBlock
           language="sql"

@@ -203,9 +203,7 @@ const Compter_Networks_CS = ({
     </ul>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "70%" }}
+     className="custom-table"
     >
       <thead>
         <tr>
@@ -381,9 +379,7 @@ const Compter_Networks_CS = ({
     <h2>13. Hub vs Switch</h2>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+    className="custom-table"
     >
       <thead>
         <tr>

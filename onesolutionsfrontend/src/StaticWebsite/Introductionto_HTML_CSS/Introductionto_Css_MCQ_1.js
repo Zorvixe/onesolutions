@@ -172,7 +172,7 @@ const questionsData = [
   },
 ];
 
-const HTML_Elements_MCQ = ({
+const Introductionto_Css_MCQ_1 = ({
   subtopicId,
   goalName,
   courseName,
@@ -239,7 +239,7 @@ const HTML_Elements_MCQ = ({
 
   return (
     <MCQLogic
-      title="HTML Elements & CSS Text Align - MCQs"
+      title="Introduction to CSS Part 1 - MCQs"
       questions={randomQuestions}
       isCompleted={isCompleted}
       isLoading={isLoading}
@@ -251,4 +251,4 @@ const HTML_Elements_MCQ = ({
   );
 };
 
-export default HTML_Elements_MCQ;
+export default Introductionto_Css_MCQ_1;

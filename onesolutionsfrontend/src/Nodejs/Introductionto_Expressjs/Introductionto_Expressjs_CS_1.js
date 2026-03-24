@@ -72,9 +72,7 @@ const Introductionto_Expressjs_CS_1 = ({
         <p>These frameworks handle all server operations.</p>
 
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

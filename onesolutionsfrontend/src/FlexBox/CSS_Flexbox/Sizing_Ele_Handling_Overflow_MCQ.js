@@ -49,7 +49,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What is the default value of the <code>overflow</code> property?
+          What is the default value of the <b>overflow</b> property?
         </p>
       </div>
     ),
@@ -71,7 +71,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          The <code>overflow-x</code> property handles overflow in which
+          The <b>overflow-x</b> property handles overflow in which
           direction?
         </p>
       </div>

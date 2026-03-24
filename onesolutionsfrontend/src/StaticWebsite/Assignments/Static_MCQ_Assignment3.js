@@ -4,225 +4,228 @@ import MCQLogic from "../../SubtopicsPage/MCQLogic";
 import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
-  // ========== 10 CodeBlock Questions (covering all Bootstrap subtopics) ==========
+  // ========== 10 CodeBlock Questions ==========
+
   {
     question: (
       <div>
-        <p>What Bootstrap class creates a primary button?</p>
+        <p>What will this class do?</p>
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-primary">Primary</button>`}
+          code={`<button class="btn btn-success">Submit</button>`}
         />
       </div>
     ),
     options: [
-      "btn btn-success",
-      "btn btn-primary",
-      "btn btn-danger",
-      "btn btn-light",
+      "Creates a red button",
+      "Creates a green button",
+      "Creates a blue button",
+      "Creates a yellow button",
     ],
-    answer: "btn btn-primary",
+    answer: "Creates a green button",
   },
   {
     question: (
       <div>
-        <p>What does this flexbox code do?</p>
+        <p>What does this flex class do?</p>
         <CodeBlock
           language="html"
-          code={`<div class="d-flex justify-content-center">
-  <div>Item 1</div>
-  <div>Item 2</div>
+          code={`<div class="d-flex justify-content-between">
+  <div>A</div>
+  <div>B</div>
 </div>`}
         />
       </div>
     ),
     options: [
-      "Aligns items to the left",
-      "Centers items horizontally",
-      "Makes vertical column",
-      "Adds space between",
+      "Centers items",
+      "Adds equal space between items",
+      "Stacks items vertically",
+      "Aligns to left",
     ],
-    answer: "Centers items horizontally",
+    answer: "Adds equal space between items",
   },
   {
     question: (
       <div>
-        <p>Which class makes an outline button?</p>
+        <p>What happens with this class?</p>
         <CodeBlock
           language="html"
-          code={`<button class="btn btn-outline-warning">Warning</button>`}
+          code={`<p class="text-center">Hello</p>`}
         />
       </div>
     ),
     options: [
-      "btn btn-warning",
-      "btn-outline btn-warning",
-      "btn btn-outline-warning",
-      "outline-warning",
+      "Aligns text left",
+      "Aligns text right",
+      "Centers text",
+      "Makes text bold",
     ],
-    answer: "btn btn-outline-warning",
+    answer: "Centers text",
   },
   {
     question: (
       <div>
-        <p>What background color does this apply?</p>
+        <p>What does this class do?</p>
         <CodeBlock
           language="html"
-          code={`<div class="bg-success text-white">Success Message</div>`}
+          code={`<div class="bg-warning">Alert</div>`}
         />
       </div>
     ),
-    options: ["Red", "Green", "Blue", "Yellow"],
-    answer: "Green",
+    options: ["Red background", "Yellow background", "Green background", "Blue background"],
+    answer: "Yellow background",
   },
   {
     question: (
       <div>
-        <p>How to make text uppercase?</p>
+        <p>What will happen here?</p>
         <CodeBlock
           language="html"
-          code={`<p class="text-uppercase">hello world</p>`}
-        />
-      </div>
-    ),
-    options: [
-      "text-lowercase",
-      "text-capitalize",
-      "text-uppercase",
-      "text-bold",
-    ],
-    answer: "text-uppercase",
-  },
-  {
-    question: (
-      <div>
-        <p>What is required for multiple carousels?</p>
-        <CodeBlock
-          language="html"
-          code={`<div id="carousel1" class="carousel slide">...</div>
-<div id="carousel2" class="carousel slide">...</div>`}
+          code={`<p class="text-capitalize">hello world</p>`}
         />
       </div>
     ),
     options: [
-      "Same id",
-      "Unique id for each",
-      "No id needed",
-      "Only one carousel allowed",
+      "HELLO WORLD",
+      "Hello World",
+      "hello world",
+      "HeLLo WoRLd",
     ],
-    answer: "Unique id for each",
+    answer: "Hello World",
   },
   {
     question: (
       <div>
-        <p>What does this YouTube embed show?</p>
+        <p>What does this flex direction do?</p>
         <CodeBlock
           language="html"
-          code={`<div class="embed-responsive embed-responsive-16by9">
-  <iframe src="https://www.youtube.com/embed/ABC123"></iframe>
+          code={`<div class="d-flex flex-row">
+  <div>1</div>
+  <div>2</div>
 </div>`}
         />
       </div>
     ),
     options: [
-      "Square video",
-      "16:9 widescreen video",
-      "Full screen only",
-      "No video",
+      "Vertical layout",
+      "Horizontal layout",
+      "Center alignment",
+      "Spacing only",
     ],
-    answer: "16:9 widescreen video",
+    answer: "Horizontal layout",
   },
   {
     question: (
       <div>
-        <p>Which class creates a vertical flex column?</p>
+        <p>What is the effect of this class?</p>
         <CodeBlock
           language="html"
-          code={`<div class="d-flex flex-column">
-  <div>Top</div>
-  <div>Bottom</div>
+          code={`<div class="text-white bg-dark">Text</div>`}
+        />
+      </div>
+    ),
+    options: [
+      "Black text on white background",
+      "White text on dark background",
+      "Blue text",
+      "Green background",
+    ],
+    answer: "White text on dark background",
+  },
+  {
+    question: (
+      <div>
+        <p>What happens when using this class?</p>
+        <CodeBlock
+          language="html"
+          code={`<button class="btn btn-outline-primary">Click</button>`}
+        />
+      </div>
+    ),
+    options: [
+      "Solid blue button",
+      "Outlined blue button",
+      "Red button",
+      "No button style",
+    ],
+    answer: "Outlined blue button",
+  },
+  {
+    question: (
+      <div>
+        <p>What does this do?</p>
+        <CodeBlock
+          language="html"
+          code={`<div class="d-flex align-items-start" style="height:150px;">
+  <div>Item</div>
 </div>`}
         />
       </div>
     ),
     options: [
-      "flex-row",
-      "flex-column",
-      "d-flex only",
-      "justify-content-center",
+      "Aligns item at bottom",
+      "Aligns item at top",
+      "Centers item",
+      "Spreads items",
     ],
-    answer: "flex-column",
+    answer: "Aligns item at top",
   },
   {
     question: (
       <div>
-        <p>What color is this text?</p>
-        <CodeBlock language="html" code={`<p class="text-danger">Error!</p>`} />
-      </div>
-    ),
-    options: ["Green", "Blue", "Red", "Yellow"],
-    answer: "Red",
-  },
-  {
-    question: (
-      <div>
-        <p>How to center items vertically in a flex container?</p>
+        <p>What does this class do?</p>
         <CodeBlock
           language="html"
-          code={`<div class="d-flex align-items-center" style="height: 200px;">
-  <div>Centered</div>
+          code={`<div class="d-flex justify-content-end">
+  <div>Box</div>
 </div>`}
         />
       </div>
     ),
     options: [
-      "justify-content-center",
+      "Align left",
+      "Align center",
+      "Align right",
+      "Add spacing",
+    ],
+    answer: "Align right",
+  },
+
+  // ========== 5 Normal Questions ==========
+
+  {
+    question: "Which Bootstrap class makes text lowercase?",
+    options: ["text-uppercase", "text-capitalize", "text-lowercase", "text-small"],
+    answer: "text-lowercase",
+  },
+  {
+    question: "Which class creates a dark background?",
+    options: ["bg-light", "bg-dark", "bg-primary", "bg-white"],
+    answer: "bg-dark",
+  },
+  {
+    question: "Which flex class aligns items horizontally in center?",
+    options: [
       "align-items-center",
+      "justify-content-center",
       "flex-center",
       "text-center",
     ],
-    answer: "align-items-center",
+    answer: "justify-content-center",
   },
-
-  // ========== 5 Normal (Non-CodeBlock) Questions ==========
   {
-    question: "Which class defines a flex container in Bootstrap?",
-    options: ["flex", "d-flex", "container-flex", "flexbox"],
+    question: "Which class is used to create a flex container?",
+    options: ["flex", "d-flex", "flexbox", "container"],
     answer: "d-flex",
   },
   {
-    question:
-      "To create an outline button, replace 'btn' with 'btn-outline' in the class name.",
-    options: ["True", "False"],
-    answer: "True",
-  },
-  {
-    question: "Which class aligns flex items vertically in the center?",
-    options: [
-      "justify-content-center",
-      "align-items-center",
-      "flex-column justify-content-center",
-      "text-center",
-    ],
-    answer: "align-items-center",
-  },
-  {
-    question: "Which Bootstrap class applies a success background color?",
-    options: ["bg-primary", "bg-success", "bg-warning", "bg-dark"],
-    answer: "bg-success",
-  },
-  {
-    question:
-      "What is the correct class to make text appear in uppercase using Bootstrap?",
-    options: [
-      "text-lowercase",
-      "text-capitalize",
-      "text-uppercase",
-      "text-transform",
-    ],
-    answer: "text-uppercase",
+    question: "Which Bootstrap class gives a danger (error) color?",
+    options: ["text-danger", "bg-success", "btn-primary", "text-info"],
+    answer: "text-danger",
   },
 ];
+
 const Static_MCQ_Assignment3 = ({
   subtopicId,
   goalName,

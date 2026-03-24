@@ -142,9 +142,7 @@ const Debug_Cmmn_Errors_P2_CS = ({
   
       <p><b>Reason:</b> Used db.run() instead of db.get()/db.all()</p>
       <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+          className="custom-table"
         >
         <thead>
           <tr>

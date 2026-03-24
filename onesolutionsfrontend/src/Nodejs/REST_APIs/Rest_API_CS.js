@@ -178,9 +178,7 @@ const Rest_API_CS = ({
       </ul>
   
       <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
         <thead>
           <tr>

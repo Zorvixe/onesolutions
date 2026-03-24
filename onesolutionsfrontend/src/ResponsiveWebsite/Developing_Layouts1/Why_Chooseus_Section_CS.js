@@ -120,7 +120,7 @@ const Why_Chooseus_Section_CS = ({
         </p>
 
         <h3>1.1.1 Padding Values</h3>
-        <table className="custom-table">
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Size</th>

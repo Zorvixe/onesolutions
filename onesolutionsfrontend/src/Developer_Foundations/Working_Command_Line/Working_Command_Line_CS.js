@@ -382,9 +382,7 @@ const Working_Command_Line_CS = ({
     <h2>19. Summary</h2>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+     className="custom-table"
     >
       <thead>
         <tr>

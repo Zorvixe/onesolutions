@@ -92,7 +92,7 @@ const Sizing_Ele_Handling_Overflow_CS = ({
           property.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table className="custom-table">
           <thead>
             <tr>
               <th>Value</th>

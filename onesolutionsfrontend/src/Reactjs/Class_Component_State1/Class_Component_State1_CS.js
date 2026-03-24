@@ -158,9 +158,7 @@ class MyComponent extends Component {
 
        
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+        className="custom-table"
         >
           <thead>
             <tr>
@@ -338,9 +336,7 @@ state = { key1: value3, key2: value2 };`}
         <h3>3.3 Functional Components vs Class Components</h3>
        
         <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
           <thead>
             <tr>

@@ -195,9 +195,7 @@ const Athantication_CS_1 = ({
       <h2>3. Status Codes</h2>
   
       <table
-          border="1"
-          cellPadding="6"
-          style={{ borderCollapse: "collapse", width: "100%" }}
+         className="custom-table"
         >
         <thead>
           <tr>

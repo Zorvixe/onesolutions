@@ -302,7 +302,7 @@ const Miscellaneous_Commands_CS_2 = ({
   <section>
     <h2>11. Summary</h2>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>Command</th>

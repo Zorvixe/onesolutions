@@ -31,8 +31,8 @@ const questionsData = [
         <p>Why does this image link work?</p>
         <CodeBlock
           language="html"
-          code={`<a href="https://www.ccbp.in/" target="_blank">
-  <img src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/learn-technologies-img.png" />
+          code={`<a href="https://www.onesolutions.in/" target="_blank">
+  <img src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/learn-technologies-img.png" />
 </a>`}
         />
       </div>
@@ -48,7 +48,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What does this CCBP UI Kit setup do?</p>
+        <p>What does this onesolutions UI Kit setup do?</p>
         <CodeBlock
           language="html"
           code={`<!DOCTYPE html>
@@ -56,7 +56,7 @@ const questionsData = [
   <head></head>
   <body>
     <div id="sectionAbout">About</div>
-    <script type="text/javascript" src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/js/ccbp-ui-kit.js"></script>
+    <script type="text/javascript" src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/js/onesolutions-ui-kit.js"></script>
   </body>
 </html>`}
         />
@@ -92,7 +92,7 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>What is required for CCBP UI Kit to work?</p>
+        <p>What is required for onesolutions UI Kit to work?</p>
         <CodeBlock
           language="html"
           code={`<div id="sectionHome" class="section">
@@ -132,12 +132,12 @@ const questionsData = [
   {
     question: (
       <div>
-        <p>Where should CCBP UI Kit script be placed?</p>
+        <p>Where should onesolutions UI Kit script be placed?</p>
         <CodeBlock
           language="html"
           code={`<body>
   <!-- content -->
-  <script src="https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/js/ccbp-ui-kit.js"></script>
+  <script src="https://d1tgh8fmlzexmh.cloudfront.net/onesolutions-static-website/js/onesolutions-ui-kit.js"></script>
 </body>`}
         />
       </div>
@@ -170,19 +170,19 @@ const questionsData = [
         <p>What happens if you click this image?</p>
         <CodeBlock
           language="html"
-          code={`<a href="https://ccbp.in/" target="_blank">
-  <img src="ccbp-logo.png" alt="CCBP Logo">
+          code={`<a href="https://onesolutions.in/" target="_blank">
+  <img src="onesolutions-logo.png" alt="onesolutions Logo">
 </a>`}
         />
       </div>
     ),
     options: [
       "Image zooms",
-      "Opens CCBP in new tab",
+      "Opens onesolutions in new tab",
       "Downloads image",
       "Nothing",
     ],
-    answer: "Opens CCBP in new tab",
+    answer: "Opens onesolutions in new tab",
   },
   {
     question: (
@@ -208,8 +208,8 @@ const questionsData = [
   // ========== 5 Classic MCQs – Website Integration ==========
   {
     question: "The display() function is provided by which script?",
-    options: ["Bootstrap", "jQuery", "CCBP UI Kit", "Custom JS file"],
-    answer: "CCBP UI Kit",
+    options: ["Bootstrap", "jQuery", "onesolutions UI Kit", "Custom JS file"],
+    answer: "onesolutions UI Kit",
   },
   {
     question:
@@ -228,7 +228,7 @@ const questionsData = [
     answer: "Both target='_blank' and rel='noopener'",
   },
   {
-    question: "Where should the CCBP UI Kit script be placed in the HTML file?",
+    question: "Where should the onesolutions UI Kit script be placed in the HTML file?",
     options: [
       "Inside <head>",
       "At the top of <body>",
@@ -239,7 +239,7 @@ const questionsData = [
   },
   {
     question:
-      "What must the id of a section start with to work with CCBP UI Kit's display()?",
+      "What must the id of a section start with to work with onesolutions UI Kit's display()?",
     options: ["id", "section", "div", "container"],
     answer: "section",
   },

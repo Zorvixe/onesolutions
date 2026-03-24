@@ -10,8 +10,8 @@ const Introductionto_CSS_Flexbox_2 = ({
   goalName,
   courseName,
   subtopic,
-  moduleName = "Arrays and Objects",
-  topicName = "Arrays & More DOM Manipulations",
+  moduleName = "CSS Flexbox",
+  topicName = "Introduction to CSS Flexbox | Part 2",
   slidesUrl = "https://docs.google.com/presentation/d/1wKPfPqFsM81t0cauysKC2FVx1ZQPXlNE_FLsUY7cluc/embed",
 }) => {
   const { markSubtopicComplete, loadProgressSummary, completedContent, user } =

@@ -310,7 +310,7 @@ const Working_with_Files_CS = ({
   <section>
     <h2>13. Summary</h2>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>Command</th>

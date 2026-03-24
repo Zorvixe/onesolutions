@@ -575,7 +575,7 @@ import MCQ_Exam_1 from "../SQL_Database/MileStone_2/MCQ_Exam_1.js";
 //Static Website MCQs
 import Introductionto_HTML_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_HTML_MCQ.js";
 import Introductionto_Css_BoxModel_MCQ_1 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_1.js";
-// import Introductionto_Css_MCQ from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
+import Introductionto_Css_MCQ_1 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_1.js";
 import Introductionto_Css_MCQ_2 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_2.js";
 import Introductionto_Css_MCQ_3 from "../StaticWebsite/Introductionto_HTML_CSS/Introductionto_Css_MCQ_3.js";
 import Introductionto_Css_BoxModel_MCQ_2 from "../StaticWebsite/Css_BoxModel/Introductionto_Css_BoxModel_MCQ_2.js";
@@ -1018,21 +1018,31 @@ import Flexbox_MCQ_Assignment_1 from "../FlexBox/Assignments/Flexbox_MCQ_Assignm
 import Flexbox_MCQ_Assignment_2 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_2.js";
 import Flexbox_MCQ_Assignment_3 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_3.js";
 import Flexbox_MCQ_Assignment_4 from "../FlexBox/Assignments/Flexbox_MCQ_Assignment_4.js";
+import Box_Sizing_MCQ from "../FlexBox/CSS_Flexbox/Box_Sizing_MCQ.js";
+import Introductionto_CSS_Flexbox_MCQ_3 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_3.js";
+import Introductionto_CSS_Flexbox_MCQ_2 from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ_2.js";
+import Introductionto_CSS_Flexbox_MCQ from "../FlexBox/CSS_Flexbox/Introductionto_CSS_Flexbox_MCQ.js";
+import Sizing_Ele_Handling_Overflow_MCQ from "../FlexBox/CSS_Flexbox/Sizing_Ele_Handling_Overflow_MCQ.js";
 export const subtopicComponents = {
+  "MCQ Pratice - Box Sizing": Box_Sizing_MCQ,
+  "MCQ Pratice - CSS Flexbox 3": Introductionto_CSS_Flexbox_MCQ_3,
+  "MCQ Pratice - CSS Flexbox 2": Introductionto_CSS_Flexbox_MCQ_2,
+   "MCQ Pratice - CSS Flexbox 1": Introductionto_CSS_Flexbox_MCQ,
+  "MCQ Pratice - Sizing Elements and Handling Overflow":Sizing_Ele_Handling_Overflow_MCQ,
+  "MCQ Pratice - CSS Media Queries": CSS_Media_Queries_MCQ,
   "CSS Media Queries": CSS_Media_Queries,
   "CSS Media Queries | Cheat Sheet": CSS_Media_Queries_CS,
-  "MCQ Pratice - CSS Media Queries": CSS_Media_Queries_MCQ,
   "Flexbox Sizing": Flexbox_Sizing,
-  Box_Sizing,
+  "Box Sizing": Box_Sizing,
   "Flexbox Sizing | Cheat Sheet":Flexbox_Sizing_CS,
   "MCQ Pratice - Flexbox Sizing": Flexbox_Sizing_MCQ,
   "Media Queries OnDemand Session":Media_Queries_On_Demand_Session,
   "Media Queries OnDemand Session | Cheat Sheet": Flexbox_On_Demand_Session_CS,
   "MCQ Pratice - Media Queries OnDemand Session": Flexbox_On_Demand_Session_MCQ,
-  Introductionto_CSS_Flexbox,
-  Introductionto_CSS_Flexbox_2,
-  Introductionto_CSS_Flexbox_3,
-  Sizing_Ele_Handling_Overflow,
+  "Introduction to CSS Flexbox": Introductionto_CSS_Flexbox,
+  "Introduction to CSS Flexbox | Part 2": Introductionto_CSS_Flexbox_2,
+ "Introduction to CSS Flexbox | Part 3":  Introductionto_CSS_Flexbox_3,
+  "Sizing Elements and Handling Overflow": Sizing_Ele_Handling_Overflow,
   "Flexbox Coding Practice 1": Flexbox_Coding_Pratice_1,
   "Flexbox Coding Practice 2": Flexbox_Coding_Pratice_2,
   "Flexbox Coding Practice 3": Flexbox_Coding_Pratice_3,
@@ -1483,7 +1493,7 @@ export const subtopicComponents = {
   "Website Integration Part 1": WebSite_Integration_1,
   "Website Integration | Part 2": WebSite_Integration_2,
   "HTML Hyperlinks": Html_HyperLinks_1,
-  "On Demand Session": OnDemand_Session_1,
+  "Hyperlinks OnDemand Session": OnDemand_Session_1,
   "Static Coding Assignment 1": Static_Coding_Assignment_1,
   "Static Coding Assignment 2": Static_Coding_Assignment_2,
   "Static Coding Assignment 3": Static_Coding_Assignment_3,
@@ -1504,7 +1514,7 @@ export const subtopicComponents = {
   "Introduction to HTML | Cheat Sheet": Introductionto_HTML_CS_1,
   "MCQ Practice - HTML": Introductionto_HTML_MCQ,
   "Introduction to CSS Part 1 | Cheat Sheet": Introductionto_Css_CS_1,
-  "MCQ Practice - CSS 1": Introductionto_Css_BoxModel_MCQ_1,
+  "MCQ Practice - CSS 1": Introductionto_Css_MCQ_1,
   "Introduction to CSS Part 2 | Cheat Sheet": Introductionto_Css_CS_2,
   "MCQ Practice - CSS 2": Introductionto_Css_MCQ_2,
   "Introduction to CSS Part 3 | Cheat Sheet": Introductionto_Css_CS_3,

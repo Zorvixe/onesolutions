@@ -157,7 +157,7 @@ const Authentication_2_CS = ({
         </ul>
 
         <h3>3.2 Cookies vs Local Storage</h3>
-        <table className="table-diff">
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Cookies</th>

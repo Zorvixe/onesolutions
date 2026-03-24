@@ -312,7 +312,7 @@ console.log(asyncPromise);`}
           JavaScript.
         </p>
 
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>String Methods</th>

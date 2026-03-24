@@ -138,7 +138,7 @@ const questionsData = [
     question: (
       <div>
         <p>
-          What does the <code>rel</code> attribute specify in this tag?
+          What does the <b>rel</b> attribute specify in this tag?
         </p>
         <CodeBlock
           language="html"
@@ -200,7 +200,7 @@ const questionsData = [
   },
   {
     question:
-      "What is the correct value for <code>rel</code> when linking CSS?",
+      "What is the correct value for <b>rel</b> when linking CSS?",
     options: ["script", "stylesheet", "icon", "preload"],
     answer: "stylesheet",
   },

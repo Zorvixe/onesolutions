@@ -36,7 +36,7 @@ const questionsData = [
     question: (
       <div>
         <p>What color will the border be?</p>
-        <CodeBlock language="css" code={`.alert { border-color: #ff0000; border-style: solid; }`} />
+        <CodeBlock language="css" code={`.alert { border-color: Red; border-style: solid; }`} />
         <CodeBlock language="html" code={`<div class="alert">Warning</div>`} />
       </div>
     ),
@@ -85,7 +85,7 @@ const questionsData = [
           code={`.btn {
   border-width: 3px;
   border-style: solid;
-  border-color: #008000;
+  border-color: green;
   border-radius: 10px;
   padding: 10px;
 }`}

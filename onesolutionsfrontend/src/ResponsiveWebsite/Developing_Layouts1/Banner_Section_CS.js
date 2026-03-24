@@ -146,7 +146,7 @@ const Banner_Section_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           user experience. It has one fixed width for each breakpoint in
           Bootstrap (extra small, small, medium, large, and extra large).
         </p>
-        <table className="custom-table">
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Device</th>

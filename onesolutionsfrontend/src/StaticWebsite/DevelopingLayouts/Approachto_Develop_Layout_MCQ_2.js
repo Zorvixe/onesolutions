@@ -5,238 +5,215 @@ import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
   // 10 Code Block Questions
+
   {
     question: (
       <div>
-        <p>When would you use this for an image?</p>
-        <CodeBlock
-          language="html"
-          code={`<img src="festival.jpg" alt="Festival">`}
-        />
+        <p>Is this image part of the content?</p>
+        <CodeBlock language="html" code={`<img src="image.jpg" alt="Sample Image" />`} />
       </div>
     ),
-    options: [
-      "When image is background",
-      "When content overlaps image",
-      "When image is part of content",
-      "When no height is needed",
-    ],
-    answer: "When image is part of content",
+    options: ["Yes", "No", "Only for styling", "Cannot say"],
+    answer: "Yes",
   },
   {
     question: (
       <div>
-        <p>Which approach is used here for the background?</p>
+        <p>What is this image used for?</p>
         <CodeBlock
           language="css"
-          code={`.top-section { background-image: url('diwali-bg.jpg'); height: 400px; background-size: cover; }`}
+          code={`.hero { background-image: url("bg.jpg"); }`}
         />
-        <CodeBlock language="html" code={`<div class="top-section"></div>`} />
       </div>
     ),
     options: [
-      "HTML img element",
-      "CSS background image",
+      "Content image",
+      "Background image",
       "Inline image",
-      "No image",
+      "Icon image",
+    ],
+    answer: "Background image",
+  },
+  {
+    question: (
+      <div>
+        <p>Where will the padding space be added?</p>
+        <CodeBlock
+          language="css"
+          code={`.box { padding: 20px; border: 1px solid; }`}
+        />
+      </div>
+    ),
+    options: [
+      "Outside border",
+      "Inside border around content",
+      "Between elements",
+      "No space",
+    ],
+    answer: "Inside border around content",
+  },
+  {
+    question: (
+      <div>
+        <p>Where will the margin space be applied?</p>
+        <CodeBlock
+          language="css"
+          code={`.box { margin: 20px; border: 1px solid; }`}
+        />
+      </div>
+    ),
+    options: [
+      "Inside border",
+      "Outside the element",
+      "Inside content",
+      "No space",
+    ],
+    answer: "Outside the element",
+  },
+  {
+    question: (
+      <div>
+        <p>Will background color cover padding?</p>
+        <CodeBlock
+          language="css"
+          code={`.box { background-color: yellow; padding: 20px; }`}
+        />
+      </div>
+    ),
+    options: ["Yes", "No", "Only border area", "Only margin"],
+    answer: "Yes",
+  },
+  {
+    question: (
+      <div>
+        <p>What will this background-size do?</p>
+        <CodeBlock
+          language="css"
+          code={`.hero { background-size: cover; }`}
+        />
+      </div>
+    ),
+    options: [
+      "Image repeats",
+      "Image fits with empty space",
+      "Image covers entire container",
+      "Image disappears",
+    ],
+    answer: "Image covers entire container",
+  },
+  {
+    question: (
+      <div>
+        <p>What happens with this property?</p>
+        <CodeBlock
+          language="css"
+          code={`.bg { background-repeat: no-repeat; }`}
+        />
+      </div>
+    ),
+    options: [
+      "Image repeats",
+      "Image shows only once",
+      "Image disappears",
+      "Image stretches",
+    ],
+    answer: "Image shows only once",
+  },
+  {
+    question: (
+      <div>
+        <p>Which image is better for hero section?</p>
+        <CodeBlock
+          language="css"
+          code={`.hero { background-image: url("bg.jpg"); }`}
+        />
+      </div>
+    ),
+    options: [
+      "HTML image",
+      "CSS background image",
+      "Both same",
+      "None",
     ],
     answer: "CSS background image",
   },
   {
     question: (
       <div>
-        <p>What does this CSS add to the element?</p>
-        <CodeBlock language="css" code={`.card { padding: 20px; }`} />
-        <CodeBlock language="html" code={`<div class="card">Content</div>`} />
-      </div>
-    ),
-    options: [
-      "Space outside border",
-      "Space between elements",
-      "Space around content inside border",
-      "Border thickness",
-    ],
-    answer: "Space around content inside border",
-  },
-  {
-    question: (
-      <div>
-        <p>What is the purpose of this margin?</p>
-        <CodeBlock language="css" code={`.item { margin: 10px; }`} />
-        <CodeBlock
-          language="html"
-          code={`<div class="container"><div class="item"></div><div class="item"></div></div>`}
-        />
-      </div>
-    ),
-    options: [
-      "Space inside item",
-      "Space between items",
-      "Background color",
-      "Text alignment",
-    ],
-    answer: "Space between items",
-  },
-  {
-    question: (
-      <div>
-        <p>Which image URL is for the diya in the Diwali page cards?</p>
-        <CodeBlock
-          language="html"
-          code={`<img src="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/diya-img.png" alt="Diya">`}
-        />
-      </div>
-    ),
-    options: [
-      "Lamp image",
-      "Diya image",
-      "Firework image",
-      "Firecracker image",
-    ],
-    answer: "Diya image",
-  },
-  {
-    question: (
-      <div>
-        <p>What color is applied to this container in the bottom section?</p>
+        <p>What will happen to spacing between two boxes?</p>
         <CodeBlock
           language="css"
-          code={`.bottom-section { background-color: #e6f6ff; padding: 20px; }`}
+          code={`.box { margin: 20px; }`}
         />
         <CodeBlock
           language="html"
-          code={`<div class="bottom-section">Cards here</div>`}
+          code={`<div class="box"></div><div class="box"></div>`}
         />
       </div>
     ),
-    options: ["White", "#e6f6ff", "#616e7c", "#323f4b"],
-    answer: "#e6f6ff",
+    options: [
+      "Boxes overlap",
+      "20px space between boxes",
+      "Padding applied",
+      "No space",
+    ],
+    answer: "20px space between boxes",
   },
   {
     question: (
       <div>
-        <p>In the Diwali page top section, what does this do?</p>
+        <p>Which area increases element size?</p>
         <CodeBlock
           language="css"
-          code={`.heading { color: white; font-size: 40px; padding: 100px; }`}
-        />
-        <CodeBlock
-          language="html"
-          code={`<h1 class="heading">Happy Diwali</h1>`}
+          code={`.box { padding: 20px; }`}
         />
       </div>
     ),
     options: [
-      "Adds background image",
-      "Sets heading style over background",
-      "Aligns cards",
-      "Adds button",
+      "Margin",
+      "Padding",
+      "Border",
+      "None",
     ],
-    answer: "Sets heading style over background",
-  },
-  {
-    question: (
-      <div>
-        <p>What is being aligned here in the bottom section?</p>
-        <CodeBlock
-          language="css"
-          code={`.cards-container { display: flex; flex-direction: row; justify-content: space-between; }`}
-        />
-        <CodeBlock
-          language="html"
-          code={`<div class="cards-container"><div class="card"></div><div class="card"></div></div>`}
-        />
-      </div>
-    ),
-    options: [
-      "Headings",
-      "Buttons",
-      "Card items with flexbox",
-      "Background images",
-    ],
-    answer: "Card items with flexbox",
-  },
-  {
-    question: (
-      <div>
-        <p>Which URL is used for the firecracker image?</p>
-        <CodeBlock
-          language="html"
-          code={`<img src="https://d2clawv67efefq.cloudfront.net/ccbp-static-website/firecracker-img.png" alt="Firecracker">`}
-        />
-      </div>
-    ),
-    options: [
-      "Diya image",
-      "Lamp image",
-      "Firework image",
-      "Firecracker image",
-    ],
-    answer: "Firecracker image",
-  },
-  {
-    question: (
-      <div>
-        <p>What does this CSS do in the card items?</p>
-        <CodeBlock
-          language="css"
-          code={`.card-text { color: #616e7c; font-size: 18px; font-weight: bold; padding: 10px; text-align: center; }`}
-        />
-        <CodeBlock
-          language="html"
-          code={`<p class="card-text">Price: $10</p>`}
-        />
-      </div>
-    ),
-    options: [
-      "Sets background color",
-      "Adds margin between cards",
-      "Styles text in cards",
-      "Adds image",
-    ],
-    answer: "Styles text in cards",
+    answer: "Padding",
   },
 
-  // 5 Normal (Non-CodeBlock) Questions
+  // 5 Normal Questions
+
   {
     question:
-      "The HTML image element is used to add images that are part of the content.",
+      "The HTML <img> element is used to add images that are part of the content.",
     options: ["True", "False"],
     answer: "True",
   },
   {
     question:
-      "The margin is the space present outside the border of an HTML element.",
-    options: ["True", "False"],
-    answer: "True",
+      "Which property adds space between content and border?",
+    options: ["margin", "padding", "border", "spacing"],
+    answer: "padding",
   },
   {
     question:
-      "In the step-by-step process for the Diwali page, what is done first in the top section?",
+      "Which property adds space between elements?",
+    options: ["padding", "margin", "border", "width"],
+    answer: "margin",
+  },
+  {
+    question:
+      "Which background-size value is best for hero sections?",
+    options: ["contain", "cover", "auto", "repeat"],
+    answer: "cover",
+  },
+  {
+    question:
+      "When should you use CSS background image?",
     options: [
-      "Add heading",
-      "Add a background image",
-      "Specify background size",
-      "Set color",
+      "When image is content",
+      "When text is over image",
+      "Only for icons",
+      "Never",
     ],
-    answer: "Add a background image",
-  },
-  {
-    question:
-      "When should you use CSS background image instead of HTML image?",
-    options: [
-      "When image is part of content",
-      "When no content overlaps",
-      "When content or elements are over the image",
-      "When image has no height",
-    ],
-    answer: "When content or elements are over the image",
-  },
-  {
-    question:
-      "Which color is used for the text in the Diwali page resources?",
-    options: ["White", "#e6f6ff", "#616e7c", "#323f4b"],
-    answer: "#616e7c",
+    answer: "When text is over image",
   },
 ];
 

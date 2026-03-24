@@ -315,7 +315,7 @@ export const goalsData = [
               },
               {
                 id: "QW9_s15_A0 m5_H g1_7B c1_D2E",
-                name: "OnDemand Session",
+                name: "Hyperlinks OnDemand Session",
                 accessibleTo: ["zorvixe_core", "zorvixe_pro", "zorvixe_elite"],
               },
               {

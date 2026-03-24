@@ -80,7 +80,7 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           are some of the most commonly used props.
         </p>
 
-        <table className="table-diff" style={{ width: `100%` }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Prop</th>
@@ -118,7 +118,7 @@ const Rect_Chrono_CS = ({ subtopicId, goalName, courseName, subtopic }) => {
           The <code>items</code> prop defines the timeline data.
         </p>
 
-        <table className="table-diff" style={{ width: `100%` }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Property</th>

@@ -16383,13 +16383,6 @@ Get all the ids of directors who directed at least two movies, with rating great
                 type: "syntax-validation",
                 expectedKeywords: ["pincode"],
                 visible: false
-              },
-              {
-                id: 7,
-                description: "View should fetch data from users table",
-                type: "syntax-validation",
-                expectedKeywords: ["from users"],
-                visible: false
               }
             ],
         }, 
@@ -17114,13 +17107,11 @@ Get all the ids of directors who directed at least two movies, with rating great
             <table>
               <thead>
                 <tr>
-                  <th>name</th>
-                  <th>rating_variance</th>
+                  <th>avg</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>...</td>
                   <td>...</td>
                 </tr>
               </tbody>
@@ -17364,11 +17355,9 @@ Get all the ids of directors who directed at least two movies, with rating great
             "rows": [
               ["Apple Watch Series 8", "WATCH", 4.5],
               ["Samsung Galaxy Watch 5", "WATCH", 4.0],
-              ["Fossil Gen 6", "WATCH", 3.8],
-              ["Garmin Venu 2", "WATCH", 4.3],
-              ["iPhone 13", "MOBILE", 4.5],
-              ["Samsung Galaxy S22", "MOBILE", 4.2],
-              ["MacBook Pro", "LAPTOP", 4.7]
+              ["Fossil Gen 6 WATCH", "WATCH", 3.8],
+              ["Garmin Venu 2 WATCH", "WATCH", 4.3]
+             
             ]
           }
         },

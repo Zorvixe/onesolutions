@@ -5,227 +5,214 @@ import { CodeBlock } from "../../CodeOutputBlocks";
 
 const questionsData = [
   // 10 Code Block Questions
+
   {
     question: (
       <div>
-        <p>Where should this CCBP UI Kit script be placed?</p>
+        <p>Is this section correctly defined for UI Kit?</p>
         <CodeBlock
           language="html"
-          code={`<script src="https://cdn.ccbp.in/ui-kit/v1.0/ui-kit.min.js"></script>`}
+          code={`<div id="section-1" data-section data-default></div>`}
         />
       </div>
     ),
-    options: [
-      "Inside the head tag",
-      "Before the closing body tag",
-      "At the top of HTML file",
-      "Inside a div element",
-    ],
-    answer: "Before the closing body tag",
+    options: ["Yes", "No", "Missing id", "Missing data-section"],
+    answer: "Yes",
   },
   {
     question: (
       <div>
-        <p>What is required for this section ID when using CCBP UI Kit?</p>
+        <p>What happens when this button is clicked?</p>
         <CodeBlock
           language="html"
-          code={`<div id="sectionHome">Home Content</div>`}
+          code={`<button onclick="display('section-2')">Go</button>`}
         />
       </div>
     ),
     options: [
-      "Can be any name",
-      "Must start with 'section'",
-      "Must be 'home'",
-      "No id needed",
-    ],
-    answer: "Must start with 'section'",
-  },
-  {
-    question: (
-      <div>
-        <p>What will happen when this button is clicked?</p>
-        <CodeBlock
-          language="html"
-          code={`<button onclick="display('sectionFavouritePlaces')">Go to Favourite Places</button>`}
-        />
-      </div>
-    ),
-    options: [
+      "Reload page",
+      "Show section-2",
+      "Hide all sections",
       "Nothing happens",
-      "Shows the section with id sectionFavouritePlaces",
-      "Reloads the page",
-      "Hides current section only",
     ],
-    answer: "Shows the section with id sectionFavouritePlaces",
+    answer: "Show section-2",
   },
   {
     question: (
       <div>
-        <p>Why remove fixed height from this container?</p>
-        <CodeBlock
-          language="css"
-          code={`.favourite-places-bg-container { height: 100vh; }`}
-        />
+        <p>Is this onclick syntax correct?</p>
         <CodeBlock
           language="html"
-          code={`<!-- Remove fixed height to take content height -->`}
+          code={`<button onclick="display(section-2)">Click</button>`}
         />
       </div>
     ),
-    options: [
-      "To make it disappear",
-      "To let background take full content height",
-      "To center it",
-      "To apply flexbox",
-    ],
-    answer: "To let background take full content height",
+    options: ["Yes", "No", "Only for CSS", "Only for JS"],
+    answer: "No",
   },
   {
     question: (
       <div>
-        <p>What is the correct onclick syntax for CCBP UI Kit?</p>
+        <p>What is missing for UI Kit to work properly?</p>
         <CodeBlock
           language="html"
-          code={`<button onclick="display('sectionDetailedView')">View Details</button>`}
+          code={`<div id="home"></div>`}
         />
       </div>
     ),
     options: [
-      "onclick=display(sectionDetailedView)",
-      "onclick='display(sectionDetailedView)'",
-      "onclick=\"display('sectionDetailedView')\"",
-      "onclick=show('sectionDetailedView')",
+      "section prefix in id",
+      "onclick",
+      "href",
+      "class",
     ],
-    answer: "onclick=\"display('sectionDetailedView')\"",
+    answer: "section prefix in id",
   },
   {
     question: (
       <div>
-        <p>In the integration process, what must be done first?</p>
-        <CodeBlock language="html" code={`<!-- Step-1 -->`} />
-      </div>
-    ),
-    options: [
-      "Add onclick",
-      "Change section container ids to start with 'section'",
-      "Add CSS",
-      "Add buttons",
-    ],
-    answer: "Change section container ids to start with 'section'",
-  },
-  {
-    question: (
-      <div>
-        <p>Which section should this button return to?</p>
+        <p>Which attribute makes this a default section?</p>
         <CodeBlock
           language="html"
-          code={`<button onclick="display('sectionHome')">Back to Home</button>`}
+          code={`<div id="section-1" data-section data-default></div>`}
         />
       </div>
     ),
-    options: [
-      "Favourite Places",
-      "Detailed View",
-      "Home Section",
-      "No section",
-    ],
-    answer: "Home Section",
+    options: ["data-section", "data-default", "id", "class"],
+    answer: "data-default",
   },
   {
     question: (
       <div>
-        <p>What does this button do in the Favourite Places section?</p>
+        <p>Is this id valid for UI Kit?</p>
         <CodeBlock
           language="html"
-          code={`<button onclick="display('sectionHome')">Back</button>`}
+          code={`<div id="page-1" data-section></div>`}
         />
       </div>
     ),
-    options: [
-      "Goes to Detailed View",
-      "Returns to Home Section",
-      "Refreshes the page",
-      "Hides the section",
-    ],
-    answer: "Returns to Home Section",
+    options: ["Yes", "No", "Only for CSS", "Only for JS"],
+    answer: "No",
   },
   {
     question: (
       <div>
-        <p>Which id will this onclick target?</p>
+        <p>What will this link do?</p>
         <CodeBlock
           language="html"
-          code={`<div class="card" onclick="display('sectionTajMahal')">Taj Mahal</div>`}
+          code={`<a href="https://example.com" target="_blank">Visit</a>`}
         />
       </div>
     ),
     options: [
-      "sectionHome",
-      "sectionTajMahal",
-      "sectionFavouritePlaces",
-      "No id",
+      "Open in same tab",
+      "Open in new tab",
+      "Reload page",
+      "Nothing",
     ],
-    answer: "sectionTajMahal",
+    answer: "Open in new tab",
   },
   {
     question: (
       <div>
-        <p>What is the purpose of this script in CCBP UI Kit?</p>
+        <p>Which section will be shown?</p>
         <CodeBlock
           language="html"
-          code={`<script src="https://cdn.ccbp.in/ui-kit/v1.0/ui-kit.min.js"></script>`}
+          code={`<button onclick="display('section-3')">Next</button>`}
         />
       </div>
     ),
     options: [
-      "Adds Bootstrap",
-      "Enables display() function for section switching",
-      "Applies CSS",
-      "Loads images",
+      "section-1",
+      "section-2",
+      "section-3",
+      "None",
     ],
-    answer: "Enables display() function for section switching",
+    answer: "section-3",
+  },
+  {
+    question: (
+      <div>
+        <p>Is this correct way to go back to Home?</p>
+        <CodeBlock
+          language="html"
+          code={`<button onclick="display('section-1')">Back</button>`}
+        />
+      </div>
+    ),
+    options: ["Yes", "No", "Only for CSS", "Only for images"],
+    answer: "Yes",
+  },
+  {
+    question: (
+      <div>
+        <p>Where should UI Kit script be placed?</p>
+        <CodeBlock
+          language="html"
+          code={`<script src="script.js"></script>`}
+        />
+      </div>
+    ),
+    options: [
+      "Inside head",
+      "Before </body>",
+      "Inside div",
+      "Anywhere",
+    ],
+    answer: "Before </body>",
   },
 
-  // 5 Normal (Non-CodeBlock) Questions
-  {
-    question: "Where should the CCBP UI Kit Script Code be placed?",
-    options: [
-      "Inside the head tag",
-      "Before the closing body tag",
-      "At the top of HTML file",
-      "Inside a div element",
-    ],
-    answer: "Before the closing body tag",
-  },
+  // 5 Normal Questions
+
   {
     question:
-      "Which HTML attribute is used to uniquely identify elements within an HTML document?",
-    options: ["id", "src", "class", "all of the above"],
+      "Which HTML attribute is used to uniquely identify elements?",
+    options: ["id", "class", "src", "href"],
     answer: "id",
   },
   {
     question:
-      "In CCBP UI Kit, what must the id of a section container start with?",
-    options: ["home", "section", "div", "container"],
-    answer: "section",
-  },
-  {
-    question:
-      "What is the correct function name used in onclick to show a section in CCBP UI Kit?",
-    options: ["show()", "open()", "display()", "view()"],
-    answer: "display()",
-  },
-  {
-    question:
-      "In the integration of Home and Favourite Places, what is Step-4?",
+      "Which is the correct onclick syntax for display function?",
     options: [
-      "Add onclick to Home Section button",
-      "Change section ids",
-      "Add CSS",
-      "Add button to go back",
+      "onclick=\"display(section-3)\"",
+      "onclick=\"display('section-3')\"",
+      "onclick='display(\"section-3\")'",
+      "onclick=display('section-3')",
     ],
-    answer: "Add onclick to Home Section button",
+    answer: "onclick=\"display('section-3')\"",
+  },
+  {
+    question:
+      "To display Favourite Places from Home, what should you add?",
+    options: [
+      "Add onclick to Home button",
+      "Remove ids",
+      "Add script in head",
+      "Rename sections",
+    ],
+    answer: "Add onclick to Home button",
+  },
+  {
+    question:
+      "What is required for UI Kit section ids?",
+    options: [
+      "Must start with section",
+      "Must be random",
+      "Must be numeric",
+      "Must be uppercase",
+    ],
+    answer: "Must start with section",
+  },
+  {
+    question:
+      "To go back from Detailed View to Favourite Places, what is needed?",
+    options: [
+      "Add button with onclick",
+      "Remove section",
+      "Reload page",
+      "Add image",
+    ],
+    answer: "Add button with onclick",
   },
 ];
 

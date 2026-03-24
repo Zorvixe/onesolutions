@@ -185,7 +185,7 @@ console.log(car1);  // Car { }`}
         </p>
 
         <h3>2.2 Factory vs Constructor Functions</h3>
-        <table border="1" style={{ borderCollapse: "collapse", width: "80%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Factory Functions</th>
@@ -539,7 +539,7 @@ console.log(date);  // Sat Feb 02 2008 00:00:00 GMT+0530 (India Standard Time) {
           There are methods to access and set values like a year, month, etc. in
           the Date Object.
         </p>
-        <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+        <table  className="custom-table">
           <thead>
             <tr>
               <th>Method</th>

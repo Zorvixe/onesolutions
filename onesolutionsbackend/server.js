@@ -26,6 +26,8 @@ const {
   createJavaTables,
 } = require("./javaProgrammingRoutes");
 
+const jobsRoutes = require('./jobsRoutes');
+
 // -------------------------------------------
 // 🔹 Database Connection
 // -------------------------------------------
@@ -10333,7 +10335,7 @@ app.get("/api/ai/categories", auth, async (req, res) => {
 });
 
 // Add the router (somewhere before your 404 handler)
-app.use("/", digitalMarketingRouter, javaProgrammingApp);
+app.use("/", digitalMarketingRouter, javaProgrammingApp, jobsRoutes);
 
 // Handle 404 routes
 app.use("*", (req, res) => {

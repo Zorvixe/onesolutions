@@ -54,6 +54,7 @@ const SQLPractice = () => {
   const [theme] = useState("monokai");
   const [fontSize] = useState(16);
   const [executionResult, setExecutionResult] = useState(null);
+  const [isOutputCollapsed, setIsOutputCollapsed] = useState(false);
 
   // Add state for save snippet modal
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -103,6 +104,11 @@ const SQLPractice = () => {
     navigate(`/sql-practice/${practiceId}/${nextQuestion.id}`, {
       state: { subtopicId, goalName, courseName },
     });
+  };
+
+  // Add a toggle function
+  const toggleOutputCollapse = () => {
+    setIsOutputCollapsed(prev => !prev);
   };
 
   const loadProgress = useCallback(async () => {
@@ -236,20 +242,20 @@ const SQLPractice = () => {
               lastAttempt: new Date().toISOString(),
               attempts: prev[questionId]?.attempts
                 ? [
-                    ...prev[questionId].attempts,
-                    {
-                      passed: isSolved,
-                      score: score,
-                      timestamp: new Date().toISOString(),
-                    },
-                  ]
+                  ...prev[questionId].attempts,
+                  {
+                    passed: isSolved,
+                    score: score,
+                    timestamp: new Date().toISOString(),
+                  },
+                ]
                 : [
-                    {
-                      passed: isSolved,
-                      score: score,
-                      timestamp: new Date().toISOString(),
-                    },
-                  ],
+                  {
+                    passed: isSolved,
+                    score: score,
+                    timestamp: new Date().toISOString(),
+                  },
+                ],
             },
           }));
           return { success: true };
@@ -455,12 +461,12 @@ const SQLPractice = () => {
                 }, {}),
                 rows: tableInfo.rows
                   ? tableInfo.rows.map((row) => {
-                      const rowObj = {};
-                      tableInfo.columns.forEach((col, idx) => {
-                        rowObj[col] = row[idx];
-                      });
-                      return rowObj;
-                    })
+                    const rowObj = {};
+                    tableInfo.columns.forEach((col, idx) => {
+                      rowObj[col] = row[idx];
+                    });
+                    return rowObj;
+                  })
                   : [],
               };
             }
@@ -844,9 +850,8 @@ const SQLPractice = () => {
             opacity: 1;
           }
           100% {
-            transform: translate(${Math.random() * 100 - 50}px, 100vh) rotate(${
-              Math.random() * 720
-            }deg);
+            transform: translate(${Math.random() * 100 - 50}px, 100vh) rotate(${Math.random() * 720
+        }deg);
             opacity: 0;
           }
         }
@@ -1117,7 +1122,7 @@ const SQLPractice = () => {
               </tbody>
             </table>
           </div>
-         
+
         </div>
       );
     }
@@ -1382,9 +1387,8 @@ const SQLPractice = () => {
                   <div
                     className="progress-fill-prac"
                     style={{
-                      width: `${
-                        (executionResult.passed / executionResult.total) * 100
-                      }%`,
+                      width: `${(executionResult.passed / executionResult.total) * 100
+                        }%`,
                     }}
                   ></div>
                 </div>
@@ -1416,16 +1420,24 @@ const SQLPractice = () => {
             <div className="sql-output-section">
               <div className="output-header-prac-sql">
                 <h4>Output</h4>
+                <button
+                  className="ouput-header-collapse-btn"
+                  onClick={toggleOutputCollapse}
+                  title={isOutputCollapsed ? "Expand output" : "Collapse output"}
+                >
+                  <i className={`bi bi-caret-${isOutputCollapsed ? 'up' : 'down'}-fill`}></i>
+                </button>
               </div>
-              <div className="output-content-prac-sql">
-                {renderQueryResult()}
-                {!queryResult && output && (
-                  <div className="sql-output-text">
-                    <pre>{output}</pre>
-                  </div>
-                )}
-              
-              </div>
+              {!isOutputCollapsed && (
+                <div className="output-content-prac-sql">
+                  {renderQueryResult()}
+                  {!queryResult && output && (
+                    <div className="sql-output-text">
+                      <pre>{output}</pre>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
         </div>

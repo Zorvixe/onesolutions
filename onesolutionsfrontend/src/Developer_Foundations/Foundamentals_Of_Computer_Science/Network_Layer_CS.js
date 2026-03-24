@@ -247,9 +247,7 @@ const Network_Layer_CS = ({
     </ul>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+    className="custom-table"
     >
       <thead>
         <tr>
@@ -289,9 +287,7 @@ const Network_Layer_CS = ({
     </ul>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+     className="custom-table"
     >
       <thead>
         <tr>
@@ -373,9 +369,7 @@ const Network_Layer_CS = ({
     </p>
 
     <table
-      border="1"
-      cellPadding="6"
-      style={{ borderCollapse: "collapse", width: "100%" }}
+   className="custom-table"
     >
       <thead>
         <tr>

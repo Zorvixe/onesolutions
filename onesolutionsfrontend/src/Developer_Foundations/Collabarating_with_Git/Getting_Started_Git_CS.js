@@ -211,7 +211,7 @@ const Getting_Started_Git_CS = ({
   <section>
     <h2>8. Git's View of Repository</h2>
 
-    <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}>
+    <table  className="custom-table">
       <thead>
         <tr>
           <th style={{ background: "#7fb3c8", padding: "10px" }}>State</th>

@@ -109,7 +109,7 @@ const Third_Party_CS = ({
     <section>
       <h2>2.1 React Player Props</h2>
 
-      <table className="table-diff" style={{width:'90%'}}>
+      <table  className="custom-table">
         <thead>
           <tr>
             <th>Prop</th>
